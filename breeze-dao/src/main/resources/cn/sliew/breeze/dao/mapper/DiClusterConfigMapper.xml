@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.breeze.dao.mapper.DiClusterConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="DiClusterConfigMap" type="cn.sliew.breeze.dao.entity.DiClusterConfig">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="cluster_name" property="clusterName"/>
+        <result column="cluster_type" property="clusterType"/>
+        <result column="cluster_home" property="clusterHome"/>
+        <result column="cluster_version" property="clusterVersion"/>
+        <result column="cluster_conf" property="clusterConf"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+</mapper>

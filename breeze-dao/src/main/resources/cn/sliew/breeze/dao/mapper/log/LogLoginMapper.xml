@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.breeze.dao.mapper.log.LogLoginMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="LogLoginMap" type="cn.sliew.breeze.dao.entity.LogLogin">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="user_name" property="userName"/>
+        <result column="login_time" property="loginTime"/>
+        <result column="ip_address" property="ipAddress"/>
+        <result column="login_type" property="loginType"/>
+        <result column="client_info" property="clientInfo"/>
+        <result column="os_info" property="osInfo"/>
+        <result column="browser_info" property="browserInfo"/>
+        <result column="action_info" property="actionInfo"/>
+    </resultMap>
+
+</mapper>

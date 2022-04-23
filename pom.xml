@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.liyu</groupId>
+    <groupId>cn.sliew</groupId>
     <artifactId>breeze</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -351,7 +351,7 @@
                                         implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.liyu.breeze.BreezeApplication</mainClass>
+                                    <mainClass>cn.sliew.breeze.BreezeApplication</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

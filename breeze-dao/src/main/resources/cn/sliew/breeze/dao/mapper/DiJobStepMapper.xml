@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.breeze.dao.mapper.DiJobStepMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="DiJobStepMap" type="cn.sliew.breeze.dao.entity.DiJobStep">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="job_id" property="jobId"/>
+        <result column="step_code" property="stepCode"/>
+        <result column="step_title" property="stepTitle"/>
+        <result column="step_type" property="stepType"/>
+        <result column="step_name" property="stepName"/>
+        <result column="position_x" property="positionX"/>
+        <result column="position_y" property="positionY"/>
+        <collection property="jobStepAttrList" ofType="DiJobStepAttr">
+            <id column="step_attr_id" jdbcType="BIGINT" property="id"/>
+            <result column="step_attr_key" jdbcType="VARCHAR" property="stepAttrKey"/>
+            <result column="step_attr_value" jdbcType="VARCHAR" property="stepAttrValue"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectByJobId" resultMap="DiJobStepMap">
+        <![CDATA[
+        select
+            s.id,
+            s.job_id,
+            s.step_code,
+            s.step_title,
+            s.step_type,
+            s.step_name,
+            s.position_x,
+            s.position_y,
+            s.creator,
+            s.create_time,
+            s.editor,
+            s.update_time,
+            a.id as step_attr_id,
+            a.step_attr_key,
+            a.step_attr_value
+        from di_job_step s
+        left join di_job_step_attr a
+        on s.job_id = a.job_id
+        and s.step_code = a.step_code
+        where s.job_id = #{jobId,jdbcType=BIGINT}
+        ]]>
+    </select>
+
+    <delete id="deleteByProjectId">
+        delete t from di_job_step t
+        <where>
+            exists (select 1 from di_job j
+            <where>
+                t.job_id = j.id
+                and j.project_id in
+                <foreach collection="projectIds" item="projectId" index="index" open="(" close=")" separator=",">
+                    #{projectId,jdbcType=BIGINT}
+                </foreach>
+            </where>
+            )
+        </where>
+    </delete>
+
+    <delete id="deleteByJobId">
+        delete from di_job_step where job_id in
+        <foreach collection="jobIds" item="id" index="index" open="(" close=")" separator=",">
+            #{id,jdbcType=BIGINT}
+        </foreach>
+    </delete>
+
+</mapper>

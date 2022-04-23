@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <artifactId>breeze</artifactId>
-    <groupId>com.liyu</groupId>
+    <groupId>cn.sliew</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -21,7 +21,7 @@
           </execution>
         </executions>
         <configuration>
-          <mainClass>com.liyu.breeze.BreezeApplication</mainClass>
+          <mainClass>cn.sliew.breeze.BreezeApplication</mainClass>
           <layout>ZIP</layout>
           <fork>true</fork>
         </configuration>
@@ -30,7 +30,7 @@
   </build>
   <dependencies>
     <dependency>
-      <groupId>com.liyu</groupId>
+      <groupId>cn.sliew</groupId>
       <artifactId>breeze-meta</artifactId>
       <version>0.0.1-SNAPSHOT</version>
       <scope>provided</scope>

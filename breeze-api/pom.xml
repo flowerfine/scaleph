@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.liyu</groupId>
+        <groupId>cn.sliew</groupId>
         <artifactId>breeze</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -61,7 +61,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.boot.version}</version>
                 <configuration>
-                    <mainClass>com.liyu.breeze.BreezeApplication</mainClass>
+                    <mainClass>cn.sliew.breeze.BreezeApplication</mainClass>
                     <layout>ZIP</layout>
                     <fork>true</fork> <!--重要-->
                 </configuration>
