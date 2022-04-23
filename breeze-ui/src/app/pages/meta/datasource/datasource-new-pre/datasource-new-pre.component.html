@@ -1,0 +1,30 @@
+<div [dMovable]="true" [handle]="header" [moveEl]="parent">
+  <div class="modal-header" #header>
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="22">
+        {{ 'meta.choseDataSourceType' | translate }}
+      </d-col>
+      <d-col [dSpan]="2" style="text-align: right">
+        <d-button
+          icon="icon-close"
+          bsStyle="text-dark"
+          title="{{ 'app.common.operate.close.label' | translate }}"
+          (btnClick)="data.onClose()"
+        ></d-button>
+      </d-col>
+    </d-row>
+  </div>
+  <div class="modal-body" style="padding: 0px 48px 48px 48px">
+    <h3>{{ 'meta.rdbms' | translate }}</h3>
+    <d-button bsSize="lg" bsStyle="common" width="384px" class="db-button" (btnClick)="openAddDataSourceDialog('mysql')">Mysql</d-button>
+    <d-button bsSize="lg" bsStyle="common" width="384px" class="db-button" (btnClick)="openAddDataSourceDialog('oracle')">Oracle</d-button>
+    <d-button bsSize="lg" bsStyle="common" width="384px" class="db-button" (btnClick)="openAddDataSourceDialog('postgre')"
+      >Postgre</d-button
+    >
+    <h3>{{ 'meta.bigdata' | translate }}</h3>
+    <d-button bsSize="lg" bsStyle="common" width="384px" class="db-button" (btnClick)="openAddDataSourceDialog('hive')">Hive</d-button>
+    <d-button bsSize="lg" bsStyle="common" width="384px" class="db-button" (btnClick)="openAddDataSourceDialog('hbase')">Hbase</d-button>
+    <h3>{{ 'meta.other' | translate }}</h3>
+    <d-button bsSize="lg" bsStyle="common" width="384px" class="db-button" (btnClick)="openAddDataSourceDialog('jdbc')">JDBC</d-button>
+  </div>
+</div>

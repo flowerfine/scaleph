@@ -1,0 +1,45 @@
+@import '~ng-devui/styles-var/devui-var.scss';
+
+.da-logo {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  line-height: 60px;
+  padding-left: 16px;
+  cursor: pointer;
+
+  &.da-logo-shrink {
+    width: 54px;
+    padding-left: 0;
+    justify-content: center;
+
+    .da-logo-devui {
+      margin-right: 0;
+    }
+  }
+
+  .da-logo-devui {
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .da-logo-text {
+    font-size: $devui-font-size-modal-title;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.router-active {
+  outline: none;
+}

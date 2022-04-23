@@ -1,0 +1,65 @@
+.da-list-wrap {
+  .da-list-container {
+    padding: 16px;
+    background-color: $devui-base-bg;
+    border-radius: $devui-border-radius-card;
+    box-shadow: $devui-shadow-length-base $devui-light-shadow;
+    min-width: 80%;
+
+    .da-list-header {
+      .da-header-item {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 12px;
+        margin-bottom: 12px;
+      }
+    }
+
+    .da-list-content {
+      margin-top: 12px;
+      min-height: 200px;
+    }
+
+    .da-list-footer {
+      text-align: right;
+      margin-top: 12px;
+    }
+  }
+
+  .Done {
+    color: $devui-success;
+    font-weight: 600;
+  }
+
+  .Working {
+    color: $devui-warning;
+    font-weight: 600;
+  }
+
+  .Stuck {
+    color: $devui-danger;
+    font-weight: 600;
+  }
+
+  .over-flow-ellipsis {
+    display: inline-block;
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 1023px) {
+  .da-header-item-label {
+    width: 80px;
+  }
+}
+
+:host::ng-deep {
+  @media only screen and (max-width: 1023px) {
+    .devui-pagination {
+      .devui-total-size,
+      .devui-jump-container {
+        display: none !important;
+      }
+    }
+  }
+}

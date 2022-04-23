@@ -1,0 +1,96 @@
+<div [attr.class]="'da-nav da-nav-' + mode">
+  <div class="da-nav-menu">
+    <ng-container *ngFor="let item of data">
+      <div
+        class="da-nav-item"
+        dDropDown
+        [trigger]="'hover'"
+        appendToBody
+        [appendToBodyDirections]="dropdownDirections[mode]"
+      >
+        <span
+          dDropDownToggle
+          class="da-nav-title"
+          [ngClass]="{
+            'da-active-title': currentUrl.indexOf(item.link) !== -1
+          }"
+        >
+          <i [class]="item.menuIcon"></i>
+          <span *ngIf="showTitle" style="margin-left: 8px">{{
+            item.title
+          }}</span></span
+        >
+        <ul
+          dDropDownMenu
+          [attr.class]="'devui-dropdown-menu devui-scrollbar da-nav-' + mode"
+          role="menu"
+        >
+          <li role="menuitem" *ngFor="let child of item.children">
+            <span
+              class="devui-dropdown-item"
+              [routerLink]="child.link"
+              [routerLinkActive]="['da-active-link']"
+            >
+              {{ child.title }}
+            </span>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+    <div
+      *ngIf="packData && packData.length > 0"
+      class="da-nav-pack-item-wrapper"
+      dDropDown
+      appendToBody
+      [trigger]="'hover'"
+    >
+      <span
+        dDropDownToggle
+        class="da-nav-title"
+        [ngClass]="{
+          'da-active-title': packItemsActive
+        }"
+        >···</span
+      >
+      <ul dDropDownMenu role="menu" class="devui-dropdown-menu devui-scrollbar">
+        <li
+          *ngFor="let item of packData"
+          role="menuitem"
+          dDropDown
+          appendToBody
+          [appendToBodyDirections]="subMenuDirections"
+          [trigger]="'hover'"
+        >
+          <span
+            dDropDownToggle
+            class="da-nav-title devui-dropdown-item"
+            [ngClass]="{
+              'da-active-link': currentUrl.indexOf(item.link) !== -1
+            }"
+          >
+            <i [class]="item.menuIcon"></i>
+            <span *ngIf="showTitle" style="margin-left: 8px; flex: 1 1 0%">{{
+              item.title
+            }}</span>
+            <i class="icon icon-chevron-right"></i>
+          </span>
+          <ul
+            dDropDownMenu
+            [attr.class]="'devui-dropdown-menu devui-scrollbar da-nav-' + mode"
+            role="menu"
+          >
+            <li role="menuitem" *ngFor="let child of item.children">
+              <span
+                class="devui-dropdown-item"
+                [routerLink]="child.link"
+                [routerLinkActive]="['da-active-link']"
+              >
+                {{ child.title }}
+              </span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

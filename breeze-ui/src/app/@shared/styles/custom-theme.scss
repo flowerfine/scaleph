@@ -1,0 +1,14 @@
+@import '~ng-devui/styles-var/devui-var.scss';
+@import '~ng-devui/devui-layout.css';
+
+body {
+  background-color: $devui-base-bg;
+}
+
+[ui-theme='devui-dark-theme'],
+.is-dark[ui-theme='customize-theme'] {
+  d-header,
+  d-aside {
+    background-color: #202124;
+  }
+}

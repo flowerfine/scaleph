@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: breeze
+  profiles:
+    active: dev
+  messages:
+    encoding: utf-8
+    basename: static/i18n/messages
+  mail:
+    username: xxxx@xxx.com
+    password: xxxxxxx
+    host: smtp.xxx.cn
+    port: 25
+    default-encoding: UTF-8
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 512MB
+      max-request-size: 512MB
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path: /breeze
+# 线程池配置
+thread:
+  task:
+    pool:
+      corePoolSize: 20
+      maxPoolSize: 40
+      keepAliveSeconds: 300
+      queueCapacity: 50
+# 系统设置相关配置
+app:
+  name: Breeze
+  host: localhost:4200
+  resource:
+    type: minio
+#    local:
+#      parentDir: E:/idea-workspace/breeze/lib
+    minio:
+      endPoint: http://172.16.202.119:32660/
+      bucket: breeze
+      accessKey: admin
+      secretKey: password
+
+# 用户登录token配置参数
+token:
+  tokenValidityInSeconds: 3600000
+  longTokenValidityInSeconds: 604800000

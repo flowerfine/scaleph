@@ -1,0 +1,290 @@
+<div class="da-list-wrap">
+  <div class="da-content-wrapper">
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="da-list-header">
+            <div class="da-header-left">
+              <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                <d-col>
+                  <div class="da-header-item-label">{{ 'studio.jobCode' | translate }}:</div>
+                </d-col>
+                <d-col>
+                  <input dTextInput name="jobCode" [(ngModel)]="searchFormConfig.jobCode" (keyup.enter)="refreshTable()" />
+                </d-col>
+                <d-col>
+                  <div class="da-header-item-label">{{ 'studio.jobName' | translate }}:</div>
+                </d-col>
+                <d-col>
+                  <input dTextInput name="jobName" [(ngModel)]="searchFormConfig.jobName" (keyup.enter)="refreshTable()" />
+                </d-col>
+                <d-col>
+                  <div class="da-header-item-label">{{ 'studio.jobType' | translate }}:</div>
+                </d-col>
+                <d-col style="width: 164px">
+                  <d-select
+                    [options]="jobTypeList"
+                    name="jobType"
+                    [filterKey]="'label'"
+                    [allowClear]="true"
+                    [(ngModel)]="searchFormConfig.jobType"
+                    [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                    (valueChange)="refreshTable()"
+                  >
+                    <ng-template let-option="option"> {{ option['label'] }} </ng-template>
+                  </d-select>
+                </d-col>
+                <d-col>
+                  <div class="da-header-item-label">{{ 'studio.runtimeState' | translate }}:</div>
+                </d-col>
+                <d-col style="width: 164px">
+                  <d-select
+                    [options]="runtimeStateList"
+                    name="runtimeState"
+                    [filterKey]="'label'"
+                    [allowClear]="true"
+                    [(ngModel)]="searchFormConfig.runtimeState"
+                    [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                    (valueChange)="refreshTable()"
+                  >
+                    <ng-template let-option="option"> {{ option['label'] }} </ng-template>
+                  </d-select>
+                </d-col>
+              </d-row>
+            </div>
+            <div class="header-right">
+              <d-button style="margin-right: 8px" bsStyle="primary" (btnClick)="refreshTable()">{{
+                'app.common.operate.query.label' | translate
+              }}</d-button>
+              <d-button bsStyle="common" (btnClick)="reset()">{{ 'app.common.operate.reset.label' | translate }}</d-button>
+            </div>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="5">
+        <div class="da-list-container" style="min-height: calc(100vh - 204px)">
+          <div class="da-list-header">
+            <div class="header-left table-title">{{ 'studio.directory' | translate }}</div>
+          </div>
+          <d-operable-tree
+            #operableTree
+            style="padding-top: 12px"
+            [tree]="dirList"
+            [treeNodeIdKey]="'id'"
+            [treeNodeTitleKey]="'directoryName'"
+            [treeNodeChildrenKey]="'children'"
+            [checkable]="false"
+            [draggable]="false"
+            [iconTemplatePosition]="'after-checkbox'"
+            (nodeSelected)="onDirSelected($event)"
+          >
+            <ng-template #iconTemplate let-node="node">
+              <span class="icon icon-folder" style="padding-left: 6px"></span>
+            </ng-template>
+            <ng-template #operatorTemplate let-optree let-node="node">
+              <span
+                *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioDirAdd)"
+                class="op-icons icon icon-add"
+                (click)="openAddDirDialog($event, node)"
+              ></span>
+              <span
+                *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioDirEdit)"
+                class="op-icons icon icon-edit"
+                (click)="openEditDirDialog($event, node)"
+              ></span>
+              <span
+                *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioDirDelete)"
+                class="op-icons icon icon-close"
+                (click)="openDeleteDirDialog($event, node)"
+              ></span>
+            </ng-template>
+          </d-operable-tree>
+        </div>
+      </d-col>
+      <d-col [dSpan]="19">
+        <div class="da-list-container">
+          <div class="da-list-header">
+            <div class="header-left table-title">{{ 'studio.project' | translate }} : {{ defaultProjectCode }}</div>
+            <div class="header-right">
+              <d-button-group>
+                <div
+                  dDropDown
+                  [closeScope]="'all'"
+                  [trigger]="'hover'"
+                  appendToBody
+                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJobAdd)"
+                >
+                  <d-button bsStyle="primary" dDropDownToggle class="devui-dropdown-origin border-remove">
+                    {{ 'app.common.operate.new.label' | translate }}
+                    <span class="icon-chevron-down"></span>
+                  </d-button>
+                  <ul dDropDownMenu class="devui-dropdown-menu devui-scrollbar devui-dropdown-overlay" role="menu">
+                    <li role="menuitem">
+                      <a class="devui-dropdown-item">
+                        <d-button bsStyle="primary" (btnClick)="openAddJobDialog('r')">
+                          {{ 'studio.job.realtime' | translate }}
+                        </d-button>
+                      </a>
+                    </li>
+                    <li role="menuitem">
+                      <a class="devui-dropdown-item">
+                        <d-button bsStyle="primary" (btnClick)="openAddJobDialog('b')">
+                          {{ 'studio.job.batch' | translate }}
+                        </d-button>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <d-button
+                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJobDelete)"
+                  bsStyle="common"
+                  (btnClick)="openDeleteJobDialog(dataTable.getCheckedRows())"
+                  [disabled]="!dataTableChecked"
+                  >{{ 'app.common.operate.delete.label' | translate }}</d-button
+                >
+              </d-button-group>
+            </div>
+          </div>
+          <div class="list-content" id="dataTableContent">
+            <d-data-table
+              #dataTable
+              [dataSource]="dataTableDs"
+              [resizeable]="true"
+              [checkable]="true"
+              [tableLayout]="'fixed'"
+              [scrollable]="true"
+              [fixHeader]="true"
+              (rowCheckChange)="getDataTableCheckedStatus()"
+              (checkAllChange)="getDataTableCheckedStatus()"
+              (rowClick)="dataTableRowClick($event.rowItem)"
+            >
+              <d-column field="jobCode" header="{{ 'studio.jobCode' | translate }}" [width]="'200px'" [fixedLeft]="'36px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="jobName" header="{{ 'studio.jobName' | translate }}" [width]="'200px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="jobType" header="{{ 'studio.jobType' | translate }}" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="jobStatus" header="{{ 'studio.jobStatus' | translate }}" [width]="'80px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="runtimeState" header="{{ 'studio.runtimeState' | translate }}" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="directory" header="{{ 'studio.directory' | translate }}" [width]="'150px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">{{ cellItem?.fullPath }}</ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="jobVersion" header="{{ 'studio.jobVersion' | translate }}" [width]="'80px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="createTime" header="{{ 'studio.createTime' | translate }}" [width]="'180px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="updateTime" header="{{ 'studio.updateTime' | translate }}" [width]="'180px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="remark" header="{{ 'studio.remark' | translate }}" [width]="'150px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="actions" header="{{ 'app.common.operate.label' | translate }}" [fixedRight]="'0px'" [width]="'200px'">
+                <d-cell>
+                  <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
+                    <div class="btn-group">
+                      <d-button
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJobEdit)"
+                        [disabled]="!(rowItem.runtimeState.value == '1' && rowItem.jobStatus.value == '2')"
+                        icon="icon-run"
+                        bsStyle="text-dark"
+                        (btnClick)="openRunJobDialog(rowItem)"
+                        title="{{ 'studio.job.run' | translate }}"
+                      ></d-button>
+                      <d-button
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJobEdit)"
+                        [disabled]="rowItem.runtimeState.value == '1'"
+                        icon="icon-stop"
+                        bsStyle="text-dark"
+                        (btnClick)="openEditJobDialog(rowItem)"
+                        title="{{ 'studio.job.stop' | translate }}"
+                      ></d-button>
+                      <d-button
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJobEdit)"
+                        icon="icon-go-pipeline"
+                        bsStyle="text-dark"
+                        (btnClick)="openJobWorkbench(rowItem)"
+                        title="{{ 'studio.job.pipeline.define' | translate }}"
+                      ></d-button>
+                      <d-button
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJobEdit)"
+                        icon="icon-edit"
+                        bsStyle="text-dark"
+                        (btnClick)="openEditJobDialog(rowItem)"
+                        title="{{ 'app.common.operate.edit.label' | translate }}"
+                      ></d-button>
+                      <d-button
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJobDelete)"
+                        icon="icon-delete"
+                        bsStyle="text-dark"
+                        (btnClick)="openDeleteJobDialog([rowItem])"
+                        title="{{ 'app.common.operate.delete.label' | translate }}"
+                      ></d-button>
+                      <!-- <d-button
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJob)"
+                        icon="icon-setup"
+                        bsStyle="text-dark"
+                        (btnClick)="openDeleteJobDialog([rowItem])"
+                        title="{{ 'studio.job.detail' | translate }}"
+                      ></d-button> -->
+                    </div>
+                  </ng-template>
+                </d-cell>
+              </d-column>
+            </d-data-table>
+          </div>
+          <div class="da-list-footer">
+            <div class="footer-left"></div>
+            <div class="footer-right">
+              <d-pagination
+                size=""
+                [total]="pager.total"
+                [(pageSize)]="pager.pageSize"
+                [(pageIndex)]="pager.pageIndex"
+                [canViewTotal]="true"
+                [canChangePageSize]="true"
+                [canJumpPage]="true"
+                [maxItems]="5"
+                (pageIndexChange)="refreshTable()"
+                (pageSizeChange)="refreshTable()"
+              >
+              </d-pagination>
+            </div>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+  </div>
+</div>

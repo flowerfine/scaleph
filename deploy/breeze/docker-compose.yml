@@ -1,0 +1,50 @@
+version: "3.1"
+
+services:
+
+  mysql:
+    image: bitnami/mysql:8.0
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_AUTHENTICATION_PLUGIN=mysql_native_password
+      - MYSQL_DATABASE=breeze
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
+      - ./mysql/init.d:/docker-entrypoint-initdb.d
+    networks:
+      - breeze
+
+  redis:
+    image: bitnami/redis:6.0
+    container_name: redis
+    environment:
+      - REDIS_PORT_NUMBER=6379
+      - REDIS_PASSWORD=123456
+    ports:
+      - 6379:6379
+    networks:
+      - breeze
+
+  breeze:
+    image: breeze/breeze-api:0.0.1-SNAPSHOT
+    container_name: breeze-api
+#    environment:
+#      -
+    depends_on:
+      - mysql
+      - redis
+    build:
+      dockerfile: Dockerfile
+      context: ../../breeze-api
+    ports:
+      - 8080:8080
+    networks:
+      - breeze
+
+networks:
+  breeze:
+    driver: bridge

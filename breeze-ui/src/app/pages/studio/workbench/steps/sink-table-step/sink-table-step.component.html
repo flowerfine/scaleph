@@ -1,0 +1,90 @@
+<form
+  dForm
+  ngForm
+  [layout]="formLayout"
+  [formGroup]="formGroup"
+  [dValidateRules]="formConfig.rule"
+  #form="dValidateRules"
+  (ngSubmit)="submitForm()"
+>
+  <d-row [dGutter]="[24, 12]">
+    <d-col [dSpan]="24">
+      <d-form-item>
+        <d-form-label [required]="true">{{ 'studio.step.stepTitle' | translate }}</d-form-label>
+        <d-form-control>
+          <input dTextInput name="stepTitle" formControlName="stepTitle" [dValidateRules]="formConfig.stepTitleRules" />
+        </d-form-control>
+      </d-form-item>
+    </d-col>
+  </d-row>
+  <d-row [dGutter]="[24, 12]">
+    <d-col [dSpan]="12">
+      <d-form-item>
+        <d-form-label [required]="true">{{ 'studio.step.source-table.dataSourceType' | translate }}</d-form-label>
+        <d-form-control>
+          <d-select
+            [options]="dataSourceTypeList"
+            name="dataSourceType"
+            [filterKey]="'label'"
+            [allowClear]="true"
+            formControlName="dataSourceType"
+            [dValidateRules]="formConfig.dataSourceTypeRules"
+            [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+            (valueChange)="listDataSource($event)"
+          >
+            <ng-template let-option="option"> {{ option['label'] }} </ng-template>
+          </d-select>
+        </d-form-control>
+      </d-form-item>
+    </d-col>
+    <d-col [dSpan]="12">
+      <d-form-item>
+        <d-form-label [required]="true">{{ 'studio.step.source-table.dataSource' | translate }}</d-form-label>
+        <d-form-control>
+          <d-select
+            [options]="dataSourceList"
+            name="dataSource"
+            [isSearch]="true"
+            [allowClear]="true"
+            formControlName="dataSource"
+            [filterKey]="'label'"
+            [dValidateRules]="formConfig.dataSourceRules"
+            [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+          >
+            <ng-template let-option="option"> {{ option['label'] }} </ng-template>
+          </d-select>
+        </d-form-control>
+      </d-form-item>
+    </d-col>
+  </d-row>
+
+  <d-row [dGutter]="[24, 12]">
+    <d-col [dSpan]="24">
+      <d-form-item>
+        <d-form-label>{{ 'studio.step.sink-table.batchSize' | translate }}</d-form-label>
+        <d-form-control>
+          <input dTextInput name="batchSize" formControlName="batchSize" />
+        </d-form-control>
+      </d-form-item>
+    </d-col>
+  </d-row>
+
+  <d-row [dGutter]="[24, 12]">
+    <d-col [dSpan]="24">
+      <d-form-item>
+        <d-form-label [required]="true">{{ 'studio.step.source-table.query' | translate }}</d-form-label>
+        <d-form-control>
+          <textarea
+            dTextarea
+            resize="vertical"
+            name="query"
+            formControlName="query"
+            [dValidateRules]="formConfig.queryRules"
+            style="height: 360px"
+          >
+          </textarea>
+        </d-form-control>
+      </d-form-item>
+    </d-col>
+  </d-row>
+</form>
