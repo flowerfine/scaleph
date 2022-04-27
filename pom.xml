@@ -222,6 +222,11 @@
             </dependency>
             <dependency>
                 <groupId>cn.sliew</groupId>
+                <artifactId>flinkful-cli-frontend</artifactId>
+                <version>${flinkful.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.sliew</groupId>
                 <artifactId>flinkful-rest-client</artifactId>
                 <version>${flinkful.version}</version>
             </dependency>

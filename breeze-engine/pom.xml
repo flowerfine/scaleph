@@ -16,9 +16,13 @@
             <artifactId>breeze-meta</artifactId>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>cn.sliew</groupId>
             <artifactId>flinkful-cli-descriptor</artifactId>
+        </dependency>-->
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>flinkful-cli-frontend</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.sliew</groupId>
