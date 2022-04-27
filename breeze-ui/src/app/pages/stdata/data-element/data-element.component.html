@@ -118,7 +118,9 @@
               </d-column>
               <d-column field="dataSetType" header="{{ 'stdata.dataSetType' | translate }}" [width]="'200px'">
                 <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem?.dataSetTypeCode + '-' + cellItem?.dataSetTypeName }}</ng-template>
+                  <ng-template let-cellItem="cellItem">{{
+                    cellItem ? cellItem?.dataSetTypeCode + '-' + cellItem?.dataSetTypeName : ''
+                  }}</ng-template>
                 </d-cell>
               </d-column>
               <d-column field="createTime" header="{{ 'stdata.createTime' | translate }}" [width]="'180px'">

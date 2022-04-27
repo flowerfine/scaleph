@@ -51,7 +51,7 @@ export class RefdataDataNewComponent implements OnInit {
     isStandard: null,
     remark: null,
   };
-  nullableList: Dict[] = [];
+  yesNoList: Dict[] = [];
   private systemMap: Map<number, MetaSystem> = new Map();
   systemSearchStr: any;
   systemSearchPager = {
@@ -80,7 +80,7 @@ export class RefdataDataNewComponent implements OnInit {
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;
     this.dictDataService.listByType(DICT_TYPE.yesNo).subscribe((d) => {
-      this.nullableList = d;
+      this.yesNoList = d;
     });
   }
 

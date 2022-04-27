@@ -31,6 +31,9 @@ public class MetaDataElementServiceImpl implements MetaDataElementService {
     @Override
     public int update(MetaDataElementDTO metaDataElementDTO) {
         MetaDataElement dataElement = MetaDataElementConvert.INSTANCE.toDo(metaDataElementDTO);
+        if (dataElement.getDataSetTypeId() == null) {
+            dataElement.setDataSetTypeId(0L);
+        }
         return this.metaDataElementMapper.updateById(dataElement);
     }
 
