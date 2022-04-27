@@ -85,7 +85,7 @@
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="remark" header="{{ 'admin.remark' | translate }}" [width]="'280px'">
+              <d-column field="remark" header="{{ 'admin.remark' | translate }}" [width]="'160px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>
@@ -112,6 +112,9 @@
                   </ng-template>
                 </d-cell>
               </d-column>
+              <ng-template #noResultTemplateRef>
+                <div style="text-align: center; margin-top: 20px">{{ 'app.common.noRecord' | translate }}</div>
+              </ng-template>
             </d-data-table>
           </div>
           <div class="da-list-footer">
@@ -167,22 +170,22 @@
               (rowCheckChange)="getDictDataCheckedStatus()"
               (checkAllChange)="getDictDataCheckedStatus()"
             >
-              <d-column field="dictType" header="{{ 'admin.dictType' | translate }}" [width]="'280px'" [fixedLeft]="'36px'">
+              <d-column field="dictType" header="{{ 'admin.dictType' | translate }}" [width]="'240px'" [fixedLeft]="'36px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem.dictTypeCode + '-' + cellItem.dictTypeName }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="dictCode" header="{{ 'admin.dictCode' | translate }}" [width]="'200px'">
+              <d-column field="dictCode" header="{{ 'admin.dictCode' | translate }}" [width]="'160px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="dictValue" header="{{ 'admin.dictValue' | translate }}" [width]="'200px'">
+              <d-column field="dictValue" header="{{ 'admin.dictValue' | translate }}" [width]="'160px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="remark" header="{{ 'admin.remark' | translate }}" [width]="'280px'">
+              <d-column field="remark" header="{{ 'admin.remark' | translate }}" [width]="'160px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>
@@ -209,6 +212,9 @@
                   </ng-template>
                 </d-cell>
               </d-column>
+              <ng-template #noResultTemplateRef>
+                <div style="text-align: center; margin-top: 20px">{{ 'app.common.noRecord' | translate }}</div>
+              </ng-template>
             </d-data-table>
           </div>
           <div class="da-list-footer">

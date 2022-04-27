@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.breeze.dao.mapper.MetaDataMapMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="MetaDataMapMap" type="cn.sliew.breeze.dao.entity.MetaDataMap">
+        <result column="id" property="id" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="editor" property="editor" />
+        <result column="update_time" property="updateTime" />
+        <result column="src_data_set_id" property="srcDataSetId" />
+        <result column="tgt_data_set_id" property="tgtDataSetId" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+</mapper>

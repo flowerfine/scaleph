@@ -51,7 +51,7 @@ export class SystemComponent implements OnInit {
       systemCode: this.searchFormConfig.systemCode,
       systemName: this.searchFormConfig.systemName,
     };
-    this.metaSystemService.listByPage(param).subscribe((d) => {
+    this.metaSystemService.listByPage(param).then((d) => {
       this.pager.total = d.total;
       this.dataTableDs = d.records;
       this.loadTarget.loadingInstance.close();

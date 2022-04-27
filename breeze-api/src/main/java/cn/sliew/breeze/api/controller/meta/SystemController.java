@@ -41,7 +41,7 @@ public class SystemController {
 
     @Logging
     @PostMapping
-    @ApiOperation(value = "新增数据源", notes = "新增数据源")
+    @ApiOperation(value = "新增业务系统", notes = "新增业务系统")
     @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STDATA_SYSTEM_ADD)")
     public ResponseEntity<ResponseVO> addMetaSystem(@Validated @RequestBody MetaSystemDTO metaSystemDTO) {
         this.metaSystemService.insert(metaSystemDTO);
@@ -50,7 +50,7 @@ public class SystemController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "修改数据源", notes = "修改数据源")
+    @ApiOperation(value = "修改业务系统", notes = "修改业务系统")
     @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STDATA_SYSTEM_EDIT)")
     public ResponseEntity<ResponseVO> editMetaSystem(@Validated @RequestBody MetaSystemDTO metaSystemDTO) {
         this.metaSystemService.update(metaSystemDTO);
@@ -59,7 +59,7 @@ public class SystemController {
 
     @Logging
     @DeleteMapping(path = "/{id}")
-    @ApiOperation(value = "删除数据源", notes = "删除数据源")
+    @ApiOperation(value = "删除业务系统", notes = "删除业务系统")
     @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STDATA_SYSTEM_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaSystem(@PathVariable(value = "id") String id) {
         this.metaSystemService.deleteById(Long.valueOf(id));
@@ -68,7 +68,7 @@ public class SystemController {
 
     @Logging
     @PostMapping(path = "/batch")
-    @ApiOperation(value = "批量删除数据源", notes = "批量删除数据源")
+    @ApiOperation(value = "批量删除业务系统", notes = "批量删除业务系统")
     @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STDATA_SYSTEM_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaSystem(@RequestBody Map<Integer, String> map) {
         this.metaSystemService.deleteBatch(map);

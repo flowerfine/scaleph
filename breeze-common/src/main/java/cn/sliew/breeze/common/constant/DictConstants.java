@@ -28,5 +28,6 @@ public interface DictConstants {
     String JOB_ATTR_TYPE = "job_attr_type";
     String JOB_STEP_TYPE = "job_step_type";
     String CLUSTER_TYPE = "cluster_type";
+    String DATA_TYPE = "data_type";
 
 }
