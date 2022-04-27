@@ -1,7 +1,9 @@
 package cn.sliew.breeze.service.meta.impl;
 
 import cn.hutool.core.util.StrUtil;
+import cn.sliew.breeze.dao.entity.MetaDataSet;
 import cn.sliew.breeze.dao.entity.MetaSystem;
+import cn.sliew.breeze.dao.mapper.MetaDataSetMapper;
 import cn.sliew.breeze.dao.mapper.MetaSystemMapper;
 import cn.sliew.breeze.service.convert.meta.MetaSystemConvert;
 import cn.sliew.breeze.service.dto.meta.MetaSystemDTO;
@@ -11,6 +13,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
@@ -25,7 +28,8 @@ import java.util.Map;
 public class MetaSystemServiceImpl implements MetaSystemService {
     @Autowired
     private MetaSystemMapper metaSystemMapper;
-
+    @Autowired
+    private MetaDataSetMapper metaDataSetMapper;
 
     @Override
     public int insert(MetaSystemDTO metaSystem) {
@@ -40,12 +44,22 @@ public class MetaSystemServiceImpl implements MetaSystemService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int deleteById(Long id) {
+        this.metaDataSetMapper.delete(
+                new LambdaQueryWrapper<MetaDataSet>()
+                        .eq(MetaDataSet::getSystemId, id)
+        );
         return this.metaSystemMapper.deleteById(id);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int deleteBatch(Map<Integer, ? extends Serializable> map) {
+        this.metaDataSetMapper.delete(
+                new LambdaQueryWrapper<MetaDataSet>()
+                        .in(MetaDataSet::getSystemId, map.values())
+        );
         return this.metaSystemMapper.deleteBatchIds(map.values());
     }
 

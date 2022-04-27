@@ -26,6 +26,7 @@
     },
     "common": {
       "loading": "加载中...",
+      "noRecord": "暂无数据",
       "operate": {
         "label": "操作",
         "success": "操作成功",
@@ -198,7 +199,26 @@
     "systemCode": "业务系统编码",
     "systemName": "业务系统名称",
     "contacts": "联系人",
-    "contactsPhone": "联系人号码"
+    "contactsPhone": "联系人号码",
+    "data-element": "数据元",
+    "elementCode": "数据元标识",
+    "elementName": "数据元名称",
+    "dataType": "数据类型",
+    "dataLength": "长度",
+    "dataPrecision": "精度",
+    "dataScale": "小数位数",
+    "nullable": "是否为空",
+    "dataDefault": "默认值",
+    "lowValue": "最小值",
+    "highValue": "最大值",
+    "dataSetType": "参考数据类型",
+    "refdata.data": "参考数据",
+    "refdata.type": "参考数据类型",
+    "dataSetTypeCode": "参考数据类型编码",
+    "dataSetTypeName": "参考数据类型名称",
+    "dataSetCode": "参考数据编码",
+    "dataSetValue": "参考数据值",
+    "isStandard": "是否标准"
   },
   "studio": {
     "project": "项目",

@@ -1,11 +1,17 @@
 # breeze
 
+[![Github Actions](https://img.shields.io/github/workflow/status/flowerfine/breeze/CI)](https://github.com/flowerfine/breeze/actions)
+[![Total Lines](https://tokei.rs/b1/github/flowerfine/breeze?category=lines)](https://github.com/flowerfine/breeze)
+[![Last commit](https://img.shields.io/github/last-commit/flowerfine/breeze.svg)](https://github.com/flowerfine/breeze)
+
 ## 介绍
 
 Breeze System
 
 ## 部署
+
 #### 环境要求
+
 - jdk 1.8
 - mysql 8.0
 - node v16.14.0

@@ -133,6 +133,9 @@
                   </ng-template>
                 </d-cell>
               </d-column>
+              <ng-template #noResultTemplateRef>
+                <div style="text-align: center; margin-top: 20px">{{ 'app.common.noRecord' | translate }}</div>
+              </ng-template>
             </d-data-table>
           </div>
           <div class="da-list-footer">
