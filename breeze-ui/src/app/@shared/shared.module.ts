@@ -40,6 +40,7 @@ import {
   SplitterModule,
   TreeSelectModule,
   UploadModule,
+  InputNumberModule,
 } from 'ng-devui';
 import { I18nModule } from 'ng-devui/i18n';
 import { RelativeTimeModule } from 'ng-devui/relative-time';
@@ -91,6 +92,7 @@ const DEVUI_MODULES = [
   SplitterModule,
   TreeSelectModule,
   UploadModule,
+  InputNumberModule,
 ];
 const COMPONENTS = [HeaderComponent, FooterComponent, NavbarComponent, PersonalizeComponent];
 @NgModule({

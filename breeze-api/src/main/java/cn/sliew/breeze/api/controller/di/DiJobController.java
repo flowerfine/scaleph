@@ -25,7 +25,7 @@ import cn.sliew.breeze.service.vo.DictVO;
 import cn.sliew.breeze.service.vo.JobGraphVO;
 import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.PackageJarJob;
-import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
+import cn.sliew.flinkful.cli.frontend.FrontendCliClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -482,7 +482,8 @@ public class DiJobController {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
                     I18nUtil.get("response.error.di.noJar.seatunnel"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }
-        CliClient client = new DescriptorCliClient();
+        CliClient client = new FrontendCliClient();
+//        CliClient client = new DescriptorCliClient();
         //build configuration
         DiClusterConfigDTO clusterConfig = this.diClusterConfigService.selectOne(jobRunParam.getClusterId());
         Configuration configuration = buildConfiguration(seatunnelJarPath, job.getId(), clusterConfig.getConfig(), baseDir);

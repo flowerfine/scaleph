@@ -84,6 +84,7 @@ export const DICT_TYPE = {
   jobStatus: 'job_status',
   runtimeState: 'runtime_state',
   clusterType: 'cluster_type',
+  dataType: 'data_type',
 };
 
 export const USER_AUTH = {
