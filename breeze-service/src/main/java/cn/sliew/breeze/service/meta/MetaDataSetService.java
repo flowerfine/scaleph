@@ -5,6 +5,7 @@ import cn.sliew.breeze.service.param.meta.MetaDataSetParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,4 +26,6 @@ public interface MetaDataSetService {
     int deleteBatch(Map<Integer, ? extends Serializable> map);
 
     Page<MetaDataSetDTO> listByPage(MetaDataSetParam param);
+
+    List<MetaDataSetDTO> listByType(Long dataSetTypeId);
 }

@@ -51,6 +51,11 @@ export default function (values) {
         { title: values['stdata']['dataElement'], link: '/breeze/stdata/dataElement', pCode: PRIVILEGE_CODE.stdataDataElementShow },
         { title: values['stdata']['refdata'], link: '/breeze/stdata/refdata', pCode: PRIVILEGE_CODE.stdataRefDataShow },
         {
+          title: values['stdata']['refdataMap'],
+          link: '/breeze/stdata/refdataMap',
+          pCode: PRIVILEGE_CODE.stdataRefDataMapShow,
+        },
+        {
           title: values['stdata']['system'],
           link: '/breeze/stdata/system',
           pCode: PRIVILEGE_CODE.stdataSystemShow,

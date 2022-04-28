@@ -94,3 +94,28 @@ export class MetaDataSetParam extends QueryParam {
   dataSetCode?: string;
   dataSetValue?: string;
 }
+
+export class MetaDataMap {
+  id?: number;
+  srcDataSetTypeCode?: string;
+  srcDataSetTypeName?: string;
+  srcDataSetId?: number;
+  srcDataSetCode?: string;
+  srcDataSetValue?: string;
+  tgtDataSetTypeCode?: string;
+  tgtDataSetTypeName?: string;
+  tgtDataSetId?: number;
+  tgtDataSetCode?: string;
+  tgtDataSetValue?: string;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+}
+
+export class MetaDataMapParam extends QueryParam {
+  srcDataSetTypeCode?: string;
+  tgtDataSetTypeCode?: string;
+  srcDataSetCode?: string;
+  tgtDataSetCode?: string;
+  auto?: boolean;
+}

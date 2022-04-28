@@ -17,74 +17,87 @@
   <form dForm ngForm [layout]="formLayout" [dValidateRules]="formConfig.rule" #form="dValidateRules" (dSubmit)="submitForm($event)">
     <div class="modal-body" style="padding: 0px 48px 0px 48px">
       <d-form-item>
-        <d-form-label [required]="true">{{ 'stdata.dataSetType' | translate }}</d-form-label>
+        <d-form-label [required]="true">{{ 'stdata.srcDataSetType' | translate }}</d-form-label>
         <d-form-control>
           <d-select
-            name="dataSetType"
+            name="srcDataSetType"
             [appendToBody]="true"
             [filterKey]="'dataSetTypeName'"
-            [(ngModel)]="formData.dataSetType"
-            [searchFn]="searchDataSetType"
+            [(ngModel)]="formData.srcDataSetType"
+            [searchFn]="searchSrcDataSetType"
             [isSearch]="true"
-            [allowClear]="true"
-            (loadMore)="loadMoreDataSetType($event)"
+            (loadMore)="loadMoreSrcDataSetType($event)"
             [enableLazyLoad]="true"
-            [dValidateRules]="formConfig.dataSetTypeRules"
+            [dValidateRules]="formConfig.srcDataSetTypeRules"
             [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-            #dataSetTypeSelect
+            (valueChange)="srcDataSetTypeChange($event)"
+            #srcDataSetTypeSelect
           >
             <ng-template let-option="option"> {{ option['dataSetTypeCode'] + '-' + option['dataSetTypeName'] }} </ng-template>
           </d-select>
         </d-form-control>
       </d-form-item>
+
       <d-form-item>
-        <d-form-label [required]="true">{{ 'stdata.dataSetCode' | translate }}</d-form-label>
-        <d-form-control>
-          <input dTextInput name="dataSetCode" [(ngModel)]="formData.dataSetCode" [dValidateRules]="formConfig.dataSetCodeRules" />
-        </d-form-control>
-      </d-form-item>
-      <d-form-item>
-        <d-form-label [required]="true">{{ 'stdata.dataSetValue' | translate }}</d-form-label>
-        <d-form-control>
-          <input dTextInput name="dataSetValue" [(ngModel)]="formData.dataSetValue" [dValidateRules]="formConfig.dataSetValueRules" />
-        </d-form-control>
-      </d-form-item>
-      <d-form-item>
-        <d-form-label>{{ 'stdata.system' | translate }}</d-form-label>
+        <d-form-label [required]="true">{{ 'stdata.srcDataSet' | translate }}</d-form-label>
         <d-form-control>
           <d-select
-            name="system"
+            name="srcDataSet"
+            [options]="srcDataSetList"
             [appendToBody]="true"
-            [filterKey]="'systemName'"
-            [(ngModel)]="formData.system"
-            [searchFn]="searchSystem"
+            [filterKey]="'dataSetCode'"
+            [(ngModel)]="formData.srcDataSet"
             [isSearch]="true"
-            [allowClear]="true"
-            (loadMore)="loadMoreSystem($event)"
-            [enableLazyLoad]="true"
+            [disabled]="!formData.srcDataSetType?.id"
+            [dValidateRules]="formConfig.srcDataSetRules"
             [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-            #systemSelect
           >
-            <ng-template let-option="option"> {{ option['systemName'] }} </ng-template>
+            <ng-template let-option="option"> {{ option['dataSetCode'] + '-' + option['dataSetValue'] }} </ng-template>
           </d-select>
         </d-form-control>
       </d-form-item>
+
       <d-form-item>
-        <d-form-label [required]="true">{{ 'stdata.isStandard' | translate }}</d-form-label>
+        <d-form-label [required]="true">{{ 'stdata.tgtDataSetType' | translate }}</d-form-label>
         <d-form-control>
           <d-select
-            [options]="yesNoList"
-            name="isStandard"
-            [filterKey]="'label'"
-            [allowClear]="true"
-            [(ngModel)]="formData.isStandard"
-            [dValidateRules]="formConfig.isStandardRules"
+            name="tgtDataSetType"
+            [appendToBody]="true"
+            [filterKey]="'dataSetTypeName'"
+            [(ngModel)]="formData.tgtDataSetType"
+            [searchFn]="searchTgtDataSetType"
+            [isSearch]="true"
+            (loadMore)="loadMoreTgtDataSetType($event)"
+            [enableLazyLoad]="true"
+            [dValidateRules]="formConfig.tgtDataSetTypeRules"
             [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+            (valueChange)="tgtDataSetTypeChange($event)"
+            #tgtDataSetTypeSelect
           >
-            <ng-template let-option="option"> {{ option['label'] }} </ng-template>
+            <ng-template let-option="option"> {{ option['dataSetTypeCode'] + '-' + option['dataSetTypeName'] }} </ng-template>
           </d-select>
         </d-form-control>
       </d-form-item>
+
+      <d-form-item>
+        <d-form-label [required]="true">{{ 'stdata.tgtDataSet' | translate }}</d-form-label>
+        <d-form-control>
+          <d-select
+            name="tgtDataSet"
+            [options]="tgtDataSetList"
+            [appendToBody]="true"
+            [filterKey]="'dataSetCode'"
+            [(ngModel)]="formData.tgtDataSet"
+            [isSearch]="true"
+            [disabled]="!formData.tgtDataSetType?.id"
+            [dValidateRules]="formConfig.tgtDataSetRules"
+            [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+          >
+            <ng-template let-option="option"> {{ option['dataSetCode'] + '-' + option['dataSetValue'] }} </ng-template>
+          </d-select>
+        </d-form-control>
+      </d-form-item>
+
       <d-form-item>
         <d-form-label>{{ 'stdata.remark' | translate }}</d-form-label>
         <d-form-control>

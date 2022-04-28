@@ -41,13 +41,13 @@
         on t1.data_set_type_id = t2.id
         <where>
             <if test="dataSetTypeCode != null and dataSetTypeCode != ''">
-                t2.data_set_type_code like concat('%',#{dataSetTypeCode,jdbcType=VARCHAR},'%')
+               and t2.data_set_type_code like concat('%',#{dataSetTypeCode,jdbcType=VARCHAR},'%')
             </if>
             <if test="dataSetCode != null and dataSetCode != '' ">
-                t1.data_set_code like concat('%',#{dataSetCode,jdbcType=VARCHAR},'%')
+               and t1.data_set_code like concat('%',#{dataSetCode,jdbcType=VARCHAR},'%')
             </if>
             <if test="dataSetValue != null and dataSetValue != '' ">
-                t1.data_set_value like concat('%',#{dataSetValue,jdbcType=VARCHAR},'%')
+               and t1.data_set_value like concat('%',#{dataSetValue,jdbcType=VARCHAR},'%')
             </if>
         </where>
     </select>
