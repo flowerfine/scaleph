@@ -38,6 +38,7 @@ insert into t_dict_type(dict_type_code, dict_type_name, creator, editor) values 
 insert into t_dict_type(dict_type_code, dict_type_name, creator, editor) values ('job_attr_type', '作业属性类型', 'sys', 'sys');
 insert into t_dict_type(dict_type_code, dict_type_name, creator, editor) values ('job_step_type', '步骤类型', 'sys', 'sys');
 insert into t_dict_type(dict_type_code, dict_type_name, creator, editor) values ('cluster_type', '集群类型', 'sys', 'sys');
+insert into t_dict_type(dict_type_code, dict_type_name, creator, editor) values ('data_type', '数据类型', 'sys', 'sys');
 
 
 /* 数据字典表 */
@@ -114,6 +115,13 @@ insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) value
 insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('job_step_type', 'sink', '输出', 'sys', 'sys');
 insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('cluster_type', 'flink', 'FLINK', 'sys', 'sys');
 insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('cluster_type', 'spark', 'SPARK', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('data_type', 'int', 'INT', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('data_type', 'bigint', 'BIGINT', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('data_type', 'float', 'FLOAT', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('data_type', 'double', 'DOUBLE', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('data_type', 'string', 'STRING', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('data_type', 'date', 'DATE', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('data_type', 'timestamp', 'TIMESTAMP', 'sys', 'sys');
 
 
 
@@ -564,7 +572,7 @@ create table meta_data_element (
     data_default varchar(512) comment '默认值',
     low_value varchar(512) comment '最小值',
     high_value varchar(512) comment '最大值',
-    data_set_type_id bigint comment '代码集类型id',
+    data_set_type_id bigint comment '参考数据类型id',
     creator varchar(32) comment '创建人',
     create_time timestamp default current_timestamp comment '创建时间',
     editor varchar(32) comment '修改人',
@@ -597,8 +605,8 @@ create table meta_system (
 drop table if exists meta_data_set_type;
 create table meta_data_set_type (
     id bigint not null auto_increment comment '自增主键',
-    data_set_type_code varchar(32) not null comment '代码集类型编码',
-    data_set_type_name varchar(128) not null comment '代码集类型名称',
+    data_set_type_code varchar(32) not null comment '参考数据类型编码',
+    data_set_type_name varchar(128) not null comment '参考数据类型名称',
     remark varchar(256) comment '备注',
     creator varchar(32) comment '创建人',
     create_time timestamp default current_timestamp comment '创建时间',
@@ -614,11 +622,11 @@ create table meta_data_set_type (
 drop table if exists meta_data_set;
 create table meta_data_set (
     id bigint not null auto_increment comment '自增主键',
-    data_set_type_id bigint not null comment '数据代码集类型id',
+    data_set_type_id bigint not null comment '参考数据类型id',
     data_set_code varchar(32) not null comment '代码code',
     data_set_value varchar(128) not null comment '代码值',
     system_id bigint comment '业务系统id',
-    is_standard varchar(1) not null comment '是否标准代码集',
+    is_standard varchar(1) not null comment '是否标准',
     remark varchar(256) comment '备注',
     creator varchar(32) comment '创建人',
     create_time timestamp default current_timestamp comment '创建时间',

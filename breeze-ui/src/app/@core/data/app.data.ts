@@ -68,11 +68,12 @@ export interface Dict {
 /**分页参数 */
 export const DEFAULT_PAGE_PARAM = {
   pageSize: 10,
-  pageIndex: 0,
+  pageIndex: 1,
   pageParams: [10, 20, 50, 100],
 };
 
 export const DICT_TYPE = {
+  yesNo: 'yes_or_no',
   roleStatus: 'role_status',
   userStatus: 'user_status',
   idCardType: 'id_card_type',
@@ -83,6 +84,7 @@ export const DICT_TYPE = {
   jobStatus: 'job_status',
   runtimeState: 'runtime_state',
   clusterType: 'cluster_type',
+  dataType: 'data_type',
 };
 
 export const USER_AUTH = {
@@ -161,4 +163,20 @@ export const PRIVILEGE_CODE = {
   studioClusterAdd: 'psdc1',
   studioClusterDelete: 'psdc3',
   studioClusterEdit: 'psdc2',
+  stdataDataElementSelect: 'pste4',
+  stdataDataElementAdd: 'pste1',
+  stdataDataElementDelete: 'pste3',
+  stdataDataElementEdit: 'pste2',
+  stdataRefDataTypeSelect: 'pstt4',
+  stdataRefDataTypeAdd: 'pstt1',
+  stdataRefDataTypeDelete: 'pstt3',
+  stdataRefDataTypeEdit: 'pstt2',
+  stdataRefDataSelect: 'pstr4',
+  stdataRefDataAdd: 'pstr1',
+  stdataRefDataDelete: 'pstr3',
+  stdataRefDataEdit: 'pstr2',
+  stdataRefDataMapSelect: 'pstm4',
+  stdataRefDataMapAdd: 'pstm1',
+  stdataRefDataMapDelete: 'pstm3',
+  stdataRefDataMapEdit: 'pstm2',
 };

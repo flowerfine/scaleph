@@ -30,7 +30,6 @@ class CliClientTest {
 
     @Test
     void testStandaloneSubmit() throws Exception {
-//        CliClient client = new DescriptorCliClient();
         CliClient client = new FrontendCliClient();
         client.submit(DeploymentTarget.STANDALONE_SESSION, buildConfiguration(), buildJarJob());
     }

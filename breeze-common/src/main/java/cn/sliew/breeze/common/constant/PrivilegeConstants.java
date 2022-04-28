@@ -314,5 +314,40 @@ public interface PrivilegeConstants {
     @Desc("{\"id\":100052,\"privilegeName\":\"修改集群\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100049}")
     String STUDIO_CLUSTER_EDIT = PRIVILEGE_PREFIX + ModuleCode.STUDIO_CLUSTER + ActionCode.EDIT;
 
+    @Desc("{\"id\":100053,\"privilegeName\":\"数据元管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
+    String STDATA_DATA_ELEMENT_SELECT = PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.SELECT;
+    @Desc("{\"id\":100054,\"privilegeName\":\"新增数据元\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100053}")
+    String STDATA_DATA_ELEMENT_ADD = PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.ADD;
+    @Desc("{\"id\":100055,\"privilegeName\":\"删除数据元\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100053}")
+    String STDATA_DATA_ELEMENT_DELETE = PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.DELETE;
+    @Desc("{\"id\":100056,\"privilegeName\":\"修改数据元\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100053}")
+    String STDATA_DATA_ELEMENT_EDIT = PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.EDIT;
+
+    @Desc("{\"id\":100057,\"privilegeName\":\"参考数据类型管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
+    String STDATA_REF_DATA_TYPE_SELECT = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_TYPE + ActionCode.SELECT;
+    @Desc("{\"id\":100058,\"privilegeName\":\"新增参考数据类型\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100057}")
+    String STDATA_REF_DATA_TYPE_ADD = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_TYPE + ActionCode.ADD;
+    @Desc("{\"id\":100059,\"privilegeName\":\"删除参考数据类型\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100057}")
+    String STDATA_REF_DATA_TYPE_DELETE = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_TYPE + ActionCode.DELETE;
+    @Desc("{\"id\":100060,\"privilegeName\":\"修改参考数据类型\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100057}")
+    String STDATA_REF_DATA_TYPE_EDIT = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_TYPE + ActionCode.EDIT;
+
+    @Desc("{\"id\":100061,\"privilegeName\":\"参考数据管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
+    String STDATA_REF_DATA_SELECT = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA + ActionCode.SELECT;
+    @Desc("{\"id\":100062,\"privilegeName\":\"新增参考数据\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100061}")
+    String STDATA_REF_DATA_ADD = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA + ActionCode.ADD;
+    @Desc("{\"id\":100063,\"privilegeName\":\"删除参考数据\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100061}")
+    String STDATA_REF_DATA_DELETE = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA + ActionCode.DELETE;
+    @Desc("{\"id\":100064,\"privilegeName\":\"修改参考数据\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100061}")
+    String STDATA_REF_DATA_EDIT = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA + ActionCode.EDIT;
+
+    @Desc("{\"id\":100065,\"privilegeName\":\"参考数据映射管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
+    String STDATA_REF_DATA_MAP_SELECT = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.SELECT;
+    @Desc("{\"id\":100066,\"privilegeName\":\"新增参考数据映射\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100065}")
+    String STDATA_REF_DATA_MAP_ADD = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.ADD;
+    @Desc("{\"id\":100067,\"privilegeName\":\"删除参考数据映射\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100065}")
+    String STDATA_REF_DATA_MAP_DELETE = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.DELETE;
+    @Desc("{\"id\":100068,\"privilegeName\":\"修改参考数据映射\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100065}")
+    String STDATA_REF_DATA_MAP_EDIT = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.EDIT;
 
 }

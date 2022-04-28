@@ -24,7 +24,7 @@ public class MybatisPlusGenerator {
     private static final String BASE_PACKAGE = "cn.sliew";
     private static final String MODULE = "breeze";
     private static final String TABLE_PREFIX = "t_";
-    private static final String[] TABLES = {"di_job_resource_file"};
+    private static final String[] TABLES = {"meta_data_set_type", "meta_data_set", "meta_data_map"};
 
     /**
      * 数据源配置
@@ -49,7 +49,7 @@ public class MybatisPlusGenerator {
     private static GlobalConfig globalConfig() {
         GlobalConfig config = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        config.setOutputDir(projectPath + "/breeze-api/src/test/java/com/liyu/breeze/generator");
+        config.setOutputDir(projectPath + "/breeze-api/src/test/java/cn/sliew/breeze/generator");
         config.setAuthor(AUTHOR);
         config.setOpen(false);
         config.setFileOverride(true);

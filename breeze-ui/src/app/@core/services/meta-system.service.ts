@@ -11,9 +11,11 @@ export class MetaSystemService {
   private url = 'api/meta/system';
   constructor(private http: HttpClient) {}
 
-  listByPage(queryParam): Observable<PageResponse<MetaSystem>> {
+  listByPage(queryParam): Promise<PageResponse<MetaSystem>> {
     const params: HttpParams = new HttpParams({ fromObject: queryParam });
-    return this.http.get<PageResponse<MetaSystem>>(`${this.url}`, { params });
+    return this.http
+      .get<PageResponse<MetaSystem>>(`${this.url}`, { params })
+      .toPromise();
   }
 
   delete(row: MetaSystem): Observable<ResponseBody<any>> {
