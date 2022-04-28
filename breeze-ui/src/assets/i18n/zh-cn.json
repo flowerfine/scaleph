@@ -7,7 +7,13 @@
       "privilege": "权限管理",
       "setting": "系统设置"
     },
-    "stdata": { "title": "数据标准", "dataElement": "数据元", "refdata": "参考数据", "system": "业务系统" },
+    "stdata": {
+      "title": "数据标准",
+      "dataElement": "数据元",
+      "refdata": "参考数据",
+      "refdataMap": "数据映射",
+      "system": "业务系统"
+    },
     "meta": {
       "title": "元数据",
       "datasource": "数据源"
@@ -200,7 +206,7 @@
     "systemName": "业务系统名称",
     "contacts": "联系人",
     "contactsPhone": "联系人号码",
-    "data-element": "数据元",
+    "data.element": "数据元",
     "elementCode": "数据元标识",
     "elementName": "数据元名称",
     "dataType": "数据类型",
@@ -218,7 +224,21 @@
     "dataSetTypeName": "参考数据类型名称",
     "dataSetCode": "参考数据编码",
     "dataSetValue": "参考数据值",
-    "isStandard": "是否标准"
+    "isStandard": "是否标准",
+    "refdata.map": "数据映射",
+    "srcDataSetTypeCode": "源参考数据类型编码",
+    "srcDataSetTypeName": "源参考数据类型名称",
+    "srcDataSetCode": "源参考数据编码",
+    "srcDataSetValue": "源参考数据值",
+    "tgtDataSetTypeCode": "目标参考数据类型编码",
+    "tgtDataSetTypeName": "目标参考数据类型名称",
+    "tgtDataSetCode": "目标参考数据编码",
+    "tgtDataSetValue": "目标参考数据值",
+    "auto": "自动映射",
+    "srcDataSetType": "源参考数据类型",
+    "tgtDataSetType": "目标参考数据类型",
+    "srcDataSet": "源参考数据",
+    "tgtDataSet": "目标参考数据"
   },
   "studio": {
     "project": "项目",

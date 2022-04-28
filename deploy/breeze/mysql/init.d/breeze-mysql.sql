@@ -212,13 +212,14 @@ insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource
 insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(7,'pdts0','数据源','0','',6,'sys','sys');
 insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(8,'pstd0','数据标准','0','',0,'sys','sys');
 insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(9,'pstr0','参考数据','0','',8,'sys','sys');
-insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(10,'pste0','数据元','0','',8,'sys','sys');
-insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(11,'psts0','业务系统','0','',8,'sys','sys');
-insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(12,'psdo0','工作台','0','',0,'sys','sys');
-insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(13,'psdp0','项目管理','0','',0,'sys','sys');
-insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(14,'psdj0','作业管理','0','',0,'sys','sys');
-insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(15,'psde0','资源管理','0','',0,'sys','sys');
-insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(16,'psdc0','集群管理','0','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(10,'pstm0','数据映射','0','',8,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(11,'pste0','数据元','0','',8,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(12,'psts0','业务系统','0','',8,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(13,'psdo0','工作台','0','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(14,'psdp0','项目管理','0','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(15,'psdj0','作业管理','0','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(16,'psde0','资源管理','0','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(17,'psdc0','集群管理','0','',0,'sys','sys');
 insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100001,'pdct4','字典类型','1','',0,'sys','sys');
 insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100002,'pdct1','新增字典类型','1','',100001,'sys','sys');
 insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100003,'pdct3','删除字典类型','1','',100001,'sys','sys');
@@ -271,6 +272,22 @@ insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource
 insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100050,'psdc1','新增集群','1','',100049,'sys','sys');
 insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100051,'psdc3','删除集群','1','',100049,'sys','sys');
 insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100052,'psdc2','修改集群','1','',100049,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100053,'pste4','数据元管理','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100054,'pste1','新增数据元','1','',100053,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100055,'pste3','删除数据元','1','',100053,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100056,'pste2','修改数据元','1','',100053,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100057,'pstt4','参考数据类型管理','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100058,'pstt1','新增参考数据类型','1','',100057,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100059,'pstt3','删除参考数据类型','1','',100057,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100060,'pstt2','修改参考数据类型','1','',100057,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100061,'pstr4','参考数据管理','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100062,'pstr1','新增参考数据','1','',100061,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100063,'pstr3','删除参考数据','1','',100061,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100064,'pstr2','修改参考数据','1','',100061,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100065,'pstm4','参考数据映射管理','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100066,'pstm1','新增参考数据映射','1','',100065,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100067,'pstm3','删除参考数据映射','1','',100065,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values(100068,'pstm2','修改参考数据映射','1','',100065,'sys','sys');
 
 /* 角色权限关联表 */
 drop table if exists t_role_privilege;
@@ -654,52 +671,6 @@ create table meta_data_map (
     key (update_time)
 ) engine = innodb comment '元数据-参考数据映射';
 
-/* 参考数据视图 */
-create or replace view v_meta_data_map as
-select
-    lower(st1.data_set_type_code) as code_type,
-    st1.data_set_type_name as code_type_name,
-    s1.data_set_code as src_code_value,
-    s1.data_set_value as src_code_value_name,
-    st2.data_set_type_code as tgt_code_type,
-    st2.data_set_type_name as tgt_code_type_name,
-    s2.data_set_code as tgt_code_value,
-    s2.data_set_value as tgt_code_value_name,
-    t.remark as description,
-    t.creator as creator,
-    t.create_time as create_time,
-    t.editor as editor,
-    t.update_time as editor_time
-from meta_data_map t
-join meta_data_set s1
-on t.src_data_set_id = s1.id
-join meta_data_set_type st1
-on s1.data_set_type_id = st1.id
-join meta_data_set s2
-on t.tgt_data_set_id = s2.id
-join meta_data_set_type st2
-on s2.data_set_type_id = st2.id
-union
-select
-    lower(st1.data_set_type_code) as code_type,
-    st1.data_set_type_name as code_type_name,
-    s1.data_set_code as src_code_value,
-    s1.data_set_value as src_code_value_name,
-    st1.data_set_type_code as tgt_code_type,
-    st1.data_set_type_name as tgt_code_type_name,
-    s1.data_set_code as tgt_code_value,
-    s1.data_set_value as tgt_code_value_name,
-    '' as description,
-    s1.creator as creator,
-    s1.create_time as create_time,
-    s1.editor as editor,
-    s1.update_time as editor_time
-from meta_data_set s1
-join meta_data_set_type st1
-on s1.data_set_type_id = st1.id
-where not exists (select 1 from meta_data_map t1 where t1.src_data_set_id = s1.id)
-and trim(s1.data_set_code) <> ''
-;
 
 /* 数据集成-项目信息 */
 drop table if exists di_project;

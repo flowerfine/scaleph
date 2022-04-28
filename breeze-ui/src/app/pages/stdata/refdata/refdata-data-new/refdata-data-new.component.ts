@@ -209,7 +209,7 @@ export class RefdataDataNewComponent implements OnInit {
       mdts
         .map((option, index) => ({ id: option.id, option: option }))
         .filter((item) => {
-          return item.option.dataSetTypeName.toLowerCase().indexOf(term.toLowerCase()) !== -1;
+          return item.option.dataSetTypeCode.toLowerCase().indexOf(term.toLowerCase()) !== -1 || item.option.dataSetTypeName.toLowerCase().indexOf(term.toLowerCase()) !== -1;
         })
     );
   };

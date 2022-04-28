@@ -104,6 +104,7 @@ export const PRIVILEGE_CODE = {
   datasourceShow: 'pdts0',
   stdataShow: 'pstd0',
   stdataRefDataShow: 'pstr0',
+  stdataRefDataMapShow: 'pstm0',
   stdataDataElementShow: 'pste0',
   stdataSystemShow: 'psts0',
   studioShow: 'psdo0',

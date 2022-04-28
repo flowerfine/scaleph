@@ -180,19 +180,22 @@ public interface PrivilegeConstants {
     String STDATA_SHOW = PRIVILEGE_PREFIX + ModuleCode.STDATA + ActionCode.SHOW;
     @Desc("{\"id\":9,\"privilegeName\":\"参考数据\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":8}")
     String STDATA_REF_DATA_SHOW = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA + ActionCode.SHOW;
-    @Desc("{\"id\":10,\"privilegeName\":\"数据元\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":8}")
+    @Desc("{\"id\":10,\"privilegeName\":\"数据映射\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":8}")
+    String STDATA_REF_DATA_MAP_SHOW = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.SHOW;
+
+    @Desc("{\"id\":11,\"privilegeName\":\"数据元\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":8}")
     String STDATA_DATA_ELEMENT_SHOW = PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.SHOW;
-    @Desc("{\"id\":11,\"privilegeName\":\"业务系统\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":8}")
+    @Desc("{\"id\":12,\"privilegeName\":\"业务系统\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":8}")
     String STDATA_SYSTEM_SHOW = PRIVILEGE_PREFIX + ModuleCode.STDATA_SYSTEM + ActionCode.SHOW;
-    @Desc("{\"id\":12,\"privilegeName\":\"工作台\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    @Desc("{\"id\":13,\"privilegeName\":\"工作台\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
     String STUDIO_SHOW = PRIVILEGE_PREFIX + ModuleCode.STUDIO + ActionCode.SHOW;
-    @Desc("{\"id\":13,\"privilegeName\":\"项目管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    @Desc("{\"id\":14,\"privilegeName\":\"项目管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
     String STUDIO_PROJECT = PRIVILEGE_PREFIX + ModuleCode.STUDIO_PROJECT + ActionCode.SHOW;
-    @Desc("{\"id\":14,\"privilegeName\":\"作业管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    @Desc("{\"id\":15,\"privilegeName\":\"作业管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
     String STUDIO_JOB = PRIVILEGE_PREFIX + ModuleCode.STUDIO_JOB + ActionCode.SHOW;
-    @Desc("{\"id\":15,\"privilegeName\":\"资源管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    @Desc("{\"id\":16,\"privilegeName\":\"资源管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
     String STUDIO_RESOURCE = PRIVILEGE_PREFIX + ModuleCode.STUDIO_RESOURCE + ActionCode.SHOW;
-    @Desc("{\"id\":16,\"privilegeName\":\"集群管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    @Desc("{\"id\":17,\"privilegeName\":\"集群管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
     String STUDIO_CLUSTER = PRIVILEGE_PREFIX + ModuleCode.STUDIO_CLUSTER + ActionCode.SHOW;
     /**
      * 1-操作权限

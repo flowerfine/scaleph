@@ -6,6 +6,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * <p>
@@ -22,12 +27,18 @@ public class MetaDataSetDTO extends BaseDTO {
 
     private static final long serialVersionUID = -8370149134397925591L;
 
+    @NotNull
     @ApiModelProperty(value = "参考数据类型")
     private MetaDataSetTypeDTO dataSetType;
 
+    @NotBlank
+    @Length(min = 1, max = 32)
+    @Pattern(regexp = "\\w+$")
     @ApiModelProperty(value = "代码code")
     private String dataSetCode;
 
+    @NotBlank
+    @Length(min = 1, max = 128)
     @ApiModelProperty(value = "代码值")
     private String dataSetValue;
 
@@ -37,6 +48,7 @@ public class MetaDataSetDTO extends BaseDTO {
     @ApiModelProperty(value = "是否标准参考数据")
     private DictVO isStandard;
 
+    @Length(max = 256)
     @ApiModelProperty(value = "备注")
     private String remark;
 

@@ -19,6 +19,9 @@ import { RefdataTypeDeleteComponent } from './refdata/refdata-type-delete/refdat
 import { RefdataDataNewComponent } from './refdata/refdata-data-new/refdata-data-new.component';
 import { RefdataDataUpdateComponent } from './refdata/refdata-data-update/refdata-data-update.component';
 import { RefdataDataDeleteComponent } from './refdata/refdata-data-delete/refdata-data-delete.component';
+import { RefdataMapComponent } from './refdata-map/refdata-map.component';
+import { RefdataMapNewComponent } from './refdata-map/refdata-map-new/refdata-map-new.component';
+import { RefdataMapDeleteComponent } from './refdata-map/refdata-map-delete/refdata-map-delete.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +41,9 @@ import { RefdataDataDeleteComponent } from './refdata/refdata-data-delete/refdat
     RefdataDataNewComponent,
     RefdataDataUpdateComponent,
     RefdataDataDeleteComponent,
+    RefdataMapComponent,
+    RefdataMapNewComponent,
+    RefdataMapDeleteComponent,
   ],
   imports: [SharedModule, StdataRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })

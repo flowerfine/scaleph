@@ -69,6 +69,7 @@ public class JobConfigHelper {
     private void buildEnv(DiJobDTO job, JobConfig conf) {
         List<DiJobAttrDTO> jobAttrList = job.getJobAttrList();
         Map<String, String> envMap = conf.getEnv();
+        envMap.put(Constants.JOB_NAME, job.getJobCode());
         if (CollectionUtil.isNotEmpty(jobAttrList)) {
             jobAttrList.stream()
                     .filter(attr -> JobAttrTypeEnum.JOB_PROP.getValue().equals(attr.getJobAttrType().getValue()))

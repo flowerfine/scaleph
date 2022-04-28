@@ -63,6 +63,7 @@ public interface Constants {
      */
     String CLUSTER_DEPLOY_TARGET = "deploy_target";
     String JOB_ID = "jobId";
+    String JOB_NAME = "job.name";
     String JOB_STEP_CODE = "stepCode";
     String JOB_STEP_TITLE = "stepTitle";
     String JOB_GRAPH = "jobGraph";

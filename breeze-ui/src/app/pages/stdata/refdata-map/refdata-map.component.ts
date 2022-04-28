@@ -3,39 +3,39 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DataTableComponent, LoadingService, ModalService } from 'ng-devui';
 import { DEFAULT_PAGE_PARAM, PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
-import { MetaDataElement, MetaDataElementParam } from 'src/app/@core/data/meta.data';
+import { MetaDataMap, MetaDataMapParam } from 'src/app/@core/data/meta.data';
 import { AuthService } from 'src/app/@core/services/auth.service';
-import { MetaDataElementService } from 'src/app/@core/services/meta-data-element.service';
-import { DataElementDeleteComponent } from './data-element-delete/data-element-delete.component';
-import { DataElementNewComponent } from './data-element-new/data-element-new.component';
-import { DataElementUpdateComponent } from './data-element-update/data-element-update.component';
+import { RefdataService } from 'src/app/@core/services/refdata.service';
+import { RefdataMapDeleteComponent } from './refdata-map-delete/refdata-map-delete.component';
+import { RefdataMapNewComponent } from './refdata-map-new/refdata-map-new.component';
 
 @Component({
-  selector: 'app-data-element',
-  templateUrl: './data-element.component.html',
-  styleUrls: ['./data-element.component.scss'],
+  selector: 'app-refdata-map',
+  templateUrl: './refdata-map.component.html',
+  styleUrls: ['./refdata-map.component.scss'],
 })
-export class DataElementComponent implements OnInit {
+export class RefdataMapComponent implements OnInit {
   PRIVILEGE_CODE = PRIVILEGE_CODE;
   @ViewChild('dataTable', { static: true }) dataTable: DataTableComponent;
   dataLoading: boolean = false;
   dataTableChecked: boolean = false;
   loadTarget: any;
-  dataTableDs: MetaDataElement[] = [];
+  dataTableDs: MetaDataMap[] = [];
+  checkboxLabel = this.translate.instant('stdata.auto');
   pager = {
     total: 0,
     pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
     pageSize: DEFAULT_PAGE_PARAM.pageSize,
     pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
   };
-  searchFormConfig = { elementCode: '', elementName: '' };
+  searchFormConfig = { srcDataSetTypeCode: '', tgtDataSetTypeCode: '', srcDataSetCode: '', tgtDataSetCode: '', auto: true };
   constructor(
     public authService: AuthService,
     @Inject(DOCUMENT) private doc: any,
     private loadingService: LoadingService,
     private translate: TranslateService,
     private modalService: ModalService,
-    private metaElementService: MetaDataElementService
+    private refdataService: RefdataService
   ) {}
 
   ngOnInit(): void {
@@ -44,13 +44,16 @@ export class DataElementComponent implements OnInit {
 
   refreshTable() {
     this.openDataTableLoading();
-    let param: MetaDataElementParam = {
+    let param: MetaDataMapParam = {
       pageSize: this.pager.pageSize,
       current: this.pager.pageIndex,
-      elementCode: this.searchFormConfig.elementCode,
-      elementName: this.searchFormConfig.elementName,
+      srcDataSetTypeCode: this.searchFormConfig.srcDataSetTypeCode,
+      tgtDataSetTypeCode: this.searchFormConfig.tgtDataSetTypeCode,
+      srcDataSetCode: this.searchFormConfig.srcDataSetCode,
+      tgtDataSetCode: this.searchFormConfig.tgtDataSetCode,
+      auto: this.searchFormConfig.auto,
     };
-    this.metaElementService.listByPage(param).subscribe((d) => {
+    this.refdataService.listMapByPage(param).subscribe((d) => {
       this.pager.total = d.total;
       this.dataTableDs = d.records;
       this.loadTarget.loadingInstance.close();
@@ -80,7 +83,7 @@ export class DataElementComponent implements OnInit {
   }
 
   reset() {
-    this.searchFormConfig = { elementCode: '', elementName: '' };
+    this.searchFormConfig = { srcDataSetTypeCode: '', tgtDataSetTypeCode: '', srcDataSetCode: '', tgtDataSetCode: '', auto: true };
     this.pager = {
       total: 0,
       pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -90,14 +93,14 @@ export class DataElementComponent implements OnInit {
     this.refreshTable();
   }
 
-  openAddDataElementDialog() {
+  openAddDataMapDialog() {
     const results = this.modalService.open({
-      id: 'data-element-new',
+      id: 'refdata-map-new',
       width: '580px',
       backdropCloseable: true,
-      component: DataElementNewComponent,
+      component: RefdataMapNewComponent,
       data: {
-        title: { name: this.translate.instant('stdata.data.element') },
+        title: { name: this.translate.instant('stdata.refdata.map') },
         onClose: (event: any) => {
           results.modalInstance.hide();
         },
@@ -108,34 +111,15 @@ export class DataElementComponent implements OnInit {
     });
   }
 
-  openDeleteDataElementDialog(items: MetaDataElement[]) {
+  openDeleteDataMapDialog(items: MetaDataMap[]) {
     const results = this.modalService.open({
-      id: 'data-element-delete',
+      id: 'refdata-map-delete',
       width: '346px',
       backdropCloseable: true,
-      component: DataElementDeleteComponent,
+      component: RefdataMapDeleteComponent,
       data: {
         title: this.translate.instant('app.common.operate.delete.confirm.title'),
         items: items,
-        onClose: (event: any) => {
-          results.modalInstance.hide();
-        },
-        refresh: () => {
-          this.refreshTable();
-        },
-      },
-    });
-  }
-
-  openEditDataElementDialog(item: MetaDataElement) {
-    const results = this.modalService.open({
-      id: 'data-element-edit',
-      width: '580px',
-      backdropCloseable: true,
-      component: DataElementUpdateComponent,
-      data: {
-        title: { name: this.translate.instant('stdata.data.element') },
-        item: item,
         onClose: (event: any) => {
           results.modalInstance.hide();
         },

@@ -7,6 +7,7 @@ import cn.sliew.breeze.service.convert.meta.MetaDataSetConvert;
 import cn.sliew.breeze.service.dto.meta.MetaDataSetDTO;
 import cn.sliew.breeze.service.meta.MetaDataSetService;
 import cn.sliew.breeze.service.param.meta.MetaDataSetParam;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,5 +60,14 @@ public class MetaDataSetServiceImpl implements MetaDataSetService {
         result.setRecords(dtoList);
         result.setTotal(list.getTotal());
         return result;
+    }
+
+    @Override
+    public List<MetaDataSetDTO> listByType(Long dataSetTypeId) {
+        List<MetaDataSet> list = this.metaDataSetMapper.selectList(
+                new LambdaQueryWrapper<MetaDataSet>()
+                        .eq(MetaDataSet::getDataSetTypeId, dataSetTypeId)
+        );
+        return MetaDataSetConvert.INSTANCE.toDto(list);
     }
 }

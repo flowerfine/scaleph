@@ -16,9 +16,9 @@ import java.util.Map;
  * @since 2022-04-25
  */
 public interface MetaDataMapService {
-    int insert(MetaDataMapDTO MetaDataMapDTO);
+    int insert(MetaDataMapDTO metaDataMapDTO);
 
-    int update(MetaDataMapDTO MetaDataMapDTO);
+    int update(MetaDataMapDTO metaDataMapDTO);
 
     int deleteById(Long id);
 
