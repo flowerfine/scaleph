@@ -16,14 +16,14 @@
             <artifactId>breeze-meta</artifactId>
         </dependency>
 
-        <!--<dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>flinkful-cli-descriptor</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>cn.sliew</groupId>
-            <artifactId>flinkful-cli-frontend</artifactId>
+            <artifactId>flinkful-cli-descriptor</artifactId>
         </dependency>
+        <!--<dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>flinkful-cli-frontend</artifactId>
+        </dependency>-->
         <dependency>
             <groupId>cn.sliew</groupId>
             <artifactId>flinkful-rest-client</artifactId>
@@ -93,10 +93,10 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-planner_${scala.binary.version}</artifactId>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
