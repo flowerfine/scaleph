@@ -169,7 +169,7 @@ public class DiJobController {
     @GetMapping(path = "/detail")
     @ApiOperation(value = "查询作业详情", notes = "查询作业详情，包含作业流程定义信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_SELECT)")
-    public ResponseEntity<DiJobDTO> getJobDetail(Long id) {
+    public ResponseEntity<DiJobDTO> getJobDetail(@RequestParam(value = "id") Long id) {
         DiJobDTO job = queryJobInfo(id);
         return new ResponseEntity<>(job, HttpStatus.OK);
     }
