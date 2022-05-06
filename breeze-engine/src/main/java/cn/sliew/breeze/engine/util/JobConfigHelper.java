@@ -38,21 +38,22 @@ public class JobConfigHelper {
     @Autowired
     private DataSourceMetaService dataSourceMetaService;
 
-    private static Map<String, String> JOB_STEP_MAP;
+    private static final Map<String, String> JOB_STEP_MAP = new HashMap<>();
+
+    private static final Map<String, String> PLUGIN_MAP = new HashMap<>();
 
     static {
-        JOB_STEP_MAP = new HashMap<>();
+        //init job step map
         JOB_STEP_MAP.put("sink-table", "JdbcSink");
         JOB_STEP_MAP.put("source-table", "JdbcSource");
+        //init plugin map
+        PLUGIN_MAP.put("source-table", "jdbc");
+        PLUGIN_MAP.put("sink-table", "jdbc");
+        PLUGIN_MAP.put("source-csv", "file");
+        PLUGIN_MAP.put("sink-csv", "file");
     }
 
     /**
-     * 1. 作业 job
-     * 2. 作业属性  jobAttr  作业变量${}   env配置信息
-     * 3. 步骤  step
-     * 4. 步骤属性  steAttr
-     * 5. 作业连线 job Link  判断source table and result table
-     *
      * @param job
      * @return
      */
@@ -64,6 +65,10 @@ public class JobConfigHelper {
         buildEnv(job, conf);
         buildSteps(job, conf);
         return JSONUtil.toJsonPrettyStr(conf);
+    }
+
+    public String getSeatunnelPluginTag(String stepType, String stepName) {
+        return PLUGIN_MAP.get(StrUtil.concat(true, stepType, "-", stepName));
     }
 
     private void buildEnv(DiJobDTO job, JobConfig conf) {
@@ -168,10 +173,6 @@ public class JobConfigHelper {
             this.transform = new ArrayList<>();
             this.sink = new ArrayList<>();
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(System.getProperty("java.io.tmpdir"));
     }
 
 }

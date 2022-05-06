@@ -26,12 +26,12 @@ import cn.sliew.breeze.service.vo.JobGraphVO;
 import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.PackageJarJob;
 import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
-import cn.sliew.flinkful.cli.frontend.FrontendCliClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.client.deployment.executors.RemoteExecutor;
 import org.apache.flink.configuration.*;
@@ -41,17 +41,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ResourceUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -170,7 +169,7 @@ public class DiJobController {
     @GetMapping(path = "/detail")
     @ApiOperation(value = "查询作业详情", notes = "查询作业详情，包含作业流程定义信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_SELECT)")
-    public ResponseEntity<DiJobDTO> getJobDetail(Long id) {
+    public ResponseEntity<DiJobDTO> getJobDetail(@RequestParam(value = "id") Long id) {
         DiJobDTO job = queryJobInfo(id);
         return new ResponseEntity<>(job, HttpStatus.OK);
     }
@@ -483,17 +482,15 @@ public class DiJobController {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
                     I18nUtil.get("response.error.di.noJar.seatunnel"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }
-//        CliClient client = new FrontendCliClient();
         CliClient client = new DescriptorCliClient();
         //build configuration
         DiClusterConfigDTO clusterConfig = this.diClusterConfigService.selectOne(jobRunParam.getClusterId());
-        Configuration configuration = buildConfiguration(seatunnelJarPath, job.getId(), clusterConfig.getConfig(), baseDir);
+        Configuration configuration = buildConfiguration(seatunnelPath, seatunnelJarPath, job, clusterConfig.getConfig(), baseDir);
         //build job
         PackageJarJob jarJob = buildJob(seatunnelJarPath.toUri().toString(), tmpJobConfFile, job.getJobAttrList());
         JobID jobID = client.submit(DeploymentTarget.STANDALONE_SESSION, configuration, jarJob);
         job.setRuntimeState(DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
         this.diJobService.update(job);
-
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -511,14 +508,28 @@ public class DiJobController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    private Configuration buildConfiguration(Path seatunnelJarPath, Long jobId, Map<String, String> clusterConf, File baseDir) throws MalformedURLException {
+    private Configuration buildConfiguration(String seatunnelPath, Path seatunnelJarPath, DiJobDTO job, Map<String, String> clusterConf, File baseDir) throws MalformedURLException {
         Configuration configuration = new Configuration();
+        configuration.setString(PipelineOptions.NAME, job.getJobCode());
         configuration.setString(JobManagerOptions.ADDRESS, clusterConf.get(JobManagerOptions.ADDRESS.key()));
         configuration.setInteger(JobManagerOptions.PORT, Integer.parseInt(clusterConf.get(JobManagerOptions.PORT.key())));
         configuration.setInteger(RestOptions.PORT, Integer.parseInt(clusterConf.get(RestOptions.PORT.key())));
-        List<DiResourceFileDTO> resourceList = this.diJobResourceFileService.listJobResources(jobId);
-        List<String> jars = new ArrayList<>();
+        List<DiResourceFileDTO> resourceList = this.diJobResourceFileService.listJobResources(job.getId());
+        Set<String> jars = new TreeSet<>();
+        Path seatunnelConnectorsPath = Paths.get(seatunnelPath, "connectors", "flink");
+        File seatunnelConnectorDir = seatunnelConnectorsPath.toFile();
+        for (DiJobStepDTO step : job.getJobStepList()) {
+            String pluginTag = this.jobConfigHelper.getSeatunnelPluginTag(step.getStepType().getValue(), step.getStepName());
+            FileFilter fileFilter = new RegexFileFilter(".*" + pluginTag + ".*");
+            File[] pluginJars = seatunnelConnectorDir.listFiles(fileFilter);
+            if (pluginJars != null) {
+                for (File jar : pluginJars) {
+                    jars.add(jar.toURI().toString());
+                }
+            }
+        }
         jars.add(seatunnelJarPath.toUri().toString());
+
         StorageService localStorageService = new NioFileServiceImpl(baseDir.getAbsolutePath());
         for (DiResourceFileDTO file : resourceList) {
             Long fileSize = this.storageService.getFileSize(file.getFilePath(), file.getFileName());
@@ -540,11 +551,11 @@ public class DiJobController {
     private PackageJarJob buildJob(String seatunnelPath, File file, List<DiJobAttrDTO> jobAttrList) throws FileNotFoundException, MalformedURLException {
         PackageJarJob jarJob = new PackageJarJob();
         jarJob.setJarFilePath(seatunnelPath);
-        jarJob.setEntryPointClass("org.apache.seatunnel.SeatunnelFlink");
-        URL resource = ResourceUtils.getFile(file.toURI()).toURI().toURL();
+        jarJob.setEntryPointClass("org.apache.seatunnel.core.flink.SeatunnelFlink");
+        Path filePath = Paths.get(file.toURI());
         List<String> variables = new ArrayList<String>() {{
             add("--config");
-            add(resource.getPath());
+            add(filePath.toString());
         }};
         jobAttrList.stream()
                 .filter(attr -> JobAttrTypeEnum.JOB_ATTR.getValue().equals(attr.getJobAttrType().getValue()))
