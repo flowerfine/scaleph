@@ -14,8 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-name: FEATURE
-description: Suggest exciting and meaning feature for Breeze
+name: Request Feature
+description: suggest exciting and meaning feature for Breeze
 title: "[Feature][Module Name] Feature title"
 labels: ["Feature"]
 body:

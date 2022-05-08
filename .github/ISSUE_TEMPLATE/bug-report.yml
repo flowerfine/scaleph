@@ -15,9 +15,9 @@
 # limitations under the License.
 #
 
-name: BUG
+name: Report Bug
 title: "[Bug] [Module Name] Bug title"
-description: Problems and issues with code of Breeze
+description: problems and issues within Breeze
 labels: ["bug"]
 body:
   - type: markdown
