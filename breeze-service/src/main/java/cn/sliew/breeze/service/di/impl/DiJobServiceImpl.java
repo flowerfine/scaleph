@@ -55,12 +55,11 @@ public class DiJobServiceImpl implements DiJobService {
     }
 
     @Override
-    public int archive(String jobCode, Long directoryId) {
+    public int archive(String jobCode) {
         int result = 0;
         List<DiJob> list = this.diJobMapper.selectList(
                 new LambdaQueryWrapper<DiJob>()
                         .eq(DiJob::getJobCode, jobCode)
-                        .eq(DiJob::getDirectoryId, directoryId)
                         .eq(DiJob::getJobStatus, JobStatusEnum.RELEASE.getValue())
                         .orderByAsc(DiJob::getJobVersion)
         );
@@ -86,10 +85,9 @@ public class DiJobServiceImpl implements DiJobService {
     }
 
     @Override
-    public int deleteByCode(String jobCode, Long directoryId) {
+    public int deleteByCode(String jobCode) {
         List<DiJob> jobList = this.diJobMapper.selectList(new LambdaQueryWrapper<DiJob>()
                 .eq(DiJob::getJobCode, jobCode)
-                .eq(DiJob::getDirectoryId, directoryId)
         );
         List<Long> ids = jobList.stream().map(DiJob::getId).collect(Collectors.toList());
         this.diJobAttrService.deleteByJobId(ids);
@@ -98,7 +96,6 @@ public class DiJobServiceImpl implements DiJobService {
         this.diJobStepAttrService.deleteByJobId(ids);
         return this.diJobMapper.delete(new LambdaQueryWrapper<DiJob>()
                 .eq(DiJob::getJobCode, jobCode)
-                .eq(DiJob::getDirectoryId, directoryId)
         );
     }
 
@@ -106,7 +103,7 @@ public class DiJobServiceImpl implements DiJobService {
     public int deleteByCode(List<DiJobDTO> list) {
         int result = 0;
         for (DiJobDTO dto : list) {
-            result += deleteByCode(dto.getJobCode(), dto.getDirectory().getId());
+            result += deleteByCode(dto.getJobCode());
         }
         return result;
     }

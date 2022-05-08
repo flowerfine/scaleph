@@ -273,6 +273,7 @@
     "job.pipeline.define": "流程定义",
     "job.run": "启动",
     "job.stop": "停止",
+    "job.stop.content": "确认停止作业？",
     "directoryName": "目录名称",
     "workbench.save": "保存",
     "workbench.publish": "发布",

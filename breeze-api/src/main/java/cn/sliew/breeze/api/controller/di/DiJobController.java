@@ -6,6 +6,8 @@ import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import cn.sliew.breeze.api.annotation.Logging;
+import cn.sliew.breeze.api.schedule.FlinkJobStatusSyncJob;
+import cn.sliew.breeze.api.schedule.ScheduleService;
 import cn.sliew.breeze.api.util.I18nUtil;
 import cn.sliew.breeze.api.util.SecurityUtil;
 import cn.sliew.breeze.api.vo.DiJobAttrVO;
@@ -27,16 +29,24 @@ import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.PackageJarJob;
 import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
+import cn.sliew.flinkful.rest.base.JobClient;
+import cn.sliew.flinkful.rest.base.RestClient;
+import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.flink.api.common.JobID;
+import org.apache.flink.api.common.JobStatus;
 import org.apache.flink.client.deployment.executors.RemoteExecutor;
 import org.apache.flink.configuration.*;
 import org.apache.flink.runtime.jobgraph.SavepointRestoreSettings;
+import org.apache.flink.runtime.rest.handler.async.TriggerResponse;
+import org.apache.flink.runtime.rest.messages.job.savepoints.stop.StopWithSavepointRequestBody;
+import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,6 +54,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
 import java.io.File;
@@ -54,6 +65,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -85,8 +97,33 @@ public class DiJobController {
     private DiJobResourceFileService diJobResourceFileService;
     @Autowired
     private DiClusterConfigService diClusterConfigService;
+    @Autowired
+    private DiJobLogService diJobLogService;
+    @Autowired
+    private ScheduleService scheduleService;
+
     @Resource(name = "${app.resource.type}")
     private StorageService storageService;
+    @Value("${app.engine.flink.state.savepoints.dir}")
+    private String savePointDir;
+
+    @PostConstruct
+    public void syncJobStatus() throws SchedulerException {
+        JobKey syncJobStatusKey = scheduleService.getJobKey("SYNC_JOB_STATUS_FROM_CLUSTER_JOB", Constants.INTERNAL_GROUP);
+        JobDetail syncJob = JobBuilder.newJob(FlinkJobStatusSyncJob.class)
+                .withIdentity(syncJobStatusKey)
+                .storeDurably()
+                .build();
+        TriggerKey syncJobTriggerKey = scheduleService.getTriggerKey("SYNC_JOB_STATUS_FROM_CLUSTER_TRI", Constants.INTERNAL_GROUP);
+        Trigger syncJobTri = TriggerBuilder.newTrigger()
+                .withIdentity(syncJobTriggerKey)
+                .withSchedule(CronScheduleBuilder.cronSchedule(Constants.CRON_EVERY_THREE_SECONDS))
+                .build();
+        if (scheduleService.checkExists(syncJobStatusKey)) {
+            scheduleService.deleteScheduleJob(syncJobStatusKey);
+        }
+        this.scheduleService.addScheduleJob(syncJob, syncJobTri);
+    }
 
     @Logging
     @GetMapping
@@ -130,7 +167,7 @@ public class DiJobController {
         if (job == null) {
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else if (JobRuntimeStateEnum.STOP.getValue().equals(job.getRuntimeState().getValue())) {
-            this.diJobService.deleteByCode(job.getJobCode(), job.getDirectory().getId());
+            this.diJobService.deleteByCode(job.getJobCode());
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
@@ -452,7 +489,7 @@ public class DiJobController {
             job.setId(jobId);
             job.setJobStatus(DictVO.toVO(DictConstants.JOB_STATUS, JobStatusEnum.RELEASE.getValue()));
             this.diJobService.update(job);
-            this.diJobService.archive(jobInfo.getJobCode(), jobInfo.getDirectory().getId());
+            this.diJobService.archive(jobInfo.getJobCode());
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
@@ -488,8 +525,51 @@ public class DiJobController {
         Configuration configuration = buildConfiguration(seatunnelPath, seatunnelJarPath, job, clusterConfig.getConfig(), baseDir);
         //build job
         PackageJarJob jarJob = buildJob(seatunnelJarPath.toUri().toString(), tmpJobConfFile, job.getJobAttrList());
-        JobID jobID = client.submit(DeploymentTarget.STANDALONE_SESSION, configuration, jarJob);
+        JobID jobInstanceID = client.submit(DeploymentTarget.STANDALONE_SESSION, configuration, jarJob);
         job.setRuntimeState(DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
+        //write log
+        DiJobLogDTO jobLogInfo = new DiJobLogDTO();
+        jobLogInfo.setProjectId(job.getProjectId());
+        jobLogInfo.setJobId(job.getId());
+        jobLogInfo.setJobCode(job.getJobCode());
+        jobLogInfo.setClusterId(jobRunParam.getClusterId());
+        jobLogInfo.setJobInstanceId(jobInstanceID.toString());
+        jobLogInfo.setJobInstanceState(DictVO.toVO(DictConstants.JOB_INSTANCE_STATE, JobStatus.INITIALIZING.toString()));
+        jobLogInfo.setStartTime(new Date());
+        this.diJobService.update(job);
+        this.diJobLogService.insert(jobLogInfo);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping(path = "/stop")
+    @Transactional(rollbackFor = Exception.class)
+    @ApiOperation(value = "停止任务", notes = "停止任务,自动创建savepoint,作业可能会正常运行完后停止。任务的日志状态通过定时任务同步")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_EDIT)")
+    public ResponseEntity<ResponseVO> stopJob(@RequestParam(value = "jobId") Long jobId) throws Exception {
+        DiJobDTO job = this.diJobService.selectOne(jobId);
+        List<DiJobLogDTO> list = this.diJobLogService.listRunningJobInstance(job.getJobCode());
+        Configuration configuration = GlobalConfiguration.loadConfiguration();
+        for (DiJobLogDTO instance : list) {
+            DiClusterConfigDTO clusterConfig = this.diClusterConfigService.selectOne(instance.getClusterId());
+            String host = clusterConfig.getConfig().get(JobManagerOptions.ADDRESS.key());
+            int restPort = Integer.parseInt(clusterConfig.getConfig().get(RestOptions.PORT.key()));
+            RestClient client = new FlinkRestClient(host, restPort, configuration);
+            JobClient jobClient = client.job();
+            if (StrUtil.isBlank(savePointDir)) {
+                return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
+                        I18nUtil.get("response.error.di.cluster.flink.savepoint"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+            }
+            if (savePointDir.endsWith("/")) {
+                savePointDir = savePointDir.substring(0, savePointDir.length() - 1);
+            }
+            StopWithSavepointRequestBody requestBody = new StopWithSavepointRequestBody(
+                    StrUtil.concat(true, savePointDir, "/", clusterConfig.getClusterName(), "/", instance.getJobInstanceId()),
+                    true);
+            final CompletableFuture<TriggerResponse> future = jobClient.jobStop(instance.getJobInstanceId(), requestBody);
+            future.get();
+        }
+        job.setRuntimeState(DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.STOP.getValue()));
         this.diJobService.update(job);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }

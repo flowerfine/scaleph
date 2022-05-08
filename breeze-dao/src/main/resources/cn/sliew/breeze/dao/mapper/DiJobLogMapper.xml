@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.breeze.dao.mapper.DiJobLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="DiJobLogMap" type="cn.sliew.breeze.dao.entity.DiJobLog">
+        <result column="id" property="id" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="editor" property="editor" />
+        <result column="update_time" property="updateTime" />
+        <result column="project_id" property="projectId" />
+        <result column="job_id" property="jobId" />
+        <result column="job_code" property="jobCode" />
+        <result column="cluster_id" property="clusterId" />
+        <result column="job_instance_id" property="jobInstanceId" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="duration" property="duration" />
+        <result column="job_instance_state" property="jobInstanceState" />
+    </resultMap>
+
+</mapper>

@@ -29,5 +29,6 @@ public interface DictConstants {
     String JOB_STEP_TYPE = "job_step_type";
     String CLUSTER_TYPE = "cluster_type";
     String DATA_TYPE = "data_type";
+    String JOB_INSTANCE_STATE = "job_instance_state";
 
 }

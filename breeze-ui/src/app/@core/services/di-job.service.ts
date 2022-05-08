@@ -77,6 +77,10 @@ export class DiJobService {
     return this.http.post<ResponseBody<any>>(`${this.url}/run/`, info);
   }
 
+  stop(jobId: number): Observable<ResponseBody<any>> {
+    return this.http.get<ResponseBody<any>>(`${this.url}/stop?jobId=` + jobId);
+  }
+
   listResource(jobId: string): Observable<Dict[]> {
     return this.http.get<Dict[]>(`${this.url}/resource/` + jobId);
   }

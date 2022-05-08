@@ -57,7 +57,7 @@ public interface Constants {
     String INTERNAL_GROUP = "sysInternal";
     String JOB_LOG_KEY = "traceLog";
     String ETL_JOB_PREFIX = "job-";
-
+    String CRON_EVERY_THREE_SECONDS = "/3 * * * * ? ";
     /**
      * 作业流程步骤属性相关
      */
