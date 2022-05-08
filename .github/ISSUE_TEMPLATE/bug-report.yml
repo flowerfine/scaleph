@@ -38,13 +38,13 @@ body:
           required: true
 
   - type: textarea
-      attributes:
-        label: Breeze Version or Branch
-        description: Provide SeaTunnel version or branch.
-        placeholder: >
-          Please provide the version or branch of Breeze.
-      validations:
-        required: true
+    attributes:
+      label: Breeze Version or Branch
+      description: Provide SeaTunnel version or branch.
+      placeholder: >
+        Please provide the version or branch of Breeze.
+    validations:
+      required: true
 
   - type: textarea
     attributes:
