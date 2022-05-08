@@ -44,6 +44,11 @@ app:
       bucket: breeze
       accessKey: admin
       secretKey: password
+  engine:
+    flink:
+      state:
+        savepoints:
+          dir: /opt/flink/savepoints
 
 # 用户登录token配置参数
 token:

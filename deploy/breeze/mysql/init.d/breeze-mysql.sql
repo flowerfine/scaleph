@@ -39,6 +39,7 @@ insert into t_dict_type(dict_type_code, dict_type_name, creator, editor) values 
 insert into t_dict_type(dict_type_code, dict_type_name, creator, editor) values ('job_step_type', '步骤类型', 'sys', 'sys');
 insert into t_dict_type(dict_type_code, dict_type_name, creator, editor) values ('cluster_type', '集群类型', 'sys', 'sys');
 insert into t_dict_type(dict_type_code, dict_type_name, creator, editor) values ('data_type', '数据类型', 'sys', 'sys');
+insert into t_dict_type(dict_type_code, dict_type_name, creator, editor) values ('job_instance_state', '作业实例状态', 'sys', 'sys');
 
 
 /* 数据字典表 */
@@ -122,6 +123,17 @@ insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) value
 insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('data_type', 'string', 'STRING', 'sys', 'sys');
 insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('data_type', 'date', 'DATE', 'sys', 'sys');
 insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('data_type', 'timestamp', 'TIMESTAMP', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('job_instance_state', 'INITIALIZING', '初始化', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('job_instance_state', 'CREATED', '已创建', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('job_instance_state', 'RUNNING', '运行中', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('job_instance_state', 'FAILING', '失败中', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('job_instance_state', 'FAILED', '以失败', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('job_instance_state', 'CANCELLING', '取消中', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('job_instance_state', 'CANCELED', '已取消', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('job_instance_state', 'FINISHED', '已完成', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('job_instance_state', 'RESTARTING', '重启中', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('job_instance_state', 'SUSPENDED', '已暂停', 'sys', 'sys');
+insert into t_dict(dict_type_code, dict_code, dict_value, creator, editor) values ('job_instance_state', 'RECONCILING', '调节中', 'sys', 'sys');
 
 
 
@@ -757,7 +769,7 @@ create table di_job (
     editor varchar(32) comment '修改人',
     update_time timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    unique key (job_code,directory_id,job_version)
+    unique key (job_code,job_version)
 ) engine = innodb comment '数据集成-作业信息';
 
 drop table if exists di_job_resource_file;
@@ -868,20 +880,25 @@ create table di_job_link (
     key(job_id)
 ) engine = innodb comment '数据集成-作业连线';
 
-
-
 /* 数据同步-运行日志 */
 drop table if exists di_job_log;
 create table di_job_log(
     id bigint not null auto_increment comment '自增主键',
     project_id bigint not null comment '项目id',
     job_id bigint not null comment '作业id',
+    job_code varchar(128) not null comment '作业编码',
     cluster_id bigint not null comment '执行集群id',
-    -- todo 任务日志为链接还是长文本？？？
-
+    job_instance_id varchar(128) not null comment '作业实例id',
+    start_time datetime comment '开始时间',
+    end_time datetime comment '结束时间',
+    duration bigint comment '消耗时长-秒',
+    job_instance_state varchar(12) comment '作业实例状态',
     creator varchar(32) comment '创建人',
     create_time timestamp default current_timestamp comment '创建时间',
     editor varchar(32) comment '修改人',
     update_time timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id)
+    primary key (id),
+    key (project_id),
+    key (job_id),
+    unique key (job_instance_id)
 ) engine = innodb comment '数据集成-作业运行日志';

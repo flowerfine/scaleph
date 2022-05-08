@@ -29,10 +29,9 @@ public interface DiJobService {
      * 归档任务，只保留发布状态中最大版本号的那个，其余发布状态的任务均改为归档状态
      *
      * @param jobCode     job code
-     * @param directoryId directory id
      * @return int
      */
-    int archive(String jobCode, Long directoryId);
+    int archive(String jobCode);
 
     /**
      * 修改
@@ -46,10 +45,9 @@ public interface DiJobService {
      * 删除一个
      *
      * @param jobCode     jobCode
-     * @param directoryId dir id
      * @return int
      */
-    int deleteByCode(String jobCode, Long directoryId);
+    int deleteByCode(String jobCode);
 
     /**
      * 批量删除

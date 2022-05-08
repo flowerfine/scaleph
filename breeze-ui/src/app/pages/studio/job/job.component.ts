@@ -15,6 +15,7 @@ import { DirectoryUpdateComponent } from './directory-update/directory-update.co
 import { JobDeleteComponent } from './job-delete/job-delete.component';
 import { JobNewComponent } from './job-new/job-new.component';
 import { JobStartComponent } from './job-start/job-start.component';
+import { JobStopComponent } from './job-stop/job-stop.component';
 import { JobUpdateComponent } from './job-update/job-update.component';
 
 @Component({
@@ -216,6 +217,25 @@ export class JobComponent implements OnInit {
       width: '580px',
       backdropCloseable: true,
       component: JobStartComponent,
+      data: {
+        title: this.translate.instant('studio.job'),
+        item: item,
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
+  }
+
+  openStopJobDialog(item: DiJob) {
+    const results = this.modalService.open({
+      id: 'job-stop',
+      width: '346px',
+      backdropCloseable: true,
+      component: JobStopComponent,
       data: {
         title: this.translate.instant('studio.job'),
         item: item,

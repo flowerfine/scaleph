@@ -2,7 +2,7 @@ package cn.sliew.breeze.engine.endpoint;
 
 import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.PackageJarJob;
-import cn.sliew.flinkful.cli.frontend.FrontendCliClient;
+import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
 import org.apache.flink.client.deployment.executors.RemoteExecutor;
 import org.apache.flink.configuration.*;
@@ -30,7 +30,7 @@ class CliClientTest {
 
     @Test
     void testStandaloneSubmit() throws Exception {
-        CliClient client = new FrontendCliClient();
+        CliClient client = new DescriptorCliClient();
         client.submit(DeploymentTarget.STANDALONE_SESSION, buildConfiguration(), buildJarJob());
     }
 

@@ -29,6 +29,7 @@ import { ResourceDeleteComponent } from './resource/resource-delete/resource-del
 import { ClusterNewComponent } from './cluster/cluster-new/cluster-new.component';
 import { ClusterUpdateComponent } from './cluster/cluster-update/cluster-update.component';
 import { ClusterDeleteComponent } from './cluster/cluster-delete/cluster-delete.component';
+import { JobStopComponent } from './job/job-stop/job-stop.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { ClusterDeleteComponent } from './cluster/cluster-delete/cluster-delete.
     ClusterNewComponent,
     ClusterUpdateComponent,
     ClusterDeleteComponent,
+    JobStopComponent,
   ],
   imports: [SharedModule, StudioRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })
