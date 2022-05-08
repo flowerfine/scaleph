@@ -58,9 +58,9 @@ body:
   - type: textarea
     attributes:
       label: Error Exception
-      description: Provide the error exception trace.
+      description: Provide the error exception trace if necessary
       placeholder: >
-        Please provide the error exception here.
+        copy-paste the error exception here
       render: log
     validations:
       required: false
@@ -68,9 +68,9 @@ body:
   - type: textarea
     attributes:
       label: Screenshots
-      description: Provide the screenshots if necessary.
+      description: Provide the screenshots if necessary
       placeholder: >
-        Please copy-paste the screenshots here.
+        copy-paste the screenshots here
     validations:
       required: false
 
