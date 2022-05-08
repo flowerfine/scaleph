@@ -48,7 +48,7 @@ body:
       label: Description
       description: Please describe feature as much detail as possible
       placeholder: >
-        describe what you are trying to achieve, rather than telling how you might implement this feature if you are willing to submit pull request.
+        describe what you are trying to achieve and why, rather than telling how you might implement this feature if you are willing to submit pull request.
     validations:
       required: true
 
