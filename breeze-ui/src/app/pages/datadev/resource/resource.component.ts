@@ -118,7 +118,7 @@ export class ResourceComponent implements OnInit {
 
   downloadResource(item: DiResourceFile) {
     let url: string =
-      'api/di/resource/download?projectId=' +
+      'api/datadev/resource/download?projectId=' +
       item.projectId +
       '&fileName=' +
       item.fileName +
