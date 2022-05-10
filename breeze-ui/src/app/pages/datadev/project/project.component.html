@@ -39,13 +39,13 @@
             <div class="header-right">
               <d-button-group>
                 <d-button
-                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioProjectAdd)"
+                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
                   bsStyle="primary"
                   (btnClick)="openAddProjectDialog()"
                   >{{ 'app.common.operate.new.label' | translate }}</d-button
                 >
                 <d-button
-                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioProjectDelete)"
+                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                   bsStyle="common"
                   (btnClick)="openDeleteProjectDialog(dataTable.getCheckedRows())"
                   [disabled]="!dataTableChecked"
@@ -97,28 +97,28 @@
                   <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                     <div class="btn-group over-flow-ellipsis">
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJob)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevJobShow)"
                         icon="icon-open-folder-2"
                         bsStyle="text-dark"
                         (btnClick)="openProject(rowItem)"
                         title="{{ 'datadev.project.enter' | translate }}"
                       ></d-button>
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioResourceAdd)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
                         icon="icon-upload"
                         bsStyle="text-dark"
                         (btnClick)="openAddResourceDialog(rowItem)"
                         title="{{ 'datadev.project.upload-resource' | translate }}"
                       ></d-button>
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioProjectEdit)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
                         icon="icon-edit"
                         bsStyle="text-dark"
                         (btnClick)="openEditProjectDialog(rowItem)"
                         title="{{ 'app.common.operate.edit.label' | translate }}"
                       ></d-button>
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioProjectDelete)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                         icon="icon-delete"
                         bsStyle="text-dark"
                         (btnClick)="openDeleteProjectDialog([rowItem])"

@@ -37,7 +37,7 @@ public class DirectoryController {
     @Logging
     @GetMapping(path = "/{projectId}")
     @ApiOperation(value = "查询项目目录树", notes = "查询项目目录树")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_DIR_SELECT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_DIR_SELECT)")
     public ResponseEntity<List<Tree<Long>>> listProjectDir(@PathVariable(value = "projectId") Long projectId) {
         List<DiDirectoryDTO> list = this.diDirectoryService.selectByProjectId(projectId);
         TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
@@ -61,7 +61,7 @@ public class DirectoryController {
     @Logging
     @PostMapping
     @ApiOperation(value = "新增目录", notes = "新增目录")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_DIR_ADD)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_DIR_ADD)")
     public ResponseEntity<ResponseVO> addDirectory(@Validated @RequestBody DiDirectoryDTO directoryDTO) {
         this.diDirectoryService.insert(directoryDTO);
         return new ResponseEntity<>(ResponseVO.sucess(directoryDTO.getId()), HttpStatus.OK);
@@ -70,7 +70,7 @@ public class DirectoryController {
     @Logging
     @PutMapping
     @ApiOperation(value = "修改目录", notes = "修改目录")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_DIR_EDIT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_DIR_EDIT)")
     public ResponseEntity<ResponseVO> editDirectory(@Validated @RequestBody DiDirectoryDTO directoryDTO) {
         this.diDirectoryService.update(directoryDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
@@ -79,7 +79,7 @@ public class DirectoryController {
     @Logging
     @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "删除目录", notes = "删除目录")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_DIR_DELETE)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_DIR_DELETE)")
     public ResponseEntity<ResponseVO> deleteDirectory(@PathVariable(value = "id") Long id) {
         DiDirectoryDTO dir = this.diDirectoryService.selectById(id);
         if (dir != null && (this.diDirectoryService.hasChildDir(dir.getProjectId(), dir.getId())

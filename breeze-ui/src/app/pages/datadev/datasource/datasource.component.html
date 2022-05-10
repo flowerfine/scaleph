@@ -63,13 +63,13 @@
             <div class="header-right">
               <d-button-group>
                 <d-button
-                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datasourceAdd)"
+                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevDatasourceAdd)"
                   bsStyle="primary"
                   (btnClick)="openAddDataSourceDialog()"
                   >{{ 'app.common.operate.new.label' | translate }}</d-button
                 >
                 <d-button
-                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datasourceDelete)"
+                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevDatasourceDelete)"
                   bsStyle="common"
                   (btnClick)="openDeleteDataSourceDialog(dataTable.getCheckedRows())"
                   [disabled]="!dataTableChecked"
@@ -140,21 +140,21 @@
                   <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                     <div class="btn-group over-flow-ellipsis">
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datasourceSecurity)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevDatasourceSecurity)"
                         icon="icon-preview"
                         bsStyle="text-dark"
                         (btnClick)="openShowPasswordDialog(rowItem)"
                         title="{{ 'datadev.viewPassword' | translate }}"
                       ></d-button>
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datasourceEdit)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevDatasourceEdit)"
                         icon="icon-edit"
                         bsStyle="text-dark"
                         (btnClick)="openEditDataSourceDialog(rowItem)"
                         title="{{ 'app.common.operate.edit.label' | translate }}"
                       ></d-button>
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datasourceDelete)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevDatasourceDelete)"
                         icon="icon-delete"
                         bsStyle="text-dark"
                         (btnClick)="openDeleteDataSourceDialog([rowItem])"

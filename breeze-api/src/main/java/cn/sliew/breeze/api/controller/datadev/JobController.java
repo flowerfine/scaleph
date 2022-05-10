@@ -128,7 +128,7 @@ public class JobController {
     @Logging
     @GetMapping
     @ApiOperation(value = "分页查询作业列表", notes = "分页查询作业列表")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_SELECT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_JOB_SELECT)")
     public ResponseEntity<Page<DiJobDTO>> listJob(DiJobParam param) {
         Page<DiJobDTO> page = this.diJobService.listByPage(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
@@ -137,7 +137,7 @@ public class JobController {
     @Logging
     @PostMapping
     @ApiOperation(value = "新增作业记录", notes = "新增一条作业记录，相关流程定义不涉及")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_ADD)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_JOB_ADD)")
     public ResponseEntity<ResponseVO> simpleAddJob(@Validated @RequestBody DiJobDTO diJobDTO) {
         String currentUser = SecurityUtil.getCurrentUserName();
         diJobDTO.setJobOwner(currentUser);
@@ -151,7 +151,7 @@ public class JobController {
     @Logging
     @PutMapping
     @ApiOperation(value = "修改作业记录", notes = "只修改作业记录属性，相关流程定义不改变")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_EDIT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> simpleEditJob(@Validated @RequestBody DiJobDTO diJobDTO) {
         this.diJobService.update(diJobDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
@@ -161,7 +161,7 @@ public class JobController {
     @DeleteMapping(path = "/{id}")
     @Transactional(rollbackFor = Exception.class)
     @ApiOperation(value = "删除作业", notes = "删除作业")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_DELETE)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_JOB_DELETE)")
     public ResponseEntity<ResponseVO> deleteJob(@PathVariable(value = "id") Long id) {
         DiJobDTO job = this.diJobService.selectOne(id);
         if (job == null) {
@@ -179,7 +179,7 @@ public class JobController {
     @PostMapping(path = "/batch")
     @Transactional(rollbackFor = Exception.class)
     @ApiOperation(value = "批量删除作业", notes = "批量删除作业")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_DELETE)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_JOB_DELETE)")
     public ResponseEntity<ResponseVO> deleteJob(@RequestBody Map<Integer, String> map) {
         List<DiJobDTO> list = this.diJobService.listById(map.values());
         if (CollectionUtil.isEmpty(list)) {
@@ -205,7 +205,7 @@ public class JobController {
     @Logging
     @GetMapping(path = "/detail")
     @ApiOperation(value = "查询作业详情", notes = "查询作业详情，包含作业流程定义信息")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_SELECT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_JOB_SELECT)")
     public ResponseEntity<DiJobDTO> getJobDetail(@RequestParam(value = "id") Long id) {
         DiJobDTO job = queryJobInfo(id);
         return new ResponseEntity<>(job, HttpStatus.OK);
@@ -216,7 +216,7 @@ public class JobController {
     @PostMapping(path = "/detail")
     @Transactional(rollbackFor = Exception.class)
     @ApiOperation(value = "保存作业详情", notes = "保存作业相关流程定义")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_EDIT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> saveJobDetail(@Validated @RequestBody DiJobDTO diJobDTO) {
         DiJobDTO job = this.diJobService.selectOne(diJobDTO.getId());
         if (JobStatusEnum.RELEASE.getValue().equals(job.getJobStatus().getValue())) {
@@ -312,7 +312,7 @@ public class JobController {
     @Logging
     @GetMapping(path = "/attr/{jobId}")
     @ApiOperation(value = "查询作业属性", notes = "查询作业属性列表")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_EDIT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<DiJobAttrVO> listJobAttr(@PathVariable(value = "jobId") Long jobId) {
         DiJobAttrVO vo = new DiJobAttrVO();
         vo.setJobId(jobId);
@@ -337,7 +337,7 @@ public class JobController {
     @PostMapping(path = "/attr")
     @Transactional(rollbackFor = Exception.class)
     @ApiOperation(value = "修改作业属性", notes = "修改作业属性信息")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_EDIT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> saveJobAttr(@RequestBody DiJobAttrVO jobAttrVO) {
         DiJobDTO jobInfo = this.diJobService.selectOne(jobAttrVO.getJobId());
         if (JobStatusEnum.ARCHIVE.getValue().equals(jobInfo.getJobStatus().getValue())) {
@@ -382,7 +382,7 @@ public class JobController {
     @GetMapping(path = "/attrType")
     @Transactional(rollbackFor = Exception.class)
     @ApiOperation(value = "查询步骤属性列表", notes = "查询步骤属性列表")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_EDIT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<List<DiJobStepAttrTypeDTO>> listJobStepAttrType(@NotBlank String stepType, @NotBlank String stepName) {
         List<DiJobStepAttrTypeDTO> list = this.diJobStepAttrTypeService.listByType(stepType, stepName);
         return new ResponseEntity<>(list, HttpStatus.OK);
@@ -391,7 +391,7 @@ public class JobController {
     @Logging
     @GetMapping(path = "/step")
     @ApiOperation(value = "查询步骤属性信息", notes = "查询步骤属性信息")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_EDIT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<List<DiJobStepAttrDTO>> listDiJobStepAttr(@NotBlank String jobId, @NotBlank String stepCode) {
         List<DiJobStepAttrDTO> list = this.diJobStepAttrService.listJobStepAttr(Long.valueOf(jobId), stepCode);
         return new ResponseEntity<>(list, HttpStatus.OK);
@@ -401,7 +401,7 @@ public class JobController {
     @PostMapping(path = "/step")
     @Transactional(rollbackFor = Exception.class)
     @ApiOperation(value = "保存步骤属性信息", notes = "保存步骤属性信息")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_EDIT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> saveJobStepInfo(@RequestBody Map<String, Object> stepAttrMap) {
         if (isStepAttrMapValid(stepAttrMap)) {
             Long jobId = Long.valueOf(stepAttrMap.get(Constants.JOB_ID).toString());
@@ -477,7 +477,7 @@ public class JobController {
     @GetMapping(path = "/publish/{jobId}")
     @Transactional(rollbackFor = Exception.class)
     @ApiOperation(value = "发布任务", notes = "发布任务")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_EDIT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> publishJob(@PathVariable(value = "jobId") Long jobId) {
         DiJobDTO jobInfo = this.diJobService.selectOne(jobId);
         if (JobStatusEnum.ARCHIVE.getValue().equals(jobInfo.getJobStatus().getValue())) {
@@ -501,7 +501,7 @@ public class JobController {
     @PostMapping(path = "/run")
     @Transactional(rollbackFor = Exception.class)
     @ApiOperation(value = "运行任务", notes = "运行任务，提交至集群")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_EDIT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> runJob(@RequestBody DiJobRunVO jobRunParam) throws Exception {
         //config cluster and resource
         this.diJobService.update(jobRunParam.toDto());
@@ -545,7 +545,7 @@ public class JobController {
     @GetMapping(path = "/stop")
     @Transactional(rollbackFor = Exception.class)
     @ApiOperation(value = "停止任务", notes = "停止任务,自动创建savepoint,作业可能会正常运行完后停止。任务的日志状态通过定时任务同步")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_EDIT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> stopJob(@RequestParam(value = "jobId") Long jobId) throws Exception {
         DiJobDTO job = this.diJobService.selectOne(jobId);
         List<DiJobLogDTO> list = this.diJobLogService.listRunningJobInstance(job.getJobCode());
@@ -577,7 +577,7 @@ public class JobController {
     @Logging
     @GetMapping(path = "/resource/{jobId}")
     @ApiOperation(value = "查询作业资源", notes = "查询作业资源列表")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_JOB_EDIT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<List<DictVO>> listJobResourceFile(@PathVariable(value = "jobId") Long jobId) {
         List<DictVO> list = new ArrayList<>();
         List<DiResourceFileDTO> resourceList = this.diJobResourceFileService.listJobResources(jobId);

@@ -35,22 +35,22 @@ export default function (values) {
         {
           title: values['datadev']['datasource'],
           link: '/breeze/datadev/datasource',
-          pCode: PRIVILEGE_CODE.datasourceShow,
+          pCode: PRIVILEGE_CODE.datadevDatasourceShow,
         },
         {
           title: values['datadev']['project'],
           link: '/breeze/datadev/project',
-          pCode: PRIVILEGE_CODE.studioProject,
+          pCode: PRIVILEGE_CODE.datadevProjectShow,
         },
         {
           title: values['datadev']['resource'],
           link: '/breeze/datadev/resource',
-          pCode: PRIVILEGE_CODE.studioResource,
+          pCode: PRIVILEGE_CODE.datadevResourceShow,
         },
         {
           title: values['datadev']['cluster'],
           link: '/breeze/datadev/cluster',
-          pCode: PRIVILEGE_CODE.studioCluster,
+          pCode: PRIVILEGE_CODE.datadevClusterShow,
         },
       ],
     },

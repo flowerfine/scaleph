@@ -49,7 +49,7 @@
             <div class="header-right">
               <d-button-group>
                 <d-button
-                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioResourceDelete)"
+                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevResourceAdd)"
                   bsStyle="common"
                   (btnClick)="openDeleteResourceDialog(dataTable.getCheckedRows())"
                   [disabled]="!dataTableChecked"
@@ -105,14 +105,14 @@
                   <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                     <div class="btn-group over-flow-ellipsis">
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioProjectEdit)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
                         icon="icon-download"
                         bsStyle="text-dark"
                         (btnClick)="downloadResource(rowItem)"
                         title="{{ 'app.common.operate.download.label' | translate }}"
                       ></d-button>
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioProjectDelete)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                         icon="icon-delete"
                         bsStyle="text-dark"
                         (btnClick)="openDeleteResourceDialog([rowItem])"

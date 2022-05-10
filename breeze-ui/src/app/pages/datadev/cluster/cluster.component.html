@@ -49,13 +49,13 @@
             <div class="header-right">
               <d-button-group>
                 <d-button
-                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioClusterAdd)"
+                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevClusterAdd)"
                   bsStyle="primary"
                   (btnClick)="openAddClusterDialog()"
                   >{{ 'app.common.operate.new.label' | translate }}</d-button
                 >
                 <d-button
-                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioClusterDelete)"
+                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevClusterDelete)"
                   bsStyle="common"
                   (btnClick)="openDeleteClusterDialog(dataTable.getCheckedRows())"
                   [disabled]="!dataTableChecked"
@@ -116,14 +116,14 @@
                   <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                     <div class="btn-group over-flow-ellipsis">
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioClusterEdit)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevClusterEdit)"
                         icon="icon-edit"
                         bsStyle="text-dark"
                         (btnClick)="openEditClusterDialog(rowItem)"
                         title="{{ 'app.common.operate.edit.label' | translate }}"
                       ></d-button>
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioClusterDelete)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevClusterDelete)"
                         icon="icon-delete"
                         bsStyle="text-dark"
                         (btnClick)="openDeleteClusterDialog([rowItem])"

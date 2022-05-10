@@ -51,7 +51,7 @@ public class ClusterController {
     @Logging
     @GetMapping
     @ApiOperation(value = "查询集群列表", notes = "分页查询集群列表")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_CLUSTER_SELECT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_CLUSTER_SELECT)")
     public ResponseEntity<Page<DiClusterConfigDTO>> listCluster(DiClusterConfigParam param) {
         Page<DiClusterConfigDTO> page = this.diClusterConfigService.listByPage(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
@@ -60,7 +60,7 @@ public class ClusterController {
     @Logging
     @GetMapping(path = "/all")
     @ApiOperation(value = "查询全部集群", notes = "查询所有集群列表")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_CLUSTER_SELECT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_CLUSTER_SELECT)")
     public ResponseEntity<List<DictVO>> listAll() {
         List<DictVO> list = this.diClusterConfigService.listAll();
         return new ResponseEntity<>(list, HttpStatus.OK);
@@ -69,7 +69,7 @@ public class ClusterController {
     @Logging
     @PostMapping
     @ApiOperation(value = "新增集群", notes = "新增集群")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_CLUSTER_ADD)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_CLUSTER_ADD)")
     public ResponseEntity<ResponseVO> addCluster(@Validated @RequestBody DiClusterConfigDTO diClusterConfigDTO) {
         if (!checkClusterInfo(diClusterConfigDTO)) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
@@ -105,7 +105,7 @@ public class ClusterController {
     @Logging
     @PutMapping
     @ApiOperation(value = "修改集群", notes = "修改集群")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_CLUSTER_EDIT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_CLUSTER_EDIT)")
     public ResponseEntity<ResponseVO> editCluster(@Validated @RequestBody DiClusterConfigDTO diClusterConfigDTO) {
         this.diClusterConfigService.update(diClusterConfigDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
@@ -114,7 +114,7 @@ public class ClusterController {
     @Logging
     @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "删除集群", notes = "删除集群")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_CLUSTER_DELETE)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_CLUSTER_DELETE)")
     public ResponseEntity<ResponseVO> deleteCluster(@PathVariable(value = "id") Long id) {
         if (this.diJobService.hasRunningJob(new ArrayList<Long>() {{
             add(id);
@@ -129,7 +129,7 @@ public class ClusterController {
     @Logging
     @PostMapping(path = "/batch")
     @ApiOperation(value = "批量删除集群", notes = "批量删除集群")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_CLUSTER_DELETE)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_CLUSTER_DELETE)")
     public ResponseEntity<ResponseVO> deleteCluster(@RequestBody Map<Integer, Long> map) {
         if (this.diJobService.hasRunningJob(map.values())) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),

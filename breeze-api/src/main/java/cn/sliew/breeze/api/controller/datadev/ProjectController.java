@@ -43,7 +43,7 @@ public class ProjectController {
     @Logging
     @GetMapping
     @ApiOperation(value = "查询项目列表", notes = "分页查询项目列表")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_PROJECT_SELECT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_PROJECT_SELECT)")
     public ResponseEntity<Page<DiProjectDTO>> listProject(DiProjectParam param) {
         Page<DiProjectDTO> page = this.diProjectService.listByPage(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
@@ -52,7 +52,7 @@ public class ProjectController {
     @Logging
     @GetMapping(path = "/all")
     @ApiOperation(value = "查询所有项目列表", notes = "查询所有项目列表")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_PROJECT_SELECT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_PROJECT_SELECT)")
     public ResponseEntity<List<DictVO>> listAll() {
         List<DictVO> result = new ArrayList<>();
         List<DiProjectDTO> list = this.diProjectService.listAll();
@@ -66,7 +66,7 @@ public class ProjectController {
     @Logging
     @PostMapping
     @ApiOperation(value = "新增项目", notes = "新增项目")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_PROJECT_ADD)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_PROJECT_ADD)")
     public ResponseEntity<ResponseVO> addProject(@Validated @RequestBody DiProjectDTO diProjectDTO) {
         this.diProjectService.insert(diProjectDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
@@ -75,7 +75,7 @@ public class ProjectController {
     @Logging
     @PutMapping
     @ApiOperation(value = "修改项目", notes = "修改项目")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_PROJECT_EDIT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_PROJECT_EDIT)")
     public ResponseEntity<ResponseVO> editProject(@Validated @RequestBody DiProjectDTO diProjectDTO) {
         this.diProjectService.update(diProjectDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
@@ -85,7 +85,7 @@ public class ProjectController {
     @DeleteMapping(path = "/{id}")
     @Transactional(rollbackFor = Exception.class)
     @ApiOperation(value = "删除项目", notes = "删除项目")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_PROJECT_DELETE)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_PROJECT_DELETE)")
     public ResponseEntity<ResponseVO> deleteProject(@PathVariable(value = "id") Long projectId) {
         List<Long> projectids = new ArrayList<Long>() {{
             add(projectId);
@@ -103,7 +103,7 @@ public class ProjectController {
     @PostMapping(path = "/batch")
     @Transactional(rollbackFor = Exception.class)
     @ApiOperation(value = "批量删除项目", notes = "批量删除项目")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_PROJECT_DELETE)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_PROJECT_DELETE)")
     public ResponseEntity<ResponseVO> deleteProject(@RequestBody Map<Integer, Long> map) {
         if (this.diJobService.hasValidJob(map.values())) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),

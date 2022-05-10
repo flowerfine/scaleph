@@ -48,7 +48,7 @@ public class ResourceFileController {
     @Logging
     @GetMapping
     @ApiOperation(value = "分页查询资源列表", notes = "分页查询资源列表")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_RESOURCE_SELECT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_RESOURCE_SELECT)")
     public ResponseEntity<Page<DiResourceFileDTO>> listResource(DiResourceFileParam param) {
         Page<DiResourceFileDTO> page = this.diResourceFileService.listByPage(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
@@ -57,7 +57,7 @@ public class ResourceFileController {
     @Logging
     @GetMapping(path = "/project")
     @ApiOperation(value = "查询项目下资源", notes = "查询项目下资源列表")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_RESOURCE_SELECT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_RESOURCE_SELECT)")
     public ResponseEntity<List<DictVO>> listByProject(@NotNull Long projectId) {
         List<DictVO> list = this.diResourceFileService.listByProjectId(projectId);
         return new ResponseEntity<>(list, HttpStatus.OK);
@@ -67,7 +67,7 @@ public class ResourceFileController {
     @Logging
     @PostMapping
     @ApiOperation(value = "新增资源", notes = "新增资源")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_RESOURCE_ADD)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_RESOURCE_ADD)")
     public ResponseEntity<ResponseVO> addResource(@NotNull @RequestBody DiResourceFileDTO fileDTO) throws IOException {
         DiResourceFileDTO dto = new DiResourceFileDTO();
         dto.setProjectId(fileDTO.getProjectId());
@@ -83,7 +83,7 @@ public class ResourceFileController {
     @Logging
     @PostMapping(path = "/upload")
     @ApiOperation(value = "上传资源文件", notes = "上传资源文件")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_RESOURCE_ADD)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_RESOURCE_ADD)")
     public ResponseEntity<ResponseVO> uploadResource(@NotNull String projectId, @RequestParam("file") MultipartFile file) throws IOException {
         if (!this.storageService.exists(projectId)) {
             this.storageService.mkdirs(projectId);
@@ -95,7 +95,7 @@ public class ResourceFileController {
     @Logging
     @DeleteMapping(path = "/upload")
     @ApiOperation(value = "删除资源文件", notes = "删除资源文件")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_RESOURCE_ADD)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_RESOURCE_ADD)")
     public ResponseEntity<ResponseVO> deleteResource(@NotNull String projectId, @NotNull String fileName) throws IOException {
         this.storageService.delete(projectId, fileName);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
@@ -104,7 +104,7 @@ public class ResourceFileController {
     @Logging
     @GetMapping(path = "/download")
     @ApiOperation(value = "下载资源文件", notes = "下载资源文件")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_RESOURCE_DOWNLOAD)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_RESOURCE_DOWNLOAD)")
     public void downloadResource(@NotNull String projectId, @NotNull String fileName, HttpServletResponse response) throws IOException {
         response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
         InputStream is = this.storageService.get(projectId, fileName);
@@ -122,7 +122,7 @@ public class ResourceFileController {
     @Logging
     @DeleteMapping
     @ApiOperation(value = "删除资源", notes = "删除资源")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_RESOURCE_DELETE)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_RESOURCE_DELETE)")
     public ResponseEntity<ResponseVO> deleteResource(@PathVariable(value = "id") Long id) {
         List<DiResourceFileDTO> list = this.diResourceFileService.listByIds(new ArrayList<Long>() {{
             add(id);
@@ -138,7 +138,7 @@ public class ResourceFileController {
     @Logging
     @PostMapping(path = "/batch")
     @ApiOperation(value = "批量删除资源", notes = "批量删除资源")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).STUDIO_RESOURCE_DELETE)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_RESOURCE_DELETE)")
     public ResponseEntity<ResponseVO> deleteResource(@RequestBody Map<Integer, String> map) {
         List<DiResourceFileDTO> list = this.diResourceFileService.listByIds(map.values());
         this.diResourceFileService.deleteBatch(map);

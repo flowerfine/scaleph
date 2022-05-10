@@ -86,17 +86,17 @@
             </ng-template>
             <ng-template #operatorTemplate let-optree let-node="node">
               <span
-                *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioDirAdd)"
+                *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevDirAdd)"
                 class="op-icons icon icon-add"
                 (click)="openAddDirDialog($event, node)"
               ></span>
               <span
-                *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioDirEdit)"
+                *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevDirEdit)"
                 class="op-icons icon icon-edit"
                 (click)="openEditDirDialog($event, node)"
               ></span>
               <span
-                *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioDirDelete)"
+                *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevDirDelete)"
                 class="op-icons icon icon-close"
                 (click)="openDeleteDirDialog($event, node)"
               ></span>
@@ -115,7 +115,7 @@
                   [closeScope]="'all'"
                   [trigger]="'hover'"
                   appendToBody
-                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJobAdd)"
+                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevJobAdd)"
                 >
                   <d-button bsStyle="primary" dDropDownToggle class="devui-dropdown-origin border-remove">
                     {{ 'app.common.operate.new.label' | translate }}
@@ -139,7 +139,7 @@
                   </ul>
                 </div>
                 <d-button
-                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJobDelete)"
+                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevJobDelete)"
                   bsStyle="common"
                   (btnClick)="openDeleteJobDialog(dataTable.getCheckedRows())"
                   [disabled]="!dataTableChecked"
@@ -216,7 +216,7 @@
                   <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                     <div class="btn-group">
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJobEdit)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevJobEdit)"
                         [disabled]="!(rowItem.runtimeState.value == '1' && rowItem.jobStatus.value == '2')"
                         icon="icon-run"
                         bsStyle="text-dark"
@@ -224,7 +224,7 @@
                         title="{{ 'datadev.job.run' | translate }}"
                       ></d-button>
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJobEdit)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevJobEdit)"
                         [disabled]="rowItem.runtimeState.value == '1'"
                         icon="icon-stop"
                         bsStyle="text-dark"
@@ -232,28 +232,28 @@
                         title="{{ 'datadev.job.stop' | translate }}"
                       ></d-button>
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJobEdit)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevJobEdit)"
                         icon="icon-go-pipeline"
                         bsStyle="text-dark"
                         (btnClick)="openJobWorkbench(rowItem)"
                         title="{{ 'datadev.job.pipeline.define' | translate }}"
                       ></d-button>
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJobEdit)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevJobEdit)"
                         icon="icon-edit"
                         bsStyle="text-dark"
                         (btnClick)="openEditJobDialog(rowItem)"
                         title="{{ 'app.common.operate.edit.label' | translate }}"
                       ></d-button>
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJobDelete)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevJobDelete)"
                         icon="icon-delete"
                         bsStyle="text-dark"
                         (btnClick)="openDeleteJobDialog([rowItem])"
                         title="{{ 'app.common.operate.delete.label' | translate }}"
                       ></d-button>
                       <!-- <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.studioJob)"
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevJob)"
                         icon="icon-setup"
                         bsStyle="text-dark"
                         (btnClick)="openDeleteJobDialog([rowItem])"
