@@ -5,10 +5,7 @@ import { DataTableComponent, IButtonStyle, ITreeItem, LoadingService, ModalServi
 import { Role, User, UserParam } from 'src/app/@core/data/admin.data';
 import { DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
 import { AuthService } from 'src/app/@core/services/auth.service';
-import { DeptService } from 'src/app/@core/services/dept.service';
-import { DictDataService } from 'src/app/@core/services/dict-data.service';
-import { RoleService } from 'src/app/@core/services/role.service';
-import { UserService } from 'src/app/@core/services/user.service';
+import { DeptService } from 'src/app/@core/services/admin/dept.service';
 import { DeptDeleteComponent } from '../dept/dept-delete/dept-delete.component';
 import { DeptGrantComponent } from '../dept/dept-grant/dept-grant.component';
 import { DeptNewComponent } from '../dept/dept-new/dept-new.component';
@@ -20,6 +17,9 @@ import { RoleUpdateComponent } from '../role/role-update/role-update.component';
 import { UserDeleteComponent } from './user-delete/user-delete.component';
 import { UserNewComponent } from './user-new/user-new.component';
 import { UserUpdateComponent } from './user-update/user-update.component';
+import { RoleService } from 'src/app/@core/services/admin/role.service';
+import { UserService } from 'src/app/@core/services/admin/user.service';
+import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
 
 @Component({
   selector: 'app-user',

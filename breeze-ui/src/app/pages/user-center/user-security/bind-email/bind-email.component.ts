@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DFormGroupRuleDirective, DValidateRules, FormLayout } from 'ng-devui';
-import { UserService } from 'src/app/@core/services/user.service';
+import { UserService } from 'src/app/@core/services/admin/user.service';
 import { NotificationService } from 'src/app/@shared/components/notifications/notification.service';
 
 @Component({

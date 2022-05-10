@@ -12,8 +12,8 @@ import { SideMenuComponent } from '../@shared/components/side-menu/side-menu.com
 import { Theme } from 'ng-devui/theme';
 import { SideSettingsComponent } from '../@shared/components/side-settings/side-settings.component';
 import { USER_AUTH } from '../@core/data/app.data';
-import { UserService } from '../@core/services/user.service';
 import { AuthService } from '../@core/services/auth.service';
+import { UserService } from '../@core/services/admin/user.service';
 
 @Component({
   selector: 'da-pages',

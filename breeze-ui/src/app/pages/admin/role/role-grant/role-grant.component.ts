@@ -1,8 +1,8 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import { RoleService } from 'src/app/@core/services/role.service';
-import { UserService } from 'src/app/@core/services/user.service';
 import { TransferDirection } from 'ng-devui';
 import { TransferData } from 'src/app/@core/data/app.data';
+import { RoleService } from 'src/app/@core/services/admin/role.service';
+import { UserService } from 'src/app/@core/services/admin/user.service';
 
 @Component({
   selector: 'app-role-grant',

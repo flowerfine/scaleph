@@ -100,7 +100,7 @@ export const PRIVILEGE_CODE = {
   privilegeShow: 'ppvg0',
   dictShow: 'pdic0',
   settingShow: 'pset0',
-  metaShow: 'pmta0',
+  datadevShow: 'pdev0',
   datasourceShow: 'pdts0',
   stdataShow: 'pstd0',
   stdataRefDataShow: 'pstr0',

@@ -63,7 +63,7 @@ public interface PrivilegeConstants {
         /**
          * 元数据管理
          */
-        String META = "mta";
+        String DATADEV = "dev";
         /**
          * 元数据-数据源管理
          */
@@ -172,8 +172,8 @@ public interface PrivilegeConstants {
     String DICT_SHOW = PRIVILEGE_PREFIX + ModuleCode.DICT + ActionCode.SHOW;
     @Desc("{\"id\":5,\"privilegeName\":\"系统设置\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":1}")
     String SETTING_SHOW = PRIVILEGE_PREFIX + ModuleCode.SETTING + ActionCode.SHOW;
-    @Desc("{\"id\":6,\"privilegeName\":\"元数据\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
-    String META_SHOW = PRIVILEGE_PREFIX + ModuleCode.META + ActionCode.SHOW;
+    @Desc("{\"id\":6,\"privilegeName\":\"数据开发\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    String DATADEV_SHOW = PRIVILEGE_PREFIX + ModuleCode.DATADEV + ActionCode.SHOW;
     @Desc("{\"id\":7,\"privilegeName\":\"数据源\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":6}")
     String DATASOURCE_SHOW = PRIVILEGE_PREFIX + ModuleCode.DATASOURCE + ActionCode.SHOW;
     @Desc("{\"id\":8,\"privilegeName\":\"数据标准\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")

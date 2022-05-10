@@ -1,9 +1,8 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-
 import { DValidateRules, FormLayout } from 'ng-devui';
 import { DictType } from 'src/app/@core/data/admin.data';
-import { DictTypeService } from 'src/app/@core/services/dict-type.service';
+import { DictTypeService } from 'src/app/@core/services/admin/dict-type.service';
 
 @Component({
   selector: 'app-dict-type-new',

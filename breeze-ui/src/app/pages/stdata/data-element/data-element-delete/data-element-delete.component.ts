@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import { MetaDataElementService } from 'src/app/@core/services/meta-data-element.service';
+import { DataElementService } from 'src/app/@core/services/stdata/data-element.service';
 
 @Component({
   selector: 'app-data-element-delete',
@@ -9,7 +9,7 @@ import { MetaDataElementService } from 'src/app/@core/services/meta-data-element
 export class DataElementDeleteComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
-  constructor(private elr: ElementRef, private metaElementService: MetaDataElementService) {}
+  constructor(private elr: ElementRef, private metaElementService: DataElementService) {}
 
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;

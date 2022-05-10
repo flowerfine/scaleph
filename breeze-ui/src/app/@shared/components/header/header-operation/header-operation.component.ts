@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/@core/services/auth.service';
 import { LANGUAGES } from 'src/config/language-config';
 import { I18nService } from 'ng-devui/i18n';
 import { OnlineUserInfo, USER_AUTH } from 'src/app/@core/data/app.data';
-import { UserService } from 'src/app/@core/services/user.service';
+import { UserService } from 'src/app/@core/services/admin/user.service';
 
 @Component({
   selector: 'da-header-operation',

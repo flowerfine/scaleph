@@ -4,9 +4,9 @@ import { IButtonStyle, ITreeItem, OperableTreeComponent, TreeComponent, TreeNode
 import { Privilege, Role } from 'src/app/@core/data/admin.data';
 import { PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
 import { AuthService } from 'src/app/@core/services/auth.service';
-import { DeptService } from 'src/app/@core/services/dept.service';
-import { PrivilegeService } from 'src/app/@core/services/privilege.service';
-import { RoleService } from 'src/app/@core/services/role.service';
+import { DeptService } from 'src/app/@core/services/admin/dept.service';
+import { RoleService } from 'src/app/@core/services/admin/role.service';
+import { PrivilegeService } from 'src/app/@core/services/admin/privilege.service';
 
 @Component({
   selector: 'app-privilege',

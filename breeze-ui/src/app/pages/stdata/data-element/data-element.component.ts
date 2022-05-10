@@ -3,9 +3,9 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DataTableComponent, LoadingService, ModalService } from 'ng-devui';
 import { DEFAULT_PAGE_PARAM, PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
-import { MetaDataElement, MetaDataElementParam } from 'src/app/@core/data/meta.data';
+import { MetaDataElement, MetaDataElementParam } from 'src/app/@core/data/stdata.data';
 import { AuthService } from 'src/app/@core/services/auth.service';
-import { MetaDataElementService } from 'src/app/@core/services/meta-data-element.service';
+import { DataElementService } from 'src/app/@core/services/stdata/data-element.service';
 import { DataElementDeleteComponent } from './data-element-delete/data-element-delete.component';
 import { DataElementNewComponent } from './data-element-new/data-element-new.component';
 import { DataElementUpdateComponent } from './data-element-update/data-element-update.component';
@@ -35,7 +35,7 @@ export class DataElementComponent implements OnInit {
     private loadingService: LoadingService,
     private translate: TranslateService,
     private modalService: ModalService,
-    private metaElementService: MetaDataElementService
+    private metaElementService: DataElementService
   ) {}
 
   ngOnInit(): void {

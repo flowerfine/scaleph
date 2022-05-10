@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import { RoleService } from 'src/app/@core/services/role.service';
+import { RoleService } from 'src/app/@core/services/admin/role.service';
 
 @Component({
   selector: 'app-role-delete',

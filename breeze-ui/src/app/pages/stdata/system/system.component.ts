@@ -3,9 +3,9 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DataTableComponent, LoadingService, ModalService } from 'ng-devui';
 import { DEFAULT_PAGE_PARAM, PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
-import { MetaSystem, MetaSystemParam } from 'src/app/@core/data/meta.data';
+import { MetaSystem, MetaSystemParam } from 'src/app/@core/data/stdata.data';
 import { AuthService } from 'src/app/@core/services/auth.service';
-import { MetaSystemService } from 'src/app/@core/services/meta-system.service';
+import { SystemService } from 'src/app/@core/services/stdata/system.service';
 import { SystemDeleteComponent } from './system-delete/system-delete.component';
 import { SystemNewComponent } from './system-new/system-new.component';
 import { SystemUpdateComponent } from './system-update/system-update.component';
@@ -36,7 +36,7 @@ export class SystemComponent implements OnInit {
     private loadingService: LoadingService,
     private translate: TranslateService,
     private modalService: ModalService,
-    private metaSystemService: MetaSystemService
+    private metaSystemService: SystemService
   ) {}
 
   ngOnInit(): void {
