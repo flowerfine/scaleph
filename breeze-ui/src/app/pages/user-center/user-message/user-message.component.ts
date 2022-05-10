@@ -1,10 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { DialogService, LoadingService } from 'ng-devui';
+import { LoadingService } from 'ng-devui';
 import { Message } from 'src/app/@core/data/admin.data';
 import { DEFAULT_PAGE_PARAM } from 'src/app/@core/data/app.data';
-import { MessageService } from 'src/app/@core/services/message.service';
+import { MessageService } from 'src/app/@core/services/admin/message.service';
 
 @Component({
   selector: 'app-user-message',
@@ -28,7 +28,6 @@ export class UserMessageComponent implements OnInit {
     private translate: TranslateService,
     @Inject(DOCUMENT) private doc: any,
     private loadingService: LoadingService,
-    private dialogService: DialogService
   ) {}
 
   ngOnInit(): void {

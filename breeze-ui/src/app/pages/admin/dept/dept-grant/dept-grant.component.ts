@@ -1,8 +1,8 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { TransferDirection } from 'ng-devui';
 import { TransferData } from 'src/app/@core/data/app.data';
-import { DeptService } from 'src/app/@core/services/dept.service';
-import { UserService } from 'src/app/@core/services/user.service';
+import { DeptService } from 'src/app/@core/services/admin/dept.service';
+import { UserService } from 'src/app/@core/services/admin/user.service';
 
 @Component({
   selector: 'app-dept-grant',

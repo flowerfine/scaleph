@@ -1,8 +1,8 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DFormGroupRuleDirective, DValidateRules, FormLayout } from 'ng-devui';
-import { MetaDataSetType } from 'src/app/@core/data/meta.data';
-import { RefdataService } from 'src/app/@core/services/refdata.service';
+import { MetaDataSetType } from 'src/app/@core/data/stdata.data';
+import { RefdataService } from 'src/app/@core/services/stdata/refdata.service';
 
 @Component({
   selector: 'app-refdata-type-new',

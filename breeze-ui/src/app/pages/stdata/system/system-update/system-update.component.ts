@@ -1,8 +1,8 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DFormGroupRuleDirective, DValidateRules, FormLayout } from 'ng-devui';
-import { MetaSystem } from 'src/app/@core/data/meta.data';
-import { MetaSystemService } from 'src/app/@core/services/meta-system.service';
+import { MetaSystem } from 'src/app/@core/data/stdata.data';
+import { SystemService } from 'src/app/@core/services/stdata/system.service';
 
 @Component({
   selector: 'app-system-update',
@@ -45,7 +45,7 @@ export class SystemUpdateComponent implements OnInit {
     contactsPhone: null,
     remark: null,
   };
-  constructor(private elr: ElementRef, private translate: TranslateService, private metaSystemService: MetaSystemService) {}
+  constructor(private elr: ElementRef, private translate: TranslateService, private metaSystemService: SystemService) {}
 
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;

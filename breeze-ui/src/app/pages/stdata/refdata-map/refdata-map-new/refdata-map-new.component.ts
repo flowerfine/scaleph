@@ -3,8 +3,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { DFormGroupRuleDirective, DValidateRules, FormLayout, SelectComponent } from 'ng-devui';
 import { DEFAULT_PAGE_PARAM } from 'src/app/@core/data/app.data';
-import { MetaDataMap, MetaDataSet, MetaDataSetType, MetaDataSetTypeParam } from 'src/app/@core/data/meta.data';
-import { RefdataService } from 'src/app/@core/services/refdata.service';
+import { MetaDataMap, MetaDataSet, MetaDataSetType, MetaDataSetTypeParam } from 'src/app/@core/data/stdata.data';
+import { RefdataService } from 'src/app/@core/services/stdata/refdata.service';
 
 @Component({
   selector: 'app-refdata-map-new',

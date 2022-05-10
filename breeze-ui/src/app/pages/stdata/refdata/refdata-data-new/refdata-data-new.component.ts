@@ -1,12 +1,12 @@
-import { Component, ElementRef, Input, OnInit, Optional, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit,  ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DFormGroupRuleDirective, DValidateRules, FormLayout, SelectComponent } from 'ng-devui';
 import { of, Observable } from 'rxjs';
 import { DEFAULT_PAGE_PARAM, Dict, DICT_TYPE } from 'src/app/@core/data/app.data';
-import { MetaDataSet, MetaDataSetType, MetaDataSetTypeParam, MetaSystem, MetaSystemParam } from 'src/app/@core/data/meta.data';
-import { DictDataService } from 'src/app/@core/services/dict-data.service';
-import { MetaSystemService } from 'src/app/@core/services/meta-system.service';
-import { RefdataService } from 'src/app/@core/services/refdata.service';
+import { MetaDataSet, MetaDataSetType, MetaDataSetTypeParam, MetaSystem, MetaSystemParam } from 'src/app/@core/data/stdata.data';
+import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { SystemService } from 'src/app/@core/services/stdata/system.service';
+import { RefdataService } from 'src/app/@core/services/stdata/refdata.service';
 
 @Component({
   selector: 'app-refdata-data-new',
@@ -74,7 +74,7 @@ export class RefdataDataNewComponent implements OnInit {
     private translate: TranslateService,
     private refdataService: RefdataService,
     private dictDataService: DictDataService,
-    private systemService: MetaSystemService
+    private systemService: SystemService
   ) {}
 
   ngOnInit(): void {

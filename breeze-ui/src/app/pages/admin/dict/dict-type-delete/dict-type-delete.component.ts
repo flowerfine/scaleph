@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { ToastService } from 'ng-devui';
-import { DictTypeService } from 'src/app/@core/services/dict-type.service';
+import { DictTypeService } from 'src/app/@core/services/admin/dict-type.service';
 
 @Component({
   selector: 'app-dict-type-delete',

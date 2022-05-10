@@ -6,7 +6,7 @@ import { RegisterComponent } from './@shared/components/register/register.compon
 import { ForbiddenComponent } from './pages/abnormal/forbidden/forbidden.component';
 import { NotFoundComponent } from './pages/abnormal/not-found/not-found.component';
 import { ServerErrorComponent } from './pages/abnormal/server-error/server-error.component';
-import { WorkbenchComponent } from './pages/studio/workbench/workbench.component';
+import { WorkbenchComponent } from './pages/datadev/workbench/workbench.component';
 
 const routes: Routes = [
   {

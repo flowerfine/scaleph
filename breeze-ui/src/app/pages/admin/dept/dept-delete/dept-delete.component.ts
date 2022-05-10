@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import { DeptService } from 'src/app/@core/services/dept.service';
+import { DeptService } from 'src/app/@core/services/admin/dept.service';
 
 @Component({
   selector: 'app-dept-delete',

@@ -3,10 +3,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { DFormGroupRuleDirective, DValidateRules, FormLayout, SelectComponent } from 'ng-devui';
 import { DEFAULT_PAGE_PARAM, Dict, DICT_TYPE } from 'src/app/@core/data/app.data';
-import { MetaDataElement, MetaDataSetType, MetaDataSetTypeParam } from 'src/app/@core/data/meta.data';
-import { MetaDataElementService } from 'src/app/@core/services/meta-data-element.service';
-import { RefdataService } from 'src/app/@core/services/refdata.service';
-import { DictDataService } from 'src/app/@core/services/dict-data.service';
+import { MetaDataElement, MetaDataSetType, MetaDataSetTypeParam } from 'src/app/@core/data/stdata.data';
+import { RefdataService } from 'src/app/@core/services/stdata/refdata.service';
+import { DataElementService } from 'src/app/@core/services/stdata/data-element.service';
+import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
 
 @Component({
   selector: 'app-data-element-new',
@@ -68,7 +68,7 @@ export class DataElementNewComponent implements OnInit {
     private translate: TranslateService,
     private refdataService: RefdataService,
     private dictDataService: DictDataService,
-    private metaElementService: MetaDataElementService
+    private metaElementService: DataElementService
   ) {}
 
   ngOnInit(): void {
@@ -142,7 +142,10 @@ export class DataElementNewComponent implements OnInit {
       mdts
         .map((option, index) => ({ id: option.id, option: option }))
         .filter((item) => {
-          return item.option.dataSetTypeCode.toLowerCase().indexOf(term.toLowerCase()) !== -1 || item.option.dataSetTypeName.toLowerCase().indexOf(term.toLowerCase()) !== -1;
+          return (
+            item.option.dataSetTypeCode.toLowerCase().indexOf(term.toLowerCase()) !== -1 ||
+            item.option.dataSetTypeName.toLowerCase().indexOf(term.toLowerCase()) !== -1
+          );
         })
     );
   };

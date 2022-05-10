@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Message, MessageParam } from 'src/app/@core/data/admin.data';
 import { DEFAULT_PAGE_PARAM } from 'src/app/@core/data/app.data';
-import { MessageService } from 'src/app/@core/services/message.service';
+import { MessageService } from 'src/app/@core/services/admin/message.service';
 
 @Component({
   selector: 'da-header-notice',

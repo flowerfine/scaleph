@@ -63,11 +63,35 @@ public interface PrivilegeConstants {
         /**
          * 元数据管理
          */
-        String META = "mta";
+        String DATADEV = "dev";
         /**
          * 元数据-数据源管理
          */
-        String DATASOURCE = "dts";
+        String DATADEV_DATASOURCE = "dts";
+
+        /**
+         * 项目管理
+         */
+        String DATADEV_PROJECT = "ddp";
+        /**
+         * 作业管理
+         */
+        String DATADEV_JOB = "ddj";
+
+        /**
+         * 目录管理
+         */
+        String DATADEV_DIR = "ddr";
+
+        /**
+         * 资源管理
+         */
+        String DATADEV_RESOURCE = "dde";
+        /**
+         * 集群管理
+         */
+        String DATADEV_CLUSTER = "ddc";
+
         /**
          * 数据标准
          */
@@ -97,28 +121,7 @@ public interface PrivilegeConstants {
          */
         String STUDIO = "sdo";
 
-        /**
-         * 项目管理
-         */
-        String STUDIO_PROJECT = "sdp";
-        /**
-         * 作业管理
-         */
-        String STUDIO_JOB = "sdj";
 
-        /**
-         * 目录管理
-         */
-        String STUDIO_DIR = "sdr";
-
-        /**
-         * 资源管理
-         */
-        String STUDIO_RESOURCE = "sde";
-        /**
-         * 集群管理
-         */
-        String STUDIO_CLUSTER = "sdc";
     }
 
     /**
@@ -172,31 +175,31 @@ public interface PrivilegeConstants {
     String DICT_SHOW = PRIVILEGE_PREFIX + ModuleCode.DICT + ActionCode.SHOW;
     @Desc("{\"id\":5,\"privilegeName\":\"系统设置\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":1}")
     String SETTING_SHOW = PRIVILEGE_PREFIX + ModuleCode.SETTING + ActionCode.SHOW;
-    @Desc("{\"id\":6,\"privilegeName\":\"元数据\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
-    String META_SHOW = PRIVILEGE_PREFIX + ModuleCode.META + ActionCode.SHOW;
+    @Desc("{\"id\":6,\"privilegeName\":\"数据开发\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    String DATADEV_SHOW = PRIVILEGE_PREFIX + ModuleCode.DATADEV + ActionCode.SHOW;
     @Desc("{\"id\":7,\"privilegeName\":\"数据源\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":6}")
-    String DATASOURCE_SHOW = PRIVILEGE_PREFIX + ModuleCode.DATASOURCE + ActionCode.SHOW;
-    @Desc("{\"id\":8,\"privilegeName\":\"数据标准\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    String DATADEV_DATASOURCE_SHOW = PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.SHOW;
+    @Desc("{\"id\":8,\"privilegeName\":\"项目管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    String DATADEV_PROJECT_SHOW = PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.SHOW;
+    @Desc("{\"id\":9,\"privilegeName\":\"作业管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    String DATADEV_JOB_SHOW = PRIVILEGE_PREFIX + ModuleCode.DATADEV_JOB + ActionCode.SHOW;
+    @Desc("{\"id\":10,\"privilegeName\":\"资源管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    String DATADEV_RESOURCE_SHOW = PRIVILEGE_PREFIX + ModuleCode.DATADEV_RESOURCE + ActionCode.SHOW;
+    @Desc("{\"id\":11,\"privilegeName\":\"集群管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    String DATADEV_CLUSTER_SHOW = PRIVILEGE_PREFIX + ModuleCode.DATADEV_CLUSTER + ActionCode.SHOW;
+    @Desc("{\"id\":12,\"privilegeName\":\"数据标准\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
     String STDATA_SHOW = PRIVILEGE_PREFIX + ModuleCode.STDATA + ActionCode.SHOW;
-    @Desc("{\"id\":9,\"privilegeName\":\"参考数据\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":8}")
+    @Desc("{\"id\":13,\"privilegeName\":\"参考数据\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":8}")
     String STDATA_REF_DATA_SHOW = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA + ActionCode.SHOW;
-    @Desc("{\"id\":10,\"privilegeName\":\"数据映射\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":8}")
+    @Desc("{\"id\":14,\"privilegeName\":\"数据映射\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":8}")
     String STDATA_REF_DATA_MAP_SHOW = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.SHOW;
-
-    @Desc("{\"id\":11,\"privilegeName\":\"数据元\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":8}")
+    @Desc("{\"id\":15,\"privilegeName\":\"数据元\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":8}")
     String STDATA_DATA_ELEMENT_SHOW = PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.SHOW;
-    @Desc("{\"id\":12,\"privilegeName\":\"业务系统\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":8}")
+    @Desc("{\"id\":16,\"privilegeName\":\"业务系统\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":8}")
     String STDATA_SYSTEM_SHOW = PRIVILEGE_PREFIX + ModuleCode.STDATA_SYSTEM + ActionCode.SHOW;
-    @Desc("{\"id\":13,\"privilegeName\":\"工作台\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    @Desc("{\"id\":17,\"privilegeName\":\"工作台\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
     String STUDIO_SHOW = PRIVILEGE_PREFIX + ModuleCode.STUDIO + ActionCode.SHOW;
-    @Desc("{\"id\":14,\"privilegeName\":\"项目管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
-    String STUDIO_PROJECT = PRIVILEGE_PREFIX + ModuleCode.STUDIO_PROJECT + ActionCode.SHOW;
-    @Desc("{\"id\":15,\"privilegeName\":\"作业管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
-    String STUDIO_JOB = PRIVILEGE_PREFIX + ModuleCode.STUDIO_JOB + ActionCode.SHOW;
-    @Desc("{\"id\":16,\"privilegeName\":\"资源管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
-    String STUDIO_RESOURCE = PRIVILEGE_PREFIX + ModuleCode.STUDIO_RESOURCE + ActionCode.SHOW;
-    @Desc("{\"id\":17,\"privilegeName\":\"集群管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
-    String STUDIO_CLUSTER = PRIVILEGE_PREFIX + ModuleCode.STUDIO_CLUSTER + ActionCode.SHOW;
+
     /**
      * 1-操作权限
      */
@@ -251,15 +254,15 @@ public interface PrivilegeConstants {
 
 
     @Desc("{\"id\":100023,\"privilegeName\":\"数据源\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
-    String DATASOURCE_SELECT = PRIVILEGE_PREFIX + ModuleCode.DATASOURCE + ActionCode.SELECT;
+    String DATADEV_DATASOURCE_SELECT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.SELECT;
     @Desc("{\"id\":100024,\"privilegeName\":\"新增数据源\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100023}")
-    String DATASOURCE_ADD = PRIVILEGE_PREFIX + ModuleCode.DATASOURCE + ActionCode.ADD;
+    String DATADEV_DATASOURCE_ADD = PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.ADD;
     @Desc("{\"id\":100025,\"privilegeName\":\"删除数据源\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100023}")
-    String DATASOURCE_DELETE = PRIVILEGE_PREFIX + ModuleCode.DATASOURCE + ActionCode.DELETE;
+    String DATADEV_DATASOURCE_DELETE = PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.DELETE;
     @Desc("{\"id\":100026,\"privilegeName\":\"修改数据源\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100023}")
-    String DATASOURCE_EDIT = PRIVILEGE_PREFIX + ModuleCode.DATASOURCE + ActionCode.EDIT;
+    String DATADEV_DATASOURCE_EDIT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.EDIT;
     @Desc("{\"id\":100027,\"privilegeName\":\"查看密码\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100023}")
-    String DATASOURCE_SECURITY = PRIVILEGE_PREFIX + ModuleCode.DATASOURCE + ActionCode.SECURITY;
+    String DATADEV_DATASOURCE_SECURITY = PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.SECURITY;
 
     @Desc("{\"id\":100028,\"privilegeName\":\"业务系统\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
     String STDATA_SYSTEM_SELECT = PRIVILEGE_PREFIX + ModuleCode.STDATA_SYSTEM + ActionCode.SELECT;
@@ -271,51 +274,51 @@ public interface PrivilegeConstants {
     String STDATA_SYSTEM_EDIT = PRIVILEGE_PREFIX + ModuleCode.STDATA_SYSTEM + ActionCode.EDIT;
 
     @Desc("{\"id\":100032,\"privilegeName\":\"项目管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
-    String STUDIO_PROJECT_SELECT = PRIVILEGE_PREFIX + ModuleCode.STUDIO_PROJECT + ActionCode.SELECT;
+    String DATADEV_PROJECT_SELECT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.SELECT;
     @Desc("{\"id\":100033,\"privilegeName\":\"新增项目\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100032}")
-    String STUDIO_PROJECT_ADD = PRIVILEGE_PREFIX + ModuleCode.STUDIO_PROJECT + ActionCode.ADD;
+    String DATADEV_PROJECT_ADD = PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.ADD;
     @Desc("{\"id\":100034,\"privilegeName\":\"删除项目\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100032}")
-    String STUDIO_PROJECT_DELETE = PRIVILEGE_PREFIX + ModuleCode.STUDIO_PROJECT + ActionCode.DELETE;
+    String DATADEV_PROJECT_DELETE = PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.DELETE;
     @Desc("{\"id\":100035,\"privilegeName\":\"修改项目\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100032}")
-    String STUDIO_PROJECT_EDIT = PRIVILEGE_PREFIX + ModuleCode.STUDIO_PROJECT + ActionCode.EDIT;
+    String DATADEV_PROJECT_EDIT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.EDIT;
 
     @Desc("{\"id\":100036,\"privilegeName\":\"作业管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
-    String STUDIO_JOB_SELECT = PRIVILEGE_PREFIX + ModuleCode.STUDIO_JOB + ActionCode.SELECT;
+    String DATADEV_JOB_SELECT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_JOB + ActionCode.SELECT;
     @Desc("{\"id\":100037,\"privilegeName\":\"新增项目\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100036}")
-    String STUDIO_JOB_ADD = PRIVILEGE_PREFIX + ModuleCode.STUDIO_JOB + ActionCode.ADD;
+    String DATADEV_JOB_ADD = PRIVILEGE_PREFIX + ModuleCode.DATADEV_JOB + ActionCode.ADD;
     @Desc("{\"id\":100038,\"privilegeName\":\"删除项目\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100036}")
-    String STUDIO_JOB_DELETE = PRIVILEGE_PREFIX + ModuleCode.STUDIO_JOB + ActionCode.DELETE;
+    String DATADEV_JOB_DELETE = PRIVILEGE_PREFIX + ModuleCode.DATADEV_JOB + ActionCode.DELETE;
     @Desc("{\"id\":100039,\"privilegeName\":\"修改项目\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100036}")
-    String STUDIO_JOB_EDIT = PRIVILEGE_PREFIX + ModuleCode.STUDIO_JOB + ActionCode.EDIT;
+    String DATADEV_JOB_EDIT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_JOB + ActionCode.EDIT;
 
     @Desc("{\"id\":100040,\"privilegeName\":\"目录管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
-    String STUDIO_DIR_SELECT = PRIVILEGE_PREFIX + ModuleCode.STUDIO_DIR + ActionCode.SELECT;
+    String DATADEV_DIR_SELECT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_DIR + ActionCode.SELECT;
     @Desc("{\"id\":100041,\"privilegeName\":\"新增目录\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100040}")
-    String STUDIO_DIR_ADD = PRIVILEGE_PREFIX + ModuleCode.STUDIO_DIR + ActionCode.ADD;
+    String DATADEV_DIR_ADD = PRIVILEGE_PREFIX + ModuleCode.DATADEV_DIR + ActionCode.ADD;
     @Desc("{\"id\":100042,\"privilegeName\":\"删除目录\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100040}")
-    String STUDIO_DIR_DELETE = PRIVILEGE_PREFIX + ModuleCode.STUDIO_DIR + ActionCode.DELETE;
+    String DATADEV_DIR_DELETE = PRIVILEGE_PREFIX + ModuleCode.DATADEV_DIR + ActionCode.DELETE;
     @Desc("{\"id\":100043,\"privilegeName\":\"修改目录\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100040}")
-    String STUDIO_DIR_EDIT = PRIVILEGE_PREFIX + ModuleCode.STUDIO_DIR + ActionCode.EDIT;
+    String DATADEV_DIR_EDIT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_DIR + ActionCode.EDIT;
 
     @Desc("{\"id\":100044,\"privilegeName\":\"资源管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
-    String STUDIO_RESOURCE_SELECT = PRIVILEGE_PREFIX + ModuleCode.STUDIO_RESOURCE + ActionCode.SELECT;
+    String DATADEV_RESOURCE_SELECT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_RESOURCE + ActionCode.SELECT;
     @Desc("{\"id\":100045,\"privilegeName\":\"新增资源\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100044}")
-    String STUDIO_RESOURCE_ADD = PRIVILEGE_PREFIX + ModuleCode.STUDIO_RESOURCE + ActionCode.ADD;
+    String DATADEV_RESOURCE_ADD = PRIVILEGE_PREFIX + ModuleCode.DATADEV_RESOURCE + ActionCode.ADD;
     @Desc("{\"id\":100046,\"privilegeName\":\"删除资源\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100044}")
-    String STUDIO_RESOURCE_DELETE = PRIVILEGE_PREFIX + ModuleCode.STUDIO_RESOURCE + ActionCode.DELETE;
+    String DATADEV_RESOURCE_DELETE = PRIVILEGE_PREFIX + ModuleCode.DATADEV_RESOURCE + ActionCode.DELETE;
     @Desc("{\"id\":100047,\"privilegeName\":\"修改资源\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100044}")
-    String STUDIO_RESOURCE_EDIT = PRIVILEGE_PREFIX + ModuleCode.STUDIO_RESOURCE + ActionCode.EDIT;
+    String DATADEV_RESOURCE_EDIT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_RESOURCE + ActionCode.EDIT;
     @Desc("{\"id\":100048,\"privilegeName\":\"下载资源\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100044}")
-    String STUDIO_RESOURCE_DOWNLOAD = PRIVILEGE_PREFIX + ModuleCode.STUDIO_RESOURCE + ActionCode.DOWNLOAD;
+    String DATADEV_RESOURCE_DOWNLOAD = PRIVILEGE_PREFIX + ModuleCode.DATADEV_RESOURCE + ActionCode.DOWNLOAD;
 
     @Desc("{\"id\":100049,\"privilegeName\":\"集群管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
-    String STUDIO_CLUSTER_SELECT = PRIVILEGE_PREFIX + ModuleCode.STUDIO_CLUSTER + ActionCode.SELECT;
+    String DATADEV_CLUSTER_SELECT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_CLUSTER + ActionCode.SELECT;
     @Desc("{\"id\":100050,\"privilegeName\":\"新增集群\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100049}")
-    String STUDIO_CLUSTER_ADD = PRIVILEGE_PREFIX + ModuleCode.STUDIO_CLUSTER + ActionCode.ADD;
+    String DATADEV_CLUSTER_ADD = PRIVILEGE_PREFIX + ModuleCode.DATADEV_CLUSTER + ActionCode.ADD;
     @Desc("{\"id\":100051,\"privilegeName\":\"删除集群\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100049}")
-    String STUDIO_CLUSTER_DELETE = PRIVILEGE_PREFIX + ModuleCode.STUDIO_CLUSTER + ActionCode.DELETE;
+    String DATADEV_CLUSTER_DELETE = PRIVILEGE_PREFIX + ModuleCode.DATADEV_CLUSTER + ActionCode.DELETE;
     @Desc("{\"id\":100052,\"privilegeName\":\"修改集群\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100049}")
-    String STUDIO_CLUSTER_EDIT = PRIVILEGE_PREFIX + ModuleCode.STUDIO_CLUSTER + ActionCode.EDIT;
+    String DATADEV_CLUSTER_EDIT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_CLUSTER + ActionCode.EDIT;
 
     @Desc("{\"id\":100053,\"privilegeName\":\"数据元管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
     String STDATA_DATA_ELEMENT_SELECT = PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.SELECT;

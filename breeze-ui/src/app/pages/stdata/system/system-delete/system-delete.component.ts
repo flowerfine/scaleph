@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { ToastService } from 'ng-devui';
-import { MetaSystemService } from 'src/app/@core/services/meta-system.service';
+import { SystemService } from 'src/app/@core/services/stdata/system.service';
 
 @Component({
   selector: 'app-system-delete',
@@ -10,7 +10,7 @@ import { MetaSystemService } from 'src/app/@core/services/meta-system.service';
 export class SystemDeleteComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
-  constructor(private elr: ElementRef, private toastService: ToastService, private metaSystemService: MetaSystemService) {}
+  constructor(private elr: ElementRef, private toastService: ToastService, private metaSystemService: SystemService) {}
 
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;
