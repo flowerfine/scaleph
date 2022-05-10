@@ -40,7 +40,7 @@ public class DataSourceController {
     @Logging
     @GetMapping
     @ApiOperation(value = "分页查询数据源", notes = "分页查询数据源信息")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATASOURCE_SELECT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_SELECT)")
     public ResponseEntity<Page<DataSourceMetaDTO>> listDataSource(DataSourceMetaParam param) {
         Page<DataSourceMetaDTO> page = this.dataSourceMetaService.listByPage(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
@@ -49,7 +49,7 @@ public class DataSourceController {
     @Logging
     @GetMapping(path = "type/{type}")
     @ApiOperation(value = "按类型查询数据源列表", notes = "按类型查询数据源信息")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATASOURCE_SELECT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_SELECT)")
     public ResponseEntity<List<DictVO>> listDataSourceByType(@PathVariable(value = "type") String type) {
         List<DictVO> dsList = new ArrayList<>();
         if (StrUtil.isNotEmpty(type)) {
@@ -65,7 +65,7 @@ public class DataSourceController {
     @Logging
     @PostMapping
     @ApiOperation(value = "新增数据源", notes = "新增数据源")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATASOURCE_ADD)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_ADD)")
     public ResponseEntity<ResponseVO> addDataSource(@Validated @RequestBody DataSourceMetaDTO dataSourceMetaDTO) {
         this.dataSourceMetaService.insert(dataSourceMetaDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
@@ -74,7 +74,7 @@ public class DataSourceController {
     @Logging
     @PutMapping
     @ApiOperation(value = "修改数据源", notes = "修改数据源")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATASOURCE_EDIT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_EDIT)")
     public ResponseEntity<ResponseVO> editDataSource(@Validated @RequestBody DataSourceMetaDTO dataSourceMetaDTO) {
         if (dataSourceMetaDTO.getPasswdChanged() == null || !dataSourceMetaDTO.getPasswdChanged()) {
             dataSourceMetaDTO.setPassword(null);
@@ -86,7 +86,7 @@ public class DataSourceController {
     @Logging
     @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "删除数据源", notes = "删除数据源")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATASOURCE_DELETE)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_DELETE)")
     public ResponseEntity<ResponseVO> deleteDataSource(@PathVariable(value = "id") String id) {
         this.dataSourceMetaService.deleteById(Long.valueOf(id));
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
@@ -95,7 +95,7 @@ public class DataSourceController {
     @Logging
     @PostMapping(path = "/batch")
     @ApiOperation(value = "批量删除数据源", notes = "批量删除数据源")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATASOURCE_DELETE)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_DELETE)")
     public ResponseEntity<ResponseVO> deleteDataSource(@RequestBody Map<Integer, String> map) {
         this.dataSourceMetaService.deleteBatch(map);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
@@ -104,7 +104,7 @@ public class DataSourceController {
     @Logging
     @GetMapping(path = "/passwd/{id}")
     @ApiOperation(value = "查看数据源密码", notes = "查看数据源明文密码")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATASOURCE_SECURITY)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_SECURITY)")
     public ResponseEntity<ResponseVO> showPassword(@PathVariable(value = "id") Long id) throws Exception {
         DataSourceMetaDTO dataSourceMetaDTO = this.dataSourceMetaService.selectOne(id);
         if (dataSourceMetaDTO == null || StringUtils.isEmpty(dataSourceMetaDTO.getPassword())) {
@@ -118,7 +118,7 @@ public class DataSourceController {
     @Logging
     @PostMapping("/test")
     @ApiOperation(value = "测试数据源连通性", notes = "测试数据源连通性")
-    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATASOURCE_SELECT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.breeze.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_SELECT)")
     public ResponseEntity<ResponseVO> connectionTest(@Validated @RequestBody DataSourceMetaDTO dataSourceMetaDTO) throws Exception {
         //判断前台是否改过密码，改过则用前台最新的密码
         if (dataSourceMetaDTO.getPasswdChanged() == null || !dataSourceMetaDTO.getPasswdChanged()) {
