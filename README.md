@@ -18,7 +18,7 @@ coming soon...
 
 ## Build and Deployment
 
-Breeze users `maven` as its build system.
+Breeze adopts `maven` as its build system.
 
 For more information about build from source and deployment, please refer [build](build/build.md)
 
