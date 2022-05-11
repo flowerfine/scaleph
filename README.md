@@ -8,65 +8,28 @@
 
 Breeze System
 
-## 部署
+## Quick Start
 
-#### 环境要求
+coming soon...
 
-- jdk 1.8
-- mysql 8.0
-- node v16.14.0
+## Documentation
 
-#### 前端
+coming soon...
 
-1. 安装依赖
-   ```shell
-   npm install -g @angular/cli
-   npm install
-   ```
-2. 编译打包
-   ```shell
-   ng build --prod
-   ```
-3. 配置nginx<br/>
-   将上一步打包好的dist文件夹拷贝到nginx服务器所在的html目录中，重命名为breeze。并编辑nginx.conf文件
+## Build and Deployment
 
-   ```text
-   http {
-    # 修改为实际IP地址
-    upstream xxx.com {
-        server  xxx.xxx.xxx.xxx:8080;
-        } 
-   
-    server {
-        listen       80;
-        server_name  localhost;
-        underscores_in_headers on;
-        location / {
-            root   html;
-            index  index.html index.htm;
-            try_files $uri $uri/ /index.html;
-            }
+Breeze users `maven` as its build system.
 
-        location /api {
-            proxy_pass  http://xxx.com/breeze/api;
-            proxy_redirect  default;
-            }
+For more information about build from source and deployment, please refer [build](build/build.md)
 
-        location ~ .*\.(js|css|ico|png|jpg|eot|svg|ttf|woff|html) {
-            root html\breeze;
-            expires 30d;
-            }
-        }
-   }
-   ```
+## Contributing
 
-#### 后端
+For contributions, please refer [CONTRIBUTING](https://github.com/flowerfine/breeze)
 
-1. 编译打包
-   ``` shell
-   mvn clean package -DskipTests
-   ```
-2. 启动服务
-   ```shell
-   java -jar breeze-api.jar
-   ```
+## Contact
+
+* Bugs and Features: [Issues](https://github.com/flowerfine/breeze/issues)
+
+## License
+
+Breeze is licenced under the Apache License Version 2.0, link is [here](https://www.apache.org/licenses/LICENSE-2.0.txt).
