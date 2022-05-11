@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import { DictDataService } from 'src/app/@core/services/dict-data.service';
+import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
 
 @Component({
   selector: 'app-dict-data-delete',

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastService } from 'ng-devui';
 import { Observable } from 'rxjs';
 import { NotificationService } from 'src/app/@shared/components/notifications/notification.service';
 import { OnlineUserInfo, USER_AUTH } from '../data/app.data';
@@ -14,7 +13,6 @@ export class AuthGuardService implements CanActivate {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private toastService: ToastService,
     private translate: TranslateService,
     private notificationService: NotificationService
   ) {}

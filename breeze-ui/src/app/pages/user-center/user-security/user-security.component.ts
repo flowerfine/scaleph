@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalService } from 'ng-devui';
 import { User } from 'src/app/@core/data/admin.data';
-import { UserService } from 'src/app/@core/services/user.service';
+import { UserService } from 'src/app/@core/services/admin/user.service';
 import { BindEmailComponent } from './bind-email/bind-email.component';
 import { EditPasswordComponent } from './edit-password/edit-password.component';
 

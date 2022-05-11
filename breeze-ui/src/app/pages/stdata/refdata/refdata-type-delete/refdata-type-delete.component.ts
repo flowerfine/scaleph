@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import { RefdataService } from 'src/app/@core/services/refdata.service';
+import { RefdataService } from 'src/app/@core/services/stdata/refdata.service';
 
 @Component({
   selector: 'app-refdata-type-delete',

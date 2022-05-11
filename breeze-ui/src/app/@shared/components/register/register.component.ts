@@ -4,9 +4,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { DialogService, DValidateRules, FormLayout } from 'ng-devui';
 import { I18nService } from 'ng-devui/i18n';
 import { AuthCode, RegisterInfo } from 'src/app/@core/data/app.data';
+import { UserService } from 'src/app/@core/services/admin/user.service';
 import { AuthService } from 'src/app/@core/services/auth.service';
 import { PersonalizeService } from 'src/app/@core/services/personalize.service';
-import { UserService } from 'src/app/@core/services/user.service';
 import { LANGUAGES } from 'src/config/language-config';
 import { ThemeType } from '../../models/theme';
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DValidateRules, FormLayout } from 'ng-devui';
 import { EmailConfig } from 'src/app/@core/data/admin.data';
-import { SystemConfigService } from 'src/app/@core/services/system-config.service';
+import { SystemConfigService } from 'src/app/@core/services/admin/system-config.service';
 import { NotificationService } from 'src/app/@shared/components/notifications/notification.service';
 
 @Component({

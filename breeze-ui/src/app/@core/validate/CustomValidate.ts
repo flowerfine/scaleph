@@ -2,7 +2,7 @@ import { AbstractControl, ValidationErrors, AsyncValidatorFn, FormGroup } from '
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { UserService } from '../services/user.service';
+import { UserService } from '../services/admin/user.service';
 
 @Injectable({ providedIn: 'root' })
 export class CustomValidate {

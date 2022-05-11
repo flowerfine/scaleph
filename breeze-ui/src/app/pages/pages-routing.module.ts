@@ -20,8 +20,8 @@ const routes: Routes = [
         loadChildren: () => import('./stdata/stdata.module').then((m) => m.StdataModule),
       },
       {
-        path: 'meta',
-        loadChildren: () => import('./meta/meta.module').then((m) => m.MetaModule),
+        path: 'datadev',
+        loadChildren: () => import('./datadev/datadev.module').then((m) => m.DatadevModule),
       },
       {
         path: 'studio',
@@ -29,7 +29,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'studio',
+        redirectTo: 'datadev',
         pathMatch: 'full',
       },
     ],

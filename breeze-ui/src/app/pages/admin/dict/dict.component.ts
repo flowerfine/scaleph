@@ -3,8 +3,6 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { DataTableComponent, LoadingService, ModalService } from 'ng-devui';
 import { DictData, DictDataParam, DictType, DictTypeParam } from 'src/app/@core/data/admin.data';
 import { DEFAULT_PAGE_PARAM, PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
-import { DictTypeService } from 'src/app/@core/services/dict-type.service';
-import { DictDataService } from 'src/app/@core/services/dict-data.service';
 import { DictTypeDeleteComponent } from './dict-type-delete/dict-type-delete.component';
 import { DictTypeNewComponent } from './dict-type-new/dict-type-new.component';
 import { DictTypeUpdateComponent } from './dict-type-update/dict-type-update.component';
@@ -13,6 +11,8 @@ import { DictDataUpdateComponent } from './dict-data-update/dict-data-update.com
 import { DictDataDeleteComponent } from './dict-data-delete/dict-data-delete.component';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/@core/services/auth.service';
+import { DictTypeService } from 'src/app/@core/services/admin/dict-type.service';
+import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
 
 @Component({
   selector: 'app-dict',

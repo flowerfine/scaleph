@@ -3,8 +3,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { DValidateRules, FormLayout } from 'ng-devui';
 import { Role } from 'src/app/@core/data/admin.data';
 import { Dict, DICT_TYPE } from 'src/app/@core/data/app.data';
-import { DictDataService } from 'src/app/@core/services/dict-data.service';
-import { RoleService } from 'src/app/@core/services/role.service';
+import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { RoleService } from 'src/app/@core/services/admin/role.service';
 
 @Component({
   selector: 'app-role-new',
