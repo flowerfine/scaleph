@@ -1,0 +1,85 @@
+# build
+
+Requirements:
+
+- Git
+- Java 8
+- Maven
+- Mysql 8.0
+- redis
+- node v16.14.0
+
+## clone
+
+```shell
+https://github.com/flowerfine/breeze.git
+cd breeze
+```
+
+## development
+
+### backend
+
+#### build the project
+
+```shell
+mvn clean package -DskipTests
+```
+
+#### bootstrap backend server
+
+```shell
+java -jar breeze-api.jar
+```
+
+### frontend
+
+#### install dependencies
+
+```shell
+npm install -g @angular/cli
+npm install
+```
+
+#### build the web
+
+```shell
+ng build --prod
+```
+
+#### nginx setting
+
+copy web build result which `dist` to nginx's `html` directory and rename `dist` to `breeze`
+
+setup `nginx.conf` as flollows:
+
+```nginx
+http {
+ # replaced by user ip location
+ upstream xxx.com {
+     server  xxx.xxx.xxx.xxx:8080;
+     } 
+
+ server {
+     listen       80;
+     server_name  localhost;
+     underscores_in_headers on;
+     location / {
+         root   html;
+         index  index.html index.htm;
+         try_files $uri $uri/ /index.html;
+         }
+
+     location /api {
+         proxy_pass  http://xxx.com/breeze/api;
+         proxy_redirect  default;
+         }
+
+     location ~ .*\.(js|css|ico|png|jpg|eot|svg|ttf|woff|html) {
+         root html\breeze;
+         expires 30d;
+         }
+     }
+}
+```
+
