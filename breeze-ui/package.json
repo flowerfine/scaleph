@@ -31,6 +31,7 @@
     "@ngx-translate/http-loader": "^6.0.0",
     "color": "^4.0.1",
     "echarts": "^5.2.1",
+    "moment": "^2.29.3",
     "ng-devui": "^12.3.0",
     "ng-devui-admin": "^2.0.2",
     "rxjs": "~7.4.0",

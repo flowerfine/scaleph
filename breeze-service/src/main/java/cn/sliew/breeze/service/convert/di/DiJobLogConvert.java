@@ -12,7 +12,7 @@ import org.mapstruct.factory.Mappers;
 /**
  * @author gleiyu
  */
-@Mapper(uses = {DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {DictVoConvert.class, DiProjectConvert.class, DiClusterConfigConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DiJobLogConvert extends BaseConvert<DiJobLog, DiJobLogDTO> {
     DiJobLogConvert INSTANCE = Mappers.getMapper(DiJobLogConvert.class);
 

@@ -1,5 +1,6 @@
 package cn.sliew.breeze.service.param.di;
 
+import cn.sliew.breeze.dao.entity.DiJobLog;
 import cn.sliew.breeze.service.param.PaginationParam;
 import lombok.Data;
 
@@ -10,12 +11,34 @@ public class DiJobLogParam extends PaginationParam {
 
     private Long projectId;
 
+    private Long clusterId;
+
     private String jobCode;
 
-    private Date startTime;
+    private Long startTime;
 
-    private Date endTime;
+    private Long endTime;
 
     private String jobInstanceState;
+
+    private String jobInstanceId;
+
+    private String jobType;
+
+    public DiJobLog toDo() {
+        DiJobLog log = new DiJobLog();
+        log.setProjectId(this.projectId);
+        log.setClusterId(this.clusterId);
+        log.setJobCode(this.jobCode);
+        if (this.startTime != null) {
+            log.setStartTime(new Date(this.startTime));
+        }
+        if (this.endTime != null) {
+            log.setEndTime(new Date(this.endTime));
+        }
+        log.setJobInstanceState(this.jobInstanceState);
+        log.setJobInstanceId(this.jobInstanceId);
+        return log;
+    }
 
 }

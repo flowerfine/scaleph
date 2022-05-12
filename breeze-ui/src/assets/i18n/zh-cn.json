@@ -22,7 +22,13 @@
       "cluster": "集群管理"
     },
     "studio": {
-      "title": "工作台"
+      "title": "工作台",
+      "board": "数据看板"
+    },
+    "opscenter": {
+      "title": "运维中心",
+      "batch": "周期任务",
+      "realtime": "实时任务"
     }
   },
   "app": {
@@ -306,6 +312,19 @@
     "tgtDataSetType": "目标参考数据类型",
     "srcDataSet": "源参考数据",
     "tgtDataSet": "目标参考数据"
+  },
+  "opscenter": {
+    "project": "项目",
+    "jobCode": "作业编码",
+    "cluster": "集群",
+    "jobInstanceId": "任务实例编号",
+    "jobInstanceState": "任务实例状态",
+    "startTime": "开始时间",
+    "endTime": "结束时间",
+    "duration":"耗时",
+    "createTime": "创建时间",
+    "updateTime": "更新时间",
+    "log.info": "详细日志"
   },
   "studio": {
     "remark": "备注",
