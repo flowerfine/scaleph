@@ -29,22 +29,6 @@ services:
     networks:
       - breeze
 
-  breeze:
-    image: breeze/breeze-api:0.0.1-SNAPSHOT
-    container_name: breeze-api
-#    environment:
-#      -
-    depends_on:
-      - mysql
-      - redis
-    build:
-      dockerfile: ../../../breeze-api/Dockerfile
-      context: ../../../breeze-api
-    ports:
-      - 8080:8080
-    networks:
-      - breeze
-
 networks:
   breeze:
     driver: bridge
