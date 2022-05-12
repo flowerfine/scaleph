@@ -4,9 +4,11 @@
 [![Total Lines](https://tokei.rs/b1/github/flowerfine/breeze?category=lines)](https://github.com/flowerfine/breeze)
 [![Last commit](https://img.shields.io/github/last-commit/flowerfine/breeze.svg)](https://github.com/flowerfine/breeze)
 
-## 介绍
-
 Breeze System
+
+## Features
+
+coming soon...
 
 ## Quick Start
 
