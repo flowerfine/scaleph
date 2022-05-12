@@ -31,6 +31,7 @@ services:
 
   jobmanager:
     image: flink:1.13.6-scala_2.12-java8
+    container_name: jobmanager
     environment:
       FLINK_PROPERTIES: |
         jobmanager.rpc.address: jobmanager
@@ -39,8 +40,10 @@ services:
     command: jobmanager
     networks:
       - breeze
+
   taskmanager:
     image: flink:1.13.6-scala_2.12-java8
+    container_name: taskmanager
     depends_on:
       - jobmanager
     environment:
@@ -50,7 +53,7 @@ services:
     command: taskmanager
     scale: 1
     networks:
-      - flink
+      - breeze
 
 networks:
   breeze:

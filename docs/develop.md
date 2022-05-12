@@ -29,6 +29,7 @@ If users are familiar with docker, Breeze provides mysql, redis and flink cluste
 
 ```shell
 cd tools/docker
+
 docker compose up -d
 ```
 
@@ -44,5 +45,25 @@ Import the Breeze project into an IDE for the development itself.
 
 Start backend server through `cn.sliew.breeze.BreezeApplication` on `breeze-api` module.
 
+## swagger ui
+
+
+
 ## start frontend
 
+Install dependencies:
+
+```shell
+cd breeze-ui
+
+npm install -g @angular/cli
+npm install
+```
+
+Start backend server:
+
+```shell
+node start
+```
+
+After web server started, user can open http://localhost:4200/ in browser and admin account is `sys_admin/123456`.
