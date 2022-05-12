@@ -68,4 +68,4 @@ After web server started, user can open http://localhost:4200/ in browser and ad
 
 After backend and frontend server started, user can access http://localhost:8080/breeze/doc.html in browser, where Breeze uses [knife4j](https://doc.xiaominfo.com/knife4j/documentation/) and [swagger](https://swagger.io/) build open api documentation.
 
-knife4 provides useful http api debug functionality to send request to backend server. Breeze authentication and authorization requires that http request must contain `u_token` header, which will reject knife4j requests. The solution is that user adds a global param setting within path `文档管理/全局参数设置/添加参数`, the `u_token` header value can be found on browser develop console.
+knife4 features useful http api debug functionality supporting send request to backend server. Breeze's authentication and authorization requires that http request must contain `u_token` header, which will cause that backend server rejects knife4j requests. The solution is that user adds a global param setting within path `文档管理/全局参数设置/添加参数`, the `u_token` header value can be found on browser develop console.
