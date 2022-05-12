@@ -1,6 +1,6 @@
 # develop
 
-Within this doc, we describe how to set up development environment for Breeze and run the server and web on IDE.
+Under this doc, we describe how to set up development environment for Breeze and run the server and web on IDE.
 
 ## requirements
 
@@ -37,7 +37,7 @@ If docker is unavailable for user, you has to create database and start flink cl
 
 You would find sql scripts on `${breeze_home}/tools/docker/mysql/init.d` and execute `breeze-mysql.sql` 和 `qutz-mysql.sql` on your mysql.
 
-Next, download [flink](https://flink.apache.org/downloads.html#apache-flink-1136) (version 1.13.6) and prepare flink environment, you could get more on [Standalone](https://nightlies.apache.org/flink/flink-docs-release-1.13/docs/deployment/resource-providers/standalone/overview/#standalone).
+Next, download [flink](https://flink.apache.org/downloads.html#apache-flink-1136) (version 1.13.6) and prepare flink environment, you could get more information on [Standalone](https://nightlies.apache.org/flink/flink-docs-release-1.13/docs/deployment/resource-providers/standalone/overview/#standalone).
 
 ## start backend
 
@@ -47,7 +47,7 @@ Start backend server through `cn.sliew.breeze.BreezeApplication` on `breeze-api`
 
 ## swagger ui
 
-
+After backend server started, user can access http://localhost:8080/breeze/doc.html in browser, where Breeze uses [knife4j](https://doc.xiaominfo.com/knife4j/documentation/) and [swagger](https://swagger.io/) build open api documentation.
 
 ## start frontend
 
