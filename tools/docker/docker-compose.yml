@@ -29,6 +29,29 @@ services:
     networks:
       - breeze
 
+  jobmanager:
+    image: flink:1.13.6-scala_2.12-java8
+    environment:
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address: jobmanager
+    ports:
+      - 8081:8081
+    command: jobmanager
+    networks:
+      - breeze
+  taskmanager:
+    image: flink:1.13.6-scala_2.12-java8
+    depends_on:
+      - jobmanager
+    environment:
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 8
+    command: taskmanager
+    scale: 1
+    networks:
+      - flink
+
 networks:
   breeze:
     driver: bridge
