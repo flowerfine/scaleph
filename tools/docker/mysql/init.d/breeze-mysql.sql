@@ -531,6 +531,7 @@ create table meta_datasource (
     key (database_name),
     key (update_time)
 ) engine = innodb comment '元数据-数据源连接信息';
+INSERT INTO `meta_datasource`(`datasource_name`, `datasource_type`, `connection_type`, `host_name`, `database_name`, `port`, `user_name`, `password`, `remark`, `props`, `creator`, `editor`) VALUES ('local_data_service', 'mysql', 'jdbc', 'localhost', 'data_service', 3306, 'root', 'MTIzNDU2', NULL, '{\"jdbc\":\"serverTimezone=Asia/Shanghai\\ncharacterEncoding=utf8\\nzeroDateTimeBehavior=convertToNull\"}', 'sys_admin', 'sys_admin');
 
 /*元数据-数据表信息*/
 drop table if exists meta_table;
