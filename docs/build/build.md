@@ -1,5 +1,7 @@
 # build
 
+split develop locally and build for release, then production deployment.
+
 Requirements:
 
 - Git
@@ -8,6 +10,7 @@ Requirements:
 - Mysql 8.0
 - redis
 - node v16.14.0
+- IDE。lombok
 
 ## clone
 

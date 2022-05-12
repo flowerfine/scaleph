@@ -705,6 +705,8 @@ create table di_project (
     unique (project_code)
 ) engine = innodb comment '数据集成-项目信息';
 
+INSERT INTO `di_project`(`project_code`, `project_name`, `remark`, `creator`, `editor`) VALUES ('seatunnel', 'seatunnel-examples', NULL, 'sys_admin', 'sys_admin');
+
 /* 资源信息表 */
 drop table if exists di_resource_file;
 create table di_resource_file (
@@ -754,6 +756,9 @@ create table di_directory (
     primary key (id,project_id),
     key (pid)
 ) engine = innodb comment '数据集成-项目目录';
+
+INSERT INTO `di_directory`(`project_id`, `directory_name`, `pid`, `creator`, `editor`) VALUES (1, 'seatunnel', 0, 'sys_admin', 'sys_admin');
+INSERT INTO `di_directory`(`project_id`, `directory_name`, `pid`, `creator`, `editor`) VALUES (1, 'example', 1, 'sys_admin', 'sys_admin');
 
 /* 数据集成-作业信息*/
 drop table if exists di_job;
