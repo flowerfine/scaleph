@@ -45,10 +45,6 @@ Import the Breeze project into an IDE for the development itself.
 
 Start backend server through `cn.sliew.breeze.BreezeApplication` on `breeze-api` module.
 
-## swagger ui
-
-After backend server started, user can access http://localhost:8080/breeze/doc.html in browser, where Breeze uses [knife4j](https://doc.xiaominfo.com/knife4j/documentation/) and [swagger](https://swagger.io/) build open api documentation.
-
 ## start frontend
 
 Install dependencies:
@@ -67,3 +63,9 @@ node start
 ```
 
 After web server started, user can open http://localhost:4200/ in browser and admin account is `sys_admin/123456`.
+
+## swagger ui
+
+After backend and frontend server started, user can access http://localhost:8080/breeze/doc.html in browser, where Breeze uses [knife4j](https://doc.xiaominfo.com/knife4j/documentation/) and [swagger](https://swagger.io/) build open api documentation.
+
+knife4 provides useful http api debug functionality to send request to backend server. Breeze authentication and authorization requires that http request must contain `u_token` header, which will reject knife4j requests. The solution is that user adds a global param setting within path `文档管理/全局参数设置/添加参数`, the `u_token` header value can be found on browser develop console.
