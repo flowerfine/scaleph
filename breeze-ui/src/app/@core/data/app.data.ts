@@ -50,12 +50,16 @@ export interface OnlineUserInfo {
   expireTime: bigint;
 }
 
+export interface SoterField {
+  field: string;
+  direction: string;
+}
+
 /**分页参数 */
 export class QueryParam {
   pageSize?: number;
   current?: number;
-  filter?: { [key: string]: any[] };
-  sorter?: { [key: string]: any };
+  sorter?: SoterField[];
 }
 /**
  * 枚举的key和value
@@ -70,6 +74,7 @@ export const DEFAULT_PAGE_PARAM = {
   pageSize: 10,
   pageIndex: 1,
   pageParams: [10, 20, 50, 100],
+  sorter: [{ field: '', direction: '' }],
 };
 
 export const DICT_TYPE = {
@@ -82,6 +87,7 @@ export const DICT_TYPE = {
   datasourceType: 'datasource_type',
   jobType: 'job_type',
   jobStatus: 'job_status',
+  jobInstanceState: 'job_instance_state',
   runtimeState: 'runtime_state',
   clusterType: 'cluster_type',
   dataType: 'data_type',
@@ -111,7 +117,11 @@ export const PRIVILEGE_CODE = {
   stdataRefDataMapShow: 'pstm0',
   stdataDataElementShow: 'pste0',
   stdataSystemShow: 'psts0',
+  opscenterShow: 'popc0',
+  opscenterBatchShow: 'pobt0',
+  opscenterRealtimeShow: 'port0',
   studioShow: 'psdo0',
+  studioBoardShow: 'psdb0',
   dictTypeSelect: 'pdct4',
   dictTypeAdd: 'pdct1',
   dictTypeDelete: 'pdct3',
@@ -180,4 +190,6 @@ export const PRIVILEGE_CODE = {
   stdataRefDataMapAdd: 'pstm1',
   stdataRefDataMapDelete: 'pstm3',
   stdataRefDataMapEdit: 'pstm2',
+  opscenterBatchSelect: 'pobt4',
+  opscenterRealtimeSelect: 'port4',
 };

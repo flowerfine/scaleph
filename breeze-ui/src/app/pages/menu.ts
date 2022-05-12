@@ -24,7 +24,13 @@ export default function (values) {
       link: '/breeze/studio',
       menuIcon: 'icon icon-build-with-tool',
       pCode: PRIVILEGE_CODE.studioShow,
-      children: [],
+      children: [
+        {
+          title: values['studio']['board'],
+          link: '/breeze/studio/board',
+          pCode: PRIVILEGE_CODE.studioBoardShow,
+        },
+      ],
     },
     {
       title: values['datadev']['title'],
@@ -51,6 +57,24 @@ export default function (values) {
           title: values['datadev']['cluster'],
           link: '/breeze/datadev/cluster',
           pCode: PRIVILEGE_CODE.datadevClusterShow,
+        },
+      ],
+    },
+    {
+      title: values['opscenter']['title'],
+      link: '/breeze/opscenter',
+      menuIcon: 'icon icon-log',
+      pCode: PRIVILEGE_CODE.opscenterShow,
+      children: [
+        {
+          title: values['opscenter']['realtime'],
+          link: '/breeze/opscenter/realtime',
+          pCode: PRIVILEGE_CODE.opscenterRealtimeShow,
+        },
+        {
+          title: values['opscenter']['batch'],
+          link: '/breeze/opscenter/batch',
+          pCode: PRIVILEGE_CODE.opscenterBatchShow,
         },
       ],
     },

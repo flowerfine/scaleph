@@ -120,8 +120,14 @@ public interface PrivilegeConstants {
          * 工作台
          */
         String STUDIO = "sdo";
+        String STUDIO_BOARD = "sdb";
 
-
+        /**
+         * 运维中心
+         */
+        String OPSCENTER = "opc";
+        String OPSCENTER_BATCH = "obt";
+        String OPSCENTER_REALTIME = "ort";
     }
 
     /**
@@ -197,9 +203,16 @@ public interface PrivilegeConstants {
     String STDATA_DATA_ELEMENT_SHOW = PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.SHOW;
     @Desc("{\"id\":16,\"privilegeName\":\"业务系统\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":8}")
     String STDATA_SYSTEM_SHOW = PRIVILEGE_PREFIX + ModuleCode.STDATA_SYSTEM + ActionCode.SHOW;
-    @Desc("{\"id\":17,\"privilegeName\":\"工作台\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    @Desc("{\"id\":17,\"privilegeName\":\"运维中心\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    String OPSCENTER_SHOW = PRIVILEGE_PREFIX + ModuleCode.OPSCENTER + ActionCode.SHOW;
+    @Desc("{\"id\":18,\"privilegeName\":\"周期任务\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    String OPSCENTER_BATCH_SHOW = PRIVILEGE_PREFIX + ModuleCode.OPSCENTER_BATCH + ActionCode.SHOW;
+    @Desc("{\"id\":19,\"privilegeName\":\"实时任务\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    String OPSCENTER_REALTIME_SHOW = PRIVILEGE_PREFIX + ModuleCode.OPSCENTER_REALTIME + ActionCode.SHOW;
+    @Desc("{\"id\":20,\"privilegeName\":\"工作台\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
     String STUDIO_SHOW = PRIVILEGE_PREFIX + ModuleCode.STUDIO + ActionCode.SHOW;
-
+    @Desc("{\"id\":21,\"privilegeName\":\"数据看板\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
+    String STUDIO_BOARD_SHOW = PRIVILEGE_PREFIX + ModuleCode.STUDIO_BOARD + ActionCode.SHOW;
     /**
      * 1-操作权限
      */
@@ -356,4 +369,8 @@ public interface PrivilegeConstants {
     @Desc("{\"id\":100068,\"privilegeName\":\"修改参考数据映射\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100065}")
     String STDATA_REF_DATA_MAP_EDIT = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.EDIT;
 
+    @Desc("{\"id\":100069,\"privilegeName\":\"周期任务\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
+    String OPSCENTER_BATCH_SELECT = PRIVILEGE_PREFIX + ModuleCode.OPSCENTER_BATCH + ActionCode.SELECT;
+    @Desc("{\"id\":100070,\"privilegeName\":\"实时任务\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
+    String OPSCENTER_REALTIME_SELECT = PRIVILEGE_PREFIX + ModuleCode.OPSCENTER_REALTIME + ActionCode.SELECT;
 }

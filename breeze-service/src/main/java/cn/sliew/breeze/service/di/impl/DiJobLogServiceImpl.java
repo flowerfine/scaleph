@@ -40,15 +40,9 @@ public class DiJobLogServiceImpl implements DiJobLogService {
 
     @Override
     public Page<DiJobLogDTO> listByPage(DiJobLogParam param) {
-        Page<DiJobLogDTO> result = new Page<>();
-        Page<DiJobLog> list = this.diJobLogMapper.selectPage(
-                new Page<>(param.getCurrent(), param.getPageSize()),
-                new LambdaQueryWrapper<DiJobLog>()
-                        .eq(StrUtil.isNotEmpty(param.getJobInstanceState()), DiJobLog::getJobInstanceState, param.getJobInstanceState())
-                        .eq(param.getProjectId() != null, DiJobLog::getProjectId, param.getProjectId())
-                        .like(StrUtil.isNotEmpty(param.getJobCode()), DiJobLog::getJobCode, param.getJobCode())
-                        .ge(param.getStartTime() != null, DiJobLog::getStartTime, param.getStartTime())
-                        .le(param.getEndTime() != null, DiJobLog::getEndTime, param.getEndTime())
+        Page<DiJobLogDTO> result = new Page<>(param.getCurrent(), param.getPageSize());
+        result.setOrders(param.buildSortItems());
+        Page<DiJobLog> list = this.diJobLogMapper.selectPage(result, param.toDo(), param.getJobType()
         );
         List<DiJobLogDTO> dtoList = DiJobLogConvert.INSTANCE.toDto(list.getRecords());
         result.setCurrent(list.getCurrent());
