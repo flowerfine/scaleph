@@ -10,6 +10,63 @@
     <name>breeze</name>
     <description>Breeze System</description>
 
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>git@github.com:flowerfine/breeze.git</connection>
+        <developerConnection>scm:git:git@github.com:flowerfine/breeze.git</developerConnection>
+        <url>https://github.com/flowerfine/breeze</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>kalencaya</name>
+            <email>1942460489@qq.com</email>
+        </developer>
+        <developer>
+            <name>gleiyu</name>
+            <email>1942460489@qq.com</email>
+        </developer>
+    </developers>
+
+    <issueManagement>
+        <system>Github Issue</system>
+        <url>https://github.com/flowerfine/breeze/issues</url>
+    </issueManagement>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype-nexus</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype-nexus</id>
+            <name>Sonatype Nexus Release</name>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>sonatype-nexus</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>central</id>
+            <name>Central</name>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+    </repositories>
+
     <modules>
         <module>breeze-ui</module>
         <module>breeze-dao</module>
@@ -29,6 +86,7 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+
         <spring.boot.version>2.3.12.RELEASE</spring.boot.version>
         <spring.plugin.core.version>2.0.0.RELEASE</spring.plugin.core.version>
         <mybatis.spring.boot.version>2.2.0</mybatis.spring.boot.version>
