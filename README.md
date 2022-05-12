@@ -18,9 +18,11 @@ coming soon...
 
 ## Build and Deployment
 
-Breeze adopts `maven` as its build system.
-
-For more information about build from source and deployment, please refer [build](docs/build/build.md)
+* [develop](https://github.com/flowerfine/breeze/blob/master/docs/develop.md). This doc describes how to set up local development environment of Breeze project.
+* checkstyle. Breeze project requires clean and robust code which can go further and develop better.
+* build. This doc describes how to build the Breeze project from source. Breeze adopts `maven` as its build system, for more information about build from source and deployment, please refer [build](docs/build/build.md).
+* docker. As more application runs in container on cloud then bare metal machine, Breeze provides own image.
+* deployment. For different deployment purpose such as develop, test or production, Breeze make the best effort for people deploy project on local, docker and kubernetes.
 
 ## Contributing
 

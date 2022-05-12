@@ -34,11 +34,15 @@ docker compose up -d
 
 If docker is unavailable for user, you has to create database and start flink cluster by yourself.
 
-You would find sql scripts on `${breeze_home}/tools/docker/mysql/init.d`, 
+You would find sql scripts on `${breeze_home}/tools/docker/mysql/init.d` and execute `breeze-mysql.sql` 和 `qutz-mysql.sql` on your mysql.
+
+Next, download [flink](https://flink.apache.org/downloads.html#apache-flink-1136) (version 1.13.6) and prepare flink environment, you could get more on [Standalone](https://nightlies.apache.org/flink/flink-docs-release-1.13/docs/deployment/resource-providers/standalone/overview/#standalone).
 
 ## start backend
 
+Import the Breeze project into an IDE for the development itself.
 
+Start backend server through `cn.sliew.breeze.BreezeApplication` on `breeze-api` module.
 
 ## start frontend
 
