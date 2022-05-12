@@ -20,7 +20,7 @@ coming soon...
 
 Breeze adopts `maven` as its build system.
 
-For more information about build from source and deployment, please refer [build](build/build.md)
+For more information about build from source and deployment, please refer [build](docs/build/build.md)
 
 ## Contributing
 
