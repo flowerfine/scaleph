@@ -21,11 +21,6 @@ import java.util.Map;
 public interface DiClusterConfigConvert extends BaseConvert<DiClusterConfig, DiClusterConfigDTO> {
     DiClusterConfigConvert INSTANCE = Mappers.getMapper(DiClusterConfigConvert.class);
 
-//    @Override
-//    @Mapping(expression = "java(cn.sliew.breeze.service.vo.DictVO.toVO(cn.sliew.breeze.common.constant.DictConstants.CLUSTER_TYPE,entity.getClusterType()))", target = "clusterType")
-//    DiClusterConfigDTO toDto(DiClusterConfig entity);
-
-
     @Override
     default DiClusterConfig toDo(DiClusterConfigDTO dto) {
         if (dto == null) {

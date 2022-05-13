@@ -24,12 +24,16 @@ const routes: Routes = [
         loadChildren: () => import('./datadev/datadev.module').then((m) => m.DatadevModule),
       },
       {
+        path: 'opscenter',
+        loadChildren: () => import('./opscenter/opscenter.module').then((m) => m.OpsCenterModule),
+      },
+      {
         path: 'studio',
         loadChildren: () => import('./studio/studio.module').then((m) => m.StudioModule),
       },
       {
         path: '',
-        redirectTo: 'datadev',
+        redirectTo: 'studio',
         pathMatch: 'full',
       },
     ],

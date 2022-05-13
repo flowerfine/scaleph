@@ -27,6 +27,9 @@ public class DiJobLogDTO extends BaseDTO {
     @ApiModelProperty(value = "项目id")
     private Long projectId;
 
+    @ApiModelProperty(value = "项目")
+    private DiProjectDTO project;
+
     @ApiModelProperty(value = "作业id")
     private Long jobId;
 
@@ -35,6 +38,9 @@ public class DiJobLogDTO extends BaseDTO {
 
     @ApiModelProperty(value = "执行集群id")
     private Long clusterId;
+
+    @ApiModelProperty(value = "执行集群")
+    private DiClusterConfigDTO cluster;
 
     @ApiModelProperty(value = "作业实例id")
     private String jobInstanceId;
@@ -45,7 +51,7 @@ public class DiJobLogDTO extends BaseDTO {
     @ApiModelProperty(value = "结束时间")
     private Date endTime;
 
-    @ApiModelProperty(value = "消耗时长-秒")
+    @ApiModelProperty(value = "消耗时长-毫秒")
     private Long duration;
 
     @ApiModelProperty(value = "任务结果")
