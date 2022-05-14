@@ -18,6 +18,8 @@ coming soon...
 
 coming soon...
 
+please refer [wiki](https://github.com/flowerfine/breeze/wiki)
+
 ## Build and Deployment
 
 * [develop](https://github.com/flowerfine/breeze/blob/master/docs/develop.md). This doc describes how to set up local development environment of Breeze project.
