@@ -28,9 +28,8 @@ spring:
 # log
 logging:
   level:
-    root: debug
-    com.baomidou.mybatisplus.samples.quickstart: debug
-    springfox.documentation: info
-    org.springframework.boot.autoconfigure: info
-    org.springframework.beans.factory: info
-    org.springframework.context: info
+    root: info
+    springfox.documentation: warn
+    org.springframework.boot.autoconfigure: warn
+    org.springframework.beans.factory: warn
+    org.springframework.context: warn
