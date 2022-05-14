@@ -1,0 +1,16 @@
+@import "~ng-devui/styles-var/devui-var.scss";
+
+.da-header {
+  height: 60px;
+  width: 100%;
+  padding: 5px 16px 5px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: $devui-font-size-lg;
+  color: $devui-text;
+}
+
+.router-active {
+  outline: none;
+}

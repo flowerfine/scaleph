@@ -1,0 +1,10 @@
+{
+  "ngPackage": {
+    "lib": {
+      "entryFile": "public-api.ts"
+    }
+  },
+  "peerDependencies": {
+    "echarts": "^4.0.0"
+  }
+}

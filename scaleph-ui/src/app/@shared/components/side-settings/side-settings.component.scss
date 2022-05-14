@@ -1,0 +1,125 @@
+@import "~ng-devui/styles-var/devui-var.scss";
+
+.da-drawer-menu {
+  .da-operations {
+    margin: 20px 20px 20px 0;
+    text-align: right;
+    cursor: pointer;
+  }
+
+  .da-options {
+    display: flex;
+    flex-direction: column;
+
+    .da-options-header {
+      font-size: $devui-font-size-card-title;
+      margin-bottom: 12px;
+    }
+
+    .da-option-items {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 16px;
+
+      .da-option-item {
+        position: relative;
+        overflow: hidden;
+        width: 44px;
+        height: 36px;
+        background-color: $devui-global-bg;
+        box-shadow: $devui-shadow-length-connected-overlay $devui-light-shadow;
+        margin-right: 24px;
+        border-radius: $devui-border-radius;
+        cursor: pointer;
+
+        //导航栏
+        &::before {
+          background-color: $devui-base-bg;
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 33%;
+          height: 100%;
+        }
+
+        //头部区域
+        &::after {
+          background-color: $devui-base-bg;
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 25%;
+        }
+
+        .icon {
+          position: absolute;
+          right: 4px;
+          bottom: 2px;
+          font-size: 18px;
+          color: $devui-brand;
+        }
+      }
+
+      .da-side-bar-layout-item {
+        &::before {
+          background-color: $devui-text;
+          height: 75%;
+          top: 25%;
+          content: "";
+        }
+      }
+
+      .da-topnav-layout-item {
+        &::before {
+          background-color: $devui-global-bg;
+        }
+        &::after {
+          background-color: $devui-text;
+        }
+      }
+
+      .da-left-right-layout-item {
+        &::before {
+          z-index: 1;
+          background-color: $devui-text;
+          content: "";
+        }
+      }
+    }
+
+    .da-option-multiple {
+      margin-top: 40px;
+      margin-bottom: 40px;
+
+      .da-multiple-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        font-size: $devui-font-size-card-title;
+      }
+    }
+
+    .da-no-option-items.da-option-multiple {
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+  }
+
+  .da-menu-item {
+    border-top: 1px solid $devui-dividing-line;
+    padding: 16px 24px;
+  }
+
+  d-button {
+    margin-top: 12px;
+  }
+
+  .icon-helping {
+    margin-left: 8px;
+    cursor: pointer;
+  }
+}

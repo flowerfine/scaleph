@@ -1,0 +1,419 @@
+{
+  "page": {
+    "admin": {
+      "title": "系统管理",
+      "dict": "数据字典",
+      "user": "用户管理",
+      "privilege": "权限管理",
+      "setting": "系统设置"
+    },
+    "stdata": {
+      "title": "数据标准",
+      "dataElement": "数据元",
+      "refdata": "参考数据",
+      "refdataMap": "数据映射",
+      "system": "业务系统"
+    },
+    "datadev": {
+      "title": "数据开发",
+      "datasource": "数据源",
+      "project": "项目管理",
+      "resource": "资源管理",
+      "cluster": "集群管理"
+    },
+    "studio": {
+      "title": "工作台",
+      "board": "数据看板"
+    },
+    "opscenter": {
+      "title": "运维中心",
+      "batch": "周期任务",
+      "realtime": "实时任务"
+    }
+  },
+  "app": {
+    "title": {
+      "short": "Breeze",
+      "long": "Breeze 数据管理系统"
+    },
+    "common": {
+      "loading": "加载中...",
+      "noRecord": "暂无数据",
+      "operate": {
+        "label": "操作",
+        "success": "操作成功",
+        "new": {
+          "label": "新增",
+          "title": "新增{{name}}",
+          "success": "新增成功"
+        },
+        "edit": {
+          "label": "修改",
+          "title": "修改{{name}}",
+          "success": "修改成功"
+        },
+        "delete": {
+          "label": "删除",
+          "title": "删除{{name}}",
+          "success": "删除成功",
+          "confirm": {
+            "title": "确认删除?",
+            "content": "数据删除后不可恢复，请谨慎操作！"
+          }
+        },
+        "query": {
+          "label": "查询",
+          "tip": "搜索"
+        },
+        "reset": {
+          "label": "重置"
+        },
+        "confirm": {
+          "label": "确认"
+        },
+        "cancel": {
+          "label": "取消"
+        },
+        "close": {
+          "label": "关闭"
+        },
+        "download": {
+          "label": "下载"
+        },
+        "forbid": {
+          "label": "注销",
+          "title": "注销{{name}}",
+          "success": "注销成功",
+          "confirm": {
+            "title": "确认注销?",
+            "content": "注销后用户不可登录，数据不会物理删除"
+          }
+        },
+        "enable": {
+          "label": "启用"
+        },
+        "grant": {
+          "label": "授权",
+          "title": "{{name}}授权"
+        }
+      },
+      "error": {
+        "label": "错误",
+        "formValidateError": "表单验证失败",
+        "noLogin": "请先进行登录！",
+        "expired": "登录用户信息过期，请重新登录！"
+      },
+      "validate": {
+        "characterWord": "只能输入字母数字或下划线",
+        "number": "只能输入数字",
+        "sameUserName": "用户名已存在",
+        "sameEmail": "邮箱已存在",
+        "samePassword": "两次输入的密码不一致",
+        "patternPassword": "密码格式错误，请输入数字和字母组成的字符串",
+        "sameToOldPassword": "新密码不能与旧密码一致"
+      }
+    }
+  },
+  "admin": {
+    "dict": "数据字典",
+    "dictType": "字典类型",
+    "dictTypeCode": "字典类型编码",
+    "dictTypeName": "字典类型名称",
+    "dictCode": "字典编码",
+    "dictValue": "字典值",
+    "remark": "备注",
+    "role": "角色",
+    "roleCode": "角色编码",
+    "roleName": "角色名称",
+    "roleStatus": "角色状态",
+    "roleDesc": "角色描述",
+    "dept": "部门",
+    "deptCode": "部门编码",
+    "deptName": "部门名称",
+    "pid": "上级部门",
+    "user": "用户",
+    "userName": "用户名",
+    "nickName": "昵称",
+    "userStatus": "用户状态",
+    "email": "邮箱",
+    "realName": "真实姓名",
+    "mobilePhone": "手机号码",
+    "gender": "性别",
+    "idCardType": "证件类型",
+    "idCardNo": "证件号码",
+    "nation": "国籍",
+    "birthday": "出生日期",
+    "qq": "QQ",
+    "wechat": "微信",
+    "summary": "简介",
+    "granted": "已授权",
+    "awaitGrant": "待授权",
+    "menuPrivilege": "菜单权限",
+    "optPrivilege": "操作权限",
+    "dataPrivilege": "数据权限",
+    "emailHost": "邮件服务器",
+    "emailSender": "发件地址",
+    "emailPassword": "密码",
+    "emailPort": "端口号",
+    "seatunnelHome": "seatunnel Home"
+  },
+  "userCenter": {
+    "profile": "个人资料",
+    "security": "安全设置",
+    "message": "消息通知",
+    "log": "登录日志",
+    "ipAddress": "IP地址",
+    "os": "操作系统",
+    "browser": "浏览器",
+    "clientInfo": "客户端",
+    "userPassword": "账户密码",
+    "password.desc": "您当前账户密码强度为：强",
+    "editPassword": "修改密码",
+    "oldPassword": "旧密码",
+    "password": "新密码",
+    "confirmPassword": "确认密码",
+    "bindEmail": "绑定邮箱",
+    "bind": "绑定",
+    "email": "邮箱",
+    "authCode": "验证码",
+    "getAuthCode": "获取验证码",
+    "getAuthCode.info": "验证码已发送，请到邮箱查看",
+    "read": "已读",
+    "unRead": "未读"
+  },
+  "datadev": {
+    "datasource": "数据源",
+    "dataSourceName": "数据源名称",
+    "dataSourceType": "数据源类型",
+    "hostName": "主机地址",
+    "databaseName": "数据库名称",
+    "port": "端口号",
+    "userName": "用户名",
+    "password": "密码",
+    "remark": "备注",
+    "createTime": "创建时间",
+    "updateTime": "更新时间",
+    "viewPassword": "查看密码",
+    "choseDataSourceType": "选择数据源类型",
+    "rdbms": "关系型数据库",
+    "bigdata": "大数据",
+    "other": "其他",
+    "jdbcProps": "连接属性",
+    "jdbcProps.placeholder": "按照key=value格式配置属性，每个属性一行。例如：\nserverTimezone=Asia/Shanghai\ncharacterEncoding=UTF-8",
+    "testConnect": "测试连接",
+    "testConnect.success": "连接成功",
+    "project": "项目",
+    "project.enter": "进入项目",
+    "project.upload-resource": "上传资源",
+    "projectCode": "项目编码",
+    "projectName": "项目名称",
+    "resource": "资源",
+    "fileName": "文件名称",
+    "fileType": "文件类型",
+    "fileSize": "文件大小",
+    "cluster": "集群",
+    "clusterName": "集群名称",
+    "clusterType": "集群类型",
+    "clusterHome": "集群HOME目录",
+    "clusterVersion": "集群版本",
+    "clusterConf": "集群配置",
+    "cluster.placeholder": "按照key=value格式配置属性，每个属性一行",
+    "job": "作业",
+    "jobCode": "作业编码",
+    "jobName": "作业名称",
+    "directory": "目录",
+    "jobType": "作业类型",
+    "jobStatus": "状态",
+    "runtimeState": "运行状态",
+    "jobVersion": "版本号",
+    "job.realtime": "实时作业",
+    "job.batch": "周期作业",
+    "job.pipeline.define": "流程定义",
+    "job.run": "启动",
+    "job.stop": "停止",
+    "job.stop.content": "确认停止作业？",
+    "directoryName": "目录名称",
+    "workbench.save": "保存",
+    "workbench.publish": "发布",
+    "workbench.propertity": "作业配置",
+    "workbench.zoom": "放大/缩小",
+    "workbench.menu.edit": "编辑",
+    "workbench.menu.delete": "删除",
+    "jobAttr": "作业变量",
+    "jobProp": "作业属性",
+    "engineProp": "引擎属性",
+    "jobAttr.placeholder": "按照key=value格式配置属性，每个属性一行",
+    "fullScreen": "全屏",
+    "step.source": "输入",
+    "step.source-table": "表输入",
+    "step.source-csv": "CSV文件输入",
+    "step.source-excel": "EXCEL文件输入",
+    "step.sink": "输出",
+    "step.trans": "转换",
+    "step.flow": "流程",
+    "step.sink-csv": "CSV文件输出",
+    "step.sink-excel": "EXCEL文件输出",
+    "step.sink-table": "表输出",
+    "step.trans-field-select": "字段选择",
+    "step.trans-field-set-value": "设置字段值",
+    "step.trans-group": "数据聚合",
+    "step.trans-filter": "数据过滤",
+    "step.trans-case": "SWITCH / CASE",
+    "step.stepTitle": "步骤标题",
+    "step.source-table.dataSourceType": "数据源类型",
+    "step.source-table.dataSource": "数据源",
+    "step.source-table.query": "SQL",
+    "step.source-table.getsql": "获取sql查询语句",
+    "step.source-table.preview": "预览查询结果",
+    "step.sink-table.dataSourceType": "数据源类型",
+    "step.sink-table.dataSource": "数据源",
+    "step.sink-table.query": "SQL",
+    "step.sink-table.batchSize": "提交记录数量"
+  },
+  "stdata": {
+    "remark": "备注",
+    "createTime": "创建时间",
+    "updateTime": "更新时间",
+    "system": "业务系统",
+    "systemCode": "业务系统编码",
+    "systemName": "业务系统名称",
+    "contacts": "联系人",
+    "contactsPhone": "联系人号码",
+    "data.element": "数据元",
+    "elementCode": "数据元标识",
+    "elementName": "数据元名称",
+    "dataType": "数据类型",
+    "dataLength": "长度",
+    "dataPrecision": "精度",
+    "dataScale": "小数位数",
+    "nullable": "是否为空",
+    "dataDefault": "默认值",
+    "lowValue": "最小值",
+    "highValue": "最大值",
+    "dataSetType": "参考数据类型",
+    "refdata.data": "参考数据",
+    "refdata.type": "参考数据类型",
+    "dataSetTypeCode": "参考数据类型编码",
+    "dataSetTypeName": "参考数据类型名称",
+    "dataSetCode": "参考数据编码",
+    "dataSetValue": "参考数据值",
+    "isStandard": "是否标准",
+    "refdata.map": "数据映射",
+    "srcDataSetTypeCode": "源参考数据类型编码",
+    "srcDataSetTypeName": "源参考数据类型名称",
+    "srcDataSetCode": "源参考数据编码",
+    "srcDataSetValue": "源参考数据值",
+    "tgtDataSetTypeCode": "目标参考数据类型编码",
+    "tgtDataSetTypeName": "目标参考数据类型名称",
+    "tgtDataSetCode": "目标参考数据编码",
+    "tgtDataSetValue": "目标参考数据值",
+    "auto": "自动映射",
+    "srcDataSetType": "源参考数据类型",
+    "tgtDataSetType": "目标参考数据类型",
+    "srcDataSet": "源参考数据",
+    "tgtDataSet": "目标参考数据"
+  },
+  "opscenter": {
+    "project": "项目",
+    "jobCode": "作业编码",
+    "cluster": "集群",
+    "jobInstanceId": "任务实例编号",
+    "jobInstanceState": "任务实例状态",
+    "startTime": "开始时间",
+    "endTime": "结束时间",
+    "duration":"耗时",
+    "createTime": "创建时间",
+    "updateTime": "更新时间",
+    "log.info": "详细日志"
+  },
+  "studio": {
+    "remark": "备注",
+    "createTime": "创建时间",
+    "updateTime": "更新时间"
+  },
+  "header": {
+    "userCenter": "个人中心",
+    "userSettings": "个人设置",
+    "logout": "登出",
+    "register": "注册",
+    "login": "登录",
+    "msg": {
+      "notice": "系统消息",
+      "done": "你已经处理完了所有消息",
+      "clear": "清空",
+      "more": "更多"
+    }
+  },
+  "userAuth": {
+    "login": {
+      "label": "登录",
+      "userName": "用户名",
+      "password": "密码",
+      "authCode": "验证码",
+      "remember": "记住我",
+      "forget": "忘记密码？",
+      "other": "没有账号？立即注册"
+    },
+    "register": {
+      "label": "注册",
+      "userName": "用户名",
+      "email": "邮箱",
+      "password": "密码",
+      "confirmPassword": "确认密码",
+      "authCode": "验证码",
+      "other": "已有账号？立即登录",
+      "success": {
+        "title": "注册成功",
+        "content": "你的账号注册成功，即将返回登录页面进行登录"
+      }
+    }
+  },
+  "side-setting": {
+    "layout": "页面布局切换",
+    "fix-header": "固定Header",
+    "fix-sidebar": "固定侧边栏",
+    "content-area": "内容区域展示",
+    "hide-footer": "隐藏页脚",
+    "hide-top": "隐藏顶栏",
+    "hide-menu": "隐藏菜单",
+    "hide-menu-head": "隐藏菜单头",
+    "notice": "该配置栏只在该站点提供动态切换布局的效果预览，你可以手动拷贝后修改相关配置文件并清除localStorage缓存。",
+    "copy-config": "拷贝设置",
+    "copy-summary": "拷贝成功",
+    "copy-content": "请到src/app/@shared/layouts/da-layout/default-layout.config.ts中更改配置文件",
+    "sidebar-notice": {
+      "can-config": "选择是否固定侧边栏",
+      "cannot-config": "该配置仅在有侧边栏时可配置"
+    },
+    "helpContent": "此处仅展示了多种不同的布局切换，具体使用方法请参考文档"
+  },
+  "personalize": {
+    "title": "个性化",
+    "subTitle": "选你所爱",
+    "themes": "主题",
+    "font": "字号",
+    "radius": "圆角",
+    "no_radius": "无",
+    "normal": "普通",
+    "medium": "中等",
+    "large": "大号",
+    "deep-theme": "深邃夜空主题",
+    "devui-dark-theme": "深色主题",
+    "infinity-theme": "无限主题",
+    "provence-theme": "紫罗兰主题",
+    "sweet-theme": "蜜糖主题",
+    "customize-theme": "自定义主题"
+  },
+  "abnormal": {
+    "403": {
+      "description": "抱歉，您没有访问权限"
+    },
+    "404": {
+      "description": "抱歉，您访问的页面不存在"
+    },
+    "500": {
+      "description": "抱歉，服务端错误"
+    },
+    "backHome": "返回首页"
+  }
+}
