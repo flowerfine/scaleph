@@ -80,7 +80,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.woff", "/**/*.woff2", "/**/*.svg", "/**/*.json", "/**/*.ttf", "/**/*.ico", "/index.html"
                 ).permitAll()
                 .antMatchers("/swagger**/**", "/doc.html", "/v3/**", "/webjars/**").permitAll()
-                .antMatchers("/druid/**").permitAll()
                 //放行options请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()

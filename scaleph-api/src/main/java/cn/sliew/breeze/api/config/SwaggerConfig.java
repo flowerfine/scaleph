@@ -51,10 +51,10 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Breeze API文档")
-                .description("Breeze API文档")
-                .contact(new Contact("liyu", "", "xxx@sina.cn"))
-                .version("1.0")
+                .title("Scaleph API文档")
+                .description("Scaleph API文档")
+                .contact(new Contact("liyu", "http://www.sliew.cn", "liyu@sliew.cn"))
+                .version("0.0.1-SNAPSHOT")
                 .build();
     }
 }

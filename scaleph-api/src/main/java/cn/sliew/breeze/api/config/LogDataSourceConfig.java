@@ -18,8 +18,12 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "cn.sliew.breeze.dao.mapper.log", sqlSessionFactoryRef = LogDataSourceConfig.LOG_SQL_SESSION_FACTORY)
+@MapperScan(basePackages = LogDataSourceConfig.LOG_MAPPER_PACKAGE, sqlSessionFactoryRef = LogDataSourceConfig.LOG_SQL_SESSION_FACTORY)
 public class LogDataSourceConfig {
+
+    static final String LOG_ENTITY_PACKAGE = "cn.sliew.breeze.dao.entity.log";
+    static final String LOG_MAPPER_PACKAGE = "cn.sliew.breeze.dao.mapper.log";
+    static final String LOG_MAPPER_XML_PATH = "classpath*:cn.sliew.breeze.dao.mapper/log/**/*.xml";
 
     static final String LOG_SQL_SESSION_FACTORY = "logSqlSessionFactory";
     static final String LOG_DATA_SOURCE_FACTORY = "logDataSource";
@@ -45,7 +49,7 @@ public class LogDataSourceConfig {
         MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();
 
         MybatisPlusProperties props = new MybatisPlusProperties();
-        props.setMapperLocations(new String[]{"classpath*:cn.sliew.breeze.dao.mapper/log/**/*.xml"});
+        props.setMapperLocations(new String[]{LOG_MAPPER_XML_PATH});
         factoryBean.setMapperLocations(props.resolveMapperLocations());
 
         MybatisConfiguration configuration = new MybatisConfiguration();
@@ -54,7 +58,7 @@ public class LogDataSourceConfig {
         factoryBean.setConfiguration(configuration);
 
         factoryBean.setDataSource(logDataSource());
-        factoryBean.setTypeAliasesPackage("cn.sliew.breeze.dao.entity.log");
+        factoryBean.setTypeAliasesPackage(LOG_ENTITY_PACKAGE);
         factoryBean.setPlugins(mybatisPlusInterceptor);
         return factoryBean.getObject();
     }
