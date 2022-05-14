@@ -68,6 +68,12 @@
       <version>1.18.12</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>io.minio</groupId>
+      <artifactId>minio</artifactId>
+      <version>8.3.8</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 </project>
 
