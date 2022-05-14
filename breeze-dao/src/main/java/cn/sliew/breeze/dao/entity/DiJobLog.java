@@ -48,6 +48,9 @@ public class DiJobLog extends BaseDO {
     @ApiModelProperty(value = "作业实例id")
     private String jobInstanceId;
 
+    @ApiModelProperty(value = "作业日志URL")
+    private String jobLogUrl;
+
     @ApiModelProperty(value = "开始时间")
     private Date startTime;
 

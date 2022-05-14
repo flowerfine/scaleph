@@ -14,6 +14,7 @@
         <result column="job_code" property="jobCode"/>
         <result column="cluster_id" property="clusterId"/>
         <result column="job_instance_id" property="jobInstanceId"/>
+        <result column="job_log_url" property="jobLogUrl"/>
         <result column="start_time" property="startTime"/>
         <result column="end_time" property="endTime"/>
         <result column="duration" property="duration"/>
@@ -37,6 +38,7 @@
             t1.job_id,
             t1.job_code,
             t1.job_instance_id,
+            t1.job_log_url,
             t1.start_time,
             t1.end_time,
             t1.duration,
@@ -79,10 +81,18 @@
             <if test="log != null and log.jobInstanceId != null and log.jobInstanceId != '' ">
                 and t1.job_instance_id = #{log.jobInstanceId,jdbcType=VARCHAR}
             </if>
-            <if test="log != null and log.startTime != null ">
+            <if test="log != null and log.startTime !=null and log.endTime != null">
+                and
+                (
+                t1.start_time between #{log.startTime,jdbcType=TIMESTAMP} and #{log.endTime,jdbcType=TIMESTAMP}
+                or
+                t1.end_time between #{log.startTime,jdbcType=TIMESTAMP} and #{log.endTime,jdbcType=TIMESTAMP}
+                )
+            </if>
+            <if test="log != null and log.startTime != null and log.endTime == null">
                 and t1.start_time &gt;= #{log.startTime,jdbcType=TIMESTAMP}
             </if>
-            <if test="log != null and log.endTime != null ">
+            <if test="log != null and log.endTime != null and log.startTime == null ">
                 and t1.end_time &lt;= #{log.endTime,jdbcType=TIMESTAMP}
             </if>
         </where>

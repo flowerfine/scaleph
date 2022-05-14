@@ -156,13 +156,14 @@
                 <d-cell>
                   <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                     <div class="btn-group over-flow-ellipsis">
-                      <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.opscenterRealtimeSelect)"
-                        icon="icon-share"
-                        bsStyle="text-dark"
-                        (btnClick)="openLogDetail(rowItem)"
-                        title="{{ 'opscenter.log.info' | translate }}"
-                      ></d-button>
+                      <a [href]="rowItem.jobLogUrl" target="_blank">
+                        <d-button
+                          *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.opscenterRealtimeSelect)"
+                          icon="icon-share"
+                          bsStyle="text-dark"
+                          title="{{ 'opscenter.log.info' | translate }}"
+                        ></d-button
+                      ></a>
                     </div>
                   </ng-template>
                 </d-cell>

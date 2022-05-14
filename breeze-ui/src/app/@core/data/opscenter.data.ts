@@ -10,6 +10,7 @@ export class DiJobLog {
   clusterId: number;
   cluster?: DiClusterConfig;
   jobInstanceId: string;
+  jobLogUrl: string;
   startTime?: Date;
   endTime?: Date;
   duration?: number;
