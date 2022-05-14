@@ -1,8 +1,8 @@
 # scaleph
 
-[![Github Actions](https://img.shields.io/github/workflow/status/flowerfine/scalegh/CI)](https://github.com/flowerfine/scalegh/actions)
-[![Total Lines](https://tokei.rs/b1/github/flowerfine/scalegh?category=lines)](https://github.com/flowerfine/scalegh)
-[![Last commit](https://img.shields.io/github/last-commit/flowerfine/scalegh.svg)](https://github.com/flowerfine/scalegh)
+[![Github Actions](https://img.shields.io/github/workflow/status/flowerfine/scaleph/CI)](https://github.com/flowerfine/scaleph/actions)
+[![Total Lines](https://tokei.rs/b1/github/flowerfine/scaleph?category=lines)](https://github.com/flowerfine/scalegh)
+[![Last commit](https://img.shields.io/github/last-commit/flowerfine/scaleph.svg)](https://github.com/flowerfine/scaleph)
 
 Scaleph System
 
