@@ -1,6 +1,6 @@
 <!--
 
-Thank you for contributing to Breeze! Please make sure that your code changes
+Thank you for contributing to Scaleph! Please make sure that your code changes
 are covered with tests. And in case of new features or big changes
 remember to adjust the documentation.
 
@@ -8,7 +8,7 @@ Feel free to ping committers for the review!
 
 ## Contribution Checklist
 
-  - Make sure that the pull request corresponds to a [GITHUB issue](https://github.com/flowerfine/breeze/issues).
+  - Make sure that the pull request corresponds to a [GITHUB issue](https://github.com/flowerfine/scaleph/issues).
 
   - Name the pull request in the form "[Feature] Title of the pull request", where *Feature* can be replaced by `Hotfix`, `Bug`, etc.
 

@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 name: Request Feature
-description: suggest exciting and meaning feature for Breeze
+description: suggest exciting and meaning feature for Scaleph
 title: "[Feature][Module Name] Feature title"
 labels: ["feature"]
 body:
@@ -28,11 +28,11 @@ body:
     attributes:
       label: Already searched before asking?
       description: >
-        Please make sure to search in the [feature](https://github.com/flowerfine/breeze/issues?q=is%3Aissue+label%3A%22Feature%22) first
+        Please make sure to search in the [feature](https://github.com/flowerfine/scaleph/issues?q=is%3Aissue+label%3A%22Feature%22) first
         to see whether the same feature was requested already.
       options:
         - label: >
-            I had searched in the [feature](https://github.com/flowerfine/breeze/issues?q=is%3Aissue+label%3A%22Feature%22) and found no
+            I had searched in the [feature](https://github.com/flowerfine/scaleph/issues?q=is%3Aissue+label%3A%22Feature%22) and found no
             similar feature requirement.
           required: true
 
@@ -57,7 +57,7 @@ body:
     attributes:
       label: Are you willing to submit a PR?
       description: >
-        Breeze appreciate community-driven contribution and we love to bring new contributors in.
+        Scaleph appreciates community-driven contribution and we love to bring new contributors in.
       options:
         - label: Yes, I am willing to submit a PR!
 

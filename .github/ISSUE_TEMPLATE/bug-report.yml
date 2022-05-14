@@ -17,7 +17,7 @@
 
 name: Report Bug
 title: "[Bug] [Module Name] Bug title"
-description: problems and issues within Breeze
+description: problems and issues within Scaleph
 labels: ["bug"]
 body:
   - type: markdown
@@ -29,20 +29,20 @@ body:
     attributes:
       label: Already searched before asking?
       description: >
-        Please make sure to search in the [issues](https://github.com/flowerfine/breeze/issues?q=is%3Aissue+label%3A%22bug%22)
+        Please make sure to search in the [issues](https://github.com/flowerfine/scaleph/issues?q=is%3Aissue+label%3A%22bug%22)
         first to see whether the same issue was reported already.
       options:
         - label: >
-            I had searched in the [issues](https://github.com/flowerfine/breeze/issues?q=is%3Aissue+label%3A%22bug%22) and found
+            I had searched in the [issues](https://github.com/flowerfine/scaleph/issues?q=is%3Aissue+label%3A%22bug%22) and found
             no similar issues.
           required: true
 
   - type: textarea
     attributes:
-      label: Breeze Version or Branch
+      label: Scaleph Version or Branch
       description: Provide SeaTunnel version or branch.
       placeholder: >
-        Please provide the version or branch of Breeze.
+        Please provide the version or branch of Scaleph.
     validations:
       required: true
 
@@ -78,7 +78,7 @@ body:
     attributes:
       label: Are you willing to submit PR?
       description: >
-        Breeze appreciate community-driven contribution and we love to bring new contributors in.
+        Scaleph appreciates community-driven contribution and we love to bring new contributors in.
       options:
         - label: Yes, I am willing to submit a PR!
 
