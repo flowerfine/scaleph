@@ -1,7 +1,7 @@
 package cn.sliew.breeze.service.di.impl;
 
-import cn.sliew.breeze.dao.entity.DiJobAttr;
-import cn.sliew.breeze.dao.mapper.DiJobAttrMapper;
+import cn.sliew.breeze.dao.entity.master.di.DiJobAttr;
+import cn.sliew.breeze.dao.mapper.master.di.DiJobAttrMapper;
 import cn.sliew.breeze.service.convert.di.DiJobAttrConvert;
 import cn.sliew.breeze.service.di.DiJobAttrService;
 import cn.sliew.breeze.service.dto.di.DiJobAttrDTO;

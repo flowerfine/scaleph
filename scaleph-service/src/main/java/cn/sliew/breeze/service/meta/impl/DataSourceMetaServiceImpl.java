@@ -2,8 +2,8 @@ package cn.sliew.breeze.service.meta.impl;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.DataSourceMeta;
-import cn.sliew.breeze.dao.mapper.DataSourceMetaMapper;
+import cn.sliew.breeze.dao.entity.master.meta.DataSourceMeta;
+import cn.sliew.breeze.dao.mapper.master.meta.DataSourceMetaMapper;
 import cn.sliew.breeze.service.convert.meta.DataSourceMetaConvert;
 import cn.sliew.breeze.service.dto.meta.DataSourceMetaDTO;
 import cn.sliew.breeze.service.meta.DataSourceMetaService;

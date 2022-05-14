@@ -1,10 +1,10 @@
 package cn.sliew.breeze.service.meta.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.MetaDataSet;
-import cn.sliew.breeze.dao.entity.MetaDataSetType;
-import cn.sliew.breeze.dao.mapper.MetaDataSetMapper;
-import cn.sliew.breeze.dao.mapper.MetaDataSetTypeMapper;
+import cn.sliew.breeze.dao.entity.master.meta.MetaDataSet;
+import cn.sliew.breeze.dao.entity.master.meta.MetaDataSetType;
+import cn.sliew.breeze.dao.mapper.master.meta.MetaDataSetMapper;
+import cn.sliew.breeze.dao.mapper.master.meta.MetaDataSetTypeMapper;
 import cn.sliew.breeze.service.convert.meta.MetaDataSetTypeConvert;
 import cn.sliew.breeze.service.dto.meta.MetaDataSetTypeDTO;
 import cn.sliew.breeze.service.meta.MetaDataSetTypeService;

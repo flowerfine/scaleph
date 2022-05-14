@@ -1,8 +1,8 @@
 package cn.sliew.breeze.service.di.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.DiProject;
-import cn.sliew.breeze.dao.mapper.DiProjectMapper;
+import cn.sliew.breeze.dao.entity.master.di.DiProject;
+import cn.sliew.breeze.dao.mapper.master.di.DiProjectMapper;
 import cn.sliew.breeze.service.convert.di.DiProjectConvert;
 import cn.sliew.breeze.service.di.DiDirectoryService;
 import cn.sliew.breeze.service.di.DiJobService;

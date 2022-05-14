@@ -1,8 +1,8 @@
 package cn.sliew.breeze.service.di.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.DiClusterConfig;
-import cn.sliew.breeze.dao.mapper.DiClusterConfigMapper;
+import cn.sliew.breeze.dao.entity.master.di.DiClusterConfig;
+import cn.sliew.breeze.dao.mapper.master.di.DiClusterConfigMapper;
 import cn.sliew.breeze.service.convert.di.DiClusterConfigConvert;
 import cn.sliew.breeze.service.di.DiClusterConfigService;
 import cn.sliew.breeze.service.dto.di.DiClusterConfigDTO;

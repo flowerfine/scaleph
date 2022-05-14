@@ -1,6 +1,6 @@
 package cn.sliew.breeze.service.convert.admin;
 
-import cn.sliew.breeze.dao.entity.DeptRole;
+import cn.sliew.breeze.dao.entity.master.security.DeptRole;
 import cn.sliew.breeze.service.convert.BaseConvert;
 import cn.sliew.breeze.service.dto.admin.DeptRoleDTO;
 import org.mapstruct.Mapper;

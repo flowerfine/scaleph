@@ -1,6 +1,6 @@
 package cn.sliew.breeze.service.dto.meta;
 
-import cn.sliew.breeze.dao.entity.MetaDataSetType;
+import cn.sliew.breeze.dao.entity.master.meta.MetaDataSetType;
 import cn.sliew.breeze.service.dto.BaseDTO;
 import cn.sliew.breeze.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;

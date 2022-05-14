@@ -2,8 +2,8 @@ package cn.sliew.breeze.service.admin.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.ScheduleLog;
-import cn.sliew.breeze.dao.mapper.ScheduleLogMapper;
+import cn.sliew.breeze.dao.entity.log.ScheduleLog;
+import cn.sliew.breeze.dao.mapper.log.ScheduleLogMapper;
 import cn.sliew.breeze.service.admin.ScheduleLogService;
 import cn.sliew.breeze.service.convert.admin.ScheduleLogConvert;
 import cn.sliew.breeze.service.dto.admin.ScheduleLogDTO;

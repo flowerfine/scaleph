@@ -1,8 +1,8 @@
 package cn.sliew.breeze.service.admin.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.Privilege;
-import cn.sliew.breeze.dao.mapper.PrivilegeMapper;
+import cn.sliew.breeze.dao.entity.master.security.Privilege;
+import cn.sliew.breeze.dao.mapper.master.security.PrivilegeMapper;
 import cn.sliew.breeze.service.admin.PrivilegeService;
 import cn.sliew.breeze.service.convert.admin.PrivilegeConvert;
 import cn.sliew.breeze.service.dto.admin.PrivilegeDTO;

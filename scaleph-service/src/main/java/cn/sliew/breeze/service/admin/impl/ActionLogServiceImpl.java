@@ -1,6 +1,6 @@
 package cn.sliew.breeze.service.admin.impl;
 
-import cn.sliew.breeze.dao.entity.LogAction;
+import cn.sliew.breeze.dao.entity.log.LogAction;
 import cn.sliew.breeze.dao.mapper.log.LogActionMapper;
 import cn.sliew.breeze.service.admin.ActionLogService;
 import cn.sliew.breeze.service.convert.admin.LogActionConvert;

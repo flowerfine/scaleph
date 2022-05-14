@@ -1,8 +1,8 @@
 package cn.sliew.breeze.service.admin.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.UserActive;
-import cn.sliew.breeze.dao.mapper.UserActiveMapper;
+import cn.sliew.breeze.dao.entity.master.system.UserActive;
+import cn.sliew.breeze.dao.mapper.master.system.UserActiveMapper;
 import cn.sliew.breeze.service.admin.UserActiveService;
 import cn.sliew.breeze.service.convert.admin.UserActiveConvert;
 import cn.sliew.breeze.service.dto.admin.UserActiveDTO;

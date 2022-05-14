@@ -2,8 +2,8 @@ package cn.sliew.breeze.service.di.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.sliew.breeze.common.constant.Constants;
-import cn.sliew.breeze.dao.entity.DiDirectory;
-import cn.sliew.breeze.dao.mapper.DiDirectoryMapper;
+import cn.sliew.breeze.dao.entity.master.di.DiDirectory;
+import cn.sliew.breeze.dao.mapper.master.di.DiDirectoryMapper;
 import cn.sliew.breeze.service.convert.di.DiDirectoryConvert;
 import cn.sliew.breeze.service.di.DiDirectoryService;
 import cn.sliew.breeze.service.dto.di.DiDirectoryDTO;

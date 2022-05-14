@@ -4,7 +4,7 @@ import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
 import cn.sliew.breeze.common.constant.DictConstants;
 import cn.sliew.breeze.common.enums.DataSourcePropTypeEnum;
-import cn.sliew.breeze.dao.entity.DataSourceMeta;
+import cn.sliew.breeze.dao.entity.master.meta.DataSourceMeta;
 import cn.sliew.breeze.service.convert.BaseConvert;
 import cn.sliew.breeze.service.convert.DictVoConvert;
 import cn.sliew.breeze.service.dto.meta.DataSourceMetaDTO;

@@ -1,8 +1,8 @@
 package cn.sliew.breeze.service.di.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.sliew.breeze.dao.entity.DiJobStep;
-import cn.sliew.breeze.dao.mapper.DiJobStepMapper;
+import cn.sliew.breeze.dao.entity.master.di.DiJobStep;
+import cn.sliew.breeze.dao.mapper.master.di.DiJobStepMapper;
 import cn.sliew.breeze.service.convert.di.DiJobStepConvert;
 import cn.sliew.breeze.service.di.DiJobStepAttrService;
 import cn.sliew.breeze.service.di.DiJobStepService;

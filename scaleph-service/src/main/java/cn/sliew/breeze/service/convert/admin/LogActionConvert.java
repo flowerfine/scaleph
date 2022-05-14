@@ -1,6 +1,6 @@
 package cn.sliew.breeze.service.convert.admin;
 
-import cn.sliew.breeze.dao.entity.LogAction;
+import cn.sliew.breeze.dao.entity.log.LogAction;
 import cn.sliew.breeze.service.convert.BaseConvert;
 import cn.sliew.breeze.service.dto.admin.LogActionDTO;
 import org.mapstruct.Mapper;

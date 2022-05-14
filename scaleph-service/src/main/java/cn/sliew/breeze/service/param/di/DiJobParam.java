@@ -1,6 +1,6 @@
 package cn.sliew.breeze.service.param.di;
 
-import cn.sliew.breeze.dao.entity.DiJob;
+import cn.sliew.breeze.dao.entity.master.di.DiJob;
 import cn.sliew.breeze.service.param.PaginationParam;
 import lombok.Data;
 

@@ -1,7 +1,7 @@
 package cn.sliew.breeze.service.admin.impl;
 
-import cn.sliew.breeze.dao.entity.RolePrivilege;
-import cn.sliew.breeze.dao.mapper.RolePrivilegeMapper;
+import cn.sliew.breeze.dao.entity.master.security.RolePrivilege;
+import cn.sliew.breeze.dao.mapper.master.security.RolePrivilegeMapper;
 import cn.sliew.breeze.service.admin.RolePrivilegeService;
 import cn.sliew.breeze.service.convert.admin.RolePrivilegeConvert;
 import cn.sliew.breeze.service.dto.admin.RolePrivilegeDTO;

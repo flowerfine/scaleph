@@ -5,7 +5,7 @@ import cn.hutool.json.JSONUtil;
 import cn.sliew.breeze.ApplicationTest;
 import cn.sliew.breeze.common.annotation.Desc;
 import cn.sliew.breeze.common.constant.PrivilegeConstants;
-import cn.sliew.breeze.dao.entity.Privilege;
+import cn.sliew.breeze.dao.entity.master.security.Privilege;
 import org.apache.commons.text.CaseUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.ResourceUtils;

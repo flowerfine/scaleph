@@ -1,8 +1,8 @@
 package cn.sliew.breeze.service.admin.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.Dict;
-import cn.sliew.breeze.dao.mapper.DictMapper;
+import cn.sliew.breeze.dao.entity.master.system.Dict;
+import cn.sliew.breeze.dao.mapper.master.system.DictMapper;
 import cn.sliew.breeze.service.admin.DictService;
 import cn.sliew.breeze.service.cache.DictCache;
 import cn.sliew.breeze.service.config.CaffeineCacheConfig;

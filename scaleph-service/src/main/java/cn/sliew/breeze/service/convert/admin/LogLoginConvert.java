@@ -1,6 +1,6 @@
 package cn.sliew.breeze.service.convert.admin;
 
-import cn.sliew.breeze.dao.entity.LogLogin;
+import cn.sliew.breeze.dao.entity.log.LogLogin;
 import cn.sliew.breeze.service.convert.BaseConvert;
 import cn.sliew.breeze.service.convert.DictVoConvert;
 import cn.sliew.breeze.service.dto.admin.LogLoginDTO;

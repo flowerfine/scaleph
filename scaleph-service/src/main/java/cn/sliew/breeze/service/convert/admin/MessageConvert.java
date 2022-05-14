@@ -1,6 +1,6 @@
 package cn.sliew.breeze.service.convert.admin;
 
-import cn.sliew.breeze.dao.entity.Message;
+import cn.sliew.breeze.dao.entity.log.Message;
 import cn.sliew.breeze.service.convert.BaseConvert;
 import cn.sliew.breeze.service.convert.DictVoConvert;
 import cn.sliew.breeze.service.dto.admin.MessageDTO;

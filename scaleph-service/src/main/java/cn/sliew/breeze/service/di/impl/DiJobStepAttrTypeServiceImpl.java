@@ -1,7 +1,7 @@
 package cn.sliew.breeze.service.di.impl;
 
-import cn.sliew.breeze.dao.entity.DiJobStepAttrType;
-import cn.sliew.breeze.dao.mapper.DiJobStepAttrTypeMapper;
+import cn.sliew.breeze.dao.entity.master.di.DiJobStepAttrType;
+import cn.sliew.breeze.dao.mapper.master.di.DiJobStepAttrTypeMapper;
 import cn.sliew.breeze.service.config.CaffeineCacheConfig;
 import cn.sliew.breeze.service.convert.di.DiJobStepAttrTypeConvert;
 import cn.sliew.breeze.service.di.DiJobStepAttrTypeService;

@@ -3,7 +3,7 @@
 <mapper namespace="cn.sliew.breeze.dao.mapper.log.LogLoginMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="LogLoginMap" type="cn.sliew.breeze.dao.entity.LogLogin">
+    <resultMap id="LogLoginMap" type="cn.sliew.breeze.dao.entity.log.LogLogin">
         <result column="id" property="id"/>
         <result column="creator" property="creator"/>
         <result column="create_time" property="createTime"/>

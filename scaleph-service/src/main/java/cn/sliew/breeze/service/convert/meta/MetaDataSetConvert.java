@@ -1,6 +1,6 @@
 package cn.sliew.breeze.service.convert.meta;
 
-import cn.sliew.breeze.dao.entity.MetaDataSet;
+import cn.sliew.breeze.dao.entity.master.meta.MetaDataSet;
 import cn.sliew.breeze.service.convert.BaseConvert;
 import cn.sliew.breeze.service.convert.DictVoConvert;
 import cn.sliew.breeze.service.dto.meta.MetaDataSetDTO;

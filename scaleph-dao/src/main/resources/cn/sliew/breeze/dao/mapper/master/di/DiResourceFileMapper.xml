@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.breeze.dao.mapper.master.di.DiResourceFileMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="DiResourceFileMap" type="cn.sliew.breeze.dao.entity.master.di.DiResourceFile">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="project_id" property="projectId"/>
+        <result column="project_code" property="projectCode"/>
+        <result column="file_name" property="fileName"/>
+        <result column="file_type" property="fileType"/>
+        <result column="file_path" property="filePath"/>
+        <result column="file_size" property="fileSize"/>
+    </resultMap>
+
+    <select id="selectPage" resultMap="DiResourceFileMap">
+        <![CDATA[
+        select
+            r.id,
+            r.project_id,
+            p.project_code,
+            r.file_name,
+            r.file_type,
+            r.file_path,
+            r.file_size,
+            r.creator,
+            r.create_time,
+            r.editor,
+            r.update_time
+        from di_resource_file r
+        left join di_project p
+        on r.project_id = p.id
+        ]]>
+        <where>
+            <if test="projectId != null">
+                r.project_id = #{projectId,jdbcType=BIGINT}
+            </if>
+            <if test="fileName != null and fileName != ''">
+                r.file_name like concat('%',#{fileName,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

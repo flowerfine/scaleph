@@ -1,6 +1,6 @@
 package cn.sliew.breeze.service.convert.di;
 
-import cn.sliew.breeze.dao.entity.DiResourceFile;
+import cn.sliew.breeze.dao.entity.master.di.DiResourceFile;
 import cn.sliew.breeze.service.convert.BaseConvert;
 import cn.sliew.breeze.service.dto.di.DiResourceFileDTO;
 import org.mapstruct.Mapper;

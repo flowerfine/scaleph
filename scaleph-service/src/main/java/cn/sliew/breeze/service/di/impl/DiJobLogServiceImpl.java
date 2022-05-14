@@ -1,8 +1,8 @@
 package cn.sliew.breeze.service.di.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.DiJobLog;
-import cn.sliew.breeze.dao.mapper.DiJobLogMapper;
+import cn.sliew.breeze.dao.entity.master.di.DiJobLog;
+import cn.sliew.breeze.dao.mapper.master.di.DiJobLogMapper;
 import cn.sliew.breeze.service.convert.di.DiJobLogConvert;
 import cn.sliew.breeze.service.di.DiJobLogService;
 import cn.sliew.breeze.service.dto.di.DiJobLogDTO;

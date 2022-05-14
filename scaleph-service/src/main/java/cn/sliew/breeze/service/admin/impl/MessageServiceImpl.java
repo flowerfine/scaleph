@@ -2,8 +2,8 @@ package cn.sliew.breeze.service.admin.impl;
 
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.breeze.common.enums.BoolEnum;
-import cn.sliew.breeze.dao.entity.Message;
-import cn.sliew.breeze.dao.mapper.MessageMapper;
+import cn.sliew.breeze.dao.entity.log.Message;
+import cn.sliew.breeze.dao.mapper.log.MessageMapper;
 import cn.sliew.breeze.service.admin.MessageService;
 import cn.sliew.breeze.service.convert.admin.MessageConvert;
 import cn.sliew.breeze.service.dto.admin.MessageDTO;

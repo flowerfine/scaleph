@@ -2,8 +2,8 @@ package cn.sliew.breeze.service.di.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.sliew.breeze.common.enums.JobStatusEnum;
-import cn.sliew.breeze.dao.entity.DiJob;
-import cn.sliew.breeze.dao.mapper.DiJobMapper;
+import cn.sliew.breeze.dao.entity.master.di.DiJob;
+import cn.sliew.breeze.dao.mapper.master.di.DiJobMapper;
 import cn.sliew.breeze.service.convert.di.DiJobConvert;
 import cn.sliew.breeze.service.di.*;
 import cn.sliew.breeze.service.dto.di.DiDirectoryDTO;

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.breeze.dao.mapper.master.di.DiJobLinkMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="DiJobLinkMap" type="cn.sliew.breeze.dao.entity.master.di.DiJobLink">
+        <result column="id" property="id" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="editor" property="editor" />
+        <result column="update_time" property="updateTime" />
+        <result column="job_id" property="jobId" />
+        <result column="link_code" property="linkCode"/>
+        <result column="from_step_code" property="fromStepCode" />
+        <result column="to_step_code" property="toStepCode" />
+    </resultMap>
+
+    <delete id="deleteByProjectId">
+        delete t from di_job_link t
+        <where>
+            exists (select 1 from di_job j
+            <where>
+                t.job_id = j.id
+                and j.project_id in
+                <foreach collection="projectIds" item="projectId" index="index" open="(" close=")" separator=",">
+                    #{projectId,jdbcType=BIGINT}
+                </foreach>
+            </where>
+            )
+        </where>
+    </delete>
+
+    <delete id="deleteByJobId">
+        delete from di_job_link where job_id in
+        <foreach collection="jobIds" item="id" index="index" open="(" close=")" separator=",">
+            #{id,jdbcType=BIGINT}
+        </foreach>
+    </delete>
+
+</mapper>

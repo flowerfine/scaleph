@@ -1,8 +1,8 @@
 package cn.sliew.breeze.service.meta.impl;
 
-import cn.sliew.breeze.dao.entity.MetaDataSet;
-import cn.sliew.breeze.dao.mapper.MetaDataSetMapper;
-import cn.sliew.breeze.dao.mapper.MetaDataSetTypeMapper;
+import cn.sliew.breeze.dao.entity.master.meta.MetaDataSet;
+import cn.sliew.breeze.dao.mapper.master.meta.MetaDataSetMapper;
+import cn.sliew.breeze.dao.mapper.master.meta.MetaDataSetTypeMapper;
 import cn.sliew.breeze.service.convert.meta.MetaDataSetConvert;
 import cn.sliew.breeze.service.dto.meta.MetaDataSetDTO;
 import cn.sliew.breeze.service.meta.MetaDataSetService;

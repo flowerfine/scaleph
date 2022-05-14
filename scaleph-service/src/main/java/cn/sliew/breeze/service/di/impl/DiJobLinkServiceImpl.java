@@ -1,8 +1,8 @@
 package cn.sliew.breeze.service.di.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.sliew.breeze.dao.entity.DiJobLink;
-import cn.sliew.breeze.dao.mapper.DiJobLinkMapper;
+import cn.sliew.breeze.dao.entity.master.di.DiJobLink;
+import cn.sliew.breeze.dao.mapper.master.di.DiJobLinkMapper;
 import cn.sliew.breeze.service.convert.di.DiJobLinkConvert;
 import cn.sliew.breeze.service.di.DiJobLinkService;
 import cn.sliew.breeze.service.dto.di.DiJobLinkDTO;

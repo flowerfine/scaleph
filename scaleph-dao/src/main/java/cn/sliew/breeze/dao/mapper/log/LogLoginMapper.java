@@ -1,6 +1,6 @@
 package cn.sliew.breeze.dao.mapper.log;
 
-import cn.sliew.breeze.dao.entity.LogLogin;
+import cn.sliew.breeze.dao.entity.log.LogLogin;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 

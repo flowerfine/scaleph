@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.breeze.dao.mapper.master.meta.MetaDataSetMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="MetaDataSetMap" type="cn.sliew.breeze.dao.entity.master.meta.MetaDataSet">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="data_set_type_id" property="dataSetTypeId"/>
+        <result column="data_set_code" property="dataSetCode"/>
+        <result column="data_set_value" property="dataSetValue"/>
+        <result column="system_id" property="systemId"/>
+        <result column="is_standard" property="isStandard"/>
+        <result column="remark" property="remark"/>
+        <association property="dataSetType" javaType="cn.sliew.breeze.dao.entity.master.meta.MetaDataSetType"
+                     column="data_set_type_id"
+                     select="cn.sliew.breeze.dao.mapper.master.meta.MetaDataSetTypeMapper.selectById">
+        </association>
+        <association property="system" javaType="cn.sliew.breeze.dao.entity.master.meta.MetaSystem" column="system_id"
+                     select="cn.sliew.breeze.dao.mapper.master.meta.MetaSystemMapper.selectById">
+        </association>
+    </resultMap>
+
+    <select id="selectPage" resultMap="MetaDataSetMap">
+        select
+        t1.id,
+        t1.data_set_type_id,
+        t1.data_set_code,
+        t1.data_set_value,
+        t1.system_id,
+        t1.is_standard,
+        t1.remark,
+        t1.creator,
+        t1.editor,
+        t1.update_time
+        from meta_data_set t1
+        left join meta_data_set_type t2
+        on t1.data_set_type_id = t2.id
+        <where>
+            <if test="dataSetTypeCode != null and dataSetTypeCode != ''">
+               and t2.data_set_type_code like concat('%',#{dataSetTypeCode,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="dataSetCode != null and dataSetCode != '' ">
+               and t1.data_set_code like concat('%',#{dataSetCode,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="dataSetValue != null and dataSetValue != '' ">
+               and t1.data_set_value like concat('%',#{dataSetValue,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

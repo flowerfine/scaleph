@@ -1,6 +1,6 @@
 package cn.sliew.breeze.service.convert.di;
 
-import cn.sliew.breeze.dao.entity.DiJobStepAttr;
+import cn.sliew.breeze.dao.entity.master.di.DiJobStepAttr;
 import cn.sliew.breeze.service.convert.BaseConvert;
 import cn.sliew.breeze.service.dto.di.DiJobStepAttrDTO;
 import org.mapstruct.Mapper;

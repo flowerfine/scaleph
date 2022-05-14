@@ -1,7 +1,7 @@
 package cn.sliew.breeze.service.di.impl;
 
-import cn.sliew.breeze.dao.entity.DiResourceFile;
-import cn.sliew.breeze.dao.mapper.DiResourceFileMapper;
+import cn.sliew.breeze.dao.entity.master.di.DiResourceFile;
+import cn.sliew.breeze.dao.mapper.master.di.DiResourceFileMapper;
 import cn.sliew.breeze.service.convert.di.DiResourceFileConvert;
 import cn.sliew.breeze.service.di.DiResourceFileService;
 import cn.sliew.breeze.service.dto.di.DiResourceFileDTO;

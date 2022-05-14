@@ -1,6 +1,6 @@
 package cn.sliew.breeze.service.convert.di;
 
-import cn.sliew.breeze.dao.entity.DiJobLog;
+import cn.sliew.breeze.dao.entity.master.di.DiJobLog;
 import cn.sliew.breeze.service.convert.BaseConvert;
 import cn.sliew.breeze.service.convert.DictVoConvert;
 import cn.sliew.breeze.service.dto.di.DiJobLogDTO;

@@ -1,6 +1,6 @@
 package cn.sliew.breeze.service.convert.meta;
 
-import cn.sliew.breeze.dao.entity.MetaSystem;
+import cn.sliew.breeze.dao.entity.master.meta.MetaSystem;
 import cn.sliew.breeze.service.convert.BaseConvert;
 import cn.sliew.breeze.service.dto.meta.MetaSystemDTO;
 import org.mapstruct.Mapper;

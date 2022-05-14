@@ -2,7 +2,7 @@ package cn.sliew.breeze.service.convert.di;
 
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.breeze.common.constant.DictConstants;
-import cn.sliew.breeze.dao.entity.DiClusterConfig;
+import cn.sliew.breeze.dao.entity.master.di.DiClusterConfig;
 import cn.sliew.breeze.service.convert.BaseConvert;
 import cn.sliew.breeze.service.convert.DictVoConvert;
 import cn.sliew.breeze.service.dto.di.DiClusterConfigDTO;

@@ -1,9 +1,9 @@
 package cn.sliew.breeze.service.admin.impl;
 
 import cn.sliew.breeze.common.enums.UserStatusEnum;
-import cn.sliew.breeze.dao.entity.Role;
-import cn.sliew.breeze.dao.entity.User;
-import cn.sliew.breeze.dao.mapper.UserMapper;
+import cn.sliew.breeze.dao.entity.master.security.Role;
+import cn.sliew.breeze.dao.entity.master.security.User;
+import cn.sliew.breeze.dao.mapper.master.security.UserMapper;
 import cn.sliew.breeze.service.admin.UserService;
 import cn.sliew.breeze.service.convert.admin.RoleConvert;
 import cn.sliew.breeze.service.convert.admin.UserConvert;

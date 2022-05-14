@@ -1,7 +1,7 @@
 package cn.sliew.breeze.service.admin.impl;
 
-import cn.sliew.breeze.dao.entity.UserDept;
-import cn.sliew.breeze.dao.mapper.UserDeptMapper;
+import cn.sliew.breeze.dao.entity.master.security.UserDept;
+import cn.sliew.breeze.dao.mapper.master.security.UserDeptMapper;
 import cn.sliew.breeze.service.admin.UserDeptService;
 import cn.sliew.breeze.service.convert.admin.UserDeptConvert;
 import cn.sliew.breeze.service.dto.admin.UserDeptDTO;

@@ -1,6 +1,6 @@
 package cn.sliew.breeze.service.convert.admin;
 
-import cn.sliew.breeze.dao.entity.UserRole;
+import cn.sliew.breeze.dao.entity.master.security.UserRole;
 import cn.sliew.breeze.service.convert.BaseConvert;
 import cn.sliew.breeze.service.dto.admin.UserRoleDTO;
 import org.mapstruct.Mapper;

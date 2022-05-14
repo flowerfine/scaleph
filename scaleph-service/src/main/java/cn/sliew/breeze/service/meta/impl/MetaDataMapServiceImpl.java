@@ -1,7 +1,7 @@
 package cn.sliew.breeze.service.meta.impl;
 
-import cn.sliew.breeze.dao.entity.MetaDataMap;
-import cn.sliew.breeze.dao.mapper.MetaDataMapMapper;
+import cn.sliew.breeze.dao.entity.master.meta.MetaDataMap;
+import cn.sliew.breeze.dao.mapper.master.meta.MetaDataMapMapper;
 import cn.sliew.breeze.service.convert.meta.MetaDataMapConvert;
 import cn.sliew.breeze.service.dto.meta.MetaDataMapDTO;
 import cn.sliew.breeze.service.meta.MetaDataMapService;
