@@ -1,15 +1,12 @@
 # This is a basic workflow to help you get started with Actions
 
 name: CI
+
 on:
-  push:
-    branches: 
-    - master
-    - develop
   pull_request:
-    branches: 
-    - master
-  # Allows you to run this workflow manually from the Actions tab
+    paths-ignore: [ '**/*.md', '**/*.drawio', '**/*.svg' ]
+  push:
+    paths-ignore: [ '**/*.md', '**/*.drawio', '**/*.svg' ]
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
