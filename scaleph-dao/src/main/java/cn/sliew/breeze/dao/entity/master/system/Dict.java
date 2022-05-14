@@ -1,6 +1,6 @@
 package cn.sliew.breeze.dao.entity.master.system;
 
-import cn.sliew.breeze.common.constant.Constants;
+import cn.sliew.scalegh.common.constant.Constants;
 import cn.sliew.breeze.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;

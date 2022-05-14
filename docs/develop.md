@@ -43,7 +43,7 @@ Next, download [flink](https://flink.apache.org/downloads.html#apache-flink-1136
 
 Import the Breeze project into an IDE for the development itself.
 
-Start backend server through `cn.sliew.breeze.BreezeApplication` on `breeze-api` module.
+Start backend server through `cn.sliew.scalegh.Application` on `breeze-api` module.
 
 ## start frontend
 
