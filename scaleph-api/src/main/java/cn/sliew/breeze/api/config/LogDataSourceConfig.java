@@ -54,7 +54,7 @@ public class LogDataSourceConfig {
         factoryBean.setConfiguration(configuration);
 
         factoryBean.setDataSource(logDataSource());
-        factoryBean.setTypeAliasesPackage("cn.sliew.breeze.dao.entity");
+        factoryBean.setTypeAliasesPackage("cn.sliew.breeze.dao.entity.log");
         factoryBean.setPlugins(mybatisPlusInterceptor);
         return factoryBean.getObject();
     }

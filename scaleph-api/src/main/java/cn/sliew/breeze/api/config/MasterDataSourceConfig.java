@@ -19,7 +19,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "cn.sliew.breeze.dao.mapper", sqlSessionFactoryRef = MasterDataSourceConfig.MASTER_SQL_SESSION_FACTORY)
+@MapperScan(basePackages = "cn.sliew.breeze.dao.mapper.master", sqlSessionFactoryRef = MasterDataSourceConfig.MASTER_SQL_SESSION_FACTORY)
 public class MasterDataSourceConfig {
 
     static final String MASTER_SQL_SESSION_FACTORY = "masterSqlSessionFactory";
@@ -50,7 +50,7 @@ public class MasterDataSourceConfig {
         MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();
 
         MybatisPlusProperties props = new MybatisPlusProperties();
-        props.setMapperLocations(new String[]{"classpath*:cn.sliew.breeze.dao.mapper/*Mapper.xml"});
+        props.setMapperLocations(new String[]{"classpath*:cn.sliew.breeze.dao.mapper/master/**/*.xml"});
         factoryBean.setMapperLocations(props.resolveMapperLocations());
 
         MybatisConfiguration configuration = new MybatisConfiguration();
@@ -59,7 +59,7 @@ public class MasterDataSourceConfig {
         factoryBean.setConfiguration(configuration);
 
         factoryBean.setDataSource(masterDataSource());
-        factoryBean.setTypeAliasesPackage("cn.sliew.breeze.dao.entity");
+        factoryBean.setTypeAliasesPackage("cn.sliew.breeze.dao.entity.master");
         factoryBean.setPlugins(mybatisPlusInterceptor);
         return factoryBean.getObject();
     }
