@@ -1,6 +1,6 @@
 # checkstyle
 
-As the purpose of clean code, Scalegh takes advantage of [checkstyle](https://checkstyle.sourceforge.io/).
+As the purpose of clean code, Scaleph takes advantage of [checkstyle](https://checkstyle.sourceforge.io/).
 
 ## checkstyle plugin
 

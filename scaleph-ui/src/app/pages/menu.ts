@@ -21,107 +21,107 @@ export default function (values) {
   let menuList: Menu[] = [
     {
       title: values['studio']['title'],
-      link: '/scalegh/studio',
+      link: '/scaleph/studio',
       menuIcon: 'icon icon-build-with-tool',
       pCode: PRIVILEGE_CODE.studioShow,
       children: [
         {
           title: values['studio']['board'],
-          link: '/scalegh/studio/board',
+          link: '/scaleph/studio/board',
           pCode: PRIVILEGE_CODE.studioBoardShow,
         },
       ],
     },
     {
       title: values['datadev']['title'],
-      link: '/scalegh/datadev',
+      link: '/scaleph/datadev',
       menuIcon: 'icon icon-classroom-post-answers-large',
       pCode: PRIVILEGE_CODE.datadevShow,
       children: [
         {
           title: values['datadev']['datasource'],
-          link: '/scalegh/datadev/datasource',
+          link: '/scaleph/datadev/datasource',
           pCode: PRIVILEGE_CODE.datadevDatasourceShow,
         },
         {
           title: values['datadev']['project'],
-          link: '/scalegh/datadev/project',
+          link: '/scaleph/datadev/project',
           pCode: PRIVILEGE_CODE.datadevProjectShow,
         },
         {
           title: values['datadev']['resource'],
-          link: '/scalegh/datadev/resource',
+          link: '/scaleph/datadev/resource',
           pCode: PRIVILEGE_CODE.datadevResourceShow,
         },
         {
           title: values['datadev']['cluster'],
-          link: '/scalegh/datadev/cluster',
+          link: '/scaleph/datadev/cluster',
           pCode: PRIVILEGE_CODE.datadevClusterShow,
         },
       ],
     },
     {
       title: values['opscenter']['title'],
-      link: '/scalegh/opscenter',
+      link: '/scaleph/opscenter',
       menuIcon: 'icon icon-log',
       pCode: PRIVILEGE_CODE.opscenterShow,
       children: [
         {
           title: values['opscenter']['realtime'],
-          link: '/scalegh/opscenter/realtime',
+          link: '/scaleph/opscenter/realtime',
           pCode: PRIVILEGE_CODE.opscenterRealtimeShow,
         },
         {
           title: values['opscenter']['batch'],
-          link: '/scalegh/opscenter/batch',
+          link: '/scaleph/opscenter/batch',
           pCode: PRIVILEGE_CODE.opscenterBatchShow,
         },
       ],
     },
     {
       title: values['stdata']['title'],
-      link: '/scalegh/stdata',
+      link: '/scaleph/stdata',
       menuIcon: 'icon icon-function-guide',
       pCode: PRIVILEGE_CODE.stdataShow,
       children: [
-        { title: values['stdata']['dataElement'], link: '/scalegh/stdata/dataElement', pCode: PRIVILEGE_CODE.stdataDataElementShow },
-        { title: values['stdata']['refdata'], link: '/scalegh/stdata/refdata', pCode: PRIVILEGE_CODE.stdataRefDataShow },
+        { title: values['stdata']['dataElement'], link: '/scaleph/stdata/dataElement', pCode: PRIVILEGE_CODE.stdataDataElementShow },
+        { title: values['stdata']['refdata'], link: '/scaleph/stdata/refdata', pCode: PRIVILEGE_CODE.stdataRefDataShow },
         {
           title: values['stdata']['refdataMap'],
-          link: '/scalegh/stdata/refdataMap',
+          link: '/scaleph/stdata/refdataMap',
           pCode: PRIVILEGE_CODE.stdataRefDataMapShow,
         },
         {
           title: values['stdata']['system'],
-          link: '/scalegh/stdata/system',
+          link: '/scaleph/stdata/system',
           pCode: PRIVILEGE_CODE.stdataSystemShow,
         },
       ],
     },
     {
       title: values['admin']['title'],
-      link: '/scalegh/admin',
+      link: '/scaleph/admin',
       menuIcon: 'icon icon-setting',
       pCode: PRIVILEGE_CODE.adminShow,
       children: [
         {
           title: values['admin']['user'],
-          link: '/scalegh/admin/user',
+          link: '/scaleph/admin/user',
           pCode: PRIVILEGE_CODE.userShow,
         },
         {
           title: values['admin']['privilege'],
-          link: '/scalegh/admin/privilege',
+          link: '/scaleph/admin/privilege',
           pCode: PRIVILEGE_CODE.privilegeShow,
         },
         {
           title: values['admin']['dict'],
-          link: '/scalegh/admin/dict',
+          link: '/scaleph/admin/dict',
           pCode: PRIVILEGE_CODE.dictShow,
         },
         {
           title: values['admin']['setting'],
-          link: '/scalegh/admin/setting',
+          link: '/scaleph/admin/setting',
           pCode: PRIVILEGE_CODE.settingShow,
         },
       ],

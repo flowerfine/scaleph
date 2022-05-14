@@ -63,7 +63,7 @@ export class HeaderNoticeComponent implements OnInit {
 
   handleMore(type: string) {
     if (type === 'notice') {
-      this.router.navigate(['/scalegh', 'user-center'], {
+      this.router.navigate(['/scaleph', 'user-center'], {
         queryParams: {
           menu: 2,
         },

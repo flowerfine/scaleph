@@ -15,8 +15,8 @@ Requirements:
 ## clone
 
 ```shell
-https://github.com/flowerfine/scalegh.git
-cd scalegh
+https://github.com/flowerfine/scaleph.git
+cd scaleph
 ```
 
 ## development
@@ -32,7 +32,7 @@ mvn clean package -DskipTests
 #### bootstrap backend server
 
 ```shell
-java -jar scalegh-api.jar
+java -jar scaleph-api.jar
 ```
 
 ### frontend
@@ -52,9 +52,9 @@ ng build --prod
 
 #### nginx setting
 
-copy web build result which `dist` to nginx's `html` directory and rename `dist` to `scalegh`
+copy web build result which `dist` to nginx's `html` directory and rename `dist` to `scaleph`
 
-setup `nginx.conf` as flollows:
+setup `nginx.conf` as follows:
 
 ```nginx
 http {
@@ -74,12 +74,12 @@ http {
          }
 
      location /api {
-         proxy_pass  http://xxx.com/scalegh/api;
+         proxy_pass  http://xxx.com/scaleph/api;
          proxy_redirect  default;
          }
 
      location ~ .*\.(js|css|ico|png|jpg|eot|svg|ttf|woff|html) {
-         root html\scalegh;
+         root html\scaleph;
          expires 30d;
          }
      }

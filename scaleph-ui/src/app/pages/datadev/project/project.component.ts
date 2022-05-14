@@ -152,7 +152,7 @@ export class ProjectComponent implements OnInit {
   }
 
   openProject(row: DiProject) {
-    this.router.navigate(['/scalegh', 'datadev', 'job'], {
+    this.router.navigate(['/scaleph', 'datadev', 'job'], {
       queryParams: {
         projectId: row.id,
         projectCode: row.projectCode,

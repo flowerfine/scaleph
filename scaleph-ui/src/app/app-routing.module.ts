@@ -10,7 +10,7 @@ import { WorkbenchComponent } from './pages/datadev/workbench/workbench.componen
 
 const routes: Routes = [
   {
-    path: 'scalegh',
+    path: 'scaleph',
     loadChildren: () => import('./pages/pages.module').then((m) => m.PagesModule),
     canActivate: [AuthGuardService],
   },
@@ -40,7 +40,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'scalegh',
+    redirectTo: 'scaleph',
     pathMatch: 'full',
   },
   {
