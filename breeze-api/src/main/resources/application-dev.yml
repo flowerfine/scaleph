@@ -1,106 +1,30 @@
 spring:
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    druid:
-      master:
-        name: breeze-master
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        username: root
-        password: 123456
-        url: jdbc:mysql://127.0.0.1:3306/breeze?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-        initial-size: 2
-        max-active: 30
-        min-idle: 2
-        max-wait: 1000
-      log:
-        name: breeze-log
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        username: root
-        password: 123456
-        url: jdbc:mysql://127.0.0.1:3306/breeze?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-        initial-size: 2
-        max-active: 30
-        min-idle: 2
-        max-wait: 1000
-      # 是否支持psCache oracle下建议开启，mysql下建议关闭
-      pool-prepared-statements: false
-      # 参数大于0 poolPreparedStatements自动设置为true
-      #max-pool-prepared-statement-per-connection-size: 5
-      validation-query: select 1
-      validation-query-timeout: 1
-      test-on-borrow: true
-      test-on-return: true
-      test-while-idle: true
-      time-between-eviction-runs-millis: 10000
-      min-evictable-idle-time-millis: 30000
-      async-close-connection-enable: true
-      use-global-data-source-stat: true
-      filters: stat,wall,slf4j
-      filter:
-        stat:
-          db-type: mysql
-          merge-sql: true
-          slow-sql-millis: 10000
-          log-slow-sql: true
-        slf4j:
-          enabled: true
-          result-set-log-enabled: false
-      stat-view-servlet:
-        enabled: true
-        login-username: druid
-        login-password: druid
-        reset-enable: true
-        url-pattern: /druid/*
-      web-stat-filter:
-        enabled: true
-        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
-        url-pattern: /*
+    master:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+      username: root
+      password: 123456
+    log:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+      username: root
+      password: 123456
   quartz:
-    scheduler-name: appScheduler
-    job-store-type: jdbc
-    jdbc:
-      initialize-schema: never
     properties:
-      org:
-        quartz:
-          threadPool:
-            threadCount: 5
-            threadPriority: 5
-            threadsInheritContextClassLoaderOfInitializingThread: true
-          dataSource:
-            quartzDS:
-              driverClassName: com.mysql.cj.jdbc.Driver
-              url: jdbc:mysql://127.0.0.1:3306/breeze?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-              username: root
-              password: 123456
-              initialSize: 2
-              maxActive: 5
-              connectionProvider:
-                class: com.alibaba.druid.support.quartz.DruidQuartzConnectionProvider
-          jobStore:
-            dataSource: quartzDS
-            class: org.quartz.impl.jdbcjobstore.JobStoreTX
-            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
-            tablePrefix: qrtz_
-            isClustered: true
-            clusterCheckinInterval: 10000
-            useProperties: false
+      org.quartz:
+        dataSource:
+          quartzDS:
+            driver: com.mysql.cj.jdbc.Driver
+            URL: jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+            user: root
+            password: 123456
   redis:
     database: 0
     host: 127.0.0.1
     port: 6379
     password: 123456
-    timeout: 5000
-    lettuce:
-      pool:
-        max-active: 200
-        max-wait: 10000
-        max-idle: 20
-        min-idle: 0
-  devtools:
-    remote:
-      restart:
-        enabled: false
+
 # log
 logging:
   level:

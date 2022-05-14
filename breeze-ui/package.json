@@ -1,10 +1,10 @@
 {
-  "name": "breeze-ui",
+  "name": "scaleph-ui",
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
-    "build": "ng build --base-href /breeze/",
+    "build": "ng build --base-href /scaleph/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

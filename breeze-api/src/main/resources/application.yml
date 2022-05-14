@@ -1,28 +1,78 @@
+server:
+  port: 8080
+  tomcat.uri-encoding: UTF-8
+  servlet.context-path: /${spring.application.name}
+
 spring:
-  application:
-    name: breeze
-  profiles:
-    active: dev
+  application.name: scaleph
+  profiles.active: dev
   messages:
     encoding: utf-8
     basename: static/i18n/messages
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
   mail:
     username: xxxx@xxx.com
     password: xxxxxxx
     host: smtp.xxx.cn
     port: 25
     default-encoding: UTF-8
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 512MB
-      max-request-size: 512MB
-server:
-  port: 8080
-  tomcat:
-    uri-encoding: UTF-8
-  servlet:
-    context-path: /breeze
+  servlet.multipart:
+    enabled: true
+    max-file-size: 512MB
+    max-request-size: 512MB
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      auto-commit: true
+      idle-timeout: 600000
+      pool-name: ${spring.application.name}
+      max-lifetime: 900000
+      connection-timeout: 10000
+      connection-test-query: SELECT 1
+      validation-timeout: 1000
+  redis:
+    timeout: 5000
+    lettuce:
+      pool:
+        max-active: 200
+        max-wait: 10000
+        max-idle: 20
+        min-idle: 0
+  quartz:
+    scheduler-name: appScheduler
+    job-store-type: jdbc
+    jdbc.initialize-schema: never
+    properties:
+      org.quartz:
+        threadPool:
+          threadCount: 5
+          threadPriority: 5
+          threadsInheritContextClassLoaderOfInitializingThread: true
+        dataSource:
+          quartzDS:
+            provider: hikaricp
+            maxConnections: 5
+        jobStore:
+          dataSource: quartzDS
+          class: org.quartz.impl.jdbcjobstore.JobStoreTX
+          driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+          tablePrefix: qrtz_
+          isClustered: true
+          clusterCheckinInterval: 10000
+          useProperties: false
+  devtools:
+    remote:
+      restart:
+        enabled: false
+
+logging:
+  level:
+    root: info
+
 # 线程池配置
 thread:
   task:
@@ -33,7 +83,7 @@ thread:
       queueCapacity: 50
 # 系统设置相关配置
 app:
-  name: Breeze
+  name: ${spring.application.name}
   host: localhost:4200
   resource:
     type: minio
@@ -41,7 +91,7 @@ app:
 #      parentDir: E:/idea-workspace/breeze/lib
     minio:
       endPoint: http://172.16.202.119:32660/
-      bucket: breeze
+      bucket: ${spring.application.name}
       accessKey: admin
       secretKey: password
   engine:

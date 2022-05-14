@@ -1,5 +1,5 @@
-create database if not exists breeze default character set utf8mb4 collate utf8mb4_unicode_ci;
-use breeze;
+create database if not exists scaleph default character set utf8mb4 collate utf8mb4_unicode_ci;
+use scaleph;
 /* 数据字典类型表 */
 drop table if exists t_dict_type;
 create table t_dict_type (
