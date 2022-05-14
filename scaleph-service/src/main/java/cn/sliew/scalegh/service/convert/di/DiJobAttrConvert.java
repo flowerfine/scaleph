@@ -1,6 +1,6 @@
 package cn.sliew.scalegh.service.convert.di;
 
-import cn.sliew.breeze.dao.entity.master.di.DiJobAttr;
+import cn.sliew.scalegh.dao.entity.master.di.DiJobAttr;
 import cn.sliew.scalegh.service.convert.BaseConvert;
 import cn.sliew.scalegh.service.convert.DictVoConvert;
 import cn.sliew.scalegh.service.dto.di.DiJobAttrDTO;
@@ -17,6 +17,6 @@ public interface DiJobAttrConvert extends BaseConvert<DiJobAttr, DiJobAttrDTO> {
     DiJobAttrConvert INSTANCE = Mappers.getMapper(DiJobAttrConvert.class);
 
     @Override
-    @Mapping(expression = "java(DictVO.toVO(cn.sliew.breeze.common.constant.DictConstants.JOB_ATTR_TYPE,entity.getJobAttrType()))", target = "jobAttrType")
+    @Mapping(expression = "java(cn.sliew.scalegh.service.vo.DictVO.toVO(cn.sliew.scalegh.common.constant.DictConstants.JOB_ATTR_TYPE,entity.getJobAttrType()))", target = "jobAttrType")
     DiJobAttrDTO toDto(DiJobAttr entity);
 }

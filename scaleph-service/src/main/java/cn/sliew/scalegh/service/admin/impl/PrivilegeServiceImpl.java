@@ -1,8 +1,8 @@
 package cn.sliew.scalegh.service.admin.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.master.security.Privilege;
-import cn.sliew.breeze.dao.mapper.master.security.PrivilegeMapper;
+import cn.sliew.scalegh.dao.entity.master.security.Privilege;
+import cn.sliew.scalegh.dao.mapper.master.security.PrivilegeMapper;
 import cn.sliew.scalegh.service.admin.PrivilegeService;
 import cn.sliew.scalegh.service.convert.admin.PrivilegeConvert;
 import cn.sliew.scalegh.service.dto.admin.PrivilegeDTO;

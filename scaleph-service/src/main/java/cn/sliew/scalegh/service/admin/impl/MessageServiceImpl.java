@@ -2,8 +2,8 @@ package cn.sliew.scalegh.service.admin.impl;
 
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scalegh.common.enums.BoolEnum;
-import cn.sliew.breeze.dao.entity.log.Message;
-import cn.sliew.breeze.dao.mapper.log.MessageMapper;
+import cn.sliew.scalegh.dao.entity.log.Message;
+import cn.sliew.scalegh.dao.mapper.log.MessageMapper;
 import cn.sliew.scalegh.service.admin.MessageService;
 import cn.sliew.scalegh.service.convert.admin.MessageConvert;
 import cn.sliew.scalegh.service.dto.admin.MessageDTO;

@@ -1,6 +1,6 @@
 package cn.sliew.scalegh.service.convert.admin;
 
-import cn.sliew.breeze.dao.entity.master.system.Dict;
+import cn.sliew.scalegh.dao.entity.master.system.Dict;
 import cn.sliew.scalegh.service.convert.BaseConvert;
 import cn.sliew.scalegh.service.convert.DictVoConvert;
 import cn.sliew.scalegh.service.dto.admin.DictDTO;

@@ -1,6 +1,6 @@
 package cn.sliew.scalegh.service.convert.meta;
 
-import cn.sliew.breeze.dao.entity.master.meta.MetaSystem;
+import cn.sliew.scalegh.dao.entity.master.meta.MetaSystem;
 import cn.sliew.scalegh.service.convert.BaseConvert;
 import cn.sliew.scalegh.service.dto.meta.MetaSystemDTO;
 import org.mapstruct.Mapper;

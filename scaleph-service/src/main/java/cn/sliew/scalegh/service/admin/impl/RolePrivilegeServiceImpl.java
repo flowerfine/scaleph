@@ -1,7 +1,7 @@
 package cn.sliew.scalegh.service.admin.impl;
 
-import cn.sliew.breeze.dao.entity.master.security.RolePrivilege;
-import cn.sliew.breeze.dao.mapper.master.security.RolePrivilegeMapper;
+import cn.sliew.scalegh.dao.entity.master.security.RolePrivilege;
+import cn.sliew.scalegh.dao.mapper.master.security.RolePrivilegeMapper;
 import cn.sliew.scalegh.service.admin.RolePrivilegeService;
 import cn.sliew.scalegh.service.convert.admin.RolePrivilegeConvert;
 import cn.sliew.scalegh.service.dto.admin.RolePrivilegeDTO;

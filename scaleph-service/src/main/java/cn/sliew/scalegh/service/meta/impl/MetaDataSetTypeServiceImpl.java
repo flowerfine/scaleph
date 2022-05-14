@@ -1,10 +1,10 @@
 package cn.sliew.scalegh.service.meta.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.master.meta.MetaDataSet;
-import cn.sliew.breeze.dao.entity.master.meta.MetaDataSetType;
-import cn.sliew.breeze.dao.mapper.master.meta.MetaDataSetMapper;
-import cn.sliew.breeze.dao.mapper.master.meta.MetaDataSetTypeMapper;
+import cn.sliew.scalegh.dao.entity.master.meta.MetaDataSet;
+import cn.sliew.scalegh.dao.entity.master.meta.MetaDataSetType;
+import cn.sliew.scalegh.dao.mapper.master.meta.MetaDataSetMapper;
+import cn.sliew.scalegh.dao.mapper.master.meta.MetaDataSetTypeMapper;
 import cn.sliew.scalegh.service.convert.meta.MetaDataSetTypeConvert;
 import cn.sliew.scalegh.service.dto.meta.MetaDataSetTypeDTO;
 import cn.sliew.scalegh.service.meta.MetaDataSetTypeService;

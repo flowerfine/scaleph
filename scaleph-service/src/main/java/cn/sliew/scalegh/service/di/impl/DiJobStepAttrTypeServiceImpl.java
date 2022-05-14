@@ -1,7 +1,7 @@
 package cn.sliew.scalegh.service.di.impl;
 
-import cn.sliew.breeze.dao.entity.master.di.DiJobStepAttrType;
-import cn.sliew.breeze.dao.mapper.master.di.DiJobStepAttrTypeMapper;
+import cn.sliew.scalegh.dao.entity.master.di.DiJobStepAttrType;
+import cn.sliew.scalegh.dao.mapper.master.di.DiJobStepAttrTypeMapper;
 import cn.sliew.scalegh.service.config.CaffeineCacheConfig;
 import cn.sliew.scalegh.service.convert.di.DiJobStepAttrTypeConvert;
 import cn.sliew.scalegh.service.di.DiJobStepAttrTypeService;

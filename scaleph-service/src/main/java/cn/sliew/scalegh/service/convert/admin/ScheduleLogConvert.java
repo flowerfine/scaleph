@@ -1,6 +1,6 @@
 package cn.sliew.scalegh.service.convert.admin;
 
-import cn.sliew.breeze.dao.entity.log.ScheduleLog;
+import cn.sliew.scalegh.dao.entity.log.ScheduleLog;
 import cn.sliew.scalegh.service.convert.BaseConvert;
 import cn.sliew.scalegh.service.convert.DictVoConvert;
 import cn.sliew.scalegh.service.dto.admin.ScheduleLogDTO;
@@ -17,6 +17,6 @@ public interface ScheduleLogConvert extends BaseConvert<ScheduleLog, ScheduleLog
     ScheduleLogConvert INSTANCE = Mappers.getMapper(ScheduleLogConvert.class);
 
     @Override
-    @Mapping(expression = "java(DictVO.toVO(cn.sliew.breeze.common.constant.DictConstants.TASK_RESULT,entity.getResult()))", target = "result")
+    @Mapping(expression = "java(cn.sliew.scalegh.service.vo.DictVO.toVO(cn.sliew.scalegh.common.constant.DictConstants.TASK_RESULT,entity.getResult()))", target = "result")
     ScheduleLogDTO toDto(ScheduleLog entity);
 }

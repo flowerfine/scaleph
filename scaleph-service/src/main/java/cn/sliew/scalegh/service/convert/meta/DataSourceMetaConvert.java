@@ -4,7 +4,7 @@ import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scalegh.common.constant.DictConstants;
 import cn.sliew.scalegh.common.enums.DataSourcePropTypeEnum;
-import cn.sliew.breeze.dao.entity.master.meta.DataSourceMeta;
+import cn.sliew.scalegh.dao.entity.master.meta.DataSourceMeta;
 import cn.sliew.scalegh.service.convert.BaseConvert;
 import cn.sliew.scalegh.service.convert.DictVoConvert;
 import cn.sliew.scalegh.service.dto.meta.DataSourceMetaDTO;

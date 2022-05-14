@@ -10,7 +10,6 @@ import cn.sliew.scalegh.api.security.TokenProvider;
 import cn.sliew.scalegh.api.security.UserDetailInfo;
 import cn.sliew.scalegh.api.util.I18nUtil;
 import cn.sliew.scalegh.api.util.SecurityUtil;
-import cn.sliew.breeze.api.vo.*;
 import cn.sliew.scalegh.api.vo.*;
 import cn.sliew.scalegh.common.constant.Constants;
 import cn.sliew.scalegh.common.constant.DictConstants;

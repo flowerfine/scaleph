@@ -1,9 +1,9 @@
 package cn.sliew.scalegh.service.admin.impl;
 
 import cn.sliew.scalegh.common.enums.UserStatusEnum;
-import cn.sliew.breeze.dao.entity.master.security.Role;
-import cn.sliew.breeze.dao.entity.master.security.User;
-import cn.sliew.breeze.dao.mapper.master.security.UserMapper;
+import cn.sliew.scalegh.dao.entity.master.security.Role;
+import cn.sliew.scalegh.dao.entity.master.security.User;
+import cn.sliew.scalegh.dao.mapper.master.security.UserMapper;
 import cn.sliew.scalegh.service.admin.UserService;
 import cn.sliew.scalegh.service.convert.admin.RoleConvert;
 import cn.sliew.scalegh.service.convert.admin.UserConvert;

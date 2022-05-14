@@ -2,8 +2,8 @@ package cn.sliew.scalegh.service.admin.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.log.ScheduleLog;
-import cn.sliew.breeze.dao.mapper.log.ScheduleLogMapper;
+import cn.sliew.scalegh.dao.entity.log.ScheduleLog;
+import cn.sliew.scalegh.dao.mapper.log.ScheduleLogMapper;
 import cn.sliew.scalegh.service.admin.ScheduleLogService;
 import cn.sliew.scalegh.service.convert.admin.ScheduleLogConvert;
 import cn.sliew.scalegh.service.dto.admin.ScheduleLogDTO;

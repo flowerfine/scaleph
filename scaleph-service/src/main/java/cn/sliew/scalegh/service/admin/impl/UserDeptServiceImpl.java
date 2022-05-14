@@ -1,7 +1,7 @@
 package cn.sliew.scalegh.service.admin.impl;
 
-import cn.sliew.breeze.dao.entity.master.security.UserDept;
-import cn.sliew.breeze.dao.mapper.master.security.UserDeptMapper;
+import cn.sliew.scalegh.dao.entity.master.security.UserDept;
+import cn.sliew.scalegh.dao.mapper.master.security.UserDeptMapper;
 import cn.sliew.scalegh.service.admin.UserDeptService;
 import cn.sliew.scalegh.service.convert.admin.UserDeptConvert;
 import cn.sliew.scalegh.service.dto.admin.UserDeptDTO;

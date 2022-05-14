@@ -1,8 +1,8 @@
 package cn.sliew.scalegh.service.di.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.master.di.DiJobLog;
-import cn.sliew.breeze.dao.mapper.master.di.DiJobLogMapper;
+import cn.sliew.scalegh.dao.entity.master.di.DiJobLog;
+import cn.sliew.scalegh.dao.mapper.master.di.DiJobLogMapper;
 import cn.sliew.scalegh.service.convert.di.DiJobLogConvert;
 import cn.sliew.scalegh.service.di.DiJobLogService;
 import cn.sliew.scalegh.service.dto.di.DiJobLogDTO;

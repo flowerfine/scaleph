@@ -1,6 +1,6 @@
 package cn.sliew.scalegh.service.convert.admin;
 
-import cn.sliew.breeze.dao.entity.master.security.Role;
+import cn.sliew.scalegh.dao.entity.master.security.Role;
 import cn.sliew.scalegh.service.convert.BaseConvert;
 import cn.sliew.scalegh.service.convert.DictVoConvert;
 import cn.sliew.scalegh.service.dto.admin.RoleDTO;
@@ -16,7 +16,7 @@ public interface RoleConvert extends BaseConvert<Role, RoleDTO> {
     RoleConvert INSTANCE = Mappers.getMapper(RoleConvert.class);
 
     @Override
-    @Mapping(expression = "java(DictVO.toVO(cn.sliew.breeze.common.constant.DictConstants.ROLE_TYPE,entity.getRoleType()))", target = "roleType")
-    @Mapping(expression = "java(DictVO.toVO(cn.sliew.breeze.common.constant.DictConstants.ROLE_STATUS,entity.getRoleStatus()))", target = "roleStatus")
+    @Mapping(expression = "java(cn.sliew.scalegh.service.vo.DictVO.toVO(cn.sliew.scalegh.common.constant.DictConstants.ROLE_TYPE,entity.getRoleType()))", target = "roleType")
+    @Mapping(expression = "java(cn.sliew.scalegh.service.vo.DictVO.toVO(cn.sliew.scalegh.common.constant.DictConstants.ROLE_STATUS,entity.getRoleStatus()))", target = "roleStatus")
     RoleDTO toDto(Role entity);
 }

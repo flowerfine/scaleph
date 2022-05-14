@@ -1,6 +1,6 @@
 package cn.sliew.scalegh.service.dto.meta;
 
-import cn.sliew.breeze.dao.entity.master.meta.MetaDataSetType;
+import cn.sliew.scalegh.dao.entity.master.meta.MetaDataSetType;
 import cn.sliew.scalegh.service.dto.BaseDTO;
 import cn.sliew.scalegh.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;

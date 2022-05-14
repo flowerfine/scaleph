@@ -1,8 +1,8 @@
 package cn.sliew.scalegh.service.admin.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.master.system.DictType;
-import cn.sliew.breeze.dao.mapper.master.system.DictTypeMapper;
+import cn.sliew.scalegh.dao.entity.master.system.DictType;
+import cn.sliew.scalegh.dao.mapper.master.system.DictTypeMapper;
 import cn.sliew.scalegh.service.admin.DictService;
 import cn.sliew.scalegh.service.admin.DictTypeService;
 import cn.sliew.scalegh.service.cache.DictTypeCache;

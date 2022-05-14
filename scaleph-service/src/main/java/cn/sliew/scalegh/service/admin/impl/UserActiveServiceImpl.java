@@ -1,8 +1,8 @@
 package cn.sliew.scalegh.service.admin.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.master.system.UserActive;
-import cn.sliew.breeze.dao.mapper.master.system.UserActiveMapper;
+import cn.sliew.scalegh.dao.entity.master.system.UserActive;
+import cn.sliew.scalegh.dao.mapper.master.system.UserActiveMapper;
 import cn.sliew.scalegh.service.admin.UserActiveService;
 import cn.sliew.scalegh.service.convert.admin.UserActiveConvert;
 import cn.sliew.scalegh.service.dto.admin.UserActiveDTO;

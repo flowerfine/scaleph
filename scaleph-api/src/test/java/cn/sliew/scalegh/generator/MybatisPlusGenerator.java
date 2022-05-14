@@ -1,6 +1,6 @@
 package cn.sliew.scalegh.generator;
 
-import cn.sliew.breeze.dao.entity.BaseDO;
+import cn.sliew.scalegh.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;

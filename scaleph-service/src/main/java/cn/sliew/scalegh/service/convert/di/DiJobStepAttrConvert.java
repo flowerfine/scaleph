@@ -1,6 +1,6 @@
 package cn.sliew.scalegh.service.convert.di;
 
-import cn.sliew.breeze.dao.entity.master.di.DiJobStepAttr;
+import cn.sliew.scalegh.dao.entity.master.di.DiJobStepAttr;
 import cn.sliew.scalegh.service.convert.BaseConvert;
 import cn.sliew.scalegh.service.dto.di.DiJobStepAttrDTO;
 import org.mapstruct.Mapper;

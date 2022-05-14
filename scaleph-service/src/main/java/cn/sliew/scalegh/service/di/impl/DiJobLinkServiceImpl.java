@@ -1,8 +1,8 @@
 package cn.sliew.scalegh.service.di.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.sliew.breeze.dao.entity.master.di.DiJobLink;
-import cn.sliew.breeze.dao.mapper.master.di.DiJobLinkMapper;
+import cn.sliew.scalegh.dao.entity.master.di.DiJobLink;
+import cn.sliew.scalegh.dao.mapper.master.di.DiJobLinkMapper;
 import cn.sliew.scalegh.service.convert.di.DiJobLinkConvert;
 import cn.sliew.scalegh.service.di.DiJobLinkService;
 import cn.sliew.scalegh.service.dto.di.DiJobLinkDTO;

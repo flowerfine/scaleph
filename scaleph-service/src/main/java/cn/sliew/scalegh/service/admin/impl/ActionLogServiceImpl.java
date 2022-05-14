@@ -1,7 +1,7 @@
 package cn.sliew.scalegh.service.admin.impl;
 
-import cn.sliew.breeze.dao.entity.log.LogAction;
-import cn.sliew.breeze.dao.mapper.log.LogActionMapper;
+import cn.sliew.scalegh.dao.entity.log.LogAction;
+import cn.sliew.scalegh.dao.mapper.log.LogActionMapper;
 import cn.sliew.scalegh.service.admin.ActionLogService;
 import cn.sliew.scalegh.service.convert.admin.LogActionConvert;
 import cn.sliew.scalegh.service.dto.admin.LogActionDTO;

@@ -1,8 +1,8 @@
 package cn.sliew.scalegh.service.admin.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.master.system.Dict;
-import cn.sliew.breeze.dao.mapper.master.system.DictMapper;
+import cn.sliew.scalegh.dao.entity.master.system.Dict;
+import cn.sliew.scalegh.dao.mapper.master.system.DictMapper;
 import cn.sliew.scalegh.service.admin.DictService;
 import cn.sliew.scalegh.service.cache.DictCache;
 import cn.sliew.scalegh.service.config.CaffeineCacheConfig;

@@ -1,7 +1,7 @@
 package cn.sliew.scalegh.service.meta.impl;
 
-import cn.sliew.breeze.dao.entity.master.meta.MetaDataMap;
-import cn.sliew.breeze.dao.mapper.master.meta.MetaDataMapMapper;
+import cn.sliew.scalegh.dao.entity.master.meta.MetaDataMap;
+import cn.sliew.scalegh.dao.mapper.master.meta.MetaDataMapMapper;
 import cn.sliew.scalegh.service.convert.meta.MetaDataMapConvert;
 import cn.sliew.scalegh.service.dto.meta.MetaDataMapDTO;
 import cn.sliew.scalegh.service.meta.MetaDataMapService;

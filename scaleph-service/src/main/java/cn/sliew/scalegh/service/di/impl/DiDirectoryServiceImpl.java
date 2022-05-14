@@ -2,8 +2,8 @@ package cn.sliew.scalegh.service.di.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.sliew.scalegh.common.constant.Constants;
-import cn.sliew.breeze.dao.entity.master.di.DiDirectory;
-import cn.sliew.breeze.dao.mapper.master.di.DiDirectoryMapper;
+import cn.sliew.scalegh.dao.entity.master.di.DiDirectory;
+import cn.sliew.scalegh.dao.mapper.master.di.DiDirectoryMapper;
 import cn.sliew.scalegh.service.convert.di.DiDirectoryConvert;
 import cn.sliew.scalegh.service.di.DiDirectoryService;
 import cn.sliew.scalegh.service.dto.di.DiDirectoryDTO;

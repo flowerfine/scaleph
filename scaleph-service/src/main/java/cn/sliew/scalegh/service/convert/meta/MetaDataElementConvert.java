@@ -1,6 +1,6 @@
 package cn.sliew.scalegh.service.convert.meta;
 
-import cn.sliew.breeze.dao.entity.master.meta.MetaDataElement;
+import cn.sliew.scalegh.dao.entity.master.meta.MetaDataElement;
 import cn.sliew.scalegh.service.convert.BaseConvert;
 import cn.sliew.scalegh.service.convert.DictVoConvert;
 import cn.sliew.scalegh.service.dto.meta.MetaDataElementDTO;
@@ -17,8 +17,8 @@ public interface MetaDataElementConvert extends BaseConvert<MetaDataElement, Met
     MetaDataElementConvert INSTANCE = Mappers.getMapper(MetaDataElementConvert.class);
 
     @Override
-    @Mapping(expression = "java(DictVO.toVO(cn.sliew.breeze.common.constant.DictConstants.YES_NO,entity.getNullable()))", target = "nullable")
-    @Mapping(expression = "java(DictVO.toVO(cn.sliew.breeze.common.constant.DictConstants.DATA_TYPE,entity.getDataType()))", target = "dataType")
+    @Mapping(expression = "java(cn.sliew.scalegh.service.vo.DictVO.toVO(cn.sliew.scalegh.common.constant.DictConstants.YES_NO,entity.getNullable()))", target = "nullable")
+    @Mapping(expression = "java(cn.sliew.scalegh.service.vo.DictVO.toVO(cn.sliew.scalegh.common.constant.DictConstants.DATA_TYPE,entity.getDataType()))", target = "dataType")
     @Mapping(source = "dataSetType", target = "dataSetType")
     MetaDataElementDTO toDto(MetaDataElement entity);
 

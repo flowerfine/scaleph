@@ -1,8 +1,8 @@
 package cn.sliew.scalegh.service.di.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.master.di.DiClusterConfig;
-import cn.sliew.breeze.dao.mapper.master.di.DiClusterConfigMapper;
+import cn.sliew.scalegh.dao.entity.master.di.DiClusterConfig;
+import cn.sliew.scalegh.dao.mapper.master.di.DiClusterConfigMapper;
 import cn.sliew.scalegh.service.convert.di.DiClusterConfigConvert;
 import cn.sliew.scalegh.service.di.DiClusterConfigService;
 import cn.sliew.scalegh.service.dto.di.DiClusterConfigDTO;

@@ -1,7 +1,7 @@
 package cn.sliew.scalegh.service.admin.impl;
 
-import cn.sliew.breeze.dao.entity.master.security.Role;
-import cn.sliew.breeze.dao.mapper.master.security.RoleMapper;
+import cn.sliew.scalegh.dao.entity.master.security.Role;
+import cn.sliew.scalegh.dao.mapper.master.security.RoleMapper;
 import cn.sliew.scalegh.service.admin.DeptRoleService;
 import cn.sliew.scalegh.service.admin.RolePrivilegeService;
 import cn.sliew.scalegh.service.admin.RoleService;

@@ -1,7 +1,7 @@
 package cn.sliew.scalegh.service.di.impl;
 
-import cn.sliew.breeze.dao.entity.master.di.DiJobAttr;
-import cn.sliew.breeze.dao.mapper.master.di.DiJobAttrMapper;
+import cn.sliew.scalegh.dao.entity.master.di.DiJobAttr;
+import cn.sliew.scalegh.dao.mapper.master.di.DiJobAttrMapper;
 import cn.sliew.scalegh.service.convert.di.DiJobAttrConvert;
 import cn.sliew.scalegh.service.di.DiJobAttrService;
 import cn.sliew.scalegh.service.dto.di.DiJobAttrDTO;

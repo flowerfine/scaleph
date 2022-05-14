@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.scalegh.dao.mapper.master.meta.MetaDataElementMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="MetaDataElementMap" type="cn.sliew.scalegh.dao.entity.master.meta.MetaDataElement">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="element_code" property="elementCode"/>
+        <result column="element_name" property="elementName"/>
+        <result column="data_type" property="dataType"/>
+        <result column="data_length" property="dataLength"/>
+        <result column="data_precision" property="dataPrecision"/>
+        <result column="data_scale" property="dataScale"/>
+        <result column="nullable" property="nullable"/>
+        <result column="data_default" property="dataDefault"/>
+        <result column="low_value" property="lowValue"/>
+        <result column="high_value" property="highValue"/>
+        <result column="data_set_type_id" property="dataSetTypeId"/>
+        <association property="dataSetType" javaType="cn.sliew.scalegh.dao.entity.master.meta.MetaDataSetType"
+                     column="data_set_type_id"
+                     select="cn.sliew.scalegh.dao.mapper.master.meta.MetaDataSetTypeMapper.selectById">
+        </association>
+    </resultMap>
+
+</mapper>

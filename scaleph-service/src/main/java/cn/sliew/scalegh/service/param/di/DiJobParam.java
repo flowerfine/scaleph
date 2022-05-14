@@ -1,6 +1,6 @@
 package cn.sliew.scalegh.service.param.di;
 
-import cn.sliew.breeze.dao.entity.master.di.DiJob;
+import cn.sliew.scalegh.dao.entity.master.di.DiJob;
 import cn.sliew.scalegh.service.param.PaginationParam;
 import lombok.Data;
 

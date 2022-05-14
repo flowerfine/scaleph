@@ -2,7 +2,7 @@ package cn.sliew.scalegh.service.convert.di;
 
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scalegh.common.constant.DictConstants;
-import cn.sliew.breeze.dao.entity.master.di.DiClusterConfig;
+import cn.sliew.scalegh.dao.entity.master.di.DiClusterConfig;
 import cn.sliew.scalegh.service.convert.BaseConvert;
 import cn.sliew.scalegh.service.convert.DictVoConvert;
 import cn.sliew.scalegh.service.dto.di.DiClusterConfigDTO;

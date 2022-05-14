@@ -5,7 +5,7 @@ import cn.hutool.json.JSONUtil;
 import cn.sliew.scalegh.ApplicationTest;
 import cn.sliew.scalegh.common.annotation.Desc;
 import cn.sliew.scalegh.common.constant.PrivilegeConstants;
-import cn.sliew.breeze.dao.entity.master.security.Privilege;
+import cn.sliew.scalegh.dao.entity.master.security.Privilege;
 import org.apache.commons.text.CaseUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.ResourceUtils;

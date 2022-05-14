@@ -2,10 +2,9 @@ package cn.sliew.scalegh.service.di.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.sliew.scalegh.common.enums.JobStatusEnum;
-import cn.sliew.breeze.dao.entity.master.di.DiJob;
-import cn.sliew.breeze.dao.mapper.master.di.DiJobMapper;
+import cn.sliew.scalegh.dao.entity.master.di.DiJob;
+import cn.sliew.scalegh.dao.mapper.master.di.DiJobMapper;
 import cn.sliew.scalegh.service.convert.di.DiJobConvert;
-import cn.sliew.breeze.service.di.*;
 import cn.sliew.scalegh.service.dto.di.DiDirectoryDTO;
 import cn.sliew.scalegh.service.dto.di.DiJobDTO;
 import cn.sliew.scalegh.service.param.di.DiJobParam;

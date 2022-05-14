@@ -1,8 +1,8 @@
 package cn.sliew.scalegh.service.di.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.breeze.dao.entity.master.di.DiProject;
-import cn.sliew.breeze.dao.mapper.master.di.DiProjectMapper;
+import cn.sliew.scalegh.dao.entity.master.di.DiProject;
+import cn.sliew.scalegh.dao.mapper.master.di.DiProjectMapper;
 import cn.sliew.scalegh.service.convert.di.DiProjectConvert;
 import cn.sliew.scalegh.service.di.DiDirectoryService;
 import cn.sliew.scalegh.service.di.DiJobService;

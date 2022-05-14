@@ -1,6 +1,6 @@
 package cn.sliew.scalegh.service.convert.di;
 
-import cn.sliew.breeze.dao.entity.master.di.DiJobLog;
+import cn.sliew.scalegh.dao.entity.master.di.DiJobLog;
 import cn.sliew.scalegh.service.convert.BaseConvert;
 import cn.sliew.scalegh.service.convert.DictVoConvert;
 import cn.sliew.scalegh.service.dto.di.DiJobLogDTO;
@@ -17,6 +17,6 @@ public interface DiJobLogConvert extends BaseConvert<DiJobLog, DiJobLogDTO> {
     DiJobLogConvert INSTANCE = Mappers.getMapper(DiJobLogConvert.class);
 
     @Override
-    @Mapping(expression = "java(DictVO.toVO(cn.sliew.breeze.common.constant.DictConstants.JOB_INSTANCE_STATE,entity.getJobInstanceState()))", target = "jobInstanceState")
+    @Mapping(expression = "java(cn.sliew.scalegh.service.vo.DictVO.toVO(cn.sliew.scalegh.common.constant.DictConstants.JOB_INSTANCE_STATE,entity.getJobInstanceState()))", target = "jobInstanceState")
     DiJobLogDTO toDto(DiJobLog entity);
 }

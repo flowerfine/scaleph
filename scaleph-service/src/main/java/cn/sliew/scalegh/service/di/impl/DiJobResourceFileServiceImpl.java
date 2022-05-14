@@ -1,8 +1,8 @@
 package cn.sliew.scalegh.service.di.impl;
 
-import cn.sliew.breeze.dao.entity.master.di.DiJobResourceFile;
-import cn.sliew.breeze.dao.entity.master.di.DiResourceFile;
-import cn.sliew.breeze.dao.mapper.master.di.DiJobResourceFileMapper;
+import cn.sliew.scalegh.dao.entity.master.di.DiJobResourceFile;
+import cn.sliew.scalegh.dao.entity.master.di.DiResourceFile;
+import cn.sliew.scalegh.dao.mapper.master.di.DiJobResourceFileMapper;
 import cn.sliew.scalegh.service.convert.di.DiResourceFileConvert;
 import cn.sliew.scalegh.service.di.DiJobResourceFileService;
 import cn.sliew.scalegh.service.dto.di.DiResourceFileDTO;
