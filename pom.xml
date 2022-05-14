@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.sliew</groupId>
-    <artifactId>breeze</artifactId>
+    <artifactId>scaleph</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>breeze</name>
-    <description>Breeze System</description>
+    <name>scaleph</name>
+    <description>Scaleph System</description>
 
     <licenses>
         <license>
@@ -19,9 +19,9 @@
     </licenses>
 
     <scm>
-        <connection>git@github.com:flowerfine/breeze.git</connection>
-        <developerConnection>scm:git:git@github.com:flowerfine/breeze.git</developerConnection>
-        <url>https://github.com/flowerfine/breeze</url>
+        <connection>git@github.com:flowerfine/scaleph.git</connection>
+        <developerConnection>scm:git:git@github.com:flowerfine/scaleph.git</developerConnection>
+        <url>https://github.com/flowerfine/scaleph</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -38,7 +38,7 @@
 
     <issueManagement>
         <system>Github Issue</system>
-        <url>https://github.com/flowerfine/breeze/issues</url>
+        <url>https://github.com/flowerfine/scaleph/issues</url>
     </issueManagement>
 
     <distributionManagement>
