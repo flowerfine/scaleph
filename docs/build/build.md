@@ -15,8 +15,8 @@ Requirements:
 ## clone
 
 ```shell
-https://github.com/flowerfine/breeze.git
-cd breeze
+https://github.com/flowerfine/scalegh.git
+cd scalegh
 ```
 
 ## development
@@ -32,7 +32,7 @@ mvn clean package -DskipTests
 #### bootstrap backend server
 
 ```shell
-java -jar breeze-api.jar
+java -jar scalegh-api.jar
 ```
 
 ### frontend
@@ -52,7 +52,7 @@ ng build --prod
 
 #### nginx setting
 
-copy web build result which `dist` to nginx's `html` directory and rename `dist` to `breeze`
+copy web build result which `dist` to nginx's `html` directory and rename `dist` to `scalegh`
 
 setup `nginx.conf` as flollows:
 
@@ -74,12 +74,12 @@ http {
          }
 
      location /api {
-         proxy_pass  http://xxx.com/breeze/api;
+         proxy_pass  http://xxx.com/scalegh/api;
          proxy_redirect  default;
          }
 
      location ~ .*\.(js|css|ico|png|jpg|eot|svg|ttf|woff|html) {
-         root html\breeze;
+         root html\scalegh;
          expires 30d;
          }
      }

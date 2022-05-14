@@ -1,8 +1,8 @@
 # scaleph
 
-[![Github Actions](https://img.shields.io/github/workflow/status/flowerfine/breeze/CI)](https://github.com/flowerfine/breeze/actions)
-[![Total Lines](https://tokei.rs/b1/github/flowerfine/breeze?category=lines)](https://github.com/flowerfine/breeze)
-[![Last commit](https://img.shields.io/github/last-commit/flowerfine/breeze.svg)](https://github.com/flowerfine/breeze)
+[![Github Actions](https://img.shields.io/github/workflow/status/flowerfine/scalegh/CI)](https://github.com/flowerfine/scalegh/actions)
+[![Total Lines](https://tokei.rs/b1/github/flowerfine/scalegh?category=lines)](https://github.com/flowerfine/scalegh)
+[![Last commit](https://img.shields.io/github/last-commit/flowerfine/scalegh.svg)](https://github.com/flowerfine/scalegh)
 
 Scaleph System
 
@@ -18,11 +18,11 @@ coming soon...
 
 coming soon...
 
-please refer [wiki](https://github.com/flowerfine/breeze/wiki)
+please refer [wiki](https://github.com/flowerfine/scalegh/wiki)
 
 ## Build and Deployment
 
-* [develop](https://github.com/flowerfine/breeze/blob/master/docs/develop.md). This doc describes how to set up local development environment of Scaleph project.
+* [develop](https://github.com/flowerfine/scalegh/blob/master/docs/develop.md). This doc describes how to set up local development environment of Scaleph project.
 * checkstyle. Scaleph project requires clean and robust code, which can help Scaleph go further and develop better.
 * build. This doc describes how to build the Scaleph project from source. Scaleph adopts `maven` as its build system, for more information about build from source and deployment, please refer [build](docs/build/build.md).
 * docker. As more application runs in container on cloud then bare metal machine, Scaleph provides own image.
@@ -34,11 +34,11 @@ coming soon...
 
 ## Contributing
 
-For contributions, please refer [CONTRIBUTING](https://github.com/flowerfine/breeze)
+For contributions, please refer [CONTRIBUTING](https://github.com/flowerfine/scalegh)
 
 ## Contact
 
-* Bugs and Features: [Issues](https://github.com/flowerfine/breeze/issues)
+* Bugs and Features: [Issues](https://github.com/flowerfine/scalegh/issues)
 
 ## License
 

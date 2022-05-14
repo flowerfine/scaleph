@@ -33,8 +33,8 @@
   },
   "app": {
     "title": {
-      "short": "Breeze",
-      "long": "Breeze 数据管理系统"
+      "short": "Scalegh",
+      "long": "Scalegh 数据管理系统"
     },
     "common": {
       "loading": "加载中...",

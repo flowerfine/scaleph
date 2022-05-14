@@ -1,4 +1,4 @@
-package cn.sliew.breeze.engine.endpoint;
+package cn.sliew.scalegh.engine.endpoint;
 
 import cn.sliew.flinkful.rest.base.JobClient;
 import cn.sliew.flinkful.rest.base.RestClient;

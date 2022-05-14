@@ -24,11 +24,11 @@ import java.util.Date;
 @Aspect
 @Component
 public class InsertUpdateAspect {
-    @Pointcut("execution(* cn.sliew.breeze.service..*.insert*(..))")
+    @Pointcut("execution(* cn.sliew.scalegh.service..*.insert*(..))")
     public void insertPointCut() {
     }
 
-    @Pointcut("execution(* cn.sliew.breeze.service..*.update*(..))")
+    @Pointcut("execution(* cn.sliew.scalegh.service..*.update*(..))")
     public void updatePointCut() {
 
     }

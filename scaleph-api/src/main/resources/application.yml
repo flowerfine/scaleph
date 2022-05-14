@@ -88,7 +88,7 @@ app:
   resource:
     type: minio
 #    local:
-#      parentDir: E:/idea-workspace/breeze/lib
+#      parentDir: E:/idea-workspace/scalegh/lib
     minio:
       endPoint: http://172.16.202.119:32660/
       bucket: ${spring.application.name}

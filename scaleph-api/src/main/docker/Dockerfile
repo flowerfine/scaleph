@@ -1,7 +1,7 @@
 FROM openjdk:8-jdk-alpine
 MAINTAINER gleiyu
 
-ENV MYSQL_URL="jdbc:mysql://mysql:3306/breeze?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai"
+ENV MYSQL_URL="jdbc:mysql://mysql:3306/scalegh?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai"
 ENV MYSQL_USERNAME=root
 ENV MYSQL_PASSWORD=123456
 ENV REDIS_HOST=redis
@@ -9,7 +9,7 @@ ENV REDIS_PORT=6379
 ENV REDIS_PASSWORD=123456
 
 ENV TZ Asia/Shanghai
-ENV BREEZE_HOME /opt/breeze
+ENV SCALEGH_HOME /opt/scalegh
 
 ENV ENV_PARAMS=" --spring.datasource.druid.master.url=$MYSQL_URL \
  --spring.datasource.druid.master.username=$MYSQL_USERNAME \
@@ -25,12 +25,12 @@ ENV ENV_PARAMS=" --spring.datasource.druid.master.url=$MYSQL_URL \
  --spring.redis.password=$REDIS_PASSWORD \
  "
 
-RUN mkdir -p $BREEZE_HOME
+RUN mkdir -p $SCALEGH_HOME
 
-WORKDIR $BREEZE_HOME
+WORKDIR $SCALEGH_HOME
 
-ADD ./target/breeze-api*.jar $BREEZE_HOME/breeze.jar
+ADD ./target/scalegh-api*.jar $SCALEGH_HOME/scalegh.jar
 
 EXPOSE 8080 8080
 
-ENTRYPOINT ["sh","-c","java -jar /opt/breeze/breeze.jar ${ENV_PARAMS}"]
+ENTRYPOINT ["sh","-c","java -jar /opt/scalegh/scalegh.jar ${ENV_PARAMS}"]

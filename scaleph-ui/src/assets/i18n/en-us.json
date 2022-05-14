@@ -10,8 +10,8 @@
   },
   "app": {
     "title": {
-      "short": "Breeze",
-      "long": "Breeze Data Manage System"
+      "short": "Scalegh",
+      "long": "Scalegh Data Manage System"
     },
     "common": {
       "loading": "loading...",

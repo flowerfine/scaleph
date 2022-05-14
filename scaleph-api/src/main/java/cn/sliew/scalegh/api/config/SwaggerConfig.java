@@ -43,7 +43,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.OAS_30)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("cn.sliew.breeze"))
+                .apis(RequestHandlerSelectors.basePackage("cn.sliew.scalegh"))
                 .paths(PathSelectors.any())
                 .build()
                 .globalRequestParameters(paramList);

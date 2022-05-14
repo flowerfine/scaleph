@@ -1,4 +1,4 @@
-package cn.sliew.breeze.engine.endpoint;
+package cn.sliew.scalegh.engine.endpoint;
 
 import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.PackageJarJob;
