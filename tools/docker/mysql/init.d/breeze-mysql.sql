@@ -537,7 +537,7 @@ create table meta_datasource (
     key (database_name),
     key (update_time)
 ) engine = innodb comment '元数据-数据源连接信息';
-INSERT INTO `meta_datasource`(`datasource_name`, `datasource_type`, `connection_type`, `host_name`, `database_name`, `port`, `user_name`, `password`, `remark`, `props`, `creator`, `editor`) VALUES ('local_data_service', 'mysql', 'jdbc', 'localhost', 'data_service', 3306, 'root', 'MTIzNDU2', NULL, '{\"jdbc\":\"serverTimezone=Asia/Shanghai\\ncharacterEncoding=utf8\\nzeroDateTimeBehavior=convertToNull\"}', 'sys_admin', 'sys_admin');
+insert into `meta_datasource`(`datasource_name`, `datasource_type`, `connection_type`, `host_name`, `database_name`, `port`, `user_name`, `password`, `remark`, `props`, `creator`, `editor`) VALUES ('local_data_service', 'mysql', 'jdbc', 'localhost', 'data_service', 3306, 'root', 'MTIzNDU2', NULL, '{\"jdbc\":\"serverTimezone=Asia/Shanghai\\ncharacterEncoding=utf8\\nzeroDateTimeBehavior=convertToNull\"}', 'sys_admin', 'sys_admin');
 
 /*元数据-数据表信息*/
 drop table if exists meta_table;
@@ -706,7 +706,7 @@ create table di_project (
     unique (project_code)
 ) engine = innodb comment '数据集成-项目信息';
 
-INSERT INTO `di_project`(`project_code`, `project_name`, `remark`, `creator`, `editor`) VALUES ('seatunnel', 'seatunnel-examples', NULL, 'sys_admin', 'sys_admin');
+insert into `di_project`(`project_code`, `project_name`, `remark`, `creator`, `editor`) VALUES ('seatunnel', 'seatunnel-examples', NULL, 'sys_admin', 'sys_admin');
 
 /* 资源信息表 */
 drop table if exists di_resource_file;
@@ -758,8 +758,8 @@ create table di_directory (
     key (pid)
 ) engine = innodb comment '数据集成-项目目录';
 
-INSERT INTO `di_directory`(`project_id`, `directory_name`, `pid`, `creator`, `editor`) VALUES (1, 'seatunnel', 0, 'sys_admin', 'sys_admin');
-INSERT INTO `di_directory`(`project_id`, `directory_name`, `pid`, `creator`, `editor`) VALUES (1, 'example', 1, 'sys_admin', 'sys_admin');
+insert into `di_directory`(`project_id`, `directory_name`, `pid`, `creator`, `editor`) VALUES (1, 'seatunnel', 0, 'sys_admin', 'sys_admin');
+insert into `di_directory`(`project_id`, `directory_name`, `pid`, `creator`, `editor`) VALUES (1, 'example', 1, 'sys_admin', 'sys_admin');
 
 /* 数据集成-作业信息*/
 drop table if exists di_job;
@@ -901,6 +901,7 @@ create table di_job_log(
     job_code varchar(128) not null comment '作业编码',
     cluster_id bigint not null comment '执行集群id',
     job_instance_id varchar(128) not null comment '作业实例id',
+    job_log_url varchar(512) comment '作业日志URL',
     start_time datetime comment '开始时间',
     end_time datetime comment '结束时间',
     duration bigint comment '消耗时长-毫秒',

@@ -149,15 +149,4 @@ export class RealtimeJobComponent implements OnInit {
     };
     this.refreshTable();
   }
-
-  openLogDetail(row: DiJobLog) {
-    //todo
-    console.log('open job detail url', row);
-    // this.router.navigate(['/breeze', 'datadev', 'job'], {
-    //   queryParams: {
-    // projectId: row.id,
-    // projectCode: row.projectCode,
-    // },
-    // });
-  }
 }

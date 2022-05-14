@@ -534,6 +534,10 @@ public class JobController {
         jobLogInfo.setJobCode(job.getJobCode());
         jobLogInfo.setClusterId(jobRunParam.getClusterId());
         jobLogInfo.setJobInstanceId(jobInstanceID.toString());
+        String clusterHost = configuration.getString(JobManagerOptions.ADDRESS);
+        int clusterPort = configuration.getInteger(RestOptions.PORT);
+        String jobLogUrl = "http://" + clusterHost + ":" + clusterPort + "/#/job/" + jobInstanceID + "/overview";
+        jobLogInfo.setJobLogUrl(jobLogUrl);
         jobLogInfo.setJobInstanceState(DictVO.toVO(DictConstants.JOB_INSTANCE_STATE, JobStatus.INITIALIZING.toString()));
         jobLogInfo.setStartTime(new Date());
         this.diJobService.update(job);
