@@ -68,14 +68,14 @@
     </repositories>
 
     <modules>
-        <module>breeze-ui</module>
-        <module>breeze-dao</module>
-        <module>breeze-common</module>
-        <module>breeze-service</module>
-        <module>breeze-api</module>
-        <module>breeze-meta</module>
-        <module>breeze-engine</module>
-        <module>breeze-plugins</module>
+        <module>scaleph-ui</module>
+        <module>scaleph-dao</module>
+        <module>scaleph-common</module>
+        <module>scaleph-service</module>
+        <module>scaleph-api</module>
+        <module>scaleph-meta</module>
+        <module>scaleph-engine</module>
+        <module>scaleph-plugins</module>
     </modules>
 
     <properties>
@@ -124,27 +124,27 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>breeze-engine</artifactId>
+                <artifactId>scaleph-engine</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>breeze-meta</artifactId>
+                <artifactId>scaleph-meta</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>breeze-service</artifactId>
+                <artifactId>scaleph-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>breeze-dao</artifactId>
+                <artifactId>scaleph-dao</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>breeze-common</artifactId>
+                <artifactId>scaleph-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
