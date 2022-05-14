@@ -75,6 +75,7 @@
         <module>breeze-api</module>
         <module>breeze-meta</module>
         <module>breeze-engine</module>
+        <module>breeze-plugins</module>
     </modules>
 
     <properties>
@@ -109,6 +110,7 @@
         <okhttp.version>4.9.3</okhttp.version>
         <guava.version>31.0-jre</guava.version>
         <minio.version>8.3.8</minio.version>
+        <milky.version>1.0.6_8</milky.version>
     </properties>
 
     <dependencyManagement>
@@ -223,6 +225,18 @@
                 <version>${commons.text.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>cn.sliew</groupId>
+                <artifactId>milky-common</artifactId>
+                <version>${milky.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
             <!-- flink -->
             <dependency>
                 <groupId>org.apache.flink</groupId>
@@ -281,13 +295,6 @@
                 <artifactId>okhttp</artifactId>
                 <version>${okhttp.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
-
 
             <dependency>
                 <groupId>io.minio</groupId>
