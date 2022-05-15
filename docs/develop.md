@@ -47,7 +47,7 @@ Start backend server through `cn.sliew.scaleph.Application` on `scaleph-api` mod
 
 ## start frontend
 
-Install dependencies:
+Install dependencies. Note: this step only needs when first time bootstraps frontend service.
 
 ```shell
 cd scaleph-ui
@@ -56,10 +56,10 @@ npm install -g @angular/cli
 npm install
 ```
 
-Start backend server:
+Start frontend server:
 
 ```shell
-node start
+npm start
 ```
 
 After web server started, user can open http://localhost:4200/ in browser and admin account is `sys_admin/123456`.
