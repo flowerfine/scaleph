@@ -786,6 +786,8 @@ create table di_job (
     unique key (job_code,job_version)
 ) engine = innodb comment '数据集成-作业信息';
 
+INSERT INTO `di_job`(`project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`, `runtime_state`, `job_version`, `cluster_id`, `remark`, `creator`, `editor`) VALUES (1, 'jdbc_to_jdbc', 'jdbc_to_jdbc', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, 'sys_admin', 'sys_admin');
+
 drop table if exists di_job_resource_file;
 create table di_job_resource_file (
     id bigint not null auto_increment comment '自增主键',
@@ -835,6 +837,9 @@ create table di_job_step (
     unique key(job_id,step_code)
 ) engine = innodb comment '数据集成-作业步骤信息';
 
+INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`, `creator`, `editor`) VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', '表输入', 'source', 'table', -440, -320, 'sys_admin', 'sys_admin');
+INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`, `creator`, `editor`) VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', '表输出', 'sink', 'table', -240, -120, 'sys_admin', 'sys_admin');
+
 /* 作业步骤参数 */
 drop table if exists di_job_step_attr;
 create table di_job_step_attr (
@@ -850,6 +855,14 @@ create table di_job_step_attr (
     primary key (id),
     key(job_id,step_code)
 ) engine = innodb comment '数据集成-作业步骤参数';
+
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`) VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', 'dataSource', '{\"label\":\"local_data_service\",\"value\":\"1\"}', 'sys_admin', 'sys_admin');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`) VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', 'dataSourceType', '{\"label\":\"Mysql\",\"value\":\"mysql\"}', 'sys_admin', 'sys_admin');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`) VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', 'query', 'select * from sample_data_e_commerce', 'sys_admin', 'sys_admin');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`) VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'batchSize', '1024', 'sys_admin', 'sys_admin');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`) VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'dataSource', '{\"label\":\"local_data_service\",\"value\":\"1\"}', 'sys_admin', 'sys_admin');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`) VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'dataSourceType', '{\"label\":\"Mysql\",\"value\":\"mysql\"}', 'sys_admin', 'sys_admin');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`) VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'query', 'insert into sample_data_e_commerce_duplicate (invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country) values (?,?,?,?,?, ?,?,?)', 'sys_admin', 'sys_admin');
 
 /* 数据集成-作业步骤参数类型信息 */
 drop table if exists di_job_step_attr_type;
@@ -893,6 +906,8 @@ create table di_job_link (
     primary key (id),
     key(job_id)
 ) engine = innodb comment '数据集成-作业连线';
+
+INSERT INTO `di_job_link`(`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`) VALUES (1, '0c23960c-e59f-480f-beef-6cd59878d0e5', 'ead21aa2-a825-4827-a9ba-3833c6b83941', 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'sys_admin', 'sys_admin');
 
 /* 数据同步-运行日志 */
 drop table if exists di_job_log;
