@@ -31,6 +31,11 @@
         </association>
     </resultMap>
 
+    <resultMap id="groupCountMap" type="java.util.HashMap">
+        <result column="name" property="name" javaType="java.lang.String"/>
+        <result column="value" property="value" javaType="java.lang.Integer"/>
+    </resultMap>
+
     <select id="selectPage" resultMap="DiJobLogMap">
         <![CDATA[
         select
@@ -97,4 +102,50 @@
             </if>
         </where>
     </select>
+
+    <select id="selectTopN" resultMap="DiJobLogMap">
+        <![CDATA[
+        select
+            t1.id,
+            t1.job_id,
+            t1.job_code,
+            t1.job_instance_id,
+            t1.job_log_url,
+            t1.start_time,
+            t1.end_time,
+            t1.duration,
+            t1.job_instance_state,
+            t1.project_id,
+            t4.project_code,
+            t4.project_name
+        from di_job_log t1
+        inner join di_job t2
+        on t1.project_id = t2.project_id
+        and t1.job_code = t2.job_code
+        left join di_project t4
+        on t1.project_id = t4.id
+        ]]>
+        <where>
+            <if test="jobType != null and jobType != '' ">
+                t2.job_type = #{jobType,jdbcType=VARCHAR}
+            </if>
+            <if test="startTime != null ">
+                and t1.start_time &gt;= #{startTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+        order by t1.duration desc
+        limit ${n}
+    </select>
+
+    <select id="selectRealtimeJobRuntimeStatus" resultMap="groupCountMap">
+        select
+        count(1) as value,
+        coalesce(a1.dict_value,t.runtime_state) as name
+        from di_job t
+        left join (select dict_code,dict_value from t_dict where dict_type_code = 'runtime_state') a1
+        on t.runtime_state = a1.dict_code
+        where t.job_type = #{jobType,jdbcType=VARCHAR}
+        group by t.runtime_state
+    </select>
+
 </mapper>

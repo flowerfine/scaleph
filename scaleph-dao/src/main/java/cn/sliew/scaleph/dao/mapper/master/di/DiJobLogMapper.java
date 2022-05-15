@@ -7,6 +7,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 数据集成-作业运行日志 Mapper 接口
@@ -22,4 +26,10 @@ public interface DiJobLogMapper extends BaseMapper<DiJobLog> {
                               @Param(value = "log") DiJobLog log,
                               @Param(value = "jobType") String jobType
     );
+
+    List<DiJobLog> selectTopN(@Param(value = "jobType") String jobType,
+                              @Param(value = "n") Integer n,
+                              @Param(value = "startTime") Date startTime);
+
+    List<Map<String, Object>> selectRealtimeJobRuntimeStatus(@Param(value = "jobType") String jobType);
 }

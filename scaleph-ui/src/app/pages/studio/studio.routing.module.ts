@@ -8,8 +8,8 @@ const routes: Routes = [
     path: '',
     component: StudioComponent,
     children: [
-      { path: 'board', component: DataBoardComponent },
-      { path: '', redirectTo: 'board', pathMatch: 'full' },
+      { path: 'databoard', component: DataBoardComponent },
+      { path: '', redirectTo: 'databoard', pathMatch: 'full' },
     ],
   },
 ];

@@ -121,7 +121,7 @@ export const PRIVILEGE_CODE = {
   opscenterBatchShow: 'pobt0',
   opscenterRealtimeShow: 'port0',
   studioShow: 'psdo0',
-  studioBoardShow: 'psdb0',
+  studioDataBoardShow: 'psdb0',
   dictTypeSelect: 'pdct4',
   dictTypeAdd: 'pdct1',
   dictTypeDelete: 'pdct3',

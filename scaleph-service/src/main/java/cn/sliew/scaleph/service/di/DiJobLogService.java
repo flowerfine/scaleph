@@ -4,7 +4,9 @@ import cn.sliew.scaleph.service.dto.di.DiJobLogDTO;
 import cn.sliew.scaleph.service.param.di.DiJobLogParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -25,4 +27,8 @@ public interface DiJobLogService {
     DiJobLogDTO selectByJobInstanceId(String jobInstanceId);
 
     List<DiJobLogDTO> listRunningJobInstance(String jobCode);
+
+    List<DiJobLogDTO> listTop100BatchJob(Date startTime);
+
+    Map<String, String> groupRealtimeJobRuntimeStatus();
 }

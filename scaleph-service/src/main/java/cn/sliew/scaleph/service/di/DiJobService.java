@@ -28,7 +28,7 @@ public interface DiJobService {
     /**
      * 归档任务，只保留发布状态中最大版本号的那个，其余发布状态的任务均改为归档状态
      *
-     * @param jobCode     job code
+     * @param jobCode job code
      * @return int
      */
     int archive(String jobCode);
@@ -44,7 +44,7 @@ public interface DiJobService {
     /**
      * 删除一个
      *
-     * @param jobCode     jobCode
+     * @param jobCode jobCode
      * @return int
      */
     int deleteByCode(String jobCode);
@@ -114,4 +114,6 @@ public interface DiJobService {
      * @return boolean
      */
     boolean hasRunningJob(Collection<Long> clusterIds);
+
+    int totalCnt(String jobType);
 }

@@ -1,6 +1,7 @@
 package cn.sliew.scaleph.service.di.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.common.enums.JobStatusEnum;
 import cn.sliew.scaleph.dao.entity.master.di.DiJob;
 import cn.sliew.scaleph.dao.mapper.master.di.DiJobMapper;
@@ -207,5 +208,12 @@ public class DiJobServiceImpl implements DiJobService {
         } else {
             return true;
         }
+    }
+
+    @Override
+    public int totalCnt(String jobType) {
+        return this.diJobMapper.selectCount(new LambdaQueryWrapper<DiJob>()
+                .eq(StrUtil.isNotEmpty(jobType), DiJob::getJobType, jobType)
+        );
     }
 }

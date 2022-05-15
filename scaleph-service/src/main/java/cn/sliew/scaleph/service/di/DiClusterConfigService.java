@@ -24,4 +24,6 @@ public interface DiClusterConfigService {
     List<DictVO> listAll();
 
     DiClusterConfigDTO selectOne(Long id);
+
+    int totalCnt();
 }

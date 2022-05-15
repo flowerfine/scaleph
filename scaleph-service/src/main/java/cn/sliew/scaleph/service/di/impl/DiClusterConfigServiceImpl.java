@@ -79,4 +79,9 @@ public class DiClusterConfigServiceImpl implements DiClusterConfigService {
         DiClusterConfig config = this.diClusterConfigMapper.selectById(id);
         return DiClusterConfigConvert.INSTANCE.toDto(config);
     }
+
+    @Override
+    public int totalCnt() {
+        return this.diClusterConfigMapper.selectCount(null);
+    }
 }
