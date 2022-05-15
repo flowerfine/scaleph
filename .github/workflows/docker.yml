@@ -54,6 +54,6 @@ jobs:
           -Dmaven.deploy.skip \
           -Ddocker.build.skip=false \
           -Ddocker.push.skip=false \
-          -Ddocker.tag=${{ github.sha }} \
+#          -Ddocker.tag=${{ github.sha }} \
           -Ddocker.hub=${{ env.HUB }} \
           -Pdocker
