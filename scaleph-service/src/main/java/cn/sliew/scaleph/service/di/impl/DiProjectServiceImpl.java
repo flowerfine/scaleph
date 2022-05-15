@@ -106,4 +106,9 @@ public class DiProjectServiceImpl implements DiProjectService {
         List<DiProject> list = this.diProjectMapper.selectList(null);
         return DiProjectConvert.INSTANCE.toDto(list);
     }
+
+    @Override
+    public int totalCnt() {
+        return this.diProjectMapper.selectCount(null);
+    }
 }

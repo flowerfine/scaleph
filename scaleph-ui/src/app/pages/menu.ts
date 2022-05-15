@@ -26,9 +26,9 @@ export default function (values) {
       pCode: PRIVILEGE_CODE.studioShow,
       children: [
         {
-          title: values['studio']['board'],
-          link: '/scaleph/studio/board',
-          pCode: PRIVILEGE_CODE.studioBoardShow,
+          title: values['studio']['databoard'],
+          link: '/scaleph/studio/databoard',
+          pCode: PRIVILEGE_CODE.studioDataBoardShow,
         },
       ],
     },

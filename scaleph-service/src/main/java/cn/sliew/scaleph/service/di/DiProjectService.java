@@ -59,7 +59,10 @@ public interface DiProjectService {
 
     /**
      * 查询全部
+     *
      * @return
      */
     List<DiProjectDTO> listAll();
+
+    int totalCnt();
 }

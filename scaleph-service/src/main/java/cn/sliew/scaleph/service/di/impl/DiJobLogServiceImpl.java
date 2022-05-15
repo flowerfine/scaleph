@@ -1,6 +1,8 @@
 package cn.sliew.scaleph.service.di.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.sliew.scaleph.common.enums.JobTypeEnum;
 import cn.sliew.scaleph.dao.entity.master.di.DiJobLog;
 import cn.sliew.scaleph.dao.mapper.master.di.DiJobLogMapper;
 import cn.sliew.scaleph.service.convert.di.DiJobLogConvert;
@@ -13,7 +15,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DiJobLogServiceImpl implements DiJobLogService {
@@ -69,5 +74,29 @@ public class DiJobLogServiceImpl implements DiJobLogService {
                         .notIn(DiJobLog::getJobInstanceState, "FAILED", "CANCELED", "FINISHED")
         );
         return DiJobLogConvert.INSTANCE.toDto(list);
+    }
+
+    @Override
+    public List<DiJobLogDTO> listTop100BatchJob(Date startTime) {
+        List<DiJobLog> list = this.diJobLogMapper.selectTopN(
+                JobTypeEnum.BATCH.getValue(),
+                100,
+                startTime
+        );
+        return DiJobLogConvert.INSTANCE.toDto(list);
+    }
+
+    @Override
+    public Map<String, String> groupRealtimeJobRuntimeStatus() {
+        List<Map<String, Object>> list = this.diJobLogMapper.selectRealtimeJobRuntimeStatus(JobTypeEnum.REALTIME.getValue());
+        Map<String, String> map = new HashMap<>();
+        if (CollectionUtil.isNotEmpty(list)) {
+            for (Map<String, Object> m : list) {
+                String name = String.valueOf(m.get("name"));
+                String value = String.valueOf(m.get("value"));
+                map.put(name, value);
+            }
+        }
+        return map;
     }
 }

@@ -120,7 +120,7 @@ public interface PrivilegeConstants {
          * 工作台
          */
         String STUDIO = "sdo";
-        String STUDIO_BOARD = "sdb";
+        String STUDIO_DATA_BOARD = "sdb";
 
         /**
          * 运维中心
@@ -212,7 +212,7 @@ public interface PrivilegeConstants {
     @Desc("{\"id\":20,\"privilegeName\":\"工作台\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
     String STUDIO_SHOW = PRIVILEGE_PREFIX + ModuleCode.STUDIO + ActionCode.SHOW;
     @Desc("{\"id\":21,\"privilegeName\":\"数据看板\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
-    String STUDIO_BOARD_SHOW = PRIVILEGE_PREFIX + ModuleCode.STUDIO_BOARD + ActionCode.SHOW;
+    String STUDIO_DATA_BOARD_SHOW = PRIVILEGE_PREFIX + ModuleCode.STUDIO_DATA_BOARD + ActionCode.SHOW;
     /**
      * 1-操作权限
      */
