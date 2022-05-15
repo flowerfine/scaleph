@@ -11,7 +11,7 @@
   "app": {
     "title": {
       "short": "Scaleph",
-      "long": "Scaleph Data Manage System"
+      "long": "Scaleph"
     },
     "common": {
       "loading": "loading...",

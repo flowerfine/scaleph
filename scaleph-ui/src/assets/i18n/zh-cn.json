@@ -34,7 +34,7 @@
   "app": {
     "title": {
       "short": "Scaleph",
-      "long": "Scaleph 数据管理系统"
+      "long": "Scaleph"
     },
     "common": {
       "loading": "加载中...",
