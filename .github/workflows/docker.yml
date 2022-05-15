@@ -5,12 +5,12 @@ on:
     paths-ignore: ['tools/**', 'docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
     branches:
       - master
-      - 'release/**'
+#      - 'release/**'
   push:
     paths-ignore: ['tools/**', 'docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
     branches:
       - master
-      - 'release/**'
+#      - 'release/**'
 
 env:
   HUB: ghcr.io/flowerfine/scaleph
