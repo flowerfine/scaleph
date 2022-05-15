@@ -34,6 +34,12 @@ please refer [wiki](https://github.com/flowerfine/scaleph/wiki)
 
 数据同步
 
+flink way 方式的数据同步。
+
+基于 `seatunnel`，`flink-cdc-connectors` 以及 `flowerfine` 维护和开发的 connectors 实现数据同步
+
+
+
 数据开发
 
 DAG 调度
