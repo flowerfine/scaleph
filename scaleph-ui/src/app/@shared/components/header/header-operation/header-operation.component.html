@@ -27,7 +27,6 @@
       </ng-container>
     </ul>
   </div>
-
   <div class="da-language-wrapper" dDropDown [trigger]="'hover'" appendToBody dDropDownToggle>
     <!-- TODO: svg替换为图标 -->
     <svg width="16px" height="16px" viewBox="0 0 16 16">
@@ -50,6 +49,22 @@
         </a>
       </li>
     </ul>
+  </div>
+  <div>
+    <a
+      href="https://github.com/flowerfine/scaleph"
+      rel="noopener noreferrer"
+      target="_blank"
+      aria-label="Star flowerfine/scaleph on GitHub"
+      title="Star flowerfine/scaleph on GitHub"
+      dPopover
+      [trigger]="'hover'"
+      [controlled]="true"
+      [position]="'left'"
+      [content]="'Star flowerfine/scaleph on GitHub'"
+    >
+      <fa-icon style="width: 16px; height: 16px" [icon]="faGithub"></fa-icon>
+    </a>
   </div>
 </div>
 

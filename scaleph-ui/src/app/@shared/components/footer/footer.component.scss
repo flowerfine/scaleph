@@ -8,19 +8,7 @@
     align-items: center;
     justify-content: center;
 
-    .da-production-name {
-      a {
-        color: $devui-text-weak;
-        cursor: pointer;
-        transition: color 0.2s ease-in-out;
-
-        &:hover {
-          color: $devui-text;
-        }
-      }
-    }
-
-    .da-organization {
+    .da-friendly-link {
       a {
         color: $devui-text-weak;
         cursor: pointer;

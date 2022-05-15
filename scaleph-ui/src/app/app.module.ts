@@ -12,6 +12,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NotFoundComponent } from './pages/abnormal/not-found/not-found.component';
 import { ForbiddenComponent } from './pages/abnormal/forbidden/forbidden.component';
 import { ServerErrorComponent } from './pages/abnormal/server-error/server-error.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 export function httpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/i18n/`, '.json');
@@ -24,6 +25,7 @@ export function httpLoaderFactory(http: HttpClient) {
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    FontAwesomeModule,
     CoreModule.forRoot(),
     SharedModule.forRoot(),
     TranslateModule.forRoot({
