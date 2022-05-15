@@ -124,11 +124,11 @@
                     #birthdayDp="datepicker"
                     (click)="birthdayDp.toggle()"
                     name="birthday"
-                    [(ngModel)]="formData.birthday"
-                    dateFormat="y-MM-dd"
+                    [(ngModel)]="birthdayTime"
+                    dateFormat="yyyy-MM-dd"
                     mode="date"
                   />
-                  <div *ngIf="formData.birthday" class="devui-input-group-addon close-icon-wrapper" (click)="birthdayDp.clearAll()">
+                  <div *ngIf="birthdayTime" class="devui-input-group-addon close-icon-wrapper" (click)="birthdayDp.clearAll()">
                     <em class="icon icon-close"></em>
                   </div>
                   <div class="devui-input-group-addon" (click)="birthdayDp.toggle()">

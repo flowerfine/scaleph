@@ -61,7 +61,7 @@ export class User {
   idCardNo?: string;
   gender?: Dict;
   nation?: string;
-  birthday?: Date;
+  birthday?: number;
   qq?: string;
   wechat?: string;
   mobilePhone?: string;
