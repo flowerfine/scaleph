@@ -84,16 +84,10 @@ thread:
 # 系统设置相关配置
 app:
   name: ${spring.application.name}
-  host: localhost:4200
   resource:
     type: minio
-#    local:
-#      parentDir: E:/idea-workspace/scalegh/lib
     minio:
-      endPoint: http://172.16.202.119:32660/
       bucket: ${spring.application.name}
-      accessKey: admin
-      secretKey: password
   engine:
     flink:
       state:

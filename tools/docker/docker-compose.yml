@@ -30,6 +30,17 @@ services:
     networks:
       - scaleph
 
+  minio:
+    image: bitnami/minio:2022
+    container_name: minio
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=password
+      - MINIO_DEFAULT_BUCKETS=scaleph
+    ports:
+      - 9000:9000
+      - 9001:9001
+
   jobmanager:
     image: flink:1.13.6-scala_2.12-java8
     container_name: jobmanager

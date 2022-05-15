@@ -25,6 +25,14 @@ spring:
     port: 6379
     password: 123456
 
+app:
+  host: localhost:4200
+  resource:
+    minio:
+      endPoint: http://127.0.0.1:9000
+      accessKey: admin
+      secretKey: password
+
 # log
 logging:
   level:
