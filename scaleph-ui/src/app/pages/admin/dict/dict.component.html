@@ -75,17 +75,17 @@
               (checkAllChange)="getDictTypeCheckedStatus()"
               (rowDBClick)="dataTypeRowClick($event.rowItem)"
             >
-              <d-column field="dictTypeCode" header="{{ 'admin.dictTypeCode' | translate }}" [width]="'200px'" [fixedLeft]="'36px'">
+              <d-column field="dictTypeCode" header="{{ 'admin.dictTypeCode' | translate }}" [width]="'180px'" [fixedLeft]="'36px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="dictTypeName" header="{{ 'admin.dictTypeName' | translate }}" [width]="'200px'">
+              <d-column field="dictTypeName" header="{{ 'admin.dictTypeName' | translate }}" [width]="'180px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="remark" header="{{ 'admin.remark' | translate }}" [width]="'160px'">
+              <d-column field="remark" header="{{ 'admin.remark' | translate }}" [width]="'260px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>
@@ -175,17 +175,17 @@
                   <ng-template let-cellItem="cellItem">{{ cellItem.dictTypeCode + '-' + cellItem.dictTypeName }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="dictCode" header="{{ 'admin.dictCode' | translate }}" [width]="'160px'">
+              <d-column field="dictCode" header="{{ 'admin.dictCode' | translate }}" [width]="'180px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="dictValue" header="{{ 'admin.dictValue' | translate }}" [width]="'160px'">
+              <d-column field="dictValue" header="{{ 'admin.dictValue' | translate }}" [width]="'180px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="remark" header="{{ 'admin.remark' | translate }}" [width]="'160px'">
+              <d-column field="remark" header="{{ 'admin.remark' | translate }}" [width]="'260px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>

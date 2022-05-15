@@ -17,6 +17,7 @@ export class UserProfileComponent implements OnInit {
   genderList: Dict[] = [];
   nationList: Dict[] = [];
   birthdayDp = null;
+  birthdayTime: Date = null;
   formLayout = FormLayout.Vertical;
   formConfig: { [Key: string]: DValidateRules } = {
     rule: { message: this.translate.instant('app.error.formValidateError'), messageShowType: 'text' },
@@ -100,6 +101,9 @@ export class UserProfileComponent implements OnInit {
 
   submitForm({ valid }) {
     if (valid) {
+      if (this.birthdayTime) {
+        this.formData.birthday = this.birthdayTime.getTime();
+      }
       this.userService.update(this.formData).subscribe((d) => {
         if (d.success) {
           this.notificationService.success(this.translate.instant('app.common.operate.success'));

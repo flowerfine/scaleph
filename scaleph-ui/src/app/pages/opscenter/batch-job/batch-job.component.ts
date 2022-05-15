@@ -1,9 +1,8 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DataTableComponent, FilterConfig, LoadingService, SortDirection, SortEventArg } from 'ng-devui';
-import { DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE, SoterField } from 'src/app/@core/data/app.data';
+import { DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
 import { DiJobLog, DiJobLogParam } from 'src/app/@core/data/opscenter.data';
 import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
 import { AuthService } from 'src/app/@core/services/auth.service';
@@ -58,7 +57,6 @@ export class BatchJobComponent implements OnInit {
     private projectService: ProjectService,
     private clusterService: ClusterService,
     private dictDataService: DictDataService,
-    private router: Router
   ) {}
 
   ngOnInit(): void {

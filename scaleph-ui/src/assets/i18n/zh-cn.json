@@ -319,9 +319,10 @@
     "cluster": "集群",
     "jobInstanceId": "任务实例编号",
     "jobInstanceState": "任务实例状态",
+    "timeRange": "业务时间",
     "startTime": "开始时间",
     "endTime": "结束时间",
-    "duration":"耗时",
+    "duration": "耗时",
     "createTime": "创建时间",
     "updateTime": "更新时间",
     "log.info": "详细日志"
