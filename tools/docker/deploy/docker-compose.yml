@@ -2,16 +2,13 @@ version: "3.1"
 
 services:
 
-  breeze:
-    image: scaleph/scaleph-api:0.0.1-SNAPSHOT
+  scaleph-api:
+    image: ghcr.io/flowerfine/scaleph/scaleph-api:latest
     container_name: scaleph-api
     depends_on:
       - mysql
       - redis
       - minio
-    build:
-      dockerfile: Dockerfile
-      context: ../../../scaleph-api
     ports:
       - 8080:8080
     networks:
