@@ -14,8 +14,8 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ./mysql/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
-      - ./mysql/init.d:/docker-entrypoint-initdb.d
+      - ../mysql/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
+      - ../mysql/init.d:/docker-entrypoint-initdb.d
     networks:
       - scaleph
 
@@ -109,8 +109,8 @@ services:
     ports:
       - 11111:11111
     volumes:
-      - ./canal/canal.properties:/home/admin/canal-server/conf/canal.properties
-      - ./canal/instance.properties:/home/admin/canal-server/conf/data_pipe/instance.properties
+      - ../canal/canal.properties:/home/admin/canal-server/conf/canal.properties
+      - ../canal/instance.properties:/home/admin/canal-server/conf/data_pipe/instance.properties
     restart: unless-stopped
     networks:
       - scaleph

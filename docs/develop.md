@@ -19,7 +19,7 @@ Under this doc, we describe how to set up development environment for Scaleph an
 Clone the source code repository from [github](https://github.com/flowerfine/scaleph):
 
 ```shell
-git clone https://github.com/flowerfine/scaleph.git
+git clone https://github.com/flowerfine/scaleph.git --depth 1
 mvn install -DskipTests
 ```
 
@@ -28,7 +28,7 @@ mvn install -DskipTests
 If users are familiar with docker, Scaleph provides mysql, redis and flink cluster environment by docker container. People can launch container environment follows:
 
 ```shell
-cd tools/docker
+cd tools/docker/local
 
 docker compose up -d
 ```
