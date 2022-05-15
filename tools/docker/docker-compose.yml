@@ -3,7 +3,7 @@ version: "3.1"
 services:
 
   mysql:
-    image: bitnami/mysql:8.0
+    image: bitnami/mysql:8.0.29
     container_name: mysql
     environment:
       - TZ=Asia/Shanghai
@@ -14,6 +14,7 @@ services:
     ports:
       - 3306:3306
     volumes:
+      - mysql:/bitnami/mysql/data
       - ./mysql/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
       - ./mysql/init.d:/docker-entrypoint-initdb.d
     networks:
@@ -118,3 +119,6 @@ services:
 networks:
   scaleph:
     driver: bridge
+
+volumes:
+  mysql:
