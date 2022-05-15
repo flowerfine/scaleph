@@ -6,6 +6,7 @@ import { LANGUAGES } from 'src/config/language-config';
 import { I18nService } from 'ng-devui/i18n';
 import { OnlineUserInfo, USER_AUTH } from 'src/app/@core/data/app.data';
 import { UserService } from 'src/app/@core/services/admin/user.service';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'da-header-operation',
@@ -18,7 +19,7 @@ export class HeaderOperationComponent implements OnInit {
   language;
   haveLoggedIn = false;
   noticeCount: number;
-
+  faGithub = faGithub;
   constructor(
     private route: Router,
     private translate: TranslateService,

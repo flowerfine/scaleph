@@ -41,6 +41,7 @@ import {
   TreeSelectModule,
   UploadModule,
   InputNumberModule,
+  PopoverModule,
 } from 'ng-devui';
 import { I18nModule } from 'ng-devui/i18n';
 import { RelativeTimeModule } from 'ng-devui/relative-time';
@@ -57,6 +58,7 @@ import { SideMenuComponent } from './components/side-menu/side-menu.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HeaderNoticeComponent } from './components/header/header-operation/header-notice/header-notice.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 const DEVUI_MODULES = [
   LayoutModule,
@@ -92,6 +94,7 @@ const DEVUI_MODULES = [
   SplitterModule,
   TreeSelectModule,
   UploadModule,
+  PopoverModule,
   InputNumberModule,
 ];
 const COMPONENTS = [HeaderComponent, FooterComponent, NavbarComponent, PersonalizeComponent];
@@ -119,6 +122,7 @@ const COMPONENTS = [HeaderComponent, FooterComponent, NavbarComponent, Personali
     ToastModule,
     TooltipModule,
     I18nModule,
+    FontAwesomeModule,
     ...DEVUI_MODULES,
   ],
   exports: [
