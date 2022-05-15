@@ -2,7 +2,7 @@
 
 `scaleph` 基于 docker 提供快速的开发和测试运行环境。
 
-在 `scaleph/deploy/scaleph` 目录下有 `docker-compose.yml` 文件，其中添加了程序运行依赖的 `mysql` 和 `redis` 环境。
+在 `scaleph/tools/docker` 目录下有 `docker-compose.yml` 文件，其中添加了程序运行依赖的 `mysql` 和 `redis` 环境。
 
 ## 打包程序
 
@@ -20,7 +20,7 @@ mvn clean package -DskipTests -Dfast -am --projects scaleph-api
 通过 `Dockerfile` 构建 docker 镜像
 
 ```shell
-cd scaleph/deploy/scaleph
+cd scaleph/tools/docker
 docker compose build
 ```
 
