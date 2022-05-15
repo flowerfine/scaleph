@@ -62,7 +62,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.boot.version}</version>
                 <configuration>
-                    <mainClass>cn.sliew.scalegh.Application</mainClass>
+                    <mainClass>cn.sliew.scaleph.Application</mainClass>
                     <layout>ZIP</layout>
                     <fork>true</fork> <!--重要-->
                 </configuration>
