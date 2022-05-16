@@ -1,5 +1,6 @@
 package cn.sliew.scaleph.plugin.framework.core;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Getter
+@EqualsAndHashCode
 public class PluginInfo {
 
     public static final String PLUGIN_PROPERTIES = "plugin.properties";
