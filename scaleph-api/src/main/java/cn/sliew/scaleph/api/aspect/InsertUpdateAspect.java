@@ -18,17 +18,18 @@ import java.util.Date;
 /**
  * 拦截service层的insert 和update方法，修改参数中的人员和时间字段数据
  *
+ * @see cn.sliew.scaleph.api.config.MybatisConfig.MetaHandler
  * @author gleiyu
  */
 @Slf4j
 @Aspect
 @Component
 public class InsertUpdateAspect {
-    @Pointcut("execution(* cn.sliew.scalegh.service..*.insert*(..))")
+    @Pointcut("execution(* cn.sliew.scaleph.service..*.insert*(..))")
     public void insertPointCut() {
     }
 
-    @Pointcut("execution(* cn.sliew.scalegh.service..*.update*(..))")
+    @Pointcut("execution(* cn.sliew.scaleph.service..*.update*(..))")
     public void updatePointCut() {
 
     }
