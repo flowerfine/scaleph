@@ -20,7 +20,7 @@ public class MinioFileServiceImpl implements StorageService {
     private final String bucket;
     private final MinioClient client;
 
-    public MinioFileServiceImpl(@Value("${app.resource.minio.bucket:scalegh}") String bucket,
+    public MinioFileServiceImpl(@Value("${app.resource.minio.bucket:scaleph}") String bucket,
                                 @Value("${app.resource.minio.endpoint:localhost}") String endPoint,
                                 @Value("${app.resource.minio.accessKey:''}") String accessKey,
                                 @Value("${app.resource.minio.secretKey:''}") String secretKey) {

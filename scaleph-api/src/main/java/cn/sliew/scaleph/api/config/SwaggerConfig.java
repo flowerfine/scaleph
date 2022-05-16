@@ -43,7 +43,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.OAS_30)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("cn.sliew.scalegh"))
+                .apis(RequestHandlerSelectors.basePackage("cn.sliew.scaleph"))
                 .paths(PathSelectors.any())
                 .build()
                 .globalRequestParameters(paramList);
@@ -53,8 +53,9 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("Scaleph API文档")
                 .description("Scaleph API文档")
-                .contact(new Contact("liyu", "http://www.sliew.cn", "liyu@sliew.cn"))
-                .version("0.0.1-SNAPSHOT")
+                .contact(new Contact("gleiyu", "https://github.com/flowerfine/scaleph", "gleiyu@sina.cn"))
+                .contact(new Contact("kalencaya","https://github.com/flowerfine/scaleph","1942460489@qq.com"))
+                .version("1.0.0-SNAPSHOT")
                 .build();
     }
 }

@@ -17,12 +17,12 @@ import lombok.extern.slf4j.Slf4j;
 public class MybatisPlusGenerator {
 
     private final static String AUTHOR = "liyu";
-    private final static String URL = "jdbc:mysql://127.0.0.1:3306/scalegh?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai";
+    private final static String URL = "jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai";
     private final static String USERNAME = "root";
     private final static String PASSWORD = "123456";
     private final static String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
     private static final String BASE_PACKAGE = "cn.sliew";
-    private static final String MODULE = "scalegh";
+    private static final String MODULE = "scaleph";
     private static final String TABLE_PREFIX = "t_";
     private static final String[] TABLES = {"di_job_log"};
 
@@ -49,7 +49,7 @@ public class MybatisPlusGenerator {
     private static GlobalConfig globalConfig() {
         GlobalConfig config = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        config.setOutputDir(projectPath + "/scalegh-api/src/test/java/cn/sliew/scalegh/generator");
+        config.setOutputDir(projectPath + "/scaleph-api/src/test/java/cn/sliew/scaleph/generator");
         config.setAuthor(AUTHOR);
         config.setOpen(false);
         config.setFileOverride(true);

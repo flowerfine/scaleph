@@ -98,10 +98,10 @@
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
         </root>
-        <logger name="cn.sliew.scalegh" level="INFO" additivity="false">
+        <logger name="cn.sliew.scaleph" level="INFO" additivity="false">
             <appender-ref ref="CONSOLE"/>
         </logger>
-        <logger name="cn.sliew.scalegh.dao.mapper" level="INFO" additivity="false">
+        <logger name="cn.sliew.scaleph.dao.mapper" level="INFO" additivity="false">
             <appender-ref ref="CONSOLE"/>
         </logger>
     </springProfile>
