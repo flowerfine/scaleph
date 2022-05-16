@@ -1,20 +1,10 @@
 package cn.sliew.scaleph.plugin.datasource;
 
-import org.apache.flink.configuration.ConfigOption;
-import org.apache.flink.configuration.Configuration;
-
-import java.util.List;
+import cn.sliew.scaleph.plugin.framework.Plugin;
 
 /**
  * datasource plugin demo
  */
-public interface DataSourcePlugin {
+public interface DataSourcePlugin extends Plugin {
 
-    String getPluginName();
-
-    List<ConfigOption> getRequiredProperties();
-
-    List<ConfigOption> getOptionalProperties();
-
-    boolean validate(Configuration configuration);
 }
