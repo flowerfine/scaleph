@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.plugin.framework;
+package cn.sliew.scaleph.plugin.framework.core;
 
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.ValidationResult;
