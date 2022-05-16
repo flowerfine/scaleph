@@ -1,0 +1,42 @@
+user nginx;
+
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
+upstream xxx.com {
+     server  scaleph-api:8080;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    sendfile        on;
+
+    keepalive_timeout  65;
+
+    server {
+        listen       80;
+        server_name  localhost;
+
+        underscores_in_headers on;
+
+        location / {
+            root   /dist;
+            index  index.html index.htm;
+        }
+
+        location /api {
+             proxy_pass  http://xxx.com/scaleph/api;
+             proxy_redirect  default;
+        }
+
+        location ~ .*\.(js|css|ico|png|jpg|eot|svg|ttf|woff|html) {
+            root html\scaleph;
+            expires 30d;
+        }
+    }
+}
