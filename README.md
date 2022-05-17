@@ -10,7 +10,10 @@ Scaleph is drived by personal interest and evolves actively through faithful dev
 
 ## Features
 
-comming soon...
+* Web-ui click-and-drag data integration tools backended by many out-of-the-box connectors.
+* Support multiple versions, different deployment mode and different resource provider flink's job execution, where we develop [flinkful](https://github.com/flowerfine/flinkful) for solving these troubles.
+* Job version management.
+* Project configuration, dependency and resource.
 
 ## Quick Start
 
@@ -38,7 +41,8 @@ please refer [wiki](https://github.com/flowerfine/scaleph/wiki)
    1. data integration in flink way. Scaleph features `seatunnel`, `flink-cdc-connectors` and other flink connectors.
    2. friendly to newbies web-ui. 
 2. data develop
-   1. udf + sql
+   1. udf + sql.
+   1. support multi-layer data warehouse development.
 3. job schedule and orchestrate
 
 ### architectures
