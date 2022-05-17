@@ -4,7 +4,6 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
-//    "build": "ng build --base-href /scaleph/",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
