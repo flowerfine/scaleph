@@ -363,7 +363,7 @@
                                     <argument>-t</argument>
                                     <argument>${docker.hub}/${docker.repo}:latest</argument>
                                     <argument>${project.basedir}</argument>
-                                    <argument>--file=src/main/docker/Dockerfile</argument>
+                                    <argument>--file=Dockerfile</argument>
                                 </arguments>
                             </configuration>
                         </execution>
