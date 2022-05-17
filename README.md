@@ -44,7 +44,7 @@ please refer [wiki](https://github.com/flowerfine/scaleph/wiki)
 1. cloud native
    1. container and kubernetes development and runtime environment.
    2. java 17, quarkus.
-2. plugins。https://dubbo.apache.org/zh/docsv2.7/dev/principals/
+2. plugins. https://dubbo.apache.org/zh/docsv2.7/dev/principals/
 
 ## Contributing
 
