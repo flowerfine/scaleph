@@ -13,7 +13,20 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>scaleph-plugin-framework</module>
         <module>scaleph-plugin-datasource</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-plugin-framework</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
 
 </project>
