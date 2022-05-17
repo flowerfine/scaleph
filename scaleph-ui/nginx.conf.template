@@ -26,16 +26,12 @@ http {
         location / {
             root   /dist;
             index  index.html index.htm;
+            try_files $uri $uri/ /index.html;
         }
 
         location /api {
              proxy_pass  http://backend/scaleph/api;
              proxy_redirect  default;
-        }
-
-        location ~ .*\.(js|css|ico|png|jpg|eot|svg|ttf|woff|html) {
-            root /dist/scaleph;
-            expires 30d;
         }
     }
 }

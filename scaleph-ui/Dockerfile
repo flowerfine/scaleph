@@ -2,6 +2,7 @@ FROM nginx:latest
 
 RUN mkdir /dist
 COPY ./dist /dist
+# COPY ./dist /usr/share/nginx/html
 COPY ./nginx.conf.template /
 
 
