@@ -4,8 +4,6 @@
 [![Total Lines](https://tokei.rs/b1/github/flowerfine/scaleph?category=lines)](https://github.com/flowerfine/scaleph)
 [![Last commit](https://img.shields.io/github/last-commit/flowerfine/scaleph.svg)](https://github.com/flowerfine/scaleph)
 
-Scaleph System
-
 The Scaleph project features data integration, develop,  job schedule and orchestration and trys to provide one-stop data platform for developers and enterprises. Scaleph hopes to help peoples to aggregate data, analyze data, free data internal worth and make profit from them.
 
 Scaleph is drived by personal interest and evolves actively through faithful developer, flowerfine is open and appreciates any helps.
