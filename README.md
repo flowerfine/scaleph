@@ -31,7 +31,7 @@ scaleph/tools/docker/deploy
 docker-compose up
 ```
 
-Once all container have started, the UI is ready to go at [http://localhost](http://localhost/)!
+Once all containers have started, the UI is ready to go at [http://localhost](http://localhost/)!
 
 ## Documentation
 
