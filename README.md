@@ -10,7 +10,7 @@ Scaleph is drived by personal interest and evolves actively through faithful dev
 
 ## Features
 
-* Web-ui click-and-drag data integration tools backended by many out-of-the-box connectors.
+* Web-ui click-and-drag data integration ways backended by out-of-the-box connectors.
 * Support multiple versions, different deployment mode and different resource provider flink's job execution, where we develop [flinkful](https://github.com/flowerfine/flinkful) for solving these troubles.
 * Job version management.
 * Project configuration, dependency and resource.
