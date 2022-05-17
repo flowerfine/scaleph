@@ -20,7 +20,7 @@ services:
     depends_on:
       - scaleph-api
     environment:
-      - SCALEPH-API_URL="scaleph-api:8080"
+      - SCALEPH_API_URL="scaleph-api:8080"
     ports:
       - 80:80
     networks:

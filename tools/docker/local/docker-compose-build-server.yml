@@ -10,7 +10,7 @@ services:
       - redis
       - minio
     build:
-      dockerfile: ../../../scaleph-api/Dockerfile
+      dockerfile: Dockerfile
       context: ../../../scaleph-api
     ports:
       - 8080:8080
