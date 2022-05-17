@@ -22,6 +22,8 @@ services:
     build:
       dockerfile: Dockerfile
       context: ../../../scaleph-ui
+    environment:
+      - SCALEPH_API_URL="scaleph-api:8080"
     ports:
       - 80:80
     networks:

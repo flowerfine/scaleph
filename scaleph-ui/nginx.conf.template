@@ -15,7 +15,7 @@ http {
     keepalive_timeout  65;
 
     upstream backend {
-        server  scaleph-api:8080;
+        server  ${SCALEPH_API_URL};
     }
     server {
         listen       80;
@@ -33,9 +33,9 @@ http {
              proxy_redirect  default;
         }
 
-        location ~ .*\.(js|css|ico|png|jpg|eot|svg|ttf|woff|html) {
-            root html\scaleph;
-            expires 30d;
-        }
+#        location ~ .*\.(js|css|ico|png|jpg|eot|svg|ttf|woff|html) {
+#            root html\scaleph;
+#            expires 30d;
+#        }
     }
 }

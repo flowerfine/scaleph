@@ -14,6 +14,19 @@ services:
     networks:
       - scaleph
 
+  scaleph-ui:
+    image: scaleph/scaleph-ui:latest
+    container_name: scaleph-ui
+    depends_on:
+      - scaleph-api
+    environment:
+      - SCALEPH-API_URL="scaleph-api:8080"
+    ports:
+      - 80:80
+    networks:
+      - scaleph
+
+
   mysql:
     image: bitnami/mysql:8.0
     container_name: mysql
