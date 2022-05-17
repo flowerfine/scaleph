@@ -32,31 +32,18 @@ please refer [wiki](https://github.com/flowerfine/scaleph/wiki)
 
 ### features
 
-数据同步
-
-* flink way 方式的数据同步
-* 基于 `seatunnel`，`flink-cdc-connectors` 以及 `flowerfine` 维护和开发的 connectors 实现数据同步
-
-数据开发
-
-* sql 式数仓开发
-
-DAG 调度
-
-任务监控，告警
-
-云原生
-
-* 基于容器和 k8s 的开发、部署环境
-* 云原生 java: quarkus
+1. data ingress and engress.
+   1. data integration in flink way. 基于 `seatunnel`，`flink-cdc-connectors` 以及 `flowerfine` 维护和开发的 connectors 实现数据同步
+2. data develop
+   1. udf + sql
+3. job schedule and orchestrate
 
 ### architectures
 
-java 17
-
-GraalVM+quarkus
-
-plugins。https://dubbo.apache.org/zh/docsv2.7/dev/principals/
+1. cloud native
+   1. container and kubernetes development and runtime environment.
+   2. java 17, quarkus.
+2. plugins。https://dubbo.apache.org/zh/docsv2.7/dev/principals/
 
 ## Contributing
 

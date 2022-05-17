@@ -7,9 +7,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * todo environment variables
+ */
 public interface Plugin {
 
-    String getName();
+    PluginInfo getPluginInfo();
 
     PropertyDescriptor getPropertyDescriptor(String name);
 
