@@ -17,7 +17,21 @@ Scaleph is drived by personal interest and evolves actively through faithful dev
 
 ## Quick Start
 
-comming soon...
+Whenever people want to explore Scaleph system, they want a running Scaleph application, then people can interact with Scaleph through Scaleph Admin.
+
+Luckily, deploy Scaleph locally just takes three steps.
+
+* Make sure Docker installed on your machine.
+* Clone the repository
+* Use Docker Compose and Scaleph Docker image quickly install and run Scaleph.
+
+```shell
+git clone https://github.com/flowerfine/scaleph.git
+scaleph/tools/docker/deploy
+docker-compose up
+```
+
+Once all container have started, the UI is ready to go at [http://localhost](http://localhost/)!
 
 ## Documentation
 
