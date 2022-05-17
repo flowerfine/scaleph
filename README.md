@@ -27,7 +27,7 @@ Luckily, deploy Scaleph locally just takes three steps.
 
 ```shell
 git clone https://github.com/flowerfine/scaleph.git
-scaleph/tools/docker/deploy
+cd scaleph/tools/docker/deploy
 docker-compose up
 ```
 
