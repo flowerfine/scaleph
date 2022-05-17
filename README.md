@@ -32,8 +32,9 @@ please refer [wiki](https://github.com/flowerfine/scaleph/wiki)
 
 ### features
 
-1. data ingress and engress.
-   1. data integration in flink way. 基于 `seatunnel`，`flink-cdc-connectors` 以及 `flowerfine` 维护和开发的 connectors 实现数据同步
+1. data ingress and egress.
+   1. data integration in flink way. Scaleph features `seatunnel`, `flink-cdc-connectors` and other flink connectors.
+   2. friendly to newbies web-ui. 
 2. data develop
    1. udf + sql
 3. job schedule and orchestrate
