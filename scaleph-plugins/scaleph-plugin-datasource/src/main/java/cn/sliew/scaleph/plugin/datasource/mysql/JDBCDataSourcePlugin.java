@@ -10,7 +10,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import javax.sql.DataSource;
 import java.util.*;
 
-public class MysqlDataSourcePlugin implements DataSourcePlugin {
+public class JDBCDataSourcePlugin implements DataSourcePlugin {
 
     private static final String PLUGIN_NAME = "MySQLDataSource";
     private static final String PLUGIN_DESCRIPTION = "MySQL DataSource";
@@ -55,7 +55,7 @@ public class MysqlDataSourcePlugin implements DataSourcePlugin {
     private final PluginInfo pluginInfo;
     private volatile HikariDataSource dataSource;
 
-    public MysqlDataSourcePlugin() {
+    public JDBCDataSourcePlugin() {
         this.pluginInfo = new PluginInfo(PLUGIN_NAME, PLUGIN_DESCRIPTION, PLUGIN_VERSION, this.getClass().getName());
     }
 
