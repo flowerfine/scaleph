@@ -1,5 +1,6 @@
 package cn.sliew.scaleph.plugin.framework.core;
 
+import cn.sliew.scaleph.plugin.framework.lifecycle.LifeCycle;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.ValidationResult;
 
@@ -10,7 +11,7 @@ import java.util.Properties;
 /**
  * todo environment variables
  */
-public interface Plugin {
+public interface Plugin extends LifeCycle {
 
     PluginInfo getPluginInfo();
 
