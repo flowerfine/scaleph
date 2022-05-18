@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.plugin.datasource.mysql;
+package cn.sliew.scaleph.plugin.datasource.jdbc;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.plugin.datasource.DataSourcePlugin;
@@ -12,7 +12,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import javax.sql.DataSource;
 import java.util.*;
 
-import static cn.sliew.scaleph.plugin.datasource.mysql.JdbcPoolProperties.*;
+import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 
 public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePlugin {
 
@@ -74,6 +74,7 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePl
             throw new IllegalStateException("jdbc datasource plugin not initialized!");
         }
         HikariConfig config = new HikariConfig(properties);
+        config.setMetricRegistry(meterRegistry);
         this.dataSource = new HikariDataSource(config);
     }
 

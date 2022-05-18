@@ -3,6 +3,7 @@ package cn.sliew.scaleph.plugin.framework.core;
 import cn.sliew.scaleph.plugin.framework.lifecycle.LifeCycle;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.ValidationResult;
+import io.micrometer.core.instrument.MeterRegistry;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,4 +22,5 @@ public interface Plugin extends LifeCycle {
 
     Collection<ValidationResult> validate(Properties properties);
 
+    void setMeterRegistry(MeterRegistry meterRegistry);
 }

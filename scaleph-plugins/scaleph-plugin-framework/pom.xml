@@ -21,6 +21,11 @@
             <groupId>cn.sliew</groupId>
             <artifactId>milky-common</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -4,6 +4,7 @@ import cn.sliew.scaleph.plugin.framework.property.Property;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.ValidationResult;
 import cn.sliew.scaleph.plugin.framework.property.Validator;
+import io.micrometer.core.instrument.MeterRegistry;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.Properties;
 
 public abstract class AbstractPlugin implements Plugin {
+
+    protected MeterRegistry meterRegistry;
 
     @Override
     public PropertyDescriptor getPropertyDescriptor(String name) {
@@ -42,7 +45,6 @@ public abstract class AbstractPlugin implements Plugin {
         return null;
     }
 
-
     @Override
     public Collection<ValidationResult> validate(Properties properties) {
         final Collection<ValidationResult> results = new ArrayList<>();
@@ -72,5 +74,10 @@ public abstract class AbstractPlugin implements Plugin {
         }
 
         return results;
+    }
+
+    @Override
+    public void setMeterRegistry(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
     }
 }

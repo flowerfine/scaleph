@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.plugin.datasource.mysql;
+package cn.sliew.scaleph.plugin.datasource.jdbc;
 
 import cn.sliew.scaleph.plugin.framework.property.Property;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
