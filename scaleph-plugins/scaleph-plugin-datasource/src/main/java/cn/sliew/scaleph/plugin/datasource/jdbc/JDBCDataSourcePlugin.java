@@ -1,5 +1,6 @@
 package cn.sliew.scaleph.plugin.datasource.jdbc;
 
+import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.plugin.datasource.DataSourcePlugin;
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
@@ -10,15 +11,13 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.*;
 
 import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 
 public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePlugin {
-
-    private static final String PLUGIN_NAME = "HIKARICP_JDBC_DATA_SOURCE";
-    private static final String PLUGIN_DESCRIPTION = "Hikaricp Jdbc DataSource";
-    private static final String PLUGIN_VERSION = "1.0.0";
 
     private static final List<PropertyDescriptor> supportedProperties;
 
@@ -40,7 +39,13 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePl
     private volatile HikariDataSource dataSource;
 
     public JDBCDataSourcePlugin() {
-        this.pluginInfo = new PluginInfo(PLUGIN_NAME, PLUGIN_DESCRIPTION, PLUGIN_VERSION, this.getClass().getName());
+        PluginInfo pluginInfo = null;
+        try {
+            pluginInfo = PluginInfo.readFromProperties(Paths.get(PluginInfo.PLUGIN_PROPERTIES));
+        } catch (IOException e) {
+            Rethrower.throwAs(e);
+        }
+        this.pluginInfo = pluginInfo;
     }
 
     @Override
