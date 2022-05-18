@@ -1,7 +1,6 @@
 package cn.sliew.scaleph.service.meta.impl;
 
-import cn.hutool.core.codec.Base64;
-import cn.hutool.core.util.StrUtil;
+import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.dao.entity.master.meta.DataSourceMeta;
 import cn.sliew.scaleph.dao.mapper.master.meta.DataSourceMetaMapper;
 import cn.sliew.scaleph.service.convert.meta.DataSourceMetaConvert;
@@ -13,8 +12,11 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +31,8 @@ public class DataSourceMetaServiceImpl implements DataSourceMetaService {
 
     @Override
     public int insert(DataSourceMetaDTO metaDTO) {
-        if (StrUtil.isNotEmpty(metaDTO.getPassword())) {
-            String encodePasswd = Base64.encode(metaDTO.getPassword());
+        if (StringUtils.hasText(metaDTO.getPassword())) {
+            String encodePasswd = CodecUtil.encodeToBase64(metaDTO.getPassword());
             metaDTO.setPassword(encodePasswd);
         }
         DataSourceMeta meta = DataSourceMetaConvert.INSTANCE.toDo(metaDTO);
@@ -39,8 +41,8 @@ public class DataSourceMetaServiceImpl implements DataSourceMetaService {
 
     @Override
     public int update(DataSourceMetaDTO metaDTO) {
-        if (StrUtil.isNotEmpty(metaDTO.getPassword())) {
-            String encodePasswd = Base64.encode(metaDTO.getPassword());
+        if (StringUtils.hasText(metaDTO.getPassword())) {
+            String encodePasswd = CodecUtil.encodeToBase64(metaDTO.getPassword());
             metaDTO.setPassword(encodePasswd);
         }
         DataSourceMeta meta = DataSourceMetaConvert.INSTANCE.toDo(metaDTO);
@@ -65,20 +67,17 @@ public class DataSourceMetaServiceImpl implements DataSourceMetaService {
 
     @Override
     public Page<DataSourceMetaDTO> listByPage(DataSourceMetaParam param) {
-        Page<DataSourceMetaDTO> result = new Page<>();
         Page<DataSourceMeta> list = this.dataSourceMetaMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(DataSourceMeta.class)
-                        .eq(StrUtil.isNotEmpty(param.getDatabaseName()), DataSourceMeta::getDatabaseName, param.getDatabaseName())
-                        .eq(StrUtil.isNotEmpty(param.getDataSourceType()), DataSourceMeta::getDatasourceType, param.getDataSourceType())
-                        .eq(StrUtil.isNotEmpty(param.getHostName()), DataSourceMeta::getHostName, param.getHostName())
-                        .like(StrUtil.isNotEmpty(param.getDataSourceName()), DataSourceMeta::getDatasourceName, param.getDataSourceName())
+                        .eq(StringUtils.hasText(param.getDatabaseName()), DataSourceMeta::getDatabaseName, param.getDatabaseName())
+                        .eq(StringUtils.hasText(param.getDataSourceType()), DataSourceMeta::getDatasourceType, param.getDataSourceType())
+                        .eq(StringUtils.hasText(param.getHostName()), DataSourceMeta::getHostName, param.getHostName())
+                        .like(StringUtils.hasText(param.getDataSourceName()), DataSourceMeta::getDatasourceName, param.getDataSourceName())
         );
+        Page<DataSourceMetaDTO> result = new Page<>(list.getCurrent(), list.getSize(), list.getTotal());
         List<DataSourceMetaDTO> dtoList = DataSourceMetaConvert.INSTANCE.toDto(list.getRecords());
-        result.setCurrent(list.getCurrent());
-        result.setSize(list.getSize());
         result.setRecords(dtoList);
-        result.setTotal(list.getTotal());
         return result;
     }
 

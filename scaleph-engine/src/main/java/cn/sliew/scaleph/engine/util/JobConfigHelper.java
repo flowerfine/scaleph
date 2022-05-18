@@ -4,6 +4,7 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
@@ -146,7 +147,7 @@ public class JobConfigHelper {
                         DictVO dsAttr = JSONUtil.toBean(attr.getStepAttrValue(), DictVO.class);
                         DataSourceMetaDTO dsInfo = this.dataSourceMetaService.selectOne(dsAttr.getValue());
                         map.put(Constants.JOB_STEP_ATTR_USERNAME, dsInfo.getUserName());
-                        map.put(Constants.JOB_STEP_ATTR_PASSWORD, Base64.decodeStr(dsInfo.getPassword()));
+                        map.put(Constants.JOB_STEP_ATTR_PASSWORD, CodecUtil.decodeFromBase64(dsInfo.getPassword()));
                         map.put(Constants.JOB_STEP_ATTR_DRIVER, JdbcUtil.getDriver(dsInfo));
                         map.put(Constants.JOB_STEP_ATTR_URL, JdbcUtil.getUrl(dsInfo));
                     } catch (CustomException e) {
