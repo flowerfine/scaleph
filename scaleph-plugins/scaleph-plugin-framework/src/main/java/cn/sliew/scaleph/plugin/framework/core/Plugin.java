@@ -16,9 +16,7 @@ public interface Plugin {
 
     PropertyDescriptor getPropertyDescriptor(String name);
 
-    List<PropertyDescriptor> getRequiredProperties();
-
-    List<PropertyDescriptor> getOptionalProperties();
+    List<PropertyDescriptor> getSupportedProperties();
 
     Collection<ValidationResult> validate(Properties properties);
 

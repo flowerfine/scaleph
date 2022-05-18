@@ -38,12 +38,7 @@ public class MysqlDataSourcePlugin implements DataSourcePlugin {
     }
 
     @Override
-    public List<PropertyDescriptor> getRequiredProperties() {
-        return null;
-    }
-
-    @Override
-    public List<PropertyDescriptor> getOptionalProperties() {
+    public List<PropertyDescriptor> getSupportedProperties() {
         return null;
     }
 

@@ -25,12 +25,57 @@ public class PropertyDescriptor implements Comparable<PropertyDescriptor> {
         this.dependencies = builder.dependencies == null ? Collections.emptySet() : Collections.unmodifiableSet(new HashSet<>(builder.dependencies));
     }
 
+    public ValidationResult validate(final String input) {
+        ValidationResult lastResult = Validator.INVALID.validate(this.name, input);
+
+        if (allowableValues != null && !allowableValues.isEmpty()) {
+            final ConstrainedSetValidator csValidator = new ConstrainedSetValidator(allowableValues);
+            final ValidationResult csResult = csValidator.validate(this.name, input);
+
+            if (csResult.isValid()) {
+                lastResult = csResult;
+            } else {
+                return csResult;
+            }
+        }
+
+        for (final Validator validator : validators) {
+            lastResult = validator.validate(this.name, input);
+            if (!lastResult.isValid()) {
+                break;
+            }
+        }
+
+        return lastResult;
+    }
+
     @Override
     public int compareTo(final PropertyDescriptor o) {
         if (o == null) {
             return -1;
         }
         return getName().compareTo(o.getName());
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        if (other == null) {
+            return false;
+        }
+        if (!(other instanceof PropertyDescriptor)) {
+            return false;
+        }
+        if (this == other) {
+            return true;
+        }
+
+        final PropertyDescriptor desc = (PropertyDescriptor) other;
+        return this.name.equals(desc.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return 287 + this.name.hashCode() * 47;
     }
 
     public static final class Builder {
@@ -189,6 +234,54 @@ public class PropertyDescriptor implements Comparable<PropertyDescriptor> {
             }
 
             return new PropertyDescriptor(this);
+        }
+    }
+
+    private static final class ConstrainedSetValidator implements Validator {
+
+        private static final String POSITIVE_EXPLANATION = "Given value found in allowed set";
+        private static final String NEGATIVE_EXPLANATION = "Given value not found in allowed set '%1$s'";
+        private static final String VALUE_DEMARCATOR = ", ";
+        private final String validStrings;
+        private final Collection<String> validValues;
+
+        /**
+         * Constructs a validator that will check if the given value is in the
+         * given set.
+         *
+         * @param validValues values which are acceptible
+         * @throws NullPointerException if the given validValues is null
+         */
+        private ConstrainedSetValidator(final Collection<AllowableValue> validValues) {
+            String validVals = "";
+            if (!validValues.isEmpty()) {
+                final StringBuilder valuesBuilder = new StringBuilder();
+                for (final AllowableValue value : validValues) {
+                    valuesBuilder.append(value).append(VALUE_DEMARCATOR);
+                }
+                validVals = valuesBuilder.substring(0, valuesBuilder.length() - VALUE_DEMARCATOR.length());
+            }
+            validStrings = validVals;
+
+            this.validValues = new ArrayList<>(validValues.size());
+            for (final AllowableValue value : validValues) {
+                this.validValues.add(value.getValue());
+            }
+        }
+
+        @Override
+        public ValidationResult validate(final String subject, final String input) {
+            final ValidationResult.Builder builder = new ValidationResult.Builder();
+            builder.input(input);
+            builder.subject(subject);
+            if (validValues.contains(input)) {
+                builder.valid(true);
+                builder.explanation(POSITIVE_EXPLANATION);
+            } else {
+                builder.valid(false);
+                builder.explanation(String.format(NEGATIVE_EXPLANATION, validStrings));
+            }
+            return builder.build();
         }
     }
 }
