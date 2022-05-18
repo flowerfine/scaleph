@@ -490,6 +490,8 @@ create table t_system_config(
     unique key (cfg_code)
 ) engine = innodb comment = '系统配置信息表' ;
 
+INSERT INTO `t_system_config`(`cfg_code`, `cfg_value`, `creator`, `editor`) VALUES ('basic', '{\"seatunnelHome\":\"/opt/seatunnel\"}', 'sys_admin', 'sys_admin');
+
 /*定时任务运行日志表*/
 drop table if exists t_schedule_log;
 create table t_schedule_log
@@ -743,7 +745,7 @@ create table di_cluster_config(
     unique (cluster_name)
 ) engine = innodb comment '数据集成-集群配置';
 
-INSERT INTO `di_cluster_config`(`cluster_name`, `cluster_type`, `cluster_home`, `cluster_version`, `cluster_conf`, `remark`, `creator`, `editor`) VALUES ('docker_standalone', 'flink', '/opt/flink', '1.13.6', 'rest.port=8081\njobmanager.rpc.address=localhost\njobmanager.rpc.port=6123\n', 'docker environment', 'sys_admin', 'sys_admin');
+INSERT INTO `di_cluster_config`(`cluster_name`, `cluster_type`, `cluster_home`, `cluster_version`, `cluster_conf`, `remark`, `creator`, `editor`) VALUES ('docker_standalone', 'flink', '/opt/flink', '1.13.6', 'rest.port=8081\njobmanager.rpc.address=jobmanager\njobmanager.rpc.port=6123\n', 'docker environment', 'sys_admin', 'sys_admin');
 
 /* 数据集成-项目目录*/
 drop table if exists di_directory;
