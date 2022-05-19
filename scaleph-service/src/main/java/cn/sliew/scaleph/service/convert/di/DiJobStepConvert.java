@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.service.convert.di;
 
 import cn.sliew.scaleph.dao.entity.master.di.DiJobStep;
-import cn.sliew.scaleph.service.convert.BaseConvert;
+import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.service.convert.DictVoConvert;
 import cn.sliew.scaleph.service.dto.di.DiJobStepDTO;
 import org.mapstruct.Mapper;
@@ -17,6 +17,6 @@ public interface DiJobStepConvert extends BaseConvert<DiJobStep, DiJobStepDTO> {
     DiJobStepConvert INSTANCE = Mappers.getMapper(DiJobStepConvert.class);
 
     @Override
-    @Mapping(expression = "java(cn.sliew.scaleph.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.JOB_STEP_TYPE,entity.getStepType()))", target = "stepType")
+    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.JOB_STEP_TYPE,entity.getStepType()))", target = "stepType")
     DiJobStepDTO toDto(DiJobStep entity);
 }

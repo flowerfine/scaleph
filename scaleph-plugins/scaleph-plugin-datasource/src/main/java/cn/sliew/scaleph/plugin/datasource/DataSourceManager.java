@@ -1,21 +1,23 @@
 package cn.sliew.scaleph.plugin.datasource;
 
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
+import cn.sliew.scaleph.plugin.framework.core.PluginSPILoader;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 public class DataSourceManager {
 
+    private PluginSPILoader<DataSourcePlugin> pluginPluginSPILoader = new PluginSPILoader<>(DataSourcePlugin.class, Thread.currentThread().getContextClassLoader());
+
     public Set<PluginInfo> getAvailableDataSources() {
-        return Collections.emptySet();
+        return pluginPluginSPILoader.availableServices();
     }
 
     public List<PropertyDescriptor> getSupportedProperties(PluginInfo pluginInfo) {
-        return Collections.emptyList();
+        final Optional<DataSourcePlugin> optional = pluginPluginSPILoader.getPlugin(pluginInfo);
+        final DataSourcePlugin dataSourcePlugin = optional.orElseThrow(() -> new IllegalStateException("known plugin info for " + pluginInfo));
+        return dataSourcePlugin.getSupportedProperties();
     }
 
     public <T> DataSourcePlugin<T> newDataSourcePlugin(PluginInfo pluginInfo, Properties properties, Properties additionalProperties) {

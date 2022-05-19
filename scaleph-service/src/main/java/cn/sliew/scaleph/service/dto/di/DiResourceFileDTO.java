@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.service.dto.di;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.scaleph.service.dto.BaseDTO;
+import cn.sliew.scaleph.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

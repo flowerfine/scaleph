@@ -76,6 +76,8 @@
         <module>scaleph-meta</module>
         <module>scaleph-engine</module>
         <module>scaleph-plugins</module>
+        <module>scaleph-system</module>
+        <module>scaleph-cache</module>
     </modules>
 
     <properties>
@@ -135,12 +137,27 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-cache</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-engine</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-meta</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-system</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -153,9 +170,11 @@
                 <artifactId>scaleph-dao</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-common</artifactId>
+                <artifactId>scaleph-plugin-datasource</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

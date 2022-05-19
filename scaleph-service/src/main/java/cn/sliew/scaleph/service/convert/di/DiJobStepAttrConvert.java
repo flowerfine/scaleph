@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.service.convert.di;
 
 import cn.sliew.scaleph.dao.entity.master.di.DiJobStepAttr;
-import cn.sliew.scaleph.service.convert.BaseConvert;
+import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.service.dto.di.DiJobStepAttrDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;

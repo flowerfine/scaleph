@@ -2,6 +2,7 @@ package cn.sliew.scaleph.plugin.framework.core;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +15,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Getter
+@ToString
 @EqualsAndHashCode
 public class PluginInfo {
 

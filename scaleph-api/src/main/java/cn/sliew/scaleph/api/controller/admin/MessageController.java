@@ -12,7 +12,7 @@ import cn.sliew.scaleph.common.enums.BoolEnum;
 import cn.sliew.scaleph.service.admin.MessageService;
 import cn.sliew.scaleph.service.dto.admin.MessageDTO;
 import cn.sliew.scaleph.service.param.admin.MessageParam;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.base.Strings;
 import io.swagger.annotations.Api;

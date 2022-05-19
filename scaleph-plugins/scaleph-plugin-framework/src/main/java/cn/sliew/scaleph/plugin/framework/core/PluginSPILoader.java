@@ -8,8 +8,8 @@ public class PluginSPILoader<C extends Plugin> {
 
     private final Class<C> clazz;
 
-    private volatile Map<String, Class<? extends C>> services = Collections.emptyMap();
-    private volatile Set<String> originalNames = Collections.emptySet();
+    private volatile Map<PluginInfo, C> services = Collections.emptyMap();
+    private volatile Set<PluginInfo> pluginInfos = Collections.emptySet();
 
     public PluginSPILoader(Class<C> clazz, ClassLoader classLoader) {
         this.clazz = clazz;
@@ -22,26 +22,29 @@ public class PluginSPILoader<C extends Plugin> {
 
     public void load(ClassLoader classLoader) {
         Objects.requireNonNull(classLoader, "classLoader must not be null");
-        final LinkedHashMap<String, Class<? extends C>> services = new LinkedHashMap<>(this.services);
-        final LinkedHashSet<String> originalNames = new LinkedHashSet<>(this.originalNames);
+        final LinkedHashMap<PluginInfo, C> services = new LinkedHashMap<>(this.services);
+        final LinkedHashSet<PluginInfo> pluginInfos = new LinkedHashSet<>(this.pluginInfos);
 
         final Spliterator<C> spliterator = ServiceLoader.load(clazz, classLoader).spliterator();
         StreamSupport.stream(spliterator, false)
                 .forEachOrdered(
                         service -> {
-                            String originalName = service.getPluginInfo().getName();
-                            String name = originalName.toLowerCase(Locale.ROOT);
-                            if (!services.containsKey(name)) {
-                                services.put(name, (Class<? extends C>) service.getClass());
-                                originalNames.add(originalName);
+                            final PluginInfo pluginInfo = service.getPluginInfo();
+                            if (!services.containsKey(pluginInfo)) {
+                                services.put(pluginInfo, service);
+                                pluginInfos.add(pluginInfo);
                             }
                         });
         this.services = new HashMap<>(services);
-        this.originalNames = new HashSet<>(originalNames);
+        this.pluginInfos = new HashSet<>(pluginInfos);
     }
 
-    public Set<String> availableServices() {
-        return originalNames;
+    public Set<PluginInfo> availableServices() {
+        return pluginInfos;
+    }
+
+    public Optional<C> getPlugin(PluginInfo pluginInfo) {
+        return Optional.ofNullable(services.get(pluginInfo));
     }
 
     public static <T extends Plugin> T newInstance(Class<T> clazz, Map<String, String> args) {

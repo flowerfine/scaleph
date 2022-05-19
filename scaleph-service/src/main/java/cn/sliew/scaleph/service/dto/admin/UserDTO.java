@@ -1,6 +1,6 @@
 package cn.sliew.scaleph.service.dto.admin;
 
-import cn.sliew.scaleph.service.dto.BaseDTO;
+import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.service.vo.DictVO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;

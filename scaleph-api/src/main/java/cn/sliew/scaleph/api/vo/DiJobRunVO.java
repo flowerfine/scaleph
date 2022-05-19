@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.api.vo;
 
 import cn.sliew.scaleph.service.dto.di.DiJobDTO;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 

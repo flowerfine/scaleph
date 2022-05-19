@@ -3,7 +3,7 @@ package cn.sliew.scaleph.service.dto.admin;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.service.dto.BaseDTO;
+import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

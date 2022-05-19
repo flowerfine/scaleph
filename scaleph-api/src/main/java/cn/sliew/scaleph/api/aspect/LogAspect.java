@@ -14,7 +14,7 @@ import cn.sliew.scaleph.service.admin.ActionLogService;
 import cn.sliew.scaleph.service.admin.LoginLogService;
 import cn.sliew.scaleph.service.dto.admin.LogActionDTO;
 import cn.sliew.scaleph.service.dto.admin.LogLoginDTO;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;

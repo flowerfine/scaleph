@@ -6,7 +6,7 @@ import cn.sliew.scaleph.common.enums.TaskResultEnum;
 import cn.sliew.scaleph.service.admin.ScheduleLogService;
 import cn.sliew.scaleph.service.dto.admin.ScheduleLogDTO;
 import cn.sliew.scaleph.service.util.SpringApplicationContextUtil;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;

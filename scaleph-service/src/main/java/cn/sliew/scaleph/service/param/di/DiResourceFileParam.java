@@ -1,6 +1,6 @@
 package cn.sliew.scaleph.service.param.di;
 
-import cn.sliew.scaleph.service.param.PaginationParam;
+import cn.sliew.scaleph.common.param.PaginationParam;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

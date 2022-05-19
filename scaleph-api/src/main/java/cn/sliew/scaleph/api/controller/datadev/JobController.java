@@ -24,7 +24,7 @@ import cn.sliew.scaleph.service.dto.di.*;
 import cn.sliew.scaleph.service.param.di.DiJobParam;
 import cn.sliew.scaleph.service.storage.StorageService;
 import cn.sliew.scaleph.service.storage.impl.NioFileServiceImpl;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.service.vo.JobGraphVO;
 import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;

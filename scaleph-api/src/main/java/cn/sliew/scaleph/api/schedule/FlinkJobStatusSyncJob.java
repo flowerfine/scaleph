@@ -11,7 +11,7 @@ import cn.sliew.scaleph.service.dto.admin.ScheduleLogDTO;
 import cn.sliew.scaleph.service.dto.di.DiClusterConfigDTO;
 import cn.sliew.scaleph.service.dto.di.DiJobDTO;
 import cn.sliew.scaleph.service.dto.di.DiJobLogDTO;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.flinkful.rest.base.JobClient;
 import cn.sliew.flinkful.rest.base.RestClient;
 import cn.sliew.flinkful.rest.client.FlinkRestClient;

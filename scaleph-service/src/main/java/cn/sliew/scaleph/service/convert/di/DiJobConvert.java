@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.service.convert.di;
 
 import cn.sliew.scaleph.dao.entity.master.di.DiJob;
-import cn.sliew.scaleph.service.convert.BaseConvert;
+import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.service.convert.DictVoConvert;
 import cn.sliew.scaleph.service.dto.di.DiJobDTO;
 import org.mapstruct.Mapper;
@@ -22,8 +22,8 @@ public interface DiJobConvert extends BaseConvert<DiJob, DiJobDTO> {
 
     @Override
     @Mapping(source = "directoryId", target = "directory.id")
-    @Mapping(expression = "java(cn.sliew.scaleph.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.JOB_TYPE,entity.getJobType()))", target = "jobType")
-    @Mapping(expression = "java(cn.sliew.scaleph.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.JOB_STATUS,entity.getJobStatus()))", target = "jobStatus")
-    @Mapping(expression = "java(cn.sliew.scaleph.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.RUNTIME_STATE,entity.getRuntimeState()))", target = "runtimeState")
+    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.JOB_TYPE,entity.getJobType()))", target = "jobType")
+    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.JOB_STATUS,entity.getJobStatus()))", target = "jobStatus")
+    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.RUNTIME_STATE,entity.getRuntimeState()))", target = "runtimeState")
     DiJobDTO toDto(DiJob entity);
 }

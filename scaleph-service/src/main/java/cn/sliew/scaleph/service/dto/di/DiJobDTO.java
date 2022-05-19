@@ -1,6 +1,6 @@
 package cn.sliew.scaleph.service.dto.di;
 
-import cn.sliew.scaleph.service.dto.BaseDTO;
+import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.service.vo.DictVO;
 import cn.sliew.scaleph.service.vo.JobGraphVO;
 import io.swagger.annotations.ApiModel;

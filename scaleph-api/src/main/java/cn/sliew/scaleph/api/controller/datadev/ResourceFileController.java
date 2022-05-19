@@ -8,7 +8,7 @@ import cn.sliew.scaleph.service.di.DiResourceFileService;
 import cn.sliew.scaleph.service.dto.di.DiResourceFileDTO;
 import cn.sliew.scaleph.service.param.di.DiResourceFileParam;
 import cn.sliew.scaleph.service.storage.StorageService;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

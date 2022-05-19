@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.service.convert.admin;
 
 import cn.sliew.scaleph.dao.entity.master.system.Dict;
-import cn.sliew.scaleph.service.convert.BaseConvert;
+import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.service.convert.DictVoConvert;
 import cn.sliew.scaleph.service.dto.admin.DictDTO;
 import org.mapstruct.Mapper;

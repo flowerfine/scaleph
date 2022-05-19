@@ -15,7 +15,7 @@ import cn.sliew.scaleph.service.dto.admin.DeptRoleDTO;
 import cn.sliew.scaleph.service.dto.admin.RoleDTO;
 import cn.sliew.scaleph.service.dto.admin.UserDTO;
 import cn.sliew.scaleph.service.dto.admin.UserRoleDTO;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

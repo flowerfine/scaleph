@@ -4,7 +4,7 @@ import cn.sliew.scaleph.ApplicationTest;
 import cn.sliew.scaleph.common.enums.UserStatusEnum;
 import cn.sliew.scaleph.service.admin.UserService;
 import cn.sliew.scaleph.service.dto.admin.UserDTO;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

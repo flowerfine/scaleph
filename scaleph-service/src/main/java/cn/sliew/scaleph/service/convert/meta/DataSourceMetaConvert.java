@@ -5,7 +5,7 @@ import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.DataSourcePropTypeEnum;
 import cn.sliew.scaleph.dao.entity.master.meta.DataSourceMeta;
-import cn.sliew.scaleph.service.convert.BaseConvert;
+import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.service.convert.DictVoConvert;
 import cn.sliew.scaleph.service.dto.meta.DataSourceMetaDTO;
 import cn.sliew.scaleph.service.vo.DictVO;

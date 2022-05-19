@@ -3,7 +3,7 @@ package cn.sliew.scaleph.service.convert.di;
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.dao.entity.master.di.DiClusterConfig;
-import cn.sliew.scaleph.service.convert.BaseConvert;
+import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.service.convert.DictVoConvert;
 import cn.sliew.scaleph.service.dto.di.DiClusterConfigDTO;
 import cn.sliew.scaleph.service.vo.DictVO;

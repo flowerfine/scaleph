@@ -9,7 +9,7 @@ import cn.sliew.scaleph.service.di.DiJobService;
 import cn.sliew.scaleph.service.di.DiProjectService;
 import cn.sliew.scaleph.service.dto.di.DiProjectDTO;
 import cn.sliew.scaleph.service.param.di.DiProjectParam;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

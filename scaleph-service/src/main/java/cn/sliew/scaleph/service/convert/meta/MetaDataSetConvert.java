@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.service.convert.meta;
 
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDataSet;
-import cn.sliew.scaleph.service.convert.BaseConvert;
+import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.service.convert.DictVoConvert;
 import cn.sliew.scaleph.service.dto.meta.MetaDataSetDTO;
 import org.mapstruct.Mapper;
@@ -17,7 +17,7 @@ public interface MetaDataSetConvert extends BaseConvert<MetaDataSet, MetaDataSet
     MetaDataSetConvert INSTANCE = Mappers.getMapper(MetaDataSetConvert.class);
 
     @Override
-    @Mapping(expression = "java(cn.sliew.scaleph.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.YES_NO,entity.getIsStandard()))", target = "isStandard")
+    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.YES_NO,entity.getIsStandard()))", target = "isStandard")
     @Mapping(source = "dataSetType", target = "dataSetType")
     @Mapping(source = "system", target = "system")
     MetaDataSetDTO toDto(MetaDataSet entity);

@@ -16,6 +16,14 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-engine</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-meta</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-system</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

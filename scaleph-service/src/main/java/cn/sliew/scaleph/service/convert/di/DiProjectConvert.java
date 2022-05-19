@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.service.convert.di;
 
 import cn.sliew.scaleph.dao.entity.master.di.DiProject;
-import cn.sliew.scaleph.service.convert.BaseConvert;
+import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.service.dto.di.DiProjectDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
