@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.service.impl;
 
 import cn.sliew.scaleph.ApplicationTest;
-import cn.sliew.scaleph.service.di.DiDirectoryService;
+import cn.sliew.scaleph.core.di.service.DiDirectoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

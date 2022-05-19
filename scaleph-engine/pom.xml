@@ -20,6 +20,10 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-meta</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>scaleph-core-di</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>cn.sliew</groupId>

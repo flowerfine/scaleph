@@ -78,6 +78,7 @@
         <module>scaleph-plugins</module>
         <module>scaleph-system</module>
         <module>scaleph-cache</module>
+        <module>scaleph-core</module>
     </modules>
 
     <properties>
@@ -172,6 +173,11 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-core-di</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
