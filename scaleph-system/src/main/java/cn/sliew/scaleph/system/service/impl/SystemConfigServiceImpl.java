@@ -1,17 +1,17 @@
 package cn.sliew.scaleph.system.service.impl;
 
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONUtil;
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.dao.entity.master.system.SystemConfig;
 import cn.sliew.scaleph.dao.mapper.master.system.SystemConfigMapper;
-import cn.sliew.scaleph.service.admin.SystemConfigService;
-import cn.sliew.scaleph.service.convert.admin.SystemConfigConvert;
-import cn.sliew.scaleph.service.dto.admin.SystemConfigDTO;
-import cn.sliew.scaleph.service.vo.BasicConfigVO;
+import cn.sliew.scaleph.system.service.SystemConfigService;
+import cn.sliew.scaleph.system.service.convert.SystemConfigConvert;
+import cn.sliew.scaleph.system.service.dto.SystemConfigDTO;
+import cn.sliew.scaleph.system.service.vo.BasicConfigVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * <p>
@@ -42,7 +42,7 @@ public class SystemConfigServiceImpl implements SystemConfigService {
 
     @Override
     public int deleteByCode(String code) {
-        if (StrUtil.isEmpty(code)) {
+        if (StringUtils.isEmpty(code)) {
             return 0;
         } else {
             return this.systemConfigMapper.delete(new LambdaQueryWrapper<SystemConfig>()
@@ -62,7 +62,7 @@ public class SystemConfigServiceImpl implements SystemConfigService {
     public String getSeatunnelHome() {
         SystemConfigDTO systemConfig = this.selectByCode(Constants.CFG_BASIC_CODE);
         if (systemConfig != null) {
-            BasicConfigVO config = JSONUtil.toBean(systemConfig.getCfgValue(), BasicConfigVO.class);
+            BasicConfigVO config = JacksonUtil.parseJsonString(systemConfig.getCfgValue(), BasicConfigVO.class);
             return config.getSeatunnelHome();
         } else {
             return null;

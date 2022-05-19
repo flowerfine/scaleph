@@ -5,6 +5,7 @@ import cn.sliew.scaleph.dao.entity.master.system.Dict;
 import cn.sliew.scaleph.dao.mapper.master.system.DictMapper;
 import cn.sliew.scaleph.system.cache.DictCache;
 import cn.sliew.scaleph.system.service.DictService;
+import cn.sliew.scaleph.system.service.convert.DictConvert;
 import cn.sliew.scaleph.system.service.dto.DictDTO;
 import cn.sliew.scaleph.system.service.param.DictParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;

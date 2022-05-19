@@ -1,8 +1,8 @@
-package cn.sliew.scaleph.service.convert.admin;
+package cn.sliew.scaleph.system.service.convert;
 
-import cn.sliew.scaleph.dao.entity.master.system.SystemConfig;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.service.dto.admin.SystemConfigDTO;
+import cn.sliew.scaleph.dao.entity.master.system.SystemConfig;
+import cn.sliew.scaleph.system.service.dto.SystemConfigDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

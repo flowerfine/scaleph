@@ -1,9 +1,8 @@
-package cn.sliew.scaleph.service.convert.admin;
+package cn.sliew.scaleph.system.service.convert;
 
-import cn.sliew.scaleph.dao.entity.master.system.Dict;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.service.convert.DictVoConvert;
-import cn.sliew.scaleph.service.dto.admin.DictDTO;
+import cn.sliew.scaleph.dao.entity.master.system.Dict;
+import cn.sliew.scaleph.system.service.dto.DictDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
@@ -14,6 +13,7 @@ import org.mapstruct.factory.Mappers;
  */
 @Mapper(uses = {DictTypeConvert.class, DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DictConvert extends BaseConvert<Dict, DictDTO> {
+
     DictConvert INSTANCE = Mappers.getMapper(DictConvert.class);
 
     @Mapping(source = "dictType.dictTypeCode", target = "dictTypeCode")
