@@ -12,6 +12,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -41,8 +42,9 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePl
     public JDBCDataSourcePlugin() {
         PluginInfo pluginInfo = null;
         try {
-            pluginInfo = PluginInfo.readFromProperties(Paths.get(PluginInfo.PLUGIN_PROPERTIES));
-        } catch (IOException e) {
+            final URL resource = JDBCDataSourcePlugin.class.getClassLoader().getResource("");
+            pluginInfo = PluginInfo.readFromProperties(Paths.get(resource.toURI()));
+        } catch (Exception e) {
             Rethrower.throwAs(e);
         }
         this.pluginInfo = pluginInfo;
