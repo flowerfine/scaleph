@@ -21,6 +21,9 @@ ENV MYSQL_PASSWORD=123456
 ENV REDIS_HOST=redis
 ENV REDIS_PORT=6379
 ENV REDIS_PASSWORD=123456
+ENV MINIO_ENDPOINT=http://minio:9000
+ENV MINIO_ACCESS_KEY=admin
+ENV MINIO_SECRET_KEY=password
 
 ENV TZ Asia/Shanghai
 ENV SCALEPH_HOME /opt/scaleph
@@ -37,6 +40,9 @@ ENV ENV_PARAMS=" --spring.datasource.master.jdbc-url=$MYSQL_URL \
  --spring.redis.host=$REDIS_HOST \
  --spring.redis.port=$REDIS_PORT \
  --spring.redis.password=$REDIS_PASSWORD \
+ --app.resource.minio.endPoint=$MINIO_ENDPOINT \
+ --app.resource.minio.accessKey=$MINIO_ACCESS_KEY \
+ --app.resource.minio.secretKey=$MINIO_SECRET_KEY \
  "
 
 RUN mkdir -p $SCALEPH_HOME

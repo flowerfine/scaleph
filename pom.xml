@@ -235,6 +235,11 @@
                 <artifactId>milky-common</artifactId>
                 <version>${milky.version}</version>
             </dependency>
+            <dependency>
+                <groupId>cn.sliew</groupId>
+                <artifactId>milky-test</artifactId>
+                <version>${milky.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.google.guava</groupId>
@@ -324,6 +329,7 @@
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
                 <includes>
+                    <include>META-INF/**/*</include>
                     <include>**/*.yml</include>
                     <include>**/*.xml</include>
                     <include>**/*.properties</include>
