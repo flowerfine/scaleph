@@ -3,7 +3,7 @@ package cn.sliew.scaleph.meta.service.impl;
 import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.dao.entity.master.meta.DataSourceMeta;
 import cn.sliew.scaleph.dao.mapper.master.meta.DataSourceMetaMapper;
-import cn.sliew.scaleph.service.convert.meta.DataSourceMetaConvert;
+import cn.sliew.scaleph.meta.service.convert.DataSourceMetaConvert;
 import cn.sliew.scaleph.meta.service.dto.DataSourceMetaDTO;
 import cn.sliew.scaleph.meta.service.DataSourceMetaService;
 import cn.sliew.scaleph.meta.service.param.DataSourceMetaParam;

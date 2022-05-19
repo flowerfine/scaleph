@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.service.convert.meta;
+package cn.sliew.scaleph.meta.service.convert;
 
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
@@ -6,9 +6,9 @@ import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.DataSourcePropTypeEnum;
 import cn.sliew.scaleph.dao.entity.master.meta.DataSourceMeta;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.service.convert.DictVoConvert;
-import cn.sliew.scaleph.service.dto.meta.DataSourceMetaDTO;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.meta.service.dto.DataSourceMetaDTO;
+import cn.sliew.scaleph.system.service.convert.DictVoConvert;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;

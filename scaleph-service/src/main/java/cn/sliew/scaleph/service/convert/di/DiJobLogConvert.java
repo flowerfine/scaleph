@@ -2,8 +2,8 @@ package cn.sliew.scaleph.service.convert.di;
 
 import cn.sliew.scaleph.dao.entity.master.di.DiJobLog;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.service.convert.DictVoConvert;
 import cn.sliew.scaleph.service.dto.di.DiJobLogDTO;
+import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;

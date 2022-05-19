@@ -8,7 +8,7 @@ import cn.sliew.scaleph.meta.util.JdbcUtil;
 import cn.sliew.scaleph.meta.service.dto.DataSourceMetaDTO;
 import cn.sliew.scaleph.meta.service.dto.TableColumnMetaDTO;
 import cn.sliew.scaleph.meta.service.dto.TableMetaDTO;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;

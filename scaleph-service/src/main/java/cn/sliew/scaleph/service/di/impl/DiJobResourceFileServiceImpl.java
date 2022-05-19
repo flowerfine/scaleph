@@ -6,7 +6,7 @@ import cn.sliew.scaleph.dao.mapper.master.di.DiJobResourceFileMapper;
 import cn.sliew.scaleph.service.convert.di.DiResourceFileConvert;
 import cn.sliew.scaleph.service.di.DiJobResourceFileService;
 import cn.sliew.scaleph.service.dto.di.DiResourceFileDTO;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

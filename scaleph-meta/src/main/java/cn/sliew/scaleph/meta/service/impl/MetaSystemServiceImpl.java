@@ -5,7 +5,7 @@ import cn.sliew.scaleph.dao.entity.master.meta.MetaDataSet;
 import cn.sliew.scaleph.dao.entity.master.meta.MetaSystem;
 import cn.sliew.scaleph.dao.mapper.master.meta.MetaDataSetMapper;
 import cn.sliew.scaleph.dao.mapper.master.meta.MetaSystemMapper;
-import cn.sliew.scaleph.service.convert.meta.MetaSystemConvert;
+import cn.sliew.scaleph.meta.service.convert.MetaSystemConvert;
 import cn.sliew.scaleph.meta.service.dto.MetaSystemDTO;
 import cn.sliew.scaleph.meta.service.MetaSystemService;
 import cn.sliew.scaleph.meta.service.param.MetaSystemParam;

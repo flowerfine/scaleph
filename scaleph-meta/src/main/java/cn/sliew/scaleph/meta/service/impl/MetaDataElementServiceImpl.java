@@ -3,7 +3,7 @@ package cn.sliew.scaleph.meta.service.impl;
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDataElement;
 import cn.sliew.scaleph.dao.mapper.master.meta.MetaDataElementMapper;
-import cn.sliew.scaleph.service.convert.meta.MetaDataElementConvert;
+import cn.sliew.scaleph.meta.service.convert.MetaDataElementConvert;
 import cn.sliew.scaleph.meta.service.dto.MetaDataElementDTO;
 import cn.sliew.scaleph.meta.service.MetaDataElementService;
 import cn.sliew.scaleph.meta.service.param.MetaDataElementParam;

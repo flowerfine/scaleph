@@ -1,9 +1,9 @@
-package cn.sliew.scaleph.service.convert.meta;
+package cn.sliew.scaleph.meta.service.convert;
 
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDataElement;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.service.convert.DictVoConvert;
-import cn.sliew.scaleph.service.dto.meta.MetaDataElementDTO;
+import cn.sliew.scaleph.meta.service.dto.MetaDataElementDTO;
+import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;

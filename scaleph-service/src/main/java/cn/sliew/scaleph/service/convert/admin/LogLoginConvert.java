@@ -2,8 +2,8 @@ package cn.sliew.scaleph.service.convert.admin;
 
 import cn.sliew.scaleph.dao.entity.log.LogLogin;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.service.convert.DictVoConvert;
 import cn.sliew.scaleph.service.dto.admin.LogLoginDTO;
+import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;

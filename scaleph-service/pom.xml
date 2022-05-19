@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-dao</artifactId>
+            <artifactId>scaleph-system</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>

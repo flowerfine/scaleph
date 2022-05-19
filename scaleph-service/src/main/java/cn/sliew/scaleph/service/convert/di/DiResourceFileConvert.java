@@ -10,7 +10,7 @@ import org.mapstruct.factory.Mappers;
 /**
  * @author gleiyu
  */
-@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DiResourceFileConvert extends BaseConvert<DiResourceFile, DiResourceFileDTO> {
     DiResourceFileConvert INSTANCE = Mappers.getMapper(DiResourceFileConvert.class);
 

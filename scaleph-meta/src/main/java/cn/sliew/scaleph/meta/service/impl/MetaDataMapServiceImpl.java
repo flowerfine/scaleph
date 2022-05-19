@@ -2,7 +2,7 @@ package cn.sliew.scaleph.meta.service.impl;
 
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDataMap;
 import cn.sliew.scaleph.dao.mapper.master.meta.MetaDataMapMapper;
-import cn.sliew.scaleph.service.convert.meta.MetaDataMapConvert;
+import cn.sliew.scaleph.meta.service.convert.MetaDataMapConvert;
 import cn.sliew.scaleph.meta.service.dto.MetaDataMapDTO;
 import cn.sliew.scaleph.meta.service.MetaDataMapService;
 import cn.sliew.scaleph.meta.service.param.MetaDataMapParam;

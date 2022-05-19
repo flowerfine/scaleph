@@ -2,7 +2,7 @@ package cn.sliew.scaleph.meta.service.dto;
 
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDataSetType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

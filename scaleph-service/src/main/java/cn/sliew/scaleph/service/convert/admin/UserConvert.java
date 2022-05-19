@@ -2,8 +2,8 @@ package cn.sliew.scaleph.service.convert.admin;
 
 import cn.sliew.scaleph.dao.entity.master.security.User;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.service.convert.DictVoConvert;
 import cn.sliew.scaleph.service.dto.admin.UserDTO;
+import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

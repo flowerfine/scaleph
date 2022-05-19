@@ -2,10 +2,9 @@ package cn.sliew.scaleph.meta.service.impl;
 
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDataSet;
 import cn.sliew.scaleph.dao.mapper.master.meta.MetaDataSetMapper;
-import cn.sliew.scaleph.dao.mapper.master.meta.MetaDataSetTypeMapper;
-import cn.sliew.scaleph.service.convert.meta.MetaDataSetConvert;
-import cn.sliew.scaleph.meta.service.dto.MetaDataSetDTO;
 import cn.sliew.scaleph.meta.service.MetaDataSetService;
+import cn.sliew.scaleph.meta.service.convert.MetaDataSetConvert;
+import cn.sliew.scaleph.meta.service.dto.MetaDataSetDTO;
 import cn.sliew.scaleph.meta.service.param.MetaDataSetParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -21,8 +20,6 @@ public class MetaDataSetServiceImpl implements MetaDataSetService {
 
     @Autowired
     private MetaDataSetMapper metaDataSetMapper;
-    @Autowired
-    private MetaDataSetTypeMapper metaDataSetTypeMapper;
 
     @Override
     public int insert(MetaDataSetDTO metaDataSetDTO) {

@@ -1,6 +1,5 @@
 package cn.sliew.scaleph.api.controller.admin;
 
-
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
@@ -19,11 +18,12 @@ import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
 import cn.sliew.scaleph.common.enums.UserStatusEnum;
 import cn.sliew.scaleph.service.admin.*;
 import cn.sliew.scaleph.service.dto.admin.RoleDTO;
-import cn.sliew.scaleph.service.dto.admin.UserActiveDTO;
 import cn.sliew.scaleph.service.dto.admin.UserDTO;
 import cn.sliew.scaleph.service.dto.admin.UserRoleDTO;
 import cn.sliew.scaleph.service.param.admin.UserParam;
 import cn.sliew.scaleph.service.util.RedisUtil;
+import cn.sliew.scaleph.system.service.UserActiveService;
+import cn.sliew.scaleph.system.service.dto.UserActiveDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.base.Strings;

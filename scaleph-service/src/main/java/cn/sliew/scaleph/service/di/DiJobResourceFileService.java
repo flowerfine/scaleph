@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.service.di;
 
 import cn.sliew.scaleph.service.dto.di.DiResourceFileDTO;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 
 import java.util.List;
 

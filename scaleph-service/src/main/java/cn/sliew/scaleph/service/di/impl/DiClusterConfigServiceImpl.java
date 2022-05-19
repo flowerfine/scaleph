@@ -7,7 +7,7 @@ import cn.sliew.scaleph.service.convert.di.DiClusterConfigConvert;
 import cn.sliew.scaleph.service.di.DiClusterConfigService;
 import cn.sliew.scaleph.service.dto.di.DiClusterConfigDTO;
 import cn.sliew.scaleph.service.param.di.DiClusterConfigParam;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;

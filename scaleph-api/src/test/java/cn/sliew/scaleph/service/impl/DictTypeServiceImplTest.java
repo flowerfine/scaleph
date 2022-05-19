@@ -1,8 +1,8 @@
 package cn.sliew.scaleph.service.impl;
 
 import cn.sliew.scaleph.ApplicationTest;
-import cn.sliew.scaleph.service.admin.DictTypeService;
-import cn.sliew.scaleph.service.dto.admin.DictTypeDTO;
+import cn.sliew.scaleph.system.service.DictTypeService;
+import cn.sliew.scaleph.system.service.dto.DictTypeDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

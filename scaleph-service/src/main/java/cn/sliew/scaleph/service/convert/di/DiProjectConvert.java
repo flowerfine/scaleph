@@ -10,7 +10,7 @@ import org.mapstruct.factory.Mappers;
 /**
  * @author gleiyu
  */
-@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DiProjectConvert extends BaseConvert<DiProject, DiProjectDTO> {
     DiProjectConvert INSTANCE = Mappers.getMapper(DiProjectConvert.class);
 

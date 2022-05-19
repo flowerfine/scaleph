@@ -10,7 +10,7 @@ import org.mapstruct.factory.Mappers;
 /**
  * @author gleiyu
  */
-@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DiJobLinkConvert extends BaseConvert<DiJobLink, DiJobLinkDTO> {
     DiJobLinkConvert INSTANCE = Mappers.getMapper(DiJobLinkConvert.class);
 
