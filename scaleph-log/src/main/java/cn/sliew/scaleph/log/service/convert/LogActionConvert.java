@@ -1,8 +1,8 @@
-package cn.sliew.scaleph.service.convert.admin;
+package cn.sliew.scaleph.log.service.convert;
 
 import cn.sliew.scaleph.dao.entity.log.LogAction;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.service.dto.admin.LogActionDTO;
+import cn.sliew.scaleph.log.service.dto.LogActionDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;

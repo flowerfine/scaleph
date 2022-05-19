@@ -10,7 +10,7 @@ import cn.sliew.scaleph.core.di.service.DiJobService;
 import cn.sliew.scaleph.core.di.service.dto.DiClusterConfigDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobLogDTO;
-import cn.sliew.scaleph.service.dto.admin.ScheduleLogDTO;
+import cn.sliew.scaleph.log.service.dto.ScheduleLogDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.flinkful.rest.base.JobClient;
 import cn.sliew.flinkful.rest.base.RestClient;

@@ -79,6 +79,7 @@
         <module>scaleph-system</module>
         <module>scaleph-cache</module>
         <module>scaleph-core</module>
+        <module>scaleph-log</module>
     </modules>
 
     <properties>
@@ -149,6 +150,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-system</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-log</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

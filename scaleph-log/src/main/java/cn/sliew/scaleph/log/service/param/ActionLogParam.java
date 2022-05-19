@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.service.param.admin;
+package cn.sliew.scaleph.log.service.param;
 
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;

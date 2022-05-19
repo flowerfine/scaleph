@@ -1,11 +1,11 @@
-package cn.sliew.scaleph.service.admin.impl;
+package cn.sliew.scaleph.log.service.impl;
 
 import cn.sliew.scaleph.dao.entity.log.LogAction;
 import cn.sliew.scaleph.dao.mapper.log.LogActionMapper;
-import cn.sliew.scaleph.service.admin.ActionLogService;
-import cn.sliew.scaleph.service.convert.admin.LogActionConvert;
-import cn.sliew.scaleph.service.dto.admin.LogActionDTO;
-import cn.sliew.scaleph.service.param.admin.ActionLogParam;
+import cn.sliew.scaleph.log.service.ActionLogService;
+import cn.sliew.scaleph.log.service.convert.LogActionConvert;
+import cn.sliew.scaleph.log.service.dto.LogActionDTO;
+import cn.sliew.scaleph.log.service.param.ActionLogParam;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;

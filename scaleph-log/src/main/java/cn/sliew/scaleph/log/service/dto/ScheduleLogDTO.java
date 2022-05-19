@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.service.dto.admin;
+package cn.sliew.scaleph.log.service.dto;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;

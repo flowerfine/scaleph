@@ -1,8 +1,8 @@
-package cn.sliew.scaleph.service.convert.admin;
+package cn.sliew.scaleph.log.service.convert;
 
 import cn.sliew.scaleph.dao.entity.log.ScheduleLog;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.service.dto.admin.ScheduleLogDTO;
+import cn.sliew.scaleph.log.service.dto.ScheduleLogDTO;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

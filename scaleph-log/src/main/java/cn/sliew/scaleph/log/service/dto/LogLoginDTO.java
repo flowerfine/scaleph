@@ -1,6 +1,7 @@
-package cn.sliew.scaleph.service.dto.admin;
+package cn.sliew.scaleph.log.service.dto;
 
 import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -10,32 +11,29 @@ import java.util.Date;
 
 /**
  * <p>
- * 用户操作日志
+ * 用户登录登出日志
  * </p>
  *
  * @author liyu
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "操作日志信息", description = "用户操作日志")
-public class LogActionDTO extends BaseDTO {
+@ApiModel(value = "登录日志信息", description = "用户登录登出日志")
+public class LogLoginDTO extends BaseDTO {
 
-    private static final long serialVersionUID = 8003025002075099514L;
+    private static final long serialVersionUID = 722981712401825463L;
 
     @ApiModelProperty(value = "用户名")
     private String userName;
 
-    @ApiModelProperty(value = "操作时间")
-    private Date actionTime;
+    @ApiModelProperty(value = "登录时间")
+    private Date loginTime;
 
     @ApiModelProperty(value = "ip地址")
     private String ipAddress;
 
-    @ApiModelProperty(value = "操作接口地址")
-    private String actionUrl;
-
-    @ApiModelProperty(value = "会话token字符串")
-    private String token;
+    @ApiModelProperty(value = "登录类型 1-登录，2-登出，0-未知")
+    private DictVO loginType;
 
     @ApiModelProperty(value = "客户端信息")
     private String clientInfo;

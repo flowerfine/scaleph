@@ -1,13 +1,13 @@
-package cn.sliew.scaleph.service.admin.impl;
+package cn.sliew.scaleph.log.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.dao.entity.log.ScheduleLog;
 import cn.sliew.scaleph.dao.mapper.log.ScheduleLogMapper;
-import cn.sliew.scaleph.service.admin.ScheduleLogService;
-import cn.sliew.scaleph.service.convert.admin.ScheduleLogConvert;
-import cn.sliew.scaleph.service.dto.admin.ScheduleLogDTO;
-import cn.sliew.scaleph.service.param.admin.ScheduleLogParam;
+import cn.sliew.scaleph.log.service.ScheduleLogService;
+import cn.sliew.scaleph.log.service.convert.ScheduleLogConvert;
+import cn.sliew.scaleph.log.service.dto.ScheduleLogDTO;
+import cn.sliew.scaleph.log.service.param.ScheduleLogParam;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.service.dto.admin;
+package cn.sliew.scaleph.log.service.dto;
 
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;

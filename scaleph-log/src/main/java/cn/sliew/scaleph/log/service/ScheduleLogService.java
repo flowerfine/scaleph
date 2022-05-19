@@ -1,7 +1,7 @@
-package cn.sliew.scaleph.service.admin;
+package cn.sliew.scaleph.log.service;
 
-import cn.sliew.scaleph.service.dto.admin.ScheduleLogDTO;
-import cn.sliew.scaleph.service.param.admin.ScheduleLogParam;
+import cn.sliew.scaleph.log.service.dto.ScheduleLogDTO;
+import cn.sliew.scaleph.log.service.param.ScheduleLogParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**

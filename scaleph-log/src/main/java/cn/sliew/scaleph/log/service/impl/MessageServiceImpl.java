@@ -1,13 +1,13 @@
-package cn.sliew.scaleph.service.admin.impl;
+package cn.sliew.scaleph.log.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.common.enums.BoolEnum;
 import cn.sliew.scaleph.dao.entity.log.Message;
 import cn.sliew.scaleph.dao.mapper.log.MessageMapper;
-import cn.sliew.scaleph.service.admin.MessageService;
-import cn.sliew.scaleph.service.convert.admin.MessageConvert;
-import cn.sliew.scaleph.service.dto.admin.MessageDTO;
-import cn.sliew.scaleph.service.param.admin.MessageParam;
+import cn.sliew.scaleph.log.service.MessageService;
+import cn.sliew.scaleph.log.service.convert.MessageConvert;
+import cn.sliew.scaleph.log.service.dto.MessageDTO;
+import cn.sliew.scaleph.log.service.param.MessageParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
