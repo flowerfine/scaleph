@@ -11,14 +11,13 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.*;
 
 import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 
-public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePlugin {
+public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePlugin<DataSource> {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
@@ -37,6 +36,7 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePl
 
     private final PluginInfo pluginInfo;
     private volatile Properties properties;
+    private volatile Properties additionalProperties;
     private volatile HikariDataSource dataSource;
 
     public JDBCDataSourcePlugin() {
@@ -76,11 +76,17 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePl
     }
 
     @Override
+    public void setAdditionalProperties(Properties properties) {
+        this.additionalProperties = properties;
+    }
+
+    @Override
     public void start() {
         if (Optional.ofNullable(properties).isPresent() == false) {
             throw new IllegalStateException("jdbc datasource plugin not initialized!");
         }
         HikariConfig config = new HikariConfig(properties);
+        config.setDataSourceProperties(additionalProperties);
         config.setMetricRegistry(meterRegistry);
         this.dataSource = new HikariDataSource(config);
     }
