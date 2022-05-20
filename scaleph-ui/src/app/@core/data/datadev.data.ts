@@ -123,15 +123,16 @@ export class DiDirectory {
 
 export class DiJob {
   id?: number;
-  projectId: number;
-  jobCode: string;
-  jobName: string;
-  directory: DiDirectory;
+  projectId?: number;
+  jobCode?: string;
+  jobName?: string;
+  directory?: DiDirectory;
   jobType?: Dict;
   jobStatus?: Dict;
   runtimeState?: Dict;
   jobVersion?: number;
   remark?: string;
+  jobCrontab?: string;
   createTime?: Date;
   updateTime?: Date;
   jobAttrList?: DiJobAttr[];

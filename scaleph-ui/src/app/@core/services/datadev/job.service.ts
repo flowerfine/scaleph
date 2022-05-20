@@ -84,4 +84,8 @@ export class JobService {
   listResource(jobId: string): Observable<Dict[]> {
     return this.http.get<Dict[]>(`${this.url}/resource/` + jobId);
   }
+
+  listNext5FireTime(crontabStr: string): Observable<Date[]> {
+    return this.http.get<Date[]>(`${this.url}/cron/next?crontabStr=` + crontabStr);
+  }
 }

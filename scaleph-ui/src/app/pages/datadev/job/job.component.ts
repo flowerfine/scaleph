@@ -12,12 +12,12 @@ import { JobService } from 'src/app/@core/services/datadev/job.service';
 import { DirectoryDeleteComponent } from './directory-delete/directory-delete.component';
 import { DirectoryNewComponent } from './directory-new/directory-new.component';
 import { DirectoryUpdateComponent } from './directory-update/directory-update.component';
+import { JobCrontabSettingComponent } from './job-crontab-setting/job-crontab-setting.component';
 import { JobDeleteComponent } from './job-delete/job-delete.component';
 import { JobNewComponent } from './job-new/job-new.component';
 import { JobStartComponent } from './job-start/job-start.component';
 import { JobStopComponent } from './job-stop/job-stop.component';
 import { JobUpdateComponent } from './job-update/job-update.component';
-
 @Component({
   selector: 'app-job',
   templateUrl: './job.component.html',
@@ -198,6 +198,25 @@ export class JobComponent implements OnInit {
       width: '580px',
       backdropCloseable: true,
       component: JobUpdateComponent,
+      data: {
+        title: { name: this.translate.instant('datadev.job') },
+        item: item,
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
+  }
+
+  openJobCrontabSettingDialog(item: DiJob) {
+    const results = this.modalService.open({
+      id: 'job-crontab-setting',
+      width: '580px',
+      backdropCloseable: true,
+      component: JobCrontabSettingComponent,
       data: {
         title: { name: this.translate.instant('datadev.job') },
         item: item,

@@ -5,7 +5,13 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
+import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
+import cn.sliew.flinkful.common.enums.DeploymentTarget;
+import cn.sliew.flinkful.rest.base.JobClient;
+import cn.sliew.flinkful.rest.base.RestClient;
+import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.schedule.FlinkJobStatusSyncJob;
 import cn.sliew.scaleph.api.schedule.ScheduleService;
@@ -26,12 +32,6 @@ import cn.sliew.scaleph.service.storage.StorageService;
 import cn.sliew.scaleph.service.storage.impl.NioFileServiceImpl;
 import cn.sliew.scaleph.service.vo.DictVO;
 import cn.sliew.scaleph.service.vo.JobGraphVO;
-import cn.sliew.flinkful.cli.base.CliClient;
-import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
-import cn.sliew.flinkful.common.enums.DeploymentTarget;
-import cn.sliew.flinkful.rest.base.JobClient;
-import cn.sliew.flinkful.rest.base.RestClient;
-import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,6 +45,7 @@ import org.apache.flink.runtime.jobgraph.SavepointRestoreSettings;
 import org.apache.flink.runtime.rest.handler.async.TriggerResponse;
 import org.apache.flink.runtime.rest.messages.job.savepoints.stop.StopWithSavepointRequestBody;
 import org.quartz.*;
+import org.quartz.impl.triggers.CronTriggerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -64,6 +65,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -590,6 +592,24 @@ public class JobController {
             list.add(dict);
         }
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping(path = "/cron/next")
+    @ApiOperation(value = "查询最近5次运行时间", notes = "查询最近5次运行时间")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
+    public ResponseEntity<List<Date>> listNext5FireTime(@RequestParam(value = "crontabStr") String crontabStr) {
+        List<Date> list = new ArrayList<>();
+        CronTriggerImpl cronTrigger = new CronTriggerImpl();
+        try {
+            cronTrigger.setCronExpression(crontabStr);
+            List<Date> dates = TriggerUtils.computeFireTimes(
+                    cronTrigger, null, 5);
+            list.addAll(dates);
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (ParseException e) {
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        }
     }
 
     private Configuration buildConfiguration(String seatunnelPath, Path seatunnelJarPath, DiJobDTO job, Map<String, String> clusterConf, File baseDir) throws MalformedURLException {

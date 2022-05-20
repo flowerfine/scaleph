@@ -779,6 +779,7 @@ create table di_job (
     runtime_state varchar(4) default '1' comment '运行状态',
     job_version int default 1 comment '作业版本号',
     cluster_id int comment '集群id',
+    job_crontab varchar(32) comment '作业调度crontab表达式',
     remark varchar(256) comment '备注',
     creator varchar(32) comment '创建人',
     create_time timestamp default current_timestamp comment '创建时间',
