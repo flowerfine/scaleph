@@ -69,17 +69,17 @@
 
     <modules>
         <module>scaleph-ui</module>
-        <module>scaleph-dao</module>
         <module>scaleph-common</module>
+        <module>scaleph-dao</module>
         <module>scaleph-service</module>
+        <module>scaleph-security</module>
         <module>scaleph-api</module>
+
         <module>scaleph-meta</module>
         <module>scaleph-engine</module>
+        <module>scaleph-support</module>
         <module>scaleph-plugins</module>
-        <module>scaleph-system</module>
-        <module>scaleph-cache</module>
         <module>scaleph-core</module>
-        <module>scaleph-log</module>
     </modules>
 
     <properties>
@@ -144,12 +144,33 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-cache</artifactId>
+                <artifactId>scaleph-dao</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-system</artifactId>
+                <artifactId>scaleph-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-meta</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-engine</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -159,35 +180,24 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-engine</artifactId>
+                <artifactId>scaleph-storage</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-meta</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-service</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-dao</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-core-di</artifactId>
+                <artifactId>scaleph-system</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-plugin-datasource</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-core-di</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

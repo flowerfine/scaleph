@@ -2,10 +2,10 @@ package cn.sliew.scaleph.api.security;
 
 import cn.sliew.scaleph.api.vo.OnlineUserVO;
 import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.service.admin.RoleService;
-import cn.sliew.scaleph.service.admin.UserService;
-import cn.sliew.scaleph.service.dto.admin.PrivilegeDTO;
-import cn.sliew.scaleph.service.dto.admin.RoleDTO;
+import cn.sliew.scaleph.security.service.RoleService;
+import cn.sliew.scaleph.security.service.UserService;
+import cn.sliew.scaleph.security.service.dto.PrivilegeDTO;
+import cn.sliew.scaleph.security.service.dto.RoleDTO;
 import cn.sliew.scaleph.service.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;

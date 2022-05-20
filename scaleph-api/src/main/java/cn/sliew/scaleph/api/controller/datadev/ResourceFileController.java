@@ -7,7 +7,7 @@ import cn.sliew.scaleph.common.exception.Rethrower;
 import cn.sliew.scaleph.core.di.service.DiResourceFileService;
 import cn.sliew.scaleph.core.di.service.dto.DiResourceFileDTO;
 import cn.sliew.scaleph.core.di.service.param.DiResourceFileParam;
-import cn.sliew.scaleph.service.storage.StorageService;
+import cn.sliew.scaleph.storage.service.StorageService;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;

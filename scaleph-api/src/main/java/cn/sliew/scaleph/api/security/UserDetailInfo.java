@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.api.security;
 
 import cn.sliew.scaleph.common.enums.UserStatusEnum;
-import cn.sliew.scaleph.service.dto.admin.UserDTO;
+import cn.sliew.scaleph.security.service.dto.UserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

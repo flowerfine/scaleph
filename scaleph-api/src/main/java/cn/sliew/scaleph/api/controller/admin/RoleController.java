@@ -1,20 +1,19 @@
 package cn.sliew.scaleph.api.controller.admin;
 
-
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.security.OnlineUserService;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.enums.RoleTypeEnum;
-import cn.sliew.scaleph.service.admin.DeptRoleService;
-import cn.sliew.scaleph.service.admin.RoleService;
-import cn.sliew.scaleph.service.admin.UserRoleService;
-import cn.sliew.scaleph.service.admin.UserService;
-import cn.sliew.scaleph.service.dto.admin.DeptRoleDTO;
-import cn.sliew.scaleph.service.dto.admin.RoleDTO;
-import cn.sliew.scaleph.service.dto.admin.UserDTO;
-import cn.sliew.scaleph.service.dto.admin.UserRoleDTO;
+import cn.sliew.scaleph.security.service.DeptRoleService;
+import cn.sliew.scaleph.security.service.RoleService;
+import cn.sliew.scaleph.security.service.UserRoleService;
+import cn.sliew.scaleph.security.service.UserService;
+import cn.sliew.scaleph.security.service.dto.DeptRoleDTO;
+import cn.sliew.scaleph.security.service.dto.RoleDTO;
+import cn.sliew.scaleph.security.service.dto.UserDTO;
+import cn.sliew.scaleph.security.service.dto.UserRoleDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

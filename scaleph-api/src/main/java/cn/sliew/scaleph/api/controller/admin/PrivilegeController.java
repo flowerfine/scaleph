@@ -1,6 +1,5 @@
 package cn.sliew.scaleph.api.controller.admin;
 
-
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
@@ -8,10 +7,10 @@ import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.security.OnlineUserService;
 import cn.sliew.scaleph.api.vo.ResponseVO;
-import cn.sliew.scaleph.service.admin.PrivilegeService;
-import cn.sliew.scaleph.service.admin.RolePrivilegeService;
-import cn.sliew.scaleph.service.dto.admin.PrivilegeDTO;
-import cn.sliew.scaleph.service.dto.admin.RolePrivilegeDTO;
+import cn.sliew.scaleph.security.service.PrivilegeService;
+import cn.sliew.scaleph.security.service.RolePrivilegeService;
+import cn.sliew.scaleph.security.service.dto.PrivilegeDTO;
+import cn.sliew.scaleph.security.service.dto.RolePrivilegeDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
