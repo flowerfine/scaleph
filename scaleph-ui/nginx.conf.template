@@ -12,6 +12,8 @@ http {
 
     sendfile        on;
 
+    client_max_body_size 5g;
+
     keepalive_timeout  65;
 
     upstream backend {

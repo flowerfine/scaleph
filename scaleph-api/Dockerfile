@@ -2,6 +2,19 @@ FROM openjdk:8-jdk
 #FROM openjdk:8-jdk-alpine
 MAINTAINER gleiyu
 
+ENV FLINK_HOME /opt/flink
+RUN mkdir -p $FLINK_HOME ; cd $FLINK_HOME ; \
+    curl -LsO https://archive.apache.org/dist/flink/flink-1.13.6/flink-1.13.6-bin-scala_2.11.tgz ; \
+    tar -zxf flink-1.13.6-bin-scala_2.11.tgz --strip 1 -C . ; \
+    rm flink-1.13.6-bin-scala_2.11.tgz
+
+ENV SEATUNNEL_HOME /opt/seatunnel
+
+RUN mkdir -p $SEATUNNEL_HOME ; cd $SEATUNNEL_HOME ; \
+    curl -LsO https://archive.apache.org/dist/incubator/seatunnel/2.1.1/apache-seatunnel-incubating-2.1.1-bin.tar.gz ; \
+    tar -zxf apache-seatunnel-incubating-2.1.1-bin.tar.gz --strip 1 -C . ; \
+    rm apache-seatunnel-incubating-2.1.1-bin.tar.gz
+
 ENV MYSQL_URL="jdbc:mysql://mysql:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai"
 ENV MYSQL_USERNAME=root
 ENV MYSQL_PASSWORD=123456
