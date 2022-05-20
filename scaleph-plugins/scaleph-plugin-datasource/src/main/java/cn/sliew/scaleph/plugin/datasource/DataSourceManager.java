@@ -8,7 +8,7 @@ import java.util.*;
 
 public class DataSourceManager {
 
-    private PluginSPILoader<DataSourcePlugin> pluginPluginSPILoader = new PluginSPILoader<>(DataSourcePlugin.class, Thread.currentThread().getContextClassLoader());
+    private PluginSPILoader<DataSourcePlugin> pluginPluginSPILoader = new PluginSPILoader<>(DataSourcePlugin.class, DataSourcePlugin.class.getClassLoader());
 
     public Set<PluginInfo> getAvailableDataSources() {
         return pluginPluginSPILoader.availableServices();

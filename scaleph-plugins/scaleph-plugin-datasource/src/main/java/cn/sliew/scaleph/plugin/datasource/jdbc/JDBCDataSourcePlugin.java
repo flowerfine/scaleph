@@ -42,8 +42,8 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePl
     public JDBCDataSourcePlugin() {
         PluginInfo pluginInfo = null;
         try {
-            final URL resource = JDBCDataSourcePlugin.class.getClassLoader().getResource("");
-            pluginInfo = PluginInfo.readFromProperties(Paths.get(resource.toURI()));
+            final URL url = JDBCDataSourcePlugin.class.getClassLoader().getResource("");
+            pluginInfo = PluginInfo.readFromProperties(Paths.get(url.toURI()));
         } catch (Exception e) {
             Rethrower.throwAs(e);
         }

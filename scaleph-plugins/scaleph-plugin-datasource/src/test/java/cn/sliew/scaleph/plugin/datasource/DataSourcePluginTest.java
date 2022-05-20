@@ -13,7 +13,7 @@ class DataSourcePluginTest {
 
     @Test
     void testJdbcDataSourcePlugin() throws Exception {
-        final PluginSPILoader<DataSourcePlugin> pluginSPILoader = new PluginSPILoader<>(DataSourcePlugin.class, Thread.currentThread().getContextClassLoader());
+        final PluginSPILoader<DataSourcePlugin> pluginSPILoader = new PluginSPILoader<>(DataSourcePlugin.class, DataSourcePlugin.class.getClassLoader());
         final Set<PluginInfo> plugins = pluginSPILoader.availableServices();
         assertThat(plugins).isNotEmpty();
     }
