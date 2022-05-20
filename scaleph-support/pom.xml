@@ -17,6 +17,7 @@
         <module>scaleph-log</module>
         <module>scaleph-system</module>
         <module>scaleph-storage</module>
+        <module>scaleph-mail</module>
     </modules>
 
 

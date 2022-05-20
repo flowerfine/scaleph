@@ -1,6 +1,6 @@
-package cn.sliew.scaleph.service.admin;
+package cn.sliew.scaleph.mail.service;
 
-import cn.sliew.scaleph.service.vo.EmailConfigVO;
+import cn.sliew.scaleph.mail.service.vo.EmailConfigVO;
 
 /**
  * @author gleiyu

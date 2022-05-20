@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.service.vo;
+package cn.sliew.scaleph.mail.service.vo;
 
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.common.constant.Constants;

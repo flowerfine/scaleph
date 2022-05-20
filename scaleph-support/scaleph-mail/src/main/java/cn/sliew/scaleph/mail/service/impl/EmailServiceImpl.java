@@ -1,11 +1,11 @@
-package cn.sliew.scaleph.service.admin.impl;
+package cn.sliew.scaleph.mail.service.impl;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.service.admin.EmailService;
-import cn.sliew.scaleph.service.vo.EmailConfigVO;
+import cn.sliew.scaleph.mail.service.EmailService;
+import cn.sliew.scaleph.mail.service.vo.EmailConfigVO;
 import cn.sliew.scaleph.system.service.SystemConfigService;
 import cn.sliew.scaleph.system.service.dto.SystemConfigDTO;
 import lombok.extern.slf4j.Slf4j;
