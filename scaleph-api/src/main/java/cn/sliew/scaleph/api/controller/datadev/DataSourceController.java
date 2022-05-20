@@ -6,9 +6,12 @@ import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
 import cn.sliew.scaleph.meta.service.DataSourceMetaService;
+import cn.sliew.scaleph.meta.service.MetaDataSourceService;
 import cn.sliew.scaleph.meta.util.JdbcUtil;
 import cn.sliew.scaleph.meta.service.dto.DataSourceMetaDTO;
 import cn.sliew.scaleph.meta.service.param.DataSourceMetaParam;
+import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
+import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -22,9 +25,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author gleiyu
@@ -37,6 +42,34 @@ public class DataSourceController {
 
     @Autowired
     private DataSourceMetaService dataSourceMetaService;
+    @Autowired
+    private MetaDataSourceService metaDataSourceService;
+
+    /**
+     * fixme 权限
+     */
+    @Logging
+    @GetMapping(path = "availables")
+    @ApiOperation(value = "查询支持的数据源", notes = "查询支持的数据源")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_SELECT)")
+    public ResponseEntity<Set<PluginInfo>> listAvailables() {
+        final Set<PluginInfo> availableDataSources = metaDataSourceService.getAvailableDataSources();
+        return new ResponseEntity<>(availableDataSources, HttpStatus.OK);
+    }
+
+    /**
+     * fixme 权限
+     */
+    @Logging
+    @GetMapping(path = "supportedProperties")
+    @ApiOperation(value = "查询数据源支持的属性列表", notes = "查询数据源支持的属性列表")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_SELECT)")
+    public ResponseEntity<List<PropertyDescriptor>> listSupportedProperties(@Valid PluginInfo pluginInfo) {
+        final List<PropertyDescriptor> supportedProperties = metaDataSourceService.getSupportedProperties(pluginInfo);
+        return new ResponseEntity<>(supportedProperties, HttpStatus.OK);
+    }
+
+
 
     @Logging
     @GetMapping
