@@ -18,6 +18,7 @@
         <module>scaleph-system</module>
         <module>scaleph-storage</module>
         <module>scaleph-mail</module>
+        <module>scaleph-generator</module>
     </modules>
 
 

@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MybatisPlusGenerator {
 
-    private final static String AUTHOR = "liyu";
+    private final static String AUTHOR = "wangqi";
     private final static String URL = "jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai";
     private final static String USERNAME = "root";
     private final static String PASSWORD = "123456";
@@ -24,7 +24,22 @@ public class MybatisPlusGenerator {
     private static final String BASE_PACKAGE = "cn.sliew";
     private static final String MODULE = "scaleph";
     private static final String TABLE_PREFIX = "t_";
-    private static final String[] TABLES = {"di_job_log"};
+
+    /**
+     * just add table names here and run the {@link #main(String[])} method.
+     */
+    private static final String[] TABLES = {"meta_datasource2"};
+
+    public static void main(String[] args) {
+        //自动生成配置
+        AutoGenerator generator = new AutoGenerator();
+        generator.setGlobalConfig(globalConfig());
+        generator.setDataSource(dataSourceConfig());
+        generator.setPackageInfo(packageConfig());
+        generator.setStrategy(strategyConfig());
+        generator.setCfg(injectionConfig());
+        generator.execute();
+    }
 
     /**
      * 数据源配置
@@ -49,7 +64,7 @@ public class MybatisPlusGenerator {
     private static GlobalConfig globalConfig() {
         GlobalConfig config = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        config.setOutputDir(projectPath + "/scaleph-api/src/test/java/cn/sliew/scaleph/generator");
+        config.setOutputDir(projectPath + "/scaleph-support/scaleph-generator/src/main/java/");
         config.setAuthor(AUTHOR);
         config.setOpen(false);
         config.setFileOverride(true);
@@ -121,14 +136,5 @@ public class MybatisPlusGenerator {
         return ic;
     }
 
-    public static void main(String[] args) {
-        //自动生成配置
-        AutoGenerator generator = new AutoGenerator();
-        generator.setGlobalConfig(globalConfig());
-        generator.setDataSource(dataSourceConfig());
-        generator.setPackageInfo(packageConfig());
-        generator.setStrategy(strategyConfig());
-        generator.setCfg(injectionConfig());
-        generator.execute();
-    }
+
 }
