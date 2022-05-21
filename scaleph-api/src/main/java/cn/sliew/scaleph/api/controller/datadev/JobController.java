@@ -5,10 +5,17 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
+import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
+import cn.sliew.flinkful.common.enums.DeploymentTarget;
+import cn.sliew.flinkful.rest.base.JobClient;
+import cn.sliew.flinkful.rest.base.RestClient;
+import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.schedule.FlinkJobStatusSyncJob;
 import cn.sliew.scaleph.api.schedule.ScheduleService;
+import cn.sliew.scaleph.api.schedule.SeatunnelFlinkJob;
 import cn.sliew.scaleph.api.util.I18nUtil;
 import cn.sliew.scaleph.api.util.SecurityUtil;
 import cn.sliew.scaleph.api.vo.DiJobAttrVO;
@@ -26,12 +33,6 @@ import cn.sliew.scaleph.service.storage.StorageService;
 import cn.sliew.scaleph.service.storage.impl.NioFileServiceImpl;
 import cn.sliew.scaleph.service.vo.DictVO;
 import cn.sliew.scaleph.service.vo.JobGraphVO;
-import cn.sliew.flinkful.cli.base.CliClient;
-import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
-import cn.sliew.flinkful.common.enums.DeploymentTarget;
-import cn.sliew.flinkful.rest.base.JobClient;
-import cn.sliew.flinkful.rest.base.RestClient;
-import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,6 +46,7 @@ import org.apache.flink.runtime.jobgraph.SavepointRestoreSettings;
 import org.apache.flink.runtime.rest.handler.async.TriggerResponse;
 import org.apache.flink.runtime.rest.messages.job.savepoints.stop.StopWithSavepointRequestBody;
 import org.quartz.*;
+import org.quartz.impl.triggers.CronTriggerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -64,6 +66,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -79,6 +82,8 @@ public class JobController {
 
     @Autowired
     private DiJobService diJobService;
+    @Autowired
+    private DiProjectService diProjectService;
     @Autowired
     private DiJobAttrService diJobAttrService;
     @Autowired
@@ -508,41 +513,71 @@ public class JobController {
         this.diJobResourceFileService.bindResource(jobRunParam.getJobId(), jobRunParam.getResources());
         //generate json file
         DiJobDTO job = queryJobInfo(jobRunParam.getJobId());
-        String jobJson = jobConfigHelper.buildJob(job);
-        File tempDir = new File(System.getProperty("java.io.tmpdir"));
-        File baseDir = FileUtil.mkdir(tempDir.getAbsolutePath() + File.separator + job.getProjectId());
-        File tmpJobConfFile = FileUtil.file(baseDir, job.getJobCode() + ".json");
-        FileUtil.writeUtf8String(jobJson, tmpJobConfFile);
-        String seatunnelPath = this.systemConfigService.getSeatunnelHome();
-        Path seatunnelJarPath = Paths.get(seatunnelPath, "lib", "seatunnel-core-flink.jar");
-        if (StrUtil.isBlank(seatunnelPath)) {
-            return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.noJar.seatunnel"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+        if (JobTypeEnum.BATCH.getValue().equals(job.getJobType().getValue()) && StrUtil.isNotEmpty(job.getJobCrontab())) {
+            try {
+                scheduleSeatunnelJob(job);
+            } catch (Exception e) {
+                return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
+                        e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+            }
+        } else {
+            String jobJson = jobConfigHelper.buildJob(job);
+            File tempDir = new File(System.getProperty("java.io.tmpdir"));
+            File baseDir = FileUtil.mkdir(tempDir.getAbsolutePath() + File.separator + job.getProjectId());
+            File tmpJobConfFile = FileUtil.file(baseDir, job.getJobCode() + ".json");
+            FileUtil.writeUtf8String(jobJson, tmpJobConfFile);
+            String seatunnelPath = this.systemConfigService.getSeatunnelHome();
+            Path seatunnelJarPath = Paths.get(seatunnelPath, "lib", "seatunnel-core-flink.jar");
+            if (StrUtil.isBlank(seatunnelPath)) {
+                return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
+                        I18nUtil.get("response.error.di.noJar.seatunnel"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+            }
+            CliClient client = new DescriptorCliClient();
+            //build configuration
+            DiClusterConfigDTO clusterConfig = this.diClusterConfigService.selectOne(jobRunParam.getClusterId());
+            Configuration configuration = buildConfiguration(seatunnelPath, seatunnelJarPath, job, clusterConfig.getConfig(), baseDir);
+            //build job
+            PackageJarJob jarJob = buildJob(seatunnelJarPath.toUri().toString(), tmpJobConfFile, job.getJobAttrList());
+            JobID jobInstanceID = client.submit(DeploymentTarget.STANDALONE_SESSION, configuration, jarJob);
+            //write log
+            DiJobLogDTO jobLogInfo = new DiJobLogDTO();
+            jobLogInfo.setProjectId(job.getProjectId());
+            jobLogInfo.setJobId(job.getId());
+            jobLogInfo.setJobCode(job.getJobCode());
+            jobLogInfo.setClusterId(jobRunParam.getClusterId());
+            jobLogInfo.setJobInstanceId(jobInstanceID.toString());
+            String clusterHost = configuration.getString(JobManagerOptions.ADDRESS);
+            int clusterPort = configuration.getInteger(RestOptions.PORT);
+            String jobLogUrl = "http://" + clusterHost + ":" + clusterPort + "/#/job/" + jobInstanceID + "/overview";
+            jobLogInfo.setJobLogUrl(jobLogUrl);
+            jobLogInfo.setJobInstanceState(DictVO.toVO(DictConstants.JOB_INSTANCE_STATE, JobStatus.INITIALIZING.toString()));
+            jobLogInfo.setStartTime(new Date());
+            this.diJobLogService.insert(jobLogInfo);
         }
-        CliClient client = new DescriptorCliClient();
-        //build configuration
-        DiClusterConfigDTO clusterConfig = this.diClusterConfigService.selectOne(jobRunParam.getClusterId());
-        Configuration configuration = buildConfiguration(seatunnelPath, seatunnelJarPath, job, clusterConfig.getConfig(), baseDir);
-        //build job
-        PackageJarJob jarJob = buildJob(seatunnelJarPath.toUri().toString(), tmpJobConfFile, job.getJobAttrList());
-        JobID jobInstanceID = client.submit(DeploymentTarget.STANDALONE_SESSION, configuration, jarJob);
         job.setRuntimeState(DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
-        //write log
-        DiJobLogDTO jobLogInfo = new DiJobLogDTO();
-        jobLogInfo.setProjectId(job.getProjectId());
-        jobLogInfo.setJobId(job.getId());
-        jobLogInfo.setJobCode(job.getJobCode());
-        jobLogInfo.setClusterId(jobRunParam.getClusterId());
-        jobLogInfo.setJobInstanceId(jobInstanceID.toString());
-        String clusterHost = configuration.getString(JobManagerOptions.ADDRESS);
-        int clusterPort = configuration.getInteger(RestOptions.PORT);
-        String jobLogUrl = "http://" + clusterHost + ":" + clusterPort + "/#/job/" + jobInstanceID + "/overview";
-        jobLogInfo.setJobLogUrl(jobLogUrl);
-        jobLogInfo.setJobInstanceState(DictVO.toVO(DictConstants.JOB_INSTANCE_STATE, JobStatus.INITIALIZING.toString()));
-        jobLogInfo.setStartTime(new Date());
         this.diJobService.update(job);
-        this.diJobLogService.insert(jobLogInfo);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    private void scheduleSeatunnelJob(DiJobDTO job) throws SchedulerException {
+        DiProjectDTO project = this.diProjectService.selectOne(job.getProjectId());
+        String jobName = project.getProjectCode() + '_' + job.getJobCode();
+        JobKey seatunnelJobKey = scheduleService.getJobKey("FLINK_BATCH_JOB_" + jobName, Constants.INTERNAL_GROUP);
+        JobDetail seatunnelJob = JobBuilder.newJob(SeatunnelFlinkJob.class)
+                .withIdentity(seatunnelJobKey)
+                .storeDurably()
+                .build();
+        seatunnelJob.getJobDataMap().put(Constants.JOB_PARAM_JOB_INFO, job);
+        seatunnelJob.getJobDataMap().put(Constants.JOB_PARAM_PROJECT_INFO, project);
+        TriggerKey seatunnelJobTriKey = scheduleService.getTriggerKey("FLINK_BATCH_TRI_" + jobName, Constants.INTERNAL_GROUP);
+        Trigger seatunnelJobTri = TriggerBuilder.newTrigger()
+                .withIdentity(seatunnelJobTriKey)
+                .withSchedule(CronScheduleBuilder.cronSchedule(job.getJobCrontab()))
+                .build();
+        if (scheduleService.checkExists(seatunnelJobKey)) {
+            scheduleService.deleteScheduleJob(seatunnelJobKey);
+        }
+        this.scheduleService.addScheduleJob(seatunnelJob, seatunnelJobTri);
     }
 
     @Logging
@@ -552,6 +587,14 @@ public class JobController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> stopJob(@RequestParam(value = "jobId") Long jobId) throws Exception {
         DiJobDTO job = this.diJobService.selectOne(jobId);
+        DiProjectDTO project = this.diProjectService.selectOne(job.getProjectId());
+        //remove schedule
+        String jobName = project.getProjectCode() + '_' + job.getJobCode();
+        JobKey seatunnelJobKey = scheduleService.getJobKey("FLINK_BATCH_JOB_" + jobName, Constants.INTERNAL_GROUP);
+        if (scheduleService.checkExists(seatunnelJobKey)) {
+            scheduleService.deleteScheduleJob(seatunnelJobKey);
+        }
+        //stop flink task
         List<DiJobLogDTO> list = this.diJobLogService.listRunningJobInstance(job.getJobCode());
         Configuration configuration = GlobalConfiguration.loadConfiguration();
         for (DiJobLogDTO instance : list) {
@@ -573,6 +616,7 @@ public class JobController {
             final CompletableFuture<TriggerResponse> future = jobClient.jobStop(instance.getJobInstanceId(), requestBody);
             future.get();
         }
+
         job.setRuntimeState(DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.STOP.getValue()));
         this.diJobService.update(job);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
@@ -590,6 +634,24 @@ public class JobController {
             list.add(dict);
         }
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping(path = "/cron/next")
+    @ApiOperation(value = "查询最近5次运行时间", notes = "查询最近5次运行时间")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
+    public ResponseEntity<List<Date>> listNext5FireTime(@RequestParam(value = "crontabStr") String crontabStr) {
+        List<Date> list = new ArrayList<>();
+        CronTriggerImpl cronTrigger = new CronTriggerImpl();
+        try {
+            cronTrigger.setCronExpression(crontabStr);
+            List<Date> dates = TriggerUtils.computeFireTimes(
+                    cronTrigger, null, 5);
+            list.addAll(dates);
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (ParseException e) {
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        }
     }
 
     private Configuration buildConfiguration(String seatunnelPath, Path seatunnelJarPath, DiJobDTO job, Map<String, String> clusterConf, File baseDir) throws MalformedURLException {

@@ -68,6 +68,9 @@ public class DiJobDTO extends BaseDTO {
     @ApiModelProperty(value = "集群id")
     private Long clusterId;
 
+    @ApiModelProperty(value = "作业调度crontab表达式")
+    private String jobCrontab;
+
     @Length(max = 200)
     @ApiModelProperty(value = "备注")
     private String remark;

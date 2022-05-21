@@ -20,6 +20,7 @@
         <result column="job_version" property="jobVersion" />
         <result column="remark" property="remark" />
         <result column="cluster_id" property="clusterId"/>
+        <result column="job_crontab" property="jobCrontab"/>
     </resultMap>
 
     <select id="selectPage" resultMap="DiJobMap">
@@ -36,6 +37,7 @@
             runtime_state,
             job_version,
             cluster_id,
+            job_crontab,
             remark,
             creator,
             create_time,

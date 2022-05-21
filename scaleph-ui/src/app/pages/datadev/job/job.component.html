@@ -186,6 +186,11 @@
                   <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
                 </d-cell>
               </d-column>
+              <d-column field="jobCrontab" header="{{ 'datadev.jobCrontab' | translate }}" [width]="'120px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
+                </d-cell>
+              </d-column>
               <d-column field="directory" header="{{ 'datadev.directory' | translate }}" [width]="'150px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem?.fullPath }}</ng-template>
@@ -211,7 +216,7 @@
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="actions" header="{{ 'app.common.operate.label' | translate }}" [fixedRight]="'0px'" [width]="'200px'">
+              <d-column field="actions" header="{{ 'app.common.operate.label' | translate }}" [fixedRight]="'0px'" [width]="'130px'">
                 <d-cell>
                   <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                     <div class="btn-group">
@@ -246,19 +251,20 @@
                         title="{{ 'app.common.operate.edit.label' | translate }}"
                       ></d-button>
                       <d-button
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevJobEdit)"
+                        icon="icon-setup"
+                        bsStyle="text-dark"
+                        (btnClick)="openJobCrontabSettingDialog(rowItem)"
+                        [disabled]="rowItem.jobType.value == 'r'"
+                        title="{{ 'datadev.job.crontab.setting' | translate }}"
+                      ></d-button>
+                      <d-button
                         *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevJobDelete)"
                         icon="icon-delete"
                         bsStyle="text-dark"
                         (btnClick)="openDeleteJobDialog([rowItem])"
                         title="{{ 'app.common.operate.delete.label' | translate }}"
                       ></d-button>
-                      <!-- <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevJob)"
-                        icon="icon-setup"
-                        bsStyle="text-dark"
-                        (btnClick)="openDeleteJobDialog([rowItem])"
-                        title="{{ 'datadev.job.detail' | translate }}"
-                      ></d-button> -->
                     </div>
                   </ng-template>
                 </d-cell>

@@ -111,4 +111,10 @@ public class DiProjectServiceImpl implements DiProjectService {
     public int totalCnt() {
         return this.diProjectMapper.selectCount(null);
     }
+
+    @Override
+    public DiProjectDTO selectOne(Serializable id) {
+        DiProject project = this.diProjectMapper.selectById(id);
+        return DiProjectConvert.INSTANCE.toDto(project);
+    }
 }

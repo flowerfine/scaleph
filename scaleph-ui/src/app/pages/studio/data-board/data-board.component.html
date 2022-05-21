@@ -54,7 +54,7 @@
               <ng-template let-cellItem="cellItem">{{ cellItem?.projectCode }}</ng-template>
             </d-cell>
           </d-column>
-          <d-column field="jobCode" header="{{ 'studio.databoard.jobCode' | translate }}" [width]="'200px'">
+          <d-column field="jobCode" header="{{ 'studio.databoard.jobCode' | translate }}" [width]="'200px'" [fixedLeft]="'120px'">
             <d-cell>
               <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
             </d-cell>
@@ -74,12 +74,7 @@
               <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
             </d-cell>
           </d-column>
-          <d-column
-            field="jobInstanceState"
-            header="{{ 'studio.databoard.jobInstanceState' | translate }}"
-            [width]="'100px'"
-            [fixedRight]="'0px'"
-          >
+          <d-column field="jobInstanceState" header="{{ 'studio.databoard.jobInstanceState' | translate }}" [width]="'100px'">
             <d-cell>
               <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
             </d-cell>

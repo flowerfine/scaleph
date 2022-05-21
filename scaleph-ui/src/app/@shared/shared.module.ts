@@ -96,6 +96,7 @@ const DEVUI_MODULES = [
   UploadModule,
   PopoverModule,
   InputNumberModule,
+  AlertModule,
 ];
 const COMPONENTS = [HeaderComponent, FooterComponent, NavbarComponent, PersonalizeComponent];
 @NgModule({
