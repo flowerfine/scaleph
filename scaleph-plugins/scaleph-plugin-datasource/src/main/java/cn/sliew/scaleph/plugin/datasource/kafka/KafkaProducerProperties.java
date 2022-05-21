@@ -8,14 +8,14 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 public enum KafkaProducerProperties {
     ;
 
-    static final AllowableValue DELIVERY_REPLICATED = new AllowableValue("all", "Guarantee Replicated Delivery",
+    public static final AllowableValue DELIVERY_REPLICATED = new AllowableValue("all", "Guarantee Replicated Delivery",
             "FlowFile will be routed to failure unless the message is replicated to the appropriate "
                     + "number of Kafka Nodes according to the Topic configuration");
-    static final AllowableValue DELIVERY_ONE_NODE = new AllowableValue("1", "Guarantee Single Node Delivery",
+    public static final AllowableValue DELIVERY_ONE_NODE = new AllowableValue("1", "Guarantee Single Node Delivery",
             "FlowFile will be routed to success if the message is received by a single Kafka node, "
                     + "whether or not it is replicated. This is faster than <Guarantee Replicated Delivery> "
                     + "but can result in data loss if a Kafka node crashes");
-    static final AllowableValue DELIVERY_BEST_EFFORT = new AllowableValue("0", "Best Effort",
+    public static final AllowableValue DELIVERY_BEST_EFFORT = new AllowableValue("0", "Best Effort",
             "FlowFile will be routed to success after successfully sending the content to a Kafka node, "
                     + "without waiting for any acknowledgment from the node at all. This provides the best performance but may result in data loss.");
 
