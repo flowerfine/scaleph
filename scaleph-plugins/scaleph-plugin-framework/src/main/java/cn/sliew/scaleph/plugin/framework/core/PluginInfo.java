@@ -1,22 +1,17 @@
 package cn.sliew.scaleph.plugin.framework.core;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
-import java.util.ServiceLoader;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Getter
 @ToString
-@EqualsAndHashCode
 public class PluginInfo {
 
     public static final String PLUGIN_PROPERTIES = "plugin.properties";
@@ -31,7 +26,6 @@ public class PluginInfo {
         this.description = description;
         this.version = version;
         this.classname = classname;
-
     }
 
     /**
@@ -65,5 +59,18 @@ public class PluginInfo {
         }
 
         return new PluginInfo(name, description, version, classname);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PluginInfo that = (PluginInfo) o;
+        return name.equals(that.name) && version.equals(that.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, version);
     }
 }

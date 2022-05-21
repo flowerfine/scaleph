@@ -35,13 +35,13 @@ public class QuartzJobListener implements JobListener {
         logDTO.setTaskName(jobKey.getName());
         logDTO.appendLog(StrUtil.format("job {} in group {} begin running...", jobKey.getName(), jobKey.getGroup()));
         dataMap.put(Constants.JOB_LOG_KEY, logDTO);
-        log.info("job {} in group {} begin running... ", jobKey.getName(), jobKey.getGroup());
+        log.debug("job {} in group {} begin running... ", jobKey.getName(), jobKey.getGroup());
     }
 
     @Override
     public void jobExecutionVetoed(JobExecutionContext context) {
         JobKey jobKey = context.getJobDetail().getKey();
-        log.info("job {} in group {} execute vetoed", jobKey.getName(), jobKey.getGroup());
+        log.debug("job {} in group {} execute vetoed", jobKey.getName(), jobKey.getGroup());
     }
 
     @Override
@@ -59,6 +59,6 @@ public class QuartzJobListener implements JobListener {
         logDTO.appendLog(StrUtil.format("job {} in group {} execute completed", jobKey.getName(), jobKey.getGroup()));
         ScheduleLogService scheduleLogService = SpringApplicationContextUtil.getBean(ScheduleLogService.class);
         scheduleLogService.insert(logDTO);
-        log.info("job {} in group {} execute completed", jobKey.getName(), jobKey.getGroup());
+        log.debug("job {} in group {} execute completed", jobKey.getName(), jobKey.getGroup());
     }
 }
