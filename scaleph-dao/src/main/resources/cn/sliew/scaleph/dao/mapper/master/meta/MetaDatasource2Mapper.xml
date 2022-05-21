@@ -11,9 +11,9 @@
         <result column="update_time" property="updateTime" />
         <result column="name" property="name" />
         <result column="version" property="version" />
-        <result column="remark" property="remark" />
         <result column="props" property="props" />
         <result column="additional_props" property="additionalProps" />
+        <result column="remark" property="remark" />
     </resultMap>
 
 </mapper>
