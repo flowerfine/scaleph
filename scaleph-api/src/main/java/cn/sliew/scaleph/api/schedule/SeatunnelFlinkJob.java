@@ -17,6 +17,7 @@ import cn.sliew.scaleph.service.di.DiClusterConfigService;
 import cn.sliew.scaleph.service.di.DiJobLogService;
 import cn.sliew.scaleph.service.di.DiJobResourceFileService;
 import cn.sliew.scaleph.service.di.DiJobService;
+import cn.sliew.scaleph.service.dto.admin.ScheduleLogDTO;
 import cn.sliew.scaleph.service.dto.di.*;
 import cn.sliew.scaleph.service.storage.StorageService;
 import cn.sliew.scaleph.service.storage.impl.NioFileServiceImpl;
@@ -67,11 +68,16 @@ public class SeatunnelFlinkJob extends QuartzJobBean {
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         JobDataMap dataMap = context.getJobDetail().getJobDataMap();
         DiJobDTO job = (DiJobDTO) dataMap.get(Constants.JOB_PARAM_JOB_INFO);
+        DiProjectDTO project = (DiProjectDTO) dataMap.get(Constants.JOB_PARAM_PROJECT_INFO);
+        ScheduleLogDTO logDTO = (ScheduleLogDTO) dataMap.get(Constants.JOB_LOG_KEY);
+        logDTO.appendLog(StrUtil.format("start seatunnel flink batch job {} in project {}", job.getJobCode(), project.getProjectCode()));
         String jobJson = jobConfigHelper.buildJob(job);
         File tempDir = new File(System.getProperty("java.io.tmpdir"));
         File baseDir = FileUtil.mkdir(tempDir.getAbsolutePath() + File.separator + job.getProjectId());
         File tmpJobConfFile = FileUtil.file(baseDir, job.getJobCode() + ".json");
+        logDTO.appendLog(StrUtil.format("seatunnel job config file path is {}", tmpJobConfFile.getAbsolutePath()));
         FileUtil.writeUtf8String(jobJson, tmpJobConfFile);
+        logDTO.appendLog(StrUtil.format("seatunnel job config is {}", jobJson));
         String seatunnelPath = this.systemConfigService.getSeatunnelHome();
         Path seatunnelJarPath = Paths.get(seatunnelPath, "lib", "seatunnel-core-flink.jar");
         if (StrUtil.isBlank(seatunnelPath)) {
@@ -86,6 +92,7 @@ public class SeatunnelFlinkJob extends QuartzJobBean {
         JobID jobInstanceID = client.submit(DeploymentTarget.STANDALONE_SESSION, configuration, jarJob);
         job.setRuntimeState(DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
         //write log
+        logDTO.appendLog(StrUtil.format("submit job to flink cluster,flink job id is {}", jobInstanceID.toString()));
         DiJobLogDTO jobLogInfo = new DiJobLogDTO();
         jobLogInfo.setProjectId(job.getProjectId());
         jobLogInfo.setJobId(job.getId());
@@ -98,8 +105,11 @@ public class SeatunnelFlinkJob extends QuartzJobBean {
         jobLogInfo.setJobLogUrl(jobLogUrl);
         jobLogInfo.setJobInstanceState(DictVO.toVO(DictConstants.JOB_INSTANCE_STATE, JobStatus.INITIALIZING.toString()));
         jobLogInfo.setStartTime(new Date());
+        logDTO.appendLog(StrUtil.format("flink cluster job url is {}", jobLogUrl));
         this.diJobService.update(job);
         this.diJobLogService.insert(jobLogInfo);
+        logDTO.appendLog(StrUtil.format("success start seatunnel flink batch job {} in project {}", job.getJobCode(), project.getProjectCode()));
+
     }
 
     private Configuration buildConfiguration(String seatunnelPath, Path seatunnelJarPath, DiJobDTO job, Map<String, String> clusterConf, File baseDir) throws MalformedURLException {

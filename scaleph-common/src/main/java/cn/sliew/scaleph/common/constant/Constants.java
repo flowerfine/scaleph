@@ -59,6 +59,7 @@ public interface Constants {
     String ETL_JOB_PREFIX = "job-";
     String CRON_EVERY_THREE_SECONDS = "/3 * * * * ? ";
     String JOB_PARAM_JOB_INFO = "JOB_INFO";
+    String JOB_PARAM_PROJECT_INFO = "PROJECT_INFO";
     /**
      * 作业流程步骤属性相关
      */

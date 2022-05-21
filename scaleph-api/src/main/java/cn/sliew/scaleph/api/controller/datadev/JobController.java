@@ -539,7 +539,6 @@ public class JobController {
             //build job
             PackageJarJob jarJob = buildJob(seatunnelJarPath.toUri().toString(), tmpJobConfFile, job.getJobAttrList());
             JobID jobInstanceID = client.submit(DeploymentTarget.STANDALONE_SESSION, configuration, jarJob);
-            job.setRuntimeState(DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
             //write log
             DiJobLogDTO jobLogInfo = new DiJobLogDTO();
             jobLogInfo.setProjectId(job.getProjectId());
@@ -553,9 +552,10 @@ public class JobController {
             jobLogInfo.setJobLogUrl(jobLogUrl);
             jobLogInfo.setJobInstanceState(DictVO.toVO(DictConstants.JOB_INSTANCE_STATE, JobStatus.INITIALIZING.toString()));
             jobLogInfo.setStartTime(new Date());
-            this.diJobService.update(job);
             this.diJobLogService.insert(jobLogInfo);
         }
+        job.setRuntimeState(DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
+        this.diJobService.update(job);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -568,6 +568,7 @@ public class JobController {
                 .storeDurably()
                 .build();
         seatunnelJob.getJobDataMap().put(Constants.JOB_PARAM_JOB_INFO, job);
+        seatunnelJob.getJobDataMap().put(Constants.JOB_PARAM_PROJECT_INFO, project);
         TriggerKey seatunnelJobTriKey = scheduleService.getTriggerKey("FLINK_BATCH_TRI_" + jobName, Constants.INTERNAL_GROUP);
         Trigger seatunnelJobTri = TriggerBuilder.newTrigger()
                 .withIdentity(seatunnelJobTriKey)

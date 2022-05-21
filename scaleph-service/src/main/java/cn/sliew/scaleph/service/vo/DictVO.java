@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @author gleiyu
  */
@@ -14,7 +16,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(value = "数据字典", description = "数据字典对象，用来前后端枚举值交互")
-public class DictVO {
+public class DictVO implements Serializable {
+    private static final long serialVersionUID = 1357098965682678688L;
+
     private String value;
     private String label;
 
