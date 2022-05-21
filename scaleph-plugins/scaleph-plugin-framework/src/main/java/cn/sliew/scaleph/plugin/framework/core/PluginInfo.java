@@ -37,25 +37,17 @@ public class PluginInfo {
     /**
      * Reads the plugin descriptor file.
      *
-     * @param path the path to the root directory for the plugin
+     * @param properties the path to the root directory for the plugin
      * @return the plugin info
      * @throws IOException if an I/O exception occurred reading the plugin descriptor
      */
-    public static PluginInfo readFromProperties(final Path path) throws IOException {
-        final Path descriptor = path.resolve(PLUGIN_PROPERTIES);
+    public static PluginInfo readFromProperties(Properties properties) throws IOException {
 
-        final Map<String, String> propsMap;
-        {
-            final Properties props = new Properties();
-            try (InputStream stream = Files.newInputStream(descriptor)) {
-                props.load(stream);
-            }
-            propsMap = props.stringPropertyNames().stream().collect(Collectors.toMap(Function.identity(), props::getProperty));
-        }
+        final Map<String, String> propsMap = properties.stringPropertyNames().stream().collect(Collectors.toMap(Function.identity(), properties::getProperty));
 
         final String name = propsMap.remove("name");
         if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("property [name] is missing in [" + descriptor + "]");
+            throw new IllegalArgumentException("property [name] is missing");
         }
         final String description = propsMap.remove("description");
         if (description == null) {

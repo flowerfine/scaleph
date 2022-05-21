@@ -11,8 +11,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
-import java.net.URL;
-import java.nio.file.Paths;
+import java.io.InputStream;
 import java.util.*;
 
 import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
@@ -41,9 +40,10 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePl
 
     public JDBCDataSourcePlugin() {
         PluginInfo pluginInfo = null;
-        try {
-            final URL url = JDBCDataSourcePlugin.class.getClassLoader().getResource("");
-            pluginInfo = PluginInfo.readFromProperties(Paths.get(url.toURI()));
+        try (InputStream resourceAsStream = JDBCDataSourcePlugin.class.getResourceAsStream("/" + PluginInfo.PLUGIN_PROPERTIES)) {
+            Properties pluginProperties = new Properties();
+            pluginProperties.load(resourceAsStream);
+            pluginInfo = PluginInfo.readFromProperties(pluginProperties);
         } catch (Exception e) {
             Rethrower.throwAs(e);
         }
