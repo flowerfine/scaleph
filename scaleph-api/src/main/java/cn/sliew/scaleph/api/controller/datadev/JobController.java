@@ -155,9 +155,21 @@ public class JobController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "修改作业记录", notes = "只修改作业记录属性，相关流程定义不改变")
+    @ApiOperation(value = "修改作业记录", notes = "只修改作业记录属性，相关流程定义不改变。如果作业在运行中，且修改了crontab表达式，则重新配置作业的调度频率")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> simpleEditJob(@Validated @RequestBody DiJobDTO diJobDTO) {
+    public ResponseEntity<ResponseVO> simpleEditJob(@Validated @RequestBody DiJobDTO diJobDTO) throws SchedulerException {
+        DiJobDTO job = this.diJobService.selectOne(diJobDTO.getId());
+        boolean flag = StrUtil.isAllEmpty(diJobDTO.getJobCrontab(), job.getJobCrontab())
+                || (StrUtil.isAllNotEmpty(diJobDTO.getJobCrontab(), job.getJobCrontab())
+                && StrUtil.equals(diJobDTO.getJobCrontab(), job.getJobCrontab()));
+        if (!flag) {
+            DiProjectDTO project = this.diProjectService.selectOne(job.getProjectId());
+            String jobName = project.getProjectCode() + '_' + job.getJobCode();
+            JobKey seatunnelJobKey = scheduleService.getJobKey("FLINK_BATCH_JOB_" + jobName, Constants.INTERNAL_GROUP);
+            if (scheduleService.checkExists(seatunnelJobKey)) {
+                scheduleService.deleteScheduleJob(seatunnelJobKey);
+            }
+        }
         this.diJobService.update(diJobDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -231,7 +243,7 @@ public class JobController {
             job.setJobStatus(DictVO.toVO(DictConstants.JOB_STATUS, JobStatusEnum.DRAFT.getValue()));
             DiJobDTO newJob = this.diJobService.insert(job);
             diJobDTO.setId(newJob.getId());
-
+            //todo 同步复制一份作业属性步骤信息存储下来
         } else if (JobStatusEnum.ARCHIVE.getValue().equals(job.getJobStatus().getValue())) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
                     I18nUtil.get("response.error.di.archivedJob"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
