@@ -1,6 +1,5 @@
 package cn.sliew.scaleph.api.exception;
 
-
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.util.I18nUtil;
 import cn.sliew.scaleph.api.vo.ResponseVO;
@@ -17,9 +16,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Arrays;
-
-
 /**
  * 全局exception处理器
  *
@@ -33,11 +29,10 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseVO> defaultException(Exception e) {
-        log.error(Arrays.toString(e.getStackTrace()));
+        log.error(e.getMessage(), e);
         ResponseVO errorInfo = ResponseVO.error(I18nUtil.get(ResponseCodeEnum.ERROR.getValue()));
         return new ResponseEntity<>(errorInfo, HttpStatus.OK);
     }
-
 
     /**
      * 捕获自定义异常
@@ -49,6 +44,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ResponseVO> defaultException(CustomException e) {
+        log.error(e.getExceptionCode(), e);
         ResponseVO errorInfo;
         if (ObjectUtils.isEmpty(e.getExceptionCode())) {
             errorInfo = ResponseVO.error(e.getMessage());
@@ -68,6 +64,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ResponseVO> defaultException(AccessDeniedException e) {
+        log.error(e.getMessage(), e);
         ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_NO_PRIVILEGE.getCode(), I18nUtil.get(ResponseCodeEnum.ERROR_NO_PRIVILEGE.getValue()));
         return new ResponseEntity<>(errorInfo, HttpStatus.OK);
     }
@@ -82,10 +79,10 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<ResponseVO> defaultException(DuplicateKeyException e) {
+        log.error(e.getMessage(), e);
         ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_DUPLICATE_DATA.getCode(), I18nUtil.get(ResponseCodeEnum.ERROR_DUPLICATE_DATA.getValue()));
         return new ResponseEntity<>(errorInfo, HttpStatus.OK);
     }
-
 
     /**
      * 邮件发送异常
@@ -97,6 +94,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(MailException.class)
     public ResponseEntity<ResponseVO> defaultException(MailException e) {
+        log.error(e.getMessage(), e);
         ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_EMAIL.getCode(), I18nUtil.get(ResponseCodeEnum.ERROR_EMAIL.getValue()));
         return new ResponseEntity<>(errorInfo, HttpStatus.OK);
     }
