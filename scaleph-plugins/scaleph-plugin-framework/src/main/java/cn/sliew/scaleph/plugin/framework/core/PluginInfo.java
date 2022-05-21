@@ -1,20 +1,17 @@
 package cn.sliew.scaleph.plugin.framework.core;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
-import java.util.ServiceLoader;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Getter
-@EqualsAndHashCode
+@ToString
 public class PluginInfo {
 
     public static final String PLUGIN_PROPERTIES = "plugin.properties";
@@ -29,31 +26,22 @@ public class PluginInfo {
         this.description = description;
         this.version = version;
         this.classname = classname;
-
     }
 
     /**
      * Reads the plugin descriptor file.
      *
-     * @param path the path to the root directory for the plugin
+     * @param properties the path to the root directory for the plugin
      * @return the plugin info
      * @throws IOException if an I/O exception occurred reading the plugin descriptor
      */
-    public static PluginInfo readFromProperties(final Path path) throws IOException {
-        final Path descriptor = path.resolve(PLUGIN_PROPERTIES);
+    public static PluginInfo readFromProperties(Properties properties) throws IOException {
 
-        final Map<String, String> propsMap;
-        {
-            final Properties props = new Properties();
-            try (InputStream stream = Files.newInputStream(descriptor)) {
-                props.load(stream);
-            }
-            propsMap = props.stringPropertyNames().stream().collect(Collectors.toMap(Function.identity(), props::getProperty));
-        }
+        final Map<String, String> propsMap = properties.stringPropertyNames().stream().collect(Collectors.toMap(Function.identity(), properties::getProperty));
 
         final String name = propsMap.remove("name");
         if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("property [name] is missing in [" + descriptor + "]");
+            throw new IllegalArgumentException("property [name] is missing");
         }
         final String description = propsMap.remove("description");
         if (description == null) {
@@ -71,5 +59,18 @@ public class PluginInfo {
         }
 
         return new PluginInfo(name, description, version, classname);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PluginInfo that = (PluginInfo) o;
+        return name.equals(that.name) && version.equals(that.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, version);
     }
 }

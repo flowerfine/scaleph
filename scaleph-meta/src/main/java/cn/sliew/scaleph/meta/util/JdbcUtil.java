@@ -1,6 +1,5 @@
 package cn.sliew.scaleph.meta.util;
 
-
 import cn.sliew.scaleph.common.enums.ConnectionTypeEnum;
 import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
@@ -8,7 +7,7 @@ import cn.sliew.scaleph.common.exception.CustomException;
 import cn.sliew.scaleph.meta.database.AbstractDatabaseMeta;
 import cn.sliew.scaleph.meta.database.MysqlDatabaseMeta;
 import cn.sliew.scaleph.meta.database.OracleDatabaseMeta;
-import cn.sliew.scaleph.service.dto.meta.DataSourceMetaDTO;
+import cn.sliew.scaleph.meta.service.dto.DataSourceMetaDTO;
 import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

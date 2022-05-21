@@ -3,10 +3,10 @@ package cn.sliew.scaleph.meta.database;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
 import cn.sliew.scaleph.meta.util.JdbcUtil;
-import cn.sliew.scaleph.service.dto.meta.DataSourceMetaDTO;
-import cn.sliew.scaleph.service.dto.meta.TableColumnMetaDTO;
-import cn.sliew.scaleph.service.dto.meta.TableMetaDTO;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.meta.service.dto.DataSourceMetaDTO;
+import cn.sliew.scaleph.meta.service.dto.TableColumnMetaDTO;
+import cn.sliew.scaleph.meta.service.dto.TableMetaDTO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
