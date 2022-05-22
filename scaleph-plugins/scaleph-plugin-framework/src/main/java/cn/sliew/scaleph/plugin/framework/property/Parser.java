@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.plugin.framework.property;
 
 @FunctionalInterface
-public interface Parser<T> {
+public interface Parser<S, T> {
 
-    T parse(String value);
+    T parse(S value);
 }
