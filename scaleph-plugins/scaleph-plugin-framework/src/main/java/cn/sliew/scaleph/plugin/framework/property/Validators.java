@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 public enum Validators {
     ;
 
-    public static final Validator BOOLEAN_VALIDATOR = new Validator() {
+    public static final Validator<String> BOOLEAN_VALIDATOR = new Validator<String>() {
         @Override
         public ValidationResult validate(final String subject, final String value) {
             final boolean valid = "true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value);
@@ -28,7 +28,7 @@ public enum Validators {
         }
     };
 
-    public static final Validator INTEGER_VALIDATOR = new Validator() {
+    public static final Validator INTEGER_VALIDATOR = new Validator<String>() {
         @Override
         public ValidationResult validate(final String subject, final String value) {
             String reason = null;
@@ -42,7 +42,7 @@ public enum Validators {
         }
     };
 
-    public static final Validator POSITIVE_INTEGER_VALIDATOR = new Validator() {
+    public static final Validator POSITIVE_INTEGER_VALIDATOR = new Validator<String>() {
         @Override
         public ValidationResult validate(final String subject, final String value) {
             String reason = null;
@@ -60,7 +60,7 @@ public enum Validators {
         }
     };
 
-    public static final Validator NON_NEGATIVE_INTEGER_VALIDATOR = new Validator() {
+    public static final Validator NON_NEGATIVE_INTEGER_VALIDATOR = new Validator<String>() {
         @Override
         public ValidationResult validate(final String subject, final String value) {
             String reason = null;
@@ -78,7 +78,7 @@ public enum Validators {
         }
     };
 
-    public static final Validator LONG_VALIDATOR = new Validator() {
+    public static final Validator LONG_VALIDATOR = new Validator<String>() {
         @Override
         public ValidationResult validate(final String subject, final String value) {
             String reason = null;
@@ -92,7 +92,7 @@ public enum Validators {
         }
     };
 
-    public static final Validator POSITIVE_LONG_VALIDATOR = new Validator() {
+    public static final Validator POSITIVE_LONG_VALIDATOR = new Validator<String>() {
         @Override
         public ValidationResult validate(final String subject, final String value) {
             String reason = null;
@@ -111,7 +111,7 @@ public enum Validators {
     };
 
     public static Validator createLongValidator(final long minimum, final long maximum, final boolean inclusive) {
-        return new Validator() {
+        return new Validator<String>() {
             @Override
             public ValidationResult validate(final String subject, final String input) {
                 String reason = null;
@@ -130,7 +130,7 @@ public enum Validators {
         };
     }
 
-    public static final Validator NUMBER_VALIDATOR = new Validator() {
+    public static final Validator NUMBER_VALIDATOR = new Validator<String>() {
         @Override
         public ValidationResult validate(final String subject, final String value) {
             String reason = null;
@@ -144,14 +144,14 @@ public enum Validators {
         }
     };
 
-    public static final Validator NON_EMPTY_VALIDATOR = new Validator() {
+    public static final Validator NON_EMPTY_VALIDATOR = new Validator<String>() {
         @Override
         public ValidationResult validate(final String subject, final String value) {
             return new ValidationResult.Builder().subject(subject).input(value).valid(value != null && !value.isEmpty()).explanation(subject + " cannot be empty").build();
         }
     };
 
-    public static final Validator NON_BLANK_VALIDATOR = new Validator() {
+    public static final Validator NON_BLANK_VALIDATOR = new Validator<String>() {
         @Override
         public ValidationResult validate(final String subject, final String value) {
             return new ValidationResult.Builder().subject(subject).input(value)
@@ -161,7 +161,7 @@ public enum Validators {
         }
     };
 
-    public static class StringLengthValidator implements Validator {
+    public static class StringLengthValidator implements Validator<String> {
 
         private final int minimum;
         private final int maximum;
@@ -195,7 +195,7 @@ public enum Validators {
     /**
      * {@link Validator} that ensures that value is a non-empty comma separated list of hostname:port
      */
-    public static final Validator HOSTNAME_PORT_LIST_VALIDATOR = new Validator() {
+    public static final Validator HOSTNAME_PORT_LIST_VALIDATOR = new Validator<String>() {
         @Override
         public ValidationResult validate(String subject, String input) {
             // not empty
@@ -224,7 +224,7 @@ public enum Validators {
         }
     };
 
-    public static final Validator CHARACTER_SET_VALIDATOR = new Validator() {
+    public static final Validator CHARACTER_SET_VALIDATOR = new Validator<String>() {
         @Override
         public ValidationResult validate(final String subject, final String value) {
             String reason = null;
@@ -242,7 +242,7 @@ public enum Validators {
         }
     };
 
-    public static final Validator URL_VALIDATOR = new Validator() {
+    public static final Validator URL_VALIDATOR = new Validator<String>() {
         @Override
         public ValidationResult validate(final String subject, final String input) {
             try {
@@ -254,7 +254,7 @@ public enum Validators {
         }
     };
 
-    public static final Validator URI_VALIDATOR = new Validator() {
+    public static final Validator URI_VALIDATOR = new Validator<String>() {
         @Override
         public ValidationResult validate(final String subject, final String input) {
             try {
@@ -266,7 +266,7 @@ public enum Validators {
         }
     };
 
-    public static final Validator URI_LIST_VALIDATOR = new Validator() {
+    public static final Validator URI_LIST_VALIDATOR = new Validator<String>() {
         @Override
         public ValidationResult validate(String subject, String input) {
             if (input == null || input.isEmpty()) {
@@ -284,7 +284,7 @@ public enum Validators {
 
     public static final Validator FILE_EXISTS_VALIDATOR = new FileExistsValidator(true);
 
-    public static class FileExistsValidator implements Validator {
+    public static class FileExistsValidator implements Validator<String> {
 
         private final boolean allowFileOnly;
 
@@ -309,7 +309,7 @@ public enum Validators {
         return new DirectoryExistsValidator(createDirectoryIfMissing);
     }
 
-    public static class DirectoryExistsValidator implements Validator {
+    public static class DirectoryExistsValidator implements Validator<String> {
 
         private final boolean create;
 
@@ -343,7 +343,7 @@ public enum Validators {
         return createListValidator(trimEntries, excludeEmptyEntries, elementValidator, false);
     }
 
-    public static Validator createListValidator(boolean trimEntries, boolean excludeEmptyEntries,
+    public static Validator<String> createListValidator(boolean trimEntries, boolean excludeEmptyEntries,
                                                 Validator validator,
                                                 boolean ensureElementValidation) {
         return (subject, input) -> {
@@ -378,7 +378,7 @@ public enum Validators {
     }
 
     public static Validator createRegexMatchingValidator(final Pattern pattern, final String validationMessage) {
-        return new Validator() {
+        return new Validator<String>() {
             @Override
             public ValidationResult validate(final String subject, final String input) {
                 String value = input;
@@ -398,7 +398,7 @@ public enum Validators {
     public static final Validator REGULAR_EXPRESSION_WITH_EL_VALIDATOR = createRegexValidator(0, Integer.MAX_VALUE);
 
     public static Validator createRegexValidator(final int minCapturingGroups, final int maxCapturingGroups) {
-        return new Validator() {
+        return new Validator<String>() {
             @Override
             public ValidationResult validate(final String subject, final String value) {
                 try {

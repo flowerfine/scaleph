@@ -30,7 +30,7 @@ public class PropertyDescriptor<T> implements Comparable<PropertyDescriptor> {
         this.dependencies = builder.dependencies == null ? Collections.emptySet() : Collections.unmodifiableSet(new HashSet<>(builder.dependencies));
     }
 
-    public ValidationResult validate(final String input) {
+    public ValidationResult validate(final T input) {
         ValidationResult lastResult = Validator.INVALID.validate(this.name, input);
 
         if (allowableValues != null && !allowableValues.isEmpty()) {
@@ -254,7 +254,8 @@ public class PropertyDescriptor<T> implements Comparable<PropertyDescriptor> {
                 throw new IllegalStateException("Must specify a name");
             }
             final PropertyDescriptor<T> propertyDescriptor = new PropertyDescriptor(this);
-            if (!isValueAllowed(defaultValue.apply(propertyDescriptor))) {
+
+            if (defaultValue != null && !isValueAllowed(defaultValue.apply(propertyDescriptor))) {
                 throw new IllegalStateException("Default value [" + defaultValue + "] is not in the set of allowable values");
             }
 
@@ -262,7 +263,7 @@ public class PropertyDescriptor<T> implements Comparable<PropertyDescriptor> {
         }
     }
 
-    private static final class ConstrainedSetValidator<T> implements Validator {
+    private static final class ConstrainedSetValidator<T> implements Validator<T> {
 
         private static final String POSITIVE_EXPLANATION = "Given value found in allowed set";
         private static final String NEGATIVE_EXPLANATION = "Given value not found in allowed set '%1$s'";
@@ -295,7 +296,7 @@ public class PropertyDescriptor<T> implements Comparable<PropertyDescriptor> {
         }
 
         @Override
-        public ValidationResult validate(final String subject, final String input) {
+        public ValidationResult validate(final String subject, final T input) {
             final ValidationResult.Builder builder = new ValidationResult.Builder();
             builder.input(input);
             builder.subject(subject);

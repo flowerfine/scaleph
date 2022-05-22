@@ -23,9 +23,17 @@ public class PropertyContext implements java.io.Serializable {
     }
 
     public static PropertyContext fromMap(Map<String, String> map) {
-        final PropertyContext configuration = new PropertyContext();
-        map.forEach(configuration::setString);
-        return configuration;
+        final PropertyContext context = new PropertyContext();
+        map.forEach(context::setString);
+        return context;
+    }
+
+    public static PropertyContext fromProperties(Properties props) {
+        final PropertyContext context = new PropertyContext();
+        for (String property : props.stringPropertyNames()) {
+            context.setString(property, props.getProperty(property));
+        }
+        return context;
     }
 
     public String getString(PropertyDescriptor<String> descriptor) {
@@ -171,14 +179,6 @@ public class PropertyContext implements java.io.Serializable {
         }
     }
 
-    public void addAllToProperties(Properties props) {
-        synchronized (this.confData) {
-            for (Map.Entry<String, Object> entry : this.confData.entrySet()) {
-                props.put(entry.getKey(), entry.getValue());
-            }
-        }
-    }
-
     public void addAll(PropertyContext other) {
         synchronized (this.confData) {
             synchronized (other.confData) {
@@ -200,6 +200,24 @@ public class PropertyContext implements java.io.Serializable {
                     this.confData.put(bld.toString(), entry.getValue());
                 }
             }
+        }
+    }
+
+    public void addAllToProperties(Properties props) {
+        synchronized (this.confData) {
+            for (Map.Entry<String, Object> entry : this.confData.entrySet()) {
+                props.put(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    public Map<String, String> toMap() {
+        synchronized (this.confData) {
+            Map<String, String> ret = new HashMap<>(this.confData.size());
+            for (Map.Entry<String, Object> entry : confData.entrySet()) {
+                ret.put(entry.getKey(), entry.getValue().toString());
+            }
+            return ret;
         }
     }
 
@@ -268,16 +286,6 @@ public class PropertyContext implements java.io.Serializable {
     public <T> PropertyContext set(PropertyDescriptor<T> descriptor, T value) {
         setValueInternal(descriptor.getName(), value);
         return this;
-    }
-
-    public Map<String, String> toMap() {
-        synchronized (this.confData) {
-            Map<String, String> ret = new HashMap<>(this.confData.size());
-            for (Map.Entry<String, Object> entry : confData.entrySet()) {
-                ret.put(entry.getKey(), entry.getValue().toString());
-            }
-            return ret;
-        }
     }
 
     public <T> boolean removeConfig(PropertyDescriptor<T> descriptor) {
