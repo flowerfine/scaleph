@@ -4,9 +4,9 @@ name: CI
 
 on:
   pull_request:
-    paths-ignore: [ '**/*.md', '**/*.drawio', '**/*.svg' ]
+    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
   push:
-    paths-ignore: [ '**/*.md', '**/*.drawio', '**/*.svg' ]
+    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -17,15 +17,15 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: checkout
-        uses: actions/checkout@v2
-      - name: Run a one-line script
-        run: echo begin build project
-      - name: Setup Java JDK 
-        uses: actions/setup-java@v2.3.0
+        uses: actions/checkout@v3
         with:
-          java-version: 8
-          distribution: 'temurin'
-          cache: 'maven'
+          fetch-depth: 0
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 8.0.322+6
+          distribution: adopt
+          cache: maven
       - name: Build with Maven
         run: mvn -B -Dmaven.test.skip=true clean package --file pom.xml
       

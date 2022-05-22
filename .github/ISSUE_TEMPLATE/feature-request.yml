@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 name: Request Feature
-description: suggest exciting and meaning feature for Scaleph
+description: Suggest exciting and meaning features to Scaleph
 title: "[Feature][Module Name] Feature title"
 labels: ["feature"]
 body:
