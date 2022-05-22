@@ -1,0 +1,32 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+on:
+  pull_request:
+    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
+  push:
+    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 8.0.322+6
+          distribution: adopt
+          cache: maven
+      - name: Build with Maven
+        run: mvn -B -Dmaven.test.skip=true clean package --file pom.xml
+      
+      

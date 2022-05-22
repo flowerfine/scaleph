@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.api.aspect;
 
 import cn.sliew.scaleph.api.util.SecurityUtil;
-import cn.sliew.scaleph.service.dto.BaseDTO;
+import cn.sliew.scaleph.common.dto.BaseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.aspectj.lang.ProceedingJoinPoint;

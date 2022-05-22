@@ -1,16 +1,15 @@
 package cn.sliew.scaleph.api.controller.admin;
 
-
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
-import cn.sliew.scaleph.service.admin.DeptService;
-import cn.sliew.scaleph.service.admin.UserDeptService;
-import cn.sliew.scaleph.service.dto.admin.DeptDTO;
-import cn.sliew.scaleph.service.dto.admin.UserDeptDTO;
+import cn.sliew.scaleph.security.service.DeptService;
+import cn.sliew.scaleph.security.service.UserDeptService;
+import cn.sliew.scaleph.security.service.dto.DeptDTO;
+import cn.sliew.scaleph.security.service.dto.UserDeptDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.collections.list.TreeList;

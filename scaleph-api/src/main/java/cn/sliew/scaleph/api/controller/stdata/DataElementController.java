@@ -2,9 +2,9 @@ package cn.sliew.scaleph.api.controller.stdata;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
-import cn.sliew.scaleph.service.dto.meta.MetaDataElementDTO;
-import cn.sliew.scaleph.service.meta.MetaDataElementService;
-import cn.sliew.scaleph.service.param.meta.MetaDataElementParam;
+import cn.sliew.scaleph.meta.service.MetaDataElementService;
+import cn.sliew.scaleph.meta.service.dto.MetaDataElementDTO;
+import cn.sliew.scaleph.meta.service.param.MetaDataElementParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
