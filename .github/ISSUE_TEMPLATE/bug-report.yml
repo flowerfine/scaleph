@@ -17,7 +17,7 @@
 
 name: Report Bug
 title: "[Bug] [Module Name] Bug title"
-description: problems and issues within Scaleph
+description: Report problems and issues to Scaleph
 labels: ["bug"]
 body:
   - type: markdown
