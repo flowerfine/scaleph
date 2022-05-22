@@ -58,4 +58,6 @@ public interface DiJobStepAttrService {
      */
     List<DiJobStepAttrDTO> listJobStepAttr(Long jobId, String stepCode);
 
+    int clone(Long sourceJobId, Long targetJobId);
+
 }

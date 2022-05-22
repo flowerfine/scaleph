@@ -232,18 +232,21 @@ public class JobController {
     @Logging
     @PostMapping(path = "/detail")
     @Transactional(rollbackFor = Exception.class)
-    @ApiOperation(value = "保存作业详情", notes = "保存作业相关流程定义")
+    @ApiOperation(value = "保存作业详情", notes = "保存作业相关流程定义，如果已经有对应版本号的数据，则提醒用户编辑最新版本。")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> saveJobDetail(@Validated @RequestBody DiJobDTO diJobDTO) {
         DiJobDTO job = this.diJobService.selectOne(diJobDTO.getId());
         if (JobStatusEnum.RELEASE.getValue().equals(job.getJobStatus().getValue())) {
+            Long oldJobId = job.getId();
             int jobVersion = job.getJobVersion() + 1;
             job.setId(null);
             job.setJobVersion(jobVersion);
             job.setJobStatus(DictVO.toVO(DictConstants.JOB_STATUS, JobStatusEnum.DRAFT.getValue()));
             DiJobDTO newJob = this.diJobService.insert(job);
             diJobDTO.setId(newJob.getId());
-            //todo 同步复制一份作业属性步骤信息存储下来
+            this.diJobStepAttrService.clone(oldJobId, diJobDTO.getId());
+            //todo 克隆作业的资源信息，如果作业已经保存过一次，则不可再次保存，保存成功后返回前端最新的作业id，前端页面重新请求刷新为最新的数据
+
         } else if (JobStatusEnum.ARCHIVE.getValue().equals(job.getJobStatus().getValue())) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
                     I18nUtil.get("response.error.di.archivedJob"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
@@ -417,7 +420,7 @@ public class JobController {
     @Logging
     @PostMapping(path = "/step")
     @Transactional(rollbackFor = Exception.class)
-    @ApiOperation(value = "保存步骤属性信息", notes = "保存步骤属性信息")
+    @ApiOperation(value = "保存步骤属性信息", notes = "保存步骤属性信息，未触发作业版本号变更")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> saveJobStepInfo(@RequestBody Map<String, Object> stepAttrMap) {
         if (isStepAttrMapValid(stepAttrMap)) {

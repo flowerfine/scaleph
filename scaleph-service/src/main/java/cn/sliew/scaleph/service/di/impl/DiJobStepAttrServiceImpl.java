@@ -71,4 +71,9 @@ public class DiJobStepAttrServiceImpl implements DiJobStepAttrService {
         );
         return DiJobStepAttrConvert.INSTANCE.toDto(list);
     }
+
+    @Override
+    public int clone(Long sourceJobId, Long targetJobId) {
+        return this.diJobStepAttrMapper.clone(sourceJobId, targetJobId);
+    }
 }
