@@ -1,17 +1,16 @@
 package cn.sliew.scaleph.api.controller.admin;
 
-
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
-import cn.sliew.scaleph.service.admin.DictService;
-import cn.sliew.scaleph.service.admin.DictTypeService;
-import cn.sliew.scaleph.service.cache.DictTypeCache;
-import cn.sliew.scaleph.service.dto.admin.DictDTO;
-import cn.sliew.scaleph.service.dto.admin.DictTypeDTO;
-import cn.sliew.scaleph.service.param.admin.DictParam;
-import cn.sliew.scaleph.service.param.admin.DictTypeParam;
-import cn.sliew.scaleph.service.vo.DictVO;
+import cn.sliew.scaleph.system.cache.DictTypeCache;
+import cn.sliew.scaleph.system.service.DictService;
+import cn.sliew.scaleph.system.service.DictTypeService;
+import cn.sliew.scaleph.system.service.dto.DictDTO;
+import cn.sliew.scaleph.system.service.dto.DictTypeDTO;
+import cn.sliew.scaleph.system.service.param.DictParam;
+import cn.sliew.scaleph.system.service.param.DictTypeParam;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

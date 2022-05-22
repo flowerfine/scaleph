@@ -14,7 +14,13 @@
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-service</artifactId>
+            <artifactId>scaleph-system</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-plugin-datasource</artifactId>
         </dependency>
     </dependencies>
 

@@ -1,9 +1,9 @@
 package cn.sliew.scaleph.api.controller.opscenter;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.service.di.DiJobLogService;
-import cn.sliew.scaleph.service.dto.di.DiJobLogDTO;
-import cn.sliew.scaleph.service.param.di.DiJobLogParam;
+import cn.sliew.scaleph.core.di.service.DiJobLogService;
+import cn.sliew.scaleph.core.di.service.dto.DiJobLogDTO;
+import cn.sliew.scaleph.core.di.service.param.DiJobLogParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

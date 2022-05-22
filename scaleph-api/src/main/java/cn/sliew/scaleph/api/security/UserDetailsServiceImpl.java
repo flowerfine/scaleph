@@ -2,10 +2,10 @@ package cn.sliew.scaleph.api.security;
 
 import cn.sliew.scaleph.api.util.I18nUtil;
 import cn.sliew.scaleph.common.enums.UserStatusEnum;
-import cn.sliew.scaleph.service.admin.UserService;
-import cn.sliew.scaleph.service.dto.admin.PrivilegeDTO;
-import cn.sliew.scaleph.service.dto.admin.RoleDTO;
-import cn.sliew.scaleph.service.dto.admin.UserDTO;
+import cn.sliew.scaleph.security.service.UserService;
+import cn.sliew.scaleph.security.service.dto.PrivilegeDTO;
+import cn.sliew.scaleph.security.service.dto.RoleDTO;
+import cn.sliew.scaleph.security.service.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
