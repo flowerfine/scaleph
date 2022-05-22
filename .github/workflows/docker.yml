@@ -2,12 +2,12 @@ name: docker
 
 on:
   pull_request:
-    paths-ignore: ['tools/**', 'docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
+    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
     branches:
       - master
 #      - 'release/**'
   push:
-    paths-ignore: ['tools/**', 'docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
+    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
     branches:
       - master
 #      - 'release/**'

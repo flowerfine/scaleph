@@ -4,9 +4,9 @@ name: CI
 
 on:
   pull_request:
-    paths-ignore: [ '**/*.md', '**/*.drawio', '**/*.svg' ]
+    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
   push:
-    paths-ignore: [ '**/*.md', '**/*.drawio', '**/*.svg' ]
+    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
