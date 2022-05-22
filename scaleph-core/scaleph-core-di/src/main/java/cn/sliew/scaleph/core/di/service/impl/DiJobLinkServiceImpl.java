@@ -1,11 +1,11 @@
 package cn.sliew.scaleph.core.di.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.sliew.scaleph.core.di.service.DiJobLinkService;
+import cn.sliew.scaleph.core.di.service.convert.DiJobLinkConvert;
+import cn.sliew.scaleph.core.di.service.dto.DiJobLinkDTO;
 import cn.sliew.scaleph.dao.entity.master.di.DiJobLink;
 import cn.sliew.scaleph.dao.mapper.master.di.DiJobLinkMapper;
-import cn.sliew.scaleph.core.di.service.convert.DiJobLinkConvert;
-import cn.sliew.scaleph.core.di.service.DiJobLinkService;
-import cn.sliew.scaleph.core.di.service.dto.DiJobLinkDTO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,5 +75,10 @@ public class DiJobLinkServiceImpl implements DiJobLinkService {
                             .eq(DiJobLink::getLinkCode, jobLink.getLinkCode())
             );
         }
+    }
+
+    @Override
+    public int clone(Long sourceJobId, Long targetJobId) {
+        return this.diJobLinkMapper.clone(sourceJobId, targetJobId);
     }
 }

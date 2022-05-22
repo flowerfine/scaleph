@@ -1,10 +1,10 @@
 package cn.sliew.scaleph.core.di.service.impl;
 
+import cn.sliew.scaleph.core.di.service.DiJobAttrService;
+import cn.sliew.scaleph.core.di.service.convert.DiJobAttrConvert;
+import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
 import cn.sliew.scaleph.dao.entity.master.di.DiJobAttr;
 import cn.sliew.scaleph.dao.mapper.master.di.DiJobAttrMapper;
-import cn.sliew.scaleph.core.di.service.convert.DiJobAttrConvert;
-import cn.sliew.scaleph.core.di.service.DiJobAttrService;
-import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +62,8 @@ public class DiJobAttrServiceImpl implements DiJobAttrService {
         }
     }
 
-
+    @Override
+    public int clone(Long sourceJobId, Long targetJobId) {
+        return this.diJobAttrMapper.clone(sourceJobId, targetJobId);
+    }
 }

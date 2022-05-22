@@ -24,6 +24,7 @@ import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.*;
+import cn.sliew.scaleph.common.exception.CustomException;
 import cn.sliew.scaleph.core.di.service.*;
 import cn.sliew.scaleph.core.di.service.dto.*;
 import cn.sliew.scaleph.core.di.service.param.DiJobParam;
@@ -184,11 +185,11 @@ public class JobController {
         if (job == null) {
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else if (JobRuntimeStateEnum.STOP.getValue().equals(job.getRuntimeState().getValue())) {
-            this.diJobService.deleteByCode(job.getJobCode());
+            this.diJobService.deleteByCode(job.getProjectId(), job.getJobCode());
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.runningJob"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                    I18nUtil.get("response.error.di.job.running"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }
     }
 
@@ -202,7 +203,6 @@ public class JobController {
         if (CollectionUtil.isEmpty(list)) {
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         }
-        //任意作业不是停止状态则不能删除
         boolean flag = true;
         for (DiJobDTO dto : list) {
             if (!JobRuntimeStateEnum.STOP.getValue().equals(dto.getRuntimeState().getValue())) {
@@ -214,7 +214,7 @@ public class JobController {
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.runningJob"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                    I18nUtil.get("response.error.di.job.running"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }
     }
 
@@ -236,23 +236,42 @@ public class JobController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> saveJobDetail(@Validated @RequestBody DiJobDTO diJobDTO) {
         DiJobDTO job = this.diJobService.selectOne(diJobDTO.getId());
+        try {
+            Long editableJobId = prepareJobVersion(job);
+            saveJobGraph(diJobDTO.getJobGraph(), editableJobId);
+            return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.CREATED);
+        } catch (CustomException e) {
+            return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
+                    e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+        }
+    }
+
+    /**
+     * 编辑前检查作业的版本，确认是否需要生成新的可编辑版本
+     *
+     * @param job job info
+     * @return job id
+     */
+    private Long prepareJobVersion(DiJobDTO job) throws CustomException {
         if (JobStatusEnum.RELEASE.getValue().equals(job.getJobStatus().getValue())) {
             Long oldJobId = job.getId();
             int jobVersion = job.getJobVersion() + 1;
-            job.setId(null);
-            job.setJobVersion(jobVersion);
-            job.setJobStatus(DictVO.toVO(DictConstants.JOB_STATUS, JobStatusEnum.DRAFT.getValue()));
-            DiJobDTO newJob = this.diJobService.insert(job);
-            diJobDTO.setId(newJob.getId());
-            this.diJobStepAttrService.clone(oldJobId, diJobDTO.getId());
-            //todo 克隆作业的资源信息，如果作业已经保存过一次，则不可再次保存，保存成功后返回前端最新的作业id，前端页面重新请求刷新为最新的数据
-
+            DiJobDTO newVersionJob = this.diJobService.selectOne(job.getProjectId(), job.getJobCode(), jobVersion);
+            if (newVersionJob != null) {
+                throw new CustomException(I18nUtil.get("response.error.di.job.lowVersion"));
+            } else {
+                job.setId(null);
+                job.setJobVersion(jobVersion);
+                job.setJobStatus(DictVO.toVO(DictConstants.JOB_STATUS, JobStatusEnum.DRAFT.getValue()));
+                DiJobDTO newJob = this.diJobService.insert(job);
+                this.diJobService.clone(oldJobId, newJob.getId());
+                return newJob.getId();
+            }
         } else if (JobStatusEnum.ARCHIVE.getValue().equals(job.getJobStatus().getValue())) {
-            return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.archivedJob"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+            throw new CustomException(I18nUtil.get("response.error.di.job.lowVersion"));
+        } else {
+            return job.getId();
         }
-        saveJobGraph(diJobDTO.getJobGraph(), diJobDTO.getId());
-        return new ResponseEntity<>(ResponseVO.sucess(diJobDTO.getId()), HttpStatus.CREATED);
     }
 
     private String getStepAttrByKey(JobGraphVO graph, String key, String defaultValue) {
@@ -287,7 +306,7 @@ public class JobController {
             Map<String, List<JobGraphVO>> map = jobGraph;
             if (map.containsKey(cellKey)) {
                 List<JobGraphVO> list = map.get(cellKey);
-                // 清除途中已删除的连线信息
+                // 清除图中已删除的连线信息
                 List<String> linkList = list.stream()
                         .filter(j -> linkShape.equals(j.getShape()))
                         .map(JobGraphVO::getId)
@@ -360,24 +379,27 @@ public class JobController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> saveJobAttr(@RequestBody DiJobAttrVO jobAttrVO) {
         DiJobDTO jobInfo = this.diJobService.selectOne(jobAttrVO.getJobId());
-        if (JobStatusEnum.ARCHIVE.getValue().equals(jobInfo.getJobStatus().getValue())) {
+        try {
+            Long editableJobId = prepareJobVersion(jobInfo);
+            Map<String, DiJobAttrDTO> map = new HashMap<>();
+            DictVO jobAttrtype = DictVO.toVO(DictConstants.JOB_ATTR_TYPE, JobAttrTypeEnum.JOB_ATTR.getValue());
+            DictVO jobProptype = DictVO.toVO(DictConstants.JOB_ATTR_TYPE, JobAttrTypeEnum.JOB_PROP.getValue());
+            DictVO engineProptype = DictVO.toVO(DictConstants.JOB_ATTR_TYPE, JobAttrTypeEnum.ENGINE_PROP.getValue());
+            parseJobAttr(map, jobAttrVO.getJobAttr(), jobAttrtype, editableJobId);
+            parseJobAttr(map, jobAttrVO.getJobProp(), jobProptype, editableJobId);
+            parseJobAttr(map, jobAttrVO.getEngineProp(), engineProptype, editableJobId);
+            this.diJobAttrService.deleteByJobId(new ArrayList<Long>() {{
+                add(editableJobId);
+            }});
+            for (Map.Entry<String, DiJobAttrDTO> entry : map.entrySet()) {
+                this.diJobAttrService.upsert(entry.getValue());
+            }
+            return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.OK);
+        } catch (CustomException e) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.archivedJob"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                    e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }
-        Map<String, DiJobAttrDTO> map = new HashMap<>();
-        DictVO jobAttrtype = DictVO.toVO(DictConstants.JOB_ATTR_TYPE, JobAttrTypeEnum.JOB_ATTR.getValue());
-        DictVO jobProptype = DictVO.toVO(DictConstants.JOB_ATTR_TYPE, JobAttrTypeEnum.JOB_PROP.getValue());
-        DictVO engineProptype = DictVO.toVO(DictConstants.JOB_ATTR_TYPE, JobAttrTypeEnum.ENGINE_PROP.getValue());
-        parseJobAttr(map, jobAttrVO.getJobAttr(), jobAttrtype, jobAttrVO.getJobId());
-        parseJobAttr(map, jobAttrVO.getJobProp(), jobProptype, jobAttrVO.getJobId());
-        parseJobAttr(map, jobAttrVO.getEngineProp(), engineProptype, jobAttrVO.getJobId());
-        this.diJobAttrService.deleteByJobId(new ArrayList<Long>() {{
-            add(jobAttrVO.getJobId());
-        }});
-        for (Map.Entry<String, DiJobAttrDTO> entry : map.entrySet()) {
-            this.diJobAttrService.upsert(entry.getValue());
-        }
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+
     }
 
     private void parseJobAttr(Map<String, DiJobAttrDTO> map, String str, DictVO jobAttrType, Long jobId) {
@@ -425,43 +447,53 @@ public class JobController {
     public ResponseEntity<ResponseVO> saveJobStepInfo(@RequestBody Map<String, Object> stepAttrMap) {
         if (isStepAttrMapValid(stepAttrMap)) {
             Long jobId = Long.valueOf(stepAttrMap.get(Constants.JOB_ID).toString());
-            String stepCode = stepAttrMap.get(Constants.JOB_STEP_CODE).toString();
-            String jobGraphStr = toJsonStr(stepAttrMap.get(Constants.JOB_GRAPH));
-            Map<String, List<JobGraphVO>> map = JSONUtil.toBean(jobGraphStr,
-                    new TypeReference<Map<String, List<JobGraphVO>>>() {
-                    }, false);
-            saveJobGraph(map, jobId);
-            if (stepAttrMap.containsKey(Constants.JOB_STEP_TITLE)
-                    && StrUtil.isNotEmpty(stepAttrMap.get(Constants.JOB_STEP_TITLE).toString())) {
-                DiJobStepDTO step = new DiJobStepDTO();
-                step.setJobId(jobId);
-                step.setStepCode(stepCode);
-                step.setStepTitle(stepAttrMap.get(Constants.JOB_STEP_TITLE).toString());
-                this.diJobStepService.update(step);
-            }
-            DiJobStepDTO dto = this.diJobStepService.selectOne(jobId, stepCode);
-            if (dto != null) {
-                List<DiJobStepAttrTypeDTO> attrTypeList = this.diJobStepAttrTypeService.listByType(dto.getStepType().getValue(), dto.getStepName());
-                for (DiJobStepAttrTypeDTO attrType : attrTypeList) {
-                    if (stepAttrMap.containsKey(attrType.getStepAttrKey())) {
-                        DiJobStepAttrDTO stepAttr = new DiJobStepAttrDTO();
-                        stepAttr.setJobId(jobId);
-                        stepAttr.setStepCode(stepCode);
-                        stepAttr.setStepAttrKey(attrType.getStepAttrKey());
-                        stepAttr.setStepAttrValue(toJsonStr(stepAttrMap.get(attrType.getStepAttrKey())));
-                        this.diJobStepAttrService.upsert(stepAttr);
-                    } else {
-                        DiJobStepAttrDTO stepAttr = new DiJobStepAttrDTO();
-                        stepAttr.setJobId(jobId);
-                        stepAttr.setStepCode(stepCode);
-                        stepAttr.setStepAttrKey(attrType.getStepAttrKey());
-                        stepAttr.setStepAttrValue(attrType.getStepAttrDefaultValue());
-                        this.diJobStepAttrService.upsert(stepAttr);
+            DiJobDTO jobInfo = this.diJobService.selectOne(jobId);
+            try {
+                Long editableJobId = prepareJobVersion(jobInfo);
+                String stepCode = stepAttrMap.get(Constants.JOB_STEP_CODE).toString();
+                String jobGraphStr = toJsonStr(stepAttrMap.get(Constants.JOB_GRAPH));
+                Map<String, List<JobGraphVO>> map = JSONUtil.toBean(jobGraphStr,
+                        new TypeReference<Map<String, List<JobGraphVO>>>() {
+                        }, false);
+                saveJobGraph(map, editableJobId);
+                if (stepAttrMap.containsKey(Constants.JOB_STEP_TITLE)
+                        && StrUtil.isNotEmpty(stepAttrMap.get(Constants.JOB_STEP_TITLE).toString())) {
+                    DiJobStepDTO step = new DiJobStepDTO();
+                    step.setJobId(editableJobId);
+                    step.setStepCode(stepCode);
+                    step.setStepTitle(stepAttrMap.get(Constants.JOB_STEP_TITLE).toString());
+                    this.diJobStepService.update(step);
+                }
+                DiJobStepDTO dto = this.diJobStepService.selectOne(editableJobId, stepCode);
+                if (dto != null) {
+                    List<DiJobStepAttrTypeDTO> attrTypeList = this.diJobStepAttrTypeService.listByType(dto.getStepType().getValue(), dto.getStepName());
+                    for (DiJobStepAttrTypeDTO attrType : attrTypeList) {
+                        if (stepAttrMap.containsKey(attrType.getStepAttrKey())) {
+                            DiJobStepAttrDTO stepAttr = new DiJobStepAttrDTO();
+                            stepAttr.setJobId(editableJobId);
+                            stepAttr.setStepCode(stepCode);
+                            stepAttr.setStepAttrKey(attrType.getStepAttrKey());
+                            stepAttr.setStepAttrValue(toJsonStr(stepAttrMap.get(attrType.getStepAttrKey())));
+                            this.diJobStepAttrService.upsert(stepAttr);
+                        } else {
+                            DiJobStepAttrDTO stepAttr = new DiJobStepAttrDTO();
+                            stepAttr.setJobId(editableJobId);
+                            stepAttr.setStepCode(stepCode);
+                            stepAttr.setStepAttrKey(attrType.getStepAttrKey());
+                            stepAttr.setStepAttrValue(attrType.getStepAttrDefaultValue());
+                            this.diJobStepAttrService.upsert(stepAttr);
+                        }
                     }
                 }
+                return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.OK);
+            } catch (CustomException e) {
+                return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
+                        e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
             }
+        } else {
+            return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
+                    I18nUtil.get("response.error.di.job.step.attr.illegal"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     private String toJsonStr(Object obj) {
@@ -502,18 +534,21 @@ public class JobController {
         DiJobDTO jobInfo = this.diJobService.selectOne(jobId);
         if (JobStatusEnum.ARCHIVE.getValue().equals(jobInfo.getJobStatus().getValue())) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.archivedJob"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                    I18nUtil.get("response.error.di.job.lowVersion"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+        } else if (JobStatusEnum.RELEASE.getValue().equals(jobInfo.getJobStatus().getValue())) {
+            return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
+                    I18nUtil.get("response.error.di.job.published"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }
         if (JobRuntimeStateEnum.STOP.getValue().equals(jobInfo.getRuntimeState().getValue())) {
             DiJobDTO job = new DiJobDTO();
             job.setId(jobId);
             job.setJobStatus(DictVO.toVO(DictConstants.JOB_STATUS, JobStatusEnum.RELEASE.getValue()));
             this.diJobService.update(job);
-            this.diJobService.archive(jobInfo.getJobCode());
+            this.diJobService.archive(jobInfo.getProjectId(), jobInfo.getJobCode());
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.publishJob"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                    I18nUtil.get("response.error.di.job.publish"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }
     }
 

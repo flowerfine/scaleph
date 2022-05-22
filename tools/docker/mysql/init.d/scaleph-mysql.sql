@@ -1041,7 +1041,7 @@ create table di_job
     editor varchar(32) comment '修改人',
     update_time timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    unique key (job_code, job_version)
+    unique key (project_id,job_code, job_version)
 ) engine = innodb comment '数据集成-作业信息';
 
 INSERT INTO `di_job`(`project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,

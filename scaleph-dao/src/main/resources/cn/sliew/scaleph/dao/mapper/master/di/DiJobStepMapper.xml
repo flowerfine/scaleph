@@ -71,4 +71,34 @@
         </foreach>
     </delete>
 
+    <insert id="clone">
+        insert into di_job_step
+        (
+        job_id,
+        step_code,
+        step_title,
+        step_type,
+        step_name,
+        position_x,
+        position_y,
+        creator,
+        create_time,
+        editor,
+        update_time
+        )
+        select
+        #{targetJobId,jdbcType=BIGINT} as job_id,
+        step_code,
+        step_title,
+        step_type,
+        step_name,
+        position_x,
+        position_y,
+        'sys' as creator,
+        now() as create_time,
+        'sys' as editor,
+        now() as update_time
+        from di_job_step
+        where job_id = #{sourceJobId,jdbcType=BIGINT}
+    </insert>
 </mapper>

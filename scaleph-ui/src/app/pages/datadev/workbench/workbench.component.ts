@@ -317,9 +317,9 @@ export class WorkbenchComponent implements OnInit, AfterViewInit, OnDestroy {
           value: [{ severity: 'success', content: this.translate.instant('app.common.operate.success') }],
           life: 1500,
         });
-        this.savedJobId = d.data;
-        this.refreshGraph();
       }
+      this.savedJobId = d.data;
+      this.refreshGraph();
     });
   }
 
@@ -344,6 +344,10 @@ export class WorkbenchComponent implements OnInit, AfterViewInit, OnDestroy {
         onClose: (event: any) => {
           results.modalInstance.hide();
         },
+        refresh: (event) => {
+          this.savedJobId = event;
+          this.refreshGraph();
+        },
       },
     });
   }
@@ -362,6 +366,7 @@ export class WorkbenchComponent implements OnInit, AfterViewInit, OnDestroy {
         jobGraph: this.graph.toJSON(),
         jobId: this.job.id,
         refresh: (event) => {
+          this.savedJobId = event;
           this.refreshGraph();
         },
         close: (event) => {

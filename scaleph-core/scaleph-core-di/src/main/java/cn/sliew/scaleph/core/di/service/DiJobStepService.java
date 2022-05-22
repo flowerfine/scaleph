@@ -74,4 +74,6 @@ public interface DiJobStepService {
      */
     DiJobStepDTO selectOne(Long jobId, String stepCode);
 
+    int clone(Long sourceJobId, Long targetJobId);
+
 }
