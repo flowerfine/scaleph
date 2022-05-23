@@ -1,12 +1,12 @@
 package cn.sliew.scaleph.core.di.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.sliew.scaleph.dao.entity.master.di.DiJobStep;
-import cn.sliew.scaleph.dao.mapper.master.di.DiJobStepMapper;
-import cn.sliew.scaleph.core.di.service.convert.DiJobStepConvert;
 import cn.sliew.scaleph.core.di.service.DiJobStepAttrService;
 import cn.sliew.scaleph.core.di.service.DiJobStepService;
+import cn.sliew.scaleph.core.di.service.convert.DiJobStepConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiJobStepDTO;
+import cn.sliew.scaleph.dao.entity.master.di.DiJobStep;
+import cn.sliew.scaleph.dao.mapper.master.di.DiJobStepMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,5 +90,10 @@ public class DiJobStepServiceImpl implements DiJobStepService {
                         .eq(DiJobStep::getStepCode, stepCode)
         );
         return DiJobStepConvert.INSTANCE.toDto(step);
+    }
+
+    @Override
+    public int clone(Long sourceJobId, Long targetJobId) {
+        return this.diJobStepMapper.clone(sourceJobId, targetJobId);
     }
 }

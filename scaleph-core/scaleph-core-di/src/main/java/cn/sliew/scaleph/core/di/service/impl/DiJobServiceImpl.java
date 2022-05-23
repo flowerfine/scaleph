@@ -4,12 +4,12 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.common.enums.JobStatusEnum;
 import cn.sliew.scaleph.core.di.service.*;
-import cn.sliew.scaleph.dao.entity.master.di.DiJob;
-import cn.sliew.scaleph.dao.mapper.master.di.DiJobMapper;
 import cn.sliew.scaleph.core.di.service.convert.DiJobConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiDirectoryDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.param.DiJobParam;
+import cn.sliew.scaleph.dao.entity.master.di.DiJob;
+import cn.sliew.scaleph.dao.mapper.master.di.DiJobMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -45,6 +45,9 @@ public class DiJobServiceImpl implements DiJobService {
     private DiJobStepAttrService diJobStepAttrService;
 
     @Autowired
+    private DiJobResourceFileService diJobResourceFileService;
+
+    @Autowired
     private DiDirectoryService diDirectoryService;
 
     @Override
@@ -56,11 +59,12 @@ public class DiJobServiceImpl implements DiJobService {
     }
 
     @Override
-    public int archive(String jobCode) {
+    public int archive(Long projectId, String jobCode) {
         int result = 0;
         List<DiJob> list = this.diJobMapper.selectList(
                 new LambdaQueryWrapper<DiJob>()
                         .eq(DiJob::getJobCode, jobCode)
+                        .eq(DiJob::getProjectId, projectId)
                         .eq(DiJob::getJobStatus, JobStatusEnum.RELEASE.getValue())
                         .orderByAsc(DiJob::getJobVersion)
         );
@@ -86,9 +90,10 @@ public class DiJobServiceImpl implements DiJobService {
     }
 
     @Override
-    public int deleteByCode(String jobCode) {
+    public int deleteByCode(Long projectId, String jobCode) {
         List<DiJob> jobList = this.diJobMapper.selectList(new LambdaQueryWrapper<DiJob>()
                 .eq(DiJob::getJobCode, jobCode)
+                .eq(DiJob::getProjectId, projectId)
         );
         List<Long> ids = jobList.stream().map(DiJob::getId).collect(Collectors.toList());
         this.diJobAttrService.deleteByJobId(ids);
@@ -97,6 +102,7 @@ public class DiJobServiceImpl implements DiJobService {
         this.diJobStepAttrService.deleteByJobId(ids);
         return this.diJobMapper.delete(new LambdaQueryWrapper<DiJob>()
                 .eq(DiJob::getJobCode, jobCode)
+                .eq(DiJob::getProjectId, projectId)
         );
     }
 
@@ -104,7 +110,7 @@ public class DiJobServiceImpl implements DiJobService {
     public int deleteByCode(List<DiJobDTO> list) {
         int result = 0;
         for (DiJobDTO dto : list) {
-            result += deleteByCode(dto.getJobCode());
+            result += deleteByCode(dto.getProjectId(), dto.getJobCode());
         }
         return result;
     }
@@ -167,6 +173,17 @@ public class DiJobServiceImpl implements DiJobService {
         return dto;
     }
 
+    @Override
+    public DiJobDTO selectOne(Long projectId, String jobCode, int jobVersion) {
+        DiJob job = this.diJobMapper.selectOne(
+                new LambdaQueryWrapper<DiJob>()
+                        .eq(DiJob::getProjectId, projectId)
+                        .eq(DiJob::getJobCode, jobCode)
+                        .eq(DiJob::getJobVersion, jobVersion)
+        );
+        return DiJobConvert.INSTANCE.toDto(job);
+    }
+
 
     @Override
     public boolean hasValidJob(Collection<Long> projectIds) {
@@ -215,5 +232,16 @@ public class DiJobServiceImpl implements DiJobService {
         return this.diJobMapper.selectCount(new LambdaQueryWrapper<DiJob>()
                 .eq(StrUtil.isNotEmpty(jobType), DiJob::getJobType, jobType)
         );
+    }
+
+    @Override
+    public int clone(Long sourceJobId, Long targetJobId) {
+        int result = 0;
+        result += this.diJobStepService.clone(sourceJobId, targetJobId);
+        result += this.diJobStepAttrService.clone(sourceJobId, targetJobId);
+        result += this.diJobAttrService.clone(sourceJobId, targetJobId);
+        result += this.diJobLinkService.clone(sourceJobId, targetJobId);
+        result += this.diJobResourceFileService.clone(sourceJobId, targetJobId);
+        return result;
     }
 }

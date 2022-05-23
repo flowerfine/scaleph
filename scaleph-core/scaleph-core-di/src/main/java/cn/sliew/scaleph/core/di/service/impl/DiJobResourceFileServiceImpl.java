@@ -1,11 +1,11 @@
 package cn.sliew.scaleph.core.di.service.impl;
 
+import cn.sliew.scaleph.core.di.service.DiJobResourceFileService;
+import cn.sliew.scaleph.core.di.service.convert.DiResourceFileConvert;
+import cn.sliew.scaleph.core.di.service.dto.DiResourceFileDTO;
 import cn.sliew.scaleph.dao.entity.master.di.DiJobResourceFile;
 import cn.sliew.scaleph.dao.entity.master.di.DiResourceFile;
 import cn.sliew.scaleph.dao.mapper.master.di.DiJobResourceFileMapper;
-import cn.sliew.scaleph.core.di.service.convert.DiResourceFileConvert;
-import cn.sliew.scaleph.core.di.service.DiJobResourceFileService;
-import cn.sliew.scaleph.core.di.service.dto.DiResourceFileDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +49,10 @@ public class DiJobResourceFileServiceImpl implements DiJobResourceFileService {
     public List<DiResourceFileDTO> listJobResources(Long jobId) {
         List<DiResourceFile> list = this.diJobResourceFileMapper.listJobResources(jobId);
         return DiResourceFileConvert.INSTANCE.toDto(list);
+    }
+
+    @Override
+    public int clone(Long sourceJobId, Long targetJobId) {
+        return this.diJobResourceFileMapper.clone(sourceJobId, targetJobId);
     }
 }

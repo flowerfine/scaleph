@@ -17,4 +17,6 @@ public interface DiJobResourceFileService {
     int bindResource(Long jobId, List<DictVO> resources);
 
     List<DiResourceFileDTO> listJobResources(Long jobId);
+
+    int clone(Long sourceJobId, Long targetJobId);
 }

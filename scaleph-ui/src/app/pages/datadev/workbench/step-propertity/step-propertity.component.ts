@@ -1,4 +1,4 @@
-import { Input } from '@angular/core';
+import { EventEmitter, Input, Output } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -44,7 +44,7 @@ export class StepPropertityComponent implements OnInit {
     map.set(STEP_ATTR_TYPE.stepCode, this.cell.id);
     this.jobService.saveStepAttr(map).subscribe((d) => {
       if (d.success) {
-        this.refresh();
+        this.refresh(d.data);
         this.close();
       }
     });
