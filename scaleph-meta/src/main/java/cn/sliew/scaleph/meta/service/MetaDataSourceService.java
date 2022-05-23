@@ -1,5 +1,6 @@
 package cn.sliew.scaleph.meta.service;
 
+import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 
@@ -11,4 +12,6 @@ public interface MetaDataSourceService {
     Set<PluginInfo> getAvailableDataSources();
 
     List<PropertyDescriptor> getSupportedProperties(PluginInfo pluginInfo);
+
+    int insert(MetaDatasourceDTO metaDatasourceDTO);
 }

@@ -1,8 +1,8 @@
 package cn.sliew.scaleph.plugin.framework.property;
 
-public interface DescribedValue {
+public interface DescribedValue<T> {
 
-    String getValue();
+    T getValue();
 
     String getName();
 

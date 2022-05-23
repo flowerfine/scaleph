@@ -8,16 +8,16 @@ import java.util.Objects;
 import java.util.Set;
 
 @Getter
-public class PropertyDependency {
+public class PropertyDependency<T> {
     private final String propertyName;
-    private final Set<String> dependentValues;
+    private final Set<T> dependentValues;
 
     public PropertyDependency(final String propertyName) {
         this.propertyName = Objects.requireNonNull(propertyName);
         this.dependentValues = null;
     }
 
-    public PropertyDependency(final String propertyName, final Set<String> dependentValues) {
+    public PropertyDependency(final String propertyName, final Set<T> dependentValues) {
         this.propertyName = Objects.requireNonNull(propertyName);
         this.dependentValues = Collections.unmodifiableSet(new HashSet<>(Objects.requireNonNull(dependentValues)));
     }

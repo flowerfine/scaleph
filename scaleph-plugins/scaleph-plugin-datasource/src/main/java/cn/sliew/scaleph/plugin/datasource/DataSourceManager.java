@@ -16,7 +16,7 @@ public class DataSourceManager {
 
     public List<PropertyDescriptor> getSupportedProperties(PluginInfo pluginInfo) {
         final Optional<DataSourcePlugin> optional = pluginPluginSPILoader.getPlugin(pluginInfo);
-        final DataSourcePlugin dataSourcePlugin = optional.orElseThrow(() -> new IllegalStateException("known plugin info for " + pluginInfo));
+        final DataSourcePlugin dataSourcePlugin = optional.orElseThrow(() -> new IllegalStateException("unknown plugin info for " + pluginInfo));
         return dataSourcePlugin.getSupportedProperties();
     }
 
