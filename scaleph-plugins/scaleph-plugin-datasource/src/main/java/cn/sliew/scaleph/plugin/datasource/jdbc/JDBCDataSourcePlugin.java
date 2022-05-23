@@ -2,7 +2,7 @@ package cn.sliew.scaleph.plugin.datasource.jdbc;
 
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.plugin.datasource.DataSourcePlugin;
+import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -16,7 +16,7 @@ import java.util.*;
 
 import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 
-public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePlugin<DataSource> {
+public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePlugin<DataSource> {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
@@ -51,7 +51,7 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePl
     }
 
     @Override
-    public DataSource getDataSource() {
+    public DataSource getDatasource() {
         return dataSource;
     }
 
