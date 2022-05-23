@@ -524,7 +524,16 @@ create table t_role_privilege
     unique key (role_id, privilege_id),
     key (update_time)
 ) engine = innodb comment = '角色权限关联表';
-
+-- init normal role
+delete from t_role_privilege;
+insert into t_role_privilege (role_id,privilege_id,creator,editor)
+select
+    r.id as role_id,
+    p.id as privilege_id,
+    'sys' as creator,
+    'sys' as editor
+from t_privilege p,t_role r
+where r.role_code in ('sys_normal','sys_admin','sys_super_admin');
 /* 部门表 */
 drop table if exists t_dept;
 create table t_dept
