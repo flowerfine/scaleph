@@ -173,12 +173,6 @@ public class PropertyContext implements java.io.Serializable {
 
     // --------------------------------------------------------------------------------------------
 
-    public Set<String> keySet() {
-        synchronized (this.confData) {
-            return new HashSet<>(this.confData.keySet());
-        }
-    }
-
     public void addAll(PropertyContext other) {
         synchronized (this.confData) {
             synchronized (other.confData) {
@@ -274,7 +268,7 @@ public class PropertyContext implements java.io.Serializable {
         Optional<Object> rawValue = getRawValueFromOption(descriptor);
 
         try {
-            return rawValue.map(value -> descriptor.getParser().parse(value));
+            return rawValue.map(value -> descriptor.getParser().parse(toString(value)));
         } catch (Exception e) {
             throw new IllegalArgumentException(
                     String.format("Could not parse value '%s' for key '%s'.",
@@ -332,7 +326,12 @@ public class PropertyContext implements java.io.Serializable {
     }
 
     private <T> T getDefaultValue(PropertyDescriptor<T> descriptor) {
-        return descriptor.getDefaultValue().apply(descriptor);
+        final Parser<T> parser = descriptor.getParser();
+        final Function<PropertyDescriptor<T>, String> defaultValue = descriptor.getDefaultValue();
+        if (parser == null || defaultValue == null) {
+            return null;
+        }
+        return parser.parse(defaultValue.apply(descriptor));
     }
 
     private void loggingFallback(PropertyDescriptor fallbackKey, PropertyDescriptor<?> descriptor) {
@@ -345,6 +344,10 @@ public class PropertyContext implements java.io.Serializable {
                     fallbackKey.getName(),
                     descriptor.getName());
         }
+    }
+
+    static String toString(Object o) {
+        return Objects.toString(o, null);
     }
 
     // --------------------------------------------------------------------------------------------

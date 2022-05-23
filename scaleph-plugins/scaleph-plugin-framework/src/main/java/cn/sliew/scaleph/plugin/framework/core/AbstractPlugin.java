@@ -49,7 +49,7 @@ public abstract class AbstractPlugin implements Plugin {
         PropertyContext propertyContext = PropertyContext.fromProperties(properties);
 
         for (final PropertyDescriptor descriptor : getSupportedProperties()) {
-            final Object value = propertyContext.get(descriptor);
+            final String value = propertyContext.getValue(descriptor);
             if (value == null && descriptor.getProperties().contains(Property.Required)) {
                 ValidationResult.Builder builder = new ValidationResult.Builder()
                         .valid(false)

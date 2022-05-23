@@ -3,24 +3,24 @@ package cn.sliew.scaleph.plugin.framework.property;
 import lombok.Getter;
 
 @Getter
-public class ValidationResult<T> {
+public class ValidationResult {
 
     private final String subject;
-    private final T input;
+    private final String input;
     private final String explanation;
     private final boolean valid;
 
-    protected ValidationResult(final Builder<T> builder) {
+    protected ValidationResult(final Builder builder) {
         this.subject = builder.subject;
         this.input = builder.input;
         this.explanation = builder.explanation;
         this.valid = builder.valid;
     }
 
-    public static final class Builder<T> {
+    public static final class Builder {
 
         private boolean valid = false;
-        private T input = null;
+        private String input = null;
         private String explanation = "";
         private String subject = "";
 
@@ -29,7 +29,7 @@ public class ValidationResult<T> {
             return this;
         }
 
-        public Builder input(final T input) {
+        public Builder input(final String input) {
             if (null != input) {
                 this.input = input;
             }
