@@ -64,4 +64,6 @@ public interface DiJobLinkService {
      * @return int
      */
     int upsert(DiJobLinkDTO diJobLink);
+
+    int clone(Long sourceJobId, Long targetJobId);
 }

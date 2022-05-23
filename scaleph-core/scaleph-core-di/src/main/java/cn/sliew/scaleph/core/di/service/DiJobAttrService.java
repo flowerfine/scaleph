@@ -48,5 +48,5 @@ public interface DiJobAttrService {
      */
     int upsert(DiJobAttrDTO jobAttrDTO);
 
-
+    int clone(Long sourceJobId, Long targetJobId);
 }

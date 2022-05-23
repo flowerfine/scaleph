@@ -34,4 +34,7 @@ public interface DiJobLinkMapper extends BaseMapper<DiJobLink> {
      * @return int
      */
     int deleteByJobId(@Param("jobIds") Collection<? extends Serializable> jobIds);
+
+    int clone(@Param("sourceJobId") Long sourceJobId, @Param("targetJobId") Long targetJobId);
+
 }
