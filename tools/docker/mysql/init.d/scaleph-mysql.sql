@@ -324,190 +324,189 @@ create table t_privilege
     key (update_time)
 ) engine = innodb comment = '权限表';
 /* init privilege */
-delete
-from t_privilege;
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (1, 'padm0', '系统管理', '0', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (2, 'pusr0', '用户管理', '0', '', 1, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (3, 'ppvg0', '权限管理', '0', '', 1, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (4, 'pdic0', '数据字典', '0', '', 1, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (5, 'pset0', '系统设置', '0', '', 1, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (6, 'pdev0', '数据开发', '0', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (7, 'pdts0', '数据源', '0', '', 6, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (8, 'pddp0', '项目管理', '0', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (9, 'pddj0', '作业管理', '0', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (10, 'pdde0', '资源管理', '0', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (11, 'pddc0', '集群管理', '0', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (12, 'pstd0', '数据标准', '0', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (13, 'pstr0', '参考数据', '0', '', 8, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (14, 'pstm0', '数据映射', '0', '', 8, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (15, 'pste0', '数据元', '0', '', 8, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (16, 'psts0', '业务系统', '0', '', 8, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (17, 'popc0', '运维中心', '0', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (18, 'pobt0', '周期任务', '0', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (19, 'port0', '实时任务', '0', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20, 'psdo0', '工作台', '0', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (21, 'psdb0', '数据看板', '0', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100001, 'pdct4', '字典类型', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100002, 'pdct1', '新增字典类型', '1', '', 100001, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100003, 'pdct3', '删除字典类型', '1', '', 100001, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100004, 'pdct2', '修改字典类型', '1', '', 100001, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100005, 'pdcd4', '数据字典', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100006, 'pdcd1', '新增数据字典', '1', '', 100005, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100007, 'pdcd3', '删除数据字典', '1', '', 100005, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100008, 'pdcd2', '修改数据字典', '1', '', 100005, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100009, 'pusr4', '用户管理', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100010, 'pusr1', '新增用户', '1', '', 100009, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100011, 'pusr3', '删除用户', '1', '', 100009, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100012, 'pusr2', '修改用户', '1', '', 100009, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100013, 'prol4', '角色管理', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100014, 'prol1', '新增角色', '1', '', 100013, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100015, 'prol3', '删除角色', '1', '', 100013, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100016, 'prol2', '修改角色', '1', '', 100013, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100017, 'prol5', '角色授权', '1', '', 100013, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100018, 'pdep4', '部门管理', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100019, 'pdep1', '新增部门', '1', '', 100018, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100020, 'pdep3', '删除部门', '1', '', 100018, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100021, 'pdep2', '修改部门', '1', '', 100018, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100022, 'pdep5', '部门授权', '1', '', 100018, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100023, 'pdts4', '数据源', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100024, 'pdts1', '新增数据源', '1', '', 100023, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100025, 'pdts3', '删除数据源', '1', '', 100023, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100026, 'pdts2', '修改数据源', '1', '', 100023, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100027, 'pdts6', '查看密码', '1', '', 100023, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100028, 'psts4', '业务系统', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100029, 'psts1', '新增业务系统', '1', '', 100028, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100030, 'psts3', '删除业务系统', '1', '', 100028, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100031, 'psts2', '修改业务系统', '1', '', 100028, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100032, 'pddp4', '项目管理', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100033, 'pddp1', '新增项目', '1', '', 100032, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100034, 'pddp3', '删除项目', '1', '', 100032, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100035, 'pddp2', '修改项目', '1', '', 100032, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100036, 'pddj4', '作业管理', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100037, 'pddj1', '新增项目', '1', '', 100036, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100038, 'pddj3', '删除项目', '1', '', 100036, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100039, 'pddj2', '修改项目', '1', '', 100036, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100040, 'pddr4', '目录管理', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100041, 'pddr1', '新增目录', '1', '', 100040, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100042, 'pddr3', '删除目录', '1', '', 100040, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100043, 'pddr2', '修改目录', '1', '', 100040, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100044, 'pdde4', '资源管理', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100045, 'pdde1', '新增资源', '1', '', 100044, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100046, 'pdde3', '删除资源', '1', '', 100044, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100047, 'pdde2', '修改资源', '1', '', 100044, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100048, 'pdde7', '下载资源', '1', '', 100044, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100049, 'pddc4', '集群管理', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100050, 'pddc1', '新增集群', '1', '', 100049, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100051, 'pddc3', '删除集群', '1', '', 100049, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100052, 'pddc2', '修改集群', '1', '', 100049, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100053, 'pste4', '数据元管理', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100054, 'pste1', '新增数据元', '1', '', 100053, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100055, 'pste3', '删除数据元', '1', '', 100053, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100056, 'pste2', '修改数据元', '1', '', 100053, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100057, 'pstt4', '参考数据类型管理', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100058, 'pstt1', '新增参考数据类型', '1', '', 100057, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100059, 'pstt3', '删除参考数据类型', '1', '', 100057, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100060, 'pstt2', '修改参考数据类型', '1', '', 100057, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100061, 'pstr4', '参考数据管理', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100062, 'pstr1', '新增参考数据', '1', '', 100061, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100063, 'pstr3', '删除参考数据', '1', '', 100061, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100064, 'pstr2', '修改参考数据', '1', '', 100061, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100065, 'pstm4', '参考数据映射管理', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100066, 'pstm1', '新增参考数据映射', '1', '', 100065, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100067, 'pstm3', '删除参考数据映射', '1', '', 100065, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100068, 'pstm2', '修改参考数据映射', '1', '', 100065, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100069, 'pobt4', '周期任务', '1', '', 0, 'sys', 'sys');
-insert into t_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (100070, 'port4', '实时任务', '1', '', 0, 'sys', 'sys');
+delete from t_privilege;
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(10,'psdo0','工作台','0','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(1001,'psdb0','数据看板','0','',10,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20,'pdev0','数据开发','0','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(2001,'pdts0','数据源','0','',20,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(2002,'pddp0','项目管理','0','',20,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(2003,'pdde0','资源管理','0','',20,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(2004,'pddj0','作业管理','0','',20,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(2005,'pddc0','集群管理','0','',20,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(30,'popc0','运维中心','0','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(3001,'pobt0','周期任务','0','',30,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(3002,'port0','实时任务','0','',30,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(40,'pstd0','数据标准','0','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(4001,'pstr0','参考数据','0','',40,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(4002,'pstm0','数据映射','0','',40,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(4003,'pste0','数据元','0','',40,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(4004,'psts0','业务系统','0','',40,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50,'padm0','系统管理','0','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(5001,'pusr0','用户管理','0','',50,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(5002,'ppvg0','权限管理','0','',50,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(5003,'pdic0','数据字典','0','',50,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(5004,'pset0','系统设置','0','',50,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(200101,'pdts4','数据源','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20010101,'pdts1','新增数据源','1','',200101,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20010102,'pdts3','删除数据源','1','',200101,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20010103,'pdts2','修改数据源','1','',200101,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20010104,'pdts6','查看密码','1','',200101,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(200201,'pddp4','项目管理','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20020101,'pddp1','新增项目','1','',200201,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20020102,'pddp3','删除项目','1','',200201,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20020103,'pddp2','修改项目','1','',200201,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(200301,'pdde4','资源管理','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20030101,'pdde1','新增资源','1','',200301,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20030102,'pdde3','删除资源','1','',200301,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20030103,'pdde2','修改资源','1','',200301,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20030104,'pdde7','下载资源','1','',200301,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(200401,'pddj4','作业管理','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20040101,'pddj1','新增作业','1','',200401,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20040102,'pddj3','删除作业','1','',200401,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20040103,'pddj2','修改作业','1','',200401,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(200402,'pddr4','目录管理','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20040201,'pddr1','新增目录','1','',200402,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20040202,'pddr3','删除目录','1','',200402,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20040203,'pddr2','修改目录','1','',200402,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(200501,'pddc4','集群管理','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20050101,'pddc1','新增集群','1','',200501,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20050102,'pddc3','删除集群','1','',200501,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(20050103,'pddc2','修改集群','1','',200501,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(300101,'pobt4','周期任务','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(300201,'port4','实时任务','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(400101,'pstt4','参考数据类型管理','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(40010101,'pstt1','新增参考数据类型','1','',400101,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(40010102,'pstt3','删除参考数据类型','1','',400101,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(40010103,'pstt2','修改参考数据类型','1','',400101,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(400102,'pstr4','参考数据管理','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(40010201,'pstr1','新增参考数据','1','',400102,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(40010202,'pstr3','删除参考数据','1','',400102,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(40010203,'pstr2','修改参考数据','1','',400102,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(400201,'pstm4','参考数据映射管理','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(40020101,'pstm1','新增参考数据映射','1','',400201,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(40020102,'pstm3','删除参考数据映射','1','',400201,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(40020103,'pstm2','修改参考数据映射','1','',400201,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(400301,'pste4','数据元管理','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(40030101,'pste1','新增数据元','1','',400301,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(40030102,'pste3','删除数据元','1','',400301,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(40030103,'pste2','修改数据元','1','',400301,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(400401,'psts4','业务系统','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(40040101,'psts1','新增业务系统','1','',400401,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(40040102,'psts3','删除业务系统','1','',400401,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(40040103,'psts2','修改业务系统','1','',400401,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(500101,'pusr4','用户管理','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50010101,'pusr1','新增用户','1','',500101,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50010102,'pusr3','删除用户','1','',500101,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50010103,'pusr2','修改用户','1','',500101,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(500201,'prol4','角色管理','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50020101,'prol1','新增角色','1','',500201,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50020102,'prol3','删除角色','1','',500201,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50020103,'prol2','修改角色','1','',500201,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50020104,'prol5','角色授权','1','',500201,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(500202,'pdep4','部门管理','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50020201,'pdep1','新增部门','1','',500202,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50020202,'pdep3','删除部门','1','',500202,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50020203,'pdep2','修改部门','1','',500202,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50020204,'pdep5','部门授权','1','',500202,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(500301,'pdct4','字典类型','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50030101,'pdct1','新增字典类型','1','',500301,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50030102,'pdct3','删除字典类型','1','',500301,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50030103,'pdct2','修改字典类型','1','',500301,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(500302,'pdcd4','数据字典','1','',0,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50030201,'pdcd1','新增数据字典','1','',500302,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50030202,'pdcd3','删除数据字典','1','',500302,'sys','sys');
+insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) 
+values(50030203,'pdcd2','修改数据字典','1','',500302,'sys','sys');
 
 /* 角色权限关联表 */
 drop table if exists t_role_privilege;
@@ -525,7 +524,16 @@ create table t_role_privilege
     unique key (role_id, privilege_id),
     key (update_time)
 ) engine = innodb comment = '角色权限关联表';
-
+-- init normal role
+delete from t_role_privilege;
+insert into t_role_privilege (role_id,privilege_id,creator,editor)
+select
+    r.id as role_id,
+    p.id as privilege_id,
+    'sys' as creator,
+    'sys' as editor
+from t_privilege p,t_role r
+where r.role_code in ('sys_normal','sys_admin','sys_super_admin');
 /* 部门表 */
 drop table if exists t_dept;
 create table t_dept
@@ -703,7 +711,7 @@ create table t_system_config
     unique key (cfg_code)
 ) engine = innodb comment = '系统配置信息表';
 
-INSERT INTO `t_system_config`(`cfg_code`, `cfg_value`, `creator`, `editor`)
+insert into t_system_config(cfg_code, cfg_value, creator, editor)
 VALUES ('basic', '{\"seatunnelHome\":\"/opt/seatunnel\"}', 'sys_admin', 'sys_admin');
 
 /*定时任务运行日志表*/
@@ -754,27 +762,27 @@ create table meta_datasource
     key (database_name),
     key (update_time)
 ) engine = innodb comment '元数据-数据源连接信息';
-insert into `meta_datasource`(`datasource_name`, `datasource_type`, `connection_type`, `host_name`, `database_name`,
-                              `port`, `user_name`, `password`, `remark`, `props`, `creator`, `editor`)
+insert into meta_datasource(datasource_name, datasource_type, connection_type, host_name, database_name,
+                              port, user_name, password, remark, props, creator, editor)
 VALUES ('local_data_service', 'mysql', 'jdbc', 'localhost', 'data_service', 3306, 'root', 'MTIzNDU2', NULL,
         '{\"jdbc\":\"serverTimezone=Asia/Shanghai\\ncharacterEncoding=utf8\\nzeroDateTimeBehavior=convertToNull\"}',
         'sys_admin', 'sys_admin');
 
-CREATE TABLE `meta_datasource2`
+create TABLE meta_datasource2
 (
-    `id`               bigint      NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-    `name`             varchar(64) NOT NULL COMMENT '名称',
-    `version`          varchar(32) NOT NULL COMMENT '版本',
-    `remark`           varchar(256)     DEFAULT NULL COMMENT '备注描述',
-    `props`            text COMMENT '数据源支持的属性',
-    `additional_props` text COMMENT '数据源支持的额外属性。',
-    `creator`          varchar(32)      DEFAULT NULL COMMENT '创建人',
-    `create_time`      timestamp   NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `editor`           varchar(32)      DEFAULT NULL COMMENT '修改人',
-    `update_time`      timestamp   NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `name_version` (`name`, `version`),
-    KEY `update_time` (`update_time`)
+    id               bigint      NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    name             varchar(64) NOT NULL COMMENT '名称',
+    version          varchar(32) NOT NULL COMMENT '版本',
+    remark           varchar(256)     DEFAULT NULL COMMENT '备注描述',
+    props            text COMMENT '数据源支持的属性',
+    additional_props text COMMENT '数据源支持的额外属性。',
+    creator          varchar(32)      DEFAULT NULL COMMENT '创建人',
+    create_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    editor           varchar(32)      DEFAULT NULL COMMENT '修改人',
+    update_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (id),
+    UNIQUE KEY name_version (name, version),
+    KEY update_time (update_time)
 ) ENGINE = InnoDB COMMENT ='元数据-数据源信息2';
 
 /*元数据-数据表信息*/
@@ -952,7 +960,7 @@ create table di_project
     unique (project_code)
 ) engine = innodb comment '数据集成-项目信息';
 
-insert into `di_project`(`project_code`, `project_name`, `remark`, `creator`, `editor`)
+insert into di_project(project_code, project_name, remark, creator, editor)
 VALUES ('seatunnel', 'seatunnel-examples', NULL, 'sys_admin', 'sys_admin');
 
 /* 资源信息表 */
@@ -992,8 +1000,8 @@ create table di_cluster_config
     unique (cluster_name)
 ) engine = innodb comment '数据集成-集群配置';
 
-INSERT INTO `di_cluster_config`(`cluster_name`, `cluster_type`, `cluster_home`, `cluster_version`, `cluster_conf`,
-                                `remark`, `creator`, `editor`)
+insert into di_cluster_config(cluster_name, cluster_type, cluster_home, cluster_version, cluster_conf,
+                                remark, creator, editor)
 VALUES ('docker_standalone', 'flink', '/opt/flink', '1.13.6',
         'rest.port=8081\njobmanager.rpc.address=jobmanager\njobmanager.rpc.port=6123\n', 'docker environment',
         'sys_admin', 'sys_admin');
@@ -1014,9 +1022,9 @@ create table di_directory
     key (pid)
 ) engine = innodb comment '数据集成-项目目录';
 
-insert into `di_directory`(`project_id`, `directory_name`, `pid`, `creator`, `editor`)
+insert into di_directory(project_id, directory_name, pid, creator, editor)
 VALUES (1, 'seatunnel', 0, 'sys_admin', 'sys_admin');
-insert into `di_directory`(`project_id`, `directory_name`, `pid`, `creator`, `editor`)
+insert into di_directory(project_id, directory_name, pid, creator, editor)
 VALUES (1, 'example', 1, 'sys_admin', 'sys_admin');
 
 /* 数据集成-作业信息*/
@@ -1044,8 +1052,8 @@ create table di_job
     unique key (project_id,job_code, job_version)
 ) engine = innodb comment '数据集成-作业信息';
 
-INSERT INTO `di_job`(`project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
-                     `runtime_state`, `job_version`, `cluster_id`, `remark`, `creator`, `editor`)
+insert into di_job(project_id, job_code, job_name, directory_id, job_type, job_owner, job_status,
+                     runtime_state, job_version, cluster_id, remark, creator, editor)
 VALUES (1, 'jdbc_to_jdbc', 'jdbc_to_jdbc', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, 'sys_admin', 'sys_admin');
 
 drop table if exists di_job_resource_file;
@@ -1100,11 +1108,11 @@ create table di_job_step
     unique key (job_id, step_code)
 ) engine = innodb comment '数据集成-作业步骤信息';
 
-INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
-                          `creator`, `editor`)
+insert into di_job_step(job_id, step_code, step_title, step_type, step_name, position_x, position_y,
+                          creator, editor)
 VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', '表输入', 'source', 'table', -440, -320, 'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
-                          `creator`, `editor`)
+insert into di_job_step(job_id, step_code, step_title, step_type, step_name, position_x, position_y,
+                          creator, editor)
 VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', '表输出', 'sink', 'table', -240, -120, 'sys_admin', 'sys_admin');
 
 /* 作业步骤参数 */
@@ -1124,24 +1132,24 @@ create table di_job_step_attr
     key (job_id, step_code)
 ) engine = innodb comment '数据集成-作业步骤参数';
 
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
 VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', 'dataSource', '{\"label\":\"local_data_service\",\"value\":\"1\"}',
         'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
 VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', 'dataSourceType', '{\"label\":\"Mysql\",\"value\":\"mysql\"}',
         'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
 VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', 'query', 'select * from sample_data_e_commerce', 'sys_admin',
         'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
 VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'batchSize', '1024', 'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
 VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'dataSource', '{\"label\":\"local_data_service\",\"value\":\"1\"}',
         'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
 VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'dataSourceType', '{\"label\":\"Mysql\",\"value\":\"mysql\"}',
         'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
 VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'query',
         'insert into sample_data_e_commerce_duplicate (invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country) values (?,?,?,?,?, ?,?,?)',
         'sys_admin', 'sys_admin');
@@ -1205,7 +1213,7 @@ create table di_job_link
     key (job_id)
 ) engine = innodb comment '数据集成-作业连线';
 
-INSERT INTO `di_job_link`(`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
+insert into di_job_link(job_id, link_code, from_step_code, to_step_code, creator, editor)
 VALUES (1, '0c23960c-e59f-480f-beef-6cd59878d0e5', 'ead21aa2-a825-4827-a9ba-3833c6b83941',
         'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'sys_admin', 'sys_admin');
 
