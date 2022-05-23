@@ -42,4 +42,7 @@ public interface DiJobStepMapper extends BaseMapper<DiJobStep> {
      * @return job step list
      */
     List<DiJobStep> selectByJobId(@Param("jobId") Long jobId);
+
+    int clone(@Param("sourceJobId") Long sourceJobId, @Param("targetJobId") Long targetJobId);
+
 }

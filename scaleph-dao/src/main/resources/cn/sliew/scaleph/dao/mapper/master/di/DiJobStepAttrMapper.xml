@@ -4,15 +4,15 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="DiJobStepAttrMap" type="cn.sliew.scaleph.dao.entity.master.di.DiJobStepAttr">
-        <result column="id" property="id" />
-        <result column="creator" property="creator" />
-        <result column="create_time" property="createTime" />
-        <result column="editor" property="editor" />
-        <result column="update_time" property="updateTime" />
-        <result column="job_id" property="jobId" />
-        <result column="step_code" property="stepCode" />
-        <result column="step_attr_key" property="stepAttrKey" />
-        <result column="step_attr_value" property="stepAttrValue" />
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="job_id" property="jobId"/>
+        <result column="step_code" property="stepCode"/>
+        <result column="step_attr_key" property="stepAttrKey"/>
+        <result column="step_attr_value" property="stepAttrValue"/>
     </resultMap>
 
     <delete id="deleteByProjectId">
@@ -37,5 +37,28 @@
         </foreach>
     </delete>
 
-
+    <insert id="clone">
+        insert into di_job_step_attr
+        (
+        job_id,
+        step_code,
+        step_attr_key,
+        step_attr_value,
+        creator,
+        create_time,
+        editor,
+        update_time
+        )
+        select
+        #{targetJobId,jdbcType=BIGINT} as job_id,
+        step_code,
+        step_attr_key,
+        step_attr_value,
+        'sys' as creator,
+        now() as create_time,
+        'sys' as editor,
+        now() as update_time
+        from di_job_step_attr
+        where job_id = #{sourceJobId,jdbcType=BIGINT}
+    </insert>
 </mapper>

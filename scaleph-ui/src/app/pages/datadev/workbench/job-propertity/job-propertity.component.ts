@@ -36,6 +36,7 @@ export class JobPropertityComponent implements OnInit {
     if (valid) {
       this.jobService.saveJobAttr(this.formData).subscribe((d) => {
         if (d.success) {
+          this.data.refresh(d.data);
           this.data.onClose();
         }
       });

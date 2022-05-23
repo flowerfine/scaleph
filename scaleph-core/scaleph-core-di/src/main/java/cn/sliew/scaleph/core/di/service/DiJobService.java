@@ -28,10 +28,11 @@ public interface DiJobService {
     /**
      * 归档任务，只保留发布状态中最大版本号的那个，其余发布状态的任务均改为归档状态
      *
-     * @param jobCode job code
+     * @param projectId project id
+     * @param jobCode   job code
      * @return int
      */
-    int archive(String jobCode);
+    int archive(Long projectId, String jobCode);
 
     /**
      * 修改
@@ -43,11 +44,11 @@ public interface DiJobService {
 
     /**
      * 删除一个
-     *
+     * @param projectId project id
      * @param jobCode jobCode
      * @return int
      */
-    int deleteByCode(String jobCode);
+    int deleteByCode(Long projectId,String jobCode);
 
     /**
      * 批量删除
@@ -89,6 +90,7 @@ public interface DiJobService {
      */
     DiJobDTO selectOne(Long id);
 
+    DiJobDTO selectOne(Long projectId, String jobCode, int jobVersion);
 
     /**
      * 项目下是否有有效的作业
@@ -116,4 +118,6 @@ public interface DiJobService {
     boolean hasRunningJob(Collection<Long> clusterIds);
 
     int totalCnt(String jobType);
+
+    int clone(Long sourceJobId, Long targetJobId);
 }

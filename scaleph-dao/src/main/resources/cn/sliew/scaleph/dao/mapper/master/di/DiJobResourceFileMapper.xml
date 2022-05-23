@@ -4,16 +4,17 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="DiJobResourceFileMap" type="cn.sliew.scaleph.dao.entity.master.di.DiJobResourceFile">
-        <result column="id" property="id" />
-        <result column="creator" property="creator" />
-        <result column="create_time" property="createTime" />
-        <result column="editor" property="editor" />
-        <result column="update_time" property="updateTime" />
-        <result column="job_id" property="jobId" />
-        <result column="resource_file_id" property="resourceFileId" />
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="job_id" property="jobId"/>
+        <result column="resource_file_id" property="resourceFileId"/>
     </resultMap>
 
-    <select id="listJobResources" resultMap="cn.sliew.scaleph.dao.mapper.master.di.DiResourceFileMapper.DiResourceFileMap">
+    <select id="listJobResources"
+            resultMap="cn.sliew.scaleph.dao.mapper.master.di.DiResourceFileMapper.DiResourceFileMap">
         <![CDATA[
         select
             r.id,
@@ -31,4 +32,25 @@
         where j.job_id = #{jobId,jdbcType=BIGINT}
         ]]>
     </select>
+
+    <insert id="clone">
+        insert into di_job_resource_file
+        (
+        job_id,
+        resource_file_id,
+        creator,
+        create_time,
+        editor,
+        update_time
+        )
+        select
+        #{targetJobId,jdbcType=BIGINT} as job_id,
+        resource_file_id,
+        'sys' as creator,
+        now() as create_time,
+        'sys' as editor,
+        now() as update_time
+        from di_job_resource_file
+        where job_id = #{sourceJobId,jdbcType=BIGINT}
+    </insert>
 </mapper>

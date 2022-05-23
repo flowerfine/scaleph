@@ -20,4 +20,6 @@ import java.util.List;
 public interface DiJobResourceFileMapper extends BaseMapper<DiJobResourceFile> {
 
     List<DiResourceFile> listJobResources(@Param(value = "jobId") Long jobId);
+
+    int clone(@Param("sourceJobId") Long sourceJobId, @Param("targetJobId") Long targetJobId);
 }

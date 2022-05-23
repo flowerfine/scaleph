@@ -37,4 +37,29 @@
         </foreach>
     </delete>
 
+    <insert id="clone">
+        insert into di_job_link
+        (
+        job_id,
+        link_code,
+        from_step_code,
+        to_step_code,
+        creator,
+        create_time,
+        editor,
+        update_time
+        )
+        select
+        #{targetJobId,jdbcType=BIGINT} as job_id,
+        link_code,
+        from_step_code,
+        to_step_code,
+        'sys' as creator,
+        now() as create_time,
+        'sys' as editor,
+        now() as update_time
+        from di_job_link
+        where job_id = #{sourceJobId,jdbcType=BIGINT}
+    </insert>
+
 </mapper>
