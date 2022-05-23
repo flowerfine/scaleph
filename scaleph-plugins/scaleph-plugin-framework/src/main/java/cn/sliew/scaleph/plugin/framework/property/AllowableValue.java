@@ -2,28 +2,28 @@ package cn.sliew.scaleph.plugin.framework.property;
 
 import java.util.Objects;
 
-public class AllowableValue implements DescribedValue {
+public class AllowableValue<T> implements DescribedValue {
 
-    private final String value;
+    private final T value;
     private final String name;
     private final String description;
 
-    public AllowableValue(final String value) {
-        this(value, value);
+    public AllowableValue(final T value) {
+        this(value, value.toString());
     }
 
-    public AllowableValue(final String value, final String name) {
+    public AllowableValue(final T value, final String name) {
         this(value, name, null);
     }
 
-    public AllowableValue(final String value, final String name, final String description) {
+    public AllowableValue(final T value, final String name, final String description) {
         this.value = Objects.requireNonNull(value);
         this.name = Objects.requireNonNull(name);
         this.description = description;
     }
 
     @Override
-    public String getValue() {
+    public T getValue() {
         return value;
     }
 
