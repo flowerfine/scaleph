@@ -30,6 +30,7 @@ import cn.sliew.scaleph.core.di.service.dto.*;
 import cn.sliew.scaleph.core.di.service.param.DiJobParam;
 import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
 import cn.sliew.scaleph.engine.util.JobConfigHelper;
+import cn.sliew.scaleph.privilege.ScalephSecurityManager;
 import cn.sliew.scaleph.storage.service.StorageService;
 import cn.sliew.scaleph.storage.service.impl.NioFileServiceImpl;
 import cn.sliew.scaleph.system.service.SystemConfigService;
@@ -67,6 +68,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -558,6 +561,16 @@ public class JobController {
     @ApiOperation(value = "运行任务", notes = "运行任务，提交至集群")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> runJob(@RequestBody DiJobRunVO jobRunParam) throws Exception {
+        SecurityManager securityManager = System.getSecurityManager();
+        System.setSecurityManager(new ScalephSecurityManager());
+        try {
+            return AccessController.doPrivileged((PrivilegedExceptionAction<ResponseEntity<ResponseVO>>)() -> submitSeatunnelJob(jobRunParam));
+        } finally {
+            System.setSecurityManager(securityManager);
+        }
+    }
+
+    private ResponseEntity<ResponseVO> submitSeatunnelJob(DiJobRunVO jobRunParam) throws Exception {
         //config cluster and resource
         this.diJobService.update(jobRunParam.toDto());
         this.diJobResourceFileService.bindResource(jobRunParam.getJobId(), jobRunParam.getResources());
