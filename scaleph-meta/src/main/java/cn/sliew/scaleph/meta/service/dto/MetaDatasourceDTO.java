@@ -1,28 +1,33 @@
-package cn.sliew.scaleph.dao.entity.master.meta;
+package cn.sliew.scaleph.meta.service.dto;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.sliew.scaleph.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+
 /**
- * 元数据-数据源信息2
+ * 元数据-数据源信息
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("meta_datasource2")
-@ApiModel(value = "MetaDatasource2对象", description = "元数据-数据源信息2")
-public class MetaDatasource2 extends BaseDO {
+@ApiModel(value = "MetaDatasource对象", description = "元数据-数据源信息")
+public class MetaDatasourceDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
+    @NotBlank
     @ApiModelProperty(value = "名称")
     private String name;
 
+    @NotBlank
     @ApiModelProperty(value = "版本")
     private String version;
+
+    @ApiModelProperty(value = "备注描述")
+    private String remark;
 
     @ApiModelProperty(value = "数据源支持的属性")
     private String props;
@@ -30,6 +35,4 @@ public class MetaDatasource2 extends BaseDO {
     @ApiModelProperty(value = "数据源支持的额外属性。")
     private String additionalProps;
 
-    @ApiModelProperty(value = "备注描述")
-    private String remark;
 }

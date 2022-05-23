@@ -3,25 +3,30 @@ package cn.sliew.scaleph.plugin.framework.property;
 import lombok.Getter;
 
 import java.util.*;
+import java.util.function.Function;
 
 @Getter
-public class PropertyDescriptor implements Comparable<PropertyDescriptor> {
+public class PropertyDescriptor<T> implements Comparable<PropertyDescriptor> {
 
     private final String name;
-    private final String defaultValue;
+    private final Function<PropertyDescriptor<T>, String> defaultValue;
     private final String description;
-    private final List<AllowableValue> allowableValues;
+    private final Parser<T> parser;
+    private final List<AllowableValue<T>> allowableValues;
     private final EnumSet<Property> properties;
     private final List<Validator> validators;
+    private final Optional<PropertyDescriptor<T>> fallbackProperty;
     private final Set<PropertyDependency> dependencies;
 
-    protected PropertyDescriptor(final Builder builder) {
+    protected PropertyDescriptor(final Builder<T> builder) {
         this.name = builder.name;
         this.defaultValue = builder.defaultValue;
         this.description = builder.description;
+        this.parser = builder.parser;
         this.allowableValues = builder.allowableValues == null ? null : Collections.unmodifiableList(new ArrayList<>(builder.allowableValues));
         this.properties = builder.properties;
         this.validators = Collections.unmodifiableList(new ArrayList<>(builder.validators));
+        this.fallbackProperty = builder.fallbackProperty;
         this.dependencies = builder.dependencies == null ? Collections.emptySet() : Collections.unmodifiableSet(new HashSet<>(builder.dependencies));
     }
 
@@ -29,7 +34,7 @@ public class PropertyDescriptor implements Comparable<PropertyDescriptor> {
         ValidationResult lastResult = Validator.INVALID.validate(this.name, input);
 
         if (allowableValues != null && !allowableValues.isEmpty()) {
-            final ConstrainedSetValidator csValidator = new ConstrainedSetValidator(allowableValues);
+            final ConstrainedSetValidator csValidator = new ConstrainedSetValidator(parser, allowableValues);
             final ValidationResult csResult = csValidator.validate(this.name, input);
 
             if (csResult.isValid()) {
@@ -78,24 +83,28 @@ public class PropertyDescriptor implements Comparable<PropertyDescriptor> {
         return 287 + this.name.hashCode() * 47;
     }
 
-    public static final class Builder {
+    public static final class Builder<T> {
 
         private String name = null;
-        private String defaultValue = null;
+        private Function<PropertyDescriptor<T>, String> defaultValue = null;
         private String description = "";
-        private List<AllowableValue> allowableValues = null;
+        private Parser<T> parser;
+        private List<AllowableValue<T>> allowableValues = null;
         private EnumSet<Property> properties = EnumSet.noneOf(Property.class);
         private List<Validator> validators = new ArrayList<>();
+        private Optional<PropertyDescriptor<T>> fallbackProperty = Optional.empty();
         private Set<PropertyDependency> dependencies = null;
 
 
-        public Builder fromPropertyDescriptor(final PropertyDescriptor specDescriptor) {
+        public Builder fromPropertyDescriptor(final PropertyDescriptor<T> specDescriptor) {
             this.name = specDescriptor.name;
             this.defaultValue = specDescriptor.defaultValue;
             this.description = specDescriptor.description;
+            this.parser = specDescriptor.parser;
             this.allowableValues = specDescriptor.allowableValues == null ? null : new ArrayList<>(specDescriptor.allowableValues);
             this.properties = EnumSet.copyOf(specDescriptor.properties);
             this.validators = new ArrayList<>(specDescriptor.validators);
+            this.fallbackProperty = specDescriptor.fallbackProperty;
             this.dependencies = new HashSet<>(specDescriptor.dependencies);
             return this;
         }
@@ -107,7 +116,7 @@ public class PropertyDescriptor implements Comparable<PropertyDescriptor> {
             return this;
         }
 
-        public Builder defaultValue(final String value) {
+        public Builder defaultValue(final Function<PropertyDescriptor<T>, String> value) {
             if (null != value) {
                 this.defaultValue = value;
             }
@@ -121,20 +130,27 @@ public class PropertyDescriptor implements Comparable<PropertyDescriptor> {
             return this;
         }
 
+        public Builder parser(final Parser<T> parser) {
+            if (null != parser) {
+                this.parser = parser;
+            }
+            return this;
+        }
+
         public Builder allowableValues(final String... values) {
-            if (null != values) {
+            if (null != values && null != parser) {
                 this.allowableValues = new ArrayList<>();
                 for (final String value : values) {
-                    allowableValues.add(new AllowableValue(value, value));
+                    final T parsed = parser.parse(value);
+                    allowableValues.add(new AllowableValue(parsed));
                 }
             }
             return this;
         }
 
         public Builder allowableValues(final Set<String> values) {
-            if (null != values) {
+            if (null != values && null != parser) {
                 this.allowableValues = new ArrayList<>();
-
                 for (final String value : values) {
                     this.allowableValues.add(new AllowableValue(value));
                 }
@@ -160,11 +176,25 @@ public class PropertyDescriptor implements Comparable<PropertyDescriptor> {
             return this;
         }
 
-        public Builder allowableValues(final AllowableValue... values) {
+        public Builder allowableValues(final AllowableValue<T>... values) {
             if (null != values) {
                 this.allowableValues = Arrays.asList(values);
             }
             return this;
+        }
+
+        private boolean isValueAllowed(final T value) {
+            if (allowableValues == null || value == null) {
+                return false;
+            }
+
+            for (final AllowableValue allowableValue : allowableValues) {
+                if (allowableValue.getValue().equals(value)) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public Builder properties(final Property... properties) {
@@ -181,21 +211,14 @@ public class PropertyDescriptor implements Comparable<PropertyDescriptor> {
             return this;
         }
 
-        private boolean isValueAllowed(final String value) {
-            if (allowableValues == null || value == null) {
-                return true;
+        public Builder fallbackProperty(final PropertyDescriptor<T> fallbackProperty) {
+            if (fallbackProperty != null) {
+                this.fallbackProperty = Optional.of(fallbackProperty);
             }
-
-            for (final AllowableValue allowableValue : allowableValues) {
-                if (allowableValue.getValue().equals(value)) {
-                    return true;
-                }
-            }
-
-            return false;
+            return this;
         }
 
-        public Builder dependsOn(final PropertyDescriptor property, final AllowableValue... dependentValues) {
+        public Builder dependsOn(final PropertyDescriptor property, final AllowableValue<T>... dependentValues) {
             if (dependencies == null) {
                 dependencies = new HashSet<>();
             }
@@ -203,8 +226,8 @@ public class PropertyDescriptor implements Comparable<PropertyDescriptor> {
             if (dependentValues.length == 0) {
                 dependencies.add(new PropertyDependency(property.getName()));
             } else {
-                final Set<String> dependentValueSet = new HashSet<>();
-                for (final AllowableValue value : dependentValues) {
+                final Set<T> dependentValueSet = new HashSet<>();
+                for (final AllowableValue<T> value : dependentValues) {
                     dependentValueSet.add(value.getValue());
                 }
 
@@ -229,21 +252,28 @@ public class PropertyDescriptor implements Comparable<PropertyDescriptor> {
             if (name == null) {
                 throw new IllegalStateException("Must specify a name");
             }
-            if (!isValueAllowed(defaultValue)) {
-                throw new IllegalStateException("Default value [" + defaultValue + "] is not in the set of allowable values");
+            final PropertyDescriptor<T> propertyDescriptor = new PropertyDescriptor(this);
+
+            if (defaultValue != null && parser != null) {
+                String providedDefaultValue = this.defaultValue.apply(propertyDescriptor);
+                final T parsed = parser.parse(providedDefaultValue);
+                if (!isValueAllowed(parsed)) {
+                    throw new IllegalStateException("Default value [" + defaultValue + "] is not in the set of allowable values");
+                }
             }
 
             return new PropertyDescriptor(this);
         }
     }
 
-    private static final class ConstrainedSetValidator implements Validator {
+    private static final class ConstrainedSetValidator<T> implements Validator {
 
         private static final String POSITIVE_EXPLANATION = "Given value found in allowed set";
         private static final String NEGATIVE_EXPLANATION = "Given value not found in allowed set '%1$s'";
         private static final String VALUE_DEMARCATOR = ", ";
         private final String validStrings;
-        private final Collection<String> validValues;
+        private final Parser<T> parser;
+        private final Collection<T> validValues;
 
         /**
          * Constructs a validator that will check if the given value is in the
@@ -252,7 +282,8 @@ public class PropertyDescriptor implements Comparable<PropertyDescriptor> {
          * @param validValues values which are acceptible
          * @throws NullPointerException if the given validValues is null
          */
-        private ConstrainedSetValidator(final Collection<AllowableValue> validValues) {
+        private ConstrainedSetValidator(final Parser<T> parser, final Collection<AllowableValue<T>> validValues) {
+            this.parser = parser;
             String validVals = "";
             if (!validValues.isEmpty()) {
                 final StringBuilder valuesBuilder = new StringBuilder();
@@ -264,7 +295,7 @@ public class PropertyDescriptor implements Comparable<PropertyDescriptor> {
             validStrings = validVals;
 
             this.validValues = new ArrayList<>(validValues.size());
-            for (final AllowableValue value : validValues) {
+            for (final AllowableValue<T> value : validValues) {
                 this.validValues.add(value.getValue());
             }
         }
@@ -274,7 +305,8 @@ public class PropertyDescriptor implements Comparable<PropertyDescriptor> {
             final ValidationResult.Builder builder = new ValidationResult.Builder();
             builder.input(input);
             builder.subject(subject);
-            if (validValues.contains(input)) {
+            final T parsedValue = parser.parse(input);
+            if (validValues.contains(parsedValue)) {
                 builder.valid(true);
                 builder.explanation(POSITIVE_EXPLANATION);
             } else {

@@ -1,9 +1,6 @@
 package cn.sliew.scaleph.plugin.framework.core;
 
-import cn.sliew.scaleph.plugin.framework.property.Property;
-import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.framework.property.ValidationResult;
-import cn.sliew.scaleph.plugin.framework.property.Validator;
+import cn.sliew.scaleph.plugin.framework.property.*;
 import io.micrometer.core.instrument.MeterRegistry;
 
 import java.util.ArrayList;
@@ -49,12 +46,10 @@ public abstract class AbstractPlugin implements Plugin {
     public Collection<ValidationResult> validate(Properties properties) {
         final Collection<ValidationResult> results = new ArrayList<>();
 
+        PropertyContext propertyContext = PropertyContext.fromProperties(properties);
+
         for (final PropertyDescriptor descriptor : getSupportedProperties()) {
-            String value = properties.getProperty(descriptor.getName());
-            if (value == null) {
-                value = descriptor.getDefaultValue();
-            }
-            
+            final String value = propertyContext.getValue(descriptor);
             if (value == null && descriptor.getProperties().contains(Property.Required)) {
                 ValidationResult.Builder builder = new ValidationResult.Builder()
                         .valid(false)
