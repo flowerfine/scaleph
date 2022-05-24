@@ -5,6 +5,7 @@ import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
+import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonOptions;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
@@ -30,6 +31,9 @@ public class JdbcSource extends AbstractPlugin implements SeatunnelNativeFlinkCo
         props.add(PARTITION_COLUMN);
         props.add(PARTITION_UPPER_BOUND);
         props.add(PARTITION_LOWER_BOUND);
+
+        props.add(CommonOptions.RESULT_TABLE_NAME);
+        props.add(CommonOptions.FIELD_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
