@@ -9,6 +9,13 @@ import java.util.Properties;
 
 public abstract class AbstractPlugin implements Plugin {
 
+    protected PropertyContext propertyContext;
+
+    @Override
+    public void initialize(Properties properties) {
+        this.propertyContext = PropertyContext.fromProperties(properties);
+    }
+
     @Override
     public PropertyDescriptor getPropertyDescriptor(String name) {
         final PropertyDescriptor specDescriptor = new PropertyDescriptor.Builder().name(name).build();

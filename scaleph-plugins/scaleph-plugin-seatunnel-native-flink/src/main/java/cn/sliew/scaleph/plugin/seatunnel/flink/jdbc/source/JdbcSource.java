@@ -1,8 +1,7 @@
-package cn.sliew.scaleph.plugin.seatunnel.flink.jdbc;
+package cn.sliew.scaleph.plugin.seatunnel.flink.jdbc.source;
 
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
-import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonOptions;
@@ -11,9 +10,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.jdbc.JdbcProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.jdbc.source.JdbcSourceProperties.*;
 
 public class JdbcSource extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
 
@@ -35,13 +34,6 @@ public class JdbcSource extends AbstractPlugin implements SeatunnelNativeFlinkCo
         props.add(CommonOptions.RESULT_TABLE_NAME);
         props.add(CommonOptions.FIELD_NAME);
         supportedProperties = Collections.unmodifiableList(props);
-    }
-
-    private PropertyContext propertyContext;
-
-    @Override
-    public void initialize(Properties properties) {
-        this.propertyContext = PropertyContext.fromProperties(properties);
     }
 
     @Override
