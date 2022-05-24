@@ -54,7 +54,7 @@ please refer [wiki](https://github.com/flowerfine/scaleph/wiki)
 ### features
 
 1. data ingress and egress.
-   1. Flink way data integration . Scaleph reduces cost of integration through `seatunnel`, `flink-cdc-connectors` and other flink connectors.
+   1. Flink way data integration . Scaleph reduces complexity of integration through `seatunnel`, `flink-cdc-connectors` and other flink connectors.
    2. Friendly web-ui to newbies . 
 2. data develop
    1. udf + sql.
