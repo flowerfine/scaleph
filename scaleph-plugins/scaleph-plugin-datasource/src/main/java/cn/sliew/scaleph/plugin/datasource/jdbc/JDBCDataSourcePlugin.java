@@ -9,6 +9,7 @@ import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.ValidationResult;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import io.micrometer.core.instrument.MeterRegistry;
 
 import javax.sql.DataSource;
 import java.io.InputStream;
@@ -33,6 +34,8 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePl
         supportedProperties = Collections.unmodifiableList(props);
     }
 
+    private MeterRegistry meterRegistry;
+
     private final PluginInfo pluginInfo;
     private volatile Properties properties;
     private volatile Properties additionalProperties;
@@ -51,21 +54,6 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePl
     }
 
     @Override
-    public DataSource getDatasource() {
-        return dataSource;
-    }
-
-    @Override
-    public PluginInfo getPluginInfo() {
-        return pluginInfo;
-    }
-
-    @Override
-    public List<PropertyDescriptor> getSupportedProperties() {
-        return supportedProperties;
-    }
-
-    @Override
     public void initialize(Properties properties) {
         final Collection<ValidationResult> validate = validate(properties);
         final Optional<ValidationResult> validationResult = validate.stream().filter(result -> result.isValid() == false).findAny();
@@ -73,11 +61,6 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePl
             throw new IllegalArgumentException(JacksonUtil.toJsonString(validationResult.get()));
         }
         this.properties = properties;
-    }
-
-    @Override
-    public void setAdditionalProperties(Properties properties) {
-        this.additionalProperties = properties;
     }
 
     @Override
@@ -94,5 +77,30 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePl
     @Override
     public void shutdown() {
         dataSource.close();
+    }
+
+    @Override
+    public DataSource getDatasource() {
+        return dataSource;
+    }
+
+    @Override
+    public PluginInfo getPluginInfo() {
+        return pluginInfo;
+    }
+
+    @Override
+    public List<PropertyDescriptor> getSupportedProperties() {
+        return supportedProperties;
+    }
+
+    @Override
+    public void setAdditionalProperties(Properties properties) {
+        this.additionalProperties = properties;
+    }
+
+    @Override
+    public void setMeterRegistry(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
     }
 }

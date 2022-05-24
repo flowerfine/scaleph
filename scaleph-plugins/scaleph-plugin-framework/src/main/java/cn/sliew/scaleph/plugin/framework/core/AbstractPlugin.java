@@ -1,7 +1,6 @@
 package cn.sliew.scaleph.plugin.framework.core;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
-import io.micrometer.core.instrument.MeterRegistry;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,8 +8,6 @@ import java.util.List;
 import java.util.Properties;
 
 public abstract class AbstractPlugin implements Plugin {
-
-    protected MeterRegistry meterRegistry;
 
     @Override
     public PropertyDescriptor getPropertyDescriptor(String name) {
@@ -69,10 +66,5 @@ public abstract class AbstractPlugin implements Plugin {
         }
 
         return results;
-    }
-
-    @Override
-    public void setMeterRegistry(MeterRegistry meterRegistry) {
-        this.meterRegistry = meterRegistry;
     }
 }

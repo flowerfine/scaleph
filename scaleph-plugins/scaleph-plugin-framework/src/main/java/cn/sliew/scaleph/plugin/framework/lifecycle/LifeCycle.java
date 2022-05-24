@@ -6,7 +6,11 @@ public interface LifeCycle {
 
     void initialize(Properties properties);
 
-    void start();
+    default void start() {
 
-    void shutdown();
+    }
+
+    default void shutdown() {
+
+    }
 }
