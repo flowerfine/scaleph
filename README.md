@@ -4,9 +4,11 @@
 [![Total Lines](https://tokei.rs/b1/github/flowerfine/scaleph?category=lines)](https://github.com/flowerfine/scaleph)
 [![Last commit](https://img.shields.io/github/last-commit/flowerfine/scaleph.svg)](https://github.com/flowerfine/scaleph)
 
-The Scaleph project features data integration, develop,  job schedule and orchestration and trys to provide one-stop data platform for developers and enterprises. Scaleph hopes to help peoples to aggregate data, analyze data, free data internal worth and make profit from them.
+The Scaleph project features data integration, develop,  job schedule and orchestration and aims to run on cloud environment. 
 
-Scaleph is drived by personal interest and evolves actively through faithful developer, flowerfine is open and appreciates any helps.
+It trys to provide one-stop data platform for simplifying development of data application. Scaleph hopes to help peoples to aggregate and analyze data, free data internal worth and make profit from them.
+
+Scaleph is driven by personal interest and evolves actively through faithful developer, flowerfine is open and appreciates any helps.
 
 ## Features
 
@@ -52,8 +54,8 @@ please refer [wiki](https://github.com/flowerfine/scaleph/wiki)
 ### features
 
 1. data ingress and egress.
-   1. data integration in flink way. Scaleph features `seatunnel`, `flink-cdc-connectors` and other flink connectors.
-   2. friendly to newbies web-ui. 
+   1. Flink way data integration . Scaleph standardize and reduce cost of integration through `seatunnel`, `flink-cdc-connectors` and other flink connectors.
+   2. Friendly web-ui to newbies . 
 2. data develop
    1. udf + sql.
    1. support multi-layer data warehouse development.
