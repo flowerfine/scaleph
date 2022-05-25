@@ -25,6 +25,7 @@ import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.*;
 import cn.sliew.scaleph.common.exception.CustomException;
+import cn.sliew.scaleph.common.exception.Rethrower;
 import cn.sliew.scaleph.core.di.service.*;
 import cn.sliew.scaleph.core.di.service.dto.*;
 import cn.sliew.scaleph.core.di.service.param.DiJobParam;
@@ -68,8 +69,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
 import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -561,16 +560,6 @@ public class JobController {
     @ApiOperation(value = "运行任务", notes = "运行任务，提交至集群")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> runJob(@RequestBody DiJobRunVO jobRunParam) throws Exception {
-        SecurityManager securityManager = System.getSecurityManager();
-        System.setSecurityManager(new ScalephSecurityManager());
-        try {
-            return AccessController.doPrivileged((PrivilegedExceptionAction<ResponseEntity<ResponseVO>>)() -> submitSeatunnelJob(jobRunParam));
-        } finally {
-            System.setSecurityManager(securityManager);
-        }
-    }
-
-    private ResponseEntity<ResponseVO> submitSeatunnelJob(DiJobRunVO jobRunParam) throws Exception {
         //config cluster and resource
         this.diJobService.update(jobRunParam.toDto());
         this.diJobResourceFileService.bindResource(jobRunParam.getJobId(), jobRunParam.getResources());
@@ -601,7 +590,18 @@ public class JobController {
             Configuration configuration = buildConfiguration(seatunnelPath, seatunnelJarPath, job, clusterConfig.getConfig(), baseDir);
             //build job
             PackageJarJob jarJob = buildJob(seatunnelJarPath.toUri().toString(), tmpJobConfFile, job.getJobAttrList());
-            JobID jobInstanceID = client.submit(DeploymentTarget.STANDALONE_SESSION, configuration, jarJob);
+            //prevent System.exit() invocation when seatunnel job config check result is false
+            SecurityManager securityManager = System.getSecurityManager();
+            System.setSecurityManager(new ScalephSecurityManager());
+            JobID jobInstanceID = null;
+            try {
+                jobInstanceID = client.submit(DeploymentTarget.STANDALONE_SESSION, configuration, jarJob);
+
+            } catch (Exception e) {
+                Rethrower.throwAs(e);
+            } finally {
+                System.setSecurityManager(securityManager);
+            }
             //write log
             DiJobLogDTO jobLogInfo = new DiJobLogDTO();
             jobLogInfo.setProjectId(job.getProjectId());
