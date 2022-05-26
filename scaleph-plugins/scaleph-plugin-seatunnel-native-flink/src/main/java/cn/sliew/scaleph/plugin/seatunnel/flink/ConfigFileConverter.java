@@ -61,21 +61,21 @@ public class ConfigFileConverter implements ConfConverter {
     private void appendSourceOptions(ObjectNode sourceConf, Properties properties) {
         for (SourceConverter converter : sources) {
             ObjectNode objectNode = converter.create(properties);
-            sourceConf.setAll(objectNode);
+            sourceConf.set(converter.getPluginName(), objectNode);
         }
     }
 
     private void appendTransformOptions(ObjectNode transformConf, Properties properties) {
         for (TransformConverter converter : transforms) {
             ObjectNode objectNode = converter.create(properties);
-            transformConf.setAll(objectNode);
+            transformConf.set(converter.getPluginName(), objectNode);
         }
     }
 
     private void appendSinkOptions(ObjectNode sinkConf, Properties properties) {
         for (SinkConverter converter : sinks) {
             ObjectNode objectNode = converter.create(properties);
-            sinkConf.setAll(objectNode);
+            sinkConf.set(converter.getPluginName(), objectNode);
         }
     }
 }
