@@ -184,8 +184,12 @@ public class PropertyDescriptor<T> implements Comparable<PropertyDescriptor> {
         }
 
         private boolean isValueAllowed(final T value) {
-            if (allowableValues == null || value == null) {
+            if (value == null) {
                 return false;
+            }
+
+            if (allowableValues == null) {
+                return true;
             }
 
             for (final AllowableValue allowableValue : allowableValues) {

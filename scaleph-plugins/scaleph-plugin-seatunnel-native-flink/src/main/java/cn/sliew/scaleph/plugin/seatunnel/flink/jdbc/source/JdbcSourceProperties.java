@@ -11,6 +11,7 @@ public enum JdbcSourceProperties {
     public static final PropertyDescriptor<String> QUERY = new PropertyDescriptor.Builder<String>()
             .name("query")
             .description("query statement")
+            .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
@@ -27,6 +28,7 @@ public enum JdbcSourceProperties {
     public static final PropertyDescriptor<String> PARTITION_COLUMN = new PropertyDescriptor.Builder<String>()
             .name("partition_column")
             .description("The column name for parallelism's partition, only support numeric type.")
+            .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

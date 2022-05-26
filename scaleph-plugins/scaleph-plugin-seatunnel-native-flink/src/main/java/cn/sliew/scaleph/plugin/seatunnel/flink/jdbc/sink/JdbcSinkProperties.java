@@ -11,6 +11,7 @@ public enum JdbcSinkProperties {
     public static final PropertyDescriptor<String> QUERY = new PropertyDescriptor.Builder<String>()
             .name("query")
             .description("upsert statement")
+            .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();

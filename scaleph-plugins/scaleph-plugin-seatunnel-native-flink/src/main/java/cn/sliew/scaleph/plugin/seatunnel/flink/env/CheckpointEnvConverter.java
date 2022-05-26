@@ -8,6 +8,9 @@ import cn.sliew.scaleph.plugin.framework.property.Validators;
 import cn.sliew.scaleph.plugin.seatunnel.flink.EnvConverter;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 public class CheckpointEnvConverter implements EnvConverter {
@@ -68,15 +71,30 @@ public class CheckpointEnvConverter implements EnvConverter {
             .addValidator(Validators.INTEGER_VALIDATOR)
             .validateAndBuild();
 
+    private static final List<PropertyDescriptor> supportedProperties;
+
+    static {
+        final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(CHECKPOINT_INTERVAL);
+        props.add(CHECKPOINT_MODE);
+        props.add(CHECKPOINT_DATA_URI);
+        props.add(CHECKPOINT_TIMEOUT);
+        props.add(MAX_CONCURRENT_CHECKPOINTS);
+        props.add(CHECKPOINT_CLEANUP_MODE);
+        props.add(MIN_PAUSE_BETWEEN_CHECKPOINTS);
+        props.add(FAIL_ON_CHECKPOINTING_ERRORS);
+        supportedProperties = Collections.unmodifiableList(props);
+    }
+
     @Override
     public ObjectNode create(Properties properties) {
         ObjectNode objectNode = JacksonUtil.createObjectNode();
         PropertyContext propertyContext = PropertyContext.fromProperties(properties);
-        if (propertyContext.contains(CHECKPOINT_INTERVAL)) {
-            objectNode.put(CHECKPOINT_INTERVAL.getName(), propertyContext.get(CHECKPOINT_INTERVAL));
+        for (PropertyDescriptor descriptor : supportedProperties) {
+            if (propertyContext.contains(descriptor)) {
+                objectNode.put(descriptor.getName(), propertyContext.getValue(descriptor));
+            }
         }
-
-
         return objectNode;
     }
 }

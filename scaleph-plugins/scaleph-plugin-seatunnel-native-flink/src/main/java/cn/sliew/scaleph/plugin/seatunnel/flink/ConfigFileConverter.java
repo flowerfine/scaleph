@@ -14,6 +14,22 @@ public class ConfigFileConverter implements ConfConverter {
     private List<TransformConverter> transforms = new ArrayList<>();
     private List<SinkConverter> sinks = new ArrayList<>();
 
+    public void addEnvConverter(EnvConverter converter) {
+        this.envs.add(converter);
+    }
+
+    public void addSourceConverter(SourceConverter converter) {
+        this.sources.add(converter);
+    }
+
+    public void addTransformConverter(TransformConverter converter) {
+        this.transforms.add(converter);
+    }
+
+    public void addSinkConverter(SinkConverter converter) {
+        this.sinks.add(converter);
+    }
+
     @Override
     public ObjectNode create(Properties properties) {
         ObjectNode conf = JacksonUtil.createObjectNode();

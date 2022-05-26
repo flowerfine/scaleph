@@ -1,20 +1,21 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.jdbc.source;
 
-import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
-import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
+import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SourceConverter;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonOptions;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.jdbc.JdbcProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.jdbc.source.JdbcSourceProperties.*;
 
-public class JdbcSource extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
+public class JdbcSourceConverter implements SourceConverter {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
@@ -37,27 +38,19 @@ public class JdbcSource extends AbstractPlugin implements SeatunnelNativeFlinkCo
     }
 
     @Override
-    public ObjectNode appendOptions(ObjectNode conf) {
-        for (PropertyDescriptor descriptor : getSupportedProperties()) {
-            final String name = descriptor.getName();
-            final String value = propertyContext.getString(descriptor);
-            conf.put(name, value);
+    public String getPluginName() {
+        return "JdbcSource";
+    }
+
+    @Override
+    public ObjectNode create(Properties properties) {
+        ObjectNode objectNode = JacksonUtil.createObjectNode();
+        PropertyContext propertyContext = PropertyContext.fromProperties(properties);
+        for (PropertyDescriptor descriptor : supportedProperties) {
+            if (propertyContext.contains(descriptor)) {
+                objectNode.put(descriptor.getName(), propertyContext.getValue(descriptor));
+            }
         }
-        return conf;
-    }
-
-    @Override
-    public List<PropertyDescriptor> additionalResources() {
-        return null;
-    }
-
-    @Override
-    public PluginInfo getPluginInfo() {
-        return null;
-    }
-
-    @Override
-    public List<PropertyDescriptor> getSupportedProperties() {
-        return supportedProperties;
+        return objectNode;
     }
 }
