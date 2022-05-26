@@ -26,7 +26,7 @@ public class CheckpointEnvConverter implements EnvConverter {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> FAIL_ON_CHECKPOINTING_ERRORS = new PropertyDescriptor.Builder<>()
+    public static final PropertyDescriptor<String> CHECKPOINT_DATA_URI = new PropertyDescriptor.Builder<>()
             .name("execution.checkpoint.data-uri")
             .description("execution.checkpoint.data-uri")
             .parser(Parsers.STRING_PARSER)
