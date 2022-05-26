@@ -3,7 +3,7 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.jdbc.source;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SourceConverter;
+import cn.sliew.scaleph.plugin.seatunnel.flink.converter.SourceConverter;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonOptions;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

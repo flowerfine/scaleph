@@ -1,5 +1,6 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink;
 
+import cn.sliew.scaleph.plugin.seatunnel.flink.converter.ConfigFileConverter;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CheckpointEnvConverter;
 import cn.sliew.scaleph.plugin.seatunnel.flink.jdbc.sink.JdbcSinkConverter;
 import cn.sliew.scaleph.plugin.seatunnel.flink.jdbc.source.JdbcSourceConverter;

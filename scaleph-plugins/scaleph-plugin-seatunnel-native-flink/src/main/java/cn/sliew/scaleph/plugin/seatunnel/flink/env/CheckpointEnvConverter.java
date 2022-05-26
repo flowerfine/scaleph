@@ -5,7 +5,7 @@ import cn.sliew.scaleph.plugin.framework.property.Parsers;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.Validators;
-import cn.sliew.scaleph.plugin.seatunnel.flink.EnvConverter;
+import cn.sliew.scaleph.plugin.seatunnel.flink.converter.EnvConverter;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;

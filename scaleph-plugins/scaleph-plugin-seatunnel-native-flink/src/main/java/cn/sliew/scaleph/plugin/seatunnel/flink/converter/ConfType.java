@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.plugin.seatunnel.flink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.converter;
 
 public enum ConfType {
     
