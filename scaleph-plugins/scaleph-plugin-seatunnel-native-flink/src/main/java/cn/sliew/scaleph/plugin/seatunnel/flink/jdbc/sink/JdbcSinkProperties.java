@@ -13,7 +13,7 @@ public enum JdbcSinkProperties {
             .description("upsert statement")
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> BATCH_SIZE = new PropertyDescriptor.Builder<String>()
             .name("batch_size")
@@ -22,5 +22,5 @@ public enum JdbcSinkProperties {
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .properties(Property.Required)
-            .build();
+            .validateAndBuild();
 }

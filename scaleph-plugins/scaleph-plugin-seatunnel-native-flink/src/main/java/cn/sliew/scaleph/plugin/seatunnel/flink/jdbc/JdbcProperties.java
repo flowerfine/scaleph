@@ -12,28 +12,28 @@ public enum JdbcProperties {
             .description("jdbc url")
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> DRIVER = new PropertyDescriptor.Builder<String>()
             .name("driver")
             .description("jdbc class name")
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder<String>()
             .name("username")
             .description("jdbc username")
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> PASSWORD = new PropertyDescriptor.Builder<String>()
             .name("password")
             .description("jdbc password")
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> PARALLELISM = new PropertyDescriptor.Builder<String>()
             .name("parallelism")
@@ -42,5 +42,5 @@ public enum JdbcProperties {
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .properties(Property.Required)
-            .build();
+            .validateAndBuild();
 }

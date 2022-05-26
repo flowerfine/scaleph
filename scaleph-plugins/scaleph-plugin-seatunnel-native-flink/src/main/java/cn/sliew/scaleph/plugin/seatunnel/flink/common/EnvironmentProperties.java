@@ -1,6 +1,5 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.common;
 
-import cn.sliew.scaleph.plugin.framework.property.AllowableValue;
 import cn.sliew.scaleph.plugin.framework.property.Parsers;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.Validators;
@@ -13,14 +12,14 @@ public enum EnvironmentProperties {
             .description("default parallelism")
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> MAX_PARALLELISM = new PropertyDescriptor.Builder<String>()
             .name("execution.max-parallelism")
             .description("max parallelism")
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> TIME_CHARACTERISTIC = new PropertyDescriptor.Builder<String>()
             .name("execution.time-characteristic")
@@ -28,14 +27,14 @@ public enum EnvironmentProperties {
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .allowableValues("event-time", "ingestion-time", "processing-time")
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<Long> BUFFER_TIMEOUT_MILLIS =new PropertyDescriptor.Builder<String>()
             .name("execution.buffer.timeout")
             .description("buffer buffer")
             .parser(Parsers.LONG_PARSER)
             .addValidator(Validators.LONG_VALIDATOR)
-            .build();
+            .validateAndBuild();
 
     public static final String CHECKPOINT_INTERVAL = "execution.checkpoint.interval";
 

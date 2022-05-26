@@ -18,7 +18,7 @@ public abstract class AbstractPlugin implements Plugin {
 
     @Override
     public PropertyDescriptor getPropertyDescriptor(String name) {
-        final PropertyDescriptor specDescriptor = new PropertyDescriptor.Builder().name(name).build();
+        final PropertyDescriptor specDescriptor = new PropertyDescriptor.Builder().name(name).validateAndBuild();
         return getPropertyDescriptor(specDescriptor);
     }
 
@@ -29,7 +29,7 @@ public abstract class AbstractPlugin implements Plugin {
         }
 
         if (descriptor == null) {
-            descriptor = new PropertyDescriptor.Builder().fromPropertyDescriptor(specDescriptor).addValidator(Validator.INVALID).build();
+            descriptor = new PropertyDescriptor.Builder().fromPropertyDescriptor(specDescriptor).addValidator(Validator.INVALID).validateAndBuild();
         }
         return descriptor;
     }

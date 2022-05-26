@@ -13,7 +13,7 @@ public enum JdbcSourceProperties {
             .description("query statement")
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> FETCH_SIZE = new PropertyDescriptor.Builder<String>()
             .name("fetch_size")
@@ -22,25 +22,25 @@ public enum JdbcSourceProperties {
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .properties(Property.Required)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> PARTITION_COLUMN = new PropertyDescriptor.Builder<String>()
             .name("partition_column")
             .description("The column name for parallelism's partition, only support numeric type.")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<Long> PARTITION_UPPER_BOUND = new PropertyDescriptor.Builder<String>()
             .name("partition_upper_bound")
             .description("The partition_column max value for scan, if not set SeaTunnel will query database get max value.")
             .parser(Parsers.LONG_PARSER)
             .addValidator(Validators.LONG_VALIDATOR)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<Long> PARTITION_LOWER_BOUND = new PropertyDescriptor.Builder<String>()
             .name("partition_lower_bound")
             .description("The partition_column min value for scan, if not set SeaTunnel will query database get min value.")
             .parser(Parsers.LONG_PARSER)
             .addValidator(Validators.LONG_VALIDATOR)
-            .build();
+            .validateAndBuild();
 }

@@ -11,5 +11,5 @@ public enum JobNameProperties {
             .description("The pipeline name")
             .defaultValue(descriptor -> "seatunnel")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .build();
+            .validateAndBuild();
 }

@@ -13,7 +13,7 @@ public enum JdbcPoolProperties {
             .defaultValue(null)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .properties(Property.Required)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> DRIVER_CLASS_NAME = new PropertyDescriptor.Builder()
             .name("driverClassName")
@@ -21,7 +21,7 @@ public enum JdbcPoolProperties {
             .defaultValue(null)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .properties(Property.Required)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder()
             .name("username")
@@ -29,7 +29,7 @@ public enum JdbcPoolProperties {
             .defaultValue(null)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .properties(Property.Required)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> PASSWORD = new PropertyDescriptor.Builder()
             .name("password")
@@ -37,7 +37,7 @@ public enum JdbcPoolProperties {
             .defaultValue(null)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .properties(Property.Required, Property.Sensitive)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> MININUM_IDLE = new PropertyDescriptor.Builder()
             .name("minimumIdle")
@@ -47,7 +47,7 @@ public enum JdbcPoolProperties {
             .defaultValue(descriptor -> 10)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .properties(Property.Required)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> MAXIMUM_POOL_SIZE = new PropertyDescriptor.Builder()
             .name("maximumPoolSize")
@@ -57,7 +57,7 @@ public enum JdbcPoolProperties {
             .defaultValue(descriptor -> 10)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .properties(Property.Required)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> IDLE_TIMEOUT = new PropertyDescriptor.Builder()
             .name("idleTimeout")
@@ -65,7 +65,7 @@ public enum JdbcPoolProperties {
             .defaultValue(descriptor -> 600000)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .properties(Property.Required)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> VALIDATION_QUERY = new PropertyDescriptor.Builder()
             .name("connectionInitSql")
@@ -75,5 +75,5 @@ public enum JdbcPoolProperties {
             .defaultValue(descriptor -> "SELECT 1")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .properties(Property.Required)
-            .build();
+            .validateAndBuild();
 }

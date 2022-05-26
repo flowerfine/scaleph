@@ -1,7 +1,10 @@
 package cn.sliew.scaleph.plugin.framework.property;
 
-@FunctionalInterface
-public interface Parser<T> {
+import java.util.function.Function;
 
-    T parse(String value);
+@FunctionalInterface
+public interface Parser<T> extends Function<String, T> {
+
+    @Override
+    T apply(String s);
 }
