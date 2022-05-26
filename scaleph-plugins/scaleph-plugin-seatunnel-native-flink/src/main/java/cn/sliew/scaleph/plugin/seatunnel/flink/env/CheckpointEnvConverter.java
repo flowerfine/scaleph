@@ -28,7 +28,7 @@ public class CheckpointEnvConverter implements EnvConverter {
 
     public static final PropertyDescriptor<String> CHECKPOINT_DATA_URI = new PropertyDescriptor.Builder<>()
             .name("execution.checkpoint.data-uri")
-            .description("execution.checkpoint.data-uri")
+            .description("The directory to write checkpoints to")
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
@@ -49,7 +49,7 @@ public class CheckpointEnvConverter implements EnvConverter {
 
     public static final PropertyDescriptor<String> CHECKPOINT_CLEANUP_MODE = new PropertyDescriptor.Builder<>()
             .name("execution.checkpoint.cleanup-mode")
-            .description("execution.checkpoint.cleanup-mode")
+            .description("The mode defines how an externalized checkpoint should be cleaned up on job cancellation")
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
@@ -61,11 +61,11 @@ public class CheckpointEnvConverter implements EnvConverter {
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> FAIL_ON_CHECKPOINTING_ERRORS = new PropertyDescriptor.Builder<>()
+    public static final PropertyDescriptor<Integer> FAIL_ON_CHECKPOINTING_ERRORS = new PropertyDescriptor.Builder<>()
             .name("execution.checkpoint.fail-on-error")
-            .description("execution.checkpoint.fail-on-error")
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .description("The tolerable checkpoint consecutive failure number. If set to 0, that means we do not tolerance any checkpoint failure.")
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.INTEGER_VALIDATOR)
             .validateAndBuild();
 
     @Override
