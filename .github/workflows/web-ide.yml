@@ -1,0 +1,14 @@
+name: web-ide
+
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+
+jobs:
+  web-ide:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Web-IDE Pull Request Check
+        uses: redhat-actions/try-in-web-ide@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
