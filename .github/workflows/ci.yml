@@ -7,6 +7,8 @@ on:
     paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
   push:
     paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
+  schedule:
+    - cron: '0 3 * * *' # automatic test while every day on 03:00 am
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
