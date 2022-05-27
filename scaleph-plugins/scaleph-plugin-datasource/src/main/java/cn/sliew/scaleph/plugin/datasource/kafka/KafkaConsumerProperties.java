@@ -12,5 +12,5 @@ public enum KafkaConsumerProperties {
             .description("A unique string that identifies the consumer group this consumer belongs to. This property is required if the consumer uses either the group management functionality by using <code>subscribe(topic)</code> or the Kafka-based offset management strategy.")
             .defaultValue(null)
             .properties(Property.Required)
-            .build();
+            .validateAndBuild();
 }

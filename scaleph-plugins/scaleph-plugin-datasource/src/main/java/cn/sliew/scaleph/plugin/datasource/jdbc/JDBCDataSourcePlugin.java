@@ -2,13 +2,14 @@ package cn.sliew.scaleph.plugin.datasource.jdbc;
 
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.plugin.datasource.DataSourcePlugin;
+import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.ValidationResult;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import io.micrometer.core.instrument.MeterRegistry;
 
 import javax.sql.DataSource;
 import java.io.InputStream;
@@ -16,7 +17,7 @@ import java.util.*;
 
 import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 
-public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePlugin<DataSource> {
+public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePlugin<DataSource> {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
@@ -32,6 +33,8 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePl
         props.add(VALIDATION_QUERY);
         supportedProperties = Collections.unmodifiableList(props);
     }
+
+    private MeterRegistry meterRegistry;
 
     private final PluginInfo pluginInfo;
     private volatile Properties properties;
@@ -51,21 +54,6 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePl
     }
 
     @Override
-    public DataSource getDataSource() {
-        return dataSource;
-    }
-
-    @Override
-    public PluginInfo getPluginInfo() {
-        return pluginInfo;
-    }
-
-    @Override
-    public List<PropertyDescriptor> getSupportedProperties() {
-        return supportedProperties;
-    }
-
-    @Override
     public void initialize(Properties properties) {
         final Collection<ValidationResult> validate = validate(properties);
         final Optional<ValidationResult> validationResult = validate.stream().filter(result -> result.isValid() == false).findAny();
@@ -73,11 +61,6 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePl
             throw new IllegalArgumentException(JacksonUtil.toJsonString(validationResult.get()));
         }
         this.properties = properties;
-    }
-
-    @Override
-    public void setAdditionalProperties(Properties properties) {
-        this.additionalProperties = properties;
     }
 
     @Override
@@ -94,5 +77,30 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DataSourcePl
     @Override
     public void shutdown() {
         dataSource.close();
+    }
+
+    @Override
+    public DataSource getDatasource() {
+        return dataSource;
+    }
+
+    @Override
+    public PluginInfo getPluginInfo() {
+        return pluginInfo;
+    }
+
+    @Override
+    public List<PropertyDescriptor> getSupportedProperties() {
+        return supportedProperties;
+    }
+
+    @Override
+    public void setAdditionalProperties(Properties properties) {
+        this.additionalProperties = properties;
+    }
+
+    @Override
+    public void setMeterRegistry(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
     }
 }

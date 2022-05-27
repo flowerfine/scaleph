@@ -2,7 +2,7 @@ package cn.sliew.scaleph.plugin.framework.property;
 
 import java.util.Objects;
 
-public class AllowableValue<T> implements DescribedValue {
+public class AllowableValue<T> implements DescribedValue<T> {
 
     private final T value;
     private final String name;

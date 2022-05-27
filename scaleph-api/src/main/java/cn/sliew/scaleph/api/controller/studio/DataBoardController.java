@@ -44,9 +44,8 @@ public class DataBoardController {
     @GetMapping(path = "/project")
     @ApiOperation(value = "查询项目数量", notes = "查询项目数量")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
-    public ResponseEntity<Integer> countProject() {
-        int result = 0;
-        result = this.diProjectService.totalCnt();
+    public ResponseEntity<Long> countProject() {
+        Long result = this.diProjectService.totalCnt();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -54,9 +53,8 @@ public class DataBoardController {
     @GetMapping(path = "/cluster")
     @ApiOperation(value = "查询集群数量", notes = "查询集群数量")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
-    public ResponseEntity<Integer> countCluster() {
-        int result = 0;
-        result = this.diClusterConfigService.totalCnt();
+    public ResponseEntity<Long> countCluster() {
+        Long result = this.diClusterConfigService.totalCnt();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -64,9 +62,8 @@ public class DataBoardController {
     @GetMapping(path = "/job")
     @ApiOperation(value = "查询作业数量", notes = "查询作业数量")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
-    public ResponseEntity<Integer> countJob(@RequestParam(value = "jobType") String jobType) {
-        int result = 0;
-        result = this.diJobService.totalCnt(jobType);
+    public ResponseEntity<Long> countJob(@RequestParam(value = "jobType") String jobType) {
+        Long result = this.diJobService.totalCnt(jobType);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

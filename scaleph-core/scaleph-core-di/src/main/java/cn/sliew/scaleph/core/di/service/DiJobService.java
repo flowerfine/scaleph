@@ -117,7 +117,7 @@ public interface DiJobService {
      */
     boolean hasRunningJob(Collection<Long> clusterIds);
 
-    int totalCnt(String jobType);
+    Long totalCnt(String jobType);
 
     int clone(Long sourceJobId, Long targetJobId);
 }

@@ -84,13 +84,13 @@ public class MessageController {
     @GetMapping(path = "/count")
     @AnonymousAccess
     @ApiOperation(value = "查询用户的未读消息数量", notes = "用户登录后查询自己的未读消息数量")
-    public ResponseEntity<Integer> countUnReadMessage() {
+    public ResponseEntity<Long> countUnReadMessage() {
         String userName = SecurityUtil.getCurrentUserName();
         if (!Strings.isNullOrEmpty(userName)) {
-            int result = this.messageService.countUnReadMsg(userName);
+            Long result = this.messageService.countUnReadMsg(userName);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(0, HttpStatus.OK);
+            return new ResponseEntity<>(0L, HttpStatus.OK);
         }
     }
 

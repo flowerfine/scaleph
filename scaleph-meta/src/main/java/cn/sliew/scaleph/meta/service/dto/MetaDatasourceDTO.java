@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Map;
 
 /**
  * 元数据-数据源信息
@@ -26,13 +27,13 @@ public class MetaDatasourceDTO extends BaseDTO {
     @ApiModelProperty(value = "版本")
     private String version;
 
-    @ApiModelProperty(value = "备注描述")
-    private String remark;
-
     @ApiModelProperty(value = "数据源支持的属性")
-    private String props;
+    private Map<String, Object> props;
 
     @ApiModelProperty(value = "数据源支持的额外属性。")
-    private String additionalProps;
+    private Map<String, Object> additionalProps;
+
+    @ApiModelProperty(value = "备注描述")
+    private String remark;
 
 }
