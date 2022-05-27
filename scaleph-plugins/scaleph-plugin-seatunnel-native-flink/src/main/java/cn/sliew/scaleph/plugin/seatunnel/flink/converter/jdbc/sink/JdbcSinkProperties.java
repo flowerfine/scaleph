@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.plugin.seatunnel.flink.jdbc.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.sink;
 
 import cn.sliew.scaleph.plugin.framework.property.Parsers;
 import cn.sliew.scaleph.plugin.framework.property.Property;

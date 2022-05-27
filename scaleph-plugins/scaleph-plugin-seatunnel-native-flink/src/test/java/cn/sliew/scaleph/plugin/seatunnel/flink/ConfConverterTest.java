@@ -1,9 +1,9 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink;
 
 import cn.sliew.scaleph.plugin.seatunnel.flink.converter.ConfigFileConverter;
-import cn.sliew.scaleph.plugin.seatunnel.flink.env.CheckpointEnvConverter;
-import cn.sliew.scaleph.plugin.seatunnel.flink.jdbc.sink.JdbcSinkConverter;
-import cn.sliew.scaleph.plugin.seatunnel.flink.jdbc.source.JdbcSourceConverter;
+import cn.sliew.scaleph.plugin.seatunnel.flink.converter.env.CheckpointEnvConverter;
+import cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.sink.JdbcSinkConverter;
+import cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.source.JdbcSourceConverter;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

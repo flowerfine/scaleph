@@ -1,10 +1,10 @@
-package cn.sliew.scaleph.plugin.seatunnel.flink.jdbc.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.sink;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.converter.SinkConverter;
-import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonOptions;
+import cn.sliew.scaleph.plugin.seatunnel.flink.converter.common.CommonOptions;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
@@ -12,9 +12,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.jdbc.JdbcProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.jdbc.sink.JdbcSinkProperties.BATCH_SIZE;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.jdbc.sink.JdbcSinkProperties.QUERY;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.JdbcProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.sink.JdbcSinkProperties.BATCH_SIZE;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.sink.JdbcSinkProperties.QUERY;
 
 public class JdbcSinkConverter implements SinkConverter {
 
