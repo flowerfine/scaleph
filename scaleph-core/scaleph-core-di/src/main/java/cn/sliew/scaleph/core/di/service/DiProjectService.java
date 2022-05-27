@@ -64,7 +64,7 @@ public interface DiProjectService {
      */
     List<DiProjectDTO> listAll();
 
-    int totalCnt();
+    Long totalCnt();
 
     DiProjectDTO selectOne(Serializable id);
 }

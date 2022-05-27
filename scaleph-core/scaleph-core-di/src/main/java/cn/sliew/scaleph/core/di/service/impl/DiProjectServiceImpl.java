@@ -108,7 +108,7 @@ public class DiProjectServiceImpl implements DiProjectService {
     }
 
     @Override
-    public int totalCnt() {
+    public Long totalCnt() {
         return this.diProjectMapper.selectCount(null);
     }
 

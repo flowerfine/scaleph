@@ -25,5 +25,5 @@ public interface DiClusterConfigService {
 
     DiClusterConfigDTO selectOne(Long id);
 
-    int totalCnt();
+    Long totalCnt();
 }
