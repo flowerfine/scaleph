@@ -81,7 +81,7 @@ public class DiClusterConfigServiceImpl implements DiClusterConfigService {
     }
 
     @Override
-    public int totalCnt() {
+    public Long totalCnt() {
         return this.diClusterConfigMapper.selectCount(null);
     }
 }

@@ -268,7 +268,7 @@ public class PropertyContext implements java.io.Serializable {
         Optional<Object> rawValue = getRawValueFromOption(descriptor);
 
         try {
-            return rawValue.map(value -> descriptor.getParser().parse(toString(value)));
+            return rawValue.map(value -> descriptor.getParser().apply(toString(value)));
         } catch (Exception e) {
             throw new IllegalArgumentException(
                     String.format("Could not parse value '%s' for key '%s'.",
@@ -331,7 +331,7 @@ public class PropertyContext implements java.io.Serializable {
         if (parser == null || defaultValue == null) {
             return null;
         }
-        return parser.parse(defaultValue.apply(descriptor));
+        return parser.apply(defaultValue.apply(descriptor));
     }
 
     private void loggingFallback(PropertyDescriptor fallbackKey, PropertyDescriptor<?> descriptor) {

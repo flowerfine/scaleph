@@ -35,7 +35,7 @@ public interface MessageService {
      * @param receiver 收件人
      * @return 消息数量
      */
-    int countUnReadMsg(String receiver);
+    Long countUnReadMsg(String receiver);
 
     /**
      * 分页查询

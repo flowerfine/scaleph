@@ -25,7 +25,7 @@ public enum KafkaProducerProperties {
             .defaultValue(descriptor -> DELIVERY_REPLICATED.getValue())
             .allowableValues(DELIVERY_BEST_EFFORT, DELIVERY_ONE_NODE, DELIVERY_REPLICATED)
             .properties(Property.Required)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor METADATA_WAIT_TIME = new PropertyDescriptor.Builder()
             .name(ProducerConfig.MAX_BLOCK_MS_CONFIG)
@@ -33,7 +33,7 @@ public enum KafkaProducerProperties {
                     + "entire 'send' call. Corresponds to Kafka's 'max.block.ms' property")
             .defaultValue(descriptor -> "5 sec")
             .properties(Property.Required)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor ACK_WAIT_TIME = new PropertyDescriptor.Builder()
             .name("ack.wait.time")
@@ -41,14 +41,14 @@ public enum KafkaProducerProperties {
                     + "If Kafka does not acknowledge the message within this time period, the FlowFile will be routed to 'failure'.")
             .defaultValue(descriptor -> "5 secs")
             .properties(Property.Required)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor MAX_REQUEST_SIZE = new PropertyDescriptor.Builder()
             .name(ProducerConfig.MAX_REQUEST_SIZE_CONFIG)
             .description("The maximum size of a request in bytes. Corresponds to Kafka's 'max.request.size' property and defaults to 1 MB (1048576).")
             .defaultValue(descriptor -> "1 MB")
             .properties(Property.Required)
-            .build();
+            .validateAndBuild();
 
     public static final PropertyDescriptor COMPRESSION_CODEC = new PropertyDescriptor.Builder()
             .name(ProducerConfig.COMPRESSION_TYPE_CONFIG)
@@ -56,5 +56,5 @@ public enum KafkaProducerProperties {
             .defaultValue(descriptor -> "none")
             .allowableValues("none", "gzip", "snappy", "lz4")
             .properties(Property.Required)
-            .build();
+            .validateAndBuild();
 }

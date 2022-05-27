@@ -6,7 +6,7 @@ import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
 import cn.sliew.scaleph.meta.service.DataSourceMetaService;
-import cn.sliew.scaleph.meta.service.MetaDataSourceService;
+import cn.sliew.scaleph.meta.service.MetaDatasourceService;
 import cn.sliew.scaleph.meta.util.JdbcUtil;
 import cn.sliew.scaleph.meta.service.dto.DataSourceMetaDTO;
 import cn.sliew.scaleph.meta.service.param.DataSourceMetaParam;
@@ -43,7 +43,7 @@ public class DataSourceController {
     @Autowired
     private DataSourceMetaService dataSourceMetaService;
     @Autowired
-    private MetaDataSourceService metaDataSourceService;
+    private MetaDatasourceService metaDatasourceService;
 
     /**
      * fixme 权限
@@ -53,7 +53,7 @@ public class DataSourceController {
     @ApiOperation(value = "查询支持的数据源", notes = "查询支持的数据源")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_SELECT)")
     public ResponseEntity<Set<PluginInfo>> listAvailables() {
-        final Set<PluginInfo> availableDataSources = metaDataSourceService.getAvailableDataSources();
+        final Set<PluginInfo> availableDataSources = metaDatasourceService.getAvailableDataSources();
         return new ResponseEntity<>(availableDataSources, HttpStatus.OK);
     }
 
@@ -65,7 +65,7 @@ public class DataSourceController {
     @ApiOperation(value = "查询数据源支持的属性列表", notes = "查询数据源支持的属性列表")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_SELECT)")
     public ResponseEntity<List<PropertyDescriptor>> listSupportedProperties(@Valid PluginInfo pluginInfo) {
-        final List<PropertyDescriptor> supportedProperties = metaDataSourceService.getSupportedProperties(pluginInfo);
+        final List<PropertyDescriptor> supportedProperties = metaDatasourceService.getSupportedProperties(pluginInfo);
         return new ResponseEntity<>(supportedProperties, HttpStatus.OK);
     }
 

@@ -42,7 +42,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public int countUnReadMsg(String receiver) {
+    public Long countUnReadMsg(String receiver) {
         return this.messageMapper.selectCount(new LambdaQueryWrapper<Message>()
                 .eq(Message::getReceiver, receiver)
                 .eq(Message::getIsRead, BoolEnum.NO.getValue())

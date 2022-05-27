@@ -7,13 +7,12 @@ import org.junit.jupiter.api.Test;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class DataSourcePluginTest {
 
     @Test
     void testJdbcDataSourcePlugin() throws Exception {
-        final PluginSPILoader<DataSourcePlugin> pluginSPILoader = new PluginSPILoader<>(DataSourcePlugin.class, DataSourcePlugin.class.getClassLoader());
+        final PluginSPILoader<DatasourcePlugin> pluginSPILoader = new PluginSPILoader<>(DatasourcePlugin.class, DatasourcePlugin.class.getClassLoader());
         final Set<PluginInfo> plugins = pluginSPILoader.availableServices();
         assertThat(plugins).isNotEmpty();
     }

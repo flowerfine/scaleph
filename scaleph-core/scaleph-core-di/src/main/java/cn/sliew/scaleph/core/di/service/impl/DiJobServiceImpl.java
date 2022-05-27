@@ -228,7 +228,7 @@ public class DiJobServiceImpl implements DiJobService {
     }
 
     @Override
-    public int totalCnt(String jobType) {
+    public Long totalCnt(String jobType) {
         return this.diJobMapper.selectCount(new LambdaQueryWrapper<DiJob>()
                 .eq(StrUtil.isNotEmpty(jobType), DiJob::getJobType, jobType)
         );

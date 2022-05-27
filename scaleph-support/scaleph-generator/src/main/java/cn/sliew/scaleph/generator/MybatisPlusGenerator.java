@@ -1,18 +1,27 @@
 package cn.sliew.scaleph.generator;
 
 import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.generator.AutoGenerator;
-import com.baomidou.mybatisplus.generator.InjectionConfig;
-import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
-import com.baomidou.mybatisplus.generator.config.GlobalConfig;
-import com.baomidou.mybatisplus.generator.config.PackageConfig;
-import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.generator.FastAutoGenerator;
+import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.builder.Controller;
+import com.baomidou.mybatisplus.generator.config.builder.Entity;
+import com.baomidou.mybatisplus.generator.config.builder.Mapper;
+import com.baomidou.mybatisplus.generator.config.builder.Service;
+import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
+import com.baomidou.mybatisplus.generator.config.querys.MySqlQuery;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.baomidou.mybatisplus.generator.fill.Column;
+import com.baomidou.mybatisplus.generator.fill.Property;
+import com.baomidou.mybatisplus.generator.keywords.MySqlKeyWordsHandler;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * https://baomidou.com/pages/981406/#controller-%E7%AD%96%E7%95%A5%E9%85%8D%E7%BD%AE
+ */
 @Slf4j
 public class MybatisPlusGenerator {
 
@@ -20,7 +29,6 @@ public class MybatisPlusGenerator {
     private final static String URL = "jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai";
     private final static String USERNAME = "root";
     private final static String PASSWORD = "123456";
-    private final static String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
     private static final String BASE_PACKAGE = "cn.sliew";
     private static final String MODULE = "scaleph";
     private static final String TABLE_PREFIX = "t_";
@@ -32,12 +40,13 @@ public class MybatisPlusGenerator {
 
     public static void main(String[] args) {
         //自动生成配置
-        AutoGenerator generator = new AutoGenerator();
-        generator.setGlobalConfig(globalConfig());
-        generator.setDataSource(dataSourceConfig());
-        generator.setPackageInfo(packageConfig());
-        generator.setStrategy(strategyConfig());
-        generator.setCfg(injectionConfig());
+        FastAutoGenerator generator = FastAutoGenerator.create(dataSourceConfig())
+                .globalConfig(MybatisPlusGenerator::globalConfig)
+                .packageConfig(MybatisPlusGenerator::packageConfig)
+                .templateConfig(builder -> {
+                })
+                .strategyConfig(MybatisPlusGenerator::strategyConfig)
+                .injectionConfig(MybatisPlusGenerator::injectionConfig);
         generator.execute();
     }
 
@@ -46,14 +55,11 @@ public class MybatisPlusGenerator {
      *
      * @return DataSourceConfig
      */
-    private static DataSourceConfig dataSourceConfig() {
-        DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setDbType(DbType.MYSQL);
-        dsc.setUrl(URL);
-        dsc.setUsername(USERNAME);
-        dsc.setPassword(PASSWORD);
-        dsc.setDriverName(DRIVER_NAME);
-        return dsc;
+    private static DataSourceConfig.Builder dataSourceConfig() {
+        return new DataSourceConfig.Builder(URL, USERNAME, PASSWORD)
+                .dbQuery(new MySqlQuery())
+                .typeConvert(new MySqlTypeConvert())
+                .keyWordsHandler(new MySqlKeyWordsHandler());
     }
 
     /**
@@ -61,25 +67,14 @@ public class MybatisPlusGenerator {
      *
      * @return GlobalConfig
      */
-    private static GlobalConfig globalConfig() {
-        GlobalConfig config = new GlobalConfig();
-        String projectPath = System.getProperty("user.dir");
-        config.setOutputDir(projectPath + "/scaleph-support/scaleph-generator/src/main/java/");
-        config.setAuthor(AUTHOR);
-        config.setOpen(false);
-        config.setFileOverride(true);
-        config.setBaseResultMap(true);
-        config.setDateType(DateType.ONLY_DATE);
-        config.setBaseColumnList(false);
-        config.setIdType(IdType.AUTO);
-        config.setMapperName("%sMapper");
-        config.setXmlName("%sMapper");
-        config.setEntityName("%s");
-        config.setServiceName("%sService");
-        config.setServiceImplName("%sServiceImpl");
-        config.setControllerName("%sController");
-        config.setSwagger2(true);
-        return config;
+    private static void globalConfig(GlobalConfig.Builder builder) {
+        builder.fileOverride()
+                .outputDir(System.getProperty("user.dir") + "/scaleph-support/scaleph-generator/src/main/java/")
+                .author(AUTHOR)
+                .fileOverride()
+                .enableSwagger()
+                .dateType(DateType.ONLY_DATE)
+                .commentDate("yyyy-MM-dd");
     }
 
     /**
@@ -87,17 +82,17 @@ public class MybatisPlusGenerator {
      *
      * @return PackageConfig
      */
-    private static PackageConfig packageConfig() {
-        PackageConfig pc = new PackageConfig();
-        pc.setModuleName(MODULE);
-        pc.setParent(BASE_PACKAGE);
-        pc.setXml("dao.mapper");
-        pc.setMapper("dao.mapper");
-        pc.setEntity("dao.entity");
-        pc.setService("service");
-        pc.setServiceImpl("service.impl");
-        pc.setController("api.controller");
-        return pc;
+    private static void packageConfig(PackageConfig.Builder builder) {
+        builder.parent(BASE_PACKAGE)
+                .moduleName(MODULE)
+                .entity("dao.entity")
+                .service("service")
+                .serviceImpl("service.impl")
+                .mapper("dao.mapper")
+                .xml("dao.mapper")
+                .controller("api.controller")
+                .other("other");
+//                .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "/Users/wangqi/Downloads/generator"));
     }
 
     /**
@@ -105,19 +100,46 @@ public class MybatisPlusGenerator {
      *
      * @return StrategyConfig
      */
-    private static StrategyConfig strategyConfig() {
-        StrategyConfig strategy = new StrategyConfig();
-        strategy.setTablePrefix(TABLE_PREFIX);
-        strategy.setNaming(NamingStrategy.underline_to_camel);
-        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        strategy.setSuperEntityClass(BaseDO.class);
-        strategy.setEntityLombokModel(true);
-        strategy.setSuperEntityColumns(new String[]{"id", "creator", "create_time", "editor", "update_time"});
-        strategy.setInclude(TABLES);
-        strategy.setControllerMappingHyphenStyle(true);
-        strategy.setRestControllerStyle(true);
-        strategy.setEntityBooleanColumnRemoveIsPrefix(true);
-        return strategy;
+    private static void strategyConfig(StrategyConfig.Builder builder) {
+        builder.enableCapitalMode()
+                .enableSkipView()
+                .disableSqlFilter()
+                .addInclude(TABLES)
+                .addTablePrefix(TABLE_PREFIX);
+
+        Entity.Builder entityBuilder = builder.entityBuilder();
+        entityBuilder.superClass(BaseDO.class)
+                .enableLombok()
+                .enableTableFieldAnnotation()
+                .enableRemoveIsPrefix()
+                .naming(NamingStrategy.underline_to_camel)
+                .columnNaming(NamingStrategy.underline_to_camel)
+                .addSuperEntityColumns("id", "creator", "created_time", "editor", "update_time")
+                .idType(IdType.AUTO)
+                .addTableFills(new Column("create_time", FieldFill.INSERT))
+                .addTableFills(new Property("updateTime", FieldFill.INSERT_UPDATE))
+                .formatFileName("%s");
+
+        Mapper.Builder mapperBuilder = builder.mapperBuilder();
+        mapperBuilder.superClass(BaseMapper.class)
+                .enableMapperAnnotation()
+                .enableBaseResultMap()
+                .enableBaseColumnList()
+                .formatMapperFileName("%sMapper")
+                .formatXmlFileName("%sMapper");
+
+        Service.Builder serviceBuilder = builder.serviceBuilder();
+        serviceBuilder.formatServiceFileName("%sService")
+                .formatServiceImplFileName("%sServiceImp")
+                .build();
+
+
+        Controller.Builder controllerBuilder = builder.controllerBuilder();
+        controllerBuilder.enableHyphenStyle()
+                .enableRestStyle()
+                .formatFileName("%sController")
+                .build();
+
     }
 
     /**
@@ -125,16 +147,7 @@ public class MybatisPlusGenerator {
      *
      * @return InjectionConfig
      */
-    private static InjectionConfig injectionConfig() {
-        InjectionConfig ic = new InjectionConfig() {
-            @Override
-            public void initMap() {
+    private static void injectionConfig(InjectionConfig.Builder builder) {
 
-            }
-        };
-
-        return ic;
     }
-
-
 }
