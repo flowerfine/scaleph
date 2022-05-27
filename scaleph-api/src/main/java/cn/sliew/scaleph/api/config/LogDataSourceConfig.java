@@ -1,5 +1,7 @@
 package cn.sliew.scaleph.api.config;
 
+import javax.sql.DataSource;
+
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -14,8 +16,6 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-
-import javax.sql.DataSource;
 
 @Configuration
 @MapperScan(basePackages = LogDataSourceConfig.LOG_MAPPER_PACKAGE, sqlSessionFactoryRef = LogDataSourceConfig.LOG_SQL_SESSION_FACTORY)
@@ -36,7 +36,7 @@ public class LogDataSourceConfig {
     @ConfigurationProperties(prefix = "spring.datasource.log")
     public DataSource logDataSource() {
         return DataSourceBuilder.create().type(HikariDataSource.class)
-                .build();
+            .build();
     }
 
     @Bean(LOG_TRANSACTION_MANAGER_FACTORY)
@@ -49,7 +49,7 @@ public class LogDataSourceConfig {
         MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();
 
         MybatisPlusProperties props = new MybatisPlusProperties();
-        props.setMapperLocations(new String[]{LOG_MAPPER_XML_PATH});
+        props.setMapperLocations(new String[] {LOG_MAPPER_XML_PATH});
         factoryBean.setMapperLocations(props.resolveMapperLocations());
 
         MybatisConfiguration configuration = new MybatisConfiguration();

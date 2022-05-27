@@ -45,7 +45,7 @@ export class BatchJobComponent implements OnInit {
     jobCode: '',
     clusterId: '',
     jobInstanceId: '',
-    timeRange: [moment(0, 'HH').add(-1, 'days').toDate(), moment().toDate()],
+    timeRange: [moment(0, 'HH').add(-1, 'days').toDate(), moment().endOf('days').toDate()],
     jobInstanceState: null,
   };
   constructor(
@@ -56,7 +56,7 @@ export class BatchJobComponent implements OnInit {
     private jobLogService: JobLogService,
     private projectService: ProjectService,
     private clusterService: ClusterService,
-    private dictDataService: DictDataService,
+    private dictDataService: DictDataService
   ) {}
 
   ngOnInit(): void {
@@ -135,7 +135,7 @@ export class BatchJobComponent implements OnInit {
       jobCode: '',
       clusterId: '',
       jobInstanceId: '',
-      timeRange: [moment(0, 'HH').add(-1, 'days').toDate(), moment().toDate()],
+      timeRange: [moment(0, 'HH').add(-1, 'days').toDate(), moment().endOf('days').toDate()],
       jobInstanceState: null,
     };
     this.pager = {

@@ -59,7 +59,7 @@
             t1.editor,
             t1.update_time
         from di_job_log t1
-        inner join di_job t2
+        inner join (select distinct project_id,job_code from di_job where job_type = #{jobType,jdbcType=VARCHAR} ) t2
         on t1.project_id = t2.project_id
         and t1.job_code = t2.job_code
         left join di_cluster_config t3
@@ -68,9 +68,6 @@
         on t1.project_id = t4.id
         ]]>
         <where>
-            <if test="jobType != null and jobType != '' ">
-                t2.job_type = #{jobType,jdbcType=VARCHAR}
-            </if>
             <if test="log != null and log.projectId != null ">
                 and t1.project_id = #{log.projectId,jdbcType=BIGINT}
             </if>
@@ -119,16 +116,13 @@
             t4.project_code,
             t4.project_name
         from di_job_log t1
-        inner join di_job t2
+        inner join (select distinct project_id,job_code from di_job where job_type = #{jobType,jdbcType=VARCHAR} ) t2
         on t1.project_id = t2.project_id
         and t1.job_code = t2.job_code
         left join di_project t4
         on t1.project_id = t4.id
         ]]>
         <where>
-            <if test="jobType != null and jobType != '' ">
-                t2.job_type = #{jobType,jdbcType=VARCHAR}
-            </if>
             <if test="startTime != null ">
                 and t1.start_time &gt;= #{startTime,jdbcType=TIMESTAMP}
             </if>
