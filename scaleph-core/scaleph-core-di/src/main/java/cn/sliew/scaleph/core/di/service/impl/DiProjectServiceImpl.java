@@ -1,16 +1,16 @@
 package cn.sliew.scaleph.core.di.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.scaleph.dao.entity.master.di.DiProject;
-import cn.sliew.scaleph.dao.mapper.master.di.DiProjectMapper;
-import cn.sliew.scaleph.core.di.service.convert.DiProjectConvert;
 import cn.sliew.scaleph.core.di.service.DiDirectoryService;
 import cn.sliew.scaleph.core.di.service.DiJobService;
 import cn.sliew.scaleph.core.di.service.DiProjectService;
 import cn.sliew.scaleph.core.di.service.DiResourceFileService;
+import cn.sliew.scaleph.core.di.service.convert.DiProjectConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiDirectoryDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiProjectDTO;
 import cn.sliew.scaleph.core.di.service.param.DiProjectParam;
+import cn.sliew.scaleph.dao.entity.master.di.DiProject;
+import cn.sliew.scaleph.dao.mapper.master.di.DiProjectMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -66,9 +66,7 @@ public class DiProjectServiceImpl implements DiProjectService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int deleteById(Long id) {
-        List<Long> list = new ArrayList<Long>() {{
-            add(id);
-        }};
+        List<Long> list = Collections.singletonList(id);
         this.diResourceFileService.deleteByProjectId(list);
         this.diDirectoryService.deleteByProjectIds(list);
         this.diJobService.deleteByProjectId(list);

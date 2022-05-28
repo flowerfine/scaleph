@@ -17,10 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -165,9 +162,7 @@ public class DiJobServiceImpl implements DiJobService {
     public DiJobDTO selectOne(Long id) {
         DiJob job = this.diJobMapper.selectById(id);
         DiJobDTO dto = DiJobConvert.INSTANCE.toDto(job);
-        Map<Long, DiDirectoryDTO> map = this.diDirectoryService.loadFullPath(new ArrayList<Long>() {{
-            add(job.getDirectoryId());
-        }});
+        Map<Long, DiDirectoryDTO> map = this.diDirectoryService.loadFullPath(Collections.singletonList(job.getDirectoryId()));
         DiDirectoryDTO dir = map.get(job.getDirectoryId());
         dto.setDirectory(dir);
         return dto;

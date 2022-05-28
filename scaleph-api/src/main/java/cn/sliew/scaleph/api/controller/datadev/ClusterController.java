@@ -27,7 +27,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,9 +116,7 @@ public class ClusterController {
     @ApiOperation(value = "删除集群", notes = "删除集群")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_CLUSTER_DELETE)")
     public ResponseEntity<ResponseVO> deleteCluster(@PathVariable(value = "id") Long id) {
-        if (this.diJobService.hasRunningJob(new ArrayList<Long>() {{
-            add(id);
-        }})) {
+        if (this.diJobService.hasRunningJob(Collections.singletonList(id))) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
                     I18nUtil.get("response.error.di.resource.runningJob"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }

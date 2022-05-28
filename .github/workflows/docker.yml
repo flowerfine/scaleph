@@ -1,4 +1,4 @@
-name: docker
+name: Docker-Build
 
 on:
   push:
@@ -42,7 +42,7 @@ jobs:
       - name: Build and push docker images
         run: |
           mvn -B clean deploy \
-          -Dmaven.test.skip \
+          -DskipTests \
           -Dmaven.javadoc.skip \
           -Dmaven.checkstyle.skip \
           -Dmaven.deploy.skip \
