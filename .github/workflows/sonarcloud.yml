@@ -11,6 +11,7 @@ on:
 
 jobs:
   sonarcloud-scan:
+    if: github.repository == 'flowerfine/scaleph'
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -30,8 +31,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: >
           mvn -B verify sonar:sonar
-#          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-#          -Dsonar.core.codeCoveragePlugin=jacoco
           -Dmaven.test.skip=true
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.organization=flowerfine

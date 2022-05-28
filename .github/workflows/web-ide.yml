@@ -6,6 +6,7 @@ on:
 
 jobs:
   web-ide:
+    if: github.repository == 'flowerfine/scaleph'
     runs-on: ubuntu-latest
     steps:
       - name: Web-IDE Pull Request Check
