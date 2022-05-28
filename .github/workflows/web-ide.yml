@@ -9,9 +9,6 @@ jobs:
     if: github.repository == 'flowerfine/scaleph'
     runs-on: ubuntu-latest
     steps:
-      - name: echo env
-        run: echo '${{ github.event.number }}'
-
       - name: Web-IDE Pull Request Check
         uses: redhat-actions/try-in-web-ide@v1
         with:
