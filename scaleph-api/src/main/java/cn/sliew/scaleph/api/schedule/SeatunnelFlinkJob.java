@@ -156,10 +156,8 @@ public class SeatunnelFlinkJob extends QuartzJobBean {
         jarJob.setJarFilePath(seatunnelPath);
         jarJob.setEntryPointClass("org.apache.seatunnel.core.flink.SeatunnelFlink");
         Path filePath = Paths.get(file.toURI());
-        List<String> variables = new ArrayList<String>() {{
-            add("--config");
-            add(filePath.toString());
-        }};
+        List<String> variables = Arrays.asList("--config", filePath.toString());
+        
         jobAttrList.stream()
                 .filter(attr -> JobAttrTypeEnum.JOB_ATTR.getValue().equals(attr.getJobAttrType().getValue()))
                 .forEach(attr -> {

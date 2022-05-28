@@ -3,9 +3,9 @@ package cn.sliew.scaleph.meta.service.convert;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.common.constant.DictConstants;
+import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.common.enums.DataSourcePropTypeEnum;
 import cn.sliew.scaleph.dao.entity.master.meta.DataSourceMeta;
-import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.meta.service.dto.DataSourceMetaDTO;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import cn.sliew.scaleph.system.service.vo.DictVO;
@@ -39,11 +39,11 @@ public interface DataSourceMetaConvert extends BaseConvert<DataSourceMeta, DataS
         meta.setUserName(dto.getUserName());
         meta.setPassword(dto.getPassword());
         meta.setRemark(dto.getRemark());
-        meta.setProps(JSONUtil.toJsonStr(new HashMap<String, String>() {{
-            put(DataSourcePropTypeEnum.GENERAL.getCode(), dto.getGeneralProps());
-            put(DataSourcePropTypeEnum.JDBC.getCode(), dto.getJdbcProps());
-            put(DataSourcePropTypeEnum.POOL.getCode(), dto.getPoolProps());
-        }}));
+        HashMap<String, String> props = new HashMap<>();
+        props.put(DataSourcePropTypeEnum.GENERAL.getCode(), dto.getGeneralProps());
+        props.put(DataSourcePropTypeEnum.JDBC.getCode(), dto.getJdbcProps());
+        props.put(DataSourcePropTypeEnum.POOL.getCode(), dto.getPoolProps());
+        meta.setProps(JSONUtil.toJsonStr(props));
         meta.setCreateTime(dto.getCreateTime());
         meta.setCreator(dto.getCreator());
         meta.setUpdateTime(dto.getUpdateTime());
