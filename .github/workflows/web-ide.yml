@@ -9,7 +9,29 @@ jobs:
     if: github.repository == 'flowerfine/scaleph'
     runs-on: ubuntu-latest
     steps:
+      - name: echo env
+        run: echo '${{ env }}'
+      - name: echo github
+        run: echo '${{ github }}'
+      - name: echo job
+        run: echo '${{ job }}'
+      - name: echo steps
+        run: echo '${{ steps }}'
+      - name: echo runner
+        run: echo '${{ runner }}'
+      - name: echo secrets
+        run: echo '${{ secrets }}'
+      - name: echo strategy
+        run: echo '${{ strategy }}'
+      - name: echo matrix
+        run: echo '${{ matrix }}'
+      - name: echo needs
+        run: echo '${{ needs }}'
+      - name: echo inputs
+        run: echo '${{ inputs }}'
       - name: Web-IDE Pull Request Check
         uses: redhat-actions/try-in-web-ide@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          web_ide_instance: https://github.dev/flowerfine/scaleph
+          comment_badge: https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white
