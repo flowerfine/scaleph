@@ -23,6 +23,7 @@ jobs:
           java-version: 8.0.322+6
           distribution: adopt
           cache: maven
+
       - name: Run SonarCloud Analysis
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
