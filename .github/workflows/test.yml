@@ -1,0 +1,12 @@
+name: Test
+
+on:
+  push:
+
+jobs:
+  web-ide:
+    if: github.repository != 'flowerfine/scaleph'
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo env
+        run: echo $GITHUB_REF
