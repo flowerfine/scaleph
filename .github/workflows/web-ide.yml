@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: echo env
-        run: echo '${{ github.head_ref }}' & echo '${{ github.ref }}' & echo '${{ github.base_ref }}'
+        run: echo '${{ github.event.number }}'
 
       - name: Web-IDE Pull Request Check
         uses: redhat-actions/try-in-web-ide@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          web_ide_instance: https://github.dev/flowerfine/scaleph
+          web_ide_instance: https://github.dev/flowerfine/scaleph/pull/${{ github.event.number }}
           comment_badge: https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white
