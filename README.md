@@ -1,8 +1,6 @@
 # scaleph
 
-[![Github Actions](https://img.shields.io/github/workflow/status/flowerfine/scaleph/CI)](https://github.com/flowerfine/scaleph/actions)
-[![Total Lines](https://tokei.rs/b1/github/flowerfine/scaleph?category=lines)](https://github.com/flowerfine/scaleph)
-[![Last commit](https://img.shields.io/github/last-commit/flowerfine/scaleph.svg)](https://github.com/flowerfine/scaleph)
+[![Github Actions](https://img.shields.io/github/workflow/status/flowerfine/scaleph/CI)](https://github.com/flowerfine/scaleph/actions) [![Total Lines](https://tokei.rs/b1/github/flowerfine/scaleph?category=lines)](https://github.com/flowerfine/scaleph) [![Last commit](https://img.shields.io/github/last-commit/flowerfine/scaleph.svg)](https://github.com/flowerfine/scaleph) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=flowerfine_scaleph&metric=alert_status)](https://sonarcloud.io/dashboard?id=flowerfine_scaleph)
 
 The Scaleph project features data integration, develop,  job schedule and orchestration and aims to run on cloud environment. 
 
