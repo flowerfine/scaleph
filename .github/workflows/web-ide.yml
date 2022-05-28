@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: echo env
-        run: echo '${{ env }}'
+        run: echo $env
       - name: echo github
         run: echo '${{ github }}'
       - name: echo job
