@@ -12,7 +12,8 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ScheduleLogParam extends PaginationParam {
+public class LogScheduleParam extends PaginationParam {
+
     @ApiModelProperty(value = "任务组")
     private String taskGroup;
 

@@ -17,7 +17,7 @@ import cn.sliew.scaleph.core.di.service.DiJobResourceFileService;
 import cn.sliew.scaleph.core.di.service.DiJobService;
 import cn.sliew.scaleph.core.di.service.dto.*;
 import cn.sliew.scaleph.engine.util.JobConfigHelper;
-import cn.sliew.scaleph.log.service.dto.ScheduleLogDTO;
+import cn.sliew.scaleph.log.service.dto.LogScheduleDTO;
 import cn.sliew.scaleph.storage.service.StorageService;
 import cn.sliew.scaleph.storage.service.impl.NioFileServiceImpl;
 import cn.sliew.scaleph.system.service.SystemConfigService;
@@ -69,7 +69,7 @@ public class SeatunnelFlinkJob extends QuartzJobBean {
         JobDataMap dataMap = context.getJobDetail().getJobDataMap();
         DiJobDTO job = (DiJobDTO) dataMap.get(Constants.JOB_PARAM_JOB_INFO);
         DiProjectDTO project = (DiProjectDTO) dataMap.get(Constants.JOB_PARAM_PROJECT_INFO);
-        ScheduleLogDTO logDTO = (ScheduleLogDTO) dataMap.get(Constants.JOB_LOG_KEY);
+        LogScheduleDTO logDTO = (LogScheduleDTO) dataMap.get(Constants.JOB_LOG_KEY);
         logDTO.appendLog(StrUtil.format("start seatunnel flink batch job {} in project {}", job.getJobCode(), project.getProjectCode()));
         String jobJson = jobConfigHelper.buildJob(job);
         File tempDir = new File(System.getProperty("java.io.tmpdir"));

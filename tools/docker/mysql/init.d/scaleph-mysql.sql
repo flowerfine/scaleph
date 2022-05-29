@@ -715,8 +715,8 @@ insert into t_system_config(cfg_code, cfg_value, creator, editor)
 VALUES ('basic', '{\"seatunnelHome\":\"/opt/seatunnel\"}', 'sys_admin', 'sys_admin');
 
 /*定时任务运行日志表*/
-drop table if exists t_schedule_log;
-create table t_schedule_log
+drop table if exists log_schedule;
+create table log_schedule
 (
     id          bigint       not null auto_increment comment '自增主键',
     task_group  varchar(128) not null comment '任务组',

@@ -23,7 +23,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "定时任务日志信息", description = "定时任务运行日志表")
-public class ScheduleLogDTO extends BaseDTO {
+public class LogScheduleDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1976884925111874156L;
 
@@ -45,7 +45,7 @@ public class ScheduleLogDTO extends BaseDTO {
     @ApiModelProperty(value = "任务结果")
     private DictVO result;
 
-    public ScheduleLogDTO appendLog(String raw) {
+    public LogScheduleDTO appendLog(String raw) {
         StringBuilder builder = new StringBuilder(StrUtil.blankToDefault(this.traceLog, ""));
         builder.append(DateUtil.format(new Date(), Constants.MS_DATETIME_FORMAT))
                 .append("\t")

@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.log.service;
 
-import cn.sliew.scaleph.log.service.dto.ScheduleLogDTO;
-import cn.sliew.scaleph.log.service.param.ScheduleLogParam;
+import cn.sliew.scaleph.log.service.dto.LogScheduleDTO;
+import cn.sliew.scaleph.log.service.param.LogScheduleParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
@@ -12,14 +12,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @author liyu
  * @since 2021-10-16
  */
-public interface ScheduleLogService {
+public interface LogScheduleService {
     /**
      * 新增
      *
-     * @param scheduleLog 日志对象
+     * @param logSchedule 日志对象
      * @return int
      */
-    int insert(ScheduleLogDTO scheduleLog);
+    int insert(LogScheduleDTO logSchedule);
 
     /**
      * 查询日志
@@ -27,13 +27,13 @@ public interface ScheduleLogService {
      * @param id id
      * @return 日志对象
      */
-    ScheduleLogDTO selectOne(Long id);
+    LogScheduleDTO selectOne(Long id);
 
     /**
      * 分页查询
      *
-     * @param scheduleLogParam 参数
+     * @param logScheduleParam 参数
      * @return page
      */
-    Page<ScheduleLogDTO> listByPage(ScheduleLogParam scheduleLogParam);
+    Page<LogScheduleDTO> listByPage(LogScheduleParam logScheduleParam);
 }

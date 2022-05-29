@@ -19,9 +19,9 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("t_schedule_log")
-@ApiModel(value = "ScheduleLog对象", description = "定时任务运行日志表")
-public class ScheduleLog extends BaseDO {
+@TableName("log_schedule")
+@ApiModel(value = "LogSchedule对象", description = "定时任务运行日志表")
+public class LogSchedule extends BaseDO {
 
     private static final long serialVersionUID = -2239522121730705579L;
 

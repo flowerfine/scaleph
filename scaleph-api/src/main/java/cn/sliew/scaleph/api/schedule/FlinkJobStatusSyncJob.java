@@ -15,7 +15,7 @@ import cn.sliew.scaleph.core.di.service.dto.DiClusterConfigDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobLogDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiProjectDTO;
-import cn.sliew.scaleph.log.service.dto.ScheduleLogDTO;
+import cn.sliew.scaleph.log.service.dto.LogScheduleDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import org.apache.flink.api.common.JobStatus;
 import org.apache.flink.configuration.Configuration;
@@ -50,7 +50,7 @@ public class FlinkJobStatusSyncJob extends QuartzJobBean {
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         JobDataMap dataMap = context.getJobDetail().getJobDataMap();
-        ScheduleLogDTO logDTO = (ScheduleLogDTO) dataMap.get(Constants.JOB_LOG_KEY);
+        LogScheduleDTO logDTO = (LogScheduleDTO) dataMap.get(Constants.JOB_LOG_KEY);
         logDTO.appendLog(StrUtil.format("start synchronization task status..."));
         List<DiJobLogDTO> list = this.diJobLogService.listRunningJobInstance(null);
         logDTO.appendLog(StrUtil.format("There are {} jobs is running", list.size()));

@@ -1,6 +1,6 @@
 package cn.sliew.scaleph.dao.mapper.log;
 
-import cn.sliew.scaleph.dao.entity.log.ScheduleLog;
+import cn.sliew.scaleph.dao.entity.log.LogSchedule;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
  * @since 2021-10-16
  */
 @Repository
-public interface ScheduleLogMapper extends BaseMapper<ScheduleLog> {
+public interface LogScheduleMapper extends BaseMapper<LogSchedule> {
 
 }
