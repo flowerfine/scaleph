@@ -43,6 +43,10 @@ public class PluginSPILoader<C extends Plugin> {
         return pluginInfos;
     }
 
+    public Map<PluginInfo, C> getServices() {
+        return Collections.unmodifiableMap(services);
+    }
+
     public Optional<C> getPlugin(PluginInfo pluginInfo) {
         return Optional.ofNullable(services.get(pluginInfo));
     }

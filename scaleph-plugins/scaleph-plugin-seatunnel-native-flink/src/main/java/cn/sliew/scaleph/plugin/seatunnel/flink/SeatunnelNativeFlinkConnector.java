@@ -10,6 +10,8 @@ public interface SeatunnelNativeFlinkConnector extends Plugin {
 
     ObjectNode create();
 
+    ConnectorType getConnectorType();
+
     /**
      * For example: flink-connector-jdbc requires mysql jdbc jar.
      * todo may we need a new ResourceDescriptor?

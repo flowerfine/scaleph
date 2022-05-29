@@ -5,6 +5,7 @@ import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.seatunnel.flink.ConnectorType;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonOptions;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -55,6 +56,11 @@ public class JdbcSinkConnector extends AbstractPlugin implements SeatunnelNative
             }
         }
         return objectNode;
+    }
+
+    @Override
+    public ConnectorType getConnectorType() {
+        return ConnectorType.SINK;
     }
 
     @Override

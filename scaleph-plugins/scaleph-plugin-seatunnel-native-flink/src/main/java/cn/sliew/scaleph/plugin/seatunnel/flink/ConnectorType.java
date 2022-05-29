@@ -1,6 +1,6 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink;
 
-public enum ConfType {
+public enum ConnectorType {
     
-    ENV, SOURCE, TRANSFORM, SINK
+    SOURCE, TRANSFORM, SINK
 }
