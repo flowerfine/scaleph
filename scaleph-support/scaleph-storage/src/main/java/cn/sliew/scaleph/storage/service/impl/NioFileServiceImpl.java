@@ -1,11 +1,5 @@
 package cn.sliew.scaleph.storage.service.impl;
 
-import cn.hutool.core.io.FileUtil;
-import cn.sliew.scaleph.common.exception.Rethrower;
-import cn.sliew.scaleph.storage.service.StorageService;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,12 +7,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import cn.hutool.core.io.FileUtil;
+import cn.sliew.scaleph.common.exception.Rethrower;
+import cn.sliew.scaleph.storage.service.StorageService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 @Service(value = "local")
 public class NioFileServiceImpl implements StorageService {
 
     private String parentDir;
 
-    public NioFileServiceImpl(@Value("${app.resource.local.parentDir:/tmp}") String defaultFilePath) {
+    public NioFileServiceImpl(
+        @Value("${app.resource.local.parentDir:/tmp}") String defaultFilePath) {
         this.parentDir = defaultFilePath;
     }
 
@@ -40,7 +41,8 @@ public class NioFileServiceImpl implements StorageService {
     public void mkdirs(String filePath) {
         Path directory = Paths.get(parentDir, filePath);
         if (Files.exists(directory) && !isDirectory(filePath)) {
-            Rethrower.throwAs(new IOException("File " + directory.toUri() + " exists and is not a directory. Unable to create directory."));
+            Rethrower.throwAs(new IOException("File " + directory.toUri() +
+                " exists and is not a directory. Unable to create directory."));
         } else {
             try {
                 Files.createDirectories(directory);
@@ -57,7 +59,8 @@ public class NioFileServiceImpl implements StorageService {
         if (!exists(filePath)) {
             Rethrower.throwAs(new IOException("File " + path.toUri() + "is not exists."));
         } else if (!Files.isDirectory(path)) {
-            Rethrower.throwAs(new IOException(path.toUri() + " is not a directory. Unable to upload file."));
+            Rethrower.throwAs(
+                new IOException(path.toUri() + " is not a directory. Unable to upload file."));
         } else {
             delete(filePath, fileName);
             try {

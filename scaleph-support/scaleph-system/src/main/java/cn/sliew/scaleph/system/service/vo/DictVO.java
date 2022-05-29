@@ -1,13 +1,13 @@
 package cn.sliew.scaleph.system.service.vo;
 
+import java.io.Serializable;
+
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.system.cache.DictCache;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 /**
  * @author gleiyu

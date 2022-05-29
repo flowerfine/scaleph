@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("meta_datasource")
-@ApiModel(value="DatasourceMeta对象", description="元数据-数据源连接信息")
+@ApiModel(value = "DatasourceMeta对象", description = "元数据-数据源连接信息")
 public class DataSourceMeta extends BaseDO {
 
     private static final long serialVersionUID = -1697296662006060595L;

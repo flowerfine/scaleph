@@ -1,10 +1,10 @@
 package cn.sliew.scaleph.api.vo;
 
-import io.swagger.annotations.ApiModel;
-import lombok.Data;
-
 import java.util.Date;
 import java.util.List;
+
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
 
 /**
  * 在线用户信息

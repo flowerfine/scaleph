@@ -1,5 +1,10 @@
 package cn.sliew.scaleph.api.controller.admin;
 
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.security.OnlineUserService;
@@ -23,12 +28,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -72,7 +79,8 @@ public class RoleController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_ADD)")
     public ResponseEntity<ResponseVO> addRole(@Validated @RequestBody RoleDTO roleDTO) {
         if (roleDTO.getRoleType() == null) {
-            roleDTO.setRoleType(new DictVO(RoleTypeEnum.USER_DEF.getValue(), RoleTypeEnum.USER_DEF.getLabel()));
+            roleDTO.setRoleType(
+                new DictVO(RoleTypeEnum.USER_DEF.getValue(), RoleTypeEnum.USER_DEF.getLabel()));
         }
         String roleCode = Constants.USER_DEFINE_ROLE_PREFIX + roleDTO.getRoleCode();
         roleDTO.setRoleCode(roleCode);
@@ -111,7 +119,8 @@ public class RoleController {
         List<Long> tmpList = new ArrayList<>(userList.size());
         tmpList.addAll(userList);
         //grant new user
-        tmpList.removeAll(oldUserList.stream().map(UserRoleDTO::getUserId).collect(Collectors.toList()));
+        tmpList.removeAll(
+            oldUserList.stream().map(UserRoleDTO::getUserId).collect(Collectors.toList()));
         for (Long userId : tmpList) {
             UserRoleDTO userRole = new UserRoleDTO();
             userRole.setRoleId(roleId);

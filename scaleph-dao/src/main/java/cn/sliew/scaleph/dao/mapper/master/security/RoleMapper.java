@@ -1,12 +1,12 @@
 package cn.sliew.scaleph.dao.mapper.master.security;
 
+import java.io.Serializable;
+import java.util.List;
+
 import cn.sliew.scaleph.dao.entity.master.security.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * <p>

@@ -1,5 +1,8 @@
 package cn.sliew.scaleph.meta.service.convert;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.common.constant.DictConstants;
@@ -12,9 +15,6 @@ import cn.sliew.scaleph.system.service.vo.DictVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author gleiyu
@@ -60,8 +60,10 @@ public interface DataSourceMetaConvert extends BaseConvert<DataSourceMeta, DataS
         DataSourceMetaDTO dto = new DataSourceMetaDTO();
         dto.setId(entity.getId());
         dto.setDataSourceName(entity.getDatasourceName());
-        dto.setDataSourceType(DictVO.toVO(DictConstants.DATASOURCE_TYPE, entity.getDatasourceType()));
-        dto.setConnectionType(DictVO.toVO(DictConstants.CONNECTION_TYPE, entity.getConnectionType()));
+        dto.setDataSourceType(
+            DictVO.toVO(DictConstants.DATASOURCE_TYPE, entity.getDatasourceType()));
+        dto.setConnectionType(
+            DictVO.toVO(DictConstants.CONNECTION_TYPE, entity.getConnectionType()));
         dto.setHostName(entity.getHostName());
         dto.setDatabaseName(entity.getDatabaseName());
         dto.setPort(entity.getPort());
@@ -69,8 +71,9 @@ public interface DataSourceMetaConvert extends BaseConvert<DataSourceMeta, DataS
         dto.setPassword(entity.getPassword());
         dto.setRemark(entity.getRemark());
         if (entity.getProps() != null) {
-            Map<String, String> map = JSONUtil.toBean(entity.getProps(), new TypeReference<Map<String, String>>() {
-            }.getType(), true);
+            Map<String, String> map =
+                JSONUtil.toBean(entity.getProps(), new TypeReference<Map<String, String>>() {
+                }.getType(), true);
             dto.setGeneralProps(map.get(DataSourcePropTypeEnum.GENERAL.getCode()));
             dto.setJdbcProps(map.get(DataSourcePropTypeEnum.JDBC.getCode()));
             dto.setPoolProps(map.get(DataSourcePropTypeEnum.POOL.getCode()));

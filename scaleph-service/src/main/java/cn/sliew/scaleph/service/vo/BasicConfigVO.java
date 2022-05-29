@@ -1,9 +1,9 @@
 package cn.sliew.scaleph.service.vo;
 
+import javax.validation.constraints.NotNull;
+
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * @author gleiyu

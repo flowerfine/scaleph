@@ -1,5 +1,10 @@
 package cn.sliew.scaleph.core.di.service.impl;
 
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.core.di.service.DiDirectoryService;
 import cn.sliew.scaleph.core.di.service.DiJobService;
@@ -16,11 +21,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -86,10 +86,12 @@ public class DiProjectServiceImpl implements DiProjectService {
     public Page<DiProjectDTO> listByPage(DiProjectParam param) {
         Page<DiProjectDTO> result = new Page<>();
         Page<DiProject> list = this.diProjectMapper.selectPage(
-                new Page<>(param.getCurrent(), param.getPageSize()),
-                new LambdaQueryWrapper<DiProject>()
-                        .like(StrUtil.isNotEmpty(param.getProjectCode()), DiProject::getProjectCode, param.getProjectCode())
-                        .like(StrUtil.isNotEmpty(param.getProjectName()), DiProject::getProjectName, param.getProjectName())
+            new Page<>(param.getCurrent(), param.getPageSize()),
+            new LambdaQueryWrapper<DiProject>()
+                .like(StrUtil.isNotEmpty(param.getProjectCode()), DiProject::getProjectCode,
+                    param.getProjectCode())
+                .like(StrUtil.isNotEmpty(param.getProjectName()), DiProject::getProjectName,
+                    param.getProjectName())
         );
         List<DiProjectDTO> dtoList = DiProjectConvert.INSTANCE.toDto(list.getRecords());
         result.setCurrent(list.getCurrent());

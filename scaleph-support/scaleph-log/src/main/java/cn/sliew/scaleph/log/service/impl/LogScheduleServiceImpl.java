@@ -1,5 +1,7 @@
 package cn.sliew.scaleph.log.service.impl;
 
+import java.util.List;
+
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.dao.entity.log.LogSchedule;
@@ -12,8 +14,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 /**
@@ -41,14 +41,19 @@ public class LogScheduleServiceImpl implements LogScheduleService {
     public Page<LogScheduleDTO> listByPage(LogScheduleParam param) {
         Page<LogScheduleDTO> result = new Page<>();
         Page<LogSchedule> list = this.logScheduleMapper.selectPage(
-                new Page<>(param.getCurrent(), param.getPageSize()),
-                Wrappers.lambdaQuery(LogSchedule.class)
-                        .eq(StrUtil.isNotEmpty(param.getTaskGroup()), LogSchedule::getTaskGroup, param.getTaskGroup())
-                        .eq(StrUtil.isNotEmpty(param.getTaskName()), LogSchedule::getTaskName, param.getTaskName())
-                        .eq(StrUtil.isNotEmpty(param.getResult()), LogSchedule::getResult, param.getResult())
-                        .gt(ObjectUtil.isNotNull(param.getStartTime()), LogSchedule::getStartTime, param.getStartTime())
-                        .lt(ObjectUtil.isNotNull(param.getEndTime()), LogSchedule::getEndTime, param.getEndTime())
-                        .orderByDesc(LogSchedule::getStartTime)
+            new Page<>(param.getCurrent(), param.getPageSize()),
+            Wrappers.lambdaQuery(LogSchedule.class)
+                .eq(StrUtil.isNotEmpty(param.getTaskGroup()), LogSchedule::getTaskGroup,
+                    param.getTaskGroup())
+                .eq(StrUtil.isNotEmpty(param.getTaskName()), LogSchedule::getTaskName,
+                    param.getTaskName())
+                .eq(StrUtil.isNotEmpty(param.getResult()), LogSchedule::getResult,
+                    param.getResult())
+                .gt(ObjectUtil.isNotNull(param.getStartTime()), LogSchedule::getStartTime,
+                    param.getStartTime())
+                .lt(ObjectUtil.isNotNull(param.getEndTime()), LogSchedule::getEndTime,
+                    param.getEndTime())
+                .orderByDesc(LogSchedule::getStartTime)
         );
         List<LogScheduleDTO> dtoList = LogScheduleConvert.INSTANCE.toDto(list.getRecords());
         result.setCurrent(list.getCurrent());

@@ -1,5 +1,7 @@
 package cn.sliew.scaleph.api.controller.admin;
 
+import java.io.File;
+
 import cn.hutool.core.codec.Base64;
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
@@ -20,9 +22,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.File;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author gleiyu
@@ -42,7 +46,8 @@ public class SystemConfigController {
     @PutMapping(path = "email")
     @ApiOperation(value = "设置系统邮箱", notes = "设置系统邮箱")
     @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<ResponseVO> configEmail(@Validated @RequestBody EmailConfigVO emailConfig) {
+    public ResponseEntity<ResponseVO> configEmail(
+        @Validated @RequestBody EmailConfigVO emailConfig) {
         String password = emailConfig.getPassword();
         emailConfig.setPassword(Base64.encode(password));
         this.systemConfigService.deleteByCode(Constants.CFG_EMAIL_CODE);
@@ -58,7 +63,8 @@ public class SystemConfigController {
     @GetMapping(path = "email")
     @ApiOperation(value = "查询系统邮箱", notes = "查询系统邮箱")
     public ResponseEntity<EmailConfigVO> showEmail() {
-        SystemConfigDTO systemConfig = this.systemConfigService.selectByCode(Constants.CFG_EMAIL_CODE);
+        SystemConfigDTO systemConfig =
+            this.systemConfigService.selectByCode(Constants.CFG_EMAIL_CODE);
         if (systemConfig != null) {
             EmailConfigVO config = JSONUtil.toBean(systemConfig.getCfgValue(), EmailConfigVO.class);
             return new ResponseEntity<>(config, HttpStatus.OK);
@@ -72,7 +78,8 @@ public class SystemConfigController {
     @PutMapping(path = "basic")
     @ApiOperation(value = "设置基础配置", notes = "设置基础配置")
     @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<ResponseVO> configBasic(@Validated @RequestBody BasicConfigVO basicConfig) {
+    public ResponseEntity<ResponseVO> configBasic(
+        @Validated @RequestBody BasicConfigVO basicConfig) {
         String seatunnelHome = basicConfig.getSeatunnelHome().replace("\\", "/");
         if (seatunnelHome.endsWith("/")) {
             seatunnelHome += "lib";
@@ -95,7 +102,8 @@ public class SystemConfigController {
         }
         if (!flag) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.setting.seatunnel"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                I18nUtil.get("response.error.setting.seatunnel"), ErrorShowTypeEnum.NOTIFICATION),
+                HttpStatus.OK);
         }
         this.systemConfigService.deleteByCode(Constants.CFG_BASIC_CODE);
         SystemConfigDTO systemConfig = new SystemConfigDTO();
@@ -109,7 +117,8 @@ public class SystemConfigController {
     @GetMapping(path = "basic")
     @ApiOperation(value = "查询基础设置", notes = "查询基础设置")
     public ResponseEntity<BasicConfigVO> showBasci() {
-        SystemConfigDTO systemConfig = this.systemConfigService.selectByCode(Constants.CFG_BASIC_CODE);
+        SystemConfigDTO systemConfig =
+            this.systemConfigService.selectByCode(Constants.CFG_BASIC_CODE);
         if (systemConfig != null) {
             BasicConfigVO config = JSONUtil.toBean(systemConfig.getCfgValue(), BasicConfigVO.class);
             return new ResponseEntity<>(config, HttpStatus.OK);

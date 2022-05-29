@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.meta.service.convert;
 
-import cn.sliew.scaleph.dao.entity.master.meta.MetaDataElement;
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.master.meta.MetaDataElement;
 import cn.sliew.scaleph.meta.service.dto.MetaDataElementDTO;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
@@ -12,7 +12,8 @@ import org.mapstruct.factory.Mappers;
 /**
  * @author gleiyu
  */
-@Mapper(uses = {DictVoConvert.class, MetaDataSetTypeConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {DictVoConvert.class,
+    MetaDataSetTypeConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MetaDataElementConvert extends BaseConvert<MetaDataElement, MetaDataElementDTO> {
     MetaDataElementConvert INSTANCE = Mappers.getMapper(MetaDataElementConvert.class);
 

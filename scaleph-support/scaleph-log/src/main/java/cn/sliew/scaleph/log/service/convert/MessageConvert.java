@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.log.service.convert;
 
-import cn.sliew.scaleph.dao.entity.log.Message;
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.log.Message;
 import cn.sliew.scaleph.log.service.dto.MessageDTO;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;

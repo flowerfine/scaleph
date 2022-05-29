@@ -1,15 +1,15 @@
 package cn.sliew.scaleph.service.impl;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import cn.sliew.scaleph.ApplicationTest;
 import cn.sliew.scaleph.system.service.DictTypeService;
 import cn.sliew.scaleph.system.service.dto.DictTypeDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 class DictTypeServiceImplTest extends ApplicationTest {
 

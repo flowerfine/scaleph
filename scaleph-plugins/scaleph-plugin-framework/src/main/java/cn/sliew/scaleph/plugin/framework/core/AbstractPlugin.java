@@ -1,11 +1,15 @@
 package cn.sliew.scaleph.plugin.framework.core;
 
-import cn.sliew.scaleph.plugin.framework.property.*;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
+
+import cn.sliew.scaleph.plugin.framework.property.Property;
+import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
+import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.framework.property.ValidationResult;
+import cn.sliew.scaleph.plugin.framework.property.Validator;
 
 public abstract class AbstractPlugin implements Plugin {
 
@@ -18,7 +22,8 @@ public abstract class AbstractPlugin implements Plugin {
 
     @Override
     public PropertyDescriptor getPropertyDescriptor(String name) {
-        final PropertyDescriptor specDescriptor = new PropertyDescriptor.Builder().name(name).validateAndBuild();
+        final PropertyDescriptor specDescriptor =
+            new PropertyDescriptor.Builder().name(name).validateAndBuild();
         return getPropertyDescriptor(specDescriptor);
     }
 
@@ -29,12 +34,14 @@ public abstract class AbstractPlugin implements Plugin {
         }
 
         if (descriptor == null) {
-            descriptor = new PropertyDescriptor.Builder().fromPropertyDescriptor(specDescriptor).addValidator(Validator.INVALID).validateAndBuild();
+            descriptor = new PropertyDescriptor.Builder().fromPropertyDescriptor(specDescriptor)
+                .addValidator(Validator.INVALID).validateAndBuild();
         }
         return descriptor;
     }
 
-    private PropertyDescriptor getSupportedPropertyDescriptor(final PropertyDescriptor specDescriptor) {
+    private PropertyDescriptor getSupportedPropertyDescriptor(
+        final PropertyDescriptor specDescriptor) {
         final List<PropertyDescriptor> requiredPropertyDescriptors = getSupportedProperties();
         if (requiredPropertyDescriptors != null) {
             for (final PropertyDescriptor desc : requiredPropertyDescriptors) { //find actual descriptor
@@ -56,10 +63,10 @@ public abstract class AbstractPlugin implements Plugin {
             final String value = propertyContext.getValue(descriptor);
             if (value == null && descriptor.getProperties().contains(Property.Required)) {
                 ValidationResult.Builder builder = new ValidationResult.Builder()
-                        .valid(false)
-                        .subject(descriptor.getName())
-                        .input(null)
-                        .explanation(descriptor.getName() + " is required");
+                    .valid(false)
+                    .subject(descriptor.getName())
+                    .input(null)
+                    .explanation(descriptor.getName() + " is required");
                 results.add(builder.build());
                 continue;
             } else if (value == null) {

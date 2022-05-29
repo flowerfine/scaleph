@@ -7,21 +7,24 @@ import cn.sliew.scaleph.plugin.framework.property.Validators;
 public enum EnvironmentProperties {
     ;
 
-    public static final PropertyDescriptor<Integer> PARALLELISM = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<Integer> PARALLELISM =
+        new PropertyDescriptor.Builder<String>()
             .name("execution.parallelism")
             .description("default parallelism")
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Integer> MAX_PARALLELISM = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<Integer> MAX_PARALLELISM =
+        new PropertyDescriptor.Builder<String>()
             .name("execution.max-parallelism")
             .description("max parallelism")
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> TIME_CHARACTERISTIC = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> TIME_CHARACTERISTIC =
+        new PropertyDescriptor.Builder<String>()
             .name("execution.time-characteristic")
             .description("time characteristic")
             .parser(Parsers.STRING_PARSER)
@@ -29,7 +32,8 @@ public enum EnvironmentProperties {
             .allowableValues("event-time", "ingestion-time", "processing-time")
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Long> BUFFER_TIMEOUT_MILLIS =new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<Long> BUFFER_TIMEOUT_MILLIS =
+        new PropertyDescriptor.Builder<String>()
             .name("execution.buffer.timeout")
             .description("buffer buffer")
             .parser(Parsers.LONG_PARSER)
@@ -39,7 +43,8 @@ public enum EnvironmentProperties {
 
     public static final String RESTART_STRATEGY = "execution.restart.strategy";
     public static final String RESTART_ATTEMPTS = "execution.restart.attempts";
-    public static final String RESTART_DELAY_BETWEEN_ATTEMPTS = "execution.restart.delayBetweenAttempts";
+    public static final String RESTART_DELAY_BETWEEN_ATTEMPTS =
+        "execution.restart.delayBetweenAttempts";
     public static final String RESTART_FAILURE_INTERVAL = "execution.restart.failureInterval";
     public static final String RESTART_FAILURE_RATE = "execution.restart.failureRate";
     public static final String RESTART_DELAY_INTERVAL = "execution.restart.delayInterval";

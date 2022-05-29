@@ -1,5 +1,7 @@
 package cn.sliew.scaleph.log.service.impl;
 
+import java.util.List;
+
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.common.enums.BoolEnum;
 import cn.sliew.scaleph.dao.entity.log.Message;
@@ -12,8 +14,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * <p>
@@ -44,8 +44,8 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public Long countUnReadMsg(String receiver) {
         return this.messageMapper.selectCount(new LambdaQueryWrapper<Message>()
-                .eq(Message::getReceiver, receiver)
-                .eq(Message::getIsRead, BoolEnum.NO.getValue())
+            .eq(Message::getReceiver, receiver)
+            .eq(Message::getIsRead, BoolEnum.NO.getValue())
         );
     }
 
@@ -53,12 +53,16 @@ public class MessageServiceImpl implements MessageService {
     public Page<MessageDTO> listByPage(MessageParam messageParam) {
         Page<MessageDTO> result = new Page<>();
         Page<Message> list = this.messageMapper.selectPage(
-                new Page<>(messageParam.getCurrent(), messageParam.getPageSize()),
-                new LambdaQueryWrapper<Message>()
-                        .eq(StrUtil.isNotEmpty(messageParam.getReceiver()), Message::getReceiver, messageParam.getReceiver())
-                        .eq(StrUtil.isNotEmpty(messageParam.getSender()), Message::getSender, messageParam.getSender())
-                        .eq(StrUtil.isNotEmpty(messageParam.getMessageType()), Message::getMessageType, messageParam.getMessageType())
-                        .eq(StrUtil.isNotEmpty(messageParam.getIsRead()), Message::getIsRead, messageParam.getIsRead())
+            new Page<>(messageParam.getCurrent(), messageParam.getPageSize()),
+            new LambdaQueryWrapper<Message>()
+                .eq(StrUtil.isNotEmpty(messageParam.getReceiver()), Message::getReceiver,
+                    messageParam.getReceiver())
+                .eq(StrUtil.isNotEmpty(messageParam.getSender()), Message::getSender,
+                    messageParam.getSender())
+                .eq(StrUtil.isNotEmpty(messageParam.getMessageType()), Message::getMessageType,
+                    messageParam.getMessageType())
+                .eq(StrUtil.isNotEmpty(messageParam.getIsRead()), Message::getIsRead,
+                    messageParam.getIsRead())
         );
         List<MessageDTO> dtoList = MessageConvert.INSTANCE.toDto(list.getRecords());
         result.setCurrent(list.getCurrent());
@@ -73,8 +77,8 @@ public class MessageServiceImpl implements MessageService {
         Message message = new Message();
         message.setIsRead(BoolEnum.YES.getValue());
         return this.messageMapper.update(message, new LambdaQueryWrapper<Message>()
-                .eq(Message::getReceiver, receiver)
-                .eq(Message::getIsRead, BoolEnum.NO.getValue())
+            .eq(Message::getReceiver, receiver)
+            .eq(Message::getIsRead, BoolEnum.NO.getValue())
         );
     }
 

@@ -1,7 +1,5 @@
 package cn.sliew.scaleph.plugin.framework.core;
 
-import lombok.EqualsAndHashCode;
-
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.DirectoryStream;
@@ -10,6 +8,8 @@ import java.nio.file.Path;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import lombok.EqualsAndHashCode;
 
 /**
  * A "bundle" is a group of jars that will be loaded in their own classloader

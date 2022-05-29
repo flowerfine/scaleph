@@ -1,11 +1,17 @@
 package cn.sliew.scaleph.plugin.framework.property;
 
-import lombok.extern.log4j.Log4j2;
-
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Properties;
 import java.util.function.Function;
 
 import static cn.sliew.milky.common.check.Ensures.checkNotNull;
+
+import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class PropertyContext implements java.io.Serializable {
@@ -34,6 +40,24 @@ public class PropertyContext implements java.io.Serializable {
             context.setString(property, props.getProperty(property));
         }
         return context;
+    }
+
+    static <E extends Enum<?>> E convertToEnum(Object o, Class<E> clazz) {
+        if (o.getClass().equals(clazz)) {
+            return (E) o;
+        }
+
+        return Arrays.stream(clazz.getEnumConstants())
+            .filter(e -> e.toString().toUpperCase(Locale.ROOT)
+                .equals(o.toString().toUpperCase(Locale.ROOT)))
+            .findAny()
+            .orElseThrow(() -> new IllegalArgumentException(
+                String.format("Could not parse value for enum %s. Expected one of: [%s]",
+                    clazz, Arrays.toString(clazz.getEnumConstants()))));
+    }
+
+    static String toString(Object o) {
+        return Objects.toString(o, null);
     }
 
     public String getString(PropertyDescriptor<String> descriptor) {
@@ -134,44 +158,32 @@ public class PropertyContext implements java.io.Serializable {
 
     public String getValue(PropertyDescriptor<?> descriptor) {
         return Optional.ofNullable(
-                        getRawValueFromOption(descriptor).orElseGet(() -> getDefaultValue(descriptor)))
-                .map(String::valueOf)
-                .orElse(null);
+                getRawValueFromOption(descriptor).orElseGet(() -> getDefaultValue(descriptor)))
+            .map(String::valueOf)
+            .orElse(null);
     }
 
+    // --------------------------------------------------------------------------------------------
+
     public <T extends Enum<T>> T getEnum(
-            final Class<T> enumClass, final PropertyDescriptor<String> descriptor) {
+        final Class<T> enumClass, final PropertyDescriptor<String> descriptor) {
         checkNotNull(enumClass, () -> "enumClass must not be null");
         checkNotNull(descriptor, () -> "configOption must not be null");
 
-        Object rawValue = getRawValueFromOption(descriptor).orElseGet(() -> getDefaultValue(descriptor));
+        Object rawValue =
+            getRawValueFromOption(descriptor).orElseGet(() -> getDefaultValue(descriptor));
         try {
             return convertToEnum(rawValue, enumClass);
         } catch (IllegalArgumentException ex) {
             final String errorMessage =
-                    String.format(
-                            "Value for config option %s must be one of %s (was %s)",
-                            descriptor.getName(),
-                            Arrays.toString(enumClass.getEnumConstants()),
-                            rawValue);
+                String.format(
+                    "Value for config option %s must be one of %s (was %s)",
+                    descriptor.getName(),
+                    Arrays.toString(enumClass.getEnumConstants()),
+                    rawValue);
             throw new IllegalArgumentException(errorMessage);
         }
     }
-
-    static <E extends Enum<?>> E convertToEnum(Object o, Class<E> clazz) {
-        if (o.getClass().equals(clazz)) {
-            return (E) o;
-        }
-
-        return Arrays.stream(clazz.getEnumConstants())
-                .filter(e -> e.toString().toUpperCase(Locale.ROOT).equals(o.toString().toUpperCase(Locale.ROOT)))
-                .findAny()
-                .orElseThrow(() -> new IllegalArgumentException(
-                        String.format("Could not parse value for enum %s. Expected one of: [%s]",
-                                clazz, Arrays.toString(clazz.getEnumConstants()))));
-    }
-
-    // --------------------------------------------------------------------------------------------
 
     public void addAll(PropertyContext other) {
         synchronized (this.confData) {
@@ -232,18 +244,18 @@ public class PropertyContext implements java.io.Serializable {
     public boolean contains(PropertyDescriptor<?> descriptor) {
         synchronized (this.confData) {
             final Function<String, Optional<Boolean>> applier =
-                    (key) -> {
-                        if (this.confData.containsKey(key)) {
-                            return Optional.of(true);
-                        }
-                        return Optional.empty();
-                    };
+                (key) -> {
+                    if (this.confData.containsKey(key)) {
+                        return Optional.of(true);
+                    }
+                    return Optional.empty();
+                };
             return applyWithOption(descriptor, applier).orElse(false);
         }
     }
 
     private <T> Optional<T> applyWithOption(
-            PropertyDescriptor<?> descriptor, Function<String, Optional<T>> applier) {
+        PropertyDescriptor<?> descriptor, Function<String, Optional<T>> applier) {
         final Optional<T> valueFromExactKey = applier.apply(descriptor.getName());
         if (valueFromExactKey.isPresent()) {
             return valueFromExactKey;
@@ -271,9 +283,9 @@ public class PropertyContext implements java.io.Serializable {
             return rawValue.map(value -> descriptor.getParser().apply(toString(value)));
         } catch (Exception e) {
             throw new IllegalArgumentException(
-                    String.format("Could not parse value '%s' for key '%s'.",
-                            rawValue.map(Object::toString).orElse(""), descriptor.getName()),
-                    e);
+                String.format("Could not parse value '%s' for key '%s'.",
+                    rawValue.map(Object::toString).orElse(""), descriptor.getName()),
+                e);
         }
     }
 
@@ -282,20 +294,20 @@ public class PropertyContext implements java.io.Serializable {
         return this;
     }
 
+    // --------------------------------------------------------------------------------------------
+
     public <T> boolean removeConfig(PropertyDescriptor<T> descriptor) {
         synchronized (this.confData) {
             final Function<String, Optional<Boolean>> applier =
-                    (key) -> {
-                        if (this.confData.remove(key) != null) {
-                            return Optional.of(true);
-                        }
-                        return Optional.empty();
-                    };
+                (key) -> {
+                    if (this.confData.remove(key) != null) {
+                        return Optional.of(true);
+                    }
+                    return Optional.empty();
+                };
             return applyWithOption(descriptor, applier).orElse(false);
         }
     }
-
-    // --------------------------------------------------------------------------------------------
 
     <T> void setValueInternal(String key, T value) {
         if (key == null) {
@@ -337,17 +349,13 @@ public class PropertyContext implements java.io.Serializable {
     private void loggingFallback(PropertyDescriptor fallbackKey, PropertyDescriptor<?> descriptor) {
         if (fallbackKey.getProperties().contains(Property.Deprecated)) {
             log.warn("Config uses deprecated configuration key '{}' instead of proper key '{}'",
-                    fallbackKey.getName(),
-                    descriptor.getName());
+                fallbackKey.getName(),
+                descriptor.getName());
         } else {
             log.info("Config uses fallback configuration key '{}' instead of key '{}'",
-                    fallbackKey.getName(),
-                    descriptor.getName());
+                fallbackKey.getName(),
+                descriptor.getName());
         }
-    }
-
-    static String toString(Object o) {
-        return Objects.toString(o, null);
     }
 
     // --------------------------------------------------------------------------------------------

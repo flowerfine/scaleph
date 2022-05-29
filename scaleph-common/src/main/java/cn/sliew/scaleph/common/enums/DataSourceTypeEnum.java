@@ -16,14 +16,6 @@ public enum DataSourceTypeEnum {
         this.value = value;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
     public static DataSourceTypeEnum valueOfName(String name) {
         if (name == null) {
             throw new IllegalArgumentException("datasource type must not be null");
@@ -34,5 +26,13 @@ public enum DataSourceTypeEnum {
             }
         }
         throw new IllegalArgumentException("unknown datasource type for " + name);
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getValue() {
+        return value;
     }
 }

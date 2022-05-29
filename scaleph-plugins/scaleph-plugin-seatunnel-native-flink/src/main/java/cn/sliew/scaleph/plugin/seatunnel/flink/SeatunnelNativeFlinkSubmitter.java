@@ -1,9 +1,9 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink;
 
+import java.net.URL;
+
 import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
 import org.apache.flink.configuration.Configuration;
-
-import java.net.URL;
 
 /**
  * fixme flink job submit and seatunnel conf generate

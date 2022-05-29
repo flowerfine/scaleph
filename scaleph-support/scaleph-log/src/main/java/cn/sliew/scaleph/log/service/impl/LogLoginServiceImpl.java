@@ -1,5 +1,7 @@
 package cn.sliew.scaleph.log.service.impl;
 
+import java.util.List;
+
 import cn.sliew.scaleph.dao.entity.log.LogLogin;
 import cn.sliew.scaleph.dao.mapper.log.LogLoginMapper;
 import cn.sliew.scaleph.log.service.LogLoginService;
@@ -10,8 +12,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * <p>
@@ -37,12 +37,12 @@ public class LogLoginServiceImpl implements LogLoginService {
     public Page<LogLoginDTO> listByPage(LogLoginParam logLoginParam) {
         Page<LogLoginDTO> result = new Page<>();
         Page<LogLogin> list = this.logLoginMapper.selectPage(
-                new Page<>(logLoginParam.getCurrent(), logLoginParam.getPageSize()),
-                new QueryWrapper<LogLogin>()
-                        .lambda()
-                        .eq(LogLogin::getUserName, logLoginParam.getUserName())
-                        .gt(LogLogin::getLoginTime, logLoginParam.getLoginTime())
-                        .orderByDesc(LogLogin::getLoginTime)
+            new Page<>(logLoginParam.getCurrent(), logLoginParam.getPageSize()),
+            new QueryWrapper<LogLogin>()
+                .lambda()
+                .eq(LogLogin::getUserName, logLoginParam.getUserName())
+                .gt(LogLogin::getLoginTime, logLoginParam.getLoginTime())
+                .orderByDesc(LogLogin::getLoginTime)
         );
         List<LogLoginDTO> dtoList = LogLoginConvert.INSTANCE.toDto(list.getRecords());
         result.setCurrent(list.getCurrent());

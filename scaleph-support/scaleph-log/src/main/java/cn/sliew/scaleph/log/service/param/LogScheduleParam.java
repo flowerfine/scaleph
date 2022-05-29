@@ -1,11 +1,11 @@
 package cn.sliew.scaleph.log.service.param;
 
+import java.util.Date;
+
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Date;
 
 /**
  * @author gleiyu

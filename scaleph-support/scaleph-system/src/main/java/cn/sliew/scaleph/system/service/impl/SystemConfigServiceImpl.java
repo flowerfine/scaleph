@@ -37,7 +37,7 @@ public class SystemConfigServiceImpl implements SystemConfigService {
     public int updateByCode(SystemConfigDTO systemConfigDTO) {
         SystemConfig systemConfig = SystemConfigConvert.INSTANCE.toDo(systemConfigDTO);
         return this.systemConfigMapper.update(systemConfig, new LambdaQueryWrapper<SystemConfig>()
-                .eq(SystemConfig::getCfgCode, systemConfig.getCfgCode()));
+            .eq(SystemConfig::getCfgCode, systemConfig.getCfgCode()));
     }
 
     @Override
@@ -46,14 +46,15 @@ public class SystemConfigServiceImpl implements SystemConfigService {
             return 0;
         } else {
             return this.systemConfigMapper.delete(new LambdaQueryWrapper<SystemConfig>()
-                    .eq(SystemConfig::getCfgCode, code));
+                .eq(SystemConfig::getCfgCode, code));
         }
 
     }
 
     @Override
     public SystemConfigDTO selectByCode(String code) {
-        SystemConfig systemConfig = this.systemConfigMapper.selectOne(new LambdaQueryWrapper<SystemConfig>()
+        SystemConfig systemConfig =
+            this.systemConfigMapper.selectOne(new LambdaQueryWrapper<SystemConfig>()
                 .eq(SystemConfig::getCfgCode, code));
         return SystemConfigConvert.INSTANCE.toDto(systemConfig);
     }
@@ -62,7 +63,8 @@ public class SystemConfigServiceImpl implements SystemConfigService {
     public String getSeatunnelHome() {
         SystemConfigDTO systemConfig = this.selectByCode(Constants.CFG_BASIC_CODE);
         if (systemConfig != null) {
-            BasicConfigVO config = JacksonUtil.parseJsonString(systemConfig.getCfgValue(), BasicConfigVO.class);
+            BasicConfigVO config =
+                JacksonUtil.parseJsonString(systemConfig.getCfgValue(), BasicConfigVO.class);
             return config.getSeatunnelHome();
         } else {
             return null;

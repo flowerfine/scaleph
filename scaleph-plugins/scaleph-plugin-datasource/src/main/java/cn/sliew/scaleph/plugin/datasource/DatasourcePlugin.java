@@ -1,9 +1,9 @@
 package cn.sliew.scaleph.plugin.datasource;
 
+import java.util.Properties;
+
 import cn.sliew.scaleph.plugin.framework.core.Plugin;
 import io.micrometer.core.instrument.MeterRegistry;
-
-import java.util.Properties;
 
 /**
  * datasource plugin

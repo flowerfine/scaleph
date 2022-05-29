@@ -1,5 +1,23 @@
 package cn.sliew.scaleph.plugin.datasource.jdbc;
 
+import javax.sql.DataSource;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Properties;
+
+import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.DRIVER_CLASS_NAME;
+import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.IDLE_TIMEOUT;
+import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.JDBC_URL;
+import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.MAXIMUM_POOL_SIZE;
+import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.MININUM_IDLE;
+import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.PASSWORD;
+import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.USERNAME;
+import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.VALIDATION_QUERY;
+
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
@@ -10,12 +28,6 @@ import cn.sliew.scaleph.plugin.framework.property.ValidationResult;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import io.micrometer.core.instrument.MeterRegistry;
-
-import javax.sql.DataSource;
-import java.io.InputStream;
-import java.util.*;
-
-import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 
 public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePlugin<DataSource> {
 
@@ -34,16 +46,16 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePl
         supportedProperties = Collections.unmodifiableList(props);
     }
 
-    private MeterRegistry meterRegistry;
-
     private final PluginInfo pluginInfo;
+    private MeterRegistry meterRegistry;
     private volatile Properties properties;
     private volatile Properties additionalProperties;
     private volatile HikariDataSource dataSource;
 
     public JDBCDataSourcePlugin() {
         PluginInfo pluginInfo = null;
-        try (InputStream resourceAsStream = JDBCDataSourcePlugin.class.getResourceAsStream("/" + PluginInfo.PLUGIN_PROPERTIES)) {
+        try (InputStream resourceAsStream = JDBCDataSourcePlugin.class.getResourceAsStream(
+            "/" + PluginInfo.PLUGIN_PROPERTIES)) {
             Properties pluginProperties = new Properties();
             pluginProperties.load(resourceAsStream);
             pluginInfo = PluginInfo.readFromProperties(pluginProperties);
@@ -56,7 +68,8 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePl
     @Override
     public void initialize(Properties properties) {
         final Collection<ValidationResult> validate = validate(properties);
-        final Optional<ValidationResult> validationResult = validate.stream().filter(result -> result.isValid() == false).findAny();
+        final Optional<ValidationResult> validationResult =
+            validate.stream().filter(result -> result.isValid() == false).findAny();
         if (validationResult.isPresent()) {
             throw new IllegalArgumentException(JacksonUtil.toJsonString(validationResult.get()));
         }

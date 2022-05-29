@@ -1,8 +1,8 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.check;
 
-import org.apache.flink.configuration.Configuration;
-
 import java.util.List;
+
+import org.apache.flink.configuration.Configuration;
 
 public interface ConfigurationChecker {
 

@@ -1,15 +1,15 @@
 package cn.sliew.scaleph.api.security;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import cn.sliew.scaleph.api.util.SecurityUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author gleiyu
@@ -29,8 +29,11 @@ public class SecurityValidateService {
         if (userDetails == null) {
             return false;
         } else {
-            List<String> privilegeList = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-            return privilegeList.contains(Constants.ROLE_SYS_ADMIN) || Arrays.stream(privileges).anyMatch(privilegeList::contains);
+            List<String> privilegeList =
+                userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList());
+            return privilegeList.contains(Constants.ROLE_SYS_ADMIN) ||
+                Arrays.stream(privileges).anyMatch(privilegeList::contains);
         }
     }
 }

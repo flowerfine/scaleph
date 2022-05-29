@@ -14,7 +14,8 @@
         <result column="dict_value" property="dictValue"/>
         <result column="remark" property="remark"/>
         <result column="is_valid" property="isValid"/>
-        <association property="dictType" javaType="cn.sliew.scaleph.dao.entity.master.system.DictType" column="dict_type_code"
+        <association property="dictType" javaType="cn.sliew.scaleph.dao.entity.master.system.DictType"
+                     column="dict_type_code"
                      select="cn.sliew.scaleph.dao.mapper.master.system.DictTypeMapper.selectByDictTypeCode">
             <id column="dict_type_code" jdbcType="VARCHAR" property="dictTypeCode"/>
             <result column="dict_type_name" jdbcType="VARCHAR" property="dictTypeName"/>

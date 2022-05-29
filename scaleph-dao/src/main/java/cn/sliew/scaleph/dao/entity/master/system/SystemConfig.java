@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("t_system_config")
-@ApiModel(value="SystemConfig对象", description="系统配置信息表")
+@ApiModel(value = "SystemConfig对象", description = "系统配置信息表")
 public class SystemConfig extends BaseDO {
 
     private static final long serialVersionUID = -5437539010004884444L;

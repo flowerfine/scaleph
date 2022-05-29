@@ -1,13 +1,13 @@
 package cn.sliew.scaleph.cache;
 
+import java.util.concurrent.TimeUnit;
+
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author gleiyu
@@ -26,7 +26,8 @@ public class CaffeineCacheConfig {
     @Bean("unBoundedCacheManager")
     public CacheManager unBoundedCaffeineCacheManager() {
         CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager();
-        caffeineCacheManager.setCaffeine(Caffeine.newBuilder().initialCapacity(CaffeineCacheConfig.INITIAL_CAPACITY));
+        caffeineCacheManager.setCaffeine(
+            Caffeine.newBuilder().initialCapacity(CaffeineCacheConfig.INITIAL_CAPACITY));
         caffeineCacheManager.setAllowNullValues(false);
         return caffeineCacheManager;
     }
@@ -41,9 +42,9 @@ public class CaffeineCacheConfig {
     public CacheManager boundedCaffeineCacheManager() {
         CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager();
         caffeineCacheManager.setCaffeine(Caffeine.newBuilder()
-                .initialCapacity(CaffeineCacheConfig.INITIAL_CAPACITY)
-                .maximumSize(CaffeineCacheConfig.MAX_CAPACITY)
-                .expireAfterWrite(60, TimeUnit.SECONDS)
+            .initialCapacity(CaffeineCacheConfig.INITIAL_CAPACITY)
+            .maximumSize(CaffeineCacheConfig.MAX_CAPACITY)
+            .expireAfterWrite(60, TimeUnit.SECONDS)
         );
         caffeineCacheManager.setAllowNullValues(false);
         return caffeineCacheManager;

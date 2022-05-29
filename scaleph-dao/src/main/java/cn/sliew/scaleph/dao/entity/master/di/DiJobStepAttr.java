@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("di_job_step_attr")
-@ApiModel(value="DiJobStepAttr对象", description="数据集成-作业步骤参数")
+@ApiModel(value = "DiJobStepAttr对象", description = "数据集成-作业步骤参数")
 public class DiJobStepAttr extends BaseDO {
 
     private static final long serialVersionUID = 9084640873843622607L;

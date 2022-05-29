@@ -1,18 +1,22 @@
 package cn.sliew.scaleph.meta.database;
 
-import cn.sliew.scaleph.common.constant.DictConstants;
-import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
-import cn.sliew.scaleph.meta.util.JdbcUtil;
-import cn.sliew.scaleph.meta.service.dto.DataSourceMetaDTO;
-import cn.sliew.scaleph.meta.service.dto.TableColumnMetaDTO;
-import cn.sliew.scaleph.meta.service.dto.TableMetaDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import cn.sliew.scaleph.common.constant.DictConstants;
+import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
+import cn.sliew.scaleph.meta.service.dto.DataSourceMetaDTO;
+import cn.sliew.scaleph.meta.service.dto.TableColumnMetaDTO;
+import cn.sliew.scaleph.meta.service.dto.TableMetaDTO;
+import cn.sliew.scaleph.meta.util.JdbcUtil;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 
 /**
  * @author gleiyu
@@ -41,23 +45,28 @@ public class OracleDatabaseMeta extends AbstractDatabaseMeta {
 
     @Override
     public String getUrl() {
-        return "jdbc:oracle:thin:@//" + this.getHostName() + ":" + this.getPort() + "/" + this.getDatabaseName();
+        return "jdbc:oracle:thin:@//" + this.getHostName() + ":" + this.getPort() + "/" +
+            this.getDatabaseName();
     }
 
     @Override
-    public List<TableMetaDTO> getTables(AbstractDatabaseMeta meta, String catalog, String schemaPattern, String tableNamePattern) throws SQLException {
+    public List<TableMetaDTO> getTables(AbstractDatabaseMeta meta, String catalog,
+                                        String schemaPattern, String tableNamePattern)
+        throws SQLException {
         //设置获取remark信息
         if (meta.getJdbcProps() == null) {
             meta.setJdbcProps(new Properties());
         }
         meta.getJdbcProps().put("remarks", "true");
-        return super.getTables(meta, null, schemaPattern.toUpperCase(), tableNamePattern.toUpperCase());
+        return super.getTables(meta, null, schemaPattern.toUpperCase(),
+            tableNamePattern.toUpperCase());
     }
 
     @Override
     public List<TableMetaDTO> getTables() throws SQLException {
         List<TableMetaDTO> result = new ArrayList<>();
-        String sql = "select null as table_cat,o.owner as table_schema,o.object_name as table_name," +
+        String sql =
+            "select null as table_cat,o.owner as table_schema,o.object_name as table_name," +
                 "o.object_type as table_type,c.comments as table_comment,t.tablespace_name as table_space," +
                 "case when t.partitioned = 'NO' then t.num_rows else p.num_rows end as table_rows," +
                 "nvl(d.total_data_bytes,0) as data_bytes,nvl(i.total_index_bytes,0) as index_bytes," +
@@ -95,7 +104,8 @@ public class OracleDatabaseMeta extends AbstractDatabaseMeta {
             table.setIndexBytes(rs.getLong("index_bytes"));
             table.setTableCreateTime(rs.getTimestamp("create_time"));
             table.setLastDdlTime(rs.getTimestamp("last_ddl_time"));
-            table.setIsPartitioned(DictVO.toVO(DictConstants.YES_NO, rs.getString("is_partitioned")));
+            table.setIsPartitioned(
+                DictVO.toVO(DictConstants.YES_NO, rs.getString("is_partitioned")));
             result.add(table);
         }
         JdbcUtil.closeSilently(conn, pstm, rs);
@@ -105,7 +115,8 @@ public class OracleDatabaseMeta extends AbstractDatabaseMeta {
     @Override
     public Map<String, List<TableColumnMetaDTO>> getColumns() throws SQLException {
         Map<String, List<TableColumnMetaDTO>> result = new HashMap<>(16);
-        String sql = "select tc.table_name,tc.column_name,tc.data_type,tc.data_length,tc.data_precision," +
+        String sql =
+            "select tc.table_name,tc.column_name,tc.data_type,tc.data_length,tc.data_precision," +
                 "tc.data_scale,decode(tc.nullable, 'y', '1', 'n', '0') as nullable,tc.data_default," +
                 "tc.low_value,tc.high_value,tc.column_id as column_ordinal,cc.comments as column_comment," +
                 "case when tic.column_name is not null then '1' else '0' end as is_primary_key " +
@@ -135,7 +146,8 @@ public class OracleDatabaseMeta extends AbstractDatabaseMeta {
             column.setHighValue(rs.getString("high_value"));
             column.setColumnOrdinal(rs.getInt("column_ordinal"));
             column.setColumnComment(rs.getString("column_comment"));
-            column.setIsPrimaryKey(DictVO.toVO(DictConstants.YES_NO, rs.getString("is_primary_key")));
+            column.setIsPrimaryKey(
+                DictVO.toVO(DictConstants.YES_NO, rs.getString("is_primary_key")));
             if (result.containsKey(tableName)) {
                 List<TableColumnMetaDTO> list = result.get(tableName);
                 list.add(column);

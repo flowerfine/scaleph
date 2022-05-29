@@ -1,5 +1,10 @@
 package cn.sliew.scaleph.api.controller.datadev;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.util.I18nUtil;
@@ -25,12 +30,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author gleiyu
@@ -70,10 +77,12 @@ public class ClusterController {
     @PostMapping
     @ApiOperation(value = "新增集群", notes = "新增集群")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_CLUSTER_ADD)")
-    public ResponseEntity<ResponseVO> addCluster(@Validated @RequestBody DiClusterConfigDTO diClusterConfigDTO) {
+    public ResponseEntity<ResponseVO> addCluster(
+        @Validated @RequestBody DiClusterConfigDTO diClusterConfigDTO) {
         if (!checkClusterInfo(diClusterConfigDTO)) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.cluster.conf"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                I18nUtil.get("response.error.di.cluster.conf"), ErrorShowTypeEnum.NOTIFICATION),
+                HttpStatus.OK);
         }
         this.diClusterConfigService.insert(diClusterConfigDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
@@ -89,13 +98,14 @@ public class ClusterController {
                     confMap.put(kv[0], kv[1]);
                 }
             }
-            if (ClusterTypeEnum.FLINK.getValue().equalsIgnoreCase(diClusterConfigDTO.getClusterType().getValue())) {
+            if (ClusterTypeEnum.FLINK.getValue()
+                .equalsIgnoreCase(diClusterConfigDTO.getClusterType().getValue())) {
                 if (!confMap.containsKey(Constants.CLUSTER_DEPLOY_TARGET) ||
-                        ResourceProvider.STANDALONE.getName()
-                                .equalsIgnoreCase(confMap.get(Constants.CLUSTER_DEPLOY_TARGET))) {
+                    ResourceProvider.STANDALONE.getName()
+                        .equalsIgnoreCase(confMap.get(Constants.CLUSTER_DEPLOY_TARGET))) {
                     return confMap.containsKey(JobManagerOptions.ADDRESS.key())
-                            && confMap.containsKey(JobManagerOptions.PORT.key())
-                            && confMap.containsKey(RestOptions.PORT.key());
+                        && confMap.containsKey(JobManagerOptions.PORT.key())
+                        && confMap.containsKey(RestOptions.PORT.key());
                 }
             }
         }
@@ -106,7 +116,8 @@ public class ClusterController {
     @PutMapping
     @ApiOperation(value = "修改集群", notes = "修改集群")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_CLUSTER_EDIT)")
-    public ResponseEntity<ResponseVO> editCluster(@Validated @RequestBody DiClusterConfigDTO diClusterConfigDTO) {
+    public ResponseEntity<ResponseVO> editCluster(
+        @Validated @RequestBody DiClusterConfigDTO diClusterConfigDTO) {
         this.diClusterConfigService.update(diClusterConfigDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -118,7 +129,8 @@ public class ClusterController {
     public ResponseEntity<ResponseVO> deleteCluster(@PathVariable(value = "id") Long id) {
         if (this.diJobService.hasRunningJob(Collections.singletonList(id))) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.resource.runningJob"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                I18nUtil.get("response.error.di.resource.runningJob"),
+                ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }
         this.diClusterConfigService.deleteById(id);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
@@ -131,7 +143,8 @@ public class ClusterController {
     public ResponseEntity<ResponseVO> deleteCluster(@RequestBody Map<Integer, Long> map) {
         if (this.diJobService.hasRunningJob(map.values())) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.resource.runningJob"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                I18nUtil.get("response.error.di.resource.runningJob"),
+                ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }
         this.diClusterConfigService.deleteBatch(map);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);

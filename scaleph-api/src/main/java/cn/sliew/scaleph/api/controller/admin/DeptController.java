@@ -1,5 +1,10 @@
 package cn.sliew.scaleph.api.controller.admin;
 
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
@@ -20,12 +25,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -79,12 +86,13 @@ public class DeptController {
         treeNodeConfig.setParentIdKey("pid");
         treeNodeConfig.setNameKey("deptName");
         treeNodeConfig.setWeightKey("deptCode");
-        List<Tree<Long>> treeList = TreeUtil.build(list, Long.valueOf(pid), treeNodeConfig, (treeNode, tree) -> {
-            tree.setId(treeNode.getId());
-            tree.setParentId(treeNode.getPid());
-            tree.setName(treeNode.getDeptName());
-            tree.setWeight(treeNode.getDeptCode());
-        });
+        List<Tree<Long>> treeList =
+            TreeUtil.build(list, Long.valueOf(pid), treeNodeConfig, (treeNode, tree) -> {
+                tree.setId(treeNode.getId());
+                tree.setParentId(treeNode.getPid());
+                tree.setName(treeNode.getDeptName());
+                tree.setWeight(treeNode.getDeptCode());
+            });
         return treeList;
     }
 
@@ -142,7 +150,8 @@ public class DeptController {
         List<Long> tmpList = new ArrayList<>(userList.size());
         tmpList.addAll(userList);
         //grant new user
-        tmpList.removeAll(oldUserList.stream().map(UserDeptDTO::getUserId).collect(Collectors.toList()));
+        tmpList.removeAll(
+            oldUserList.stream().map(UserDeptDTO::getUserId).collect(Collectors.toList()));
         for (Long userId : tmpList) {
             UserDeptDTO userDept = new UserDeptDTO();
             userDept.setDeptId(deptId);

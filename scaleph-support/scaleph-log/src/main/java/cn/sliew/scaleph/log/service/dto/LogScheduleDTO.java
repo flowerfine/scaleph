@@ -1,5 +1,7 @@
 package cn.sliew.scaleph.log.service.dto;
 
+import java.util.Date;
+
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.common.constant.Constants;
@@ -9,8 +11,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Date;
 
 /**
  * <p>
@@ -48,9 +48,9 @@ public class LogScheduleDTO extends BaseDTO {
     public LogScheduleDTO appendLog(String raw) {
         StringBuilder builder = new StringBuilder(StrUtil.blankToDefault(this.traceLog, ""));
         builder.append(DateUtil.format(new Date(), Constants.MS_DATETIME_FORMAT))
-                .append("\t")
-                .append(raw)
-                .append("\n");
+            .append("\t")
+            .append(raw)
+            .append("\n");
         this.setTraceLog(builder.toString());
         return this;
     }

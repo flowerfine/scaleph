@@ -1,5 +1,8 @@
 package cn.sliew.scaleph.security.service.impl;
 
+import java.io.Serializable;
+import java.util.List;
+
 import cn.sliew.scaleph.dao.entity.master.security.RolePrivilege;
 import cn.sliew.scaleph.dao.mapper.master.security.RolePrivilegeMapper;
 import cn.sliew.scaleph.security.service.RolePrivilegeService;
@@ -8,9 +11,6 @@ import cn.sliew.scaleph.security.service.dto.RolePrivilegeDTO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * <p>
@@ -29,7 +29,7 @@ public class RolePrivilegeServiceImpl implements RolePrivilegeService {
     @Override
     public int deleteByRoleId(Serializable roleId) {
         return this.rolePrivilegeMapper.delete(new LambdaQueryWrapper<RolePrivilege>()
-                .eq(RolePrivilege::getRoleId, roleId));
+            .eq(RolePrivilege::getRoleId, roleId));
     }
 
     @Override
@@ -45,7 +45,8 @@ public class RolePrivilegeServiceImpl implements RolePrivilegeService {
 
     @Override
     public List<RolePrivilegeDTO> listByRoleId(Serializable roleId) {
-        List<RolePrivilege> list = this.rolePrivilegeMapper.selectList(new LambdaQueryWrapper<RolePrivilege>()
+        List<RolePrivilege> list =
+            this.rolePrivilegeMapper.selectList(new LambdaQueryWrapper<RolePrivilege>()
                 .eq(RolePrivilege::getRoleId, roleId));
         return RolePrivilegeConvert.INSTANCE.toDto(list);
     }
