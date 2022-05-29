@@ -12,10 +12,12 @@
     <artifactId>scaleph-system</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-cache</artifactId>
         </dependency>
+
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-dao</artifactId>
@@ -25,6 +27,7 @@
             <groupId>org.mapstruct.extensions.spring</groupId>
             <artifactId>mapstruct-spring-annotations</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
@@ -34,5 +37,6 @@
             <groupId>cn.sliew</groupId>
             <artifactId>milky-common</artifactId>
         </dependency>
+
     </dependencies>
 </project>

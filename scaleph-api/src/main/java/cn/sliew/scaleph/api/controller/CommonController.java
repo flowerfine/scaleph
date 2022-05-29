@@ -26,7 +26,7 @@ import cn.sliew.scaleph.api.util.SecurityUtil;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.exception.Rethrower;
-import cn.sliew.scaleph.service.util.RedisUtil;
+import cn.sliew.scaleph.cache.util.RedisUtil;
 import cn.sliew.scaleph.storage.service.StorageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
