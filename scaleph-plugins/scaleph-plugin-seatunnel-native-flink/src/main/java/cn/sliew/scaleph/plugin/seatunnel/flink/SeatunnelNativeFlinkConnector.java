@@ -2,14 +2,13 @@ package cn.sliew.scaleph.plugin.seatunnel.flink;
 
 import cn.sliew.scaleph.plugin.framework.core.Plugin;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.converter.ConfConverter;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.List;
-import java.util.Properties;
 
 public interface SeatunnelNativeFlinkConnector extends Plugin {
 
-    ConfConverter getConverter(Properties properties);
+    ObjectNode create();
 
     /**
      * For example: flink-connector-jdbc requires mysql jdbc jar.

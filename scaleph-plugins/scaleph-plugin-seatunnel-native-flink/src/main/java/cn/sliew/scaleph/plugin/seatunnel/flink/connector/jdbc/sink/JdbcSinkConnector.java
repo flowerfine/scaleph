@@ -1,10 +1,12 @@
-package cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.sink;
 
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
+import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.converter.SinkConverter;
-import cn.sliew.scaleph.plugin.seatunnel.flink.converter.common.CommonOptions;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
+import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonOptions;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
@@ -12,11 +14,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.JdbcProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.sink.JdbcSinkProperties.BATCH_SIZE;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.sink.JdbcSinkProperties.QUERY;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.JdbcProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.sink.JdbcSinkProperties.BATCH_SIZE;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.sink.JdbcSinkProperties.QUERY;
 
-public class JdbcSinkConverter implements SinkConverter {
+public class JdbcSinkConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
@@ -35,15 +37,13 @@ public class JdbcSinkConverter implements SinkConverter {
     }
 
     private final Properties properties;
+    private final PluginInfo pluginInfo;
 
-    public JdbcSinkConverter(Properties properties) {
+    public JdbcSinkConnector(Properties properties) {
         this.properties = properties;
+        this.pluginInfo = new PluginInfo("JdbcSink", "jdbc sink connector", "2.1.1", JdbcSinkConnector.class.getName());
     }
 
-    @Override
-    public String getPluginName() {
-        return "JdbcSink";
-    }
 
     @Override
     public ObjectNode create() {
@@ -55,5 +55,20 @@ public class JdbcSinkConverter implements SinkConverter {
             }
         }
         return objectNode;
+    }
+
+    @Override
+    public PluginInfo getPluginInfo() {
+        return pluginInfo;
+    }
+
+    @Override
+    public List<PropertyDescriptor> getSupportedProperties() {
+        return supportedProperties;
+    }
+
+    @Override
+    public List<PropertyDescriptor> additionalResources() {
+        return Collections.emptyList();
     }
 }

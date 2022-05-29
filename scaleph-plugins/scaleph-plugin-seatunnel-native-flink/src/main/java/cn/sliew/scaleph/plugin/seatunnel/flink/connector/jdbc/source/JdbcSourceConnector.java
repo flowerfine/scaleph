@@ -1,10 +1,12 @@
-package cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.source;
 
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
+import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.converter.SourceConverter;
-import cn.sliew.scaleph.plugin.seatunnel.flink.converter.common.CommonOptions;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
+import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonOptions;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
@@ -12,10 +14,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.JdbcProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.source.JdbcSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.JdbcProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.source.JdbcSourceProperties.*;
 
-public class JdbcSourceConverter implements SourceConverter {
+public class JdbcSourceConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
@@ -38,14 +40,11 @@ public class JdbcSourceConverter implements SourceConverter {
     }
 
     private final Properties properties;
+    private final PluginInfo pluginInfo;
 
-    public JdbcSourceConverter(Properties properties) {
+    public JdbcSourceConnector(Properties properties) {
         this.properties = properties;
-    }
-
-    @Override
-    public String getPluginName() {
-        return "JdbcSource";
+        this.pluginInfo = new PluginInfo("JdbcSource", "jdbc source connector", "2.1.1", JdbcSourceConnector.class.getName());
     }
 
     @Override
@@ -58,5 +57,20 @@ public class JdbcSourceConverter implements SourceConverter {
             }
         }
         return objectNode;
+    }
+
+    @Override
+    public PluginInfo getPluginInfo() {
+        return pluginInfo;
+    }
+
+    @Override
+    public List<PropertyDescriptor> getSupportedProperties() {
+        return supportedProperties;
+    }
+
+    @Override
+    public List<PropertyDescriptor> additionalResources() {
+        return Collections.emptyList();
     }
 }
