@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.log.service;
 
 import cn.sliew.scaleph.log.service.dto.LogActionDTO;
-import cn.sliew.scaleph.log.service.param.ActionLogParam;
+import cn.sliew.scaleph.log.service.param.LogActionParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @author liyu
  * @since 2021-08-01
  */
-public interface ActionLogService {
+public interface LogActionService {
     /**
      * 新增日志
      *
@@ -24,8 +24,8 @@ public interface ActionLogService {
     /**
      * 分页查询
      *
-     * @param actionLogParam 查询参数
+     * @param logActionParam 查询参数
      * @return page list
      */
-    Page<LogActionDTO> listByPage(ActionLogParam actionLogParam);
+    Page<LogActionDTO> listByPage(LogActionParam logActionParam);
 }

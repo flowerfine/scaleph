@@ -5,7 +5,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.util.SecurityUtil;
-import cn.sliew.scaleph.log.service.ActionLogService;
+import cn.sliew.scaleph.log.service.LogActionService;
 import cn.sliew.scaleph.log.service.LoginLogService;
 import cn.sliew.scaleph.log.service.dto.LogLoginDTO;
 import cn.sliew.scaleph.log.service.param.LoginLogParam;
@@ -36,7 +36,7 @@ public class LogController {
     @Autowired
     private LoginLogService loginLogService;
     @Autowired
-    private ActionLogService actionLogService;
+    private LogActionService logActionService;
 
     @Logging
     @GetMapping(path = "login")
