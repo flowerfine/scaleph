@@ -7,7 +7,7 @@ import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.enums.TaskResultEnum;
 import cn.sliew.scaleph.log.service.LogScheduleService;
 import cn.sliew.scaleph.log.service.dto.LogScheduleDTO;
-import cn.sliew.scaleph.service.util.SpringApplicationContextUtil;
+import cn.sliew.scaleph.api.util.SpringApplicationContextUtil;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

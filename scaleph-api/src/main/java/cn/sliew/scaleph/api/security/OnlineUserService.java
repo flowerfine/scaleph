@@ -11,7 +11,7 @@ import cn.sliew.scaleph.security.service.RoleService;
 import cn.sliew.scaleph.security.service.UserService;
 import cn.sliew.scaleph.security.service.dto.PrivilegeDTO;
 import cn.sliew.scaleph.security.service.dto.RoleDTO;
-import cn.sliew.scaleph.service.util.RedisUtil;
+import cn.sliew.scaleph.cache.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;

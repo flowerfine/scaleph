@@ -12,7 +12,7 @@ import java.util.List;
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.api.vo.OnlineUserVO;
 import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.service.util.RedisUtil;
+import cn.sliew.scaleph.cache.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

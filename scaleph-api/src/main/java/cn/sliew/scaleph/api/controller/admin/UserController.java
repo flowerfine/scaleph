@@ -37,7 +37,7 @@ import cn.sliew.scaleph.security.service.dto.RoleDTO;
 import cn.sliew.scaleph.security.service.dto.UserDTO;
 import cn.sliew.scaleph.security.service.dto.UserRoleDTO;
 import cn.sliew.scaleph.security.service.param.UserParam;
-import cn.sliew.scaleph.service.util.RedisUtil;
+import cn.sliew.scaleph.cache.util.RedisUtil;
 import cn.sliew.scaleph.system.service.UserActiveService;
 import cn.sliew.scaleph.system.service.dto.UserActiveDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;

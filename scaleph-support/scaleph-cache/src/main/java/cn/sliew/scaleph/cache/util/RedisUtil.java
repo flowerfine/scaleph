@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.service.util;
+package cn.sliew.scaleph.cache.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -22,10 +23,9 @@ import org.springframework.util.StringUtils;
  *
  * @author gleiyu
  */
-@Slf4j
 @Component
 public class RedisUtil {
-
+    private final static Logger log = LoggerFactory.getLogger(RedisUtil.class);
     private RedisTemplate<Object, Object> redisTemplate;
 
     @Autowired
