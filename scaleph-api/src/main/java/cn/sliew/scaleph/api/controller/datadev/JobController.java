@@ -390,9 +390,7 @@ public class JobController {
             parseJobAttr(map, jobAttrVO.getJobAttr(), jobAttrtype, editableJobId);
             parseJobAttr(map, jobAttrVO.getJobProp(), jobProptype, editableJobId);
             parseJobAttr(map, jobAttrVO.getEngineProp(), engineProptype, editableJobId);
-            this.diJobAttrService.deleteByJobId(new ArrayList<Long>() {{
-                add(editableJobId);
-            }});
+            this.diJobAttrService.deleteByJobId(Collections.singletonList(editableJobId));
             for (Map.Entry<String, DiJobAttrDTO> entry : map.entrySet()) {
                 this.diJobAttrService.upsert(entry.getValue());
             }
@@ -762,10 +760,7 @@ public class JobController {
         jarJob.setJarFilePath(seatunnelPath);
         jarJob.setEntryPointClass("org.apache.seatunnel.core.flink.SeatunnelFlink");
         Path filePath = Paths.get(file.toURI());
-        List<String> variables = new ArrayList<String>() {{
-            add("--config");
-            add(filePath.toString());
-        }};
+        List<String> variables = Arrays.asList("--config", filePath.toString());
         jobAttrList.stream()
                 .filter(attr -> JobAttrTypeEnum.JOB_ATTR.getValue().equals(attr.getJobAttrType().getValue()))
                 .forEach(attr -> {

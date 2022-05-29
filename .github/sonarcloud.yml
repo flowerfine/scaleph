@@ -1,0 +1,37 @@
+name: SonarCloud
+
+on:
+  pull_request:
+    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
+  push:
+    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
+  schedule:
+    - cron: '0 3 * * *' # automatic test while every day on 03:00 am
+  workflow_dispatch:
+
+jobs:
+  sonarcloud-scan:
+    if: github.repository == 'flowerfine/scaleph'
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: adopt
+          cache: maven
+
+      - name: Run SonarCloud Analysis
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: >
+          mvn -B verify sonar:sonar
+          -DskipTests
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.organization=flowerfine
+          -Dsonar.projectKey=flowerfine_scaleph

@@ -23,6 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -87,16 +88,13 @@ public class ProjectController {
     @ApiOperation(value = "删除项目", notes = "删除项目")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_DELETE)")
     public ResponseEntity<ResponseVO> deleteProject(@PathVariable(value = "id") Long projectId) {
-        List<Long> projectids = new ArrayList<Long>() {{
-            add(projectId);
-        }};
+        List<Long> projectids = Collections.singletonList(projectId);
         if (this.diJobService.hasValidJob(projectids)) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
                     I18nUtil.get("response.error.di.notEmptyProject"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
-        } else {
-            this.diProjectService.deleteById(projectId);
-            return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         }
+        this.diProjectService.deleteById(projectId);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging

@@ -1,14 +1,17 @@
-name: web-ide
+name: Web-IDE
 
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, synchronize]
 
 jobs:
   web-ide:
+    if: github.repository == 'flowerfine/scaleph'
     runs-on: ubuntu-latest
     steps:
       - name: Web-IDE Pull Request Check
         uses: redhat-actions/try-in-web-ide@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          web_ide_instance: https://github.dev/flowerfine/scaleph/pull/${{ github.event.number }}
+          comment_badge: https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white

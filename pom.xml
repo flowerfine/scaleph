@@ -102,9 +102,10 @@
         <spring.plugin.core.version>2.0.0.RELEASE</spring.plugin.core.version>
         <mybatis.plus.version>3.5.1</mybatis.plus.version>
         <mybatis.plus.generator.version>3.5.1</mybatis.plus.generator.version>
-        <org.mapstruct.extensions.spring.version>0.1.0</org.mapstruct.extensions.spring.version>
-        <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
-        <org.projectlombok.version>1.18.12</org.projectlombok.version>
+        <org.mapstruct.extensions.spring.version>0.1.1</org.mapstruct.extensions.spring.version>
+        <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+        <mapstruct.lombok.binding.version>0.2.0</mapstruct.lombok.binding.version>
+        <org.projectlombok.version>1.18.24</org.projectlombok.version>
         <velocity.engine.version>2.2</velocity.engine.version>
         <swagger.version>3.0.0</swagger.version>
         <knife4j.vresion>3.0.2</knife4j.vresion>
@@ -372,7 +373,6 @@
     </dependencyManagement>
 
 
-
     <build>
         <finalName>${project.artifactId}</finalName>
         <resources>
@@ -486,6 +486,11 @@
                             <artifactId>lombok</artifactId>
                             <version>${org.projectlombok.version}</version>
                         </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>${mapstruct.lombok.binding.version}</version>
+                        </path>
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
@@ -547,4 +552,36 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>java8</id>
+            <activation>
+                <jdk>1.8</jdk>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <java.version>8</java.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>java11</id>
+            <activation>
+                <jdk>11</jdk>
+            </activation>
+            <properties>
+                <java.version>11</java.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>java17</id>
+            <activation>
+                <jdk>17</jdk>
+            </activation>
+            <properties>
+                <java.version>17</java.version>
+            </properties>
+        </profile>
+    </profiles>
+
 </project>

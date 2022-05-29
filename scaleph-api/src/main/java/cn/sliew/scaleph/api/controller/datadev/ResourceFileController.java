@@ -29,7 +29,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -124,9 +124,7 @@ public class ResourceFileController {
     @ApiOperation(value = "删除资源", notes = "删除资源")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_RESOURCE_DELETE)")
     public ResponseEntity<ResponseVO> deleteResource(@PathVariable(value = "id") Long id) {
-        List<DiResourceFileDTO> list = this.diResourceFileService.listByIds(new ArrayList<Long>() {{
-            add(id);
-        }});
+        List<DiResourceFileDTO> list = this.diResourceFileService.listByIds(Collections.singletonList(id));
         this.diResourceFileService.deleteById(id);
         if (CollectionUtil.isNotEmpty(list)) {
             DiResourceFileDTO resource = list.get(0);

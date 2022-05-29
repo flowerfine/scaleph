@@ -21,7 +21,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import sun.misc.JarFilter;
 
 import java.io.File;
 
@@ -81,7 +80,11 @@ public class SystemConfigController {
             seatunnelHome += "/lib";
         }
         File libDir = new File(seatunnelHome);
-        File[] fileList = libDir.listFiles(new JarFilter());
+        // remove JarFilter which it has been removed by later jdk release.
+        File[] fileList = libDir.listFiles((dir, name) -> {
+            String lowerCaseName = name.toLowerCase();
+            return lowerCaseName.endsWith(".jar") || lowerCaseName.endsWith(".zip");
+        });
         boolean flag = false;
         if (fileList != null) {
             for (File file : fileList) {
