@@ -10,8 +10,8 @@ import cn.sliew.scaleph.api.util.SecurityUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.LoginTypeEnum;
-import cn.sliew.scaleph.log.service.ActionLogService;
-import cn.sliew.scaleph.log.service.LoginLogService;
+import cn.sliew.scaleph.log.service.LogActionService;
+import cn.sliew.scaleph.log.service.LogLoginService;
 import cn.sliew.scaleph.log.service.dto.LogActionDTO;
 import cn.sliew.scaleph.log.service.dto.LogLoginDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
@@ -43,9 +43,9 @@ import java.util.*;
 @Component
 public class LogAspect {
     @Autowired
-    private ActionLogService actionLogService;
+    private LogActionService logActionService;
     @Autowired
-    private LoginLogService loginLogService;
+    private LogLoginService logLoginService;
 
     /**
      * 配置拦截Logging注解所有方法
@@ -187,7 +187,7 @@ public class LogAspect {
             actionInfo.put("method", request.getMethod());
             actionInfo.put("elapsed_time", endTime - startTime);
             log.setActionInfo(JSONUtil.toJsonStr(actionInfo));
-            this.actionLogService.insert(log);
+            this.logActionService.insert(log);
         } catch (Exception e) {
             log.error("操作日志记录失败！");
         }
@@ -222,7 +222,7 @@ public class LogAspect {
             actionInfo.put("method", request.getMethod());
             actionInfo.put("elapsed_time", endTime - startTime);
             log.setActionInfo(JSONUtil.toJsonStr(actionInfo));
-            this.loginLogService.insert(log);
+            this.logLoginService.insert(log);
         } catch (Exception e) {
             log.error("操作日志记录失败！");
         }

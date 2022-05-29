@@ -12,11 +12,11 @@ import java.util.Date;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ActionLogParam extends PaginationParam {
+public class LogLoginParam extends PaginationParam {
 
     @ApiModelProperty(value = "用户名")
     private String userName;
 
-    @ApiModelProperty(value = "操作时间")
-    private Date actionTime;
+    @ApiModelProperty(value = "登录时间")
+    private Date loginTime;
 }

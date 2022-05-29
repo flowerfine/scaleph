@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadingService } from 'ng-devui';
-import { LoginLog } from 'src/app/@core/data/admin.data';
+import { LogLogin } from 'src/app/@core/data/admin.data';
 import { DEFAULT_PAGE_PARAM } from 'src/app/@core/data/app.data';
 import { LogService } from 'src/app/@core/services/admin/log.service';
 @Component({
@@ -12,7 +12,7 @@ import { LogService } from 'src/app/@core/services/admin/log.service';
 })
 export class UserLogComponent implements OnInit {
   limit = 3 * 12 * 30 * 24 * 60 * 60; // tree years
-  logItems: LoginLog[] = [];
+  logItems: LogLogin[] = [];
   logPager = {
     total: 0,
     pageIndex: DEFAULT_PAGE_PARAM.pageIndex,

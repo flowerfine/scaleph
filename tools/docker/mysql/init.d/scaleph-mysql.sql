@@ -606,9 +606,9 @@ create table t_dept_role
 ) engine = innodb comment = '部门角色关联表';
 
 /* 用户登录登出日志 */
-drop table if exists t_log_login;
+drop table if exists log_login;
 
-create table t_log_login
+create table log_login
 (
     id           bigint     not null auto_increment comment '自增主键',
     user_name    varchar(60) comment '用户名',
@@ -630,9 +630,9 @@ create table t_log_login
 ) engine = innodb comment = '用户登录登出日志' comment '用户登录登出日志';
 
 /* 用户操作日志 */
-drop table if exists t_log_action;
+drop table if exists log_action;
 
-create table t_log_action
+create table log_action
 (
     id           bigint       not null auto_increment comment '自增主键',
     user_name    varchar(60) comment '用户名',
