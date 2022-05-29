@@ -13,7 +13,8 @@ import org.springframework.stereotype.Component;
  * @author gleiyu
  */
 @Component
-public class TokenConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+public class TokenConfigurer
+    extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
     private TokenFilter tokenFilter;
 
     @Autowired

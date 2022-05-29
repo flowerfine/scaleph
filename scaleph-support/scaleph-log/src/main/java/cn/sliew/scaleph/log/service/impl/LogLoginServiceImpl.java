@@ -1,17 +1,17 @@
 package cn.sliew.scaleph.log.service.impl;
 
+import java.util.List;
+
 import cn.sliew.scaleph.dao.entity.log.LogLogin;
 import cn.sliew.scaleph.dao.mapper.log.LogLoginMapper;
-import cn.sliew.scaleph.log.service.LoginLogService;
+import cn.sliew.scaleph.log.service.LogLoginService;
 import cn.sliew.scaleph.log.service.convert.LogLoginConvert;
 import cn.sliew.scaleph.log.service.dto.LogLoginDTO;
-import cn.sliew.scaleph.log.service.param.LoginLogParam;
+import cn.sliew.scaleph.log.service.param.LogLoginParam;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * <p>
@@ -22,7 +22,7 @@ import java.util.List;
  * @since 2021-08-01
  */
 @Service
-public class LoginLogServiceImpl implements LoginLogService {
+public class LogLoginServiceImpl implements LogLoginService {
 
     @Autowired
     private LogLoginMapper logLoginMapper;
@@ -34,15 +34,15 @@ public class LoginLogServiceImpl implements LoginLogService {
     }
 
     @Override
-    public Page<LogLoginDTO> listByPage(LoginLogParam loginLogParam) {
+    public Page<LogLoginDTO> listByPage(LogLoginParam logLoginParam) {
         Page<LogLoginDTO> result = new Page<>();
         Page<LogLogin> list = this.logLoginMapper.selectPage(
-                new Page<>(loginLogParam.getCurrent(), loginLogParam.getPageSize()),
-                new QueryWrapper<LogLogin>()
-                        .lambda()
-                        .eq(LogLogin::getUserName, loginLogParam.getUserName())
-                        .gt(LogLogin::getLoginTime, loginLogParam.getLoginTime())
-                        .orderByDesc(LogLogin::getLoginTime)
+            new Page<>(logLoginParam.getCurrent(), logLoginParam.getPageSize()),
+            new QueryWrapper<LogLogin>()
+                .lambda()
+                .eq(LogLogin::getUserName, logLoginParam.getUserName())
+                .gt(LogLogin::getLoginTime, logLoginParam.getLoginTime())
+                .orderByDesc(LogLogin::getLoginTime)
         );
         List<LogLoginDTO> dtoList = LogLoginConvert.INSTANCE.toDto(list.getRecords());
         result.setCurrent(list.getCurrent());

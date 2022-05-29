@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.sliew.scaleph.dao.mapper.log.MessageMapper">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.log.LogMessageMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="MessageMap" type="cn.sliew.scaleph.dao.entity.log.Message">
+    <resultMap id="LogMessageMap" type="cn.sliew.scaleph.dao.entity.log.LogMessage">
         <result column="id" property="id"/>
         <result column="title" property="title"/>
         <result column="message_type" property="messageType"/>

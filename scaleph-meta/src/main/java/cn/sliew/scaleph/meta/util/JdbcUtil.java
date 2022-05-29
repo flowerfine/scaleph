@@ -1,5 +1,16 @@
 package cn.sliew.scaleph.meta.util;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 import cn.sliew.scaleph.common.enums.ConnectionTypeEnum;
 import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
@@ -13,12 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.DigestUtils;
 
-import javax.sql.DataSource;
-import java.sql.*;
-import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 /**
  * JDBC工具类
  *
@@ -30,7 +35,8 @@ public class JdbcUtil {
     /**
      * datasource map
      */
-    private static final ConcurrentMap<String, HikariDataSource> DATA_SOURCES = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, HikariDataSource> DATA_SOURCES =
+        new ConcurrentHashMap<>();
 
     /**
      * 测试元数据信息是否可以连接到数据库
@@ -45,7 +51,8 @@ public class JdbcUtil {
             //jdbc rdbms
             if (ConnectionTypeEnum.JDBC.getCode().equals(meta.getConnectionType().getCode())) {
                 conn = getConnection(meta, ConnectionTypeEnum.JDBC);
-            } else if (ConnectionTypeEnum.POOLED.getCode().equals(meta.getConnectionType().getCode())) {
+            } else if (ConnectionTypeEnum.POOLED.getCode()
+                .equals(meta.getConnectionType().getCode())) {
                 conn = getConnection(meta, ConnectionTypeEnum.POOLED);
             }
             return conn != null;
@@ -66,7 +73,8 @@ public class JdbcUtil {
         return JdbcUtil.testConnection(adm);
     }
 
-    private static AbstractDatabaseMeta getDataBaseMetaByType(DataSourceMetaDTO dsMeta) throws CustomException {
+    private static AbstractDatabaseMeta getDataBaseMetaByType(DataSourceMetaDTO dsMeta)
+        throws CustomException {
         if (dsMeta == null || dsMeta.getDataSourceType() == null) {
             throw new CustomException(ResponseCodeEnum.ERROR_UNSUPPORTED_CONNECTION.getValue());
         }
@@ -122,7 +130,8 @@ public class JdbcUtil {
      * @param type 连接方式
      * @return Connection
      */
-    public static Connection getConnectionSilently(AbstractDatabaseMeta meta, ConnectionTypeEnum type) {
+    public static Connection getConnectionSilently(AbstractDatabaseMeta meta,
+                                                   ConnectionTypeEnum type) {
         switch (type) {
             case POOLED:
                 log.info("connection database {} using connection pool", meta.getDatabaseName());
@@ -172,7 +181,8 @@ public class JdbcUtil {
      * @param meta database meta
      * @return Connection
      */
-    public static Connection getConnection(AbstractDatabaseMeta meta, ConnectionTypeEnum type) throws SQLException, ClassNotFoundException {
+    public static Connection getConnection(AbstractDatabaseMeta meta, ConnectionTypeEnum type)
+        throws SQLException, ClassNotFoundException {
         switch (type) {
             case POOLED:
                 log.info("connection database {} using connection pool", meta.getDatabaseName());
@@ -213,11 +223,11 @@ public class JdbcUtil {
     private static String getDatasourceName(AbstractDatabaseMeta meta) {
         StringBuilder builder = new StringBuilder();
         builder.append(meta.getDataSourceType().getCode())
-                .append(meta.getHostName())
-                .append(meta.getDataSourceName())
-                .append(meta.getDatabaseName())
-                .append(meta.getUserName())
-                .append(meta.getPort());
+            .append(meta.getHostName())
+            .append(meta.getDataSourceName())
+            .append(meta.getDatabaseName())
+            .append(meta.getUserName())
+            .append(meta.getPort());
         return DigestUtils.md5DigestAsHex(builder.toString().getBytes());
     }
 
@@ -245,7 +255,8 @@ public class JdbcUtil {
                     dataSource.setMinimumIdle(Integer.parseInt(poolProps.getProperty("minIdle")));
                 }
                 if (poolProps.containsKey("maxPoolSize")) {
-                    dataSource.setMaximumPoolSize(Integer.parseInt(poolProps.getProperty("maxPoolSize")));
+                    dataSource.setMaximumPoolSize(
+                        Integer.parseInt(poolProps.getProperty("maxPoolSize")));
                 }
             }
             DATA_SOURCES.put(getDatasourceName(meta), dataSource);

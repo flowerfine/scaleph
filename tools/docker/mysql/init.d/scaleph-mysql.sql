@@ -608,9 +608,9 @@ create table t_dept_role
 ) engine = innodb comment = '部门角色关联表';
 
 /* 用户登录登出日志 */
-drop table if exists t_log_login;
+drop table if exists log_login;
 
-create table t_log_login
+create table log_login
 (
     id           bigint     not null auto_increment comment '自增主键',
     user_name    varchar(60) comment '用户名',
@@ -632,9 +632,9 @@ create table t_log_login
 ) engine = innodb comment = '用户登录登出日志' comment '用户登录登出日志';
 
 /* 用户操作日志 */
-drop table if exists t_log_action;
+drop table if exists log_action;
 
-create table t_log_action
+create table log_action
 (
     id           bigint       not null auto_increment comment '自增主键',
     user_name    varchar(60) comment '用户名',
@@ -657,9 +657,9 @@ create table t_log_action
 ) engine = innodb comment = '用户操作日志';
 
 
-/*站内信表 */
-drop table if exists t_message;
-create table t_message
+/*站内信日志表 */
+drop table if exists log_message;
+create table log_message
 (
     id           bigint       not null auto_increment comment '自增主键',
     title        varchar(128) not null default '' comment '标题',
@@ -677,7 +677,7 @@ create table t_message
     key (receiver, message_type),
     key (sender, message_type),
     key (update_time)
-) engine = innodb comment = '站内信表';
+) engine = innodb comment = '站内信日志表';
 
 /*用户邮箱激活日志表*/
 drop table if exists t_user_active;
@@ -717,8 +717,8 @@ insert into t_system_config(cfg_code, cfg_value, creator, editor)
 VALUES ('basic', '{\"seatunnelHome\":\"/opt/seatunnel\"}', 'sys_admin', 'sys_admin');
 
 /*定时任务运行日志表*/
-drop table if exists t_schedule_log;
-create table t_schedule_log
+drop table if exists log_schedule;
+create table log_schedule
 (
     id          bigint       not null auto_increment comment '自增主键',
     task_group  varchar(128) not null comment '任务组',

@@ -1,5 +1,7 @@
 package cn.sliew.scaleph.service.impl;
 
+import java.util.HashMap;
+
 import cn.sliew.scaleph.ApplicationTest;
 import cn.sliew.scaleph.common.enums.UserStatusEnum;
 import cn.sliew.scaleph.security.service.UserService;
@@ -7,8 +9,6 @@ import cn.sliew.scaleph.security.service.dto.UserDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.HashMap;
 
 class UserServiceImplTest extends ApplicationTest {
 
@@ -21,7 +21,8 @@ class UserServiceImplTest extends ApplicationTest {
         user.setUserName("test");
         user.setEmail("55@5");
         user.setPassword("123456");
-        user.setUserStatus(new DictVO(UserStatusEnum.BIND_EMAIL.getValue(), UserStatusEnum.BIND_EMAIL.getLabel()));
+        user.setUserStatus(
+            new DictVO(UserStatusEnum.BIND_EMAIL.getValue(), UserStatusEnum.BIND_EMAIL.getLabel()));
         user.setRegisterChannel(new DictVO("15", "abc"));
         this.userService.insert(user);
         UserDTO dto = this.userService.selectOne("test");

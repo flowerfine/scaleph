@@ -1,5 +1,10 @@
 package cn.sliew.scaleph.api.controller.admin;
 
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
@@ -19,12 +24,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -61,7 +68,8 @@ public class DictController {
     @AnonymousAccess
     @GetMapping(path = "/data/{dictTypeCode}")
     @ApiOperation(value = "查询数据字典", notes = "根据字典类型code查询数据字典")
-    public ResponseEntity<List<DictVO>> listDictByType(@NotNull @PathVariable(value = "dictTypeCode") String dictTypeCode) {
+    public ResponseEntity<List<DictVO>> listDictByType(
+        @NotNull @PathVariable(value = "dictTypeCode") String dictTypeCode) {
         List<DictDTO> list = this.dictService.selectByType(dictTypeCode);
         List<DictVO> result = new ArrayList<>(list.size());
         list.forEach(d -> {
@@ -188,7 +196,8 @@ public class DictController {
     @PutMapping(path = "/type")
     @ApiOperation(value = "修改数据字典类型", notes = "修改数据字典类型")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_TYPE_EDIT)")
-    public ResponseEntity<ResponseVO> editDictType(@Validated @RequestBody DictTypeDTO dictTypeDTO) {
+    public ResponseEntity<ResponseVO> editDictType(
+        @Validated @RequestBody DictTypeDTO dictTypeDTO) {
         this.dictTypeService.update(dictTypeDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }

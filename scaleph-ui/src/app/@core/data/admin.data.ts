@@ -87,7 +87,7 @@ export class Privilege {
   id?: number;
 }
 
-export class LoginLog {
+export class LogLogin {
   id?: bigint;
   userName?: string;
   loginTime?: Date;

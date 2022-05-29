@@ -1,5 +1,10 @@
 package cn.sliew.scaleph.security.service.impl;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import cn.sliew.scaleph.common.enums.UserStatusEnum;
 import cn.sliew.scaleph.dao.entity.master.security.Role;
 import cn.sliew.scaleph.dao.entity.master.security.User;
@@ -14,11 +19,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
     public int updateByUserName(UserDTO userDTO) {
         User user = UserConvert.INSTANCE.toDo(userDTO);
         return this.userMapper.update(user, new LambdaQueryWrapper<User>()
-                .eq(User::getUserName, user.getUserName())
+            .eq(User::getUserName, user.getUserName())
         );
     }
 
@@ -81,7 +81,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO selectOne(String userName) {
-        User user = this.userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUserName, userName));
+        User user = this.userMapper.selectOne(
+            new LambdaQueryWrapper<User>().eq(User::getUserName, userName));
         return UserConvert.INSTANCE.toDto(user);
     }
 
@@ -94,10 +95,10 @@ public class UserServiceImpl implements UserService {
         user.setUserStatus(userParam.getUserStatus());
         Page<UserDTO> result = new Page<>();
         Page<User> list = this.userMapper.selectPage(
-                new Page<>(userParam.getCurrent(), userParam.getPageSize()),
-                userParam.getDeptId(),
-                userParam.getRoleId(),
-                user
+            new Page<>(userParam.getCurrent(), userParam.getPageSize()),
+            userParam.getDeptId(),
+            userParam.getRoleId(),
+            user
         );
         List<UserDTO> dtoList = UserConvert.INSTANCE.toDto(list.getRecords());
         result.setCurrent(list.getCurrent());
@@ -109,26 +110,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO selectByEmail(String email) {
-        User user = this.userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getEmail, email));
+        User user =
+            this.userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getEmail, email));
         return UserConvert.INSTANCE.toDto(user);
     }
 
     @Override
     public List<UserDTO> listByRole(Long roleId, String userName, String direction) {
-        List<User> list = this.userMapper.selectByRoleOrDept("", String.valueOf(roleId), userName, direction);
+        List<User> list =
+            this.userMapper.selectByRoleOrDept("", String.valueOf(roleId), userName, direction);
         return UserConvert.INSTANCE.toDto(list);
     }
 
     @Override
     public List<UserDTO> listByDept(Long deptId, String userName, String direction) {
-        List<User> list = this.userMapper.selectByRoleOrDept(String.valueOf(deptId), "", userName, direction);
+        List<User> list =
+            this.userMapper.selectByRoleOrDept(String.valueOf(deptId), "", userName, direction);
         return UserConvert.INSTANCE.toDto(list);
     }
 
     @Override
     public List<UserDTO> listByUserName(String userName) {
         List<User> list = this.userMapper.selectList(new LambdaQueryWrapper<User>()
-                .like(User::getUserName, userName));
+            .like(User::getUserName, userName));
         return UserConvert.INSTANCE.toDto(list);
     }
 

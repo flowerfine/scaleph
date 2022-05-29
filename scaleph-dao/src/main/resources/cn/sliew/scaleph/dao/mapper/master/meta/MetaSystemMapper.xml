@@ -4,16 +4,16 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="MetaSystemMap" type="cn.sliew.scaleph.dao.entity.master.meta.MetaSystem">
-        <result column="id" property="id" />
-        <result column="creator" property="creator" />
-        <result column="create_time" property="createTime" />
-        <result column="editor" property="editor" />
-        <result column="update_time" property="updateTime" />
-        <result column="system_code" property="systemCode" />
-        <result column="system_name" property="systemName" />
-        <result column="contacts" property="contacts" />
-        <result column="contacts_phone" property="contactsPhone" />
-        <result column="remark" property="remark" />
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="system_code" property="systemCode"/>
+        <result column="system_name" property="systemName"/>
+        <result column="contacts" property="contacts"/>
+        <result column="contacts_phone" property="contactsPhone"/>
+        <result column="remark" property="remark"/>
     </resultMap>
 
 </mapper>

@@ -1,5 +1,10 @@
 package cn.sliew.scaleph.engine.util;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
@@ -9,10 +14,14 @@ import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.common.exception.CustomException;
 import cn.sliew.scaleph.common.exception.Rethrower;
-import cn.sliew.scaleph.core.di.service.dto.*;
+import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobLinkDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobStepAttrDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobStepDTO;
 import cn.sliew.scaleph.meta.service.DataSourceMetaService;
-import cn.sliew.scaleph.meta.util.JdbcUtil;
 import cn.sliew.scaleph.meta.service.dto.DataSourceMetaDTO;
+import cn.sliew.scaleph.meta.util.JdbcUtil;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
@@ -20,11 +29,6 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * seatunnel job config helper
@@ -35,11 +39,7 @@ import java.util.Map;
 @Component
 public class JobConfigHelper {
 
-    @Autowired
-    private DataSourceMetaService dataSourceMetaService;
-
     private static final Map<String, String> JOB_STEP_MAP = new HashMap<>();
-
     private static final Map<String, String> PLUGIN_MAP = new HashMap<>();
 
     static {
@@ -52,6 +52,9 @@ public class JobConfigHelper {
         PLUGIN_MAP.put("source-csv", "file");
         PLUGIN_MAP.put("sink-csv", "file");
     }
+
+    @Autowired
+    private DataSourceMetaService dataSourceMetaService;
 
     /**
      * @param job
@@ -77,10 +80,11 @@ public class JobConfigHelper {
         envMap.put(Constants.JOB_NAME, job.getJobCode());
         if (CollectionUtil.isNotEmpty(jobAttrList)) {
             jobAttrList.stream()
-                    .filter(attr -> JobAttrTypeEnum.JOB_PROP.getValue().equals(attr.getJobAttrType().getValue()))
-                    .forEach(attr -> {
-                        envMap.put(attr.getJobAttrKey(), attr.getJobAttrValue());
-                    });
+                .filter(attr -> JobAttrTypeEnum.JOB_PROP.getValue()
+                    .equals(attr.getJobAttrType().getValue()))
+                .forEach(attr -> {
+                    envMap.put(attr.getJobAttrKey(), attr.getJobAttrValue());
+                });
         }
     }
 
@@ -100,7 +104,8 @@ public class JobConfigHelper {
         if (CollectionUtil.isNotEmpty(jobStepList) && CollectionUtil.isNotEmpty(jobLinkList)) {
             Map<String, Map<String, String>> stepMap = new HashMap<>();
             jobStepList.forEach(step -> {
-                String name = JOB_STEP_MAP.get(StrUtil.join("-", step.getStepType().getValue(), step.getStepName()));
+                String name = JOB_STEP_MAP.get(
+                    StrUtil.join("-", step.getStepType().getValue(), step.getStepName()));
                 Map<String, String> map = new HashMap<>();
                 map.put(pluginName, name);
                 map.put(nodeType, step.getStepType().getValue());
@@ -144,9 +149,11 @@ public class JobConfigHelper {
                 if (Constants.JOB_STEP_ATTR_DATASOURCE.equals(attr.getStepAttrKey())) {
                     try {
                         DictVO dsAttr = JSONUtil.toBean(attr.getStepAttrValue(), DictVO.class);
-                        DataSourceMetaDTO dsInfo = this.dataSourceMetaService.selectOne(dsAttr.getValue());
+                        DataSourceMetaDTO dsInfo =
+                            this.dataSourceMetaService.selectOne(dsAttr.getValue());
                         map.put(Constants.JOB_STEP_ATTR_USERNAME, dsInfo.getUserName());
-                        map.put(Constants.JOB_STEP_ATTR_PASSWORD, CodecUtil.decodeFromBase64(dsInfo.getPassword()));
+                        map.put(Constants.JOB_STEP_ATTR_PASSWORD,
+                            CodecUtil.decodeFromBase64(dsInfo.getPassword()));
                         map.put(Constants.JOB_STEP_ATTR_DRIVER, JdbcUtil.getDriver(dsInfo));
                         map.put(Constants.JOB_STEP_ATTR_URL, JdbcUtil.getUrl(dsInfo));
                     } catch (CustomException e) {

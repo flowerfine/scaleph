@@ -1,12 +1,12 @@
 package cn.sliew.scaleph.system.service;
 
-import cn.sliew.scaleph.system.service.dto.DictTypeDTO;
-import cn.sliew.scaleph.system.service.param.DictTypeParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+
+import cn.sliew.scaleph.system.service.dto.DictTypeDTO;
+import cn.sliew.scaleph.system.service.param.DictTypeParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
  * <p>

@@ -4,15 +4,15 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="DiJobLinkMap" type="cn.sliew.scaleph.dao.entity.master.di.DiJobLink">
-        <result column="id" property="id" />
-        <result column="creator" property="creator" />
-        <result column="create_time" property="createTime" />
-        <result column="editor" property="editor" />
-        <result column="update_time" property="updateTime" />
-        <result column="job_id" property="jobId" />
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="job_id" property="jobId"/>
         <result column="link_code" property="linkCode"/>
-        <result column="from_step_code" property="fromStepCode" />
-        <result column="to_step_code" property="toStepCode" />
+        <result column="from_step_code" property="fromStepCode"/>
+        <result column="to_step_code" property="toStepCode"/>
     </resultMap>
 
     <delete id="deleteByProjectId">

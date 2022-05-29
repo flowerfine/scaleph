@@ -1,13 +1,13 @@
 package cn.sliew.scaleph.dao.entity.master.system;
 
+import java.util.Date;
+
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Date;
 
 /**
  * <p>
@@ -20,7 +20,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("t_user_active")
-@ApiModel(value="UserActive对象", description="用户邮箱激活日志表")
+@ApiModel(value = "UserActive对象", description = "用户邮箱激活日志表")
 public class UserActive extends BaseDO {
 
     private static final long serialVersionUID = 2629509779716126101L;

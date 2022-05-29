@@ -1,6 +1,10 @@
 package cn.sliew.scaleph.plugin.framework.property;
 
-import cn.sliew.milky.common.primitives.*;
+import cn.sliew.milky.common.primitives.Booleans;
+import cn.sliew.milky.common.primitives.Doubles;
+import cn.sliew.milky.common.primitives.Floats;
+import cn.sliew.milky.common.primitives.Integers;
+import cn.sliew.milky.common.primitives.Longs;
 
 public enum Parsers {
     ;

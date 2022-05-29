@@ -1,8 +1,8 @@
 package cn.sliew.scaleph.core.di.service.convert;
 
-import cn.sliew.scaleph.dao.entity.master.di.DiJob;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
+import cn.sliew.scaleph.dao.entity.master.di.DiJob;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,12 +12,13 @@ import org.mapstruct.factory.Mappers;
 /**
  * @author gleiyu
  */
-@Mapper(uses = {DiDirectoryConvert.class, DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {DiDirectoryConvert.class,
+    DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DiJobConvert extends BaseConvert<DiJob, DiJobDTO> {
     DiJobConvert INSTANCE = Mappers.getMapper(DiJobConvert.class);
 
     @Override
-    @Mapping(source = "directory.id",target = "directoryId")
+    @Mapping(source = "directory.id", target = "directoryId")
     DiJob toDo(DiJobDTO dto);
 
     @Override

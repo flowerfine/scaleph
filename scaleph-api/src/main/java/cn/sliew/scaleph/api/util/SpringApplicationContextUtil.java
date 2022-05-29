@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.service.util;
+package cn.sliew.scaleph.api.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -17,11 +17,6 @@ public class SpringApplicationContextUtil implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        SpringApplicationContextUtil.applicationContext = applicationContext;
-    }
-
     /**
      * 获取spring applicationContext对象
      *
@@ -29,6 +24,11 @@ public class SpringApplicationContextUtil implements ApplicationContextAware {
      */
     public static ApplicationContext getApplicationContext() {
         return applicationContext;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        SpringApplicationContextUtil.applicationContext = applicationContext;
     }
 
     /**

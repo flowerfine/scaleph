@@ -20,6 +20,17 @@ public class ExtendedPluginsClassLoader extends ClassLoader {
         this.extendedLoaders = Collections.unmodifiableList(extendedLoaders);
     }
 
+    /**
+     * Return a new classloader across the parent and extended loaders.
+     */
+    public static ExtendedPluginsClassLoader create(ClassLoader parent,
+                                                    List<ClassLoader> extendedLoaders) {
+        return AccessController.doPrivileged(
+            (PrivilegedAction<ExtendedPluginsClassLoader>) () -> new ExtendedPluginsClassLoader(
+                parent, extendedLoaders)
+        );
+    }
+
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
         for (ClassLoader loader : extendedLoaders) {
@@ -30,14 +41,5 @@ public class ExtendedPluginsClassLoader extends ClassLoader {
             }
         }
         throw new ClassNotFoundException(name);
-    }
-
-    /**
-     * Return a new classloader across the parent and extended loaders.
-     */
-    public static ExtendedPluginsClassLoader create(ClassLoader parent, List<ClassLoader> extendedLoaders) {
-        return AccessController.doPrivileged(
-                (PrivilegedAction<ExtendedPluginsClassLoader>) () -> new ExtendedPluginsClassLoader(parent, extendedLoaders)
-        );
     }
 }

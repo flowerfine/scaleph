@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.security.service.convert;
 
-import cn.sliew.scaleph.dao.entity.master.security.Role;
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.master.security.Role;
 import cn.sliew.scaleph.security.service.dto.RoleDTO;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;

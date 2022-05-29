@@ -1,5 +1,9 @@
 package cn.sliew.scaleph.security.service.impl;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+
 import cn.sliew.scaleph.dao.entity.master.security.Role;
 import cn.sliew.scaleph.dao.mapper.master.security.RoleMapper;
 import cn.sliew.scaleph.security.service.DeptRoleService;
@@ -13,10 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -80,13 +80,15 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDTO selectOne(String roleCode) {
-        Role role = this.roleMapper.selectOne(new LambdaQueryWrapper<Role>().eq(Role::getRoleCode, roleCode));
+        Role role = this.roleMapper.selectOne(
+            new LambdaQueryWrapper<Role>().eq(Role::getRoleCode, roleCode));
         return RoleConvert.INSTANCE.toDto(role);
     }
 
     @Override
     public List<RoleDTO> listAll() {
-        List<Role> list = this.roleMapper.selectList(new LambdaQueryWrapper<Role>().orderByAsc(Role::getCreateTime));
+        List<Role> list = this.roleMapper.selectList(
+            new LambdaQueryWrapper<Role>().orderByAsc(Role::getCreateTime));
         return RoleConvert.INSTANCE.toDto(list);
     }
 

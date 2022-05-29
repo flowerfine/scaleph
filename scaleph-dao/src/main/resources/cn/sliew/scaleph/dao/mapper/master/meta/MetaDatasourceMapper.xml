@@ -4,16 +4,16 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.meta.MetaDatasource">
-        <result column="id" property="id" />
-        <result column="creator" property="creator" />
-        <result column="create_time" property="createTime" />
-        <result column="editor" property="editor" />
-        <result column="update_time" property="updateTime" />
-        <result column="name" property="name" />
-        <result column="version" property="version" />
-        <result column="props" property="props" />
-        <result column="additional_props" property="additionalProps" />
-        <result column="remark" property="remark" />
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="name" property="name"/>
+        <result column="version" property="version"/>
+        <result column="props" property="props"/>
+        <result column="additional_props" property="additionalProps"/>
+        <result column="remark" property="remark"/>
     </resultMap>
 
 </mapper>

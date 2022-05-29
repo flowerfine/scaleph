@@ -1,5 +1,7 @@
 package cn.sliew.scaleph.service.impl;
 
+import java.util.List;
+
 import cn.sliew.scaleph.ApplicationTest;
 import cn.sliew.scaleph.system.service.DictService;
 import cn.sliew.scaleph.system.service.dto.DictDTO;
@@ -8,8 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
-
-import java.util.List;
 
 class DictServiceImplTest extends ApplicationTest {
 

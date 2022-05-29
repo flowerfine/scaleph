@@ -1,12 +1,12 @@
 package cn.sliew.scaleph.dao.mapper.master.di;
 
+import java.io.Serializable;
+import java.util.Collection;
+
 import cn.sliew.scaleph.dao.entity.master.di.DiJobAttr;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
-import java.io.Serializable;
-import java.util.Collection;
 
 /**
  * <p>

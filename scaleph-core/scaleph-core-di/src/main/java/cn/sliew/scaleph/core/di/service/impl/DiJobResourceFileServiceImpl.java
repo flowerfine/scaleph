@@ -1,5 +1,7 @@
 package cn.sliew.scaleph.core.di.service.impl;
 
+import java.util.List;
+
 import cn.sliew.scaleph.core.di.service.DiJobResourceFileService;
 import cn.sliew.scaleph.core.di.service.convert.DiResourceFileConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiResourceFileDTO;
@@ -11,8 +13,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * <p>
@@ -32,8 +32,8 @@ public class DiJobResourceFileServiceImpl implements DiJobResourceFileService {
     @Transactional(rollbackFor = Exception.class)
     public int bindResource(Long jobId, List<DictVO> resources) {
         this.diJobResourceFileMapper.delete(
-                new LambdaQueryWrapper<DiJobResourceFile>()
-                        .eq(DiJobResourceFile::getJobId, jobId)
+            new LambdaQueryWrapper<DiJobResourceFile>()
+                .eq(DiJobResourceFile::getJobId, jobId)
         );
         int result = 0;
         for (DictVO dto : resources) {

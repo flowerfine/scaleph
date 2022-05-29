@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("meta_system")
-@ApiModel(value="MetaSystem对象", description="元数据-业务系统信息")
+@ApiModel(value = "MetaSystem对象", description = "元数据-业务系统信息")
 public class MetaSystem extends BaseDO {
 
     private static final long serialVersionUID = -6440397331809516542L;

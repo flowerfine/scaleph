@@ -1,12 +1,12 @@
 package cn.sliew.scaleph.system.service.dto;
 
+import java.util.Date;
+
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Date;
 
 /**
  * <p>

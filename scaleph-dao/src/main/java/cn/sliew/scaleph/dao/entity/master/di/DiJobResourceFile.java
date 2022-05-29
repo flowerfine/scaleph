@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("di_job_resource_file")
-@ApiModel(value="DiJobResourceFile对象", description="数据集成-作业资源")
+@ApiModel(value = "DiJobResourceFile对象", description = "数据集成-作业资源")
 public class DiJobResourceFile extends BaseDO {
 
     private static final long serialVersionUID = -1673520716698785012L;

@@ -1,5 +1,7 @@
 package cn.sliew.scaleph.system.service.impl;
 
+import java.util.Date;
+
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.dao.entity.master.system.UserActive;
 import cn.sliew.scaleph.dao.mapper.master.system.UserActiveMapper;
@@ -9,8 +11,6 @@ import cn.sliew.scaleph.system.service.dto.UserActiveDTO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 /**
  * <p>
@@ -34,12 +34,13 @@ public class UserActiveServiceImpl implements UserActiveService {
 
     @Override
     public int updateByUserAndCode(UserActiveDTO userActiveDTO) {
-        if (userActiveDTO != null && StrUtil.isEmpty(userActiveDTO.getUserName()) && StrUtil.isEmpty(userActiveDTO.getActiveCode())) {
+        if (userActiveDTO != null && StrUtil.isEmpty(userActiveDTO.getUserName()) &&
+            StrUtil.isEmpty(userActiveDTO.getActiveCode())) {
             userActiveDTO.setActiveTime(new Date());
             UserActive userActive = UserActiveConvert.INSTANCE.toDo(userActiveDTO);
             return this.userActiveMapper.update(userActive, new LambdaQueryWrapper<UserActive>()
-                    .eq(UserActive::getActiveCode, userActive.getActiveCode())
-                    .eq(UserActive::getUserName, userActive.getUserName())
+                .eq(UserActive::getActiveCode, userActive.getActiveCode())
+                .eq(UserActive::getUserName, userActive.getUserName())
             );
         }
         return 0;
@@ -48,8 +49,8 @@ public class UserActiveServiceImpl implements UserActiveService {
     @Override
     public UserActiveDTO selectOne(String userName, String activeCode) {
         UserActive userActive = this.userActiveMapper.selectOne(new LambdaQueryWrapper<UserActive>()
-                .eq(UserActive::getUserName, userName)
-                .eq(UserActive::getActiveCode, activeCode)
+            .eq(UserActive::getUserName, userName)
+            .eq(UserActive::getActiveCode, activeCode)
         );
         return UserActiveConvert.INSTANCE.toDto(userActive);
     }

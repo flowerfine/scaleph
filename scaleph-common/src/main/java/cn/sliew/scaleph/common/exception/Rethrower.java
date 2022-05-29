@@ -17,7 +17,8 @@ public class Rethrower {
         castCheckedToRuntime(voidCallable, IllegalArgumentException::new);
     }
 
-    private static void castCheckedToRuntime(final Procedure voidCallable, final Function<Exception, RuntimeException> exceptionFactory) {
+    private static void castCheckedToRuntime(final Procedure voidCallable,
+                                             final Function<Exception, RuntimeException> exceptionFactory) {
         try {
             voidCallable.call();
         } catch (final RuntimeException e) {
@@ -25,11 +26,6 @@ public class Rethrower {
         } catch (final Exception e) {
             throw exceptionFactory.apply(e);
         }
-    }
-
-    @FunctionalInterface
-    public interface Procedure {
-        void call() throws Exception;
     }
 
     public static void checkArgument(boolean expression, Supplier<Object> errorMessage) {
@@ -43,5 +39,10 @@ public class Rethrower {
             throw new NullPointerException(errorMessage.get().toString());
         }
         return reference;
+    }
+
+    @FunctionalInterface
+    public interface Procedure {
+        void call() throws Exception;
     }
 }

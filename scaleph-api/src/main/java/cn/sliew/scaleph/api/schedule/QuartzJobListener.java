@@ -1,17 +1,22 @@
 package cn.sliew.scaleph.api.schedule;
 
+import java.util.Date;
+
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.enums.TaskResultEnum;
-import cn.sliew.scaleph.log.service.ScheduleLogService;
-import cn.sliew.scaleph.log.service.dto.ScheduleLogDTO;
-import cn.sliew.scaleph.service.util.SpringApplicationContextUtil;
+import cn.sliew.scaleph.log.service.LogScheduleService;
+import cn.sliew.scaleph.log.service.dto.LogScheduleDTO;
+import cn.sliew.scaleph.api.util.SpringApplicationContextUtil;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.*;
-
-import java.util.Date;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.quartz.JobKey;
+import org.quartz.JobListener;
 
 /**
  * @author gleiyu
@@ -29,11 +34,12 @@ public class QuartzJobListener implements JobListener {
         JobDetail jobDetail = context.getJobDetail();
         JobKey jobKey = jobDetail.getKey();
         JobDataMap dataMap = jobDetail.getJobDataMap();
-        ScheduleLogDTO logDTO = new ScheduleLogDTO();
+        LogScheduleDTO logDTO = new LogScheduleDTO();
         logDTO.setStartTime(new Date());
         logDTO.setTaskGroup(jobKey.getGroup());
         logDTO.setTaskName(jobKey.getName());
-        logDTO.appendLog(StrUtil.format("job {} in group {} begin running...", jobKey.getName(), jobKey.getGroup()));
+        logDTO.appendLog(StrUtil.format("job {} in group {} begin running...", jobKey.getName(),
+            jobKey.getGroup()));
         dataMap.put(Constants.JOB_LOG_KEY, logDTO);
         log.debug("job {} in group {} begin running... ", jobKey.getName(), jobKey.getGroup());
     }
@@ -49,16 +55,20 @@ public class QuartzJobListener implements JobListener {
         JobDetail jobDetail = context.getJobDetail();
         JobKey jobKey = jobDetail.getKey();
         JobDataMap dataMap = jobDetail.getJobDataMap();
-        ScheduleLogDTO logDTO = (ScheduleLogDTO) dataMap.get(Constants.JOB_LOG_KEY);
+        LogScheduleDTO logDTO = (LogScheduleDTO) dataMap.get(Constants.JOB_LOG_KEY);
         logDTO.setEndTime(new Date());
         if (jobException == null) {
-            logDTO.setResult(new DictVO(TaskResultEnum.SUCCESS.getCode(), TaskResultEnum.SUCCESS.getValue()));
+            logDTO.setResult(
+                new DictVO(TaskResultEnum.SUCCESS.getCode(), TaskResultEnum.SUCCESS.getValue()));
         } else {
-            logDTO.setResult(new DictVO(TaskResultEnum.FAILURE.getCode(), TaskResultEnum.FAILURE.getValue()));
+            logDTO.setResult(
+                new DictVO(TaskResultEnum.FAILURE.getCode(), TaskResultEnum.FAILURE.getValue()));
         }
-        logDTO.appendLog(StrUtil.format("job {} in group {} execute completed", jobKey.getName(), jobKey.getGroup()));
-        ScheduleLogService scheduleLogService = SpringApplicationContextUtil.getBean(ScheduleLogService.class);
-        scheduleLogService.insert(logDTO);
+        logDTO.appendLog(StrUtil.format("job {} in group {} execute completed", jobKey.getName(),
+            jobKey.getGroup()));
+        LogScheduleService
+            logScheduleService = SpringApplicationContextUtil.getBean(LogScheduleService.class);
+        logScheduleService.insert(logDTO);
         log.debug("job {} in group {} execute completed", jobKey.getName(), jobKey.getGroup());
     }
 }

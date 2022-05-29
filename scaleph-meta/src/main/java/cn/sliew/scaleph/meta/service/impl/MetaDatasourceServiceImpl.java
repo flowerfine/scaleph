@@ -1,5 +1,10 @@
 package cn.sliew.scaleph.meta.service.impl;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDatasource;
 import cn.sliew.scaleph.dao.mapper.master.meta.MetaDatasourceMapper;
 import cn.sliew.scaleph.meta.service.MetaDatasourceService;
@@ -14,11 +19,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Service
 public class MetaDatasourceServiceImpl implements MetaDatasourceService {
@@ -43,7 +43,8 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
      */
     @Override
     public int insert(MetaDatasourceDTO metaDatasourceDTO) {
-        final MetaDatasource metaDatasource = MetaDataSourceConvert.INSTANCE.toDo(metaDatasourceDTO);
+        final MetaDatasource metaDatasource =
+            MetaDataSourceConvert.INSTANCE.toDo(metaDatasourceDTO);
         return metaDatasourceMapper.insert(metaDatasource);
     }
 
@@ -52,7 +53,8 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
      */
     @Override
     public int update(MetaDatasourceDTO metaDatasourceDTO) {
-        final MetaDatasource metaDatasource = MetaDataSourceConvert.INSTANCE.toDo(metaDatasourceDTO);
+        final MetaDatasource metaDatasource =
+            MetaDataSourceConvert.INSTANCE.toDo(metaDatasourceDTO);
         return metaDatasourceMapper.updateById(metaDatasource);
     }
 
@@ -75,12 +77,15 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
     @Override
     public Page<MetaDatasourceDTO> selectPage(MetaDatasourceParam param) {
         Page<MetaDatasource> list = metaDatasourceMapper.selectPage(
-                new Page<>(param.getCurrent(), param.getPageSize()),
-                Wrappers.lambdaQuery(MetaDatasource.class)
-                        .like(StringUtils.hasText(param.getName()), MetaDatasource::getName, param.getName())
-                        .eq(StringUtils.hasText(param.getVersion()), MetaDatasource::getVersion, param.getVersion())
+            new Page<>(param.getCurrent(), param.getPageSize()),
+            Wrappers.lambdaQuery(MetaDatasource.class)
+                .like(StringUtils.hasText(param.getName()), MetaDatasource::getName,
+                    param.getName())
+                .eq(StringUtils.hasText(param.getVersion()), MetaDatasource::getVersion,
+                    param.getVersion())
         );
-        Page<MetaDatasourceDTO> result = new Page<>(list.getCurrent(), list.getSize(), list.getTotal());
+        Page<MetaDatasourceDTO> result =
+            new Page<>(list.getCurrent(), list.getSize(), list.getTotal());
         List<MetaDatasourceDTO> dtoList = MetaDataSourceConvert.INSTANCE.toDto(list.getRecords());
         result.setRecords(dtoList);
         return result;

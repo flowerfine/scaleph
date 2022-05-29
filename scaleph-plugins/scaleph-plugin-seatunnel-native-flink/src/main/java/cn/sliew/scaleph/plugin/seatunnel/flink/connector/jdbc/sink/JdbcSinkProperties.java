@@ -9,14 +9,15 @@ public enum JdbcSinkProperties {
     ;
 
     public static final PropertyDescriptor<String> QUERY = new PropertyDescriptor.Builder<String>()
-            .name("query")
-            .description("upsert statement")
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
+        .name("query")
+        .description("upsert statement")
+        .parser(Parsers.STRING_PARSER)
+        .properties(Property.Required)
+        .addValidator(Validators.NON_BLANK_VALIDATOR)
+        .validateAndBuild();
 
-    public static final PropertyDescriptor<Integer> BATCH_SIZE = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<Integer> BATCH_SIZE =
+        new PropertyDescriptor.Builder<String>()
             .name("batch_size")
             .description("The number of records writen per batch")
             .defaultValue(descriptor -> "1024")

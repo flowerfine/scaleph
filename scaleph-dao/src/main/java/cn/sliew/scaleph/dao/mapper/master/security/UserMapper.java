@@ -1,5 +1,7 @@
 package cn.sliew.scaleph.dao.mapper.master.security;
 
+import java.util.List;
+
 import cn.sliew.scaleph.dao.entity.master.security.Role;
 import cn.sliew.scaleph.dao.entity.master.security.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -8,8 +10,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * <p>
@@ -30,12 +30,13 @@ public interface UserMapper extends BaseMapper<User> {
      * @return int
      */
     @Update({"<script>" +
-            "update t_user " +
-            "set user_status = #{userStatus} " +
-            "where id in " +
-            "<foreach item=\"id\" index=\"index\" collection =\"idList\" open=\"(\" close=\")\" separator=\",\"> #{id}</foreach>" +
-            "</script>"})
-    int batchUpdateUserStatus(@Param("idList") List<Integer> idList, @Param("userStatus") String userStatus);
+        "update t_user " +
+        "set user_status = #{userStatus} " +
+        "where id in " +
+        "<foreach item=\"id\" index=\"index\" collection =\"idList\" open=\"(\" close=\")\" separator=\",\"> #{id}</foreach>" +
+        "</script>"})
+    int batchUpdateUserStatus(@Param("idList") List<Integer> idList,
+                              @Param("userStatus") String userStatus);
 
     /**
      * 分页查询
@@ -46,7 +47,8 @@ public interface UserMapper extends BaseMapper<User> {
      * @param user   用户参数
      * @return list
      */
-    Page<User> selectPage(IPage<?> page, @Param("deptId") String deptId, @Param("roleId") String roleId, @Param("user") User user);
+    Page<User> selectPage(IPage<?> page, @Param("deptId") String deptId,
+                          @Param("roleId") String roleId, @Param("user") User user);
 
     /**
      * 根据角色或者部门id查询
@@ -57,7 +59,9 @@ public interface UserMapper extends BaseMapper<User> {
      * @param direction 1:target 0:source
      * @return list
      */
-    List<User> selectByRoleOrDept(@Param("deptId") String deptId, @Param("roleId") String roleId, @Param("userName") String userName, @Param("direction") String direction);
+    List<User> selectByRoleOrDept(@Param("deptId") String deptId, @Param("roleId") String roleId,
+                                  @Param("userName") String userName,
+                                  @Param("direction") String direction);
 
     /**
      * 查询用户对应所有角色权限信息

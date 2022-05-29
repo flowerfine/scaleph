@@ -1,5 +1,8 @@
 package cn.sliew.scaleph.security.service.impl;
 
+import java.io.Serializable;
+import java.util.List;
+
 import cn.sliew.scaleph.dao.entity.master.security.Dept;
 import cn.sliew.scaleph.dao.mapper.master.security.DeptMapper;
 import cn.sliew.scaleph.security.service.DeptRoleService;
@@ -12,9 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * <p>
@@ -76,7 +76,7 @@ public class DeptServiceImpl implements DeptService {
     @Override
     public DeptDTO selectOne(String deptCode) {
         Dept dept = this.deptMapper.selectOne(new LambdaQueryWrapper<Dept>()
-                .eq(Dept::getDeptCode, deptCode));
+            .eq(Dept::getDeptCode, deptCode));
         return DeptConvert.INSTANCE.toDto(dept);
     }
 
@@ -89,7 +89,7 @@ public class DeptServiceImpl implements DeptService {
     @Override
     public List<DeptDTO> listByDeptId(Long pid) {
         List<Dept> deptList = this.deptMapper.selectList(new LambdaQueryWrapper<Dept>()
-                .eq(Dept::getPid, pid));
+            .eq(Dept::getPid, pid));
         return DeptConvert.INSTANCE.toDto(deptList);
     }
 }
