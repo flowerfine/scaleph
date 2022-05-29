@@ -37,13 +37,19 @@ public class JdbcSourceConverter implements SourceConverter {
         supportedProperties = Collections.unmodifiableList(props);
     }
 
+    private final Properties properties;
+
+    public JdbcSourceConverter(Properties properties) {
+        this.properties = properties;
+    }
+
     @Override
     public String getPluginName() {
         return "JdbcSource";
     }
 
     @Override
-    public ObjectNode create(Properties properties) {
+    public ObjectNode create() {
         ObjectNode objectNode = JacksonUtil.createObjectNode();
         PropertyContext propertyContext = PropertyContext.fromProperties(properties);
         for (PropertyDescriptor descriptor : supportedProperties) {

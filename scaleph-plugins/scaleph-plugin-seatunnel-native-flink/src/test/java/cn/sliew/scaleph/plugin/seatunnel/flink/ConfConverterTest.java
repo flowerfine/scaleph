@@ -25,10 +25,10 @@ class ConfConverterTest {
     @Test
     void testCreate() {
         ConfigFileConverter converter = new ConfigFileConverter();
-        converter.addEnvConverter(new CheckpointEnvConverter());
-        converter.addSourceConverter(new JdbcSourceConverter());
-        converter.addSinkConverter(new JdbcSinkConverter());
-        ObjectNode conf = converter.create(properties);
+        converter.addEnvConverter(new CheckpointEnvConverter(properties));
+        converter.addSourceConverter(new JdbcSourceConverter(properties));
+        converter.addSinkConverter(new JdbcSinkConverter(properties));
+        ObjectNode conf = converter.create();
         System.out.println(conf.toPrettyString());
     }
 }

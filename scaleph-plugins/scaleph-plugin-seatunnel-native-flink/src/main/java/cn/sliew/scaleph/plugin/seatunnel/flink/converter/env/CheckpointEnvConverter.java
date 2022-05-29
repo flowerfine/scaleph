@@ -86,8 +86,14 @@ public class CheckpointEnvConverter implements EnvConverter {
         supportedProperties = Collections.unmodifiableList(props);
     }
 
+    private final Properties properties;
+
+    public CheckpointEnvConverter(Properties properties) {
+        this.properties = properties;
+    }
+
     @Override
-    public ObjectNode create(Properties properties) {
+    public ObjectNode create() {
         ObjectNode objectNode = JacksonUtil.createObjectNode();
         PropertyContext propertyContext = PropertyContext.fromProperties(properties);
         for (PropertyDescriptor descriptor : supportedProperties) {

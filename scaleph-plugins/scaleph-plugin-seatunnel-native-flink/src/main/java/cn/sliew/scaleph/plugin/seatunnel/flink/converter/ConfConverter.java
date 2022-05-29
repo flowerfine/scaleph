@@ -2,8 +2,6 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.converter;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import java.util.Properties;
-
 /**
  *         env
  *                     jdbc
@@ -18,5 +16,5 @@ import java.util.Properties;
  */
 public interface ConfConverter {
 
-    ObjectNode create(Properties properties);
+    ObjectNode create();
 }
