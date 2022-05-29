@@ -1,21 +1,21 @@
 package cn.sliew.scaleph.api.security;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
 import cn.sliew.scaleph.api.vo.OnlineUserVO;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.security.service.RoleService;
 import cn.sliew.scaleph.security.service.UserService;
 import cn.sliew.scaleph.security.service.dto.PrivilegeDTO;
 import cn.sliew.scaleph.security.service.dto.RoleDTO;
-import cn.sliew.scaleph.service.util.RedisUtil;
+import cn.sliew.scaleph.cache.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * 用户在线信息service
@@ -24,14 +24,13 @@ import java.util.TreeSet;
  */
 @Service
 public class OnlineUserService {
+    private final SecurityProperties properties;
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
     private UserService userService;
     @Autowired
     private RoleService roleService;
-
-    private final SecurityProperties properties;
 
     public OnlineUserService(SecurityProperties properties) {
         this.properties = properties;
@@ -66,12 +65,14 @@ public class OnlineUserService {
         onlineUser.setRoles(new ArrayList<>(roles));
         onlineUser.setPrivileges(new ArrayList<>(privileges));
         //单点登录，踢出之前登录的用户数据
-        String userToken = (String) redisUtil.get(Constants.ONLINE_USER_KEY + onlineUser.getUserName());
+        String userToken =
+            (String) redisUtil.get(Constants.ONLINE_USER_KEY + onlineUser.getUserName());
         if (userToken != null) {
             redisUtil.delKeys(Constants.ONLINE_USER_KEY + onlineUser.getUserName());
             redisUtil.delKeys(Constants.ONLINE_TOKEN_KEY + userToken);
         }
-        long time = onlineUser.getRemember() ? properties.getLongTokenValidityInSeconds() / 1000 : properties.getTokenValidityInSeconds() / 1000;
+        long time = onlineUser.getRemember() ? properties.getLongTokenValidityInSeconds() / 1000 :
+            properties.getTokenValidityInSeconds() / 1000;
         redisUtil.set(Constants.ONLINE_USER_KEY + onlineUser.getUserName(), token, time);
         redisUtil.set(Constants.ONLINE_TOKEN_KEY + token, onlineUser, time);
     }
@@ -95,17 +96,20 @@ public class OnlineUserService {
      */
 
     public void logoutByToken(String token) {
-        OnlineUserVO onlineUser = (OnlineUserVO) this.redisUtil.get(Constants.ONLINE_TOKEN_KEY + token);
+        OnlineUserVO onlineUser =
+            (OnlineUserVO) this.redisUtil.get(Constants.ONLINE_TOKEN_KEY + token);
         redisUtil.delKeys(Constants.ONLINE_TOKEN_KEY + token);
         redisUtil.delKeys(Constants.ONLINE_USER_KEY + onlineUser.getUserName());
     }
 
 
     public OnlineUserVO getAllPrivilegeByToken(String token) {
-        OnlineUserVO onlineUser = (OnlineUserVO) this.redisUtil.get(Constants.ONLINE_TOKEN_KEY + token);
+        OnlineUserVO onlineUser =
+            (OnlineUserVO) this.redisUtil.get(Constants.ONLINE_TOKEN_KEY + token);
         long now = System.currentTimeMillis();
         long time = this.redisUtil.getExipre(Constants.ONLINE_TOKEN_KEY + token);
-        if (onlineUser != null && onlineUser.getPrivileges() != null && onlineUser.getRoles() != null) {
+        if (onlineUser != null && onlineUser.getPrivileges() != null &&
+            onlineUser.getRoles() != null) {
             onlineUser.setExpireTime((time * 1000) + now);
             return onlineUser;
         } else if (onlineUser != null) {
@@ -160,7 +164,8 @@ public class OnlineUserService {
     public void disableOnlineCacheUser(String userName) {
         String token = (String) redisUtil.get(Constants.ONLINE_USER_KEY + userName);
         if (!StringUtils.isEmpty(token)) {
-            OnlineUserVO onlineUser = (OnlineUserVO) redisUtil.get(Constants.ONLINE_TOKEN_KEY + token);
+            OnlineUserVO onlineUser =
+                (OnlineUserVO) redisUtil.get(Constants.ONLINE_TOKEN_KEY + token);
             if (onlineUser != null) {
                 onlineUser.setPrivileges(null);
                 onlineUser.setRoles(null);

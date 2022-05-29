@@ -1,11 +1,11 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.check;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.flink.configuration.ConfigOption;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.JobManagerOptions;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class StandaloneChecker implements ConfigurationChecker {
 

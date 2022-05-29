@@ -1,8 +1,8 @@
 package cn.sliew.scaleph.core.di.service.convert;
 
-import cn.sliew.scaleph.dao.entity.master.di.DiJobLog;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiJobLogDTO;
+import cn.sliew.scaleph.dao.entity.master.di.DiJobLog;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,7 +12,8 @@ import org.mapstruct.factory.Mappers;
 /**
  * @author gleiyu
  */
-@Mapper(uses = {DictVoConvert.class, DiProjectConvert.class, DiClusterConfigConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {DictVoConvert.class, DiProjectConvert.class,
+    DiClusterConfigConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DiJobLogConvert extends BaseConvert<DiJobLog, DiJobLogDTO> {
     DiJobLogConvert INSTANCE = Mappers.getMapper(DiJobLogConvert.class);
 

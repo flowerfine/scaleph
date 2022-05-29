@@ -6,7 +6,8 @@ import cn.sliew.scaleph.plugin.framework.property.Validators;
 public enum JobNameProperties {
     ;
 
-    public static final PropertyDescriptor<String> JOB_NAME = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> JOB_NAME =
+        new PropertyDescriptor.Builder<String>()
             .name("job.name")
             .description("The pipeline name")
             .defaultValue(descriptor -> "seatunnel")

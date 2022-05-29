@@ -1,19 +1,23 @@
 package cn.sliew.scaleph.meta.database;
 
-import cn.sliew.scaleph.common.constant.DictConstants;
-import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
-import cn.sliew.scaleph.meta.util.JdbcUtil;
-import cn.sliew.scaleph.meta.service.dto.DataSourceMetaDTO;
-import cn.sliew.scaleph.meta.service.dto.TableColumnMetaDTO;
-import cn.sliew.scaleph.meta.service.dto.TableMetaDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
-import lombok.extern.slf4j.Slf4j;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import cn.sliew.scaleph.common.constant.DictConstants;
+import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
+import cn.sliew.scaleph.meta.service.dto.DataSourceMetaDTO;
+import cn.sliew.scaleph.meta.service.dto.TableColumnMetaDTO;
+import cn.sliew.scaleph.meta.service.dto.TableMetaDTO;
+import cn.sliew.scaleph.meta.util.JdbcUtil;
+import cn.sliew.scaleph.system.service.vo.DictVO;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author gleiyu
@@ -43,11 +47,14 @@ public class MysqlDatabaseMeta extends AbstractDatabaseMeta {
 
     @Override
     public String getUrl() {
-        return "jdbc:mysql://" + this.getHostName() + ":" + this.getPort() + "/" + this.getDatabaseName() + buildPropStr(this.getJdbcProps());
+        return "jdbc:mysql://" + this.getHostName() + ":" + this.getPort() + "/" +
+            this.getDatabaseName() + buildPropStr(this.getJdbcProps());
     }
 
     @Override
-    public List<TableMetaDTO> getTables(AbstractDatabaseMeta meta, String catalog, String schemaPattern, String tableNamePattern) throws SQLException {
+    public List<TableMetaDTO> getTables(AbstractDatabaseMeta meta, String catalog,
+                                        String schemaPattern, String tableNamePattern)
+        throws SQLException {
         //设置获取remark信息
         if (meta.getJdbcProps() == null) {
             meta.setJdbcProps(new Properties());
@@ -61,19 +68,19 @@ public class MysqlDatabaseMeta extends AbstractDatabaseMeta {
     public List<TableMetaDTO> getTables() throws SQLException {
         List<TableMetaDTO> result = new ArrayList<>();
         String sql = "select '' as table_catalog,t.table_schema,t.table_name," +
-                "case when t.table_type='BASE TABLE' then 'TABLE' when t.table_type='SYSTEM VIEW' then 'VIEW' " +
-                "else t.table_type end as table_type,t.table_comment as comment,t.table_rows,t.data_length as data_bytes," +
-                "t.index_length as index_bytes,t.create_time,t.create_time as last_ddl_time,t.update_time as last_access_time," +
-                "case when t1.table_name is not null then '1' else '0' end as is_partitioned " +
-                "from information_schema.tables t " +
-                "left join (select p.table_catalog,p.table_schema,p.table_name " +
-                "from information_schema.partitions p " +
-                "where p.table_schema = ? and p.partition_name is not null " +
-                "group by p.table_catalog,p.table_schema,p.table_name) t1 " +
-                "on t.table_catalog = t1.table_catalog " +
-                "and t.table_schema = t1.table_schema " +
-                "and t.table_name = t1.table_name " +
-                "where t.table_schema = ? ";
+            "case when t.table_type='BASE TABLE' then 'TABLE' when t.table_type='SYSTEM VIEW' then 'VIEW' " +
+            "else t.table_type end as table_type,t.table_comment as comment,t.table_rows,t.data_length as data_bytes," +
+            "t.index_length as index_bytes,t.create_time,t.create_time as last_ddl_time,t.update_time as last_access_time," +
+            "case when t1.table_name is not null then '1' else '0' end as is_partitioned " +
+            "from information_schema.tables t " +
+            "left join (select p.table_catalog,p.table_schema,p.table_name " +
+            "from information_schema.partitions p " +
+            "where p.table_schema = ? and p.partition_name is not null " +
+            "group by p.table_catalog,p.table_schema,p.table_name) t1 " +
+            "on t.table_catalog = t1.table_catalog " +
+            "and t.table_schema = t1.table_schema " +
+            "and t.table_name = t1.table_name " +
+            "where t.table_schema = ? ";
         Connection conn = JdbcUtil.getConnectionSilently(this);
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1, this.getDatabaseName());
@@ -92,7 +99,8 @@ public class MysqlDatabaseMeta extends AbstractDatabaseMeta {
             table.setTableCreateTime(rs.getTimestamp("create_time"));
             table.setLastDdlTime(rs.getTimestamp("last_ddl_time"));
             table.setLastAccessTime(rs.getTimestamp("last_access_time"));
-            table.setIsPartitioned(DictVO.toVO(DictConstants.YES_NO, rs.getString("is_partitioned")));
+            table.setIsPartitioned(
+                DictVO.toVO(DictConstants.YES_NO, rs.getString("is_partitioned")));
             result.add(table);
         }
         JdbcUtil.closeSilently(conn, pstm, rs);
@@ -102,7 +110,8 @@ public class MysqlDatabaseMeta extends AbstractDatabaseMeta {
     @Override
     public Map<String, List<TableColumnMetaDTO>> getColumns() throws SQLException {
         Map<String, List<TableColumnMetaDTO>> result = new HashMap<>(16);
-        String sql = "select table_name,column_name,data_type,character_maximum_length as data_length," +
+        String sql =
+            "select table_name,column_name,data_type,character_maximum_length as data_length," +
                 "numeric_precision as data_precision,numeric_scale as data_scale," +
                 "case when is_nullable='YES' then 1 else '0' end as nullable,column_default as data_default," +
                 "ordinal_position as column_ordinal,column_comment," +
@@ -125,7 +134,8 @@ public class MysqlDatabaseMeta extends AbstractDatabaseMeta {
             column.setDataDefault(rs.getString("data_default"));
             column.setColumnOrdinal(rs.getInt("column_ordinal"));
             column.setColumnComment(rs.getString("column_comment"));
-            column.setIsPrimaryKey(DictVO.toVO(DictConstants.YES_NO, rs.getString("is_primary_key")));
+            column.setIsPrimaryKey(
+                DictVO.toVO(DictConstants.YES_NO, rs.getString("is_primary_key")));
             if (result.containsKey(tableName)) {
                 List<TableColumnMetaDTO> list = result.get(tableName);
                 list.add(column);

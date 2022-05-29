@@ -42,7 +42,7 @@ public class ValidationResult {
             }
             return this;
         }
-        
+
         public Builder subject(final String subject) {
             if (null != subject) {
                 this.subject = subject;

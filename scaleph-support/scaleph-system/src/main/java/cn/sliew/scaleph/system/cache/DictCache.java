@@ -1,5 +1,10 @@
 package cn.sliew.scaleph.system.cache;
 
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import cn.hutool.core.util.ObjectUtil;
 import cn.sliew.scaleph.cache.CaffeineCacheConfig;
 import cn.sliew.scaleph.common.enums.BoolEnum;
@@ -12,11 +17,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author gleiyu
@@ -35,15 +35,6 @@ public class DictCache {
 
     public DictCache() {
 
-    }
-
-    @PostConstruct
-    public synchronized void init() {
-        log.info("initializing cache " + CaffeineCacheConfig.UnBoundedCaches.CACHE_DICT);
-        dictCache = cacheManager.getCache(CaffeineCacheConfig.UnBoundedCaches.CACHE_DICT);
-        List<DictDTO> list = this.dictService.selectAll();
-        dictCache.clear();
-        updateCache(list);
     }
 
     public synchronized static void updateCache(List<DictDTO> list) {
@@ -72,7 +63,8 @@ public class DictCache {
 
     @SuppressWarnings("unchecked")
     public synchronized static void evictCacheByType(String dictTypeCode) {
-        com.github.benmanes.caffeine.cache.Cache<String, String> cache = (com.github.benmanes.caffeine.cache.Cache<String, String>) dictCache.getNativeCache();
+        com.github.benmanes.caffeine.cache.Cache<String, String> cache =
+            (com.github.benmanes.caffeine.cache.Cache<String, String>) dictCache.getNativeCache();
         for (Map.Entry<String, String> entry : cache.asMap().entrySet()) {
             String key = entry.getKey();
             String keyPrefix = entry.getKey().split("-")[0];
@@ -95,7 +87,8 @@ public class DictCache {
     @SuppressWarnings("unchecked")
     public static List<DictDTO> getDictByType(String dictTypeCode) {
         List<DictDTO> list = new ArrayList<>();
-        com.github.benmanes.caffeine.cache.Cache<String, String> cache = (com.github.benmanes.caffeine.cache.Cache<String, String>) dictCache.getNativeCache();
+        com.github.benmanes.caffeine.cache.Cache<String, String> cache =
+            (com.github.benmanes.caffeine.cache.Cache<String, String>) dictCache.getNativeCache();
         for (Map.Entry<String, String> entry : cache.asMap().entrySet()) {
             String key = entry.getKey();
             String typeCode = key.split("-")[0];
@@ -111,6 +104,15 @@ public class DictCache {
             }
         }
         return list;
+    }
+
+    @PostConstruct
+    public synchronized void init() {
+        log.info("initializing cache " + CaffeineCacheConfig.UnBoundedCaches.CACHE_DICT);
+        dictCache = cacheManager.getCache(CaffeineCacheConfig.UnBoundedCaches.CACHE_DICT);
+        List<DictDTO> list = this.dictService.selectAll();
+        dictCache.clear();
+        updateCache(list);
     }
 
 }

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DiResourceFileMapper extends BaseMapper<DiResourceFile> {
 
-    Page<DiResourceFile> selectPage(IPage<?> page, @Param("projectId") Long projectId, @Param("fileName") String fileName);
+    Page<DiResourceFile> selectPage(IPage<?> page, @Param("projectId") Long projectId,
+                                    @Param("fileName") String fileName);
 
 }

@@ -1,5 +1,8 @@
 package cn.sliew.scaleph.security.service.impl;
 
+import java.io.Serializable;
+import java.util.List;
+
 import cn.sliew.scaleph.dao.entity.master.security.UserDept;
 import cn.sliew.scaleph.dao.mapper.master.security.UserDeptMapper;
 import cn.sliew.scaleph.security.service.UserDeptService;
@@ -8,9 +11,6 @@ import cn.sliew.scaleph.security.service.dto.UserDeptDTO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * <p>
@@ -35,21 +35,21 @@ public class UserDeptServiceImpl implements UserDeptService {
     @Override
     public int deleteBydeptId(Serializable deptId) {
         return this.userDeptMapper.delete(new LambdaQueryWrapper<UserDept>()
-                .eq(UserDept::getDeptId, deptId));
+            .eq(UserDept::getDeptId, deptId));
     }
 
     @Override
     public int delete(UserDeptDTO userDeptDTO) {
         return this.userDeptMapper.delete(new LambdaQueryWrapper<UserDept>()
-                .eq(UserDept::getDeptId, userDeptDTO.getDeptId())
-                .eq(UserDept::getUserId, userDeptDTO.getUserId())
+            .eq(UserDept::getDeptId, userDeptDTO.getDeptId())
+            .eq(UserDept::getUserId, userDeptDTO.getUserId())
         );
     }
 
     @Override
     public List<UserDeptDTO> listByDeptId(Serializable deptId) {
         List<UserDept> list = this.userDeptMapper.selectList(new LambdaQueryWrapper<UserDept>()
-                .eq(UserDept::getDeptId, deptId));
+            .eq(UserDept::getDeptId, deptId));
         return UserDeptConvert.INSTANCE.toDto(list);
     }
 }

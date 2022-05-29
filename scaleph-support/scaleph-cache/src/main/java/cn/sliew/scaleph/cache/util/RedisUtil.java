@@ -1,6 +1,11 @@
-package cn.sliew.scaleph.service.util;
+package cn.sliew.scaleph.cache.util;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +18,14 @@ import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
 /**
  * redis 工具类
  *
  * @author gleiyu
  */
-@Slf4j
 @Component
 public class RedisUtil {
-
+    private final static Logger log = LoggerFactory.getLogger(RedisUtil.class);
     private RedisTemplate<Object, Object> redisTemplate;
 
     @Autowired

@@ -26,7 +26,8 @@ public class I18nUtil {
 
     public static String get(String msgKey, String defaultMsg) {
         try {
-            return messageSource.getMessage(msgKey, null, defaultMsg, LocaleContextHolder.getLocale());
+            return messageSource.getMessage(msgKey, null, defaultMsg,
+                LocaleContextHolder.getLocale());
         } catch (NoSuchMessageException e) {
             return defaultMsg;
         }

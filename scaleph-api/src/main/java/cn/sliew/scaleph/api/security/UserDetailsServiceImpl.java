@@ -1,5 +1,8 @@
 package cn.sliew.scaleph.api.security;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.sliew.scaleph.api.util.I18nUtil;
 import cn.sliew.scaleph.common.enums.UserStatusEnum;
 import cn.sliew.scaleph.security.service.UserService;
@@ -16,9 +19,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author gleiyu
@@ -41,7 +41,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         UserDTO userDTO = userService.selectOne(userName);
         boolean flag = userDTO.getUserStatus() != null
-                && !(userDTO.getUserStatus().getValue().equals(UserStatusEnum.UNBIND_EMAIL.getValue()) ||
+            &&
+            !(userDTO.getUserStatus().getValue().equals(UserStatusEnum.UNBIND_EMAIL.getValue()) ||
                 userDTO.getUserStatus().getValue().equals(UserStatusEnum.BIND_EMAIL.getValue()));
         if (userDTO == null) {
             throw new BadCredentialsException(I18nUtil.get("response.error.login.password"));
@@ -67,7 +68,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     continue;
                 }
                 for (PrivilegeDTO privilege : role.getPrivileges()) {
-                    GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(privilege.getPrivilegeCode());
+                    GrantedAuthority grantedAuthority =
+                        new SimpleGrantedAuthority(privilege.getPrivilegeCode());
                     list.add(grantedAuthority);
                 }
             }

@@ -1,5 +1,9 @@
 package cn.sliew.scaleph.system.service.impl;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.dao.entity.master.system.DictType;
 import cn.sliew.scaleph.dao.mapper.master.system.DictTypeMapper;
@@ -14,10 +18,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -93,11 +93,13 @@ public class DictTypeServiceImpl implements DictTypeService {
     public Page<DictTypeDTO> listByPage(DictTypeParam param) {
         Page<DictTypeDTO> result = new Page<>();
         Page<DictType> list = this.dictTypeMapper.selectPage(
-                new Page<>(param.getCurrent(), param.getPageSize()),
-                new QueryWrapper<DictType>()
-                        .lambda()
-                        .like(StrUtil.isNotEmpty(param.getDictTypeCode()), DictType::getDictTypeCode, param.getDictTypeCode())
-                        .like(StrUtil.isNotEmpty(param.getDictTypeName()), DictType::getDictTypeName, param.getDictTypeName())
+            new Page<>(param.getCurrent(), param.getPageSize()),
+            new QueryWrapper<DictType>()
+                .lambda()
+                .like(StrUtil.isNotEmpty(param.getDictTypeCode()), DictType::getDictTypeCode,
+                    param.getDictTypeCode())
+                .like(StrUtil.isNotEmpty(param.getDictTypeName()), DictType::getDictTypeName,
+                    param.getDictTypeName())
         );
         List<DictTypeDTO> dtoList = DictTypeConvert.INSTANCE.toDto(list.getRecords());
         DictTypeCache.updateCache(dtoList);

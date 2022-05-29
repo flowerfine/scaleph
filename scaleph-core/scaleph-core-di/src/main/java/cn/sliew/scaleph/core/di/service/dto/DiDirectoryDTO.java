@@ -1,13 +1,13 @@
 package cn.sliew.scaleph.core.di.service.dto;
 
+import javax.validation.constraints.NotBlank;
+
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotBlank;
 
 /**
  * <p>

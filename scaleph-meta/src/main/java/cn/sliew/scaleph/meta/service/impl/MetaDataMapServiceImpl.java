@@ -1,18 +1,18 @@
 package cn.sliew.scaleph.meta.service.impl;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDataMap;
 import cn.sliew.scaleph.dao.mapper.master.meta.MetaDataMapMapper;
+import cn.sliew.scaleph.meta.service.MetaDataMapService;
 import cn.sliew.scaleph.meta.service.convert.MetaDataMapConvert;
 import cn.sliew.scaleph.meta.service.dto.MetaDataMapDTO;
-import cn.sliew.scaleph.meta.service.MetaDataMapService;
 import cn.sliew.scaleph.meta.service.param.MetaDataMapParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class MetaDataMapServiceImpl implements MetaDataMapService {
@@ -46,12 +46,12 @@ public class MetaDataMapServiceImpl implements MetaDataMapService {
     public Page<MetaDataMapDTO> listByPage(MetaDataMapParam param) {
         Page<MetaDataMapDTO> result = new Page<>();
         Page<MetaDataMap> list = this.metaDataMapMapper.selectPage(
-                new Page<>(param.getCurrent(), param.getPageSize()),
-                param.getSrcDataSetTypeCode(),
-                param.getTgtDataSetTypeCode(),
-                param.getSrcDataSetCode(),
-                param.getTgtDataSetCode(),
-                param.isAuto()
+            new Page<>(param.getCurrent(), param.getPageSize()),
+            param.getSrcDataSetTypeCode(),
+            param.getTgtDataSetTypeCode(),
+            param.getSrcDataSetCode(),
+            param.getTgtDataSetCode(),
+            param.isAuto()
         );
         List<MetaDataMapDTO> dtoList = MetaDataMapConvert.INSTANCE.toDto(list.getRecords());
         result.setCurrent(list.getCurrent());

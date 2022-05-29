@@ -65,7 +65,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ResponseVO> defaultException(AccessDeniedException e) {
         log.error(e.getMessage(), e);
-        ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_NO_PRIVILEGE.getCode(), I18nUtil.get(ResponseCodeEnum.ERROR_NO_PRIVILEGE.getValue()));
+        ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_NO_PRIVILEGE.getCode(),
+            I18nUtil.get(ResponseCodeEnum.ERROR_NO_PRIVILEGE.getValue()));
         return new ResponseEntity<>(errorInfo, HttpStatus.OK);
     }
 
@@ -80,7 +81,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<ResponseVO> defaultException(DuplicateKeyException e) {
         log.error(e.getMessage(), e);
-        ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_DUPLICATE_DATA.getCode(), I18nUtil.get(ResponseCodeEnum.ERROR_DUPLICATE_DATA.getValue()));
+        ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_DUPLICATE_DATA.getCode(),
+            I18nUtil.get(ResponseCodeEnum.ERROR_DUPLICATE_DATA.getValue()));
         return new ResponseEntity<>(errorInfo, HttpStatus.OK);
     }
 
@@ -95,7 +97,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MailException.class)
     public ResponseEntity<ResponseVO> defaultException(MailException e) {
         log.error(e.getMessage(), e);
-        ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_EMAIL.getCode(), I18nUtil.get(ResponseCodeEnum.ERROR_EMAIL.getValue()));
+        ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_EMAIL.getCode(),
+            I18nUtil.get(ResponseCodeEnum.ERROR_EMAIL.getValue()));
         return new ResponseEntity<>(errorInfo, HttpStatus.OK);
     }
 

@@ -1,5 +1,9 @@
 package cn.sliew.scaleph.core.di.service.impl;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+
 import cn.sliew.scaleph.core.di.service.DiJobAttrService;
 import cn.sliew.scaleph.core.di.service.convert.DiJobAttrConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
@@ -9,10 +13,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * @author gleiyu
@@ -36,7 +36,7 @@ public class DiJobAttrServiceImpl implements DiJobAttrService {
     @Override
     public List<DiJobAttrDTO> listJobAttr(Long jobId) {
         List<DiJobAttr> list = this.diJobAttrMapper.selectList(new LambdaQueryWrapper<DiJobAttr>()
-                .eq(DiJobAttr::getJobId, jobId)
+            .eq(DiJobAttr::getJobId, jobId)
         );
         return DiJobAttrConvert.INSTANCE.toDto(list);
     }
@@ -45,19 +45,19 @@ public class DiJobAttrServiceImpl implements DiJobAttrService {
     public int upsert(DiJobAttrDTO jobAttrDTO) {
         DiJobAttr jobAttr = DiJobAttrConvert.INSTANCE.toDo(jobAttrDTO);
         DiJobAttr attr = this.diJobAttrMapper.selectOne(
-                new LambdaQueryWrapper<DiJobAttr>()
-                        .eq(DiJobAttr::getJobId, jobAttr.getJobId())
-                        .eq(DiJobAttr::getJobAttrType, jobAttr.getJobAttrType())
-                        .eq(DiJobAttr::getJobAttrKey, jobAttr.getJobAttrKey())
+            new LambdaQueryWrapper<DiJobAttr>()
+                .eq(DiJobAttr::getJobId, jobAttr.getJobId())
+                .eq(DiJobAttr::getJobAttrType, jobAttr.getJobAttrType())
+                .eq(DiJobAttr::getJobAttrKey, jobAttr.getJobAttrKey())
         );
         if (attr == null) {
             return this.diJobAttrMapper.insert(jobAttr);
         } else {
             return this.diJobAttrMapper.update(jobAttr,
-                    new LambdaUpdateWrapper<DiJobAttr>()
-                            .eq(DiJobAttr::getJobId, jobAttr.getJobId())
-                            .eq(DiJobAttr::getJobAttrType, jobAttr.getJobAttrType())
-                            .eq(DiJobAttr::getJobAttrKey, jobAttr.getJobAttrKey())
+                new LambdaUpdateWrapper<DiJobAttr>()
+                    .eq(DiJobAttr::getJobId, jobAttr.getJobId())
+                    .eq(DiJobAttr::getJobAttrType, jobAttr.getJobAttrType())
+                    .eq(DiJobAttr::getJobAttrKey, jobAttr.getJobAttrKey())
             );
         }
     }

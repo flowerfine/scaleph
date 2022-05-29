@@ -71,7 +71,6 @@
         <module>scaleph-ui</module>
         <module>scaleph-common</module>
         <module>scaleph-dao</module>
-        <module>scaleph-service</module>
         <module>scaleph-security</module>
         <module>scaleph-api</module>
 
@@ -145,11 +144,6 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-dao</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

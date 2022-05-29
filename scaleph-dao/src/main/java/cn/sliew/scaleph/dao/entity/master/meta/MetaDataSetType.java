@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("meta_data_set_type")
-@ApiModel(value="MetaDataSetType对象", description="元数据-参考数据类型")
+@ApiModel(value = "MetaDataSetType对象", description = "元数据-参考数据类型")
 public class MetaDataSetType extends BaseDO {
 
     private static final long serialVersionUID = 5820268887218510474L;

@@ -15,8 +15,10 @@ public class SecurityUtil {
      * @return UserDetails
      */
     public static UserDetails getCurrentUser() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!ObjectUtils.isEmpty(authentication) && authentication.getPrincipal() instanceof UserDetails) {
+        final Authentication authentication =
+            SecurityContextHolder.getContext().getAuthentication();
+        if (!ObjectUtils.isEmpty(authentication) &&
+            authentication.getPrincipal() instanceof UserDetails) {
             return (UserDetails) authentication.getPrincipal();
         } else {
             return null;
@@ -29,8 +31,10 @@ public class SecurityUtil {
      * @return username
      */
     public static String getCurrentUserName() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!ObjectUtils.isEmpty(authentication) && authentication.getPrincipal() instanceof UserDetails) {
+        final Authentication authentication =
+            SecurityContextHolder.getContext().getAuthentication();
+        if (!ObjectUtils.isEmpty(authentication) &&
+            authentication.getPrincipal() instanceof UserDetails) {
             return ((UserDetails) authentication.getPrincipal()).getUsername();
         } else {
             return null;

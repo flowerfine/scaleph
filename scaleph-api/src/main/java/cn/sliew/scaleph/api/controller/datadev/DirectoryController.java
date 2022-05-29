@@ -1,5 +1,7 @@
 package cn.sliew.scaleph.api.controller.datadev;
 
+import java.util.List;
+
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
@@ -19,9 +21,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @Api(tags = "数据开发-目录管理")
@@ -38,7 +45,8 @@ public class DirectoryController {
     @GetMapping(path = "/{projectId}")
     @ApiOperation(value = "查询项目目录树", notes = "查询项目目录树")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DIR_SELECT)")
-    public ResponseEntity<List<Tree<Long>>> listProjectDir(@PathVariable(value = "projectId") Long projectId) {
+    public ResponseEntity<List<Tree<Long>>> listProjectDir(
+        @PathVariable(value = "projectId") Long projectId) {
         List<DiDirectoryDTO> list = this.diDirectoryService.selectByProjectId(projectId);
         TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
         treeNodeConfig.setIdKey("id");
@@ -62,7 +70,8 @@ public class DirectoryController {
     @PostMapping
     @ApiOperation(value = "新增目录", notes = "新增目录")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DIR_ADD)")
-    public ResponseEntity<ResponseVO> addDirectory(@Validated @RequestBody DiDirectoryDTO directoryDTO) {
+    public ResponseEntity<ResponseVO> addDirectory(
+        @Validated @RequestBody DiDirectoryDTO directoryDTO) {
         this.diDirectoryService.insert(directoryDTO);
         return new ResponseEntity<>(ResponseVO.sucess(directoryDTO.getId()), HttpStatus.OK);
     }
@@ -71,7 +80,8 @@ public class DirectoryController {
     @PutMapping
     @ApiOperation(value = "修改目录", notes = "修改目录")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DIR_EDIT)")
-    public ResponseEntity<ResponseVO> editDirectory(@Validated @RequestBody DiDirectoryDTO directoryDTO) {
+    public ResponseEntity<ResponseVO> editDirectory(
+        @Validated @RequestBody DiDirectoryDTO directoryDTO) {
         this.diDirectoryService.update(directoryDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -83,9 +93,10 @@ public class DirectoryController {
     public ResponseEntity<ResponseVO> deleteDirectory(@PathVariable(value = "id") Long id) {
         DiDirectoryDTO dir = this.diDirectoryService.selectById(id);
         if (dir != null && (this.diDirectoryService.hasChildDir(dir.getProjectId(), dir.getId())
-                || this.jobService.hasValidJob(dir.getProjectId(), dir.getId()))) {
+            || this.jobService.hasValidJob(dir.getProjectId(), dir.getId()))) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.notEmptyDirectory"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                I18nUtil.get("response.error.di.notEmptyDirectory"),
+                ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }
         this.diDirectoryService.deleteById(id);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);

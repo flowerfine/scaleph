@@ -15,7 +15,7 @@ spring:
   mail:
     username: xxxx@xxx.com
     password: xxxxxxx
-#    host: smtp.xxx.cn
+    #    host: smtp.xxx.cn
     port: 25
     default-encoding: UTF-8
   servlet.multipart:

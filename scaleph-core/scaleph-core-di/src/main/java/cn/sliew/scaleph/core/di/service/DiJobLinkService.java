@@ -1,10 +1,10 @@
 package cn.sliew.scaleph.core.di.service;
 
-import cn.sliew.scaleph.core.di.service.dto.DiJobLinkDTO;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+
+import cn.sliew.scaleph.core.di.service.dto.DiJobLinkDTO;
 
 /**
  * <p>

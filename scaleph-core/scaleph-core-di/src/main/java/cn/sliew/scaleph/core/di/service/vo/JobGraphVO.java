@@ -1,9 +1,9 @@
 package cn.sliew.scaleph.core.di.service.vo;
 
+import java.util.Map;
+
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
-
-import java.util.Map;
 
 /**
  * 前端job graph

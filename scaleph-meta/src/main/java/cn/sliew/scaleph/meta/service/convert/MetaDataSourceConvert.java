@@ -1,5 +1,7 @@
 package cn.sliew.scaleph.meta.service.convert;
 
+import java.util.Map;
+
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDatasource;
@@ -9,8 +11,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
-
-import java.util.Map;
 
 @Mapper(uses = {DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MetaDataSourceConvert extends BaseConvert<MetaDatasource, MetaDatasourceDTO> {
@@ -32,10 +32,13 @@ public interface MetaDataSourceConvert extends BaseConvert<MetaDatasource, MetaD
         MetaDatasourceDTO metaDatasourceDTO = new MetaDatasourceDTO();
         metaDatasourceDTO.setName(entity.getName());
         metaDatasourceDTO.setVersion(entity.getVersion());
-        metaDatasourceDTO.setProps(JacksonUtil.parseJsonString(entity.getProps(), new TypeReference<Map<String, Object>>() {
-        }));
-        metaDatasourceDTO.setAdditionalProps(JacksonUtil.parseJsonString(entity.getAdditionalProps(), new TypeReference<Map<String, Object>>() {
-        }));
+        metaDatasourceDTO.setProps(JacksonUtil.parseJsonString(entity.getProps(),
+            new TypeReference<Map<String, Object>>() {
+            }));
+        metaDatasourceDTO.setAdditionalProps(
+            JacksonUtil.parseJsonString(entity.getAdditionalProps(),
+                new TypeReference<Map<String, Object>>() {
+                }));
         metaDatasourceDTO.setRemark(entity.getRemark());
         return metaDatasourceDTO;
     }

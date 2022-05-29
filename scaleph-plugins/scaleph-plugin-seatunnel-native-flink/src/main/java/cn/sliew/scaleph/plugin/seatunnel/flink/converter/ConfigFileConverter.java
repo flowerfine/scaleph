@@ -1,11 +1,11 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.converter;
 
-import cn.sliew.milky.common.util.JacksonUtil;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import cn.sliew.milky.common.util.JacksonUtil;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class ConfigFileConverter implements ConfConverter {
 

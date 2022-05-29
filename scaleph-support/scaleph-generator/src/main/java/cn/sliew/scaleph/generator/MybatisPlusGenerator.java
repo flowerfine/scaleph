@@ -5,7 +5,11 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
-import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.GlobalConfig;
+import com.baomidou.mybatisplus.generator.config.InjectionConfig;
+import com.baomidou.mybatisplus.generator.config.PackageConfig;
+import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.builder.Controller;
 import com.baomidou.mybatisplus.generator.config.builder.Entity;
 import com.baomidou.mybatisplus.generator.config.builder.Mapper;
@@ -26,7 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 public class MybatisPlusGenerator {
 
     private final static String AUTHOR = "wangqi";
-    private final static String URL = "jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai";
+    private final static String URL =
+        "jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai";
     private final static String USERNAME = "root";
     private final static String PASSWORD = "123456";
     private static final String BASE_PACKAGE = "cn.sliew";
@@ -41,12 +46,12 @@ public class MybatisPlusGenerator {
     public static void main(String[] args) {
         //自动生成配置
         FastAutoGenerator generator = FastAutoGenerator.create(dataSourceConfig())
-                .globalConfig(MybatisPlusGenerator::globalConfig)
-                .packageConfig(MybatisPlusGenerator::packageConfig)
-                .templateConfig(builder -> {
-                })
-                .strategyConfig(MybatisPlusGenerator::strategyConfig)
-                .injectionConfig(MybatisPlusGenerator::injectionConfig);
+            .globalConfig(MybatisPlusGenerator::globalConfig)
+            .packageConfig(MybatisPlusGenerator::packageConfig)
+            .templateConfig(builder -> {
+            })
+            .strategyConfig(MybatisPlusGenerator::strategyConfig)
+            .injectionConfig(MybatisPlusGenerator::injectionConfig);
         generator.execute();
     }
 
@@ -57,9 +62,9 @@ public class MybatisPlusGenerator {
      */
     private static DataSourceConfig.Builder dataSourceConfig() {
         return new DataSourceConfig.Builder(URL, USERNAME, PASSWORD)
-                .dbQuery(new MySqlQuery())
-                .typeConvert(new MySqlTypeConvert())
-                .keyWordsHandler(new MySqlKeyWordsHandler());
+            .dbQuery(new MySqlQuery())
+            .typeConvert(new MySqlTypeConvert())
+            .keyWordsHandler(new MySqlKeyWordsHandler());
     }
 
     /**
@@ -69,12 +74,13 @@ public class MybatisPlusGenerator {
      */
     private static void globalConfig(GlobalConfig.Builder builder) {
         builder.fileOverride()
-                .outputDir(System.getProperty("user.dir") + "/scaleph-support/scaleph-generator/src/main/java/")
-                .author(AUTHOR)
-                .fileOverride()
-                .enableSwagger()
-                .dateType(DateType.ONLY_DATE)
-                .commentDate("yyyy-MM-dd");
+            .outputDir(System.getProperty("user.dir") +
+                "/scaleph-support/scaleph-generator/src/main/java/")
+            .author(AUTHOR)
+            .fileOverride()
+            .enableSwagger()
+            .dateType(DateType.ONLY_DATE)
+            .commentDate("yyyy-MM-dd");
     }
 
     /**
@@ -84,14 +90,14 @@ public class MybatisPlusGenerator {
      */
     private static void packageConfig(PackageConfig.Builder builder) {
         builder.parent(BASE_PACKAGE)
-                .moduleName(MODULE)
-                .entity("dao.entity")
-                .service("service")
-                .serviceImpl("service.impl")
-                .mapper("dao.mapper")
-                .xml("dao.mapper")
-                .controller("api.controller")
-                .other("other");
+            .moduleName(MODULE)
+            .entity("dao.entity")
+            .service("service")
+            .serviceImpl("service.impl")
+            .mapper("dao.mapper")
+            .xml("dao.mapper")
+            .controller("api.controller")
+            .other("other");
 //                .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "/Users/wangqi/Downloads/generator"));
     }
 
@@ -102,43 +108,43 @@ public class MybatisPlusGenerator {
      */
     private static void strategyConfig(StrategyConfig.Builder builder) {
         builder.enableCapitalMode()
-                .enableSkipView()
-                .disableSqlFilter()
-                .addInclude(TABLES)
-                .addTablePrefix(TABLE_PREFIX);
+            .enableSkipView()
+            .disableSqlFilter()
+            .addInclude(TABLES)
+            .addTablePrefix(TABLE_PREFIX);
 
         Entity.Builder entityBuilder = builder.entityBuilder();
         entityBuilder.superClass(BaseDO.class)
-                .enableLombok()
-                .enableTableFieldAnnotation()
-                .enableRemoveIsPrefix()
-                .naming(NamingStrategy.underline_to_camel)
-                .columnNaming(NamingStrategy.underline_to_camel)
-                .addSuperEntityColumns("id", "creator", "created_time", "editor", "update_time")
-                .idType(IdType.AUTO)
-                .addTableFills(new Column("create_time", FieldFill.INSERT))
-                .addTableFills(new Property("updateTime", FieldFill.INSERT_UPDATE))
-                .formatFileName("%s");
+            .enableLombok()
+            .enableTableFieldAnnotation()
+            .enableRemoveIsPrefix()
+            .naming(NamingStrategy.underline_to_camel)
+            .columnNaming(NamingStrategy.underline_to_camel)
+            .addSuperEntityColumns("id", "creator", "created_time", "editor", "update_time")
+            .idType(IdType.AUTO)
+            .addTableFills(new Column("create_time", FieldFill.INSERT))
+            .addTableFills(new Property("updateTime", FieldFill.INSERT_UPDATE))
+            .formatFileName("%s");
 
         Mapper.Builder mapperBuilder = builder.mapperBuilder();
         mapperBuilder.superClass(BaseMapper.class)
-                .enableMapperAnnotation()
-                .enableBaseResultMap()
-                .enableBaseColumnList()
-                .formatMapperFileName("%sMapper")
-                .formatXmlFileName("%sMapper");
+            .enableMapperAnnotation()
+            .enableBaseResultMap()
+            .enableBaseColumnList()
+            .formatMapperFileName("%sMapper")
+            .formatXmlFileName("%sMapper");
 
         Service.Builder serviceBuilder = builder.serviceBuilder();
         serviceBuilder.formatServiceFileName("%sService")
-                .formatServiceImplFileName("%sServiceImp")
-                .build();
+            .formatServiceImplFileName("%sServiceImp")
+            .build();
 
 
         Controller.Builder controllerBuilder = builder.controllerBuilder();
         controllerBuilder.enableHyphenStyle()
-                .enableRestStyle()
-                .formatFileName("%sController")
-                .build();
+            .enableRestStyle()
+            .formatFileName("%sController")
+            .build();
 
     }
 

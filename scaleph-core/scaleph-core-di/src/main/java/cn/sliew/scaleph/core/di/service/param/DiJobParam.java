@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.core.di.service.param;
 
-import cn.sliew.scaleph.dao.entity.master.di.DiJob;
 import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.dao.entity.master.di.DiJob;
 import lombok.Data;
 
 /**

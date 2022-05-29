@@ -1,5 +1,7 @@
 package cn.sliew.scaleph.log.service.dto;
 
+import java.util.Date;
+
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.common.constant.Constants;
@@ -9,8 +11,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Date;
 
 /**
  * <p>
@@ -23,7 +23,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "定时任务日志信息", description = "定时任务运行日志表")
-public class ScheduleLogDTO extends BaseDTO {
+public class LogScheduleDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1976884925111874156L;
 
@@ -45,12 +45,12 @@ public class ScheduleLogDTO extends BaseDTO {
     @ApiModelProperty(value = "任务结果")
     private DictVO result;
 
-    public ScheduleLogDTO appendLog(String raw) {
+    public LogScheduleDTO appendLog(String raw) {
         StringBuilder builder = new StringBuilder(StrUtil.blankToDefault(this.traceLog, ""));
         builder.append(DateUtil.format(new Date(), Constants.MS_DATETIME_FORMAT))
-                .append("\t")
-                .append(raw)
-                .append("\n");
+            .append("\t")
+            .append(raw)
+            .append("\n");
         this.setTraceLog(builder.toString());
         return this;
     }

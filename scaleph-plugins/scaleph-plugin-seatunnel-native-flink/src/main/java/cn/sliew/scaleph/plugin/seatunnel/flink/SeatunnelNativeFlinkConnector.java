@@ -1,9 +1,9 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink;
 
+import java.util.List;
+
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import java.util.List;
 
 public interface SeatunnelNativeFlinkConnector {
 

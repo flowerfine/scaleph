@@ -22,6 +22,11 @@ public enum ContentTypeEnum {
 
     private String type;
 
+    ContentTypeEnum(String prefix, String type) {
+        this.prefix = prefix;
+        this.type = type;
+    }
+
     public static String getContentType(String prefix) {
         if (StrUtil.isEmpty(prefix)) {
             return DEFAULT.getType();
@@ -33,11 +38,6 @@ public enum ContentTypeEnum {
             }
         }
         return DEFAULT.getType();
-    }
-
-    ContentTypeEnum(String prefix, String type) {
-        this.prefix = prefix;
-        this.type = type;
     }
 
     public String getPrefix() {

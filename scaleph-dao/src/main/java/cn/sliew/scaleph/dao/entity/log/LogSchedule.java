@@ -1,13 +1,13 @@
 package cn.sliew.scaleph.dao.entity.log;
 
+import java.util.Date;
+
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Date;
 
 /**
  * <p>
@@ -19,9 +19,9 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("t_schedule_log")
-@ApiModel(value = "ScheduleLog对象", description = "定时任务运行日志表")
-public class ScheduleLog extends BaseDO {
+@TableName("log_schedule")
+@ApiModel(value = "LogSchedule对象", description = "定时任务运行日志表")
+public class LogSchedule extends BaseDO {
 
     private static final long serialVersionUID = -2239522121730705579L;
 

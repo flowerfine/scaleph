@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.meta.service.convert;
 
-import cn.sliew.scaleph.dao.entity.master.meta.MetaSystem;
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.master.meta.MetaSystem;
 import cn.sliew.scaleph.meta.service.dto.MetaSystemDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;

@@ -1,5 +1,14 @@
 package cn.sliew.scaleph.api.aspect;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.useragent.Browser;
 import cn.hutool.http.useragent.OS;
@@ -10,8 +19,8 @@ import cn.sliew.scaleph.api.util.SecurityUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.LoginTypeEnum;
-import cn.sliew.scaleph.log.service.ActionLogService;
-import cn.sliew.scaleph.log.service.LoginLogService;
+import cn.sliew.scaleph.log.service.LogActionService;
+import cn.sliew.scaleph.log.service.LogLoginService;
 import cn.sliew.scaleph.log.service.dto.LogActionDTO;
 import cn.sliew.scaleph.log.service.dto.LogLoginDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
@@ -28,11 +37,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
-
 /**
  * 使用aop记录用户操作日志数据
  *
@@ -43,9 +47,9 @@ import java.util.*;
 @Component
 public class LogAspect {
     @Autowired
-    private ActionLogService actionLogService;
+    private LogActionService logActionService;
     @Autowired
-    private LoginLogService loginLogService;
+    private LogLoginService logLoginService;
 
     /**
      * 配置拦截Logging注解所有方法
@@ -93,7 +97,8 @@ public class LogAspect {
     public Object loginLogAround(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
         Object result = joinPoint.proceed();
-        insertLoginLog(result, startTime, DictVO.toVO(DictConstants.LOGIN_TYPE, LoginTypeEnum.LOGIN.getValue()));
+        insertLoginLog(result, startTime,
+            DictVO.toVO(DictConstants.LOGIN_TYPE, LoginTypeEnum.LOGIN.getValue()));
         return result;
     }
 
@@ -106,7 +111,8 @@ public class LogAspect {
     public Object logoutLogAround(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
         Object result = joinPoint.proceed();
-        insertLoginLog(result, startTime, DictVO.toVO(DictConstants.LOGIN_TYPE, LoginTypeEnum.LOGOUT.getValue()));
+        insertLoginLog(result, startTime,
+            DictVO.toVO(DictConstants.LOGIN_TYPE, LoginTypeEnum.LOGOUT.getValue()));
         return result;
     }
 
@@ -116,7 +122,8 @@ public class LogAspect {
      * @return httpServletRequest
      */
     private HttpServletRequest getRequest() {
-        ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes sra =
+            (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert sra != null;
         return sra.getRequest();
     }
@@ -141,7 +148,8 @@ public class LogAspect {
     private String getParameter(Object[] args) throws JsonProcessingException {
         List<Object> argList = new ArrayList<>();
         for (Object o : args) {
-            if (o instanceof ServletRequest || o instanceof ServletResponse || o instanceof MultipartFile) {
+            if (o instanceof ServletRequest || o instanceof ServletResponse ||
+                o instanceof MultipartFile) {
                 continue;
             }
             argList.add(o);
@@ -187,7 +195,7 @@ public class LogAspect {
             actionInfo.put("method", request.getMethod());
             actionInfo.put("elapsed_time", endTime - startTime);
             log.setActionInfo(JSONUtil.toJsonStr(actionInfo));
-            this.actionLogService.insert(log);
+            this.logActionService.insert(log);
         } catch (Exception e) {
             log.error("操作日志记录失败！");
         }
@@ -222,7 +230,7 @@ public class LogAspect {
             actionInfo.put("method", request.getMethod());
             actionInfo.put("elapsed_time", endTime - startTime);
             log.setActionInfo(JSONUtil.toJsonStr(actionInfo));
-            this.loginLogService.insert(log);
+            this.logLoginService.insert(log);
         } catch (Exception e) {
             log.error("操作日志记录失败！");
         }

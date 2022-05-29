@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class MessageParam extends PaginationParam {
+public class LogMessageParam extends PaginationParam {
 
     @ApiModelProperty(value = "收件人")
     private String receiver;

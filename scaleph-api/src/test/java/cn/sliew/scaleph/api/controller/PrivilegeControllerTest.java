@@ -1,5 +1,12 @@
 package cn.sliew.scaleph.api.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.ApplicationTest;
@@ -9,13 +16,6 @@ import cn.sliew.scaleph.dao.entity.master.security.Privilege;
 import org.apache.commons.text.CaseUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.ResourceUtils;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 class PrivilegeControllerTest extends ApplicationTest {
 
@@ -41,14 +41,17 @@ class PrivilegeControllerTest extends ApplicationTest {
                 privilege.setUpdateTime(date);
                 list.add(privilege);
                 // json format output
-                FileUtil.appendUtf8String(CaseUtils.toCamelCase(field.getName(), false, '_') + ":'" + field.get(obj).toString() + "',\n", file);
+                FileUtil.appendUtf8String(
+                    CaseUtils.toCamelCase(field.getName(), false, '_') + ":'" +
+                        field.get(obj).toString() + "',\n", file);
             }
         }
         //insert db
         FileUtil.appendUtf8String("------------- sql -------------\n", file);
         FileUtil.appendUtf8String("truncate table t_privilege;\n", file);
         list.forEach(d -> {
-            FileUtil.appendUtf8String("insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values("
+            FileUtil.appendUtf8String(
+                "insert into t_privilege (id,privilege_code,privilege_name,resource_type,resource_path,pid,creator,editor) values("
                     + d.getId() + ",'"
                     + d.getPrivilegeCode() + "','"
                     + d.getPrivilegeName() + "','"

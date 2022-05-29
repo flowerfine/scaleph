@@ -1,5 +1,10 @@
 package cn.sliew.scaleph.api.controller.studio;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import cn.hutool.core.date.DateUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.TransferVO;
@@ -19,11 +24,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Api(tags = "工作台-数据看板")
@@ -73,7 +73,8 @@ public class DataBoardController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
     public ResponseEntity<List<DiJobLogDTO>> batchTop100In7d() {
         Date currentDate = DateUtil.beginOfDay(new Date());
-        List<DiJobLogDTO> list = this.diJobLogService.listTop100BatchJob(DateUtil.offsetDay(currentDate, -7));
+        List<DiJobLogDTO> list =
+            this.diJobLogService.listTop100BatchJob(DateUtil.offsetDay(currentDate, -7));
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

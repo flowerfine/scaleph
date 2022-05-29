@@ -1,11 +1,11 @@
 package cn.sliew.scaleph.core.di.service;
 
-import cn.sliew.scaleph.core.di.service.dto.DiDirectoryDTO;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import cn.sliew.scaleph.core.di.service.dto.DiDirectoryDTO;
 
 /**
  * <p>
@@ -83,6 +83,7 @@ public interface DiDirectoryService {
 
     /**
      * 查询目录
+     *
      * @param dirId id
      * @return dir info
      */

@@ -1,7 +1,7 @@
 package cn.sliew.scaleph.log.service;
 
-import cn.sliew.scaleph.log.service.dto.MessageDTO;
-import cn.sliew.scaleph.log.service.param.MessageParam;
+import cn.sliew.scaleph.log.service.dto.LogMessageDTO;
+import cn.sliew.scaleph.log.service.param.LogMessageParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
@@ -12,22 +12,22 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @author liyu
  * @since 2021-08-01
  */
-public interface MessageService {
+public interface LogMessageService {
     /**
      * 新增
      *
-     * @param messageDTO 消息对象
+     * @param logMessageDTO 消息对象
      * @return int
      */
-    int insert(MessageDTO messageDTO);
+    int insert(LogMessageDTO logMessageDTO);
 
     /**
      * 修改
      *
-     * @param messageDTO dict
+     * @param logMessageDTO dict
      * @return int
      */
-    int update(MessageDTO messageDTO);
+    int update(LogMessageDTO logMessageDTO);
 
     /**
      * 查询未读消息数量
@@ -40,10 +40,10 @@ public interface MessageService {
     /**
      * 分页查询
      *
-     * @param messageParam 查询参数
+     * @param logMessageParam 查询参数
      * @return page list
      */
-    Page<MessageDTO> listByPage(MessageParam messageParam);
+    Page<LogMessageDTO> listByPage(LogMessageParam logMessageParam);
 
     /**
      * 全部读取

@@ -1,13 +1,13 @@
 package cn.sliew.scaleph.api.security;
 
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
 import cn.sliew.scaleph.common.enums.UserStatusEnum;
 import cn.sliew.scaleph.security.service.dto.UserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 用户信息
@@ -65,13 +65,13 @@ public class UserDetailInfo implements UserDetails {
         this.remember = remember;
     }
 
-    public void setAuthorities(List<GrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
+    }
+
+    public void setAuthorities(List<GrantedAuthority> authorities) {
+        this.authorities = authorities;
     }
 
     @Override
@@ -105,6 +105,6 @@ public class UserDetailInfo implements UserDetails {
     public boolean isEnabled() {
         String userStatus = this.user.getUserStatus().getValue();
         return !UserStatusEnum.LOGOFF.getValue().equals(userStatus) &&
-                !UserStatusEnum.DISABLE.getValue().equals(userStatus);
+            !UserStatusEnum.DISABLE.getValue().equals(userStatus);
     }
 }

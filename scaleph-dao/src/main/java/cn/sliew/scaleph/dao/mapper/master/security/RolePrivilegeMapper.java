@@ -1,12 +1,12 @@
 package cn.sliew.scaleph.dao.mapper.master.security;
 
+import java.io.Serializable;
+import java.util.List;
+
 import cn.sliew.scaleph.dao.entity.master.security.RolePrivilege;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * <p>
@@ -25,5 +25,6 @@ public interface RolePrivilegeMapper extends BaseMapper<RolePrivilege> {
      * @param resourceType resource type
      * @return privilege list
      */
-    List<RolePrivilege> selectByRoleId(@Param("roleId") Serializable roleId, @Param("resourceType") String resourceType);
+    List<RolePrivilege> selectByRoleId(@Param("roleId") Serializable roleId,
+                                       @Param("resourceType") String resourceType);
 }

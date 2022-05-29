@@ -1,13 +1,13 @@
 package cn.sliew.scaleph.core.di.service;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+
 import cn.sliew.scaleph.core.di.service.dto.DiClusterConfigDTO;
 import cn.sliew.scaleph.core.di.service.param.DiClusterConfigParam;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 
 public interface DiClusterConfigService {
 

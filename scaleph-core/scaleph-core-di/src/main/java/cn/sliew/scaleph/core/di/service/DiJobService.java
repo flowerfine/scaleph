@@ -1,12 +1,12 @@
 package cn.sliew.scaleph.core.di.service;
 
-import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
-import cn.sliew.scaleph.core.di.service.param.DiJobParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+
+import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
+import cn.sliew.scaleph.core.di.service.param.DiJobParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
  * <p>
@@ -44,11 +44,12 @@ public interface DiJobService {
 
     /**
      * 删除一个
+     *
      * @param projectId project id
-     * @param jobCode jobCode
+     * @param jobCode   jobCode
      * @return int
      */
-    int deleteByCode(Long projectId,String jobCode);
+    int deleteByCode(Long projectId, String jobCode);
 
     /**
      * 批量删除
