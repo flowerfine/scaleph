@@ -14,6 +14,9 @@ import java.util.Properties;
  */
 public class SeatunnelNativeFlinkSubmitter {
 
+    /**
+     * 环境变量
+     */
     public List<PropertyDescriptor> getSupportedEnvProperties() {
         return Collections.emptyList();
     }
@@ -30,6 +33,9 @@ public class SeatunnelNativeFlinkSubmitter {
         return null;
     }
 
+    /**
+     * todo connector graph + env
+     */
     public URL buildConfigFile() {
         return null;
     }
