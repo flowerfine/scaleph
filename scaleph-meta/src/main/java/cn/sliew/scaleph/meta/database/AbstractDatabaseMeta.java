@@ -1,15 +1,5 @@
 package cn.sliew.scaleph.meta.database;
 
-import cn.hutool.core.util.StrUtil;
-import cn.sliew.scaleph.common.constant.DictConstants;
-import cn.sliew.scaleph.common.enums.ConnectionTypeEnum;
-import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
-import cn.sliew.scaleph.meta.util.JdbcUtil;
-import cn.sliew.scaleph.meta.service.dto.DataSourceMetaDTO;
-import cn.sliew.scaleph.meta.service.dto.TableColumnMetaDTO;
-import cn.sliew.scaleph.meta.service.dto.TableMetaDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
-
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -18,6 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import cn.hutool.core.util.StrUtil;
+import cn.sliew.scaleph.common.constant.DictConstants;
+import cn.sliew.scaleph.common.enums.ConnectionTypeEnum;
+import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
+import cn.sliew.scaleph.meta.service.dto.DataSourceMetaDTO;
+import cn.sliew.scaleph.meta.service.dto.TableColumnMetaDTO;
+import cn.sliew.scaleph.meta.service.dto.TableMetaDTO;
+import cn.sliew.scaleph.meta.util.JdbcUtil;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 
 /**
  * 数据库连接元数据
@@ -45,6 +45,18 @@ public abstract class AbstractDatabaseMeta {
     private Properties jdbcProps;
 
     private Properties poolProps;
+
+    public AbstractDatabaseMeta(DataSourceMetaDTO meta) {
+        this.setDataSourceName(meta.getDataSourceName());
+        this.setConnectionType(ConnectionTypeEnum.valueOfName(meta.getConnectionType().getValue()));
+        this.setHostName(meta.getHostName());
+        this.setDatabaseName(meta.getDatabaseName());
+        this.setPort(meta.getPort());
+        this.setUserName(meta.getUserName());
+        this.setPassword(meta.getPassword());
+        this.setJdbcProps(meta.getJdbcProps());
+        this.setPoolProps(meta.getPoolProps());
+    }
 
     public String getDataSourceName() {
         return dataSourceName;
@@ -158,18 +170,6 @@ public abstract class AbstractDatabaseMeta {
         }
     }
 
-    public AbstractDatabaseMeta(DataSourceMetaDTO meta) {
-        this.setDataSourceName(meta.getDataSourceName());
-        this.setConnectionType(ConnectionTypeEnum.valueOfName(meta.getConnectionType().getValue()));
-        this.setHostName(meta.getHostName());
-        this.setDatabaseName(meta.getDatabaseName());
-        this.setPort(meta.getPort());
-        this.setUserName(meta.getUserName());
-        this.setPassword(meta.getPassword());
-        this.setJdbcProps(meta.getJdbcProps());
-        this.setPoolProps(meta.getPoolProps());
-    }
-
     /**
      * 获取数据库默认端口号
      *
@@ -223,16 +223,20 @@ public abstract class AbstractDatabaseMeta {
      * @return table list
      * @throws SQLException SQLException
      */
-    public List<TableMetaDTO> getTables(AbstractDatabaseMeta meta, String catalog, String schemaPattern, String tableNamePattern) throws SQLException {
+    public List<TableMetaDTO> getTables(AbstractDatabaseMeta meta, String catalog,
+                                        String schemaPattern, String tableNamePattern)
+        throws SQLException {
         List<TableMetaDTO> list = new ArrayList<>();
         Connection conn = JdbcUtil.getConnectionSilently(meta, ConnectionTypeEnum.JDBC);
         ResultSet rs;
         DatabaseMetaData dbMeta = conn.getMetaData();
-        rs = dbMeta.getTables(catalog, schemaPattern, tableNamePattern, new String[]{"TABLE"});
+        rs = dbMeta.getTables(catalog, schemaPattern, tableNamePattern, new String[] {"TABLE"});
         while (rs.next()) {
             TableMetaDTO table = new TableMetaDTO();
-            table.setTableCatalog(rs.getString("TABLE_CAT") != null ? rs.getString("TABLE_CAT") : rs.getString("TABLE_SCHEM"));
-            table.setTableSchema(rs.getString("TABLE_SCHEM") != null ? rs.getString("TABLE_SCHEM") : rs.getString("TABLE_CAT"));
+            table.setTableCatalog(rs.getString("TABLE_CAT") != null ? rs.getString("TABLE_CAT") :
+                rs.getString("TABLE_SCHEM"));
+            table.setTableSchema(rs.getString("TABLE_SCHEM") != null ? rs.getString("TABLE_SCHEM") :
+                rs.getString("TABLE_CAT"));
             table.setTableName(rs.getString("TABLE_NAME"));
             table.setTableType(DictVO.toVO(DictConstants.TABLE_TYPE, rs.getString("table_type")));
             table.setTableComment(rs.getString("REMARKS"));

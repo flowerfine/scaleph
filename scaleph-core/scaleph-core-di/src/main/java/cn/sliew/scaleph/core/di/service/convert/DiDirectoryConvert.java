@@ -1,8 +1,8 @@
 package cn.sliew.scaleph.core.di.service.convert;
 
-import cn.sliew.scaleph.dao.entity.master.di.DiDirectory;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiDirectoryDTO;
+import cn.sliew.scaleph.dao.entity.master.di.DiDirectory;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;

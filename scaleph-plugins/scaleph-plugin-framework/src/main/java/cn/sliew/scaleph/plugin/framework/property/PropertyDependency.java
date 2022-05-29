@@ -1,11 +1,11 @@
 package cn.sliew.scaleph.plugin.framework.property;
 
-import lombok.Getter;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import lombok.Getter;
 
 @Getter
 public class PropertyDependency<T> {
@@ -19,6 +19,7 @@ public class PropertyDependency<T> {
 
     public PropertyDependency(final String propertyName, final Set<T> dependentValues) {
         this.propertyName = Objects.requireNonNull(propertyName);
-        this.dependentValues = Collections.unmodifiableSet(new HashSet<>(Objects.requireNonNull(dependentValues)));
+        this.dependentValues =
+            Collections.unmodifiableSet(new HashSet<>(Objects.requireNonNull(dependentValues)));
     }
 }

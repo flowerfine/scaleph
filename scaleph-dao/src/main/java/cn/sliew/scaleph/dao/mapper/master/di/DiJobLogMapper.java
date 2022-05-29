@@ -1,15 +1,15 @@
 package cn.sliew.scaleph.dao.mapper.master.di;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import cn.sliew.scaleph.dao.entity.master.di.DiJobLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -31,5 +31,6 @@ public interface DiJobLogMapper extends BaseMapper<DiJobLog> {
                               @Param(value = "n") Integer n,
                               @Param(value = "startTime") Date startTime);
 
-    List<Map<String, Object>> selectRealtimeJobRuntimeStatus(@Param(value = "jobType") String jobType);
+    List<Map<String, Object>> selectRealtimeJobRuntimeStatus(
+        @Param(value = "jobType") String jobType);
 }

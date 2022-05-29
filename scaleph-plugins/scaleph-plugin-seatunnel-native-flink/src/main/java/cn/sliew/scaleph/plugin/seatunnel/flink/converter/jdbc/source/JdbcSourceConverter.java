@@ -1,19 +1,27 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.source;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
+
+import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.JdbcProperties.DRIVER;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.JdbcProperties.PARALLELISM;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.JdbcProperties.PASSWORD;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.JdbcProperties.URL;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.JdbcProperties.USERNAME;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.source.JdbcSourceProperties.FETCH_SIZE;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.source.JdbcSourceProperties.PARTITION_COLUMN;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.source.JdbcSourceProperties.PARTITION_LOWER_BOUND;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.source.JdbcSourceProperties.PARTITION_UPPER_BOUND;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.source.JdbcSourceProperties.QUERY;
+
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.converter.SourceConverter;
 import cn.sliew.scaleph.plugin.seatunnel.flink.converter.common.CommonOptions;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
-
-import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.JdbcProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.converter.jdbc.source.JdbcSourceProperties.*;
 
 public class JdbcSourceConverter implements SourceConverter {
 

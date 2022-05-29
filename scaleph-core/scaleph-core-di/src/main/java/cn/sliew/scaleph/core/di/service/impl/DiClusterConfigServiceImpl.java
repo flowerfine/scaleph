@@ -1,22 +1,22 @@
 package cn.sliew.scaleph.core.di.service.impl;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.scaleph.dao.entity.master.di.DiClusterConfig;
-import cn.sliew.scaleph.dao.mapper.master.di.DiClusterConfigMapper;
-import cn.sliew.scaleph.core.di.service.convert.DiClusterConfigConvert;
 import cn.sliew.scaleph.core.di.service.DiClusterConfigService;
+import cn.sliew.scaleph.core.di.service.convert.DiClusterConfigConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiClusterConfigDTO;
 import cn.sliew.scaleph.core.di.service.param.DiClusterConfigParam;
+import cn.sliew.scaleph.dao.entity.master.di.DiClusterConfig;
+import cn.sliew.scaleph.dao.mapper.master.di.DiClusterConfigMapper;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class DiClusterConfigServiceImpl implements DiClusterConfigService {
@@ -50,10 +50,12 @@ public class DiClusterConfigServiceImpl implements DiClusterConfigService {
     public Page<DiClusterConfigDTO> listByPage(DiClusterConfigParam param) {
         Page<DiClusterConfigDTO> result = new Page<>();
         Page<DiClusterConfig> list = this.diClusterConfigMapper.selectPage(
-                new Page<>(param.getCurrent(), param.getPageSize()),
-                new LambdaQueryWrapper<DiClusterConfig>()
-                        .like(StrUtil.isNotEmpty(param.getClusterName()), DiClusterConfig::getClusterName, param.getClusterName())
-                        .eq(StrUtil.isNotEmpty(param.getClusterType()), DiClusterConfig::getClusterType, param.getClusterType())
+            new Page<>(param.getCurrent(), param.getPageSize()),
+            new LambdaQueryWrapper<DiClusterConfig>()
+                .like(StrUtil.isNotEmpty(param.getClusterName()), DiClusterConfig::getClusterName,
+                    param.getClusterName())
+                .eq(StrUtil.isNotEmpty(param.getClusterType()), DiClusterConfig::getClusterType,
+                    param.getClusterType())
         );
         List<DiClusterConfigDTO> dtoList = DiClusterConfigConvert.INSTANCE.toDto(list.getRecords());
         result.setCurrent(list.getCurrent());

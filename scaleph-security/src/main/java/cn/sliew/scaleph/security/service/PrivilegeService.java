@@ -1,8 +1,8 @@
 package cn.sliew.scaleph.security.service;
 
-import cn.sliew.scaleph.security.service.dto.PrivilegeDTO;
-
 import java.util.List;
+
+import cn.sliew.scaleph.security.service.dto.PrivilegeDTO;
 
 /**
  * <p>

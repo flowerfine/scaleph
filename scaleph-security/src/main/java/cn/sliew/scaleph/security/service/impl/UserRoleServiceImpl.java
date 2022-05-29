@@ -1,5 +1,8 @@
 package cn.sliew.scaleph.security.service.impl;
 
+import java.io.Serializable;
+import java.util.List;
+
 import cn.sliew.scaleph.dao.entity.master.security.UserRole;
 import cn.sliew.scaleph.dao.mapper.master.security.UserRoleMapper;
 import cn.sliew.scaleph.security.service.UserRoleService;
@@ -8,9 +11,6 @@ import cn.sliew.scaleph.security.service.dto.UserRoleDTO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * <p>
@@ -35,21 +35,21 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public int deleteByRoleId(Serializable roleId) {
         return this.userRoleMapper.delete(new LambdaQueryWrapper<UserRole>()
-                .eq(UserRole::getRoleId, roleId));
+            .eq(UserRole::getRoleId, roleId));
     }
 
     @Override
     public int delete(UserRoleDTO userRoleDTO) {
         return this.userRoleMapper.delete(new LambdaQueryWrapper<UserRole>()
-                .eq(UserRole::getRoleId, userRoleDTO.getRoleId())
-                .eq(UserRole::getUserId, userRoleDTO.getUserId())
+            .eq(UserRole::getRoleId, userRoleDTO.getRoleId())
+            .eq(UserRole::getUserId, userRoleDTO.getUserId())
         );
     }
 
     @Override
     public List<UserRoleDTO> listByRoleId(Serializable roleId) {
         List<UserRole> list = this.userRoleMapper.selectList(new LambdaQueryWrapper<UserRole>()
-                .eq(UserRole::getRoleId, roleId));
+            .eq(UserRole::getRoleId, roleId));
         return UserRoleConvert.INSTANCE.toDto(list);
     }
 }

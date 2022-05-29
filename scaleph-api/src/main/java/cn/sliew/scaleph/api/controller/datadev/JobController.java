@@ -1,5 +1,28 @@
 package cn.sliew.scaleph.api.controller.datadev;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.validation.constraints.NotBlank;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
+
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.TypeReference;
@@ -23,11 +46,34 @@ import cn.sliew.scaleph.api.vo.DiJobRunVO;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
-import cn.sliew.scaleph.common.enums.*;
+import cn.sliew.scaleph.common.enums.ErrorShowTypeEnum;
+import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
+import cn.sliew.scaleph.common.enums.JobRuntimeStateEnum;
+import cn.sliew.scaleph.common.enums.JobStatusEnum;
+import cn.sliew.scaleph.common.enums.JobTypeEnum;
+import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
 import cn.sliew.scaleph.common.exception.CustomException;
 import cn.sliew.scaleph.common.exception.Rethrower;
-import cn.sliew.scaleph.core.di.service.*;
-import cn.sliew.scaleph.core.di.service.dto.*;
+import cn.sliew.scaleph.core.di.service.DiClusterConfigService;
+import cn.sliew.scaleph.core.di.service.DiJobAttrService;
+import cn.sliew.scaleph.core.di.service.DiJobLinkService;
+import cn.sliew.scaleph.core.di.service.DiJobLogService;
+import cn.sliew.scaleph.core.di.service.DiJobResourceFileService;
+import cn.sliew.scaleph.core.di.service.DiJobService;
+import cn.sliew.scaleph.core.di.service.DiJobStepAttrService;
+import cn.sliew.scaleph.core.di.service.DiJobStepAttrTypeService;
+import cn.sliew.scaleph.core.di.service.DiJobStepService;
+import cn.sliew.scaleph.core.di.service.DiProjectService;
+import cn.sliew.scaleph.core.di.service.dto.DiClusterConfigDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobLinkDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobLogDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobStepAttrDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobStepAttrTypeDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobStepDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiProjectDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiResourceFileDTO;
 import cn.sliew.scaleph.core.di.service.param.DiJobParam;
 import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
 import cn.sliew.scaleph.engine.util.JobConfigHelper;
@@ -44,11 +90,25 @@ import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.api.common.JobStatus;
 import org.apache.flink.client.deployment.executors.RemoteExecutor;
-import org.apache.flink.configuration.*;
+import org.apache.flink.configuration.ConfigUtils;
+import org.apache.flink.configuration.Configuration;
+import org.apache.flink.configuration.DeploymentOptions;
+import org.apache.flink.configuration.GlobalConfiguration;
+import org.apache.flink.configuration.JobManagerOptions;
+import org.apache.flink.configuration.PipelineOptions;
+import org.apache.flink.configuration.RestOptions;
 import org.apache.flink.runtime.jobgraph.SavepointRestoreSettings;
 import org.apache.flink.runtime.rest.handler.async.TriggerResponse;
 import org.apache.flink.runtime.rest.messages.job.savepoints.stop.StopWithSavepointRequestBody;
-import org.quartz.*;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.TriggerKey;
+import org.quartz.TriggerUtils;
 import org.quartz.impl.triggers.CronTriggerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,22 +117,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.validation.constraints.NotBlank;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.ParseException;
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author gleiyu
@@ -117,16 +170,19 @@ public class JobController {
 
     @PostConstruct
     public void syncJobStatus() throws SchedulerException {
-        JobKey syncJobStatusKey = scheduleService.getJobKey("SYNC_JOB_STATUS_FROM_CLUSTER_JOB", Constants.INTERNAL_GROUP);
+        JobKey syncJobStatusKey =
+            scheduleService.getJobKey("SYNC_JOB_STATUS_FROM_CLUSTER_JOB", Constants.INTERNAL_GROUP);
         JobDetail syncJob = JobBuilder.newJob(FlinkJobStatusSyncJob.class)
-                .withIdentity(syncJobStatusKey)
-                .storeDurably()
-                .build();
-        TriggerKey syncJobTriggerKey = scheduleService.getTriggerKey("SYNC_JOB_STATUS_FROM_CLUSTER_TRI", Constants.INTERNAL_GROUP);
+            .withIdentity(syncJobStatusKey)
+            .storeDurably()
+            .build();
+        TriggerKey syncJobTriggerKey =
+            scheduleService.getTriggerKey("SYNC_JOB_STATUS_FROM_CLUSTER_TRI",
+                Constants.INTERNAL_GROUP);
         Trigger syncJobTri = TriggerBuilder.newTrigger()
-                .withIdentity(syncJobTriggerKey)
-                .withSchedule(CronScheduleBuilder.cronSchedule(Constants.CRON_EVERY_THREE_SECONDS))
-                .build();
+            .withIdentity(syncJobTriggerKey)
+            .withSchedule(CronScheduleBuilder.cronSchedule(Constants.CRON_EVERY_THREE_SECONDS))
+            .build();
         if (scheduleService.checkExists(syncJobStatusKey)) {
             scheduleService.deleteScheduleJob(syncJobStatusKey);
         }
@@ -149,8 +205,10 @@ public class JobController {
     public ResponseEntity<ResponseVO> simpleAddJob(@Validated @RequestBody DiJobDTO diJobDTO) {
         String currentUser = SecurityUtil.getCurrentUserName();
         diJobDTO.setJobOwner(currentUser);
-        diJobDTO.setJobStatus(new DictVO(JobStatusEnum.DRAFT.getValue(), JobStatusEnum.DRAFT.getLabel()));
-        diJobDTO.setRuntimeState(new DictVO(JobRuntimeStateEnum.STOP.getValue(), JobRuntimeStateEnum.STOP.getLabel()));
+        diJobDTO.setJobStatus(
+            new DictVO(JobStatusEnum.DRAFT.getValue(), JobStatusEnum.DRAFT.getLabel()));
+        diJobDTO.setRuntimeState(
+            new DictVO(JobRuntimeStateEnum.STOP.getValue(), JobRuntimeStateEnum.STOP.getLabel()));
         diJobDTO.setJobVersion(1);
         this.diJobService.insert(diJobDTO);
         return new ResponseEntity<>(ResponseVO.sucess(diJobDTO), HttpStatus.CREATED);
@@ -160,15 +218,17 @@ public class JobController {
     @PutMapping
     @ApiOperation(value = "修改作业记录", notes = "只修改作业记录属性，相关流程定义不改变。如果作业在运行中，且修改了crontab表达式，则重新配置作业的调度频率")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> simpleEditJob(@Validated @RequestBody DiJobDTO diJobDTO) throws SchedulerException {
+    public ResponseEntity<ResponseVO> simpleEditJob(@Validated @RequestBody DiJobDTO diJobDTO)
+        throws SchedulerException {
         DiJobDTO job = this.diJobService.selectOne(diJobDTO.getId());
         boolean flag = StrUtil.isAllEmpty(diJobDTO.getJobCrontab(), job.getJobCrontab())
-                || (StrUtil.isAllNotEmpty(diJobDTO.getJobCrontab(), job.getJobCrontab())
-                && StrUtil.equals(diJobDTO.getJobCrontab(), job.getJobCrontab()));
+            || (StrUtil.isAllNotEmpty(diJobDTO.getJobCrontab(), job.getJobCrontab())
+            && StrUtil.equals(diJobDTO.getJobCrontab(), job.getJobCrontab()));
         if (!flag) {
             DiProjectDTO project = this.diProjectService.selectOne(job.getProjectId());
             String jobName = project.getProjectCode() + '_' + job.getJobCode();
-            JobKey seatunnelJobKey = scheduleService.getJobKey("FLINK_BATCH_JOB_" + jobName, Constants.INTERNAL_GROUP);
+            JobKey seatunnelJobKey =
+                scheduleService.getJobKey("FLINK_BATCH_JOB_" + jobName, Constants.INTERNAL_GROUP);
             if (scheduleService.checkExists(seatunnelJobKey)) {
                 scheduleService.deleteScheduleJob(seatunnelJobKey);
             }
@@ -191,7 +251,8 @@ public class JobController {
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.job.running"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                I18nUtil.get("response.error.di.job.running"), ErrorShowTypeEnum.NOTIFICATION),
+                HttpStatus.OK);
         }
     }
 
@@ -216,7 +277,8 @@ public class JobController {
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.job.running"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                I18nUtil.get("response.error.di.job.running"), ErrorShowTypeEnum.NOTIFICATION),
+                HttpStatus.OK);
         }
     }
 
@@ -244,7 +306,7 @@ public class JobController {
             return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.CREATED);
         } catch (CustomException e) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }
     }
 
@@ -258,13 +320,15 @@ public class JobController {
         if (JobStatusEnum.RELEASE.getValue().equals(job.getJobStatus().getValue())) {
             Long oldJobId = job.getId();
             int jobVersion = job.getJobVersion() + 1;
-            DiJobDTO newVersionJob = this.diJobService.selectOne(job.getProjectId(), job.getJobCode(), jobVersion);
+            DiJobDTO newVersionJob =
+                this.diJobService.selectOne(job.getProjectId(), job.getJobCode(), jobVersion);
             if (newVersionJob != null) {
                 throw new CustomException(I18nUtil.get("response.error.di.job.lowVersion"));
             } else {
                 job.setId(null);
                 job.setJobVersion(jobVersion);
-                job.setJobStatus(DictVO.toVO(DictConstants.JOB_STATUS, JobStatusEnum.DRAFT.getValue()));
+                job.setJobStatus(
+                    DictVO.toVO(DictConstants.JOB_STATUS, JobStatusEnum.DRAFT.getValue()));
                 DiJobDTO newJob = this.diJobService.insert(job);
                 this.diJobService.clone(oldJobId, newJob.getId());
                 return newJob.getId();
@@ -310,15 +374,15 @@ public class JobController {
                 List<JobGraphVO> list = map.get(cellKey);
                 // 清除图中已删除的连线信息
                 List<String> linkList = list.stream()
-                        .filter(j -> linkShape.equals(j.getShape()))
-                        .map(JobGraphVO::getId)
-                        .collect(Collectors.toList());
+                    .filter(j -> linkShape.equals(j.getShape()))
+                    .map(JobGraphVO::getId)
+                    .collect(Collectors.toList());
                 this.diJobLinkService.deleteSurplusLink(jobId, linkList);
                 //清除图中已删除的节点信息及节点属性
                 List<String> stepList = list.stream()
-                        .filter(j -> stepShape.equals(j.getShape()))
-                        .map(JobGraphVO::getId)
-                        .collect(Collectors.toList());
+                    .filter(j -> stepShape.equals(j.getShape()))
+                    .map(JobGraphVO::getId)
+                    .collect(Collectors.toList());
                 this.diJobStepService.deleteSurplusStep(jobId, stepList);
                 if (CollectionUtil.isNotEmpty(list)) {
                     for (JobGraphVO graph : list) {
@@ -363,10 +427,12 @@ public class JobController {
             if (JobAttrTypeEnum.JOB_ATTR.getValue().equals(jobAttr.getJobAttrType().getValue())) {
                 String tempStr = StrUtil.isEmpty(vo.getJobAttr()) ? "" : vo.getJobAttr();
                 vo.setJobAttr(tempStr + str + "\n");
-            } else if (JobAttrTypeEnum.JOB_PROP.getValue().equals(jobAttr.getJobAttrType().getValue())) {
+            } else if (JobAttrTypeEnum.JOB_PROP.getValue()
+                .equals(jobAttr.getJobAttrType().getValue())) {
                 String tempStr = StrUtil.isEmpty(vo.getJobProp()) ? "" : vo.getJobProp();
                 vo.setJobProp(tempStr + str + "\n");
-            } else if (JobAttrTypeEnum.ENGINE_PROP.getValue().equals(jobAttr.getJobAttrType().getValue())) {
+            } else if (JobAttrTypeEnum.ENGINE_PROP.getValue()
+                .equals(jobAttr.getJobAttrType().getValue())) {
                 String tempStr = StrUtil.isEmpty(vo.getEngineProp()) ? "" : vo.getEngineProp();
                 vo.setEngineProp(tempStr + str + "\n");
             }
@@ -384,9 +450,12 @@ public class JobController {
         try {
             Long editableJobId = prepareJobVersion(jobInfo);
             Map<String, DiJobAttrDTO> map = new HashMap<>();
-            DictVO jobAttrtype = DictVO.toVO(DictConstants.JOB_ATTR_TYPE, JobAttrTypeEnum.JOB_ATTR.getValue());
-            DictVO jobProptype = DictVO.toVO(DictConstants.JOB_ATTR_TYPE, JobAttrTypeEnum.JOB_PROP.getValue());
-            DictVO engineProptype = DictVO.toVO(DictConstants.JOB_ATTR_TYPE, JobAttrTypeEnum.ENGINE_PROP.getValue());
+            DictVO jobAttrtype =
+                DictVO.toVO(DictConstants.JOB_ATTR_TYPE, JobAttrTypeEnum.JOB_ATTR.getValue());
+            DictVO jobProptype =
+                DictVO.toVO(DictConstants.JOB_ATTR_TYPE, JobAttrTypeEnum.JOB_PROP.getValue());
+            DictVO engineProptype =
+                DictVO.toVO(DictConstants.JOB_ATTR_TYPE, JobAttrTypeEnum.ENGINE_PROP.getValue());
             parseJobAttr(map, jobAttrVO.getJobAttr(), jobAttrtype, editableJobId);
             parseJobAttr(map, jobAttrVO.getJobProp(), jobProptype, editableJobId);
             parseJobAttr(map, jobAttrVO.getEngineProp(), engineProptype, editableJobId);
@@ -397,12 +466,13 @@ public class JobController {
             return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.OK);
         } catch (CustomException e) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }
 
     }
 
-    private void parseJobAttr(Map<String, DiJobAttrDTO> map, String str, DictVO jobAttrType, Long jobId) {
+    private void parseJobAttr(Map<String, DiJobAttrDTO> map, String str, DictVO jobAttrType,
+                              Long jobId) {
         if (StrUtil.isNotEmpty(str)) {
             String[] lines = str.split("\n");
             for (String line : lines) {
@@ -425,8 +495,10 @@ public class JobController {
     @Transactional(rollbackFor = Exception.class)
     @ApiOperation(value = "查询步骤属性列表", notes = "查询步骤属性列表")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<List<DiJobStepAttrTypeDTO>> listJobStepAttrType(@NotBlank String stepType, @NotBlank String stepName) {
-        List<DiJobStepAttrTypeDTO> list = this.diJobStepAttrTypeService.listByType(stepType, stepName);
+    public ResponseEntity<List<DiJobStepAttrTypeDTO>> listJobStepAttrType(@NotBlank String stepType,
+                                                                          @NotBlank String stepName) {
+        List<DiJobStepAttrTypeDTO> list =
+            this.diJobStepAttrTypeService.listByType(stepType, stepName);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -434,8 +506,10 @@ public class JobController {
     @GetMapping(path = "/step")
     @ApiOperation(value = "查询步骤属性信息", notes = "查询步骤属性信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<List<DiJobStepAttrDTO>> listDiJobStepAttr(@NotBlank String jobId, @NotBlank String stepCode) {
-        List<DiJobStepAttrDTO> list = this.diJobStepAttrService.listJobStepAttr(Long.valueOf(jobId), stepCode);
+    public ResponseEntity<List<DiJobStepAttrDTO>> listDiJobStepAttr(@NotBlank String jobId,
+                                                                    @NotBlank String stepCode) {
+        List<DiJobStepAttrDTO> list =
+            this.diJobStepAttrService.listJobStepAttr(Long.valueOf(jobId), stepCode);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -444,7 +518,8 @@ public class JobController {
     @Transactional(rollbackFor = Exception.class)
     @ApiOperation(value = "保存步骤属性信息", notes = "保存步骤属性信息，未触发作业版本号变更")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> saveJobStepInfo(@RequestBody Map<String, Object> stepAttrMap) {
+    public ResponseEntity<ResponseVO> saveJobStepInfo(
+        @RequestBody Map<String, Object> stepAttrMap) {
         if (isStepAttrMapValid(stepAttrMap)) {
             Long jobId = Long.valueOf(stepAttrMap.get(Constants.JOB_ID).toString());
             DiJobDTO jobInfo = this.diJobService.selectOne(jobId);
@@ -453,11 +528,11 @@ public class JobController {
                 String stepCode = stepAttrMap.get(Constants.JOB_STEP_CODE).toString();
                 String jobGraphStr = toJsonStr(stepAttrMap.get(Constants.JOB_GRAPH));
                 Map<String, List<JobGraphVO>> map = JSONUtil.toBean(jobGraphStr,
-                        new TypeReference<Map<String, List<JobGraphVO>>>() {
-                        }, false);
+                    new TypeReference<Map<String, List<JobGraphVO>>>() {
+                    }, false);
                 saveJobGraph(map, editableJobId);
                 if (stepAttrMap.containsKey(Constants.JOB_STEP_TITLE)
-                        && StrUtil.isNotEmpty(stepAttrMap.get(Constants.JOB_STEP_TITLE).toString())) {
+                    && StrUtil.isNotEmpty(stepAttrMap.get(Constants.JOB_STEP_TITLE).toString())) {
                     DiJobStepDTO step = new DiJobStepDTO();
                     step.setJobId(editableJobId);
                     step.setStepCode(stepCode);
@@ -466,14 +541,17 @@ public class JobController {
                 }
                 DiJobStepDTO dto = this.diJobStepService.selectOne(editableJobId, stepCode);
                 if (dto != null) {
-                    List<DiJobStepAttrTypeDTO> attrTypeList = this.diJobStepAttrTypeService.listByType(dto.getStepType().getValue(), dto.getStepName());
+                    List<DiJobStepAttrTypeDTO> attrTypeList =
+                        this.diJobStepAttrTypeService.listByType(dto.getStepType().getValue(),
+                            dto.getStepName());
                     for (DiJobStepAttrTypeDTO attrType : attrTypeList) {
                         if (stepAttrMap.containsKey(attrType.getStepAttrKey())) {
                             DiJobStepAttrDTO stepAttr = new DiJobStepAttrDTO();
                             stepAttr.setJobId(editableJobId);
                             stepAttr.setStepCode(stepCode);
                             stepAttr.setStepAttrKey(attrType.getStepAttrKey());
-                            stepAttr.setStepAttrValue(toJsonStr(stepAttrMap.get(attrType.getStepAttrKey())));
+                            stepAttr.setStepAttrValue(
+                                toJsonStr(stepAttrMap.get(attrType.getStepAttrKey())));
                             this.diJobStepAttrService.upsert(stepAttr);
                         } else {
                             DiJobStepAttrDTO stepAttr = new DiJobStepAttrDTO();
@@ -487,12 +565,14 @@ public class JobController {
                 }
                 return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.OK);
             } catch (CustomException e) {
-                return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
+                return new ResponseEntity<>(
+                    ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
                         e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
             }
         } else {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.job.step.attr.illegal"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                I18nUtil.get("response.error.di.job.step.attr.illegal"),
+                ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }
     }
 
@@ -517,12 +597,12 @@ public class JobController {
             return false;
         }
         return stepAttrMap.containsKey(Constants.JOB_ID)
-                && StrUtil.isNotEmpty(toJsonStr(stepAttrMap.get(Constants.JOB_ID)))
-                && stepAttrMap.containsKey(Constants.JOB_STEP_CODE)
-                && StrUtil.isNotEmpty(toJsonStr(stepAttrMap.get(Constants.JOB_STEP_CODE)))
-                && stepAttrMap.containsKey(Constants.JOB_GRAPH)
-                && StrUtil.isNotEmpty(toJsonStr(stepAttrMap.get(Constants.JOB_GRAPH)))
-                ;
+            && StrUtil.isNotEmpty(toJsonStr(stepAttrMap.get(Constants.JOB_ID)))
+            && stepAttrMap.containsKey(Constants.JOB_STEP_CODE)
+            && StrUtil.isNotEmpty(toJsonStr(stepAttrMap.get(Constants.JOB_STEP_CODE)))
+            && stepAttrMap.containsKey(Constants.JOB_GRAPH)
+            && StrUtil.isNotEmpty(toJsonStr(stepAttrMap.get(Constants.JOB_GRAPH)))
+            ;
     }
 
     @Logging
@@ -534,21 +614,25 @@ public class JobController {
         DiJobDTO jobInfo = this.diJobService.selectOne(jobId);
         if (JobStatusEnum.ARCHIVE.getValue().equals(jobInfo.getJobStatus().getValue())) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.job.lowVersion"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                I18nUtil.get("response.error.di.job.lowVersion"), ErrorShowTypeEnum.NOTIFICATION),
+                HttpStatus.OK);
         } else if (JobStatusEnum.RELEASE.getValue().equals(jobInfo.getJobStatus().getValue())) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.job.published"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                I18nUtil.get("response.error.di.job.published"), ErrorShowTypeEnum.NOTIFICATION),
+                HttpStatus.OK);
         }
         if (JobRuntimeStateEnum.STOP.getValue().equals(jobInfo.getRuntimeState().getValue())) {
             DiJobDTO job = new DiJobDTO();
             job.setId(jobId);
-            job.setJobStatus(DictVO.toVO(DictConstants.JOB_STATUS, JobStatusEnum.RELEASE.getValue()));
+            job.setJobStatus(
+                DictVO.toVO(DictConstants.JOB_STATUS, JobStatusEnum.RELEASE.getValue()));
             this.diJobService.update(job);
             this.diJobService.archive(jobInfo.getProjectId(), jobInfo.getJobCode());
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.job.publish"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                I18nUtil.get("response.error.di.job.publish"), ErrorShowTypeEnum.NOTIFICATION),
+                HttpStatus.OK);
         }
     }
 
@@ -560,40 +644,51 @@ public class JobController {
     public ResponseEntity<ResponseVO> runJob(@RequestBody DiJobRunVO jobRunParam) throws Exception {
         //config cluster and resource
         this.diJobService.update(jobRunParam.toDto());
-        this.diJobResourceFileService.bindResource(jobRunParam.getJobId(), jobRunParam.getResources());
+        this.diJobResourceFileService.bindResource(jobRunParam.getJobId(),
+            jobRunParam.getResources());
         //generate json file
         DiJobDTO job = queryJobInfo(jobRunParam.getJobId());
-        if (JobTypeEnum.BATCH.getValue().equals(job.getJobType().getValue()) && StrUtil.isNotEmpty(job.getJobCrontab())) {
+        if (JobTypeEnum.BATCH.getValue().equals(job.getJobType().getValue()) &&
+            StrUtil.isNotEmpty(job.getJobCrontab())) {
             try {
                 scheduleSeatunnelJob(job);
             } catch (Exception e) {
-                return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
+                return new ResponseEntity<>(
+                    ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
                         e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
             }
         } else {
             String jobJson = jobConfigHelper.buildJob(job);
             File tempDir = new File(System.getProperty("java.io.tmpdir"));
-            File baseDir = FileUtil.mkdir(tempDir.getAbsolutePath() + File.separator + job.getProjectId());
+            File baseDir =
+                FileUtil.mkdir(tempDir.getAbsolutePath() + File.separator + job.getProjectId());
             File tmpJobConfFile = FileUtil.file(baseDir, job.getJobCode() + ".json");
             FileUtil.writeUtf8String(jobJson, tmpJobConfFile);
             String seatunnelPath = this.systemConfigService.getSeatunnelHome();
             Path seatunnelJarPath = Paths.get(seatunnelPath, "lib", "seatunnel-core-flink.jar");
             if (StrUtil.isBlank(seatunnelPath)) {
-                return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                        I18nUtil.get("response.error.di.noJar.seatunnel"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                return new ResponseEntity<>(
+                    ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
+                        I18nUtil.get("response.error.di.noJar.seatunnel"),
+                        ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
             }
             CliClient client = new DescriptorCliClient();
             //build configuration
-            DiClusterConfigDTO clusterConfig = this.diClusterConfigService.selectOne(jobRunParam.getClusterId());
-            Configuration configuration = buildConfiguration(seatunnelPath, seatunnelJarPath, job, clusterConfig.getConfig(), baseDir);
+            DiClusterConfigDTO clusterConfig =
+                this.diClusterConfigService.selectOne(jobRunParam.getClusterId());
+            Configuration configuration =
+                buildConfiguration(seatunnelPath, seatunnelJarPath, job, clusterConfig.getConfig(),
+                    baseDir);
             //build job
-            PackageJarJob jarJob = buildJob(seatunnelJarPath.toUri().toString(), tmpJobConfFile, job.getJobAttrList());
+            PackageJarJob jarJob =
+                buildJob(seatunnelJarPath.toUri().toString(), tmpJobConfFile, job.getJobAttrList());
             //prevent System.exit() invocation when seatunnel job config check result is false
             SecurityManager securityManager = System.getSecurityManager();
             System.setSecurityManager(new ScalephSecurityManager());
             JobID jobInstanceID = null;
             try {
-                jobInstanceID = client.submit(DeploymentTarget.STANDALONE_SESSION, configuration, jarJob);
+                jobInstanceID =
+                    client.submit(DeploymentTarget.STANDALONE_SESSION, configuration, jarJob);
 
             } catch (Exception e) {
                 Rethrower.throwAs(e);
@@ -609,13 +704,17 @@ public class JobController {
             jobLogInfo.setJobInstanceId(jobInstanceID.toString());
             String clusterHost = configuration.getString(JobManagerOptions.ADDRESS);
             int clusterPort = configuration.getInteger(RestOptions.PORT);
-            String jobLogUrl = "http://" + clusterHost + ":" + clusterPort + "/#/job/" + jobInstanceID + "/overview";
+            String jobLogUrl =
+                "http://" + clusterHost + ":" + clusterPort + "/#/job/" + jobInstanceID +
+                    "/overview";
             jobLogInfo.setJobLogUrl(jobLogUrl);
-            jobLogInfo.setJobInstanceState(DictVO.toVO(DictConstants.JOB_INSTANCE_STATE, JobStatus.INITIALIZING.toString()));
+            jobLogInfo.setJobInstanceState(
+                DictVO.toVO(DictConstants.JOB_INSTANCE_STATE, JobStatus.INITIALIZING.toString()));
             jobLogInfo.setStartTime(new Date());
             this.diJobLogService.insert(jobLogInfo);
         }
-        job.setRuntimeState(DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
+        job.setRuntimeState(
+            DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
         this.diJobService.update(job);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -623,18 +722,20 @@ public class JobController {
     private void scheduleSeatunnelJob(DiJobDTO job) throws SchedulerException {
         DiProjectDTO project = this.diProjectService.selectOne(job.getProjectId());
         String jobName = project.getProjectCode() + '_' + job.getJobCode();
-        JobKey seatunnelJobKey = scheduleService.getJobKey("FLINK_BATCH_JOB_" + jobName, Constants.INTERNAL_GROUP);
+        JobKey seatunnelJobKey =
+            scheduleService.getJobKey("FLINK_BATCH_JOB_" + jobName, Constants.INTERNAL_GROUP);
         JobDetail seatunnelJob = JobBuilder.newJob(SeatunnelFlinkJob.class)
-                .withIdentity(seatunnelJobKey)
-                .storeDurably()
-                .build();
+            .withIdentity(seatunnelJobKey)
+            .storeDurably()
+            .build();
         seatunnelJob.getJobDataMap().put(Constants.JOB_PARAM_JOB_INFO, job);
         seatunnelJob.getJobDataMap().put(Constants.JOB_PARAM_PROJECT_INFO, project);
-        TriggerKey seatunnelJobTriKey = scheduleService.getTriggerKey("FLINK_BATCH_TRI_" + jobName, Constants.INTERNAL_GROUP);
+        TriggerKey seatunnelJobTriKey =
+            scheduleService.getTriggerKey("FLINK_BATCH_TRI_" + jobName, Constants.INTERNAL_GROUP);
         Trigger seatunnelJobTri = TriggerBuilder.newTrigger()
-                .withIdentity(seatunnelJobTriKey)
-                .withSchedule(CronScheduleBuilder.cronSchedule(job.getJobCrontab()))
-                .build();
+            .withIdentity(seatunnelJobTriKey)
+            .withSchedule(CronScheduleBuilder.cronSchedule(job.getJobCrontab()))
+            .build();
         if (scheduleService.checkExists(seatunnelJobKey)) {
             scheduleService.deleteScheduleJob(seatunnelJobKey);
         }
@@ -646,12 +747,14 @@ public class JobController {
     @Transactional(rollbackFor = Exception.class)
     @ApiOperation(value = "停止任务", notes = "停止任务,自动创建savepoint,作业可能会正常运行完后停止。任务的日志状态通过定时任务同步")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> stopJob(@RequestParam(value = "jobId") Long jobId) throws Exception {
+    public ResponseEntity<ResponseVO> stopJob(@RequestParam(value = "jobId") Long jobId)
+        throws Exception {
         DiJobDTO job = this.diJobService.selectOne(jobId);
         DiProjectDTO project = this.diProjectService.selectOne(job.getProjectId());
         //remove schedule
         String jobName = project.getProjectCode() + '_' + job.getJobCode();
-        JobKey seatunnelJobKey = scheduleService.getJobKey("FLINK_BATCH_JOB_" + jobName, Constants.INTERNAL_GROUP);
+        JobKey seatunnelJobKey =
+            scheduleService.getJobKey("FLINK_BATCH_JOB_" + jobName, Constants.INTERNAL_GROUP);
         if (scheduleService.checkExists(seatunnelJobKey)) {
             scheduleService.deleteScheduleJob(seatunnelJobKey);
         }
@@ -659,26 +762,32 @@ public class JobController {
         List<DiJobLogDTO> list = this.diJobLogService.listRunningJobInstance(job.getJobCode());
         Configuration configuration = GlobalConfiguration.loadConfiguration();
         for (DiJobLogDTO instance : list) {
-            DiClusterConfigDTO clusterConfig = this.diClusterConfigService.selectOne(instance.getClusterId());
+            DiClusterConfigDTO clusterConfig =
+                this.diClusterConfigService.selectOne(instance.getClusterId());
             String host = clusterConfig.getConfig().get(JobManagerOptions.ADDRESS.key());
             int restPort = Integer.parseInt(clusterConfig.getConfig().get(RestOptions.PORT.key()));
             RestClient client = new FlinkRestClient(host, restPort, configuration);
             JobClient jobClient = client.job();
             if (StrUtil.isBlank(savePointDir)) {
-                return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                        I18nUtil.get("response.error.di.cluster.flink.savepoint"), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
+                return new ResponseEntity<>(
+                    ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
+                        I18nUtil.get("response.error.di.cluster.flink.savepoint"),
+                        ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
             }
             if (savePointDir.endsWith("/")) {
                 savePointDir = savePointDir.substring(0, savePointDir.length() - 1);
             }
             StopWithSavepointRequestBody requestBody = new StopWithSavepointRequestBody(
-                    StrUtil.concat(true, savePointDir, "/", clusterConfig.getClusterName(), "/", instance.getJobInstanceId()),
-                    true);
-            final CompletableFuture<TriggerResponse> future = jobClient.jobStop(instance.getJobInstanceId(), requestBody);
+                StrUtil.concat(true, savePointDir, "/", clusterConfig.getClusterName(), "/",
+                    instance.getJobInstanceId()),
+                true);
+            final CompletableFuture<TriggerResponse> future =
+                jobClient.jobStop(instance.getJobInstanceId(), requestBody);
             future.get();
         }
 
-        job.setRuntimeState(DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.STOP.getValue()));
+        job.setRuntimeState(
+            DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.STOP.getValue()));
         this.diJobService.update(job);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -687,9 +796,11 @@ public class JobController {
     @GetMapping(path = "/resource/{jobId}")
     @ApiOperation(value = "查询作业资源", notes = "查询作业资源列表")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<List<DictVO>> listJobResourceFile(@PathVariable(value = "jobId") Long jobId) {
+    public ResponseEntity<List<DictVO>> listJobResourceFile(
+        @PathVariable(value = "jobId") Long jobId) {
         List<DictVO> list = new ArrayList<>();
-        List<DiResourceFileDTO> resourceList = this.diJobResourceFileService.listJobResources(jobId);
+        List<DiResourceFileDTO> resourceList =
+            this.diJobResourceFileService.listJobResources(jobId);
         for (DiResourceFileDTO dto : resourceList) {
             DictVO dict = new DictVO(String.valueOf(dto.getId()), dto.getFileName());
             list.add(dict);
@@ -701,13 +812,14 @@ public class JobController {
     @GetMapping(path = "/cron/next")
     @ApiOperation(value = "查询最近5次运行时间", notes = "查询最近5次运行时间")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<List<Date>> listNext5FireTime(@RequestParam(value = "crontabStr") String crontabStr) {
+    public ResponseEntity<List<Date>> listNext5FireTime(
+        @RequestParam(value = "crontabStr") String crontabStr) {
         List<Date> list = new ArrayList<>();
         CronTriggerImpl cronTrigger = new CronTriggerImpl();
         try {
             cronTrigger.setCronExpression(crontabStr);
             List<Date> dates = TriggerUtils.computeFireTimes(
-                    cronTrigger, null, 5);
+                cronTrigger, null, 5);
             list.addAll(dates);
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (ParseException e) {
@@ -715,18 +827,26 @@ public class JobController {
         }
     }
 
-    private Configuration buildConfiguration(String seatunnelPath, Path seatunnelJarPath, DiJobDTO job, Map<String, String> clusterConf, File baseDir) throws MalformedURLException {
+    private Configuration buildConfiguration(String seatunnelPath, Path seatunnelJarPath,
+                                             DiJobDTO job, Map<String, String> clusterConf,
+                                             File baseDir) throws MalformedURLException {
         Configuration configuration = new Configuration();
         configuration.setString(PipelineOptions.NAME, job.getJobCode());
-        configuration.setString(JobManagerOptions.ADDRESS, clusterConf.get(JobManagerOptions.ADDRESS.key()));
-        configuration.setInteger(JobManagerOptions.PORT, Integer.parseInt(clusterConf.get(JobManagerOptions.PORT.key())));
-        configuration.setInteger(RestOptions.PORT, Integer.parseInt(clusterConf.get(RestOptions.PORT.key())));
-        List<DiResourceFileDTO> resourceList = this.diJobResourceFileService.listJobResources(job.getId());
+        configuration.setString(JobManagerOptions.ADDRESS,
+            clusterConf.get(JobManagerOptions.ADDRESS.key()));
+        configuration.setInteger(JobManagerOptions.PORT,
+            Integer.parseInt(clusterConf.get(JobManagerOptions.PORT.key())));
+        configuration.setInteger(RestOptions.PORT,
+            Integer.parseInt(clusterConf.get(RestOptions.PORT.key())));
+        List<DiResourceFileDTO> resourceList =
+            this.diJobResourceFileService.listJobResources(job.getId());
         Set<String> jars = new TreeSet<>();
         Path seatunnelConnectorsPath = Paths.get(seatunnelPath, "connectors", "flink");
         File seatunnelConnectorDir = seatunnelConnectorsPath.toFile();
         for (DiJobStepDTO step : job.getJobStepList()) {
-            String pluginTag = this.jobConfigHelper.getSeatunnelPluginTag(step.getStepType().getValue(), step.getStepName());
+            String pluginTag =
+                this.jobConfigHelper.getSeatunnelPluginTag(step.getStepType().getValue(),
+                    step.getStepName());
             FileFilter fileFilter = new RegexFileFilter(".*" + pluginTag + ".*");
             File[] pluginJars = seatunnelConnectorDir.listFiles(fileFilter);
             if (pluginJars != null) {
@@ -740,7 +860,8 @@ public class JobController {
         StorageService localStorageService = new NioFileServiceImpl(baseDir.getAbsolutePath());
         for (DiResourceFileDTO file : resourceList) {
             Long fileSize = this.storageService.getFileSize(file.getFilePath(), file.getFileName());
-            if (localStorageService.exists(file.getFileName()) && fileSize.equals(localStorageService.getFileSize("", file.getFileName()))) {
+            if (localStorageService.exists(file.getFileName()) &&
+                fileSize.equals(localStorageService.getFileSize("", file.getFileName()))) {
                 File localFile = FileUtil.file(baseDir, file.getFileName());
                 jars.add(localFile.toURI().toString());
             } else {
@@ -750,23 +871,26 @@ public class JobController {
                 jars.add(localFile.toURI().toString());
             }
         }
-        ConfigUtils.encodeCollectionToConfig(configuration, PipelineOptions.JARS, jars, Object::toString);
+        ConfigUtils.encodeCollectionToConfig(configuration, PipelineOptions.JARS, jars,
+            Object::toString);
         configuration.setString(DeploymentOptions.TARGET, RemoteExecutor.NAME);
         return configuration;
     }
 
-    private PackageJarJob buildJob(String seatunnelPath, File file, List<DiJobAttrDTO> jobAttrList) throws FileNotFoundException, MalformedURLException {
+    private PackageJarJob buildJob(String seatunnelPath, File file, List<DiJobAttrDTO> jobAttrList)
+        throws FileNotFoundException, MalformedURLException {
         PackageJarJob jarJob = new PackageJarJob();
         jarJob.setJarFilePath(seatunnelPath);
         jarJob.setEntryPointClass("org.apache.seatunnel.core.flink.SeatunnelFlink");
         Path filePath = Paths.get(file.toURI());
         List<String> variables = Arrays.asList("--config", filePath.toString());
         jobAttrList.stream()
-                .filter(attr -> JobAttrTypeEnum.JOB_ATTR.getValue().equals(attr.getJobAttrType().getValue()))
-                .forEach(attr -> {
-                    variables.add("--variable");
-                    variables.add(attr.getJobAttrKey() + "=" + attr.getJobAttrValue());
-                });
+            .filter(attr -> JobAttrTypeEnum.JOB_ATTR.getValue()
+                .equals(attr.getJobAttrType().getValue()))
+            .forEach(attr -> {
+                variables.add("--variable");
+                variables.add(attr.getJobAttrKey() + "=" + attr.getJobAttrValue());
+            });
         jarJob.setProgramArgs(variables.toArray(new String[0]));
         jarJob.setClasspaths(Collections.emptyList());
         jarJob.setSavepointSettings(SavepointRestoreSettings.none());

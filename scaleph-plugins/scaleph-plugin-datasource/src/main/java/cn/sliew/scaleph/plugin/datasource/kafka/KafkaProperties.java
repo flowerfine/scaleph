@@ -8,18 +8,18 @@ public enum KafkaProperties {
     ;
 
     public static final PropertyDescriptor TOPICS = new PropertyDescriptor.Builder()
-            .name("topics")
-            .description("The name of the Kafka Topic(s) to pull from. More than one can be supplied if comma separated.")
-            .defaultValue(null)
-            .properties(Property.Required)
-            .validateAndBuild();
-
+        .name("topics")
+        .description(
+            "The name of the Kafka Topic(s) to pull from. More than one can be supplied if comma separated.")
+        .defaultValue(null)
+        .properties(Property.Required)
+        .validateAndBuild();
 
 
     public static final PropertyDescriptor BOOTSTRAP_SERVERS = new PropertyDescriptor.Builder()
-            .name(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG)
-            .description("A comma-separated list of known Kafka Brokers in the format <host>:<port>")
-            .defaultValue(descriptor -> "localhost:9092")
-            .properties(Property.Required)
-            .validateAndBuild();
+        .name(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG)
+        .description("A comma-separated list of known Kafka Brokers in the format <host>:<port>")
+        .defaultValue(descriptor -> "localhost:9092")
+        .properties(Property.Required)
+        .validateAndBuild();
 }

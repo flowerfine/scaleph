@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("di_project")
-@ApiModel(value="DiProject对象", description="数据集成-项目信息")
+@ApiModel(value = "DiProject对象", description = "数据集成-项目信息")
 public class DiProject extends BaseDO {
 
     private static final long serialVersionUID = 6755304433208751192L;

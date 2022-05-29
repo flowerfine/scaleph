@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "meta_data_set",resultMap = "MetaDataSetMap")
+@TableName(value = "meta_data_set", resultMap = "MetaDataSetMap")
 @ApiModel(value = "MetaDataSet对象", description = "元数据-参考数据")
 public class MetaDataSet extends BaseDO {
 

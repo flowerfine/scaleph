@@ -1,17 +1,25 @@
 package cn.sliew.scaleph.storage.service.impl;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import cn.sliew.scaleph.common.enums.ContentTypeEnum;
 import cn.sliew.scaleph.common.exception.Rethrower;
 import cn.sliew.scaleph.storage.service.StorageService;
-import io.minio.*;
+import io.minio.BucketExistsArgs;
+import io.minio.GetObjectArgs;
+import io.minio.ListObjectsArgs;
+import io.minio.MakeBucketArgs;
+import io.minio.MinioClient;
+import io.minio.ObjectWriteResponse;
+import io.minio.PutObjectArgs;
+import io.minio.RemoveObjectArgs;
+import io.minio.Result;
 import io.minio.messages.Item;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 @Slf4j
 @Service(value = "minio")
@@ -26,13 +34,13 @@ public class MinioFileServiceImpl implements StorageService {
                                 @Value("${app.resource.minio.secretKey:''}") String secretKey) {
         this.bucket = bucket;
         this.client = MinioClient.builder()
-                .endpoint(endPoint)
-                .credentials(accessKey, secretKey)
-                .build();
+            .endpoint(endPoint)
+            .credentials(accessKey, secretKey)
+            .build();
         try {
             if (!this.client.bucketExists(BucketExistsArgs.builder()
-                    .bucket(this.bucket)
-                    .build())) {
+                .bucket(this.bucket)
+                .build())) {
                 this.client.makeBucket(MakeBucketArgs.builder().bucket(this.bucket).build());
             }
         } catch (Exception e) {
@@ -61,11 +69,11 @@ public class MinioFileServiceImpl implements StorageService {
             }
             try {
                 client.removeObject(
-                        RemoveObjectArgs
-                                .builder()
-                                .bucket(bucket)
-                                .object(filePath + fileName)
-                                .build()
+                    RemoveObjectArgs
+                        .builder()
+                        .bucket(bucket)
+                        .object(filePath + fileName)
+                        .build()
                 );
             } catch (Exception e) {
                 Rethrower.throwAs(e);
@@ -81,12 +89,12 @@ public class MinioFileServiceImpl implements StorageService {
             }
             try {
                 this.client.putObject(
-                        PutObjectArgs
-                                .builder()
-                                .bucket(this.bucket)
-                                .object(filePath)
-                                .stream(new ByteArrayInputStream(new byte[]{}), 0, -1)
-                                .build()
+                    PutObjectArgs
+                        .builder()
+                        .bucket(this.bucket)
+                        .object(filePath)
+                        .stream(new ByteArrayInputStream(new byte[] {}), 0, -1)
+                        .build()
                 );
             } catch (Exception e) {
                 Rethrower.throwAs(e);
@@ -99,7 +107,8 @@ public class MinioFileServiceImpl implements StorageService {
         if (!exists(filePath)) {
             Rethrower.throwAs(new IOException("File " + filePath + " is not exists."));
         } else if (!isDirectory(filePath)) {
-            Rethrower.throwAs(new IOException(filePath + " is not a directory. Unable to upload file."));
+            Rethrower.throwAs(
+                new IOException(filePath + " is not a directory. Unable to upload file."));
         } else {
             if (!filePath.endsWith(separator)) {
                 filePath += separator;
@@ -110,13 +119,13 @@ public class MinioFileServiceImpl implements StorageService {
             delete(filePath, fileName);
             try {
                 ObjectWriteResponse response = client.putObject(
-                        PutObjectArgs
-                                .builder()
-                                .bucket(bucket)
-                                .object(filePath + fileName)
-                                .stream(inputStream, -1, 10485760)
-                                .contentType(ContentTypeEnum.getContentType(fileName))
-                                .build());
+                    PutObjectArgs
+                        .builder()
+                        .bucket(bucket)
+                        .object(filePath + fileName)
+                        .stream(inputStream, -1, 10485760)
+                        .contentType(ContentTypeEnum.getContentType(fileName))
+                        .build());
                 return response.object();
             } catch (Exception e) {
                 Rethrower.throwAs(e);
@@ -145,7 +154,8 @@ public class MinioFileServiceImpl implements StorageService {
             }
             try {
                 Item item = getObject(filePath + fileName);
-                return client.getObject(GetObjectArgs.builder().bucket(bucket).object(item.objectName()).build());
+                return client.getObject(
+                    GetObjectArgs.builder().bucket(bucket).object(item.objectName()).build());
             } catch (Exception e) {
                 Rethrower.throwAs(e);
             }
@@ -173,7 +183,7 @@ public class MinioFileServiceImpl implements StorageService {
             filePath = filePath.substring(0, filePath.length() - 1);
         }
         Iterable<Result<Item>> results = client.listObjects(
-                ListObjectsArgs.builder().bucket(this.bucket).prefix(filePath).build()
+            ListObjectsArgs.builder().bucket(this.bucket).prefix(filePath).build()
         );
         for (Result<Item> result : results) {
             try {

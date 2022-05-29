@@ -1,5 +1,9 @@
 package cn.sliew.scaleph.system.service.impl;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+
 import cn.sliew.scaleph.cache.CaffeineCacheConfig;
 import cn.sliew.scaleph.dao.entity.master.system.Dict;
 import cn.sliew.scaleph.dao.mapper.master.system.DictMapper;
@@ -15,10 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -72,7 +72,7 @@ public class DictServiceImpl implements DictService {
     @Override
     public int deleteByType(String dictCodeType) {
         int result = this.dictMapper.delete(new LambdaQueryWrapper<Dict>()
-                .eq(Dict::getDictTypeCode, dictCodeType));
+            .eq(Dict::getDictTypeCode, dictCodeType));
         DictCache.evictCacheByType(dictCodeType);
         return result;
     }
@@ -88,8 +88,8 @@ public class DictServiceImpl implements DictService {
     @Override
     public List<DictDTO> selectByType(String dictTypeCode) {
         List<Dict> list = this.dictMapper.selectList(new QueryWrapper<Dict>()
-                .lambda()
-                .eq(Dict::getDictTypeCode, dictTypeCode));
+            .lambda()
+            .eq(Dict::getDictTypeCode, dictTypeCode));
         List<DictDTO> dtoList = DictConvert.INSTANCE.toDto(list);
         DictCache.updateCache(dtoList);
         return dtoList;
@@ -105,12 +105,15 @@ public class DictServiceImpl implements DictService {
     public Page<DictDTO> listByPage(DictParam param) {
         Page<DictDTO> result = new Page<>();
         Page<Dict> list = this.dictMapper.selectPage(
-                new Page<>(param.getCurrent(), param.getPageSize()),
-                new LambdaQueryWrapper<Dict>()
-                        .like(StringUtils.hasText(param.getDictTypeCode()), Dict::getDictTypeCode, param.getDictTypeCode())
-                        .like(StringUtils.hasText(param.getDictCode()), Dict::getDictCode, param.getDictCode())
-                        .like(StringUtils.hasText(param.getDictValue()), Dict::getDictValue, param.getDictValue())
-                        .eq(StringUtils.hasText(param.getIsValid()), Dict::getIsValid, param.getIsValid())
+            new Page<>(param.getCurrent(), param.getPageSize()),
+            new LambdaQueryWrapper<Dict>()
+                .like(StringUtils.hasText(param.getDictTypeCode()), Dict::getDictTypeCode,
+                    param.getDictTypeCode())
+                .like(StringUtils.hasText(param.getDictCode()), Dict::getDictCode,
+                    param.getDictCode())
+                .like(StringUtils.hasText(param.getDictValue()), Dict::getDictValue,
+                    param.getDictValue())
+                .eq(StringUtils.hasText(param.getIsValid()), Dict::getIsValid, param.getIsValid())
         );
         List<DictDTO> dtoList = DictConvert.INSTANCE.toDto(list.getRecords());
         DictCache.updateCache(dtoList);

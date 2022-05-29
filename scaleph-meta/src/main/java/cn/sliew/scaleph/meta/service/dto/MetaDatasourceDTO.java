@@ -1,13 +1,13 @@
 package cn.sliew.scaleph.meta.service.dto;
 
+import javax.validation.constraints.NotBlank;
+import java.util.Map;
+
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import javax.validation.constraints.NotBlank;
-import java.util.Map;
 
 /**
  * 元数据-数据源信息

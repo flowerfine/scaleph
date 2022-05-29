@@ -130,7 +130,8 @@
         limit 200
     </select>
 
-    <select id="selectAllPrivilege" resultMap="cn.sliew.scaleph.dao.mapper.master.security.RoleMapper.RoleWithPrivilegeMap">
+    <select id="selectAllPrivilege"
+            resultMap="cn.sliew.scaleph.dao.mapper.master.security.RoleMapper.RoleWithPrivilegeMap">
         <![CDATA[
          select distinct
                 role.role_id as id,

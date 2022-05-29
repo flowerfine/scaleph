@@ -1,5 +1,9 @@
 package cn.sliew.scaleph.api.aspect;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
+
 import cn.sliew.scaleph.api.util.SecurityUtil;
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -11,15 +15,11 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Date;
-
 /**
  * 拦截service层的insert 和update方法，修改参数中的人员和时间字段数据
  *
- * @see cn.sliew.scaleph.api.config.MybatisConfig.MetaHandler
  * @author gleiyu
+ * @see cn.sliew.scaleph.api.config.MybatisConfig.MetaHandler
  */
 @Slf4j
 @Aspect
@@ -47,10 +47,12 @@ public class InsertUpdateAspect {
                 for (Field field : fields) {
                     try {
                         if ("creator".equals(field.getName())) {
-                            BeanUtils.setProperty(arg, field.getName(), StringUtils.isEmpty(userName) ? "sys" : userName);
+                            BeanUtils.setProperty(arg, field.getName(),
+                                StringUtils.isEmpty(userName) ? "sys" : userName);
                         }
                         if ("editor".equals(field.getName())) {
-                            BeanUtils.setProperty(arg, field.getName(), StringUtils.isEmpty(userName) ? "sys" : userName);
+                            BeanUtils.setProperty(arg, field.getName(),
+                                StringUtils.isEmpty(userName) ? "sys" : userName);
                         }
                         if ("createTime".equals(field.getName())) {
                             BeanUtils.setProperty(arg, field.getName(), date);
@@ -80,7 +82,8 @@ public class InsertUpdateAspect {
                 for (Field field : fields) {
                     try {
                         if ("editor".equals(field.getName())) {
-                            BeanUtils.setProperty(arg, field.getName(), StringUtils.isEmpty(userName) ? "sys" : userName);
+                            BeanUtils.setProperty(arg, field.getName(),
+                                StringUtils.isEmpty(userName) ? "sys" : userName);
                         }
                         if ("updateTime".equals(field.getName())) {
                             BeanUtils.setProperty(arg, field.getName(), date);

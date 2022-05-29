@@ -1,5 +1,7 @@
 package cn.sliew.scaleph.log.service.impl;
 
+import java.util.List;
+
 import cn.sliew.scaleph.dao.entity.log.LogAction;
 import cn.sliew.scaleph.dao.mapper.log.LogActionMapper;
 import cn.sliew.scaleph.log.service.LogActionService;
@@ -10,8 +12,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * <p>
@@ -37,11 +37,11 @@ public class LogActionServiceImpl implements LogActionService {
     public Page<LogActionDTO> listByPage(LogActionParam logActionParam) {
         Page<LogActionDTO> result = new Page<>();
         Page<LogAction> list = this.logActionMapper.selectPage(
-                new Page<>(logActionParam.getCurrent(), logActionParam.getPageSize()),
-                new QueryWrapper<LogAction>()
-                        .lambda()
-                        .eq(LogAction::getUserName, logActionParam.getUserName())
-                        .gt(LogAction::getActionTime, logActionParam.getActionTime())
+            new Page<>(logActionParam.getCurrent(), logActionParam.getPageSize()),
+            new QueryWrapper<LogAction>()
+                .lambda()
+                .eq(LogAction::getUserName, logActionParam.getUserName())
+                .gt(LogAction::getActionTime, logActionParam.getActionTime())
         );
         List<LogActionDTO> dtoList = LogActionConvert.INSTANCE.toDto(list.getRecords());
         result.setCurrent(list.getCurrent());

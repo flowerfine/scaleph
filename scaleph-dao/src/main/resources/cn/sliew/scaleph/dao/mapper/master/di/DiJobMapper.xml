@@ -4,21 +4,21 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="DiJobMap" type="cn.sliew.scaleph.dao.entity.master.di.DiJob">
-        <result column="id" property="id" />
-        <result column="creator" property="creator" />
-        <result column="create_time" property="createTime" />
-        <result column="editor" property="editor" />
-        <result column="update_time" property="updateTime" />
-        <result column="project_id" property="projectId" />
-        <result column="job_code" property="jobCode" />
-        <result column="job_name" property="jobName" />
-        <result column="directory_id" property="directoryId" />
-        <result column="job_type" property="jobType" />
-        <result column="job_owner" property="jobOwner" />
-        <result column="job_status" property="jobStatus" />
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="project_id" property="projectId"/>
+        <result column="job_code" property="jobCode"/>
+        <result column="job_name" property="jobName"/>
+        <result column="directory_id" property="directoryId"/>
+        <result column="job_type" property="jobType"/>
+        <result column="job_owner" property="jobOwner"/>
+        <result column="job_status" property="jobStatus"/>
         <result column="runtime_state" property="runtimeState"/>
-        <result column="job_version" property="jobVersion" />
-        <result column="remark" property="remark" />
+        <result column="job_version" property="jobVersion"/>
+        <result column="remark" property="remark"/>
         <result column="cluster_id" property="clusterId"/>
         <result column="job_crontab" property="jobCrontab"/>
     </resultMap>

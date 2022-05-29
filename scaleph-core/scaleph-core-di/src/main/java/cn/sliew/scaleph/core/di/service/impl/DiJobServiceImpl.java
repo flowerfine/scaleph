@@ -1,9 +1,22 @@
 package cn.sliew.scaleph.core.di.service.impl;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.common.enums.JobStatusEnum;
-import cn.sliew.scaleph.core.di.service.*;
+import cn.sliew.scaleph.core.di.service.DiDirectoryService;
+import cn.sliew.scaleph.core.di.service.DiJobAttrService;
+import cn.sliew.scaleph.core.di.service.DiJobLinkService;
+import cn.sliew.scaleph.core.di.service.DiJobResourceFileService;
+import cn.sliew.scaleph.core.di.service.DiJobService;
+import cn.sliew.scaleph.core.di.service.DiJobStepAttrService;
+import cn.sliew.scaleph.core.di.service.DiJobStepService;
 import cn.sliew.scaleph.core.di.service.convert.DiJobConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiDirectoryDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
@@ -15,10 +28,6 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.Serializable;
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author gleiyu
@@ -59,11 +68,11 @@ public class DiJobServiceImpl implements DiJobService {
     public int archive(Long projectId, String jobCode) {
         int result = 0;
         List<DiJob> list = this.diJobMapper.selectList(
-                new LambdaQueryWrapper<DiJob>()
-                        .eq(DiJob::getJobCode, jobCode)
-                        .eq(DiJob::getProjectId, projectId)
-                        .eq(DiJob::getJobStatus, JobStatusEnum.RELEASE.getValue())
-                        .orderByAsc(DiJob::getJobVersion)
+            new LambdaQueryWrapper<DiJob>()
+                .eq(DiJob::getJobCode, jobCode)
+                .eq(DiJob::getProjectId, projectId)
+                .eq(DiJob::getJobStatus, JobStatusEnum.RELEASE.getValue())
+                .orderByAsc(DiJob::getJobVersion)
         );
         if (CollectionUtil.isEmpty(list)) {
             return 0;
@@ -73,8 +82,8 @@ public class DiJobServiceImpl implements DiJobService {
             job.setId(list.get(i).getId());
             job.setJobStatus(JobStatusEnum.ARCHIVE.getValue());
             result += this.diJobMapper.update(job,
-                    new LambdaUpdateWrapper<DiJob>()
-                            .eq(DiJob::getId, job.getId())
+                new LambdaUpdateWrapper<DiJob>()
+                    .eq(DiJob::getId, job.getId())
             );
         }
         return result;
@@ -89,8 +98,8 @@ public class DiJobServiceImpl implements DiJobService {
     @Override
     public int deleteByCode(Long projectId, String jobCode) {
         List<DiJob> jobList = this.diJobMapper.selectList(new LambdaQueryWrapper<DiJob>()
-                .eq(DiJob::getJobCode, jobCode)
-                .eq(DiJob::getProjectId, projectId)
+            .eq(DiJob::getJobCode, jobCode)
+            .eq(DiJob::getProjectId, projectId)
         );
         List<Long> ids = jobList.stream().map(DiJob::getId).collect(Collectors.toList());
         this.diJobAttrService.deleteByJobId(ids);
@@ -98,8 +107,8 @@ public class DiJobServiceImpl implements DiJobService {
         this.diJobStepService.deleteByJobId(ids);
         this.diJobStepAttrService.deleteByJobId(ids);
         return this.diJobMapper.delete(new LambdaQueryWrapper<DiJob>()
-                .eq(DiJob::getJobCode, jobCode)
-                .eq(DiJob::getProjectId, projectId)
+            .eq(DiJob::getJobCode, jobCode)
+            .eq(DiJob::getProjectId, projectId)
         );
     }
 
@@ -120,7 +129,7 @@ public class DiJobServiceImpl implements DiJobService {
         this.diJobStepService.deleteByProjectId(projectIds);
         this.diJobStepAttrService.deleteByProjectId(projectIds);
         return this.diJobMapper.delete(new LambdaQueryWrapper<DiJob>()
-                .in(DiJob::getProjectId, projectIds));
+            .in(DiJob::getProjectId, projectIds));
     }
 
 
@@ -128,11 +137,12 @@ public class DiJobServiceImpl implements DiJobService {
     public Page<DiJobDTO> listByPage(DiJobParam param) {
         Page<DiJobDTO> result = new Page<>();
         Page<DiJob> list = this.diJobMapper.selectPage(
-                new Page<>(param.getCurrent(), param.getPageSize()),
-                param.toDo()
+            new Page<>(param.getCurrent(), param.getPageSize()),
+            param.toDo()
         );
         List<DiJobDTO> dtoList = DiJobConvert.INSTANCE.toDto(list.getRecords());
-        Map<Long, DiDirectoryDTO> map = this.diDirectoryService.loadFullPath(list.getRecords().stream().map(DiJob::getDirectoryId).collect(Collectors.toList()));
+        Map<Long, DiDirectoryDTO> map = this.diDirectoryService.loadFullPath(
+            list.getRecords().stream().map(DiJob::getDirectoryId).collect(Collectors.toList()));
         for (DiJobDTO job : dtoList) {
             DiDirectoryDTO dir = map.get(job.getDirectory().getId());
             job.setDirectory(dir);
@@ -147,10 +157,11 @@ public class DiJobServiceImpl implements DiJobService {
     @Override
     public List<DiJobDTO> listById(Collection<? extends Serializable> ids) {
         List<DiJob> list = this.diJobMapper.selectList(
-                new LambdaQueryWrapper<DiJob>().in(DiJob::getId, ids)
+            new LambdaQueryWrapper<DiJob>().in(DiJob::getId, ids)
         );
         List<DiJobDTO> dtoList = DiJobConvert.INSTANCE.toDto(list);
-        Map<Long, DiDirectoryDTO> map = this.diDirectoryService.loadFullPath(list.stream().map(DiJob::getDirectoryId).collect(Collectors.toList()));
+        Map<Long, DiDirectoryDTO> map = this.diDirectoryService.loadFullPath(
+            list.stream().map(DiJob::getDirectoryId).collect(Collectors.toList()));
         for (DiJobDTO job : dtoList) {
             DiDirectoryDTO dir = map.get(job.getDirectory().getId());
             job.setDirectory(dir);
@@ -162,7 +173,8 @@ public class DiJobServiceImpl implements DiJobService {
     public DiJobDTO selectOne(Long id) {
         DiJob job = this.diJobMapper.selectById(id);
         DiJobDTO dto = DiJobConvert.INSTANCE.toDto(job);
-        Map<Long, DiDirectoryDTO> map = this.diDirectoryService.loadFullPath(Collections.singletonList(job.getDirectoryId()));
+        Map<Long, DiDirectoryDTO> map =
+            this.diDirectoryService.loadFullPath(Collections.singletonList(job.getDirectoryId()));
         DiDirectoryDTO dir = map.get(job.getDirectoryId());
         dto.setDirectory(dir);
         return dto;
@@ -171,10 +183,10 @@ public class DiJobServiceImpl implements DiJobService {
     @Override
     public DiJobDTO selectOne(Long projectId, String jobCode, int jobVersion) {
         DiJob job = this.diJobMapper.selectOne(
-                new LambdaQueryWrapper<DiJob>()
-                        .eq(DiJob::getProjectId, projectId)
-                        .eq(DiJob::getJobCode, jobCode)
-                        .eq(DiJob::getJobVersion, jobVersion)
+            new LambdaQueryWrapper<DiJob>()
+                .eq(DiJob::getProjectId, projectId)
+                .eq(DiJob::getJobCode, jobCode)
+                .eq(DiJob::getJobVersion, jobVersion)
         );
         return DiJobConvert.INSTANCE.toDto(job);
     }
@@ -183,8 +195,8 @@ public class DiJobServiceImpl implements DiJobService {
     @Override
     public boolean hasValidJob(Collection<Long> projectIds) {
         DiJob job = this.diJobMapper.selectOne(new LambdaQueryWrapper<DiJob>()
-                .in(DiJob::getProjectId, projectIds)
-                .last("limit 1")
+            .in(DiJob::getProjectId, projectIds)
+            .last("limit 1")
         );
         if (job == null || job.getId() == null) {
             return false;
@@ -196,10 +208,10 @@ public class DiJobServiceImpl implements DiJobService {
     @Override
     public boolean hasValidJob(Long projectId, Long dirId) {
         DiJob job = this.diJobMapper.selectOne(
-                new LambdaQueryWrapper<DiJob>()
-                        .eq(DiJob::getProjectId, projectId)
-                        .eq(DiJob::getDirectoryId, dirId)
-                        .last("limit 1")
+            new LambdaQueryWrapper<DiJob>()
+                .eq(DiJob::getProjectId, projectId)
+                .eq(DiJob::getDirectoryId, dirId)
+                .last("limit 1")
 
         );
         if (job == null || job.getId() == null) {
@@ -212,8 +224,8 @@ public class DiJobServiceImpl implements DiJobService {
     @Override
     public boolean hasRunningJob(Collection<Long> clusterIds) {
         DiJob job = this.diJobMapper.selectOne(new LambdaQueryWrapper<DiJob>()
-                .in(DiJob::getClusterId, clusterIds)
-                .last("limit 1")
+            .in(DiJob::getClusterId, clusterIds)
+            .last("limit 1")
         );
         if (job == null || job.getId() == null) {
             return false;
@@ -225,7 +237,7 @@ public class DiJobServiceImpl implements DiJobService {
     @Override
     public Long totalCnt(String jobType) {
         return this.diJobMapper.selectCount(new LambdaQueryWrapper<DiJob>()
-                .eq(StrUtil.isNotEmpty(jobType), DiJob::getJobType, jobType)
+            .eq(StrUtil.isNotEmpty(jobType), DiJob::getJobType, jobType)
         );
     }
 

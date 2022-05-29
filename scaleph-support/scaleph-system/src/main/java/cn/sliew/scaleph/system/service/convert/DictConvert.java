@@ -11,7 +11,8 @@ import org.mapstruct.factory.Mappers;
 /**
  * @author gleiyu
  */
-@Mapper(uses = {DictTypeConvert.class, DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {DictTypeConvert.class,
+    DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DictConvert extends BaseConvert<Dict, DictDTO> {
 
     DictConvert INSTANCE = Mappers.getMapper(DictConvert.class);

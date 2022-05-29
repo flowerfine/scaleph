@@ -17,14 +17,6 @@ public enum ConnectionTypeEnum {
         this.value = value;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
     public static ConnectionTypeEnum valueOfName(String name) {
         if (name == null) {
             throw new IllegalArgumentException("connection type must not be null");
@@ -35,6 +27,14 @@ public enum ConnectionTypeEnum {
             }
         }
         throw new IllegalArgumentException("unknown connection type for " + name);
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getValue() {
+        return value;
     }
 
 }

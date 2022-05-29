@@ -1,5 +1,7 @@
 package cn.sliew.scaleph.api.controller.stdata;
 
+import java.util.Map;
+
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.meta.service.MetaSystemService;
@@ -14,9 +16,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author gleiyu
@@ -43,7 +50,8 @@ public class SystemController {
     @PostMapping
     @ApiOperation(value = "新增业务系统", notes = "新增业务系统")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_ADD)")
-    public ResponseEntity<ResponseVO> addMetaSystem(@Validated @RequestBody MetaSystemDTO metaSystemDTO) {
+    public ResponseEntity<ResponseVO> addMetaSystem(
+        @Validated @RequestBody MetaSystemDTO metaSystemDTO) {
         this.metaSystemService.insert(metaSystemDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
     }
@@ -52,7 +60,8 @@ public class SystemController {
     @PutMapping
     @ApiOperation(value = "修改业务系统", notes = "修改业务系统")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_EDIT)")
-    public ResponseEntity<ResponseVO> editMetaSystem(@Validated @RequestBody MetaSystemDTO metaSystemDTO) {
+    public ResponseEntity<ResponseVO> editMetaSystem(
+        @Validated @RequestBody MetaSystemDTO metaSystemDTO) {
         this.metaSystemService.update(metaSystemDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }

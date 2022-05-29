@@ -1,8 +1,8 @@
 package cn.sliew.scaleph.core.di.service.convert;
 
-import cn.sliew.scaleph.dao.entity.master.di.DiJobAttr;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
+import cn.sliew.scaleph.dao.entity.master.di.DiJobAttr;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,5 +1,8 @@
 package cn.sliew.scaleph.log.service.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
@@ -7,9 +10,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -20,8 +20,8 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "站内信", description = "站内信表")
-public class MessageDTO extends BaseDTO {
+@ApiModel(value = "站内信", description = "站内信日志信息")
+public class LogMessageDTO extends BaseDTO {
 
     private static final long serialVersionUID = -4802816346373359731L;
     @NotBlank

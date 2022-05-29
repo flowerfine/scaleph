@@ -1,18 +1,19 @@
 package cn.sliew.scaleph.log.service.param;
 
+import java.util.Date;
+
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Date;
 
 /**
  * @author gleiyu
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ScheduleLogParam extends PaginationParam {
+public class LogScheduleParam extends PaginationParam {
+
     @ApiModelProperty(value = "任务组")
     private String taskGroup;
 

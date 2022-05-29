@@ -1,23 +1,23 @@
 package cn.sliew.scaleph.meta.service.impl;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDataSet;
 import cn.sliew.scaleph.dao.entity.master.meta.MetaSystem;
 import cn.sliew.scaleph.dao.mapper.master.meta.MetaDataSetMapper;
 import cn.sliew.scaleph.dao.mapper.master.meta.MetaSystemMapper;
+import cn.sliew.scaleph.meta.service.MetaSystemService;
 import cn.sliew.scaleph.meta.service.convert.MetaSystemConvert;
 import cn.sliew.scaleph.meta.service.dto.MetaSystemDTO;
-import cn.sliew.scaleph.meta.service.MetaSystemService;
 import cn.sliew.scaleph.meta.service.param.MetaSystemParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 业务系统元数据服务实现类
@@ -47,8 +47,8 @@ public class MetaSystemServiceImpl implements MetaSystemService {
     @Transactional(rollbackFor = Exception.class)
     public int deleteById(Long id) {
         this.metaDataSetMapper.delete(
-                new LambdaQueryWrapper<MetaDataSet>()
-                        .eq(MetaDataSet::getSystemId, id)
+            new LambdaQueryWrapper<MetaDataSet>()
+                .eq(MetaDataSet::getSystemId, id)
         );
         return this.metaSystemMapper.deleteById(id);
     }
@@ -57,8 +57,8 @@ public class MetaSystemServiceImpl implements MetaSystemService {
     @Transactional(rollbackFor = Exception.class)
     public int deleteBatch(Map<Integer, ? extends Serializable> map) {
         this.metaDataSetMapper.delete(
-                new LambdaQueryWrapper<MetaDataSet>()
-                        .in(MetaDataSet::getSystemId, map.values())
+            new LambdaQueryWrapper<MetaDataSet>()
+                .in(MetaDataSet::getSystemId, map.values())
         );
         return this.metaSystemMapper.deleteBatchIds(map.values());
     }
@@ -67,10 +67,12 @@ public class MetaSystemServiceImpl implements MetaSystemService {
     public Page<MetaSystemDTO> listByPage(MetaSystemParam param) {
         Page<MetaSystemDTO> result = new Page<>();
         Page<MetaSystem> list = this.metaSystemMapper.selectPage(
-                new Page<>(param.getCurrent(), param.getPageSize()),
-                new LambdaQueryWrapper<MetaSystem>()
-                        .like(StrUtil.isNotEmpty(param.getSystemCode()), MetaSystem::getSystemCode, param.getSystemCode())
-                        .like(StrUtil.isNotEmpty(param.getSystemName()), MetaSystem::getSystemName, param.getSystemName())
+            new Page<>(param.getCurrent(), param.getPageSize()),
+            new LambdaQueryWrapper<MetaSystem>()
+                .like(StrUtil.isNotEmpty(param.getSystemCode()), MetaSystem::getSystemCode,
+                    param.getSystemCode())
+                .like(StrUtil.isNotEmpty(param.getSystemName()), MetaSystem::getSystemName,
+                    param.getSystemName())
         );
         List<MetaSystemDTO> dtoList = MetaSystemConvert.INSTANCE.toDto(list.getRecords());
         result.setCurrent(list.getCurrent());

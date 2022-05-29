@@ -1,9 +1,9 @@
 package cn.sliew.scaleph.security.service;
 
-import cn.sliew.scaleph.security.service.dto.UserRoleDTO;
-
 import java.io.Serializable;
 import java.util.List;
+
+import cn.sliew.scaleph.security.service.dto.UserRoleDTO;
 
 /**
  * <p>

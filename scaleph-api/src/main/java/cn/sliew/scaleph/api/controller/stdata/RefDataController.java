@@ -1,5 +1,8 @@
 package cn.sliew.scaleph.api.controller.stdata;
 
+import java.util.List;
+import java.util.Map;
+
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.meta.service.MetaDataMapService;
@@ -20,10 +23,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @Api(tags = "数据标准-参考数据")
@@ -51,7 +58,8 @@ public class RefDataController {
     @GetMapping(path = "/data/type/{type}")
     @ApiOperation(value = "按类型查询参考数据", notes = "按类型查询参考数据")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_SELECT)")
-    public ResponseEntity<List<MetaDataSetDTO>> listMetaDataByType(@PathVariable(value = "type") Long typeId) {
+    public ResponseEntity<List<MetaDataSetDTO>> listMetaDataByType(
+        @PathVariable(value = "type") Long typeId) {
         List<MetaDataSetDTO> list = this.metaDataSetService.listByType(typeId);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
@@ -60,7 +68,8 @@ public class RefDataController {
     @PostMapping(path = "/data")
     @ApiOperation(value = "新增参考数据", notes = "新增参考数据")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_ADD)")
-    public ResponseEntity<ResponseVO> addMetaDataSet(@Validated @RequestBody MetaDataSetDTO metaDataSetDTO) {
+    public ResponseEntity<ResponseVO> addMetaDataSet(
+        @Validated @RequestBody MetaDataSetDTO metaDataSetDTO) {
         this.metaDataSetService.insert(metaDataSetDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
     }
@@ -69,7 +78,8 @@ public class RefDataController {
     @PutMapping(path = "/data")
     @ApiOperation(value = "修改参考数据", notes = "修改参考数据")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_EDIT)")
-    public ResponseEntity<ResponseVO> editMetaDataSet(@Validated @RequestBody MetaDataSetDTO metaDataSetDTO) {
+    public ResponseEntity<ResponseVO> editMetaDataSet(
+        @Validated @RequestBody MetaDataSetDTO metaDataSetDTO) {
         this.metaDataSetService.update(metaDataSetDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -96,7 +106,8 @@ public class RefDataController {
     @GetMapping(path = "/type")
     @ApiOperation(value = "分页查询参考数据类型", notes = "分页查询参考数据类型信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_TYPE_SELECT)")
-    public ResponseEntity<Page<MetaDataSetTypeDTO>> listMetaDataSetType(MetaDataSetTypeParam param) {
+    public ResponseEntity<Page<MetaDataSetTypeDTO>> listMetaDataSetType(
+        MetaDataSetTypeParam param) {
         Page<MetaDataSetTypeDTO> page = this.metaDataSetTypeService.listByPage(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
@@ -105,7 +116,8 @@ public class RefDataController {
     @PostMapping(path = "/type")
     @ApiOperation(value = "新增参考数据类型", notes = "新增参考数据类型")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_TYPE_ADD)")
-    public ResponseEntity<ResponseVO> addMetaDataSetType(@Validated @RequestBody MetaDataSetTypeDTO metaDataSetTypeDTO) {
+    public ResponseEntity<ResponseVO> addMetaDataSetType(
+        @Validated @RequestBody MetaDataSetTypeDTO metaDataSetTypeDTO) {
         this.metaDataSetTypeService.insert(metaDataSetTypeDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
     }
@@ -114,7 +126,8 @@ public class RefDataController {
     @PutMapping(path = "/type")
     @ApiOperation(value = "修改参考数据类型", notes = "修改参考数据类型")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_TYPE_EDIT)")
-    public ResponseEntity<ResponseVO> editMetaDataSetType(@Validated @RequestBody MetaDataSetTypeDTO metaDataSetTypeDTO) {
+    public ResponseEntity<ResponseVO> editMetaDataSetType(
+        @Validated @RequestBody MetaDataSetTypeDTO metaDataSetTypeDTO) {
         this.metaDataSetTypeService.update(metaDataSetTypeDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -150,7 +163,8 @@ public class RefDataController {
     @PostMapping(path = "/map")
     @ApiOperation(value = "新增参考数据映射", notes = "新增参考数据映射")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_MAP_ADD)")
-    public ResponseEntity<ResponseVO> addMetaDataMap(@Validated @RequestBody MetaDataMapDTO metaDataSetTypeDTO) {
+    public ResponseEntity<ResponseVO> addMetaDataMap(
+        @Validated @RequestBody MetaDataMapDTO metaDataSetTypeDTO) {
         this.metaDataMapService.insert(metaDataSetTypeDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
     }
@@ -159,7 +173,8 @@ public class RefDataController {
     @PutMapping(path = "/map")
     @ApiOperation(value = "修改参考数据映射", notes = "修改参考数据映射")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_MAP_EDIT)")
-    public ResponseEntity<ResponseVO> editMetaDataMap(@Validated @RequestBody MetaDataMapDTO metaDataSetTypeDTO) {
+    public ResponseEntity<ResponseVO> editMetaDataMap(
+        @Validated @RequestBody MetaDataMapDTO metaDataSetTypeDTO) {
         this.metaDataMapService.update(metaDataSetTypeDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }

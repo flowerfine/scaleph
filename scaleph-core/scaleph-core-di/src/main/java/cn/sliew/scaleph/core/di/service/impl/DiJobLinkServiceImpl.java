@@ -1,5 +1,9 @@
 package cn.sliew.scaleph.core.di.service.impl;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+
 import cn.hutool.core.collection.CollectionUtil;
 import cn.sliew.scaleph.core.di.service.DiJobLinkService;
 import cn.sliew.scaleph.core.di.service.convert.DiJobLinkConvert;
@@ -10,10 +14,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * @author gleiyu
@@ -43,8 +43,8 @@ public class DiJobLinkServiceImpl implements DiJobLinkService {
     @Override
     public List<DiJobLinkDTO> listJobLink(Long jobId) {
         List<DiJobLink> list = this.diJobLinkMapper.selectList(
-                new LambdaQueryWrapper<DiJobLink>()
-                        .eq(DiJobLink::getJobId, jobId)
+            new LambdaQueryWrapper<DiJobLink>()
+                .eq(DiJobLink::getJobId, jobId)
         );
         return DiJobLinkConvert.INSTANCE.toDto(list);
     }
@@ -52,27 +52,28 @@ public class DiJobLinkServiceImpl implements DiJobLinkService {
     @Override
     public int deleteSurplusLink(Long jobId, List<String> linkCodeList) {
         return this.diJobLinkMapper.delete(
-                new LambdaQueryWrapper<DiJobLink>()
-                        .eq(DiJobLink::getJobId, jobId)
-                        .notIn(CollectionUtil.isNotEmpty(linkCodeList), DiJobLink::getLinkCode, linkCodeList)
+            new LambdaQueryWrapper<DiJobLink>()
+                .eq(DiJobLink::getJobId, jobId)
+                .notIn(CollectionUtil.isNotEmpty(linkCodeList), DiJobLink::getLinkCode,
+                    linkCodeList)
         );
     }
 
     @Override
     public int upsert(DiJobLinkDTO diJobLink) {
         DiJobLink link = this.diJobLinkMapper.selectOne(
-                new LambdaQueryWrapper<DiJobLink>()
-                        .eq(DiJobLink::getJobId, diJobLink.getJobId())
-                        .eq(DiJobLink::getLinkCode, diJobLink.getLinkCode())
+            new LambdaQueryWrapper<DiJobLink>()
+                .eq(DiJobLink::getJobId, diJobLink.getJobId())
+                .eq(DiJobLink::getLinkCode, diJobLink.getLinkCode())
         );
         DiJobLink jobLink = DiJobLinkConvert.INSTANCE.toDo(diJobLink);
         if (link == null) {
             return this.diJobLinkMapper.insert(jobLink);
         } else {
             return this.diJobLinkMapper.update(jobLink,
-                    new LambdaUpdateWrapper<DiJobLink>()
-                            .eq(DiJobLink::getJobId, jobLink.getJobId())
-                            .eq(DiJobLink::getLinkCode, jobLink.getLinkCode())
+                new LambdaUpdateWrapper<DiJobLink>()
+                    .eq(DiJobLink::getJobId, jobLink.getJobId())
+                    .eq(DiJobLink::getLinkCode, jobLink.getLinkCode())
             );
         }
     }
