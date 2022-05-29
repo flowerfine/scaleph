@@ -11,9 +11,9 @@ import cn.sliew.scaleph.api.util.SecurityUtil;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.BoolEnum;
-import cn.sliew.scaleph.log.service.MessageService;
-import cn.sliew.scaleph.log.service.dto.MessageDTO;
-import cn.sliew.scaleph.log.service.param.MessageParam;
+import cn.sliew.scaleph.log.service.LogMessageService;
+import cn.sliew.scaleph.log.service.dto.LogMessageDTO;
+import cn.sliew.scaleph.log.service.param.LogMessageParam;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.base.Strings;
@@ -41,16 +41,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class MessageController {
 
     @Autowired
-    private MessageService messageService;
+    private LogMessageService logMessageService;
 
     @Logging
     @GetMapping
     @ApiOperation(value = "查询用户的消息信息", notes = "用户登录后查询自己的消息列表")
-    public ResponseEntity<Page<MessageDTO>> listMessage(MessageParam param) {
+    public ResponseEntity<Page<LogMessageDTO>> listMessage(LogMessageParam param) {
         String userName = SecurityUtil.getCurrentUserName();
         if (!StrUtil.isEmpty(userName)) {
             param.setReceiver(userName);
-            Page<MessageDTO> page = this.messageService.listByPage(param);
+            Page<LogMessageDTO> page = this.logMessageService.listByPage(param);
             return new ResponseEntity<>(page, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.OK);
@@ -60,11 +60,11 @@ public class MessageController {
     @Logging
     @PutMapping
     @ApiOperation(value = "更新消息读取状态", notes = "更新指定消息为已读状态")
-    public ResponseEntity<ResponseVO> readMessage(@RequestBody MessageDTO message) {
+    public ResponseEntity<ResponseVO> readMessage(@RequestBody LogMessageDTO message) {
         String userName = SecurityUtil.getCurrentUserName();
         if (!Strings.isNullOrEmpty(userName)) {
             message.setIsRead(DictVO.toVO(DictConstants.YES_NO, BoolEnum.YES.getValue()));
-            this.messageService.update(message);
+            this.logMessageService.update(message);
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(
@@ -79,7 +79,7 @@ public class MessageController {
     public ResponseEntity<ResponseVO> readAllMessage() {
         String userName = SecurityUtil.getCurrentUserName();
         if (!Strings.isNullOrEmpty(userName)) {
-            this.messageService.readAll(userName);
+            this.logMessageService.readAll(userName);
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(
@@ -95,7 +95,7 @@ public class MessageController {
     public ResponseEntity<Long> countUnReadMessage() {
         String userName = SecurityUtil.getCurrentUserName();
         if (!Strings.isNullOrEmpty(userName)) {
-            Long result = this.messageService.countUnReadMsg(userName);
+            Long result = this.logMessageService.countUnReadMsg(userName);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(0L, HttpStatus.OK);

@@ -20,8 +20,8 @@ import org.hibernate.validator.constraints.Length;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "站内信", description = "站内信表")
-public class MessageDTO extends BaseDTO {
+@ApiModel(value = "站内信", description = "站内信日志信息")
+public class LogMessageDTO extends BaseDTO {
 
     private static final long serialVersionUID = -4802816346373359731L;
     @NotBlank

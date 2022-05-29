@@ -16,9 +16,9 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("t_message")
-@ApiModel(value = "Message对象", description = "站内信表")
-public class Message extends BaseDO {
+@TableName("log_message")
+@ApiModel(value = "LogMessage对象", description = "站内信日志信息")
+public class LogMessage extends BaseDO {
 
     private static final long serialVersionUID = 1569135129606430763L;
 

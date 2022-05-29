@@ -1,6 +1,6 @@
 package cn.sliew.scaleph.dao.mapper.log;
 
-import cn.sliew.scaleph.dao.entity.log.Message;
+import cn.sliew.scaleph.dao.entity.log.LogMessage;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
  * @since 2021-08-01
  */
 @Repository
-public interface MessageMapper extends BaseMapper<Message> {
+public interface LogMessageMapper extends BaseMapper<LogMessage> {
 
 }

@@ -3,7 +3,7 @@
 <mapper namespace="cn.sliew.scaleph.dao.mapper.log.LogScheduleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.log.LogSchedule">
+    <resultMap id="LogScheduleMap" type="cn.sliew.scaleph.dao.entity.log.LogSchedule">
         <result column="id" property="id"/>
         <result column="creator" property="creator"/>
         <result column="create_time" property="createTime"/>
