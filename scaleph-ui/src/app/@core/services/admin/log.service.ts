@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LoginLog } from '../../data/admin.data';
+import { LogLogin } from '../../data/admin.data';
 import { PageResponse } from '../../data/app.data';
 
 @Injectable({
@@ -10,8 +10,8 @@ import { PageResponse } from '../../data/app.data';
 export class LogService {
   private url = 'api/admin/log';
   constructor(private http: HttpClient) {}
-  listByPage(queryParam): Observable<PageResponse<LoginLog>> {
+  listByPage(queryParam): Observable<PageResponse<LogLogin>> {
     const params: HttpParams = new HttpParams({ fromObject: queryParam });
-    return this.http.get<PageResponse<LoginLog>>(`${this.url}` + '/login', { params });
+    return this.http.get<PageResponse<LogLogin>>(`${this.url}` + '/login', { params });
   }
 }

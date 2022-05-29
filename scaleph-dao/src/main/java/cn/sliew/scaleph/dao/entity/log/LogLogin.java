@@ -18,7 +18,7 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("t_log_login")
+@TableName("log_login")
 @ApiModel(value = "LogLogin对象", description = "用户登录登出日志")
 public class LogLogin extends BaseDO {
 
