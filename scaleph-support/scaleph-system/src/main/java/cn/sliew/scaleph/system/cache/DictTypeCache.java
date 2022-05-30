@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.sliew.scaleph.cache.CaffeineCacheConfig;
+import cn.sliew.scaleph.cache.CachingConfig;
 import cn.sliew.scaleph.system.service.SysDictTypeService;
 import cn.sliew.scaleph.system.service.dto.SysDictTypeDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -74,8 +74,8 @@ public class DictTypeCache {
 
     @PostConstruct
     public synchronized void init() {
-        log.info("initializing cache " + CaffeineCacheConfig.UnBoundedCaches.CACHE_DICT_TYPE);
-        dictTypeCache = cacheManager.getCache(CaffeineCacheConfig.UnBoundedCaches.CACHE_DICT_TYPE);
+        log.info("initializing cache " + CachingConfig.UnBoundedCaches.CACHE_DICT_TYPE);
+        dictTypeCache = cacheManager.getCache(CachingConfig.UnBoundedCaches.CACHE_DICT_TYPE);
         List<SysDictTypeDTO> list = this.sysDictTypeService.selectAll();
         dictTypeCache.clear();
         updateCache(list);

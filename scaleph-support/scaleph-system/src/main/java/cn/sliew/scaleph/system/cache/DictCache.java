@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.sliew.scaleph.cache.CaffeineCacheConfig;
+import cn.sliew.scaleph.cache.CachingConfig;
 import cn.sliew.scaleph.common.enums.BoolEnum;
 import cn.sliew.scaleph.system.service.SysDictService;
 import cn.sliew.scaleph.system.service.dto.SysDictDTO;
@@ -108,8 +108,8 @@ public class DictCache {
 
     @PostConstruct
     public synchronized void init() {
-        log.info("initializing cache " + CaffeineCacheConfig.UnBoundedCaches.CACHE_DICT);
-        dictCache = cacheManager.getCache(CaffeineCacheConfig.UnBoundedCaches.CACHE_DICT);
+        log.info("initializing cache " + CachingConfig.UnBoundedCaches.CACHE_DICT);
+        dictCache = cacheManager.getCache(CachingConfig.UnBoundedCaches.CACHE_DICT);
         List<SysDictDTO> list = this.sysDictService.selectAll();
         dictCache.clear();
         updateCache(list);

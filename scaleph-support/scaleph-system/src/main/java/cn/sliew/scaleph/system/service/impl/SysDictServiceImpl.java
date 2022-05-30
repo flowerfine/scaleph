@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import cn.sliew.scaleph.cache.CaffeineCacheConfig;
+import cn.sliew.scaleph.cache.CachingConfig;
 import cn.sliew.scaleph.dao.entity.master.system.SysDict;
 import cn.sliew.scaleph.dao.mapper.master.system.SysDictMapper;
 import cn.sliew.scaleph.system.cache.DictCache;
@@ -29,7 +29,7 @@ import org.springframework.util.StringUtils;
  * @since 2021-07-24
  */
 @Service
-@CacheConfig(cacheNames = CaffeineCacheConfig.UnBoundedCaches.CACHE_DICT, cacheManager = "unBoundedCacheManager")
+@CacheConfig(cacheNames = CachingConfig.UnBoundedCaches.CACHE_DICT, cacheManager = "unBoundedCacheManager")
 public class SysDictServiceImpl implements SysDictService {
 
     @Autowired
@@ -113,7 +113,8 @@ public class SysDictServiceImpl implements SysDictService {
                     param.getDictCode())
                 .like(StringUtils.hasText(param.getDictValue()), SysDict::getDictValue,
                     param.getDictValue())
-                .eq(StringUtils.hasText(param.getIsValid()), SysDict::getIsValid, param.getIsValid())
+                .eq(StringUtils.hasText(param.getIsValid()), SysDict::getIsValid,
+                    param.getIsValid())
         );
         List<SysDictDTO> dtoList = SysDictConvert.INSTANCE.toDto(list.getRecords());
         DictCache.updateCache(dtoList);
