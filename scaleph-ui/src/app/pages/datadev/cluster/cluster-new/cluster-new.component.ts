@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DValidateRules, FormLayout } from 'ng-devui';
 import { Dict, DICT_TYPE } from 'src/app/@core/data/app.data';
-import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
 import { ClusterService } from 'src/app/@core/services/datadev/cluster.service';
 
 @Component({
@@ -51,7 +51,7 @@ export class ClusterNewComponent implements OnInit {
     private elr: ElementRef,
     private translate: TranslateService,
     private clusterService: ClusterService,
-    private dictDataService: DictDataService
+    private dictDataService: SysDictDataService
   ) {}
 
   ngOnInit(): void {

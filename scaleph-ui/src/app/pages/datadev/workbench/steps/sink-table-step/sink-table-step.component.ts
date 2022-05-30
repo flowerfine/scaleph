@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DValidateRules, FormLayout } from 'ng-devui';
 import { Dict, DICT_TYPE } from 'src/app/@core/data/app.data';
 import { DiJobStepAttr, STEP_ATTR_TYPE } from 'src/app/@core/data/datadev.data';
-import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
 import { DataSourceService } from 'src/app/@core/services/datadev/datasource.service';
 import { JobService } from 'src/app/@core/services/datadev/job.service';
 import { CustomValidate } from 'src/app/@core/validate/CustomValidate';
@@ -54,7 +54,7 @@ export class SinkTableStepComponent implements OnInit {
     private fb: FormBuilder,
     private translate: TranslateService,
     private dataSourceService: DataSourceService,
-    private dictDataService: DictDataService,
+    private dictDataService: SysDictDataService,
     private jobService: JobService
   ) {}
 

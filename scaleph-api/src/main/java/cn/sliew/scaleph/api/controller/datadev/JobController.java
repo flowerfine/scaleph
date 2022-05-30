@@ -80,7 +80,7 @@ import cn.sliew.scaleph.engine.seatunnel.JobConfigHelper;
 import cn.sliew.scaleph.privilege.ScalephSecurityManager;
 import cn.sliew.scaleph.storage.service.StorageService;
 import cn.sliew.scaleph.storage.service.impl.NioFileServiceImpl;
-import cn.sliew.scaleph.system.service.SystemConfigService;
+import cn.sliew.scaleph.system.service.SysConfigService;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -153,7 +153,7 @@ public class JobController {
     @Autowired
     private JobConfigHelper jobConfigHelper;
     @Autowired
-    private SystemConfigService systemConfigService;
+    private SysConfigService sysConfigService;
     @Autowired
     private DiJobResourceFileService diJobResourceFileService;
     @Autowired
@@ -664,7 +664,7 @@ public class JobController {
                 FileUtil.mkdir(tempDir.getAbsolutePath() + File.separator + job.getProjectId());
             File tmpJobConfFile = FileUtil.file(baseDir, job.getJobCode() + ".json");
             FileUtil.writeUtf8String(jobJson, tmpJobConfFile);
-            String seatunnelPath = this.systemConfigService.getSeatunnelHome();
+            String seatunnelPath = this.sysConfigService.getSeatunnelHome();
             Path seatunnelJarPath = Paths.get(seatunnelPath, "lib", "seatunnel-core-flink.jar");
             if (StrUtil.isBlank(seatunnelPath)) {
                 return new ResponseEntity<>(

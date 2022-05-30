@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
 
 @Component({
   selector: 'app-dict-data-delete',
@@ -9,7 +9,7 @@ import { DictDataService } from 'src/app/@core/services/admin/dict-data.service'
 export class DictDataDeleteComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
-  constructor(private dictDataService: DictDataService, private elr: ElementRef) {}
+  constructor(private dictDataService: SysDictDataService, private elr: ElementRef) {}
 
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;

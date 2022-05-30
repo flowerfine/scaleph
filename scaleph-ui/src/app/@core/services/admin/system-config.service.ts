@@ -7,7 +7,7 @@ import { ResponseBody } from '../../data/app.data';
 @Injectable({
   providedIn: 'root',
 })
-export class SystemConfigService {
+export class SysConfigService {
   private url = 'api/admin/config';
   constructor(private http: HttpClient) {}
 

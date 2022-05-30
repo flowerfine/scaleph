@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DataTableComponent, FilterConfig, LoadingService, SortDirection, SortEventArg } from 'ng-devui';
 import { DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
 import { DiJobLog, DiJobLogParam } from 'src/app/@core/data/opscenter.data';
-import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
 import { AuthService } from 'src/app/@core/services/auth.service';
 import { ProjectService } from 'src/app/@core/services/datadev/project.service';
 import { JobLogService } from 'src/app/@core/services/opscenter/job-log.service';
@@ -56,7 +56,7 @@ export class RealtimeJobComponent implements OnInit {
     private jobLogService: JobLogService,
     private projectService: ProjectService,
     private clusterService: ClusterService,
-    private dictDataService: DictDataService
+    private dictDataService: SysDictDataService
   ) {}
 
   ngOnInit(): void {

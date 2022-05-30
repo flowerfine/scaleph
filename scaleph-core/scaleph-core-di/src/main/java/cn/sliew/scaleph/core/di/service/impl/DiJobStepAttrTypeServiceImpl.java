@@ -2,7 +2,7 @@ package cn.sliew.scaleph.core.di.service.impl;
 
 import java.util.List;
 
-import cn.sliew.scaleph.cache.CaffeineCacheConfig;
+import cn.sliew.scaleph.cache.CachingConfig;
 import cn.sliew.scaleph.core.di.service.DiJobStepAttrTypeService;
 import cn.sliew.scaleph.core.di.service.convert.DiJobStepAttrTypeConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiJobStepAttrTypeDTO;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  * @author gleiyu
  */
 @Service
-@CacheConfig(cacheNames = CaffeineCacheConfig.UnBoundedCaches.CACHE_JOB_STEP_ATTR_TYPE, cacheManager = "unBoundedCacheManager")
+@CacheConfig(cacheNames = CachingConfig.UnBoundedCaches.CACHE_JOB_STEP_ATTR_TYPE, cacheManager = "unBoundedCacheManager")
 public class DiJobStepAttrTypeServiceImpl implements DiJobStepAttrTypeService {
 
     @Autowired

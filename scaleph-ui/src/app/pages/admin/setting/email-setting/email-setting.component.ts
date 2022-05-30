@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DValidateRules, FormLayout } from 'ng-devui';
 import { EmailConfig } from 'src/app/@core/data/admin.data';
-import { SystemConfigService } from 'src/app/@core/services/admin/system-config.service';
+import { SysConfigService } from 'src/app/@core/services/admin/system-config.service';
 import { NotificationService } from 'src/app/@shared/components/notifications/notification.service';
 
 @Component({
@@ -36,7 +36,7 @@ export class EmailSettingComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
-    private systemConfigService: SystemConfigService,
+    private sysConfigService: SysConfigService,
     private notificationService: NotificationService
   ) {}
 
@@ -45,14 +45,14 @@ export class EmailSettingComponent implements OnInit {
   }
 
   refreshEmailInfo() {
-    this.systemConfigService.getEmailConfig().subscribe((d) => {
+    this.sysConfigService.getEmailConfig().subscribe((d) => {
       this.formData = d;
     });
   }
 
   submitForm({ valid }) {
     if (valid) {
-      this.systemConfigService.configEmail(this.formData).subscribe((d) => {
+      this.sysConfigService.configEmail(this.formData).subscribe((d) => {
         if (d.success) {
           this.notificationService.success(this.translate.instant('app.common.operate.success'));
           this.refreshEmailInfo();
