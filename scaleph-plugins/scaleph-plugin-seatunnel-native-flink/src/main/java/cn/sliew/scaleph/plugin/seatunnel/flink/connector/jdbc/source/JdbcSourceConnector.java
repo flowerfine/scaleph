@@ -7,7 +7,7 @@ import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.ConnectorType;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
-import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonOptions;
+import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
@@ -34,8 +34,8 @@ public class JdbcSourceConnector extends AbstractPlugin implements SeatunnelNati
         props.add(PARTITION_UPPER_BOUND);
         props.add(PARTITION_LOWER_BOUND);
 
-        props.add(CommonOptions.RESULT_TABLE_NAME);
-        props.add(CommonOptions.FIELD_NAME);
+        props.add(CommonProperties.RESULT_TABLE_NAME);
+        props.add(CommonProperties.FIELD_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 

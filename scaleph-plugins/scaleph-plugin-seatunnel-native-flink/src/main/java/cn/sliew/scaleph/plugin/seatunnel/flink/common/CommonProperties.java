@@ -4,7 +4,10 @@ import cn.sliew.scaleph.plugin.framework.property.Parsers;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.Validators;
 
-public enum CommonOptions {
+import java.util.Arrays;
+import java.util.List;
+
+public enum CommonProperties {
     ;
 
     public static final PropertyDescriptor<String> RESULT_TABLE_NAME =
@@ -32,4 +35,7 @@ public enum CommonOptions {
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
+
+    public static final List<PropertyDescriptor> SUPPORTED_PROPERTIES = Arrays.asList(RESULT_TABLE_NAME, SOURCE_TABLE_NAME, FIELD_NAME);
+
 }

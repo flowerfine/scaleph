@@ -4,6 +4,9 @@ import cn.sliew.scaleph.plugin.framework.property.Parsers;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.Validators;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum EnvironmentProperties {
     ;
 
@@ -51,5 +54,8 @@ public enum EnvironmentProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .allowableValues("blink")
             .validateAndBuild();
+
+    public static final List<PropertyDescriptor> SUPPORTED_PROPERTIES = Arrays.asList(PARALLELISM, MAX_PARALLELISM,
+            TIME_CHARACTERISTIC, BUFFER_TIMEOUT_MILLIS, STATE_BACKEND, PLANNER);
 
 }
