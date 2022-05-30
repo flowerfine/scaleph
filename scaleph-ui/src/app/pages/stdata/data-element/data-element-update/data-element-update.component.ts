@@ -6,7 +6,7 @@ import { DEFAULT_PAGE_PARAM, Dict, DICT_TYPE } from 'src/app/@core/data/app.data
 import { MetaDataElement, MetaDataSetType, MetaDataSetTypeParam } from 'src/app/@core/data/stdata.data';
 import { RefdataService } from 'src/app/@core/services/stdata/refdata.service';
 import { DataElementService } from 'src/app/@core/services/stdata/data-element.service';
-import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
 
 @Component({
   selector: 'app-data-element-update',
@@ -68,7 +68,7 @@ export class DataElementUpdateComponent implements OnInit {
     private elr: ElementRef,
     private translate: TranslateService,
     private refdataService: RefdataService,
-    private dictDataService: DictDataService,
+    private dictDataService: SysDictDataService,
     private metaElementService: DataElementService
   ) {}
 

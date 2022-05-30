@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.sliew.scaleph.dao.mapper.master.system.DictMapper">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.master.system.SysDictMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="DictMap" type="cn.sliew.scaleph.dao.entity.master.system.Dict">
+    <resultMap id="SysDictMap" type="cn.sliew.scaleph.dao.entity.master.system.SysDict">
         <result column="id" property="id"/>
         <result column="creator" property="creator"/>
         <result column="create_time" property="createTime"/>
@@ -14,9 +14,9 @@
         <result column="dict_value" property="dictValue"/>
         <result column="remark" property="remark"/>
         <result column="is_valid" property="isValid"/>
-        <association property="dictType" javaType="cn.sliew.scaleph.dao.entity.master.system.DictType"
+        <association property="dictType" javaType="cn.sliew.scaleph.dao.entity.master.system.SysDictType"
                      column="dict_type_code"
-                     select="cn.sliew.scaleph.dao.mapper.master.system.DictTypeMapper.selectByDictTypeCode">
+                     select="cn.sliew.scaleph.dao.mapper.master.system.SysDictTypeMapper.selectByDictTypeCode">
             <id column="dict_type_code" jdbcType="VARCHAR" property="dictTypeCode"/>
             <result column="dict_type_name" jdbcType="VARCHAR" property="dictTypeName"/>
         </association>

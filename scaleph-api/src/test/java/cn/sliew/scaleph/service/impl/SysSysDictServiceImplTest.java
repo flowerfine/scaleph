@@ -3,18 +3,18 @@ package cn.sliew.scaleph.service.impl;
 import java.util.List;
 
 import cn.sliew.scaleph.ApplicationTest;
-import cn.sliew.scaleph.system.service.DictService;
-import cn.sliew.scaleph.system.service.dto.DictDTO;
-import cn.sliew.scaleph.system.service.dto.DictTypeDTO;
+import cn.sliew.scaleph.system.service.SysDictService;
+import cn.sliew.scaleph.system.service.dto.SysDictDTO;
+import cn.sliew.scaleph.system.service.dto.SysDictTypeDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
 
-class DictServiceImplTest extends ApplicationTest {
+class SysSysDictServiceImplTest extends ApplicationTest {
 
     @Autowired
-    private DictService dictService;
+    private SysDictService sysDictService;
 
     @Autowired
     @Qualifier(value = "unBoundedCacheManager")
@@ -22,24 +22,24 @@ class DictServiceImplTest extends ApplicationTest {
 
     @Test
     void simpleTest() {
-        DictDTO dto = new DictDTO();
+        SysDictDTO dto = new SysDictDTO();
 
-        DictTypeDTO typeDTO = new DictTypeDTO();
+        SysDictTypeDTO typeDTO = new SysDictTypeDTO();
         typeDTO.setDictTypeCode("2");
         typeDTO.setDictTypeName("name");
         dto.setDictType(typeDTO);
         dto.setDictCode("hello3");
         dto.setDictValue("world");
-        this.dictService.insert(dto);
-        List<DictDTO> list = this.dictService.selectByType("2");
-        for (DictDTO d : list) {
+        this.sysDictService.insert(dto);
+        List<SysDictDTO> list = this.sysDictService.selectByType("2");
+        for (SysDictDTO d : list) {
             log.info(d.getDictValue());
         }
     }
 
     @Test
     void deleteByTypeTest() {
-        this.dictService.deleteByType("3");
+        this.sysDictService.deleteByType("3");
     }
 
 }

@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.dao.entity.master.system;
+package cn.sliew.scaleph.dao.entity.master.security;
 
 import java.util.Date;
 

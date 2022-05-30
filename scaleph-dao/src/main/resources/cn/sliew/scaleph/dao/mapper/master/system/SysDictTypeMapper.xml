@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.sliew.scaleph.dao.mapper.master.system.DictTypeMapper">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.master.system.SysDictTypeMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="DictTypeMap" type="cn.sliew.scaleph.dao.entity.master.system.DictType">
+    <resultMap id="DictTypeMap" type="cn.sliew.scaleph.dao.entity.master.system.SysDictType">
         <result column="id" property="id"/>
         <result column="creator" property="creator"/>
         <result column="create_time" property="createTime"/>
@@ -24,7 +24,7 @@
         create_time,
         editor,
         update_time
-        from t_dict_type
+        from sys_dict_type
         where dict_type_code = #{dictTypeCode,jdbcType=VARCHAR}
     </select>
 </mapper>

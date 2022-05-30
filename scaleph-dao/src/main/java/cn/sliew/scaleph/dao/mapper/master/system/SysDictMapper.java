@@ -1,6 +1,6 @@
 package cn.sliew.scaleph.dao.mapper.master.system;
 
-import cn.sliew.scaleph.dao.entity.master.system.Dict;
+import cn.sliew.scaleph.dao.entity.master.system.SysDict;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
  * @since 2021-07-24
  */
 @Repository
-public interface DictMapper extends BaseMapper<Dict> {
+public interface SysDictMapper extends BaseMapper<SysDict> {
 
 }

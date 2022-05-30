@@ -1,6 +1,7 @@
-package cn.sliew.scaleph.system.service;
+package cn.sliew.scaleph.security.service;
 
-import cn.sliew.scaleph.system.service.dto.UserActiveDTO;
+
+import cn.sliew.scaleph.security.service.dto.UserActiveDTO;
 
 /**
  * <p>

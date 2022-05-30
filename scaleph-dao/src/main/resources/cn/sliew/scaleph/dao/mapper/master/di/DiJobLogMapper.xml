@@ -136,7 +136,7 @@
         count(1) as value,
         coalesce(a1.dict_value,t.runtime_state) as name
         from di_job t
-        left join (select dict_code,dict_value from t_dict where dict_type_code = 'runtime_state') a1
+        left join (select dict_code,dict_value from sys_dict where dict_type_code = 'runtime_state') a1
         on t.runtime_state = a1.dict_code
         where t.job_type = #{jobType,jdbcType=VARCHAR}
         group by t.runtime_state

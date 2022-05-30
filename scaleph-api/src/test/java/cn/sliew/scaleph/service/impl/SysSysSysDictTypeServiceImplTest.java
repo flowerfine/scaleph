@@ -6,19 +6,19 @@ import java.util.List;
 import java.util.Map;
 
 import cn.sliew.scaleph.ApplicationTest;
-import cn.sliew.scaleph.system.service.DictTypeService;
-import cn.sliew.scaleph.system.service.dto.DictTypeDTO;
+import cn.sliew.scaleph.system.service.SysDictTypeService;
+import cn.sliew.scaleph.system.service.dto.SysDictTypeDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class DictTypeServiceImplTest extends ApplicationTest {
+class SysSysSysDictTypeServiceImplTest extends ApplicationTest {
 
     @Autowired
-    private DictTypeService dictTypeService;
+    private SysDictTypeService sysDictTypeService;
 
     @Test
     public void simpleTest() {
-        DictTypeDTO dto = new DictTypeDTO();
+        SysDictTypeDTO dto = new SysDictTypeDTO();
         dto.setDictTypeCode("test_code");
         dto.setDictTypeName("name");
         dto.setRemark("备注");
@@ -26,11 +26,11 @@ class DictTypeServiceImplTest extends ApplicationTest {
         dto.setEditor("test");
         dto.setUpdateTime(new Date());
         dto.setCreateTime(new Date());
-        this.dictTypeService.insert(dto);
-        DictTypeDTO dto2 = this.dictTypeService.selectOne("test_code");
+        this.sysDictTypeService.insert(dto);
+        SysDictTypeDTO dto2 = this.sysDictTypeService.selectOne("test_code");
         dto2.setRemark("修改");
-        this.dictTypeService.update(dto2);
-        this.dictTypeService.deleteById(dto2.getId());
+        this.sysDictTypeService.update(dto2);
+        this.sysDictTypeService.deleteById(dto2.getId());
     }
 
     @Test
@@ -39,7 +39,7 @@ class DictTypeServiceImplTest extends ApplicationTest {
         map.put(1, 11);
         map.put(2, 12);
         map.put(3, 13);
-        this.dictTypeService.deleteBatch(map);
+        this.sysDictTypeService.deleteBatch(map);
     }
 
     @Test
@@ -48,8 +48,8 @@ class DictTypeServiceImplTest extends ApplicationTest {
 //        param.setPageNum(null);
 //        param.setPageSize(null);
 //        param.setDictTypeCode(null);
-        List<DictTypeDTO> list = this.dictTypeService.selectAll();
-        for (DictTypeDTO dto : list) {
+        List<SysDictTypeDTO> list = this.sysDictTypeService.selectAll();
+        for (SysDictTypeDTO dto : list) {
             log.info(dto.getDictTypeCode());
         }
     }

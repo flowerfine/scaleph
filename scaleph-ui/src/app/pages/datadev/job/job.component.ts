@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DataTableComponent, ITreeItem, LoadingService, ModalService, OperableTreeComponent, TreeNode } from 'ng-devui';
 import { DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
 import { DiJob, DiJobParam } from 'src/app/@core/data/datadev.data';
-import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
 import { AuthService } from 'src/app/@core/services/auth.service';
 import { DirectoryService } from 'src/app/@core/services/datadev/directory.service';
 import { JobService } from 'src/app/@core/services/datadev/job.service';
@@ -54,7 +54,7 @@ export class JobComponent implements OnInit {
     private modalService: ModalService,
     private jobService: JobService,
     private directoryService: DirectoryService,
-    private dictDataService: DictDataService,
+    private dictDataService: SysDictDataService,
     private route: ActivatedRoute,
     private router: Router
   ) {}

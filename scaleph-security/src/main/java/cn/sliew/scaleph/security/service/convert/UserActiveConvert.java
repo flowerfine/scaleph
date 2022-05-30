@@ -1,8 +1,8 @@
-package cn.sliew.scaleph.system.service.convert;
+package cn.sliew.scaleph.security.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.system.UserActive;
-import cn.sliew.scaleph.system.service.dto.UserActiveDTO;
+import cn.sliew.scaleph.dao.entity.master.security.UserActive;
+import cn.sliew.scaleph.security.service.dto.UserActiveDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

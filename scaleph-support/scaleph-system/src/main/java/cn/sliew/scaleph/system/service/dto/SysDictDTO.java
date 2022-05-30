@@ -23,13 +23,13 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "数据字典信息", description = "数据字典表")
-public class DictDTO extends BaseDTO {
+public class SysDictDTO extends BaseDTO {
 
     private static final long serialVersionUID = -4136245238746831595L;
 
     @NotNull
     @ApiModelProperty(value = "字典类型")
-    private DictTypeDTO dictType;
+    private SysDictTypeDTO dictType;
 
     @NotBlank
     @Length(min = 1, max = 30)

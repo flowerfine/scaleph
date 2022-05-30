@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class DictTypeParam extends PaginationParam {
+public class SysDictTypeParam extends PaginationParam {
     @ApiModelProperty(value = "字典类型编码")
     private String dictTypeCode;
 

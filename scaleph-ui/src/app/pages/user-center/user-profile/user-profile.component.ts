@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DValidateRules, FormLayout } from 'ng-devui';
 import { User } from 'src/app/@core/data/admin.data';
 import { Dict, DICT_TYPE } from 'src/app/@core/data/app.data';
-import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
 import { UserService } from 'src/app/@core/services/admin/user.service';
 import { NotificationService } from 'src/app/@shared/components/notifications/notification.service';
 
@@ -76,7 +76,7 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private translate: TranslateService,
     private userService: UserService,
-    private dictDataService: DictDataService,
+    private dictDataService: SysDictDataService,
     private notificationService: NotificationService
   ) {}
 

@@ -4,37 +4,37 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import cn.sliew.scaleph.system.service.dto.DictDTO;
-import cn.sliew.scaleph.system.service.param.DictParam;
+import cn.sliew.scaleph.system.service.dto.SysDictTypeDTO;
+import cn.sliew.scaleph.system.service.param.SysDictTypeParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
  * <p>
- * 数据字典表 服务类
+ * 数据字典类型 服务类
  * </p>
  *
  * @author liyu
  * @since 2021-07-24
  */
-public interface DictService {
+public interface SysDictTypeService {
     /**
-     * 新增
+     * 新增字典类型
      *
-     * @param dictDTO dict
+     * @param sysDictTypeDTO dict type
      * @return int
      */
-    int insert(DictDTO dictDTO);
+    int insert(SysDictTypeDTO sysDictTypeDTO);
 
     /**
-     * 修改
+     * 更新字典类型
      *
-     * @param dictDTO dict
+     * @param sysDictTypeDTO dict type
      * @return int
      */
-    int update(DictDTO dictDTO);
+    int update(SysDictTypeDTO sysDictTypeDTO);
 
     /**
-     * 根据主键id删除
+     * 根据主键id删除数据
      *
      * @param id id
      * @return int
@@ -50,20 +50,12 @@ public interface DictService {
     int deleteBatch(Map<Integer, ? extends Serializable> map);
 
     /**
-     * 根据类型删除
-     *
-     * @param dictCodeType dictCodeType
-     * @return int
-     */
-    int deleteByType(String dictCodeType);
-
-    /**
      * 根据主键id查询
      *
      * @param id id
-     * @return DictDTO
+     * @return DictTypeDTO
      */
-    DictDTO selectOne(Long id);
+    SysDictTypeDTO selectOne(Long id);
 
     /**
      * 根据dictTypeCode查询
@@ -71,20 +63,21 @@ public interface DictService {
      * @param dictTypeCode dictTypeCode
      * @return DictTypeDTO
      */
-    List<DictDTO> selectByType(String dictTypeCode);
+    SysDictTypeDTO selectOne(String dictTypeCode);
+
+    /**
+     * 分页查询
+     *
+     * @param sysDictTypeParam 参数
+     * @return page
+     */
+    Page<SysDictTypeDTO> listByPage(SysDictTypeParam sysDictTypeParam);
 
     /**
      * 查询全部
      *
      * @return list
      */
-    List<DictDTO> selectAll();
+    List<SysDictTypeDTO> selectAll();
 
-    /**
-     * 分页查询
-     *
-     * @param param 参数
-     * @return page
-     */
-    Page<DictDTO> listByPage(DictParam param);
 }

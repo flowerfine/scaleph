@@ -1,13 +1,13 @@
-package cn.sliew.scaleph.system.service.impl;
+package cn.sliew.scaleph.security.service.impl;
 
 import java.util.Date;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.scaleph.dao.entity.master.system.UserActive;
-import cn.sliew.scaleph.dao.mapper.master.system.UserActiveMapper;
-import cn.sliew.scaleph.system.service.UserActiveService;
-import cn.sliew.scaleph.system.service.convert.UserActiveConvert;
-import cn.sliew.scaleph.system.service.dto.UserActiveDTO;
+import cn.sliew.scaleph.dao.entity.master.security.UserActive;
+import cn.sliew.scaleph.dao.mapper.master.security.UserActiveMapper;
+import cn.sliew.scaleph.security.service.UserActiveService;
+import cn.sliew.scaleph.security.service.convert.UserActiveConvert;
+import cn.sliew.scaleph.security.service.dto.UserActiveDTO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

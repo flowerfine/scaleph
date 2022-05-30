@@ -8,8 +8,8 @@ import java.util.concurrent.ConcurrentMap;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.sliew.scaleph.cache.CaffeineCacheConfig;
-import cn.sliew.scaleph.system.service.DictTypeService;
-import cn.sliew.scaleph.system.service.dto.DictTypeDTO;
+import cn.sliew.scaleph.system.service.SysDictTypeService;
+import cn.sliew.scaleph.system.service.dto.SysDictTypeDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,19 +31,19 @@ public class DictTypeCache {
     private CacheManager cacheManager;
 
     @Autowired
-    private DictTypeService dictTypeService;
+    private SysDictTypeService sysDictTypeService;
 
     public DictTypeCache() {
 
     }
 
-    public synchronized static void updateCache(List<DictTypeDTO> list) {
-        for (DictTypeDTO dictType : list) {
+    public synchronized static void updateCache(List<SysDictTypeDTO> list) {
+        for (SysDictTypeDTO dictType : list) {
             updateCache(dictType);
         }
     }
 
-    public synchronized static void updateCache(DictTypeDTO dictType) {
+    public synchronized static void updateCache(SysDictTypeDTO dictType) {
         if (ObjectUtil.isNotNull(dictType)) {
             dictTypeCache.put(dictType.getDictTypeCode(), dictType.getDictTypeName());
         }
@@ -58,13 +58,13 @@ public class DictTypeCache {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<DictTypeDTO> listAll() {
-        List<DictTypeDTO> list = new ArrayList<>();
+    public static List<SysDictTypeDTO> listAll() {
+        List<SysDictTypeDTO> list = new ArrayList<>();
         com.github.benmanes.caffeine.cache.Cache<String, String> localCache =
             (com.github.benmanes.caffeine.cache.Cache<String, String>) dictTypeCache.getNativeCache();
         ConcurrentMap<String, String> map = localCache.asMap();
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            DictTypeDTO dictType = new DictTypeDTO();
+            SysDictTypeDTO dictType = new SysDictTypeDTO();
             dictType.setDictTypeCode(entry.getKey());
             dictType.setDictTypeName(entry.getValue());
             list.add(dictType);
@@ -76,7 +76,7 @@ public class DictTypeCache {
     public synchronized void init() {
         log.info("initializing cache " + CaffeineCacheConfig.UnBoundedCaches.CACHE_DICT_TYPE);
         dictTypeCache = cacheManager.getCache(CaffeineCacheConfig.UnBoundedCaches.CACHE_DICT_TYPE);
-        List<DictTypeDTO> list = this.dictTypeService.selectAll();
+        List<SysDictTypeDTO> list = this.sysDictTypeService.selectAll();
         dictTypeCache.clear();
         updateCache(list);
     }

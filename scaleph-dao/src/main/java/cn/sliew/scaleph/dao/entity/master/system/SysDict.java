@@ -18,9 +18,9 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "t_dict", resultMap = "DictMap")
-@ApiModel(value = "Dict对象", description = "数据字典表")
-public class Dict extends BaseDO {
+@TableName(value = "sys_dict", resultMap = "SysDictMap")
+@ApiModel(value = "sysDict对象", description = "数据字典表")
+public class SysDict extends BaseDO {
 
     private static final long serialVersionUID = -4136245238746831595L;
 
@@ -40,7 +40,7 @@ public class Dict extends BaseDO {
     private String isValid;
 
     @TableField(exist = false)
-    private DictType dictType;
+    private SysDictType dictType;
 
     public String getKey() {
         return this.getDictType().getDictTypeCode() + Constants.SEPARATOR + this.getDictCode();

@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.system.service.dto;
+package cn.sliew.scaleph.security.service.dto;
 
 import java.util.Date;
 

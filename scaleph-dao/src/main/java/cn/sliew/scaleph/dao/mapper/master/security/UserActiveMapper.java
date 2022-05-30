@@ -1,6 +1,6 @@
-package cn.sliew.scaleph.dao.mapper.master.system;
+package cn.sliew.scaleph.dao.mapper.master.security;
 
-import cn.sliew.scaleph.dao.entity.master.system.UserActive;
+import cn.sliew.scaleph.dao.entity.master.security.UserActive;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
