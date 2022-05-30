@@ -36,7 +36,7 @@ public class MybatisPlusGenerator {
     private final static String PASSWORD = "123456";
     private static final String BASE_PACKAGE = "cn.sliew";
     private static final String MODULE = "scaleph";
-    private static final String TABLE_PREFIX = "t_";
+    private static final String TABLE_PREFIX = "";
 
     /**
      * just add table names here and run the {@link #main(String[])} method.
