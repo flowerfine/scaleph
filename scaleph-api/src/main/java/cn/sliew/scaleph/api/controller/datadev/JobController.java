@@ -76,7 +76,7 @@ import cn.sliew.scaleph.core.di.service.dto.DiProjectDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiResourceFileDTO;
 import cn.sliew.scaleph.core.di.service.param.DiJobParam;
 import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
-import cn.sliew.scaleph.engine.util.JobConfigHelper;
+import cn.sliew.scaleph.engine.seatunnel.JobConfigHelper;
 import cn.sliew.scaleph.privilege.ScalephSecurityManager;
 import cn.sliew.scaleph.storage.service.StorageService;
 import cn.sliew.scaleph.storage.service.impl.NioFileServiceImpl;
