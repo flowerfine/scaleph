@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DataTableComponent, DialogService, LoadingService, ModalService } from 'ng-devui';
 import { DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
 import { DataSourceMeta, DataSourceMetaParam } from 'src/app/@core/data/datadev.data';
-import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
 import { AuthService } from 'src/app/@core/services/auth.service';
 import { DataSourceService } from 'src/app/@core/services/datadev/datasource.service';
 import { DatasourceDeleteComponent } from './datasource-delete/datasource-delete.component';
@@ -38,7 +38,7 @@ export class DatasourceComponent implements OnInit {
     private translate: TranslateService,
     private modalService: ModalService,
     private dataSourceService: DataSourceService,
-    private dictDataService: DictDataService,
+    private dictDataService: SysDictDataService,
     private dialogService: DialogService
   ) {}
 

@@ -1,6 +1,6 @@
 import { Dict, QueryParam } from './app.data';
 
-export class DictType {
+export class SysDictType {
   id?: number;
   dictTypeCode?: string;
   dictTypeName?: string;
@@ -9,14 +9,14 @@ export class DictType {
   updateTime?: Date;
 }
 
-export class DictTypeParam extends QueryParam {
+export class SysDictTypeParam extends QueryParam {
   dictTypeCode?: string;
   dictTypeName?: string;
 }
 
-export class DictData {
+export class SysDictData {
   id?: number;
-  dictType?: DictType;
+  dictType?: SysDictType;
   dictCode?: string;
   dictValue?: string;
   remark?: string;
@@ -25,7 +25,7 @@ export class DictData {
   updateTime?: Date;
 }
 
-export class DictDataParam extends QueryParam {
+export class SysDictDataParam extends QueryParam {
   dictTypeCode?: string;
   dictCode?: string;
   dictValue?: string;
