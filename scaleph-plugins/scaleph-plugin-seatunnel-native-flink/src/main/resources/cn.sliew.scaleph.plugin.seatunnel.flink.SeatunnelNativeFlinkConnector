@@ -1,0 +1,2 @@
+cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.source.JdbcSourceConnector
+cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.sink.JdbcSinkConnector
