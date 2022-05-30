@@ -6,11 +6,9 @@ import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
 import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
 import cn.sliew.scaleph.common.constant.DictConstants;
+import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
 import cn.sliew.scaleph.core.di.service.*;
-import cn.sliew.scaleph.core.di.service.dto.DiClusterConfigDTO;
-import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
-import cn.sliew.scaleph.core.di.service.dto.DiJobLogDTO;
-import cn.sliew.scaleph.core.di.service.dto.DiResourceFileDTO;
+import cn.sliew.scaleph.core.di.service.dto.*;
 import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.engine.seatunnel.JobConfigHelper;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
@@ -24,12 +22,16 @@ import org.apache.flink.api.common.JobID;
 import org.apache.flink.api.common.JobStatus;
 import org.apache.flink.client.deployment.executors.RemoteExecutor;
 import org.apache.flink.configuration.*;
+import org.apache.flink.runtime.jobgraph.SavepointRestoreSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -55,7 +57,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     @Autowired
     private DiClusterConfigService diClusterConfigService;
 
-    @Autowired
+    @Resource(name = "${app.resource.type}")
     private StorageService storageService;
     @Autowired
     private SysConfigService sysConfigService;
@@ -85,12 +87,11 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         URL jobConfFile = buildConfFile(diJobDTO, projectPath);
         Path seatunnelJarPath = getSeatunnelJar();
 
-
         //build configuration
         DiClusterConfigDTO clusterConfig =
                 diClusterConfigService.selectOne(jobRunParam.getClusterId());
         Configuration configuration =
-                buildConfiguration(seatunnelJarPath, diJobDTO, clusterConfig.getConfig(), projectPath);
+                buildConfiguration(diJobDTO, seatunnelJarPath , clusterConfig.getConfig(), projectPath.toFile());
         //build job
         PackageJarJob jarJob =
                 buildJob(seatunnelJarPath.toUri().toString(), jobConfFile, diJobDTO.getJobAttrList());
@@ -146,7 +147,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         String seatunnelPath = this.sysConfigService.getSeatunnelHome();
         Path seatunnelJarPath = Paths.get(seatunnelPath, "lib", "seatunnel-core-flink.jar");
         if (Files.notExists(seatunnelJarPath)) {
-            throw new IOException(I18nUtil.get("response.error.di.noJar.seatunnel"));
+            throw new IOException("response.error.di.noJar.seatunnel");
         }
         return seatunnelJarPath;
     }
@@ -182,5 +183,23 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         ConfigUtils.encodeCollectionToConfig(configuration, PipelineOptions.JARS, jars, Object::toString);
         configuration.setString(DeploymentOptions.TARGET, RemoteExecutor.NAME);
         return configuration;
+    }
+
+    private PackageJarJob buildJob(String seatunnelPath, URL confFile, List<DiJobAttrDTO> jobAttrList) {
+        PackageJarJob jarJob = new PackageJarJob();
+        jarJob.setJarFilePath(seatunnelPath);
+        jarJob.setEntryPointClass("org.apache.seatunnel.core.flink.SeatunnelFlink");
+        List<String> variables = Arrays.asList("--config", confFile.toString());
+        jobAttrList.stream()
+                .filter(attr -> JobAttrTypeEnum.JOB_ATTR.getValue()
+                        .equals(attr.getJobAttrType().getValue()))
+                .forEach(attr -> {
+                    variables.add("--variable");
+                    variables.add(attr.getJobAttrKey() + "=" + attr.getJobAttrValue());
+                });
+        jarJob.setProgramArgs(variables.toArray(new String[0]));
+        jarJob.setClasspaths(Collections.emptyList());
+        jarJob.setSavepointSettings(SavepointRestoreSettings.none());
+        return jarJob;
     }
 }
