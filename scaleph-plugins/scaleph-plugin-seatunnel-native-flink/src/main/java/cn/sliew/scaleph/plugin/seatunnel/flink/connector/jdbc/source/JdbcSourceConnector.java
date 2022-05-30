@@ -13,7 +13,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.JdbcProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.source.JdbcSourceProperties.*;
@@ -40,11 +39,9 @@ public class JdbcSourceConnector extends AbstractPlugin implements SeatunnelNati
         supportedProperties = Collections.unmodifiableList(props);
     }
 
-    private final Properties properties;
     private final PluginInfo pluginInfo;
 
-    public JdbcSourceConnector(Properties properties) {
-        this.properties = properties;
+    public JdbcSourceConnector() {
         this.pluginInfo = new PluginInfo("JdbcSource", "jdbc source connector", "2.1.1", JdbcSourceConnector.class.getName());
     }
 

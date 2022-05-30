@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class SeatunnelNativeFlinkConnectorManagerTest {
 
@@ -13,6 +13,6 @@ class SeatunnelNativeFlinkConnectorManagerTest {
     void testLoadConnectorPlugins() throws Exception {
         SeatunnelNativeFlinkConnectorManager manager = new SeatunnelNativeFlinkConnectorManager();
         final Set<PluginInfo> sourceConnectors = manager.getAvailableConnectors(ConnectorType.SOURCE);
-        assertNotNull(sourceConnectors);
+        assertThat(sourceConnectors).isNotEmpty();
     }
 }
