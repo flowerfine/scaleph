@@ -47,7 +47,7 @@ public class RedisUtil {
             }
             return true;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage(), e);
             return false;
         }
     }
@@ -61,10 +61,10 @@ public class RedisUtil {
     public long getExipre(String key) {
         if (StringUtils.isEmpty(key)) {
             return 0;
-        } else {
-            Long time = redisTemplate.getExpire(key, TimeUnit.SECONDS);
-            return time != null ? time : 0L;
         }
+
+        Long time = redisTemplate.getExpire(key, TimeUnit.SECONDS);
+        return time != null ? time : 0L;
     }
 
     /**
@@ -78,7 +78,7 @@ public class RedisUtil {
             Boolean flag = redisTemplate.hasKey(key);
             return flag != null ? flag : false;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage(), e);
             return false;
         }
     }
@@ -117,7 +117,7 @@ public class RedisUtil {
             redisTemplate.opsForValue().set(key, value);
             return true;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage(), e);
             return false;
         }
 
@@ -136,13 +136,11 @@ public class RedisUtil {
             if (time > 0) {
                 redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
                 return true;
-            } else {
-                return false;
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return false;
+            log.error(e.getMessage(), e);
         }
+        return false;
     }
 
     public List<String> scan(String pattern) {
@@ -157,7 +155,7 @@ public class RedisUtil {
         try {
             RedisConnectionUtils.releaseConnection(rc, factory);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return result;
     }
