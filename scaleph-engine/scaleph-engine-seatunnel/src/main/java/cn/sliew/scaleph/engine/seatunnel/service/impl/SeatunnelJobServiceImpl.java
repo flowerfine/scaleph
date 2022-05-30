@@ -28,10 +28,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -91,7 +89,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         DiClusterConfigDTO clusterConfig =
                 diClusterConfigService.selectOne(jobRunParam.getClusterId());
         Configuration configuration =
-                buildConfiguration(diJobDTO, seatunnelJarPath , clusterConfig.getConfig(), projectPath.toFile());
+                buildConfiguration(diJobDTO, seatunnelJarPath, clusterConfig.getConfig(), projectPath.toFile());
         //build job
         PackageJarJob jarJob =
                 buildJob(seatunnelJarPath.toUri().toString(), jobConfFile, diJobDTO.getJobAttrList());
