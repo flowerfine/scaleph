@@ -158,7 +158,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-engine</artifactId>
+                <artifactId>scaleph-engine-seatunnel</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-engine</artifactId>
+            <artifactId>scaleph-engine-seatunnel</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
