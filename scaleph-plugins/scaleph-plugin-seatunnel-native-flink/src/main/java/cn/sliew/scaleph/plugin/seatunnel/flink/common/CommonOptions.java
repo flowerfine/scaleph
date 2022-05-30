@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.plugin.seatunnel.flink.converter.common;
+package cn.sliew.scaleph.plugin.seatunnel.flink.common;
 
 import cn.sliew.scaleph.plugin.framework.property.Parsers;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;

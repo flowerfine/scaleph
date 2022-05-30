@@ -2,7 +2,6 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.converter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -31,50 +30,50 @@ public class ConfigFileConverter implements ConfConverter {
     }
 
     @Override
-    public ObjectNode create(Properties properties) {
+    public ObjectNode create() {
         ObjectNode conf = JacksonUtil.createObjectNode();
         ObjectNode envConf = JacksonUtil.createObjectNode();
         conf.set("env", envConf);
-        appendEnvOptions(envConf, properties);
+        appendEnvOptions(envConf);
 
         ObjectNode sourceConf = JacksonUtil.createObjectNode();
         conf.set("source", sourceConf);
-        appendSourceOptions(sourceConf, properties);
+        appendSourceOptions(sourceConf);
 
         ObjectNode transformConf = JacksonUtil.createObjectNode();
         conf.set("transform", transformConf);
-        appendTransformOptions(transformConf, properties);
+        appendTransformOptions(transformConf);
 
         ObjectNode sinkConf = JacksonUtil.createObjectNode();
         conf.set("sink", sinkConf);
-        appendSinkOptions(sinkConf, properties);
+        appendSinkOptions(sinkConf);
         return conf;
     }
 
-    private void appendEnvOptions(ObjectNode envConf, Properties properties) {
+    private void appendEnvOptions(ObjectNode envConf) {
         for (EnvConverter converter : envs) {
-            ObjectNode objectNode = converter.create(properties);
+            ObjectNode objectNode = converter.create();
             envConf.setAll(objectNode);
         }
     }
 
-    private void appendSourceOptions(ObjectNode sourceConf, Properties properties) {
+    private void appendSourceOptions(ObjectNode sourceConf) {
         for (SourceConverter converter : sources) {
-            ObjectNode objectNode = converter.create(properties);
+            ObjectNode objectNode = converter.create();
             sourceConf.set(converter.getPluginName(), objectNode);
         }
     }
 
-    private void appendTransformOptions(ObjectNode transformConf, Properties properties) {
+    private void appendTransformOptions(ObjectNode transformConf) {
         for (TransformConverter converter : transforms) {
-            ObjectNode objectNode = converter.create(properties);
+            ObjectNode objectNode = converter.create();
             transformConf.set(converter.getPluginName(), objectNode);
         }
     }
 
-    private void appendSinkOptions(ObjectNode sinkConf, Properties properties) {
+    private void appendSinkOptions(ObjectNode sinkConf) {
         for (SinkConverter converter : sinks) {
-            ObjectNode objectNode = converter.create(properties);
+            ObjectNode objectNode = converter.create();
             sinkConf.set(converter.getPluginName(), objectNode);
         }
     }
