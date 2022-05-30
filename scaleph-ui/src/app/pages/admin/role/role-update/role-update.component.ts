@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DValidateRules, FormLayout } from 'ng-devui';
 import { Role } from 'src/app/@core/data/admin.data';
 import { Dict, DICT_TYPE } from 'src/app/@core/data/app.data';
-import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
 import { RoleService } from 'src/app/@core/services/admin/role.service';
 
 @Component({
@@ -49,7 +49,7 @@ export class RoleUpdateComponent implements OnInit {
     private elr: ElementRef,
     private translate: TranslateService,
     private roleService: RoleService,
-    private dictDataService: DictDataService
+    private dictDataService: SysDictDataService
   ) {}
 
   ngOnInit(): void {

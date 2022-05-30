@@ -1,10 +1,10 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DValidateRules, FormLayout } from 'ng-devui';
-import { DictData } from 'src/app/@core/data/admin.data';
+import { SysDictData } from 'src/app/@core/data/admin.data';
 import { Dict } from 'src/app/@core/data/app.data';
-import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
-import { DictTypeService } from 'src/app/@core/services/admin/dict-type.service';
+import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { SysDictTypeService } from 'src/app/@core/services/admin/dict-type.service';
 
 @Component({
   selector: 'app-dict-data-new',
@@ -44,8 +44,8 @@ export class DictDataNewComponent implements OnInit {
   dictTypeList: Dict[] = [];
 
   constructor(
-    private dictTypeService: DictTypeService,
-    private dictDataService: DictDataService,
+    private dictTypeService: SysDictTypeService,
+    private dictDataService: SysDictDataService,
     private elr: ElementRef,
     private translate: TranslateService
   ) {}
@@ -58,7 +58,7 @@ export class DictDataNewComponent implements OnInit {
   }
 
   submitForm({ valid }) {
-    let dict: DictData = {
+    let dict: SysDictData = {
       dictCode: this.formData.dictCode,
       dictValue: this.formData.dictValue,
       remark: this.formData.remark,

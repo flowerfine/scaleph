@@ -4,7 +4,7 @@ import { DFormGroupRuleDirective, DValidateRules, FormLayout, SelectComponent } 
 import { of, Observable } from 'rxjs';
 import { DEFAULT_PAGE_PARAM, Dict, DICT_TYPE } from 'src/app/@core/data/app.data';
 import { MetaDataSet, MetaDataSetType, MetaDataSetTypeParam, MetaSystem, MetaSystemParam } from 'src/app/@core/data/stdata.data';
-import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
 import { SystemService } from 'src/app/@core/services/stdata/system.service';
 import { RefdataService } from 'src/app/@core/services/stdata/refdata.service';
 
@@ -73,7 +73,7 @@ export class RefdataDataNewComponent implements OnInit {
     private elr: ElementRef,
     private translate: TranslateService,
     private refdataService: RefdataService,
-    private dictDataService: DictDataService,
+    private dictDataService: SysDictDataService,
     private systemService: SystemService
   ) {}
 

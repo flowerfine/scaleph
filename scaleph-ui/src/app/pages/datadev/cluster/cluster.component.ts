@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DataTableComponent, LoadingService, ModalService } from 'ng-devui';
 import { DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
 import { DiClusterConfig, DiClusterConfigParam } from 'src/app/@core/data/datadev.data';
-import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
 import { AuthService } from 'src/app/@core/services/auth.service';
 import { ClusterService } from 'src/app/@core/services/datadev/cluster.service';
 import { ClusterDeleteComponent } from './cluster-delete/cluster-delete.component';
@@ -37,7 +37,7 @@ export class ClusterComponent implements OnInit {
     private loadingService: LoadingService,
     private translate: TranslateService,
     private modalService: ModalService,
-    private dictDataService: DictDataService,
+    private dictDataService: SysDictDataService,
     private clusterService: ClusterService
   ) {}
 

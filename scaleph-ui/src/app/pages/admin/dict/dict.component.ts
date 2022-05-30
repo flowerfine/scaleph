@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { DataTableComponent, LoadingService, ModalService } from 'ng-devui';
-import { DictData, DictDataParam, DictType, DictTypeParam } from 'src/app/@core/data/admin.data';
+import { SysDictData, SysDictDataParam, SysDictType, SysDictTypeParam } from 'src/app/@core/data/admin.data';
 import { DEFAULT_PAGE_PARAM, PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
 import { DictTypeDeleteComponent } from './dict-type-delete/dict-type-delete.component';
 import { DictTypeNewComponent } from './dict-type-new/dict-type-new.component';
@@ -11,8 +11,8 @@ import { DictDataUpdateComponent } from './dict-data-update/dict-data-update.com
 import { DictDataDeleteComponent } from './dict-data-delete/dict-data-delete.component';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/@core/services/auth.service';
-import { DictTypeService } from 'src/app/@core/services/admin/dict-type.service';
-import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { SysDictTypeService } from 'src/app/@core/services/admin/dict-type.service';
+import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
 
 @Component({
   selector: 'app-dict',
@@ -29,8 +29,8 @@ export class DictComponent implements OnInit {
   dictDataTableChecked: boolean = false;
   dictTypeLoadTarget: any;
   dictDataLoadTarget: any;
-  dictTypeTableDs: DictType[] = [];
-  dictDataTableDs: DictData[] = [];
+  dictTypeTableDs: SysDictType[] = [];
+  dictDataTableDs: SysDictData[] = [];
   dictTypePager = {
     total: 0,
     pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -47,8 +47,8 @@ export class DictComponent implements OnInit {
   searchFormConfig = { dictTypeCode: '', dictCode: '', dictValue: '' };
 
   constructor(
-    private dictTypeService: DictTypeService,
-    private dictDataService: DictDataService,
+    private dictTypeService: SysDictTypeService,
+    private dictDataService: SysDictDataService,
     private modalService: ModalService,
     @Inject(DOCUMENT) private doc: any,
     private loadingService: LoadingService,
@@ -67,7 +67,7 @@ export class DictComponent implements OnInit {
 
   refreshDictTypeTable() {
     this.openDictTypeLoading();
-    let param: DictTypeParam = {
+    let param: SysDictTypeParam = {
       pageSize: this.dictTypePager.pageSize,
       current: this.dictTypePager.pageIndex,
       dictTypeCode: this.searchFormConfig.dictTypeCode,
@@ -84,7 +84,7 @@ export class DictComponent implements OnInit {
 
   refreshDictDataTable() {
     this.openDictDataLoading();
-    let param: DictDataParam = {
+    let param: SysDictDataParam = {
       pageSize: this.dictDataPager.pageSize,
       current: this.dictDataPager.pageIndex,
       dictTypeCode: this.searchFormConfig.dictTypeCode,
@@ -101,7 +101,7 @@ export class DictComponent implements OnInit {
     });
   }
 
-  dataTypeRowClick(row: DictType) {
+  dataTypeRowClick(row: SysDictType) {
     this.searchFormConfig.dictTypeCode = row.dictTypeCode;
     this.refreshDictDataTable();
   }
@@ -198,7 +198,7 @@ export class DictComponent implements OnInit {
     });
   }
 
-  openEditDictTypeDialog(item: DictType) {
+  openEditDictTypeDialog(item: SysDictType) {
     const results = this.modalService.open({
       id: 'dict-type-edit',
       width: '580px',
@@ -217,7 +217,7 @@ export class DictComponent implements OnInit {
     });
   }
 
-  openEditDictDataDialog(item: DictData) {
+  openEditDictDataDialog(item: SysDictData) {
     const results = this.modalService.open({
       id: 'dict-data-edit',
       width: '580px',
@@ -236,7 +236,7 @@ export class DictComponent implements OnInit {
     });
   }
 
-  openDeleteDictTypeDialog(items: DictType[]) {
+  openDeleteDictTypeDialog(items: SysDictType[]) {
     const results = this.modalService.open({
       id: 'dict-type-delete',
       width: '346px',
@@ -255,7 +255,7 @@ export class DictComponent implements OnInit {
     });
   }
 
-  openDeleteDictDataDialog(items: DictData[]) {
+  openDeleteDictDataDialog(items: SysDictData[]) {
     const results = this.modalService.open({
       id: 'dict-data-delete',
       width: '346px',

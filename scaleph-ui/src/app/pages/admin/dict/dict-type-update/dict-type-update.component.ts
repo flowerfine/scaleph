@@ -1,8 +1,8 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DValidateRules, FormLayout } from 'ng-devui';
-import { DictType } from 'src/app/@core/data/admin.data';
-import { DictTypeService } from 'src/app/@core/services/admin/dict-type.service';
+import { SysDictType } from 'src/app/@core/data/admin.data';
+import { SysDictTypeService } from 'src/app/@core/services/admin/dict-type.service';
 
 @Component({
   selector: 'app-dict-type-update',
@@ -31,13 +31,13 @@ export class DictTypeUpdateComponent implements OnInit {
     },
   };
 
-  formData: DictType = {
+  formData: SysDictType = {
     id: null,
     dictTypeCode: null,
     dictTypeName: null,
     remark: null,
   };
-  constructor(private dictTypeService: DictTypeService, private elr: ElementRef, private translate: TranslateService) {}
+  constructor(private dictTypeService: SysDictTypeService, private elr: ElementRef, private translate: TranslateService) {}
 
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;

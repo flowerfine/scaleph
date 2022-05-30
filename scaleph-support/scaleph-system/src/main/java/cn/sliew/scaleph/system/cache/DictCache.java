@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.sliew.scaleph.cache.CaffeineCacheConfig;
+import cn.sliew.scaleph.cache.CachingConfig;
 import cn.sliew.scaleph.common.enums.BoolEnum;
-import cn.sliew.scaleph.system.service.DictService;
-import cn.sliew.scaleph.system.service.dto.DictDTO;
-import cn.sliew.scaleph.system.service.dto.DictTypeDTO;
+import cn.sliew.scaleph.system.service.SysDictService;
+import cn.sliew.scaleph.system.service.dto.SysDictDTO;
+import cn.sliew.scaleph.system.service.dto.SysDictTypeDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,19 +31,19 @@ public class DictCache {
     private CacheManager cacheManager;
 
     @Autowired
-    private DictService dictService;
+    private SysDictService sysDictService;
 
     public DictCache() {
 
     }
 
-    public synchronized static void updateCache(List<DictDTO> list) {
-        for (DictDTO dictType : list) {
+    public synchronized static void updateCache(List<SysDictDTO> list) {
+        for (SysDictDTO dictType : list) {
             updateCache(dictType);
         }
     }
 
-    public synchronized static void updateCache(DictDTO dict) {
+    public synchronized static void updateCache(SysDictDTO dict) {
         if (ObjectUtil.isNotNull(dict.getDictType())) {
             if (BoolEnum.YES.getValue().equals(dict.getIsValid())) {
                 dictCache.put(dict.getKey(), dict.getDictValue());
@@ -53,7 +53,7 @@ public class DictCache {
         }
     }
 
-    public synchronized static void evictCache(DictDTO dict) {
+    public synchronized static void evictCache(SysDictDTO dict) {
         evictCache(dict.getKey());
     }
 
@@ -85,8 +85,8 @@ public class DictCache {
      * @return List<DictDTO>
      */
     @SuppressWarnings("unchecked")
-    public static List<DictDTO> getDictByType(String dictTypeCode) {
-        List<DictDTO> list = new ArrayList<>();
+    public static List<SysDictDTO> getDictByType(String dictTypeCode) {
+        List<SysDictDTO> list = new ArrayList<>();
         com.github.benmanes.caffeine.cache.Cache<String, String> cache =
             (com.github.benmanes.caffeine.cache.Cache<String, String>) dictCache.getNativeCache();
         for (Map.Entry<String, String> entry : cache.asMap().entrySet()) {
@@ -95,12 +95,12 @@ public class DictCache {
             String dictCode = key.split("-")[1];
             String dictValue = entry.getValue();
             if (typeCode.equals(dictTypeCode)) {
-                DictDTO dictDTO = new DictDTO();
-                dictDTO.setDictCode(dictCode);
-                dictDTO.setDictValue(dictValue);
-                DictTypeDTO type = new DictTypeDTO();
+                SysDictDTO sysDictDTO = new SysDictDTO();
+                sysDictDTO.setDictCode(dictCode);
+                sysDictDTO.setDictValue(dictValue);
+                SysDictTypeDTO type = new SysDictTypeDTO();
                 type.setDictTypeCode(typeCode);
-                list.add(dictDTO);
+                list.add(sysDictDTO);
             }
         }
         return list;
@@ -108,9 +108,9 @@ public class DictCache {
 
     @PostConstruct
     public synchronized void init() {
-        log.info("initializing cache " + CaffeineCacheConfig.UnBoundedCaches.CACHE_DICT);
-        dictCache = cacheManager.getCache(CaffeineCacheConfig.UnBoundedCaches.CACHE_DICT);
-        List<DictDTO> list = this.dictService.selectAll();
+        log.info("initializing cache " + CachingConfig.UnBoundedCaches.CACHE_DICT);
+        dictCache = cacheManager.getCache(CachingConfig.UnBoundedCaches.CACHE_DICT);
+        List<SysDictDTO> list = this.sysDictService.selectAll();
         dictCache.clear();
         updateCache(list);
     }

@@ -11,8 +11,8 @@ import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.mail.service.EmailService;
 import cn.sliew.scaleph.mail.service.vo.EmailConfigVO;
-import cn.sliew.scaleph.system.service.SystemConfigService;
-import cn.sliew.scaleph.system.service.dto.SystemConfigDTO;
+import cn.sliew.scaleph.system.service.SysConfigService;
+import cn.sliew.scaleph.system.service.dto.SysConfigDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,7 +39,7 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender javaMailSender;
 
     @Autowired
-    private SystemConfigService systemConfigService;
+    private SysConfigService sysConfigService;
 
     public void setFrom(String from) {
         this.from = from;
@@ -47,7 +47,7 @@ public class EmailServiceImpl implements EmailService {
 
     @PostConstruct
     void initEmailInfo() {
-        SystemConfigDTO config = this.systemConfigService.selectByCode(Constants.CFG_EMAIL_CODE);
+        SysConfigDTO config = this.sysConfigService.selectByCode(Constants.CFG_EMAIL_CODE);
         if (config != null && !StrUtil.isEmpty(config.getCfgValue())) {
             EmailConfigVO emailInfo = JSONUtil.toBean(config.getCfgValue(), EmailConfigVO.class);
             this.configEmail(emailInfo);

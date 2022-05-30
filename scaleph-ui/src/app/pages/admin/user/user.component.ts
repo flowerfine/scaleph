@@ -19,7 +19,7 @@ import { UserNewComponent } from './user-new/user-new.component';
 import { UserUpdateComponent } from './user-update/user-update.component';
 import { RoleService } from 'src/app/@core/services/admin/role.service';
 import { UserService } from 'src/app/@core/services/admin/user.service';
-import { DictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
 
 @Component({
   selector: 'app-user',
@@ -59,7 +59,7 @@ export class UserComponent implements OnInit {
     private modalService: ModalService,
     private deptService: DeptService,
     private userService: UserService,
-    private dictDataService: DictDataService,
+    private dictDataService: SysDictDataService,
     public authService: AuthService
   ) {}
 
