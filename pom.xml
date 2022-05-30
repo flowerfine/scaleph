@@ -158,6 +158,11 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-engine-flink</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-engine-seatunnel</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -336,6 +341,11 @@
                 <version>${flink.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>cn.sliew</groupId>
+                <artifactId>flinkful-cli-base</artifactId>
+                <version>${flinkful.version}</version>
+            </dependency>
             <dependency>
                 <groupId>cn.sliew</groupId>
                 <artifactId>flinkful-cli-descriptor</artifactId>

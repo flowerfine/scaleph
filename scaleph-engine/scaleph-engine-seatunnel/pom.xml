@@ -17,18 +17,23 @@
             <artifactId>scaleph-meta</artifactId>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>scaleph-core-di</artifactId>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-engine-flink</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-system</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-storage</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-privilege</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>flinkful-cli-descriptor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>flinkful-rest-client</artifactId>
-        </dependency>
+
 
         <!-- seatunnel additional dependency -->
         <dependency>
