@@ -43,7 +43,7 @@ public class JdbcSinkConnector extends AbstractPlugin implements SeatunnelNative
     }
 
     @Override
-    public ObjectNode create() {
+    public ObjectNode createConf() {
         ObjectNode objectNode = JacksonUtil.createObjectNode();
         PropertyContext propertyContext = PropertyContext.fromProperties(properties);
         for (PropertyDescriptor descriptor : supportedProperties) {
