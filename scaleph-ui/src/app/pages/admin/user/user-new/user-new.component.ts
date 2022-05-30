@@ -2,7 +2,8 @@ import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DValidateRules, FormLayout } from 'ng-devui';
 import { User } from 'src/app/@core/data/admin.data';
-import { Dict, DICT_TYPE } from 'src/app/@core/data/app.data';import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
+import { Dict, DICT_TYPE } from 'src/app/@core/data/app.data';
+import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
 import { UserService } from 'src/app/@core/services/admin/user.service';
 
 @Component({

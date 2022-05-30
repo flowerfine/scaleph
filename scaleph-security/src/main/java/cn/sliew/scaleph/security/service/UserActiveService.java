@@ -1,6 +1,5 @@
 package cn.sliew.scaleph.security.service;
 
-
 import cn.sliew.scaleph.security.service.dto.UserActiveDTO;
 
 /**
