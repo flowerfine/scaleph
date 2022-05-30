@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.api.vo;
+package cn.sliew.scaleph.core.di.service.vo;
 
 import javax.validation.constraints.NotNull;
 
