@@ -1,6 +1,6 @@
 package cn.sliew.scaleph.dao.mapper.master.system;
 
-import cn.sliew.scaleph.dao.entity.master.system.SystemConfig;
+import cn.sliew.scaleph.dao.entity.master.system.SysConfig;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
  * @since 2021-10-10
  */
 @Repository
-public interface SystemConfigMapper extends BaseMapper<SystemConfig> {
+public interface SysConfigMapper extends BaseMapper<SysConfig> {
 
 }

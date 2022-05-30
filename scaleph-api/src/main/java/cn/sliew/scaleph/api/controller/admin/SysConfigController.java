@@ -12,8 +12,8 @@ import cn.sliew.scaleph.common.enums.ErrorShowTypeEnum;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
 import cn.sliew.scaleph.mail.service.EmailService;
 import cn.sliew.scaleph.mail.service.vo.EmailConfigVO;
-import cn.sliew.scaleph.system.service.SystemConfigService;
-import cn.sliew.scaleph.system.service.dto.SystemConfigDTO;
+import cn.sliew.scaleph.system.service.SysConfigService;
+import cn.sliew.scaleph.system.service.dto.SysConfigDTO;
 import cn.sliew.scaleph.system.service.vo.BasicConfigVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,10 +34,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/admin/config")
 @Api(tags = "系统管理-系统配置")
-public class SystemConfigController {
+public class SysConfigController {
 
     @Autowired
-    private SystemConfigService systemConfigService;
+    private SysConfigService sysConfigService;
 
     @Autowired
     private EmailService emailService;
@@ -50,11 +50,11 @@ public class SystemConfigController {
         @Validated @RequestBody EmailConfigVO emailConfig) {
         String password = emailConfig.getPassword();
         emailConfig.setPassword(Base64.encode(password));
-        this.systemConfigService.deleteByCode(Constants.CFG_EMAIL_CODE);
-        SystemConfigDTO systemConfig = new SystemConfigDTO();
-        systemConfig.setCfgCode(Constants.CFG_EMAIL_CODE);
-        systemConfig.setCfgValue(JSONUtil.toJsonStr(emailConfig));
-        this.systemConfigService.insert(systemConfig);
+        this.sysConfigService.deleteByCode(Constants.CFG_EMAIL_CODE);
+        SysConfigDTO sysConfig = new SysConfigDTO();
+        sysConfig.setCfgCode(Constants.CFG_EMAIL_CODE);
+        sysConfig.setCfgValue(JSONUtil.toJsonStr(emailConfig));
+        this.sysConfigService.insert(sysConfig);
         this.emailService.configEmail(emailConfig);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -63,10 +63,10 @@ public class SystemConfigController {
     @GetMapping(path = "email")
     @ApiOperation(value = "查询系统邮箱", notes = "查询系统邮箱")
     public ResponseEntity<EmailConfigVO> showEmail() {
-        SystemConfigDTO systemConfig =
-            this.systemConfigService.selectByCode(Constants.CFG_EMAIL_CODE);
-        if (systemConfig != null) {
-            EmailConfigVO config = JSONUtil.toBean(systemConfig.getCfgValue(), EmailConfigVO.class);
+        SysConfigDTO sysConfig =
+            this.sysConfigService.selectByCode(Constants.CFG_EMAIL_CODE);
+        if (sysConfig != null) {
+            EmailConfigVO config = JSONUtil.toBean(sysConfig.getCfgValue(), EmailConfigVO.class);
             return new ResponseEntity<>(config, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new EmailConfigVO(), HttpStatus.OK);
@@ -105,27 +105,26 @@ public class SystemConfigController {
                 I18nUtil.get("response.error.setting.seatunnel"), ErrorShowTypeEnum.NOTIFICATION),
                 HttpStatus.OK);
         }
-        this.systemConfigService.deleteByCode(Constants.CFG_BASIC_CODE);
-        SystemConfigDTO systemConfig = new SystemConfigDTO();
-        systemConfig.setCfgCode(Constants.CFG_BASIC_CODE);
-        systemConfig.setCfgValue(JSONUtil.toJsonStr(basicConfig));
-        this.systemConfigService.insert(systemConfig);
+        this.sysConfigService.deleteByCode(Constants.CFG_BASIC_CODE);
+        SysConfigDTO sysConfig = new SysConfigDTO();
+        sysConfig.setCfgCode(Constants.CFG_BASIC_CODE);
+        sysConfig.setCfgValue(JSONUtil.toJsonStr(basicConfig));
+        this.sysConfigService.insert(sysConfig);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
     @GetMapping(path = "basic")
     @ApiOperation(value = "查询基础设置", notes = "查询基础设置")
-    public ResponseEntity<BasicConfigVO> showBasci() {
-        SystemConfigDTO systemConfig =
-            this.systemConfigService.selectByCode(Constants.CFG_BASIC_CODE);
-        if (systemConfig != null) {
-            BasicConfigVO config = JSONUtil.toBean(systemConfig.getCfgValue(), BasicConfigVO.class);
+    public ResponseEntity<BasicConfigVO> showBasic() {
+        SysConfigDTO sysConfig =
+            this.sysConfigService.selectByCode(Constants.CFG_BASIC_CODE);
+        if (sysConfig != null) {
+            BasicConfigVO config = JSONUtil.toBean(sysConfig.getCfgValue(), BasicConfigVO.class);
             return new ResponseEntity<>(config, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new BasicConfigVO(), HttpStatus.OK);
         }
     }
-
 
 }

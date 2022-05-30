@@ -699,8 +699,8 @@ create table t_user_active
 ) engine = innodb comment = '用户邮箱激活日志表';
 
 /*系统配置信息表 */
-drop table if exists t_system_config;
-create table t_system_config
+drop table if exists sys_config;
+create table sys_config
 (
     id          bigint      not null auto_increment comment '自增主键',
     cfg_code    varchar(60) not null comment '配置编码',
@@ -713,7 +713,7 @@ create table t_system_config
     unique key (cfg_code)
 ) engine = innodb comment = '系统配置信息表';
 
-insert into t_system_config(cfg_code, cfg_value, creator, editor)
+insert into sys_config(cfg_code, cfg_value, creator, editor)
 VALUES ('basic', '{\"seatunnelHome\":\"/opt/seatunnel\"}', 'sys_admin', 'sys_admin');
 
 /*定时任务运行日志表*/

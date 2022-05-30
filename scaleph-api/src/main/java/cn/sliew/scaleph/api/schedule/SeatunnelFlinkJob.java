@@ -42,7 +42,7 @@ import cn.sliew.scaleph.engine.util.JobConfigHelper;
 import cn.sliew.scaleph.log.service.dto.LogScheduleDTO;
 import cn.sliew.scaleph.storage.service.StorageService;
 import cn.sliew.scaleph.storage.service.impl.NioFileServiceImpl;
-import cn.sliew.scaleph.system.service.SystemConfigService;
+import cn.sliew.scaleph.system.service.SysConfigService;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import lombok.SneakyThrows;
 import org.apache.commons.io.filefilter.RegexFileFilter;
@@ -68,7 +68,7 @@ public class SeatunnelFlinkJob extends QuartzJobBean {
     @Autowired
     private JobConfigHelper jobConfigHelper;
     @Autowired
-    private SystemConfigService systemConfigService;
+    private SysConfigService sysConfigService;
     @Autowired
     private DiClusterConfigService diClusterConfigService;
     @Resource(name = "${app.resource.type}")
@@ -99,7 +99,7 @@ public class SeatunnelFlinkJob extends QuartzJobBean {
             tmpJobConfFile.getAbsolutePath()));
         FileUtil.writeUtf8String(jobJson, tmpJobConfFile);
         logDTO.appendLog(StrUtil.format("seatunnel job config is {}", jobJson));
-        String seatunnelPath = this.systemConfigService.getSeatunnelHome();
+        String seatunnelPath = this.sysConfigService.getSeatunnelHome();
         Path seatunnelJarPath = Paths.get(seatunnelPath, "lib", "seatunnel-core-flink.jar");
         if (StrUtil.isBlank(seatunnelPath)) {
             throw new JobExecutionException(I18nUtil.get("response.error.di.noJar.seatunnel"));
