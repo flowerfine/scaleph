@@ -20,7 +20,7 @@ services:
     depends_on:
       - scaleph-api
     build:
-      dockerfile: ../../../scaleph-ui/Dockerfile
+      dockerfile: ../scaleph-ui/Dockerfile
       context: ../../../scaleph-ui
     environment:
       - SCALEPH_API_URL="scaleph-api:8080"
