@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "scaleph.fullname" .}}-config
+  labels:
+    {{- include "scaleph.labels" . | nindent 4 }}
+
+data:
+  application-prod.yaml: |
+{{/*{{- include "scaleph.application.config" . | nindent 4}}*/}}
