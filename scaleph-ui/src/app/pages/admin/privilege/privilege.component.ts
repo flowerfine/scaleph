@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IButtonStyle, ITreeItem, OperableTreeComponent, TreeComponent, TreeNode } from 'ng-devui';
-import { Privilege, Role } from 'src/app/@core/data/admin.data';
+import { SecPrivilege, SecRole } from 'src/app/@core/data/admin.data';
 import { PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
 import { AuthService } from 'src/app/@core/services/auth.service';
 import { DeptService } from 'src/app/@core/services/admin/dept.service';
@@ -17,7 +17,7 @@ export class PrivilegeComponent implements OnInit {
   PRIVILEGE_CODE = PRIVILEGE_CODE;
   @ViewChild('operableTree', { static: false }) operableTree: OperableTreeComponent;
   @ViewChild('privilegeTree', { static: false }) privilegeTree: OperableTreeComponent;
-  roleList: Role[] = [];
+  roleList: SecRole[] = [];
   roleTab: string = 'role';
   deptTab: string = 'dept';
   tabId: string = this.roleTab;
@@ -25,14 +25,14 @@ export class PrivilegeComponent implements OnInit {
   deptBtnStyle: IButtonStyle;
   deptList: ITreeItem[];
   searchTip;
-  grantRoleList: Role[] = [];
-  grantedRoleList: Role[] = [];
+  grantRoleList: SecRole[] = [];
+  grantedRoleList: SecRole[] = [];
   checkedItemId: number = 0;
   menuPrivilegeTab: string = 'menuPrivilege';
   optPrivilegeTab: string = 'optPrivilege';
   dataPrivilegeTab: string = 'dataPrivilege';
   privilegeList: ITreeItem[];
-  checkedPrivilegeList: Privilege[] = [];
+  checkedPrivilegeList: SecPrivilege[] = [];
   activeTabId;
   tabItems = [
     {
@@ -130,11 +130,11 @@ export class PrivilegeComponent implements OnInit {
     this.privilegeTree.operableTree.treeFactory.searchTree(event, true);
   }
 
-  isRoleSelect(item: Role): boolean {
+  isRoleSelect(item: SecRole): boolean {
     return item.id == this.checkedItemId && this.tabId === this.roleTab;
   }
 
-  showPrivilegeByRole(item: Role) {
+  showPrivilegeByRole(item: SecRole) {
     this.checkedItemId = item.id;
     this.activeTabChange(this.activeTabId);
   }
@@ -169,12 +169,12 @@ export class PrivilegeComponent implements OnInit {
     }
   }
 
-  grantDeptRole(role: Role) {
+  grantDeptRole(role: SecRole) {
     this.roleService.grantDeptRole(this.checkedItemId, role.id).subscribe((d) => {
       this.refreshGrantRole(String(this.checkedItemId));
     });
   }
-  revokeDeptRole(role: Role) {
+  revokeDeptRole(role: SecRole) {
     this.roleService.revokeDeptRole(this.checkedItemId, role.id).subscribe((d) => {
       this.refreshGrantRole(String(this.checkedItemId));
     });

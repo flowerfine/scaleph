@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../../data/admin.data';
+import { SecUser } from '../../data/admin.data';
 import { Dict, OnlineUserInfo, PageResponse, ResponseBody, TransferData } from '../../data/app.data';
 
 @Injectable({
@@ -11,27 +11,27 @@ export class UserService {
   private url = 'api/admin/user';
   constructor(private http: HttpClient) {}
 
-  listByPage(queryParam): Observable<PageResponse<User>> {
+  listByPage(queryParam): Observable<PageResponse<SecUser>> {
     const params: HttpParams = new HttpParams({ fromObject: queryParam });
-    return this.http.get<PageResponse<User>>(`${this.url}`, { params });
+    return this.http.get<PageResponse<SecUser>>(`${this.url}`, { params });
   }
 
-  delete(row: User): Observable<ResponseBody<any>> {
+  delete(row: SecUser): Observable<ResponseBody<any>> {
     const delUrl = `${this.url}/` + row.id;
     return this.http.delete<ResponseBody<any>>(delUrl);
   }
 
-  deleteBatch(rows: User[]): Observable<ResponseBody<any>> {
+  deleteBatch(rows: SecUser[]): Observable<ResponseBody<any>> {
     const delUrl = `${this.url}/` + 'batch';
     let params = rows.map((row) => row.id);
     return this.http.post<ResponseBody<any>>(delUrl, { ...params });
   }
 
-  add(row: User): Observable<ResponseBody<any>> {
+  add(row: SecUser): Observable<ResponseBody<any>> {
     return this.http.post<ResponseBody<any>>(this.url, row);
   }
 
-  update(row: User): Observable<ResponseBody<any>> {
+  update(row: SecUser): Observable<ResponseBody<any>> {
     return this.http.put<ResponseBody<any>>(this.url, row);
   }
 
@@ -59,8 +59,8 @@ export class UserService {
     return this.http.get<ResponseBody<OnlineUserInfo>>('api/user/get/' + token);
   }
 
-  getUserInfo(): Observable<User> {
-    return this.http.get<User>('api/user/info');
+  getUserInfo(): Observable<SecUser> {
+    return this.http.get<SecUser>('api/user/info');
   }
 
   editPassword({ oldPassword, password, confirmPassword }): Observable<ResponseBody<any>> {

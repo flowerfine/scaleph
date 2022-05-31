@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Message, MessageParam } from 'src/app/@core/data/admin.data';
+import { LogMessage, LogMessageParam } from 'src/app/@core/data/admin.data';
 import { DEFAULT_PAGE_PARAM } from 'src/app/@core/data/app.data';
 import { MessageService } from 'src/app/@core/services/admin/message.service';
 
@@ -16,7 +16,7 @@ export class HeaderNoticeComponent implements OnInit {
   tabActiveID: string | number = 'notice';
 
   tabTitles;
-  messages: Message[] = [];
+  messages: LogMessage[] = [];
 
   constructor(private messageService: MessageService, private translate: TranslateService, private router: Router) {}
 
@@ -28,7 +28,7 @@ export class HeaderNoticeComponent implements OnInit {
   }
 
   refreshMessages() {
-    let param: MessageParam = {
+    let param: LogMessageParam = {
       pageSize: DEFAULT_PAGE_PARAM.pageSize,
       current: DEFAULT_PAGE_PARAM.pageIndex,
       isRead: '0',
@@ -41,7 +41,7 @@ export class HeaderNoticeComponent implements OnInit {
     });
   }
 
-  handleNoticeClick(message: Message, type: string) {
+  handleNoticeClick(message: LogMessage, type: string) {
     if (type === 'notice') {
       this.messageService.update(message).subscribe((d) => {
         if (d.success) {

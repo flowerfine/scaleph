@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import cn.sliew.scaleph.common.enums.UserStatusEnum;
-import cn.sliew.scaleph.security.service.dto.UserDTO;
+import cn.sliew.scaleph.security.service.dto.SecUserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -20,7 +20,7 @@ public class UserDetailInfo implements UserDetails {
     /**
      * 用户信息
      */
-    private UserDTO user;
+    private SecUserDTO user;
     /**
      * 登录相关信息
      */
@@ -33,11 +33,11 @@ public class UserDetailInfo implements UserDetails {
      */
     private List<GrantedAuthority> authorities;
 
-    public UserDTO getUser() {
+    public SecUserDTO getUser() {
         return user;
     }
 
-    public void setUser(UserDTO user) {
+    public void setUser(SecUserDTO user) {
         this.user = user;
     }
 

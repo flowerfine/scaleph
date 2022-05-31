@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Message } from '../../data/admin.data';
+import { LogMessage } from '../../data/admin.data';
 import { PageResponse, ResponseBody } from '../../data/app.data';
 
 @Injectable({
@@ -12,12 +12,12 @@ export class MessageService {
 
   constructor(private http: HttpClient) {}
 
-  listByPage(queryParam): Observable<PageResponse<Message>> {
+  listByPage(queryParam): Observable<PageResponse<LogMessage>> {
     const params: HttpParams = new HttpParams({ fromObject: queryParam });
-    return this.http.get<PageResponse<Message>>(`${this.url}`, { params });
+    return this.http.get<PageResponse<LogMessage>>(`${this.url}`, { params });
   }
 
-  update(row: Message): Observable<ResponseBody<any>> {
+  update(row: LogMessage): Observable<ResponseBody<any>> {
     return this.http.put<ResponseBody<any>>(`${this.url}`, row);
   }
 

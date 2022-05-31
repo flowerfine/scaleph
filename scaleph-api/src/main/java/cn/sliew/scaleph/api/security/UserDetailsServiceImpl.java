@@ -5,10 +5,10 @@ import java.util.List;
 
 import cn.sliew.scaleph.api.util.I18nUtil;
 import cn.sliew.scaleph.common.enums.UserStatusEnum;
-import cn.sliew.scaleph.security.service.UserService;
-import cn.sliew.scaleph.security.service.dto.PrivilegeDTO;
-import cn.sliew.scaleph.security.service.dto.RoleDTO;
-import cn.sliew.scaleph.security.service.dto.UserDTO;
+import cn.sliew.scaleph.security.service.SecUserService;
+import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;
+import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
+import cn.sliew.scaleph.security.service.dto.SecUserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -28,7 +28,7 @@ import org.springframework.util.CollectionUtils;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserService userService;
+    private SecUserService secUserService;
 
     /**
      * 根据用户名查询登录用户信息
@@ -39,35 +39,35 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        UserDTO userDTO = userService.selectOne(userName);
-        boolean flag = userDTO.getUserStatus() != null
+        SecUserDTO secUserDTO = secUserService.selectOne(userName);
+        boolean flag = secUserDTO.getUserStatus() != null
             &&
-            !(userDTO.getUserStatus().getValue().equals(UserStatusEnum.UNBIND_EMAIL.getValue()) ||
-                userDTO.getUserStatus().getValue().equals(UserStatusEnum.BIND_EMAIL.getValue()));
-        if (userDTO == null) {
+            !(secUserDTO.getUserStatus().getValue().equals(UserStatusEnum.UNBIND_EMAIL.getValue()) ||
+                secUserDTO.getUserStatus().getValue().equals(UserStatusEnum.BIND_EMAIL.getValue()));
+        if (secUserDTO == null) {
             throw new BadCredentialsException(I18nUtil.get("response.error.login.password"));
         } else if (flag) {
             throw new BadCredentialsException(I18nUtil.get("response.error.login.disable"));
         } else {
             UserDetailInfo user = new UserDetailInfo();
-            user.setUser(userDTO);
+            user.setUser(secUserDTO);
             //查询用户角色权限信息
-            List<RoleDTO> privileges = this.userService.getAllPrivilegeByUserName(userName);
+            List<SecRoleDTO> privileges = this.secUserService.getAllPrivilegeByUserName(userName);
             user.setAuthorities(this.toGrantedAuthority(privileges));
             return user;
         }
     }
 
-    private List<GrantedAuthority> toGrantedAuthority(List<RoleDTO> roles) {
+    private List<GrantedAuthority> toGrantedAuthority(List<SecRoleDTO> roles) {
         if (CollectionUtils.isEmpty(roles)) {
             return null;
         } else {
             List<GrantedAuthority> list = new ArrayList<>();
-            for (RoleDTO role : roles) {
+            for (SecRoleDTO role : roles) {
                 if (role.getPrivileges() == null) {
                     continue;
                 }
-                for (PrivilegeDTO privilege : role.getPrivileges()) {
+                for (SecPrivilegeDTO privilege : role.getPrivileges()) {
                     GrantedAuthority grantedAuthority =
                         new SimpleGrantedAuthority(privilege.getPrivilegeCode());
                     list.add(grantedAuthority);
