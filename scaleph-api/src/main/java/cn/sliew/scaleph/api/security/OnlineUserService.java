@@ -7,10 +7,10 @@ import java.util.TreeSet;
 
 import cn.sliew.scaleph.api.vo.OnlineUserVO;
 import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.security.service.RoleService;
-import cn.sliew.scaleph.security.service.UserService;
-import cn.sliew.scaleph.security.service.dto.PrivilegeDTO;
-import cn.sliew.scaleph.security.service.dto.RoleDTO;
+import cn.sliew.scaleph.security.service.SecRoleService;
+import cn.sliew.scaleph.security.service.SecUserService;
+import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;
+import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
 import cn.sliew.scaleph.cache.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -28,9 +28,9 @@ public class OnlineUserService {
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
-    private UserService userService;
+    private SecUserService secUserService;
     @Autowired
-    private RoleService roleService;
+    private SecRoleService secRoleService;
 
     public OnlineUserService(SecurityProperties properties) {
         this.properties = properties;
@@ -53,12 +53,12 @@ public class OnlineUserService {
         onlineUser.setRemember(userInfo.getRemember());
         Set<String> roles = new TreeSet<>();
         Set<String> privileges = new TreeSet<>();
-        for (RoleDTO r : userInfo.getUser().getRoles()) {
+        for (SecRoleDTO r : userInfo.getUser().getRoles()) {
             roles.add(r.getRoleCode().toLowerCase());
             if (r.getPrivileges() == null) {
                 continue;
             }
-            for (PrivilegeDTO p : r.getPrivileges()) {
+            for (SecPrivilegeDTO p : r.getPrivileges()) {
                 privileges.add(p.getPrivilegeCode().toLowerCase());
             }
         }
@@ -115,15 +115,15 @@ public class OnlineUserService {
         } else if (onlineUser != null) {
             //缓存中信息失效，从数据库中获取权限信息并刷新缓存
             String userName = onlineUser.getUserName();
-            List<RoleDTO> roleList = this.userService.getAllPrivilegeByUserName(userName);
+            List<SecRoleDTO> roleList = this.secUserService.getAllPrivilegeByUserName(userName);
             Set<String> roles = new TreeSet<>();
             Set<String> privileges = new TreeSet<>();
-            for (RoleDTO role : roleList) {
+            for (SecRoleDTO role : roleList) {
                 roles.add(role.getRoleCode().toLowerCase());
                 if (role.getPrivileges() == null) {
                     continue;
                 }
-                for (PrivilegeDTO privilege : role.getPrivileges()) {
+                for (SecPrivilegeDTO privilege : role.getPrivileges()) {
                     privileges.add(privilege.getPrivilegeCode().toLowerCase());
                 }
             }
@@ -139,8 +139,8 @@ public class OnlineUserService {
 
     @Async
     public void disableOnlineCacheRole(Long roleId) {
-        RoleDTO roleDTO = roleService.selectOne(roleId);
-        String code = roleDTO.getRoleCode();
+        SecRoleDTO secRoleDTO = secRoleService.selectOne(roleId);
+        String code = secRoleDTO.getRoleCode();
         if (!StringUtils.isEmpty(code)) {
             List<String> keys = redisUtil.scan(Constants.ONLINE_TOKEN_KEY + "*");
             for (String key : keys) {

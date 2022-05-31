@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import { User } from 'src/app/@core/data/admin.data';
+import { SecUser } from 'src/app/@core/data/admin.data';
 import { UserService } from 'src/app/@core/services/admin/user.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class UserDeleteComponent implements OnInit {
   }
 
   delete() {
-    let user: User = {
+    let user: SecUser = {
       userName: this.data.item.userName,
       id: this.data.item.id,
       userStatus: { value: '91', label: '' },

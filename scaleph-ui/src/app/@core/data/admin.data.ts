@@ -32,7 +32,7 @@ export class SysDictDataParam extends QueryParam {
   isValid?: string;
 }
 
-export class Role {
+export class SecRole {
   id?: number;
   roleCode?: string;
   roleName?: string;
@@ -42,7 +42,7 @@ export class Role {
   showOpIcon?: boolean;
 }
 
-export class Dept {
+export class SecDept {
   id?: number;
   deptCode?: string;
   deptName?: string;
@@ -50,7 +50,7 @@ export class Dept {
   deptStatus?: Dict;
 }
 
-export class User {
+export class SecUser {
   id?: number;
   userName?: string;
   nickName?: string;
@@ -74,7 +74,7 @@ export class User {
   deptCode?: string;
 }
 
-export class UserParam extends QueryParam {
+export class SecUserParam extends QueryParam {
   userName?: string;
   nickName?: string;
   email?: string;
@@ -83,7 +83,7 @@ export class UserParam extends QueryParam {
   deptId?: string;
 }
 
-export class Privilege {
+export class SecPrivilege {
   id?: number;
 }
 
@@ -98,7 +98,7 @@ export class LogLogin {
   browserInfo?: string;
 }
 
-export class Message {
+export class LogMessage {
   id?: bigint;
   title?: string;
   messageType?: Dict;
@@ -110,7 +110,7 @@ export class Message {
   createTime?: Date;
 }
 
-export class MessageParam extends QueryParam {
+export class LogMessageParam extends QueryParam {
   receiver?: string;
   sender?: string;
   messageType?: string;

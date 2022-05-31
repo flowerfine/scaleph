@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DValidateRules, FormLayout } from 'ng-devui';
-import { Role } from 'src/app/@core/data/admin.data';
+import { SecRole } from 'src/app/@core/data/admin.data';
 import { Dict, DICT_TYPE } from 'src/app/@core/data/app.data';
 import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
 import { RoleService } from 'src/app/@core/services/admin/role.service';
@@ -36,7 +36,7 @@ export class RoleNewComponent implements OnInit {
     },
   };
 
-  formData: Role = {
+  formData: SecRole = {
     roleCode: null,
     roleName: null,
     roleType: null,

@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadingService } from 'ng-devui';
-import { Message } from 'src/app/@core/data/admin.data';
+import { LogMessage } from 'src/app/@core/data/admin.data';
 import { DEFAULT_PAGE_PARAM } from 'src/app/@core/data/app.data';
 import { MessageService } from 'src/app/@core/services/admin/message.service';
 
@@ -13,7 +13,7 @@ import { MessageService } from 'src/app/@core/services/admin/message.service';
 })
 export class UserMessageComponent implements OnInit {
   limit = 3 * 12 * 30 * 24 * 60 * 60; // tree years
-  msgItems: Message[] = [];
+  msgItems: LogMessage[] = [];
   msgPager = {
     total: 0,
     pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -34,11 +34,11 @@ export class UserMessageComponent implements OnInit {
     this.refreshMessage();
   }
 
-  getReadTag(item: Message) {
+  getReadTag(item: LogMessage) {
     return item.isRead.value == '1' ? this.translate.instant('userCenter.read') : this.translate.instant('userCenter.unRead');
   }
 
-  getTagStyle(item: Message) {
+  getTagStyle(item: LogMessage) {
     return item.isRead.value == '1' ? 'blue-w98' : 'pink-w98';
   }
 
@@ -67,7 +67,7 @@ export class UserMessageComponent implements OnInit {
     this.logLoading = true;
   }
 
-  readMsg(event: boolean, item: Message) {
+  readMsg(event: boolean, item: LogMessage) {
     if (event && item.isRead.value == '0') {
       item.isRead.value = '1';
       this.messageService.update(item).subscribe((d) => {});

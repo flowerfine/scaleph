@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalService } from 'ng-devui';
-import { User } from 'src/app/@core/data/admin.data';
+import { SecUser } from 'src/app/@core/data/admin.data';
 import { UserService } from 'src/app/@core/services/admin/user.service';
 import { BindEmailComponent } from './bind-email/bind-email.component';
 import { EditPasswordComponent } from './edit-password/edit-password.component';
@@ -12,7 +12,7 @@ import { EditPasswordComponent } from './edit-password/edit-password.component';
   styleUrls: ['../user-center.component.scss'],
 })
 export class UserSecurityComponent implements OnInit {
-  userInfo: User = {};
+  userInfo: SecUser = {};
   constructor(private translate: TranslateService, private userService: UserService, private modalService: ModalService) {}
 
   ngOnInit(): void {
@@ -20,7 +20,7 @@ export class UserSecurityComponent implements OnInit {
   }
 
   refreshUserInfo() {
-    this.userService.getUserInfo().subscribe((d: User) => {
+    this.userService.getUserInfo().subscribe((d: SecUser) => {
       this.userInfo = d;
     });
   }

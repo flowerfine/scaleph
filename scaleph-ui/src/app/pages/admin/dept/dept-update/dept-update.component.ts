@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DValidateRules, FormLayout } from 'ng-devui';
-import { Dept } from 'src/app/@core/data/admin.data';
+import { SecDept } from 'src/app/@core/data/admin.data';
 import { DeptService } from 'src/app/@core/services/admin/dept.service';
 
 @Component({
@@ -28,7 +28,7 @@ export class DeptUpdateComponent implements OnInit {
     // pidRules: {},
   };
 
-  formData: Dept = {
+  formData: SecDept = {
     id: null,
     deptCode: null,
     deptName: null,
@@ -45,7 +45,7 @@ export class DeptUpdateComponent implements OnInit {
 
   submitForm({ valid }) {
     if (valid) {
-      let dept: Dept = {
+      let dept: SecDept = {
         id: this.formData.id,
         deptName: this.formData.deptName,
       };
