@@ -30,12 +30,24 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{/*
-Common labels
-*/}}
 {{- define "scaleph.labels" -}}
 helm.sh/chart: {{ include "scaleph.chart" . }}
-{{ include "scaleph.selectorLabels" . }}
+app.kubernetes.io/name: {{ include "scaleph.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+
+{{/*
+scaleph-api labels
+*/}}
+{{- define "scaleph-api.labels" -}}
+helm.sh/chart: {{ include "scaleph.chart" . }}
+app.kubernetes.io/name: {{ include "scaleph.name" . }}-api
+app.kubernetes.io/instance: {{ .Release.Name }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -43,10 +55,37 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
-Selector labels
+scaleph-ui labels
 */}}
+{{- define "scaleph-ui.labels" -}}
+helm.sh/chart: {{ include "scaleph.chart" . }}
+app.kubernetes.io/name: {{ include "scaleph.name" . }}-ui
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+
 {{- define "scaleph.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "scaleph.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+scaleph-api selector labels
+*/}}
+{{- define "scaleph-api.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "scaleph.name" . }}-api
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+scaleph-api selector labels
+*/}}
+{{- define "scaleph-ui.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "scaleph.name" . }}-ui
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 

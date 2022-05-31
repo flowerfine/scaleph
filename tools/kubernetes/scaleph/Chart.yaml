@@ -17,7 +17,21 @@
 
 apiVersion: v2
 name: scaleph
-description: A Helm chart for Kubernetes
+description: The Scaleph project features data integration, develop, job schedule and orchestration and aims to run on cloud environment.
+home: https://github.com/flowerfine/scaleph
+
+keywords:
+  - scaleph
+  - flink
+  - data-platform
+
+maintainers:
+  - email: 1942460489@qq.com
+    name: kalencaya
+  - email: gleiyu@sina.cn
+    name: gleiyu
+
+kubeVersion: '>= 1.11.0-0'
 
 # A chart can be either an 'application' or a 'library' chart.
 #

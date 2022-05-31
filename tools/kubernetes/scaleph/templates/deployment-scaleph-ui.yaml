@@ -18,16 +18,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "scaleph.fullname" . }}
+  name: {{ include "scaleph.fullname" . }}-ui
   labels:
-    {{- include "scaleph.labels" . | nindent 4 }}
+    {{- include "scaleph-ui.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.scalephui.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "scaleph.selectorLabels" . | nindent 6 }}
+      {{- include "scaleph-ui.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -35,7 +35,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "scaleph.selectorLabels" . | nindent 8 }}
+        {{- include "scaleph-ui.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -45,25 +45,37 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: scaleph-ui
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.image.registry }}/{{ .Values.scalephui.image.repository }}:{{ .Values.scalephui.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.scalephapi.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 80
+            - name: scaleph-ui
+              containerPort: 4200
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: scaleph-ui
+              scheme: HTTP
+            initialDelaySeconds: 120
+            timeoutSeconds: 1
+            periodSeconds: 120
+            successThreshold: 1
+            failureThreshold: 3
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: scaleph-ui
+              scheme: HTTP
+            initialDelaySeconds: 120
+            timeoutSeconds: 1
+            periodSeconds: 120
+            successThreshold: 1
+            failureThreshold: 3
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.scalephui.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

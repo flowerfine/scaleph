@@ -22,14 +22,61 @@
 replicaCount: 1
 
 image:
+  registry: "ghcr.io/flowerfine"
   repository: nginx
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
+  pullSecret: ""
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+
+scaleph:
+  spring:
+    datasource:
+      master:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+        username: root
+        password: 123456
+      log:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+        username: root
+        password: 123456
+    quartz:
+      properties:
+        org.quartz:
+          dataSource:
+            quartzDS:
+              driver: com.mysql.cj.jdbc.Driver
+              URL: jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+              user: root
+              password: 123456
+    redis:
+      database: 0
+      host: 127.0.0.1
+      port: 6379
+      password: 123456
+  app:
+    host: localhost:4200
+    resource:
+      minio:
+        endPoint: http://127.0.0.1:9000
+        accessKey: admin
+        secretKey: password
+  logging:
+    level:
+      root: info
+      springfox.documentation: warn
+      org.springframework.boot.autoconfigure: warn
+      org.springframework.beans.factory: warn
+      org.springframework.context: warn
+      cn.sliew.scaleph.api.schedule: info
+
+
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -97,3 +144,72 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+##
+## Container configuration for the scaleph-api component
+##
+scalephapi:
+  replicaCount: 1
+  image:
+    repository: scaleph/scaleph-api
+    tag: latest
+    pullPolicy: Always
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+
+
+
+##
+## Container configuration for the scaleph-ui component
+##
+scalephui:
+  replicaCount: 1
+  image:
+    repository: scaleph/scaleph-ui
+    tag: latest
+    pullPolicy: Always
+  resources:
+    limits:
+      cpu: 100m
+      memory: 32Mi
+    requests:
+      cpu: 100m
+      memory: 32Mi
+  service:
+    ## type determines how the Service is exposed. Defaults to ClusterIP. Valid options are ExternalName, ClusterIP, NodePort, and LoadBalancer
+    type: "ClusterIP"
+    ## clusterIP is the IP address of the service and is usually assigned randomly by the master
+    clusterIP: ""
+    ## nodePort is the port on each node on which this service is exposed when type=NodePort
+    nodePort: ""
+    ## externalIPs is a list of IP addresses for which nodes in the cluster will also accept traffic for this service
+    externalIPs: [ ]
+    ## externalName is the external reference that kubedns or equivalent will return as a CNAME record for this service, requires Type to be ExternalName
+    externalName: ""
+    ## loadBalancerIP when service.type is LoadBalancer. LoadBalancer will get created with the IP specified in this field
+    loadBalancerIP: ""
+    ## annotations may need to be set when service.type is LoadBalancer
+    ## service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-east-1:EXAMPLE_CERT
+    annotations: { }
+
+## If not exists external database, by default, scaleph's database will use it.
+mysql:
+  enabled: true
+  username: "root"
+  password: "123456"
+  database: "scaleph"
+  persistence:
+    enabled: false
+    size: "20Gi"
+    storageClass: "-"
+
+## If mysql.enable value set to false, external database will be used
+externalDatabase:
+  url: "jdbc:mysql://127.0.0.1:3306/scaleph"
+  username: "root"
+  password: "123456"
