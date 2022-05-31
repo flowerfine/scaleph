@@ -3,25 +3,27 @@ version: "3.1"
 services:
 
   scaleph-api:
-    image: scaleph/scaleph-api:0.0.1-SNAPSHOT
+    image: ghcr.io/flowerfine/scaleph/scaleph-api:latest
     container_name: scaleph-api
     depends_on:
       - mysql
       - redis
       - minio
-    build:
-      dockerfile: Dockerfile
-      context: ../../../scaleph-api
     ports:
       - 8080:8080
     networks:
       - scaleph
 
   scaleph-ui:
-    image: scaleph/scaleph-ui:latest
+    image: scaleph/scaleph-ui:0.0.1-SNAPSHOT
     container_name: scaleph-ui
     depends_on:
       - scaleph-api
+    build:
+      dockerfile: ../../../scaleph-ui/Dockerfile
+      context: ../../../scaleph-ui
+    environment:
+      - SCALEPH_API_URL="scaleph-api:8080"
     ports:
       - 80:80
     networks:
