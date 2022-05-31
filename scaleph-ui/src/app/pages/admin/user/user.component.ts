@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DataTableComponent, IButtonStyle, ITreeItem, LoadingService, ModalService, OperableTreeComponent, TreeNode } from 'ng-devui';
-import { Role, User, UserParam } from 'src/app/@core/data/admin.data';
+import { SecRole, SecUser, SecUserParam } from 'src/app/@core/data/admin.data';
 import { DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
 import { AuthService } from 'src/app/@core/services/auth.service';
 import { DeptService } from 'src/app/@core/services/admin/dept.service';
@@ -30,7 +30,7 @@ export class UserComponent implements OnInit {
   @ViewChild('operableTree', { static: false }) operableTree: OperableTreeComponent;
   @ViewChild('userTable', { static: true }) userTable: DataTableComponent;
   PRIVILEGE_CODE = PRIVILEGE_CODE;
-  roleList: Role[] = [];
+  roleList: SecRole[] = [];
   roleTab: string = 'role';
   deptTab: string = 'dept';
   tabId: string = this.roleTab;
@@ -41,7 +41,7 @@ export class UserComponent implements OnInit {
   searchFormConfig = { userName: '', nickName: '', userStatus: null, email: '', deptId: '', roleId: '' };
   userStatusList: Dict[] = [];
   userTableChecked: boolean = false;
-  userTableDs: User[] = [];
+  userTableDs: SecUser[] = [];
   userLoadTarget: any;
   userLoading: boolean = false;
   userPager = {
@@ -108,15 +108,15 @@ export class UserComponent implements OnInit {
     this.refreshRoleList();
   }
 
-  mover(node: Role) {
+  mover(node: SecRole) {
     node.showOpIcon = true;
   }
 
-  mleave(node: Role) {
+  mleave(node: SecRole) {
     node.showOpIcon = false;
   }
 
-  isRoleSelect(item: Role): boolean {
+  isRoleSelect(item: SecRole): boolean {
     return String(item.id) == this.searchFormConfig.roleId;
   }
   openAddDialog() {
@@ -145,7 +145,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  openEditRoleDialog(item: Role) {
+  openEditRoleDialog(item: SecRole) {
     const results = this.modalService.open({
       id: 'role-edit',
       width: '580px',
@@ -164,7 +164,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  openDeleteRoleDialog(items: Role) {
+  openDeleteRoleDialog(items: SecRole) {
     const results = this.modalService.open({
       id: 'role-delete',
       width: '346px',
@@ -183,7 +183,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  openGrantRoleDialog(items: Role) {
+  openGrantRoleDialog(items: SecRole) {
     const results = this.modalService.open({
       id: 'role-grant',
       width: '680px',
@@ -202,7 +202,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  searchUserByRole(item: Role) {
+  searchUserByRole(item: SecRole) {
     this.searchFormConfig.roleId = String(item.id);
     this.refreshUserTable();
   }
@@ -357,7 +357,7 @@ export class UserComponent implements OnInit {
 
   refreshUserTable() {
     this.openUserLoading();
-    let param: UserParam = {
+    let param: SecUserParam = {
       pageSize: this.userPager.pageSize,
       current: this.userPager.pageIndex,
       userName: this.searchFormConfig.userName,
@@ -403,7 +403,7 @@ export class UserComponent implements OnInit {
       },
     });
   }
-  openEditUserDialog(item: User) {
+  openEditUserDialog(item: SecUser) {
     const results = this.modalService.open({
       id: 'user-edit',
       width: '700px',
@@ -422,7 +422,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  openDeleteUserDialog(item: User) {
+  openDeleteUserDialog(item: SecUser) {
     const results = this.modalService.open({
       id: 'user-delete',
       width: '346px',
@@ -441,8 +441,8 @@ export class UserComponent implements OnInit {
     });
   }
 
-  enableUser(item: User) {
-    let user: User = {
+  enableUser(item: SecUser) {
+    let user: SecUser = {
       userName: item.userName,
       id: item.id,
       userStatus: { value: '10', label: '' },

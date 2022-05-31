@@ -62,7 +62,7 @@ public class LogAspect {
     /**
      * 登录切面
      */
-    @Pointcut("execution(* cn.sliew.scaleph.api.controller.admin.UserController.login(..))")
+    @Pointcut("execution(* cn.sliew.scaleph.api.controller.admin.SecUserController.login(..))")
     public void loginPointCut() {
 
     }
@@ -70,7 +70,7 @@ public class LogAspect {
     /**
      * 登出切面
      */
-    @Pointcut("execution(* cn.sliew.scaleph.api.controller.admin.UserController.logout(..))")
+    @Pointcut("execution(* cn.sliew.scaleph.api.controller.admin.SecUserController.logout(..))")
     public void logoutPointCut() {
 
     }
