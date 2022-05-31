@@ -759,7 +759,7 @@ create table meta_datasource
 ) engine = innodb comment '元数据-数据源连接信息';
 insert into meta_datasource(datasource_name, datasource_type, connection_type, host_name, database_name,
                             port, user_name, password, remark, props, creator, editor)
-VALUES ('local_data_service', 'mysql', 'jdbc', 'localhost', 'data_service', 3306, 'root', 'MTIzNDU2', NULL,
+VALUES ('docker_data_service', 'mysql', 'jdbc', 'mysql', 'data_service', 3306, 'root', 'MTIzNDU2', NULL,
         '{\"jdbc\":\"serverTimezone=Asia/Shanghai\\ncharacterEncoding=utf8\\nzeroDateTimeBehavior=convertToNull\"}',
         'sys_admin', 'sys_admin');
 
@@ -1165,7 +1165,7 @@ VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'dataSourceType', '{\"label\"
         'sys_admin', 'sys_admin');
 insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
 VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'query',
-        'insert into sample_data_e_commerce_duplicate (invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country) values (?,?,?,?,?, ?,?,?)',
+        'insert into sample_data_e_commerce_duplicate (id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country) values (?,?,?,?,?, ?,?,?,?)',
         'sys_admin', 'sys_admin');
 
 /* 数据集成-作业步骤参数类型信息 */
