@@ -9,7 +9,6 @@ RUN mkdir -p $FLINK_HOME ; cd $FLINK_HOME ; \
     rm flink-1.13.6-bin-scala_2.11.tgz
 
 ENV SEATUNNEL_HOME /opt/seatunnel
-
 RUN mkdir -p $SEATUNNEL_HOME ; cd $SEATUNNEL_HOME ; \
     curl -LsO https://archive.apache.org/dist/incubator/seatunnel/2.1.1/apache-seatunnel-incubating-2.1.1-bin.tar.gz ; \
     tar -zxf apache-seatunnel-incubating-2.1.1-bin.tar.gz --strip 1 -C . ; \
