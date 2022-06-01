@@ -36,10 +36,15 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.util.*;
 
 @Slf4j
@@ -97,7 +102,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         }
 
         Path projectPath = getProjectBasePath(diJobDTO.getProjectId());
-        URL jobConfFile = buildConfFile(diJobDTO, projectPath);
+        Path jobConfFile = buildConfFile(diJobDTO, projectPath);
         Path seatunnelJarPath = getSeatunnelJar();
 
         //build configuration
@@ -166,16 +171,22 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
 
     }
 
-    private Path getProjectBasePath(Long projectId) {
-        return Paths.get(projectId.toString());
+    private Path getProjectBasePath(Long projectId) throws IOException {
+        FileAttribute<Set<PosixFilePermission>> attributes = PosixFilePermissions.asFileAttribute(
+                new HashSet<>(Arrays.asList(PosixFilePermission.OWNER_WRITE, PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_EXECUTE,
+                        PosixFilePermission.GROUP_READ, PosixFilePermission.GROUP_WRITE, PosixFilePermission.GROUP_EXECUTE)));
+        final Path projectBasePath = Files.createTempDirectory(null, attributes).resolve(projectId.toString());
+        return Files.createDirectory(projectBasePath, attributes);
     }
 
     @Override
-    public URL buildConfFile(DiJobDTO diJobDTO, Path projectPath) throws IOException {
+    public Path buildConfFile(DiJobDTO diJobDTO, Path projectPath) throws IOException {
         String jobJson = jobConfigHelper.buildJob(diJobDTO);
+        System.out.println(jobJson);
         final Path tempFile = Files.createTempFile(projectPath, diJobDTO.getJobCode(), ".json");
-        FileUtil.writeUtf8String(jobJson, tempFile.toFile());
-        return tempFile.toUri().toURL();
+        Files.write(tempFile, jobJson.getBytes(Charset.forName("utf-8")), StandardOpenOption.WRITE);
+//        FileUtil.writeUtf8String(jobJson, tempFile.toFile());
+        return tempFile;
     }
 
     @Override
@@ -221,7 +232,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         return configuration;
     }
 
-    private PackageJarJob buildJob(String seatunnelPath, URL confFile, List<DiJobAttrDTO> jobAttrList) {
+    private PackageJarJob buildJob(String seatunnelPath, Path confFile, List<DiJobAttrDTO> jobAttrList) throws URISyntaxException {
         PackageJarJob jarJob = new PackageJarJob();
         jarJob.setJarFilePath(seatunnelPath);
         jarJob.setEntryPointClass("org.apache.seatunnel.core.flink.SeatunnelFlink");

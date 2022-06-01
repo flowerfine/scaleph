@@ -20,7 +20,7 @@ public interface SeatunnelJobService {
 
     void cancel(Long jobId) throws Exception;
 
-    URL buildConfFile(DiJobDTO diJobDTO, Path projectPath) throws IOException;
+    Path buildConfFile(DiJobDTO diJobDTO, Path projectPath) throws IOException;
 
     Path getSeatunnelJar() throws IOException;
 

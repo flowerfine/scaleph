@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,9 +45,9 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ResponseVO> defaultException(CustomException e) {
-        log.error(e.getExceptionCode(), e);
+        log.error(String.format("exceptionCode: %s, message: %s", e.getExceptionCode(), e.getMessage()), e);
         ResponseVO errorInfo;
-        if (ObjectUtils.isEmpty(e.getExceptionCode())) {
+        if (StringUtils.isEmpty(e.getExceptionCode())) {
             errorInfo = ResponseVO.error(e.getMessage());
         } else {
             errorInfo = ResponseVO.error(e.getExceptionCode(), e.getMessage());

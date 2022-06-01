@@ -565,13 +565,8 @@ public class JobController {
     @ApiOperation(value = "运行任务", notes = "运行任务，提交至集群")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> runJob(@RequestBody DiJobRunVO jobRunParam) throws Exception {
-        try {
-            seatunnelJobService.submit(jobRunParam);
-            return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
-        }
+        seatunnelJobService.submit(jobRunParam);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
