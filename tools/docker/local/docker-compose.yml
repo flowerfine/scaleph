@@ -67,54 +67,6 @@ services:
     networks:
       - scaleph
 
-  zookeeper:
-    image: bitnami/zookeeper:3.7.0
-    container_name: zookeeper
-    ports:
-      - 2181:2181
-    environment:
-      - TZ=Asia/Shanghai
-      - ALLOW_ANONYMOUS_LOGIN=yes
-    restart: unless-stopped
-    networks:
-      - scaleph
-
-  kafka:
-    image: bitnami/kafka:2.2.0
-    container_name: kafka
-    depends_on:
-      - zookeeper
-    ports:
-      - 9092:9092
-      - 9093:9093
-    environment:
-      - KAFKA_BROKER_ID=1
-      - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
-      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092, EXTERNAL://localhost:9093
-      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
-      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
-      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-    restart: unless-stopped
-    networks:
-      - scaleph
-
-  canal-server:
-    image: canal/canal-server:v1.1.5
-    container_name: canal-server
-    depends_on:
-      - mysql
-      - kafka
-    ports:
-      - 11111:11111
-    volumes:
-      - ../canal/canal.properties:/home/admin/canal-server/conf/canal.properties
-      - ../canal/instance.properties:/home/admin/canal-server/conf/data_pipe/instance.properties
-    restart: unless-stopped
-    networks:
-      - scaleph
-
 networks:
   scaleph:
     driver: bridge
