@@ -182,10 +182,8 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     @Override
     public Path buildConfFile(DiJobDTO diJobDTO, Path projectPath) throws IOException {
         String jobJson = jobConfigHelper.buildJob(diJobDTO);
-        System.out.println(jobJson);
         final Path tempFile = Files.createTempFile(projectPath, diJobDTO.getJobCode(), ".json");
         Files.write(tempFile, jobJson.getBytes(Charset.forName("utf-8")), StandardOpenOption.WRITE);
-//        FileUtil.writeUtf8String(jobJson, tempFile.toFile());
         return tempFile;
     }
 
