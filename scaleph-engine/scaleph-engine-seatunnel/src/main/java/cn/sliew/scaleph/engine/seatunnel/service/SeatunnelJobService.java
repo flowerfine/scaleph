@@ -18,7 +18,7 @@ public interface SeatunnelJobService {
 
     void schedule(DiJobDTO diJobDTO) throws Exception;
 
-    void cancel(Long jobId);
+    void cancel(Long jobId) throws Exception;
 
     URL buildConfFile(DiJobDTO diJobDTO, Path projectPath) throws IOException;
 

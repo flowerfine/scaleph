@@ -162,7 +162,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public void cancel(Long jobId) {
+    public void cancel(Long jobId) throws Exception {
 
     }
 
