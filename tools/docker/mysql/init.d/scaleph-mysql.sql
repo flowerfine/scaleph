@@ -1147,7 +1147,7 @@ create table di_job_step_attr
 ) engine = innodb comment '数据集成-作业步骤参数';
 
 insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
-VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', 'dataSource', '{\"label\":\"local_data_service\",\"value\":\"1\"}',
+VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', 'dataSource', '{\"label\":\"docker_data_service\",\"value\":\"1\"}',
         'sys_admin', 'sys_admin');
 insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
 VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', 'dataSourceType', '{\"label\":\"Mysql\",\"value\":\"mysql\"}',
@@ -1158,7 +1158,7 @@ VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', 'query', 'select * from sampl
 insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
 VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'batchSize', '1024', 'sys_admin', 'sys_admin');
 insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
-VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'dataSource', '{\"label\":\"local_data_service\",\"value\":\"1\"}',
+VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'dataSource', '{\"label\":\"docker_data_service\",\"value\":\"1\"}',
         'sys_admin', 'sys_admin');
 insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
 VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'dataSourceType', '{\"label\":\"Mysql\",\"value\":\"mysql\"}',
