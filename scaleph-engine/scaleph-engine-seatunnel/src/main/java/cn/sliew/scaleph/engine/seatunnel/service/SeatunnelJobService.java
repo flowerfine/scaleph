@@ -14,9 +14,9 @@ public interface SeatunnelJobService {
 
     DiJobDTO queryJobInfo(Long jobId);
 
-    void submit(DiJobRunVO jobRunParam);
+    void submit(DiJobRunVO jobRunParam) throws Exception;
 
-    void schedule(DiJobDTO diJobDTO);
+    void schedule(DiJobDTO diJobDTO) throws Exception;
 
     void cancel(Long jobId);
 

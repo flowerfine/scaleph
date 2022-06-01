@@ -1,4 +1,4 @@
-package cn.sliew.scaleph.api.util;
+package cn.sliew.scaleph.system.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

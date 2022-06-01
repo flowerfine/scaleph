@@ -204,6 +204,11 @@
                 <artifactId>scaleph-core-di</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-core-scheduler</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.baomidou</groupId>

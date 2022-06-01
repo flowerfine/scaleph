@@ -1,20 +1,4 @@
-package cn.sliew.scaleph.api.schedule;
-
-import javax.annotation.Resource;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+package cn.sliew.scaleph.engine.seatunnel.service.impl;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
@@ -22,7 +6,6 @@ import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
 import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
-import cn.sliew.scaleph.api.util.I18nUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
@@ -31,14 +14,9 @@ import cn.sliew.scaleph.core.di.service.DiClusterConfigService;
 import cn.sliew.scaleph.core.di.service.DiJobLogService;
 import cn.sliew.scaleph.core.di.service.DiJobResourceFileService;
 import cn.sliew.scaleph.core.di.service.DiJobService;
-import cn.sliew.scaleph.core.di.service.dto.DiClusterConfigDTO;
-import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
-import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
-import cn.sliew.scaleph.core.di.service.dto.DiJobLogDTO;
-import cn.sliew.scaleph.core.di.service.dto.DiJobStepDTO;
-import cn.sliew.scaleph.core.di.service.dto.DiProjectDTO;
-import cn.sliew.scaleph.core.di.service.dto.DiResourceFileDTO;
-import cn.sliew.scaleph.engine.util.JobConfigHelper;
+import cn.sliew.scaleph.core.di.service.dto.*;
+import cn.sliew.scaleph.engine.seatunnel.JobConfigHelper;
+import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.log.service.dto.LogScheduleDTO;
 import cn.sliew.scaleph.storage.service.StorageService;
 import cn.sliew.scaleph.storage.service.impl.NioFileServiceImpl;
@@ -49,12 +27,7 @@ import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.api.common.JobStatus;
 import org.apache.flink.client.deployment.executors.RemoteExecutor;
-import org.apache.flink.configuration.ConfigUtils;
-import org.apache.flink.configuration.Configuration;
-import org.apache.flink.configuration.DeploymentOptions;
-import org.apache.flink.configuration.JobManagerOptions;
-import org.apache.flink.configuration.PipelineOptions;
-import org.apache.flink.configuration.RestOptions;
+import org.apache.flink.configuration.*;
 import org.apache.flink.runtime.jobgraph.SavepointRestoreSettings;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -62,6 +35,15 @@ import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 @Component
 public class SeatunnelFlinkJob extends QuartzJobBean {
@@ -80,6 +62,9 @@ public class SeatunnelFlinkJob extends QuartzJobBean {
     @Autowired
     private DiJobResourceFileService diJobResourceFileService;
 
+    @Autowired
+    private SeatunnelJobService seatunnelJobService;
+
     @SneakyThrows
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
@@ -88,39 +73,39 @@ public class SeatunnelFlinkJob extends QuartzJobBean {
         DiProjectDTO project = (DiProjectDTO) dataMap.get(Constants.JOB_PARAM_PROJECT_INFO);
         LogScheduleDTO logDTO = (LogScheduleDTO) dataMap.get(Constants.JOB_LOG_KEY);
         logDTO.appendLog(
-            StrUtil.format("start seatunnel flink batch job {} in project {}", job.getJobCode(),
-                project.getProjectCode()));
+                String.format("start seatunnel flink batch job %s in project %s", job.getJobCode(),
+                        project.getProjectCode()));
         String jobJson = jobConfigHelper.buildJob(job);
         File tempDir = new File(System.getProperty("java.io.tmpdir"));
         File baseDir =
-            FileUtil.mkdir(tempDir.getAbsolutePath() + File.separator + job.getProjectId());
+                FileUtil.mkdir(tempDir.getAbsolutePath() + File.separator + job.getProjectId());
         File tmpJobConfFile = FileUtil.file(baseDir, job.getJobCode() + ".json");
-        logDTO.appendLog(StrUtil.format("seatunnel job config file path is {}",
-            tmpJobConfFile.getAbsolutePath()));
+        logDTO.appendLog(String.format("seatunnel job config file path is %s",
+                tmpJobConfFile.getAbsolutePath()));
         FileUtil.writeUtf8String(jobJson, tmpJobConfFile);
-        logDTO.appendLog(StrUtil.format("seatunnel job config is {}", jobJson));
+        logDTO.appendLog(String.format("seatunnel job config is %s", jobJson));
         String seatunnelPath = this.sysConfigService.getSeatunnelHome();
         Path seatunnelJarPath = Paths.get(seatunnelPath, "lib", "seatunnel-core-flink.jar");
-        if (StrUtil.isBlank(seatunnelPath)) {
-            throw new JobExecutionException(I18nUtil.get("response.error.di.noJar.seatunnel"));
+        if (StringUtils.isEmpty(seatunnelPath)) {
+            throw new JobExecutionException("response.error.di.noJar.seatunnel");
         }
         CliClient client = new DescriptorCliClient();
         //build configuration
         DiClusterConfigDTO clusterConfig =
-            this.diClusterConfigService.selectOne(job.getClusterId());
+                this.diClusterConfigService.selectOne(job.getClusterId());
         Configuration configuration =
-            buildConfiguration(seatunnelPath, seatunnelJarPath, job, clusterConfig.getConfig(),
-                baseDir);
+                buildConfiguration(seatunnelPath, seatunnelJarPath, job, clusterConfig.getConfig(),
+                        baseDir);
         //build job
         PackageJarJob jarJob =
-            buildJob(seatunnelJarPath.toUri().toString(), tmpJobConfFile, job.getJobAttrList());
+                buildJob(seatunnelJarPath.toUri().toString(), tmpJobConfFile, job.getJobAttrList());
         JobID jobInstanceID =
-            client.submit(DeploymentTarget.STANDALONE_SESSION, configuration, jarJob);
+                client.submit(DeploymentTarget.STANDALONE_SESSION, configuration, jarJob);
         job.setRuntimeState(
-            DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
+                DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
         //write log
-        logDTO.appendLog(StrUtil.format("submit job to flink cluster,flink job id is {}",
-            jobInstanceID.toString()));
+        logDTO.appendLog(String.format("submit job to flink cluster,flink job id is %s",
+                jobInstanceID.toString()));
         DiJobLogDTO jobLogInfo = new DiJobLogDTO();
         jobLogInfo.setProjectId(job.getProjectId());
         jobLogInfo.setJobId(job.getId());
@@ -130,39 +115,39 @@ public class SeatunnelFlinkJob extends QuartzJobBean {
         String clusterHost = configuration.getString(JobManagerOptions.ADDRESS);
         int clusterPort = configuration.getInteger(RestOptions.PORT);
         String jobLogUrl =
-            "http://" + clusterHost + ":" + clusterPort + "/#/job/" + jobInstanceID + "/overview";
+                "http://" + clusterHost + ":" + clusterPort + "/#/job/" + jobInstanceID + "/overview";
         jobLogInfo.setJobLogUrl(jobLogUrl);
         jobLogInfo.setJobInstanceState(
-            DictVO.toVO(DictConstants.JOB_INSTANCE_STATE, JobStatus.INITIALIZING.toString()));
+                DictVO.toVO(DictConstants.JOB_INSTANCE_STATE, JobStatus.INITIALIZING.toString()));
         jobLogInfo.setStartTime(new Date());
         logDTO.appendLog(StrUtil.format("flink cluster job url is {}", jobLogUrl));
         this.diJobService.update(job);
         this.diJobLogService.insert(jobLogInfo);
         logDTO.appendLog(StrUtil.format("success start seatunnel flink batch job {} in project {}",
-            job.getJobCode(), project.getProjectCode()));
+                job.getJobCode(), project.getProjectCode()));
 
     }
 
     private Configuration buildConfiguration(String seatunnelPath, Path seatunnelJarPath,
                                              DiJobDTO job, Map<String, String> clusterConf,
-                                             File baseDir) throws MalformedURLException {
+                                             File baseDir) {
         Configuration configuration = new Configuration();
         configuration.setString(PipelineOptions.NAME, job.getJobCode());
         configuration.setString(JobManagerOptions.ADDRESS,
-            clusterConf.get(JobManagerOptions.ADDRESS.key()));
+                clusterConf.get(JobManagerOptions.ADDRESS.key()));
         configuration.setInteger(JobManagerOptions.PORT,
-            Integer.parseInt(clusterConf.get(JobManagerOptions.PORT.key())));
+                Integer.parseInt(clusterConf.get(JobManagerOptions.PORT.key())));
         configuration.setInteger(RestOptions.PORT,
-            Integer.parseInt(clusterConf.get(RestOptions.PORT.key())));
+                Integer.parseInt(clusterConf.get(RestOptions.PORT.key())));
         List<DiResourceFileDTO> resourceList =
-            this.diJobResourceFileService.listJobResources(job.getId());
+                this.diJobResourceFileService.listJobResources(job.getId());
         Set<String> jars = new TreeSet<>();
         Path seatunnelConnectorsPath = Paths.get(seatunnelPath, "connectors", "flink");
         File seatunnelConnectorDir = seatunnelConnectorsPath.toFile();
         for (DiJobStepDTO step : job.getJobStepList()) {
             String pluginTag =
-                this.jobConfigHelper.getSeatunnelPluginTag(step.getStepType().getValue(),
-                    step.getStepName());
+                    this.jobConfigHelper.getSeatunnelPluginTag(step.getStepType().getValue(),
+                            step.getStepName());
             FileFilter fileFilter = new RegexFileFilter(".*" + pluginTag + ".*");
             File[] pluginJars = seatunnelConnectorDir.listFiles(fileFilter);
             if (pluginJars != null) {
@@ -176,7 +161,7 @@ public class SeatunnelFlinkJob extends QuartzJobBean {
         for (DiResourceFileDTO file : resourceList) {
             Long fileSize = this.storageService.getFileSize(file.getFilePath(), file.getFileName());
             if (localStorageService.exists(file.getFileName()) &&
-                fileSize.equals(localStorageService.getFileSize("", file.getFileName()))) {
+                    fileSize.equals(localStorageService.getFileSize("", file.getFileName()))) {
                 File localFile = FileUtil.file(baseDir, file.getFileName());
                 jars.add(localFile.toURI().toString());
             } else {
@@ -187,13 +172,12 @@ public class SeatunnelFlinkJob extends QuartzJobBean {
             }
         }
         ConfigUtils.encodeCollectionToConfig(configuration, PipelineOptions.JARS, jars,
-            Object::toString);
+                Object::toString);
         configuration.setString(DeploymentOptions.TARGET, RemoteExecutor.NAME);
         return configuration;
     }
 
-    private PackageJarJob buildJob(String seatunnelPath, File file, List<DiJobAttrDTO> jobAttrList)
-        throws FileNotFoundException, MalformedURLException {
+    private PackageJarJob buildJob(String seatunnelPath, File file, List<DiJobAttrDTO> jobAttrList) {
         PackageJarJob jarJob = new PackageJarJob();
         jarJob.setJarFilePath(seatunnelPath);
         jarJob.setEntryPointClass("org.apache.seatunnel.core.flink.SeatunnelFlink");
@@ -201,12 +185,12 @@ public class SeatunnelFlinkJob extends QuartzJobBean {
         List<String> variables = Arrays.asList("--config", filePath.toString());
 
         jobAttrList.stream()
-            .filter(attr -> JobAttrTypeEnum.JOB_ATTR.getValue()
-                .equals(attr.getJobAttrType().getValue()))
-            .forEach(attr -> {
-                variables.add("--variable");
-                variables.add(attr.getJobAttrKey() + "=" + attr.getJobAttrValue());
-            });
+                .filter(attr -> JobAttrTypeEnum.JOB_ATTR.getValue()
+                        .equals(attr.getJobAttrType().getValue()))
+                .forEach(attr -> {
+                    variables.add("--variable");
+                    variables.add(attr.getJobAttrKey() + "=" + attr.getJobAttrValue());
+                });
         jarJob.setProgramArgs(variables.toArray(new String[0]));
         jarJob.setClasspaths(Collections.emptyList());
         jarJob.setSavepointSettings(SavepointRestoreSettings.none());
