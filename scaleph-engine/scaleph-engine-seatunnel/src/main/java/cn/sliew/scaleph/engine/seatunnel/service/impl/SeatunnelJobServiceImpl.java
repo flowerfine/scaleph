@@ -88,25 +88,13 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public void submit(DiJobRunVO jobRunParam) throws Exception {
-        // 1.执行任务和 flink 集群的绑定
-        diJobService.update(jobRunParam.toDto());
-        // 2.绑定任务和资源
-        diJobResourceFileService.bindResource(jobRunParam.getJobId(), jobRunParam.getResources());
-        // 3.获取任务信息
-        DiJobDTO diJobDTO = queryJobInfo(jobRunParam.getJobId());
-        if (JobTypeEnum.BATCH.getValue().equals(diJobDTO.getJobType().getValue())
-                && StringUtils.hasText(diJobDTO.getJobCrontab())) {
-            schedule(diJobDTO);
-            return;
-        }
-
+    public void submit(DiJobDTO diJobDTO) throws Exception {
         Path projectPath = getProjectBasePath(diJobDTO.getProjectId());
         Path jobConfFile = buildConfFile(diJobDTO, projectPath);
         Path seatunnelJarPath = getSeatunnelJar();
 
         //build configuration
-        DiClusterConfigDTO clusterConfig = diClusterConfigService.selectOne(jobRunParam.getClusterId());
+        DiClusterConfigDTO clusterConfig = diClusterConfigService.selectOne(diJobDTO.getClusterId());
         Configuration configuration = buildConfiguration(diJobDTO, seatunnelJarPath, clusterConfig.getConfig(), projectPath.toFile());
         //build job
         PackageJarJob jarJob = buildJob(seatunnelJarPath.toUri().toString(), jobConfFile, diJobDTO.getJobAttrList());

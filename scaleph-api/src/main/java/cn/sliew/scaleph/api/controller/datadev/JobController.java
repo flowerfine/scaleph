@@ -43,6 +43,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -565,7 +566,18 @@ public class JobController {
     @ApiOperation(value = "运行任务", notes = "运行任务，提交至集群")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> runJob(@RequestBody DiJobRunVO jobRunParam) throws Exception {
-        seatunnelJobService.submit(jobRunParam);
+        // 1.执行任务和 flink 集群的绑定
+        diJobService.update(jobRunParam.toDto());
+        // 2.绑定任务和资源
+        diJobResourceFileService.bindResource(jobRunParam.getJobId(), jobRunParam.getResources());
+        // 3.获取任务信息
+        DiJobDTO diJobDTO = seatunnelJobService.queryJobInfo(jobRunParam.getJobId());
+        if (JobTypeEnum.BATCH.getValue().equals(diJobDTO.getJobType().getValue())
+                && StringUtils.hasText(diJobDTO.getJobCrontab())) {
+            seatunnelJobService.schedule(diJobDTO);
+        } else {
+            seatunnelJobService.submit(diJobDTO);
+        }
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 

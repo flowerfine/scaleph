@@ -288,8 +288,8 @@ create table sec_user
 ) engine = innodb comment = '用户基本信息表';
 -- init data
 insert into sec_user (id, user_name, nick_name, email, password, real_name, id_card_type, id_card_no, gender, nation,
-                    birthday, qq, wechat, mobile_phone, user_status, summary, register_channel, register_time,
-                    register_ip, creator, editor)
+                      birthday, qq, wechat, mobile_phone, user_status, summary, register_channel, register_time,
+                      register_ip, creator, editor)
 values (1, 'sys_admin', '超级管理员', 'test@admin.com', '$2a$10$QX2DBrOBGLuhEmboliW66ulvQ5Hiy9GCdhsqqs1HgJVgslYhZEC6q', null,
         null, null, '0', null, null, null, null, null, '10', null, '01', '2021-12-25 21:51:17', '127.0.0.1', 'sys',
         'sys');
@@ -641,97 +641,6 @@ create table sec_user_active
     key (update_time)
 ) engine = innodb comment = '用户邮箱激活日志表';
 
-/* 用户登录登出日志 */
-drop table if exists log_login;
-create table log_login
-(
-    id           bigint     not null auto_increment comment '自增主键',
-    user_name    varchar(60) comment '用户名',
-    login_time   timestamp  not null comment '登录时间',
-    ip_address   varchar(16) comment 'ip地址',
-    login_type   varchar(4) not null comment '登录类型 1-登录，2-登出，0-未知',
-    client_info  varchar(512) comment '客户端信息',
-    os_info      varchar(128) comment '操作系统信息',
-    browser_info varchar(512) comment '浏览器信息',
-    action_info  text comment '接口执行信息，包含请求结果',
-    creator      varchar(32) comment '创建人',
-    create_time  timestamp default current_timestamp comment '创建时间',
-    editor       varchar(32) comment '修改人',
-    update_time  timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    key (update_time),
-    key (ip_address),
-    key (login_time)
-) engine = innodb comment = '用户登录登出日志' comment '用户登录登出日志';
-
-/* 用户操作日志 */
-drop table if exists log_action;
-create table log_action
-(
-    id           bigint       not null auto_increment comment '自增主键',
-    user_name    varchar(60) comment '用户名',
-    action_time  timestamp    not null comment '操作时间',
-    ip_address   varchar(16) comment 'ip地址',
-    action_url   varchar(128) not null comment '操作接口地址',
-    token        varchar(64) comment '会话token字符串',
-    client_info  varchar(512) comment '客户端信息',
-    os_info      varchar(128) comment '操作系统信息',
-    browser_info varchar(512) comment '浏览器信息',
-    action_info  text comment '接口执行信息，包含请求结果',
-    creator      varchar(32) comment '创建人',
-    create_time  timestamp default current_timestamp comment '创建时间',
-    editor       varchar(32) comment '修改人',
-    update_time  timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    key (update_time),
-    key (ip_address),
-    key (action_time)
-) engine = innodb comment = '用户操作日志';
-
-/*站内信日志表 */
-drop table if exists log_message;
-create table log_message
-(
-    id           bigint       not null auto_increment comment '自增主键',
-    title        varchar(128) not null default '' comment '标题',
-    message_type varchar(4)   not null comment '消息类型',
-    receiver     varchar(32)  not null comment '收件人',
-    sender       varchar(32)  not null comment '发送人',
-    content      longtext comment '内容',
-    is_read      varchar(1)   not null default '0' comment '是否已读',
-    is_delete    varchar(1)   not null default '0' comment '是否删除',
-    creator      varchar(32) comment '创建人',
-    create_time  timestamp             default current_timestamp comment '创建时间',
-    editor       varchar(32) comment '修改人',
-    update_time  timestamp             default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    key (receiver, message_type),
-    key (sender, message_type),
-    key (update_time)
-) engine = innodb comment = '站内信日志表';
-
-/*定时任务运行日志表*/
-drop table if exists log_schedule;
-create table log_schedule
-(
-    id          bigint       not null auto_increment comment '自增主键',
-    task_group  varchar(128) not null comment '任务组',
-    task_name   varchar(128) not null comment '任务名称',
-    start_time  datetime comment '开始时间',
-    end_time    datetime comment '结束时间',
-    trace_log   longtext comment '日志内容明细',
-    result      varchar(12) comment '任务结果 成功/失败',
-    creator     varchar(32) comment '创建人',
-    create_time timestamp default current_timestamp comment '创建时间',
-    editor      varchar(32) comment '修改人',
-    update_time timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    key (task_name, task_group),
-    key (start_time),
-    key (end_time),
-    key (update_time)
-) engine = innodb comment '定时任务运行日志表';
-
 /* 元数据-数据源连接信息 */
 drop table if exists meta_datasource;
 create table meta_datasource
@@ -760,6 +669,12 @@ create table meta_datasource
 insert into meta_datasource(datasource_name, datasource_type, connection_type, host_name, database_name,
                             port, user_name, password, remark, props, creator, editor)
 VALUES ('docker_data_service', 'mysql', 'jdbc', 'mysql', 'data_service', 3306, 'root', 'MTIzNDU2', NULL,
+        '{\"jdbc\":\"serverTimezone=Asia/Shanghai\\ncharacterEncoding=utf8\\nzeroDateTimeBehavior=convertToNull\"}',
+        'sys_admin', 'sys_admin');
+INSERT INTO meta_datasource(datasource_name, datasource_type, connection_type, host_name, database_name,
+                            port, user_name, password, remark, props, creator, editor)
+VALUES ('local_data_service', 'mysql', 'jdbc', 'localhost', 'data_service', 3306, 'root', 'MTIzNDU2',
+        'local environment',
         '{\"jdbc\":\"serverTimezone=Asia/Shanghai\\ncharacterEncoding=utf8\\nzeroDateTimeBehavior=convertToNull\"}',
         'sys_admin', 'sys_admin');
 
@@ -999,6 +914,11 @@ insert into di_cluster_config(cluster_name, cluster_type, cluster_home, cluster_
 VALUES ('docker_standalone', 'flink', '/opt/flink', '1.13.6',
         'rest.port=8081\njobmanager.rpc.address=jobmanager\njobmanager.rpc.port=6123\n', 'docker environment',
         'sys_admin', 'sys_admin');
+INSERT INTO di_cluster_config(cluster_name, cluster_type, cluster_home, cluster_version, cluster_conf, remark, creator,
+                              editor)
+VALUES ('local_standalone', 'flink', '/opt/flink', '1.13.6',
+        'rest.port=8081\njobmanager.rpc.address=localhost\njobmanager.rpc.port=6123\n', 'local environment',
+        'sys_admin', 'sys_admin');
 
 /* 数据集成-项目目录*/
 drop table if exists di_directory;
@@ -1047,8 +967,14 @@ create table di_job
 ) engine = innodb comment '数据集成-作业信息';
 
 insert into di_job(project_id, job_code, job_name, directory_id, job_type, job_owner, job_status,
-                   runtime_state, job_version, cluster_id, remark, creator, editor)
-VALUES (1, 'jdbc_to_jdbc', 'jdbc_to_jdbc', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, 'sys_admin', 'sys_admin');
+                   runtime_state, job_version, cluster_id, job_crontab, remark, creator, editor)
+VALUES (1, 'docker_jdbc_to_jdbc', 'docker_jdbc_to_jdbc', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL,
+        'sys_admin',
+        'sys_admin');
+INSERT INTO di_job(project_id, job_code, job_name, directory_id, job_type, job_owner, job_status, runtime_state,
+                   job_version, cluster_id, job_crontab, remark, creator, editor)
+VALUES (1, 'local_jdbc_to_jdbc', 'local_jdbc_to_jdbc', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys_admin',
+        'sys_admin');
 
 drop table if exists di_job_resource_file;
 create table di_job_resource_file
@@ -1108,6 +1034,12 @@ VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', '表输入', 'source', 'table
 insert into di_job_step(job_id, step_code, step_title, step_type, step_name, position_x, position_y,
                         creator, editor)
 VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', '表输出', 'sink', 'table', -240, -120, 'sys_admin', 'sys_admin');
+INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
+                          `creator`, `editor`)
+VALUES (2, '01f16fcb-faa4-45e4-8f46-edc2dc756e8a', '表输入', 'source', 'table', -320, -280, 'sys_admin', 'sys_admin');
+INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
+                          `creator`, `editor`)
+VALUES (2, 'ac5622d2-77dd-47e3-99e4-9090dbd790ea', '表输出', 'sink', 'table', -110, -80, 'sys_admin', 'sys_admin');
 
 CREATE TABLE `di_job_step2`
 (
@@ -1165,6 +1097,27 @@ VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'dataSourceType', '{\"label\"
         'sys_admin', 'sys_admin');
 insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
 VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'query',
+        'insert into sample_data_e_commerce_duplicate (id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country) values (?,?,?,?,?, ?,?,?,?)',
+        'sys_admin', 'sys_admin');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (2, '01f16fcb-faa4-45e4-8f46-edc2dc756e8a', 'dataSource', '{\"label\":\"local_data_service\",\"value\":\"2\"}',
+        'sys_admin', 'sys_admin');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (2, '01f16fcb-faa4-45e4-8f46-edc2dc756e8a', 'dataSourceType', '{\"label\":\"Mysql\",\"value\":\"mysql\"}',
+        'sys_admin', 'sys_admin');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (2, '01f16fcb-faa4-45e4-8f46-edc2dc756e8a', 'query', 'select * from sample_data_e_commerce', 'sys_admin',
+        'sys_admin');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (2, 'ac5622d2-77dd-47e3-99e4-9090dbd790ea', 'batchSize', '1024', 'sys_admin', 'sys_admin');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (2, 'ac5622d2-77dd-47e3-99e4-9090dbd790ea', 'dataSource', '{\"label\":\"local_data_service\",\"value\":\"2\"}',
+        'sys_admin', 'sys_admin');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (2, 'ac5622d2-77dd-47e3-99e4-9090dbd790ea', 'dataSourceType', '{\"label\":\"Mysql\",\"value\":\"mysql\"}',
+        'sys_admin', 'sys_admin');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (2, 'ac5622d2-77dd-47e3-99e4-9090dbd790ea', 'query',
         'insert into sample_data_e_commerce_duplicate (id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country) values (?,?,?,?,?, ?,?,?,?)',
         'sys_admin', 'sys_admin');
 
@@ -1230,6 +1183,9 @@ create table di_job_link
 insert into di_job_link(job_id, link_code, from_step_code, to_step_code, creator, editor)
 VALUES (1, '0c23960c-e59f-480f-beef-6cd59878d0e5', 'ead21aa2-a825-4827-a9ba-3833c6b83941',
         'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'sys_admin', 'sys_admin');
+INSERT INTO `di_job_link`(`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
+VALUES (2, '5cd7b126-c603-455b-93b2-5fc3ebb4fdca', '01f16fcb-faa4-45e4-8f46-edc2dc756e8a',
+        'ac5622d2-77dd-47e3-99e4-9090dbd790ea', 'sys_admin', 'sys_admin');
 
 /* 数据同步-运行日志 */
 drop table if exists di_job_log;
