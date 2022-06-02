@@ -1,17 +1,14 @@
 package cn.sliew.scaleph.common.enums;
 
+import lombok.Getter;
+
 /**
  * @author gleiyu
  */
+@Getter
 public enum DeptStatusEnum {
 
-    /**
-     * 正常
-     */
     NORMAL("1", "normal"),
-    /**
-     * 禁用
-     */
     DISABLE("2", "disable"),
     ;
 
@@ -23,11 +20,4 @@ public enum DeptStatusEnum {
         this.label = label;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public String getLabel() {
-        return label;
-    }
 }

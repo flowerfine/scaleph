@@ -1,8 +1,11 @@
 package cn.sliew.scaleph.common.enums;
 
+import lombok.Getter;
+
 /**
  * @author gleiyu
  */
+@Getter
 public enum UserStatusEnum {
 
     UNBIND_EMAIL("10", "未绑定邮箱"),
@@ -16,13 +19,5 @@ public enum UserStatusEnum {
     UserStatusEnum(String value, String label) {
         this.value = value;
         this.label = label;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public String getLabel() {
-        return label;
     }
 }

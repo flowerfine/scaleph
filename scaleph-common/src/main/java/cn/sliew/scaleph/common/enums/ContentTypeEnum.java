@@ -1,7 +1,9 @@
 package cn.sliew.scaleph.common.enums;
 
 import cn.hutool.core.util.StrUtil;
+import lombok.Getter;
 
+@Getter
 public enum ContentTypeEnum {
     DEFAULT("default", "application/octet-stream"),
     JPG("jpg", "image/jpeg"),
@@ -38,13 +40,5 @@ public enum ContentTypeEnum {
             }
         }
         return DEFAULT.getType();
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public String getType() {
-        return type;
     }
 }
