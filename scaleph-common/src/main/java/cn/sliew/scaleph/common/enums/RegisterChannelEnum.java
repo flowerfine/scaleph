@@ -1,8 +1,11 @@
 package cn.sliew.scaleph.common.enums;
 
+import lombok.Getter;
+
 /**
  * @author gleiyu
  */
+@Getter
 public enum RegisterChannelEnum {
 
     REGISTER("01", "注册"),
@@ -14,13 +17,5 @@ public enum RegisterChannelEnum {
     RegisterChannelEnum(String value, String label) {
         this.value = value;
         this.label = label;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public String getLabel() {
-        return label;
     }
 }

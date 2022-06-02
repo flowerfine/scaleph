@@ -2,11 +2,27 @@ name: Test
 
 on:
   push:
+    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
 
 jobs:
-  web-ide:
+  build:
+#    only run on forked repository
     if: github.repository != 'flowerfine/scaleph'
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        jdk: [ 8, 11, 17 ]
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: echo env
-        run: echo $GITHUB_REF
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Java JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.jdk }}
+          distribution: temurin
+          cache: maven
+      - name: Build with Maven
+        run: mvn -B clean package --file pom.xml

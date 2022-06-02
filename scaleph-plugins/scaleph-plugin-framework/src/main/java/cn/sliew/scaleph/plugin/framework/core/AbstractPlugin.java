@@ -13,10 +13,12 @@ import cn.sliew.scaleph.plugin.framework.property.Validator;
 
 public abstract class AbstractPlugin implements Plugin {
 
+    protected Properties properties;
     protected PropertyContext propertyContext;
 
     @Override
     public void initialize(Properties properties) {
+        this.properties = properties;
         this.propertyContext = PropertyContext.fromProperties(properties);
     }
 

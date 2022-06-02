@@ -4,6 +4,9 @@ import cn.sliew.scaleph.plugin.framework.property.Parsers;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.Validators;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum IdleStateRetentionProperties {
     ;
 
@@ -20,5 +23,7 @@ public enum IdleStateRetentionProperties {
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
+
+    public static final List<PropertyDescriptor> SUPPORTED_PROPERTIES = Arrays.asList(MIN_STATE_RETENTION_TIME, MAX_STATE_RETENTION_TIME);
 
 }

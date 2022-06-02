@@ -11,4 +11,11 @@
     </parent>
     <artifactId>scaleph-privilege</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-common</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

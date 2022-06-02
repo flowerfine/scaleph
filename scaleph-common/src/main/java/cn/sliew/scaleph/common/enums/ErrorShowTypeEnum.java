@@ -1,13 +1,11 @@
 package cn.sliew.scaleph.common.enums;
 
+import lombok.Getter;
+
 /**
- * SILENT = 0,
- * ERROR_MESSAGE = 2,
- * NOTIFICATION = 4,
- * REDIRECT = 9,
- *
  * @author gleiyu
  */
+@Getter
 public enum ErrorShowTypeEnum {
 
     SILENT(0, "SILENT"),
@@ -21,13 +19,5 @@ public enum ErrorShowTypeEnum {
     ErrorShowTypeEnum(Integer code, String value) {
         this.code = code;
         this.value = value;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public String getValue() {
-        return value;
     }
 }

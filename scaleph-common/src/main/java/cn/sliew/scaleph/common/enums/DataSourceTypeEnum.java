@@ -1,8 +1,11 @@
 package cn.sliew.scaleph.common.enums;
 
+import lombok.Getter;
+
 /**
  * @author gleiyu
  */
+@Getter
 public enum DataSourceTypeEnum {
 
     MYSQL("mysql", "Mysql"),
@@ -28,11 +31,4 @@ public enum DataSourceTypeEnum {
         throw new IllegalArgumentException("unknown datasource type for " + name);
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getValue() {
-        return value;
-    }
 }
