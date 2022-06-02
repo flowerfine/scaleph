@@ -41,32 +41,6 @@ services:
       - 9000:9000
       - 9001:9001
 
-  jobmanager:
-    image: flink:1.13.6-scala_2.12-java8
-    container_name: jobmanager
-    environment:
-      FLINK_PROPERTIES: |
-        jobmanager.rpc.address: jobmanager
-    ports:
-      - 8081:8081
-    command: jobmanager
-    networks:
-      - scaleph
-
-  taskmanager:
-    image: flink:1.13.6-scala_2.12-java8
-    container_name: taskmanager
-    depends_on:
-      - jobmanager
-    environment:
-      FLINK_PROPERTIES: |
-        jobmanager.rpc.address: jobmanager
-        taskmanager.numberOfTaskSlots: 8
-    command: taskmanager
-    scale: 1
-    networks:
-      - scaleph
-
 networks:
   scaleph:
     driver: bridge
