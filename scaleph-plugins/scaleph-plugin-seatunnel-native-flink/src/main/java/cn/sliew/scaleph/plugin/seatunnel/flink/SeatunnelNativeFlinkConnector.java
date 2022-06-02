@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface SeatunnelNativeFlinkConnector extends Plugin {
 
-    ObjectNode create();
+    ObjectNode createConf();
 
     ConnectorType getConnectorType();
 

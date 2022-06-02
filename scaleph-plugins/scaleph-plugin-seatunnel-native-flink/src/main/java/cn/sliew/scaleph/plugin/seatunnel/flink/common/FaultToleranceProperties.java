@@ -4,6 +4,9 @@ import cn.sliew.scaleph.plugin.framework.property.Parsers;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.Validators;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum FaultToleranceProperties {
     ;
 
@@ -49,4 +52,8 @@ public enum FaultToleranceProperties {
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
+
+    public static final List<PropertyDescriptor> SUPPORTED_PROPERTIES = Arrays.asList(RESTART_STRATEGY,
+            RESTART_ATTEMPTS, RESTART_DELAY_BETWEEN_ATTEMPTS, RESTART_FAILURE_RATE, RESTART_FAILURE_INTERVAL,
+            RESTART_DELAY_INTERVAL);
 }

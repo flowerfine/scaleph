@@ -1,8 +1,11 @@
 package cn.sliew.scaleph.common.enums;
 
+import lombok.Getter;
+
 /**
  * @author gleiyu
  */
+@Getter
 public enum TaskResultEnum {
 
     SUCCESS("SUCCESS", "成功"),
@@ -14,13 +17,5 @@ public enum TaskResultEnum {
     TaskResultEnum(String code, String value) {
         this.code = code;
         this.value = value;
-    }
-
-    public String getCode() {
-        return this.code;
-    }
-
-    public String getValue() {
-        return this.value;
     }
 }

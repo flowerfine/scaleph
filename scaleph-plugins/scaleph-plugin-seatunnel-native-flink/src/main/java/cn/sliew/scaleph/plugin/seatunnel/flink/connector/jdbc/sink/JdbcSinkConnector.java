@@ -7,13 +7,12 @@ import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.ConnectorType;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
-import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonOptions;
+import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.JdbcProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.sink.JdbcSinkProperties.BATCH_SIZE;
@@ -33,21 +32,18 @@ public class JdbcSinkConnector extends AbstractPlugin implements SeatunnelNative
         props.add(BATCH_SIZE);
         props.add(PARALLELISM);
 
-        props.add(CommonOptions.SOURCE_TABLE_NAME);
+        props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
-    private final Properties properties;
     private final PluginInfo pluginInfo;
 
-    public JdbcSinkConnector(Properties properties) {
-        this.properties = properties;
+    public JdbcSinkConnector() {
         this.pluginInfo = new PluginInfo("JdbcSink", "jdbc sink connector", "2.1.1", JdbcSinkConnector.class.getName());
     }
 
-
     @Override
-    public ObjectNode create() {
+    public ObjectNode createConf() {
         ObjectNode objectNode = JacksonUtil.createObjectNode();
         PropertyContext propertyContext = PropertyContext.fromProperties(properties);
         for (PropertyDescriptor descriptor : supportedProperties) {

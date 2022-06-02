@@ -4,6 +4,9 @@ import cn.sliew.scaleph.plugin.framework.property.Parsers;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.Validators;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum CheckpointProperties {
     ;
 
@@ -62,4 +65,8 @@ public enum CheckpointProperties {
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.INTEGER_VALIDATOR)
             .validateAndBuild();
+
+    public static final List<PropertyDescriptor> SUPPORTED_PROPERTIES = Arrays.asList(CHECKPOINT_INTERVAL,
+            CHECKPOINT_MODE, CHECKPOINT_DATA_URI, CHECKPOINT_TIMEOUT, MAX_CONCURRENT_CHECKPOINTS,
+            CHECKPOINT_CLEANUP_MODE, MIN_PAUSE_BETWEEN_CHECKPOINTS, FAIL_ON_CHECKPOINTING_ERRORS);
 }
