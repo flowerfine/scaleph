@@ -356,12 +356,7 @@ public class PropertyContext implements java.io.Serializable {
     }
 
     private <T> T getDefaultValue(PropertyDescriptor<T> descriptor) {
-        final Parser<T> parser = descriptor.getParser();
-        final Function<PropertyDescriptor<T>, String> defaultValue = descriptor.getDefaultValue();
-        if (parser == null || defaultValue == null) {
-            return null;
-        }
-        return parser.apply(defaultValue.apply(descriptor));
+        return descriptor.getDefaultValue();
     }
 
     private void loggingFallback(PropertyDescriptor fallbackKey, PropertyDescriptor<?> descriptor) {

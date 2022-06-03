@@ -21,7 +21,6 @@ package cn.sliew.scaleph.plugin.framework.property;
 import lombok.Getter;
 
 import java.util.*;
-import java.util.function.Function;
 
 @Getter
 public class PropertyDescriptor<T> implements Comparable<PropertyDescriptor> {
@@ -31,7 +30,7 @@ public class PropertyDescriptor<T> implements Comparable<PropertyDescriptor> {
     private final PropertyType type;
     private final Parser<T> parser;
     private final List<AllowableValue<T>> allowableValues;
-    private final Function<PropertyDescriptor<T>, String> defaultValue;
+    private final T defaultValue;
     private final EnumSet<Property> properties;
     private final List<Validator> validators;
     private final Optional<PropertyDescriptor<T>> fallbackProperty;
@@ -113,7 +112,7 @@ public class PropertyDescriptor<T> implements Comparable<PropertyDescriptor> {
         private PropertyType type;
         private Parser<T> parser;
         private List<AllowableValue<T>> allowableValues = null;
-        private Function<PropertyDescriptor<T>, String> defaultValue = null;
+        private T defaultValue = null;
         private EnumSet<Property> properties = EnumSet.noneOf(Property.class);
         private List<Validator> validators = new ArrayList<>();
         private Optional<PropertyDescriptor<T>> fallbackProperty = Optional.empty();
@@ -164,7 +163,7 @@ public class PropertyDescriptor<T> implements Comparable<PropertyDescriptor> {
             return this;
         }
 
-        public Builder defaultValue(final Function<PropertyDescriptor<T>, String> value) {
+        public Builder defaultValue(final T value) {
             if (value != null) {
                 this.defaultValue = value;
             }
@@ -312,9 +311,7 @@ public class PropertyDescriptor<T> implements Comparable<PropertyDescriptor> {
             final PropertyDescriptor<T> propertyDescriptor = new PropertyDescriptor(this);
 
             if (defaultValue != null) {
-                String providedDefaultValue = this.defaultValue.apply(propertyDescriptor);
-                final T parsed = parser.apply(providedDefaultValue);
-                if (!isValueAllowed(parsed)) {
+                if (!isValueAllowed(defaultValue)) {
                     throw new IllegalStateException("Default value [" + defaultValue +
                             "] is not in the set of allowable values");
                 }

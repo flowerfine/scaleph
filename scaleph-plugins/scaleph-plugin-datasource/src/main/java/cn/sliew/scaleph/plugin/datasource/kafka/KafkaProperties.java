@@ -36,11 +36,11 @@ public enum KafkaProperties {
         .validateAndBuild();
 
 
-    public static final PropertyDescriptor BOOTSTRAP_SERVERS = new PropertyDescriptor.Builder()
+    public static final PropertyDescriptor<String> BOOTSTRAP_SERVERS = new PropertyDescriptor.Builder()
         .name(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG)
         .description("A comma-separated list of known Kafka Brokers in the format <host>:<port>")
             .type(PropertyType.STRING)
-        .defaultValue(descriptor -> "localhost:9092")
+        .defaultValue("localhost:9092")
         .properties(Property.Required)
         .validateAndBuild();
 }

@@ -66,7 +66,7 @@ public enum JdbcPoolProperties {
                             + "connections in the pool are less than 'Max Total Connections', HikariCP will make a best effort to add additional connections quickly and efficiently. It is recommended "
                             + "that this property to be set equal to 'Max Total Connections'.")
             .type(PropertyType.INT)
-            .defaultValue(descriptor -> "10")
+            .defaultValue(1)
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .properties(Property.Required)
@@ -79,7 +79,7 @@ public enum JdbcPoolProperties {
                             + "maximum number of actual connections to the database backend. A reasonable value for this is best determined by your execution environment. When the pool reaches "
                             + "this size, and no idle connections are available, the service will block for up to connectionTimeout milliseconds before timing out.")
             .type(PropertyType.INT)
-            .defaultValue(descriptor -> "10")
+            .defaultValue(10)
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .properties(Property.Required)
@@ -89,7 +89,7 @@ public enum JdbcPoolProperties {
             .name("idleTimeout")
             .description("This property controls the maximum amount of time that a connection is allowed to sit idle in the pool")
             .type(PropertyType.INT)
-            .defaultValue(descriptor -> "600000")
+            .defaultValue(600000)
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .properties(Property.Required)
@@ -101,7 +101,7 @@ public enum JdbcPoolProperties {
                     + "When connection is invalid, it gets dropped and new valid connection will be returned. "
                     + "NOTE: Using validation might have some performance penalty.")
             .type(PropertyType.STRING)
-            .defaultValue(descriptor -> "SELECT 1")
+            .defaultValue("SELECT 1")
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .properties(Property.Required)
