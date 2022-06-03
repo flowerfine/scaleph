@@ -20,6 +20,7 @@ package cn.sliew.scaleph.plugin.datasource.kafka;
 
 import cn.sliew.scaleph.plugin.framework.property.Property;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.framework.property.PropertyType;
 import org.apache.kafka.clients.producer.ProducerConfig;
 
 public enum KafkaProperties {
@@ -29,6 +30,7 @@ public enum KafkaProperties {
         .name("topics")
         .description(
             "The name of the Kafka Topic(s) to pull from. More than one can be supplied if comma separated.")
+            .type(PropertyType.STRING)
         .defaultValue(null)
         .properties(Property.Required)
         .validateAndBuild();
@@ -37,6 +39,7 @@ public enum KafkaProperties {
     public static final PropertyDescriptor BOOTSTRAP_SERVERS = new PropertyDescriptor.Builder()
         .name(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG)
         .description("A comma-separated list of known Kafka Brokers in the format <host>:<port>")
+            .type(PropertyType.STRING)
         .defaultValue(descriptor -> "localhost:9092")
         .properties(Property.Required)
         .validateAndBuild();
