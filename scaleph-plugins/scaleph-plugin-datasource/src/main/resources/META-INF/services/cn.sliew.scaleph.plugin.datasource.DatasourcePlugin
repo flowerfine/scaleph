@@ -1,1 +1,2 @@
 cn.sliew.scaleph.plugin.datasource.jdbc.JDBCDataSourcePlugin
+cn.sliew.scaleph.plugin.datasource.kafka.KafkaDataSourcePlugin

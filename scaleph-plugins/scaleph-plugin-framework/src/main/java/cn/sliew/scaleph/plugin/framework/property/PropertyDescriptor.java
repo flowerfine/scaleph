@@ -22,6 +22,9 @@ import lombok.Getter;
 
 import java.util.*;
 
+/**
+ * todo add category for frontend display.
+ */
 @Getter
 public class PropertyDescriptor<T> implements Comparable<PropertyDescriptor> {
 

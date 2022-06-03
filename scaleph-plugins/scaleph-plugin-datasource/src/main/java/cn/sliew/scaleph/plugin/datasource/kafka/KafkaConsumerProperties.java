@@ -18,9 +18,7 @@
 
 package cn.sliew.scaleph.plugin.datasource.kafka;
 
-import cn.sliew.scaleph.plugin.framework.property.Property;
-import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.framework.property.PropertyType;
+import cn.sliew.scaleph.plugin.framework.property.*;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 
 public enum KafkaConsumerProperties {
@@ -30,7 +28,8 @@ public enum KafkaConsumerProperties {
             .name(ConsumerConfig.GROUP_ID_CONFIG)
             .description("A unique string that identifies the consumer group this consumer belongs to. This property is required if the consumer uses either the group management functionality by using <code>subscribe(topic)</code> or the Kafka-based offset management strategy.")
             .type(PropertyType.STRING)
-            .defaultValue(null)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
             .properties(Property.Required)
             .validateAndBuild();
 }

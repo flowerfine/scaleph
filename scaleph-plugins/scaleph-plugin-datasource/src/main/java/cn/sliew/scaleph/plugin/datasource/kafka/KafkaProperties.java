@@ -18,29 +18,29 @@
 
 package cn.sliew.scaleph.plugin.datasource.kafka;
 
-import cn.sliew.scaleph.plugin.framework.property.Property;
-import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.framework.property.PropertyType;
+import cn.sliew.scaleph.plugin.framework.property.*;
 import org.apache.kafka.clients.producer.ProducerConfig;
 
 public enum KafkaProperties {
     ;
 
     public static final PropertyDescriptor TOPICS = new PropertyDescriptor.Builder()
-        .name("topics")
-        .description(
-            "The name of the Kafka Topic(s) to pull from. More than one can be supplied if comma separated.")
+            .name("topics")
+            .description(
+                    "The name of the Kafka Topic(s) to pull from. More than one can be supplied if comma separated.")
             .type(PropertyType.STRING)
-        .defaultValue(null)
-        .properties(Property.Required)
-        .validateAndBuild();
-
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .properties(Property.Required)
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> BOOTSTRAP_SERVERS = new PropertyDescriptor.Builder()
-        .name(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG)
-        .description("A comma-separated list of known Kafka Brokers in the format <host>:<port>")
+            .name(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG)
+            .description("A comma-separated list of known Kafka Brokers in the format <host>:<port>")
             .type(PropertyType.STRING)
-        .defaultValue("localhost:9092")
-        .properties(Property.Required)
-        .validateAndBuild();
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .defaultValue("localhost:9092")
+            .properties(Property.Required)
+            .validateAndBuild();
 }
