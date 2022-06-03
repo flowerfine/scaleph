@@ -18,17 +18,20 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.common;
 
+import cn.sliew.scaleph.plugin.framework.property.Parsers;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.framework.property.PropertyType;
 import cn.sliew.scaleph.plugin.framework.property.Validators;
 
 public enum JobNameProperties {
     ;
 
-    public static final PropertyDescriptor<String> JOB_NAME =
-        new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> JOB_NAME = new PropertyDescriptor.Builder<String>()
             .name("job.name")
             .description("The pipeline name")
-            .defaultValue(descriptor -> "seatunnel")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .defaultValue("seatunnel")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 }

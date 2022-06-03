@@ -18,7 +18,25 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.Getter;
+
+@Getter
 public enum ConnectorType {
     
-    SOURCE, TRANSFORM, SINK
+    SOURCE(0, "source connector"),
+    TRANSFORM(1, "transform connector"),
+    SINK(2, "sink connector"),
+    ;
+
+    @JsonValue
+    @EnumValue
+    private int code;
+    private String desc;
+
+    ConnectorType(int code, String desc) {
+        this.code = code;
+        this.desc = desc;
+    }
 }

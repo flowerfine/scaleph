@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>scaleph-plugin-framework</artifactId>
+            <artifactId>scaleph-plugin-datasource</artifactId>
         </dependency>
 
         <dependency>
@@ -35,6 +35,13 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-annotation</artifactId>
+            <version>${mybatis.plus.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

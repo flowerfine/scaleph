@@ -18,12 +18,14 @@
 
 package cn.sliew.scaleph.plugin.framework.property;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import java.util.*;
 
 /**
  * todo add category for frontend display.
+ * todo springmvc to PropertyDescriptor to mybatis TypeHandler ?
  */
 @Getter
 public class PropertyDescriptor<T> implements Comparable<PropertyDescriptor> {
@@ -31,10 +33,12 @@ public class PropertyDescriptor<T> implements Comparable<PropertyDescriptor> {
     private final String name;
     private final String description;
     private final PropertyType type;
+    @JsonIgnore
     private final Parser<T> parser;
     private final List<AllowableValue<T>> allowableValues;
     private final T defaultValue;
     private final EnumSet<Property> properties;
+    @JsonIgnore
     private final List<Validator> validators;
     private final Optional<PropertyDescriptor<T>> fallbackProperty;
     private final Set<PropertyDependency> dependencies;
