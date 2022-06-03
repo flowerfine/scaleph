@@ -66,7 +66,7 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePl
     }
 
     @Override
-    public void initialize(Properties properties) {
+    public void configure(Properties properties) {
         final Collection<ValidationResult> validate = validate(properties);
         final Optional<ValidationResult> validationResult =
             validate.stream().filter(result -> result.isValid() == false).findAny();

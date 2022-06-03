@@ -16,28 +16,10 @@
  * limitations under the License.
  */
 
+/**
+ * inspired by
+ * <a href="https://github.com/apache/nifi/blob/main/nifi-api/src/main/java/org/apache/nifi/components/PropertyDescriptor.java">nifi</a>,
+ * <a href="https://github.com/apache/flink/blob/master/flink-core/src/main/java/org/apache/flink/configuration/ConfigOption.java">flink</a>,
+ * <a href="https://github.com/elastic/elasticsearch/blob/master/server/src/main/java/org/elasticsearch/common/settings/Setting.java">elasticsearch</a>
+ */
 package cn.sliew.scaleph.plugin.framework.property;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
-import lombok.Getter;
-
-@Getter
-public class PropertyDependency<T> {
-    private final String propertyName;
-    private final Set<T> dependentValues;
-
-    public PropertyDependency(final String propertyName) {
-        this.propertyName = Objects.requireNonNull(propertyName);
-        this.dependentValues = null;
-    }
-
-    public PropertyDependency(final String propertyName, final Set<T> dependentValues) {
-        this.propertyName = Objects.requireNonNull(propertyName);
-        this.dependentValues =
-            Collections.unmodifiableSet(new HashSet<>(Objects.requireNonNull(dependentValues)));
-    }
-}
