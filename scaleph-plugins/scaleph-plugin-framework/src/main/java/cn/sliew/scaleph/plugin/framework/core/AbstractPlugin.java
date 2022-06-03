@@ -1,31 +1,42 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package cn.sliew.scaleph.plugin.framework.core;
+
+import cn.sliew.scaleph.plugin.framework.property.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Properties;
-
-import cn.sliew.scaleph.plugin.framework.property.Property;
-import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
-import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.framework.property.ValidationResult;
-import cn.sliew.scaleph.plugin.framework.property.Validator;
 
 public abstract class AbstractPlugin implements Plugin {
 
-    protected Properties properties;
-    protected PropertyContext propertyContext;
+    protected PropertyContext properties;
 
     @Override
-    public void initialize(Properties properties) {
+    public void configure(PropertyContext properties) {
         this.properties = properties;
-        this.propertyContext = PropertyContext.fromProperties(properties);
     }
 
     @Override
     public PropertyDescriptor getPropertyDescriptor(String name) {
         final PropertyDescriptor specDescriptor =
-            new PropertyDescriptor.Builder().name(name).validateAndBuild();
+                new PropertyDescriptor.Builder().name(name).validateAndBuild();
         return getPropertyDescriptor(specDescriptor);
     }
 
@@ -37,13 +48,13 @@ public abstract class AbstractPlugin implements Plugin {
 
         if (descriptor == null) {
             descriptor = new PropertyDescriptor.Builder().fromPropertyDescriptor(specDescriptor)
-                .addValidator(Validator.INVALID).validateAndBuild();
+                    .addValidator(Validator.INVALID).validateAndBuild();
         }
         return descriptor;
     }
 
     private PropertyDescriptor getSupportedPropertyDescriptor(
-        final PropertyDescriptor specDescriptor) {
+            final PropertyDescriptor specDescriptor) {
         final List<PropertyDescriptor> requiredPropertyDescriptors = getSupportedProperties();
         if (requiredPropertyDescriptors != null) {
             for (final PropertyDescriptor desc : requiredPropertyDescriptors) { //find actual descriptor
@@ -56,19 +67,17 @@ public abstract class AbstractPlugin implements Plugin {
     }
 
     @Override
-    public Collection<ValidationResult> validate(Properties properties) {
+    public Collection<ValidationResult> validate(PropertyContext properties) {
         final Collection<ValidationResult> results = new ArrayList<>();
 
-        PropertyContext propertyContext = PropertyContext.fromProperties(properties);
-
         for (final PropertyDescriptor descriptor : getSupportedProperties()) {
-            final String value = propertyContext.getValue(descriptor);
+            final String value = properties.getValue(descriptor);
             if (value == null && descriptor.getProperties().contains(Property.Required)) {
                 ValidationResult.Builder builder = new ValidationResult.Builder()
-                    .valid(false)
-                    .subject(descriptor.getName())
-                    .input(null)
-                    .explanation(descriptor.getName() + " is required");
+                        .valid(false)
+                        .subject(descriptor.getName())
+                        .input(null)
+                        .explanation(descriptor.getName() + " is required");
                 results.add(builder.build());
                 continue;
             } else if (value == null) {

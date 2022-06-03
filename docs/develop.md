@@ -35,7 +35,7 @@ docker compose up -d
 
 If docker is unavailable for user, you has to create database and start flink cluster by yourself.
 
-You would find sql scripts on `${scaleph_home}/tools/docker/mysql/init.d` and execute `scaleph-master-mysql.sql` 和 `qutz-mysql.sql` on your mysql.
+You would find sql scripts on `${scaleph_home}/tools/docker/mysql/init.d` and execute `scaleph-master-mysql.sql`, `scaleph-log-mysql.sql`,  `qutz-mysql.sql` on your mysql.
 
 Next, download [flink](https://flink.apache.org/downloads.html#apache-flink-1136) (version 1.13.6) and prepare flink environment, you could get more information on [Standalone](https://nightlies.apache.org/flink/flink-docs-release-1.13/docs/deployment/resource-providers/standalone/overview/#standalone).
 

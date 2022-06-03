@@ -100,7 +100,6 @@
         <spring.boot.version>2.3.12.RELEASE</spring.boot.version>
         <spring.plugin.core.version>2.0.0.RELEASE</spring.plugin.core.version>
         <mybatis.plus.version>3.5.1</mybatis.plus.version>
-        <mybatis.plus.generator.version>3.5.1</mybatis.plus.generator.version>
         <org.mapstruct.extensions.spring.version>0.1.1</org.mapstruct.extensions.spring.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <mapstruct.lombok.binding.version>0.2.0</mapstruct.lombok.binding.version>
@@ -198,6 +197,11 @@
                 <artifactId>scaleph-plugin-datasource</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-plugin-seatunnel-native-flink</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
@@ -218,7 +222,7 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-generator</artifactId>
-                <version>${mybatis.plus.generator.version}</version>
+                <version>${mybatis.plus.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.velocity</groupId>
