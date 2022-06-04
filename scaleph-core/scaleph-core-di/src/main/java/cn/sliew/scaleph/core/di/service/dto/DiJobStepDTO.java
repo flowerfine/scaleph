@@ -43,28 +43,36 @@ import org.hibernate.validator.constraints.Length;
 public class DiJobStepDTO extends BaseDTO {
 
     private static final long serialVersionUID = -5718957095121629912L;
+
     @ApiModelProperty(value = "步骤属性信息")
-    List<DiJobStepAttrDTO> jobStepAttrList;
+    private List<DiJobStepAttrDTO> jobStepAttrList;
+
     @NotNull
     @ApiModelProperty(value = "作业id")
     private Long jobId;
+
     @NotNull
     @Length(max = 36)
     @ApiModelProperty(value = "步骤编码")
     private String stepCode;
+
     @NotNull
     @Length(min = 1, max = 120)
     @ApiModelProperty(value = "步骤标题")
     private String stepTitle;
+
     @NotNull
     @ApiModelProperty(value = "步骤类型")
     private DictVO stepType;
+
     @NotNull
     @Length(min = 1, max = 120)
     @ApiModelProperty(value = "步骤名称")
     private String stepName;
+
     @ApiModelProperty(value = "x坐标")
     private Integer positionX;
+
     @ApiModelProperty(value = "y坐标")
     private Integer positionY;
 }

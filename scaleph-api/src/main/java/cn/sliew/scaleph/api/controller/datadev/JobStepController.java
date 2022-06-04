@@ -44,7 +44,7 @@ import java.util.Set;
 @Api(tags = "数据开发-作业管理-step管理")
 @RestController
 @RequestMapping("/api/datadev/job/step")
-public class DiJobStep2Controller {
+public class JobStepController {
 
     @Autowired
     private SeatunnelConnectorService seatunnelConnectorService;
