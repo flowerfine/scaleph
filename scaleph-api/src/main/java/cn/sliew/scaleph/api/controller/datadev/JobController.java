@@ -224,7 +224,6 @@ public class JobController {
         }
     }
 
-
     @Logging
     @GetMapping(path = "/detail")
     @ApiOperation(value = "查询作业详情", notes = "查询作业详情，包含作业流程定义信息")
@@ -233,7 +232,6 @@ public class JobController {
         DiJobDTO job = seatunnelJobService.queryJobInfo(id);
         return new ResponseEntity<>(job, HttpStatus.OK);
     }
-
 
     @Logging
     @PostMapping(path = "/detail")

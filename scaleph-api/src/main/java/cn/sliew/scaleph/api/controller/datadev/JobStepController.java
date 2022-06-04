@@ -23,8 +23,8 @@ import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.ConnectorType;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,16 +35,22 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
-@Api(tags = "数据开发-SeaTunnel connector")
+/**
+ * <p>
+ * 数据集成-作业步骤信息2 前端控制器
+ * </p>
+ */
+@Slf4j
+@Api(tags = "数据开发-作业管理-step管理")
 @RestController
-@RequestMapping(path = "/api/datadev/seatunnel/connector")
-public class SeatunnelConnectorController {
+@RequestMapping("/api/datadev/job/step")
+public class JobStepController {
 
     @Autowired
     private SeatunnelConnectorService seatunnelConnectorService;
 
     @Logging
-    @GetMapping("properties/env")
+    @GetMapping("env")
     @ApiOperation(value = "查询 SeaTunnel env 支持的属性", notes = "获取 env 分类属性")
     public List<PropertyDescriptor> getSupportedEnvProperties() {
         return seatunnelConnectorService.getSupportedEnvProperties();
@@ -53,15 +59,18 @@ public class SeatunnelConnectorController {
     @Logging
     @GetMapping("{type}")
     @ApiOperation(value = "查询 SeaTunnel connector 列表", notes = "查询 source, transform, sink 类型的 connector")
-    public Set<PluginInfo> getAvailableConnectors(@PathVariable("type") ConnectorType type) {
+    public Set<PluginInfo> getAvailableConnectors(@ApiParam(name = "type",
+            value = "connector 类型。0: source, 1: transform, 2: sink",
+            example = "0", allowableValues = "0, 1, 2") @PathVariable("type") ConnectorType type) {
         return seatunnelConnectorService.getAvailableConnectors(type);
     }
 
     @Logging
-    @GetMapping("/properties/connector")
+    @GetMapping("properties")
     @ApiOperation(value = "查询 SeaTunnel connector 支持的属性")
     public List<PropertyDescriptor> getSupportedProperties(@Valid PluginInfo pluginInfo) {
         return seatunnelConnectorService.getSupportedProperties(pluginInfo);
     }
 
 }
+

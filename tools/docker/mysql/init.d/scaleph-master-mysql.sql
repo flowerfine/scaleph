@@ -691,7 +691,7 @@ create TABLE meta_datasource2
     editor           varchar(32)      DEFAULT NULL COMMENT '修改人',
     update_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (id),
-    UNIQUE KEY name_version (name, version),
+    KEY name_version (name, version),
     KEY update_time (update_time)
 ) ENGINE = InnoDB COMMENT ='元数据-数据源信息2';
 
@@ -1040,26 +1040,6 @@ VALUES (2, '01f16fcb-faa4-45e4-8f46-edc2dc756e8a', '表输入', 'source', 'table
 INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
                           `creator`, `editor`)
 VALUES (2, 'ac5622d2-77dd-47e3-99e4-9090dbd790ea', '表输出', 'sink', 'table', -110, -80, 'sys_admin', 'sys_admin');
-
-CREATE TABLE `di_job_step2`
-(
-    `id`             bigint       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-    `job_id`         bigint       NOT NULL COMMENT '作业id',
-    `step_code`      varchar(36)  NOT NULL COMMENT '步骤编码',
-    `step_title`     varchar(128) NOT NULL COMMENT '步骤标题',
-    `step_type`      varchar(12)  NOT NULL COMMENT '步骤类型',
-    `step_props`     varchar(128) NOT NULL COMMENT '步骤属性',
-    `step_resources` varchar(128) NOT NULL COMMENT '步骤资源',
-    `step_name`      varchar(128) NOT NULL COMMENT '步骤名称',
-    `position_x`     int          NOT NULL COMMENT 'x坐标',
-    `position_y`     int          NOT NULL COMMENT 'y坐标',
-    `creator`        varchar(32)       DEFAULT NULL COMMENT '创建人',
-    `create_time`    timestamp    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `editor`         varchar(32)       DEFAULT NULL COMMENT '修改人',
-    `update_time`    timestamp    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `job_id` (`job_id`, `step_code`)
-) ENGINE = InnoDB COMMENT ='数据集成-作业步骤信息2';
 
 /* 作业步骤参数 */
 drop table if exists di_job_step_attr;
