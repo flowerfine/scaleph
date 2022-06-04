@@ -6,6 +6,8 @@ import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
 import cn.sliew.scaleph.common.exception.CustomException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.ConversionFailedException;
+import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    /**
+     * springmvc request param convert to request mapping param exception
+     */
+    @Logging
+    @ResponseBody
+    @ExceptionHandler(ConversionFailedException.class)
+    public ResponseEntity<ResponseVO> defaultException(ConversionFailedException e) {
+        log.error(e.getMessage(), e);
+        final TypeDescriptor sourceType = e.getSourceType();
+        final TypeDescriptor targetType = e.getTargetType();
+        final Object value = e.getValue();
+        ResponseVO errorInfo = ResponseVO.error(String.format("springmvc convert %s from %s to %s error",
+                value, sourceType.getName(), targetType.getName()));
+        return new ResponseEntity<>(errorInfo, HttpStatus.OK);
+    }
 
     @Logging
     @ResponseBody
@@ -102,5 +120,7 @@ public class GlobalExceptionHandler {
             I18nUtil.get(ResponseCodeEnum.ERROR_EMAIL.getValue()));
         return new ResponseEntity<>(errorInfo, HttpStatus.OK);
     }
+
+
 
 }
