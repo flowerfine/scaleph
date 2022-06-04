@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.seatunnel.service;
 
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
+import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
 import org.apache.flink.configuration.Configuration;
 
 import java.io.File;
@@ -27,18 +28,25 @@ import java.nio.file.Path;
 import java.util.Map;
 
 /**
- * todo only need query, submit, schedule, cancel
+ * todo only need query, run(submit, schedule), stop(cancel, unschedule)
  */
 public interface SeatunnelJobService {
 
     DiJobDTO queryJobInfo(Long jobId);
 
+    void run(DiJobRunVO jobRunParam) throws Exception;
+
     void submit(DiJobDTO diJobDTO) throws Exception;
 
     void schedule(DiJobDTO diJobDTO) throws Exception;
 
-    void cancel(Long jobId) throws Exception;
+    void stop(Long jobId) throws Exception;
 
+    void cancel(DiJobDTO diJobDTO) throws Exception;
+
+    void unschedule(DiJobDTO diJobDTO) throws Exception;
+
+    // todo remove
     Path buildConfFile(DiJobDTO diJobDTO, Path projectPath) throws IOException;
 
     Path getSeatunnelJar() throws IOException;

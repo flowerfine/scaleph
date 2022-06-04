@@ -22,9 +22,6 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
-import cn.sliew.flinkful.rest.base.JobClient;
-import cn.sliew.flinkful.rest.base.RestClient;
-import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.util.I18nUtil;
 import cn.sliew.scaleph.api.util.SecurityUtil;
@@ -41,38 +38,30 @@ import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
 import cn.sliew.scaleph.core.scheduler.service.ScheduleService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
-import cn.sliew.scaleph.engine.seatunnel.service.impl.FlinkJobStatusSyncJob;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.flink.configuration.Configuration;
-import org.apache.flink.configuration.GlobalConfiguration;
-import org.apache.flink.configuration.JobManagerOptions;
-import org.apache.flink.configuration.RestOptions;
-import org.apache.flink.runtime.rest.handler.async.TriggerResponse;
-import org.apache.flink.runtime.rest.messages.job.savepoints.stop.StopWithSavepointRequestBody;
-import org.quartz.*;
-import org.quartz.impl.triggers.CronTriggerImpl;
+import org.quartz.JobKey;
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.text.ParseException;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
+ * todo split job to crud and run, stop, schedule
+ *
  * @author gleiyu
  */
 @Slf4j
@@ -98,45 +87,18 @@ public class JobController {
 
     @Autowired
     private DiJobResourceFileService diJobResourceFileService;
-    @Autowired
-    private DiClusterConfigService diClusterConfigService;
-    @Autowired
-    private DiJobLogService diJobLogService;
+
     @Autowired
     private ScheduleService scheduleService;
     @Autowired
     private SeatunnelJobService seatunnelJobService;
 
-    @Value("${app.engine.flink.state.savepoints.dir}")
-    private String savePointDir;
-
-    @PostConstruct
-    public void syncJobStatus() throws SchedulerException {
-        JobKey syncJobStatusKey =
-                scheduleService.getJobKey("SYNC_JOB_STATUS_FROM_CLUSTER_JOB", Constants.INTERNAL_GROUP);
-        JobDetail syncJob = JobBuilder.newJob(FlinkJobStatusSyncJob.class)
-                .withIdentity(syncJobStatusKey)
-                .storeDurably()
-                .build();
-        TriggerKey syncJobTriggerKey =
-                scheduleService.getTriggerKey("SYNC_JOB_STATUS_FROM_CLUSTER_TRI",
-                        Constants.INTERNAL_GROUP);
-        Trigger syncJobTri = TriggerBuilder.newTrigger()
-                .withIdentity(syncJobTriggerKey)
-                .withSchedule(CronScheduleBuilder.cronSchedule(Constants.CRON_EVERY_THREE_SECONDS))
-                .build();
-        if (scheduleService.checkExists(syncJobStatusKey)) {
-            scheduleService.deleteScheduleJob(syncJobStatusKey);
-        }
-        this.scheduleService.addScheduleJob(syncJob, syncJobTri);
-    }
-
     @Logging
     @GetMapping
     @ApiOperation(value = "分页查询作业列表", notes = "分页查询作业列表")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_SELECT)")
-    public ResponseEntity<Page<DiJobDTO>> listJob(DiJobParam param) {
-        Page<DiJobDTO> page = this.diJobService.listByPage(param);
+    public ResponseEntity<Page<DiJobDTO>> listJob(@Valid DiJobParam param) {
+        Page<DiJobDTO> page = diJobService.listByPage(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
@@ -152,7 +114,7 @@ public class JobController {
         diJobDTO.setRuntimeState(
                 new DictVO(JobRuntimeStateEnum.STOP.getValue(), JobRuntimeStateEnum.STOP.getLabel()));
         diJobDTO.setJobVersion(1);
-        this.diJobService.insert(diJobDTO);
+        diJobService.insert(diJobDTO);
         return new ResponseEntity<>(ResponseVO.sucess(diJobDTO), HttpStatus.CREATED);
     }
 
@@ -257,27 +219,26 @@ public class JobController {
      * @return job id
      */
     private Long prepareJobVersion(DiJobDTO job) throws CustomException {
+        if (JobStatusEnum.ARCHIVE.getValue().equals(job.getJobStatus().getValue())) {
+            throw new CustomException(I18nUtil.get("response.error.di.job.lowVersion"));
+        }
+
         if (JobStatusEnum.RELEASE.getValue().equals(job.getJobStatus().getValue())) {
             Long oldJobId = job.getId();
             int jobVersion = job.getJobVersion() + 1;
-            DiJobDTO newVersionJob =
-                    this.diJobService.selectOne(job.getProjectId(), job.getJobCode(), jobVersion);
+            DiJobDTO newVersionJob = diJobService.selectOne(job.getProjectId(), job.getJobCode(), jobVersion);
             if (newVersionJob != null) {
                 throw new CustomException(I18nUtil.get("response.error.di.job.lowVersion"));
-            } else {
-                job.setId(null);
-                job.setJobVersion(jobVersion);
-                job.setJobStatus(
-                        DictVO.toVO(DictConstants.JOB_STATUS, JobStatusEnum.DRAFT.getValue()));
-                DiJobDTO newJob = this.diJobService.insert(job);
-                this.diJobService.clone(oldJobId, newJob.getId());
-                return newJob.getId();
             }
-        } else if (JobStatusEnum.ARCHIVE.getValue().equals(job.getJobStatus().getValue())) {
-            throw new CustomException(I18nUtil.get("response.error.di.job.lowVersion"));
-        } else {
-            return job.getId();
+            job.setId(null);
+            job.setJobVersion(jobVersion);
+            job.setJobStatus(DictVO.toVO(DictConstants.JOB_STATUS, JobStatusEnum.DRAFT.getValue()));
+            DiJobDTO newJob = diJobService.insert(job);
+            diJobService.clone(oldJobId, newJob.getId());
+            return newJob.getId();
         }
+
+        return job.getId();
     }
 
     private String getStepAttrByKey(JobGraphVO graph, String key, String defaultValue) {
@@ -287,9 +248,9 @@ public class JobController {
         Map<String, Object> dataList = graph.getData();
         if (CollectionUtil.isNotEmpty(dataList) && dataList.containsKey(key)) {
             return String.valueOf(dataList.get(key));
-        } else {
-            return defaultValue;
         }
+
+        return defaultValue;
     }
 
     private Integer getPositionByKey(JobGraphVO graph, String key, Integer defaultValue) {
@@ -299,9 +260,9 @@ public class JobController {
         Map<String, Integer> position = graph.getPosition();
         if (CollectionUtil.isNotEmpty(position) && position.containsKey(key)) {
             return position.get(key);
-        } else {
-            return defaultValue;
         }
+
+        return defaultValue;
     }
 
     private void saveJobGraph(Map<String, List<JobGraphVO>> jobGraph, Long jobId) {
@@ -582,18 +543,7 @@ public class JobController {
     @ApiOperation(value = "运行任务", notes = "运行任务，提交至集群")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> runJob(@RequestBody DiJobRunVO jobRunParam) throws Exception {
-        // 1.执行任务和 flink 集群的绑定
-        diJobService.update(jobRunParam.toDto());
-        // 2.绑定任务和资源
-        diJobResourceFileService.bindResource(jobRunParam.getJobId(), jobRunParam.getResources());
-        // 3.获取任务信息
-        DiJobDTO diJobDTO = seatunnelJobService.queryJobInfo(jobRunParam.getJobId());
-        if (JobTypeEnum.BATCH.getValue().equals(diJobDTO.getJobType().getValue())
-                && StringUtils.hasText(diJobDTO.getJobCrontab())) {
-            seatunnelJobService.schedule(diJobDTO);
-        } else {
-            seatunnelJobService.submit(diJobDTO);
-        }
+        seatunnelJobService.run(jobRunParam);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -602,48 +552,8 @@ public class JobController {
     @Transactional(rollbackFor = Exception.class)
     @ApiOperation(value = "停止任务", notes = "停止任务,自动创建savepoint,作业可能会正常运行完后停止。任务的日志状态通过定时任务同步")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> stopJob(@RequestParam(value = "jobId") Long jobId)
-            throws Exception {
-        DiJobDTO job = this.diJobService.selectOne(jobId);
-        DiProjectDTO project = this.diProjectService.selectOne(job.getProjectId());
-        //remove schedule
-        String jobName = project.getProjectCode() + '_' + job.getJobCode();
-        JobKey seatunnelJobKey =
-                scheduleService.getJobKey("FLINK_BATCH_JOB_" + jobName, Constants.INTERNAL_GROUP);
-        if (scheduleService.checkExists(seatunnelJobKey)) {
-            scheduleService.deleteScheduleJob(seatunnelJobKey);
-        }
-        //stop flink task
-        List<DiJobLogDTO> list = this.diJobLogService.listRunningJobInstance(job.getJobCode());
-        Configuration configuration = GlobalConfiguration.loadConfiguration();
-        for (DiJobLogDTO instance : list) {
-            DiClusterConfigDTO clusterConfig =
-                    this.diClusterConfigService.selectOne(instance.getClusterId());
-            String host = clusterConfig.getConfig().get(JobManagerOptions.ADDRESS.key());
-            int restPort = Integer.parseInt(clusterConfig.getConfig().get(RestOptions.PORT.key()));
-            RestClient client = new FlinkRestClient(host, restPort, configuration);
-            JobClient jobClient = client.job();
-            if (StrUtil.isBlank(savePointDir)) {
-                return new ResponseEntity<>(
-                        ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                                I18nUtil.get("response.error.di.cluster.flink.savepoint"),
-                                ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
-            }
-            if (savePointDir.endsWith("/")) {
-                savePointDir = savePointDir.substring(0, savePointDir.length() - 1);
-            }
-            StopWithSavepointRequestBody requestBody = new StopWithSavepointRequestBody(
-                    StrUtil.concat(true, savePointDir, "/", clusterConfig.getClusterName(), "/",
-                            instance.getJobInstanceId()),
-                    true);
-            final CompletableFuture<TriggerResponse> future =
-                    jobClient.jobStop(instance.getJobInstanceId(), requestBody);
-            future.get();
-        }
-
-        job.setRuntimeState(
-                DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.STOP.getValue()));
-        this.diJobService.update(job);
+    public ResponseEntity<ResponseVO> stopJob(@RequestParam(value = "jobId") Long jobId) throws Exception {
+        seatunnelJobService.stop(jobId);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -651,11 +561,9 @@ public class JobController {
     @GetMapping(path = "/resource/{jobId}")
     @ApiOperation(value = "查询作业资源", notes = "查询作业资源列表")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<List<DictVO>> listJobResourceFile(
-            @PathVariable("jobId") Long jobId) {
+    public ResponseEntity<List<DictVO>> listJobResourceFile(@PathVariable("jobId") Long jobId) {
         List<DictVO> list = new ArrayList<>();
-        List<DiResourceFileDTO> resourceList =
-                this.diJobResourceFileService.listJobResources(jobId);
+        List<DiResourceFileDTO> resourceList = diJobResourceFileService.listJobResources(jobId);
         for (DiResourceFileDTO dto : resourceList) {
             DictVO dict = new DictVO(String.valueOf(dto.getId()), dto.getFileName());
             list.add(dict);
@@ -667,13 +575,8 @@ public class JobController {
     @GetMapping(path = "/cron/next")
     @ApiOperation(value = "查询最近5次运行时间", notes = "查询最近5次运行时间")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<List<Date>> listNext5FireTime(
-            @RequestParam("crontabStr") String crontabStr) throws ParseException {
-        List<Date> list = new ArrayList<>();
-        CronTriggerImpl cronTrigger = new CronTriggerImpl();
-        cronTrigger.setCronExpression(crontabStr);
-        List<Date> dates = TriggerUtils.computeFireTimes(cronTrigger, null, 5);
-        list.addAll(dates);
-        return new ResponseEntity<>(list, HttpStatus.OK);
+    public ResponseEntity<List<Date>> listNext5FireTime(@RequestParam("crontabStr") String crontabStr) throws ParseException {
+        List<Date> dates = scheduleService.listNext5FireTime(crontabStr);
+        return new ResponseEntity<>(dates, HttpStatus.OK);
     }
 }
