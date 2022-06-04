@@ -18,7 +18,6 @@ import java.util.UUID;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.core.util.RandomUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.util.I18nUtil;
@@ -35,6 +34,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -84,8 +84,7 @@ public class CommonController {
     @ApiOperation(value = "上传文件", notes = "上传文件到公共目录")
     public ResponseEntity<ResponseVO> upload(@RequestParam("file") MultipartFile file)
         throws IOException {
-        String userName = SecurityUtil.getCurrentUserName();
-        if (StrUtil.isNotEmpty(userName)) {
+        if (StringUtils.hasText(SecurityUtil.getCurrentUserName())) {
             this.storageService.upload(file.getInputStream(), "", file.getName());
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else {
@@ -100,8 +99,7 @@ public class CommonController {
     @ApiOperation(value = "下载文件", notes = "从公共目录下载文件")
     public ResponseEntity<ResponseVO> download(@NotNull String fileName,
                                                HttpServletResponse response) throws IOException {
-        String userName = SecurityUtil.getCurrentUserName();
-        if (StrUtil.isEmpty(userName)) {
+        if (StringUtils.isEmpty(SecurityUtil.getCurrentUserName())) {
             return new ResponseEntity<>(
                 ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
                     I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
@@ -125,8 +123,7 @@ public class CommonController {
     @DeleteMapping(path = "/file/delete")
     @ApiOperation(value = "删除文件", notes = "从公共目录删除文件")
     public ResponseEntity<ResponseVO> deleteFile(@NotNull String fileName) {
-        String userName = SecurityUtil.getCurrentUserName();
-        if (StrUtil.isEmpty(userName)) {
+        if (StringUtils.isEmpty(SecurityUtil.getCurrentUserName())) {
             return new ResponseEntity<>(
                 ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
                     I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);

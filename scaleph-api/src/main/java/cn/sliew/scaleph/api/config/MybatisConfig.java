@@ -24,7 +24,7 @@ public class MybatisConfig {
     }
 
     /**
-     * @see cn.sliew.scaleph.api.aspect.InsertUpdateAspect
+     * replace InsertUpdateAspect, which already deleted
      */
     @Component
     public static class MetaHandler implements MetaObjectHandler {
@@ -32,17 +32,17 @@ public class MybatisConfig {
         @Override
         public void insertFill(MetaObject metaObject) {
             String userName = getUserNameOrDefault();
-            this.strictInsertFill(metaObject, "createTime", () -> new Date(), Date.class);
-            this.strictInsertFill(metaObject, "updateTime", () -> new Date(), Date.class);
             this.strictInsertFill(metaObject, "creator", () -> userName, String.class);
+            this.strictInsertFill(metaObject, "createTime", () -> new Date(), Date.class);
             this.strictInsertFill(metaObject, "editor", () -> userName, String.class);
+            this.strictInsertFill(metaObject, "updateTime", () -> new Date(), Date.class);
         }
 
         @Override
         public void updateFill(MetaObject metaObject) {
             String userName = getUserNameOrDefault();
-            this.strictUpdateFill(metaObject, "updateTime", () -> new Date(), Date.class);
             this.strictUpdateFill(metaObject, "editor", () -> userName, String.class);
+            this.strictUpdateFill(metaObject, "updateTime", () -> new Date(), Date.class);
         }
 
         private String getUserNameOrDefault() {

@@ -56,7 +56,7 @@ public class LogAspect {
      */
     @Pointcut("@annotation(cn.sliew.scaleph.api.annotation.Logging)")
     public void actionPointCut() {
-
+        // unneeded implementations
     }
 
     /**
@@ -64,7 +64,7 @@ public class LogAspect {
      */
     @Pointcut("execution(* cn.sliew.scaleph.api.controller.admin.SecUserController.login(..))")
     public void loginPointCut() {
-
+        // unneeded implementations
     }
 
     /**
@@ -72,7 +72,7 @@ public class LogAspect {
      */
     @Pointcut("execution(* cn.sliew.scaleph.api.controller.admin.SecUserController.logout(..))")
     public void logoutPointCut() {
-
+        // unneeded implementations
     }
 
     /**

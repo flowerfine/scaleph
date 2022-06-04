@@ -1,15 +1,5 @@
 package cn.sliew.scaleph.api.controller.admin;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
 import cn.sliew.scaleph.api.annotation.Logging;
@@ -18,11 +8,8 @@ import cn.sliew.scaleph.api.security.TokenProvider;
 import cn.sliew.scaleph.api.security.UserDetailInfo;
 import cn.sliew.scaleph.api.util.I18nUtil;
 import cn.sliew.scaleph.api.util.SecurityUtil;
-import cn.sliew.scaleph.api.vo.LoginInfoVO;
-import cn.sliew.scaleph.api.vo.OnlineUserVO;
-import cn.sliew.scaleph.api.vo.RegisterInfoVO;
-import cn.sliew.scaleph.api.vo.ResponseVO;
-import cn.sliew.scaleph.api.vo.TransferVO;
+import cn.sliew.scaleph.api.vo.*;
+import cn.sliew.scaleph.cache.util.RedisUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.ErrorShowTypeEnum;
@@ -31,18 +18,16 @@ import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
 import cn.sliew.scaleph.common.enums.UserStatusEnum;
 import cn.sliew.scaleph.mail.service.EmailService;
 import cn.sliew.scaleph.security.service.SecRoleService;
+import cn.sliew.scaleph.security.service.SecUserActiveService;
 import cn.sliew.scaleph.security.service.SecUserRoleService;
 import cn.sliew.scaleph.security.service.SecUserService;
 import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
+import cn.sliew.scaleph.security.service.dto.SecUserActiveDTO;
 import cn.sliew.scaleph.security.service.dto.SecUserDTO;
 import cn.sliew.scaleph.security.service.dto.SecUserRoleDTO;
 import cn.sliew.scaleph.security.service.param.SecUserParam;
-import cn.sliew.scaleph.cache.util.RedisUtil;
-import cn.sliew.scaleph.security.service.SecUserActiveService;
-import cn.sliew.scaleph.security.service.dto.SecUserActiveDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.common.base.Strings;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.text.RandomStringGenerator;
@@ -61,14 +46,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -128,11 +115,11 @@ public class SecUserController {
             try {
                 //检查用户名密码
                 UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(loginUser.getUserName(),
-                        loginUser.getPassword());
+                        new UsernamePasswordAuthenticationToken(loginUser.getUserName(),
+                                loginUser.getPassword());
                 //spring security框架调用userDetailsService获取用户信息并验证，验证通过后返回一个Authentication对象，存储到线程的SecurityContext中
                 Authentication authentication =
-                    authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+                        authenticationManagerBuilder.getObject().authenticate(authenticationToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 //生成token 使用uuid作为token
                 String token = tokenProvider.createToken();
@@ -151,14 +138,14 @@ public class SecUserController {
                 return new ResponseEntity<>(info, HttpStatus.OK);
             } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
                 return new ResponseEntity<>(
-                    ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                        I18nUtil.get("response.error.login.password"),
-                        ErrorShowTypeEnum.ERROR_MESSAGE), HttpStatus.OK);
+                        ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
+                                I18nUtil.get("response.error.login.password"),
+                                ErrorShowTypeEnum.ERROR_MESSAGE), HttpStatus.OK);
             }
         } else {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                I18nUtil.get("response.error.authCode"), ErrorShowTypeEnum.ERROR_MESSAGE),
-                HttpStatus.OK);
+                    I18nUtil.get("response.error.authCode"), ErrorShowTypeEnum.ERROR_MESSAGE),
+                    HttpStatus.OK);
         }
     }
 
@@ -178,29 +165,29 @@ public class SecUserController {
                                                    @NotNull String password,
                                                    @NotNull String confirmPassword) {
         String userName = SecurityUtil.getCurrentUserName();
-        if (!StrUtil.isEmpty(userName)) {
-            if (password.equals(confirmPassword)) {
-                SecUserDTO user = this.secUserService.selectOne(userName);
-                if (this.passwordEncoder.matches(oldPassword, user.getPassword())) {
-                    SecUserDTO secUserDTO = new SecUserDTO();
-                    secUserDTO.setId(user.getId());
-                    secUserDTO.setPassword(this.passwordEncoder.encode(password));
-                    this.secUserService.update(secUserDTO);
-                    return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
-                } else {
-                    return new ResponseEntity<>(
-                        ResponseVO.error(I18nUtil.get("response.error.oldPassword")),
-                        HttpStatus.OK);
-                }
+        if (StringUtils.isEmpty(userName)) {
+            return new ResponseEntity<>(
+                    ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
+                            I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
+        }
+
+        if (password.equals(confirmPassword)) {
+            SecUserDTO user = this.secUserService.selectOne(userName);
+            if (this.passwordEncoder.matches(oldPassword, user.getPassword())) {
+                SecUserDTO secUserDTO = new SecUserDTO();
+                secUserDTO.setId(user.getId());
+                secUserDTO.setPassword(this.passwordEncoder.encode(password));
+                this.secUserService.update(secUserDTO);
+                return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(
-                    ResponseVO.error(I18nUtil.get("response.error.notSamePassword")),
-                    HttpStatus.OK);
+                        ResponseVO.error(I18nUtil.get("response.error.oldPassword")),
+                        HttpStatus.OK);
             }
         } else {
             return new ResponseEntity<>(
-                ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
-                    I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
+                    ResponseVO.error(I18nUtil.get("response.error.notSamePassword")),
+                    HttpStatus.OK);
         }
     }
 
@@ -215,7 +202,7 @@ public class SecUserController {
     @ApiOperation(value = "获取邮箱验证码", notes = "用户登录后，绑定获取邮箱绑定验证码")
     public ResponseEntity<ResponseVO> sendActiveEmail(@Email String email) {
         String userName = SecurityUtil.getCurrentUserName();
-        if (!Strings.isNullOrEmpty(userName)) {
+        if (StringUtils.hasText(userName)) {
             SecUserActiveDTO activeDTO = new SecUserActiveDTO();
             activeDTO.setUserName(userName);
             long time = System.currentTimeMillis() + 1000 * 60 * 10;
@@ -224,10 +211,10 @@ public class SecUserController {
             this.secUserActiveService.insert(activeDTO);
             String subject = appName + "邮箱绑定";
             String html = "<html><body><p>" +
-                "尊敬的用户：" + userName +
-                "<br/><br/>您本次邮箱变更/绑定的验证码为<br/><h3>" + activeDTO.getActiveCode() +
-                "</h3><br/> 注意:请您在收到邮件10分钟内使用，否则该验证码将会失效" +
-                "</p></body></html>";
+                    "尊敬的用户：" + userName +
+                    "<br/><br/>您本次邮箱变更/绑定的验证码为<br/><h3>" + activeDTO.getActiveCode() +
+                    "</h3><br/> 注意:请您在收到邮件10分钟内使用，否则该验证码将会失效" +
+                    "</p></body></html>";
             String[] sendTo = {email};
             emailService.sendHtmlEmail(sendTo, subject, html);
         }
@@ -246,26 +233,26 @@ public class SecUserController {
     public ResponseEntity<ResponseVO> getEmailAuthCode(@NotNull String authCode,
                                                        @Email String email) {
         String userName = SecurityUtil.getCurrentUserName();
-        if (!StrUtil.isEmpty(userName)) {
+        if (StringUtils.hasText(userName)) {
             SecUserActiveDTO userActive = this.secUserActiveService.selectOne(userName, authCode);
             if (userActive == null || System.currentTimeMillis() > userActive.getExpiryTime()) {
                 return new ResponseEntity<>(
-                    ResponseVO.error(I18nUtil.get("response.error.authCode.expired")),
-                    HttpStatus.OK);
+                        ResponseVO.error(I18nUtil.get("response.error.authCode.expired")),
+                        HttpStatus.OK);
             } else {
                 SecUserDTO user = new SecUserDTO();
                 user.setUserName(userName);
                 user.setEmail(email);
                 user.setUserStatus(
-                    DictVO.toVO(DictConstants.USER_STATUS, UserStatusEnum.BIND_EMAIL.getValue()));
+                        DictVO.toVO(DictConstants.USER_STATUS, UserStatusEnum.BIND_EMAIL.getValue()));
                 this.secUserActiveService.updateByUserAndCode(userActive);
                 this.secUserService.updateByUserName(user);
                 return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
             }
         } else {
             return new ResponseEntity<>(
-                ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
-                    I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
+                    ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
+                            I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
         }
     }
 
@@ -279,7 +266,7 @@ public class SecUserController {
     @GetMapping(path = "/user/get/{token}")
     @ApiOperation(value = "查询用户权限", notes = "根据token信息查询用户所有权限")
     public ResponseEntity<ResponseVO> getOnlineUserInfo(
-        @PathVariable(value = "token") String token) {
+            @PathVariable(value = "token") String token) {
         OnlineUserVO onlineUser = this.onlineUserService.getAllPrivilegeByToken(token);
         ResponseVO info = ResponseVO.sucess();
         info.setData(onlineUser);
@@ -303,7 +290,7 @@ public class SecUserController {
         //校验验证码是否一致
         String authCode = (String) redisUtil.get(registerInfo.getUuid());
         redisUtil.delKeys(registerInfo.getUuid());
-        if (!StrUtil.isEmpty(authCode) && authCode.equalsIgnoreCase(registerInfo.getAuthCode())) {
+        if (StringUtils.hasText(authCode) && authCode.equalsIgnoreCase(registerInfo.getAuthCode())) {
             //校验两次输入密码是否一致
             if (registerInfo.getPassword().equals(registerInfo.getConfirmPassword())) {
                 Date date = new Date();
@@ -313,9 +300,9 @@ public class SecUserController {
                 String password = passwordEncoder.encode(registerInfo.getPassword());
                 secUserDTO.setPassword(password);
                 secUserDTO.setUserStatus(
-                    DictVO.toVO(DictConstants.USER_STATUS, UserStatusEnum.UNBIND_EMAIL.getValue()));
+                        DictVO.toVO(DictConstants.USER_STATUS, UserStatusEnum.UNBIND_EMAIL.getValue()));
                 secUserDTO.setRegisterChannel(DictVO.toVO(DictConstants.REGISTER_CHANNEL,
-                    RegisterChannelEnum.REGISTER.getValue()));
+                        RegisterChannelEnum.REGISTER.getValue()));
                 secUserDTO.setRegisterTime(date);
                 //获取客户端ip地址
                 String ipAddress = ServletUtil.getClientIP(httpServletRequest);
@@ -335,13 +322,13 @@ public class SecUserController {
             } else {
                 //前台有验证提示，此处只做返回，不展示
                 return new ResponseEntity<>(
-                    ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                        I18nUtil.get("response.error"), ErrorShowTypeEnum.SILENT), HttpStatus.OK);
+                        ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
+                                I18nUtil.get("response.error"), ErrorShowTypeEnum.SILENT), HttpStatus.OK);
             }
         } else {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                I18nUtil.get("response.error.authCode"), ErrorShowTypeEnum.ERROR_MESSAGE),
-                HttpStatus.OK);
+                    I18nUtil.get("response.error.authCode"), ErrorShowTypeEnum.ERROR_MESSAGE),
+                    HttpStatus.OK);
         }
     }
 
@@ -356,9 +343,9 @@ public class SecUserController {
         String randomPassword = this.randomPasswordGenerate(10);
         secUserDTO.setPassword(this.passwordEncoder.encode(randomPassword));
         secUserDTO.setUserStatus(
-            DictVO.toVO(DictConstants.USER_STATUS, UserStatusEnum.UNBIND_EMAIL.getValue()));
+                DictVO.toVO(DictConstants.USER_STATUS, UserStatusEnum.UNBIND_EMAIL.getValue()));
         secUserDTO.setRegisterChannel(DictVO.toVO(DictConstants.REGISTER_CHANNEL,
-            RegisterChannelEnum.BACKGROUND_IMPORT.getValue()));
+                RegisterChannelEnum.BACKGROUND_IMPORT.getValue()));
         String ipAddress = ServletUtil.getClientIP(httpServletRequest);
         secUserDTO.setRegisterIp(ipAddress);
         this.secUserService.insert(secUserDTO);
@@ -434,12 +421,12 @@ public class SecUserController {
     private void sendConfirmEmail(SecUserDTO secUserDTO, String password) {
         String subject = appName + "注册确认";
         String html = "<html><body><p>" +
-            "尊敬的用户：<br/> 感谢您注册" + appName + "，账号" + secUserDTO.getUserName() + "已开通";
+                "尊敬的用户：<br/> 感谢您注册" + appName + "，账号" + secUserDTO.getUserName() + "已开通";
         if (!StringUtils.isEmpty(password)) {
             html = html + "，初始密码为：" + password;
         }
         html = html + "。<br/> 登录后请及时修改密码。" +
-            "<br/> </p></body></html>";
+                "<br/> </p></body></html>";
 
         String[] sendTo = {secUserDTO.getEmail()};
         this.emailService.sendHtmlEmail(sendTo, subject, html);
@@ -480,7 +467,7 @@ public class SecUserController {
     @ApiOperation(value = "根据用户名查询用户信息", notes = "根据用户名查询用户信息")
     public ResponseEntity<SecUserDTO> listUserByUserName() {
         String userName = SecurityUtil.getCurrentUserName();
-        if (!StrUtil.isEmpty(userName)) {
+        if (StringUtils.hasText(userName)) {
             SecUserDTO userinfo = this.secUserService.selectOne(userName);
             return new ResponseEntity<>(userinfo, HttpStatus.OK);
         } else {
