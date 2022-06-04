@@ -1,5 +1,6 @@
 package cn.sliew.scaleph.api.util;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.WebUtils;
@@ -9,14 +10,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public enum RequestParamUtil {
     ;
-
-    private static final String SPLIT_STRING_M = "=";
-    private static final String SPLIT_STRING_DOT = ", ";
 
     private static final List<String> IGNORE_PATH = Arrays.asList("/webjars/**",
             "/doc.html", "/swagger-resources", "/v3/api-docs", "/favicon.ico");
@@ -26,17 +25,24 @@ public enum RequestParamUtil {
      * query param
      */
     public static String getRequestParams(HttpServletRequest request) {
-        StringBuilder sb = new StringBuilder();
-        Enumeration<String> enu = request.getParameterNames();
-        //获取请求参数
-        while (enu.hasMoreElements()) {
-            String name = enu.nextElement();
-            sb.append(name + SPLIT_STRING_M).append(request.getParameter(name));
-            if (enu.hasMoreElements()) {
-                sb.append(SPLIT_STRING_DOT);
+        if (request.getParameterMap().isEmpty()) {
+            return "";
+        }
+
+        Map<String, Object> query = new HashMap<>();
+        for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
+            final String key = entry.getKey();
+            final String[] value = entry.getValue();
+
+            if (value == null || value.length == 0) {
+                query.put(key, null);
+            } else if (value.length == 1) {
+                query.put(key, value[0]);
+            } else {
+                query.put(key, value);
             }
         }
-        return sb.toString();
+        return JacksonUtil.toJsonString(query);
     }
 
     /**
