@@ -228,7 +228,7 @@ public class JdbcUtil {
             .append(meta.getDatabaseName())
             .append(meta.getUserName())
             .append(meta.getPort());
-        return DigestUtils.md5DigestAsHex(builder.toString().getBytes());
+        return DigestUtils.md5DigestAsHex(builder.toString().getBytes()); //NOSONAR
     }
 
     /**
