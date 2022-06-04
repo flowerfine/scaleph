@@ -51,7 +51,7 @@ public class MybatisPlusGenerator {
     private final static String URL =
         "jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai";
     private final static String USERNAME = "root";
-    private final static String PASSWORD = "123456";
+    private final static String PASSWORD = "123456"; //NOSONAR
     private static final String BASE_PACKAGE = "cn.sliew";
     private static final String MODULE = "scaleph";
     private static final String TABLE_PREFIX = "";
