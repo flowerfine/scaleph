@@ -23,11 +23,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
-import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
-import com.baomidou.mybatisplus.generator.config.GlobalConfig;
-import com.baomidou.mybatisplus.generator.config.InjectionConfig;
-import com.baomidou.mybatisplus.generator.config.PackageConfig;
-import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.builder.Controller;
 import com.baomidou.mybatisplus.generator.config.builder.Entity;
 import com.baomidou.mybatisplus.generator.config.builder.Mapper;
@@ -59,15 +55,14 @@ public class MybatisPlusGenerator {
     /**
      * just add table names here and run the {@link #main(String[])} method.
      */
-    private static final String[] TABLES = {"meta_datasource2"};
+    private static final String[] TABLES = {"di_job_step2"};
 
     public static void main(String[] args) {
         //自动生成配置
         FastAutoGenerator generator = FastAutoGenerator.create(dataSourceConfig())
             .globalConfig(MybatisPlusGenerator::globalConfig)
             .packageConfig(MybatisPlusGenerator::packageConfig)
-            .templateConfig(builder -> {
-            })
+            .templateConfig(MybatisPlusGenerator::templateConfig)
             .strategyConfig(MybatisPlusGenerator::strategyConfig)
             .injectionConfig(MybatisPlusGenerator::injectionConfig);
         generator.execute();
@@ -117,6 +112,10 @@ public class MybatisPlusGenerator {
             .controller("api.controller")
             .other("other");
 //                .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "/Users/wangqi/Downloads/generator"));
+    }
+
+    private static void templateConfig(TemplateConfig.Builder builder) {
+
     }
 
     /**
