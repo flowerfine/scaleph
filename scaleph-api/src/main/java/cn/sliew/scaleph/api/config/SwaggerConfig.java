@@ -1,8 +1,5 @@
 package cn.sliew.scaleph.api.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cn.sliew.scaleph.common.constant.Constants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +16,9 @@ import springfox.documentation.service.RequestParameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * swagger 配置
  *
@@ -29,35 +29,32 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class SwaggerConfig {
     @Bean
     public Docket apiDocket(Environment environment) {
-        Profiles profiles = Profiles.of("dev");
-        boolean flag = environment.acceptsProfiles(profiles);
+        environment.acceptsProfiles(Profiles.of("dev"));
         //token param
         RequestParameterBuilder tokenParam = new RequestParameterBuilder();
         List<RequestParameter> paramList = new ArrayList<>();
         tokenParam.name(Constants.TOKEN_KEY)
-            .description("user token")
-            .in("header")
-            .required(true)
-            .build();
+                .description("user token")
+                .in("header")
+                .required(true)
+                .build();
         paramList.add(tokenParam.build());
         return new Docket(DocumentationType.OAS_30)
-            .apiInfo(apiInfo())
-            .select()
-            .apis(RequestHandlerSelectors.basePackage("cn.sliew.scaleph"))
-            .paths(PathSelectors.any())
-            .build()
-            .globalRequestParameters(paramList);
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("cn.sliew.scaleph"))
+                .paths(PathSelectors.any())
+                .build()
+                .globalRequestParameters(paramList);
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-            .title("Scaleph API文档")
-            .description("Scaleph API文档")
-            .contact(
-                new Contact("gleiyu", "https://github.com/flowerfine/scaleph", "gleiyu@sina.cn"))
-            .contact(new Contact("kalencaya", "https://github.com/flowerfine/scaleph",
-                "1942460489@qq.com"))
-            .version("1.0.0-SNAPSHOT")
-            .build();
+                .title("Scaleph API文档")
+                .description("Scaleph API文档")
+                .contact(new Contact("gleiyu", "https://github.com/flowerfine/scaleph", "gleiyu@sina.cn"))
+                .contact(new Contact("kalencaya", "https://github.com/flowerfine/scaleph", "1942460489@qq.com"))
+                .version("1.0.0-SNAPSHOT")
+                .build();
     }
 }
