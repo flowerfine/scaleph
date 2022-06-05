@@ -976,6 +976,30 @@ INSERT INTO di_job(project_id, job_code, job_name, directory_id, job_type, job_o
 VALUES (1, 'local_jdbc_to_jdbc', 'local_jdbc_to_jdbc', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys_admin',
         'sys_admin');
 
+/* 数据集成-作业信息2*/
+drop table if exists di_job2;
+CREATE TABLE `di_job2`
+(
+    `id`            bigint       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    `project_id`    bigint       NOT NULL COMMENT '项目id',
+    `directory_id`  bigint       NOT NULL COMMENT '作业目录',
+    `job_name`      varchar(256) NOT NULL COMMENT '作业名称',
+    `job_type`      varchar(4)        DEFAULT NULL COMMENT '作业类型',
+    `job_owner`     varchar(32)       DEFAULT NULL COMMENT '负责人',
+    `job_status`    varchar(4)        DEFAULT '1' COMMENT '作业状态 草稿、发布、归档',
+    `runtime_state` varchar(4)        DEFAULT '1' COMMENT '运行状态',
+    `job_version`   int               DEFAULT '1' COMMENT '作业版本号',
+    `cluster_id`    int               DEFAULT NULL COMMENT '集群id',
+    `job_crontab`   varchar(32)       DEFAULT NULL COMMENT '作业调度crontab表达式',
+    `remark`        varchar(256)      DEFAULT NULL COMMENT '备注',
+    `creator`       varchar(32)       DEFAULT NULL COMMENT '创建人',
+    `create_time`   timestamp    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `editor`        varchar(32)       DEFAULT NULL COMMENT '修改人',
+    `update_time`   timestamp    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `project_id` (`project_id`, `job_version`)
+) ENGINE = InnoDB COMMENT ='数据集成-作业信息2';
+
 drop table if exists di_job_resource_file;
 create table di_job_resource_file
 (
@@ -1041,6 +1065,24 @@ INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `ste
                           `creator`, `editor`)
 VALUES (2, 'ac5622d2-77dd-47e3-99e4-9090dbd790ea', '表输出', 'sink', 'table', -110, -80, 'sys_admin', 'sys_admin');
 
+/* 作业步骤信息 包含source，transform，sink,note 等*/
+drop table if exists di_job_step2;
+CREATE TABLE `di_job_step2`
+(
+    `id`          bigint       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    `job_id`      bigint       NOT NULL COMMENT '作业id',
+    `step_type`   tinyint(4)   NOT NULL COMMENT '步骤类型。0: source, 1: transform, 2: sink',
+    `step_name`   varchar(128) NOT NULL COMMENT '步骤名称',
+    `step_title`  varchar(128) NOT NULL COMMENT '步骤标题',
+    `position_x`  int          NOT NULL COMMENT 'x坐标',
+    `position_y`  int          NOT NULL COMMENT 'y坐标',
+    `creator`     varchar(32)       DEFAULT NULL COMMENT '创建人',
+    `create_time` timestamp    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `editor`      varchar(32)       DEFAULT NULL COMMENT '修改人',
+    `update_time` timestamp    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`),
+    KEY `job_id` (`job_id`)
+) ENGINE = InnoDB COMMENT ='数据集成-作业步骤信息2';
 /* 作业步骤参数 */
 drop table if exists di_job_step_attr;
 create table di_job_step_attr
@@ -1159,13 +1201,28 @@ create table di_job_link
     primary key (id),
     key (job_id)
 ) engine = innodb comment '数据集成-作业连线';
-
 insert into di_job_link(job_id, link_code, from_step_code, to_step_code, creator, editor)
 VALUES (1, '0c23960c-e59f-480f-beef-6cd59878d0e5', 'ead21aa2-a825-4827-a9ba-3833c6b83941',
         'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'sys_admin', 'sys_admin');
 INSERT INTO `di_job_link`(`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
 VALUES (2, '5cd7b126-c603-455b-93b2-5fc3ebb4fdca', '01f16fcb-faa4-45e4-8f46-edc2dc756e8a',
         'ac5622d2-77dd-47e3-99e4-9090dbd790ea', 'sys_admin', 'sys_admin');
+
+/* 作业连线信息2 */
+drop table if exists di_job_link2;
+create table di_job_link2
+(
+    id           bigint not null auto_increment comment '自增主键',
+    job_id       bigint not null comment '作业id',
+    from_step_id bigint not null comment '源步骤id',
+    to_step_id   bigint not null comment '目标步骤id',
+    creator      varchar(32) comment '创建人',
+    create_time  timestamp default current_timestamp comment '创建时间',
+    editor       varchar(32) comment '修改人',
+    update_time  timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    primary key (id),
+    key (job_id)
+) engine = innodb comment '数据集成-作业连线2';
 
 /* 数据同步-运行日志 */
 drop table if exists di_job_log;

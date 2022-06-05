@@ -16,27 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.service;
+package cn.sliew.scaleph.engine.seatunnel.service;
 
-import java.io.InputStream;
+import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 
-/**
- * @deprecated file directory is not suitable for object store, try to remove directory.
- */
-@Deprecated
-public interface StorageService {
+public interface SeatunnelConfigService {
 
-    boolean exists(String filePath);
-
-    void delete(String filePath, String fileName);
-
-    void mkdirs(String filePath);
-
-    String upload(InputStream inputStream, String filePath, String fileName);
-
-    boolean isDirectory(String filePath);
-
-    InputStream get(String filePath, String fileName);
-
-    Long getFileSize(String filePath, String fileName);
+    String buildConfig(DiJobDTO diJobDTO);
 }
