@@ -17,8 +17,11 @@ import java.util.Map;
 public enum RequestParamUtil {
     ;
 
-    private static final List<String> IGNORE_PATH = Arrays.asList("/webjars/**",
-            "/doc.html", "/swagger-resources", "/v3/api-docs", "/favicon.ico");
+    private static final List<String> IGNORE_PATH = Arrays.asList("/scaleph/doc.html",
+            "/scaleph/swagger-resources",
+            "/scaleph/webjars/**",
+            "/scaleph/v3/api-docs",
+            "/scaleph/favicon.ico");
     private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
 
     /**

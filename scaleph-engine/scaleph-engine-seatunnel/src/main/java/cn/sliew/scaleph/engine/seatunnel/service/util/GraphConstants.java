@@ -16,27 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.service;
+package cn.sliew.scaleph.engine.seatunnel.service.util;
 
-import java.io.InputStream;
+public enum GraphConstants {
+    ;
 
-/**
- * @deprecated file directory is not suitable for object store, try to remove directory.
- */
-@Deprecated
-public interface StorageService {
+    public static final String PLUGIN_NAME = "plugin_name";
 
-    boolean exists(String filePath);
+    public static final String NODE_TYPE = "node_type";
+    public static final String NODE_ID = "node_id";
 
-    void delete(String filePath, String fileName);
+    public static final String TABLE_PREFIX = "table_";
+    public static final String SOURCE_TABLE = "source_table_name";
+    public static final String RESULT_TABLE = "result_table_name";
 
-    void mkdirs(String filePath);
-
-    String upload(InputStream inputStream, String filePath, String fileName);
-
-    boolean isDirectory(String filePath);
-
-    InputStream get(String filePath, String fileName);
-
-    Long getFileSize(String filePath, String fileName);
 }
