@@ -58,17 +58,11 @@ import org.springframework.stereotype.Component;
 public class JobConfigHelper {
 
     private static final Map<String, String> JOB_STEP_MAP = new HashMap<>();
-    private static final Map<String, String> PLUGIN_MAP = new HashMap<>();
 
     static {
         //init job step map
         JOB_STEP_MAP.put("sink-table", "JdbcSink");
         JOB_STEP_MAP.put("source-table", "JdbcSource");
-        //init plugin map
-        PLUGIN_MAP.put("source-table", "jdbc");
-        PLUGIN_MAP.put("sink-table", "jdbc");
-        PLUGIN_MAP.put("source-csv", "file");
-        PLUGIN_MAP.put("sink-csv", "file");
     }
 
     @Autowired

@@ -16,20 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service.util;
+package cn.sliew.scaleph.engine.seatunnel.service;
 
-public enum QuartzJobUtil {
-    ;
+import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 
-    public static String getJobName(String projectCode, String jobCode) {
-        return String.format("%s_%s", projectCode, jobCode);
-    }
+public interface SeatunnelConfigService {
 
-    public static String getFlinkBatchJobName(String jobName) {
-        return "FLINK_BATCH_JOB_" + jobName;
-    }
-
-    public static String getFlinkBatchTriggerKey(String jobName) {
-        return "FLINK_BATCH_TRI_" + jobName;
-    }
+    String buildConfig(DiJobDTO diJobDTO);
 }

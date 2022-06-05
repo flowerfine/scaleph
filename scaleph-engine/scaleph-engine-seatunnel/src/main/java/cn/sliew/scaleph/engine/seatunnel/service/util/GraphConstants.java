@@ -18,18 +18,16 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.util;
 
-public enum QuartzJobUtil {
+public enum GraphConstants {
     ;
 
-    public static String getJobName(String projectCode, String jobCode) {
-        return String.format("%s_%s", projectCode, jobCode);
-    }
+    public static final String PLUGIN_NAME = "plugin_name";
 
-    public static String getFlinkBatchJobName(String jobName) {
-        return "FLINK_BATCH_JOB_" + jobName;
-    }
+    public static final String NODE_TYPE = "node_type";
+    public static final String NODE_ID = "node_id";
 
-    public static String getFlinkBatchTriggerKey(String jobName) {
-        return "FLINK_BATCH_TRI_" + jobName;
-    }
+    public static final String TABLE_PREFIX = "table_";
+    public static final String SOURCE_TABLE = "source_table_name";
+    public static final String RESULT_TABLE = "result_table_name";
+
 }

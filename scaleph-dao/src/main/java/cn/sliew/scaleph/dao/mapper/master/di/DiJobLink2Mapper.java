@@ -16,20 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service.util;
+package cn.sliew.scaleph.dao.mapper.master.di;
 
-public enum QuartzJobUtil {
-    ;
+import cn.sliew.scaleph.dao.entity.master.di.DiJobLink2;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-    public static String getJobName(String projectCode, String jobCode) {
-        return String.format("%s_%s", projectCode, jobCode);
-    }
+/**
+ * <p>
+ * 数据集成-作业连线2 Mapper 接口
+ * </p>
+ */
+@Repository
+public interface DiJobLink2Mapper extends BaseMapper<DiJobLink2> {
 
-    public static String getFlinkBatchJobName(String jobName) {
-        return "FLINK_BATCH_JOB_" + jobName;
-    }
-
-    public static String getFlinkBatchTriggerKey(String jobName) {
-        return "FLINK_BATCH_TRI_" + jobName;
-    }
 }
