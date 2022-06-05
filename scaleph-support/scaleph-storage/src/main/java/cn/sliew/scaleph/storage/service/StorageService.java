@@ -20,6 +20,10 @@ package cn.sliew.scaleph.storage.service;
 
 import java.io.InputStream;
 
+/**
+ * @deprecated file directory is not suitable for object store, try to remove directory.
+ */
+@Deprecated
 public interface StorageService {
 
     boolean exists(String filePath);
