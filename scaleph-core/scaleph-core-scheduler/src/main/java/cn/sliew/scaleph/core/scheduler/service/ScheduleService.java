@@ -21,8 +21,13 @@ package cn.sliew.scaleph.core.scheduler.service;
 import cn.sliew.scaleph.common.constant.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
+import org.quartz.impl.triggers.CronTriggerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -30,6 +35,12 @@ public class ScheduleService {
 
     @Autowired
     private Scheduler scheduler;
+
+    public List<Date> listNext5FireTime(String crontabStr) throws ParseException {
+        CronTriggerImpl cronTrigger = new CronTriggerImpl();
+        cronTrigger.setCronExpression(crontabStr);
+        return TriggerUtils.computeFireTimes(cronTrigger, null, 5);
+    }
 
     public void addScheduleJob(JobDetail jobDetail, Trigger trigger) throws SchedulerException {
         this.scheduler.scheduleJob(jobDetail, trigger);

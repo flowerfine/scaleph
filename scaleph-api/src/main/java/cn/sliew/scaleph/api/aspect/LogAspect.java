@@ -215,7 +215,7 @@ public class LogAspect {
             log.setActionInfo(JSONUtil.toJsonStr(actionInfo));
             this.logActionService.insert(log);
         } catch (Exception e) {
-            log.error("操作日志记录失败！");
+            log.error("操作日志记录失败！", e);
         }
     }
 
@@ -250,7 +250,7 @@ public class LogAspect {
             log.setActionInfo(JSONUtil.toJsonStr(actionInfo));
             this.logLoginService.insert(log);
         } catch (Exception e) {
-            log.error("操作日志记录失败！");
+            log.error("操作日志记录失败！", e);
         }
     }
 }

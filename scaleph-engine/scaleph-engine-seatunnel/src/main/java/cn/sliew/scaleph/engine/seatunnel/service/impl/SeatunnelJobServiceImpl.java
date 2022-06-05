@@ -23,6 +23,9 @@ import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
 import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
+import cn.sliew.flinkful.rest.base.JobClient;
+import cn.sliew.flinkful.rest.base.RestClient;
+import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
@@ -34,6 +37,7 @@ import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.core.scheduler.service.ScheduleService;
 import cn.sliew.scaleph.engine.seatunnel.JobConfigHelper;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.privilege.SecurityContext;
 import cn.sliew.scaleph.storage.service.StorageService;
 import cn.sliew.scaleph.storage.service.impl.NioFileServiceImpl;
@@ -45,8 +49,12 @@ import org.apache.flink.api.common.JobStatus;
 import org.apache.flink.client.deployment.executors.RemoteExecutor;
 import org.apache.flink.configuration.*;
 import org.apache.flink.runtime.jobgraph.SavepointRestoreSettings;
+import org.apache.flink.runtime.rest.handler.async.TriggerResponse;
+import org.apache.flink.runtime.rest.messages.EmptyResponseBody;
+import org.apache.flink.runtime.rest.messages.job.savepoints.stop.StopWithSavepointRequestBody;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -64,7 +72,11 @@ import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
+/**
+ * todo shield quartz detail.
+ */
 @Slf4j
 @Service
 public class SeatunnelJobServiceImpl implements SeatunnelJobService {
@@ -96,6 +108,9 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     @Autowired
     private JobConfigHelper jobConfigHelper;
 
+    @Value("${app.engine.flink.state.savepoints.dir}")
+    private String savePointDir;
+
     @Override
     public DiJobDTO queryJobInfo(Long jobId) {
         DiJobDTO job = diJobService.selectOne(jobId);
@@ -103,6 +118,23 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         job.setJobLinkList(diJobLinkService.listJobLink(jobId));
         job.setJobStepList(diJobStepService.listJobStep(jobId));
         return job;
+    }
+
+    @Override
+    public void run(DiJobRunVO jobRunParam) throws Exception {
+        // 1.执行任务和 flink 集群的绑定
+        diJobService.update(jobRunParam.toDto());
+        // 2.绑定任务和资源
+        diJobResourceFileService.bindResource(jobRunParam.getJobId(), jobRunParam.getResources());
+        // 3.获取任务信息
+        DiJobDTO diJobDTO = queryJobInfo(jobRunParam.getJobId());
+        // 4.调度或者运行
+        if (JobTypeEnum.BATCH.getValue().equals(diJobDTO.getJobType().getValue())
+                && StringUtils.hasText(diJobDTO.getJobCrontab())) {
+            schedule(diJobDTO);
+        } else {
+            submit(diJobDTO);
+        }
     }
 
     @Override
@@ -151,9 +183,9 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     @Override
     public void schedule(DiJobDTO diJobDTO) throws Exception {
         DiProjectDTO project = diProjectService.selectOne(diJobDTO.getProjectId());
-        String jobName = project.getProjectCode() + '_' + diJobDTO.getJobCode();
+        String jobName = QuartzJobUtil.getJobName(project.getProjectCode(), diJobDTO.getJobCode());
         JobKey seatunnelJobKey =
-                scheduleService.getJobKey("FLINK_BATCH_JOB_" + jobName, Constants.INTERNAL_GROUP);
+                scheduleService.getJobKey(QuartzJobUtil.getFlinkBatchJobName(jobName), Constants.INTERNAL_GROUP);
         JobDetail seatunnelJob = JobBuilder.newJob(SeatunnelFlinkJob.class)
                 .withIdentity(seatunnelJobKey)
                 .storeDurably()
@@ -161,7 +193,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         seatunnelJob.getJobDataMap().put(Constants.JOB_PARAM_JOB_INFO, diJobDTO);
         seatunnelJob.getJobDataMap().put(Constants.JOB_PARAM_PROJECT_INFO, project);
         TriggerKey seatunnelJobTriKey =
-                scheduleService.getTriggerKey("FLINK_BATCH_TRI_" + jobName, Constants.INTERNAL_GROUP);
+                scheduleService.getTriggerKey(QuartzJobUtil.getFlinkBatchTriggerKey(jobName), Constants.INTERNAL_GROUP);
         Trigger seatunnelJobTri = TriggerBuilder.newTrigger()
                 .withIdentity(seatunnelJobTriKey)
                 .withSchedule(CronScheduleBuilder.cronSchedule(diJobDTO.getJobCrontab()))
@@ -169,12 +201,56 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         if (scheduleService.checkExists(seatunnelJobKey)) {
             scheduleService.deleteScheduleJob(seatunnelJobKey);
         }
-        this.scheduleService.addScheduleJob(seatunnelJob, seatunnelJobTri);
+        scheduleService.addScheduleJob(seatunnelJob, seatunnelJobTri);
     }
 
     @Override
-    public void cancel(Long jobId) throws Exception {
+    public void stop(Long jobId) throws Exception {
+        DiJobDTO job = queryJobInfo(jobId);
+        // 1.取消调度任务
+        unschedule(job);
+        // 2.停掉所有正在运行的任务
+        cancel(job);
+        // 3.更新任务状态
+        job.setRuntimeState(DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.STOP.getValue()));
+        diJobService.update(job);
+    }
 
+    @Override
+    public void cancel(DiJobDTO diJobDTO) throws Exception {
+        List<DiJobLogDTO> list = diJobLogService.listRunningJobInstance(diJobDTO.getJobCode());
+        Configuration configuration = GlobalConfiguration.loadConfiguration();
+        for (DiJobLogDTO instance : list) {
+            DiClusterConfigDTO clusterConfig = diClusterConfigService.selectOne(instance.getClusterId());
+            String host = clusterConfig.getConfig().get(JobManagerOptions.ADDRESS.key());
+            int restPort = Integer.parseInt(clusterConfig.getConfig().get(RestOptions.PORT.key()));
+            RestClient client = new FlinkRestClient(host, restPort, configuration);
+            JobClient jobClient = client.job();
+            if (StringUtils.isEmpty(savePointDir)) {
+                // 取消任务时，不做 savepoint
+                CompletableFuture<EmptyResponseBody> future = jobClient.jobTerminate(instance.getJobInstanceId(), "cancel");
+                future.get();
+            } else {
+                // 取消任务时，进行 savepoint
+                if (savePointDir.endsWith("/")) {
+                    savePointDir = savePointDir.substring(0, savePointDir.length() - 1);
+                }
+                String savepointPath = String.join("/", savePointDir, clusterConfig.getClusterName(), instance.getJobInstanceId());
+                StopWithSavepointRequestBody requestBody = new StopWithSavepointRequestBody(savepointPath, true);
+                CompletableFuture<TriggerResponse> future = jobClient.jobStop(instance.getJobInstanceId(), requestBody);
+                future.get();
+            }
+        }
+    }
+
+    @Override
+    public void unschedule(DiJobDTO diJobDTO) throws Exception {
+        DiProjectDTO project = diProjectService.selectOne(diJobDTO.getProjectId());
+        String jobName = QuartzJobUtil.getJobName(project.getProjectCode(), diJobDTO.getJobCode());
+        JobKey seatunnelJobKey = scheduleService.getJobKey(QuartzJobUtil.getFlinkBatchJobName(jobName), Constants.INTERNAL_GROUP);
+        if (scheduleService.checkExists(seatunnelJobKey)) {
+            scheduleService.deleteScheduleJob(seatunnelJobKey);
+        }
     }
 
     private Path getProjectBasePath(Long projectId) throws IOException {
