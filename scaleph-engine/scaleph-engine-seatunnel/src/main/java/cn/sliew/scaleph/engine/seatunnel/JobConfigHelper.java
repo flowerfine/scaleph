@@ -88,10 +88,6 @@ public class JobConfigHelper {
         return JSONUtil.toJsonPrettyStr(conf);
     }
 
-    public String getSeatunnelPluginTag(String stepType, String stepName) {
-        return PLUGIN_MAP.get(StrUtil.concat(true, stepType, "-", stepName));
-    }
-
     private void buildEnv(DiJobDTO job, JobConfig conf) {
         List<DiJobAttrDTO> jobAttrList = job.getJobAttrList();
         Map<String, String> envMap = conf.getEnv();
