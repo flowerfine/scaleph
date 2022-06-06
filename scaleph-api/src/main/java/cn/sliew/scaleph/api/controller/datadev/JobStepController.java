@@ -19,11 +19,13 @@
 package cn.sliew.scaleph.api.controller.datadev;
 
 import cn.sliew.scaleph.api.annotation.Logging;
+import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.ConnectorType;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +33,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
@@ -57,19 +58,19 @@ public class JobStepController {
     }
 
     @Logging
-    @GetMapping("{type}")
+    @GetMapping("{stepType}")
     @ApiOperation(value = "查询 SeaTunnel connector 列表", notes = "查询 source, transform, sink 类型的 connector")
-    public Set<PluginInfo> getAvailableConnectors(@ApiParam(name = "type",
-            value = "connector 类型。0: source, 1: transform, 2: sink",
-            example = "0", allowableValues = "0, 1, 2") @PathVariable("type") ConnectorType type) {
-        return seatunnelConnectorService.getAvailableConnectors(type);
+    public Set<PluginInfo> getAvailableConnectors(@ApiParam(name = "stepType",
+            value = "job step 类型。source, trans, sink",
+            example = "source", allowableValues = "source, trans, sink") @PathVariable("type") JobStepTypeEnum stepType) {
+        return seatunnelConnectorService.getAvailableConnectors(stepType);
     }
 
     @Logging
-    @GetMapping("properties")
+    @GetMapping("{name}/properties")
     @ApiOperation(value = "查询 SeaTunnel connector 支持的属性")
-    public List<PropertyDescriptor> getSupportedProperties(@Valid PluginInfo pluginInfo) {
-        return seatunnelConnectorService.getSupportedProperties(pluginInfo);
+    public List<PropertyDescriptor> getSupportedProperties(@PathVariable("name") String name) {
+        return seatunnelConnectorService.getSupportedProperties(name);
     }
 
 }

@@ -20,10 +20,12 @@ package cn.sliew.scaleph.dao.mapper.master.meta;
 
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDatasource;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * 元数据-数据源信息2 Mapper 接口
  */
+@Repository
 public interface MetaDatasourceMapper extends BaseMapper<MetaDatasource> {
 
 }

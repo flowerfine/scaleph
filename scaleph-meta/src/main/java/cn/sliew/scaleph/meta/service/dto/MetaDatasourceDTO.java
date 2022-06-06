@@ -41,10 +41,6 @@ public class MetaDatasourceDTO extends BaseDTO {
     @ApiModelProperty(value = "名称")
     private String name;
 
-    @NotBlank
-    @ApiModelProperty(value = "版本")
-    private String version;
-
     @ApiModelProperty(value = "数据源支持的属性")
     private Map<String, Object> props;
 

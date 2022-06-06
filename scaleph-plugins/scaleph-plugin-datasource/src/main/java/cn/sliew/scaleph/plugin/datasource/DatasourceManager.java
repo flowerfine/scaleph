@@ -18,10 +18,7 @@
 
 package cn.sliew.scaleph.plugin.datasource;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.core.PluginSPILoader;
@@ -38,14 +35,19 @@ public class DatasourceManager {
 
     public List<PropertyDescriptor> getSupportedProperties(PluginInfo pluginInfo) {
         final Optional<DatasourcePlugin> optional = pluginPluginSPILoader.getPlugin(pluginInfo);
-        final DatasourcePlugin dataSourcePlugin = optional.orElseThrow(
-            () -> new IllegalStateException("unknown plugin info for " + pluginInfo));
+        final DatasourcePlugin dataSourcePlugin = optional.orElseThrow(() -> new IllegalStateException("unknown plugin info for " + pluginInfo));
         return dataSourcePlugin.getSupportedProperties();
     }
 
-    public <T> DatasourcePlugin<T> newDatasourcePlugin(PluginInfo pluginInfo,
-                                                       Map<String, Object> props,
-                                                       Map<String, Object> additionalProperties) {
-        return null;
+    public <T> DatasourcePlugin<T> newDatasourcePlugin(String name, Map<String, Object> props,
+                                                       Map<String, Object> additionalProps) {
+        Properties properties = new Properties();
+        properties.putAll(props);
+        final DatasourcePlugin datasourcePlugin = pluginPluginSPILoader.newInstance(name, properties);
+        Properties additionalProperties = new Properties();
+        additionalProperties.putAll(additionalProps);
+        datasourcePlugin.setAdditionalProperties(additionalProperties);
+        datasourcePlugin.start();
+        return datasourcePlugin;
     }
 }

@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.plugin.datasource.jdbc;
 
-import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
@@ -31,7 +30,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import io.micrometer.core.instrument.MeterRegistry;
 
 import javax.sql.DataSource;
-import java.io.InputStream;
 import java.util.*;
 
 import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
@@ -59,16 +57,7 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePl
     private volatile HikariDataSource dataSource;
 
     public JDBCDataSourcePlugin() {
-        PluginInfo pluginInfo = null;
-        try (InputStream resourceAsStream = JDBCDataSourcePlugin.class.getResourceAsStream(
-                "/" + PluginInfo.PLUGIN_PROPERTIES)) {
-            Properties pluginProperties = new Properties();
-            pluginProperties.load(resourceAsStream);
-            pluginInfo = PluginInfo.readFromProperties(pluginProperties);
-        } catch (Exception e) {
-            Rethrower.throwAs(e);
-        }
-        this.pluginInfo = pluginInfo;
+        this.pluginInfo = new PluginInfo("Hikaricp", "Hikaricp Jdbc DataSource", "3.4.5", JDBCDataSourcePlugin.class.getName());
     }
 
     @Override

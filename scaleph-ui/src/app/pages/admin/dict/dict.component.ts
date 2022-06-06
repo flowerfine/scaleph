@@ -61,6 +61,18 @@ export class DictComponent implements OnInit {
   }
 
   refreshTable() {
+    this.dictTypePager = {
+      total: 0,
+      pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
+      pageSize: DEFAULT_PAGE_PARAM.pageSize,
+      pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
+    };
+    this.dictDataPager = {
+      total: 0,
+      pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
+      pageSize: DEFAULT_PAGE_PARAM.pageSize,
+      pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
+    };
     this.refreshDictTypeTable();
     this.refreshDictDataTable();
   }
@@ -102,26 +114,21 @@ export class DictComponent implements OnInit {
   }
 
   dataTypeRowClick(row: SysDictType) {
+    let tmpValue = this.searchFormConfig.dictTypeCode;
     this.searchFormConfig.dictTypeCode = row.dictTypeCode;
-    this.refreshDictDataTable();
-  }
-
-  reset() {
-    this.searchFormConfig = { dictTypeCode: '', dictCode: '', dictValue: '' };
-    this.dictTypePager = {
-      total: 0,
-      pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
-      pageSize: DEFAULT_PAGE_PARAM.pageSize,
-      pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
-    };
     this.dictDataPager = {
       total: 0,
       pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
       pageSize: DEFAULT_PAGE_PARAM.pageSize,
       pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
     };
-    this.refreshDictTypeTable();
     this.refreshDictDataTable();
+    this.searchFormConfig.dictTypeCode = tmpValue;
+  }
+
+  reset() {
+    this.searchFormConfig = { dictTypeCode: '', dictCode: '', dictValue: '' };
+    this.refreshTable();
   }
 
   openDictTypeLoading() {
