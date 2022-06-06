@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink;
 
+import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.core.PluginSPILoader;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -47,16 +48,20 @@ public class SeatunnelNativeFlinkConnectorManager {
         return envProperties;
     }
 
-    public Set<PluginInfo> getAvailableConnectors(ConnectorType connectorType) {
+    public Set<PluginInfo> getAvailableConnectors(JobStepTypeEnum stepTypeEnum) {
         return pluginPluginSPILoader.getServices().values().stream()
-                .filter(connector -> connector.getConnectorType().equals(connectorType))
+                .filter(connector -> connector.getStepType().equals(stepTypeEnum))
                 .map(SeatunnelNativeFlinkConnector::getPluginInfo)
                 .collect(Collectors.toSet());
     }
 
-    public List<PropertyDescriptor> getSupportedProperties(PluginInfo pluginInfo) {
+    public SeatunnelNativeFlinkConnector getConnector(String name) {
+        PluginInfo pluginInfo = new PluginInfo(name, null, null, null);
         final Optional<SeatunnelNativeFlinkConnector> optional = pluginPluginSPILoader.getPlugin(pluginInfo);
-        final SeatunnelNativeFlinkConnector connector = optional.orElseThrow(() -> new IllegalStateException("unknown plugin info for " + pluginInfo));
-        return connector.getSupportedProperties();
+        return optional.orElseThrow(() -> new IllegalStateException("unknown plugin info for " + pluginInfo));
+    }
+
+    public SeatunnelNativeFlinkConnector newConnector(String name, Properties props) {
+        return pluginPluginSPILoader.newInstance(name, props);
     }
 }

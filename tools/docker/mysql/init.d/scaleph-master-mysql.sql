@@ -681,17 +681,16 @@ VALUES ('local_data_service', 'mysql', 'jdbc', 'localhost', 'data_service', 3306
 create TABLE meta_datasource2
 (
     id               bigint      NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-    name             varchar(64) NOT NULL COMMENT '名称',
-    version          varchar(32) NOT NULL COMMENT '版本',
-    remark           varchar(256)     DEFAULT NULL COMMENT '备注描述',
+    `name`           varchar(64) NOT NULL COMMENT '名称',
     props            text COMMENT '数据源支持的属性',
     additional_props text COMMENT '数据源支持的额外属性。',
+    remark           varchar(256)     DEFAULT NULL COMMENT '备注描述',
     creator          varchar(32)      DEFAULT NULL COMMENT '创建人',
     create_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     editor           varchar(32)      DEFAULT NULL COMMENT '修改人',
     update_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (id),
-    KEY name_version (name, version),
+    KEY `name` (`name`),
     KEY update_time (update_time)
 ) ENGINE = InnoDB COMMENT ='元数据-数据源信息2';
 

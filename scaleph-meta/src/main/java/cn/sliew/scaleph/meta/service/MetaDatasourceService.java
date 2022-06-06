@@ -33,7 +33,7 @@ public interface MetaDatasourceService {
 
     Set<PluginInfo> getAvailableDataSources();
 
-    List<PropertyDescriptor> getSupportedProperties(PluginInfo pluginInfo);
+    List<PropertyDescriptor> getSupportedProperties(String name);
 
     int insert(MetaDatasourceDTO metaDatasourceDTO);
 

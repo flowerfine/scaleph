@@ -18,6 +18,8 @@
 
 package cn.sliew.scaleph.common.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 /**
@@ -31,6 +33,8 @@ public enum JobStepTypeEnum {
     SINK("sink", "输出"),
     ;
 
+    @JsonValue
+    @EnumValue
     private String value;
     private String label;
 

@@ -18,23 +18,16 @@
 
 package cn.sliew.scaleph.plugin.framework.core;
 
+import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
+
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.ServiceLoader;
-import java.util.Set;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.stream.StreamSupport;
 
 public class PluginSPILoader<C extends Plugin> {
 
     private final Class<C> clazz;
+    private final ClassLoader classLoader;
 
     private volatile Map<PluginInfo, C> services = Collections.emptyMap();
     private volatile Set<PluginInfo> pluginInfos = Collections.emptySet();
@@ -45,12 +38,18 @@ public class PluginSPILoader<C extends Plugin> {
         if (classLoader == null) {
             classLoader = clazzClassloader;
         }
+        this.classLoader = classLoader;
         load(classLoader);
     }
 
-    public static <T extends Plugin> T newInstance(Class<T> clazz, Map<String, String> args) {
+    public C newInstance(String name, Properties props) {
+        final Optional<PluginInfo> optional = pluginInfos.stream().filter(pluginInfo -> pluginInfo.getName().equals(name)).findFirst();
+        final PluginInfo pluginInfo = optional.orElseThrow(() -> new RuntimeException("unknown plugin for " + name));
         try {
-            return clazz.getConstructor(Map.class).newInstance(args);
+            final Class<C> aClass = (Class<C>) Class.forName(pluginInfo.getClassname(), true, classLoader);
+            final C instance = aClass.getConstructor().newInstance();
+            instance.configure(PropertyContext.fromProperties(props));
+            return instance;
         } catch (InvocationTargetException ite) {
             final Throwable cause = ite.getCause();
             if (cause instanceof RuntimeException) {
@@ -60,14 +59,14 @@ public class PluginSPILoader<C extends Plugin> {
                 throw (Error) cause;
             }
             throw new RuntimeException(
-                "Unexpected checked exception while calling constructor of " + clazz.getName(),
+                "Unexpected checked exception while calling constructor of " + pluginInfo.getClassname(),
                 cause);
         } catch (ReflectiveOperationException e) {
             throw new UnsupportedOperationException(
                 "Plugin "
-                    + clazz.getName()
+                    + name
                     +
-                    " cannot be instantiated. This is likely due to missing Map<String,String> constructor.",
+                    " cannot be instantiated. This is likely due to missing empty constructor.",
                 e);
         }
     }

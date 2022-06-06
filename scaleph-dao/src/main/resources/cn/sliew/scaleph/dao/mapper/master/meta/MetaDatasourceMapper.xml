@@ -27,7 +27,6 @@
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
         <result column="name" property="name"/>
-        <result column="version" property="version"/>
         <result column="props" property="props"/>
         <result column="additional_props" property="additionalProps"/>
         <result column="remark" property="remark"/>

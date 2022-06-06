@@ -42,7 +42,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -79,13 +78,11 @@ public class DataSourceController {
      * fixme 权限
      */
     @Logging
-    @GetMapping(path = "supportedProperties")
+    @GetMapping(path = "{name}/properties")
     @ApiOperation(value = "查询数据源支持的属性列表", notes = "查询数据源支持的属性列表")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_SELECT)")
-    public ResponseEntity<List<PropertyDescriptor>> listSupportedProperties(
-            @Valid PluginInfo pluginInfo) {
-        final List<PropertyDescriptor> supportedProperties =
-                metaDatasourceService.getSupportedProperties(pluginInfo);
+    public ResponseEntity<List<PropertyDescriptor>> listSupportedProperties(@PathVariable("name") String name) {
+        final List<PropertyDescriptor> supportedProperties = metaDatasourceService.getSupportedProperties(name);
         return new ResponseEntity<>(supportedProperties, HttpStatus.OK);
     }
 

@@ -38,7 +38,6 @@ public interface MetaDataSourceConvert extends BaseConvert<MetaDatasource, MetaD
     default MetaDatasource toDo(MetaDatasourceDTO dto) {
         MetaDatasource metaDatasource = new MetaDatasource();
         metaDatasource.setName(dto.getName());
-        metaDatasource.setVersion(dto.getVersion());
         metaDatasource.setProps(JacksonUtil.toJsonString(dto.getProps()));
         metaDatasource.setAdditionalProps(JacksonUtil.toJsonString(dto.getAdditionalProps()));
         metaDatasource.setRemark(dto.getRemark());
@@ -49,7 +48,6 @@ public interface MetaDataSourceConvert extends BaseConvert<MetaDatasource, MetaD
     default MetaDatasourceDTO toDto(MetaDatasource entity) {
         MetaDatasourceDTO metaDatasourceDTO = new MetaDatasourceDTO();
         metaDatasourceDTO.setName(entity.getName());
-        metaDatasourceDTO.setVersion(entity.getVersion());
         metaDatasourceDTO.setProps(JacksonUtil.parseJsonString(entity.getProps(),
             new TypeReference<Map<String, Object>>() {
             }));
