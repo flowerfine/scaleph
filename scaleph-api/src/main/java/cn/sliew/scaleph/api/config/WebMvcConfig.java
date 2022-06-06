@@ -70,7 +70,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
 
-
     /**
      * 通用拦截器排除swagger设置，所有拦截器都会自动加swagger相关的资源排除信息
      */
@@ -85,11 +84,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
             if (registrations != null) {
                 for (InterceptorRegistration interceptorRegistration : registrations) {
                     interceptorRegistration
-                            .excludePathPatterns("/favicon.ico")
-                            .excludePathPatterns("/swagger**/**")
-                            .excludePathPatterns("/webjars/**")
-                            .excludePathPatterns("/v3/api-docs/**")
-                            .excludePathPatterns("/doc.html");
+                            .excludePathPatterns("/scaleph/doc.html")
+                            .excludePathPatterns("/scaleph/swagger-resources")
+                            .excludePathPatterns("/scaleph/webjars/**")
+                            .excludePathPatterns("/scaleph/v3/api-docs")
+                            .excludePathPatterns("/scaleph/favicon.ico");
                 }
             }
         } catch (Exception e) {
