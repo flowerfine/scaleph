@@ -19,9 +19,10 @@
 package cn.sliew.scaleph.api.config;
 
 import javax.sql.DataSource;
-
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.core.config.GlobalConfig;
+import com.baomidou.mybatisplus.core.toolkit.GlobalConfigUtils;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.zaxxer.hikari.HikariDataSource;
@@ -43,7 +44,7 @@ public class MasterDataSourceConfig {
     static final String MASTER_ENTITY_PACKAGE = "cn.sliew.scaleph.dao.entity.master";
     static final String MASTER_MAPPER_PACKAGE = "cn.sliew.scaleph.dao.mapper.master";
     static final String MASTER_MAPPER_XML_PATH =
-        "classpath*:cn.sliew.scaleph.dao.mapper/master/**/*.xml";
+            "classpath*:cn.sliew.scaleph.dao.mapper/master/**/*.xml";
 
     static final String MASTER_SQL_SESSION_FACTORY = "masterSqlSessionFactory";
     static final String MASTER_DATA_SOURCE_FACTORY = "masterDataSource";
@@ -57,7 +58,7 @@ public class MasterDataSourceConfig {
     @ConfigurationProperties(prefix = "spring.datasource.master")
     public DataSource masterDataSource() {
         return DataSourceBuilder.create().type(HikariDataSource.class)
-            .build();
+                .build();
     }
 
     @Primary
@@ -70,16 +71,18 @@ public class MasterDataSourceConfig {
     @Bean(MASTER_SQL_SESSION_FACTORY)
     public SqlSessionFactory masterSqlSessionFactory() throws Exception {
         MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();
+        GlobalConfig globalConfig = GlobalConfigUtils.defaults();
+        globalConfig.setMetaObjectHandler(new MybatisConfig.MetaHandler());
 
         MybatisPlusProperties props = new MybatisPlusProperties();
-        props.setMapperLocations(new String[] {MASTER_MAPPER_XML_PATH});
+        props.setMapperLocations(new String[]{MASTER_MAPPER_XML_PATH});
         factoryBean.setMapperLocations(props.resolveMapperLocations());
 
         MybatisConfiguration configuration = new MybatisConfiguration();
         configuration.setMapUnderscoreToCamelCase(true);
         configuration.setLogImpl(Slf4jImpl.class);
         factoryBean.setConfiguration(configuration);
-
+        factoryBean.setGlobalConfig(globalConfig);
         factoryBean.setDataSource(masterDataSource());
         factoryBean.setTypeAliasesPackage(MASTER_ENTITY_PACKAGE);
         factoryBean.setPlugins(mybatisPlusInterceptor);
