@@ -21,8 +21,10 @@ package cn.sliew.scaleph.engine.seatunnel.service;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
 
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 /**
@@ -34,6 +36,10 @@ public interface SeatunnelConnectorService {
 
     Set<PluginInfo> getAvailableConnectors(JobStepTypeEnum stepType);
 
-    List<PropertyDescriptor> getSupportedProperties(PluginInfo pluginInfo);
+    SeatunnelNativeFlinkConnector getConnector(String name);
+
+    List<PropertyDescriptor> getSupportedProperties(String name);
+
+    SeatunnelNativeFlinkConnector newConnector(String name, Properties properties);
 
 }

@@ -55,9 +55,9 @@ public class SeatunnelNativeFlinkConnectorManager {
                 .collect(Collectors.toSet());
     }
 
-    public List<PropertyDescriptor> getSupportedProperties(PluginInfo pluginInfo) {
+    public SeatunnelNativeFlinkConnector getConnector(String name) {
+        PluginInfo pluginInfo = new PluginInfo(name, null, null, null);
         final Optional<SeatunnelNativeFlinkConnector> optional = pluginPluginSPILoader.getPlugin(pluginInfo);
-        final SeatunnelNativeFlinkConnector connector = optional.orElseThrow(() -> new IllegalStateException("unknown plugin info for " + pluginInfo));
-        return connector.getSupportedProperties();
+        return optional.orElseThrow(() -> new IllegalStateException("unknown plugin info for " + pluginInfo));
     }
 }

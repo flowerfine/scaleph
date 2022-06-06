@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
@@ -68,10 +67,10 @@ public class JobStepController {
     }
 
     @Logging
-    @GetMapping("properties")
+    @GetMapping("{name}/properties")
     @ApiOperation(value = "查询 SeaTunnel connector 支持的属性")
-    public List<PropertyDescriptor> getSupportedProperties(@Valid PluginInfo pluginInfo) {
-        return seatunnelConnectorService.getSupportedProperties(pluginInfo);
+    public List<PropertyDescriptor> getSupportedProperties(@PathVariable("name") String name) {
+        return seatunnelConnectorService.getSupportedProperties(name);
     }
 
 }

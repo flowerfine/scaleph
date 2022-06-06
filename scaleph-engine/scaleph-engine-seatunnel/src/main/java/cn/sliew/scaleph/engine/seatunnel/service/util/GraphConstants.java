@@ -22,7 +22,6 @@ public enum GraphConstants {
     ;
 
     public static final String PLUGIN_NAME = "plugin_name";
-
     public static final String NODE_TYPE = "node_type";
     public static final String NODE_ID = "node_id";
 
