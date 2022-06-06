@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink;
 
+import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.core.PluginSPILoader;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -47,9 +48,9 @@ public class SeatunnelNativeFlinkConnectorManager {
         return envProperties;
     }
 
-    public Set<PluginInfo> getAvailableConnectors(ConnectorType connectorType) {
+    public Set<PluginInfo> getAvailableConnectors(JobStepTypeEnum stepTypeEnum) {
         return pluginPluginSPILoader.getServices().values().stream()
-                .filter(connector -> connector.getConnectorType().equals(connectorType))
+                .filter(connector -> connector.getStepType().equals(stepTypeEnum))
                 .map(SeatunnelNativeFlinkConnector::getPluginInfo)
                 .collect(Collectors.toSet());
     }

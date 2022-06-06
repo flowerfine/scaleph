@@ -19,10 +19,10 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.sink;
 
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.ConnectorType;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -71,8 +71,8 @@ public class JdbcSinkConnector extends AbstractPlugin implements SeatunnelNative
     }
 
     @Override
-    public ConnectorType getConnectorType() {
-        return ConnectorType.SINK;
+    public JobStepTypeEnum getStepType() {
+        return JobStepTypeEnum.SINK;
     }
 
     @Override

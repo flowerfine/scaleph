@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink;
 
+import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +31,7 @@ class SeatunnelNativeFlinkConnectorManagerTest {
     @Test
     void testLoadConnectorPlugins() throws Exception {
         SeatunnelNativeFlinkConnectorManager manager = new SeatunnelNativeFlinkConnectorManager();
-        final Set<PluginInfo> sourceConnectors = manager.getAvailableConnectors(ConnectorType.SOURCE);
+        final Set<PluginInfo> sourceConnectors = manager.getAvailableConnectors(JobStepTypeEnum.SOURCE);
         assertThat(sourceConnectors).isNotEmpty();
     }
 }
