@@ -58,6 +58,18 @@ export class RefdataComponent implements OnInit {
     this.refreshTable();
   }
   refreshTable() {
+    this.refdataTypePager = {
+      total: 0,
+      pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
+      pageSize: DEFAULT_PAGE_PARAM.pageSize,
+      pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
+    };
+    this.refdataPager = {
+      total: 0,
+      pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
+      pageSize: DEFAULT_PAGE_PARAM.pageSize,
+      pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
+    };
     this.refreshRefdataTypeTable();
     this.refreshRefdataTable();
   }
@@ -99,26 +111,21 @@ export class RefdataComponent implements OnInit {
   }
 
   dataTypeRowClick(row: MetaDataSetType) {
+    let tmpValue = this.searchFormConfig.dataSetTypeCode;
     this.searchFormConfig.dataSetTypeCode = row.dataSetTypeCode;
-    this.refreshRefdataTable();
-  }
-
-  reset() {
-    this.searchFormConfig = { dataSetTypeCode: '', dataSetCode: '', dataSetValue: '' };
-    this.refdataTypePager = {
-      total: 0,
-      pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
-      pageSize: DEFAULT_PAGE_PARAM.pageSize,
-      pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
-    };
     this.refdataPager = {
       total: 0,
       pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
       pageSize: DEFAULT_PAGE_PARAM.pageSize,
       pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
     };
-    this.refreshRefdataTypeTable();
     this.refreshRefdataTable();
+    this.searchFormConfig.dataSetTypeCode = tmpValue;
+  }
+
+  reset() {
+    this.searchFormConfig = { dataSetTypeCode: '', dataSetCode: '', dataSetValue: '' };
+    this.refreshTable();
   }
 
   openRefdataTypeLoading() {
