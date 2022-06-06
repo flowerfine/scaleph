@@ -46,19 +46,14 @@ public class SeatunnelConnectorServiceImpl implements SeatunnelConnectorService 
     public Set<PluginInfo> getAvailableConnectors(JobStepTypeEnum stepType) {
         return connectorManager.getAvailableConnectors(stepType);
     }
-
-    @Override
-    public SeatunnelNativeFlinkConnector getConnector(String name) {
-        return connectorManager.getConnector(name);
-    }
-
+    
     @Override
     public List<PropertyDescriptor> getSupportedProperties(String name) {
-        return getConnector(name).getSupportedProperties();
+        return connectorManager.getConnector(name).getSupportedProperties();
     }
 
     @Override
     public SeatunnelNativeFlinkConnector newConnector(String name, Properties properties) {
-        return null;
+        return connectorManager.newConnector(name, properties);
     }
 }

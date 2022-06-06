@@ -60,4 +60,8 @@ public class SeatunnelNativeFlinkConnectorManager {
         final Optional<SeatunnelNativeFlinkConnector> optional = pluginPluginSPILoader.getPlugin(pluginInfo);
         return optional.orElseThrow(() -> new IllegalStateException("unknown plugin info for " + pluginInfo));
     }
+
+    public SeatunnelNativeFlinkConnector newConnector(String name, Properties props) {
+        return pluginPluginSPILoader.newInstance(name, props);
+    }
 }

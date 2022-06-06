@@ -36,8 +36,6 @@ public interface SeatunnelConnectorService {
 
     Set<PluginInfo> getAvailableConnectors(JobStepTypeEnum stepType);
 
-    SeatunnelNativeFlinkConnector getConnector(String name);
-
     List<PropertyDescriptor> getSupportedProperties(String name);
 
     SeatunnelNativeFlinkConnector newConnector(String name, Properties properties);

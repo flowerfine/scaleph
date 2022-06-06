@@ -52,7 +52,8 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
     }
 
     @Override
-    public List<PropertyDescriptor> getSupportedProperties(PluginInfo pluginInfo) {
+    public List<PropertyDescriptor> getSupportedProperties(String name) {
+        PluginInfo pluginInfo = new PluginInfo(name, null, null, null);
         return datasourceManager.getSupportedProperties(pluginInfo);
     }
 
@@ -89,6 +90,9 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
     @Override
     public MetaDatasourceDTO selectOne(Long id) {
         final MetaDatasource datasource = metaDatasourceMapper.selectById(id);
+        if (datasource == null) {
+            return null;
+        }
         return MetaDataSourceConvert.INSTANCE.toDto(datasource);
     }
 
@@ -99,8 +103,6 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
             Wrappers.lambdaQuery(MetaDatasource.class)
                 .like(StringUtils.hasText(param.getName()), MetaDatasource::getName,
                     param.getName())
-                .eq(StringUtils.hasText(param.getVersion()), MetaDatasource::getVersion,
-                    param.getVersion())
         );
         Page<MetaDatasourceDTO> result =
             new Page<>(list.getCurrent(), list.getSize(), list.getTotal());
