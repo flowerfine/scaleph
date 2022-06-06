@@ -22,6 +22,8 @@ import javax.sql.DataSource;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.core.config.GlobalConfig;
+import com.baomidou.mybatisplus.core.toolkit.GlobalConfigUtils;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.zaxxer.hikari.HikariDataSource;
@@ -65,7 +67,8 @@ public class LogDataSourceConfig {
     @Bean(LOG_SQL_SESSION_FACTORY)
     public SqlSessionFactory logSqlSessionFactory() throws Exception {
         MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();
-
+        GlobalConfig globalConfig = GlobalConfigUtils.defaults();
+        globalConfig.setMetaObjectHandler(new MybatisConfig.MetaHandler());
         MybatisPlusProperties props = new MybatisPlusProperties();
         props.setMapperLocations(new String[] {LOG_MAPPER_XML_PATH});
         factoryBean.setMapperLocations(props.resolveMapperLocations());
@@ -74,7 +77,7 @@ public class LogDataSourceConfig {
         configuration.setMapUnderscoreToCamelCase(true);
         configuration.setLogImpl(Slf4jImpl.class);
         factoryBean.setConfiguration(configuration);
-
+        factoryBean.setGlobalConfig(globalConfig);
         factoryBean.setDataSource(logDataSource());
         factoryBean.setTypeAliasesPackage(LOG_ENTITY_PACKAGE);
         factoryBean.setPlugins(mybatisPlusInterceptor);
