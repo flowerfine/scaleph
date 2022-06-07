@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.impl;
 
+import cn.sliew.scaleph.common.nio.TempFileUtil;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.engine.seatunnel.FlinkRelease;
 import cn.sliew.scaleph.engine.seatunnel.SeatunnelRelease;
@@ -143,7 +144,7 @@ public class SeatunnelStorageServiceImpl implements SeatunnelStorageService {
         String filePath = getFlinkReleasePath(flinkRelease);
         String fileName = flinkRelease.getReleaseName();
         final InputStream inputStream = blobService.get(filePath + fileName);
-        final Path tempFile = createTempFile(createTempDir(), fileName);
+        final Path tempFile = TempFileUtil.createTempFile(fileName);
         Files.copy(inputStream, tempFile, StandardCopyOption.ATOMIC_MOVE);
         return tempFile;
     }
@@ -186,7 +187,7 @@ public class SeatunnelStorageServiceImpl implements SeatunnelStorageService {
         String filePath = getSeatunnelReleasePath(seatunnelRelease);
         String fileName = seatunnelRelease.getReleaseName();
         final InputStream inputStream = blobService.get(filePath + fileName);
-        final Path tempFile = createTempFile(createTempDir(), fileName);
+        final Path tempFile = TempFileUtil.createTempFile(fileName);
         Files.copy(inputStream, tempFile, StandardCopyOption.ATOMIC_MOVE);
         return tempFile;
     }
@@ -205,17 +206,9 @@ public class SeatunnelStorageServiceImpl implements SeatunnelStorageService {
     @Override
     public Path loadSeatunnelConfigFile(DiJobDTO diJobDTO) throws IOException {
         final String configFile = getSeatunnelConfigFile(diJobDTO);
-        final Path tempFile = createTempFile(createTempDir(), getSeatunnelConfigFile(diJobDTO));
+        final Path tempFile = TempFileUtil.createTempFile(getSeatunnelConfigFile(diJobDTO));
         final InputStream inputStream = blobService.get(configFile);
         Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
         return tempFile;
-    }
-
-    private Path createTempDir() throws IOException {
-        return Files.createTempDirectory(null, attributes);
-    }
-
-    private Path createTempFile(Path tempDir, String fileName) throws IOException {
-        return Files.createTempFile(tempDir, fileName, null, attributes);
     }
 }
