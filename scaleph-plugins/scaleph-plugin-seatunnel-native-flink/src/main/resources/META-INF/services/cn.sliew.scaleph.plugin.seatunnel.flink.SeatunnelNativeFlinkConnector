@@ -9,5 +9,6 @@ cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.sink.DruidSinkConnector
 cn.sliew.scaleph.plugin.seatunnel.flink.connector.elasticsearch.sink.ElasticsearchSinkConnector
 cn.sliew.scaleph.plugin.seatunnel.flink.connector.fake.source.FakeSourceConnector
 cn.sliew.scaleph.plugin.seatunnel.flink.connector.file.source.FileSourceConnector
+cn.sliew.scaleph.plugin.seatunnel.flink.connector.file.sink.FileSinkConnector
 cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.source.InfluxDBSourceConnector
 cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.source.KafkaSourceConnector
