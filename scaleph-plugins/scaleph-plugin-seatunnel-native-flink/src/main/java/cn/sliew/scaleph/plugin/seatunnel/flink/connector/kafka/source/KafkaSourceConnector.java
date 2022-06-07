@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.source;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
@@ -31,25 +31,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.JdbcProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.source.JdbcSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.source.KafkaSourceProperties.*;
 
-public class JdbcSourceConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
+public class KafkaSourceConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
     static {
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(URL);
-        props.add(DRIVER);
-        props.add(USERNAME);
-        props.add(PASSWORD);
-        props.add(QUERY);
-        props.add(FETCH_SIZE);
-        props.add(PARALLELISM);
-        props.add(PARTITION_COLUMN);
-        props.add(PARTITION_UPPER_BOUND);
-        props.add(PARTITION_LOWER_BOUND);
+        props.add(TOPICS);
+        props.add(CONSUMER_GROUP_ID);
+        props.add(CONSUMER_BOOTSTRAP_SERVERS);
+        props.add(FORMAT_TYPE);
+        props.add(FORMAT_XXX);
+        props.add(SCHEMA);
+        props.add(ROWTIME_FIELD);
+        props.add(WATERMARK);
+        props.add(OFFSET_RESET);
+        props.add(CONSUMER_XXX);
 
         props.add(CommonProperties.RESULT_TABLE_NAME);
         props.add(CommonProperties.FIELD_NAME);
@@ -58,8 +57,8 @@ public class JdbcSourceConnector extends AbstractPlugin implements SeatunnelNati
 
     private final PluginInfo pluginInfo;
 
-    public JdbcSourceConnector() {
-        this.pluginInfo = new PluginInfo("JdbcSource", "jdbc source connector", "2.1.1", JdbcSourceConnector.class.getName());
+    public KafkaSourceConnector() {
+        this.pluginInfo = new PluginInfo("KafkaTableStream", "kafka source connector", "2.1.1", KafkaSourceConnector.class.getName());
     }
 
     @Override
@@ -74,18 +73,17 @@ public class JdbcSourceConnector extends AbstractPlugin implements SeatunnelNati
     }
 
     @Override
-    public JobStepTypeEnum getStepType() {
-        return JobStepTypeEnum.SOURCE;
+    public PluginInfo getPluginInfo() {
+        return pluginInfo;
     }
 
     @Override
-    public PluginInfo getPluginInfo() {
-        return pluginInfo;
+    public JobStepTypeEnum getStepType() {
+        return JobStepTypeEnum.SOURCE;
     }
 
     @Override
     public List<PropertyDescriptor> getSupportedProperties() {
         return supportedProperties;
     }
-
 }

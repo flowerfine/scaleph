@@ -16,51 +16,56 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.sink;
 
-import cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties;
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum JdbcProperties {
+public enum DruidSinkProperties {
     ;
-    public static final PropertyDescriptor<String> URL = new PropertyDescriptor.Builder()
-            .name("url")
-            .description("jdbc url")
+
+    public static final PropertyDescriptor<String> COORDINATOR_URL = new PropertyDescriptor.Builder<String>()
+            .name("coordinator_url")
+            .description("Apache Druid Coordinator service url")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .fallbackProperty(JdbcPoolProperties.JDBC_URL)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> DRIVER = new PropertyDescriptor.Builder()
-            .name("driver")
-            .description("jdbc class name")
+    public static final PropertyDescriptor<String> DATASOURCE = new PropertyDescriptor.Builder<String>()
+            .name("datasource")
+            .description("Apache Druid datasource name")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .fallbackProperty(JdbcPoolProperties.DRIVER_CLASS_NAME)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder()
-            .name("username")
-            .description("jdbc username")
+    public static final PropertyDescriptor<String> TIMESTAMP_COLUMN = new PropertyDescriptor.Builder<String>()
+            .name("timestamp_column")
+            .description("Apache Druid timestamp column name")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .fallbackProperty(JdbcPoolProperties.USERNAME)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> PASSWORD = new PropertyDescriptor.Builder()
-            .name("password")
-            .description("jdbc password")
+    /**
+     * https://seatunnel.apache.org/docs/2.1.1/connector/sink/Druid#timestamp_format-string
+     */
+    public static final PropertyDescriptor<String> TIMESTAMP_FORMAT = new PropertyDescriptor.Builder<String>()
+            .name("timestamp_format")
+            .description("Apache Druid timestamp format")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .fallbackProperty(JdbcPoolProperties.PASSWORD)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> TIMESTAMP_MISSING_VALUE = new PropertyDescriptor.Builder<String>()
+            .name("timestamp_missing_value")
+            .description("Apache Druid timestamp missing value working when input records that have a null or missing timestamp")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> PARALLELISM = new PropertyDescriptor.Builder()
@@ -71,4 +76,5 @@ public enum JdbcProperties {
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
+
 }

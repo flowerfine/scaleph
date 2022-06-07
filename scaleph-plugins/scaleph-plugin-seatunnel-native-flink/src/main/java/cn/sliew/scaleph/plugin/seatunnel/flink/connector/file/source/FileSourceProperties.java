@@ -16,51 +16,39 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.file.source;
 
-import cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties;
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum JdbcProperties {
+public enum FileSourceProperties {
     ;
-    public static final PropertyDescriptor<String> URL = new PropertyDescriptor.Builder()
-            .name("url")
-            .description("jdbc url")
+
+    public static final PropertyDescriptor<String> FORMAT_TYPE = new PropertyDescriptor.Builder<String>()
+            .name("format.type")
+            .description("The format for reading files from the file system")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
+            .allowableValues("csv", "json", "parquet", "orc", "text")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .fallbackProperty(JdbcPoolProperties.JDBC_URL)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> DRIVER = new PropertyDescriptor.Builder()
-            .name("driver")
-            .description("jdbc class name")
+    public static final PropertyDescriptor<String> PATH = new PropertyDescriptor.Builder<String>()
+            .name("path")
+            .description("The files path. support hdfs:// or file://")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .fallbackProperty(JdbcPoolProperties.DRIVER_CLASS_NAME)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder()
-            .name("username")
-            .description("jdbc username")
+    public static final PropertyDescriptor<String> SCHEMA = new PropertyDescriptor.Builder<String>()
+            .name("schema")
+            .description("https://seatunnel.apache.org/docs/2.1.1/connector/source/File")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .fallbackProperty(JdbcPoolProperties.USERNAME)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> PASSWORD = new PropertyDescriptor.Builder()
-            .name("password")
-            .description("jdbc password")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .fallbackProperty(JdbcPoolProperties.PASSWORD)
             .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> PARALLELISM = new PropertyDescriptor.Builder()

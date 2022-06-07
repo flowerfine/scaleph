@@ -62,7 +62,7 @@ public class JobStepController {
     @ApiOperation(value = "查询 SeaTunnel connector 列表", notes = "查询 source, transform, sink 类型的 connector")
     public Set<PluginInfo> getAvailableConnectors(@ApiParam(name = "stepType",
             value = "job step 类型。source, trans, sink",
-            example = "source", allowableValues = "source, trans, sink") @PathVariable("type") JobStepTypeEnum stepType) {
+            example = "source", allowableValues = "source, trans, sink") @PathVariable("stepType") JobStepTypeEnum stepType) {
         return seatunnelConnectorService.getAvailableConnectors(stepType);
     }
 
