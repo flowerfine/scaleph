@@ -16,52 +16,71 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.source;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum DruidSourceProperties {
+public enum InfluxDBSourceProperties {
     ;
 
-    public static final PropertyDescriptor<String> JDBC_URL = new PropertyDescriptor.Builder<String>()
-            .name("jdbc_url")
-            .description("Apache Druid jdbc url")
+    public static final PropertyDescriptor<String> SERVER_URL = new PropertyDescriptor.Builder<String>()
+            .name("server_url")
+            .description("The URL of InfluxDB Server.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> DATASOURCE = new PropertyDescriptor.Builder<String>()
-            .name("datasource")
-            .description("Apache Druid datasource name")
+    public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder<String>()
+            .name("username")
+            .description("The username of InfluxDB Server.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> PASSWORD = new PropertyDescriptor.Builder<String>()
+            .name("password")
+            .description("The password of InfluxDB Server.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> DATABASE = new PropertyDescriptor.Builder<String>()
+            .name("database")
+            .description("The database name in InfluxDB.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> START_DATE = new PropertyDescriptor.Builder<String>()
-            .name("start_date")
-            .description("The start date of DataSource, for example, '2016-06-27', '2016-06-27 00:00:00', etc.")
+    public static final PropertyDescriptor<String> MEASUREMENT = new PropertyDescriptor.Builder<String>()
+            .name("measurement")
+            .description("The Measurement name in InfluxDB.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> END_DATE = new PropertyDescriptor.Builder<String>()
-            .name("end_date")
-            .description("The end date of DataSource, for example, '2016-06-28', '2016-06-28 00:00:00', etc.")
+    public static final PropertyDescriptor<String> FIELDS = new PropertyDescriptor.Builder<String>()
+            .name("fields")
+            .description("The list of Field in InfluxDB.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> COLUMNS = new PropertyDescriptor.Builder<String>()
-            .name("columns")
-            .description("columns to be queried from DataSource.")
+    public static final PropertyDescriptor<String> FIELD_TYPES = new PropertyDescriptor.Builder<String>()
+            .name("field_types")
+            .description("The list of Field Types in InfluxDB.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.fake.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.source;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
@@ -31,12 +31,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class FakeSourceStreamConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.source.InfluxDBSourceProperties.*;
+
+public class InfluxDBSourceConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
     static {
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(SERVER_URL);
+        props.add(USERNAME);
+        props.add(PASSWORD);
+        props.add(DATABASE);
+        props.add(MEASUREMENT);
+        props.add(FIELDS);
+        props.add(FIELD_TYPES);
+        props.add(PARALLELISM);
+
         props.add(CommonProperties.RESULT_TABLE_NAME);
         props.add(CommonProperties.FIELD_NAME);
         supportedProperties = Collections.unmodifiableList(props);
@@ -44,8 +55,8 @@ public class FakeSourceStreamConnector extends AbstractPlugin implements Seatunn
 
     private final PluginInfo pluginInfo;
 
-    public FakeSourceStreamConnector() {
-        this.pluginInfo = new PluginInfo("FakeSourceStream", "fake source connector", "2.1.1", FakeSourceStreamConnector.class.getName());
+    public InfluxDBSourceConnector() {
+        this.pluginInfo = new PluginInfo("InfluxDbSource", "influxdb source connector", "2.1.1", InfluxDBSourceConnector.class.getName());
     }
 
     @Override
@@ -73,4 +84,5 @@ public class FakeSourceStreamConnector extends AbstractPlugin implements Seatunn
     public List<PropertyDescriptor> getSupportedProperties() {
         return supportedProperties;
     }
+
 }
