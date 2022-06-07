@@ -83,6 +83,17 @@
             <artifactId>flink-kubernetes_${scala.binary.version}</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>milky-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

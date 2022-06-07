@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.impl;
 
-import cn.hutool.core.io.FileUtil;
 import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
 import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
@@ -31,6 +30,7 @@ import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
 import cn.sliew.scaleph.common.enums.JobRuntimeStateEnum;
 import cn.sliew.scaleph.common.enums.JobTypeEnum;
+import cn.sliew.scaleph.common.nio.TempFileUtil;
 import cn.sliew.scaleph.core.di.service.*;
 import cn.sliew.scaleph.core.di.service.dto.*;
 import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
@@ -68,9 +68,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.nio.file.attribute.FileAttribute;
-import java.nio.file.attribute.PosixFilePermission;
-import java.nio.file.attribute.PosixFilePermissions;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
@@ -254,11 +251,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     private Path getProjectBasePath(Long projectId) throws IOException {
-        FileAttribute<Set<PosixFilePermission>> attributes = PosixFilePermissions.asFileAttribute(
-                new HashSet<>(Arrays.asList(PosixFilePermission.OWNER_WRITE, PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_EXECUTE,
-                        PosixFilePermission.GROUP_READ, PosixFilePermission.GROUP_WRITE, PosixFilePermission.GROUP_EXECUTE)));
-        final Path projectBasePath = Files.createTempDirectory(null, attributes).resolve(projectId.toString());
-        return Files.createDirectory(projectBasePath, attributes);
+        return TempFileUtil.createTempDir(projectId.toString());
     }
 
     @Override
@@ -298,12 +291,12 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
             Long fileSize = storageService.getFileSize(file.getFilePath(), file.getFileName());
             if (localStorageService.exists(file.getFileName()) &&
                     fileSize.equals(localStorageService.getFileSize("", file.getFileName()))) {
-                File localFile = FileUtil.file(projectPath, file.getFileName());
+                File localFile = cn.hutool.core.io.FileUtil.file(projectPath, file.getFileName());
                 jars.add(localFile.toURI().toString());
             } else {
                 InputStream is = storageService.get(file.getFilePath(), file.getFileName());
-                File localFile = FileUtil.file(projectPath, file.getFileName());
-                FileUtil.writeFromStream(is, localFile);
+                File localFile = cn.hutool.core.io.FileUtil.file(projectPath, file.getFileName());
+                cn.hutool.core.io.FileUtil.writeFromStream(is, localFile);
                 jars.add(localFile.toURI().toString());
             }
         }
