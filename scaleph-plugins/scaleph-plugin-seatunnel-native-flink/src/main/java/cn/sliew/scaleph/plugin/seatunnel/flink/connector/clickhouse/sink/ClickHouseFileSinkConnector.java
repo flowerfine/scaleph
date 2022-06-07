@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
@@ -25,42 +25,48 @@ import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.source.KafkaSourceConnector;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.JdbcProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.source.JdbcSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseFileSinkProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseProperties.*;
 
-public class JdbcSourceConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
+public class ClickHouseFileSinkConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
     static {
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(URL);
-        props.add(DRIVER);
+        props.add(HOST);
         props.add(USERNAME);
         props.add(PASSWORD);
-        props.add(QUERY);
-        props.add(FETCH_SIZE);
-        props.add(PARALLELISM);
-        props.add(PARTITION_COLUMN);
-        props.add(PARTITION_UPPER_BOUND);
-        props.add(PARTITION_LOWER_BOUND);
+        props.add(DATABASE);
+        props.add(TABLE);
+        props.add(FIELDS);
 
-        props.add(CommonProperties.RESULT_TABLE_NAME);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(SHARDING_KEY);
+        props.add(CLICKHOUSE_LOCAL_PATH);
+        props.add(TMP_BATCH_CACHE_LINE);
+        props.add(COPY_METHOD);
+        props.add(NODE_FREE_PASSWORD);
+        props.add(NODE_PASS);
+        props.add(NODE_PASS_NODE_ADDRESS);
+        props.add(NODE_PASS_NODE_PASSWORD);
+
+        props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
     private final PluginInfo pluginInfo;
 
-    public JdbcSourceConnector() {
-        this.pluginInfo = new PluginInfo("JdbcSource", "jdbc source connector", "2.1.1", JdbcSourceConnector.class.getName());
+    public ClickHouseFileSinkConnector() {
+        this.pluginInfo = new PluginInfo("Clickhouse", "clickhouse file sink connector", "2.1.1", KafkaSourceConnector.class.getName());
     }
+
 
     @Override
     public ObjectNode createConf() {
@@ -74,18 +80,17 @@ public class JdbcSourceConnector extends AbstractPlugin implements SeatunnelNati
     }
 
     @Override
-    public JobStepTypeEnum getStepType() {
-        return JobStepTypeEnum.SOURCE;
+    public PluginInfo getPluginInfo() {
+        return pluginInfo;
     }
 
     @Override
-    public PluginInfo getPluginInfo() {
-        return pluginInfo;
+    public JobStepTypeEnum getStepType() {
+        return JobStepTypeEnum.SINK;
     }
 
     @Override
     public List<PropertyDescriptor> getSupportedProperties() {
         return supportedProperties;
     }
-
 }

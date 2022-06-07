@@ -16,28 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.console.sink;
 
-import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
-import cn.sliew.scaleph.plugin.framework.core.Plugin;
+import cn.sliew.scaleph.plugin.framework.property.Parsers;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import cn.sliew.scaleph.plugin.framework.property.PropertyType;
+import cn.sliew.scaleph.plugin.framework.property.Validators;
 
-import java.util.Collections;
-import java.util.List;
+public enum ConsoleSinkProperties {
+    ;
 
-public interface SeatunnelNativeFlinkConnector extends Plugin {
-
-    ObjectNode createConf();
-
-    JobStepTypeEnum getStepType();
-
-    /**
-     * For example: flink-connector-jdbc requires mysql jdbc jar.
-     * todo may we need a new ResourceDescriptor?
-     */
-    default List<PropertyDescriptor> additionalResources() {
-        return Collections.emptyList();
-    }
-
+    public static final PropertyDescriptor<Integer> LIMIT = new PropertyDescriptor.Builder<Integer>()
+            .name("limit")
+            .description("limit console result lines")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
 }

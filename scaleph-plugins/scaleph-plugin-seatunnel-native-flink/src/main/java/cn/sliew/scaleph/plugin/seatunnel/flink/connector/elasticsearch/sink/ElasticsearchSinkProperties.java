@@ -16,51 +16,46 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.elasticsearch.sink;
 
-import cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties;
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum JdbcProperties {
+public enum ElasticsearchSinkProperties {
     ;
-    public static final PropertyDescriptor<String> URL = new PropertyDescriptor.Builder()
-            .name("url")
-            .description("jdbc url")
+
+    public static final PropertyDescriptor<String> HOSTS = new PropertyDescriptor.Builder<String>()
+            .name("hosts")
+            .description("Elasticsearch cluster address, the format is host:port , allowing multiple hosts to be specified. Such as [\"host1:9200\", \"host2:9200\"]")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .fallbackProperty(JdbcPoolProperties.JDBC_URL)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> DRIVER = new PropertyDescriptor.Builder()
-            .name("driver")
-            .description("jdbc class name")
+
+
+    public static final PropertyDescriptor<String> INDEX_TYPE = new PropertyDescriptor.Builder<String>()
+            .name("index_type")
+            .description("Elasticsearch index type, it is recommended not to specify in elasticsearch 7 and above")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .fallbackProperty(JdbcPoolProperties.DRIVER_CLASS_NAME)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder()
-            .name("username")
-            .description("jdbc username")
+    public static final PropertyDescriptor<String> INDEX = new PropertyDescriptor.Builder<String>()
+            .name("index")
+            .description("Elasticsearch index name. If you need to generate an index based on time, you can specify a time variable, such as seatunnel-${now} . now represents the current data processing time.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .fallbackProperty(JdbcPoolProperties.USERNAME)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> PASSWORD = new PropertyDescriptor.Builder()
-            .name("password")
-            .description("jdbc password")
+    public static final PropertyDescriptor<String> INDEX_TIME_FORMAT = new PropertyDescriptor.Builder<String>()
+            .name("index_time_format")
+            .description("When the format in the index parameter is xxxx-${now} , index_time_format can specify the time format of the index name, and the default value is yyyy.MM.dd")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .fallbackProperty(JdbcPoolProperties.PASSWORD)
             .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> PARALLELISM = new PropertyDescriptor.Builder()
@@ -71,4 +66,5 @@ public enum JdbcProperties {
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
+
 }

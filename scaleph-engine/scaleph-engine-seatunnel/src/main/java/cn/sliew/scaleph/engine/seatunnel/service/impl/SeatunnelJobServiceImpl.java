@@ -309,7 +309,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         PackageJarJob jarJob = new PackageJarJob();
         jarJob.setJarFilePath(seatunnelPath);
         jarJob.setEntryPointClass("org.apache.seatunnel.core.flink.SeatunnelFlink");
-        List<String> variables = Arrays.asList("--config", confFile.toString());
+        List<String> variables = new ArrayList<>(Arrays.asList("--config", confFile.toString()));
         jobAttrList.stream()
                 .filter(attr -> JobAttrTypeEnum.JOB_ATTR.getValue()
                         .equals(attr.getJobAttrType().getValue()))
