@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.console.sink;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
@@ -31,30 +31,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.source.DruidSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.console.sink.ConsoleSinkProperties.LIMIT;
 
-public class DruidSourceConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
+public class ConsoleSinkConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
     static {
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(JDBC_URL);
-        props.add(DATASOURCE);
-        props.add(START_DATE);
-        props.add(END_DATE);
-        props.add(COLUMNS);
-        props.add(PARALLELISM);
+        props.add(LIMIT);
 
-        props.add(CommonProperties.RESULT_TABLE_NAME);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
     private final PluginInfo pluginInfo;
 
-    public DruidSourceConnector() {
-        this.pluginInfo = new PluginInfo("DruidSource", "druid source connector", "2.1.1", DruidSourceConnector.class.getName());
+    public ConsoleSinkConnector() {
+        this.pluginInfo = new PluginInfo("ConsoleSink", "console sink connector", "2.1.1", ConsoleSinkConnector.class.getName());
     }
 
     @Override
@@ -75,12 +69,11 @@ public class DruidSourceConnector extends AbstractPlugin implements SeatunnelNat
 
     @Override
     public JobStepTypeEnum getStepType() {
-        return JobStepTypeEnum.SOURCE;
+        return JobStepTypeEnum.SINK;
     }
 
     @Override
     public List<PropertyDescriptor> getSupportedProperties() {
         return supportedProperties;
     }
-
 }

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.socket.source;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
@@ -31,20 +31,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.source.DruidSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.socket.source.SocketSourceProperties.HOST;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.socket.source.SocketSourceProperties.PORT;
 
-public class DruidSourceConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
+public class SocketSourceConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
     static {
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(JDBC_URL);
-        props.add(DATASOURCE);
-        props.add(START_DATE);
-        props.add(END_DATE);
-        props.add(COLUMNS);
-        props.add(PARALLELISM);
+        props.add(HOST);
+        props.add(PORT);
 
         props.add(CommonProperties.RESULT_TABLE_NAME);
         props.add(CommonProperties.FIELD_NAME);
@@ -53,8 +50,8 @@ public class DruidSourceConnector extends AbstractPlugin implements SeatunnelNat
 
     private final PluginInfo pluginInfo;
 
-    public DruidSourceConnector() {
-        this.pluginInfo = new PluginInfo("DruidSource", "druid source connector", "2.1.1", DruidSourceConnector.class.getName());
+    public SocketSourceConnector() {
+        this.pluginInfo = new PluginInfo("SocketStream", "socket source connector", "2.1.1", SocketSourceConnector.class.getName());
     }
 
     @Override
@@ -82,5 +79,4 @@ public class DruidSourceConnector extends AbstractPlugin implements SeatunnelNat
     public List<PropertyDescriptor> getSupportedProperties() {
         return supportedProperties;
     }
-
 }

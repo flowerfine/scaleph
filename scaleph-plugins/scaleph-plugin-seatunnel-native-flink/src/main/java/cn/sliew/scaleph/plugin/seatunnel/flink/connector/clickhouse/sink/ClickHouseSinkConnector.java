@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
@@ -31,31 +31,38 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.source.DruidSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseSinkProperties.*;
 
-public class DruidSourceConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
+public class ClickHouseSinkConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
     static {
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(JDBC_URL);
-        props.add(DATASOURCE);
-        props.add(START_DATE);
-        props.add(END_DATE);
-        props.add(COLUMNS);
-        props.add(PARALLELISM);
+        props.add(HOST);
+        props.add(USERNAME);
+        props.add(PASSWORD);
+        props.add(DATABASE);
+        props.add(TABLE);
+        props.add(FIELDS);
+        props.add(SPLIT_MODE);
+        props.add(SHARDING_KEY);
+        props.add(CLICKHOUSE_XXX);
+        props.add(BULK_SIZE);
+        props.add(RETRY);
+        props.add(RETRY_CODES);
 
-        props.add(CommonProperties.RESULT_TABLE_NAME);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
     private final PluginInfo pluginInfo;
 
-    public DruidSourceConnector() {
-        this.pluginInfo = new PluginInfo("DruidSource", "druid source connector", "2.1.1", DruidSourceConnector.class.getName());
+    public ClickHouseSinkConnector() {
+        this.pluginInfo = new PluginInfo("Clickhouse", "clickhouse sink connector", "2.1.1", ClickHouseSinkConnector.class.getName());
     }
+
 
     @Override
     public ObjectNode createConf() {
@@ -75,12 +82,11 @@ public class DruidSourceConnector extends AbstractPlugin implements SeatunnelNat
 
     @Override
     public JobStepTypeEnum getStepType() {
-        return JobStepTypeEnum.SOURCE;
+        return JobStepTypeEnum.SINK;
     }
 
     @Override
     public List<PropertyDescriptor> getSupportedProperties() {
         return supportedProperties;
     }
-
 }
