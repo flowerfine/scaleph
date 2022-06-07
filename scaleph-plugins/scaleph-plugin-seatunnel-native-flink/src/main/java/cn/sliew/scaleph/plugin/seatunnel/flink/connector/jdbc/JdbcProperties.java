@@ -70,6 +70,5 @@ public enum JdbcProperties {
             .defaultValue(1)
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
-            .properties(Property.Required)
             .validateAndBuild();
 }

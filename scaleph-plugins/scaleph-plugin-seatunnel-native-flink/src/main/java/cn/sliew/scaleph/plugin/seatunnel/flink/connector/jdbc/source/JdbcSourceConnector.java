@@ -65,7 +65,7 @@ public class JdbcSourceConnector extends AbstractPlugin implements SeatunnelNati
     @Override
     public ObjectNode createConf() {
         ObjectNode objectNode = JacksonUtil.createObjectNode();
-        for (PropertyDescriptor descriptor : supportedProperties) {
+        for (PropertyDescriptor descriptor : getSupportedProperties()) {
             if (properties.contains(descriptor)) {
                 objectNode.put(descriptor.getName(), properties.getValue(descriptor));
             }
@@ -88,8 +88,4 @@ public class JdbcSourceConnector extends AbstractPlugin implements SeatunnelNati
         return supportedProperties;
     }
 
-    @Override
-    public List<PropertyDescriptor> additionalResources() {
-        return Collections.emptyList();
-    }
 }

@@ -23,6 +23,7 @@ import cn.sliew.scaleph.plugin.framework.core.Plugin;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import java.util.Collections;
 import java.util.List;
 
 public interface SeatunnelNativeFlinkConnector extends Plugin {
@@ -35,6 +36,8 @@ public interface SeatunnelNativeFlinkConnector extends Plugin {
      * For example: flink-connector-jdbc requires mysql jdbc jar.
      * todo may we need a new ResourceDescriptor?
      */
-    List<PropertyDescriptor> additionalResources();
+    default List<PropertyDescriptor> additionalResources() {
+        return Collections.emptyList();
+    }
 
 }
