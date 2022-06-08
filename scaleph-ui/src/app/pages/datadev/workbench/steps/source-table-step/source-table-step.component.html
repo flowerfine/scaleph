@@ -30,7 +30,7 @@
             formControlName="dataSourceType"
             [dValidateRules]="formConfig.dataSourceTypeRules"
             [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-            (valueChange)="listDataSource($event)"
+            (valueChange)="listDataSource($event, true)"
           >
             <ng-template let-option="option"> {{ option['label'] }} </ng-template>
           </d-select>
