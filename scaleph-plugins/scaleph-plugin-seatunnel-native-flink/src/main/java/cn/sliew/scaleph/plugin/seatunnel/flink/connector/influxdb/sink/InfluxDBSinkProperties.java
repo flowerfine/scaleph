@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.sink;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum InfluxDBSourceProperties {
+public enum InfluxDBSinkProperties {
     ;
 
     public static final PropertyDescriptor<String> MEASUREMENT = new PropertyDescriptor.Builder<String>()
@@ -32,18 +32,18 @@ public enum InfluxDBSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> FIELDS = new PropertyDescriptor.Builder<String>()
-            .name("fields")
-            .description("The list of Field in InfluxDB.")
+    public static final PropertyDescriptor<String> TAGS = new PropertyDescriptor.Builder<String>()
+            .name("tags")
+            .description("The list of Tag in InfluxDB.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> FIELD_TYPES = new PropertyDescriptor.Builder<String>()
-            .name("field_types")
-            .description("The list of Field Types in InfluxDB.")
+    public static final PropertyDescriptor<String> FIELDS = new PropertyDescriptor.Builder<String>()
+            .name("fields")
+            .description("The list of Field in InfluxDB.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)

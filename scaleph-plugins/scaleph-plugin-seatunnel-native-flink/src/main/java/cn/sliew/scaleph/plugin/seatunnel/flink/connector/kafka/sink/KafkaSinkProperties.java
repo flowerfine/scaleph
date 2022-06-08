@@ -16,46 +16,45 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.sink;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum InfluxDBSourceProperties {
+public enum KafkaSinkProperties {
     ;
 
-    public static final PropertyDescriptor<String> MEASUREMENT = new PropertyDescriptor.Builder<String>()
-            .name("measurement")
-            .description("The Measurement name in InfluxDB.")
+    public static final PropertyDescriptor<String> TOPIC = new PropertyDescriptor.Builder<String>()
+            .name("TOPIC")
+            .description("Kafka topic")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> FIELDS = new PropertyDescriptor.Builder<String>()
-            .name("fields")
-            .description("The list of Field in InfluxDB.")
+    public static final PropertyDescriptor<String> PRODUCER_BOOTSTRAP_SERVERS = new PropertyDescriptor.Builder<String>()
+            .name("producer.bootstrap.servers")
+            .description("cluster address, separated by (,)")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> FIELD_TYPES = new PropertyDescriptor.Builder<String>()
-            .name("field_types")
-            .description("The list of Field Types in InfluxDB.")
+    public static final PropertyDescriptor<String> PRODUCER_XXX = new PropertyDescriptor.Builder<String>()
+            .name("producer.*")
+            .description("Specify parameters adding the prefix producer to the original parameter name")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Integer> PARALLELISM = new PropertyDescriptor.Builder()
-            .name("parallelism")
-            .description("The flink operator parallelism")
-            .type(PropertyType.INT)
-            .defaultValue(1)
-            .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+    public static final PropertyDescriptor<String> SEMANTIC = new PropertyDescriptor.Builder<String>()
+            .name("semantic")
+            .description("Semantics that can be chosen. exactly_once/at_least_once/none, default is at_least_once")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .allowableValues("exactly_once", "at_least_once", "none")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 }

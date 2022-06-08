@@ -16,46 +16,44 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum InfluxDBSourceProperties {
+public enum InfluxDBProperties {
     ;
 
-    public static final PropertyDescriptor<String> MEASUREMENT = new PropertyDescriptor.Builder<String>()
-            .name("measurement")
-            .description("The Measurement name in InfluxDB.")
+    public static final PropertyDescriptor<String> SERVER_URL = new PropertyDescriptor.Builder<String>()
+            .name("server_url")
+            .description("The URL of InfluxDB Server.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> FIELDS = new PropertyDescriptor.Builder<String>()
-            .name("fields")
-            .description("The list of Field in InfluxDB.")
+    public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder<String>()
+            .name("username")
+            .description("The username of InfluxDB Server.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> PASSWORD = new PropertyDescriptor.Builder<String>()
+            .name("password")
+            .description("The password of InfluxDB Server.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> DATABASE = new PropertyDescriptor.Builder<String>()
+            .name("database")
+            .description("The database name in InfluxDB.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> FIELD_TYPES = new PropertyDescriptor.Builder<String>()
-            .name("field_types")
-            .description("The list of Field Types in InfluxDB.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<Integer> PARALLELISM = new PropertyDescriptor.Builder()
-            .name("parallelism")
-            .description("The flink operator parallelism")
-            .type(PropertyType.INT)
-            .defaultValue(1)
-            .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 }
