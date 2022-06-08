@@ -32,6 +32,12 @@ class SeatunnelNativeFlinkConnectorManagerTest {
     void testLoadConnectorPlugins() throws Exception {
         SeatunnelNativeFlinkConnectorManager manager = new SeatunnelNativeFlinkConnectorManager();
         final Set<PluginInfo> sourceConnectors = manager.getAvailableConnectors(JobStepTypeEnum.SOURCE);
-        assertThat(sourceConnectors).isNotEmpty();
+        assertThat(sourceConnectors).isNotEmpty().hasSize(7);
+
+        final Set<PluginInfo> sinkConnectors = manager.getAvailableConnectors(JobStepTypeEnum.SINK);
+        assertThat(sinkConnectors).isNotEmpty().hasSize(10);
+
+        final Set<PluginInfo> transforms = manager.getAvailableConnectors(JobStepTypeEnum.TRANSFORM);
+        assertThat(transforms).isEmpty();
     }
 }
