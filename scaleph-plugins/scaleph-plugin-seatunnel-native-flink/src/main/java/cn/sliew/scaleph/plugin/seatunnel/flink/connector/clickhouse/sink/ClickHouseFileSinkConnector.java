@@ -64,7 +64,7 @@ public class ClickHouseFileSinkConnector extends AbstractPlugin implements Seatu
     private final PluginInfo pluginInfo;
 
     public ClickHouseFileSinkConnector() {
-        this.pluginInfo = new PluginInfo("Clickhouse", "clickhouse file sink connector", "2.1.1", KafkaSourceConnector.class.getName());
+        this.pluginInfo = new PluginInfo("ClickhouseFile", "clickhouse file sink connector", "2.1.1", ClickHouseFileSinkConnector.class.getName());
     }
 
 
