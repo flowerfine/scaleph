@@ -72,6 +72,7 @@ export class SourceTableStepComponent implements OnInit {
       }
       if (stepAttrMap.get(STEP_ATTR_TYPE.dataSourceType)) {
         this.formGroup.patchValue({ dataSourceType: JSON.parse(stepAttrMap.get(STEP_ATTR_TYPE.dataSourceType)) });
+        this.listDataSource(this.formGroup.get(STEP_ATTR_TYPE.dataSourceType).value, false);
       }
       if (stepAttrMap.get(STEP_ATTR_TYPE.dataSource)) {
         this.formGroup.patchValue({ dataSource: JSON.parse(stepAttrMap.get(STEP_ATTR_TYPE.dataSource)) });
@@ -80,8 +81,10 @@ export class SourceTableStepComponent implements OnInit {
     });
   }
 
-  listDataSource(event: Dict) {
-    this.formGroup.get(STEP_ATTR_TYPE.dataSource).setValue(null);
+  listDataSource(event: Dict, reset: boolean) {
+    if (reset) {
+      this.formGroup.get(STEP_ATTR_TYPE.dataSource).setValue(null);
+    }
     this.dataSourceService.listByType(event?.value).subscribe((d) => {
       this.dataSourceList = d;
     });
