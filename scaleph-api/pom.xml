@@ -123,6 +123,12 @@
                     <mainClass>cn.sliew.scaleph.Application</mainClass>
                     <layout>ZIP</layout>
                     <fork>true</fork> <!--重要-->
+                    <excludes>
+                        <exclude>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                        </exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
