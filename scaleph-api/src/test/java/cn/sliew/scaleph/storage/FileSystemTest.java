@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.File;
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class FileSystemTest extends ApplicationTest {
 
     @Autowired
@@ -18,11 +20,15 @@ public class FileSystemTest extends ApplicationTest {
 
     @Test
     public void testFileSystem() throws IOException {
-        final Path path = Path.fromLocalFile(new File("driver"));
-        final FileSystem.WriteMode writeMode = FileSystem.WriteMode.NO_OVERWRITE;
-        final FSDataOutputStream outputStream = fileSystem.create(path, writeMode);
-        final File file = new File("/Users/wangqi/Documents/software/flink/flink-1.13.6/lib/mysql-connector-java-8.0.16.jar");
-        FileUtil.writeToStream(file, outputStream);
+        fileSystem.mkdirs(fileSystem.getWorkingDirectory());
+        final Path path = new Path(fileSystem.getWorkingDirectory(), "single_split.png");
 
+        final FileSystem.WriteMode writeMode = FileSystem.WriteMode.OVERWRITE;
+        try (FSDataOutputStream outputStream = fileSystem.create(path, writeMode)) {
+            File file = new File("/Users/wangqi/Downloads/single_split.png");
+            FileUtil.writeToStream(file, outputStream);
+        }
+
+        assertTrue(fileSystem.exists(path));
     }
 }
