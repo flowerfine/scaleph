@@ -20,6 +20,7 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
     <contextName>${APP_NAME}</contextName>
+    <property name="USER_LOG_PATH" value="${user.home}/logs"/>
     <property name="LOG_PATH" value="logs/${APP_NAME}"/>
     <property name="FILE_LOG"
               value="${FILE_LOG:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } [%t] %-40.40logger{39} %-4line 行: %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
