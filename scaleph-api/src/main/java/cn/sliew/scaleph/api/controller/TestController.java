@@ -4,7 +4,6 @@ import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.engine.seatunnel.FlinkRelease;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
-import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelStorageService;
 import io.swagger.annotations.Api;

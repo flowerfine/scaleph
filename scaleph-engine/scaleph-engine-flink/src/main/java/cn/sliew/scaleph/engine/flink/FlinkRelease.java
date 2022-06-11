@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel;
+package cn.sliew.scaleph.engine.flink;
 
 import lombok.Getter;
 

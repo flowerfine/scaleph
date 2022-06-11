@@ -175,6 +175,11 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-engine-flink</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-engine-seatunnel</artifactId>
                 <version>${project.version}</version>
             </dependency>
