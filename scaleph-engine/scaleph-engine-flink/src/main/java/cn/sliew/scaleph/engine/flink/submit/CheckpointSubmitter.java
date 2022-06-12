@@ -16,19 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.service;
+package cn.sliew.scaleph.engine.flink.submit;
 
-import java.io.IOException;
-import java.io.InputStream;
+import org.apache.flink.configuration.CheckpointingOptions;
+import org.apache.flink.configuration.Configuration;
+import org.apache.flink.configuration.StateBackendOptions;
 
-@Deprecated
-public interface BlobService {
+/**
+ * checkpoint 支持的实现有 filesystem 和 rocksdb
+ */
+public class CheckpointSubmitter implements Submitter {
 
-    InputStream get(String fileName) throws IOException;
-
-    void upload(InputStream inputStream, String fileName) throws IOException;
-
-    void delete(String fileName) throws IOException;
-
-    Long getFileSize(String fileName) throws IOException;
+    /**
+     * todo does it need baseurl?
+     */
+    @Override
+    public void configure(Configuration configuration) {
+        configuration.set(StateBackendOptions.STATE_BACKEND, "hashmap");
+        configuration.set(CheckpointingOptions.CHECKPOINT_STORAGE, "filesystem");
+        configuration.set(CheckpointingOptions.CHECKPOINTS_DIRECTORY, "");
+        configuration.set(CheckpointingOptions.SAVEPOINT_DIRECTORY, "");
+    }
 }

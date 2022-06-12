@@ -48,7 +48,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Slf4j
@@ -111,7 +110,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         @Override
         protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
             if (!RequestParamUtil.isRequestValid(request)
-                    || RequestParamUtil.ignorePath(request.getRequestURI())) {
+                    || RequestParamUtil.ignorePath(request.getRequestURI())
+                    || RequestParamUtil.ignoreContentType(request.getContentType())) {
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -135,7 +135,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         }
 
         private void logQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {
-            if (!Objects.equals(IGNORE_CONTENT_TYPE, request.getContentType())
+            if (!RequestParamUtil.ignorePath(request.getRequestURI())
+                    && !RequestParamUtil.ignoreContentType(request.getContentType())
                     && log.isInfoEnabled()) {
                 String method = request.getMethod();
                 String uri = request.getRequestURI();

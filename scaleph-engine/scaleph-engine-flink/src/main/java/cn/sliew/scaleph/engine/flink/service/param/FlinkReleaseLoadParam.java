@@ -16,19 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.service;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-import java.io.IOException;
-import java.io.InputStream;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
-@Deprecated
-public interface BlobService {
+import javax.validation.constraints.NotBlank;
 
-    InputStream get(String fileName) throws IOException;
+@Getter
+@Setter
+public class FlinkReleaseLoadParam {
 
-    void upload(InputStream inputStream, String fileName) throws IOException;
-
-    void delete(String fileName) throws IOException;
-
-    Long getFileSize(String fileName) throws IOException;
+    @ApiModelProperty("flink 版本")
+    @NotBlank(message = "flink 版本不能为空")
+    private String version;
 }

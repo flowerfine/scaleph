@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.seatunnel.service;
 
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
-import cn.sliew.scaleph.engine.seatunnel.FlinkRelease;
+import cn.sliew.scaleph.engine.flink.FlinkRelease;
 import cn.sliew.scaleph.engine.seatunnel.SeatunnelRelease;
 
 import java.io.IOException;
@@ -39,8 +39,10 @@ public interface SeatunnelStorageService {
 
     String getSavepointDir(DiJobDTO diJobDTO);
 
+    @Deprecated
     CompletableFuture<Boolean> downloadFlinkRelease(FlinkRelease flinkRelease);
 
+    @Deprecated
     Path loadFlinkRelease(FlinkRelease flinkRelease) throws IOException;
 
     CompletableFuture<Boolean> downloadSeatunnelRelease(SeatunnelRelease seatunnelRelease);
