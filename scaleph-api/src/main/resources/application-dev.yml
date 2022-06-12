@@ -50,6 +50,15 @@ app:
       accessKey: admin
       secretKey: password
 
+file-system:
+#  type: local
+  type: s3
+  bucket: ${spring.application.name}
+  endPoint: http://127.0.0.1:9000
+  accessKey: admin
+  secretKey: password
+
+
 # log
 logging:
   level:

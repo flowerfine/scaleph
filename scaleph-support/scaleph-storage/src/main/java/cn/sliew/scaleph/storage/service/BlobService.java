@@ -3,6 +3,7 @@ package cn.sliew.scaleph.storage.service;
 import java.io.IOException;
 import java.io.InputStream;
 
+@Deprecated
 public interface BlobService {
 
     InputStream get(String fileName) throws IOException;
