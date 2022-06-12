@@ -113,14 +113,14 @@ public class SeatunnelStorageServiceImpl implements SeatunnelStorageService {
         CompletableFuture<Boolean> future = new CompletableFuture();
         final Callback callback = new Callback() {
             @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            public void onFailure(Call call, IOException e) {
                 log.error("download flink release {} from {} error!",
                         flinkRelease.getVersion(), flinkRelease.getUrl(), e);
                 future.completeExceptionally(e);
             }
 
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 final InputStream inputStream = response.body().byteStream();
                 String filePath = getFlinkReleasePath(flinkRelease);
                 String fileName = flinkRelease.getName();
@@ -156,14 +156,14 @@ public class SeatunnelStorageServiceImpl implements SeatunnelStorageService {
         CompletableFuture<Boolean> future = new CompletableFuture();
         final Callback callback = new Callback() {
             @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            public void onFailure(Call call, IOException e) {
                 log.error("download seatunnel release {} from {} error!",
                         seatunnelRelease.getVersion(), seatunnelRelease.getReleaseUrl(), e);
                 future.completeExceptionally(e);
             }
 
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 final InputStream inputStream = response.body().byteStream();
                 String filePath = getSeatunnelReleasePath(seatunnelRelease);
                 String fileName = seatunnelRelease.getReleaseName();
