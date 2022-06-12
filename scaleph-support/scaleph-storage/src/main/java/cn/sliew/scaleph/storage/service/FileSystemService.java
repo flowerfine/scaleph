@@ -22,10 +22,15 @@ import org.apache.flink.core.fs.FileSystem;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public interface FileSystemService {
 
     FileSystem getFileSystem();
+
+    boolean exists(String fileName) throws IOException;
+
+    List<String> list(String directory) throws IOException;
 
     InputStream get(String fileName) throws IOException;
 

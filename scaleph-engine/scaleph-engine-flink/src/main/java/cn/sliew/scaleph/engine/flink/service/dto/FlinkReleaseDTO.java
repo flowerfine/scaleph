@@ -16,19 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.service;
+package cn.sliew.scaleph.engine.flink.service.dto;
 
-import java.io.IOException;
-import java.io.InputStream;
+import lombok.Getter;
+import lombok.Setter;
 
-@Deprecated
-public interface BlobService {
+@Getter
+@Setter
+public class FlinkReleaseDTO {
 
-    InputStream get(String fileName) throws IOException;
-
-    void upload(InputStream inputStream, String fileName) throws IOException;
-
-    void delete(String fileName) throws IOException;
-
-    Long getFileSize(String fileName) throws IOException;
+    private String version;
+    private String name;
 }
