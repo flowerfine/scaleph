@@ -30,6 +30,10 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -44,6 +48,24 @@ public class FileSystemServiceImpl implements FileSystemService {
     }
 
     @Override
+    public boolean exists(String fileName) throws IOException {
+        Path path = new Path(fs.getWorkingDirectory(), fileName);
+        return fs.exists(path);
+    }
+
+    @Override
+    public List<String> list(String directory) throws IOException {
+        Path path = new Path(fs.getWorkingDirectory(), directory);
+        if (fs.exists(path) == false) {
+            return Collections.emptyList();
+        }
+        final FileStatus[] fileStatuses = fs.listStatus(path);
+        return Arrays.stream(fileStatuses)
+                .map(fileStatus -> fileStatus.getPath().getName())
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public InputStream get(String fileName) throws IOException {
         Path path = new Path(fs.getWorkingDirectory(), fileName);
         return fs.open(path);
@@ -52,6 +74,9 @@ public class FileSystemServiceImpl implements FileSystemService {
     @Override
     public void upload(InputStream inputStream, String fileName) throws IOException {
         Path path = new Path(fs.getWorkingDirectory(), fileName);
+        if (fs.exists(path.getParent()) == false) {
+            fs.mkdirs(path.getParent());
+        }
         try (final FSDataOutputStream outputStream = fs.create(path, FileSystem.WriteMode.NO_OVERWRITE)) {
             IOUtils.copyBytes(inputStream, outputStream);
         }

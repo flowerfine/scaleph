@@ -16,19 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.service;
+package cn.sliew.scaleph.engine.flink.service;
+
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkReleaseDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkReleaseLoadParam;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkReleaseUploadParam;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-@Deprecated
-public interface BlobService {
+public interface FlinkReleaseService {
 
-    InputStream get(String fileName) throws IOException;
+    List<FlinkReleaseDTO> listRelease() throws IOException;
 
-    void upload(InputStream inputStream, String fileName) throws IOException;
+    CompletableFuture<Boolean> load(FlinkReleaseLoadParam param) throws IOException;
 
-    void delete(String fileName) throws IOException;
+    void upload(FlinkReleaseUploadParam param, InputStream inputStream) throws IOException;
 
-    Long getFileSize(String fileName) throws IOException;
+    String download(String version, OutputStream outputStream) throws IOException;
 }

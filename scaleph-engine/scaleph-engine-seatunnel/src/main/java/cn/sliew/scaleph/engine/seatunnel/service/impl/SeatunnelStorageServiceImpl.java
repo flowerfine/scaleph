@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.impl;
 
 import cn.sliew.scaleph.common.nio.TempFileUtil;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
-import cn.sliew.scaleph.engine.seatunnel.FlinkRelease;
+import cn.sliew.scaleph.engine.flink.FlinkRelease;
 import cn.sliew.scaleph.engine.seatunnel.SeatunnelRelease;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelStorageService;
 import cn.sliew.scaleph.storage.service.BlobService;
@@ -109,14 +109,14 @@ public class SeatunnelStorageServiceImpl implements SeatunnelStorageService {
     @Override
     public CompletableFuture<Boolean> downloadFlinkRelease(FlinkRelease flinkRelease) {
         Request request = new Request.Builder()
-                .url(flinkRelease.getReleaseUrl())
+                .url(flinkRelease.getUrl())
                 .build();
         CompletableFuture<Boolean> future = new CompletableFuture();
         final Callback callback = new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 log.error("download flink release {} from {} error!",
-                        flinkRelease.getFullVersion(), flinkRelease.getReleaseUrl(), e);
+                        flinkRelease.getVersion(), flinkRelease.getUrl(), e);
                 future.completeExceptionally(e);
             }
 
@@ -124,7 +124,7 @@ public class SeatunnelStorageServiceImpl implements SeatunnelStorageService {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 final InputStream inputStream = response.body().byteStream();
                 String filePath = getFlinkReleasePath(flinkRelease);
-                String fileName = flinkRelease.getReleaseName();
+                String fileName = flinkRelease.getName();
                 blobService.upload(inputStream, filePath + fileName);
                 future.complete(true);
             }
@@ -136,13 +136,13 @@ public class SeatunnelStorageServiceImpl implements SeatunnelStorageService {
     private String getFlinkReleasePath(FlinkRelease flinkRelease) {
         // /{root}/releases/namespaces/default/flink/{fullVersion}/
         return String.format("releases/namespaces/default/flink/%s/",
-                flinkRelease.getFullVersion());
+                flinkRelease.getVersion());
     }
 
     @Override
     public Path loadFlinkRelease(FlinkRelease flinkRelease) throws IOException {
         String filePath = getFlinkReleasePath(flinkRelease);
-        String fileName = flinkRelease.getReleaseName();
+        String fileName = flinkRelease.getName();
         final InputStream inputStream = blobService.get(filePath + fileName);
         final Path tempFile = TempFileUtil.createTempFile(fileName);
         Files.copy(inputStream, tempFile, StandardCopyOption.ATOMIC_MOVE);
