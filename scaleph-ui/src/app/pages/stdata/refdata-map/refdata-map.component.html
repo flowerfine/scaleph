@@ -3,9 +3,9 @@
     <d-row [dGutter]="[12, 12]">
       <d-col [dSpan]="24">
         <div class="da-list-container">
-          <div class="da-list-header">
-            <div class="da-header-left">
-              <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+          <d-row [dGutter]="[12, 12]" [dGutterNoOuter]="true" [dAlign]="'center'">
+            <d-col [dSpan]="20">
+              <d-row [dGutter]="[12, 12]" [dGutterNoOuter]="true" [dAlign]="'center'">
                 <d-col>
                   <div class="da-header-item-label">{{ 'stdata.srcDataSetTypeCode' | translate }}:</div>
                 </d-col>
@@ -18,12 +18,6 @@
                   />
                 </d-col>
                 <d-col>
-                  <div class="da-header-item-label">{{ 'stdata.srcDataSetCode' | translate }}:</div>
-                </d-col>
-                <d-col>
-                  <input dTextInput name="srcDataSetCode" [(ngModel)]="searchFormConfig.srcDataSetCode" (keyup.enter)="refreshTable()" />
-                </d-col>
-                <d-col>
                   <div class="da-header-item-label">{{ 'stdata.tgtDataSetTypeCode' | translate }}:</div>
                 </d-col>
                 <d-col>
@@ -34,6 +28,32 @@
                     (keyup.enter)="refreshTable()"
                   />
                 </d-col>
+                <d-col>
+                  <div class="da-header-item-label">{{ 'stdata.srcDataSetCode' | translate }}:</div>
+                </d-col>
+                <d-col>
+                  <input dTextInput name="srcDataSetCode" [(ngModel)]="searchFormConfig.srcDataSetCode" (keyup.enter)="refreshTable()" />
+                </d-col> </d-row
+            ></d-col>
+            <d-col [dSpan]="4" style="text-align: end">
+              <d-button-group>
+                <d-button style="margin-right: 8px" bsStyle="primary" (btnClick)="refreshTable()">{{
+                  'app.common.operate.query.label' | translate
+                }}</d-button>
+                <d-button style="margin-right: 8px"  bsStyle="common" (btnClick)="reset()">{{ 'app.common.operate.reset.label' | translate }}</d-button>
+                <d-button icon="icon-chevron-down" bsStyle="text" *ngIf="!isOpen" (btnClick)="buttonToggle(true)">
+                  {{ 'app.common.operate.unpack.label' | translate }}
+                </d-button>
+                <d-button icon="icon-chevron-up" bsStyle="text" *ngIf="isOpen" (btnClick)="buttonToggle(false)">
+                  {{ 'app.common.operate.packup.label' | translate }}
+                </d-button>
+              </d-button-group>
+            </d-col>
+          </d-row>
+
+          <d-row [dGutter]="[12, 12]" [dGutterNoOuter]="true" [dAlign]="'center'" style="padding-top: 6px" *ngIf="isOpen">
+            <d-col [dSpan]="20">
+              <d-row [dGutter]="[12, 12]" [dGutterNoOuter]="true" [dAlign]="'center'">
                 <d-col>
                   <div class="da-header-item-label">{{ 'stdata.tgtDataSetCode' | translate }}:</div>
                 </d-col>
@@ -51,14 +71,8 @@
                   </d-checkbox>
                 </d-col>
               </d-row>
-            </div>
-            <div class="header-right">
-              <d-button style="margin-right: 8px" bsStyle="primary" (btnClick)="refreshTable()">{{
-                'app.common.operate.query.label' | translate
-              }}</d-button>
-              <d-button bsStyle="common" (btnClick)="reset()">{{ 'app.common.operate.reset.label' | translate }}</d-button>
-            </div>
-          </div>
+            </d-col>
+          </d-row>
         </div>
       </d-col>
     </d-row>

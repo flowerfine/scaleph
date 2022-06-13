@@ -24,6 +24,7 @@ export class RealtimeJobComponent implements OnInit {
   dataTableChecked: boolean = false;
   loadTarget: any;
   dataTableDs: DiJobLog[] = [];
+  isOpen = false;
   projectList: Dict[] = [];
   clusterList: FilterConfig[] = [];
   jobInstanceStateList: Dict[] = [];
@@ -100,6 +101,9 @@ export class RealtimeJobComponent implements OnInit {
     });
   }
 
+  buttonToggle(flag: boolean) {
+    this.isOpen = flag;
+  }
   clusterFilter($event) {
     this.searchFormConfig.clusterId = $event?.value;
     this.refreshTable();
