@@ -80,6 +80,12 @@
         "download": {
           "label": "下载"
         },
+        "unpack": {
+          "label": "展开"
+        },
+        "packup": {
+          "label": "收起"
+        },
         "forbid": {
           "label": "注销",
           "title": "注销{{name}}",

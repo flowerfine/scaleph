@@ -3,83 +3,101 @@
     <d-row [dGutter]="[12, 12]">
       <d-col [dSpan]="24">
         <div class="da-list-container">
-          <div class="da-list-header">
-            <d-row [dGutter]="[12, 12]" [dGutterNoOuter]="true" [dAlign]="'center'">
-              <d-col>
-                <div class="da-header-item-label">{{ 'opscenter.project' | translate }}:</div>
-              </d-col>
-              <d-col style="width: 164px">
-                <d-select
-                  [options]="projectList"
-                  name="project"
-                  [filterKey]="'label'"
-                  [allowClear]="true"
-                  [(ngModel)]="searchFormConfig.project"
-                  [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                  (valueChange)="refreshTable()"
-                >
-                  <ng-template let-option="option"> {{ option['label'] }} </ng-template>
-                </d-select>
-              </d-col>
-              <d-col>
-                <div class="da-header-item-label">{{ 'opscenter.jobCode' | translate }}:</div>
-              </d-col>
-              <d-col>
-                <input dTextInput name="jobCode" [(ngModel)]="searchFormConfig.jobCode" (keyup.enter)="refreshTable()" />
-              </d-col>
-              <d-col>
-                <div class="da-header-item-label">{{ 'opscenter.jobInstanceId' | translate }}:</div>
-              </d-col>
-              <d-col>
-                <input dTextInput name="jobInstanceId" [(ngModel)]="searchFormConfig.jobInstanceId" (keyup.enter)="refreshTable()" />
-              </d-col>
-              <d-col>
-                <div class="da-header-item-label">{{ 'opscenter.jobInstanceState' | translate }}:</div>
-              </d-col>
-              <d-col style="width: 164px">
-                <d-select
-                  [options]="jobInstanceStateList"
-                  name="jobInstanceState"
-                  [filterKey]="'label'"
-                  [allowClear]="true"
-                  [(ngModel)]="searchFormConfig.jobInstanceState"
-                  [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                  (valueChange)="refreshTable()"
-                >
-                  <ng-template let-option="option"> {{ option['label'] }} </ng-template>
-                </d-select>
-              </d-col>
-              <d-col>
-                <div class="da-header-item-label">{{ 'opscenter.timeRange' | translate }}:</div>
-              </d-col>
-              <d-col>
-                <div class="devui-input-group devui-dropdown-origin" style="width: 310px">
-                  <input
-                    class="devui-input devui-form-control"
-                    placeholder=""
-                    name="timeRange"
-                    [(ngModel)]="searchFormConfig.timeRange"
-                    (click)="dateRangePicker.toggle()"
-                    autocomplete="off"
-                    dDateRangePicker
-                    #dateRangePicker="dateRangePicker"
-                    (selectedRangeChange)="refreshTable()"
-                    [showTime]="true"
-                    [dateFormat]="'y-MM-dd HH:mm:ss'"
-                  />
-                  <div class="devui-input-group-addon" (click)="dateRangePicker.toggle()">
-                    <em class="icon icon-calendar"></em>
+          <d-row [dGutter]="[12, 12]" [dGutterNoOuter]="true" [dAlign]="'center'">
+            <d-col [dSpan]="20">
+              <d-row [dGutter]="[12, 12]" [dGutterNoOuter]="true" [dAlign]="'center'">
+                <d-col>
+                  <div class="da-header-item-label">{{ 'opscenter.project' | translate }}:</div>
+                </d-col>
+                <d-col style="width: 164px">
+                  <d-select
+                    [options]="projectList"
+                    name="project"
+                    [filterKey]="'label'"
+                    [allowClear]="true"
+                    [(ngModel)]="searchFormConfig.project"
+                    [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                    (valueChange)="refreshTable()"
+                  >
+                    <ng-template let-option="option"> {{ option['label'] }} </ng-template>
+                  </d-select>
+                </d-col>
+                <d-col>
+                  <div class="da-header-item-label">{{ 'opscenter.jobCode' | translate }}:</div>
+                </d-col>
+                <d-col>
+                  <input dTextInput name="jobCode" [(ngModel)]="searchFormConfig.jobCode" (keyup.enter)="refreshTable()" />
+                </d-col>
+                <d-col>
+                  <div class="da-header-item-label">{{ 'opscenter.jobInstanceId' | translate }}:</div>
+                </d-col>
+                <d-col>
+                  <input dTextInput name="jobInstanceId" [(ngModel)]="searchFormConfig.jobInstanceId" (keyup.enter)="refreshTable()" />
+                </d-col>
+                <d-col>
+                  <div class="da-header-item-label">{{ 'opscenter.timeRange' | translate }}:</div>
+                </d-col>
+                <d-col>
+                  <div class="devui-input-group devui-dropdown-origin" style="width: 310px">
+                    <input
+                      class="devui-input devui-form-control"
+                      placeholder=""
+                      name="timeRange"
+                      [(ngModel)]="searchFormConfig.timeRange"
+                      (click)="dateRangePicker.toggle()"
+                      autocomplete="off"
+                      dDateRangePicker
+                      #dateRangePicker="dateRangePicker"
+                      (selectedRangeChange)="refreshTable()"
+                      [showTime]="true"
+                      [dateFormat]="'y-MM-dd HH:mm:ss'"
+                    />
+                    <div class="devui-input-group-addon" (click)="dateRangePicker.toggle()">
+                      <em class="icon icon-calendar"></em>
+                    </div>
                   </div>
-                </div>
-              </d-col>
-            </d-row>
-            <div>
-              <d-button style="margin-right: 8px" bsStyle="primary" (btnClick)="refreshTable()">{{
-                'app.common.operate.query.label' | translate
-              }}</d-button>
-              <d-button bsStyle="common" (btnClick)="reset()">{{ 'app.common.operate.reset.label' | translate }}</d-button>
-            </div>
-          </div>
+                </d-col> </d-row
+            ></d-col>
+            <d-col [dSpan]="4" style="text-align: end">
+              <d-button-group>
+                <d-button style="margin-right: 8px" bsStyle="primary" (btnClick)="refreshTable()">{{
+                  'app.common.operate.query.label' | translate
+                }}</d-button>
+                <d-button style="margin-right: 8px" bsStyle="common" (btnClick)="reset()">{{
+                  'app.common.operate.reset.label' | translate
+                }}</d-button>
+                <d-button icon="icon-chevron-down" bsStyle="text" *ngIf="!isOpen" (btnClick)="buttonToggle(true)"> {{
+                  'app.common.operate.unpack.label' | translate
+                }} </d-button>
+                <d-button icon="icon-chevron-up" bsStyle="text" *ngIf="isOpen" (btnClick)="buttonToggle(false)">  {{
+                  'app.common.operate.packup.label' | translate
+                }} </d-button>
+              </d-button-group>
+            </d-col>
+          </d-row>
+
+          <d-row [dGutter]="[12, 12]" [dGutterNoOuter]="true" [dAlign]="'center'" style="padding-top: 6px" *ngIf="isOpen">
+            <d-col [dSpan]="20">
+              <d-row [dGutter]="[12, 12]" [dGutterNoOuter]="true" [dAlign]="'center'">
+                <d-col>
+                  <div class="da-header-item-label">{{ 'opscenter.jobInstanceState' | translate }}:</div>
+                </d-col>
+                <d-col style="width: 164px">
+                  <d-select
+                    [options]="jobInstanceStateList"
+                    name="jobInstanceState"
+                    [filterKey]="'label'"
+                    [allowClear]="true"
+                    [(ngModel)]="searchFormConfig.jobInstanceState"
+                    [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                    (valueChange)="refreshTable()"
+                  >
+                    <ng-template let-option="option"> {{ option['label'] }} </ng-template>
+                  </d-select>
+                </d-col>
+              </d-row>
+            </d-col>
+          </d-row>
         </div>
       </d-col>
     </d-row>
