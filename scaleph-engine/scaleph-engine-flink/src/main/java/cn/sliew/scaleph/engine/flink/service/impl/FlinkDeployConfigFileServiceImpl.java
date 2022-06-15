@@ -18,24 +18,33 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
+import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkDeployConfigFile;
 import cn.sliew.scaleph.dao.mapper.master.flink.FlinkDeployConfigFileMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkDeployConfigFileService;
+import cn.sliew.scaleph.engine.flink.service.convert.FileStatusVOConvert;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkDeployConfigFileConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkDeployConfigFileDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileListParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileUploadParam;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileUpdateParam;
+import cn.sliew.scaleph.engine.flink.service.vo.FileStatusVO;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
+import org.apache.flink.core.fs.FileStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import static cn.sliew.scaleph.common.exception.Rethrower.checkArgument;
 
@@ -53,7 +62,8 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
         final Page<FlinkDeployConfigFile> page = flinkDeployConfigFileMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(FlinkDeployConfigFile.class)
-                        .eq(param.getConfigType() != null, FlinkDeployConfigFile::getConfigType, param.getConfigType()));
+                        .eq(param.getConfigType() != null, FlinkDeployConfigFile::getConfigType, param.getConfigType())
+                        .like(StringUtils.hasText(param.getName()), FlinkDeployConfigFile::getName, param.getName()));
 
         Page<FlinkDeployConfigFileDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
@@ -63,16 +73,81 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
     }
 
     @Override
-    public void upload(FlinkDeployConfigFileUploadParam param, MultipartFile[] files) throws IOException {
+    public FlinkDeployConfigFileDTO selectOne(Serializable id) {
+        final FlinkDeployConfigFile record = flinkDeployConfigFileMapper.selectById(id);
+        if (record == null) {
+            throw new IllegalStateException("flink deploy config not exists for id: " + id);
+        }
+        return FlinkDeployConfigFileConvert.INSTANCE.toDto(record);
+    }
+
+    @Override
+    public void insert(FlinkDeployConfigFileDTO dto) {
+        final FlinkDeployConfigFile record = FlinkDeployConfigFileConvert.INSTANCE.toDo(dto);
+        flinkDeployConfigFileMapper.insert(record);
+    }
+
+    @Override
+    public int update(FlinkDeployConfigFileUpdateParam param) {
+        final FlinkDeployConfigFile record = new FlinkDeployConfigFile();
+        record.setId(param.getId());
+        record.setRemark(param.getRemark());
+        return flinkDeployConfigFileMapper.updateById(record);
+    }
+
+    @Override
+    public int deleteById(Serializable id) {
+        try {
+            final FlinkDeployConfigFileDTO flinkDeployConfigFileDTO = selectOne(id);
+            final List<FileStatus> fileStatuses = fileSystemService.listStatus(getFlinkDeployConfigFileRootPath() + "/" + flinkDeployConfigFileDTO.getName());
+            for (FileStatus fileStatus : fileStatuses) {
+                deleteDeployConfigFile((Long) id, fileStatus.getPath().getName());
+            }
+            return flinkDeployConfigFileMapper.deleteById(id);
+        } catch (IOException e) {
+            Rethrower.throwAs(e);
+            return -1;
+        }
+    }
+
+    @Override
+    public int deleteBatch(Map<Integer, ? extends Serializable> map) {
+        for (Serializable id : map.values()) {
+            deleteById(id);
+        }
+        return flinkDeployConfigFileMapper.deleteBatchIds(map.values());
+    }
+
+    @Override
+    public List<FileStatusVO> listDeployConfigFile(Long id) throws IOException {
+        final FlinkDeployConfigFileDTO flinkDeployConfigFileDTO = selectOne(id);
+        final List<FileStatus> fileStatuses = fileSystemService.listStatus(getFlinkDeployConfigFileRootPath() + "/" + flinkDeployConfigFileDTO.getName());
+        return FileStatusVOConvert.INSTANCE.toVO(fileStatuses);
+    }
+
+    @Override
+    public void uploadDeployConfigFile(Long id, MultipartFile[] files) throws IOException {
         checkArgument(files != null && files.length > 0, () -> "upload config file must not be empty");
+        final FlinkDeployConfigFileDTO flinkDeployConfigFileDTO = selectOne(id);
         for (MultipartFile file : files) {
-            final String flinkDeployConfigFilePath = getFlinkDeployConfigFilePath(param.getName(), file.getOriginalFilename());
+            final String flinkDeployConfigFilePath = getFlinkDeployConfigFilePath(flinkDeployConfigFileDTO.getName(), file.getOriginalFilename());
             fileSystemService.upload(file.getInputStream(), flinkDeployConfigFilePath);
         }
-        FlinkDeployConfigFile record = new FlinkDeployConfigFile();
-        BeanUtils.copyProperties(param, record);
-        record.setPath(getFlinkDeployConfigFilePath(record.getName(), ""));
-        flinkDeployConfigFileMapper.insert(record);
+    }
+
+    @Override
+    public void downloadDeployConfigFile(Long id, String fileName, OutputStream outputStream) throws IOException {
+        final FlinkDeployConfigFileDTO record = selectOne(id);
+        String path = getFlinkDeployConfigFilePath(record.getName(), fileName);
+        final InputStream inputStream = fileSystemService.get(path);
+        FileCopyUtils.copy(inputStream, outputStream);
+    }
+
+    @Override
+    public void deleteDeployConfigFile(Long id, String fileName) throws IOException {
+        final FlinkDeployConfigFileDTO record = selectOne(id);
+        String path = getFlinkDeployConfigFilePath(record.getName(), fileName);
+        fileSystemService.delete(path);
     }
 
     private String getFlinkDeployConfigFilePath(String name, String fileName) {
@@ -80,6 +155,6 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
     }
 
     private String getFlinkDeployConfigFileRootPath() {
-        return "release/flink/deploy";
+        return "deploy/flink/config";
     }
 }

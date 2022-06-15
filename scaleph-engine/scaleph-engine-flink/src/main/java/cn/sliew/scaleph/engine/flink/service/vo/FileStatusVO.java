@@ -16,30 +16,44 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.service;
+package cn.sliew.scaleph.engine.flink.service.vo;
 
-import org.apache.flink.core.fs.FileStatus;
-import org.apache.flink.core.fs.FileSystem;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
+@Getter
+@Setter
+public class FileStatusVO {
 
-public interface FileSystemService {
+    private long len;
 
-    FileSystem getFileSystem();
+    /**
+     * The block size of the file.
+     */
+    private long blockSize;
 
-    boolean exists(String fileName) throws IOException;
+    /**
+     * The replication factor of a file.
+     */
+    private short replication;
 
-    List<String> list(String directory) throws IOException;
+    /**
+     * The modification time of the file.
+     */
+    private long modificationTime;
 
-    InputStream get(String fileName) throws IOException;
+    /**
+     * The access time of the file.
+     */
+    private long accessTime;
 
-    void upload(InputStream inputStream, String fileName) throws IOException;
+    /**
+     * Whether this object represents a directory.
+     */
+    private boolean dir;
 
-    boolean delete(String fileName) throws IOException;
-
-    Long getFileSize(String fileName) throws IOException;
-
-    List<FileStatus> listStatus(String directory) throws IOException;
+    /**
+     * The corresponding Path to the FileStatus.
+     */
+    private String name;
 }

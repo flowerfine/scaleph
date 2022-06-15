@@ -46,11 +46,7 @@ public class FlinkDeployConfigFile extends BaseDO {
     @ApiModelProperty("配置名称")
     @TableField("`name`")
     private String name;
-
-    @ApiModelProperty("配置路径")
-    @TableField("`path`")
-    private String path;
-
+    
     @ApiModelProperty("备注")
     @TableField("remark")
     private String remark;

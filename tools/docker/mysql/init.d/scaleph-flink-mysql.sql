@@ -8,7 +8,6 @@ CREATE TABLE flink_deploy_config_file
     id          BIGINT       NOT NULL auto_increment COMMENT '自增主键',
     config_type TINYINT(4)   NOT NULL COMMENT '配置文件类型。0: hadoop conf, 1: kubeconfig, 2: flink-conf.yaml',
     `name`      VARCHAR(64)  NOT NULL COMMENT '配置名称',
-    `path`      VARCHAR(256) NOT NULL COMMENT '配置路径',
     remark      VARCHAR(256) COMMENT '备注',
     creator     VARCHAR(32) COMMENT '创建人',
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
