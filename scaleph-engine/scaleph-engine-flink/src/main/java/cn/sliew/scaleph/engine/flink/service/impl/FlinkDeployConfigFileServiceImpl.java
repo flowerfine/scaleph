@@ -155,6 +155,6 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
     }
 
     private String getFlinkDeployConfigFileRootPath() {
-        return "release/flink/deploy";
+        return "deploy/flink/config";
     }
 }
