@@ -81,12 +81,12 @@ public class ReleaseController {
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
+    @Logging
     @GetMapping("download")
     @ApiOperation("下载 release")
     public ResponseEntity<ResponseVO> download(@RequestParam("version") String version, HttpServletResponse response) throws IOException {
         try (ServletOutputStream outputStream = response.getOutputStream()) {
             final String name = flinkReleaseService.download(version, outputStream);
-            response.setContentType("application/vnd.ms-excel");// 设置文本内省
             response.setCharacterEncoding("utf-8");// 设置字符编码
             response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(name, "UTF-8")); // 设置响应头
         }

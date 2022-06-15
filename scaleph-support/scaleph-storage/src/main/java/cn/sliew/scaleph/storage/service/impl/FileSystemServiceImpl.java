@@ -94,4 +94,10 @@ public class FileSystemServiceImpl implements FileSystemService {
         final FileStatus fileStatus = fs.getFileStatus(path);
         return fileStatus.getBlockSize();
     }
+
+    @Override
+    public List<FileStatus> listStatus(String directory) throws IOException {
+        Path path = new Path(fs.getWorkingDirectory(), directory);
+        return Arrays.asList(fs.listStatus(path));
+    }
 }

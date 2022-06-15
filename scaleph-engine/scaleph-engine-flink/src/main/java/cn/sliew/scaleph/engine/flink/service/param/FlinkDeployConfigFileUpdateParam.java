@@ -19,24 +19,17 @@
 package cn.sliew.scaleph.engine.flink.service.param;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
-public class FlinkDeployConfigFileUploadParam {
+@Data
+public class FlinkDeployConfigFileUpdateParam {
 
     @NotNull
-    @ApiModelProperty("配置文件类型。0: hadoop conf, 1: kubeconfig, 2: flink-conf.yaml")
-    private Integer configType;
+    @ApiModelProperty("id")
+    private Long id;
 
-    @NotBlank
     @ApiModelProperty("配置名称")
-    private String name;
-
-    @ApiModelProperty("备注")
     private String remark;
 }

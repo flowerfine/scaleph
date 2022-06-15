@@ -40,10 +40,6 @@ public class FlinkDeployConfigFileDTO extends BaseDTO {
     @ApiModelProperty("配置名称")
     private String name;
 
-    @NotBlank
-    @ApiModelProperty("配置路径")
-    private String path;
-
     @ApiModelProperty("备注")
     private String remark;
 }

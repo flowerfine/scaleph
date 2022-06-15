@@ -20,16 +20,36 @@ package cn.sliew.scaleph.engine.flink.service;
 
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkDeployConfigFileDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileListParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileUploadParam;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileUpdateParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.flink.core.fs.FileStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 public interface FlinkDeployConfigFileService {
 
     Page<FlinkDeployConfigFileDTO> list(FlinkDeployConfigFileListParam param);
 
-    void upload(FlinkDeployConfigFileUploadParam param, MultipartFile[] files) throws IOException;
+    FlinkDeployConfigFileDTO selectOne(Serializable id);
+
+    void insert(FlinkDeployConfigFileDTO dto);
+
+    int update(FlinkDeployConfigFileUpdateParam param);
+
+    int deleteById(Long id);
+
+    int deleteBatch(Map<Integer, ? extends Serializable> map);
+
+    List<FileStatus> listDeployConfigFile(Long id) throws IOException;
+
+    void uploadDeployConfigFile(Long id, MultipartFile[] files) throws IOException;
+
+    void downloadDeployConfigFile(String path, OutputStream outputStream) throws IOException;
+
+    void deleteDeployConfigFile(String path) throws IOException;
 }
