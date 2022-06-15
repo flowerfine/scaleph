@@ -21,8 +21,8 @@ package cn.sliew.scaleph.engine.flink.service;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkDeployConfigFileDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileListParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileUpdateParam;
+import cn.sliew.scaleph.engine.flink.service.vo.FileStatusVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.flink.core.fs.FileStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -41,15 +41,15 @@ public interface FlinkDeployConfigFileService {
 
     int update(FlinkDeployConfigFileUpdateParam param);
 
-    int deleteById(Long id);
+    int deleteById(Serializable id);
 
     int deleteBatch(Map<Integer, ? extends Serializable> map);
 
-    List<FileStatus> listDeployConfigFile(Long id) throws IOException;
+    List<FileStatusVO> listDeployConfigFile(Long id) throws IOException;
 
     void uploadDeployConfigFile(Long id, MultipartFile[] files) throws IOException;
 
-    void downloadDeployConfigFile(String path, OutputStream outputStream) throws IOException;
+    void downloadDeployConfigFile(Long id, String fileName, OutputStream outputStream) throws IOException;
 
-    void deleteDeployConfigFile(String path) throws IOException;
+    void deleteDeployConfigFile(Long id, String fileName) throws IOException;
 }

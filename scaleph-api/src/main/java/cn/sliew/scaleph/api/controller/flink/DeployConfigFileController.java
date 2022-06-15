@@ -24,11 +24,11 @@ import cn.sliew.scaleph.engine.flink.service.FlinkDeployConfigFileService;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkDeployConfigFileDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileListParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileUpdateParam;
+import cn.sliew.scaleph.engine.flink.service.vo.FileStatusVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.flink.core.fs.FileStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -86,7 +86,7 @@ public class DeployConfigFileController {
 
     @Logging
     @DeleteMapping(path = "/batch")
-    @ApiOperation(value = "批量删除项目", notes = "批量删除项目")
+    @ApiOperation(value = "批量删除部署配置", notes = "批量删除部署配置")
     public ResponseEntity<ResponseVO> deleteDeployConfig(@RequestBody Map<Integer, Long> map) {
         flinkDeployConfigFileService.deleteBatch(map);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
@@ -95,8 +95,8 @@ public class DeployConfigFileController {
     @Logging
     @GetMapping("{id}/file")
     @ApiOperation(value = "查询部署配置文件列表", notes = "查询部署配置文件列表")
-    public ResponseEntity<List<FileStatus>> listDeployConfigFile(@PathVariable("id") Long id) throws IOException {
-        final List<FileStatus> fileStatuses = flinkDeployConfigFileService.listDeployConfigFile(id);
+    public ResponseEntity<List<FileStatusVO>> listDeployConfigFile(@PathVariable("id") Long id) throws IOException {
+        final List<FileStatusVO> fileStatuses = flinkDeployConfigFileService.listDeployConfigFile(id);
         return new ResponseEntity<>(fileStatuses, HttpStatus.OK);
     }
 
@@ -112,27 +112,27 @@ public class DeployConfigFileController {
     }
 
     @Logging
-    @GetMapping("file")
+    @GetMapping("{id}/file/{fileName}")
     @ApiOperation(value = "下载部署配置文件", notes = "下载部署配置文件")
-    public ResponseEntity<ResponseVO> downloadDeployConfigFile(@RequestParam("path") String path, HttpServletResponse response) throws IOException {
+    public ResponseEntity<ResponseVO> downloadDeployConfigFile(
+            @PathVariable("id") Long id,
+            @PathVariable("fileName") String fileName,
+            HttpServletResponse response) throws IOException {
         try (ServletOutputStream outputStream = response.getOutputStream()) {
-            flinkDeployConfigFileService.downloadDeployConfigFile(path, outputStream);
+            flinkDeployConfigFileService.downloadDeployConfigFile(id, fileName, outputStream);
             response.setCharacterEncoding("utf-8");// 设置字符编码
-            if (path.endsWith("/")) {
-                path = path.substring(path.length() - 1);
-            }
-            final int indexOf = path.lastIndexOf("/");
-            String fileName = path.substring(indexOf + 1);
             response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8")); // 设置响应头
         }
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
-    @DeleteMapping("file")
+    @DeleteMapping("{id}/file/{fileName}")
     @ApiOperation(value = "删除部署配置文件", notes = "删除部署配置文件")
-    public ResponseEntity<ResponseVO> deleteDeployConfigFile(@RequestParam("path") String path) throws IOException {
-        flinkDeployConfigFileService.deleteDeployConfigFile(path);
+    public ResponseEntity<ResponseVO> deleteDeployConfigFile(
+            @PathVariable("id") Long id,
+            @PathVariable("fileName") String fileName) throws IOException {
+        flinkDeployConfigFileService.deleteDeployConfigFile(id, fileName);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 }

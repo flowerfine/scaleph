@@ -18,13 +18,16 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
+import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkDeployConfigFile;
 import cn.sliew.scaleph.dao.mapper.master.flink.FlinkDeployConfigFileMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkDeployConfigFileService;
+import cn.sliew.scaleph.engine.flink.service.convert.FileStatusVOConvert;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkDeployConfigFileConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkDeployConfigFileDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileListParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileUpdateParam;
+import cn.sliew.scaleph.engine.flink.service.vo.FileStatusVO;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -93,19 +96,33 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
     }
 
     @Override
-    public int deleteById(Long id) {
-        return flinkDeployConfigFileMapper.deleteById(id);
+    public int deleteById(Serializable id) {
+        try {
+            final FlinkDeployConfigFileDTO flinkDeployConfigFileDTO = selectOne(id);
+            final List<FileStatus> fileStatuses = fileSystemService.listStatus(getFlinkDeployConfigFileRootPath() + "/" + flinkDeployConfigFileDTO.getName());
+            for (FileStatus fileStatus : fileStatuses) {
+                deleteDeployConfigFile((Long) id, fileStatus.getPath().getName());
+            }
+            return flinkDeployConfigFileMapper.deleteById(id);
+        } catch (IOException e) {
+            Rethrower.throwAs(e);
+            return -1;
+        }
     }
 
     @Override
     public int deleteBatch(Map<Integer, ? extends Serializable> map) {
+        for (Serializable id : map.values()) {
+            deleteById(id);
+        }
         return flinkDeployConfigFileMapper.deleteBatchIds(map.values());
     }
 
     @Override
-    public List<FileStatus> listDeployConfigFile(Long id) throws IOException {
+    public List<FileStatusVO> listDeployConfigFile(Long id) throws IOException {
         final FlinkDeployConfigFileDTO flinkDeployConfigFileDTO = selectOne(id);
-        return fileSystemService.listStatus(getFlinkDeployConfigFileRootPath() + "/" + flinkDeployConfigFileDTO.getName());
+        final List<FileStatus> fileStatuses = fileSystemService.listStatus(getFlinkDeployConfigFileRootPath() + "/" + flinkDeployConfigFileDTO.getName());
+        return FileStatusVOConvert.INSTANCE.toVO(fileStatuses);
     }
 
     @Override
@@ -119,13 +136,17 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
     }
 
     @Override
-    public void downloadDeployConfigFile(String path, OutputStream outputStream) throws IOException {
+    public void downloadDeployConfigFile(Long id, String fileName, OutputStream outputStream) throws IOException {
+        final FlinkDeployConfigFileDTO record = selectOne(id);
+        String path = getFlinkDeployConfigFilePath(record.getName(), fileName);
         final InputStream inputStream = fileSystemService.get(path);
         FileCopyUtils.copy(inputStream, outputStream);
     }
 
     @Override
-    public void deleteDeployConfigFile(String path) throws IOException {
+    public void deleteDeployConfigFile(Long id, String fileName) throws IOException {
+        final FlinkDeployConfigFileDTO record = selectOne(id);
+        String path = getFlinkDeployConfigFilePath(record.getName(), fileName);
         fileSystemService.delete(path);
     }
 
