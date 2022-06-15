@@ -77,6 +77,12 @@ For contributions, please refer [CONTRIBUTING](https://github.com/flowerfine/sca
 
 * Bugs and Features: [Issues](https://github.com/flowerfine/scaleph/issues)
 
+## Sponsor
+
+Thanks to [JetBrains](https://www.jetbrains.com/?from=scaleph) for supporting us free open source licenses.
+
+[![JetBrains](README.assets/TB1sSomo.z1gK0jSZLeXXb9kVXa-120-130.svg)](https://www.jetbrains.com/?from=scaleph)
+
 ## License
 
 Scaleph is licenced under the Apache License Version 2.0, link is [here](https://www.apache.org/licenses/LICENSE-2.0.txt).
