@@ -81,7 +81,7 @@ For contributions, please refer [CONTRIBUTING](https://github.com/flowerfine/sca
 
 Thanks to [JetBrains](https://www.jetbrains.com/?from=scaleph) for supporting us free open source licenses.
 
-[![JetBrains](README.assets/TB1sSomo.z1gK0jSZLeXXb9kVXa-120-130.svg)](https://www.jetbrains.com/?from=scaleph)
+[![JetBrains](https://img.alicdn.com/tfs/TB1sSomo.z1gK0jSZLeXXb9kVXa-120-130.svg)](https://www.jetbrains.com/?from=scaleph)
 
 ## License
 
