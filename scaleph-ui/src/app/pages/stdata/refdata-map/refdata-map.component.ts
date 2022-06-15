@@ -21,6 +21,7 @@ export class RefdataMapComponent implements OnInit {
   dataTableChecked: boolean = false;
   loadTarget: any;
   dataTableDs: MetaDataMap[] = [];
+  isOpen = false;
   checkboxLabel = this.translate.instant('stdata.auto');
   pager = {
     total: 0,
@@ -73,7 +74,9 @@ export class RefdataMapComponent implements OnInit {
     });
     this.dataLoading = true;
   }
-
+  buttonToggle(flag: boolean) {
+    this.isOpen = flag;
+  }
   getDataTableCheckedStatus() {
     if (this.dataTable.getCheckedRows().length > 0) {
       this.dataTableChecked = true;
