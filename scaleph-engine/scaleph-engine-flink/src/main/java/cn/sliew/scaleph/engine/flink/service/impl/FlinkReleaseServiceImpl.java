@@ -92,10 +92,11 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService, Initializin
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                final InputStream inputStream = response.body().byteStream();
-                String filePath = getFlinkReleasePath(release.getVersion(), release.getName());
-                fileSystemService.upload(inputStream, filePath);
-                future.complete(true);
+                try (final InputStream inputStream = response.body().byteStream()) {
+                    String filePath = getFlinkReleasePath(release.getVersion(), release.getName());
+                    fileSystemService.upload(inputStream, filePath);
+                    future.complete(true);
+                }
             }
         };
         httpClient.newCall(request).enqueue(callback);
@@ -114,8 +115,9 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService, Initializin
         if (names.size() > 1 || names.size() == 0) {
             throw new IllegalStateException("flink release not exists for " + version);
         }
-        final InputStream inputStream = fileSystemService.get(getFlinkReleasePath(version, names.get(0)));
-        FileCopyUtils.copy(inputStream, outputStream);
+        try (final InputStream inputStream = fileSystemService.get(getFlinkReleasePath(version, names.get(0)))) {
+            FileCopyUtils.copy(inputStream, outputStream);
+        }
         return names.get(0);
     }
 
