@@ -16,13 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.submit;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-import org.apache.flink.configuration.Configuration;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
-public interface Submitter {
+@Getter
+@Setter
+public class FlinkArtifactListParam extends PaginationParam {
 
-    void configure(Configuration configuration);
-
-    void submit();
+    @ApiModelProperty("名称。支持模糊搜索")
+    private String name;
 }

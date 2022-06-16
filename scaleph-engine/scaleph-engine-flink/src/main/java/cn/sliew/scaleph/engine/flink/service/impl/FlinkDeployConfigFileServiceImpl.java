@@ -130,8 +130,10 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
         checkArgument(files != null && files.length > 0, () -> "upload config file must not be empty");
         final FlinkDeployConfigFileDTO flinkDeployConfigFileDTO = selectOne(id);
         for (MultipartFile file : files) {
-            final String flinkDeployConfigFilePath = getFlinkDeployConfigFilePath(flinkDeployConfigFileDTO.getName(), file.getOriginalFilename());
-            fileSystemService.upload(file.getInputStream(), flinkDeployConfigFilePath);
+            try (final InputStream inputStream = file.getInputStream()) {
+                final String flinkDeployConfigFilePath = getFlinkDeployConfigFilePath(flinkDeployConfigFileDTO.getName(), file.getOriginalFilename());
+                fileSystemService.upload(inputStream, flinkDeployConfigFilePath);
+            }
         }
     }
 
@@ -139,8 +141,9 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
     public void downloadDeployConfigFile(Long id, String fileName, OutputStream outputStream) throws IOException {
         final FlinkDeployConfigFileDTO record = selectOne(id);
         String path = getFlinkDeployConfigFilePath(record.getName(), fileName);
-        final InputStream inputStream = fileSystemService.get(path);
-        FileCopyUtils.copy(inputStream, outputStream);
+        try (final InputStream inputStream = fileSystemService.get(path)) {
+            FileCopyUtils.copy(inputStream, outputStream);
+        }
     }
 
     @Override

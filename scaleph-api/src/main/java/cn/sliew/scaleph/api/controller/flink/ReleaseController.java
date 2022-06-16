@@ -38,6 +38,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -76,8 +77,10 @@ public class ReleaseController {
         if (file.isEmpty()) {
             throw new CustomException("缺少文件");
         }
-        param.setName(file.getOriginalFilename());
-        flinkReleaseService.upload(param, file.getInputStream());
+        try (final InputStream inputStream = file.getInputStream()) {
+            param.setName(file.getOriginalFilename());
+            flinkReleaseService.upload(param, inputStream);
+        }
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 

@@ -16,13 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.submit;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-import org.apache.flink.configuration.Configuration;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
-public interface Submitter {
+import javax.validation.constraints.NotBlank;
 
-    void configure(Configuration configuration);
+@Getter
+@Setter
+public class FlinkArtifactUploadParam {
 
-    void submit();
+    @NotBlank
+    @ApiModelProperty("名称")
+    private String name;
+
+    @ApiModelProperty("entry point class")
+    private String entryClass;
+
+    @ApiModelProperty("备注")
+    private String remark;
 }

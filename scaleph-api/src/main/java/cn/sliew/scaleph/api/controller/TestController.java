@@ -26,11 +26,13 @@ import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelStorageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Api(tags = "测试模块")
 @RestController
 @RequestMapping("/api/test")
@@ -55,7 +57,7 @@ public class TestController {
     public ResponseEntity<ResponseVO> buildSeatunnelConfig(@RequestParam("jobId") Long jobId) {
         final DiJobDTO diJobDTO = seatunnelJobService.queryJobInfo(jobId);
         final String config = seatunnelConfigService.buildConfig(diJobDTO);
-        System.out.println(config);
+        log.info(config);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 }

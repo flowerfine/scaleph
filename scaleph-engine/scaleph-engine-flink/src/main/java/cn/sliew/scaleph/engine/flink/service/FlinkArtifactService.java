@@ -16,13 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.submit;
+package cn.sliew.scaleph.engine.flink.service;
 
-import org.apache.flink.configuration.Configuration;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactListParam;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactUploadParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.web.multipart.MultipartFile;
 
-public interface Submitter {
+import java.io.IOException;
+import java.io.OutputStream;
 
-    void configure(Configuration configuration);
+public interface FlinkArtifactService {
 
-    void submit();
+    void upload(FlinkArtifactUploadParam param, MultipartFile file) throws IOException;
+
+    String download(Long id, OutputStream outputStream) throws IOException;
+
+    int deleteById(Long id) throws IOException;
+
+    Page<FlinkArtifactDTO> list(FlinkArtifactListParam param);
+
+    FlinkArtifactDTO selectOne(Long id);
 }
