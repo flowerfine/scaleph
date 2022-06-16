@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.submit;
 
+import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
 import org.apache.flink.configuration.CheckpointingOptions;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.StateBackendOptions;
@@ -36,5 +37,10 @@ public class CheckpointSubmitter implements Submitter {
         configuration.set(CheckpointingOptions.CHECKPOINT_STORAGE, "filesystem");
         configuration.set(CheckpointingOptions.CHECKPOINTS_DIRECTORY, "");
         configuration.set(CheckpointingOptions.SAVEPOINT_DIRECTORY, "");
+    }
+
+    @Override
+    public void submit() {
+        PackageJarJob job = new PackageJarJob();
     }
 }

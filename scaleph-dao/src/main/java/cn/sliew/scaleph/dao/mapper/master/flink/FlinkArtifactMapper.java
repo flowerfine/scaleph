@@ -16,13 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.submit;
+package cn.sliew.scaleph.dao.mapper.master.flink;
 
-import org.apache.flink.configuration.Configuration;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifact;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-public interface Submitter {
+/**
+ * <p>
+ * flink artifact Mapper 接口
+ * </p>
+ */
+@Repository
+public interface FlinkArtifactMapper extends BaseMapper<FlinkArtifact> {
 
-    void configure(Configuration configuration);
-
-    void submit();
 }
