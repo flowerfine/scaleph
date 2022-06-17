@@ -49,4 +49,4 @@ CREATE TABLE `flink_cluster_config`
     `editor`                VARCHAR(32) COMMENT '修改人',
     `update_time`           TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (`id`)
-) ENGINE = INNODB COMMENT = 'flink 部署配置';
+) ENGINE = INNODB COMMENT = 'flink 集群配置';
