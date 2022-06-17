@@ -18,18 +18,24 @@
 
 package cn.sliew.scaleph.engine.flink.service.param;
 
+import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
-
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class FlinkReleaseUploadParam {
+public class FlinkClusterConfigListParam extends PaginationParam {
 
-    @ApiModelProperty("flink 版本")
-    @NotBlank(message = "flink 版本不能为空")
-    private String version;
-
-    @ApiModelProperty("flink release 名称")
+    @ApiModelProperty("名称。支持模糊搜索")
     private String name;
+
+    @ApiModelProperty("集群版本")
+    private String flinkVersion;
+
+    @ApiModelProperty("Resource。0: Standalone, 1: Native Kubernetes, 2: YARN")
+    private Integer resourceProvider;
+
+    @ApiModelProperty("flink 部署模式。0: Application, 1: Per-Job, 2: Session")
+    private Integer deployMode;
 }
