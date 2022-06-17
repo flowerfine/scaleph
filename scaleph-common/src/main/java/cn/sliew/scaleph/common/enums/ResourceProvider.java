@@ -23,13 +23,15 @@ import lombok.Getter;
 @Getter
 public enum ResourceProvider {
 
-    STANDALONE("Standalone"),
-    NATIVE_KUBERNETES("Native Kubernetes"),
-    YARN("YARN");
+    STANDALONE(0, "Standalone"),
+    NATIVE_KUBERNETES(1, "Native Kubernetes"),
+    YARN(2, "YARN");
 
+    private int code;
     private String name;
 
-    ResourceProvider(String name) {
+    ResourceProvider(int code, String name) {
+        this.code = code;
         this.name = name;
     }
 }

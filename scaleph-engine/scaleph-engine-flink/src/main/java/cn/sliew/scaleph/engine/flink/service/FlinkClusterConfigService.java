@@ -16,20 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.engine.flink.service;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigListParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
+import java.util.Map;
 
-@Data
-public class FlinkReleaseUploadParam {
+public interface FlinkClusterConfigService {
 
-    @ApiModelProperty("flink 版本")
-    @NotBlank(message = "flink 版本不能为空")
-    private String version;
+    int insert(FlinkClusterConfigDTO dto);
 
-    @ApiModelProperty("flink release 名称")
-    private String name;
+    int update(FlinkClusterConfigDTO dto);
+
+    int deleteById(Long id);
+
+    int deleteBatch(Map<Integer, ? extends Serializable> map);
+
+    Page<FlinkClusterConfigDTO> listByPage(FlinkClusterConfigListParam param);
+
+    FlinkClusterConfigDTO selectOne(Long id);
 }

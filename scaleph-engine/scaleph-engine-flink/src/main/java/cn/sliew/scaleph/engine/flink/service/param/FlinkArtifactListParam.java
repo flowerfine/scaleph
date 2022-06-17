@@ -20,11 +20,11 @@ package cn.sliew.scaleph.engine.flink.service.param;
 
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Getter
-@Setter
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class FlinkArtifactListParam extends PaginationParam {
 
     @ApiModelProperty("名称。支持模糊搜索")
