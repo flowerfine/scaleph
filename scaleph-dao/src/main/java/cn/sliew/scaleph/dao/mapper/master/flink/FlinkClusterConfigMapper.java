@@ -16,20 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.dao.mapper.master.flink;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfig;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.NotBlank;
+/**
+ * <p>
+ * flink 部署配置 Mapper 接口
+ * </p>
+ */
+@Repository
+public interface FlinkClusterConfigMapper extends BaseMapper<FlinkClusterConfig> {
 
-@Data
-public class FlinkReleaseUploadParam {
-
-    @ApiModelProperty("flink 版本")
-    @NotBlank(message = "flink 版本不能为空")
-    private String version;
-
-    @ApiModelProperty("flink release 名称")
-    private String name;
 }
