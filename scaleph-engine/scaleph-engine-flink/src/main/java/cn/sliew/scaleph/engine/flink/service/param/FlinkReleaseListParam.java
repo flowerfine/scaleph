@@ -16,44 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.flink;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
+import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * flink release
- * </p>
- */
-@Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("flink_release")
-@ApiModel(value = "FlinkRelease对象", description = "flink release")
-public class FlinkRelease extends BaseDO {
-
-    private static final long serialVersionUID = 1L;
+@Data
+public class FlinkReleaseListParam extends PaginationParam {
 
     @ApiModelProperty("版本")
-    @TableField("version")
     private String version;
 
-    @ApiModelProperty("文件名称")
-    @TableField("`file_name`")
+    @ApiModelProperty("文件名称。支持模糊匹配")
     private String fileName;
-
-    @ApiModelProperty("存储路径")
-    @TableField("path")
-    private String path;
-
-    @ApiModelProperty("备注")
-    @TableField("remark")
-    private String remark;
-
-
 }

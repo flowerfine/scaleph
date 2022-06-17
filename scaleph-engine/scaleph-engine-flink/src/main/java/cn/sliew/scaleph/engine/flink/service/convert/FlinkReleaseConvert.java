@@ -16,31 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
+package cn.sliew.scaleph.engine.flink.service.convert;
 
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkReleaseDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
-import javax.validation.constraints.NotBlank;
+@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface FlinkReleaseConvert extends BaseConvert<FlinkRelease, FlinkReleaseDTO> {
+    FlinkReleaseConvert INSTANCE = Mappers.getMapper(FlinkReleaseConvert.class);
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkRelease对象", description = "flink release")
-public class FlinkReleaseDTO extends BaseDTO {
-
-    @NotBlank
-    @ApiModelProperty("版本")
-    private String version;
-
-    @ApiModelProperty("文件名称")
-    private String fileName;
-
-    @ApiModelProperty("存储路径")
-    private String path;
-
-    @ApiModelProperty("备注")
-    private String remark;
 }

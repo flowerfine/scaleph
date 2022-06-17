@@ -7,7 +7,7 @@ CREATE TABLE `flink_release`
 (
     `id`          BIGINT       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
     `version`     VARCHAR(255) NOT NULL COMMENT '版本',
-    `name`        VARCHAR(255) NOT NULL COMMENT '名称',
+    `file_name`   VARCHAR(255) NOT NULL COMMENT '文件名称',
     `path`        VARCHAR(255) NOT NULL COMMENT '存储路径',
     `remark`      VARCHAR(255) COMMENT '备注',
     `creator`     VARCHAR(32) COMMENT '创建人',
