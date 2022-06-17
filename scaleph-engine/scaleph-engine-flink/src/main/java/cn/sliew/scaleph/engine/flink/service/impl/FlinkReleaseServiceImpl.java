@@ -31,7 +31,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -116,7 +115,7 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService, Initializin
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (final InputStream inputStream = response.body().byteStream()) {
-                    String filePath = getFlinkReleasePath(release.getVersion());
+                    String filePath = getFlinkReleasePath(release.getVersion(), release.getName());
                     fileSystemService.upload(inputStream, filePath);
                     cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease record = new cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease();
                     record.setVersion(release.getVersion());
@@ -134,7 +133,7 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService, Initializin
     @Override
     public void upload(FlinkReleaseUploadParam param, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        String filePath = getFlinkReleasePath(param.getVersion());
+        String filePath = getFlinkReleasePath(param.getVersion(), fileName);
         try (final InputStream inputStream = file.getInputStream()) {
             fileSystemService.upload(inputStream, filePath);
         }
@@ -154,8 +153,8 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService, Initializin
         return dto.getFileName();
     }
 
-    private String getFlinkReleasePath(String version) {
-        return String.format("%s/%s/%s", getFlinkReleaseRootPath(), version, RandomStringUtils.randomAlphabetic(8));
+    private String getFlinkReleasePath(String version, String fileName) {
+        return String.format("%s/%s/%s", getFlinkReleaseRootPath(), version, fileName);
     }
 
     private String getFlinkReleaseRootPath() {
