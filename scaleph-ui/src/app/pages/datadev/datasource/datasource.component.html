@@ -28,18 +28,6 @@
                     <ng-template let-option="option"> {{ option['label'] }} </ng-template>
                   </d-select>
                 </d-col>
-                <d-col>
-                  <div class="da-header-item-label">{{ 'datadev.hostName' | translate }}:</div>
-                </d-col>
-                <d-col>
-                  <input dTextInput name="hostName" [(ngModel)]="searchFormConfig.hostName" (keyup.enter)="refreshTable()" />
-                </d-col>
-                <d-col>
-                  <div class="da-header-item-label">{{ 'datadev.databaseName' | translate }}:</div>
-                </d-col>
-                <d-col>
-                  <input dTextInput name="databaseName" [(ngModel)]="searchFormConfig.databaseName" (keyup.enter)="refreshTable()" />
-                </d-col>
               </d-row>
             </div>
             <div class="header-right">
@@ -100,22 +88,12 @@
                   <ng-template let-cellItem="cellItem">{{ cellItem.label }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="hostName" header="{{ 'datadev.hostName' | translate }}">
+              <d-column field="props" header="{{ 'datadev.props' | translate }}">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="port" header="{{ 'datadev.port' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="databaseName" header="{{ 'datadev.databaseName' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="userName" header="{{ 'datadev.userName' | translate }}">
+              <d-column field="additionalProps" header="{{ 'datadev.additionalProps' | translate }}">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>

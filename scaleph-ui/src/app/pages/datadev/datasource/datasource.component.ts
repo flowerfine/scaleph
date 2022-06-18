@@ -1,15 +1,15 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { DataTableComponent, DialogService, LoadingService, ModalService } from 'ng-devui';
-import { DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
-import { DataSourceMeta, DataSourceMetaParam } from 'src/app/@core/data/datadev.data';
-import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
-import { AuthService } from 'src/app/@core/services/auth.service';
-import { DataSourceService } from 'src/app/@core/services/datadev/datasource.service';
-import { DatasourceDeleteComponent } from './datasource-delete/datasource-delete.component';
-import { DatasourceNewPreComponent } from './datasource-new-pre/datasource-new-pre.component';
-import { DatasourceUpdateComponent } from './datasource-update/datasource-update.component';
+import {DOCUMENT} from '@angular/common';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
+import {DataTableComponent, DialogService, LoadingService, ModalService} from 'ng-devui';
+import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE} from 'src/app/@core/data/app.data';
+import {MetaDataSource, MetaDataSourceParam} from 'src/app/@core/data/datadev.data';
+import {SysDictDataService} from 'src/app/@core/services/admin/dict-data.service';
+import {AuthService} from 'src/app/@core/services/auth.service';
+import {DataSourceService} from 'src/app/@core/services/datadev/datasource.service';
+import {DatasourceDeleteComponent} from './datasource-delete/datasource-delete.component';
+import {DatasourceNewPreComponent} from './datasource-new-pre/datasource-new-pre.component';
+import {DatasourceUpdateComponent} from './datasource-update/datasource-update.component';
 
 @Component({
   selector: 'app-datasource',
@@ -18,19 +18,20 @@ import { DatasourceUpdateComponent } from './datasource-update/datasource-update
 })
 export class DatasourceComponent implements OnInit {
   PRIVILEGE_CODE = PRIVILEGE_CODE;
-  @ViewChild('dataTable', { static: true }) dataTable: DataTableComponent;
-  dataLoading: boolean = false;
-  dataTableChecked: boolean = false;
+  @ViewChild('dataTable', {static: true}) dataTable: DataTableComponent;
+  dataLoading = false;
+  dataTableChecked = false;
   loadTarget: any;
-  dataTableDs: DataSourceMeta[] = [];
+  dataTableDs: MetaDataSource[] = [];
   pager = {
     total: 0,
     pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
     pageSize: DEFAULT_PAGE_PARAM.pageSize,
     pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
   };
-  searchFormConfig = { dataSourceName: '', dataSourceType: null, hostName: '', databaseName: '' };
+  searchFormConfig = {dataSourceName: '', dataSourceType: null};
   dataSourceTypeList: Dict[] = [];
+
   constructor(
     public authService: AuthService,
     @Inject(DOCUMENT) private doc: any,
@@ -40,7 +41,8 @@ export class DatasourceComponent implements OnInit {
     private dataSourceService: DataSourceService,
     private dictDataService: SysDictDataService,
     private dialogService: DialogService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.refreshTable();
@@ -49,27 +51,25 @@ export class DatasourceComponent implements OnInit {
     });
   }
 
-  refreshTable() {
+  refreshTable(): void {
     this.openDataTableLoading();
-    let param: DataSourceMetaParam = {
+    const param: MetaDataSourceParam = {
       pageSize: this.pager.pageSize,
       current: this.pager.pageIndex,
       dataSourceName: this.searchFormConfig.dataSourceName,
       dataSourceType: this.searchFormConfig.dataSourceType ? this.searchFormConfig.dataSourceType.value : '',
-      hostName: this.searchFormConfig.hostName,
-      databaseName: this.searchFormConfig.databaseName,
     };
     this.dataSourceService.listByPage(param).subscribe((d) => {
       this.pager.total = d.total;
       this.dataTableDs = d.records;
       this.loadTarget.loadingInstance.close();
       this.dataLoading = false;
-      this.dataTable.setTableCheckStatus({ pageAllChecked: false });
+      this.dataTable.setTableCheckStatus({pageAllChecked: false});
       this.getDataTableCheckedStatus();
     });
   }
 
-  openDataTableLoading() {
+  openDataTableLoading(): void {
     const dc = this.doc.querySelector('#dataTableContent');
     this.loadTarget = this.loadingService.open({
       target: dc,
@@ -80,8 +80,8 @@ export class DatasourceComponent implements OnInit {
     this.dataLoading = true;
   }
 
-  reset() {
-    this.searchFormConfig = { dataSourceName: '', dataSourceType: '', hostName: '', databaseName: '' };
+  reset(): void {
+    this.searchFormConfig = {dataSourceName: '', dataSourceType: ''};
     this.pager = {
       total: 0,
       pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -91,7 +91,7 @@ export class DatasourceComponent implements OnInit {
     this.refreshTable();
   }
 
-  openAddDataSourceDialog() {
+  openAddDataSourceDialog(): void {
     const results = this.modalService.open({
       id: 'datasource-new-pre',
       width: '480px',
@@ -110,7 +110,7 @@ export class DatasourceComponent implements OnInit {
     });
   }
 
-  openDeleteDataSourceDialog(items: DataSourceMeta[]) {
+  openDeleteDataSourceDialog(items: MetaDataSource[]): void {
     const results = this.modalService.open({
       id: 'datasource-delete',
       width: '346px',
@@ -129,14 +129,14 @@ export class DatasourceComponent implements OnInit {
     });
   }
 
-  openEditDataSourceDialog(item: DataSourceMeta) {
+  openEditDataSourceDialog(item: MetaDataSource): void {
     const results = this.modalService.open({
       id: 'datasource-edit',
       width: '580px',
       backdropCloseable: true,
       component: DatasourceUpdateComponent,
       data: {
-        title: { name: this.translate.instant('datadev.datasource') },
+        title: {name: this.translate.instant('datadev.datasource')},
         item: item,
         onClose: (event: any) => {
           results.modalInstance.hide();
@@ -148,7 +148,7 @@ export class DatasourceComponent implements OnInit {
     });
   }
 
-  openShowPasswordDialog(item: DataSourceMeta) {
+  openShowPasswordDialog(item: MetaDataSource): void {
     this.dataSourceService.showPassword(item).subscribe((d) => {
       if (d.success) {
         const results = this.dialogService.open({
@@ -165,7 +165,7 @@ export class DatasourceComponent implements OnInit {
     });
   }
 
-  getDataTableCheckedStatus() {
+  getDataTableCheckedStatus(): void {
     if (this.dataTable.getCheckedRows().length > 0) {
       this.dataTableChecked = true;
     } else {

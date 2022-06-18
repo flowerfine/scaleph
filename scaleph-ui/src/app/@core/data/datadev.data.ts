@@ -1,29 +1,19 @@
-import { Dict, QueryParam } from './app.data';
+import {Dict, QueryParam} from './app.data';
 
-export class DataSourceMeta {
+export class MetaDataSource {
   id?: number;
   dataSourceName?: string;
   dataSourceType?: Dict;
-  connectionType?: Dict;
-  hostName?: string;
-  databaseName?: string;
-  port?: number;
-  userName?: string;
-  password?: string;
+  props?: string;
+  additionalProps?: string;
   remark?: string;
-  generalProps?: string;
-  jdbcProps?: string;
-  // poolProps?: string;
-  passwdChanged?: boolean;
   createTime?: Date;
   updateTime?: Date;
 }
 
-export class DataSourceMetaParam extends QueryParam {
+export class MetaDataSourceParam extends QueryParam {
   dataSourceName?: string;
   dataSourceType?: string;
-  hostName?: string;
-  databaseName?: string;
 }
 
 
@@ -32,35 +22,45 @@ export const WORKBENCH_MENU = [
     title: 'datadev.step.source',
     menuIcon: 'icon icon-folder',
     children: [
-      { title: 'datadev.step.source-csv', menuIcon: 'icon-file', menuType: 'source', menuName: 'csv' },
-      { title: 'datadev.step.source-excel', menuIcon: 'icon-file', menuType: 'source', menuName: 'excel' },
-      { title: 'datadev.step.source-table', menuIcon: 'icon-table', menuType: 'source', menuName: 'table' },
+      {title: 'datadev.step.source-csv', menuIcon: 'icon-file', menuType: 'source', menuName: 'csv'},
+      {title: 'datadev.step.source-excel', menuIcon: 'icon-file', menuType: 'source', menuName: 'excel'},
+      {title: 'datadev.step.source-table', menuIcon: 'icon-table', menuType: 'source', menuName: 'table'},
     ],
   },
   {
     title: 'datadev.step.sink',
     menuIcon: 'icon icon-folder',
     children: [
-      { title: 'datadev.step.sink-csv', menuIcon: 'icon-file', menuType: 'sink', menuName: 'csv' },
-      { title: 'datadev.step.sink-excel', menuIcon: 'icon-file', menuType: 'sink', menuName: 'excel' },
-      { title: 'datadev.step.sink-table', menuIcon: 'icon-table', menuType: 'sink', menuName: 'table' },
+      {title: 'datadev.step.sink-csv', menuIcon: 'icon-file', menuType: 'sink', menuName: 'csv'},
+      {title: 'datadev.step.sink-excel', menuIcon: 'icon-file', menuType: 'sink', menuName: 'excel'},
+      {title: 'datadev.step.sink-table', menuIcon: 'icon-table', menuType: 'sink', menuName: 'table'},
     ],
   },
   {
     title: 'datadev.step.trans',
     menuIcon: 'icon icon-folder',
     children: [
-      { title: 'datadev.step.trans-field-select', menuIcon: 'icon-property', menuType: 'trans', menuName: 'field-select' },
-      { title: 'datadev.step.trans-field-set-value', menuIcon: 'icon-set-keyword', menuType: 'trans', menuName: 'field-set-value' },
-      { title: 'datadev.step.trans-group', menuIcon: 'icon-groupby', menuType: 'trans', menuName: 'group' },
+      {
+        title: 'datadev.step.trans-field-select',
+        menuIcon: 'icon-property',
+        menuType: 'trans',
+        menuName: 'field-select'
+      },
+      {
+        title: 'datadev.step.trans-field-set-value',
+        menuIcon: 'icon-set-keyword',
+        menuType: 'trans',
+        menuName: 'field-set-value'
+      },
+      {title: 'datadev.step.trans-group', menuIcon: 'icon-groupby', menuType: 'trans', menuName: 'group'},
     ],
   },
   {
     title: 'datadev.step.flow',
     menuIcon: 'icon icon-folder',
     children: [
-      { title: 'datadev.step.trans-filter', menuIcon: 'icon-filter-o', menuType: 'trans', menuName: 'filter' },
-      { title: 'datadev.step.trans-case', menuIcon: 'icon-switch', menuType: 'trans', menuName: 'case' },
+      {title: 'datadev.step.trans-filter', menuIcon: 'icon-filter-o', menuType: 'trans', menuName: 'filter'},
+      {title: 'datadev.step.trans-case', menuIcon: 'icon-switch', menuType: 'trans', menuName: 'case'},
     ],
   },
 ];

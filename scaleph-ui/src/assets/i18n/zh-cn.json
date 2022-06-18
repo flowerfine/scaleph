@@ -191,6 +191,8 @@
     "datasource": "数据源",
     "dataSourceName": "数据源名称",
     "dataSourceType": "数据源类型",
+    "props":"连接属性",
+    "additionalProps":"扩展属性",
     "hostName": "主机地址",
     "databaseName": "数据库名称",
     "port": "端口号",

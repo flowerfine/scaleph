@@ -18,17 +18,19 @@
 
 package cn.sliew.scaleph.meta.service.convert;
 
-import java.util.Map;
-
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDatasource;
 import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
+
+import java.util.Map;
 
 @Mapper(uses = {DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MetaDataSourceConvert extends BaseConvert<MetaDatasource, MetaDatasourceDTO> {
@@ -36,26 +38,42 @@ public interface MetaDataSourceConvert extends BaseConvert<MetaDatasource, MetaD
 
     @Override
     default MetaDatasource toDo(MetaDatasourceDTO dto) {
+        if (dto == null) {
+            return null;
+        }
         MetaDatasource metaDatasource = new MetaDatasource();
-        metaDatasource.setName(dto.getName());
+        metaDatasource.setDatasourceName(dto.getDatasourceName());
+        metaDatasource.setDatasourceType(DictVoConvert.INSTANCE.toDo(dto.getDatasourceType()));
         metaDatasource.setProps(JacksonUtil.toJsonString(dto.getProps()));
         metaDatasource.setAdditionalProps(JacksonUtil.toJsonString(dto.getAdditionalProps()));
         metaDatasource.setRemark(dto.getRemark());
+        metaDatasource.setCreateTime(dto.getCreateTime());
+        metaDatasource.setCreator(dto.getCreator());
+        metaDatasource.setUpdateTime(dto.getUpdateTime());
+        metaDatasource.setEditor(dto.getEditor());
         return metaDatasource;
     }
 
     @Override
     default MetaDatasourceDTO toDto(MetaDatasource entity) {
+        if (entity == null) {
+            return null;
+        }
         MetaDatasourceDTO metaDatasourceDTO = new MetaDatasourceDTO();
-        metaDatasourceDTO.setName(entity.getName());
+        metaDatasourceDTO.setDatasourceName(entity.getDatasourceName());
+        metaDatasourceDTO.setDatasourceType(DictVO.toVO(DictConstants.DATASOURCE_TYPE, entity.getDatasourceType()));
         metaDatasourceDTO.setProps(JacksonUtil.parseJsonString(entity.getProps(),
-            new TypeReference<Map<String, Object>>() {
-            }));
-        metaDatasourceDTO.setAdditionalProps(
-            JacksonUtil.parseJsonString(entity.getAdditionalProps(),
                 new TypeReference<Map<String, Object>>() {
                 }));
+        metaDatasourceDTO.setAdditionalProps(
+                JacksonUtil.parseJsonString(entity.getAdditionalProps(),
+                        new TypeReference<Map<String, Object>>() {
+                        }));
         metaDatasourceDTO.setRemark(entity.getRemark());
+        metaDatasourceDTO.setCreateTime(entity.getCreateTime());
+        metaDatasourceDTO.setCreator(entity.getCreator());
+        metaDatasourceDTO.setUpdateTime(entity.getUpdateTime());
+        metaDatasourceDTO.setEditor(entity.getEditor());
         return metaDatasourceDTO;
     }
 }

@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DFormGroupRuleDirective, DValidateRules, FormLayout } from 'ng-devui';
-import { DataSourceMeta } from 'src/app/@core/data/datadev.data';
+import { MetaDataSource } from 'src/app/@core/data/datadev.data';
 import { DataSourceService } from 'src/app/@core/services/datadev/datasource.service';
 import { NotificationService } from 'src/app/@shared/components/notifications/notification.service';
 
@@ -83,7 +83,7 @@ export class DatasourceUpdateComponent implements OnInit {
   }
 
   submitForm({ valid }) {
-    let ds: DataSourceMeta = {
+    let ds: MetaDataSource = {
       id: this.formData.id,
       dataSourceName: this.formData.dataSourceName,
       dataSourceType: this.data.item.dataSourceType,
@@ -108,7 +108,7 @@ export class DatasourceUpdateComponent implements OnInit {
   }
 
   testConnection() {
-    let ds: DataSourceMeta = {
+    let ds: MetaDataSource = {
       id: this.formData.id,
       dataSourceName: this.formData.dataSourceName,
       dataSourceType: this.data.item.dataSourceType,

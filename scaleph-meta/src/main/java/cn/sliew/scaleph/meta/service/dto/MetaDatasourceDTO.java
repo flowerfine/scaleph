@@ -18,14 +18,18 @@
 
 package cn.sliew.scaleph.meta.service.dto;
 
-import javax.validation.constraints.NotBlank;
-import java.util.Map;
-
 import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import java.util.Map;
 
 /**
  * 元数据-数据源信息
@@ -35,11 +39,17 @@ import lombok.EqualsAndHashCode;
 @ApiModel(value = "MetaDatasource对象", description = "元数据-数据源信息")
 public class MetaDatasourceDTO extends BaseDTO {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -4194301324161897144L;
 
     @NotBlank
-    @ApiModelProperty(value = "名称")
-    private String name;
+    @Length(min = 1, max = 64)
+    @Pattern(regexp = "\\w+$")
+    @ApiModelProperty(value = "数据源名称")
+    private String datasourceName;
+
+    @NotNull
+    @ApiModelProperty(value = "数据源类型")
+    private DictVO datasourceType;
 
     @ApiModelProperty(value = "数据源支持的属性")
     private Map<String, Object> props;
@@ -47,6 +57,7 @@ public class MetaDatasourceDTO extends BaseDTO {
     @ApiModelProperty(value = "数据源支持的额外属性。")
     private Map<String, Object> additionalProps;
 
+    @Length(max = 250)
     @ApiModelProperty(value = "备注描述")
     private String remark;
 
