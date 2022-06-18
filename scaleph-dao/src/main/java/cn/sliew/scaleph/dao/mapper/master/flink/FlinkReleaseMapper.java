@@ -16,31 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
+package cn.sliew.scaleph.dao.mapper.master.flink;
 
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.NotBlank;
+/**
+ * <p>
+ * flink release Mapper 接口
+ * </p>
+ */
+@Repository
+public interface FlinkReleaseMapper extends BaseMapper<FlinkRelease> {
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkRelease对象", description = "flink release")
-public class FlinkReleaseDTO extends BaseDTO {
-
-    @NotBlank
-    @ApiModelProperty("版本")
-    private String version;
-
-    @ApiModelProperty("文件名称")
-    private String fileName;
-
-    @ApiModelProperty("存储路径")
-    private String path;
-
-    @ApiModelProperty("备注")
-    private String remark;
 }

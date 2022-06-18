@@ -19,8 +19,11 @@
 package cn.sliew.scaleph.engine.flink.service;
 
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkReleaseDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkReleaseListParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkReleaseLoadParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkReleaseUploadParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,11 +33,15 @@ import java.util.concurrent.CompletableFuture;
 
 public interface FlinkReleaseService {
 
-    List<FlinkReleaseDTO> listRelease() throws IOException;
+    Page<FlinkReleaseDTO> list(FlinkReleaseListParam param) throws IOException;
+
+    FlinkReleaseDTO selectOne(Long id);
 
     CompletableFuture<Boolean> load(FlinkReleaseLoadParam param) throws IOException;
 
-    void upload(FlinkReleaseUploadParam param, InputStream inputStream) throws IOException;
+    void upload(FlinkReleaseUploadParam param, MultipartFile file) throws IOException;
 
-    String download(String version, OutputStream outputStream) throws IOException;
+    String download(Long id, OutputStream outputStream) throws IOException;
+
+    void delete(Long id) throws IOException;
 }

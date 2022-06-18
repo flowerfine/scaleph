@@ -23,8 +23,10 @@ import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.exception.CustomException;
 import cn.sliew.scaleph.engine.flink.service.FlinkReleaseService;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkReleaseDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkReleaseListParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkReleaseLoadParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkReleaseUploadParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -38,9 +40,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URLEncoder;
-import java.util.List;
 
 @Slf4j
 @Api(tags = "Flink管理-release管理")
@@ -54,8 +54,8 @@ public class ReleaseController {
     @Logging
     @GetMapping
     @ApiOperation(value = "查询 release 列表", notes = "查询 release 列表")
-    public ResponseEntity<List<FlinkReleaseDTO>> listRelease() throws IOException {
-        final List<FlinkReleaseDTO> flinkReleaseDTOS = flinkReleaseService.listRelease();
+    public ResponseEntity<Page<FlinkReleaseDTO>> list(@Valid FlinkReleaseListParam param) throws IOException {
+        final Page<FlinkReleaseDTO> flinkReleaseDTOS = flinkReleaseService.list(param);
         return new ResponseEntity<>(flinkReleaseDTOS, HttpStatus.OK);
     }
 
@@ -77,22 +77,27 @@ public class ReleaseController {
         if (file.isEmpty()) {
             throw new CustomException("缺少文件");
         }
-        try (final InputStream inputStream = file.getInputStream()) {
-            param.setName(file.getOriginalFilename());
-            flinkReleaseService.upload(param, inputStream);
+        flinkReleaseService.upload(param, file);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("{id}")
+    @ApiOperation("下载 release")
+    public ResponseEntity<ResponseVO> download(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
+        try (ServletOutputStream outputStream = response.getOutputStream()) {
+            final String name = flinkReleaseService.download(id, outputStream);
+            response.setCharacterEncoding("utf-8");// 设置字符编码
+            response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(name, "UTF-8")); // 设置响应头
         }
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
-    @GetMapping("download")
-    @ApiOperation("下载 release")
-    public ResponseEntity<ResponseVO> download(@RequestParam("version") String version, HttpServletResponse response) throws IOException {
-        try (ServletOutputStream outputStream = response.getOutputStream()) {
-            final String name = flinkReleaseService.download(version, outputStream);
-            response.setCharacterEncoding("utf-8");// 设置字符编码
-            response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(name, "UTF-8")); // 设置响应头
-        }
+    @DeleteMapping("{id}")
+    @ApiOperation(value = "删除 release", notes = "删除 release")
+    public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws IOException {
+        flinkReleaseService.delete(id);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 }
