@@ -26,10 +26,10 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class FlinkReleaseUploadParam {
 
+    @NotBlank
     @ApiModelProperty("flink 版本")
-    @NotBlank(message = "flink 版本不能为空")
     private String version;
 
-    @ApiModelProperty("flink release 名称")
-    private String name;
+    @ApiModelProperty("备注")
+    private String remark;
 }
