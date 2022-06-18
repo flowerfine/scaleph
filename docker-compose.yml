@@ -14,17 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-version: "3.1"
-
 services:
 
   scaleph-api:
-    image: ghcr.io/flowerfine/scaleph/scaleph-api:latest
+    image: scaleph/scaleph-api:dev
     container_name: scaleph-api
     depends_on:
       - mysql
       - redis
       - minio
+    build:
+      dockerfile: ./tools/docker/local/scaleph-api/Dockerfile
+      context: .
     ports:
       - 8080:8080
     networks:
@@ -36,8 +37,8 @@ services:
     depends_on:
       - scaleph-api
     build:
-      dockerfile: ../scaleph-ui/Dockerfile
-      context: ../../../scaleph-ui
+      dockerfile: ./tools/docker/local/scaleph-ui/Dockerfile
+      context: .
     environment:
       - SCALEPH_API_URL="scaleph-api:8080"
     ports:
@@ -83,34 +84,6 @@ services:
     ports:
       - 9000:9000
       - 9001:9001
-    networks:
-      - scaleph
-
-  jobmanager:
-    image: flink:1.13.6-scala_2.12-java8
-    container_name: jobmanager
-    environment:
-      FLINK_PROPERTIES: |
-        jobmanager.rpc.address: jobmanager
-    ports:
-      - 8081:8081
-    command: jobmanager
-    networks:
-      - scaleph
-
-  taskmanager:
-    image: flink:1.13.6-scala_2.12-java8
-    container_name: taskmanager
-    depends_on:
-      - jobmanager
-    environment:
-      FLINK_PROPERTIES: |
-        jobmanager.rpc.address: jobmanager
-        taskmanager.numberOfTaskSlots: 8
-    command: taskmanager
-    scale: 1
-    networks:
-      - scaleph
 
 networks:
   scaleph:
