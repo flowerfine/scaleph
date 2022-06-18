@@ -1,7 +1,7 @@
 FROM node:16 as build
 
 COPY ./ /scaleph
-RUN cd /scaleph/scaleph-ui && npm run build --prod
+RUN cd /scaleph/scaleph-ui && npm install -g @angular/cli && npm install && npm run build --prod
 
 
 FROM nginx:latest as release
