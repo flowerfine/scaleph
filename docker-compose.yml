@@ -16,26 +16,26 @@
 
 services:
 
-  scaleph-api:
-    image: scaleph/scaleph-api:dev
-    container_name: scaleph-api
-    depends_on:
-      - mysql
-      - redis
-      - minio
-    build:
-      dockerfile: ./tools/docker/local/scaleph-api/Dockerfile
-      context: .
-    ports:
-      - 8080:8080
-    networks:
-      - scaleph
+#  scaleph-api:
+#    image: scaleph/scaleph-api:dev
+#    container_name: scaleph-api
+#    depends_on:
+#      - mysql
+#      - redis
+#      - minio
+#    build:
+#      dockerfile: ./tools/docker/local/scaleph-api/Dockerfile
+#      context: .
+#    ports:
+#      - 8080:8080
+#    networks:
+#      - scaleph
 
   scaleph-ui:
     image: scaleph/scaleph-ui:dev
     container_name: scaleph-ui
-    depends_on:
-      - scaleph-api
+#    depends_on:
+#      - scaleph-api
     build:
       dockerfile: ./tools/docker/local/scaleph-ui/Dockerfile
       context: .
