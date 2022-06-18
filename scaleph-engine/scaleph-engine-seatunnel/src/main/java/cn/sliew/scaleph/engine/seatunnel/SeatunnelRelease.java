@@ -28,6 +28,7 @@ public enum SeatunnelRelease {
 
     V_2_1_0(0, "2.1.0", "apache-seatunnel-incubating-2.1.0-bin.tar.gz","org.apache.seatunnel.SeatunnelFlink", "https://archive.apache.org/dist/incubator/seatunnel/2.1.0/apache-seatunnel-incubating-2.1.0-bin.tar.gz"),
     V_2_1_1(1, "2.1.1", "apache-seatunnel-incubating-2.1.1-bin.tar.gz","org.apache.seatunnel.SeatunnelFlink", "https://archive.apache.org/dist/incubator/seatunnel/2.1.1/apache-seatunnel-incubating-2.1.1-bin.tar.gz"),
+    V_2_1_2(2, "2.1.2", "apache-seatunnel-incubating-2.1.2-bin.tar.gz","org.apache.seatunnel.SeatunnelFlink", "https://archive.apache.org/dist/incubator/seatunnel/2.1.2/apache-seatunnel-incubating-2.1.2-bin.tar.gz"),
 
     DEV(Integer.MAX_VALUE, "dev", "unsupported","org.apache.seatunnel.core.flink.SeatunnelFlink", "unsupported"),
     ;
