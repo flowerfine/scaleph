@@ -59,8 +59,10 @@ cd flink-1.13.6
 download [seatunnel](https://seatunnel.apache.org/download) (version 2.1.2) and untar.
 
 ```shell
+# download seatunnel-2.1.2
 curl -LsO https://archive.apache.org/dist/incubator/seatunnel/2.1.2/apache-seatunnel-incubating-2.1.2-bin.tar.gz
 
+# untar seatunnel
 tar -zxf apache-seatunnel-incubating-2.1.2-bin.tar.gz
 ```
 
