@@ -6,7 +6,6 @@ on:
 
 jobs:
   build:
-    if: github.repository != 'flowerfine/scaleph'
     runs-on: ubuntu-latest
     permissions:
       contents: read

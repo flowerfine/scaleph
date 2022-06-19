@@ -30,8 +30,8 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ../mysql/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
-      - ../mysql/init.d:/docker-entrypoint-initdb.d
+      - ../../mysql/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
+      - ../../mysql/init.d:/docker-entrypoint-initdb.d
     networks:
       - scaleph
 
