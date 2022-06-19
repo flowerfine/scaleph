@@ -41,6 +41,9 @@ ENV ENV_PARAMS=" --spring.datasource.master.jdbc-url=$MYSQL_URL \
  --app.resource.minio.endPoint=$MINIO_ENDPOINT \
  --app.resource.minio.accessKey=$MINIO_ACCESS_KEY \
  --app.resource.minio.secretKey=$MINIO_SECRET_KEY \
+ --file-system.endPoint=$MINIO_ENDPOINT \
+ --file-system.accessKey=$MINIO_ACCESS_KEY \
+ --file-system.secretKey=$MINIO_SECRET_KEY \
  "
 
 RUN mkdir -p $SCALEPH_HOME
