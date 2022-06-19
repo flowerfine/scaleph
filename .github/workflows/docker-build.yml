@@ -25,4 +25,4 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Build docker images
-        run: docker-compose up
+        run: docker-compose up -d
