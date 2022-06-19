@@ -1,5 +1,6 @@
 package cn.sliew.scaleph.plugin.datasource.mysql;
 
+import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
 import cn.sliew.scaleph.plugin.datasource.jdbc.JDBCDataSourcePlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
+import static cn.sliew.scaleph.plugin.datasource.mysql.MysqlDataSourceProperties.*;
 
 public class MysqlDataSourcePlugin extends JDBCDataSourcePlugin {
 
@@ -25,17 +26,32 @@ public class MysqlDataSourcePlugin extends JDBCDataSourcePlugin {
     }
 
     public MysqlDataSourcePlugin() {
-        PluginInfo info = new PluginInfo("Mysql", "Mysql Jdbc Datasource", "8.0.25", MysqlDataSourcePlugin.class.getName());
+        PluginInfo info = new PluginInfo(DataSourceTypeEnum.MYSQL.getValue(), "Mysql Jdbc Datasource", "8.0.25", MysqlDataSourcePlugin.class.getName());
         this.setPluginInfo(info);
     }
 
     @Override
-    protected String getJdbcUrl() {
-        return "jdbc:mysql://" + properties.get(HOST) + ":" + properties.get(PORT) + "/" + properties.get(DATABASE_NAME) + "?" + getAdditionalProps();
+    public String getJdbcUrl() {
+        return "jdbc:mysql://" + properties.getString(HOST) + ":" + String.valueOf(properties.get(PORT)) + "/" + properties.getString(DATABASE_NAME) + "?" + getAdditionalProps();
     }
 
     @Override
-    protected String getDriverClassNmae() {
+    public String getDriverClassNmae() {
         return "com.mysql.cj.jdbc.Driver";
+    }
+
+    @Override
+    public String getUsername() {
+        return properties.get(USERNAME);
+    }
+
+    @Override
+    public String getPassword() {
+        return properties.get(PASSWORD);
+    }
+
+    @Override
+    public List<PropertyDescriptor> getSupportedProperties() {
+        return supportedProperties;
     }
 }

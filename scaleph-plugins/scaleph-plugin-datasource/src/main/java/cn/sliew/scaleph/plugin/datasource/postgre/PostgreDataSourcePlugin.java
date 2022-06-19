@@ -1,5 +1,6 @@
 package cn.sliew.scaleph.plugin.datasource.postgre;
 
+import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
 import cn.sliew.scaleph.plugin.datasource.jdbc.JDBCDataSourcePlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
+import static cn.sliew.scaleph.plugin.datasource.postgre.PostgreDataSourceProperties.*;
 
 public class PostgreDataSourcePlugin extends JDBCDataSourcePlugin {
     private static final List<PropertyDescriptor> supportedProperties;
@@ -24,17 +25,32 @@ public class PostgreDataSourcePlugin extends JDBCDataSourcePlugin {
     }
 
     public PostgreDataSourcePlugin() {
-        PluginInfo info = new PluginInfo("PostGreSQL", "PostGre SQL Jdbc Datasource", "42.4.0", PostgreDataSourcePlugin.class.getName());
+        PluginInfo info = new PluginInfo(DataSourceTypeEnum.POSTGRESQL.getValue(), "PostGre SQL Jdbc Datasource", "42.4.0", PostgreDataSourcePlugin.class.getName());
         this.setPluginInfo(info);
     }
 
     @Override
-    protected String getJdbcUrl() {
-        return "jdbc:postgresql://" + properties.get(HOST) + ":" + properties.get(PORT) + "/" + properties.get(DATABASE_NAME);
+    public String getJdbcUrl() {
+        return "jdbc:postgresql://" + properties.get(HOST) + ":" + String.valueOf(properties.get(PORT)) + "/" + properties.get(DATABASE_NAME);
     }
 
     @Override
-    protected String getDriverClassNmae() {
+    public String getDriverClassNmae() {
         return "org.postgresql.Driver";
+    }
+
+    @Override
+    public String getUsername() {
+        return properties.get(USERNAME);
+    }
+
+    @Override
+    public String getPassword() {
+        return properties.get(PASSWORD);
+    }
+
+    @Override
+    public List<PropertyDescriptor> getSupportedProperties() {
+        return supportedProperties;
     }
 }

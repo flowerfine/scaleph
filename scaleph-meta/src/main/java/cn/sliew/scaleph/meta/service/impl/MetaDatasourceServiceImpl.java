@@ -33,6 +33,7 @@ import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.Property;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.system.util.PropertyUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,7 +111,7 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
     }
 
     @Override
-    public MetaDatasourceDTO selectOne(Long id, boolean encrypt) {
+    public MetaDatasourceDTO selectOne(Serializable id, boolean encrypt) {
         final MetaDatasource datasource = metaDatasourceMapper.selectById(id);
         MetaDatasourceDTO datasourceDTO = MetaDataSourceConvert.INSTANCE.toDto(datasource);
         encryptProps(datasourceDTO, encrypt);
@@ -124,7 +125,7 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
                 Wrappers.lambdaQuery(MetaDatasource.class)
                         .like(StringUtils.hasText(param.getDatasourceName()), MetaDatasource::getDatasourceName,
                                 param.getDatasourceName())
-                        .eq(StringUtils.hasText(param.getDatasourceName()), MetaDatasource::getDatasourceType,
+                        .eq(StringUtils.hasText(param.getDatasourceType()), MetaDatasource::getDatasourceType,
                                 param.getDatasourceType())
         );
         Page<MetaDatasourceDTO> result =
@@ -174,6 +175,7 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
                     Class clazz = Class.forName(pluginInfo.getClassname());
                     DatasourcePlugin datasource = (DatasourcePlugin) clazz.newInstance();
                     datasource.configure(PropertyContext.fromMap(metaDatasourceDTO.getProps()));
+                    datasource.setAdditionalProperties(PropertyUtil.mapToProperties(metaDatasourceDTO.getAdditionalProps()));
                     datasource.start();
                     result = datasource.testConnection();
                     datasource.shutdown();

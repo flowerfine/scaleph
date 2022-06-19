@@ -64,7 +64,13 @@
     <d-form-item>
       <d-form-label>{{ 'datadev.remark' | translate }}</d-form-label>
       <d-form-control>
-        <input dTextInput name="remark" [(ngModel)]="formData.remark" [dValidateRules]="formConfig.remarkRules" />
+        <input
+          dTextInput
+          name="remark"
+          [(ngModel)]="formData.remark"
+          [dValidateRules]="formConfig.remarkRules"
+          (ngModelChange)="passwordChange($event, false)"
+        />
       </d-form-control>
     </d-form-item>
   </div>

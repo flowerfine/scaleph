@@ -20,6 +20,7 @@ package cn.sliew.scaleph.plugin.datasource.jdbc;
 
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
 import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
@@ -56,7 +57,7 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePl
     protected volatile Connection connection;
 
     public JDBCDataSourcePlugin() {
-        PluginInfo info = new PluginInfo("JDBC", "Generic Jdbc DataSource", "1.0", JDBCDataSourcePlugin.class.getName());
+        PluginInfo info = new PluginInfo(DataSourceTypeEnum.JDBC.getValue(), "Generic Jdbc DataSource", "1.0", JDBCDataSourcePlugin.class.getName());
         this.setPluginInfo(info);
     }
 
@@ -141,12 +142,20 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePl
         return this.connection != null;
     }
 
-    protected String getJdbcUrl() {
+    public String getJdbcUrl() {
         return properties.get(JDBC_URL);
     }
 
-    protected String getDriverClassNmae() {
+    public String getDriverClassNmae() {
         return properties.get(DRIVER_CLASS_NAME);
+    }
+
+    public String getUsername() {
+        return properties.get(USERNAME);
+    }
+
+    public String getPassword() {
+        return properties.get(PASSWORD);
     }
 
     protected String getAdditionalProps() {

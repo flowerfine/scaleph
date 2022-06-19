@@ -1,5 +1,6 @@
 package cn.sliew.scaleph.plugin.datasource.oracle;
 
+import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
 import cn.sliew.scaleph.plugin.datasource.jdbc.JDBCDataSourcePlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
+import static cn.sliew.scaleph.plugin.datasource.oracle.OracleDataSourceProperties.*;
 
 public class OracleDataSourcePlugin extends JDBCDataSourcePlugin {
     private static final List<PropertyDescriptor> supportedProperties;
@@ -24,17 +25,32 @@ public class OracleDataSourcePlugin extends JDBCDataSourcePlugin {
     }
 
     public OracleDataSourcePlugin() {
-        PluginInfo info = new PluginInfo("Oracle", "Oracle Jdbc Datasource", "11.2.0.4", OracleDataSourcePlugin.class.getName());
+        PluginInfo info = new PluginInfo(DataSourceTypeEnum.ORACLE.getValue(), "Oracle Jdbc Datasource", "11.2.0.4", OracleDataSourcePlugin.class.getName());
         this.setPluginInfo(info);
     }
 
     @Override
-    protected String getJdbcUrl() {
-        return "jdbc:oracle:thin:@//" + properties.get(HOST) + ":" + properties.get(PORT) + "/" + properties.get(DATABASE_NAME);
+    public String getJdbcUrl() {
+        return "jdbc:oracle:thin:@//" + properties.get(HOST) + ":" + String.valueOf(properties.get(PORT)) + "/" + properties.get(DATABASE_NAME);
     }
 
     @Override
-    protected String getDriverClassNmae() {
+    public String getDriverClassNmae() {
         return "oracle.jdbc.driver.OracleDriver";
+    }
+
+    @Override
+    public String getUsername() {
+        return properties.get(USERNAME);
+    }
+
+    @Override
+    public String getPassword() {
+        return properties.get(PASSWORD);
+    }
+
+    @Override
+    public List<PropertyDescriptor> getSupportedProperties() {
+        return supportedProperties;
     }
 }

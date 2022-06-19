@@ -18,35 +18,30 @@
 
 package cn.sliew.scaleph.engine.seatunnel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
-import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.constant.Constants;
+import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
 import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
-import cn.sliew.scaleph.common.exception.CustomException;
 import cn.sliew.scaleph.common.exception.Rethrower;
-import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
-import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
-import cn.sliew.scaleph.core.di.service.dto.DiJobLinkDTO;
-import cn.sliew.scaleph.core.di.service.dto.DiJobStepAttrDTO;
-import cn.sliew.scaleph.core.di.service.dto.DiJobStepDTO;
-import cn.sliew.scaleph.meta.service.DataSourceMetaService;
-import cn.sliew.scaleph.meta.service.dto.DataSourceMetaDTO;
-import cn.sliew.scaleph.meta.util.JdbcUtil;
+import cn.sliew.scaleph.core.di.service.dto.*;
+import cn.sliew.scaleph.meta.service.MetaDatasourceService;
+import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;
+import cn.sliew.scaleph.plugin.datasource.jdbc.JDBCDataSourcePlugin;
+import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
+import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.system.service.vo.DictVO;
+import cn.sliew.scaleph.system.util.PropertyUtil;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * seatunnel job config helper
@@ -66,7 +61,7 @@ public class JobConfigHelper {
     }
 
     @Autowired
-    private DataSourceMetaService dataSourceMetaService;
+    private MetaDatasourceService metaDatasourceService;
 
     /**
      * @param job
@@ -88,11 +83,11 @@ public class JobConfigHelper {
         envMap.put(Constants.JOB_NAME, job.getJobCode());
         if (CollectionUtil.isNotEmpty(jobAttrList)) {
             jobAttrList.stream()
-                .filter(attr -> JobAttrTypeEnum.JOB_PROP.getValue()
-                    .equals(attr.getJobAttrType().getValue()))
-                .forEach(attr -> {
-                    envMap.put(attr.getJobAttrKey(), attr.getJobAttrValue());
-                });
+                    .filter(attr -> JobAttrTypeEnum.JOB_PROP.getValue()
+                            .equals(attr.getJobAttrType().getValue()))
+                    .forEach(attr -> {
+                        envMap.put(attr.getJobAttrKey(), attr.getJobAttrValue());
+                    });
         }
     }
 
@@ -113,7 +108,7 @@ public class JobConfigHelper {
             Map<String, Map<String, String>> stepMap = new HashMap<>();
             jobStepList.forEach(step -> {
                 String name = JOB_STEP_MAP.get(
-                    StrUtil.join("-", step.getStepType().getValue(), step.getStepName()));
+                        StrUtil.join("-", step.getStepType().getValue(), step.getStepName()));
                 Map<String, String> map = new HashMap<>();
                 map.put(pluginName, name);
                 map.put(nodeType, step.getStepType().getValue());
@@ -157,14 +152,29 @@ public class JobConfigHelper {
                 if (Constants.JOB_STEP_ATTR_DATASOURCE.equals(attr.getStepAttrKey())) {
                     try {
                         DictVO dsAttr = JSONUtil.toBean(attr.getStepAttrValue(), DictVO.class);
-                        DataSourceMetaDTO dsInfo =
-                            this.dataSourceMetaService.selectOne(dsAttr.getValue());
-                        map.put(Constants.JOB_STEP_ATTR_USERNAME, dsInfo.getUserName());
-                        map.put(Constants.JOB_STEP_ATTR_PASSWORD,
-                            CodecUtil.decodeFromBase64(dsInfo.getPassword()));
-                        map.put(Constants.JOB_STEP_ATTR_DRIVER, JdbcUtil.getDriver(dsInfo));
-                        map.put(Constants.JOB_STEP_ATTR_URL, JdbcUtil.getUrl(dsInfo));
-                    } catch (CustomException e) {
+                        MetaDatasourceDTO metaDatasourceDTO = this.metaDatasourceService.selectOne(dsAttr.getValue(), false);
+                        if (DataSourceTypeEnum.JDBC.getValue().equals(metaDatasourceDTO.getDatasourceType().getValue())
+                                || DataSourceTypeEnum.MYSQL.getValue().equals(metaDatasourceDTO.getDatasourceType().getValue())
+                                || DataSourceTypeEnum.ORACLE.getValue().equals(metaDatasourceDTO.getDatasourceType().getValue())
+                                || DataSourceTypeEnum.POSTGRESQL.getValue().equals(metaDatasourceDTO.getDatasourceType().getValue())
+                        ) {
+                            Set<PluginInfo> pluginInfoSet = this.metaDatasourceService.getAvailableDataSources();
+                            for (PluginInfo pluginInfo : pluginInfoSet) {
+                                if (pluginInfo.getName().equalsIgnoreCase(metaDatasourceDTO.getDatasourceType().getValue())) {
+                                    Class clazz = Class.forName(pluginInfo.getClassname());
+                                    JDBCDataSourcePlugin datasource = (JDBCDataSourcePlugin) clazz.newInstance();
+                                    datasource.configure(PropertyContext.fromMap(metaDatasourceDTO.getProps()));
+                                    datasource.setAdditionalProperties(PropertyUtil.mapToProperties(metaDatasourceDTO.getAdditionalProps()));
+                                    map.put(Constants.JOB_STEP_ATTR_USERNAME, datasource.getUsername());
+                                    map.put(Constants.JOB_STEP_ATTR_PASSWORD, datasource.getPassword());
+                                    map.put(Constants.JOB_STEP_ATTR_DRIVER, datasource.getDriverClassNmae());
+                                    map.put(Constants.JOB_STEP_ATTR_URL, datasource.getJdbcUrl());
+                                }
+                            }
+                        } else if (DataSourceTypeEnum.KAFKA.getValue().equals(metaDatasourceDTO.getDatasourceType().getValue())) {
+                            //todo
+                        }
+                    } catch (Exception e) {
                         log.debug(e.getMessage());
                         Rethrower.throwAs(e);
                     }

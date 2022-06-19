@@ -97,7 +97,7 @@ public class MetaDatasourceDTO extends BaseDTO {
         if (!CollectionUtils.isEmpty(additionalProps)) {
             StringBuffer buffer = new StringBuffer();
             additionalProps.forEach((k, v) ->
-                    buffer.append(k).append(":").append(v).append("<br/>")
+                    buffer.append(k).append(":").append(v).append("\n")
             );
             setAdditionalPropsStr(buffer.toString());
         }

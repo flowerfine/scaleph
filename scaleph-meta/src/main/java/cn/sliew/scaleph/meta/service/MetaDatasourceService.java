@@ -43,7 +43,7 @@ public interface MetaDatasourceService {
 
     int deleteBatch(Map<Integer, ? extends Serializable> map);
 
-    MetaDatasourceDTO selectOne(Long id, boolean encrypt);
+    MetaDatasourceDTO selectOne(Serializable id, boolean encrypt);
 
     Page<MetaDatasourceDTO> selectPage(MetaDatasourceParam param);
 

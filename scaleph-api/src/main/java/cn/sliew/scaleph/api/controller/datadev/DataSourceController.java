@@ -27,6 +27,7 @@ import cn.sliew.scaleph.plugin.framework.property.Property;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.I18nUtil;
+import cn.sliew.scaleph.system.util.PropertyUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -87,6 +88,12 @@ public class DataSourceController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_ADD)")
     public ResponseEntity<ResponseVO> addDataSource(
             @Validated @RequestBody MetaDatasourceDTO metaDatasourceDTO) {
+        if (StringUtils.hasText(metaDatasourceDTO.getAdditionalPropsStr())) {
+            metaDatasourceDTO.setAdditionalProps(
+                    PropertyUtil.formatPropFromStr(
+                            metaDatasourceDTO.getAdditionalPropsStr(), "\n", ":")
+            );
+        }
         this.metaDatasourceService.insert(metaDatasourceDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
     }
@@ -97,6 +104,12 @@ public class DataSourceController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_EDIT)")
     public ResponseEntity<ResponseVO> editDataSource(
             @Validated @RequestBody MetaDatasourceDTO metaDatasourceDTO) {
+        if (StringUtils.hasText(metaDatasourceDTO.getAdditionalPropsStr())) {
+            metaDatasourceDTO.setAdditionalProps(
+                    PropertyUtil.formatPropFromStr(
+                            metaDatasourceDTO.getAdditionalPropsStr(), "\n", ":")
+            );
+        }
         this.metaDatasourceService.update(metaDatasourceDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -149,6 +162,12 @@ public class DataSourceController {
     public ResponseEntity<ResponseVO> connectionTest(
             @Validated @RequestBody MetaDatasourceDTO metaDatasourceDTO) throws Exception {
         try {
+            if (StringUtils.hasText(metaDatasourceDTO.getAdditionalPropsStr())) {
+                metaDatasourceDTO.setAdditionalProps(
+                        PropertyUtil.formatPropFromStr(
+                                metaDatasourceDTO.getAdditionalPropsStr(), "\n", ":")
+                );
+            }
             if (!metaDatasourceDTO.getPasswdChanged()) {
                 MetaDatasourceDTO oldDsInfo = this.metaDatasourceService.selectOne(metaDatasourceDTO.getId(), false);
                 metaDatasourceDTO = oldDsInfo;
