@@ -44,6 +44,11 @@ docker compose -f docker-compose-build-api.yml up -d
 
 ```shell
 cd scaleph/scaleph-ui
+
+npm install --location=global @angular/cli
+
+npm install --force
+
 npm run build --prod
 ```
 
