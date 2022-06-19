@@ -44,8 +44,8 @@ please refer [wiki](https://github.com/flowerfine/scaleph/wiki)
 * [build](docs/build/build.md). This doc describes how to build the Scaleph project from source. Scaleph adopts `maven` as its build system, for more information about build from source and deployment.
 * [docker](docs/docker/docker-build.md). As more application runs in container on cloud then bare metal machine, Scaleph provides own image.
 * deploy. For different deployment purpose such as develop, test or production, Scaleph make the best effort for people deploy project on local, docker and kubernetes.
-  * [local](docs/deploy/local/local.md). require fluent network.
-  * [docker](docs/deploy/docker/docker.md). require fluent network.
+  * [local](docs/deploy/local/local.md). require fluent network environment.
+  * [docker](docs/deploy/docker/docker.md). require fluent network environment.
   * [kubernetes](docs/deploy/kubernetes/kubernetes.md). work in process.
 
 
