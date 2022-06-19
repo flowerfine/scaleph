@@ -8,10 +8,7 @@ import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.kafka.clients.KafkaClient;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 import static cn.sliew.scaleph.plugin.datasource.kafka.KafkaConsumerProperties.GROUP_ID;
 import static cn.sliew.scaleph.plugin.datasource.kafka.KafkaProducerProperties.*;

@@ -18,28 +18,36 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
+import cn.sliew.scaleph.dao.mapper.master.flink.FlinkReleaseMapper;
 import cn.sliew.scaleph.engine.flink.FlinkRelease;
 import cn.sliew.scaleph.engine.flink.service.FlinkReleaseService;
+import cn.sliew.scaleph.engine.flink.service.convert.FlinkReleaseConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkReleaseDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkReleaseListParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkReleaseLoadParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkReleaseUploadParam;
 import cn.sliew.scaleph.storage.service.FileSystemService;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
+
+import static cn.sliew.milky.common.check.Ensures.checkState;
 
 @Slf4j
 @Service
@@ -49,6 +57,8 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService, Initializin
 
     @Autowired
     private FileSystemService fileSystemService;
+    @Autowired
+    private FlinkReleaseMapper flinkReleaseMapper;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -61,19 +71,31 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService, Initializin
     }
 
     @Override
-    public List<FlinkReleaseDTO> listRelease() throws IOException {
-        List<FlinkReleaseDTO> result = new ArrayList<>();
-        List<String> versions = fileSystemService.list(getFlinkReleaseRootPath());
-        for (String version : versions) {
-            final List<String> names = fileSystemService.list(getFlinkReleaseRootPath() + "/" + version);
-            for (String name : names) {
-                FlinkReleaseDTO releaseDTO = new FlinkReleaseDTO();
-                releaseDTO.setVersion(version);
-                releaseDTO.setName(name);
-                result.add(releaseDTO);
-            }
-        }
-        return result.stream().sorted().collect(Collectors.toList());
+    public Page<FlinkReleaseDTO> list(FlinkReleaseListParam param) throws IOException {
+        final Page<cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease> page = flinkReleaseMapper.selectPage(
+                new Page<>(param.getCurrent(), param.getPageSize()),
+                Wrappers.lambdaQuery(cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease.class)
+                        .eq(StringUtils.hasText(param.getVersion()), cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease::getVersion, param.getVersion())
+                        .like(StringUtils.hasText(param.getFileName()), cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease::getFileName, param.getFileName()));
+        Page<FlinkReleaseDTO> result =
+                new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
+        List<FlinkReleaseDTO> dtoList = FlinkReleaseConvert.INSTANCE.toDto(page.getRecords());
+        result.setRecords(dtoList);
+        return result;
+    }
+
+    @Override
+    public FlinkReleaseDTO selectOne(Long id) {
+        final cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease record = flinkReleaseMapper.selectById(id);
+        checkState(record != null, () -> "flink release not exists for id: " + id);
+        return FlinkReleaseConvert.INSTANCE.toDto(record);
+    }
+
+    @Override
+    public void delete(Long id) throws IOException {
+        final FlinkReleaseDTO dto = selectOne(id);
+        fileSystemService.delete(dto.getPath());
+        flinkReleaseMapper.deleteById(id);
     }
 
     @Override
@@ -92,10 +114,16 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService, Initializin
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                final InputStream inputStream = response.body().byteStream();
-                String filePath = getFlinkReleasePath(release.getVersion(), release.getName());
-                fileSystemService.upload(inputStream, filePath);
-                future.complete(true);
+                try (final InputStream inputStream = response.body().byteStream()) {
+                    String filePath = getFlinkReleasePath(release.getVersion(), release.getName());
+                    fileSystemService.upload(inputStream, filePath);
+                    cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease record = new cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease();
+                    record.setVersion(release.getVersion());
+                    record.setFileName(release.getName());
+                    record.setPath(filePath);
+                    flinkReleaseMapper.insert(record);
+                    future.complete(true);
+                }
             }
         };
         httpClient.newCall(request).enqueue(callback);
@@ -103,20 +131,26 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService, Initializin
     }
 
     @Override
-    public void upload(FlinkReleaseUploadParam param, InputStream inputStream) throws IOException {
-        String filePath = getFlinkReleasePath(param.getVersion(), param.getName());
-        fileSystemService.upload(inputStream, filePath);
+    public void upload(FlinkReleaseUploadParam param, MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        String filePath = getFlinkReleasePath(param.getVersion(), fileName);
+        try (final InputStream inputStream = file.getInputStream()) {
+            fileSystemService.upload(inputStream, filePath);
+        }
+        cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease record = new cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease();
+        BeanUtils.copyProperties(param, record);
+        record.setFileName(fileName);
+        record.setPath(filePath);
+        flinkReleaseMapper.insert(record);
     }
 
     @Override
-    public String download(String version, OutputStream outputStream) throws IOException {
-        final List<String> names = fileSystemService.list(getFlinkReleaseRootPath() + "/" + version);
-        if (names.size() > 1 || names.size() == 0) {
-            throw new IllegalStateException("flink release not exists for " + version);
+    public String download(Long id, OutputStream outputStream) throws IOException {
+        final FlinkReleaseDTO dto = selectOne(id);
+        try (final InputStream inputStream = fileSystemService.get(dto.getPath())) {
+            FileCopyUtils.copy(inputStream, outputStream);
         }
-        final InputStream inputStream = fileSystemService.get(getFlinkReleasePath(version, names.get(0)));
-        FileCopyUtils.copy(inputStream, outputStream);
-        return names.get(0);
+        return dto.getFileName();
     }
 
     private String getFlinkReleasePath(String version, String fileName) {

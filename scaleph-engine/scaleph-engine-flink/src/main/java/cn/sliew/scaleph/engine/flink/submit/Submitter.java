@@ -23,4 +23,6 @@ import org.apache.flink.configuration.Configuration;
 public interface Submitter {
 
     void configure(Configuration configuration);
+
+    void submit();
 }

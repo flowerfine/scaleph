@@ -21,7 +21,7 @@ create table log_login
     key (update_time),
     key (ip_address),
     key (login_time)
-) engine = innodb comment = '用户登录登出日志' comment '用户登录登出日志';
+) engine = innodb comment = '用户登录登出日志';
 
 /* 用户操作日志 */
 drop table if exists log_action;

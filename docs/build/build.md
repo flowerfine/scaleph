@@ -1,7 +1,5 @@
 # build
 
-split develop locally and build for release, then production deployment.
-
 Requirements:
 
 - Git
@@ -40,14 +38,14 @@ java -jar scaleph-api.jar
 #### install dependencies
 
 ```shell
-npm install -g @angular/cli
-npm install
+npm install --location=global @angular/cli
+npm install --force
 ```
 
 #### build the web
 
 ```shell
-ng build --prod
+npm run build --prod
 ```
 
 #### nginx setting

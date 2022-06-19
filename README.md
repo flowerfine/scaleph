@@ -27,7 +27,7 @@ Luckily, deploy Scaleph locally just takes three steps.
 
 ```shell
 git clone https://github.com/flowerfine/scaleph.git
-cd scaleph/tools/docker/deploy
+cd scaleph/tools/docker/deploy/scaleph
 docker-compose up
 ```
 
@@ -35,17 +35,19 @@ Once all containers have started, the UI is ready to go at [http://localhost](ht
 
 ## Documentation
 
-comming soon...
-
 please refer [wiki](https://github.com/flowerfine/scaleph/wiki)
 
 ## Build and Deployment
 
-* [develop](https://github.com/flowerfine/scaleph/blob/master/docs/develop.md). This doc describes how to set up local development environment of Scaleph project.
+* [develop](docs/develop/develop.md). This doc describes how to set up local development environment of Scaleph project.
 * checkstyle. Scaleph project requires clean and robust code, which can help Scaleph go further and develop better.
-* build. This doc describes how to build the Scaleph project from source. Scaleph adopts `maven` as its build system, for more information about build from source and deployment, please refer [build](docs/build/build.md).
-* [docker](https://github.com/flowerfine/scaleph/blob/master/docs/docker/docker-build.md). As more application runs in container on cloud then bare metal machine, Scaleph provides own image.
-* deployment. For different deployment purpose such as develop, test or production, Scaleph make the best effort for people deploy project on local, docker and kubernetes.
+* [build](docs/build/build.md). This doc describes how to build the Scaleph project from source. Scaleph adopts `maven` as its build system, for more information about build from source and deployment.
+* [docker](docs/docker/docker-build.md). As more application runs in container on cloud then bare metal machine, Scaleph provides own image.
+* deploy. For different deployment purpose such as develop, test or production, Scaleph make the best effort for people deploy project on local, docker and kubernetes.
+  * [local](docs/deploy/local/local.md). require fluent network.
+  * [docker](docs/deploy/docker/docker.md). require fluent network.
+  * [kubernetes](docs/deploy/kubernetes/kubernetes.md). work in process.
+
 
 ## RoadMap
 
@@ -76,6 +78,12 @@ For contributions, please refer [CONTRIBUTING](https://github.com/flowerfine/sca
 ## Contact
 
 * Bugs and Features: [Issues](https://github.com/flowerfine/scaleph/issues)
+
+## Sponsor
+
+Thanks to [JetBrains](https://www.jetbrains.com/?from=scaleph) for supporting us free open source licenses.
+
+[![JetBrains](https://img.alicdn.com/tfs/TB1sSomo.z1gK0jSZLeXXb9kVXa-120-130.svg)](https://www.jetbrains.com/?from=scaleph)
 
 ## License
 
