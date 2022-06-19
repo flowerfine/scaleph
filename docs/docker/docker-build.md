@@ -1,4 +1,4 @@
-# 镜像构建
+# docker image build
 
 Scaleph 基于 docker 提供快速的开发和测试运行环境，本文将介绍如何在本地构建镜像，测试镜像。
 
