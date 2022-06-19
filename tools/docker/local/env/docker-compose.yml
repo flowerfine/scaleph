@@ -1,0 +1,62 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+version: "3.1"
+
+services:
+
+  mysql:
+    image: bitnami/mysql:8.0
+    container_name: mysql
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_AUTHENTICATION_PLUGIN=mysql_native_password
+      - MYSQL_DATABASE=scaleph
+    ports:
+      - 3306:3306
+    volumes:
+      - ../../mysql/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
+      - ../../mysql/init.d:/docker-entrypoint-initdb.d
+    networks:
+      - scaleph
+
+  redis:
+    image: bitnami/redis:6.0
+    container_name: redis
+    environment:
+      - REDIS_PORT_NUMBER=6379
+      - REDIS_PASSWORD=123456
+    ports:
+      - 6379:6379
+    networks:
+      - scaleph
+
+  minio:
+    image: bitnami/minio:2022
+    container_name: minio
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=password
+      - MINIO_DEFAULT_BUCKETS=scaleph
+    ports:
+      - 9000:9000
+      - 9001:9001
+
+networks:
+  scaleph:
+    driver: bridge

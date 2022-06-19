@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.storage.service;
 
+import org.apache.flink.core.fs.FileStatus;
 import org.apache.flink.core.fs.FileSystem;
 
 import java.io.IOException;
@@ -39,4 +40,6 @@ public interface FileSystemService {
     boolean delete(String fileName) throws IOException;
 
     Long getFileSize(String fileName) throws IOException;
+
+    List<FileStatus> listStatus(String directory) throws IOException;
 }

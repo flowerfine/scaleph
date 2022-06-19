@@ -18,13 +18,29 @@
 
 package cn.sliew.scaleph.engine.flink.service.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import cn.sliew.scaleph.common.dto.BaseDTO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Getter
-@Setter
-public class FlinkReleaseDTO {
+import javax.validation.constraints.NotBlank;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ApiModel(value = "FlinkRelease对象", description = "flink release")
+public class FlinkReleaseDTO extends BaseDTO {
+
+    @NotBlank
+    @ApiModelProperty("版本")
     private String version;
-    private String name;
+
+    @ApiModelProperty("文件名称")
+    private String fileName;
+
+    @ApiModelProperty("存储路径")
+    private String path;
+
+    @ApiModelProperty("备注")
+    private String remark;
 }

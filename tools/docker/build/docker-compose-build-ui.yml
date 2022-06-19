@@ -31,7 +31,7 @@ services:
       - scaleph
 
   scaleph-ui:
-    image: scaleph/scaleph-ui:0.0.1-SNAPSHOT
+    image: scaleph/scaleph-ui:dev
     container_name: scaleph-ui
     depends_on:
       - scaleph-api
