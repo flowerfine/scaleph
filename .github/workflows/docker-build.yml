@@ -3,6 +3,8 @@ name: Docker-Build
 on:
   push:
     paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
+  pull_request:
+    paths-ignore: [ 'docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
 
 jobs:
   build:
