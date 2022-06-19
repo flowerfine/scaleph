@@ -66,6 +66,8 @@ public enum Constants {
      */
     public static final String TOKEN_KEY = "u_token";
 
+    public static final String CODEC_STR_PREFIX = "Encrypted:";
+
     /**
      * schedule job and group
      */

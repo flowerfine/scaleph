@@ -147,7 +147,7 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
                 if (Constants.JOB_STEP_ATTR_DATASOURCE.equals(attr.getStepAttrKey())) {
                     DictVO dsAttr = JSONUtil.toBean(attr.getStepAttrValue(), DictVO.class);
                     MetaDatasourceDTO datasourceDTO =
-                            metaDatasourceService.selectOne(Long.parseLong(dsAttr.getValue()));
+                            metaDatasourceService.selectOne(Long.parseLong(dsAttr.getValue()), false);
                     if (datasourceDTO != null) {
                         properties.putAll(datasourceDTO.getProps());
                         properties.putAll(datasourceDTO.getAdditionalProps());
