@@ -18,14 +18,9 @@
 
 package cn.sliew.scaleph.mail.service.impl;
 
-import javax.annotation.PostConstruct;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import java.util.Properties;
-
-import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.mail.service.EmailService;
 import cn.sliew.scaleph.mail.service.vo.EmailConfigVO;
@@ -41,6 +36,11 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
 
 
 /**
@@ -123,7 +123,7 @@ public class EmailServiceImpl implements EmailService {
             this.setFrom(emailConfig.getEmail());
             JavaMailSenderImpl jms = new JavaMailSenderImpl();
             jms.setUsername(emailConfig.getEmail());
-            jms.setPassword(Base64.decodeStr(emailConfig.getPassword()));
+            jms.setPassword(CodecUtil.decodeFromBase64(emailConfig.getPassword()));
             jms.setHost(emailConfig.getHost());
             jms.setPort(emailConfig.getPort());
             jms.setDefaultEncoding(emailConfig.getEncoding());

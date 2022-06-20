@@ -18,12 +18,9 @@
 
 package cn.sliew.scaleph.api.controller.admin;
 
-import javax.servlet.http.HttpServletResponse;
-
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.api.util.I18nUtil;
 import cn.sliew.scaleph.api.util.SecurityUtil;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.constant.DictConstants;
@@ -32,6 +29,7 @@ import cn.sliew.scaleph.log.service.LogMessageService;
 import cn.sliew.scaleph.log.service.dto.LogMessageDTO;
 import cn.sliew.scaleph.log.service.param.LogMessageParam;
 import cn.sliew.scaleph.system.service.vo.DictVO;
+import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.base.Strings;
 import io.swagger.annotations.Api;
@@ -39,11 +37,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>
@@ -85,8 +81,8 @@ public class LogMessageController {
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(
-                ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
-                    I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
+                    ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
+                            I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
         }
     }
 
@@ -100,8 +96,8 @@ public class LogMessageController {
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(
-                ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
-                    I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
+                    ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
+                            I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
         }
     }
 
