@@ -30,7 +30,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("meta_datasource2")
+@TableName("meta_datasource")
 @ApiModel(value = "MetaDatasource对象", description = "元数据-数据源信息")
 public class MetaDatasource extends BaseDO {
 
