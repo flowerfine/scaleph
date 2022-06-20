@@ -14,8 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-version: "3.1"
-
 services:
 
   scaleph-api:
@@ -34,10 +32,12 @@ services:
       - scaleph
 
   scaleph-ui:
-    image: scaleph/scaleph-ui:latest
+    image: ghcr.io/flowerfine/scaleph/scaleph-ui:latest
     container_name: scaleph-ui
     depends_on:
       - scaleph-api
+    environment:
+      - SCALEPH_API_URL="scaleph-api:8080"
     ports:
       - 80:80
     networks:
@@ -81,6 +81,8 @@ services:
     ports:
       - 9000:9000
       - 9001:9001
+    networks:
+      - scaleph
 
   jobmanager:
     image: flink:1.13.6-scala_2.12-java8
