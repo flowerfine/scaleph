@@ -159,7 +159,7 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePl
     }
 
     protected String getAdditionalProps() {
-        if (this.additionalProperties == null) {
+        if (this.additionalProperties == null || this.additionalProperties.isEmpty()) {
             return "";
         }
         StringBuffer buffer = new StringBuffer();
@@ -167,7 +167,7 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePl
         for (Object key : keySet) {
             buffer.append(key.toString()).append("=").append(this.additionalProperties.get(key)).append("&");
         }
-        return buffer.substring(0, buffer.length() - 1).toString();
+        return buffer.substring(0, buffer.length() - 1);
     }
 
 }
