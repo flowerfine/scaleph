@@ -649,43 +649,7 @@ create table sec_user_active
 
 /* 元数据-数据源连接信息 */
 drop table if exists meta_datasource;
-create table meta_datasource
-(
-    id              bigint      not null auto_increment comment '自增主键',
-    datasource_name varchar(64) not null comment '数据源名称',
-    datasource_type varchar(12) not null comment '数据源类型',
-    connection_type varchar(12) not null comment '数据源连接类型',
-    host_name       varchar(256) comment '主机地址',
-    database_name   varchar(50) comment '数据库名称',
-    port            int comment '端口号',
-    user_name       varchar(128) comment '用户名',
-    password        varchar(256) comment '密码',
-    remark          varchar(256) comment '备注描述',
-    props           text comment '属性信息，包含常规属性、jdbc连接属性、连接池属性',
-    creator         varchar(32) comment '创建人',
-    create_time     timestamp default current_timestamp comment '创建时间',
-    editor          varchar(32) comment '修改人',
-    update_time     timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    unique key (datasource_name),
-    key (datasource_type),
-    key (database_name),
-    key (update_time)
-) engine = innodb comment '元数据-数据源连接信息';
-insert into meta_datasource(datasource_name, datasource_type, connection_type, host_name, database_name,
-                            port, user_name, password, remark, props, creator, editor)
-VALUES ('docker_data_service', 'mysql', 'jdbc', 'mysql', 'data_service', 3306, 'root', 'MTIzNDU2', NULL,
-        '{\"jdbc\":\"serverTimezone=Asia/Shanghai\\ncharacterEncoding=utf8\\nzeroDateTimeBehavior=convertToNull\"}',
-        'sys_admin', 'sys_admin');
-INSERT INTO meta_datasource(datasource_name, datasource_type, connection_type, host_name, database_name,
-                            port, user_name, password, remark, props, creator, editor)
-VALUES ('local_data_service', 'mysql', 'jdbc', 'localhost', 'data_service', 3306, 'root', 'MTIzNDU2',
-        'local environment',
-        '{\"jdbc\":\"serverTimezone=Asia/Shanghai\\ncharacterEncoding=utf8\\nzeroDateTimeBehavior=convertToNull\"}',
-        'sys_admin', 'sys_admin');
-
-drop table if exists meta_datasource2;
-create TABLE meta_datasource2
+create TABLE meta_datasource
 (
     id               bigint      NOT NULL AUTO_INCREMENT COMMENT '自增主键',
     datasource_name  varchar(64) NOT NULL COMMENT '数据源名称',
@@ -701,7 +665,8 @@ create TABLE meta_datasource2
     KEY datasource_name (datasource_name),
     KEY datasource_type (datasource_type)
 ) ENGINE = InnoDB COMMENT ='元数据-数据源信息';
-
+insert into meta_datasource ( datasource_name, datasource_type, props, additional_props, remark, creator, editor) values ( 'docker_data_service', 'Mysql', '{"host":"mysql","port":"3306","databaseName":"data_service","username":"root","password":"Encrypted:MTIzNDU2"}', '{"serverTimezone":"Asia/Shanghai","zeroDateTimeBehavior":"convertToNull","characterEncoding":"utf8"}', null, 'sys_admin', 'sys_admin');
+insert into meta_datasource ( datasource_name, datasource_type, props, additional_props, remark, creator, editor) values ( 'local_data_service', 'Mysql', '{"host":"localhost","port":"3306","databaseName":"data_service","username":"root","password":"Encrypted:MTIzNDU2"}', '{"serverTimezone":"Asia/Shanghai","zeroDateTimeBehavior":"convertToNull","characterEncoding":"utf8"}', null, 'sys_admin', 'sys_admin');
 /*元数据-数据表信息*/
 drop table if exists meta_table;
 create table meta_table
