@@ -20,6 +20,7 @@ package cn.sliew.scaleph.api.controller.datadev;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
+import cn.sliew.scaleph.common.exception.CustomException;
 import cn.sliew.scaleph.meta.service.MetaDatasourceService;
 import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;
 import cn.sliew.scaleph.meta.service.param.MetaDatasourceParam;
@@ -172,10 +173,10 @@ public class DataSourceController {
                 MetaDatasourceDTO oldDsInfo = this.metaDatasourceService.selectOne(metaDatasourceDTO.getId(), false);
                 metaDatasourceDTO = oldDsInfo;
             }
-            boolean result = this.metaDatasourceService.testConnection(metaDatasourceDTO);
+            this.metaDatasourceService.testConnection(metaDatasourceDTO);
+            return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(ResponseVO.error(e.getMessage()), HttpStatus.OK);
+            throw new CustomException(e.getMessage(), e);
         }
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 }
