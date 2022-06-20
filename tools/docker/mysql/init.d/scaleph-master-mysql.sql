@@ -157,9 +157,15 @@ values ('task_result', 'success', '成功', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('task_result', 'failure', '失败', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-values ('datasource_type', 'mysql', 'Mysql', 'sys', 'sys');
+values ('datasource_type', 'JDBC', 'JDBC', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-values ('datasource_type', 'oracle', 'Oracle', 'sys', 'sys');
+values ('datasource_type', 'Mysql', 'Mysql', 'sys', 'sys');
+insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
+values ('datasource_type', 'Oracle', 'Oracle', 'sys', 'sys');
+insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
+values ('datasource_type', 'PostGreSQL', 'PostGreSQL', 'sys', 'sys');
+insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
+values ('datasource_type', 'kafka', 'kafka', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('connection_type', 'jdbc', 'SIMPLE JDBC', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
@@ -678,21 +684,23 @@ VALUES ('local_data_service', 'mysql', 'jdbc', 'localhost', 'data_service', 3306
         '{\"jdbc\":\"serverTimezone=Asia/Shanghai\\ncharacterEncoding=utf8\\nzeroDateTimeBehavior=convertToNull\"}',
         'sys_admin', 'sys_admin');
 
+drop table if exists meta_datasource2;
 create TABLE meta_datasource2
 (
     id               bigint      NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-    `name`           varchar(64) NOT NULL COMMENT '名称',
+    datasource_name  varchar(64) NOT NULL COMMENT '数据源名称',
+    datasource_type  varchar(12) not null comment '数据源类型',
     props            text COMMENT '数据源支持的属性',
-    additional_props text COMMENT '数据源支持的额外属性。',
+    additional_props text COMMENT '数据源支持的额外属性',
     remark           varchar(256)     DEFAULT NULL COMMENT '备注描述',
     creator          varchar(32)      DEFAULT NULL COMMENT '创建人',
     create_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     editor           varchar(32)      DEFAULT NULL COMMENT '修改人',
     update_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (id),
-    KEY `name` (`name`),
-    KEY update_time (update_time)
-) ENGINE = InnoDB COMMENT ='元数据-数据源信息2';
+    KEY datasource_name (datasource_name),
+    KEY datasource_type (datasource_type)
+) ENGINE = InnoDB COMMENT ='元数据-数据源信息';
 
 /*元数据-数据表信息*/
 drop table if exists meta_table;

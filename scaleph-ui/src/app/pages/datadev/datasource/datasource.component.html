@@ -7,38 +7,26 @@
             <div class="da-header-left">
               <d-row [dSpace]="12" [dSpaceDirection]="'horizontal'" [dAlign]="'center'">
                 <d-col>
-                  <div class="da-header-item-label">{{ 'datadev.dataSourceName' | translate }}:</div>
+                  <div class="da-header-item-label">{{ 'datadev.datasourceName' | translate }}:</div>
                 </d-col>
                 <d-col>
-                  <input dTextInput name="dataSourceName" [(ngModel)]="searchFormConfig.dataSourceName" (keyup.enter)="refreshTable()" />
+                  <input dTextInput name="datasourceName" [(ngModel)]="searchFormConfig.datasourceName" (keyup.enter)="refreshTable()" />
                 </d-col>
                 <d-col>
-                  <div class="da-header-item-label">{{ 'datadev.dataSourceType' | translate }}:</div>
+                  <div class="da-header-item-label">{{ 'datadev.datasourceType' | translate }}:</div>
                 </d-col>
                 <d-col style="width: 164px">
                   <d-select
-                    [options]="dataSourceTypeList"
-                    name="dataSourceType"
+                    [options]="datasourceTypeList"
+                    name="datasourceType"
                     [filterKey]="'label'"
                     [allowClear]="true"
-                    [(ngModel)]="searchFormConfig.dataSourceType"
+                    [(ngModel)]="searchFormConfig.datasourceType"
                     [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
                     (valueChange)="refreshTable()"
                   >
                     <ng-template let-option="option"> {{ option['label'] }} </ng-template>
                   </d-select>
-                </d-col>
-                <d-col>
-                  <div class="da-header-item-label">{{ 'datadev.hostName' | translate }}:</div>
-                </d-col>
-                <d-col>
-                  <input dTextInput name="hostName" [(ngModel)]="searchFormConfig.hostName" (keyup.enter)="refreshTable()" />
-                </d-col>
-                <d-col>
-                  <div class="da-header-item-label">{{ 'datadev.databaseName' | translate }}:</div>
-                </d-col>
-                <d-col>
-                  <input dTextInput name="databaseName" [(ngModel)]="searchFormConfig.databaseName" (keyup.enter)="refreshTable()" />
                 </d-col>
               </d-row>
             </div>
@@ -90,52 +78,39 @@
               (rowCheckChange)="getDataTableCheckedStatus()"
               (checkAllChange)="getDataTableCheckedStatus()"
             >
-              <d-column field="dataSourceName" header="{{ 'datadev.dataSourceName' | translate }}">
+              <d-column field="datasourceName" header="{{ 'datadev.datasourceName' | translate }}" [width]="'160px'" [fixedLeft]="'36px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="dataSourceType" header="{{ 'datadev.dataSourceType' | translate }}">
+              <d-column field="datasourceType" header="{{ 'datadev.datasourceType' | translate }}" [width]="'140px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem.label }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="hostName" header="{{ 'datadev.hostName' | translate }}">
+              <d-column field="propsStr" header="{{ 'datadev.props' | translate }}" [width]="'600px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    <span [innerHTML]="cellItem"> </span>
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="remark" header="{{ 'datadev.remark' | translate }}" [width]="'150px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="port" header="{{ 'datadev.port' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="databaseName" header="{{ 'datadev.databaseName' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="userName" header="{{ 'datadev.userName' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="remark" header="{{ 'datadev.remark' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="createTime" header="{{ 'datadev.createTime' | translate }}">
+              <d-column field="createTime" header="{{ 'datadev.createTime' | translate }}" [width]="'180px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="updateTime" header="{{ 'datadev.updateTime' | translate }}">
+              <d-column field="updateTime" header="{{ 'datadev.updateTime' | translate }}" [width]="'180px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="actions" header="{{ 'app.common.operate.label' | translate }}">
+              <d-column field="actions" header="{{ 'app.common.operate.label' | translate }}" [fixedRight]="'0px'" [width]="'130px'">
                 <d-cell>
                   <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                     <div class="btn-group over-flow-ellipsis">

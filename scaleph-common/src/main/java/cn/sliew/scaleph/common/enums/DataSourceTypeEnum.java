@@ -26,8 +26,14 @@ import lombok.Getter;
 @Getter
 public enum DataSourceTypeEnum {
 
-    MYSQL("mysql", "Mysql"),
-    ORACLE("oracle", "Oracle");
+    JDBC("JDBC", "JDBC"),
+    MYSQL("Mysql", "Mysql"),
+    ORACLE("Oracle", "Oracle"),
+
+    POSTGRESQL("PostGreSQL", "PostGreSQL"),
+
+    KAFKA("Kafka", "Kafka")
+    ;
 
     private String code;
     private String value;
