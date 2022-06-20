@@ -18,33 +18,18 @@
 
 package cn.sliew.scaleph.api.controller;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.NotNull;
-import java.awt.Color;
-import java.awt.Font;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.core.util.RandomUtil;
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.api.util.I18nUtil;
 import cn.sliew.scaleph.api.util.SecurityUtil;
 import cn.sliew.scaleph.api.vo.ResponseVO;
+import cn.sliew.scaleph.cache.util.RedisUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.exception.Rethrower;
-import cn.sliew.scaleph.cache.util.RedisUtil;
 import cn.sliew.scaleph.storage.service.StorageService;
+import cn.sliew.scaleph.system.util.I18nUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,12 +38,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
+import java.awt.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author gleiyu
@@ -84,7 +79,7 @@ public class CommonController {
     @GetMapping(path = {"/authCode"})
     public ResponseEntity<Object> authCode(HttpServletRequest req, HttpServletResponse resp) {
         LineCaptcha lineCaptcha =
-            CaptchaUtil.createLineCaptcha(150, 32, 5, RandomUtil.randomInt(6, 10));
+                CaptchaUtil.createLineCaptcha(150, 32, 5, RandomUtil.randomInt(6, 10));
         Font font = new Font("Stencil", Font.BOLD + Font.ITALIC, 20);
         lineCaptcha.setFont(font);
         lineCaptcha.setBackground(new Color(246, 250, 254));
@@ -101,14 +96,14 @@ public class CommonController {
     @PostMapping(path = "/file/upload")
     @ApiOperation(value = "上传文件", notes = "上传文件到公共目录")
     public ResponseEntity<ResponseVO> upload(@RequestParam("file") MultipartFile file)
-        throws IOException {
+            throws IOException {
         if (StringUtils.hasText(SecurityUtil.getCurrentUserName())) {
             this.storageService.upload(file.getInputStream(), "", file.getName());
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(
-                ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
-                    I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
+                    ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
+                            I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
         }
     }
 
@@ -119,11 +114,11 @@ public class CommonController {
                                                HttpServletResponse response) throws IOException {
         if (StringUtils.isEmpty(SecurityUtil.getCurrentUserName())) {
             return new ResponseEntity<>(
-                ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
-                    I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
+                    ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
+                            I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
         }
         response.setHeader("Content-Disposition",
-            "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+                "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
         InputStream is = this.storageService.get("", fileName);
         if (is != null) {
             try (BufferedInputStream bis = new BufferedInputStream(is);
@@ -143,8 +138,8 @@ public class CommonController {
     public ResponseEntity<ResponseVO> deleteFile(@NotNull String fileName) {
         if (StringUtils.isEmpty(SecurityUtil.getCurrentUserName())) {
             return new ResponseEntity<>(
-                ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
-                    I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
+                    ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
+                            I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
         }
         this.storageService.delete("", fileName);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);

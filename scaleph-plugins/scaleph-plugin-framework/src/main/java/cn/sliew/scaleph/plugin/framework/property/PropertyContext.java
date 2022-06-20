@@ -46,7 +46,7 @@ public class PropertyContext implements java.io.Serializable {
         this.confData = new HashMap<>(other.confData);
     }
 
-    public static PropertyContext fromMap(Map<String, String> map) {
+    public static PropertyContext fromMap(Map<String, Object> map) {
         final PropertyContext context = new PropertyContext();
         map.forEach(context::setString);
         return context;
@@ -66,12 +66,12 @@ public class PropertyContext implements java.io.Serializable {
         }
 
         return Arrays.stream(clazz.getEnumConstants())
-            .filter(e -> e.toString().toUpperCase(Locale.ROOT)
-                .equals(o.toString().toUpperCase(Locale.ROOT)))
-            .findAny()
-            .orElseThrow(() -> new IllegalArgumentException(
-                String.format("Could not parse value for enum %s. Expected one of: [%s]",
-                    clazz, Arrays.toString(clazz.getEnumConstants()))));
+                .filter(e -> e.toString().toUpperCase(Locale.ROOT)
+                        .equals(o.toString().toUpperCase(Locale.ROOT)))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        String.format("Could not parse value for enum %s. Expected one of: [%s]",
+                                clazz, Arrays.toString(clazz.getEnumConstants()))));
     }
 
     static String toString(Object o) {
@@ -87,6 +87,10 @@ public class PropertyContext implements java.io.Serializable {
     }
 
     public void setString(String key, String value) {
+        setValueInternal(key, value);
+    }
+
+    public void setString(String key, Object value) {
         setValueInternal(key, value);
     }
 
@@ -176,29 +180,29 @@ public class PropertyContext implements java.io.Serializable {
 
     public String getValue(PropertyDescriptor<?> descriptor) {
         return Optional.ofNullable(
-                getRawValueFromOption(descriptor).orElseGet(() -> getDefaultValue(descriptor)))
-            .map(String::valueOf)
-            .orElse(null);
+                        getRawValueFromOption(descriptor).orElseGet(() -> getDefaultValue(descriptor)))
+                .map(String::valueOf)
+                .orElse(null);
     }
 
     // --------------------------------------------------------------------------------------------
 
     public <T extends Enum<T>> T getEnum(
-        final Class<T> enumClass, final PropertyDescriptor<String> descriptor) {
+            final Class<T> enumClass, final PropertyDescriptor<String> descriptor) {
         checkNotNull(enumClass, () -> "enumClass must not be null");
         checkNotNull(descriptor, () -> "configOption must not be null");
 
         Object rawValue =
-            getRawValueFromOption(descriptor).orElseGet(() -> getDefaultValue(descriptor));
+                getRawValueFromOption(descriptor).orElseGet(() -> getDefaultValue(descriptor));
         try {
             return convertToEnum(rawValue, enumClass);
         } catch (IllegalArgumentException ex) {
             final String errorMessage =
-                String.format(
-                    "Value for config option %s must be one of %s (was %s)",
-                    descriptor.getName(),
-                    Arrays.toString(enumClass.getEnumConstants()),
-                    rawValue);
+                    String.format(
+                            "Value for config option %s must be one of %s (was %s)",
+                            descriptor.getName(),
+                            Arrays.toString(enumClass.getEnumConstants()),
+                            rawValue);
             throw new IllegalArgumentException(errorMessage);
         }
     }
@@ -262,18 +266,18 @@ public class PropertyContext implements java.io.Serializable {
     public boolean contains(PropertyDescriptor<?> descriptor) {
         synchronized (this.confData) {
             final Function<String, Optional<Boolean>> applier =
-                (key) -> {
-                    if (this.confData.containsKey(key)) {
-                        return Optional.of(true);
-                    }
-                    return Optional.empty();
-                };
+                    (key) -> {
+                        if (this.confData.containsKey(key)) {
+                            return Optional.of(true);
+                        }
+                        return Optional.empty();
+                    };
             return applyWithOption(descriptor, applier).orElse(false);
         }
     }
 
     private <T> Optional<T> applyWithOption(
-        PropertyDescriptor<?> descriptor, Function<String, Optional<T>> applier) {
+            PropertyDescriptor<?> descriptor, Function<String, Optional<T>> applier) {
         final Optional<T> valueFromExactKey = applier.apply(descriptor.getName());
         if (valueFromExactKey.isPresent()) {
             return valueFromExactKey;
@@ -301,9 +305,9 @@ public class PropertyContext implements java.io.Serializable {
             return rawValue.map(value -> descriptor.getParser().apply(toString(value)));
         } catch (Exception e) {
             throw new IllegalArgumentException(
-                String.format("Could not parse value '%s' for key '%s'.",
-                    rawValue.map(Object::toString).orElse(""), descriptor.getName()),
-                e);
+                    String.format("Could not parse value '%s' for key '%s'.",
+                            rawValue.map(Object::toString).orElse(""), descriptor.getName()),
+                    e);
         }
     }
 
@@ -317,12 +321,12 @@ public class PropertyContext implements java.io.Serializable {
     public <T> boolean removeConfig(PropertyDescriptor<T> descriptor) {
         synchronized (this.confData) {
             final Function<String, Optional<Boolean>> applier =
-                (key) -> {
-                    if (this.confData.remove(key) != null) {
-                        return Optional.of(true);
-                    }
-                    return Optional.empty();
-                };
+                    (key) -> {
+                        if (this.confData.remove(key) != null) {
+                            return Optional.of(true);
+                        }
+                        return Optional.empty();
+                    };
             return applyWithOption(descriptor, applier).orElse(false);
         }
     }
@@ -362,12 +366,12 @@ public class PropertyContext implements java.io.Serializable {
     private void loggingFallback(PropertyDescriptor fallbackKey, PropertyDescriptor<?> descriptor) {
         if (fallbackKey.getProperties().contains(Property.Deprecated)) {
             log.warn("Config uses deprecated configuration key '{}' instead of proper key '{}'",
-                fallbackKey.getName(),
-                descriptor.getName());
+                    fallbackKey.getName(),
+                    descriptor.getName());
         } else {
             log.info("Config uses fallback configuration key '{}' instead of key '{}'",
-                fallbackKey.getName(),
-                descriptor.getName());
+                    fallbackKey.getName(),
+                    descriptor.getName());
         }
     }
 

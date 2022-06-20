@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.datasource.jdbc;
+package cn.sliew.scaleph.plugin.datasource.postgre;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum JdbcPoolProperties {
+public enum PostgreDataSourceProperties {
     ;
 
     public static final PropertyDescriptor<String> JDBC_URL = new PropertyDescriptor.Builder()
@@ -28,8 +28,6 @@ public enum JdbcPoolProperties {
             .description("database connection url")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .properties(Property.Required)
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> DRIVER_CLASS_NAME = new PropertyDescriptor.Builder()
@@ -57,6 +55,33 @@ public enum JdbcPoolProperties {
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .properties(Property.Required, Property.Sensitive)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> HOST = new PropertyDescriptor.Builder()
+            .name("host")
+            .description("host for the database")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .properties(Property.Required)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> PORT = new PropertyDescriptor.Builder()
+            .name("port")
+            .description("port for the database")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .properties(Property.Required)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> DATABASE_NAME = new PropertyDescriptor.Builder()
+            .name("databaseName")
+            .description("database name")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .properties(Property.Required)
             .validateAndBuild();
 
 }

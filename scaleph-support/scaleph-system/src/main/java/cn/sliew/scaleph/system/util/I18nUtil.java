@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.api.util;
+package cn.sliew.scaleph.system.util;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;

@@ -18,15 +18,12 @@
 
 package cn.sliew.scaleph.api.security;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import cn.sliew.scaleph.api.util.I18nUtil;
 import cn.sliew.scaleph.common.enums.UserStatusEnum;
 import cn.sliew.scaleph.security.service.SecUserService;
 import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;
 import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
 import cn.sliew.scaleph.security.service.dto.SecUserDTO;
+import cn.sliew.scaleph.system.util.I18nUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -37,6 +34,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author gleiyu
@@ -59,9 +59,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         SecUserDTO secUserDTO = secUserService.selectOne(userName);
         boolean flag = secUserDTO.getUserStatus() != null
-            &&
-            !(secUserDTO.getUserStatus().getValue().equals(UserStatusEnum.UNBIND_EMAIL.getValue()) ||
-                secUserDTO.getUserStatus().getValue().equals(UserStatusEnum.BIND_EMAIL.getValue()));
+                &&
+                !(secUserDTO.getUserStatus().getValue().equals(UserStatusEnum.UNBIND_EMAIL.getValue()) ||
+                        secUserDTO.getUserStatus().getValue().equals(UserStatusEnum.BIND_EMAIL.getValue()));
         if (secUserDTO == null) {
             throw new BadCredentialsException(I18nUtil.get("response.error.login.password"));
         } else if (flag) {
@@ -87,7 +87,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 }
                 for (SecPrivilegeDTO privilege : role.getPrivileges()) {
                     GrantedAuthority grantedAuthority =
-                        new SimpleGrantedAuthority(privilege.getPrivilegeCode());
+                            new SimpleGrantedAuthority(privilege.getPrivilegeCode());
                     list.add(grantedAuthority);
                 }
             }

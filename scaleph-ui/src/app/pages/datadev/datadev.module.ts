@@ -36,6 +36,8 @@ import { ClusterUpdateComponent } from './cluster/cluster-update/cluster-update.
 import { ClusterDeleteComponent } from './cluster/cluster-delete/cluster-delete.component';
 import { JobStopComponent } from './job/job-stop/job-stop.component';
 import { JobCrontabSettingComponent } from './job/job-crontab-setting/job-crontab-setting.component';
+import { JdbcDatasourceComponent } from './datasource/jdbc-datasource/jdbc-datasource.component';
+import { GenericDbDatasourceComponent } from './datasource/generic-db-datasource/generic-db-datasource.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,8 @@ import { JobCrontabSettingComponent } from './job/job-crontab-setting/job-cronta
     ClusterDeleteComponent,
     JobStopComponent,
     JobCrontabSettingComponent,
+    JdbcDatasourceComponent,
+    GenericDbDatasourceComponent,
   ],
   imports: [SharedModule, DataDevRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })

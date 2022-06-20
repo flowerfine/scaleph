@@ -27,9 +27,9 @@ import lombok.EqualsAndHashCode;
 @Data
 public class MetaDatasourceParam extends PaginationParam {
 
-    @ApiModelProperty(value = "名称")
-    private String name;
+    @ApiModelProperty(value = "数据源名称")
+    private String datasourceName;
 
-    @ApiModelProperty(value = "版本")
-    private String version;
+    @ApiModelProperty(value = "数据源类型")
+    private String datasourceType;
 }
