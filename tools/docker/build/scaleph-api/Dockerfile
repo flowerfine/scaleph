@@ -1,6 +1,6 @@
 FROM maven:3.8-openjdk-8 as build
 
-COPY ./ /scaleph
+COPY ../../local/scaleph-api /scaleph
 RUN cd /scaleph && mvn -B -U clean package -DskipTests -Dfast -am --projects scaleph-api
 
 

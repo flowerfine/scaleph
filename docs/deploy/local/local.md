@@ -18,7 +18,7 @@ docker compose up -d
 Scaleph image contains flink and seatunnel release, that's why them such big. If flink and seatunnel release downloads are too slow, peopele can replace it as follows:
 
 ```shell
-cd $SCALEPH_HOME/tools/docker/local/scaleph-api
+cd $SCALEPH_HOME/tools/docker/build/scaleph-api
 
 vim Dockerfile
 ```

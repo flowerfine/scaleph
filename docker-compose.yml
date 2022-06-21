@@ -24,7 +24,7 @@ services:
       - redis
       - minio
     build:
-      dockerfile: ./tools/docker/local/scaleph-api/Dockerfile
+      dockerfile: tools/docker/build/scaleph-api/Dockerfile
       context: .
     ports:
       - 8080:8080
@@ -37,7 +37,7 @@ services:
 #    depends_on:
 #      - scaleph-api
     build:
-      dockerfile: ./tools/docker/local/scaleph-ui/Dockerfile
+      dockerfile: tools/docker/build/scaleph-ui/Dockerfile
       context: .
     environment:
       - SCALEPH_API_URL="scaleph-api:8080"

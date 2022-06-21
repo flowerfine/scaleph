@@ -1,6 +1,6 @@
 FROM node:16 as build
 
-COPY ./ /scaleph
+COPY ../../local/scaleph-ui /scaleph
 RUN cd /scaleph/scaleph-ui && npm install --force && npm run build --prod
 
 
