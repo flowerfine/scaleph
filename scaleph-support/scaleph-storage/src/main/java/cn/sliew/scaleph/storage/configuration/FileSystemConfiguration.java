@@ -55,6 +55,7 @@ public class FileSystemConfiguration {
         config.setString("s3.endpoint", s3FileSystemProperties.getEndpoint());
         config.setString("s3.access-key", s3FileSystemProperties.getAccessKey());
         config.setString("s3.secret-key", s3FileSystemProperties.getSecretKey());
+        config.setBoolean("fs.s3a.path-style-access", true); // container
         factory.configure(config);
         return factory.create(new URI(FileSystemType.S3.getSchema() + s3FileSystemProperties.getBucket()));
     }
