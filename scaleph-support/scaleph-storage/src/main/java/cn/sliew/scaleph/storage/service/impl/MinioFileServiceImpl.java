@@ -62,7 +62,7 @@ public class MinioFileServiceImpl implements StorageService {
                 this.client.makeBucket(MakeBucketArgs.builder().bucket(this.bucket).build());
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage(), e);
         }
     }
 
