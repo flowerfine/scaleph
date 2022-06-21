@@ -22,7 +22,7 @@ mvn clean package -DskipTests -Dfast -am --projects scaleph-api
 通过 docker compose 和 `Dockerfile` 构建 docker 镜像
 
 ```shell
-cd $SCALEPH_HOME/tools/docker/build
+cd $SCALEPH_HOME/tools/docker/build/scaleph
 docker compose -f docker-compose-build-api.yml build
 ```
 
@@ -59,7 +59,7 @@ npm run build --prod
 通过 docker compose 和 `Dockerfile` 构建 docker 镜像
 
 ```shell
-cd $SCALEPH_HOME/tools/docker/build
+cd $SCALEPH_HOME/tools/docker/build/scaleph
 docker compose -f docker-compose-build-ui.yml build
 ```
 
