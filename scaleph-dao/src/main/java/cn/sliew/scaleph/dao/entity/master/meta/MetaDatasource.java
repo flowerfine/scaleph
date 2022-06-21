@@ -26,7 +26,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 元数据-数据源信息2
+ * 元数据-数据源信息
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
