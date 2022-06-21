@@ -28,7 +28,7 @@ mvn install -DskipTests
 If users are familiar with docker, Scaleph provides mysql, redis and minio environment through docker container. User can launch local deleop environment as follows:
 
 ```shell
-cd tools/docker/local/env
+cd tools/docker/local
 
 docker compose up -d
 ```
