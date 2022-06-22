@@ -96,11 +96,25 @@
                     <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                       <div class="btn-group over-flow-ellipsis">
                         <d-button
-                          *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
-                          icon="icon-download"
+                          *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevJobShow)"
+                          icon="icon-list-view"
                           bsStyle="text-dark"
 
-                          title="{{ 'app.common.operate.download.label' | translate }}"
+                          title="{{ 'datadev.project.enter' | translate }}"
+                        ></d-button>
+                        <d-button
+                          *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
+                          icon="icon-upload"
+                          bsStyle="text-dark"
+
+                          title="{{ 'datadev.project.upload-resource' | translate }}"
+                        ></d-button>
+                        <d-button
+                          *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
+                          icon="icon-edit"
+                          bsStyle="text-dark"
+
+                          title="{{ 'app.common.operate.edit.label' | translate }}"
                         ></d-button>
                         <d-button
                           *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
