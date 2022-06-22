@@ -23,6 +23,6 @@ ARG SEATUNNEL_VERSION
 ENV SEATUNNEL_HOME /opt/seatunnel
 RUN mkdir -p $SEATUNNEL_HOME ; cd $SEATUNNEL_HOME ; \
     tar_file=apache-seatunnel-incubating-${SEATUNNEL_VERSION}-bin.tar.gz ; \
-    curl -LsO https://archive.apache.org/dist/incubator/seatunnel/${SEATUNNEL_VERSION}/$tar_file ; \
+    curl -LSO https://archive.apache.org/dist/incubator/seatunnel/${SEATUNNEL_VERSION}/$tar_file ; \
     tar -zxf $tar_file --strip 1 -C . ; \
     rm $tar_file
