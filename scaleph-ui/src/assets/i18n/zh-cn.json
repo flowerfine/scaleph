@@ -398,7 +398,7 @@
       "load": "加载"
     },
     "deploy-config": {
-      "name": "部署配置",
+      "name_": "部署配置",
       "configType": "配置类型",
       "name": "配置名称",
       "upload": "上传"

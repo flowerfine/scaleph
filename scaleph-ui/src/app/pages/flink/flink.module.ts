@@ -8,6 +8,7 @@ import { ReleaseComponent } from './release/release.component';
 import {ReleaseUploadComponent} from "./release/release-upload/release-upload.component";
 import {ReleaseDeleteComponent} from "./release/release-delete/release-delete.component";
 import {DeployConfigComponent} from "./deploy-config/deploy-config.component";
+import {DeployConfigUploadComponent} from "./deploy-config/deploy-config-upload/deploy-config-upload.component";
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import {DeployConfigComponent} from "./deploy-config/deploy-config.component";
     ReleaseUploadComponent,
     ReleaseDeleteComponent,
     DeployConfigComponent,
+    DeployConfigUploadComponent,
   ],
   imports: [SharedModule, FlinkRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })

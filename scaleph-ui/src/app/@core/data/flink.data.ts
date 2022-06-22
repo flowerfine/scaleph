@@ -35,6 +35,11 @@ export class FlinkDeployConfigParam extends QueryParam {
   name?: string;
 }
 
-
+export class FlinkDeployConfigUploadParam {
+  configType?: string;
+  name?: string;
+  files?: File[];
+  remark?: string;
+}
 
 
