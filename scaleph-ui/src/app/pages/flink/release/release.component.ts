@@ -103,7 +103,7 @@ export class ReleaseComponent implements OnInit {
       backdropCloseable: true,
       component: ReleaseUploadComponent,
       data: {
-        title: { name: this.translate.instant('flink.release') },
+        title: { name: this.translate.instant('flink.release.name') },
         onClose: (event: any) => {
           results.modalInstance.hide();
         },
