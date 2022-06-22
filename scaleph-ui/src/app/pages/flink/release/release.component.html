@@ -42,7 +42,13 @@
                     *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
                     bsStyle="primary"
                     (btnClick)="openUploadReleaseDialog()"
-                    >{{ 'app.common.operate.new.label' | translate }}</d-button
+                    >{{ 'flink.release.upload' | translate }}</d-button
+                  >
+                  <d-button
+                    *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
+                    bsStyle="common"
+                    (btnClick)="openLoadReleaseDialog()"
+                  >{{ 'flink.release.load' | translate }}</d-button
                   >
                   <d-button
                     *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"

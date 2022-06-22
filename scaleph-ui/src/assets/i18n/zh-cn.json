@@ -394,7 +394,8 @@
       "fileName": "名称",
       "path": "存储路径",
       "file": "文件",
-      "upload": "上传"
+      "upload": "上传",
+      "load": "加载"
     }
   },
   "header": {
