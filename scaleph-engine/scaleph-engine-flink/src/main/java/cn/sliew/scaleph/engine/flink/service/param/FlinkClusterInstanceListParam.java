@@ -16,13 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterInstanceDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterInstanceListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-public interface FlinkClusterInstanceService {
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class FlinkClusterInstanceListParam extends PaginationParam {
 
-    Page<FlinkClusterInstanceDTO> list(FlinkClusterInstanceListParam param);
+    @ApiModelProperty("集群配置")
+    private Long flinkClusterConfigId;
+
+    @ApiModelProperty("集群名称。支持模糊匹配")
+    private String name;
+
+    @ApiModelProperty("集群状态。0: 停止, 1: 运行")
+    private Integer status;
 }
