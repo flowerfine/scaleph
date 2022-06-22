@@ -4,18 +4,16 @@ import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
 import {DEFAULT_PAGE_PARAM, PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/app.data';
-import {FlinkRelease, FlinkReleaseParam} from 'src/app/@core/data/flink.data';
+import {FlinkDeployConfigParam, FlinkRelease} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
-import {ReleaseService} from 'src/app/@core/services/flink/release.service';
-import {ReleaseUploadComponent} from "./release-upload/release-upload.component";
-import {ReleaseDeleteComponent} from "./release-delete/release-delete.component";
+import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
 
 @Component({
   selector: 'app-release',
-  templateUrl: './release.component.html',
-  styleUrls: ['./release.component.scss'],
+  templateUrl: './deploy-config.component.html',
+  styleUrls: ['./deploy-config.component.scss'],
 })
-export class ReleaseComponent implements OnInit {
+export class DeployConfigComponent implements OnInit {
   PRIVILEGE_CODE = PRIVILEGE_CODE;
   @ViewChild('dataTable', {static: true}) dataTable: DataTableComponent;
   dataLoading: boolean = false;
@@ -28,7 +26,7 @@ export class ReleaseComponent implements OnInit {
     pageSize: DEFAULT_PAGE_PARAM.pageSize,
     pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
   };
-  searchFormConfig = {version: '', fileName: ''};
+  searchFormConfig = {configType: '', name: ''};
 
   constructor(
     public authService: AuthService,
@@ -36,7 +34,7 @@ export class ReleaseComponent implements OnInit {
     private loadingService: LoadingService,
     private translate: TranslateService,
     private modalService: ModalService,
-    private releaseService: ReleaseService,
+    private deployConfigService: DeployConfigService,
     private router: Router
   ) {
   }
@@ -47,14 +45,14 @@ export class ReleaseComponent implements OnInit {
 
   refreshTable() {
     this.openDataTableLoading();
-    let param: FlinkReleaseParam = {
+    let param: FlinkDeployConfigParam = {
       pageSize: this.pager.pageSize,
       current: this.pager.pageIndex,
-      version: this.searchFormConfig.version,
-      fileName: this.searchFormConfig.fileName,
+      configType: this.searchFormConfig.configType,
+      name: this.searchFormConfig.name,
     };
 
-    this.releaseService.list(param).subscribe((d) => {
+    this.deployConfigService.list(param).subscribe((d) => {
       this.pager.total = d.total;
       this.dataTableDs = d.records;
       this.loadTarget.loadingInstance.close();
@@ -84,7 +82,7 @@ export class ReleaseComponent implements OnInit {
   }
 
   reset() {
-    this.searchFormConfig = {version: '', fileName: ''};
+    this.searchFormConfig = {configType: '', name: ''};
     this.pager = {
       total: 0,
       pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -93,47 +91,47 @@ export class ReleaseComponent implements OnInit {
     };
     this.refreshTable();
   }
-
-  openUploadReleaseDialog() {
-    const results = this.modalService.open({
-      id: 'release-upload',
-      width: '580px',
-      backdropCloseable: true,
-      component: ReleaseUploadComponent,
-      data: {
-        title: {name: this.translate.instant('flink.release.name')},
-        onClose: (event: any) => {
-          results.modalInstance.hide();
-        },
-        refresh: () => {
-          this.refreshTable();
-        },
-      },
-    });
-  }
+  //
+  // openUploadReleaseDialog() {
+  //   const results = this.modalService.open({
+  //     id: 'release-upload',
+  //     width: '580px',
+  //     backdropCloseable: true,
+  //     component: ReleaseUploadComponent,
+  //     data: {
+  //       title: {name: this.translate.instant('flink.release.name')},
+  //       onClose: (event: any) => {
+  //         results.modalInstance.hide();
+  //       },
+  //       refresh: () => {
+  //         this.refreshTable();
+  //       },
+  //     },
+  //   });
+  // }
 
   openLoadReleaseDialog() {
     alert("work in progress")
   }
-
-  openDeleteReleaseDialog(items: FlinkRelease[]) {
-    const results = this.modalService.open({
-      id: 'resource-delete',
-      width: '346px',
-      backdropCloseable: true,
-      component: ReleaseDeleteComponent,
-      data: {
-        title: this.translate.instant('app.common.operate.delete.confirm.title'),
-        items: items,
-        onClose: (event: any) => {
-          results.modalInstance.hide();
-        },
-        refresh: () => {
-          this.refreshTable();
-        },
-      },
-    });
-  }
+  //
+  // openDeleteReleaseDialog(items: FlinkRelease[]) {
+  //   const results = this.modalService.open({
+  //     id: 'resource-delete',
+  //     width: '346px',
+  //     backdropCloseable: true,
+  //     component: ReleaseDeleteComponent,
+  //     data: {
+  //       title: this.translate.instant('app.common.operate.delete.confirm.title'),
+  //       items: items,
+  //       onClose: (event: any) => {
+  //         results.modalInstance.hide();
+  //       },
+  //       refresh: () => {
+  //         this.refreshTable();
+  //       },
+  //     },
+  //   });
+  // }
 
   downloadRelease(item: FlinkRelease) {
     let url: string =
