@@ -103,6 +103,11 @@ export const USER_AUTH = {
 export const PRIVILEGE_CODE = {
   studioShow: 'psdo0',
   studioDataBoardShow: 'psdb0',
+
+  // todo flink code
+  flinkShow: 'pflink0',
+  flinkReleaseShow: 'pflinkr0',
+
   datadevShow: 'pdev0',
   datadevDatasourceShow: 'pdts0',
   datadevProjectShow: 'pddp0',
