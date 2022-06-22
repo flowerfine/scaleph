@@ -8,7 +8,7 @@ import {
   FlinkRelease,
   FlinkReleaseUploadParam
 } from '../../data/flink.data';
-import {DiResourceFile} from "../../data/datadev.data";
+import {DiProject, DiResourceFile} from "../../data/datadev.data";
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +22,11 @@ export class DeployConfigService {
   list(queryParam): Observable<PageResponse<FlinkDeployConfig>> {
     const params: HttpParams = new HttpParams({fromObject: queryParam});
     return this.http.get<PageResponse<FlinkDeployConfig>>(`${this.url}`, {params});
+  }
+
+  add(row: FlinkDeployConfig): Observable<ResponseBody<any>> {
+    console.log(row)
+    return this.http.put<ResponseBody<any>>(this.url, row);
   }
 
   upload(uploadParam: FlinkDeployConfigUploadParam): Observable<ResponseBody<any>> {

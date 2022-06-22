@@ -8,6 +8,7 @@ import {FlinkDeployConfigParam, FlinkRelease} from 'src/app/@core/data/flink.dat
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
 import {DeployConfigUploadComponent} from "./deploy-config-upload/deploy-config-upload.component";
+import {DeployConfigNewComponent} from "./deploy-config-new/deploy-config-new.component";
 
 @Component({
   selector: 'app-release',
@@ -93,12 +94,12 @@ export class DeployConfigComponent implements OnInit {
     this.refreshTable();
   }
 
-  openUploadDeployConfigDialog() {
+  openAddDeployConfigDialog() {
     const results = this.modalService.open({
       id: 'release-upload',
       width: '580px',
       backdropCloseable: true,
-      component: DeployConfigUploadComponent,
+      component: DeployConfigNewComponent,
       data: {
         title: {name: this.translate.instant('flink.deploy-config.name_')},
         onClose: (event: any) => {
