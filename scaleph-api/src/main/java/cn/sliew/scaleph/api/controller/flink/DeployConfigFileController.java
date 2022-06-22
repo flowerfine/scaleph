@@ -63,7 +63,7 @@ public class DeployConfigFileController {
     @Logging
     @PutMapping
     @ApiOperation(value = "新增部署配置", notes = "新增部署配置")
-    public ResponseEntity<ResponseVO> addDeployConfig(@Valid FlinkDeployConfigFileDTO param) {
+    public ResponseEntity<ResponseVO> addDeployConfig(@Valid @RequestBody FlinkDeployConfigFileDTO param) {
         flinkDeployConfigFileService.insert(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
