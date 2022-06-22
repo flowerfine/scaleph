@@ -5,11 +5,13 @@ import { SharedModule } from 'src/app/@shared/shared.module';
 import { FlinkComponent } from './flink.component';
 import { FlinkRoutingModule } from './flink.routing.module';
 import { ReleaseComponent } from './release/release.component';
+import {ReleaseUploadComponent} from "./release/release-upload/release-upload.component";
 
 @NgModule({
   declarations: [
     FlinkComponent,
-    ReleaseComponent
+    ReleaseComponent,
+    ReleaseUploadComponent,
   ],
   imports: [SharedModule, FlinkRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })
