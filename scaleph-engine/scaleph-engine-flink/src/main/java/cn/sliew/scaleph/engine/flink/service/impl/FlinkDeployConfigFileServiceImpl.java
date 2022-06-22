@@ -99,9 +99,12 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
     public int deleteById(Serializable id) {
         try {
             final FlinkDeployConfigFileDTO flinkDeployConfigFileDTO = selectOne(id);
-            final List<FileStatus> fileStatuses = fileSystemService.listStatus(getFlinkDeployConfigFileRootPath() + "/" + flinkDeployConfigFileDTO.getName());
-            for (FileStatus fileStatus : fileStatuses) {
-                deleteDeployConfigFile((Long) id, fileStatus.getPath().getName());
+            final String rootPath = getFlinkDeployConfigFileRootPath() + "/" + flinkDeployConfigFileDTO.getName();
+            if (fileSystemService.exists(rootPath)) {
+                final List<FileStatus> fileStatuses = fileSystemService.listStatus(rootPath);
+                for (FileStatus fileStatus : fileStatuses) {
+                    deleteDeployConfigFile((Long) id, fileStatus.getPath().getName());
+                }
             }
             return flinkDeployConfigFileMapper.deleteById(id);
         } catch (IOException e) {

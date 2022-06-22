@@ -9,6 +9,7 @@ import {AuthService} from 'src/app/@core/services/auth.service';
 import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
 import {DeployConfigUploadComponent} from "./deploy-config-upload/deploy-config-upload.component";
 import {DeployConfigNewComponent} from "./deploy-config-new/deploy-config-new.component";
+import {DeployConfigDeleteComponent} from "./deploy-config-delete/deploy-config-delete.component";
 
 @Component({
   selector: 'app-release',
@@ -115,25 +116,25 @@ export class DeployConfigComponent implements OnInit {
   openLoadReleaseDialog() {
     alert("work in progress")
   }
-  //
-  // openDeleteReleaseDialog(items: FlinkRelease[]) {
-  //   const results = this.modalService.open({
-  //     id: 'resource-delete',
-  //     width: '346px',
-  //     backdropCloseable: true,
-  //     component: ReleaseDeleteComponent,
-  //     data: {
-  //       title: this.translate.instant('app.common.operate.delete.confirm.title'),
-  //       items: items,
-  //       onClose: (event: any) => {
-  //         results.modalInstance.hide();
-  //       },
-  //       refresh: () => {
-  //         this.refreshTable();
-  //       },
-  //     },
-  //   });
-  // }
+
+  openDeleteDeployConfigDialog(items: FlinkRelease[]) {
+    const results = this.modalService.open({
+      id: 'resource-delete',
+      width: '346px',
+      backdropCloseable: true,
+      component: DeployConfigDeleteComponent,
+      data: {
+        title: this.translate.instant('app.common.operate.delete.confirm.title'),
+        items: items,
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
+  }
 
   downloadRelease(item: FlinkRelease) {
     let url: string =
