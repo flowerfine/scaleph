@@ -96,6 +96,14 @@ public class ReleaseController {
     }
 
     @Logging
+    @DeleteMapping("{id}")
+    @ApiOperation(value = "删除 release", notes = "删除 release")
+    public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws IOException {
+        flinkReleaseService.delete(id);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
     @DeleteMapping(path = "/batch")
     @ApiOperation(value = "批量删除 release", notes = "批量删除 release")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) throws IOException {

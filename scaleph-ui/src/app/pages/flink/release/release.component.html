@@ -101,7 +101,20 @@
                   <d-cell>
                     <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                       <div class="btn-group over-flow-ellipsis">
-
+                        <d-button
+                          *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
+                          icon="icon-download"
+                          bsStyle="text-dark"
+                          (btnClick)="downloadRelease(rowItem)"
+                          title="{{ 'app.common.operate.download.label' | translate }}"
+                        ></d-button>
+                        <d-button
+                          *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
+                          icon="icon-delete"
+                          bsStyle="text-dark"
+                          (btnClick)="openDeleteReleaseDialog([rowItem])"
+                          title="{{ 'app.common.operate.delete.label' | translate }}"
+                        ></d-button>
                       </div>
                     </ng-template>
                   </d-cell>

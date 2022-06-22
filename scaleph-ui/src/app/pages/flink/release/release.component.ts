@@ -4,7 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DataTableComponent, LoadingService, ModalService } from 'ng-devui';
-import { DEFAULT_PAGE_PARAM, PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
+import {DEFAULT_PAGE_PARAM, PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/app.data';
 import { FlinkRelease, FlinkReleaseParam } from 'src/app/@core/data/flink.data';
 import { AuthService } from 'src/app/@core/services/auth.service';
 import { ReleaseService } from 'src/app/@core/services/flink/release.service';
@@ -131,5 +131,19 @@ export class ReleaseComponent implements OnInit {
         },
       },
     });
+  }
+
+  downloadRelease(item: FlinkRelease) {
+    let url: string =
+      'api/flink/release/' + item.id +
+      '?' +
+      USER_AUTH.token +
+      '=' +
+      localStorage.getItem(USER_AUTH.token);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = item.fileName;
+    a.click();
+    window.URL.revokeObjectURL(url);
   }
 }
