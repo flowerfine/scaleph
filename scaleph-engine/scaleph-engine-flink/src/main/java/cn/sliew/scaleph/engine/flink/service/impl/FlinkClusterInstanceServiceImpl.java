@@ -54,4 +54,22 @@ public class FlinkClusterInstanceServiceImpl implements FlinkClusterInstanceServ
         result.setRecords(dtoList);
         return result;
     }
+
+    @Override
+    public int insert(FlinkClusterInstanceDTO dto) {
+        final FlinkClusterInstance record = FlinkClusterInstanceConvert.INSTANCE.toDo(dto);
+        return flinkClusterInstanceMapper.insert(record);
+    }
+
+    @Override
+    public int update(FlinkClusterInstanceDTO dto) {
+        final FlinkClusterInstance record = FlinkClusterInstanceConvert.INSTANCE.toDo(dto);
+        return flinkClusterInstanceMapper.updateById(record);
+    }
+
+    @Override
+    public FlinkClusterInstanceDTO selectOne(Long id) {
+        final FlinkClusterInstance record = flinkClusterInstanceMapper.selectById(id);
+        return FlinkClusterInstanceConvert.INSTANCE.toDto(record);
+    }
 }
