@@ -41,6 +41,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Api(tags = "Flink管理-release管理")
@@ -94,10 +96,10 @@ public class ReleaseController {
     }
 
     @Logging
-    @DeleteMapping("{id}")
-    @ApiOperation(value = "删除 release", notes = "删除 release")
-    public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws IOException {
-        flinkReleaseService.delete(id);
+    @DeleteMapping(path = "/batch")
+    @ApiOperation(value = "批量删除 release", notes = "批量删除 release")
+    public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) throws IOException {
+        flinkReleaseService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 }

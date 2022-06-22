@@ -47,7 +47,7 @@
                   <d-button
                     *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                     bsStyle="common"
-
+                    (btnClick)="openDeleteReleaseDialog(dataTable.getCheckedRows())"
                     [disabled]="!dataTableChecked"
                     >{{ 'app.common.operate.delete.label' | translate }}</d-button
                   >
