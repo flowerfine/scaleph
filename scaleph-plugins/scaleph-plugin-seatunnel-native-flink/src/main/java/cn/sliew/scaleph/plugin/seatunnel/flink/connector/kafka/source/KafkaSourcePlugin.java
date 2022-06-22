@@ -20,7 +20,6 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.source;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
-import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
@@ -34,11 +33,11 @@ import java.util.List;
 import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.KAFKA_SOURCE;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.source.KafkaSourceProperties.*;
 
-public class KafkaSourcePlugin extends AbstractPlugin implements SeatunnelNativeFlinkPlugin {
+public class KafkaSourcePlugin extends SeatunnelNativeFlinkPlugin {
 
-    private static final List<PropertyDescriptor> supportedProperties;
+    public KafkaSourcePlugin() {
+        this.pluginInfo = new PluginInfo(KAFKA_SOURCE.getValue(), "kafka source connector", "2.1.1", KafkaSourcePlugin.class.getName());
 
-    static {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(TOPICS);
         props.add(CONSUMER_GROUP_ID);
@@ -56,35 +55,9 @@ public class KafkaSourcePlugin extends AbstractPlugin implements SeatunnelNative
         supportedProperties = Collections.unmodifiableList(props);
     }
 
-    private final PluginInfo pluginInfo;
-
-    public KafkaSourcePlugin() {
-        this.pluginInfo = new PluginInfo(KAFKA_SOURCE.getValue(), "kafka source connector", "2.1.1", KafkaSourcePlugin.class.getName());
-    }
-
-    @Override
-    public ObjectNode createConf() {
-        ObjectNode objectNode = JacksonUtil.createObjectNode();
-        for (PropertyDescriptor descriptor : getSupportedProperties()) {
-            if (properties.contains(descriptor)) {
-                objectNode.put(descriptor.getName(), properties.getValue(descriptor));
-            }
-        }
-        return objectNode;
-    }
-
-    @Override
-    public PluginInfo getPluginInfo() {
-        return pluginInfo;
-    }
-
     @Override
     public JobStepTypeEnum getStepType() {
         return JobStepTypeEnum.SOURCE;
     }
 
-    @Override
-    public List<PropertyDescriptor> getSupportedProperties() {
-        return supportedProperties;
-    }
 }

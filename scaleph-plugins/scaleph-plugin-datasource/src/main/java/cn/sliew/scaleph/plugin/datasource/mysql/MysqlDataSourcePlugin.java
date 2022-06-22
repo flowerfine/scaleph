@@ -10,34 +10,29 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.datasource.mysql.MysqlDataSourceProperties.*;
+import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 
 public class MysqlDataSourcePlugin extends JDBCDataSourcePlugin {
 
-    private static final List<PropertyDescriptor> supportedProperties;
+    public MysqlDataSourcePlugin() {
+        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.MYSQL.getValue(), "Mysql Jdbc Datasource", "8.0.25", MysqlDataSourcePlugin.class.getName());
 
-    static {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(HOST);
         props.add(PORT);
         props.add(DATABASE_NAME);
         props.add(USERNAME);
         props.add(PASSWORD);
-        props.add(JDBC_URL);
-        props.add(DRIVER_CLASS_NAME);
+        props.add(JDBC_URL_UNREQUIRED);
+        props.add(DRIVER_CLASS_NAME_UNREQUIRED);
         supportedProperties = Collections.unmodifiableList(props);
-    }
-
-    public MysqlDataSourcePlugin() {
-        PluginInfo info = new PluginInfo(DataSourceTypeEnum.MYSQL.getValue(), "Mysql Jdbc Datasource", "8.0.25", MysqlDataSourcePlugin.class.getName());
-        this.setPluginInfo(info);
     }
 
     @Override
     public void configure(PropertyContext props) {
         super.configure(props);
-        properties.set(JDBC_URL, getJdbcUrl());
-        properties.set(DRIVER_CLASS_NAME, getDriverClassNmae());
+        properties.set(JDBC_URL_UNREQUIRED, getJdbcUrl());
+        properties.set(DRIVER_CLASS_NAME_UNREQUIRED, getDriverClassNmae());
     }
 
     @Override
@@ -50,18 +45,4 @@ public class MysqlDataSourcePlugin extends JDBCDataSourcePlugin {
         return "com.mysql.cj.jdbc.Driver";
     }
 
-    @Override
-    public String getUsername() {
-        return properties.get(USERNAME);
-    }
-
-    @Override
-    public String getPassword() {
-        return properties.get(PASSWORD);
-    }
-
-    @Override
-    public List<PropertyDescriptor> getSupportedProperties() {
-        return supportedProperties;
-    }
 }

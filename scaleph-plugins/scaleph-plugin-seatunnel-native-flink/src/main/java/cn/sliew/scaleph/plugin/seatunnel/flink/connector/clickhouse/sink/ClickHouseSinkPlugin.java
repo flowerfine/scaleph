@@ -18,14 +18,11 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink;
 
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
-import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,11 +32,11 @@ import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.CLICK
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseSinkProperties.*;
 
-public class ClickHouseSinkPlugin extends AbstractPlugin implements SeatunnelNativeFlinkPlugin {
+public class ClickHouseSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
-    private static final List<PropertyDescriptor> supportedProperties;
+    public ClickHouseSinkPlugin() {
+        this.pluginInfo = new PluginInfo(CLICKHOUSE_SINK.getValue(), "clickhouse sink connector", "2.1.1", ClickHouseSinkPlugin.class.getName());
 
-    static {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(HOST);
         props.add(USERNAME);
@@ -58,36 +55,9 @@ public class ClickHouseSinkPlugin extends AbstractPlugin implements SeatunnelNat
         supportedProperties = Collections.unmodifiableList(props);
     }
 
-    private final PluginInfo pluginInfo;
-
-    public ClickHouseSinkPlugin() {
-        this.pluginInfo = new PluginInfo(CLICKHOUSE_SINK.getValue(), "clickhouse sink connector", "2.1.1", ClickHouseSinkPlugin.class.getName());
-    }
-
-
-    @Override
-    public ObjectNode createConf() {
-        ObjectNode objectNode = JacksonUtil.createObjectNode();
-        for (PropertyDescriptor descriptor : getSupportedProperties()) {
-            if (properties.contains(descriptor)) {
-                objectNode.put(descriptor.getName(), properties.getValue(descriptor));
-            }
-        }
-        return objectNode;
-    }
-
-    @Override
-    public PluginInfo getPluginInfo() {
-        return pluginInfo;
-    }
-
     @Override
     public JobStepTypeEnum getStepType() {
         return JobStepTypeEnum.SINK;
     }
 
-    @Override
-    public List<PropertyDescriptor> getSupportedProperties() {
-        return supportedProperties;
-    }
 }

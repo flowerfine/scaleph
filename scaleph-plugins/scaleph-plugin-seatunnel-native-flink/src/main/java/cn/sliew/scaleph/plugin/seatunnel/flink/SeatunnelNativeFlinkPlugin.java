@@ -18,26 +18,36 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
-import cn.sliew.scaleph.plugin.framework.core.Plugin;
+import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.Collections;
 import java.util.List;
 
-public interface SeatunnelNativeFlinkPlugin extends Plugin {
+public abstract class SeatunnelNativeFlinkPlugin extends AbstractPlugin {
 
-    ObjectNode createConf();
 
-    JobStepTypeEnum getStepType();
+    public abstract JobStepTypeEnum getStepType();
 
     /**
      * For example: flink-connector-jdbc requires mysql jdbc jar.
      * todo may we need a new ResourceDescriptor? Is this a useful method ?
      */
-    default List<PropertyDescriptor> additionalResources() {
+    public List<PropertyDescriptor> additionalResources() {
         return Collections.emptyList();
+    }
+
+    public ObjectNode createConf() {
+        ObjectNode objectNode = JacksonUtil.createObjectNode();
+        for (PropertyDescriptor descriptor : getSupportedProperties()) {
+            if (properties.contains(descriptor)) {
+                objectNode.put(descriptor.getName(), properties.getValue(descriptor));
+            }
+        }
+        return objectNode;
     }
 
 }

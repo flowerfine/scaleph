@@ -18,14 +18,11 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.sink;
 
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
-import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,11 +31,11 @@ import java.util.List;
 import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.KAFKA_SINK;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.sink.KafkaSinkProperties.*;
 
-public class KafkaSinkPlugin extends AbstractPlugin implements SeatunnelNativeFlinkPlugin {
+public class KafkaSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
-    private static final List<PropertyDescriptor> supportedProperties;
+    public KafkaSinkPlugin() {
+        this.pluginInfo = new PluginInfo(KAFKA_SINK.getValue(), "kafka sink connector", "2.1.1", KafkaSinkPlugin.class.getName());
 
-    static {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(TOPIC);
         props.add(PRODUCER_BOOTSTRAP_SERVERS);
@@ -49,35 +46,9 @@ public class KafkaSinkPlugin extends AbstractPlugin implements SeatunnelNativeFl
         supportedProperties = Collections.unmodifiableList(props);
     }
 
-    private final PluginInfo pluginInfo;
-
-    public KafkaSinkPlugin() {
-        this.pluginInfo = new PluginInfo(KAFKA_SINK.getValue(), "kafka sink connector", "2.1.1", KafkaSinkPlugin.class.getName());
-    }
-
-    @Override
-    public ObjectNode createConf() {
-        ObjectNode objectNode = JacksonUtil.createObjectNode();
-        for (PropertyDescriptor descriptor : getSupportedProperties()) {
-            if (properties.contains(descriptor)) {
-                objectNode.put(descriptor.getName(), properties.getValue(descriptor));
-            }
-        }
-        return objectNode;
-    }
-
-    @Override
-    public PluginInfo getPluginInfo() {
-        return pluginInfo;
-    }
-
     @Override
     public JobStepTypeEnum getStepType() {
         return JobStepTypeEnum.SINK;
     }
 
-    @Override
-    public List<PropertyDescriptor> getSupportedProperties() {
-        return supportedProperties;
-    }
 }

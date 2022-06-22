@@ -22,7 +22,6 @@ import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
 import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
-import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -38,11 +37,15 @@ import java.util.*;
 import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 
 @Slf4j
-public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePlugin<Connection> {
+public class JDBCDataSourcePlugin extends DatasourcePlugin<Connection> {
 
-    private static final List<PropertyDescriptor> supportedProperties;
+    private MeterRegistry meterRegistry;
 
-    static {
+    protected volatile Connection connection;
+
+    public JDBCDataSourcePlugin() {
+        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.JDBC.getValue(), "Generic Jdbc DataSource", "1.0", JDBCDataSourcePlugin.class.getName());
+
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(JDBC_URL);
         props.add(DRIVER_CLASS_NAME);
@@ -51,19 +54,6 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePl
         supportedProperties = Collections.unmodifiableList(props);
     }
 
-    private PluginInfo pluginInfo;
-    private MeterRegistry meterRegistry;
-    protected volatile Properties additionalProperties;
-    protected volatile Connection connection;
-
-    public JDBCDataSourcePlugin() {
-        PluginInfo info = new PluginInfo(DataSourceTypeEnum.JDBC.getValue(), "Generic Jdbc DataSource", "1.0", JDBCDataSourcePlugin.class.getName());
-        this.setPluginInfo(info);
-    }
-
-    public void setPluginInfo(PluginInfo pluginInfo) {
-        this.pluginInfo = pluginInfo;
-    }
 
     @Override
     public void configure(PropertyContext properties) {
@@ -116,22 +106,6 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePl
         return this.connection;
     }
 
-
-    @Override
-    public PluginInfo getPluginInfo() {
-        return pluginInfo;
-    }
-
-    @Override
-    public List<PropertyDescriptor> getSupportedProperties() {
-        return supportedProperties;
-    }
-
-    @Override
-    public void setAdditionalProperties(Properties properties) {
-        this.additionalProperties = properties;
-    }
-
     @Override
     public void setMeterRegistry(MeterRegistry meterRegistry) {
         this.meterRegistry = meterRegistry;
@@ -140,11 +114,6 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePl
     @Override
     public boolean testConnection() {
         return this.connection != null;
-    }
-
-    @Override
-    public Map<String, Object> getProperties() {
-        return properties.toMap();
     }
 
     public String getJdbcUrl() {

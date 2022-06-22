@@ -37,6 +37,7 @@ public enum SeatunnelNativeFlinkPluginEnum {
     FILE_SOURCE("FileSource", "FileSource"),
     FILE_SINK("FileSink", "FileSink"),
     FAKE_SOURCE("FakeSource", "FakeSource"),
+    FAKE_STREAM_SOURCE("FakeSourceStream", "FakeSourceStream"),
     ELASTICSEARCH_SINK("ElasticSearch", "ElasticSearch"),
     DRUID_SOURCE("DruidSource", "DruidSource"),
     DRUID_SINK("DruidSink", "DruidSink"),
