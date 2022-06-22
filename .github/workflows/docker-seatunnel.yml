@@ -58,6 +58,7 @@ jobs:
           docker build \
           --no-cache \
           -f tools/docker/build/seatunnel/Dockerfile \
+          --build-arg SEATUNNEL_VERSION=${{ env.SEATUNNEL_VERSION }} \
           -t ${{ env.HUB }}:${{ env.SEATUNNEL_VERSION }} \
           .
       - name: Push docker images
@@ -66,5 +67,6 @@ jobs:
           --no-cache \
           --push \
           -f tools/docker/build/seatunnel/Dockerfile \
+          --build-arg SEATUNNEL_VERSION=${{ env.SEATUNNEL_VERSION }} \
           -t ${{ env.HUB }}:${{ env.SEATUNNEL_VERSION }} \
           .
