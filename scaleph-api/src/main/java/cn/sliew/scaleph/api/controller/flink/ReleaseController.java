@@ -42,7 +42,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Api(tags = "Flink管理-release管理")
