@@ -87,8 +87,8 @@ public class DeployConfigFileController {
     @Logging
     @DeleteMapping(path = "/batch")
     @ApiOperation(value = "批量删除部署配置", notes = "批量删除部署配置")
-    public ResponseEntity<ResponseVO> deleteDeployConfig(@RequestBody Map<Integer, Long> map) {
-        flinkDeployConfigFileService.deleteBatch(map);
+    public ResponseEntity<ResponseVO> deleteDeployConfig(@RequestBody List<Long> ids) {
+        flinkDeployConfigFileService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 

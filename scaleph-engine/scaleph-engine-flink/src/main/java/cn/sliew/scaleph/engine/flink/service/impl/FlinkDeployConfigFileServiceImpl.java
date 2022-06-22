@@ -111,11 +111,11 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
     }
 
     @Override
-    public int deleteBatch(Map<Integer, ? extends Serializable> map) {
-        for (Serializable id : map.values()) {
+    public int deleteBatch(List<Long> ids) {
+        for (Long id : ids) {
             deleteById(id);
         }
-        return flinkDeployConfigFileMapper.deleteBatchIds(map.values());
+        return ids.size();
     }
 
     @Override
