@@ -16,4 +16,9 @@ export class FlinkReleaseParam extends QueryParam {
   fileName?: string;
 }
 
+export class FlinkReleaseUploadParam {
+  version?: string;
+  remark?: string;
+}
+
 
