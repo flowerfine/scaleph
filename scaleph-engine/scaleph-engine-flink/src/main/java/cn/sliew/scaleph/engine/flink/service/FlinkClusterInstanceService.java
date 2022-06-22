@@ -25,4 +25,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 public interface FlinkClusterInstanceService {
 
     Page<FlinkClusterInstanceDTO> list(FlinkClusterInstanceListParam param);
+
+    int insert(FlinkClusterInstanceDTO dto);
+
+    int update(FlinkClusterInstanceDTO dto);
+
+    FlinkClusterInstanceDTO selectOne(Long id);
 }
