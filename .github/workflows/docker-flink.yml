@@ -69,6 +69,8 @@ jobs:
           docker build \
           --no-cache \
           -f tools/docker/build/flink/Dockerfile \
+          --build-arg FLINK_VERSION=${{ env.FLINK_VERSION }} \
+          --build-arg SCALA_VERSION=${{ env.SCALA_VERSION }} \
           -t ${{ env.HUB }}:${{ env.FLINK_VERSION }}_${{ env.SCALA_VERSION }} \
           .
       - name: Push docker images
@@ -77,5 +79,7 @@ jobs:
           --no-cache \
           --push \
           -f tools/docker/build/flink/Dockerfile \
+          --build-arg FLINK_VERSION=${{ env.FLINK_VERSION }} \
+          --build-arg SCALA_VERSION=${{ env.SCALA_VERSION }} \
           -t ${{ env.HUB }}:${{ env.FLINK_VERSION }}_${{ env.SCALA_VERSION }} \
           .
