@@ -8,7 +8,6 @@ export class FlinkRelease {
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
-  passwdChanged?: boolean;
 }
 
 export class FlinkReleaseParam extends QueryParam {

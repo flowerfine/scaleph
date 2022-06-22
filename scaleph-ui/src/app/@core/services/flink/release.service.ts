@@ -27,6 +27,11 @@ export class ReleaseService {
     return this.http.post<ResponseBody<any>>(`${this.url}/upload`, params);
   }
 
+  delete(row: DiResourceFile): Observable<ResponseBody<any>> {
+    const delUrl = `${this.url}/` + row.id;
+    return this.http.delete<ResponseBody<any>>(delUrl);
+  }
+
   deleteBatch(rows: FlinkRelease[]): Observable<ResponseBody<any>> {
     let params = rows.map((row) => row.id);
     return this.http.delete<ResponseBody<any>>(`${this.url}/batch`, {body: params });
