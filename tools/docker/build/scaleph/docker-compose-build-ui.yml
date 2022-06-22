@@ -34,7 +34,7 @@ services:
     depends_on:
       - scaleph-api
     build:
-      dockerfile: ../../../../scaleph-ui/Dockerfile
+      dockerfile: ../scaleph-ui/Dockerfile
       context: ../../../../scaleph-ui
     environment:
       - SCALEPH_API_URL="scaleph-api:8080"
@@ -55,8 +55,8 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ../mysql/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
-      - ../mysql/init.d:/docker-entrypoint-initdb.d
+      - ../../mysql/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
+      - ../../mysql/init.d:/docker-entrypoint-initdb.d
     networks:
       - scaleph
 
