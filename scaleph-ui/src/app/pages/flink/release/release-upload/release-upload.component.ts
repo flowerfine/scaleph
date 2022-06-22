@@ -1,9 +1,6 @@
-import { Input } from '@angular/core';
-import { ElementRef } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { IFileOptions, IUploadOptions, SingleUploadComponent } from 'ng-devui';
-import { DValidateRules, FormLayout } from 'ng-devui';
+import {Component, ElementRef, Input, OnInit} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
+import {DValidateRules, FormLayout, IFileOptions, IUploadOptions} from 'ng-devui';
 import {ReleaseService} from "../../../../@core/services/flink/release.service";
 import {FlinkReleaseUploadParam} from "../../../../@core/data/flink.data";
 
@@ -17,45 +14,69 @@ export class ReleaseUploadComponent implements OnInit {
   @Input() data: any;
   formLayout = FormLayout.Horizontal;
   formConfig: { [Key: string]: DValidateRules } = {
-    rule: { message: this.translate.instant('app.error.formValidateError'), messageShowType: 'text' },
-    projectCodeRules: {
+    rule: {message: this.translate.instant('app.error.formValidateError'), messageShowType: 'text'},
+    versionRules: {
       validators: [
-        { required: true },
-        { maxlength: 30 },
-        { pattern: /^[a-zA-Z0-9_]+$/, message: this.translate.instant('app.common.validate.characterWord') },
+        {required: true},
+        {maxlength: 30}
       ],
     },
-    projectNameRules: {
-      validators: [{ required: true }, { maxlength: 60 }],
+    fileRules: {
+      validators: [{required: true}],
     },
     remarkRules: {
-      validators: [{ maxlength: 200 }],
+      validators: [{maxlength: 200}],
     },
   };
+  fileOptions: IFileOptions = {
+    multiple: false,
+  };
+  uploadedFiles: Array<Object> = [];
+  uploadOptions: IUploadOptions = {
+    uri: '',
+  };
+  successFlag = false;
+  file = null;
 
   formData = {
     version: null,
+    file: null,
     remark: null,
   };
 
-  constructor(private elr: ElementRef, private translate: TranslateService, private releaseService: ReleaseService) {}
+  constructor(private elr: ElementRef, private translate: TranslateService, private releaseService: ReleaseService) {
+  }
 
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;
   }
 
-  submitForm({ valid }) {
-    let ds: FlinkReleaseUploadParam = {
+  submitForm({valid}) {
+    let uploadParam: FlinkReleaseUploadParam = {
       version: this.formData.version,
+      file: this.file,
       remark: this.formData.remark,
     };
-    if (valid) {
-      this.releaseService.add(ds).subscribe((d) => {
+    if (valid && this.file) {
+      this.releaseService.upload(uploadParam).subscribe((d) => {
         if (d.success) {
           this.data.onClose();
           this.data.refresh();
         }
       });
     }
+  }
+
+  deleteUploadedFile(file) {
+    this.file = null
+  }
+
+  onFileSelect(result) {
+    console.log(result)
+    this.file = result
+  }
+
+  close(event) {
+    this.data.onClose(event);
   }
 }

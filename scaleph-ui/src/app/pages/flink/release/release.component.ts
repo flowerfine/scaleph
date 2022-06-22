@@ -4,10 +4,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DataTableComponent, LoadingService, ModalService } from 'ng-devui';
-import { DEFAULT_PAGE_PARAM, PRIVILEGE_CODE } from 'src/app/@core/data/app.data';
+import {DEFAULT_PAGE_PARAM, PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/app.data';
 import { FlinkRelease, FlinkReleaseParam } from 'src/app/@core/data/flink.data';
 import { AuthService } from 'src/app/@core/services/auth.service';
 import { ReleaseService } from 'src/app/@core/services/flink/release.service';
+import {ProjectNewComponent} from "../../datadev/project/project-new/project-new.component";
+import {ReleaseUploadComponent} from "./release-upload/release-upload.component";
+import {DiResourceFile} from "../../../@core/data/datadev.data";
+import {ResourceDeleteComponent} from "../../datadev/resource/resource-delete/resource-delete.component";
+import {ReleaseDeleteComponent} from "./release-delete/release-delete.component";
 
 @Component({
   selector: 'app-release',
@@ -91,4 +96,58 @@ export class ReleaseComponent implements OnInit {
     this.refreshTable();
   }
 
+  openUploadReleaseDialog() {
+    const results = this.modalService.open({
+      id: 'release-upload',
+      width: '580px',
+      backdropCloseable: true,
+      component: ReleaseUploadComponent,
+      data: {
+        title: { name: this.translate.instant('flink.release.name') },
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
+  }
+
+  openLoadReleaseDialog() {
+    alert("work in progress")
+  }
+
+  openDeleteReleaseDialog(items: FlinkRelease[]) {
+    const results = this.modalService.open({
+      id: 'resource-delete',
+      width: '346px',
+      backdropCloseable: true,
+      component: ReleaseDeleteComponent,
+      data: {
+        title: this.translate.instant('app.common.operate.delete.confirm.title'),
+        items: items,
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
+  }
+
+  downloadRelease(item: FlinkRelease) {
+    let url: string =
+      'api/flink/release/' + item.id +
+      '?' +
+      USER_AUTH.token +
+      '=' +
+      localStorage.getItem(USER_AUTH.token);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = item.fileName;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
 }

@@ -8,7 +8,6 @@ export class FlinkRelease {
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
-  passwdChanged?: boolean;
 }
 
 export class FlinkReleaseParam extends QueryParam {
@@ -18,6 +17,7 @@ export class FlinkReleaseParam extends QueryParam {
 
 export class FlinkReleaseUploadParam {
   version?: string;
+  file?: File;
   remark?: string;
 }
 

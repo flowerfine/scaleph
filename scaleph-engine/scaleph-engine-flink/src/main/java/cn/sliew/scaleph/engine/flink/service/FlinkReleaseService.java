@@ -26,7 +26,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -42,6 +41,8 @@ public interface FlinkReleaseService {
     void upload(FlinkReleaseUploadParam param, MultipartFile file) throws IOException;
 
     String download(Long id, OutputStream outputStream) throws IOException;
+
+    int deleteBatch(List<Long> ids) throws IOException;
 
     void delete(Long id) throws IOException;
 }

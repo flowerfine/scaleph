@@ -32,7 +32,7 @@
     },
     "flink": {
       "title": "Flink集群管理",
-      "release": "发布版本",
+      "release": "发布管理",
       "deploy-config": "部署配置",
       "cluster-config": "集群配置",
       "cluster-instance": "集群实例"
@@ -389,9 +389,13 @@
     "createTime": "创建时间",
     "updateTime": "更新时间",
     "release": {
-      "version": "发布版本",
-      "fileName": "发布包名称",
-      "path": "存储路径"
+      "name": "发布",
+      "version": "版本",
+      "fileName": "名称",
+      "path": "存储路径",
+      "file": "文件",
+      "upload": "上传",
+      "load": "加载"
     }
   },
   "header": {
