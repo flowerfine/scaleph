@@ -114,6 +114,10 @@ export class ReleaseComponent implements OnInit {
     });
   }
 
+  openLoadReleaseDialog() {
+    alert("work in progress")
+  }
+
   openDeleteReleaseDialog(items: FlinkRelease[]) {
     const results = this.modalService.open({
       id: 'resource-delete',
