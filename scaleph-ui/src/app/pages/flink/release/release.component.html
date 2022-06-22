@@ -7,13 +7,13 @@
               <div class="da-header-left">
                 <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
                   <d-col>
-                    <div class="da-header-item-label">{{ 'flink.version' | translate }}:</div>
+                    <div class="da-header-item-label">{{ 'flink.release.version' | translate }}:</div>
                   </d-col>
                   <d-col>
                     <input dTextInput name="version" [(ngModel)]="searchFormConfig.version" (keyup.enter)="refreshTable()" />
                   </d-col>
                   <d-col>
-                    <div class="da-header-item-label">{{ 'flink.fileName' | translate }}:</div>
+                    <div class="da-header-item-label">{{ 'flink.release.fileName' | translate }}:</div>
                   </d-col>
                   <d-col>
                     <input dTextInput name="fileName" [(ngModel)]="searchFormConfig.fileName" (keyup.enter)="refreshTable()" />
@@ -30,7 +30,7 @@
           </div>
         </d-col>
       </d-row>
-  
+
       <d-row [dGutter]="[12, 12]">
         <d-col [dSpan]="24">
           <div class="da-list-container">
@@ -41,13 +41,13 @@
                   <d-button
                     *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
                     bsStyle="primary"
-                    
+
                     >{{ 'app.common.operate.new.label' | translate }}</d-button
                   >
                   <d-button
                     *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                     bsStyle="common"
-                    
+
                     [disabled]="!dataTableChecked"
                     >{{ 'app.common.operate.delete.label' | translate }}</d-button
                   >
@@ -65,34 +65,34 @@
                 [fixHeader]="true"
                 (rowCheckChange)="getDataTableCheckedStatus()"
                 (checkAllChange)="getDataTableCheckedStatus()"
-                
+
               >
-                <d-column field="version" header="{{ 'release.version' | translate }}">
+                <d-column field="version" header="{{ 'flink.release.version' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="fileName" header="{{ 'release.fileName' | translate }}">
+                <d-column field="fileName" header="{{ 'flink.release.fileName' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="path" header="{{ 'release.path' | translate }}">
+                <d-column field="path" header="{{ 'flink.release.path' | translate }}">
                     <d-cell>
                       <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                     </d-cell>
                   </d-column>
-                <d-column field="remark" header="{{ 'release.remark' | translate }}">
+                <d-column field="remark" header="{{ 'flink.remark' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="createTime" header="{{ 'release.createTime' | translate }}">
+                <d-column field="createTime" header="{{ 'flink.createTime' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="updateTime" header="{{ 'release.updateTime' | translate }}">
+                <d-column field="updateTime" header="{{ 'flink.updateTime' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
                   </d-cell>
@@ -101,7 +101,7 @@
                   <d-cell>
                     <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                       <div class="btn-group over-flow-ellipsis">
-                      
+
                       </div>
                     </ng-template>
                   </d-cell>
@@ -134,4 +134,3 @@
       </d-row>
     </div>
   </div>
-  

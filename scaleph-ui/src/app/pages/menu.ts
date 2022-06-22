@@ -35,7 +35,7 @@ export default function (values) {
     {
       title: values['flink']['title'],
       link: '/scaleph/flink',
-      menuIcon: 'icon icon-build-with-tool',
+      menuIcon: 'icon icon-system',
       pCode: PRIVILEGE_CODE.flinkShow,
       children: [
         {
