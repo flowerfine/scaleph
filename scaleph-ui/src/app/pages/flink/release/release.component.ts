@@ -8,6 +8,8 @@ import { DEFAULT_PAGE_PARAM, PRIVILEGE_CODE } from 'src/app/@core/data/app.data'
 import { FlinkRelease, FlinkReleaseParam } from 'src/app/@core/data/flink.data';
 import { AuthService } from 'src/app/@core/services/auth.service';
 import { ReleaseService } from 'src/app/@core/services/flink/release.service';
+import {ProjectNewComponent} from "../../datadev/project/project-new/project-new.component";
+import {ReleaseUploadComponent} from "./release-upload/release-upload.component";
 
 @Component({
   selector: 'app-release',
@@ -91,4 +93,21 @@ export class ReleaseComponent implements OnInit {
     this.refreshTable();
   }
 
+  openUploadReleaseDialog() {
+    const results = this.modalService.open({
+      id: 'release-upload',
+      width: '580px',
+      backdropCloseable: true,
+      component: ReleaseUploadComponent,
+      data: {
+        title: { name: this.translate.instant('flink.release') },
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
+  }
 }

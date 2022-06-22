@@ -41,7 +41,7 @@
                   <d-button
                     *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
                     bsStyle="primary"
-
+                    (btnClick)="openUploadReleaseDialog()"
                     >{{ 'app.common.operate.new.label' | translate }}</d-button
                   >
                   <d-button
