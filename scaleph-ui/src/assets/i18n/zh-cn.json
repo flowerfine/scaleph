@@ -400,7 +400,8 @@
     "deploy-config": {
       "name": "部署配置",
       "configType": "配置类型",
-      "name": "配置名称"
+      "name": "配置名称",
+      "upload": "上传"
     }
   },
   "header": {
