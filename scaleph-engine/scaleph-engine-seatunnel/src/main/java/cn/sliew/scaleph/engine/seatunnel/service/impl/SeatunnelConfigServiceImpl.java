@@ -82,7 +82,6 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         conf.set("source", sourceConf);
         conf.set("transform", transformConf);
         conf.set("sink", sinkConf);
-
         //source and result table name
         graph.edges().forEach(edge -> {
             ObjectNode source = edge.source();
@@ -107,7 +106,6 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
     }
 
     private ObjectNode buildEnv(DiJobDTO job) {
-//        conf.put(JobNameProperties.JOB_NAME.getName(), diJobDTO.getJobCode());
         ObjectNode env = JacksonUtil.createObjectNode();
         env.put(JobNameProperties.JOB_NAME.getName(), job.getJobCode());
         List<DiJobAttrDTO> jobAttrList = job.getJobAttrList();
