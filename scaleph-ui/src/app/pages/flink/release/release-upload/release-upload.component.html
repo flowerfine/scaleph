@@ -17,19 +17,30 @@
   <form dForm ngForm [layout]="formLayout" [dValidateRules]="formConfig.rule" #form="dValidateRules" (dSubmit)="submitForm($event)">
     <div class="modal-body" style="padding: 0px 48px 0px 48px">
       <d-form-item>
-        <d-form-label [required]="true">{{ 'datadev.projectCode' | translate }}</d-form-label>
+        <d-form-label [required]="true">{{ 'flink.release.version' | translate }}</d-form-label>
         <d-form-control>
-          <input dTextInput name="projectCode" [(ngModel)]="formData.projectCode" [dValidateRules]="formConfig.projectCodeRules" />
+          <input dTextInput name="version" [(ngModel)]="formData.version" [dValidateRules]="formConfig.versionRules" />
         </d-form-control>
       </d-form-item>
       <d-form-item>
-        <d-form-label [required]="true">{{ 'datadev.projectName' | translate }}</d-form-label>
+        <d-form-label [required]="true">{{ 'flink.release.file' | translate }}</d-form-label>
         <d-form-control>
-          <input dTextInput name="projectName" [(ngModel)]="formData.projectName" [dValidateRules]="formConfig.projectNameRules" />
+          <d-single-upload
+            #singleupload
+            id="fileInput"
+            [withoutBtn]="true"
+            [fileOptions]="fileOptions"
+            [uploadedFiles]="uploadedFiles"
+            [uploadOptions]="uploadOptions"
+            [filePath]="'file'"
+            (deleteUploadedFileEvent)="deleteUploadedFile($event)"
+            (fileSelect)="onFileSelect($event)"
+          >
+          </d-single-upload>
         </d-form-control>
       </d-form-item>
       <d-form-item>
-        <d-form-label>{{ 'datadev.remark' | translate }}</d-form-label>
+        <d-form-label>{{ 'flink.remark' | translate }}</d-form-label>
         <d-form-control>
           <input dTextInput name="remark" [(ngModel)]="formData.remark" [dValidateRules]="formConfig.remarkRules" />
         </d-form-control>

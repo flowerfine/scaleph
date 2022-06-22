@@ -41,13 +41,19 @@
                   <d-button
                     *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
                     bsStyle="primary"
-
-                    >{{ 'app.common.operate.new.label' | translate }}</d-button
+                    (btnClick)="openUploadReleaseDialog()"
+                    >{{ 'flink.release.upload' | translate }}</d-button
+                  >
+                  <d-button
+                    *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
+                    bsStyle="common"
+                    (btnClick)="openLoadReleaseDialog()"
+                  >{{ 'flink.release.load' | translate }}</d-button
                   >
                   <d-button
                     *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                     bsStyle="common"
-
+                    (btnClick)="openDeleteReleaseDialog(dataTable.getCheckedRows())"
                     [disabled]="!dataTableChecked"
                     >{{ 'app.common.operate.delete.label' | translate }}</d-button
                   >
@@ -101,7 +107,20 @@
                   <d-cell>
                     <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                       <div class="btn-group over-flow-ellipsis">
-
+                        <d-button
+                          *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
+                          icon="icon-download"
+                          bsStyle="text-dark"
+                          (btnClick)="downloadRelease(rowItem)"
+                          title="{{ 'app.common.operate.download.label' | translate }}"
+                        ></d-button>
+                        <d-button
+                          *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
+                          icon="icon-delete"
+                          bsStyle="text-dark"
+                          (btnClick)="openDeleteReleaseDialog([rowItem])"
+                          title="{{ 'app.common.operate.delete.label' | translate }}"
+                        ></d-button>
                       </div>
                     </ng-template>
                   </d-cell>
