@@ -10,6 +10,9 @@ import { AuthService } from 'src/app/@core/services/auth.service';
 import { ReleaseService } from 'src/app/@core/services/flink/release.service';
 import {ProjectNewComponent} from "../../datadev/project/project-new/project-new.component";
 import {ReleaseUploadComponent} from "./release-upload/release-upload.component";
+import {DiResourceFile} from "../../../@core/data/datadev.data";
+import {ResourceDeleteComponent} from "../../datadev/resource/resource-delete/resource-delete.component";
+import {ReleaseDeleteComponent} from "./release-delete/release-delete.component";
 
 @Component({
   selector: 'app-release',
@@ -101,6 +104,25 @@ export class ReleaseComponent implements OnInit {
       component: ReleaseUploadComponent,
       data: {
         title: { name: this.translate.instant('flink.release') },
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
+  }
+
+  openDeleteReleaseDialog(items: FlinkRelease[]) {
+    const results = this.modalService.open({
+      id: 'resource-delete',
+      width: '346px',
+      backdropCloseable: true,
+      component: ReleaseDeleteComponent,
+      data: {
+        title: this.translate.instant('app.common.operate.delete.confirm.title'),
+        items: items,
         onClose: (event: any) => {
           results.modalInstance.hide();
         },

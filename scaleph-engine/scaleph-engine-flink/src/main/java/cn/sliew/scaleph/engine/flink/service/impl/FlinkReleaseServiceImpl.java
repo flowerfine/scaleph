@@ -43,8 +43,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
@@ -89,6 +91,14 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService, Initializin
         final cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease record = flinkReleaseMapper.selectById(id);
         checkState(record != null, () -> "flink release not exists for id: " + id);
         return FlinkReleaseConvert.INSTANCE.toDto(record);
+    }
+
+    @Override
+    public int deleteBatch(List<Long> ids) throws IOException {
+        for (Serializable id : ids) {
+            delete((Long) id);
+        }
+        return ids.size();
     }
 
     @Override
