@@ -35,7 +35,7 @@ import cn.sliew.scaleph.core.di.service.*;
 import cn.sliew.scaleph.core.di.service.dto.*;
 import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.core.scheduler.service.ScheduleService;
-import cn.sliew.scaleph.engine.seatunnel.JobConfigHelper;
+import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.privilege.SecurityContext;
@@ -43,6 +43,7 @@ import cn.sliew.scaleph.storage.service.StorageService;
 import cn.sliew.scaleph.storage.service.impl.NioFileServiceImpl;
 import cn.sliew.scaleph.system.service.SysConfigService;
 import cn.sliew.scaleph.system.service.vo.DictVO;
+import com.google.common.base.Charsets;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.api.common.JobStatus;
@@ -63,7 +64,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -71,9 +71,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-/**
- * todo shield quartz detail.
- */
 @Slf4j
 @Service
 public class SeatunnelJobServiceImpl implements SeatunnelJobService {
@@ -103,7 +100,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     private ScheduleService scheduleService;
 
     @Autowired
-    private JobConfigHelper jobConfigHelper;
+    private SeatunnelConfigService seatunnelConfigService;
 
     @Value("${app.engine.flink.state.savepoints.dir}")
     private String savePointDir;
@@ -256,9 +253,9 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
 
     @Override
     public Path buildConfFile(DiJobDTO diJobDTO, Path projectPath) throws IOException {
-        String jobJson = jobConfigHelper.buildJob(diJobDTO);
+        String jobJson = seatunnelConfigService.buildConfig(diJobDTO);
         final Path tempFile = Files.createTempFile(projectPath, diJobDTO.getJobCode(), ".json");
-        Files.write(tempFile, jobJson.getBytes(Charset.forName("utf-8")), StandardOpenOption.WRITE);
+        Files.write(tempFile, jobJson.getBytes(Charsets.UTF_8), StandardOpenOption.WRITE);
         return tempFile;
     }
 

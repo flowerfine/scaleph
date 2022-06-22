@@ -3,6 +3,7 @@ package cn.sliew.scaleph.plugin.datasource.mysql;
 import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
 import cn.sliew.scaleph.plugin.datasource.jdbc.JDBCDataSourcePlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
+import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 
 import java.util.ArrayList;
@@ -22,12 +23,21 @@ public class MysqlDataSourcePlugin extends JDBCDataSourcePlugin {
         props.add(DATABASE_NAME);
         props.add(USERNAME);
         props.add(PASSWORD);
+        props.add(JDBC_URL);
+        props.add(DRIVER_CLASS_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
     public MysqlDataSourcePlugin() {
         PluginInfo info = new PluginInfo(DataSourceTypeEnum.MYSQL.getValue(), "Mysql Jdbc Datasource", "8.0.25", MysqlDataSourcePlugin.class.getName());
         this.setPluginInfo(info);
+    }
+
+    @Override
+    public void configure(PropertyContext props) {
+        super.configure(props);
+        properties.set(JDBC_URL, getJdbcUrl());
+        properties.set(DRIVER_CLASS_NAME, getDriverClassNmae());
     }
 
     @Override

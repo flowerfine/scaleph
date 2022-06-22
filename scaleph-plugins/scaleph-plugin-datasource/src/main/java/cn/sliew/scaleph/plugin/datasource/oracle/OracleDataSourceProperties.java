@@ -28,6 +28,7 @@ public enum OracleDataSourceProperties {
             .description("database connection url")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> DRIVER_CLASS_NAME = new PropertyDescriptor.Builder()
@@ -36,7 +37,6 @@ public enum OracleDataSourceProperties {
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .properties(Property.Required)
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder()

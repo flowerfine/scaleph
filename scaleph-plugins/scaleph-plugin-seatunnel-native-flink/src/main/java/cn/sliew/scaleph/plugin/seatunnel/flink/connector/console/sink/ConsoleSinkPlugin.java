@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.console.sink;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -31,18 +31,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.sink.KafkaSinkProperties.*;
+import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.CONSOLE_SINK;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.console.sink.ConsoleSinkProperties.LIMIT;
 
-public class KafkaSinkConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
+public class ConsoleSinkPlugin extends AbstractPlugin implements SeatunnelNativeFlinkPlugin {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
     static {
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(TOPIC);
-        props.add(PRODUCER_BOOTSTRAP_SERVERS);
-        props.add(PRODUCER_XXX);
-        props.add(SEMANTIC);
+        props.add(LIMIT);
 
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
@@ -50,8 +48,8 @@ public class KafkaSinkConnector extends AbstractPlugin implements SeatunnelNativ
 
     private final PluginInfo pluginInfo;
 
-    public KafkaSinkConnector() {
-        this.pluginInfo = new PluginInfo("Kafka", "kafka sink connector", "2.1.1", KafkaSinkConnector.class.getName());
+    public ConsoleSinkPlugin() {
+        this.pluginInfo = new PluginInfo(CONSOLE_SINK.getValue(), "console sink connector", "2.1.1", ConsoleSinkPlugin.class.getName());
     }
 
     @Override

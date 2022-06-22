@@ -23,7 +23,7 @@ import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -31,9 +31,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.FILE_SINK;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.file.sink.FileSinkProperties.*;
 
-public class FileSinkConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
+public class FileSinkPlugin extends AbstractPlugin implements SeatunnelNativeFlinkPlugin {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
@@ -55,8 +56,8 @@ public class FileSinkConnector extends AbstractPlugin implements SeatunnelNative
 
     private final PluginInfo pluginInfo;
 
-    public FileSinkConnector() {
-        this.pluginInfo = new PluginInfo("FileSink", "file sink connector", "2.1.1", FileSinkConnector.class.getName());
+    public FileSinkPlugin() {
+        this.pluginInfo = new PluginInfo(FILE_SINK.getValue(), "file sink connector", "2.1.1", FileSinkPlugin.class.getName());
     }
 
 

@@ -43,6 +43,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.JDBC_SINK;
+import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.JDBC_SOURCE;
+
 /**
  * seatunnel job config helper
  *
@@ -50,14 +53,15 @@ import java.util.*;
  */
 @Slf4j
 @Component
+@Deprecated
 public class JobConfigHelper {
 
     private static final Map<String, String> JOB_STEP_MAP = new HashMap<>();
 
     static {
         //init job step map
-        JOB_STEP_MAP.put("sink-table", "JdbcSink");
-        JOB_STEP_MAP.put("source-table", "JdbcSource");
+        JOB_STEP_MAP.put("sink-table", JDBC_SINK.getValue());
+        JOB_STEP_MAP.put("source-table", JDBC_SOURCE.getValue());
     }
 
     @Autowired

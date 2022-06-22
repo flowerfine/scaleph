@@ -27,7 +27,7 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.common.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SeatunnelNativeFlinkConnectorManager {
+public class SeatunnelNativeFlinkPluginManager {
 
     private static List<PropertyDescriptor> envProperties;
 
@@ -42,7 +42,7 @@ public class SeatunnelNativeFlinkConnectorManager {
         envProperties = Collections.unmodifiableList(supportedProperties);
     }
 
-    private PluginSPILoader<SeatunnelNativeFlinkConnector> pluginPluginSPILoader = new PluginSPILoader<>(SeatunnelNativeFlinkConnector.class, SeatunnelNativeFlinkConnector.class.getClassLoader());
+    private PluginSPILoader<SeatunnelNativeFlinkPlugin> pluginPluginSPILoader = new PluginSPILoader<>(SeatunnelNativeFlinkPlugin.class, SeatunnelNativeFlinkPlugin.class.getClassLoader());
 
     public List<PropertyDescriptor> getSupportedEnvProperties() {
         return envProperties;
@@ -51,17 +51,17 @@ public class SeatunnelNativeFlinkConnectorManager {
     public Set<PluginInfo> getAvailableConnectors(JobStepTypeEnum stepTypeEnum) {
         return pluginPluginSPILoader.getServices().values().stream()
                 .filter(connector -> connector.getStepType().equals(stepTypeEnum))
-                .map(SeatunnelNativeFlinkConnector::getPluginInfo)
+                .map(SeatunnelNativeFlinkPlugin::getPluginInfo)
                 .collect(Collectors.toSet());
     }
 
-    public SeatunnelNativeFlinkConnector getConnector(String name) {
+    public SeatunnelNativeFlinkPlugin getConnector(String name) {
         PluginInfo pluginInfo = new PluginInfo(name, null, null, null);
-        final Optional<SeatunnelNativeFlinkConnector> optional = pluginPluginSPILoader.getPlugin(pluginInfo);
+        final Optional<SeatunnelNativeFlinkPlugin> optional = pluginPluginSPILoader.getPlugin(pluginInfo);
         return optional.orElseThrow(() -> new IllegalStateException("unknown plugin info for " + pluginInfo));
     }
 
-    public SeatunnelNativeFlinkConnector newConnector(String name, Properties props) {
+    public SeatunnelNativeFlinkPlugin newConnector(String name, Properties props) {
         return pluginPluginSPILoader.newInstance(name, props);
     }
 }

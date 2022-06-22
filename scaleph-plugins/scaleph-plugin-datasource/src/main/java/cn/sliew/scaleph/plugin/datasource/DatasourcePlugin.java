@@ -36,4 +36,6 @@ public interface DatasourcePlugin<T> extends Plugin {
     void setMeterRegistry(MeterRegistry meterRegistry);
 
     boolean testConnection();
+
+    Map<String, Object> getProperties();
 }

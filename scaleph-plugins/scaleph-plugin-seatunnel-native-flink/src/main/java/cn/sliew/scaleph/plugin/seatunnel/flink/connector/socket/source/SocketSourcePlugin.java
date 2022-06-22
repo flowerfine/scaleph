@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.socket.source;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -31,20 +31,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.source.DruidSourceProperties.*;
+import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.SOCKET_SOURCE;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.socket.source.SocketSourceProperties.HOST;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.socket.source.SocketSourceProperties.PORT;
 
-public class DruidSourceConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
+public class SocketSourcePlugin extends AbstractPlugin implements SeatunnelNativeFlinkPlugin {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
     static {
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(JDBC_URL);
-        props.add(DATASOURCE);
-        props.add(START_DATE);
-        props.add(END_DATE);
-        props.add(COLUMNS);
-        props.add(PARALLELISM);
+        props.add(HOST);
+        props.add(PORT);
 
         props.add(CommonProperties.RESULT_TABLE_NAME);
         props.add(CommonProperties.FIELD_NAME);
@@ -53,8 +51,8 @@ public class DruidSourceConnector extends AbstractPlugin implements SeatunnelNat
 
     private final PluginInfo pluginInfo;
 
-    public DruidSourceConnector() {
-        this.pluginInfo = new PluginInfo("DruidSource", "druid source connector", "2.1.1", DruidSourceConnector.class.getName());
+    public SocketSourcePlugin() {
+        this.pluginInfo = new PluginInfo(SOCKET_SOURCE.getValue(), "socket source connector", "2.1.1", SocketSourcePlugin.class.getName());
     }
 
     @Override
@@ -82,5 +80,4 @@ public class DruidSourceConnector extends AbstractPlugin implements SeatunnelNat
     public List<PropertyDescriptor> getSupportedProperties() {
         return supportedProperties;
     }
-
 }

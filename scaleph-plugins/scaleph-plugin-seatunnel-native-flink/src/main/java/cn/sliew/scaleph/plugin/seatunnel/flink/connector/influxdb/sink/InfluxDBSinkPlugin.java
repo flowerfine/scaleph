@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.sink;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -31,34 +31,34 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.source.KafkaSourceProperties.*;
+import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.INFLUXDB_SINK;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.InfluxDBProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.sink.InfluxDBSinkProperties.*;
 
-public class KafkaSourceConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
+public class InfluxDBSinkPlugin extends AbstractPlugin implements SeatunnelNativeFlinkPlugin {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
     static {
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(TOPICS);
-        props.add(CONSUMER_GROUP_ID);
-        props.add(CONSUMER_BOOTSTRAP_SERVERS);
-        props.add(FORMAT_TYPE);
-        props.add(FORMAT_XXX);
-        props.add(SCHEMA);
-        props.add(ROWTIME_FIELD);
-        props.add(WATERMARK);
-        props.add(OFFSET_RESET);
-        props.add(CONSUMER_XXX);
+        props.add(SERVER_URL);
+        props.add(USERNAME);
+        props.add(PASSWORD);
+        props.add(DATABASE);
 
-        props.add(CommonProperties.RESULT_TABLE_NAME);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(MEASUREMENT);
+        props.add(TAGS);
+        props.add(FIELDS);
+        props.add(PARALLELISM);
+
+        props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
     private final PluginInfo pluginInfo;
 
-    public KafkaSourceConnector() {
-        this.pluginInfo = new PluginInfo("KafkaTableStream", "kafka source connector", "2.1.1", KafkaSourceConnector.class.getName());
+    public InfluxDBSinkPlugin() {
+        this.pluginInfo = new PluginInfo(INFLUXDB_SINK.getValue(), "influxdb sink connector", "2.1.1", InfluxDBSinkPlugin.class.getName());
     }
 
     @Override
@@ -79,7 +79,7 @@ public class KafkaSourceConnector extends AbstractPlugin implements SeatunnelNat
 
     @Override
     public JobStepTypeEnum getStepType() {
-        return JobStepTypeEnum.SOURCE;
+        return JobStepTypeEnum.SINK;
     }
 
     @Override

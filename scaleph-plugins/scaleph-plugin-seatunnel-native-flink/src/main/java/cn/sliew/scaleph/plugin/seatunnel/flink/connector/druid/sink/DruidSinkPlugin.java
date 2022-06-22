@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.elasticsearch.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.sink;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -31,18 +31,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.elasticsearch.sink.ElasticsearchSinkProperties.*;
+import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.DRUID_SINK;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.sink.DruidSinkProperties.*;
 
-public class ElasticsearchSinkConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
+public class DruidSinkPlugin extends AbstractPlugin implements SeatunnelNativeFlinkPlugin {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
     static {
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(HOSTS);
-        props.add(INDEX_TYPE);
-        props.add(INDEX);
-        props.add(INDEX_TIME_FORMAT);
+        props.add(COORDINATOR_URL);
+        props.add(DATASOURCE);
+        props.add(TIMESTAMP_COLUMN);
+        props.add(TIMESTAMP_FORMAT);
+        props.add(TIMESTAMP_MISSING_VALUE);
         props.add(PARALLELISM);
 
         props.add(CommonProperties.SOURCE_TABLE_NAME);
@@ -51,8 +53,8 @@ public class ElasticsearchSinkConnector extends AbstractPlugin implements Seatun
 
     private final PluginInfo pluginInfo;
 
-    public ElasticsearchSinkConnector() {
-        this.pluginInfo = new PluginInfo("ElasticSearch", "elasticsearch sink connector", "2.1.1", ElasticsearchSinkConnector.class.getName());
+    public DruidSinkPlugin() {
+        this.pluginInfo = new PluginInfo(DRUID_SINK.getValue(), "druid sink connector", "2.1.1", DruidSinkPlugin.class.getName());
     }
 
     @Override

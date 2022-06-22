@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.fake.source;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -31,33 +31,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.InfluxDBProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.sink.InfluxDBSinkProperties.*;
+import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.FAKE_SOURCE;
 
-public class InfluxDBSinkConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
+public class FakeSourcePlugin extends AbstractPlugin implements SeatunnelNativeFlinkPlugin {
 
     private static final List<PropertyDescriptor> supportedProperties;
 
     static {
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(SERVER_URL);
-        props.add(USERNAME);
-        props.add(PASSWORD);
-        props.add(DATABASE);
-
-        props.add(MEASUREMENT);
-        props.add(TAGS);
-        props.add(FIELDS);
-        props.add(PARALLELISM);
-
-        props.add(CommonProperties.SOURCE_TABLE_NAME);
+        props.add(CommonProperties.RESULT_TABLE_NAME);
+        props.add(CommonProperties.FIELD_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
     private final PluginInfo pluginInfo;
 
-    public InfluxDBSinkConnector() {
-        this.pluginInfo = new PluginInfo("InfluxDbSink", "influxdb sink connector", "2.1.1", InfluxDBSinkConnector.class.getName());
+    public FakeSourcePlugin() {
+        this.pluginInfo = new PluginInfo(FAKE_SOURCE.getValue(), "fake source connector", "2.1.1", FakeSourcePlugin.class.getName());
     }
 
     @Override
@@ -78,7 +68,7 @@ public class InfluxDBSinkConnector extends AbstractPlugin implements SeatunnelNa
 
     @Override
     public JobStepTypeEnum getStepType() {
-        return JobStepTypeEnum.SINK;
+        return JobStepTypeEnum.SOURCE;
     }
 
     @Override

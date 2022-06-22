@@ -72,4 +72,9 @@ public class KafkaDataSourcePlugin extends AbstractPlugin implements DatasourceP
         //todo implement
         return false;
     }
+
+    @Override
+    public Map<String, Object> getProperties() {
+        return properties.toMap();
+    }
 }

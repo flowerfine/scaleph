@@ -142,6 +142,11 @@ public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePl
         return this.connection != null;
     }
 
+    @Override
+    public Map<String, Object> getProperties() {
+        return properties.toMap();
+    }
+
     public String getJdbcUrl() {
         return properties.get(JDBC_URL);
     }
