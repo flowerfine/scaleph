@@ -7,6 +7,7 @@ import { FlinkRoutingModule } from './flink.routing.module';
 import { ReleaseComponent } from './release/release.component';
 import {ReleaseUploadComponent} from "./release/release-upload/release-upload.component";
 import {ReleaseDeleteComponent} from "./release/release-delete/release-delete.component";
+import {DeployConfigComponent} from "./deploy-config/deploy-config.component";
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import {ReleaseDeleteComponent} from "./release/release-delete/release-delete.co
     ReleaseComponent,
     ReleaseUploadComponent,
     ReleaseDeleteComponent,
+    DeployConfigComponent,
   ],
   imports: [SharedModule, FlinkRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })
