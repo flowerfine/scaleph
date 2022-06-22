@@ -29,6 +29,13 @@
       "title": "运维中心",
       "batch": "周期任务",
       "realtime": "实时任务"
+    },
+    "flink": {
+      "title": "Flink集群管理",
+      "release": "发布版本",
+      "deploy-config": "部署配置",
+      "cluster-config": "集群配置",
+      "cluster-instance": "集群实例"
     }
   },
   "app": {
@@ -375,6 +382,16 @@
       "startTime": "开始时间",
       "endTime": "结束时间",
       "jobInstanceState": "任务实例状态"
+    }
+  },
+  "flink": {
+    "remark": "备注",
+    "createTime": "创建时间",
+    "updateTime": "更新时间",
+    "release": {
+      "version": "发布版本",
+      "fileName": "发布包名称",
+      "path": "存储路径"
     }
   },
   "header": {
