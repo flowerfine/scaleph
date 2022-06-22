@@ -43,7 +43,7 @@ public interface FlinkDeployConfigFileService {
 
     int deleteById(Serializable id);
 
-    int deleteBatch(Map<Integer, ? extends Serializable> map);
+    int deleteBatch(List<Long> ids);
 
     List<FileStatusVO> listDeployConfigFile(Long id) throws IOException;
 
