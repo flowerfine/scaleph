@@ -2,7 +2,12 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {PageResponse, ResponseBody} from '../../data/app.data';
-import {FlinkDeployConfig, FlinkRelease, FlinkReleaseUploadParam} from '../../data/flink.data';
+import {
+  FlinkDeployConfig,
+  FlinkDeployConfigUploadParam,
+  FlinkRelease,
+  FlinkReleaseUploadParam
+} from '../../data/flink.data';
 import {DiResourceFile} from "../../data/datadev.data";
 
 @Injectable({
@@ -19,10 +24,13 @@ export class DeployConfigService {
     return this.http.get<PageResponse<FlinkDeployConfig>>(`${this.url}`, {params});
   }
 
-  upload(uploadParam: FlinkReleaseUploadParam): Observable<ResponseBody<any>> {
+  upload(uploadParam: FlinkDeployConfigUploadParam): Observable<ResponseBody<any>> {
     const params: FormData = new FormData();
-    params.append("version", uploadParam.version)
-    params.append("file", uploadParam.file)
+    params.append("configType", uploadParam.configType)
+    params.append("name", uploadParam.name)
+    uploadParam.files.forEach(function (file) {
+      params.append("files", file)
+    })
     params.append("remark", uploadParam.remark)
     return this.http.post<ResponseBody<any>>(`${this.url}/upload`, params);
   }

@@ -7,6 +7,7 @@ import {DEFAULT_PAGE_PARAM, PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/
 import {FlinkDeployConfigParam, FlinkRelease} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
+import {DeployConfigUploadComponent} from "./deploy-config-upload/deploy-config-upload.component";
 
 @Component({
   selector: 'app-release',
@@ -91,24 +92,24 @@ export class DeployConfigComponent implements OnInit {
     };
     this.refreshTable();
   }
-  //
-  // openUploadReleaseDialog() {
-  //   const results = this.modalService.open({
-  //     id: 'release-upload',
-  //     width: '580px',
-  //     backdropCloseable: true,
-  //     component: ReleaseUploadComponent,
-  //     data: {
-  //       title: {name: this.translate.instant('flink.release.name')},
-  //       onClose: (event: any) => {
-  //         results.modalInstance.hide();
-  //       },
-  //       refresh: () => {
-  //         this.refreshTable();
-  //       },
-  //     },
-  //   });
-  // }
+
+  openUploadDeployConfigDialog() {
+    const results = this.modalService.open({
+      id: 'release-upload',
+      width: '580px',
+      backdropCloseable: true,
+      component: DeployConfigUploadComponent,
+      data: {
+        title: {name: this.translate.instant('flink.deploy-config.name_')},
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
+  }
 
   openLoadReleaseDialog() {
     alert("work in progress")
