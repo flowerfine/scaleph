@@ -28,7 +28,10 @@ export class ReleaseComponent implements OnInit {
     pageSize: DEFAULT_PAGE_PARAM.pageSize,
     pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
   };
+
   searchFormConfig = {version: '', fileName: ''};
+
+  options = []
 
   constructor(
     public authService: AuthService,
@@ -43,6 +46,9 @@ export class ReleaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshTable();
+    this.releaseService.versions().subscribe((d) => {
+      this.options = d;
+    });
   }
 
   refreshTable() {
@@ -50,7 +56,7 @@ export class ReleaseComponent implements OnInit {
     let param: FlinkReleaseParam = {
       pageSize: this.pager.pageSize,
       current: this.pager.pageIndex,
-      version: this.searchFormConfig.version,
+      version: this.searchFormConfig.version || '',
       fileName: this.searchFormConfig.fileName,
     };
 
