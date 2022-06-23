@@ -10,6 +10,9 @@ import {DeployConfigService} from "../../../@core/services/flink/deploy-config.s
 import {DeployConfigUploadComponent} from "./deploy-config-upload/deploy-config-upload.component";
 import {DeployConfigNewComponent} from "./deploy-config-new/deploy-config-new.component";
 import {DeployConfigDeleteComponent} from "./deploy-config-delete/deploy-config-delete.component";
+import {DiProject} from "../../../@core/data/datadev.data";
+import {ProjectUpdateComponent} from "../../datadev/project/project-update/project-update.component";
+import {DeployConfigUpdateComponent} from "./deploy-config-update/deploy-config-update.component";
 
 @Component({
   selector: 'app-release',
@@ -97,7 +100,7 @@ export class DeployConfigComponent implements OnInit {
 
   openAddDeployConfigDialog() {
     const results = this.modalService.open({
-      id: 'release-upload',
+      id: 'deploy-config-add',
       width: '580px',
       backdropCloseable: true,
       component: DeployConfigNewComponent,
@@ -113,13 +116,28 @@ export class DeployConfigComponent implements OnInit {
     });
   }
 
-  openLoadReleaseDialog() {
-    alert("work in progress")
+  openEditDeployConfigDialog(item: DiProject) {
+    const results = this.modalService.open({
+      id: 'deploy-config-edit',
+      width: '580px',
+      backdropCloseable: true,
+      component: DeployConfigUpdateComponent,
+      data: {
+        title: {name: this.translate.instant('flink.deploy-config.name_')},
+        item: item,
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
   }
 
   openDeleteDeployConfigDialog(items: FlinkRelease[]) {
     const results = this.modalService.open({
-      id: 'resource-delete',
+      id: 'deploy-config-delete',
       width: '346px',
       backdropCloseable: true,
       component: DeployConfigDeleteComponent,

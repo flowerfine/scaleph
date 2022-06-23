@@ -113,7 +113,7 @@
                           *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
                           icon="icon-edit"
                           bsStyle="text-dark"
-
+                          (btnClick)="openEditDeployConfigDialog(rowItem)"
                           title="{{ 'app.common.operate.edit.label' | translate }}"
                         ></d-button>
                         <d-button
