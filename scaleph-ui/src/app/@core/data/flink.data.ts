@@ -21,4 +21,25 @@ export class FlinkReleaseUploadParam {
   remark?: string;
 }
 
+export class FlinkDeployConfig {
+  id?: number;
+  configType?: Dict;
+  name?: string;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+}
+
+export class FlinkDeployConfigParam extends QueryParam {
+  configType?: string;
+  name?: string;
+}
+
+export class FlinkDeployConfigUploadParam {
+  configType?: string;
+  name?: string;
+  files?: File[];
+  remark?: string;
+}
+
 
