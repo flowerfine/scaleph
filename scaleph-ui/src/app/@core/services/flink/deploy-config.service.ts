@@ -29,6 +29,10 @@ export class DeployConfigService {
     return this.http.put<ResponseBody<any>>(this.url, row);
   }
 
+  update(row: FlinkDeployConfig): Observable<ResponseBody<any>> {
+    return this.http.post<ResponseBody<any>>(this.url, row);
+  }
+
   deleteBatch(rows: FlinkDeployConfig[]): Observable<ResponseBody<any>> {
     let params = rows.map((row) => row.id);
     return this.http.delete<ResponseBody<any>>(`${this.url}/batch`, {body: params});
