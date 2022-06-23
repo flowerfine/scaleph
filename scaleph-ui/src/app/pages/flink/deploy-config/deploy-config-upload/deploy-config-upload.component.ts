@@ -1,15 +1,15 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {DValidateRules, FormLayout, IFileOptions, IUploadOptions} from 'ng-devui';
-import {ReleaseService} from "../../../../@core/services/flink/release.service";
-import {FlinkReleaseUploadParam} from "../../../../@core/data/flink.data";
+import {FlinkDeployConfigUploadParam} from "../../../../@core/data/flink.data";
+import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
 
 @Component({
   selector: 'app-project-new',
-  templateUrl: './release-upload.component.html',
-  styleUrls: ['../release.component.scss'],
+  templateUrl: './deploy-config-upload.component.html',
+  styleUrls: ['../deploy-config.component.scss'],
 })
-export class ReleaseUploadComponent implements OnInit {
+export class DeployConfigUploadComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
   formLayout = FormLayout.Horizontal;
@@ -29,22 +29,21 @@ export class ReleaseUploadComponent implements OnInit {
     },
   };
   fileOptions: IFileOptions = {
-    multiple: false,
+    multiple: true,
   };
   uploadedFiles: Array<Object> = [];
   uploadOptions: IUploadOptions = {
     uri: '',
   };
-  successFlag = false;
-  file = null;
+  files = null;
 
   formData = {
-    version: null,
-    file: null,
+    configType: null,
+    name: null,
     remark: null,
   };
 
-  constructor(private elr: ElementRef, private translate: TranslateService, private releaseService: ReleaseService) {
+  constructor(private elr: ElementRef, private translate: TranslateService, private deployConfigService: DeployConfigService) {
   }
 
   ngOnInit(): void {
@@ -52,13 +51,14 @@ export class ReleaseUploadComponent implements OnInit {
   }
 
   submitForm({valid}) {
-    let uploadParam: FlinkReleaseUploadParam = {
-      version: this.formData.version,
-      file: this.file,
+    let uploadParam: FlinkDeployConfigUploadParam = {
+      configType: this.formData.configType,
+      files: this.files,
+      name: this.formData.name,
       remark: this.formData.remark,
     };
-    if (valid && this.file) {
-      this.releaseService.upload(uploadParam).subscribe((d) => {
+    if (valid && this.files) {
+      this.deployConfigService.upload(uploadParam).subscribe((d) => {
         if (d.success) {
           this.data.onClose();
           this.data.refresh();
@@ -67,12 +67,13 @@ export class ReleaseUploadComponent implements OnInit {
     }
   }
 
-  deleteUploadedFile(file) {
-    this.file = null
+  deleteUploadedFile(files) {
+    this.files = null
   }
 
   onFileSelect(result) {
-    this.file = result
+    console.log(result)
+    this.files = result
   }
 
   close(event) {

@@ -4,18 +4,22 @@ import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
 import {DEFAULT_PAGE_PARAM, PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/app.data';
-import {FlinkRelease, FlinkReleaseParam} from 'src/app/@core/data/flink.data';
+import {FlinkDeployConfigParam, FlinkRelease} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
-import {ReleaseService} from 'src/app/@core/services/flink/release.service';
-import {ReleaseUploadComponent} from "./release-upload/release-upload.component";
-import {ReleaseDeleteComponent} from "./release-delete/release-delete.component";
+import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
+import {DeployConfigUploadComponent} from "./deploy-config-upload/deploy-config-upload.component";
+import {DeployConfigNewComponent} from "./deploy-config-new/deploy-config-new.component";
+import {DeployConfigDeleteComponent} from "./deploy-config-delete/deploy-config-delete.component";
+import {DiProject} from "../../../@core/data/datadev.data";
+import {ProjectUpdateComponent} from "../../datadev/project/project-update/project-update.component";
+import {DeployConfigUpdateComponent} from "./deploy-config-update/deploy-config-update.component";
 
 @Component({
   selector: 'app-release',
-  templateUrl: './release.component.html',
-  styleUrls: ['./release.component.scss'],
+  templateUrl: './deploy-config.component.html',
+  styleUrls: ['./deploy-config.component.scss'],
 })
-export class ReleaseComponent implements OnInit {
+export class DeployConfigComponent implements OnInit {
   PRIVILEGE_CODE = PRIVILEGE_CODE;
   @ViewChild('dataTable', {static: true}) dataTable: DataTableComponent;
   dataLoading: boolean = false;
@@ -28,7 +32,7 @@ export class ReleaseComponent implements OnInit {
     pageSize: DEFAULT_PAGE_PARAM.pageSize,
     pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
   };
-  searchFormConfig = {version: '', fileName: ''};
+  searchFormConfig = {configType: '', name: ''};
 
   constructor(
     public authService: AuthService,
@@ -36,7 +40,7 @@ export class ReleaseComponent implements OnInit {
     private loadingService: LoadingService,
     private translate: TranslateService,
     private modalService: ModalService,
-    private releaseService: ReleaseService,
+    private deployConfigService: DeployConfigService,
     private router: Router
   ) {
   }
@@ -47,14 +51,14 @@ export class ReleaseComponent implements OnInit {
 
   refreshTable() {
     this.openDataTableLoading();
-    let param: FlinkReleaseParam = {
+    let param: FlinkDeployConfigParam = {
       pageSize: this.pager.pageSize,
       current: this.pager.pageIndex,
-      version: this.searchFormConfig.version,
-      fileName: this.searchFormConfig.fileName,
+      configType: this.searchFormConfig.configType,
+      name: this.searchFormConfig.name,
     };
 
-    this.releaseService.list(param).subscribe((d) => {
+    this.deployConfigService.list(param).subscribe((d) => {
       this.pager.total = d.total;
       this.dataTableDs = d.records;
       this.loadTarget.loadingInstance.close();
@@ -84,7 +88,7 @@ export class ReleaseComponent implements OnInit {
   }
 
   reset() {
-    this.searchFormConfig = {version: '', fileName: ''};
+    this.searchFormConfig = {configType: '', name: ''};
     this.pager = {
       total: 0,
       pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -94,14 +98,14 @@ export class ReleaseComponent implements OnInit {
     this.refreshTable();
   }
 
-  openUploadReleaseDialog() {
+  openAddDeployConfigDialog() {
     const results = this.modalService.open({
-      id: 'release-upload',
+      id: 'deploy-config-add',
       width: '580px',
       backdropCloseable: true,
-      component: ReleaseUploadComponent,
+      component: DeployConfigNewComponent,
       data: {
-        title: {name: this.translate.instant('flink.release.name')},
+        title: {name: this.translate.instant('flink.deploy-config.name_')},
         onClose: (event: any) => {
           results.modalInstance.hide();
         },
@@ -112,16 +116,31 @@ export class ReleaseComponent implements OnInit {
     });
   }
 
-  openLoadReleaseDialog() {
-    alert("work in progress")
+  openEditDeployConfigDialog(item: DiProject) {
+    const results = this.modalService.open({
+      id: 'deploy-config-edit',
+      width: '580px',
+      backdropCloseable: true,
+      component: DeployConfigUpdateComponent,
+      data: {
+        title: {name: this.translate.instant('flink.deploy-config.name_')},
+        item: item,
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
   }
 
-  openDeleteReleaseDialog(items: FlinkRelease[]) {
+  openDeleteDeployConfigDialog(items: FlinkRelease[]) {
     const results = this.modalService.open({
-      id: 'resource-delete',
+      id: 'deploy-config-delete',
       width: '346px',
       backdropCloseable: true,
-      component: ReleaseDeleteComponent,
+      component: DeployConfigDeleteComponent,
       data: {
         title: this.translate.instant('app.common.operate.delete.confirm.title'),
         items: items,
