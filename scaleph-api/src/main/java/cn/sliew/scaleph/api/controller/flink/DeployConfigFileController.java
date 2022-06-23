@@ -23,7 +23,6 @@ import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.engine.flink.service.FlinkDeployConfigFileService;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkDeployConfigFileDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileListParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileUpdateParam;
 import cn.sliew.scaleph.engine.flink.service.vo.FileStatusVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -41,7 +40,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Api(tags = "Flink管理-部署配置文件管理")
@@ -71,7 +69,7 @@ public class DeployConfigFileController {
     @Logging
     @PostMapping
     @ApiOperation(value = "修改部署配置", notes = "修改部署配置")
-    public ResponseEntity<ResponseVO> updateDeployConfig(@Valid FlinkDeployConfigFileUpdateParam param) {
+    public ResponseEntity<ResponseVO> updateDeployConfig(@Valid @RequestBody FlinkDeployConfigFileDTO param) {
         flinkDeployConfigFileService.update(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }

@@ -26,7 +26,6 @@ import cn.sliew.scaleph.engine.flink.service.convert.FileStatusVOConvert;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkDeployConfigFileConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkDeployConfigFileDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileListParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileUpdateParam;
 import cn.sliew.scaleph.engine.flink.service.vo.FileStatusVO;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -44,7 +43,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import static cn.sliew.scaleph.common.exception.Rethrower.checkArgument;
 
@@ -88,10 +86,8 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
     }
 
     @Override
-    public int update(FlinkDeployConfigFileUpdateParam param) {
-        final FlinkDeployConfigFile record = new FlinkDeployConfigFile();
-        record.setId(param.getId());
-        record.setRemark(param.getRemark());
+    public int update(FlinkDeployConfigFileDTO dto) {
+        final FlinkDeployConfigFile record = FlinkDeployConfigFileConvert.INSTANCE.toDo(dto);
         return flinkDeployConfigFileMapper.updateById(record);
     }
 
