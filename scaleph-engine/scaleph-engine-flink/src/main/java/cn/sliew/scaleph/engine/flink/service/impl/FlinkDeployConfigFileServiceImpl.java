@@ -60,7 +60,7 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
         final Page<FlinkDeployConfigFile> page = flinkDeployConfigFileMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(FlinkDeployConfigFile.class)
-                        .eq(param.getConfigType() != null, FlinkDeployConfigFile::getConfigType, param.getConfigType())
+                        .eq(StringUtils.hasText(param.getConfigType()), FlinkDeployConfigFile::getConfigType, param.getConfigType())
                         .like(StringUtils.hasText(param.getName()), FlinkDeployConfigFile::getName, param.getName()));
 
         Page<FlinkDeployConfigFileDTO> result =

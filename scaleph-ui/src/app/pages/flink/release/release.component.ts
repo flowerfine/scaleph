@@ -29,7 +29,7 @@ export class ReleaseComponent implements OnInit {
     pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
   };
 
-  searchFormConfig = {version: '', fileName: ''};
+  searchFormConfig = {version: null, fileName: ''};
 
   options = []
 
