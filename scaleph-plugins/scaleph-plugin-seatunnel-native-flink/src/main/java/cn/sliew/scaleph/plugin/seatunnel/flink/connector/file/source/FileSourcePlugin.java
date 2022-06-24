@@ -18,26 +18,24 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connector.file.source;
 
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
-import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.FILE_SOURCE;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.file.source.FileSourceProperties.*;
 
-public class FileSourceConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
+public class FileSourcePlugin extends SeatunnelNativeFlinkPlugin {
 
-    private static final List<PropertyDescriptor> supportedProperties;
+    public FileSourcePlugin() {
+        this.pluginInfo = new PluginInfo(FILE_SOURCE.getValue(), "file source connector", "2.1.1", FileSourcePlugin.class.getName());
 
-    static {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(FORMAT_TYPE);
         props.add(PATH);
@@ -49,35 +47,9 @@ public class FileSourceConnector extends AbstractPlugin implements SeatunnelNati
         supportedProperties = Collections.unmodifiableList(props);
     }
 
-    private final PluginInfo pluginInfo;
-
-    public FileSourceConnector() {
-        this.pluginInfo = new PluginInfo("FileSource", "file source connector", "2.1.1", FileSourceConnector.class.getName());
-    }
-
-    @Override
-    public ObjectNode createConf() {
-        ObjectNode objectNode = JacksonUtil.createObjectNode();
-        for (PropertyDescriptor descriptor : getSupportedProperties()) {
-            if (properties.contains(descriptor)) {
-                objectNode.put(descriptor.getName(), properties.getValue(descriptor));
-            }
-        }
-        return objectNode;
-    }
-
-    @Override
-    public PluginInfo getPluginInfo() {
-        return pluginInfo;
-    }
-
     @Override
     public JobStepTypeEnum getStepType() {
         return JobStepTypeEnum.SOURCE;
     }
 
-    @Override
-    public List<PropertyDescriptor> getSupportedProperties() {
-        return supportedProperties;
-    }
 }

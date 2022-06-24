@@ -16,28 +16,34 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.fake.source;
 
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
+import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
-import java.util.Set;
 
-/**
- * todo connector crud
- */
-public interface SeatunnelConnectorService {
+import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.FAKE_STREAM_SOURCE;
 
-    List<PropertyDescriptor> getSupportedEnvProperties();
+public class FakeSourceStreamPlugin extends SeatunnelNativeFlinkPlugin {
 
-    Set<PluginInfo> getAvailableConnectors(JobStepTypeEnum stepType);
+    public FakeSourceStreamPlugin() {
+        this.pluginInfo = new PluginInfo(FAKE_STREAM_SOURCE.getValue(), "fake source connector", "2.1.1", FakeSourceStreamPlugin.class.getName());
 
-    List<PropertyDescriptor> getSupportedProperties(String name);
+        final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(CommonProperties.RESULT_TABLE_NAME);
+        props.add(CommonProperties.FIELD_NAME);
+        supportedProperties = Collections.unmodifiableList(props);
+    }
 
-    SeatunnelNativeFlinkPlugin newConnector(String name, Properties properties);
+    @Override
+    public JobStepTypeEnum getStepType() {
+        return JobStepTypeEnum.SOURCE;
+    }
 
 }

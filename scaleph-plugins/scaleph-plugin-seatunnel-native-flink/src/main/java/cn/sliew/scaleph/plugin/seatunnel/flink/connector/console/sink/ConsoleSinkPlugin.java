@@ -16,28 +16,36 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connector.console.sink;
 
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
+import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
-import java.util.Set;
 
-/**
- * todo connector crud
- */
-public interface SeatunnelConnectorService {
+import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.CONSOLE_SINK;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.console.sink.ConsoleSinkProperties.LIMIT;
 
-    List<PropertyDescriptor> getSupportedEnvProperties();
+public class ConsoleSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
-    Set<PluginInfo> getAvailableConnectors(JobStepTypeEnum stepType);
+    public ConsoleSinkPlugin() {
+        this.pluginInfo = new PluginInfo(CONSOLE_SINK.getValue(), "console sink connector", "2.1.1", ConsoleSinkPlugin.class.getName());
 
-    List<PropertyDescriptor> getSupportedProperties(String name);
+        final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(LIMIT);
 
-    SeatunnelNativeFlinkPlugin newConnector(String name, Properties properties);
+        props.add(CommonProperties.SOURCE_TABLE_NAME);
+        supportedProperties = Collections.unmodifiableList(props);
+    }
+
+    @Override
+    public JobStepTypeEnum getStepType() {
+        return JobStepTypeEnum.SINK;
+    }
 
 }
