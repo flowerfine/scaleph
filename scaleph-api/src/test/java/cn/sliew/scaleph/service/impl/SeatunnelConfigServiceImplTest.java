@@ -16,13 +16,28 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.service.impl;
 
+import cn.sliew.scaleph.ApplicationTest;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
+import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public interface SeatunnelConfigService {
+@Slf4j
+public class SeatunnelConfigServiceImplTest extends ApplicationTest {
 
-    String buildConfig(DiJobDTO diJobDTO);
+    @Autowired
+    private SeatunnelJobService seatunnelJobService;
+    @Autowired
+    private SeatunnelConfigService seatunnelConfigService;
 
-    String getSeatunnelPluginTag(String stepType, String stepName);
+    @Test
+    public void testBuildConfig() {
+        DiJobDTO diJobDTO = seatunnelJobService.queryJobInfo(21L);
+        String jsonConf = seatunnelConfigService.buildConfig(diJobDTO);
+        log.info(jsonConf);
+    }
 }

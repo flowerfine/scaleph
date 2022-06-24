@@ -28,9 +28,21 @@ public abstract class AbstractPlugin implements Plugin {
 
     protected PropertyContext properties;
 
+    protected PluginInfo pluginInfo;
+
+    protected List<PropertyDescriptor> supportedProperties;
+
     @Override
     public void configure(PropertyContext properties) {
         this.properties = properties;
+    }
+
+    public PluginInfo getPluginInfo() {
+        return pluginInfo;
+    }
+
+    public List<PropertyDescriptor> getSupportedProperties() {
+        return supportedProperties;
     }
 
     @Override

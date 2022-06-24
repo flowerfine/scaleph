@@ -174,8 +174,8 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
                 if (pluginInfo.getName().equalsIgnoreCase(metaDatasourceDTO.getDatasourceType().getValue())) {
                     Class clazz = Class.forName(pluginInfo.getClassname());
                     DatasourcePlugin datasource = (DatasourcePlugin) clazz.newInstance();
-                    datasource.configure(PropertyContext.fromMap(metaDatasourceDTO.getProps()));
                     datasource.setAdditionalProperties(PropertyUtil.mapToProperties(metaDatasourceDTO.getAdditionalProps()));
+                    datasource.configure(PropertyContext.fromMap(metaDatasourceDTO.getProps()));
                     datasource.start();
                     result = datasource.testConnection();
                     datasource.shutdown();

@@ -24,15 +24,20 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
+import cn.sliew.scaleph.common.exception.Rethrower;
 import cn.sliew.scaleph.core.di.service.dto.*;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.meta.service.MetaDatasourceService;
 import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
+import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
+import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
+import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.JobNameProperties;
 import cn.sliew.scaleph.system.service.vo.DictVO;
-import com.fasterxml.jackson.databind.JsonNode;
+import cn.sliew.scaleph.system.util.PropertyUtil;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
@@ -41,11 +46,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
+import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.JDBC_SINK;
+import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.JDBC_SOURCE;
 import static cn.sliew.scaleph.engine.seatunnel.service.util.GraphConstants.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties.RESULT_TABLE_NAME;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties.SOURCE_TABLE_NAME;
@@ -59,46 +63,58 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
     @Autowired
     private SeatunnelConnectorService seatunnelConnectorService;
 
+    private static final Map<String, String> JOB_STEP_MAP = new HashMap<>();
+    private static final Map<String, String> PLUGIN_MAP = new HashMap<>();
+
+    static {
+        //init job step map
+        JOB_STEP_MAP.put("sink-table", JDBC_SINK.getValue());
+        JOB_STEP_MAP.put("source-table", JDBC_SOURCE.getValue());
+        //init plugin map
+        PLUGIN_MAP.put("source-table", "jdbc");
+        PLUGIN_MAP.put("sink-table", "jdbc");
+        PLUGIN_MAP.put("source-csv", "file");
+        PLUGIN_MAP.put("sink-csv", "file");
+    }
+
     @Override
     public String buildConfig(DiJobDTO diJobDTO) {
         ObjectNode conf = JacksonUtil.createObjectNode();
-        conf.put(JobNameProperties.JOB_NAME.getName(), diJobDTO.getJobCode());
         conf.set("env", buildEnv(diJobDTO));
 
         MutableGraph<ObjectNode> graph = buildGraph(diJobDTO);
-        ObjectNode sourceConf = JacksonUtil.createObjectNode();
-        ObjectNode transformConf = JacksonUtil.createObjectNode();
-        ObjectNode sinkConf = JacksonUtil.createObjectNode();
+        ArrayNode sourceConf = JacksonUtil.createArrayNode();
+        ArrayNode transformConf = JacksonUtil.createArrayNode();
+        ArrayNode sinkConf = JacksonUtil.createArrayNode();
         conf.set("source", sourceConf);
         conf.set("transform", transformConf);
         conf.set("sink", sinkConf);
-
         //source and result table name
         graph.edges().forEach(edge -> {
             ObjectNode source = edge.source();
             ObjectNode target = edge.target();
-            JsonNode nodeId = source.get(NODE_ID);
-            source.set(RESULT_TABLE_NAME.getName(), nodeId);
-            target.set(SOURCE_TABLE_NAME.getName(), nodeId);
+            String nodeId = source.get(NODE_ID).asText();
+            source.put(RESULT_TABLE_NAME.getName(), TABLE_PREFIX + nodeId);
+            target.put(SOURCE_TABLE_NAME.getName(), TABLE_PREFIX + nodeId);
         });
 
         graph.nodes().forEach(node -> {
             String pluginName = node.get(PLUGIN_NAME).asText();
             String nodeType = node.get(NODE_TYPE).asText();
             if (JobStepTypeEnum.SOURCE.getValue().equals(nodeType)) {
-                sourceConf.set(pluginName, node);
+                sourceConf.add(node);
             } else if (JobStepTypeEnum.TRANSFORM.getValue().equals(nodeType)) {
-                transformConf.set(pluginName, node);
+                transformConf.add(node);
             } else if (JobStepTypeEnum.SINK.getValue().equals(nodeType)) {
-                sinkConf.set(pluginName, node);
+                sinkConf.add(node);
             }
         });
-
         return conf.toPrettyString();
     }
 
     private ObjectNode buildEnv(DiJobDTO job) {
         ObjectNode env = JacksonUtil.createObjectNode();
+        env.put(JobNameProperties.JOB_NAME.getName(), job.getJobCode());
         List<DiJobAttrDTO> jobAttrList = job.getJobAttrList();
         if (CollectionUtils.isEmpty(jobAttrList)) {
             return env;
@@ -119,23 +135,22 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         if (CollectionUtil.isNotEmpty(jobStepList) && CollectionUtil.isNotEmpty(jobLinkList)) {
             Map<String, ObjectNode> stepMap = new HashMap<>();
             for (DiJobStepDTO step : jobStepList) {
+                String name = JOB_STEP_MAP.get(step.getStepType().getValue() + "-" + step.getStepName());
                 Properties properties = mergeJobAttrs(step);
-                SeatunnelNativeFlinkConnector connector = seatunnelConnectorService.newConnector(step.getStepName(), properties);
-                ObjectNode connectorConf = connector.createConf();
-                connectorConf.put(PLUGIN_NAME, step.getStepName());
-                connectorConf.put(NODE_TYPE, step.getStepType().getValue());
-                connectorConf.put(NODE_ID, step.getId());
-                stepMap.put(step.getStepCode(), connectorConf);
-                graph.addNode(connectorConf);
+                SeatunnelNativeFlinkPlugin connector = seatunnelConnectorService.newConnector(name, properties);
+                ObjectNode stepConf = connector.createConf();
+                stepConf.put(PLUGIN_NAME, name);
+                stepConf.put(NODE_TYPE, step.getStepType().getValue());
+                stepConf.put(NODE_ID, step.getId());
+                stepMap.put(step.getStepCode(), stepConf);
+                graph.addNode(stepConf);
             }
-
             jobLinkList.forEach(link -> {
                 String from = link.getFromStepCode();
                 String to = link.getToStepCode();
                 graph.putEdge(stepMap.get(from), stepMap.get(to));
             });
         }
-
         return graph;
     }
 
@@ -148,9 +163,19 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
                     DictVO dsAttr = JSONUtil.toBean(attr.getStepAttrValue(), DictVO.class);
                     MetaDatasourceDTO datasourceDTO =
                             metaDatasourceService.selectOne(Long.parseLong(dsAttr.getValue()), false);
-                    if (datasourceDTO != null) {
-                        properties.putAll(datasourceDTO.getProps());
-                        properties.putAll(datasourceDTO.getAdditionalProps());
+                    Set<PluginInfo> pluginInfoSet = this.metaDatasourceService.getAvailableDataSources();
+                    for (PluginInfo pluginInfo : pluginInfoSet) {
+                        if (pluginInfo.getName().equalsIgnoreCase(datasourceDTO.getDatasourceType().getValue())) {
+                            try {
+                                Class<?> clazz = Class.forName(pluginInfo.getClassname());
+                                DatasourcePlugin<?> dsPlugin = (DatasourcePlugin<?>) clazz.newInstance();
+                                dsPlugin.setAdditionalProperties(PropertyUtil.mapToProperties(datasourceDTO.getAdditionalProps()));
+                                dsPlugin.configure(PropertyContext.fromMap(datasourceDTO.getProps()));
+                                properties.putAll(dsPlugin.getProperties());
+                            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                                Rethrower.throwAs(e);
+                            }
+                        }
                     }
                 } else {
                     properties.put(attr.getStepAttrKey(), attr.getStepAttrValue());
@@ -158,5 +183,9 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
             });
         }
         return properties;
+    }
+
+    public String getSeatunnelPluginTag(String stepType, String stepName) {
+        return PLUGIN_MAP.get(stepType + "-" + stepName);
     }
 }
