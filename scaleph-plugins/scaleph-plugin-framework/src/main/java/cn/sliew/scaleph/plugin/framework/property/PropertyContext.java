@@ -18,18 +18,12 @@
 
 package cn.sliew.scaleph.plugin.framework.property;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Properties;
+import lombok.extern.log4j.Log4j2;
+
+import java.util.*;
 import java.util.function.Function;
 
 import static cn.sliew.milky.common.check.Ensures.checkNotNull;
-
-import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class PropertyContext implements java.io.Serializable {
@@ -233,18 +227,14 @@ public class PropertyContext implements java.io.Serializable {
 
     public void addAllToProperties(Properties props) {
         synchronized (this.confData) {
-            for (Map.Entry<String, Object> entry : this.confData.entrySet()) {
-                props.put(entry.getKey(), entry.getValue());
-            }
+            props.putAll(this.confData);
         }
     }
 
-    public Map<String, String> toMap() {
+    public Map<String, Object> toMap() {
         synchronized (this.confData) {
-            Map<String, String> ret = new HashMap<>(this.confData.size());
-            for (Map.Entry<String, Object> entry : confData.entrySet()) {
-                ret.put(entry.getKey(), entry.getValue().toString());
-            }
+            Map<String, Object> ret = new HashMap<>(this.confData.size());
+            ret.putAll(confData);
             return ret;
         }
     }

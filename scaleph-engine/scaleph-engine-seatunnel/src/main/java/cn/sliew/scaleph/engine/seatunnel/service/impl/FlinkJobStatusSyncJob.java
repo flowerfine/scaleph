@@ -33,6 +33,7 @@ import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobLogDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiProjectDTO;
 import cn.sliew.scaleph.core.scheduler.service.ScheduleService;
+import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.log.service.dto.LogScheduleDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import org.apache.flink.api.common.JobStatus;
@@ -101,9 +102,7 @@ public class FlinkJobStatusSyncJob extends QuartzJobBean {
                         DiProjectDTO diProject =
                                 this.diProjectService.selectOne(diJob.getProjectId());
                         String jobName = diProject.getProjectCode() + '_' + diJob.getJobCode();
-                        JobKey seatunnelJobKey =
-                                scheduleService.getJobKey("FLINK_BATCH_JOB_" + jobName,
-                                        Constants.INTERNAL_GROUP);
+                        JobKey seatunnelJobKey = scheduleService.getJobKey(QuartzJobUtil.getFlinkBatchJobName(jobName), Constants.INTERNAL_GROUP);
                         if (scheduleService.checkExists(seatunnelJobKey)) {
                             diJob.setRuntimeState(DictVO.toVO(DictConstants.RUNTIME_STATE,
                                     JobRuntimeStateEnum.WAIT.getValue()));

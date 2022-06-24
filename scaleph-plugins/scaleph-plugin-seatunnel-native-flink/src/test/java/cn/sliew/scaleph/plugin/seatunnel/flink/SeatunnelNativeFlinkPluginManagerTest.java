@@ -19,25 +19,25 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink;
 
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
-import cn.sliew.scaleph.plugin.framework.core.Plugin;
-import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
+import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
-public interface SeatunnelNativeFlinkConnector extends Plugin {
+import static org.assertj.core.api.Assertions.assertThat;
 
-    ObjectNode createConf();
+class SeatunnelNativeFlinkPluginManagerTest {
 
-    JobStepTypeEnum getStepType();
+    @Test
+    void testLoadConnectorPlugins() throws Exception {
+        SeatunnelNativeFlinkPluginManager manager = new SeatunnelNativeFlinkPluginManager();
+        final Set<PluginInfo> sourceConnectors = manager.getAvailableConnectors(JobStepTypeEnum.SOURCE);
+        assertThat(sourceConnectors).isNotEmpty().hasSize(7);
 
-    /**
-     * For example: flink-connector-jdbc requires mysql jdbc jar.
-     * todo may we need a new ResourceDescriptor?
-     */
-    default List<PropertyDescriptor> additionalResources() {
-        return Collections.emptyList();
+        final Set<PluginInfo> sinkConnectors = manager.getAvailableConnectors(JobStepTypeEnum.SINK);
+        assertThat(sinkConnectors).isNotEmpty().hasSize(10);
+
+        final Set<PluginInfo> transforms = manager.getAvailableConnectors(JobStepTypeEnum.TRANSFORM);
+        assertThat(transforms).isEmpty();
     }
-
 }

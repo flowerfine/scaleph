@@ -18,26 +18,24 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.source;
 
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
-import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkConnector;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.DRUID_SOURCE;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.source.DruidSourceProperties.*;
 
-public class DruidSourceConnector extends AbstractPlugin implements SeatunnelNativeFlinkConnector {
+public class DruidSourcePlugin extends SeatunnelNativeFlinkPlugin {
 
-    private static final List<PropertyDescriptor> supportedProperties;
+    public DruidSourcePlugin() {
+        this.pluginInfo = new PluginInfo(DRUID_SOURCE.getValue(), "druid source connector", "2.1.1", DruidSourcePlugin.class.getName());
 
-    static {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(JDBC_URL);
         props.add(DATASOURCE);
@@ -51,36 +49,9 @@ public class DruidSourceConnector extends AbstractPlugin implements SeatunnelNat
         supportedProperties = Collections.unmodifiableList(props);
     }
 
-    private final PluginInfo pluginInfo;
-
-    public DruidSourceConnector() {
-        this.pluginInfo = new PluginInfo("DruidSource", "druid source connector", "2.1.1", DruidSourceConnector.class.getName());
-    }
-
-    @Override
-    public ObjectNode createConf() {
-        ObjectNode objectNode = JacksonUtil.createObjectNode();
-        for (PropertyDescriptor descriptor : getSupportedProperties()) {
-            if (properties.contains(descriptor)) {
-                objectNode.put(descriptor.getName(), properties.getValue(descriptor));
-            }
-        }
-        return objectNode;
-    }
-
-    @Override
-    public PluginInfo getPluginInfo() {
-        return pluginInfo;
-    }
-
     @Override
     public JobStepTypeEnum getStepType() {
         return JobStepTypeEnum.SOURCE;
-    }
-
-    @Override
-    public List<PropertyDescriptor> getSupportedProperties() {
-        return supportedProperties;
     }
 
 }
