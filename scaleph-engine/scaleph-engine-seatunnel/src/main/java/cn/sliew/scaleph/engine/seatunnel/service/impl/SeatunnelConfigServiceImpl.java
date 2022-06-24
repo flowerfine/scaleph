@@ -64,11 +64,17 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
     private SeatunnelConnectorService seatunnelConnectorService;
 
     private static final Map<String, String> JOB_STEP_MAP = new HashMap<>();
+    private static final Map<String, String> PLUGIN_MAP = new HashMap<>();
 
     static {
         //init job step map
         JOB_STEP_MAP.put("sink-table", JDBC_SINK.getValue());
         JOB_STEP_MAP.put("source-table", JDBC_SOURCE.getValue());
+        //init plugin map
+        PLUGIN_MAP.put("source-table", "jdbc");
+        PLUGIN_MAP.put("sink-table", "jdbc");
+        PLUGIN_MAP.put("source-csv", "file");
+        PLUGIN_MAP.put("sink-csv", "file");
     }
 
     @Override
@@ -177,5 +183,9 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
             });
         }
         return properties;
+    }
+
+    public String getSeatunnelPluginTag(String stepType, String stepName) {
+        return PLUGIN_MAP.get(stepType + "-" + stepName);
     }
 }

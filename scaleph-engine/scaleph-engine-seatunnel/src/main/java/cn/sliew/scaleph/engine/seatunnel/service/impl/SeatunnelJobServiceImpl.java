@@ -45,6 +45,7 @@ import cn.sliew.scaleph.system.service.SysConfigService;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.google.common.base.Charsets;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.api.common.JobStatus;
 import org.apache.flink.client.deployment.executors.RemoteExecutor;
@@ -57,10 +58,12 @@ import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -269,6 +272,26 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         return seatunnelJarPath;
     }
 
+    private Set<File> getSeatunnelPluginJarFile(List<DiJobStepDTO> jobStepList) {
+        if (CollectionUtils.isEmpty(jobStepList)) {
+            return null;
+        }
+        Set<File> files = new TreeSet<>();
+        String seatunnelPath = this.sysConfigService.getSeatunnelHome();
+        Path seatunnelConnectorsPath = Paths.get(seatunnelPath, "connectors", "flink");
+        File seatunnelConnectorDir = seatunnelConnectorsPath.toFile();
+        for (DiJobStepDTO step : jobStepList) {
+            String pluginTag = this.seatunnelConfigService.getSeatunnelPluginTag(
+                    step.getStepType().getValue(), step.getStepName());
+            FileFilter fileFilter = new RegexFileFilter(".*" + pluginTag + ".*");
+            File[] pluginJars = seatunnelConnectorDir.listFiles(fileFilter);
+            if (pluginJars != null) {
+                Collections.addAll(files, pluginJars);
+            }
+        }
+        return files;
+    }
+
     @Override
     public Configuration buildConfiguration(DiJobDTO job, Path seatunnelJarPath,
                                             Map<String, String> clusterConf,
@@ -281,6 +304,12 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
 
         List<DiResourceFileDTO> resourceList = diJobResourceFileService.listJobResources(job.getId());
         Set<String> jars = new TreeSet<>();
+        Set<File> pluginJars = getSeatunnelPluginJarFile(job.getJobStepList());
+        if (!CollectionUtils.isEmpty(pluginJars)) {
+            for (File jar : pluginJars) {
+                jars.add(jar.toURI().toString());
+            }
+        }
         jars.add(seatunnelJarPath.toUri().toString());
 
         StorageService localStorageService = new NioFileServiceImpl(projectPath.getAbsolutePath());
