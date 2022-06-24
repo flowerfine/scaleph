@@ -21,7 +21,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.util;
 public enum GraphConstants {
     ;
 
-    public static final String PLUGIN_NAME = "_plugin_name";
+    public static final String PLUGIN_NAME = "plugin_name";
     public static final String NODE_TYPE = "_node_type";
     public static final String NODE_ID = "_node_id";
 

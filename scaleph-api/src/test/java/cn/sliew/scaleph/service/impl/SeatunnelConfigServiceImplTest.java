@@ -36,7 +36,7 @@ public class SeatunnelConfigServiceImplTest extends ApplicationTest {
 
     @Test
     public void testBuildConfig() {
-        DiJobDTO diJobDTO = seatunnelJobService.queryJobInfo(20L);
+        DiJobDTO diJobDTO = seatunnelJobService.queryJobInfo(21L);
         String jsonConf = seatunnelConfigService.buildConfig(diJobDTO);
         log.info(jsonConf);
     }

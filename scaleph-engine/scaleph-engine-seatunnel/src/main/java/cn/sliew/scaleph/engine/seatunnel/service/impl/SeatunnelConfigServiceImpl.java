@@ -37,6 +37,7 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.JobNameProperties;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.PropertyUtil;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
@@ -76,9 +77,9 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         conf.set("env", buildEnv(diJobDTO));
 
         MutableGraph<ObjectNode> graph = buildGraph(diJobDTO);
-        ObjectNode sourceConf = JacksonUtil.createObjectNode();
-        ObjectNode transformConf = JacksonUtil.createObjectNode();
-        ObjectNode sinkConf = JacksonUtil.createObjectNode();
+        ArrayNode sourceConf = JacksonUtil.createArrayNode();
+        ArrayNode transformConf = JacksonUtil.createArrayNode();
+        ArrayNode sinkConf = JacksonUtil.createArrayNode();
         conf.set("source", sourceConf);
         conf.set("transform", transformConf);
         conf.set("sink", sinkConf);
@@ -95,11 +96,11 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
             String pluginName = node.get(PLUGIN_NAME).asText();
             String nodeType = node.get(NODE_TYPE).asText();
             if (JobStepTypeEnum.SOURCE.getValue().equals(nodeType)) {
-                sourceConf.set(pluginName, node);
+                sourceConf.add(node);
             } else if (JobStepTypeEnum.TRANSFORM.getValue().equals(nodeType)) {
-                transformConf.set(pluginName, node);
+                transformConf.add(node);
             } else if (JobStepTypeEnum.SINK.getValue().equals(nodeType)) {
-                sinkConf.set(pluginName, node);
+                sinkConf.add(node);
             }
         });
         return conf.toPrettyString();
