@@ -75,7 +75,7 @@
               >
                 <d-column field="configType" header="{{ 'flink.deploy-config.configType' | translate }}">
                   <d-cell>
-                    <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
+                    <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
                   </d-cell>
                 </d-column>
                 <d-column field="name" header="{{ 'flink.deploy-config.name' | translate }}">

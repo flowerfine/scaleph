@@ -41,7 +41,7 @@ public class FlinkDeployConfigFile extends BaseDO {
 
     @ApiModelProperty("配置文件类型。0: hadoop conf, 1: kubeconfig, 2: flink-conf.yaml")
     @TableField("config_type")
-    private Integer configType;
+    private String configType;
 
     @ApiModelProperty("配置名称")
     @TableField("`name`")
