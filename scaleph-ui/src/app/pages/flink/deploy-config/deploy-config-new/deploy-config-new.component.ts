@@ -3,6 +3,8 @@ import {TranslateService} from '@ngx-translate/core';
 import {DValidateRules, FormLayout, IFileOptions, IUploadOptions} from 'ng-devui';
 import {FlinkDeployConfig, FlinkDeployConfigUploadParam} from "../../../../@core/data/flink.data";
 import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
+import {Dict, DICT_TYPE} from "../../../../@core/data/app.data";
+import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
 
 @Component({
   selector: 'app-project-new',
@@ -29,17 +31,22 @@ export class DeployConfigNewComponent implements OnInit {
     },
   };
 
+  flinkDeployConfigTypeList: Dict[] = []
+
   formData = {
     configType: null,
     name: null,
     remark: null,
   };
 
-  constructor(private elr: ElementRef, private translate: TranslateService, private deployConfigService: DeployConfigService) {
+  constructor(private elr: ElementRef, private translate: TranslateService, private dictDataService: SysDictDataService, private deployConfigService: DeployConfigService) {
   }
 
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;
+    this.dictDataService.listByType(DICT_TYPE.flinkDeployConfigType).subscribe((d) => {
+      this.flinkDeployConfigTypeList = d;
+    });
   }
 
   submitForm({valid}) {
