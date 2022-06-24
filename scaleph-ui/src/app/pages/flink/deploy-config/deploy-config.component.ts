@@ -3,16 +3,15 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
-import {DEFAULT_PAGE_PARAM, PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/app.data';
+import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/app.data';
 import {FlinkDeployConfigParam, FlinkRelease} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
-import {DeployConfigUploadComponent} from "./deploy-config-upload/deploy-config-upload.component";
 import {DeployConfigNewComponent} from "./deploy-config-new/deploy-config-new.component";
 import {DeployConfigDeleteComponent} from "./deploy-config-delete/deploy-config-delete.component";
 import {DiProject} from "../../../@core/data/datadev.data";
-import {ProjectUpdateComponent} from "../../datadev/project/project-update/project-update.component";
 import {DeployConfigUpdateComponent} from "./deploy-config-update/deploy-config-update.component";
+import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 
 @Component({
   selector: 'app-release',
@@ -32,7 +31,9 @@ export class DeployConfigComponent implements OnInit {
     pageSize: DEFAULT_PAGE_PARAM.pageSize,
     pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
   };
-  searchFormConfig = {configType: '', name: ''};
+  searchFormConfig = {configType: null, name: ''};
+
+  flinkDeployConfigTypeList: Dict[] = []
 
   constructor(
     public authService: AuthService,
@@ -40,6 +41,7 @@ export class DeployConfigComponent implements OnInit {
     private loadingService: LoadingService,
     private translate: TranslateService,
     private modalService: ModalService,
+    private dictDataService: SysDictDataService,
     private deployConfigService: DeployConfigService,
     private router: Router
   ) {
@@ -47,6 +49,9 @@ export class DeployConfigComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshTable();
+    this.dictDataService.listByType(DICT_TYPE.flinkDeployConfigType).subscribe((d) => {
+      this.flinkDeployConfigTypeList = d;
+    });
   }
 
   refreshTable() {
@@ -54,7 +59,7 @@ export class DeployConfigComponent implements OnInit {
     let param: FlinkDeployConfigParam = {
       pageSize: this.pager.pageSize,
       current: this.pager.pageIndex,
-      configType: this.searchFormConfig.configType,
+      configType: this.searchFormConfig.configType ? this.searchFormConfig.configType.value : '',
       name: this.searchFormConfig.name,
     };
 
