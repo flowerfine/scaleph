@@ -98,36 +98,17 @@ public class ClusterController {
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
     }
 
-    private boolean checkClusterInfo(DiClusterConfigDTO diClusterConfigDTO) {
-        if (diClusterConfigDTO != null && StringUtils.hasText(diClusterConfigDTO.getClusterConf())) {
-            Map<String, String> confMap = new HashMap<>();
-            String[] lines = diClusterConfigDTO.getClusterConf().split("\n");
-            for (String line : lines) {
-                String[] kv = line.split("=");
-                if (kv.length == 2 && StringUtils.hasText(kv[0]) && StringUtils.hasText(kv[1])) {
-                    confMap.put(kv[0], kv[1]);
-                }
-            }
-            if (ClusterTypeEnum.FLINK.getValue()
-                    .equalsIgnoreCase(diClusterConfigDTO.getClusterType().getValue())) {
-                if (!confMap.containsKey(Constants.CLUSTER_DEPLOY_TARGET) ||
-                        ResourceProvider.STANDALONE.getName()
-                                .equalsIgnoreCase(confMap.get(Constants.CLUSTER_DEPLOY_TARGET))) {
-                    return confMap.containsKey(JobManagerOptions.ADDRESS.key())
-                            && confMap.containsKey(JobManagerOptions.PORT.key())
-                            && confMap.containsKey(RestOptions.PORT.key());
-                }
-            }
-        }
-        return false;
-    }
-
     @Logging
     @PutMapping
     @ApiOperation(value = "修改集群", notes = "修改集群")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_CLUSTER_EDIT)")
     public ResponseEntity<ResponseVO> editCluster(
             @Validated @RequestBody DiClusterConfigDTO diClusterConfigDTO) {
+        if (!checkClusterInfo(diClusterConfigDTO)) {
+            return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
+                    I18nUtil.get("response.error.di.cluster.conf"), ErrorShowTypeEnum.NOTIFICATION),
+                    HttpStatus.OK);
+        }
         this.diClusterConfigService.update(diClusterConfigDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -158,5 +139,36 @@ public class ClusterController {
         }
         this.diClusterConfigService.deleteBatch(map);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    /**
+     * Determine whether the cluster has configured the necessary parameters based on the cluster type and the deployment mode
+     *
+     * @param diClusterConfigDTO cluster info
+     * @return true/false
+     */
+    private boolean checkClusterInfo(DiClusterConfigDTO diClusterConfigDTO) {
+        //todo https://github.com/flowerfine/scaleph/issues/93
+        if (diClusterConfigDTO != null && StringUtils.hasText(diClusterConfigDTO.getClusterConf())) {
+            Map<String, String> confMap = new HashMap<>();
+            String[] lines = diClusterConfigDTO.getClusterConf().split("\n");
+            for (String line : lines) {
+                String[] kv = line.split("=");
+                if (kv.length == 2 && StringUtils.hasText(kv[0]) && StringUtils.hasText(kv[1])) {
+                    confMap.put(kv[0], kv[1]);
+                }
+            }
+            if (ClusterTypeEnum.FLINK.getValue()
+                    .equalsIgnoreCase(diClusterConfigDTO.getClusterType().getValue())) {
+                if (!confMap.containsKey(Constants.CLUSTER_DEPLOY_TARGET) ||
+                        ResourceProvider.STANDALONE.getName()
+                                .equalsIgnoreCase(confMap.get(Constants.CLUSTER_DEPLOY_TARGET))) {
+                    return confMap.containsKey(JobManagerOptions.ADDRESS.key())
+                            && confMap.containsKey(JobManagerOptions.PORT.key())
+                            && confMap.containsKey(RestOptions.PORT.key());
+                }
+            }
+        }
+        return false;
     }
 }

@@ -59,4 +59,46 @@ public enum JdbcPoolProperties {
             .properties(Property.Required, Property.Sensitive)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<String> HOST = new PropertyDescriptor.Builder()
+            .name("host")
+            .description("host for the database")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .properties(Property.Required)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> PORT = new PropertyDescriptor.Builder()
+            .name("port")
+            .description("port for the database")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .properties(Property.Required)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> DATABASE_NAME = new PropertyDescriptor.Builder()
+            .name("databaseName")
+            .description("database name")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .properties(Property.Required)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> JDBC_URL_UNREQUIRED = new PropertyDescriptor.Builder()
+            .name("jdbcUrl")
+            .description("database connection url")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> DRIVER_CLASS_NAME_UNREQUIRED = new PropertyDescriptor.Builder()
+            .name("driverClassName")
+            .description("fully-qualified class name of the JDBC driver. Example: com.mysql.cj.jdbc.Driver")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
 }
