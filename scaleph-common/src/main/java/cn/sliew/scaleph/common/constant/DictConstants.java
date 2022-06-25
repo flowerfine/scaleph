@@ -49,5 +49,6 @@ public enum DictConstants {
     public static final String CLUSTER_TYPE = "cluster_type";
     public static final String DATA_TYPE = "data_type";
     public static final String JOB_INSTANCE_STATE = "job_instance_state";
+    public static final String FLINK_DEPLOY_CONFIG_TYPE = "flink_deploy_config_type";
 
 }

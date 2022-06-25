@@ -13,6 +13,10 @@ export class ReleaseService {
   constructor(private http: HttpClient) {
   }
 
+  versions(): Observable<Array<String>> {
+    return this.http.get<Array<String>>(`${this.url}/versions`);
+  }
+
   list(queryParam): Observable<PageResponse<FlinkRelease>> {
     const params: HttpParams = new HttpParams({fromObject: queryParam});
     return this.http.get<PageResponse<FlinkRelease>>(`${this.url}`, {params});

@@ -28,6 +28,7 @@ export class ReleaseUploadComponent implements OnInit {
       validators: [{maxlength: 200}],
     },
   };
+  options = []
   fileOptions: IFileOptions = {
     multiple: false,
   };
@@ -49,6 +50,9 @@ export class ReleaseUploadComponent implements OnInit {
 
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;
+    this.releaseService.versions().subscribe((d) => {
+      this.options = d;
+    });
   }
 
   submitForm({valid}) {

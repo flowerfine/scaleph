@@ -21,6 +21,7 @@ package cn.sliew.scaleph.api.controller.flink;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.exception.CustomException;
+import cn.sliew.scaleph.engine.flink.FlinkRelease;
 import cn.sliew.scaleph.engine.flink.service.FlinkReleaseService;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkReleaseDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkReleaseListParam;
@@ -41,7 +42,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Api(tags = "Flink管理-release管理")
@@ -51,6 +54,14 @@ public class ReleaseController {
 
     @Autowired
     private FlinkReleaseService flinkReleaseService;
+
+    @Logging
+    @GetMapping("versions")
+    @ApiOperation(value = "查询 release 版本", notes = "查询 release 版本")
+    public ResponseEntity<List<String>> versions() {
+        final List<String> versions = Arrays.stream(FlinkRelease.values()).map(FlinkRelease::getVersion).collect(Collectors.toList());
+        return new ResponseEntity<>(versions, HttpStatus.OK);
+    }
 
     @Logging
     @GetMapping
