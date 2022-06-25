@@ -19,7 +19,12 @@
       <d-form-item>
         <d-form-label [required]="true">{{ 'flink.release.version' | translate }}</d-form-label>
         <d-form-control>
-          <input dTextInput name="version" [(ngModel)]="formData.version" [dValidateRules]="formConfig.versionRules" />
+          <d-select name="version"
+                    [dValidateRules]="formConfig.versionRules"
+                    [allowClear]="true"
+                    [options]="options"
+                    size="sm"
+                    [(ngModel)]="formData.version"></d-select>
         </d-form-control>
       </d-form-item>
       <d-form-item>

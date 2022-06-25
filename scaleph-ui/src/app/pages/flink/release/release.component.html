@@ -6,11 +6,17 @@
             <div class="da-list-header">
               <div class="da-header-left">
                 <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+
                   <d-col>
                     <div class="da-header-item-label">{{ 'flink.release.version' | translate }}:</div>
                   </d-col>
                   <d-col>
-                    <input dTextInput name="version" [(ngModel)]="searchFormConfig.version" (keyup.enter)="refreshTable()" />
+                    <d-select name="version"
+                              [allowClear]="true"
+                              [options]="options"
+                              size="sm"
+                              [(ngModel)]="searchFormConfig.version"
+                              (valueChange)="refreshTable()"></d-select>
                   </d-col>
                   <d-col>
                     <div class="da-header-item-label">{{ 'flink.release.fileName' | translate }}:</div>

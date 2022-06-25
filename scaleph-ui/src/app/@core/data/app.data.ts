@@ -91,6 +91,7 @@ export const DICT_TYPE = {
   runtimeState: 'runtime_state',
   clusterType: 'cluster_type',
   dataType: 'data_type',
+  flinkDeployConfigType: 'flink_deploy_config_type',
 };
 
 export const USER_AUTH = {

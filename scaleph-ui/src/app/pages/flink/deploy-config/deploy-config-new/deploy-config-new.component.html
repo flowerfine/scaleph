@@ -19,7 +19,14 @@
       <d-form-item>
         <d-form-label [required]="true">{{ 'flink.deploy-config.configType' | translate }}</d-form-label>
         <d-form-control>
-          <input dTextInput name="configType" [(ngModel)]="formData.configType" [dValidateRules]="formConfig.configTypeRules" />
+          <d-select name="configType"
+                    [allowClear]="true"
+                    [filterKey]="'label'"
+                    [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                    [options]="flinkDeployConfigTypeList"
+                    [dValidateRules]="formConfig.configTypeRules"
+                    size="sm"
+                    [(ngModel)]="formData.configType"></d-select>
         </d-form-control>
       </d-form-item>
       <d-form-item>

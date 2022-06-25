@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -34,7 +35,7 @@ public class FlinkDeployConfigFileDTO extends BaseDTO {
 
     @NotNull
     @ApiModelProperty("配置文件类型。0: hadoop conf, 1: kubeconfig, 2: flink-conf.yaml")
-    private Integer configType;
+    private DictVO configType;
 
     @NotBlank
     @ApiModelProperty("配置名称")

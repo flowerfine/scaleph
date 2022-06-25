@@ -21,12 +21,17 @@ package cn.sliew.scaleph.engine.flink.service.convert;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkDeployConfigFile;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkDeployConfigFileDTO;
+import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FlinkDeployConfigFileConvert extends BaseConvert<FlinkDeployConfigFile, FlinkDeployConfigFileDTO> {
     FlinkDeployConfigFileConvert INSTANCE = Mappers.getMapper(FlinkDeployConfigFileConvert.class);
 
+    @Override
+    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.FLINK_DEPLOY_CONFIG_TYPE,entity.getConfigType()))", target = "configType")
+    FlinkDeployConfigFileDTO toDto(FlinkDeployConfigFile entity);
 }
