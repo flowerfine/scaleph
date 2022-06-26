@@ -4,7 +4,7 @@ import {DValidateRules, FormLayout, IFileOptions, IUploadOptions} from 'ng-devui
 import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
 
 @Component({
-  selector: 'app-project-new',
+  selector: 'app-deploy-config-file-upload',
   templateUrl: './deploy-config-file-upload.component.html',
   styleUrls: ['../deploy-config-file.component.scss'],
 })

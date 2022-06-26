@@ -8,8 +8,7 @@ import {AuthService} from 'src/app/@core/services/auth.service';
 import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 import {DeployConfigFileUploadComponent} from "./deploy-config-file-upload/deploy-config-file-upload.component";
-import {FileStatus, FlinkRelease} from "../../../@core/data/flink.data";
-import {ReleaseDeleteComponent} from "../release/release-delete/release-delete.component";
+import {FileStatus} from "../../../@core/data/flink.data";
 import {DeployConfigFileDeleteComponent} from "./deploy-config-file-delete/deploy-config-file-delete.component";
 
 @Component({
@@ -101,10 +100,10 @@ export class DeployConfigFileComponent implements OnInit {
   downloadDeployConfigFile(item: FileStatus) {
     let url: string =
       'api/flink/deploy-config/' + this.flinkDeployConfig.id + '/file/' + item.name
-      '?' +
-      USER_AUTH.token +
-      '=' +
-      localStorage.getItem(USER_AUTH.token);
+    '?' +
+    USER_AUTH.token +
+    '=' +
+    localStorage.getItem(USER_AUTH.token);
     const a = document.createElement('a');
     a.href = url;
     a.download = item.name;
@@ -131,8 +130,4 @@ export class DeployConfigFileComponent implements OnInit {
       },
     });
   }
-
-
-
-
 }

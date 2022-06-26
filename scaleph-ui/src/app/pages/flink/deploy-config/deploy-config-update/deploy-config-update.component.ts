@@ -5,7 +5,7 @@ import {DeployConfigService} from "../../../../@core/services/flink/deploy-confi
 import {FlinkDeployConfig} from "../../../../@core/data/flink.data";
 
 @Component({
-  selector: 'app-project-update',
+  selector: 'app-deploy-config-update',
   templateUrl: './deploy-config-update.component.html',
   styleUrls: ['../deploy-config.component.scss'],
 })

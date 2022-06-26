@@ -2,7 +2,7 @@ import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
 
 @Component({
-  selector: 'app-release-delete',
+  selector: 'app-deploy-config-delete',
   templateUrl: './deploy-config-delete.component.html',
   styleUrls: ['../deploy-config.component.scss'],
 })
