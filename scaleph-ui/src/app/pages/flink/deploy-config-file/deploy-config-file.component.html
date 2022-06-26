@@ -87,7 +87,7 @@
                           *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                           icon="icon-delete"
                           bsStyle="text-dark"
-                          (btnClick)="openDeleteDeployConfigFileDialog(rowItem)"
+                          (btnClick)="openDeleteDeployConfigFileDialog([rowItem])"
                           title="{{ 'app.common.operate.delete.label' | translate }}"
                         ></d-button>
                       </div>

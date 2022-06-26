@@ -10,6 +10,7 @@ import {SysDictDataService} from "../../../@core/services/admin/dict-data.servic
 import {DeployConfigFileUploadComponent} from "./deploy-config-file-upload/deploy-config-file-upload.component";
 import {FileStatus, FlinkRelease} from "../../../@core/data/flink.data";
 import {ReleaseDeleteComponent} from "../release/release-delete/release-delete.component";
+import {DeployConfigFileDeleteComponent} from "./deploy-config-file-delete/deploy-config-file-delete.component";
 
 @Component({
   selector: 'app-deploy-config-file',
@@ -116,9 +117,10 @@ export class DeployConfigFileComponent implements OnInit {
       id: 'deploy-config-file-delete',
       width: '346px',
       backdropCloseable: true,
-      component: ReleaseDeleteComponent,
+      component: DeployConfigFileDeleteComponent,
       data: {
         title: this.translate.instant('app.common.operate.delete.confirm.title'),
+        id: this.flinkDeployConfig.id,
         items: items,
         onClose: (event: any) => {
           results.modalInstance.hide();

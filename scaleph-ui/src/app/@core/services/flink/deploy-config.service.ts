@@ -59,13 +59,10 @@ export class DeployConfigService {
     return this.http.post<ResponseBody<any>>(uploadUrl, params);
   }
 
-  deleteFiles(id: number, fileName: string): Observable<ResponseBody<any>> {
-    let deleteUrl = `${this.url}/` + id + '/file/' + fileName;
-    return this.http.delete<ResponseBody<any>>(deleteUrl);
+  deleteFiles(id: number, rows: FileStatus[]): Observable<ResponseBody<any>> {
+    let deleteUrl = `${this.url}/` + id + '/file';
+    console.log(rows)
+    let params = rows.map((row) => row.name);
+    return this.http.delete<ResponseBody<any>>(deleteUrl, {body: params});
   }
-
-
-
-
-
 }
