@@ -59,6 +59,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { HeaderNoticeComponent } from './components/header/header-operation/header-notice/header-notice.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconModule } from 'ng-devui/icon';
 
 const DEVUI_MODULES = [
   LayoutModule,
@@ -97,6 +98,8 @@ const DEVUI_MODULES = [
   PopoverModule,
   InputNumberModule,
   AlertModule,
+  IconModule,
+  TooltipModule,
 ];
 const COMPONENTS = [HeaderComponent, FooterComponent, NavbarComponent, PersonalizeComponent];
 @NgModule({

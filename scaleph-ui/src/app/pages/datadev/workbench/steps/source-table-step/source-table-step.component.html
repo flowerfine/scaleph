@@ -62,10 +62,15 @@
       <d-form-item>
         <d-form-label>
           {{ 'datadev.step.source-table.partitionColumn' | translate }}
-          <!-- <d-icon [icon]="'icon-setting'"></d-icon> -->
+          <d-icon
+            [icon]="'icon-infomation'"
+            dTooltip
+            content="{{ 'datadev.step.source-table.partitionColumn.tooltip' | translate }}"
+            [position]="'bottom'"
+          ></d-icon>
         </d-form-label>
         <d-form-control>
-          <input dTextInput name="partitionColumn" formControlName="partitionColumn" dTooltip [content]="'message'" [position]="'bottom'" />
+          <input dTextInput name="partitionColumn" formControlName="partitionColumn" />
         </d-form-control>
       </d-form-item>
     </d-col>
@@ -88,12 +93,11 @@
       </d-form-item>
     </d-col>
     <d-col [dSpan]="5">
-      <!-- todo implement  -->
-      <d-button bsStyle="common" style="padding-top: 36px; padding-bottom: 8px">{{
+      <d-button bsStyle="common" style="padding-top: 36px; padding-bottom: 8px" (btnClick)="getSQL()">{{
         'datadev.step.source-table.getsql' | translate
       }}</d-button>
       <br />
-      <d-button bsStyle="common">{{ 'datadev.step.source-table.preview' | translate }}</d-button>
+      <d-button bsStyle="common" (btnClick)="previewSQL()">{{ 'datadev.step.source-table.preview' | translate }}</d-button>
     </d-col>
   </d-row>
 </form>

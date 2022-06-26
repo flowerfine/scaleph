@@ -23,7 +23,6 @@ export class SourceTableStepComponent implements OnInit {
   jobId: string = '';
   stepCode: string = '';
   stepTitle: string = '';
-
   formLayout = FormLayout.Vertical;
   formConfig: { [Key: string]: DValidateRules } = {
     rule: { message: this.translate.instant('app.error.formValidateError'), messageShowType: 'text' },
@@ -101,5 +100,13 @@ export class SourceTableStepComponent implements OnInit {
       stepAttrMap.set(STEP_ATTR_TYPE.query, this.formGroup.get(STEP_ATTR_TYPE.query).value);
       this.onSave.emit(stepAttrMap);
     }
+  }
+
+  getSQL() {
+    alert('comming soon ... ');
+  }
+
+  previewSQL() {
+    alert('comming soon ... ');
   }
 }
