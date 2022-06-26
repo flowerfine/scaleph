@@ -122,7 +122,7 @@
         "expired": "登录用户信息过期，请重新登录！"
       },
       "validate": {
-        "characterWord": "只能输入字母数字或下划线",
+        "characterWord": "只能输入字母数字、下划线和点号",
         "number": "只能输入数字",
         "sameUserName": "用户名已存在",
         "sameEmail": "邮箱已存在",
