@@ -42,4 +42,12 @@ export class FlinkDeployConfigUploadParam {
   remark?: string;
 }
 
+export class FileStatus {
+  name?: string;
+  len?: number;
+  blockSize?: number;
+  modificationTime?: Date;
+  accessTime?: Date;
+}
+
 

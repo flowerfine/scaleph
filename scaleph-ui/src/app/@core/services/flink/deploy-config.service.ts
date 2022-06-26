@@ -2,13 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {PageResponse, ResponseBody} from '../../data/app.data';
-import {
-  FlinkDeployConfig,
-  FlinkDeployConfigUploadParam,
-  FlinkRelease,
-  FlinkReleaseUploadParam
-} from '../../data/flink.data';
-import {DiProject, DiResourceFile} from "../../data/datadev.data";
+import {FlinkDeployConfig, FlinkDeployConfigUploadParam} from '../../data/flink.data';
 
 @Injectable({
   providedIn: 'root',

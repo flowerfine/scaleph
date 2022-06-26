@@ -34,6 +34,7 @@
       "title": "Flink集群管理",
       "release": "发布管理",
       "deploy-config": "部署配置",
+      "deploy-config-file": "部署配置文件",
       "cluster-config": "集群配置",
       "cluster-instance": "集群实例"
     }
@@ -400,6 +401,11 @@
     "deploy-config": {
       "name_": "部署配置",
       "configType": "配置类型",
+      "name": "配置名称",
+      "upload": "上传"
+    },
+    "deploy-config-file": {
+      "name_": "部署配置文件",
       "name": "配置名称",
       "upload": "上传"
     }
