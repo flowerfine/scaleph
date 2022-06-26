@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -44,15 +45,15 @@ public class FlinkClusterConfigDTO extends BaseDTO {
 
     @NotBlank
     @ApiModelProperty("集群版本")
-    private String flinkVersion;
+    private DictVO flinkVersion;
 
     @NotNull
     @ApiModelProperty("Resource。0: Standalone, 1: Native Kubernetes, 2: YARN")
-    private Integer resourceProvider;
+    private DictVO resourceProvider;
 
     @NotNull
     @ApiModelProperty("flink 部署模式。0: Application, 1: Per-Job, 2: Session")
-    private Integer deployMode;
+    private DictVO deployMode;
 
     @NotNull
     @ApiModelProperty("release id")
