@@ -10,15 +10,15 @@
                     <div class="da-header-item-label">{{ 'flink.deploy-config.name_' | translate }}:</div>
                   </d-col>
                   <d-col>
-
+                    <div class="da-header-item-label">{{ flinkDeployConfig.name}}</div>
+                  </d-col>
+                  <d-col>
+                    <div class="da-header-item-label">{{ 'flink.deploy-config.configType' | translate }}:</div>
+                  </d-col>
+                  <d-col>
+                    <div class="da-header-item-label">{{ flinkDeployConfig.configType.label}}</div>
                   </d-col>
                 </d-row>
-              </div>
-              <div class="header-right">
-                <d-button style="margin-right: 8px" bsStyle="primary" (btnClick)="refreshTable()">{{
-                  'app.common.operate.query.label' | translate
-                }}</d-button>
-                <d-button bsStyle="common" (btnClick)="reset()">{{ 'app.common.operate.reset.label' | translate }}</d-button>
               </div>
             </div>
           </div>
@@ -60,27 +60,27 @@
                 (checkAllChange)="getDataTableCheckedStatus()"
 
               >
-                <d-column field="configType" header="{{ 'flink.deploy-config.configType' | translate }}">
-                  <d-cell>
-                    <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
-                  </d-cell>
-                </d-column>
-                <d-column field="name" header="{{ 'flink.deploy-config.name' | translate }}">
+                <d-column field="name" header="{{ 'flink.deploy-config-file.name' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="remark" header="{{ 'flink.remark' | translate }}">
+                <d-column field="len" header="{{ 'flink.deploy-config-file.len' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="createTime" header="{{ 'flink.createTime' | translate }}">
+                <d-column field="blockSize" header="{{ 'flink.deploy-config-file.blockSize' | translate }}">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="accessTime" header="{{ 'flink.deploy-config-file.accessTime' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="updateTime" header="{{ 'flink.updateTime' | translate }}">
+                <d-column field="modificationTime" header="{{ 'flink.deploy-config-file.modificationTime' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
                   </d-cell>

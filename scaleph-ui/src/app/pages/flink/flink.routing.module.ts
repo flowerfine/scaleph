@@ -12,7 +12,7 @@ const routes: Routes = [
     children: [
       { path: 'release', component: ReleaseComponent },
       { path: 'deploy-config', component: DeployConfigComponent },
-      { path: 'deploy-config-config', component: DeployConfigFileComponent },
+      { path: 'deploy-config-file', component: DeployConfigFileComponent },
       { path: '', redirectTo: 'release', pathMatch: 'full' },
     ],
   },

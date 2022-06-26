@@ -1,16 +1,16 @@
 import {DOCUMENT} from '@angular/common';
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/app.data';
-import {FileStatus, FlinkDeployConfigParam, FlinkRelease} from 'src/app/@core/data/flink.data';
+import {FileStatus, FlinkDeployConfig, FlinkDeployConfigParam, FlinkRelease} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 
 @Component({
-  selector: 'app-release',
+  selector: 'app-deploy-config-file',
   templateUrl: './deploy-config-file.component.html',
   styleUrls: ['./deploy-config-file.component.scss'],
 })
@@ -29,7 +29,7 @@ export class DeployConfigFileComponent implements OnInit {
   };
   searchFormConfig = {id: null};
 
-  flinkDeployConfigTypeList: Dict[] = []
+  flinkDeployConfig: FlinkDeployConfig = {}
 
   constructor(
     public authService: AuthService,
@@ -39,14 +39,15 @@ export class DeployConfigFileComponent implements OnInit {
     private modalService: ModalService,
     private dictDataService: SysDictDataService,
     private deployConfigService: DeployConfigService,
+    private route: ActivatedRoute,
     private router: Router
   ) {
   }
 
   ngOnInit(): void {
-    this.refreshTable();
-    this.dictDataService.listByType(DICT_TYPE.flinkDeployConfigType).subscribe((d) => {
-      this.flinkDeployConfigTypeList = d;
+    this.route.queryParams.subscribe((params) => {
+      this.flinkDeployConfig = params
+      this.refreshTable();
     });
   }
 
@@ -90,20 +91,5 @@ export class DeployConfigFileComponent implements OnInit {
 
   reset() {
     this.refreshTable();
-  }
-
-
-  downloadRelease(item: FlinkRelease) {
-    let url: string =
-      'api/flink/release/' + item.id +
-      '?' +
-      USER_AUTH.token +
-      '=' +
-      localStorage.getItem(USER_AUTH.token);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = item.fileName;
-    a.click();
-    window.URL.revokeObjectURL(url);
   }
 }

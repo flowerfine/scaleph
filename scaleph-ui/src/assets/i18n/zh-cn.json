@@ -406,8 +406,11 @@
     },
     "deploy-config-file": {
       "name_": "部署配置文件",
-      "name": "配置名称",
-      "upload": "上传"
+      "name": "文件名",
+      "len": "文件大小",
+      "blockSize": "文件块大小",
+      "modificationTime": "修改时间",
+      "accessTime": "访问时间"
     }
   },
   "header": {
