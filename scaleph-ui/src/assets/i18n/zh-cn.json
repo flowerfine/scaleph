@@ -311,6 +311,8 @@
     "step.sink-table.dataSourceType": "数据源类型",
     "step.sink-table.dataSource": "数据源",
     "step.sink-table.query": "SQL",
+    "step.sink-table.preSQL": "前置SQL",
+    "step.sink-table.postSQL": "后置SQL",
     "step.sink-table.batchSize": "提交记录数量"
   },
   "stdata": {

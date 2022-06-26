@@ -45,7 +45,7 @@ export class SourceTableStepComponent implements OnInit {
     dataSourceType: [null],
     dataSource: [null],
     query: [null],
-    partitionColumn: [null],
+    partition_column: [null],
   });
 
   constructor(
@@ -78,6 +78,7 @@ export class SourceTableStepComponent implements OnInit {
         this.formGroup.patchValue({ dataSource: JSON.parse(stepAttrMap.get(STEP_ATTR_TYPE.dataSource)) });
       }
       this.formGroup.patchValue({ query: stepAttrMap.get(STEP_ATTR_TYPE.query) });
+      this.formGroup.patchValue({ partition_column: stepAttrMap.get(STEP_ATTR_TYPE.partitionColumn) });
     });
   }
 
@@ -98,6 +99,7 @@ export class SourceTableStepComponent implements OnInit {
       stepAttrMap.set(STEP_ATTR_TYPE.dataSourceType, this.formGroup.get(STEP_ATTR_TYPE.dataSourceType).value);
       stepAttrMap.set(STEP_ATTR_TYPE.dataSource, this.formGroup.get(STEP_ATTR_TYPE.dataSource).value);
       stepAttrMap.set(STEP_ATTR_TYPE.query, this.formGroup.get(STEP_ATTR_TYPE.query).value);
+      stepAttrMap.set(STEP_ATTR_TYPE.partitionColumn, this.formGroup.get(STEP_ATTR_TYPE.partitionColumn).value);
       this.onSave.emit(stepAttrMap);
     }
   }

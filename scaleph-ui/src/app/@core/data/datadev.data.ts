@@ -208,4 +208,6 @@ export const STEP_ATTR_TYPE = {
   query: 'query',
   partitionColumn: 'partition_column',
   batchSize: 'batchSize',
+  preSQL: 'pre_sql',
+  postSQL: 'post_sql',
 };

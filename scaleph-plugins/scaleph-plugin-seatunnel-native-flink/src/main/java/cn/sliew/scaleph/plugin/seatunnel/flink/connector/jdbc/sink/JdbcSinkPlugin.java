@@ -30,8 +30,7 @@ import java.util.List;
 
 import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.JDBC_SINK;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.JdbcProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.sink.JdbcSinkProperties.BATCH_SIZE;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.sink.JdbcSinkProperties.QUERY;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.sink.JdbcSinkProperties.*;
 
 public class JdbcSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
@@ -46,6 +45,8 @@ public class JdbcSinkPlugin extends SeatunnelNativeFlinkPlugin {
         props.add(QUERY);
         props.add(BATCH_SIZE);
         props.add(PARALLELISM);
+        props.add(PRE_SQL);
+        props.add(POST_SQL);
 
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

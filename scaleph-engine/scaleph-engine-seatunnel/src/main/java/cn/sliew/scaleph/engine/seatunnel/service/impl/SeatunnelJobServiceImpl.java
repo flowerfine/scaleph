@@ -197,6 +197,9 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
             scheduleService.deleteScheduleJob(seatunnelJobKey);
         }
         scheduleService.addScheduleJob(seatunnelJob, seatunnelJobTri);
+        diJobDTO.setRuntimeState(
+                DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
+        diJobService.update(diJobDTO);
     }
 
     @Override
