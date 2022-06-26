@@ -3,8 +3,8 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
-import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/app.data';
-import {FileStatus, FlinkDeployConfig, FlinkDeployConfigParam, FlinkRelease} from 'src/app/@core/data/flink.data';
+import {PRIVILEGE_CODE} from 'src/app/@core/data/app.data';
+import {FileStatus} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
@@ -21,8 +21,6 @@ export class DeployConfigFileComponent implements OnInit {
   dataTableChecked: boolean = false;
   loadTarget: any;
   dataTableDs: FileStatus[] = [];
-
-  searchFormConfig = {id: null};
 
   flinkDeployConfig = null
 
@@ -78,7 +76,6 @@ export class DeployConfigFileComponent implements OnInit {
     }
   }
 
-  reset() {
-    this.refreshTable();
-  }
+
+
 }

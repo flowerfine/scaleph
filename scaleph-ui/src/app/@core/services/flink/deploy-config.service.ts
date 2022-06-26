@@ -50,6 +50,16 @@ export class DeployConfigService {
     return this.http.get<ResponseBody<Array<FileStatus>>>(`${this.url}/` + id + '/file');
   }
 
+  uploadFiles(id: number, files: File[]): Observable<ResponseBody<any>> {
+    let uploadUrl = `${this.url}/` + id + '/file'
+    const params: FormData = new FormData();
+    files.forEach(function (file) {
+      params.append("files", file)
+    })
+    return this.http.post<ResponseBody<any>>(uploadUrl, params);
+  }
+
+
 
 
 
