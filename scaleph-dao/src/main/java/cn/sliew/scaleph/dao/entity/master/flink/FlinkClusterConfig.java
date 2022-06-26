@@ -51,11 +51,11 @@ public class FlinkClusterConfig extends BaseDO {
 
     @ApiModelProperty("Resource。0: Standalone, 1: Native Kubernetes, 2: YARN")
     @TableField("resource_provider")
-    private Integer resourceProvider;
+    private String resourceProvider;
 
     @ApiModelProperty("flink 部署模式。0: Application, 1: Per-Job, 2: Session")
     @TableField("deploy_mode")
-    private Integer deployMode;
+    private String deployMode;
 
     @ApiModelProperty("release id")
     @TableField("flink_release_id")

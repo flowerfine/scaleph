@@ -18,10 +18,6 @@
 
 package cn.sliew.scaleph.system.service.impl;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-
 import cn.sliew.scaleph.cache.CachingConfig;
 import cn.sliew.scaleph.dao.entity.master.system.SysDict;
 import cn.sliew.scaleph.dao.mapper.master.system.SysDictMapper;
@@ -37,6 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -90,7 +90,7 @@ public class SysDictServiceImpl implements SysDictService {
     @Override
     public int deleteByType(String dictCodeType) {
         int result = this.sysDictMapper.delete(new LambdaQueryWrapper<SysDict>()
-            .eq(SysDict::getDictTypeCode, dictCodeType));
+                .eq(SysDict::getDictTypeCode, dictCodeType));
         DictCache.evictCacheByType(dictCodeType);
         return result;
     }
@@ -106,8 +106,9 @@ public class SysDictServiceImpl implements SysDictService {
     @Override
     public List<SysDictDTO> selectByType(String dictTypeCode) {
         List<SysDict> list = this.sysDictMapper.selectList(new QueryWrapper<SysDict>()
-            .lambda()
-            .eq(SysDict::getDictTypeCode, dictTypeCode));
+                .lambda()
+                .eq(SysDict::getDictTypeCode, dictTypeCode)
+                .orderByAsc(SysDict::getDictCode));
         List<SysDictDTO> dtoList = SysDictConvert.INSTANCE.toDto(list);
         DictCache.updateCache(dtoList);
         return dtoList;
@@ -123,16 +124,16 @@ public class SysDictServiceImpl implements SysDictService {
     public Page<SysDictDTO> listByPage(SysDictParam param) {
         Page<SysDictDTO> result = new Page<>();
         Page<SysDict> list = this.sysDictMapper.selectPage(
-            new Page<>(param.getCurrent(), param.getPageSize()),
-            new LambdaQueryWrapper<SysDict>()
-                .like(StringUtils.hasText(param.getDictTypeCode()), SysDict::getDictTypeCode,
-                    param.getDictTypeCode())
-                .like(StringUtils.hasText(param.getDictCode()), SysDict::getDictCode,
-                    param.getDictCode())
-                .like(StringUtils.hasText(param.getDictValue()), SysDict::getDictValue,
-                    param.getDictValue())
-                .eq(StringUtils.hasText(param.getIsValid()), SysDict::getIsValid,
-                    param.getIsValid())
+                new Page<>(param.getCurrent(), param.getPageSize()),
+                new LambdaQueryWrapper<SysDict>()
+                        .like(StringUtils.hasText(param.getDictTypeCode()), SysDict::getDictTypeCode,
+                                param.getDictTypeCode())
+                        .like(StringUtils.hasText(param.getDictCode()), SysDict::getDictCode,
+                                param.getDictCode())
+                        .like(StringUtils.hasText(param.getDictValue()), SysDict::getDictValue,
+                                param.getDictValue())
+                        .eq(StringUtils.hasText(param.getIsValid()), SysDict::getIsValid,
+                                param.getIsValid())
         );
         List<SysDictDTO> dtoList = SysDictConvert.INSTANCE.toDto(list.getRecords());
         DictCache.updateCache(dtoList);

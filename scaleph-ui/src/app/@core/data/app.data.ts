@@ -92,6 +92,9 @@ export const DICT_TYPE = {
   clusterType: 'cluster_type',
   dataType: 'data_type',
   flinkDeployConfigType: 'flink_deploy_config_type',
+  flinkResourceProvider: 'flink_resource_provider',
+  flinkDeploymentMode: 'flink_deployment_mode',
+  flinkVersion: 'flink_version',
 };
 
 export const USER_AUTH = {
