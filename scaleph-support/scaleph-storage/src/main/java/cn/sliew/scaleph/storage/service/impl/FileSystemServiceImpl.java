@@ -162,6 +162,9 @@ public class FileSystemServiceImpl implements FileSystemService {
     @Override
     public List<FileStatus> listStatus(String directory) throws IOException {
         Path path = new Path(fs.getWorkingDirectory(), directory);
-        return Arrays.asList(fs.listStatus(path));
+        if (fs.exists(path)) {
+            return Arrays.asList(fs.listStatus(path));
+        }
+        return Collections.emptyList();
     }
 }

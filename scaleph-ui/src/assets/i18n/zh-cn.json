@@ -34,6 +34,7 @@
       "title": "Flink集群管理",
       "release": "发布管理",
       "deploy-config": "部署配置",
+      "deploy-config-file": "部署配置文件",
       "cluster-config": "集群配置",
       "cluster-instance": "集群实例"
     }
@@ -67,6 +68,10 @@
             "title": "确认删除?",
             "content": "数据删除后不可恢复，请谨慎操作！"
           }
+        },
+        "refresh": {
+          "label": "刷新",
+          "tip": "刷新"
         },
         "query": {
           "label": "查询",
@@ -400,7 +405,13 @@
     "deploy-config": {
       "name_": "部署配置",
       "configType": "配置类型",
-      "name": "配置名称",
+      "name": "配置名称"
+    },
+    "deploy-config-file": {
+      "name_": "部署配置文件",
+      "name": "文件名",
+      "len": "文件大小",
+      "modificationTime": "修改时间",
       "upload": "上传"
     }
   },

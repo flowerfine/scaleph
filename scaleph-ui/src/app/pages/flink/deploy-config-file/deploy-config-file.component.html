@@ -6,31 +6,19 @@
             <div class="da-list-header">
               <div class="da-header-left">
                 <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
-
                   <d-col>
-                    <div class="da-header-item-label">{{ 'flink.release.version' | translate }}:</div>
+                    <div class="da-header-item-label">{{ 'flink.deploy-config.configType' | translate }}:</div>
                   </d-col>
                   <d-col>
-                    <d-select name="version"
-                              [allowClear]="true"
-                              [options]="options"
-                              size="sm"
-                              [(ngModel)]="searchFormConfig.version"
-                              (valueChange)="refreshTable()"></d-select>
+                    <div class="da-header-item-label">{{ flinkDeployConfig?.configType?.label}}</div>
                   </d-col>
                   <d-col>
-                    <div class="da-header-item-label">{{ 'flink.release.fileName' | translate }}:</div>
+                    <div class="da-header-item-label">{{ 'flink.deploy-config.name_' | translate }}:</div>
                   </d-col>
                   <d-col>
-                    <input dTextInput name="fileName" [(ngModel)]="searchFormConfig.fileName" (keyup.enter)="refreshTable()" />
+                    <div class="da-header-item-label">{{ flinkDeployConfig?.name}}</div>
                   </d-col>
                 </d-row>
-              </div>
-              <div class="header-right">
-                <d-button style="margin-right: 8px" bsStyle="primary" (btnClick)="refreshTable()">{{
-                  'app.common.operate.query.label' | translate
-                }}</d-button>
-                <d-button bsStyle="common" (btnClick)="reset()">{{ 'app.common.operate.reset.label' | translate }}</d-button>
               </div>
             </div>
           </div>
@@ -47,19 +35,19 @@
                   <d-button
                     *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
                     bsStyle="primary"
-                    (btnClick)="openUploadReleaseDialog()"
-                    >{{ 'flink.release.upload' | translate }}</d-button>
+                    (btnClick)="refreshTable()"
+                  >{{ 'app.common.operate.refresh.label' | translate }}</d-button>
                   <d-button
                     *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
                     bsStyle="common"
-                    (btnClick)="openLoadReleaseDialog()"
-                  >{{ 'flink.release.load' | translate }}</d-button>
+                    (btnClick)="openUploadDeployConfigFileDialog()"
+                    >{{ 'flink.deploy-config-file.upload' | translate }}</d-button>
                   <d-button
                     *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                     bsStyle="common"
-                    (btnClick)="openDeleteReleaseDialog(dataTable.getCheckedRows())"
+                    (btnClick)="openDeleteDeployConfigFileDialog(dataTable.getCheckedRows())"
                     [disabled]="!dataTableChecked"
-                    >{{ 'app.common.operate.delete.label' | translate }}</d-button>
+                  >{{ 'app.common.operate.delete.label' | translate }}</d-button>
                 </d-button-group>
               </div>
             </div>
@@ -74,34 +62,18 @@
                 [fixHeader]="true"
                 (rowCheckChange)="getDataTableCheckedStatus()"
                 (checkAllChange)="getDataTableCheckedStatus()"
-
               >
-                <d-column field="version" header="{{ 'flink.release.version' | translate }}">
+                <d-column field="name" header="{{ 'flink.deploy-config-file.name' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="fileName" header="{{ 'flink.release.fileName' | translate }}">
+                <d-column field="len" header="{{ 'flink.deploy-config-file.len' | translate }}">
                   <d-cell>
-                    <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
+                    <ng-template let-cellItem="cellItem">{{ cellItem }} B</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="path" header="{{ 'flink.release.path' | translate }}">
-                    <d-cell>
-                      <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                    </d-cell>
-                  </d-column>
-                <d-column field="remark" header="{{ 'flink.remark' | translate }}">
-                  <d-cell>
-                    <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                  </d-cell>
-                </d-column>
-                <d-column field="createTime" header="{{ 'flink.createTime' | translate }}">
-                  <d-cell>
-                    <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
-                  </d-cell>
-                </d-column>
-                <d-column field="updateTime" header="{{ 'flink.updateTime' | translate }}">
+                <d-column field="modificationTime" header="{{ 'flink.deploy-config-file.modificationTime' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
                   </d-cell>
@@ -114,14 +86,14 @@
                           *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
                           icon="icon-download"
                           bsStyle="text-dark"
-                          (btnClick)="downloadRelease(rowItem)"
+                          (btnClick)="downloadDeployConfigFile(rowItem)"
                           title="{{ 'app.common.operate.download.label' | translate }}"
                         ></d-button>
                         <d-button
                           *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                           icon="icon-delete"
                           bsStyle="text-dark"
-                          (btnClick)="openDeleteReleaseDialog([rowItem])"
+                          (btnClick)="openDeleteDeployConfigFileDialog([rowItem])"
                           title="{{ 'app.common.operate.delete.label' | translate }}"
                         ></d-button>
                       </div>
@@ -132,24 +104,6 @@
                   <div style="text-align: center; margin-top: 20px">{{ 'app.common.noRecord' | translate }}</div>
                 </ng-template>
               </d-data-table>
-            </div>
-            <div class="da-list-footer">
-              <div class="footer-left"></div>
-              <div class="footer-right">
-                <d-pagination
-                  size=""
-                  [total]="pager.total"
-                  [(pageSize)]="pager.pageSize"
-                  [(pageIndex)]="pager.pageIndex"
-                  [canViewTotal]="true"
-                  [canChangePageSize]="true"
-                  [canJumpPage]="true"
-                  [maxItems]="5"
-                  (pageIndexChange)="refreshTable()"
-                  (pageSizeChange)="refreshTable()"
-                >
-                </d-pagination>
-              </div>
             </div>
           </div>
         </d-col>

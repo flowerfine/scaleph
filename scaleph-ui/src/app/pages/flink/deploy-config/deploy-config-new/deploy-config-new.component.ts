@@ -1,13 +1,13 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {DValidateRules, FormLayout, IFileOptions, IUploadOptions} from 'ng-devui';
-import {FlinkDeployConfig, FlinkDeployConfigUploadParam} from "../../../../@core/data/flink.data";
+import {DValidateRules, FormLayout} from 'ng-devui';
+import {FlinkDeployConfig} from "../../../../@core/data/flink.data";
 import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
 import {Dict, DICT_TYPE} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
 
 @Component({
-  selector: 'app-project-new',
+  selector: 'app-deploy-config-new',
   templateUrl: './deploy-config-new.component.html',
   styleUrls: ['../deploy-config.component.scss'],
 })

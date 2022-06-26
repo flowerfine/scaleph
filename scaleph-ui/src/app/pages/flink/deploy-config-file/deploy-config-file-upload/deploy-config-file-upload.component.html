@@ -19,13 +19,13 @@
       <d-form-item>
         <d-form-label [required]="true">{{ 'flink.deploy-config.configType' | translate }}</d-form-label>
         <d-form-control>
-          <input dTextInput name="configType" [(ngModel)]="formData.configType" [dValidateRules]="formConfig.versionRules" />
+          <input dTextInput name="configType" [disabled]="true" [(ngModel)]="data.flinkDeployConfig.configType.label" />
         </d-form-control>
       </d-form-item>
       <d-form-item>
         <d-form-label [required]="true">{{ 'flink.deploy-config.name' | translate }}</d-form-label>
         <d-form-control>
-          <input dTextInput name="name" [(ngModel)]="formData.name" [dValidateRules]="formConfig.versionRules" />
+          <input dTextInput name="name" [disabled]="true" [(ngModel)]="data.flinkDeployConfig.name" />
         </d-form-control>
       </d-form-item>
       <d-form-item>
@@ -43,12 +43,6 @@
             (fileSelect)="onFileSelect($event)"
           >
           </d-multiple-upload>
-        </d-form-control>
-      </d-form-item>
-      <d-form-item>
-        <d-form-label>{{ 'flink.remark' | translate }}</d-form-label>
-        <d-form-control>
-          <input dTextInput name="remark" [(ngModel)]="formData.remark" [dValidateRules]="formConfig.remarkRules" />
         </d-form-control>
       </d-form-item>
     </div>

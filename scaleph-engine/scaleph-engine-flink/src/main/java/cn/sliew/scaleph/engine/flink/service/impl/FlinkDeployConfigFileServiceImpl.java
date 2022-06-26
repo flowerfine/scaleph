@@ -119,18 +119,16 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
 
     @Override
     public List<FileStatusVO> listDeployConfigFile(Long id) throws IOException {
-        final FlinkDeployConfigFileDTO flinkDeployConfigFileDTO = selectOne(id);
-        final List<FileStatus> fileStatuses = fileSystemService.listStatus(getFlinkDeployConfigFileRootPath() + "/" + flinkDeployConfigFileDTO.getName());
+        final List<FileStatus> fileStatuses = fileSystemService.listStatus(getFlinkDeployConfigFileRootPath() + "/" + id);
         return FileStatusVOConvert.INSTANCE.toVO(fileStatuses);
     }
 
     @Override
     public void uploadDeployConfigFile(Long id, MultipartFile[] files) throws IOException {
         checkArgument(files != null && files.length > 0, () -> "upload config file must not be empty");
-        final FlinkDeployConfigFileDTO flinkDeployConfigFileDTO = selectOne(id);
         for (MultipartFile file : files) {
             try (final InputStream inputStream = file.getInputStream()) {
-                final String flinkDeployConfigFilePath = getFlinkDeployConfigFilePath(flinkDeployConfigFileDTO.getName(), file.getOriginalFilename());
+                final String flinkDeployConfigFilePath = getFlinkDeployConfigFilePath(id, file.getOriginalFilename());
                 fileSystemService.upload(inputStream, flinkDeployConfigFilePath);
             }
         }
@@ -138,8 +136,7 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
 
     @Override
     public void downloadDeployConfigFile(Long id, String fileName, OutputStream outputStream) throws IOException {
-        final FlinkDeployConfigFileDTO record = selectOne(id);
-        String path = getFlinkDeployConfigFilePath(record.getName(), fileName);
+        String path = getFlinkDeployConfigFilePath(id, fileName);
         try (final InputStream inputStream = fileSystemService.get(path)) {
             FileCopyUtils.copy(inputStream, outputStream);
         }
@@ -147,13 +144,19 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
 
     @Override
     public void deleteDeployConfigFile(Long id, String fileName) throws IOException {
-        final FlinkDeployConfigFileDTO record = selectOne(id);
-        String path = getFlinkDeployConfigFilePath(record.getName(), fileName);
+        String path = getFlinkDeployConfigFilePath(id, fileName);
         fileSystemService.delete(path);
     }
 
-    private String getFlinkDeployConfigFilePath(String name, String fileName) {
-        return String.format("%s/%s/%s", getFlinkDeployConfigFileRootPath(), name, fileName);
+    @Override
+    public void deleteDeployConfigFiles(Long id, List<String> fileNames) throws IOException {
+        for (String fileName : fileNames) {
+            deleteDeployConfigFile(id, fileName);
+        }
+    }
+
+    private String getFlinkDeployConfigFilePath(Long id, String fileName) {
+        return String.format("%s/%d/%s", getFlinkDeployConfigFileRootPath(), id, fileName);
     }
 
     private String getFlinkDeployConfigFileRootPath() {

@@ -2,13 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {PageResponse, ResponseBody} from '../../data/app.data';
-import {
-  FlinkDeployConfig,
-  FlinkDeployConfigUploadParam,
-  FlinkRelease,
-  FlinkReleaseUploadParam
-} from '../../data/flink.data';
-import {DiProject, DiResourceFile} from "../../data/datadev.data";
+import {FileStatus, FlinkDeployConfig, FlinkDeployConfigUploadParam} from '../../data/flink.data';
 
 @Injectable({
   providedIn: 'root',
@@ -24,8 +18,11 @@ export class DeployConfigService {
     return this.http.get<PageResponse<FlinkDeployConfig>>(`${this.url}`, {params});
   }
 
+  selectOne(id): Observable<ResponseBody<FlinkDeployConfig>> {
+    return this.http.get<ResponseBody<FlinkDeployConfig>>(`${this.url}/` + id);
+  }
+
   add(row: FlinkDeployConfig): Observable<ResponseBody<any>> {
-    console.log(row)
     return this.http.put<ResponseBody<any>>(this.url, row);
   }
 
@@ -49,5 +46,22 @@ export class DeployConfigService {
     return this.http.post<ResponseBody<any>>(`${this.url}/upload`, params);
   }
 
+  getFiles(id): Observable<ResponseBody<Array<FileStatus>>> {
+    return this.http.get<ResponseBody<Array<FileStatus>>>(`${this.url}/` + id + '/file');
+  }
 
+  uploadFiles(id: number, files: File[]): Observable<ResponseBody<any>> {
+    let uploadUrl = `${this.url}/` + id + '/file'
+    const params: FormData = new FormData();
+    files.forEach(function (file) {
+      params.append("files", file)
+    })
+    return this.http.post<ResponseBody<any>>(uploadUrl, params);
+  }
+
+  deleteFiles(id: number, rows: FileStatus[]): Observable<ResponseBody<any>> {
+    let deleteUrl = `${this.url}/` + id + '/file';
+    let params = rows.map((row) => row.name);
+    return this.http.delete<ResponseBody<any>>(deleteUrl, {body: params});
+  }
 }

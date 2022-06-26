@@ -106,15 +106,8 @@
                           *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevJobShow)"
                           icon="icon-list-view"
                           bsStyle="text-dark"
-
+                          (btnClick)="openDeployConfig(rowItem)"
                           title="{{ 'datadev.project.enter' | translate }}"
-                        ></d-button>
-                        <d-button
-                          *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
-                          icon="icon-upload"
-                          bsStyle="text-dark"
-
-                          title="{{ 'datadev.project.upload-resource' | translate }}"
                         ></d-button>
                         <d-button
                           *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
