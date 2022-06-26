@@ -46,6 +46,7 @@ export class SourceTableStepComponent implements OnInit {
     dataSourceType: [null],
     dataSource: [null],
     query: [null],
+    partitionColumn: [null],
   });
 
   constructor(

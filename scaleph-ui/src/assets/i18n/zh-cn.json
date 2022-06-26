@@ -304,6 +304,7 @@
     "step.source-table.dataSourceType": "数据源类型",
     "step.source-table.dataSource": "数据源",
     "step.source-table.query": "SQL",
+    "step.source-table.partitionColumn": "分区字段",
     "step.source-table.getsql": "获取sql查询语句",
     "step.source-table.preview": "预览查询结果",
     "step.sink-table.dataSourceType": "数据源类型",
