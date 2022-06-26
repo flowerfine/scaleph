@@ -8,6 +8,8 @@ import {FileStatus} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
+import {ReleaseUploadComponent} from "../release/release-upload/release-upload.component";
+import {DeployConfigFileUploadComponent} from "./deploy-config-file-upload/deploy-config-file-upload.component";
 
 @Component({
   selector: 'app-deploy-config-file',
@@ -74,6 +76,25 @@ export class DeployConfigFileComponent implements OnInit {
     } else {
       this.dataTableChecked = false;
     }
+  }
+
+  openUploadDeployConfigFileDialog() {
+    const results = this.modalService.open({
+      id: 'deploy-config-file-upload',
+      width: '580px',
+      backdropCloseable: true,
+      component: DeployConfigFileUploadComponent,
+      data: {
+        title: {name: this.translate.instant('flink.deploy-config-file.name_')},
+        flinkDeployConfig: this.flinkDeployConfig,
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
   }
 
 
