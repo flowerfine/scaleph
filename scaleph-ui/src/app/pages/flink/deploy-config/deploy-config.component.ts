@@ -122,7 +122,9 @@ export class DeployConfigComponent implements OnInit {
 
   openDeployConfig(row: FlinkDeployConfig) {
     this.router.navigate(['/scaleph', 'flink', 'deploy-config-file'], {
-      queryParams: row
+      queryParams: {
+        id: row.id
+      }
     });
   }
 

@@ -21,15 +21,10 @@ export class DeployConfigFileComponent implements OnInit {
   dataTableChecked: boolean = false;
   loadTarget: any;
   dataTableDs: FileStatus[] = [];
-  pager = {
-    total: 0,
-    pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
-    pageSize: DEFAULT_PAGE_PARAM.pageSize,
-    pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
-  };
+
   searchFormConfig = {id: null};
 
-  flinkDeployConfig: FlinkDeployConfig = {}
+  flinkDeployConfig = null
 
   constructor(
     public authService: AuthService,
@@ -46,23 +41,17 @@ export class DeployConfigFileComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.flinkDeployConfig = params
-      this.refreshTable();
+      this.deployConfigService.selectOne(params.id).subscribe((d) => {
+        this.flinkDeployConfig = d
+        this.refreshTable();
+      });
     });
   }
 
   refreshTable() {
     this.openDataTableLoading();
-    let param: FlinkDeployConfigParam = {
-      pageSize: this.pager.pageSize,
-      current: this.pager.pageIndex,
-      // configType: this.searchFormConfig.configType ? this.searchFormConfig.configType.value : '',
-      // name: this.searchFormConfig.name,
-    };
-
-    this.deployConfigService.list(param).subscribe((d) => {
-      this.pager.total = d.total;
-      this.dataTableDs = d.records;
+    this.deployConfigService.getFiles(this.flinkDeployConfig?.id).subscribe((d) => {
+      this.dataTableDs = d.data;
       this.loadTarget.loadingInstance.close();
       this.dataLoading = false;
       this.dataTable.setTableCheckStatus({pageAllChecked: false});

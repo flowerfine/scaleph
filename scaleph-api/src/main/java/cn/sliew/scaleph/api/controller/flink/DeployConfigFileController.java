@@ -59,6 +59,14 @@ public class DeployConfigFileController {
     }
 
     @Logging
+    @GetMapping({"{id}"})
+    @ApiOperation(value = "查询部署配置", notes = "查询部署配置")
+    public ResponseEntity<FlinkDeployConfigFileDTO> selectOne(@PathVariable("id") Long id) {
+        final FlinkDeployConfigFileDTO result = flinkDeployConfigFileService.selectOne(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
     @PutMapping
     @ApiOperation(value = "新增部署配置", notes = "新增部署配置")
     public ResponseEntity<ResponseVO> addDeployConfig(@Valid @RequestBody FlinkDeployConfigFileDTO param) {

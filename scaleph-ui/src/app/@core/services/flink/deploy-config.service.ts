@@ -2,7 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {PageResponse, ResponseBody} from '../../data/app.data';
-import {FlinkDeployConfig, FlinkDeployConfigUploadParam} from '../../data/flink.data';
+import {FileStatus, FlinkDeployConfig, FlinkDeployConfigUploadParam} from '../../data/flink.data';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +18,11 @@ export class DeployConfigService {
     return this.http.get<PageResponse<FlinkDeployConfig>>(`${this.url}`, {params});
   }
 
+  selectOne(id): Observable<ResponseBody<FlinkDeployConfig>> {
+    return this.http.get<ResponseBody<FlinkDeployConfig>>(`${this.url}/` + id);
+  }
+
   add(row: FlinkDeployConfig): Observable<ResponseBody<any>> {
-    console.log(row)
     return this.http.put<ResponseBody<any>>(this.url, row);
   }
 
@@ -42,6 +45,12 @@ export class DeployConfigService {
     params.append("remark", uploadParam.remark)
     return this.http.post<ResponseBody<any>>(`${this.url}/upload`, params);
   }
+
+  getFiles(id): Observable<ResponseBody<Array<FileStatus>>> {
+    return this.http.get<ResponseBody<Array<FileStatus>>>(`${this.url}/` + id + '/file');
+  }
+
+
 
 
 }

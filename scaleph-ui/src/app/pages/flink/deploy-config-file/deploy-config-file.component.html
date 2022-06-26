@@ -7,16 +7,16 @@
               <div class="da-header-left">
                 <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
                   <d-col>
-                    <div class="da-header-item-label">{{ 'flink.deploy-config.name_' | translate }}:</div>
-                  </d-col>
-                  <d-col>
-                    <div class="da-header-item-label">{{ flinkDeployConfig.name}}</div>
-                  </d-col>
-                  <d-col>
                     <div class="da-header-item-label">{{ 'flink.deploy-config.configType' | translate }}:</div>
                   </d-col>
                   <d-col>
-                    <div class="da-header-item-label">{{ flinkDeployConfig.configType.label}}</div>
+                    <div class="da-header-item-label">{{ flinkDeployConfig?.configType?.label}}</div>
+                  </d-col>
+                  <d-col>
+                    <div class="da-header-item-label">{{ 'flink.deploy-config.name_' | translate }}:</div>
+                  </d-col>
+                  <d-col>
+                    <div class="da-header-item-label">{{ flinkDeployConfig?.name}}</div>
                   </d-col>
                 </d-row>
               </div>
