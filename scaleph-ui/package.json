@@ -15,7 +15,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~13.3.11",
-    "@angular/cdk": "^12.2.9",
+    "@angular/cdk": "^13.3.9",
     "@angular/common": "~13.3.11",
     "@angular/compiler": "~13.3.11",
     "@angular/core": "~13.3.11",
@@ -38,14 +38,14 @@
     "echarts": "^5.2.1",
     "moment": "^2.29.3",
     "ng-devui": "^13.2.0",
-    "ng-devui-admin": "^13.0.1",
+
     "rxjs": "~7.4.0",
     "tslib": "^2.3.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^12.2.9",
-    "@angular/cli": "^12.2.9",
+    "@angular-devkit/build-angular": "^13.3.8",
+    "@angular/cli": "^13.3.8",
     "@angular/compiler-cli": "~13.3.11",
     "@types/jasmine": "~3.9.1",
     "@types/node": "^16.10.3",
