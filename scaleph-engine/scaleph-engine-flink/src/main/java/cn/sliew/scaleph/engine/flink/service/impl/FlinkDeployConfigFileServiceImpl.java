@@ -148,6 +148,13 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
         fileSystemService.delete(path);
     }
 
+    @Override
+    public void deleteDeployConfigFiles(Long id, List<String> fileNames) throws IOException {
+        for (String fileName : fileNames) {
+            deleteDeployConfigFile(id, fileName);
+        }
+    }
+
     private String getFlinkDeployConfigFilePath(Long id, String fileName) {
         return String.format("%s/%d/%s", getFlinkDeployConfigFileRootPath(), id, fileName);
     }

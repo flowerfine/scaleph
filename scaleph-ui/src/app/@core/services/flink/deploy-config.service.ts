@@ -61,7 +61,6 @@ export class DeployConfigService {
 
   deleteFiles(id: number, rows: FileStatus[]): Observable<ResponseBody<any>> {
     let deleteUrl = `${this.url}/` + id + '/file';
-    console.log(rows)
     let params = rows.map((row) => row.name);
     return this.http.delete<ResponseBody<any>>(deleteUrl, {body: params});
   }

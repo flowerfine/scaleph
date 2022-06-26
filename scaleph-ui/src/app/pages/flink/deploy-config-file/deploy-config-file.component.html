@@ -42,6 +42,12 @@
                     bsStyle="common"
                     (btnClick)="openUploadDeployConfigFileDialog()"
                     >{{ 'flink.deploy-config-file.upload' | translate }}</d-button>
+                  <d-button
+                    *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
+                    bsStyle="common"
+                    (btnClick)="openDeleteDeployConfigFileDialog(dataTable.getCheckedRows())"
+                    [disabled]="!dataTableChecked"
+                  >{{ 'app.common.operate.delete.label' | translate }}</d-button>
                 </d-button-group>
               </div>
             </div>

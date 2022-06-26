@@ -141,4 +141,14 @@ public class DeployConfigFileController {
         flinkDeployConfigFileService.deleteDeployConfigFile(id, fileName);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
+
+    @Logging
+    @DeleteMapping("{id}/file")
+    @ApiOperation(value = "批量删除部署配置文件", notes = "删除部署配置文件")
+    public ResponseEntity<ResponseVO> deleteDeployConfigFiles(
+            @PathVariable("id") Long id,
+            @RequestBody List<String> fileNames) throws IOException {
+        flinkDeployConfigFileService.deleteDeployConfigFiles(id, fileNames);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
 }
