@@ -50,4 +50,6 @@ public interface FlinkDeployConfigFileService {
     void downloadDeployConfigFile(Long id, String fileName, OutputStream outputStream) throws IOException;
 
     void deleteDeployConfigFile(Long id, String fileName) throws IOException;
+
+    void deleteDeployConfigFiles(Long id, List<String> fileNames) throws IOException;
 }

@@ -3,18 +3,17 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
-import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/app.data';
-import {FlinkDeployConfigParam, FlinkRelease} from 'src/app/@core/data/flink.data';
+import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE} from 'src/app/@core/data/app.data';
+import {FlinkDeployConfig, FlinkDeployConfigParam} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
 import {DeployConfigNewComponent} from "./deploy-config-new/deploy-config-new.component";
 import {DeployConfigDeleteComponent} from "./deploy-config-delete/deploy-config-delete.component";
-import {DiProject} from "../../../@core/data/datadev.data";
 import {DeployConfigUpdateComponent} from "./deploy-config-update/deploy-config-update.component";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 
 @Component({
-  selector: 'app-release',
+  selector: 'app-deploy-config',
   templateUrl: './deploy-config.component.html',
   styleUrls: ['./deploy-config.component.scss'],
 })
@@ -24,7 +23,7 @@ export class DeployConfigComponent implements OnInit {
   dataLoading: boolean = false;
   dataTableChecked: boolean = false;
   loadTarget: any;
-  dataTableDs: FlinkRelease[] = [];
+  dataTableDs: FlinkDeployConfig[] = [];
   pager = {
     total: 0,
     pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -121,7 +120,15 @@ export class DeployConfigComponent implements OnInit {
     });
   }
 
-  openEditDeployConfigDialog(item: DiProject) {
+  openDeployConfig(row: FlinkDeployConfig) {
+    this.router.navigate(['/scaleph', 'flink', 'deploy-config-file'], {
+      queryParams: {
+        id: row.id
+      }
+    });
+  }
+
+  openEditDeployConfigDialog(item: FlinkDeployConfig) {
     const results = this.modalService.open({
       id: 'deploy-config-edit',
       width: '580px',
@@ -140,7 +147,7 @@ export class DeployConfigComponent implements OnInit {
     });
   }
 
-  openDeleteDeployConfigDialog(items: FlinkRelease[]) {
+  openDeleteDeployConfigDialog(items: FlinkDeployConfig[]) {
     const results = this.modalService.open({
       id: 'deploy-config-delete',
       width: '346px',
@@ -157,19 +164,5 @@ export class DeployConfigComponent implements OnInit {
         },
       },
     });
-  }
-
-  downloadRelease(item: FlinkRelease) {
-    let url: string =
-      'api/flink/release/' + item.id +
-      '?' +
-      USER_AUTH.token +
-      '=' +
-      localStorage.getItem(USER_AUTH.token);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = item.fileName;
-    a.click();
-    window.URL.revokeObjectURL(url);
   }
 }

@@ -5,7 +5,7 @@ import {ReleaseService} from "../../../../@core/services/flink/release.service";
 import {FlinkReleaseUploadParam} from "../../../../@core/data/flink.data";
 
 @Component({
-  selector: 'app-project-new',
+  selector: 'app-release-upload',
   templateUrl: './release-upload.component.html',
   styleUrls: ['../release.component.scss'],
 })

@@ -1,31 +1,21 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {DValidateRules, FormLayout, IFileOptions, IUploadOptions} from 'ng-devui';
-import {FlinkDeployConfigUploadParam} from "../../../../@core/data/flink.data";
 import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
 
 @Component({
-  selector: 'app-project-new',
-  templateUrl: './deploy-config-upload.component.html',
-  styleUrls: ['../deploy-config.component.scss'],
+  selector: 'app-deploy-config-file-upload',
+  templateUrl: './deploy-config-file-upload.component.html',
+  styleUrls: ['../deploy-config-file.component.scss'],
 })
-export class DeployConfigUploadComponent implements OnInit {
+export class DeployConfigFileUploadComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
   formLayout = FormLayout.Horizontal;
   formConfig: { [Key: string]: DValidateRules } = {
     rule: {message: this.translate.instant('app.error.formValidateError'), messageShowType: 'text'},
-    versionRules: {
-      validators: [
-        {required: true},
-        {maxlength: 30}
-      ],
-    },
     fileRules: {
       validators: [{required: true}],
-    },
-    remarkRules: {
-      validators: [{maxlength: 200}],
     },
   };
   fileOptions: IFileOptions = {
@@ -51,14 +41,8 @@ export class DeployConfigUploadComponent implements OnInit {
   }
 
   submitForm({valid}) {
-    let uploadParam: FlinkDeployConfigUploadParam = {
-      configType: this.formData.configType,
-      files: this.files,
-      name: this.formData.name,
-      remark: this.formData.remark,
-    };
     if (valid && this.files) {
-      this.deployConfigService.upload(uploadParam).subscribe((d) => {
+      this.deployConfigService.uploadFiles(this.data.flinkDeployConfig.id, this.files).subscribe((d) => {
         if (d.success) {
           this.data.onClose();
           this.data.refresh();

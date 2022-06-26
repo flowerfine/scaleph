@@ -59,6 +59,14 @@ public class DeployConfigFileController {
     }
 
     @Logging
+    @GetMapping({"{id}"})
+    @ApiOperation(value = "查询部署配置", notes = "查询部署配置")
+    public ResponseEntity<FlinkDeployConfigFileDTO> selectOne(@PathVariable("id") Long id) {
+        final FlinkDeployConfigFileDTO result = flinkDeployConfigFileService.selectOne(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
     @PutMapping
     @ApiOperation(value = "新增部署配置", notes = "新增部署配置")
     public ResponseEntity<ResponseVO> addDeployConfig(@Valid @RequestBody FlinkDeployConfigFileDTO param) {
@@ -131,6 +139,16 @@ public class DeployConfigFileController {
             @PathVariable("id") Long id,
             @PathVariable("fileName") String fileName) throws IOException {
         flinkDeployConfigFileService.deleteDeployConfigFile(id, fileName);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping("{id}/file")
+    @ApiOperation(value = "批量删除部署配置文件", notes = "删除部署配置文件")
+    public ResponseEntity<ResponseVO> deleteDeployConfigFiles(
+            @PathVariable("id") Long id,
+            @RequestBody List<String> fileNames) throws IOException {
+        flinkDeployConfigFileService.deleteDeployConfigFiles(id, fileNames);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 }
