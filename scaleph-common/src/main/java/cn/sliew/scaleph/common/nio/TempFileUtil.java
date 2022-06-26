@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
@@ -37,27 +38,44 @@ public enum TempFileUtil {
         return Files.createTempDirectory(null);
     }
 
+    public static Path getBaseTempDir() throws IOException {
+        try {
+            String path = System.getProperty("java.io.tmpdir");
+            return Paths.get(path);
+        } catch (Exception e) {
+            return createTempDir();
+        }
+    }
+
     public static Path createTempDir(String dirName) throws IOException {
-        return createTempDir(createTempDir(), dirName);
+        return createTempDir(getBaseTempDir(), dirName);
     }
 
     public static Path createTempDir(Path parentDir, String dirName) throws IOException {
         Path dir = parentDir.resolve(dirName);
-        if (supportPosix()) {
-            return Files.createDirectory(dir, attributes);
+        if (Files.notExists(dir)) {
+            if (supportPosix()) {
+                return Files.createDirectory(dir, attributes);
+            }
+            return Files.createDirectory(dir);
+        } else {
+            return dir;
         }
-        return Files.createDirectory(dir);
     }
 
     public static Path createTempFile(String fileName) throws IOException {
-        return createTempFile(createTempDir(), fileName);
+        return createTempFile(getBaseTempDir(), fileName);
     }
 
     public static Path createTempFile(Path tempDir, String fileName) throws IOException {
+        return createTempFile(tempDir, fileName, null);
+    }
+
+    public static Path createTempFile(Path tempDir, String prefix, String suffix) throws IOException {
         if (supportPosix()) {
-            return Files.createTempFile(tempDir, fileName, null, attributes);
+            return Files.createTempFile(tempDir, prefix, suffix, attributes);
         }
-        return Files.createTempFile(tempDir, fileName, null);
+        return Files.createTempFile(tempDir, prefix, suffix);
     }
 
 }

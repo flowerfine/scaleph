@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.impl;
 
+import cn.hutool.core.io.FileUtil;
 import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
 import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
@@ -30,7 +31,6 @@ import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
 import cn.sliew.scaleph.common.enums.JobRuntimeStateEnum;
 import cn.sliew.scaleph.common.enums.JobTypeEnum;
-import cn.sliew.scaleph.common.nio.TempFileUtil;
 import cn.sliew.scaleph.core.di.service.*;
 import cn.sliew.scaleph.core.di.service.dto.*;
 import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
@@ -43,7 +43,6 @@ import cn.sliew.scaleph.storage.service.StorageService;
 import cn.sliew.scaleph.storage.service.impl.NioFileServiceImpl;
 import cn.sliew.scaleph.system.service.SysConfigService;
 import cn.sliew.scaleph.system.service.vo.DictVO;
-import com.google.common.base.Charsets;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.flink.api.common.JobID;
@@ -70,7 +69,6 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
@@ -250,16 +248,16 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         }
     }
 
-    private Path getProjectBasePath(Long projectId) throws IOException {
-        return TempFileUtil.createTempDir(projectId.toString());
+    private Path getProjectBasePath(Long projectId) {
+        return FileUtil.getTmpDir().toPath().resolve(String.valueOf(projectId));
     }
 
     @Override
-    public Path buildConfFile(DiJobDTO diJobDTO, Path projectPath) throws IOException {
+    public Path buildConfFile(DiJobDTO diJobDTO, Path projectPath) {
         String jobJson = seatunnelConfigService.buildConfig(diJobDTO);
-        final Path tempFile = Files.createTempFile(projectPath, diJobDTO.getJobCode(), ".json");
-        Files.write(tempFile, jobJson.getBytes(Charsets.UTF_8), StandardOpenOption.WRITE);
-        return tempFile;
+        final File tempFile = FileUtil.file(projectPath.toFile(), diJobDTO.getJobCode() + ".json");
+        FileUtil.writeUtf8String(jobJson, tempFile);
+        return tempFile.toPath();
     }
 
     @Override
@@ -317,12 +315,12 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
             Long fileSize = storageService.getFileSize(file.getFilePath(), file.getFileName());
             if (localStorageService.exists(file.getFileName()) &&
                     fileSize.equals(localStorageService.getFileSize("", file.getFileName()))) {
-                File localFile = cn.hutool.core.io.FileUtil.file(projectPath, file.getFileName());
+                File localFile = FileUtil.file(projectPath, file.getFileName());
                 jars.add(localFile.toURI().toString());
             } else {
                 InputStream is = storageService.get(file.getFilePath(), file.getFileName());
-                File localFile = cn.hutool.core.io.FileUtil.file(projectPath, file.getFileName());
-                cn.hutool.core.io.FileUtil.writeFromStream(is, localFile);
+                File localFile = FileUtil.file(projectPath, file.getFileName());
+                FileUtil.writeFromStream(is, localFile);
                 jars.add(localFile.toURI().toString());
             }
         }
