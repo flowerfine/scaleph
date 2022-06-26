@@ -3,13 +3,13 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
-import {PRIVILEGE_CODE} from 'src/app/@core/data/app.data';
-import {FileStatus} from 'src/app/@core/data/flink.data';
+import {PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/app.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
-import {ReleaseUploadComponent} from "../release/release-upload/release-upload.component";
 import {DeployConfigFileUploadComponent} from "./deploy-config-file-upload/deploy-config-file-upload.component";
+import {FileStatus, FlinkRelease} from "../../../@core/data/flink.data";
+import {ReleaseDeleteComponent} from "../release/release-delete/release-delete.component";
 
 @Component({
   selector: 'app-deploy-config-file',
@@ -22,7 +22,7 @@ export class DeployConfigFileComponent implements OnInit {
   dataLoading: boolean = false;
   dataTableChecked: boolean = false;
   loadTarget: any;
-  dataTableDs: FileStatus[] = [];
+  dataTableDs = null;
 
   flinkDeployConfig = null
 
@@ -51,7 +51,7 @@ export class DeployConfigFileComponent implements OnInit {
   refreshTable() {
     this.openDataTableLoading();
     this.deployConfigService.getFiles(this.flinkDeployConfig?.id).subscribe((d) => {
-      this.dataTableDs = d.data;
+      this.dataTableDs = d;
       this.loadTarget.loadingInstance.close();
       this.dataLoading = false;
       this.dataTable.setTableCheckStatus({pageAllChecked: false});
@@ -96,6 +96,40 @@ export class DeployConfigFileComponent implements OnInit {
       },
     });
   }
+
+  downloadDeployConfigFile(item: FileStatus) {
+    let url: string =
+      'api/flink/deploy-config/' + this.flinkDeployConfig.id + '/file/' + item.name
+      '?' +
+      USER_AUTH.token +
+      '=' +
+      localStorage.getItem(USER_AUTH.token);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = item.name;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  openDeleteDeployConfigFileDialog(items: FileStatus[]) {
+    const results = this.modalService.open({
+      id: 'deploy-config-file-delete',
+      width: '346px',
+      backdropCloseable: true,
+      component: ReleaseDeleteComponent,
+      data: {
+        title: this.translate.instant('app.common.operate.delete.confirm.title'),
+        items: items,
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
+  }
+
 
 
 

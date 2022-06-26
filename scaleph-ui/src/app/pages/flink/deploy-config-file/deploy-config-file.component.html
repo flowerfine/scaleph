@@ -35,15 +35,13 @@
                   <d-button
                     *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
                     bsStyle="primary"
+                    (btnClick)="refreshTable()"
+                  >{{ 'app.common.operate.refresh.label' | translate }}</d-button>
+                  <d-button
+                    *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
+                    bsStyle="common"
                     (btnClick)="openUploadDeployConfigFileDialog()"
                     >{{ 'flink.deploy-config-file.upload' | translate }}</d-button>
-                  <d-button
-                    *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
-                    bsStyle="common"
-
-                    [disabled]="!dataTableChecked"
-                    >{{ 'app.common.operate.delete.label' | translate }}</d-button
-                  >
                 </d-button-group>
               </div>
             </div>
@@ -58,7 +56,6 @@
                 [fixHeader]="true"
                 (rowCheckChange)="getDataTableCheckedStatus()"
                 (checkAllChange)="getDataTableCheckedStatus()"
-
               >
                 <d-column field="name" header="{{ 'flink.deploy-config-file.name' | translate }}">
                   <d-cell>
@@ -67,17 +64,7 @@
                 </d-column>
                 <d-column field="len" header="{{ 'flink.deploy-config-file.len' | translate }}">
                   <d-cell>
-                    <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                  </d-cell>
-                </d-column>
-                <d-column field="blockSize" header="{{ 'flink.deploy-config-file.blockSize' | translate }}">
-                  <d-cell>
-                    <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                  </d-cell>
-                </d-column>
-                <d-column field="accessTime" header="{{ 'flink.deploy-config-file.accessTime' | translate }}">
-                  <d-cell>
-                    <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
+                    <ng-template let-cellItem="cellItem">{{ cellItem }} B</ng-template>
                   </d-cell>
                 </d-column>
                 <d-column field="modificationTime" header="{{ 'flink.deploy-config-file.modificationTime' | translate }}">
@@ -90,31 +77,17 @@
                     <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                       <div class="btn-group over-flow-ellipsis">
                         <d-button
-                          *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevJobShow)"
-                          icon="icon-list-view"
-                          bsStyle="text-dark"
-
-                          title="{{ 'datadev.project.enter' | translate }}"
-                        ></d-button>
-                        <d-button
-                          *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
-                          icon="icon-upload"
-                          bsStyle="text-dark"
-
-                          title="{{ 'datadev.project.upload-resource' | translate }}"
-                        ></d-button>
-                        <d-button
                           *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
-                          icon="icon-edit"
+                          icon="icon-download"
                           bsStyle="text-dark"
-
-                          title="{{ 'app.common.operate.edit.label' | translate }}"
+                          (btnClick)="downloadDeployConfigFile(rowItem)"
+                          title="{{ 'app.common.operate.download.label' | translate }}"
                         ></d-button>
                         <d-button
                           *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                           icon="icon-delete"
                           bsStyle="text-dark"
-
+                          (btnClick)="openDeleteDeployConfigFileDialog(rowItem)"
                           title="{{ 'app.common.operate.delete.label' | translate }}"
                         ></d-button>
                       </div>

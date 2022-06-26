@@ -69,6 +69,10 @@
             "content": "数据删除后不可恢复，请谨慎操作！"
           }
         },
+        "refresh": {
+          "label": "刷新",
+          "tip": "刷新"
+        },
         "query": {
           "label": "查询",
           "tip": "搜索"
@@ -407,9 +411,7 @@
       "name_": "部署配置文件",
       "name": "文件名",
       "len": "文件大小",
-      "blockSize": "文件块大小",
       "modificationTime": "修改时间",
-      "accessTime": "访问时间",
       "upload": "上传"
     }
   },
