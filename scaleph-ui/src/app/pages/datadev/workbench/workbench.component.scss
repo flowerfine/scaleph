@@ -1,5 +1,5 @@
 @import '~ng-devui/styles-var/devui-var.scss';
-@import "/src/app/@shared/styles/common.scss";
+@import '/src/app/@shared/styles/common.scss';
 
 .pane-content {
   padding: 0 12px;
@@ -90,4 +90,8 @@ d-tag {
   background-color: $devui-base-bg;
   height: 56px;
   z-index: 1200;
+}
+
+textarea {
+  height: 80px;
 }

@@ -20,7 +20,7 @@
   <d-row [dGutter]="[24, 12]">
     <d-col [dSpan]="12">
       <d-form-item>
-        <d-form-label [required]="true">{{ 'datadev.step.source-table.dataSourceType' | translate }}</d-form-label>
+        <d-form-label [required]="true">{{ 'datadev.step.sink-table.dataSourceType' | translate }}</d-form-label>
         <d-form-control>
           <d-select
             [options]="dataSourceTypeList"
@@ -39,7 +39,7 @@
     </d-col>
     <d-col [dSpan]="12">
       <d-form-item>
-        <d-form-label [required]="true">{{ 'datadev.step.source-table.dataSource' | translate }}</d-form-label>
+        <d-form-label [required]="true">{{ 'datadev.step.sink-table.dataSource' | translate }}</d-form-label>
         <d-form-control>
           <d-select
             [options]="dataSourceList"
@@ -68,11 +68,20 @@
       </d-form-item>
     </d-col>
   </d-row>
-
   <d-row [dGutter]="[24, 12]">
     <d-col [dSpan]="24">
       <d-form-item>
-        <d-form-label [required]="true">{{ 'datadev.step.source-table.query' | translate }}</d-form-label>
+        <d-form-label [required]="true">{{ 'datadev.step.sink-table.preSQL' | translate }}</d-form-label>
+        <d-form-control>
+          <textarea dTextarea resize="vertical" name="pre_sql" formControlName="pre_sql"> </textarea>
+        </d-form-control>
+      </d-form-item>
+    </d-col>
+  </d-row>
+  <d-row [dGutter]="[24, 12]">
+    <d-col [dSpan]="24">
+      <d-form-item>
+        <d-form-label [required]="true">{{ 'datadev.step.sink-table.query' | translate }}</d-form-label>
         <d-form-control>
           <textarea
             dTextarea
@@ -83,6 +92,16 @@
             style="height: 360px"
           >
           </textarea>
+        </d-form-control>
+      </d-form-item>
+    </d-col>
+  </d-row>
+  <d-row [dGutter]="[24, 12]">
+    <d-col [dSpan]="24">
+      <d-form-item>
+        <d-form-label [required]="true">{{ 'datadev.step.sink-table.postSQL' | translate }}</d-form-label>
+        <d-form-control>
+          <textarea dTextarea resize="vertical" name="post_sql" formControlName="post_sql"> </textarea>
         </d-form-control>
       </d-form-item>
     </d-col>

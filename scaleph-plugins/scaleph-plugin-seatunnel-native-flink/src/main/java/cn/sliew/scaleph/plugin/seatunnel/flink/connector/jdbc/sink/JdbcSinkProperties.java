@@ -41,4 +41,18 @@ public enum JdbcSinkProperties {
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .properties(Property.Required)
             .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> PRE_SQL = new PropertyDescriptor.Builder<String>()
+            .name("pre_sql")
+            .description("This sql can be executed before output")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> POST_SQL = new PropertyDescriptor.Builder<String>()
+            .name("post_sql")
+            .description("This sql can be executed after output, and just supports for batch job")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .validateAndBuild();
 }

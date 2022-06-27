@@ -309,11 +309,15 @@
     "step.source-table.dataSourceType": "数据源类型",
     "step.source-table.dataSource": "数据源",
     "step.source-table.query": "SQL",
+    "step.source-table.partitionColumn": "分区字段",
+    "step.source-table.partitionColumn.tooltip": "只支持数值类型字段作为分区字段",
     "step.source-table.getsql": "获取sql查询语句",
     "step.source-table.preview": "预览查询结果",
     "step.sink-table.dataSourceType": "数据源类型",
     "step.sink-table.dataSource": "数据源",
     "step.sink-table.query": "SQL",
+    "step.sink-table.preSQL": "前置SQL",
+    "step.sink-table.postSQL": "后置SQL",
     "step.sink-table.batchSize": "提交记录数量"
   },
   "stdata": {
