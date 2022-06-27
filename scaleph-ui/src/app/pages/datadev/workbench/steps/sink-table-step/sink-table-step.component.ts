@@ -48,6 +48,8 @@ export class SinkTableStepComponent implements OnInit {
     dataSource: [null],
     batchSize: [this.defaultBatchSize],
     query: [null],
+    pre_sql: [null],
+    post_sql: [null],
   });
 
   constructor(
@@ -85,6 +87,8 @@ export class SinkTableStepComponent implements OnInit {
         this.formGroup.patchValue({ batchSize: this.defaultBatchSize });
       }
       this.formGroup.patchValue({ query: stepAttrMap.get(STEP_ATTR_TYPE.query) });
+      this.formGroup.patchValue({ pre_sql: stepAttrMap.get(STEP_ATTR_TYPE.preSQL) });
+      this.formGroup.patchValue({ post_sql: stepAttrMap.get(STEP_ATTR_TYPE.postSQL) });
     });
   }
 
@@ -105,6 +109,8 @@ export class SinkTableStepComponent implements OnInit {
       stepAttrMap.set(STEP_ATTR_TYPE.dataSourceType, this.formGroup.get(STEP_ATTR_TYPE.dataSourceType).value);
       stepAttrMap.set(STEP_ATTR_TYPE.dataSource, this.formGroup.get(STEP_ATTR_TYPE.dataSource).value);
       stepAttrMap.set(STEP_ATTR_TYPE.query, this.formGroup.get(STEP_ATTR_TYPE.query).value);
+      stepAttrMap.set(STEP_ATTR_TYPE.preSQL, this.formGroup.get(STEP_ATTR_TYPE.preSQL).value);
+      stepAttrMap.set(STEP_ATTR_TYPE.postSQL, this.formGroup.get(STEP_ATTR_TYPE.postSQL).value);
       stepAttrMap.set(STEP_ATTR_TYPE.batchSize, this.formGroup.get(STEP_ATTR_TYPE.batchSize).value);
       this.onSave.emit(stepAttrMap);
     }

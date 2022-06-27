@@ -1,0 +1,29 @@
+name: Docker-Build
+
+on:
+  push:
+    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
+  pull_request:
+    paths-ignore: [ 'docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Cache local Maven repository
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Build docker images
+        run: docker-compose up -d

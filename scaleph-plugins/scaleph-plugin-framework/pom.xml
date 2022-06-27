@@ -43,6 +43,11 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-core</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-common</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

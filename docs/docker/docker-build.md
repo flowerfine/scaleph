@@ -1,8 +1,8 @@
-# 镜像构建
+# docker image build
 
 Scaleph 基于 docker 提供快速的开发和测试运行环境，本文将介绍如何在本地构建镜像，测试镜像。
 
-在 `scaleph_home/tools/docker/build` 目录下有 `docker-compose-build-api.yml` 和 `docker-compose-build-ui.yml`文件，分别用于构建 `scaleph-api` 和 `scaleph-ui` 模块。docker compose 中添加了程序运行依赖的 `mysql`、`redis` 、`minio` 等环境。
+在 `$SCALEPH_HOME/tools/docker/build` 目录下有 `docker-compose-build-api.yml` 和 `docker-compose-build-ui.yml`文件，分别用于构建 `scaleph-api` 和 `scaleph-ui` 模块。docker compose 中添加了程序运行依赖的 `mysql`、`redis` 、`minio` 等环境。
 
 ## `scaleph-api`
 
@@ -11,7 +11,7 @@ Scaleph 基于 docker 提供快速的开发和测试运行环境，本文将介�
 运行如下命令，从源码中打包 scaleph-api.jar。
 
 ```shell
-cd scaleph
+cd $SCALEPH_HOME
 mvn clean package -DskipTests -Dfast -am --projects scaleph-api 
 ```
 
@@ -22,7 +22,7 @@ mvn clean package -DskipTests -Dfast -am --projects scaleph-api
 通过 docker compose 和 `Dockerfile` 构建 docker 镜像
 
 ```shell
-cd scaleph/tools/docker/build
+cd $SCALEPH_HOME/tools/docker/build/scaleph
 docker compose -f docker-compose-build-api.yml build
 ```
 
@@ -43,7 +43,12 @@ docker compose -f docker-compose-build-api.yml up -d
 运行如下命令，编译前端项目
 
 ```shell
-cd scaleph/scaleph-ui
+cd $SCALEPH_HOME/scaleph-ui
+
+npm install --location=global @angular/cli
+
+npm install --force
+
 npm run build --prod
 ```
 
@@ -54,7 +59,7 @@ npm run build --prod
 通过 docker compose 和 `Dockerfile` 构建 docker 镜像
 
 ```shell
-cd scaleph/tools/docker/build
+cd $SCALEPH_HOME/tools/docker/build/scaleph
 docker compose -f docker-compose-build-ui.yml build
 ```
 

@@ -91,6 +91,10 @@ export const DICT_TYPE = {
   runtimeState: 'runtime_state',
   clusterType: 'cluster_type',
   dataType: 'data_type',
+  flinkDeployConfigType: 'flink_deploy_config_type',
+  flinkResourceProvider: 'flink_resource_provider',
+  flinkDeploymentMode: 'flink_deployment_mode',
+  flinkVersion: 'flink_version',
 };
 
 export const USER_AUTH = {
@@ -103,6 +107,11 @@ export const USER_AUTH = {
 export const PRIVILEGE_CODE = {
   studioShow: 'psdo0',
   studioDataBoardShow: 'psdb0',
+
+  // todo flink code
+  flinkShow: 'pflink0',
+  flinkReleaseShow: 'pflinkr0',
+
   datadevShow: 'pdev0',
   datadevDatasourceShow: 'pdts0',
   datadevProjectShow: 'pddp0',

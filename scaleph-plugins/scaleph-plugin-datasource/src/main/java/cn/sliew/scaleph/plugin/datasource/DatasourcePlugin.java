@@ -18,19 +18,30 @@
 
 package cn.sliew.scaleph.plugin.datasource;
 
-import java.util.Properties;
-
-import cn.sliew.scaleph.plugin.framework.core.Plugin;
+import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import io.micrometer.core.instrument.MeterRegistry;
+
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * datasource plugin
  */
-public interface DatasourcePlugin<T> extends Plugin {
+public abstract class DatasourcePlugin<T> extends AbstractPlugin {
 
-    T getDatasource();
+    protected volatile Properties additionalProperties;
 
-    void setAdditionalProperties(Properties properties);
+    public abstract T getDatasource();
 
-    void setMeterRegistry(MeterRegistry meterRegistry);
+    public void setAdditionalProperties(Properties properties) {
+        this.additionalProperties = properties;
+    }
+
+    public abstract void setMeterRegistry(MeterRegistry meterRegistry);
+
+    public abstract boolean testConnection();
+
+    public Map<String, Object> getProperties() {
+        return properties.toMap();
+    }
 }

@@ -23,7 +23,6 @@ import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.engine.flink.service.FlinkDeployConfigFileService;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkDeployConfigFileDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileListParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileUpdateParam;
 import cn.sliew.scaleph.engine.flink.service.vo.FileStatusVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -41,7 +40,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Api(tags = "Flink管理-部署配置文件管理")
@@ -61,9 +59,17 @@ public class DeployConfigFileController {
     }
 
     @Logging
+    @GetMapping({"{id}"})
+    @ApiOperation(value = "查询部署配置", notes = "查询部署配置")
+    public ResponseEntity<FlinkDeployConfigFileDTO> selectOne(@PathVariable("id") Long id) {
+        final FlinkDeployConfigFileDTO result = flinkDeployConfigFileService.selectOne(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
     @PutMapping
     @ApiOperation(value = "新增部署配置", notes = "新增部署配置")
-    public ResponseEntity<ResponseVO> addDeployConfig(@Valid FlinkDeployConfigFileDTO param) {
+    public ResponseEntity<ResponseVO> addDeployConfig(@Valid @RequestBody FlinkDeployConfigFileDTO param) {
         flinkDeployConfigFileService.insert(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -71,7 +77,7 @@ public class DeployConfigFileController {
     @Logging
     @PostMapping
     @ApiOperation(value = "修改部署配置", notes = "修改部署配置")
-    public ResponseEntity<ResponseVO> updateDeployConfig(@Valid FlinkDeployConfigFileUpdateParam param) {
+    public ResponseEntity<ResponseVO> updateDeployConfig(@Valid @RequestBody FlinkDeployConfigFileDTO param) {
         flinkDeployConfigFileService.update(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -87,8 +93,8 @@ public class DeployConfigFileController {
     @Logging
     @DeleteMapping(path = "/batch")
     @ApiOperation(value = "批量删除部署配置", notes = "批量删除部署配置")
-    public ResponseEntity<ResponseVO> deleteDeployConfig(@RequestBody Map<Integer, Long> map) {
-        flinkDeployConfigFileService.deleteBatch(map);
+    public ResponseEntity<ResponseVO> deleteDeployConfig(@RequestBody List<Long> ids) {
+        flinkDeployConfigFileService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -133,6 +139,16 @@ public class DeployConfigFileController {
             @PathVariable("id") Long id,
             @PathVariable("fileName") String fileName) throws IOException {
         flinkDeployConfigFileService.deleteDeployConfigFile(id, fileName);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping("{id}/file")
+    @ApiOperation(value = "批量删除部署配置文件", notes = "删除部署配置文件")
+    public ResponseEntity<ResponseVO> deleteDeployConfigFiles(
+            @PathVariable("id") Long id,
+            @RequestBody List<String> fileNames) throws IOException {
+        flinkDeployConfigFileService.deleteDeployConfigFiles(id, fileNames);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 }

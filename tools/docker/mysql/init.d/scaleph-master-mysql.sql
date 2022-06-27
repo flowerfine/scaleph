@@ -65,6 +65,14 @@ insert into sys_dict_type(dict_type_code, dict_type_name, creator, editor)
 values ('data_type', '数据类型', 'sys', 'sys');
 insert into sys_dict_type(dict_type_code, dict_type_name, creator, editor)
 values ('job_instance_state', '作业实例状态', 'sys', 'sys');
+INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+VALUES ('flink_deploy_config_type', '部署配置类型', 'sys', 'sys');
+INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+VALUES ('flink_resource_provider', 'Flink 资源类型', 'sys', 'sys');
+INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+VALUES ('flink_deployment_mode', 'Flink 部署模式', 'sys', 'sys');
+INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+VALUES ('flink_version', 'Flink 版本', 'sys', 'sys');
 
 
 /* 数据字典表 */
@@ -157,9 +165,15 @@ values ('task_result', 'success', '成功', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('task_result', 'failure', '失败', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-values ('datasource_type', 'mysql', 'Mysql', 'sys', 'sys');
+values ('datasource_type', 'JDBC', 'JDBC', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-values ('datasource_type', 'oracle', 'Oracle', 'sys', 'sys');
+values ('datasource_type', 'Mysql', 'Mysql', 'sys', 'sys');
+insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
+values ('datasource_type', 'Oracle', 'Oracle', 'sys', 'sys');
+insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
+values ('datasource_type', 'PostGreSQL', 'PostGreSQL', 'sys', 'sys');
+insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
+values ('datasource_type', 'kafka', 'kafka', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('connection_type', 'jdbc', 'SIMPLE JDBC', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
@@ -234,6 +248,48 @@ insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('job_instance_state', 'SUSPENDED', '已暂停', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('job_instance_state', 'RECONCILING', '调节中', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_deploy_config_type', '0', 'hadoop conf', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_deploy_config_type', '1', 'kubeconfig', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_deploy_config_type', '2', 'flink-conf.yaml', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_resource_provider', '0', 'Standalone', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_resource_provider', '1', 'Native Kubernetes', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_resource_provider', '2', 'YARN', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_deployment_mode', '0', 'Application', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_deployment_mode', '1', 'Per-Job', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_deployment_mode', '2', 'Session', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_version', '1.13.0', '1.13.0', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_version', '1.13.1', '1.13.1', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_version', '1.13.2', '1.13.2', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_version', '1.13.3', '1.13.3', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_version', '1.13.5', '1.13.5', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_version', '1.13.6', '1.13.6', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_version', '1.14.0', '1.14.0', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_version', '1.14.2', '1.14.2', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_version', '1.14.3', '1.14.3', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_version', '1.14.4', '1.14.4', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_version', '1.14.5', '1.14.5', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_version', '1.15.0', '1.15.0', 'sys', 'sys');
 
 /*系统配置信息表 */
 drop table if exists sys_config;
@@ -258,7 +314,7 @@ drop table if exists sec_user;
 create table sec_user
 (
     id               bigint       not null auto_increment comment '自增主键',
-    user_name        varchar(60)  not null comment '用户名',
+    user_name        varchar(32)  not null comment '用户名',
     nick_name        varchar(50) comment '昵称',
     email            varchar(128) not null comment '邮箱',
     password         varchar(64)  not null comment '密码',
@@ -340,8 +396,7 @@ create table sec_privilege
     key (update_time)
 ) engine = innodb comment = '权限表';
 /* init privilege */
-delete
-from sec_privilege;
+-- truncate table sec_privilege;
 insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
 values (10, 'psdo0', '工作台', '0', '', 0, 'sys', 'sys');
 insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
@@ -541,8 +596,7 @@ create table sec_role_privilege
     key (update_time)
 ) engine = innodb comment = '角色权限关联表';
 -- init normal role
-delete
-from sec_role_privilege;
+-- truncate table sec_role_privilege;
 insert into sec_role_privilege (role_id, privilege_id, creator, editor)
 select r.id  as role_id,
        p.id  as privilege_id,
@@ -643,57 +697,32 @@ create table sec_user_active
 
 /* 元数据-数据源连接信息 */
 drop table if exists meta_datasource;
-create table meta_datasource
-(
-    id              bigint      not null auto_increment comment '自增主键',
-    datasource_name varchar(64) not null comment '数据源名称',
-    datasource_type varchar(12) not null comment '数据源类型',
-    connection_type varchar(12) not null comment '数据源连接类型',
-    host_name       varchar(256) comment '主机地址',
-    database_name   varchar(50) comment '数据库名称',
-    port            int comment '端口号',
-    user_name       varchar(128) comment '用户名',
-    password        varchar(256) comment '密码',
-    remark          varchar(256) comment '备注描述',
-    props           text comment '属性信息，包含常规属性、jdbc连接属性、连接池属性',
-    creator         varchar(32) comment '创建人',
-    create_time     timestamp default current_timestamp comment '创建时间',
-    editor          varchar(32) comment '修改人',
-    update_time     timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    unique key (datasource_name),
-    key (datasource_type),
-    key (database_name),
-    key (update_time)
-) engine = innodb comment '元数据-数据源连接信息';
-insert into meta_datasource(datasource_name, datasource_type, connection_type, host_name, database_name,
-                            port, user_name, password, remark, props, creator, editor)
-VALUES ('docker_data_service', 'mysql', 'jdbc', 'mysql', 'data_service', 3306, 'root', 'MTIzNDU2', NULL,
-        '{\"jdbc\":\"serverTimezone=Asia/Shanghai\\ncharacterEncoding=utf8\\nzeroDateTimeBehavior=convertToNull\"}',
-        'sys_admin', 'sys_admin');
-INSERT INTO meta_datasource(datasource_name, datasource_type, connection_type, host_name, database_name,
-                            port, user_name, password, remark, props, creator, editor)
-VALUES ('local_data_service', 'mysql', 'jdbc', 'localhost', 'data_service', 3306, 'root', 'MTIzNDU2',
-        'local environment',
-        '{\"jdbc\":\"serverTimezone=Asia/Shanghai\\ncharacterEncoding=utf8\\nzeroDateTimeBehavior=convertToNull\"}',
-        'sys_admin', 'sys_admin');
-
-create TABLE meta_datasource2
+create TABLE meta_datasource
 (
     id               bigint      NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-    `name`           varchar(64) NOT NULL COMMENT '名称',
+    datasource_name  varchar(64) NOT NULL COMMENT '数据源名称',
+    datasource_type  varchar(12) not null comment '数据源类型',
     props            text COMMENT '数据源支持的属性',
-    additional_props text COMMENT '数据源支持的额外属性。',
+    additional_props text COMMENT '数据源支持的额外属性',
     remark           varchar(256)     DEFAULT NULL COMMENT '备注描述',
     creator          varchar(32)      DEFAULT NULL COMMENT '创建人',
     create_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     editor           varchar(32)      DEFAULT NULL COMMENT '修改人',
     update_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (id),
-    KEY `name` (`name`),
-    KEY update_time (update_time)
-) ENGINE = InnoDB COMMENT ='元数据-数据源信息2';
-
+    KEY datasource_name (datasource_name),
+    KEY datasource_type (datasource_type)
+) ENGINE = InnoDB COMMENT ='元数据-数据源信息';
+insert into meta_datasource (datasource_name, datasource_type, props, additional_props, remark, creator, editor)
+values ('docker_data_service', 'Mysql',
+        '{"host":"mysql","port":"3306","databaseName":"data_service","username":"root","password":"Encrypted:MTIzNDU2"}',
+        '{"serverTimezone":"Asia/Shanghai","zeroDateTimeBehavior":"convertToNull","characterEncoding":"utf8"}', null,
+        'sys_admin', 'sys_admin');
+insert into meta_datasource (datasource_name, datasource_type, props, additional_props, remark, creator, editor)
+values ('local_data_service', 'Mysql',
+        '{"host":"localhost","port":"3306","databaseName":"data_service","username":"root","password":"Encrypted:MTIzNDU2"}',
+        '{"serverTimezone":"Asia/Shanghai","zeroDateTimeBehavior":"convertToNull","characterEncoding":"utf8"}', null,
+        'sys_admin', 'sys_admin');
 /*元数据-数据表信息*/
 drop table if exists meta_table;
 create table meta_table
@@ -776,6 +805,31 @@ create table meta_data_element
     key (element_name),
     key (update_time)
 ) engine = innodb comment '元数据-数据元信息';
+-- init sample data
+INSERT INTO meta_data_element (id, element_code, element_name, data_type, data_length, data_precision, data_scale,
+                               nullable, data_default, low_value, high_value, data_set_type_id, creator, editor)
+VALUES (5, 'id', 'ID', 'bigint', 0, 0, 0, '0', '0', '0', null, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_element (id, element_code, element_name, data_type, data_length, data_precision, data_scale,
+                               nullable, data_default, low_value, high_value, data_set_type_id, creator, editor)
+VALUES (6, 'user_name', '用户名', 'string', 32, 0, 0, '0', null, null, null, 0, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_element (id, element_code, element_name, data_type, data_length, data_precision, data_scale,
+                               nullable, data_default, low_value, high_value, data_set_type_id, creator, editor)
+VALUES (7, 'nick_name', '昵称', 'string', 50, 0, 0, '1', null, null, null, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_element (id, element_code, element_name, data_type, data_length, data_precision, data_scale,
+                               nullable, data_default, low_value, high_value, data_set_type_id, creator, editor)
+VALUES (8, 'create_time', '创建时间', 'timestamp', 0, 0, 0, '0', null, null, null, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_element (id, element_code, element_name, data_type, data_length, data_precision, data_scale,
+                               nullable, data_default, low_value, high_value, data_set_type_id, creator, editor)
+VALUES (9, 'update_time', '更新时间', 'timestamp', 0, 0, 0, '0', null, null, null, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_element (id, element_code, element_name, data_type, data_length, data_precision, data_scale,
+                               nullable, data_default, low_value, high_value, data_set_type_id, creator, editor)
+VALUES (10, 'gender', '性别', 'string', 4, 0, 0, '1', null, null, null, 2, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_element (id, element_code, element_name, data_type, data_length, data_precision, data_scale,
+                               nullable, data_default, low_value, high_value, data_set_type_id, creator, editor)
+VALUES (11, 'user_status', '用户状态', 'string', 4, 0, 0, '0', null, null, null, 3, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_element (id, element_code, element_name, data_type, data_length, data_precision, data_scale,
+                               nullable, data_default, low_value, high_value, data_set_type_id, creator, editor)
+VALUES (12, 'order_status', '订单状态', 'string', 4, 0, 0, '0', null, null, null, 4, 'sys_admin', 'sys_admin');
 
 /* 元数据-业务系统信息 */
 drop table if exists meta_system;
@@ -795,6 +849,18 @@ create table meta_system
     unique key (system_code),
     key (update_time)
 ) engine = innodb comment '元数据-业务系统信息';
+-- init sample data
+INSERT INTO meta_system (id, system_code, system_name, contacts, contacts_phone, remark, creator, editor)
+VALUES (1, 'STD_SAMR', '全国标准信息公共服务平台', null, null, 'http://std.samr.gov.cn/', 'sys_admin', 'sys_admin');
+INSERT INTO meta_system (id, system_code, system_name, contacts, contacts_phone, remark, creator, editor)
+VALUES (2, 'TRADE', '电商交易系统', null, null, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_system (id, system_code, system_name, contacts, contacts_phone, remark, creator, editor)
+VALUES (3, 'KS_TRADE', '快手电商', null, null, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_system (id, system_code, system_name, contacts, contacts_phone, remark, creator, editor)
+VALUES (4, 'DY_TRADE', '抖音电商', null, null, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_system (id, system_code, system_name, contacts, contacts_phone, remark, creator, editor)
+VALUES (5, 'TB_TRADE', '淘宝电商', null, null, null, 'sys_admin', 'sys_admin');
+
 
 /* 元数据-参考数据类型 */
 drop table if exists meta_data_set_type;
@@ -813,6 +879,19 @@ create table meta_data_set_type
     key (data_set_type_name),
     key (update_time)
 ) engine = innodb comment '元数据-参考数据类型';
+-- init sample data
+INSERT INTO meta_data_set_type (id, data_set_type_code, data_set_type_name, remark, creator, editor)
+VALUES (2, 'gender', '性别', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set_type (id, data_set_type_code, data_set_type_name, remark, creator, editor)
+VALUES (3, 'user_status', '用户状态', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set_type (id, data_set_type_code, data_set_type_name, remark, creator, editor)
+VALUES (4, 'order_status', '订单状态', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set_type (id, data_set_type_code, data_set_type_name, remark, creator, editor)
+VALUES (5, 'ks_order_status', '快手订单状态', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set_type (id, data_set_type_code, data_set_type_name, remark, creator, editor)
+VALUES (6, 'dy_order_status', '抖音订单状态', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set_type (id, data_set_type_code, data_set_type_name, remark, creator, editor)
+VALUES (7, 'tb_order_status', '淘宝订单状态', null, 'sys_admin', 'sys_admin');
 
 /* 元数据-参考数据 */
 drop table if exists meta_data_set;
@@ -833,6 +912,134 @@ create table meta_data_set
     unique key (data_set_code, data_set_type_id, system_id),
     key (update_time)
 ) engine = innodb comment '元数据-参考数据';
+-- init sample data
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (1, 2, '0', '未知性别', 1, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (2, 2, '1', '男性', 1, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (3, 2, '2', '女性', 1, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (4, 2, '9', '未说明性别', 1, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (5, 3, '10', '正常', null, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (6, 3, '90', '禁用', null, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (7, 3, '91', '注销', null, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (8, 4, '10', '待付款', 2, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (9, 4, '20', '已支付', 2, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (10, 4, '30', '待发货', 2, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (11, 4, '32', '待收货', 2, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (12, 4, '49', '交易成功', 2, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (13, 4, '50', '已完成', 2, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (14, 4, '60', '已关闭', 2, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (15, 4, '31', '部分发货', 2, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (16, 4, '33', '部分收货', 2, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (17, 4, '34', '全部收货', 2, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (18, 4, '40', '退款中', 2, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (19, 4, '42', '退款成功', 2, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (20, 4, '43', '退款失败', 2, '1', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (21, 7, 'TRADE_NO_CREATE_PAY', '没有创建支付宝交易', 5, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (22, 7, 'WAIT_BUYER_PAY', '等待买家付款', 5, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (23, 7, 'SELLER_CONSIGNED_PART', '卖家部分发货', 5, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (24, 7, 'WAIT_SELLER_SEND_GOODS', '等待卖家发货', 5, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (25, 7, 'WAIT_BUYER_CONFIRM_GOODS', '等待买家确认收货', 5, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (26, 7, 'TRADE_BUYER_SIGNED', '买家已签收', 5, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (27, 7, 'TRADE_FINISHED', '交易成功', 5, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (28, 7, 'TRADE_CLOSED', '交易自动关闭', 5, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (29, 7, 'TRADE_CLOSED_BY_TAOBAO', '主动关闭交易', 5, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (30, 7, 'PAY_PENDING', '付款确认中', 5, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (31, 6, '10', '待付款', 4, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (32, 5, '10', '待付款', 3, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (33, 5, '30', '已付款', 3, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (34, 5, '40', '已发货', 3, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (35, 5, '50', '已签收', 3, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (36, 5, '60', '已结算', 3, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (37, 5, '70', '订单成功', 3, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (38, 5, '80', '订单失败', 3, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (39, 6, '20', '已付款', 4, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (40, 6, '30', '已发货', 4, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (41, 6, '40', '已完成', 4, '0', null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_set (id, data_set_type_id, data_set_code, data_set_value, system_id, is_standard, remark, creator,
+                           editor)
+VALUES (42, 6, '50', '已关闭', 4, '0', null, 'sys_admin', 'sys_admin');
+
 
 /* 元数据-参考数据映射 */
 drop table if exists meta_data_map;
@@ -851,6 +1058,52 @@ create table meta_data_map
     key (tgt_data_set_id),
     key (update_time)
 ) engine = innodb comment '元数据-参考数据映射';
+-- init sample data
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (11, 21, 8, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (12, 22, 8, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (13, 23, 15, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (14, 24, 10, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (15, 25, 11, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (16, 26, 12, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (17, 27, 12, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (18, 28, 14, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (19, 29, 14, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (20, 30, 8, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (21, 32, 8, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (22, 33, 9, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (23, 34, 11, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (24, 35, 12, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (26, 36, 13, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (27, 37, 13, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (28, 38, 14, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (29, 31, 8, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (30, 39, 9, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (31, 40, 11, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (32, 41, 13, null, 'sys_admin', 'sys_admin');
+INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
+VALUES (33, 42, 14, null, 'sys_admin', 'sys_admin');
+
 
 /* 数据集成-项目信息 */
 drop table if exists di_project;
@@ -975,30 +1228,6 @@ INSERT INTO di_job(project_id, job_code, job_name, directory_id, job_type, job_o
 VALUES (1, 'local_jdbc_to_jdbc', 'local_jdbc_to_jdbc', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys_admin',
         'sys_admin');
 
-/* 数据集成-作业信息2*/
-drop table if exists di_job2;
-CREATE TABLE `di_job2`
-(
-    `id`            bigint       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-    `project_id`    bigint       NOT NULL COMMENT '项目id',
-    `directory_id`  bigint       NOT NULL COMMENT '作业目录',
-    `job_name`      varchar(256) NOT NULL COMMENT '作业名称',
-    `job_type`      varchar(4)        DEFAULT NULL COMMENT '作业类型',
-    `job_owner`     varchar(32)       DEFAULT NULL COMMENT '负责人',
-    `job_status`    varchar(4)        DEFAULT '1' COMMENT '作业状态 草稿、发布、归档',
-    `runtime_state` varchar(4)        DEFAULT '1' COMMENT '运行状态',
-    `job_version`   int               DEFAULT '1' COMMENT '作业版本号',
-    `cluster_id`    int               DEFAULT NULL COMMENT '集群id',
-    `job_crontab`   varchar(32)       DEFAULT NULL COMMENT '作业调度crontab表达式',
-    `remark`        varchar(256)      DEFAULT NULL COMMENT '备注',
-    `creator`       varchar(32)       DEFAULT NULL COMMENT '创建人',
-    `create_time`   timestamp    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `editor`        varchar(32)       DEFAULT NULL COMMENT '修改人',
-    `update_time`   timestamp    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `project_id` (`project_id`, `job_version`)
-) ENGINE = InnoDB COMMENT ='数据集成-作业信息2';
-
 drop table if exists di_job_resource_file;
 create table di_job_resource_file
 (
@@ -1064,24 +1293,6 @@ INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `ste
                           `creator`, `editor`)
 VALUES (2, 'ac5622d2-77dd-47e3-99e4-9090dbd790ea', '表输出', 'sink', 'table', -110, -80, 'sys_admin', 'sys_admin');
 
-/* 作业步骤信息 包含source，transform，sink,note 等*/
-drop table if exists di_job_step2;
-CREATE TABLE `di_job_step2`
-(
-    `id`          bigint       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-    `job_id`      bigint       NOT NULL COMMENT '作业id',
-    `step_type`   tinyint(4)   NOT NULL COMMENT '步骤类型。0: source, 1: transform, 2: sink',
-    `step_name`   varchar(128) NOT NULL COMMENT '步骤名称',
-    `step_title`  varchar(128) NOT NULL COMMENT '步骤标题',
-    `position_x`  int          NOT NULL COMMENT 'x坐标',
-    `position_y`  int          NOT NULL COMMENT 'y坐标',
-    `creator`     varchar(32)       DEFAULT NULL COMMENT '创建人',
-    `create_time` timestamp    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `editor`      varchar(32)       DEFAULT NULL COMMENT '修改人',
-    `update_time` timestamp    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-    PRIMARY KEY (`id`),
-    KEY `job_id` (`job_id`)
-) ENGINE = InnoDB COMMENT ='数据集成-作业步骤信息2';
 /* 作业步骤参数 */
 drop table if exists di_job_step_attr;
 create table di_job_step_attr
@@ -1173,6 +1384,9 @@ insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_att
 values ('source', 'table', 'query', null, '1', '查询语句', 'sys', 'sys');
 insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
                                    step_attr_describe, creator, editor)
+values ('source', 'table', 'partition_column', null, '0', '分区字段', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
 values ('sink', 'table', 'dataSource', null, '1', '数据源ID', 'sys', 'sys');
 insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
                                    step_attr_describe, creator, editor)
@@ -1183,6 +1397,12 @@ values ('sink', 'table', 'query', null, '1', '输出sql语句', 'sys', 'sys');
 insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
                                    step_attr_describe, creator, editor)
 values ('sink', 'table', 'batchSize', null, '1', '提交记录数量', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'table', 'pre_sql', null, '0', '前置SQL', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'table', 'post_sql', null, '0', '后置SQL', 'sys', 'sys');
 
 /* 作业连线信息 */
 drop table if exists di_job_link;
@@ -1206,22 +1426,6 @@ VALUES (1, '0c23960c-e59f-480f-beef-6cd59878d0e5', 'ead21aa2-a825-4827-a9ba-3833
 INSERT INTO `di_job_link`(`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
 VALUES (2, '5cd7b126-c603-455b-93b2-5fc3ebb4fdca', '01f16fcb-faa4-45e4-8f46-edc2dc756e8a',
         'ac5622d2-77dd-47e3-99e4-9090dbd790ea', 'sys_admin', 'sys_admin');
-
-/* 作业连线信息2 */
-drop table if exists di_job_link2;
-create table di_job_link2
-(
-    id           bigint not null auto_increment comment '自增主键',
-    job_id       bigint not null comment '作业id',
-    from_step_id bigint not null comment '源步骤id',
-    to_step_id   bigint not null comment '目标步骤id',
-    creator      varchar(32) comment '创建人',
-    create_time  timestamp default current_timestamp comment '创建时间',
-    editor       varchar(32) comment '修改人',
-    update_time  timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    key (job_id)
-) engine = innodb comment '数据集成-作业连线2';
 
 /* 数据同步-运行日志 */
 drop table if exists di_job_log;

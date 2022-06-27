@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.impl;
 
+import cn.hutool.core.io.FileUtil;
 import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
 import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
@@ -30,12 +31,11 @@ import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
 import cn.sliew.scaleph.common.enums.JobRuntimeStateEnum;
 import cn.sliew.scaleph.common.enums.JobTypeEnum;
-import cn.sliew.scaleph.common.nio.TempFileUtil;
 import cn.sliew.scaleph.core.di.service.*;
 import cn.sliew.scaleph.core.di.service.dto.*;
 import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.core.scheduler.service.ScheduleService;
-import cn.sliew.scaleph.engine.seatunnel.JobConfigHelper;
+import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.privilege.SecurityContext;
@@ -44,6 +44,7 @@ import cn.sliew.scaleph.storage.service.impl.NioFileServiceImpl;
 import cn.sliew.scaleph.system.service.SysConfigService;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.api.common.JobStatus;
 import org.apache.flink.client.deployment.executors.RemoteExecutor;
@@ -56,24 +57,21 @@ import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-/**
- * todo shield quartz detail.
- */
 @Slf4j
 @Service
 public class SeatunnelJobServiceImpl implements SeatunnelJobService {
@@ -103,7 +101,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     private ScheduleService scheduleService;
 
     @Autowired
-    private JobConfigHelper jobConfigHelper;
+    private SeatunnelConfigService seatunnelConfigService;
 
     @Value("${app.engine.flink.state.savepoints.dir}")
     private String savePointDir;
@@ -199,6 +197,9 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
             scheduleService.deleteScheduleJob(seatunnelJobKey);
         }
         scheduleService.addScheduleJob(seatunnelJob, seatunnelJobTri);
+        diJobDTO.setRuntimeState(
+                DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
+        diJobService.update(diJobDTO);
     }
 
     @Override
@@ -250,16 +251,16 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         }
     }
 
-    private Path getProjectBasePath(Long projectId) throws IOException {
-        return TempFileUtil.createTempDir(projectId.toString());
+    private Path getProjectBasePath(Long projectId) {
+        return FileUtil.getTmpDir().toPath().resolve(String.valueOf(projectId));
     }
 
     @Override
-    public Path buildConfFile(DiJobDTO diJobDTO, Path projectPath) throws IOException {
-        String jobJson = jobConfigHelper.buildJob(diJobDTO);
-        final Path tempFile = Files.createTempFile(projectPath, diJobDTO.getJobCode(), ".json");
-        Files.write(tempFile, jobJson.getBytes(Charset.forName("utf-8")), StandardOpenOption.WRITE);
-        return tempFile;
+    public Path buildConfFile(DiJobDTO diJobDTO, Path projectPath) {
+        String jobJson = seatunnelConfigService.buildConfig(diJobDTO);
+        final File tempFile = FileUtil.file(projectPath.toFile(), diJobDTO.getJobCode() + ".json");
+        FileUtil.writeUtf8String(jobJson, tempFile);
+        return tempFile.toPath();
     }
 
     @Override
@@ -270,6 +271,26 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
             throw new IOException("response.error.di.noJar.seatunnel");
         }
         return seatunnelJarPath;
+    }
+
+    private Set<File> getSeatunnelPluginJarFile(List<DiJobStepDTO> jobStepList) {
+        if (CollectionUtils.isEmpty(jobStepList)) {
+            return null;
+        }
+        Set<File> files = new TreeSet<>();
+        String seatunnelPath = this.sysConfigService.getSeatunnelHome();
+        Path seatunnelConnectorsPath = Paths.get(seatunnelPath, "connectors", "flink");
+        File seatunnelConnectorDir = seatunnelConnectorsPath.toFile();
+        for (DiJobStepDTO step : jobStepList) {
+            String pluginTag = this.seatunnelConfigService.getSeatunnelPluginTag(
+                    step.getStepType().getValue(), step.getStepName());
+            FileFilter fileFilter = new RegexFileFilter(".*" + pluginTag + ".*");
+            File[] pluginJars = seatunnelConnectorDir.listFiles(fileFilter);
+            if (pluginJars != null) {
+                Collections.addAll(files, pluginJars);
+            }
+        }
+        return files;
     }
 
     @Override
@@ -284,6 +305,12 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
 
         List<DiResourceFileDTO> resourceList = diJobResourceFileService.listJobResources(job.getId());
         Set<String> jars = new TreeSet<>();
+        Set<File> pluginJars = getSeatunnelPluginJarFile(job.getJobStepList());
+        if (!CollectionUtils.isEmpty(pluginJars)) {
+            for (File jar : pluginJars) {
+                jars.add(jar.toURI().toString());
+            }
+        }
         jars.add(seatunnelJarPath.toUri().toString());
 
         StorageService localStorageService = new NioFileServiceImpl(projectPath.getAbsolutePath());
@@ -291,12 +318,12 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
             Long fileSize = storageService.getFileSize(file.getFilePath(), file.getFileName());
             if (localStorageService.exists(file.getFileName()) &&
                     fileSize.equals(localStorageService.getFileSize("", file.getFileName()))) {
-                File localFile = cn.hutool.core.io.FileUtil.file(projectPath, file.getFileName());
+                File localFile = FileUtil.file(projectPath, file.getFileName());
                 jars.add(localFile.toURI().toString());
             } else {
                 InputStream is = storageService.get(file.getFilePath(), file.getFileName());
-                File localFile = cn.hutool.core.io.FileUtil.file(projectPath, file.getFileName());
-                cn.hutool.core.io.FileUtil.writeFromStream(is, localFile);
+                File localFile = FileUtil.file(projectPath, file.getFileName());
+                FileUtil.writeFromStream(is, localFile);
                 jars.add(localFile.toURI().toString());
             }
         }

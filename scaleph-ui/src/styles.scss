@@ -52,12 +52,3 @@ body {
     left: 60px !important;
   }
 }
-
-// 覆盖样式 规避devui datatable的样式BUG
-.devui-data-table {
-  .devui-table {
-    tbody>tr {
-      height: 60px;
-    }
-  }
-}

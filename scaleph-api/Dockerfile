@@ -1,18 +1,5 @@
-FROM openjdk:8-jdk
-#FROM openjdk:8-jdk-alpine
-MAINTAINER gleiyu
-
-ENV FLINK_HOME /opt/flink
-RUN mkdir -p $FLINK_HOME ; cd $FLINK_HOME ; \
-    curl -LsO https://archive.apache.org/dist/flink/flink-1.13.6/flink-1.13.6-bin-scala_2.11.tgz ; \
-    tar -zxf flink-1.13.6-bin-scala_2.11.tgz --strip 1 -C . ; \
-    rm flink-1.13.6-bin-scala_2.11.tgz
-
-ENV SEATUNNEL_HOME /opt/seatunnel
-RUN mkdir -p $SEATUNNEL_HOME ; cd $SEATUNNEL_HOME ; \
-    curl -LsO https://archive.apache.org/dist/incubator/seatunnel/2.1.1/apache-seatunnel-incubating-2.1.1-bin.tar.gz ; \
-    tar -zxf apache-seatunnel-incubating-2.1.1-bin.tar.gz --strip 1 -C . ; \
-    rm apache-seatunnel-incubating-2.1.1-bin.tar.gz
+FROM ghcr.io/flowerfine/scaleph_seatunnel:2.1.2
+MAINTAINER wangqi
 
 ENV MYSQL_URL="jdbc:mysql://mysql:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai"
 ENV MYSQL_USERNAME=root
@@ -42,6 +29,9 @@ ENV ENV_PARAMS=" --spring.datasource.master.jdbc-url=$MYSQL_URL \
  --app.resource.minio.endPoint=$MINIO_ENDPOINT \
  --app.resource.minio.accessKey=$MINIO_ACCESS_KEY \
  --app.resource.minio.secretKey=$MINIO_SECRET_KEY \
+ --file-system.endPoint=$MINIO_ENDPOINT \
+ --file-system.accessKey=$MINIO_ACCESS_KEY \
+ --file-system.secretKey=$MINIO_SECRET_KEY \
  "
 
 RUN mkdir -p $SCALEPH_HOME

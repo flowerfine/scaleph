@@ -19,13 +19,11 @@
 package cn.sliew.scaleph.engine.flink.service.param;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
-@Getter
-@Setter
+@Data
 public class FlinkReleaseLoadParam {
 
     @ApiModelProperty("flink 版本")

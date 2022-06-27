@@ -95,6 +95,8 @@ services:
     ports:
       - 9000:9000
       - 9001:9001
+    networks:
+      - scaleph
 
   jobmanager:
     image: flink:1.13.6-scala_2.12-java8

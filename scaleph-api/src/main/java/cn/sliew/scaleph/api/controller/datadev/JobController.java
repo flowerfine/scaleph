@@ -23,7 +23,6 @@ import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.api.util.I18nUtil;
 import cn.sliew.scaleph.api.util.SecurityUtil;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.constant.Constants;
@@ -38,7 +37,9 @@ import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
 import cn.sliew.scaleph.core.scheduler.service.ScheduleService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.system.service.vo.DictVO;
+import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -131,8 +132,7 @@ public class JobController {
         if (!flag) {
             DiProjectDTO project = this.diProjectService.selectOne(job.getProjectId());
             String jobName = project.getProjectCode() + '_' + job.getJobCode();
-            JobKey seatunnelJobKey =
-                    scheduleService.getJobKey("FLINK_BATCH_JOB_" + jobName, Constants.INTERNAL_GROUP);
+            JobKey seatunnelJobKey = scheduleService.getJobKey(QuartzJobUtil.getFlinkBatchJobName(jobName), Constants.INTERNAL_GROUP);
             if (scheduleService.checkExists(seatunnelJobKey)) {
                 scheduleService.deleteScheduleJob(seatunnelJobKey);
             }

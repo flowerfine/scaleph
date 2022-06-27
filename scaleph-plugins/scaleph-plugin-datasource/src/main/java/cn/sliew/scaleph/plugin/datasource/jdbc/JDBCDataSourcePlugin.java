@@ -18,100 +18,130 @@
 
 package cn.sliew.scaleph.plugin.datasource.jdbc;
 
+import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
 import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
-import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.ValidationResult;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import io.micrometer.core.instrument.MeterRegistry;
+import lombok.extern.slf4j.Slf4j;
 
-import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.*;
 
 import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 
-public class JDBCDataSourcePlugin extends AbstractPlugin implements DatasourcePlugin<DataSource> {
+@Slf4j
+public class JDBCDataSourcePlugin extends DatasourcePlugin<Connection> {
 
-    private static final List<PropertyDescriptor> supportedProperties;
+    private MeterRegistry meterRegistry;
 
-    static {
+    protected volatile Connection connection;
+
+    public JDBCDataSourcePlugin() {
+        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.JDBC.getValue(), "Generic Jdbc DataSource", "1.0", JDBCDataSourcePlugin.class.getName());
+
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(JDBC_URL);
         props.add(DRIVER_CLASS_NAME);
         props.add(USERNAME);
         props.add(PASSWORD);
-        props.add(MININUM_IDLE);
-        props.add(MAXIMUM_POOL_SIZE);
-        props.add(IDLE_TIMEOUT);
-        props.add(VALIDATION_QUERY);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
-    private final PluginInfo pluginInfo;
-    private MeterRegistry meterRegistry;
-    private volatile Properties additionalProperties;
-    private volatile HikariDataSource dataSource;
-
-    public JDBCDataSourcePlugin() {
-        this.pluginInfo = new PluginInfo("Hikaricp", "Hikaricp Jdbc DataSource", "3.4.5", JDBCDataSourcePlugin.class.getName());
-    }
 
     @Override
     public void configure(PropertyContext properties) {
         super.configure(properties);
 
         final Collection<ValidationResult> validate = validate(properties);
-        final Optional<ValidationResult> validationResult =
-                validate.stream().filter(result -> result.isValid() == false).findAny();
+        final Optional<ValidationResult> validationResult = validate.stream().filter(result -> !result.isValid()).findAny();
         if (validationResult.isPresent()) {
             throw new IllegalArgumentException(JacksonUtil.toJsonString(validationResult.get()));
         }
     }
 
     @Override
+    public Collection<ValidationResult> validate(PropertyContext properties) {
+        return super.validate(properties);
+    }
+
+    @Override
     public void start() {
-        if (Optional.ofNullable(properties).isPresent() == false) {
+        if (!Optional.ofNullable(properties).isPresent()) {
             throw new IllegalStateException("jdbc datasource plugin not initialized!");
         }
         final Properties jdbcProperties = new Properties();
         properties.addAllToProperties(jdbcProperties);
-        HikariConfig config = new HikariConfig(jdbcProperties);
-        config.setDataSourceProperties(additionalProperties);
-        config.setMetricRegistry(meterRegistry);
-        this.dataSource = new HikariDataSource(config);
+        String jdbcUrl = getJdbcUrl();
+        String driver = getDriverClassNmae();
+        String userName = jdbcProperties.getProperty(USERNAME.getName());
+        String password = jdbcProperties.getProperty(PASSWORD.getName());
+        try {
+            Class.forName(driver);
+            this.connection = DriverManager.getConnection(jdbcUrl, userName, password);
+        } catch (ClassNotFoundException | SQLException e) {
+            Rethrower.throwAs(e);
+        }
     }
 
     @Override
     public void shutdown() {
-        dataSource.close();
+        if (this.connection != null) {
+            try {
+                this.connection.close();
+            } catch (SQLException e) {
+                log.error(e.getMessage(), e);
+            }
+        }
     }
 
     @Override
-    public DataSource getDatasource() {
-        return dataSource;
-    }
-
-    @Override
-    public PluginInfo getPluginInfo() {
-        return pluginInfo;
-    }
-
-    @Override
-    public List<PropertyDescriptor> getSupportedProperties() {
-        return supportedProperties;
-    }
-
-    @Override
-    public void setAdditionalProperties(Properties properties) {
-        this.additionalProperties = properties;
+    public Connection getDatasource() {
+        return this.connection;
     }
 
     @Override
     public void setMeterRegistry(MeterRegistry meterRegistry) {
         this.meterRegistry = meterRegistry;
     }
+
+    @Override
+    public boolean testConnection() {
+        return this.connection != null;
+    }
+
+    public String getJdbcUrl() {
+        return properties.get(JDBC_URL);
+    }
+
+    public String getDriverClassNmae() {
+        return properties.get(DRIVER_CLASS_NAME);
+    }
+
+    public String getUsername() {
+        return properties.get(USERNAME);
+    }
+
+    public String getPassword() {
+        return properties.get(PASSWORD);
+    }
+
+    protected String getAdditionalProps() {
+        if (this.additionalProperties == null || this.additionalProperties.isEmpty()) {
+            return "";
+        }
+        StringBuffer buffer = new StringBuffer();
+        Set<Object> keySet = this.additionalProperties.keySet();
+        for (Object key : keySet) {
+            buffer.append(key.toString()).append("=").append(this.additionalProperties.get(key)).append("&");
+        }
+        return buffer.substring(0, buffer.length() - 1);
+    }
+
 }

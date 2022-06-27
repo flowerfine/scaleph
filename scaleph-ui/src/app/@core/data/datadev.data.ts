@@ -1,31 +1,23 @@
 import { Dict, QueryParam } from './app.data';
 
-export class DataSourceMeta {
+export class MetaDataSource {
   id?: number;
-  dataSourceName?: string;
-  dataSourceType?: Dict;
-  connectionType?: Dict;
-  hostName?: string;
-  databaseName?: string;
-  port?: number;
-  userName?: string;
-  password?: string;
+  datasourceName?: string;
+  datasourceType?: Dict;
+  props?: any;
+  propsStr?: string;
+  additionalProps?: any;
+  additionalPropsStr?: string;
   remark?: string;
-  generalProps?: string;
-  jdbcProps?: string;
-  // poolProps?: string;
-  passwdChanged?: boolean;
   createTime?: Date;
   updateTime?: Date;
+  passwdChanged?: boolean;
 }
 
-export class DataSourceMetaParam extends QueryParam {
-  dataSourceName?: string;
-  dataSourceType?: string;
-  hostName?: string;
-  databaseName?: string;
+export class MetaDataSourceParam extends QueryParam {
+  datasourceName?: string;
+  datasourceType?: string;
 }
-
 
 export const WORKBENCH_MENU = [
   {
@@ -50,8 +42,18 @@ export const WORKBENCH_MENU = [
     title: 'datadev.step.trans',
     menuIcon: 'icon icon-folder',
     children: [
-      { title: 'datadev.step.trans-field-select', menuIcon: 'icon-property', menuType: 'trans', menuName: 'field-select' },
-      { title: 'datadev.step.trans-field-set-value', menuIcon: 'icon-set-keyword', menuType: 'trans', menuName: 'field-set-value' },
+      {
+        title: 'datadev.step.trans-field-select',
+        menuIcon: 'icon-property',
+        menuType: 'trans',
+        menuName: 'field-select',
+      },
+      {
+        title: 'datadev.step.trans-field-set-value',
+        menuIcon: 'icon-set-keyword',
+        menuType: 'trans',
+        menuName: 'field-set-value',
+      },
       { title: 'datadev.step.trans-group', menuIcon: 'icon-groupby', menuType: 'trans', menuName: 'group' },
     ],
   },
@@ -204,5 +206,8 @@ export const STEP_ATTR_TYPE = {
   dataSourceType: 'dataSourceType',
   dataSource: 'dataSource',
   query: 'query',
+  partitionColumn: 'partition_column',
   batchSize: 'batchSize',
+  preSQL: 'pre_sql',
+  postSQL: 'post_sql',
 };
