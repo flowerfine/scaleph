@@ -22,7 +22,9 @@
           <d-select name="version"
                     [dValidateRules]="formConfig.versionRules"
                     [allowClear]="true"
-                    [options]="options"
+                    [filterKey]="'label'"
+                    [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                    [options]="flinkVersionList"
                     size="sm"
                     [(ngModel)]="formData.version"></d-select>
         </d-form-control>
