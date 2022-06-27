@@ -3,26 +3,24 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
-import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/app.data';
-import {FlinkRelease, FlinkReleaseParam} from 'src/app/@core/data/flink.data';
+import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE} from 'src/app/@core/data/app.data';
+import {FlinkClusterConfig, FlinkClusterConfigParam} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
-import {ReleaseService} from 'src/app/@core/services/flink/release.service';
-import {ReleaseUploadComponent} from "./release-upload/release-upload.component";
-import {ReleaseDeleteComponent} from "./release-delete/release-delete.component";
+import {ClusterConfigService} from "../../../@core/services/flink/cluster-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 
 @Component({
-  selector: 'app-release',
-  templateUrl: './release.component.html',
-  styleUrls: ['./release.component.scss'],
+  selector: 'app-cluster-config',
+  templateUrl: './cluster-config.component.html',
+  styleUrls: ['./cluster-config.component.scss'],
 })
-export class ReleaseComponent implements OnInit {
+export class ClusterConfigComponent implements OnInit {
   PRIVILEGE_CODE = PRIVILEGE_CODE;
   @ViewChild('dataTable', {static: true}) dataTable: DataTableComponent;
   dataLoading: boolean = false;
   dataTableChecked: boolean = false;
   loadTarget: any;
-  dataTableDs: FlinkRelease[] = [];
+  dataTableDs: FlinkClusterConfig[] = [];
   pager = {
     total: 0,
     pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -30,9 +28,16 @@ export class ReleaseComponent implements OnInit {
     pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
   };
 
-  searchFormConfig = {version: null, fileName: ''};
+  searchFormConfig = {
+    name: '',
+    flinkVersion: null,
+    resourceProvider: null,
+    deployMode: null
+  };
 
   flinkVersionList: Dict[] = []
+  resourceProviderList: Dict[] = []
+  deployModeList: Dict[] = []
 
   constructor(
     public authService: AuthService,
@@ -41,7 +46,7 @@ export class ReleaseComponent implements OnInit {
     private translate: TranslateService,
     private modalService: ModalService,
     private dictDataService: SysDictDataService,
-    private releaseService: ReleaseService,
+    private clusterConfigService: ClusterConfigService,
     private router: Router
   ) {
   }
@@ -51,18 +56,26 @@ export class ReleaseComponent implements OnInit {
     this.dictDataService.listByType(DICT_TYPE.flinkVersion).subscribe((d) => {
       this.flinkVersionList = d;
     });
+    this.dictDataService.listByType(DICT_TYPE.flinkResourceProvider).subscribe((d) => {
+      this.resourceProviderList = d;
+    });
+    this.dictDataService.listByType(DICT_TYPE.flinkDeploymentMode).subscribe((d) => {
+      this.deployModeList = d;
+    });
   }
 
   refreshTable() {
     this.openDataTableLoading();
-    let param: FlinkReleaseParam = {
+    let param: FlinkClusterConfigParam = {
       pageSize: this.pager.pageSize,
       current: this.pager.pageIndex,
-      version: this.searchFormConfig.version ? this.searchFormConfig.version.value : '',
-      fileName: this.searchFormConfig.fileName,
+      name: this.searchFormConfig.name || '',
+      flinkVersion: this.searchFormConfig.flinkVersion ? this.searchFormConfig.flinkVersion.value : '',
+      resourceProvider: this.searchFormConfig.resourceProvider ? this.searchFormConfig.resourceProvider.value : '',
+      deployMode: this.searchFormConfig.deployMode ? this.searchFormConfig.deployMode.value : ''
     };
 
-    this.releaseService.list(param).subscribe((d) => {
+    this.clusterConfigService.list(param).subscribe((d) => {
       this.pager.total = d.total;
       this.dataTableDs = d.records;
       this.loadTarget.loadingInstance.close();
@@ -92,7 +105,12 @@ export class ReleaseComponent implements OnInit {
   }
 
   reset() {
-    this.searchFormConfig = {version: null, fileName: ''};
+    this.searchFormConfig = {
+      name: '',
+      flinkVersion: null,
+      resourceProvider: null,
+      deployMode: null
+    };
     this.pager = {
       total: 0,
       pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -100,60 +118,5 @@ export class ReleaseComponent implements OnInit {
       pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
     };
     this.refreshTable();
-  }
-
-  openUploadReleaseDialog() {
-    const results = this.modalService.open({
-      id: 'release-upload',
-      width: '580px',
-      backdropCloseable: true,
-      component: ReleaseUploadComponent,
-      data: {
-        title: {name: this.translate.instant('flink.release.name')},
-        onClose: (event: any) => {
-          results.modalInstance.hide();
-        },
-        refresh: () => {
-          this.refreshTable();
-        },
-      },
-    });
-  }
-
-  openLoadReleaseDialog() {
-    alert("work in progress")
-  }
-
-  openDeleteReleaseDialog(items: FlinkRelease[]) {
-    const results = this.modalService.open({
-      id: 'resource-delete',
-      width: '346px',
-      backdropCloseable: true,
-      component: ReleaseDeleteComponent,
-      data: {
-        title: this.translate.instant('app.common.operate.delete.confirm.title'),
-        items: items,
-        onClose: (event: any) => {
-          results.modalInstance.hide();
-        },
-        refresh: () => {
-          this.refreshTable();
-        },
-      },
-    });
-  }
-
-  downloadRelease(item: FlinkRelease) {
-    let url: string =
-      'api/flink/release/' + item.id +
-      '?' +
-      USER_AUTH.token +
-      '=' +
-      localStorage.getItem(USER_AUTH.token);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = item.fileName;
-    a.click();
-    window.URL.revokeObjectURL(url);
   }
 }

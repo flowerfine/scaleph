@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -33,7 +34,7 @@ public class FlinkReleaseDTO extends BaseDTO {
 
     @NotBlank
     @ApiModelProperty("版本")
-    private String version;
+    private DictVO version;
 
     @ApiModelProperty("文件名称")
     private String fileName;

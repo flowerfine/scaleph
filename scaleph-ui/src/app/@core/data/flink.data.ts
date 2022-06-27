@@ -50,4 +50,25 @@ export class FileStatus {
   accessTime?: Date;
 }
 
+export class FlinkClusterConfig {
+  id?: number;
+  name?: string;
+  flinkVersion?: Dict;
+  resourceProvider?: Dict;
+  deployMode?: Dict;
+  flinkReleaseId?: number;
+  deployConfigFileId?: number;
+  configOptions?: object;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+}
+
+export class FlinkClusterConfigParam extends QueryParam {
+  name?: string;
+  flinkVersion?: string;
+  resourceProvider?: string;
+  deployMode?: string;
+}
+
 

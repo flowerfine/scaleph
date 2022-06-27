@@ -417,6 +417,16 @@
       "len": "文件大小",
       "modificationTime": "修改时间",
       "upload": "上传"
+    },
+    "cluster-config": {
+      "name_": "集群配置",
+      "name": "配置名称",
+      "flinkVersion": "Flink 版本",
+      "resourceProvider": "Flink 资源类型",
+      "deployMode": "Flink 部署模式",
+      "flinkReleaseId": "发布ID",
+      "deployConfigFileId": "部署配置ID",
+      "configOptions": "自定义配置项"
     }
   },
   "header": {

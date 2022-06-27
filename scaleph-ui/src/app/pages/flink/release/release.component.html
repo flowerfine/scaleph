@@ -13,7 +13,9 @@
                   <d-col>
                     <d-select name="version"
                               [allowClear]="true"
-                              [options]="options"
+                              [filterKey]="'label'"
+                              [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                              [options]="flinkVersionList"
                               size="sm"
                               [(ngModel)]="searchFormConfig.version"
                               (valueChange)="refreshTable()"></d-select>
@@ -78,7 +80,7 @@
               >
                 <d-column field="version" header="{{ 'flink.release.version' | translate }}">
                   <d-cell>
-                    <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
+                    <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
                   </d-cell>
                 </d-column>
                 <d-column field="fileName" header="{{ 'flink.release.fileName' | translate }}">

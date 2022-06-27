@@ -31,7 +31,7 @@ cd scaleph/tools/docker/deploy/scaleph
 docker-compose up
 ```
 
-Once all containers have started, the UI is ready to go at [http://localhost](http://localhost/)!
+Once all containers have started, the UI is ready to go at [http://localhost](http://localhost/), user can login by `sys_admin/123456`
 
 ## Documentation
 

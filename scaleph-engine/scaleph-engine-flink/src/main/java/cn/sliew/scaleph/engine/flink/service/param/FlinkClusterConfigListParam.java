@@ -34,8 +34,8 @@ public class FlinkClusterConfigListParam extends PaginationParam {
     private String flinkVersion;
 
     @ApiModelProperty("Resource。0: Standalone, 1: Native Kubernetes, 2: YARN")
-    private Integer resourceProvider;
+    private String resourceProvider;
 
     @ApiModelProperty("flink 部署模式。0: Application, 1: Per-Job, 2: Session")
-    private Integer deployMode;
+    private String deployMode;
 }
