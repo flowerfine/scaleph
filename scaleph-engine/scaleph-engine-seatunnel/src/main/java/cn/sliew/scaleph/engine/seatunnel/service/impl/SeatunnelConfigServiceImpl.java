@@ -158,29 +158,32 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         Properties properties = new Properties();
         List<DiJobStepAttrDTO> stepAttrList = step.getJobStepAttrList();
         if (CollectionUtil.isNotEmpty(stepAttrList)) {
-            stepAttrList.forEach(attr -> {
-                if (Constants.JOB_STEP_ATTR_DATASOURCE.equals(attr.getStepAttrKey())) {
-                    DictVO dsAttr = JSONUtil.toBean(attr.getStepAttrValue(), DictVO.class);
-                    MetaDatasourceDTO datasourceDTO =
-                            metaDatasourceService.selectOne(Long.parseLong(dsAttr.getValue()), false);
-                    Set<PluginInfo> pluginInfoSet = this.metaDatasourceService.getAvailableDataSources();
-                    for (PluginInfo pluginInfo : pluginInfoSet) {
-                        if (pluginInfo.getName().equalsIgnoreCase(datasourceDTO.getDatasourceType().getValue())) {
-                            try {
-                                Class<?> clazz = Class.forName(pluginInfo.getClassname());
-                                DatasourcePlugin<?> dsPlugin = (DatasourcePlugin<?>) clazz.newInstance();
-                                dsPlugin.setAdditionalProperties(PropertyUtil.mapToProperties(datasourceDTO.getAdditionalProps()));
-                                dsPlugin.configure(PropertyContext.fromMap(datasourceDTO.getProps()));
-                                properties.putAll(dsPlugin.getProperties());
-                            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-                                Rethrower.throwAs(e);
+            stepAttrList
+                    .stream().filter(attr -> attr.getStepAttrValue() != null)
+                    .forEach(attr -> {
+                        if (Constants.JOB_STEP_ATTR_DATASOURCE.equals(attr.getStepAttrKey())) {
+                            DictVO dsAttr = JSONUtil.toBean(attr.getStepAttrValue(), DictVO.class);
+                            MetaDatasourceDTO datasourceDTO =
+                                    metaDatasourceService.selectOne(Long.parseLong(dsAttr.getValue()), false);
+                            Set<PluginInfo> pluginInfoSet = this.metaDatasourceService.getAvailableDataSources();
+                            for (PluginInfo pluginInfo : pluginInfoSet) {
+                                if (pluginInfo.getName().equalsIgnoreCase(datasourceDTO.getDatasourceType().getValue())) {
+                                    try {
+                                        Class<?> clazz = Class.forName(pluginInfo.getClassname());
+                                        DatasourcePlugin<?> dsPlugin = (DatasourcePlugin<?>) clazz.newInstance();
+                                        dsPlugin.setAdditionalProperties(PropertyUtil.mapToProperties(datasourceDTO.getAdditionalProps()));
+                                        dsPlugin.configure(PropertyContext.fromMap(datasourceDTO.getProps()));
+                                        properties.putAll(dsPlugin.getProperties());
+                                    } catch (ClassNotFoundException | IllegalAccessException |
+                                             InstantiationException e) {
+                                        Rethrower.throwAs(e);
+                                    }
+                                }
                             }
+                        } else {
+                            properties.put(attr.getStepAttrKey(), attr.getStepAttrValue());
                         }
-                    }
-                } else {
-                    properties.put(attr.getStepAttrKey(), attr.getStepAttrValue());
-                }
-            });
+                    });
         }
         return properties;
     }

@@ -1384,6 +1384,9 @@ insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_att
 values ('source', 'table', 'query', null, '1', '查询语句', 'sys', 'sys');
 insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
                                    step_attr_describe, creator, editor)
+values ('source', 'table', 'partition_column', null, '0', '分区字段', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
 values ('sink', 'table', 'dataSource', null, '1', '数据源ID', 'sys', 'sys');
 insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
                                    step_attr_describe, creator, editor)
@@ -1394,6 +1397,12 @@ values ('sink', 'table', 'query', null, '1', '输出sql语句', 'sys', 'sys');
 insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
                                    step_attr_describe, creator, editor)
 values ('sink', 'table', 'batchSize', null, '1', '提交记录数量', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'table', 'pre_sql', null, '0', '前置SQL', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'table', 'post_sql', null, '0', '后置SQL', 'sys', 'sys');
 
 /* 作业连线信息 */
 drop table if exists di_job_link;

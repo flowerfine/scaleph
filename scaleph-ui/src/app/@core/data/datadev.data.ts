@@ -206,5 +206,8 @@ export const STEP_ATTR_TYPE = {
   dataSourceType: 'dataSourceType',
   dataSource: 'dataSource',
   query: 'query',
+  partitionColumn: 'partition_column',
   batchSize: 'batchSize',
+  preSQL: 'pre_sql',
+  postSQL: 'post_sql',
 };
