@@ -19,6 +19,7 @@ import {
   DeployConfigFileDeleteComponent
 } from "./deploy-config-file/deploy-config-file-delete/deploy-config-file-delete.component";
 import {ClusterConfigComponent} from "./cluster-config/cluster-config.component";
+import {ClusterConfigNewComponent} from "./cluster-config/cluster-config-new/cluster-config-new.component";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {ClusterConfigComponent} from "./cluster-config/cluster-config.component"
     DeployConfigFileUploadComponent,
     DeployConfigFileDeleteComponent,
     ClusterConfigComponent,
+    ClusterConfigNewComponent,
   ],
   imports: [SharedModule, FlinkRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })

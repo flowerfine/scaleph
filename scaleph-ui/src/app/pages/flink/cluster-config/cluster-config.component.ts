@@ -8,6 +8,8 @@ import {FlinkClusterConfig, FlinkClusterConfigParam} from 'src/app/@core/data/fl
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {ClusterConfigService} from "../../../@core/services/flink/cluster-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
+import {DeployConfigNewComponent} from "../deploy-config/deploy-config-new/deploy-config-new.component";
+import {ClusterConfigNewComponent} from "./cluster-config-new/cluster-config-new.component";
 
 @Component({
   selector: 'app-cluster-config',
@@ -118,5 +120,23 @@ export class ClusterConfigComponent implements OnInit {
       pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
     };
     this.refreshTable();
+  }
+
+  openAddClusterConfigDialog() {
+    const results = this.modalService.open({
+      id: 'cluster-config-add',
+      width: '580px',
+      backdropCloseable: true,
+      component: ClusterConfigNewComponent,
+      data: {
+        title: {name: this.translate.instant('flink.cluster-config.name_')},
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
   }
 }
