@@ -2,6 +2,7 @@ import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {DValidateRules, FormLayout} from 'ng-devui';
 import {
+  FlinkClusterConfig,
   FlinkDeployConfig,
   FlinkDeployConfigParam,
   FlinkRelease,
@@ -11,6 +12,7 @@ import {DeployConfigService} from "../../../../@core/services/flink/deploy-confi
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
 import {ReleaseService} from "../../../../@core/services/flink/release.service";
+import {ClusterConfigService} from "../../../../@core/services/flink/cluster-config.service";
 
 @Component({
   selector: 'app-cluster-config-new',
@@ -60,7 +62,6 @@ export class ClusterConfigNewComponent implements OnInit {
     deployMode: null,
     flinkRelease: null,
     flinkDeployConfig: null,
-    configType: null,
     name: null,
     remark: null,
   };
@@ -70,7 +71,8 @@ export class ClusterConfigNewComponent implements OnInit {
     private translate: TranslateService,
     private dictDataService: SysDictDataService,
     private releaseService: ReleaseService,
-    private deployConfigService: DeployConfigService) {
+    private deployConfigService: DeployConfigService,
+    private clusterConfigService: ClusterConfigService) {
   }
 
   ngOnInit(): void {
@@ -124,13 +126,17 @@ export class ClusterConfigNewComponent implements OnInit {
   }
 
   submitForm({valid}) {
-    let row: FlinkDeployConfig = {
-      configType: this.formData.configType,
+    let row: FlinkClusterConfig = {
       name: this.formData.name,
-      remark: this.formData.remark,
+      flinkVersion: this.formData.flinkVersion,
+      resourceProvider: this.formData.resourceProvider,
+      deployMode: this.formData.deployMode,
+      flinkReleaseId: this.formData.flinkRelease.id,
+      deployConfigFileId: this.formData.flinkDeployConfig.id,
+      remark: this.formData.remark
     };
     if (valid) {
-      this.deployConfigService.add(row).subscribe((d) => {
+      this.clusterConfigService.add(row).subscribe((d) => {
         if (d.success) {
           this.data.onClose();
           this.data.refresh();

@@ -14,8 +14,15 @@
       </d-col>
     </d-row>
   </div>
-  <form dForm ngForm [layout]="formLayout" [dValidateRules]="formConfig.rule" #form="dValidateRules" (dSubmit)="submitForm($event)">
+  <form dForm ngForm [layout]="formLayout" [dValidateRules]="formConfig.rule" #form="dValidateRules"
+        (dSubmit)="submitForm($event)">
     <div class="modal-body" style="padding: 0px 48px 0px 48px">
+      <d-form-item>
+        <d-form-label [required]="true">{{ 'flink.cluster-config.name' | translate }}</d-form-label>
+        <d-form-control>
+          <input dTextInput name="name" [(ngModel)]="formData.name" [dValidateRules]="formConfig.nameRules" />
+        </d-form-control>
+      </d-form-item>
       <d-form-item>
         <d-form-label [required]="true">{{ 'flink.cluster-config.flinkVersion' | translate }}</d-form-label>
         <d-form-control>
@@ -70,7 +77,7 @@
         </d-form-control>
       </d-form-item>
       <d-form-item>
-        <d-form-label [required]="true">{{ 'flink.deploy-config.name_' | translate }}</d-form-label>
+        <d-form-label>{{ 'flink.deploy-config.name_' | translate }}</d-form-label>
         <d-form-control>
           <d-select name="flinkDeployConfig"
                     [allowClear]="true"
@@ -84,23 +91,17 @@
         </d-form-control>
       </d-form-item>
       <d-form-item>
-        <d-form-label [required]="true">{{ 'flink.deploy-config.name' | translate }}</d-form-label>
-        <d-form-control>
-          <input dTextInput name="name" [(ngModel)]="formData.name" [dValidateRules]="formConfig.nameRules" />
-        </d-form-control>
-      </d-form-item>
-      <d-form-item>
         <d-form-label>{{ 'flink.remark' | translate }}</d-form-label>
         <d-form-control>
-          <input dTextInput name="remark" [(ngModel)]="formData.remark" [dValidateRules]="formConfig.remarkRules" />
+          <input dTextInput name="remark" [(ngModel)]="formData.remark" [dValidateRules]="formConfig.remarkRules"/>
         </d-form-control>
       </d-form-item>
     </div>
     <div class="modal-footer" style="text-align: right; padding-right: 42px">
       <d-form-operation>
-        <d-button style="margin-right: 4px" bsStyle="common" (btnClick)="data.onClose($event)">{{
-          'app.common.operate.cancel.label' | translate
-        }}</d-button>
+        <d-button style="margin-right: 4px" bsStyle="common" (btnClick)="data.onClose($event)">
+          {{ 'app.common.operate.cancel.label' | translate }}
+        </d-button>
         <d-button bsStyle="primary" dFormSubmit>{{ 'app.common.operate.confirm.label' | translate }}</d-button>
       </d-form-operation>
     </div>

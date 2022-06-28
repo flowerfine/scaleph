@@ -8,7 +8,6 @@ import {FlinkClusterConfig, FlinkClusterConfigParam} from 'src/app/@core/data/fl
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {ClusterConfigService} from "../../../@core/services/flink/cluster-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
-import {DeployConfigNewComponent} from "../deploy-config/deploy-config-new/deploy-config-new.component";
 import {ClusterConfigNewComponent} from "./cluster-config-new/cluster-config-new.component";
 
 @Component({
@@ -80,6 +79,7 @@ export class ClusterConfigComponent implements OnInit {
     this.clusterConfigService.list(param).subscribe((d) => {
       this.pager.total = d.total;
       this.dataTableDs = d.records;
+      console.log(d)
       this.loadTarget.loadingInstance.close();
       this.dataLoading = false;
       this.dataTable.setTableCheckStatus({pageAllChecked: false});
