@@ -23,7 +23,7 @@ export class ClusterConfigService {
   }
 
   update(row: FlinkClusterConfig): Observable<ResponseBody<any>> {
-    return this.http.post<ResponseBody<any>>(this.url, row);
+    return this.http.post<ResponseBody<any>>(`${this.url}/` + row.id, row);
   }
 
   deleteBatch(rows: FlinkClusterConfig[]): Observable<ResponseBody<any>> {

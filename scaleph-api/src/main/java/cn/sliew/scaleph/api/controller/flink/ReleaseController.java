@@ -41,7 +41,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
@@ -73,6 +72,14 @@ public class ReleaseController {
     }
 
     @Logging
+    @GetMapping("/{id}")
+    @ApiOperation(value = "查询 release 详情", notes = "查询 release 详情")
+    public ResponseEntity<FlinkReleaseDTO> get(@PathVariable("id") Long id) throws IOException {
+        final FlinkReleaseDTO result = flinkReleaseService.selectOne(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
     @PostMapping("load")
     @ApiOperation(value = "加载 release", notes = "加载 release")
     public ResponseEntity<ResponseVO> load(@Valid @RequestBody FlinkReleaseLoadParam param) throws IOException {
@@ -95,7 +102,7 @@ public class ReleaseController {
     }
 
     @Logging
-    @GetMapping("{id}")
+    @GetMapping("download/{id}")
     @ApiOperation("下载 release")
     public ResponseEntity<ResponseVO> download(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
         try (ServletOutputStream outputStream = response.getOutputStream()) {

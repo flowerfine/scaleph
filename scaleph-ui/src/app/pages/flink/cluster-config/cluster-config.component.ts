@@ -10,6 +10,7 @@ import {ClusterConfigService} from "../../../@core/services/flink/cluster-config
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 import {ClusterConfigNewComponent} from "./cluster-config-new/cluster-config-new.component";
 import {ClusterConfigDeleteComponent} from "./cluster-config-delete/cluster-config-delete.component";
+import {ClusterConfigUpdateComponent} from "./cluster-config-update/cluster-config-update.component";
 
 @Component({
   selector: 'app-cluster-config',
@@ -131,6 +132,25 @@ export class ClusterConfigComponent implements OnInit {
       component: ClusterConfigNewComponent,
       data: {
         title: {name: this.translate.instant('flink.cluster-config.name_')},
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
+  }
+
+  openEditClusterConfigDialog(item: FlinkClusterConfig) {
+    const results = this.modalService.open({
+      id: 'cluster-config-edit',
+      width: '580px',
+      backdropCloseable: true,
+      component: ClusterConfigUpdateComponent,
+      data: {
+        title: {name: this.translate.instant('flink.cluster-config.name_')},
+        item: item,
         onClose: (event: any) => {
           results.modalInstance.hide();
         },

@@ -145,7 +145,7 @@ export class ReleaseComponent implements OnInit {
 
   downloadRelease(item: FlinkRelease) {
     let url: string =
-      'api/flink/release/' + item.id +
+      'api/flink/release/download/' + item.id +
       '?' +
       USER_AUTH.token +
       '=' +
