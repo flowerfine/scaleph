@@ -60,8 +60,11 @@ public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService 
     }
 
     @Override
-    public int deleteBatch(Map<Integer, ? extends Serializable> map) {
-        return flinkClusterConfigMapper.deleteBatchIds(map.values());
+    public int deleteBatch(List<Long> ids) {
+        for (Long id : ids) {
+            deleteById(id);
+        }
+        return ids.size();
     }
 
     @Override
@@ -71,8 +74,8 @@ public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService 
                 Wrappers.lambdaQuery(FlinkClusterConfig.class)
                         .like(StringUtils.hasText(param.getName()), FlinkClusterConfig::getName, param.getName())
                         .eq(StringUtils.hasText(param.getFlinkVersion()), FlinkClusterConfig::getFlinkVersion, param.getFlinkVersion())
-                        .eq(param.getResourceProvider() != null, FlinkClusterConfig::getResourceProvider, param.getResourceProvider())
-                        .eq(param.getDeployMode() != null, FlinkClusterConfig::getDeployMode, param.getDeployMode()));
+                        .eq(StringUtils.hasText(param.getResourceProvider()), FlinkClusterConfig::getResourceProvider, param.getResourceProvider())
+                        .eq(StringUtils.hasText(param.getDeployMode()), FlinkClusterConfig::getDeployMode, param.getDeployMode()));
         Page<FlinkClusterConfigDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         List<FlinkClusterConfigDTO> dtoList = FlinkClusterConfigConvert.INSTANCE.toDto(page.getRecords());

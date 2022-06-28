@@ -76,13 +76,13 @@
                 <d-button
                   *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
                   bsStyle="primary"
-
+                  (btnClick)="openAddClusterConfigDialog()"
                 >{{ 'app.common.operate.new.label' | translate }}
                 </d-button>
                 <d-button
                   *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                   bsStyle="common"
-
+                  (btnClick)="openDeleteClusterConfigDialog(dataTable.getCheckedRows())"
                   [disabled]="!dataTableChecked"
                 >{{ 'app.common.operate.delete.label' | translate }}
                 </d-button>
@@ -158,16 +158,23 @@
                     <div class="btn-group over-flow-ellipsis">
                       <d-button
                         *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
-                        icon="icon-download"
+                        icon="icon-bulk-edit"
                         bsStyle="text-dark"
 
+                        title="{{ 'app.common.operate.download.label' | translate }}"
+                      ></d-button>
+                      <d-button
+                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
+                        icon="icon-edit"
+                        bsStyle="text-dark"
+                        (btnClick)="openEditClusterConfigDialog(rowItem)"
                         title="{{ 'app.common.operate.download.label' | translate }}"
                       ></d-button>
                       <d-button
                         *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                         icon="icon-delete"
                         bsStyle="text-dark"
-
+                        (btnClick)="openDeleteClusterConfigDialog([rowItem])"
                         title="{{ 'app.common.operate.delete.label' | translate }}"
                       ></d-button>
                     </div>

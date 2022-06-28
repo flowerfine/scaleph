@@ -22,6 +22,10 @@ export class ReleaseService {
     return this.http.get<PageResponse<FlinkRelease>>(`${this.url}`, {params});
   }
 
+  selectOne(id): Observable<ResponseBody<FlinkRelease>> {
+    return this.http.get<ResponseBody<FlinkRelease>>(`${this.url}/` + id);
+  }
+
   upload(uploadParam: FlinkReleaseUploadParam): Observable<ResponseBody<any>> {
     const params: FormData = new FormData();
     params.append("version", uploadParam.version)

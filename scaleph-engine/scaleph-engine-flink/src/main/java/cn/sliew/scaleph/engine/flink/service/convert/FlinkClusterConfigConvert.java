@@ -29,6 +29,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Map;
@@ -44,7 +45,9 @@ public interface FlinkClusterConfigConvert extends BaseConvert<FlinkClusterConfi
         entity.setFlinkVersion(DictVoConvert.INSTANCE.toDo(dto.getFlinkVersion()));
         entity.setResourceProvider(DictVoConvert.INSTANCE.toDo(dto.getResourceProvider()));
         entity.setDeployMode(DictVoConvert.INSTANCE.toDo(dto.getDeployMode()));
-        entity.setConfigOptions(JacksonUtil.toJsonString(dto.getConfigOptions()));
+        if (CollectionUtils.isEmpty(dto.getConfigOptions()) == false) {
+            entity.setConfigOptions(JacksonUtil.toJsonString(dto.getConfigOptions()));
+        }
         return entity;
     }
 

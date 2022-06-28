@@ -8,6 +8,9 @@ import {FlinkClusterConfig, FlinkClusterConfigParam} from 'src/app/@core/data/fl
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {ClusterConfigService} from "../../../@core/services/flink/cluster-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
+import {ClusterConfigNewComponent} from "./cluster-config-new/cluster-config-new.component";
+import {ClusterConfigDeleteComponent} from "./cluster-config-delete/cluster-config-delete.component";
+import {ClusterConfigUpdateComponent} from "./cluster-config-update/cluster-config-update.component";
 
 @Component({
   selector: 'app-cluster-config',
@@ -78,6 +81,7 @@ export class ClusterConfigComponent implements OnInit {
     this.clusterConfigService.list(param).subscribe((d) => {
       this.pager.total = d.total;
       this.dataTableDs = d.records;
+      console.log(d)
       this.loadTarget.loadingInstance.close();
       this.dataLoading = false;
       this.dataTable.setTableCheckStatus({pageAllChecked: false});
@@ -118,5 +122,61 @@ export class ClusterConfigComponent implements OnInit {
       pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
     };
     this.refreshTable();
+  }
+
+  openAddClusterConfigDialog() {
+    const results = this.modalService.open({
+      id: 'cluster-config-add',
+      width: '580px',
+      backdropCloseable: true,
+      component: ClusterConfigNewComponent,
+      data: {
+        title: {name: this.translate.instant('flink.cluster-config.name_')},
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
+  }
+
+  openEditClusterConfigDialog(item: FlinkClusterConfig) {
+    const results = this.modalService.open({
+      id: 'cluster-config-edit',
+      width: '580px',
+      backdropCloseable: true,
+      component: ClusterConfigUpdateComponent,
+      data: {
+        title: {name: this.translate.instant('flink.cluster-config.name_')},
+        item: item,
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
+  }
+
+  openDeleteClusterConfigDialog(items: FlinkClusterConfig[]) {
+    const results = this.modalService.open({
+      id: 'cluster-config-delete',
+      width: '346px',
+      backdropCloseable: true,
+      component: ClusterConfigDeleteComponent,
+      data: {
+        title: this.translate.instant('app.common.operate.delete.confirm.title'),
+        items: items,
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
   }
 }

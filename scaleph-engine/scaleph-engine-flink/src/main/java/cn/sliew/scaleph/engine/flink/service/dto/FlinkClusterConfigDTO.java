@@ -43,7 +43,7 @@ public class FlinkClusterConfigDTO extends BaseDTO {
     @ApiModelProperty("名称")
     private String name;
 
-    @NotBlank
+    @NotNull
     @ApiModelProperty("集群版本")
     private DictVO flinkVersion;
 
