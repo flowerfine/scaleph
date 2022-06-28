@@ -33,6 +33,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -80,8 +81,8 @@ public class ClusterConfigController {
     @Logging
     @DeleteMapping(path = "/batch")
     @ApiOperation(value = "批量删除集群", notes = "批量删除集群")
-    public ResponseEntity<ResponseVO> deleteCluster(@RequestBody Map<Integer, Long> map) {
-        flinkClusterConfigService.deleteBatch(map);
+    public ResponseEntity<ResponseVO> deleteCluster(@RequestBody List<Long> ids) {
+        flinkClusterConfigService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 

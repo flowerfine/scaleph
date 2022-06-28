@@ -9,6 +9,7 @@ import {AuthService} from 'src/app/@core/services/auth.service';
 import {ClusterConfigService} from "../../../@core/services/flink/cluster-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 import {ClusterConfigNewComponent} from "./cluster-config-new/cluster-config-new.component";
+import {ClusterConfigDeleteComponent} from "./cluster-config-delete/cluster-config-delete.component";
 
 @Component({
   selector: 'app-cluster-config',
@@ -130,6 +131,25 @@ export class ClusterConfigComponent implements OnInit {
       component: ClusterConfigNewComponent,
       data: {
         title: {name: this.translate.instant('flink.cluster-config.name_')},
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
+  }
+
+  openDeleteClusterConfigDialog(items: FlinkClusterConfig[]) {
+    const results = this.modalService.open({
+      id: 'cluster-config-delete',
+      width: '346px',
+      backdropCloseable: true,
+      component: ClusterConfigDeleteComponent,
+      data: {
+        title: this.translate.instant('app.common.operate.delete.confirm.title'),
+        items: items,
         onClose: (event: any) => {
           results.modalInstance.hide();
         },

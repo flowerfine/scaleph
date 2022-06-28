@@ -60,8 +60,11 @@ public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService 
     }
 
     @Override
-    public int deleteBatch(Map<Integer, ? extends Serializable> map) {
-        return flinkClusterConfigMapper.deleteBatchIds(map.values());
+    public int deleteBatch(List<Long> ids) {
+        for (Long id : ids) {
+            deleteById(id);
+        }
+        return ids.size();
     }
 
     @Override

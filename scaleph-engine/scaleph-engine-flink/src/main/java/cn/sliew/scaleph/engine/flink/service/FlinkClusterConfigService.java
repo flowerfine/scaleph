@@ -23,6 +23,7 @@ import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 public interface FlinkClusterConfigService {
@@ -33,7 +34,7 @@ public interface FlinkClusterConfigService {
 
     int deleteById(Long id);
 
-    int deleteBatch(Map<Integer, ? extends Serializable> map);
+    int deleteBatch(List<Long> ids);
 
     Page<FlinkClusterConfigDTO> listByPage(FlinkClusterConfigListParam param);
 
