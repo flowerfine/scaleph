@@ -36,6 +36,7 @@
       "deploy-config": "部署配置",
       "deploy-config-file": "部署配置文件",
       "cluster-config": "集群配置",
+      "cluster-config-options": "集群配置选项",
       "cluster-instance": "集群实例"
     }
   },
