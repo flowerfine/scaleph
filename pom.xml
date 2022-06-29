@@ -96,6 +96,7 @@
         <module>scaleph-support</module>
         <module>scaleph-plugins</module>
         <module>scaleph-core</module>
+        <module>scaleph-ui-react</module>
     </modules>
 
     <properties>
