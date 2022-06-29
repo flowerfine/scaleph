@@ -3,64 +3,78 @@
     <d-row [dGutter]="[12, 12]">
       <d-col [dSpan]="24">
         <div class="da-list-container">
-          <div class="da-list-header">
-            <div class="da-header-left">
-              <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
-                <d-col>
-                  <div class="da-header-item-label">{{ 'flink.cluster-config.name' | translate }}:</div>
-                </d-col>
-                <d-col>
-                  <input dTextInput name="name" [(ngModel)]="searchFormConfig.name" (keyup.enter)="refreshTable()"/>
-                </d-col>
-                <d-col>
-                  <div class="da-header-item-label">{{ 'flink.cluster-config.flinkVersion' | translate }}:</div>
-                </d-col>
-                <d-col>
-                  <d-select name="flinkVersion"
-                            [allowClear]="true"
-                            [filterKey]="'label'"
-                            [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                            [options]="flinkVersionList"
-                            size="sm"
-                            [(ngModel)]="searchFormConfig.flinkVersion"
-                            (valueChange)="refreshTable()"></d-select>
-                </d-col>
-                <d-col>
-                  <div class="da-header-item-label">{{ 'flink.cluster-config.resourceProvider' | translate }}:</div>
-                </d-col>
-                <d-col>
-                  <d-select name="resourceProvider"
-                            [allowClear]="true"
-                            [filterKey]="'label'"
-                            [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                            [options]="resourceProviderList"
-                            size="sm"
-                            [(ngModel)]="searchFormConfig.resourceProvider"
-                            (valueChange)="refreshTable()"></d-select>
-                </d-col>
-                <d-col>
-                  <div class="da-header-item-label">{{ 'flink.cluster-config.deployMode' | translate }}:</div>
-                </d-col>
-                <d-col>
-                  <d-select name="deployMode"
-                            [allowClear]="true"
-                            [filterKey]="'label'"
-                            [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                            [options]="deployModeList"
-                            size="sm"
-                            [(ngModel)]="searchFormConfig.deployMode"
-                            (valueChange)="refreshTable()"></d-select>
-                </d-col>
-              </d-row>
-            </div>
-            <div class="header-right">
-              <d-button style="margin-right: 8px" bsStyle="primary" (btnClick)="refreshTable()">{{
-                'app.common.operate.query.label' | translate
-                }}
-              </d-button>
-              <d-button bsStyle="common" (btnClick)="reset()">{{ 'app.common.operate.reset.label' | translate }}
-              </d-button>
-            </div>
+          <div class="list-content">
+            <b>Configuration</b>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="list-content">
+            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+              <d-panel-header>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                State Backend
+              </d-panel-header>
+              <d-panel-body>
+                <d-row [dGutter]="[12, 12]">
+                  <d-col [dSpan]="24">
+                    <div class="da-list-container">
+                      <div class="list-content">
+                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                          <d-col>
+                            <div class="da-header-item-label">state.backend:</div>
+                          </d-col>
+                          <d-col>
+                            <input dTextInput name="state.backend"/>
+                          </d-col>
+                        </d-row>
+                      </div>
+                    </div>
+                  </d-col>
+                </d-row>
+              </d-panel-body>
+            </d-panel>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="list-content">
+            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+              <d-panel-header>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                Checkpoints
+              </d-panel-header>
+              <d-panel-body>
+                <d-row [dGutter]="[12, 12]">
+                  <d-col [dSpan]="24">
+                    <div class="da-list-container">
+                      <div class="list-content">
+                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                          <d-col>
+                            <div class="da-header-item-label">state.checkpoints.dir:</div>
+                          </d-col>
+                          <d-col>
+                            <input dTextInput name="state.checkpoints.dir"/>
+                          </d-col>
+                          <d-col>
+                            <div class="da-header-item-label">state.checkpoint-storage(当填写路径时，会自动选择 filesystem):</div>
+                          </d-col>
+                          <d-col>
+                            <input dTextInput name="state.checkpoint-storage"/>
+                          </d-col>
+                        </d-row>
+                      </div>
+                    </div>
+                  </d-col>
+                </d-row>
+              </d-panel-body>
+            </d-panel>
           </div>
         </div>
       </d-col>
@@ -69,143 +83,168 @@
     <d-row [dGutter]="[12, 12]">
       <d-col [dSpan]="24">
         <div class="da-list-container">
-          <div class="da-list-header">
-            <div class="header-left"></div>
-            <div class="header-right">
-              <d-button-group>
-                <d-button
-                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
-                  bsStyle="primary"
-                  (btnClick)="openAddClusterConfigDialog()"
-                >{{ 'app.common.operate.new.label' | translate }}
-                </d-button>
-                <d-button
-                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
-                  bsStyle="common"
-                  (btnClick)="openDeleteClusterConfigDialog(dataTable.getCheckedRows())"
-                  [disabled]="!dataTableChecked"
-                >{{ 'app.common.operate.delete.label' | translate }}
-                </d-button>
-              </d-button-group>
-            </div>
-          </div>
-          <div class="list-content" id="dataTableContent">
-            <d-data-table
-              #dataTable
-              [dataSource]="dataTableDs"
-              [resizeable]="true"
-              [checkable]="true"
-              [tableLayout]="'fixed'"
-              [scrollable]="true"
-              [fixHeader]="true"
-              (rowCheckChange)="getDataTableCheckedStatus()"
-              (checkAllChange)="getDataTableCheckedStatus()"
-
-            >
-              <d-column field="name" header="{{ 'flink.cluster-config.name' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="flinkVersion" header="{{ 'flink.cluster-config.flinkVersion' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="resourceProvider" header="{{ 'flink.cluster-config.resourceProvider' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="deployMode" header="{{ 'flink.cluster-config.deployMode' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="flinkReleaseId" header="{{ 'flink.cluster-config.flinkReleaseId' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="deployConfigFileId" header="{{ 'flink.cluster-config.deployConfigFileId' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="configOptions" header="{{ 'flink.cluster-config.configOptions' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="remark" header="{{ 'flink.remark' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="createTime" header="{{ 'flink.createTime' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="updateTime" header="{{ 'flink.updateTime' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="actions" header="{{ 'app.common.operate.label' | translate }}">
-                <d-cell>
-                  <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
-                    <div class="btn-group over-flow-ellipsis">
-                      <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
-                        icon="icon-bulk-edit"
-                        bsStyle="text-dark"
-
-                        title="{{ 'app.common.operate.download.label' | translate }}"
-                      ></d-button>
-                      <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
-                        icon="icon-edit"
-                        bsStyle="text-dark"
-                        (btnClick)="openEditClusterConfigDialog(rowItem)"
-                        title="{{ 'app.common.operate.download.label' | translate }}"
-                      ></d-button>
-                      <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
-                        icon="icon-delete"
-                        bsStyle="text-dark"
-                        (btnClick)="openDeleteClusterConfigDialog([rowItem])"
-                        title="{{ 'app.common.operate.delete.label' | translate }}"
-                      ></d-button>
+          <div class="list-content">
+            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+              <d-panel-header>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                Savepoints
+              </d-panel-header>
+              <d-panel-body>
+                <d-row [dGutter]="[12, 12]">
+                  <d-col [dSpan]="24">
+                    <div class="da-list-container">
+                      <div class="list-content">
+                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                          <d-col>
+                            <div class="da-header-item-label">state.savepoints.dir:</div>
+                          </d-col>
+                          <d-col>
+                            <input dTextInput name="state.savepoints.dir"/>
+                          </d-col>
+                        </d-row>
+                      </div>
                     </div>
-                  </ng-template>
-                </d-cell>
-              </d-column>
-              <ng-template #noResultTemplateRef>
-                <div style="text-align: center; margin-top: 20px">{{ 'app.common.noRecord' | translate }}</div>
-              </ng-template>
-            </d-data-table>
-          </div>
-          <div class="da-list-footer">
-            <div class="footer-left"></div>
-            <div class="footer-right">
-              <d-pagination
-                size=""
-                [total]="pager.total"
-                [(pageSize)]="pager.pageSize"
-                [(pageIndex)]="pager.pageIndex"
-                [canViewTotal]="true"
-                [canChangePageSize]="true"
-                [canJumpPage]="true"
-                [maxItems]="5"
-                (pageIndexChange)="refreshTable()"
-                (pageSizeChange)="refreshTable()"
-              >
-              </d-pagination>
-            </div>
+                  </d-col>
+                </d-row>
+              </d-panel-body>
+            </d-panel>
           </div>
         </div>
       </d-col>
     </d-row>
+
+
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="list-content">
+            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+              <d-panel-header>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                Task Failure Recovery
+              </d-panel-header>
+              <d-panel-body>
+                <d-row [dGutter]="[12, 12]">
+                  <d-col [dSpan]="24">
+                    <div class="da-list-container">
+                      <div class="list-content">
+                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                          <d-col>
+                            <div class="da-header-item-label">state.savepoints.dir:</div>
+                          </d-col>
+                          <d-col>
+                            <input dTextInput name="state.savepoints.dir"/>
+                          </d-col>
+                        </d-row>
+                      </div>
+                    </div>
+                  </d-col>
+                </d-row>
+              </d-panel-body>
+            </d-panel>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="list-content">
+            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+              <d-panel-header>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                High Availability
+              </d-panel-header>
+              <d-panel-body>
+                <d-row [dGutter]="[12, 12]">
+                  <d-col [dSpan]="24">
+                    <div class="da-list-container">
+                      <div class="list-content">
+                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                          <d-col>
+                            <div class="da-header-item-label">state.savepoints.dir:</div>
+                          </d-col>
+                          <d-col>
+                            <input dTextInput name="state.savepoints.dir"/>
+                          </d-col>
+                        </d-row>
+                      </div>
+                    </div>
+                  </d-col>
+                </d-row>
+              </d-panel-body>
+            </d-panel>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="list-content">
+            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+              <d-panel-header>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                Memory Configuration
+              </d-panel-header>
+              <d-panel-body>
+                <d-row [dGutter]="[12, 12]">
+                  <d-col [dSpan]="24">
+                    <div class="da-list-container">
+                      <div class="list-content">
+                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                          <d-col>
+                            <div class="da-header-item-label">state.savepoints.dir:</div>
+                          </d-col>
+                          <d-col>
+                            <input dTextInput name="state.savepoints.dir"/>
+                          </d-col>
+                        </d-row>
+                      </div>
+                    </div>
+                  </d-col>
+                </d-row>
+              </d-panel-body>
+            </d-panel>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="list-content">
+            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+              <d-panel-header>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                Log
+              </d-panel-header>
+              <d-panel-body>
+                <d-row [dGutter]="[12, 12]">
+                  <d-col [dSpan]="24">
+                    <div class="da-list-container">
+                      <div class="list-content">
+                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                          <d-col>
+                            <div class="da-header-item-label">state.savepoints.dir:</div>
+                          </d-col>
+                          <d-col>
+                            <input dTextInput name="state.savepoints.dir"/>
+                          </d-col>
+                        </d-row>
+                      </div>
+                    </div>
+                  </d-col>
+                </d-row>
+              </d-panel-body>
+            </d-panel>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+
   </div>
 </div>

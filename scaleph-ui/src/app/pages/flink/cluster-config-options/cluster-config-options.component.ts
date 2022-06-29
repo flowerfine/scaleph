@@ -31,16 +31,9 @@ export class ClusterConfigOptionsComponent implements OnInit {
     pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
   };
 
-  searchFormConfig = {
-    name: '',
-    flinkVersion: null,
-    resourceProvider: null,
-    deployMode: null
-  };
 
-  flinkVersionList: Dict[] = []
-  resourceProviderList: Dict[] = []
-  deployModeList: Dict[] = []
+
+  isCollapsed = true;
 
   constructor(
     public authService: AuthService,
@@ -55,128 +48,8 @@ export class ClusterConfigOptionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.refreshTable();
-    this.dictDataService.listByType(DICT_TYPE.flinkVersion).subscribe((d) => {
-      this.flinkVersionList = d;
-    });
-    this.dictDataService.listByType(DICT_TYPE.flinkResourceProvider).subscribe((d) => {
-      this.resourceProviderList = d;
-    });
-    this.dictDataService.listByType(DICT_TYPE.flinkDeploymentMode).subscribe((d) => {
-      this.deployModeList = d;
-    });
+
   }
 
-  refreshTable() {
-    this.openDataTableLoading();
-    let param: FlinkClusterConfigParam = {
-      pageSize: this.pager.pageSize,
-      current: this.pager.pageIndex,
-      name: this.searchFormConfig.name || '',
-      flinkVersion: this.searchFormConfig.flinkVersion ? this.searchFormConfig.flinkVersion.value : '',
-      resourceProvider: this.searchFormConfig.resourceProvider ? this.searchFormConfig.resourceProvider.value : '',
-      deployMode: this.searchFormConfig.deployMode ? this.searchFormConfig.deployMode.value : ''
-    };
 
-    this.clusterConfigService.list(param).subscribe((d) => {
-      this.pager.total = d.total;
-      this.dataTableDs = d.records;
-      console.log(d)
-      this.loadTarget.loadingInstance.close();
-      this.dataLoading = false;
-      this.dataTable.setTableCheckStatus({pageAllChecked: false});
-      this.getDataTableCheckedStatus();
-    });
-  }
-
-  openDataTableLoading() {
-    const dc = this.doc.querySelector('#dataTableContent');
-    this.loadTarget = this.loadingService.open({
-      target: dc,
-      message: this.translate.instant('app.common.loading'),
-      positionType: 'relative',
-      zIndex: 1,
-    });
-    this.dataLoading = true;
-  }
-
-  getDataTableCheckedStatus() {
-    if (this.dataTable.getCheckedRows().length > 0) {
-      this.dataTableChecked = true;
-    } else {
-      this.dataTableChecked = false;
-    }
-  }
-
-  reset() {
-    this.searchFormConfig = {
-      name: '',
-      flinkVersion: null,
-      resourceProvider: null,
-      deployMode: null
-    };
-    this.pager = {
-      total: 0,
-      pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
-      pageSize: DEFAULT_PAGE_PARAM.pageSize,
-      pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
-    };
-    this.refreshTable();
-  }
-
-  openAddClusterConfigDialog() {
-    const results = this.modalService.open({
-      id: 'cluster-config-options-add',
-      width: '580px',
-      backdropCloseable: true,
-      component: ClusterConfigNewComponent,
-      data: {
-        title: {name: this.translate.instant('flink.cluster-config.name_')},
-        onClose: (event: any) => {
-          results.modalInstance.hide();
-        },
-        refresh: () => {
-          this.refreshTable();
-        },
-      },
-    });
-  }
-
-  openEditClusterConfigDialog(item: FlinkClusterConfig) {
-    const results = this.modalService.open({
-      id: 'cluster-config-options-edit',
-      width: '580px',
-      backdropCloseable: true,
-      component: ClusterConfigUpdateComponent,
-      data: {
-        title: {name: this.translate.instant('flink.cluster-config.name_')},
-        item: item,
-        onClose: (event: any) => {
-          results.modalInstance.hide();
-        },
-        refresh: () => {
-          this.refreshTable();
-        },
-      },
-    });
-  }
-
-  openDeleteClusterConfigDialog(items: FlinkClusterConfig[]) {
-    const results = this.modalService.open({
-      id: 'cluster-config-options-delete',
-      width: '346px',
-      backdropCloseable: true,
-      component: ClusterConfigDeleteComponent,
-      data: {
-        title: this.translate.instant('app.common.operate.delete.confirm.title'),
-        items: items,
-        onClose: (event: any) => {
-          results.modalInstance.hide();
-        },
-        refresh: () => {
-          this.refreshTable();
-        },
-      },
-    });
-  }
 }
