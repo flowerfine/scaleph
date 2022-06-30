@@ -95,6 +95,7 @@ export const DICT_TYPE = {
   flinkResourceProvider: 'flink_resource_provider',
   flinkDeploymentMode: 'flink_deployment_mode',
   flinkVersion: 'flink_version',
+  flinkStateBackend: 'flink_state_backend',
 };
 
 export const USER_AUTH = {

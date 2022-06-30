@@ -28,7 +28,12 @@
                             <div class="da-header-item-label">state.backend:</div>
                           </d-col>
                           <d-col>
-                            <input dTextInput name="state.backend"/>
+                            <d-select name="state.backend"
+                                      [allowClear]="true"
+                                      [filterKey]="'label'"
+                                      [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                                      [options]="flinkStateBackendList"
+                                      size="sm"></d-select>
                           </d-col>
                         </d-row>
                       </div>
