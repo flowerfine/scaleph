@@ -73,6 +73,8 @@ INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `edi
 VALUES ('flink_deployment_mode', 'Flink 部署模式', 'sys', 'sys');
 INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `editor`)
 VALUES ('flink_version', 'Flink 版本', 'sys', 'sys');
+INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+VALUES ('flink_state_backend', 'Flink State Backend', 'sys', 'sys');
 
 
 /* 数据字典表 */
@@ -290,6 +292,10 @@ INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `
 VALUES ('flink_version', '1.14.5', '1.14.5', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_version', '1.15.0', '1.15.0', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_state_backend', 'HashMapStateBackend', 'HashMap', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_state_backend', 'EmbeddedRocksDBStateBackend', 'RocksDB', 'sys', 'sys');
 
 /*系统配置信息表 */
 drop table if exists sys_config;
