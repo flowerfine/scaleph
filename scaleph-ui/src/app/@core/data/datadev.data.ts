@@ -36,6 +36,7 @@ export const WORKBENCH_MENU = [
       { title: 'datadev.step.sink-csv', menuIcon: 'icon-file', menuType: 'sink', menuName: 'csv' },
       { title: 'datadev.step.sink-excel', menuIcon: 'icon-file', menuType: 'sink', menuName: 'excel' },
       { title: 'datadev.step.sink-table', menuIcon: 'icon-table', menuType: 'sink', menuName: 'table' },
+      { title: 'datadev.step.sink-console', menuIcon: 'icon-operation-log', menuType: 'sink', menuName: 'console' },
     ],
   },
   {
@@ -210,4 +211,5 @@ export const STEP_ATTR_TYPE = {
   batchSize: 'batchSize',
   preSQL: 'pre_sql',
   postSQL: 'post_sql',
+  limit: 'limit',
 };

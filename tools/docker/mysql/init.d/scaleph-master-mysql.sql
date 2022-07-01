@@ -1403,6 +1403,9 @@ values ('sink', 'table', 'pre_sql', null, '0', '前置SQL', 'sys', 'sys');
 insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
                                    step_attr_describe, creator, editor)
 values ('sink', 'table', 'post_sql', null, '0', '后置SQL', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'console', 'limit', null, '0', '限制', 'sys', 'sys');
 
 /* 作业连线信息 */
 drop table if exists di_job_link;

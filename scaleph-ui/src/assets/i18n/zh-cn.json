@@ -300,6 +300,7 @@
     "step.sink-csv": "CSV文件输出",
     "step.sink-excel": "EXCEL文件输出",
     "step.sink-table": "表输出",
+    "step.sink-console": "写日志",
     "step.trans-field-select": "字段选择",
     "step.trans-field-set-value": "设置字段值",
     "step.trans-group": "数据聚合",
@@ -318,7 +319,8 @@
     "step.sink-table.query": "SQL",
     "step.sink-table.preSQL": "前置SQL",
     "step.sink-table.postSQL": "后置SQL",
-    "step.sink-table.batchSize": "提交记录数量"
+    "step.sink-table.batchSize": "提交记录数量",
+    "step.sink-console.limit": "限制"
   },
   "stdata": {
     "remark": "备注",

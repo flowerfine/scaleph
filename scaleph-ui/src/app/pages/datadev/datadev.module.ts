@@ -38,6 +38,7 @@ import { JobStopComponent } from './job/job-stop/job-stop.component';
 import { JobCrontabSettingComponent } from './job/job-crontab-setting/job-crontab-setting.component';
 import { JdbcDatasourceComponent } from './datasource/jdbc-datasource/jdbc-datasource.component';
 import { GenericDbDatasourceComponent } from './datasource/generic-db-datasource/generic-db-datasource.component';
+import { SinkConsoleStepComponent } from './workbench/steps/sink-console-step/sink-console-step.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { GenericDbDatasourceComponent } from './datasource/generic-db-datasource
     JobCrontabSettingComponent,
     JdbcDatasourceComponent,
     GenericDbDatasourceComponent,
+    SinkConsoleStepComponent,
   ],
   imports: [SharedModule, DataDevRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })
