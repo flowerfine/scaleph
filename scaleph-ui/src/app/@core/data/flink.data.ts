@@ -84,8 +84,8 @@ export class FlinkClusterInstance {
 }
 
 export class FlinkClusterInstanceParam extends QueryParam {
-  flinkClusterConfigId?: number;
   name?: string;
+  flinkClusterConfigId?: number;
   status?: string;
 }
 

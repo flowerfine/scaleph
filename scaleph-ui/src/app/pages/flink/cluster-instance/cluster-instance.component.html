@@ -7,49 +7,36 @@
             <div class="da-header-left">
               <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
                 <d-col>
-                  <div class="da-header-item-label">{{ 'flink.cluster-config.name' | translate }}:</div>
+                  <div class="da-header-item-label">{{ 'flink.cluster-instance.flinkClusterConfigId' | translate }}:</div>
+                </d-col>
+                <d-col>
+                  <d-select name="flinkClusterConfig"
+                            [allowClear]="true"
+                            [filterKey]="'name'"
+                            [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                            [options]="flinkClusterConfigList"
+                            size="sm"
+                            [(ngModel)]="searchFormConfig.flinkClusterConfig"
+                            (valueChange)="refreshTable()"></d-select>
+                </d-col>
+                <d-col>
+                  <div class="da-header-item-label">{{ 'flink.cluster-instance.status' | translate }}:</div>
+                </d-col>
+                <d-col>
+                  <d-select name="status"
+                            [allowClear]="true"
+                            [filterKey]="'label'"
+                            [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                            [options]="statusList"
+                            size="sm"
+                            [(ngModel)]="searchFormConfig.status"
+                            (valueChange)="refreshTable()"></d-select>
+                </d-col>
+                <d-col>
+                  <div class="da-header-item-label">{{ 'flink.cluster-instance.name' | translate }}:</div>
                 </d-col>
                 <d-col>
                   <input dTextInput name="name" [(ngModel)]="searchFormConfig.name" (keyup.enter)="refreshTable()"/>
-                </d-col>
-                <d-col>
-                  <div class="da-header-item-label">{{ 'flink.cluster-config.flinkVersion' | translate }}:</div>
-                </d-col>
-                <d-col>
-                  <d-select name="flinkVersion"
-                            [allowClear]="true"
-                            [filterKey]="'label'"
-                            [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                            [options]="flinkVersionList"
-                            size="sm"
-                            [(ngModel)]="searchFormConfig.flinkVersion"
-                            (valueChange)="refreshTable()"></d-select>
-                </d-col>
-                <d-col>
-                  <div class="da-header-item-label">{{ 'flink.cluster-config.resourceProvider' | translate }}:</div>
-                </d-col>
-                <d-col>
-                  <d-select name="resourceProvider"
-                            [allowClear]="true"
-                            [filterKey]="'label'"
-                            [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                            [options]="resourceProviderList"
-                            size="sm"
-                            [(ngModel)]="searchFormConfig.resourceProvider"
-                            (valueChange)="refreshTable()"></d-select>
-                </d-col>
-                <d-col>
-                  <div class="da-header-item-label">{{ 'flink.cluster-config.deployMode' | translate }}:</div>
-                </d-col>
-                <d-col>
-                  <d-select name="deployMode"
-                            [allowClear]="true"
-                            [filterKey]="'label'"
-                            [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                            [options]="deployModeList"
-                            size="sm"
-                            [(ngModel)]="searchFormConfig.deployMode"
-                            (valueChange)="refreshTable()"></d-select>
                 </d-col>
               </d-row>
             </div>
@@ -76,13 +63,13 @@
                 <d-button
                   *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
                   bsStyle="primary"
-                  (btnClick)="openAddClusterConfigDialog()"
+
                 >{{ 'app.common.operate.new.label' | translate }}
                 </d-button>
                 <d-button
                   *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                   bsStyle="common"
-                  (btnClick)="openDeleteClusterConfigDialog(dataTable.getCheckedRows())"
+
                   [disabled]="!dataTableChecked"
                 >{{ 'app.common.operate.delete.label' | translate }}
                 </d-button>
@@ -102,39 +89,29 @@
               (checkAllChange)="getDataTableCheckedStatus()"
 
             >
-              <d-column field="name" header="{{ 'flink.cluster-config.name' | translate }}">
+              <d-column field="name" header="{{ 'flink.cluster-instance.name' | translate }}">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="flinkVersion" header="{{ 'flink.cluster-config.flinkVersion' | translate }}">
+              <d-column field="flinkClusterConfigId" header="{{ 'flink.cluster-instance.flinkClusterConfigId' | translate }}">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="clusterId" header="{{ 'flink.cluster-instance.clusterId' | translate }}">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="webInterfaceUrl" header="{{ 'flink.cluster-instance.webInterfaceUrl' | translate }}">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="status" header="{{ 'flink.cluster-instance.status' | translate }}">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="resourceProvider" header="{{ 'flink.cluster-config.resourceProvider' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="deployMode" header="{{ 'flink.cluster-config.deployMode' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="flinkReleaseId" header="{{ 'flink.cluster-config.flinkReleaseId' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="deployConfigFileId" header="{{ 'flink.cluster-config.deployConfigFileId' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="configOptions" header="{{ 'flink.cluster-config.configOptions' | translate }}">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                 </d-cell>
               </d-column>
               <d-column field="remark" header="{{ 'flink.remark' | translate }}">
@@ -158,23 +135,16 @@
                     <div class="btn-group over-flow-ellipsis">
                       <d-button
                         *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
-                        icon="icon-bulk-edit"
-                        bsStyle="text-dark"
-
-                        title="{{ 'app.common.operate.download.label' | translate }}"
-                      ></d-button>
-                      <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
                         icon="icon-edit"
                         bsStyle="text-dark"
-                        (btnClick)="openEditClusterConfigDialog(rowItem)"
+
                         title="{{ 'app.common.operate.download.label' | translate }}"
                       ></d-button>
                       <d-button
                         *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                         icon="icon-delete"
                         bsStyle="text-dark"
-                        (btnClick)="openDeleteClusterConfigDialog([rowItem])"
+
                         title="{{ 'app.common.operate.delete.label' | translate }}"
                       ></d-button>
                     </div>

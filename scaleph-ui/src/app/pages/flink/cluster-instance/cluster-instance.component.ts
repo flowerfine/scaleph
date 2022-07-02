@@ -3,14 +3,20 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
-import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE} from 'src/app/@core/data/app.data';
-import {FlinkClusterConfig, FlinkClusterConfigParam} from 'src/app/@core/data/flink.data';
+import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse, PRIVILEGE_CODE} from 'src/app/@core/data/app.data';
+import {
+  FlinkClusterConfig,
+  FlinkClusterConfigParam,
+  FlinkClusterInstance,
+  FlinkClusterInstanceParam, FlinkDeployConfig, FlinkDeployConfigParam
+} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {ClusterConfigService} from "../../../@core/services/flink/cluster-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 import {ClusterConfigNewComponent} from "../cluster-config/cluster-config-new/cluster-config-new.component";
 import {ClusterConfigUpdateComponent} from "../cluster-config/cluster-config-update/cluster-config-update.component";
 import {ClusterConfigDeleteComponent} from "../cluster-config/cluster-config-delete/cluster-config-delete.component";
+import {ClusterInstanceService} from "../../../@core/services/flink/cluster-instance.service";
 
 @Component({
   selector: 'app-cluster-instance',
@@ -23,7 +29,7 @@ export class ClusterInstanceComponent implements OnInit {
   dataLoading: boolean = false;
   dataTableChecked: boolean = false;
   loadTarget: any;
-  dataTableDs: FlinkClusterConfig[] = [];
+  dataTableDs: FlinkClusterInstance[] = [];
   pager = {
     total: 0,
     pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -33,14 +39,13 @@ export class ClusterInstanceComponent implements OnInit {
 
   searchFormConfig = {
     name: '',
-    flinkVersion: null,
-    resourceProvider: null,
-    deployMode: null
+    flinkClusterConfig: null,
+    status: null
   };
 
-  flinkVersionList: Dict[] = []
-  resourceProviderList: Dict[] = []
-  deployModeList: Dict[] = []
+  statusList: Dict[] = []
+  flinkClusterConfigList: FlinkClusterConfig[] = []
+  flinkClusterConfigResult: PageResponse<FlinkClusterConfig> = null
 
   constructor(
     public authService: AuthService,
@@ -50,35 +55,38 @@ export class ClusterInstanceComponent implements OnInit {
     private modalService: ModalService,
     private dictDataService: SysDictDataService,
     private clusterConfigService: ClusterConfigService,
+    private clusterInstanceService: ClusterInstanceService,
     private router: Router
   ) {
   }
 
   ngOnInit(): void {
     this.refreshTable();
-    this.dictDataService.listByType(DICT_TYPE.flinkVersion).subscribe((d) => {
-      this.flinkVersionList = d;
+    this.dictDataService.listByType(DICT_TYPE.flinkClusterStatus).subscribe((d) => {
+      this.statusList = d;
     });
-    this.dictDataService.listByType(DICT_TYPE.flinkResourceProvider).subscribe((d) => {
-      this.resourceProviderList = d;
+    let flinkClusterConfigParam: FlinkClusterConfigParam = {
+      pageSize:  DEFAULT_PAGE_PARAM.pageSize,
+      current: DEFAULT_PAGE_PARAM.pageIndex
+    }
+    this.clusterConfigService.list(flinkClusterConfigParam).subscribe((d) => {
+      this.flinkClusterConfigResult = d
+      this.flinkClusterConfigList = d.records;
     });
-    this.dictDataService.listByType(DICT_TYPE.flinkDeploymentMode).subscribe((d) => {
-      this.deployModeList = d;
-    });
+
   }
 
   refreshTable() {
     this.openDataTableLoading();
-    let param: FlinkClusterConfigParam = {
+    let param: FlinkClusterInstanceParam = {
       pageSize: this.pager.pageSize,
       current: this.pager.pageIndex,
       name: this.searchFormConfig.name || '',
-      flinkVersion: this.searchFormConfig.flinkVersion ? this.searchFormConfig.flinkVersion.value : '',
-      resourceProvider: this.searchFormConfig.resourceProvider ? this.searchFormConfig.resourceProvider.value : '',
-      deployMode: this.searchFormConfig.deployMode ? this.searchFormConfig.deployMode.value : ''
+      flinkClusterConfigId: this.searchFormConfig.flinkClusterConfig ? this.searchFormConfig.flinkClusterConfig.id : '',
+      status: this.searchFormConfig.status ? this.searchFormConfig.status.value : '',
     };
 
-    this.clusterConfigService.list(param).subscribe((d) => {
+    this.clusterInstanceService.list(param).subscribe((d) => {
       this.pager.total = d.total;
       this.dataTableDs = d.records;
       this.loadTarget.loadingInstance.close();
@@ -110,9 +118,8 @@ export class ClusterInstanceComponent implements OnInit {
   reset() {
     this.searchFormConfig = {
       name: '',
-      flinkVersion: null,
-      resourceProvider: null,
-      deployMode: null
+      flinkClusterConfig: null,
+      status: null,
     };
     this.pager = {
       total: 0,
@@ -123,59 +130,20 @@ export class ClusterInstanceComponent implements OnInit {
     this.refreshTable();
   }
 
-  openAddClusterConfigDialog() {
-    const results = this.modalService.open({
-      id: 'cluster-config-add',
-      width: '580px',
-      backdropCloseable: true,
-      component: ClusterConfigNewComponent,
-      data: {
-        title: {name: this.translate.instant('flink.cluster-config.name_')},
-        onClose: (event: any) => {
-          results.modalInstance.hide();
-        },
-        refresh: () => {
-          this.refreshTable();
-        },
-      },
-    });
-  }
-
-  openEditClusterConfigDialog(item: FlinkClusterConfig) {
-    const results = this.modalService.open({
-      id: 'cluster-config-edit',
-      width: '580px',
-      backdropCloseable: true,
-      component: ClusterConfigUpdateComponent,
-      data: {
-        title: {name: this.translate.instant('flink.cluster-config.name_')},
-        item: item,
-        onClose: (event: any) => {
-          results.modalInstance.hide();
-        },
-        refresh: () => {
-          this.refreshTable();
-        },
-      },
-    });
-  }
-
-  openDeleteClusterConfigDialog(items: FlinkClusterConfig[]) {
-    const results = this.modalService.open({
-      id: 'cluster-config-delete',
-      width: '346px',
-      backdropCloseable: true,
-      component: ClusterConfigDeleteComponent,
-      data: {
-        title: this.translate.instant('app.common.operate.delete.confirm.title'),
-        items: items,
-        onClose: (event: any) => {
-          results.modalInstance.hide();
-        },
-        refresh: () => {
-          this.refreshTable();
-        },
-      },
-    });
+  onFlinkDeployConfigLoadMore(event) {
+    let loaded = this.flinkClusterConfigResult.current * this.flinkClusterConfigResult.size
+    if (loaded >= this.flinkClusterConfigResult.total) {
+      event.instance.loadFinish();
+    } else {
+      let flinkClusterConfigParam: FlinkClusterConfigParam = {
+        pageSize:  this.flinkClusterConfigResult.size,
+        current: this.flinkClusterConfigResult.current + 1
+      }
+      this.clusterConfigService.list(flinkClusterConfigParam).subscribe((d) => {
+        this.flinkClusterConfigResult = d
+        this.flinkClusterConfigList = [...this.flinkClusterConfigList, ...d.records];
+        event.instance.loadFinish();
+      });
+    }
   }
 }
