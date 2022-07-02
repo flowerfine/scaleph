@@ -27,6 +27,8 @@ export const WORKBENCH_MENU = [
       { title: 'datadev.step.source-csv', menuIcon: 'icon-file', menuType: 'source', menuName: 'csv' },
       { title: 'datadev.step.source-excel', menuIcon: 'icon-file', menuType: 'source', menuName: 'excel' },
       { title: 'datadev.step.source-table', menuIcon: 'icon-table', menuType: 'source', menuName: 'table' },
+      { title: 'datadev.step.source-mock', menuIcon: 'icon-modify-trace', menuType: 'source', menuName: 'mock' },
+      { title: 'datadev.step.source-mockStream', menuIcon: 'icon-modify-trace', menuType: 'source', menuName: 'mockStream' },
     ],
   },
   {
@@ -212,4 +214,26 @@ export const STEP_ATTR_TYPE = {
   preSQL: 'pre_sql',
   postSQL: 'post_sql',
   limit: 'limit',
+  mockDataSize: 'mock_data_size',
+  mockDataSchema: 'mock_data_schema',
+  mockDataInterval: 'mock_data_interval',
 };
+
+export class MockData {
+  id?: number;
+  name?: string;
+  type?: any;
+  minValue?: string;
+  maxValue?: string;
+  valueSeed?: string;
+}
+
+export const MOCK_DATA_TYPE = [
+  { value: 'varchar', label: 'STRING' },
+  { value: 'int', label: 'INTEGER' },
+  { value: 'bigint', label: 'BIGINT' },
+  { value: 'float', label: 'FLOAT' },
+  { value: 'double', label: 'DOUBLE' },
+  { value: 'boolean', label: 'BOOLEAN' },
+  { value: 'timestamp', label: 'TIMESTAMP' },
+];

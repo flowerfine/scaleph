@@ -68,10 +68,14 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
     static {
         //init job step map
         JOB_STEP_MAP.put("source-table", JDBC_SOURCE.getValue());
+        JOB_STEP_MAP.put("source-mock", FAKE_SOURCE.getValue());
+        JOB_STEP_MAP.put("source-mockStream", FAKE_STREAM_SOURCE.getValue());
         JOB_STEP_MAP.put("sink-table", JDBC_SINK.getValue());
         JOB_STEP_MAP.put("sink-console", CONSOLE_SINK.getValue());
         //init plugin map
         PLUGIN_MAP.put("source-table", "jdbc");
+        PLUGIN_MAP.put("source-mock", "fake");
+        PLUGIN_MAP.put("source-mockStream", "fake");
         PLUGIN_MAP.put("sink-table", "jdbc");
         PLUGIN_MAP.put("sink-console", "console");
         PLUGIN_MAP.put("source-csv", "file");

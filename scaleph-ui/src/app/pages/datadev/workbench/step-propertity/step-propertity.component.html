@@ -21,6 +21,14 @@
         #step
       ></app-source-table-step>
     </div>
+    <div *ngSwitchCase="'source-mock'">
+      <app-source-mock-step [data]="{ onClose: close, item: cell, jobId: jobId }" (onSave)="saveStepInfo($event)" #step>
+      </app-source-mock-step>
+    </div>
+    <div *ngSwitchCase="'source-mockStream'">
+      <app-source-mock-stream-step [data]="{ onClose: close, item: cell, jobId: jobId }" (onSave)="saveStepInfo($event)" #step>
+      </app-source-mock-stream-step>
+    </div>
     <div *ngSwitchCase="'sink-table'">
       <app-sink-table-step
         [data]="{ onClose: close, item: cell, jobId: jobId }"
