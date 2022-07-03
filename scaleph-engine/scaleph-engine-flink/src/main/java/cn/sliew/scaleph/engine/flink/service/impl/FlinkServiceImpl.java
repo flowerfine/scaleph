@@ -20,6 +20,8 @@ package cn.sliew.scaleph.engine.flink.service.impl;
 
 import cn.sliew.flinkful.cli.base.SessionClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
+import cn.sliew.flinkful.rest.base.RestClient;
+import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.ResourceProvider;
 import cn.sliew.scaleph.common.nio.TarUtil;
@@ -40,6 +42,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.flink.client.program.ClusterClient;
 import org.apache.flink.configuration.*;
 import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
+import org.apache.flink.yarn.configuration.YarnConfigOptions;
 import org.apache.hadoop.yarn.api.records.ApplicationId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,6 +96,33 @@ public class FlinkServiceImpl implements FlinkService {
         dto.setStatus(DictVO.toVO(DictConstants.FLINK_CLUSTER_STATUS, String.valueOf(FlinkClusterStatus.RUNNING.getCode())));
         dto.setRemark(param.getRemark());
         flinkClusterInstanceService.insert(dto);
+    }
+
+    @Override
+    public void shutdown(Long id) throws Exception {
+        final FlinkClusterInstanceDTO flinkClusterInstanceDTO = flinkClusterInstanceService.selectOne(id);
+        final FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(flinkClusterInstanceDTO.getFlinkClusterConfigId());
+        final Path workspace = getWorkspace();
+        final Path flinkDeployConfigPath = loadDeployConfig(flinkClusterConfigDTO.getDeployConfigFileId(), workspace);
+        final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, flinkDeployConfigPath);
+        final DictVO resourceProvider = flinkClusterConfigDTO.getResourceProvider();
+        if (resourceProvider.getValue().equals(String.valueOf(ResourceProvider.YARN.getCode()))) {
+            configuration.setString(YarnConfigOptions.APPLICATION_ID, flinkClusterInstanceDTO.getClusterId());
+        } else if (resourceProvider.getValue().equals(String.valueOf(ResourceProvider.NATIVE_KUBERNETES.getCode()))) {
+            configuration.setString(KubernetesConfigOptions.CLUSTER_ID, flinkClusterInstanceDTO.getClusterId());
+        } else {
+            // standalone session
+        }
+        // todo create cluster client
+        RestClient restClient = new FlinkRestClient("localhost", 8081, configuration);
+        restClient.cluster().shutdownCluster();
+    }
+
+    @Override
+    public void shutdownBatch(List<Long> ids) throws Exception {
+        for (Long id : ids) {
+            shutdown(id);
+        }
     }
 
     private ClusterClient createYarnSessionCluster(FlinkClusterConfigDTO flinkClusterConfigDTO) throws Exception {

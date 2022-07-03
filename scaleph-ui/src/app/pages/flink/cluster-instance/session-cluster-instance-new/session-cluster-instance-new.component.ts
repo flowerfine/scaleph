@@ -1,10 +1,16 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {DValidateRules, FormLayout} from 'ng-devui';
-import {FlinkClusterConfig, FlinkClusterConfigParam, FlinkDeployConfig} from "../../../../@core/data/flink.data";
+import {
+  FlinkClusterConfig,
+  FlinkClusterConfigParam,
+  FlinkDeployConfig,
+  FlinkSessionClusterAddParam
+} from "../../../../@core/data/flink.data";
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
 import {ClusterConfigService} from "../../../../@core/services/flink/cluster-config.service";
+import {ClusterInstanceService} from "../../../../@core/services/flink/cluster-instance.service";
 
 @Component({
   selector: 'app-cluster-config-new',
@@ -41,7 +47,8 @@ export class SessionClusterInstanceNewComponent implements OnInit {
     private elr: ElementRef,
     private translate: TranslateService,
     private dictDataService: SysDictDataService,
-    private clusterConfigService: ClusterConfigService) {
+    private clusterConfigService: ClusterConfigService,
+    private clusterInstanceService: ClusterInstanceService) {
   }
 
   ngOnInit(): void {
@@ -80,7 +87,18 @@ export class SessionClusterInstanceNewComponent implements OnInit {
   }
 
   submitForm({valid}) {
-
+    let row: FlinkSessionClusterAddParam = {
+      flinkClusterConfigId: this.formData.flinkClusterConfig.id,
+      remark: this.formData.remark
+    };
+    if (valid) {
+      this.clusterInstanceService.add(row).subscribe((d) => {
+        if (d.success) {
+          this.data.onClose();
+          this.data.refresh();
+        }
+      });
+    }
   }
 
   close(event) {

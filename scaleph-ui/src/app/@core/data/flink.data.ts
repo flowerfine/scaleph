@@ -89,4 +89,9 @@ export class FlinkClusterInstanceParam extends QueryParam {
   status?: string;
 }
 
+export class FlinkSessionClusterAddParam extends QueryParam {
+  flinkClusterConfigId?: number;
+  remark?: string;
+}
+
 

@@ -20,9 +20,14 @@ package cn.sliew.scaleph.engine.flink.service;
 
 import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
 
+import java.util.List;
+
 public interface FlinkService {
 
     void createSessionCluster(FlinkSessionClusterAddParam param) throws Exception;
 
+    void shutdown(Long id) throws Exception;
+
+    void shutdownBatch(List<Long> ids) throws Exception;
 
 }

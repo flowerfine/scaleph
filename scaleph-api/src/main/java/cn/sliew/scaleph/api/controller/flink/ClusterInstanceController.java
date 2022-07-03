@@ -35,6 +35,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @Api(tags = "Flink管理-集群实例管理")
@@ -60,6 +61,22 @@ public class ClusterInstanceController {
     @ApiOperation(value = "创建 session 集群", notes = "创建 session 集群")
     public ResponseEntity<ResponseVO> createSessionCluster(@Valid @RequestBody FlinkSessionClusterAddParam param) throws Exception {
         flinkService.createSessionCluster(param);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping("{id}")
+    @ApiOperation(value = "关闭集群", notes = "关闭集群")
+    public ResponseEntity<ResponseVO> shutdownCluster(@PathVariable("id") Long id) throws Exception {
+        flinkService.shutdown(id);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping(path = "/batch")
+    @ApiOperation(value = "批量关闭集群", notes = "批量关闭集群")
+    public ResponseEntity<ResponseVO> batchShutdownCluster(@RequestBody List<Long> ids) throws Exception {
+        flinkService.shutdownBatch(ids);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
