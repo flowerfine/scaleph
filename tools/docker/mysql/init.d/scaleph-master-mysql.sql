@@ -75,6 +75,8 @@ INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `edi
 VALUES ('flink_version', 'Flink 版本', 'sys', 'sys');
 INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
 VALUES ('flink_state_backend', 'Flink State Backend', 'sys', 'sys');
+INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+VALUES ('flink_cluster_status', 'Flink 集群状态', 'sys', 'sys');
 
 
 /* 数据字典表 */
@@ -296,6 +298,12 @@ INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `
 VALUES ('flink_state_backend', 'HashMapStateBackend', 'HashMap', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_state_backend', 'EmbeddedRocksDBStateBackend', 'RocksDB', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_cluster_status', '0', '已创建', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_cluster_status', '1', '运行中', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_cluster_status', '2', '停止', 'sys', 'sys');
 
 /*系统配置信息表 */
 drop table if exists sys_config;

@@ -61,7 +61,7 @@ CREATE TABLE `flink_cluster_instance`
     `name`                    VARCHAR(255) NOT NULL COMMENT '集群名称',
     `cluster_id`              VARCHAR(64)  NOT NULL DEFAULT '' COMMENT '集群id',
     `web_interface_url`       VARCHAR(255) NOT NULL COMMENT '集群 web-ui 链接',
-    `status`                  TINYINT      NOT NULL COMMENT '集群状态。0: 停止, 1: 运行',
+    `status`                  VARCHAR(4)      NOT NULL COMMENT '集群状态。0: 已创建, 1: 运行中, 2: 停止',
     `remark`                  VARCHAR(256)          DEFAULT NULL COMMENT '备注',
     `creator`                 VARCHAR(32) COMMENT '创建人',
     `create_time`             TIMESTAMP             DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

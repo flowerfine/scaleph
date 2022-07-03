@@ -61,7 +61,7 @@ export class ReleaseUploadComponent implements OnInit {
     let uploadParam: FlinkReleaseUploadParam = {
       version: this.formData.version ? this.formData.version.value : '',
       file: this.file,
-      remark: this.formData.remark,
+      remark: this.formData.remark || '',
     };
     if (valid && this.file) {
       this.releaseService.upload(uploadParam).subscribe((d) => {

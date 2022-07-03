@@ -55,9 +55,9 @@ public class FlinkClusterInstance extends BaseDO {
     @TableField("web_interface_url")
     private String webInterfaceUrl;
 
-    @ApiModelProperty("集群状态。0: 停止, 1: 运行")
+    @ApiModelProperty("集群状态。0: 已创建, 1: 运行中, 2: 停止")
     @TableField("`status`")
-    private Integer status;
+    private String status;
 
     @ApiModelProperty("备注")
     @TableField("remark")

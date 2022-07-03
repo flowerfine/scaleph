@@ -55,5 +55,6 @@ public enum DictConstants {
     public static final String FLINK_DEPLOYMENT_MODE = "flink_deployment_mode";
     public static final String FLINK_VERSION = "flink_version";
     public static final String FLINK_STATE_BACKEND = "flink_state_backend";
+    public static final String FLINK_CLUSTER_STATUS = "flink_cluster_status";
 
 }
