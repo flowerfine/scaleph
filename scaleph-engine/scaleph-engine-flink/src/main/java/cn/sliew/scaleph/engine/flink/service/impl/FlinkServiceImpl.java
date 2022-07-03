@@ -34,6 +34,7 @@ import cn.sliew.scaleph.engine.flink.service.dto.FlinkReleaseDTO;
 import cn.sliew.scaleph.engine.flink.service.vo.FileStatusVO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.flink.client.program.ClusterClient;
 import org.apache.flink.configuration.*;
@@ -74,9 +75,9 @@ public class FlinkServiceImpl implements FlinkService {
     public void createSessionCluster(Long clusterConfigId) throws Exception {
         final FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(clusterConfigId);
         final DictVO resourceProvider = flinkClusterConfigDTO.getResourceProvider();
-        if (resourceProvider.getValue().equals(ResourceProvider.YARN.getCode())) {
+        if (resourceProvider.getValue().equals(String.valueOf(ResourceProvider.YARN.getCode()))) {
             createYarnSessionCluster(flinkClusterConfigDTO);
-        } else if (resourceProvider.getValue().equals(ResourceProvider.NATIVE_KUBERNETES.getCode())) {
+        } else if (resourceProvider.getValue().equals(String.valueOf(ResourceProvider.NATIVE_KUBERNETES.getCode()))) {
             createKubernetesSessionCluster(flinkClusterConfigDTO);
         } else {
             createExistingSessionCluster(flinkClusterConfigDTO);
@@ -88,7 +89,6 @@ public class FlinkServiceImpl implements FlinkService {
         final Path flinkDeployConfigPath = loadDeployConfig(flinkClusterConfigDTO.getDeployConfigFileId(), workspace);
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, flinkDeployConfigPath);
         ClusterClient<ApplicationId> clusterClient = SessionClient.create(DeploymentTarget.YARN_SESSION, configuration);
-
         FlinkClusterInstanceDTO dto = new FlinkClusterInstanceDTO();
         dto.setFlinkClusterConfigId(flinkClusterConfigDTO.getId());
         dto.setName(flinkClusterConfigDTO.getName() + "-" + RandomStringUtils.randomAlphabetic(8));
@@ -96,13 +96,15 @@ public class FlinkServiceImpl implements FlinkService {
         dto.setWebInterfaceUrl(clusterClient.getWebInterfaceURL());
         dto.setStatus(DictVO.toVO(DictConstants.FLINK_CLUSTER_STATUS, String.valueOf(FlinkClusterStatus.RUNNING.getCode())));
         flinkClusterInstanceService.insert(dto);
+
+        FileUtils.deleteDirectory(workspace.toFile());
     }
 
     private void createKubernetesSessionCluster(FlinkClusterConfigDTO flinkClusterConfigDTO) throws Exception {
         final Path workspace = getWorkspace();
         final Path flinkDeployConfigPath = loadDeployConfig(flinkClusterConfigDTO.getDeployConfigFileId(), workspace);
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, flinkDeployConfigPath);
-        ClusterClient<ApplicationId> clusterClient = SessionClient.create(DeploymentTarget.NATIVE_KUBERNETES_SESSION, configuration);
+        ClusterClient<String> clusterClient = SessionClient.create(DeploymentTarget.NATIVE_KUBERNETES_SESSION, configuration);
 
         FlinkClusterInstanceDTO dto = new FlinkClusterInstanceDTO();
         dto.setFlinkClusterConfigId(flinkClusterConfigDTO.getId());
@@ -111,6 +113,8 @@ public class FlinkServiceImpl implements FlinkService {
         dto.setWebInterfaceUrl(clusterClient.getWebInterfaceURL());
         dto.setStatus(DictVO.toVO(DictConstants.FLINK_CLUSTER_STATUS, String.valueOf(FlinkClusterStatus.RUNNING.getCode())));
         flinkClusterInstanceService.insert(dto);
+
+        FileUtils.deleteDirectory(workspace.toFile());
     }
 
     private void createExistingSessionCluster(FlinkClusterConfigDTO flinkClusterConfigDTO) throws Exception {
@@ -119,6 +123,7 @@ public class FlinkServiceImpl implements FlinkService {
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, flinkDeployConfigPath);
         // 落库
 
+        FileUtils.deleteDirectory(workspace.toFile());
     }
 
     /**
@@ -130,9 +135,14 @@ public class FlinkServiceImpl implements FlinkService {
      */
     private Configuration buildConfiguration(FlinkClusterConfigDTO flinkClusterConfigDTO, Path flinkDeployConfigPath) throws IOException {
         final FlinkDeployConfigFileDTO flinkDeployConfigFileDTO = flinkDeployConfigFileService.selectOne(flinkClusterConfigDTO.getDeployConfigFileId());
-        Configuration dynamicProperties = Configuration.fromMap(flinkClusterConfigDTO.getConfigOptions());
+        Configuration dynamicProperties;
+        if (CollectionUtils.isEmpty(flinkClusterConfigDTO.getConfigOptions())) {
+            dynamicProperties = new Configuration();
+        } else {
+            dynamicProperties = Configuration.fromMap(flinkClusterConfigDTO.getConfigOptions());
+        }
 
-        if (flinkDeployConfigFileDTO.getConfigType().getValue().equals(ConfigType.FLINK_CONF.getCode())) {
+        if (flinkDeployConfigFileDTO.getConfigType().getValue().equals(String.valueOf(ConfigType.FLINK_CONF.getCode()))) {
             final List<Path> childs = Files.list(flinkDeployConfigPath).collect(Collectors.toList());
             if (CollectionUtils.isEmpty(childs)) {
                 return dynamicProperties;
@@ -141,7 +151,7 @@ public class FlinkServiceImpl implements FlinkService {
             return GlobalConfiguration.loadConfiguration(flinkConf.toAbsolutePath().toString(), dynamicProperties);
         }
 
-        if (flinkDeployConfigFileDTO.getConfigType().getValue().equals(ConfigType.HADOOP_CONF.getCode())) {
+        if (flinkDeployConfigFileDTO.getConfigType().getValue().equals(String.valueOf(ConfigType.HADOOP_CONF.getCode()))) {
             dynamicProperties.set(CoreOptions.FLINK_HADOOP_CONF_DIR, flinkDeployConfigPath.toAbsolutePath().toString());
             dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
             dynamicProperties.setLong(TaskManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
@@ -149,7 +159,7 @@ public class FlinkServiceImpl implements FlinkService {
             return dynamicProperties;
         }
 
-        if (flinkDeployConfigFileDTO.getConfigType().getValue().equals(ConfigType.KUBECONFIG.getCode())) {
+        if (flinkDeployConfigFileDTO.getConfigType().getValue().equals(String.valueOf(ConfigType.KUBECONFIG.getCode()))) {
             final List<Path> childs = Files.list(flinkDeployConfigPath).collect(Collectors.toList());
             if (CollectionUtils.isEmpty(childs)) {
                 return dynamicProperties;
@@ -185,6 +195,7 @@ public class FlinkServiceImpl implements FlinkService {
         final Path tempDir = TempFileUtil.createTempDir(workspace, flinkDeployConfigFileDTO.getName());
         for (FileStatusVO fileStatusVO : fileStatusVOS) {
             final Path deployConfigFile = tempDir.resolve(fileStatusVO.getName());
+            Files.createFile(deployConfigFile, TempFileUtil.attributes);
             try (final OutputStream outputStream = Files.newOutputStream(deployConfigFile, StandardOpenOption.WRITE)) {
                 flinkDeployConfigFileService.downloadDeployConfigFile(flinkDeployConfigFileId, fileStatusVO.getName(), outputStream);
             }
