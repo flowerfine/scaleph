@@ -17,6 +17,8 @@ import {ClusterInstanceService} from "../../../@core/services/flink/cluster-inst
 import {
   SessionClusterInstanceNewComponent
 } from "./session-cluster-instance-new/session-cluster-instance-new.component";
+import {ClusterConfigDeleteComponent} from "../cluster-config/cluster-config-delete/cluster-config-delete.component";
+import {ClusterInstanceShutdownComponent} from "./cluster-instance-shutdown/cluster-instance-shutdown.component";
 
 @Component({
   selector: 'app-cluster-instance',
@@ -155,6 +157,25 @@ export class ClusterInstanceComponent implements OnInit {
       component: SessionClusterInstanceNewComponent,
       data: {
         title: {name: this.translate.instant('flink.cluster-instance.name_')},
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
+  }
+
+  openShutdownClusterInstanceDialog(items: FlinkClusterInstance[]) {
+    const results = this.modalService.open({
+      id: 'cluster-instance-shutdown',
+      width: '346px',
+      backdropCloseable: true,
+      component: ClusterInstanceShutdownComponent,
+      data: {
+        title: this.translate.instant('app.common.operate.close.confirm.title'),
+        items: items,
         onClose: (event: any) => {
           results.modalInstance.hide();
         },

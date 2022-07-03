@@ -70,7 +70,7 @@
                 <d-button
                   *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                   bsStyle="common"
-
+                  (btnClick)="openShutdownClusterInstanceDialog(dataTable.getCheckedRows())"
                   [disabled]="!dataTableChecked"
                 >{{ 'app.common.operate.close.label' | translate }}
                 </d-button>
@@ -138,7 +138,7 @@
                         *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                         icon="icon-close"
                         bsStyle="text-dark"
-
+                        (btnClick)="openShutdownClusterInstanceDialog([rowItem])"
                         title="{{ 'app.common.operate.delete.label' | translate }}"
                       ></d-button>
                     </div>

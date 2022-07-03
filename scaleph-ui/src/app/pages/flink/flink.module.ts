@@ -27,6 +27,9 @@ import {ClusterInstanceComponent} from "./cluster-instance/cluster-instance.comp
 import {
   SessionClusterInstanceNewComponent
 } from "./cluster-instance/session-cluster-instance-new/session-cluster-instance-new.component";
+import {
+  ClusterInstanceShutdownComponent
+} from "./cluster-instance/cluster-instance-shutdown/cluster-instance-shutdown.component";
 
 @NgModule({
   declarations: [
@@ -48,6 +51,7 @@ import {
     ClusterConfigOptionsComponent,
     ClusterInstanceComponent,
     SessionClusterInstanceNewComponent,
+    ClusterInstanceShutdownComponent,
   ],
   imports: [SharedModule, FlinkRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })

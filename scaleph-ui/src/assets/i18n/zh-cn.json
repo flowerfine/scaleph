@@ -87,7 +87,13 @@
           "label": "取消"
         },
         "close": {
-          "label": "关闭"
+          "label": "关闭",
+          "title": "关闭{{name}}",
+          "success": "关闭成功",
+          "confirm": {
+            "title": "确认关闭?",
+            "content": "集群关闭后不可恢复，请谨慎操作！"
+          }
         },
         "download": {
           "label": "下载"

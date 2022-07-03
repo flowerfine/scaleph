@@ -75,7 +75,7 @@ public class ClusterInstanceController {
     @Logging
     @DeleteMapping(path = "/batch")
     @ApiOperation(value = "批量关闭集群", notes = "批量关闭集群")
-    public ResponseEntity<ResponseVO> batchShutdownCluster(@RequestBody List<Long> ids) throws Exception {
+    public ResponseEntity<ResponseVO> shutdownClusterBatch(@RequestBody List<Long> ids) throws Exception {
         flinkService.shutdownBatch(ids);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
