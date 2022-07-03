@@ -71,7 +71,7 @@
                   bsStyle="common"
 
                   [disabled]="!dataTableChecked"
-                >{{ 'app.common.operate.delete.label' | translate }}
+                >{{ 'app.common.operate.close.label' | translate }}
                 </d-button>
               </d-button-group>
             </div>
@@ -134,15 +134,8 @@
                   <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                     <div class="btn-group over-flow-ellipsis">
                       <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
-                        icon="icon-edit"
-                        bsStyle="text-dark"
-
-                        title="{{ 'app.common.operate.download.label' | translate }}"
-                      ></d-button>
-                      <d-button
                         *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
-                        icon="icon-delete"
+                        icon="icon-close"
                         bsStyle="text-dark"
 
                         title="{{ 'app.common.operate.delete.label' | translate }}"
