@@ -2,7 +2,7 @@ package cn.sliew.scaleph.engine.flink.service;
 
 public interface FlinkService {
 
-    void createSessionCluster() throws Exception;
+    void createSessionCluster(Long clusterConfigId) throws Exception;
 
 
 }

@@ -19,27 +19,30 @@
 package cn.sliew.scaleph.common.nio;
 
 import cn.sliew.milky.test.MilkyTestCase;
+import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class TempFileUtilTest extends MilkyTestCase {
+class TarUtilTest extends MilkyTestCase {
 
     @Test
-    void testCreateTempDir() throws IOException {
-        final Path tempDir = TempFileUtil.createTempDir();
-        assertTrue(Files.exists(tempDir));
-        Files.deleteIfExists(tempDir);
-    }
-
-    @Test
-    void testCreateTempFile() throws IOException {
-        final Path tempFile = TempFileUtil.createTempFile(randomAsciiLettersOfLength(5));
-        assertTrue(Files.exists(tempFile));
-        Files.deleteIfExists(tempFile);
+    @Disabled("source tar.gz file not exists")
+    void testUntar() throws IOException {
+        final Path source = Paths.get("/Users/wangqi/Documents/software/flink/flink-1.14.5-bin-scala_2.11.tgz");
+        final Path target = TarUtil.untar(source);
+        assertTrue(Files.exists(target));
+        final List<Path> childs = Files.list(target).collect(Collectors.toList());
+        assertThat(childs).size().isGreaterThan(0);
+        FileUtils.deleteDirectory(target.toFile());
     }
 }
