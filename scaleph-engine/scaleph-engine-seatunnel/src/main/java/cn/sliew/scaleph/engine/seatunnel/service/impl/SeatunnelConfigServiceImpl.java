@@ -48,8 +48,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
-import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.JDBC_SINK;
-import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.JDBC_SOURCE;
+import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.*;
 import static cn.sliew.scaleph.engine.seatunnel.service.util.GraphConstants.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties.RESULT_TABLE_NAME;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties.SOURCE_TABLE_NAME;
@@ -68,11 +67,17 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
 
     static {
         //init job step map
-        JOB_STEP_MAP.put("sink-table", JDBC_SINK.getValue());
         JOB_STEP_MAP.put("source-table", JDBC_SOURCE.getValue());
+        JOB_STEP_MAP.put("source-mock", FAKE_SOURCE.getValue());
+        JOB_STEP_MAP.put("source-mockStream", FAKE_STREAM_SOURCE.getValue());
+        JOB_STEP_MAP.put("sink-table", JDBC_SINK.getValue());
+        JOB_STEP_MAP.put("sink-console", CONSOLE_SINK.getValue());
         //init plugin map
         PLUGIN_MAP.put("source-table", "jdbc");
+        PLUGIN_MAP.put("source-mock", "fake");
+        PLUGIN_MAP.put("source-mockStream", "fake");
         PLUGIN_MAP.put("sink-table", "jdbc");
+        PLUGIN_MAP.put("sink-console", "console");
         PLUGIN_MAP.put("source-csv", "file");
         PLUGIN_MAP.put("sink-csv", "file");
     }
