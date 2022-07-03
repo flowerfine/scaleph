@@ -53,7 +53,8 @@
         "new": {
           "label": "新增",
           "title": "新增{{name}}",
-          "success": "新增成功"
+          "success": "新增成功",
+          "tip": "新增一行"
         },
         "edit": {
           "label": "修改",
@@ -298,6 +299,8 @@
     "fullScreen": "全屏",
     "step.source": "输入",
     "step.source-table": "表输入",
+    "step.source-mock": "批量生成记录",
+    "step.source-mockStream": "流式生成记录",
     "step.source-csv": "CSV文件输入",
     "step.source-excel": "EXCEL文件输入",
     "step.sink": "输出",
@@ -306,6 +309,7 @@
     "step.sink-csv": "CSV文件输出",
     "step.sink-excel": "EXCEL文件输出",
     "step.sink-table": "表输出",
+    "step.sink-console": "写日志",
     "step.trans-field-select": "字段选择",
     "step.trans-field-set-value": "设置字段值",
     "step.trans-group": "数据聚合",
@@ -324,7 +328,16 @@
     "step.sink-table.query": "SQL",
     "step.sink-table.preSQL": "前置SQL",
     "step.sink-table.postSQL": "后置SQL",
-    "step.sink-table.batchSize": "提交记录数量"
+    "step.sink-table.batchSize": "提交记录数量",
+    "step.sink-console.limit": "限制",
+    "step.source-mock.mockDataSize": "行数",
+    "step.source-mockStream.mockDataInterval": "时间间隔(毫秒)",
+    "step.source-mock.data.name": "名称",
+    "step.source-mock.data.type": "类型",
+    "step.source-mock.data.maxValue": "最大值",
+    "step.source-mock.data.minValue": "最小值",
+    "step.source-mock.data.valueSeed": "值域",
+    "step.source-mock.data.valueSeed.tooltip": "值域:逗号分隔的字符串"
   },
   "stdata": {
     "remark": "备注",

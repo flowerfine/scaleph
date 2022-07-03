@@ -6,6 +6,7 @@ cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.sink.DruidSinkPlugin
 cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.source.DruidSourcePlugin
 cn.sliew.scaleph.plugin.seatunnel.flink.connector.elasticsearch.sink.ElasticsearchSinkPlugin
 cn.sliew.scaleph.plugin.seatunnel.flink.connector.fake.source.FakeSourcePlugin
+cn.sliew.scaleph.plugin.seatunnel.flink.connector.fake.source.FakeSourceStreamPlugin
 cn.sliew.scaleph.plugin.seatunnel.flink.connector.file.sink.FileSinkPlugin
 cn.sliew.scaleph.plugin.seatunnel.flink.connector.file.source.FileSourcePlugin
 cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.sink.InfluxDBSinkPlugin
