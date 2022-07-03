@@ -31,6 +31,7 @@ import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterInstanceDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkDeployConfigFileDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkReleaseDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
 import cn.sliew.scaleph.engine.flink.service.vo.FileStatusVO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import lombok.extern.slf4j.Slf4j;
@@ -72,58 +73,54 @@ public class FlinkServiceImpl implements FlinkService {
      * 3. flink options
      */
     @Override
-    public void createSessionCluster(Long clusterConfigId) throws Exception {
-        final FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(clusterConfigId);
+    public void createSessionCluster(FlinkSessionClusterAddParam param) throws Exception {
+        final FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(param.getFlinkClusterConfigId());
         final DictVO resourceProvider = flinkClusterConfigDTO.getResourceProvider();
+        ClusterClient clusterClient;
         if (resourceProvider.getValue().equals(String.valueOf(ResourceProvider.YARN.getCode()))) {
-            createYarnSessionCluster(flinkClusterConfigDTO);
+            clusterClient = createYarnSessionCluster(flinkClusterConfigDTO);
         } else if (resourceProvider.getValue().equals(String.valueOf(ResourceProvider.NATIVE_KUBERNETES.getCode()))) {
-            createKubernetesSessionCluster(flinkClusterConfigDTO);
+            clusterClient = createKubernetesSessionCluster(flinkClusterConfigDTO);
         } else {
-            createExistingSessionCluster(flinkClusterConfigDTO);
+            clusterClient = createExistingSessionCluster(flinkClusterConfigDTO);
         }
+
+        FlinkClusterInstanceDTO dto = new FlinkClusterInstanceDTO();
+        dto.setFlinkClusterConfigId(flinkClusterConfigDTO.getId());
+        dto.setName(flinkClusterConfigDTO.getName() + "-" + RandomStringUtils.randomAlphabetic(8));
+        dto.setClusterId(clusterClient.getClusterId().toString());
+        dto.setWebInterfaceUrl(clusterClient.getWebInterfaceURL());
+        dto.setStatus(DictVO.toVO(DictConstants.FLINK_CLUSTER_STATUS, String.valueOf(FlinkClusterStatus.RUNNING.getCode())));
+        dto.setRemark(param.getRemark());
+        flinkClusterInstanceService.insert(dto);
     }
 
-    private void createYarnSessionCluster(FlinkClusterConfigDTO flinkClusterConfigDTO) throws Exception {
+    private ClusterClient createYarnSessionCluster(FlinkClusterConfigDTO flinkClusterConfigDTO) throws Exception {
         final Path workspace = getWorkspace();
         final Path flinkDeployConfigPath = loadDeployConfig(flinkClusterConfigDTO.getDeployConfigFileId(), workspace);
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, flinkDeployConfigPath);
         ClusterClient<ApplicationId> clusterClient = SessionClient.create(DeploymentTarget.YARN_SESSION, configuration);
-        FlinkClusterInstanceDTO dto = new FlinkClusterInstanceDTO();
-        dto.setFlinkClusterConfigId(flinkClusterConfigDTO.getId());
-        dto.setName(flinkClusterConfigDTO.getName() + "-" + RandomStringUtils.randomAlphabetic(8));
-        dto.setClusterId(clusterClient.getClusterId().toString());
-        dto.setWebInterfaceUrl(clusterClient.getWebInterfaceURL());
-        dto.setStatus(DictVO.toVO(DictConstants.FLINK_CLUSTER_STATUS, String.valueOf(FlinkClusterStatus.RUNNING.getCode())));
-        flinkClusterInstanceService.insert(dto);
-
         FileUtils.deleteDirectory(workspace.toFile());
+        return clusterClient;
     }
 
-    private void createKubernetesSessionCluster(FlinkClusterConfigDTO flinkClusterConfigDTO) throws Exception {
+    private ClusterClient createKubernetesSessionCluster(FlinkClusterConfigDTO flinkClusterConfigDTO) throws Exception {
         final Path workspace = getWorkspace();
         final Path flinkDeployConfigPath = loadDeployConfig(flinkClusterConfigDTO.getDeployConfigFileId(), workspace);
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, flinkDeployConfigPath);
         ClusterClient<String> clusterClient = SessionClient.create(DeploymentTarget.NATIVE_KUBERNETES_SESSION, configuration);
-
-        FlinkClusterInstanceDTO dto = new FlinkClusterInstanceDTO();
-        dto.setFlinkClusterConfigId(flinkClusterConfigDTO.getId());
-        dto.setName(flinkClusterConfigDTO.getName() + "-" + RandomStringUtils.randomAlphabetic(8));
-        dto.setClusterId(clusterClient.getClusterId().toString());
-        dto.setWebInterfaceUrl(clusterClient.getWebInterfaceURL());
-        dto.setStatus(DictVO.toVO(DictConstants.FLINK_CLUSTER_STATUS, String.valueOf(FlinkClusterStatus.RUNNING.getCode())));
-        flinkClusterInstanceService.insert(dto);
-
         FileUtils.deleteDirectory(workspace.toFile());
+        return clusterClient;
     }
 
-    private void createExistingSessionCluster(FlinkClusterConfigDTO flinkClusterConfigDTO) throws Exception {
+    private ClusterClient createExistingSessionCluster(FlinkClusterConfigDTO flinkClusterConfigDTO) throws Exception {
         final Path workspace = getWorkspace();
         final Path flinkDeployConfigPath = loadDeployConfig(flinkClusterConfigDTO.getDeployConfigFileId(), workspace);
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, flinkDeployConfigPath);
         // 落库
 
         FileUtils.deleteDirectory(workspace.toFile());
+        return null;
     }
 
     /**

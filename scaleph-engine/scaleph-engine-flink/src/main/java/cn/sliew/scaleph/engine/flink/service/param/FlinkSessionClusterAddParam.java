@@ -16,13 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
-public interface FlinkService {
+import javax.validation.constraints.NotNull;
 
-    void createSessionCluster(FlinkSessionClusterAddParam param) throws Exception;
+@Data
+public class FlinkSessionClusterAddParam {
 
+    @NotNull
+    @ApiModelProperty("集群配置ID")
+    private Long flinkClusterConfigId;
 
+    @ApiModelProperty("备注")
+    private String remark;
 }
