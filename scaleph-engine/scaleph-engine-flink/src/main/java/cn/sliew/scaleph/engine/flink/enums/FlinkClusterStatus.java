@@ -16,18 +16,27 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.engine.flink.enums;
 
-import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.Getter;
 
-import java.util.List;
+@Getter
+public enum FlinkClusterStatus {
 
-public interface FlinkService {
+    CREATED(0, "created"),
+    RUNNING(1, "running"),
+    STOP(2, "stop"),
+    ;
 
-    void createSessionCluster(FlinkSessionClusterAddParam param) throws Exception;
+    @EnumValue
+    @JsonValue
+    private int code;
+    private String desc;
 
-    void shutdown(Long id) throws Exception;
-
-    void shutdownBatch(List<Long> ids) throws Exception;
-
+    FlinkClusterStatus(int code, String desc) {
+        this.code = code;
+        this.desc = desc;
+    }
 }

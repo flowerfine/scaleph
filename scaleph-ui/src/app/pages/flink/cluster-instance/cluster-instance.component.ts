@@ -8,15 +8,17 @@ import {
   FlinkClusterConfig,
   FlinkClusterConfigParam,
   FlinkClusterInstance,
-  FlinkClusterInstanceParam, FlinkDeployConfig, FlinkDeployConfigParam
+  FlinkClusterInstanceParam
 } from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {ClusterConfigService} from "../../../@core/services/flink/cluster-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
-import {ClusterConfigNewComponent} from "../cluster-config/cluster-config-new/cluster-config-new.component";
-import {ClusterConfigUpdateComponent} from "../cluster-config/cluster-config-update/cluster-config-update.component";
-import {ClusterConfigDeleteComponent} from "../cluster-config/cluster-config-delete/cluster-config-delete.component";
 import {ClusterInstanceService} from "../../../@core/services/flink/cluster-instance.service";
+import {
+  SessionClusterInstanceNewComponent
+} from "./session-cluster-instance-new/session-cluster-instance-new.component";
+import {ClusterConfigDeleteComponent} from "../cluster-config/cluster-config-delete/cluster-config-delete.component";
+import {ClusterInstanceShutdownComponent} from "./cluster-instance-shutdown/cluster-instance-shutdown.component";
 
 @Component({
   selector: 'app-cluster-instance',
@@ -66,7 +68,7 @@ export class ClusterInstanceComponent implements OnInit {
       this.statusList = d;
     });
     let flinkClusterConfigParam: FlinkClusterConfigParam = {
-      pageSize:  DEFAULT_PAGE_PARAM.pageSize,
+      pageSize: DEFAULT_PAGE_PARAM.pageSize,
       current: DEFAULT_PAGE_PARAM.pageIndex
     }
     this.clusterConfigService.list(flinkClusterConfigParam).subscribe((d) => {
@@ -130,13 +132,13 @@ export class ClusterInstanceComponent implements OnInit {
     this.refreshTable();
   }
 
-  onFlinkDeployConfigLoadMore(event) {
+  onFlinkClusterConfigLoadMore(event) {
     let loaded = this.flinkClusterConfigResult.current * this.flinkClusterConfigResult.size
     if (loaded >= this.flinkClusterConfigResult.total) {
       event.instance.loadFinish();
     } else {
       let flinkClusterConfigParam: FlinkClusterConfigParam = {
-        pageSize:  this.flinkClusterConfigResult.size,
+        pageSize: this.flinkClusterConfigResult.size,
         current: this.flinkClusterConfigResult.current + 1
       }
       this.clusterConfigService.list(flinkClusterConfigParam).subscribe((d) => {
@@ -145,5 +147,42 @@ export class ClusterInstanceComponent implements OnInit {
         event.instance.loadFinish();
       });
     }
+  }
+
+  openAddSessionClusterInstanceDialog() {
+    const results = this.modalService.open({
+      id: 'session-cluster-instance-add',
+      width: '580px',
+      backdropCloseable: true,
+      component: SessionClusterInstanceNewComponent,
+      data: {
+        title: {name: this.translate.instant('flink.cluster-instance.name_')},
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
+  }
+
+  openShutdownClusterInstanceDialog(items: FlinkClusterInstance[]) {
+    const results = this.modalService.open({
+      id: 'cluster-instance-shutdown',
+      width: '346px',
+      backdropCloseable: true,
+      component: ClusterInstanceShutdownComponent,
+      data: {
+        title: this.translate.instant('app.common.operate.close.confirm.title'),
+        items: items,
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
   }
 }
