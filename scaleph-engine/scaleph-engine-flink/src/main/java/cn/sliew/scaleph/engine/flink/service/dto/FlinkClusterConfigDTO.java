@@ -63,7 +63,7 @@ public class FlinkClusterConfigDTO extends BaseDTO {
     private Long deployConfigFileId;
 
     @ApiModelProperty("集群配置")
-    private Map<String, Object> configOptions;
+    private Map<String, String> configOptions;
 
     @ApiModelProperty("备注")
     private String remark;
