@@ -24,6 +24,9 @@ import {ClusterConfigDeleteComponent} from "./cluster-config/cluster-config-dele
 import {ClusterConfigUpdateComponent} from "./cluster-config/cluster-config-update/cluster-config-update.component";
 import {ClusterConfigOptionsComponent} from "./cluster-config-options/cluster-config-options.component";
 import {ClusterInstanceComponent} from "./cluster-instance/cluster-instance.component";
+import {
+  SessionClusterInstanceNewComponent
+} from "./cluster-instance/session-cluster-instance-new/session-cluster-instance-new.component";
 
 @NgModule({
   declarations: [
@@ -44,6 +47,7 @@ import {ClusterInstanceComponent} from "./cluster-instance/cluster-instance.comp
     ClusterConfigDeleteComponent,
     ClusterConfigOptionsComponent,
     ClusterInstanceComponent,
+    SessionClusterInstanceNewComponent,
   ],
   imports: [SharedModule, FlinkRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })
