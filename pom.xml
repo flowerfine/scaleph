@@ -128,6 +128,7 @@
         <commons.lang3.version>3.5</commons.lang3.version>
         <commons.beanutils.version>1.9.4</commons.beanutils.version>
         <commons.text.version>1.9</commons.text.version>
+        <commons.compress.version>1.19</commons.compress.version>
         <disruptor.version>3.4.4</disruptor.version>
         <ojdbc.version>21.1.0.0</ojdbc.version>
         <mysql.version>8.0.28</mysql.version>
@@ -316,6 +317,13 @@
                 <artifactId>commons-text</artifactId>
                 <version>${commons.text.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>${commons.compress.version}</version>
+            </dependency>
+
+
 
             <dependency>
                 <groupId>com.lmax</groupId>
