@@ -1,0 +1,255 @@
+<div class="da-list-wrap">
+  <div class="da-content-wrapper">
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="list-content">
+            <b>Configuration</b>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="list-content">
+            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+              <d-panel-header>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                State Backend
+              </d-panel-header>
+              <d-panel-body>
+                <d-row [dGutter]="[12, 12]">
+                  <d-col [dSpan]="24">
+                    <div class="da-list-container">
+                      <div class="list-content">
+                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                          <d-col>
+                            <div class="da-header-item-label">state.backend:</div>
+                          </d-col>
+                          <d-col>
+                            <d-select name="state.backend"
+                                      [allowClear]="true"
+                                      [filterKey]="'label'"
+                                      [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                                      [options]="flinkStateBackendList"
+                                      size="sm"></d-select>
+                          </d-col>
+                        </d-row>
+                      </div>
+                    </div>
+                  </d-col>
+                </d-row>
+              </d-panel-body>
+            </d-panel>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="list-content">
+            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+              <d-panel-header>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                Checkpoints
+              </d-panel-header>
+              <d-panel-body>
+                <d-row [dGutter]="[12, 12]">
+                  <d-col [dSpan]="24">
+                    <div class="da-list-container">
+                      <div class="list-content">
+                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                          <d-col>
+                            <div class="da-header-item-label">state.checkpoints.dir:</div>
+                          </d-col>
+                          <d-col>
+                            <input dTextInput name="state.checkpoints.dir"/>
+                          </d-col>
+                          <d-col>
+                            <div class="da-header-item-label">state.checkpoint-storage(当填写路径时，会自动选择 filesystem):</div>
+                          </d-col>
+                          <d-col>
+                            <input dTextInput name="state.checkpoint-storage"/>
+                          </d-col>
+                        </d-row>
+                      </div>
+                    </div>
+                  </d-col>
+                </d-row>
+              </d-panel-body>
+            </d-panel>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="list-content">
+            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+              <d-panel-header>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                Savepoints
+              </d-panel-header>
+              <d-panel-body>
+                <d-row [dGutter]="[12, 12]">
+                  <d-col [dSpan]="24">
+                    <div class="da-list-container">
+                      <div class="list-content">
+                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                          <d-col>
+                            <div class="da-header-item-label">state.savepoints.dir:</div>
+                          </d-col>
+                          <d-col>
+                            <input dTextInput name="state.savepoints.dir"/>
+                          </d-col>
+                        </d-row>
+                      </div>
+                    </div>
+                  </d-col>
+                </d-row>
+              </d-panel-body>
+            </d-panel>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+
+
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="list-content">
+            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+              <d-panel-header>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                Task Failure Recovery
+              </d-panel-header>
+              <d-panel-body>
+                <d-row [dGutter]="[12, 12]">
+                  <d-col [dSpan]="24">
+                    <div class="da-list-container">
+                      <div class="list-content">
+                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                          <d-col>
+                            <div class="da-header-item-label">state.savepoints.dir:</div>
+                          </d-col>
+                          <d-col>
+                            <input dTextInput name="state.savepoints.dir"/>
+                          </d-col>
+                        </d-row>
+                      </div>
+                    </div>
+                  </d-col>
+                </d-row>
+              </d-panel-body>
+            </d-panel>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="list-content">
+            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+              <d-panel-header>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                High Availability
+              </d-panel-header>
+              <d-panel-body>
+                <d-row [dGutter]="[12, 12]">
+                  <d-col [dSpan]="24">
+                    <div class="da-list-container">
+                      <div class="list-content">
+                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                          <d-col>
+                            <div class="da-header-item-label">state.savepoints.dir:</div>
+                          </d-col>
+                          <d-col>
+                            <input dTextInput name="state.savepoints.dir"/>
+                          </d-col>
+                        </d-row>
+                      </div>
+                    </div>
+                  </d-col>
+                </d-row>
+              </d-panel-body>
+            </d-panel>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="list-content">
+            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+              <d-panel-header>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                Memory Configuration
+              </d-panel-header>
+              <d-panel-body>
+                <d-row [dGutter]="[12, 12]">
+                  <d-col [dSpan]="24">
+                    <div class="da-list-container">
+                      <div class="list-content">
+                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                          <d-col>
+                            <div class="da-header-item-label">state.savepoints.dir:</div>
+                          </d-col>
+                          <d-col>
+                            <input dTextInput name="state.savepoints.dir"/>
+                          </d-col>
+                        </d-row>
+                      </div>
+                    </div>
+                  </d-col>
+                </d-row>
+              </d-panel-body>
+            </d-panel>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="list-content">
+            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+              <d-panel-header>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                Log
+              </d-panel-header>
+              <d-panel-body>
+                <d-row [dGutter]="[12, 12]">
+                  <d-col [dSpan]="24">
+                    <div class="da-list-container">
+                      <div class="list-content">
+                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                          <d-col>
+                            <div class="da-header-item-label">state.savepoints.dir:</div>
+                          </d-col>
+                          <d-col>
+                            <input dTextInput name="state.savepoints.dir"/>
+                          </d-col>
+                        </d-row>
+                      </div>
+                    </div>
+                  </d-col>
+                </d-row>
+              </d-panel-body>
+            </d-panel>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+
+  </div>
+</div>

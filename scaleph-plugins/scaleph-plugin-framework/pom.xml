@@ -29,10 +29,6 @@
     <artifactId>scaleph-plugin-framework</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>cn.sliew</groupId>

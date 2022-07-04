@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -54,8 +55,8 @@ public class FlinkClusterInstanceDTO extends BaseDTO {
     private String webInterfaceUrl;
 
     @NotNull
-    @ApiModelProperty("集群状态。0: 停止, 1: 运行")
-    private Integer status;
+    @ApiModelProperty("集群状态。0: 已创建, 1: 运行中, 2: 停止")
+    private DictVO status;
 
     @ApiModelProperty("备注")
     private String remark;

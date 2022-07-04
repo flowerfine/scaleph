@@ -71,4 +71,27 @@ export class FlinkClusterConfigParam extends QueryParam {
   deployMode?: string;
 }
 
+export class FlinkClusterInstance {
+  id?: number;
+  flinkClusterConfigId?: number;
+  name?: string;
+  clusterId?: string;
+  webInterfaceUrl?: string;
+  status?: Dict;
+  remark?: number;
+  createTime?: Date;
+  updateTime?: Date;
+}
+
+export class FlinkClusterInstanceParam extends QueryParam {
+  name?: string;
+  flinkClusterConfigId?: number;
+  status?: string;
+}
+
+export class FlinkSessionClusterAddParam extends QueryParam {
+  flinkClusterConfigId?: number;
+  remark?: string;
+}
+
 

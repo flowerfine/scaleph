@@ -73,6 +73,10 @@ INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `edi
 VALUES ('flink_deployment_mode', 'Flink 部署模式', 'sys', 'sys');
 INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `editor`)
 VALUES ('flink_version', 'Flink 版本', 'sys', 'sys');
+INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+VALUES ('flink_state_backend', 'Flink State Backend', 'sys', 'sys');
+INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+VALUES ('flink_cluster_status', 'Flink 集群状态', 'sys', 'sys');
 
 
 /* 数据字典表 */
@@ -290,6 +294,16 @@ INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `
 VALUES ('flink_version', '1.14.5', '1.14.5', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_version', '1.15.0', '1.15.0', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_state_backend', 'HashMapStateBackend', 'HashMap', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_state_backend', 'EmbeddedRocksDBStateBackend', 'RocksDB', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_cluster_status', '0', '已创建', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_cluster_status', '1', '运行中', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_cluster_status', '2', '停止', 'sys', 'sys');
 
 /*系统配置信息表 */
 drop table if exists sys_config;
@@ -1403,6 +1417,21 @@ values ('sink', 'table', 'pre_sql', null, '0', '前置SQL', 'sys', 'sys');
 insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
                                    step_attr_describe, creator, editor)
 values ('sink', 'table', 'post_sql', null, '0', '后置SQL', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'console', 'limit', null, '0', '限制', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('source', 'mock', 'mock_data_schema', null, '0', '数据模式', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('source', 'mock', 'mock_data_size', null, '0', '行数', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('source', 'mockStream', 'mock_data_schema', null, '0', '数据模式', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('source', 'mockStream', 'mock_data_interval', null, '0', '时间间隔', 'sys', 'sys');
 
 /* 作业连线信息 */
 drop table if exists di_job_link;
