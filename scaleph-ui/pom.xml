@@ -32,7 +32,7 @@
   <properties>
     <build.node.version>v16.14.0</build.node.version>
     <build.npm.version>8.5.4</build.npm.version>
-    <eirslett.frontend.version>1.6</eirslett.frontend.version>
+
   </properties>
 
   <build>
@@ -40,7 +40,6 @@
       <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
-        <version>${eirslett.frontend.version}</version>
         <executions>
           <execution>
             <id>install node and npm</id>
