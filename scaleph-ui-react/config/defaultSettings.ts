@@ -14,7 +14,7 @@ const Settings: LayoutSettings & {
   colorWeak: false,
   title: 'Scaleph',
   pwa: false,
-  logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+  logo: 'https://res.hc-cdn.com/x-roma-components/1.0.10/assets/devui/logo.svg',
   iconfontUrl: '',
 };
 
