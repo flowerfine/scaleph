@@ -331,7 +331,7 @@
     "step.sink-table.batchSize": "提交记录数量",
     "step.sink-console.limit": "限制",
     "step.source-mock.mockDataSize": "行数",
-    "step.source-mockStream.mockDataInterval": "时间间隔(毫秒)",
+    "step.source-mockStream.mockDataInterval": "时间间隔(秒)",
     "step.source-mock.data.name": "名称",
     "step.source-mock.data.type": "类型",
     "step.source-mock.data.maxValue": "最大值",
