@@ -18,6 +18,42 @@
             <artifactId>scaleph-storage</artifactId>
         </dependency>
 
+        <!-- fix https://github.com/flowerfine/scaleph/issues/120 -->
+        <!--<dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>kubernetes-client</artifactId>
+            <version>5.5.0</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>1.69</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.69</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-ext-jdk15on</artifactId>
+            <version>1.69</version>
+        </dependency>
+
+        <!--<dependency>
+            <groupId>io.sundr</groupId>
+            <artifactId>builder-annotations</artifactId>
+            <version>0.90.5</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.sundr</groupId>
+            <artifactId>transform-annotations</artifactId>
+            <version>0.90.5</version>
+            <scope>compile</scope>
+        </dependency>-->
+
         <dependency>
             <groupId>cn.sliew</groupId>
             <artifactId>flinkful-cli-base</artifactId>
