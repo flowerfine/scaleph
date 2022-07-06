@@ -18,11 +18,13 @@
 
 package cn.sliew.scaleph.plugin.framework.core;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.plugin.framework.property.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class AbstractPlugin implements Plugin {
 
@@ -35,6 +37,11 @@ public abstract class AbstractPlugin implements Plugin {
     @Override
     public void configure(PropertyContext properties) {
         this.properties = properties;
+        final Collection<ValidationResult> validate = validate(properties);
+        final Optional<ValidationResult> validationResult = validate.stream().filter(result -> !result.isValid()).findAny();
+        if (validationResult.isPresent()) {
+            throw new IllegalArgumentException(JacksonUtil.toJsonString(validationResult.get()));
+        }
     }
 
     public PluginInfo getPluginInfo() {

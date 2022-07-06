@@ -177,13 +177,7 @@ values ('datasource_type', 'Oracle', 'Oracle', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('datasource_type', 'PostGreSQL', 'PostGreSQL', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-values ('datasource_type', 'kafka', 'kafka', 'sys', 'sys');
-insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-values ('connection_type', 'jdbc', 'SIMPLE JDBC', 'sys', 'sys');
-insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-values ('connection_type', 'pooled', 'CONNECTION POOL', 'sys', 'sys');
-insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-values ('connection_type', 'jndi', 'JNDI', 'sys', 'sys');
+values ('datasource_type', 'Kafka', 'Kafka', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('job_type', 'b', '周期作业', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
