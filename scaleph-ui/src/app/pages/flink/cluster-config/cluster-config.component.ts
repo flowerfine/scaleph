@@ -81,7 +81,6 @@ export class ClusterConfigComponent implements OnInit {
     this.clusterConfigService.list(param).subscribe((d) => {
       this.pager.total = d.total;
       this.dataTableDs = d.records;
-      console.log(d)
       this.loadTarget.loadingInstance.close();
       this.dataLoading = false;
       this.dataTable.setTableCheckStatus({pageAllChecked: false});

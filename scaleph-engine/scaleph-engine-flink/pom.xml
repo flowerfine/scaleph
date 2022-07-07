@@ -12,21 +12,27 @@
     <artifactId>scaleph-engine-flink</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-dao</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-system</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-storage</artifactId>
+        </dependency>
+
+        <!-- fix https://github.com/flowerfine/scaleph/issues/120 -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>1.69</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.69</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-ext-jdk15on</artifactId>
+            <version>1.69</version>
         </dependency>
 
         <dependency>

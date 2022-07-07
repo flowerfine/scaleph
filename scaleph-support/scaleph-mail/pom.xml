@@ -29,18 +29,10 @@
     <artifactId>scaleph-mail</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-common</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-system</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
         </dependency>
 
         <dependency>

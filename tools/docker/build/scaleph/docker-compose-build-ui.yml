@@ -85,7 +85,7 @@ services:
       - scaleph
 
   jobmanager:
-    image: flink:1.13.6-scala_2.12-java8
+    image: apache/flink:1.13.6-scala_2.11
     container_name: jobmanager
     environment:
       FLINK_PROPERTIES: |
@@ -97,7 +97,7 @@ services:
       - scaleph
 
   taskmanager:
-    image: flink:1.13.6-scala_2.12-java8
+    image: apache/flink:1.13.6-scala_2.11
     container_name: taskmanager
     depends_on:
       - jobmanager

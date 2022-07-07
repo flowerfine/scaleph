@@ -52,6 +52,11 @@ export default function (values) {
           title: values['flink']['cluster-config'],
           link: '/scaleph/flink/cluster-config',
           pCode: PRIVILEGE_CODE.flinkReleaseShow,
+        },
+        {
+          title: values['flink']['cluster-instance'],
+          link: '/scaleph/flink/cluster-instance',
+          pCode: PRIVILEGE_CODE.flinkReleaseShow,
         }
       ],
     },
