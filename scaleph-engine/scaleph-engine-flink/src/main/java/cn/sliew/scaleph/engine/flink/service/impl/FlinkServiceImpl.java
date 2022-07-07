@@ -19,9 +19,8 @@
 package cn.sliew.scaleph.engine.flink.service.impl;
 
 import cn.sliew.flinkful.cli.base.SessionClient;
+import cn.sliew.flinkful.cli.base.util.FlinkUtil;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
-import cn.sliew.flinkful.rest.base.RestClient;
-import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.ResourceProvider;
 import cn.sliew.scaleph.common.nio.TarUtil;
@@ -113,9 +112,13 @@ public class FlinkServiceImpl implements FlinkService {
         } else {
             // standalone session
         }
-        // todo create cluster client
-        RestClient restClient = new FlinkRestClient("localhost", 8081, configuration);
-        restClient.cluster().shutdownCluster();
+        ClusterClient client = FlinkUtil.retrieve(configuration);
+        client.shutDownCluster();
+
+        FlinkClusterInstanceDTO dto = new FlinkClusterInstanceDTO();
+        dto.setId(id);
+        dto.setStatus(DictVO.toVO(DictConstants.FLINK_CLUSTER_STATUS, String.valueOf(FlinkClusterStatus.STOP.getCode())));
+        flinkClusterInstanceService.update(dto);
     }
 
     @Override
