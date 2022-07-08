@@ -41,6 +41,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.flink.client.program.ClusterClient;
 import org.apache.flink.configuration.*;
 import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
+import org.apache.flink.kubernetes.configuration.KubernetesDeploymentTarget;
 import org.apache.flink.yarn.configuration.YarnConfigOptions;
 import org.apache.hadoop.yarn.api.records.ApplicationId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,6 +113,7 @@ public class FlinkServiceImpl implements FlinkService {
         } else {
             // standalone session
         }
+        configuration.set(DeploymentOptions.TARGET,  KubernetesDeploymentTarget.SESSION.getName());
         ClusterClient client = FlinkUtil.retrieve(configuration);
         client.shutDownCluster();
 
