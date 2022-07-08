@@ -22,6 +22,7 @@ import cn.sliew.flinkful.cli.base.SessionClient;
 import cn.sliew.flinkful.cli.base.util.FlinkUtil;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
 import cn.sliew.scaleph.common.constant.DictConstants;
+import cn.sliew.scaleph.common.enums.DeployMode;
 import cn.sliew.scaleph.common.enums.ResourceProvider;
 import cn.sliew.scaleph.common.nio.TarUtil;
 import cn.sliew.scaleph.common.nio.TempFileUtil;
@@ -41,7 +42,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.flink.client.program.ClusterClient;
 import org.apache.flink.configuration.*;
 import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
-import org.apache.flink.kubernetes.configuration.KubernetesDeploymentTarget;
 import org.apache.flink.yarn.configuration.YarnConfigOptions;
 import org.apache.hadoop.yarn.api.records.ApplicationId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,14 +106,27 @@ public class FlinkServiceImpl implements FlinkService {
         final Path flinkDeployConfigPath = loadDeployConfig(flinkClusterConfigDTO.getDeployConfigFileId(), workspace);
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, flinkDeployConfigPath);
         final DictVO resourceProvider = flinkClusterConfigDTO.getResourceProvider();
+        final DictVO deployMode = flinkClusterConfigDTO.getDeployMode();
         if (resourceProvider.getValue().equals(String.valueOf(ResourceProvider.YARN.getCode()))) {
             configuration.setString(YarnConfigOptions.APPLICATION_ID, flinkClusterInstanceDTO.getClusterId());
+            if (deployMode.getValue().equals(String.valueOf(DeployMode.APPLICATION.getCode()))) {
+                DeploymentTarget.YARN_APPLICATION.apply(configuration);
+            } else if (deployMode.getValue().equals(String.valueOf(DeployMode.PER_JOB.getCode()))) {
+                DeploymentTarget.YARN_PER_JOB.apply(configuration);
+            } else if (deployMode.getValue().equals(String.valueOf(DeployMode.SESSION.getCode()))) {
+                DeploymentTarget.YARN_SESSION.apply(configuration);
+            }
         } else if (resourceProvider.getValue().equals(String.valueOf(ResourceProvider.NATIVE_KUBERNETES.getCode()))) {
             configuration.setString(KubernetesConfigOptions.CLUSTER_ID, flinkClusterInstanceDTO.getClusterId());
+            if (deployMode.getValue().equals(String.valueOf(DeployMode.APPLICATION.getCode()))) {
+                DeploymentTarget.NATIVE_KUBERNETES_APPLICATION.apply(configuration);
+            } else if (deployMode.getValue().equals(String.valueOf(DeployMode.SESSION.getCode()))) {
+                DeploymentTarget.NATIVE_KUBERNETES_SESSION.apply(configuration);
+            }
         } else {
             // standalone session
         }
-        configuration.set(DeploymentOptions.TARGET,  KubernetesDeploymentTarget.SESSION.getName());
+
         ClusterClient client = FlinkUtil.retrieve(configuration);
         client.shutDownCluster();
 
