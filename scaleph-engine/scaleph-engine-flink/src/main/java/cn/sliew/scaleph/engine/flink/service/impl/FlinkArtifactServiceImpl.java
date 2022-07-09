@@ -72,7 +72,7 @@ public class FlinkArtifactServiceImpl implements FlinkArtifactService {
             FileCopyUtils.copy(inputStream, outputStream);
         }
         final String path = dto.getPath();
-        return path.substring(path.lastIndexOf("/"));
+        return path.substring(path.lastIndexOf("/") + 1);
     }
 
     @Override
