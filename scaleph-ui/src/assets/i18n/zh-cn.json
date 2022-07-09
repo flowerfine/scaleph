@@ -37,6 +37,10 @@
       "deploy-config-file": "部署配置文件",
       "cluster-config": "集群配置",
       "cluster-instance": "集群实例"
+    },
+    "job": {
+      "title": "Flink任务管理",
+      "artifact": "artifact管理"
     }
   },
   "app": {
