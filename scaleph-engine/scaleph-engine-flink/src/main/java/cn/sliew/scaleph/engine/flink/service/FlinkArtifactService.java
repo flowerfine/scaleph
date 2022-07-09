@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 public interface FlinkArtifactService {
 
@@ -34,6 +35,8 @@ public interface FlinkArtifactService {
     String download(Long id, OutputStream outputStream) throws IOException;
 
     int deleteById(Long id) throws IOException;
+
+    int deleteBatch(List<Long> ids) throws IOException;
 
     Page<FlinkArtifactDTO> list(FlinkArtifactListParam param);
 

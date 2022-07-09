@@ -7,6 +7,8 @@ import {DEFAULT_PAGE_PARAM, PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {FlinkArtifact, FlinkArtifactParam} from "../../../@core/data/job.data";
 import {ArtifactService} from "../../../@core/services/job/artifact.service";
+import {ReleaseUploadComponent} from "../../flink/release/release-upload/release-upload.component";
+import {ArtifactUploadComponent} from "./artifact-upload/artifact-upload.component";
 
 @Component({
   selector: 'app-job-artifact',
@@ -93,7 +95,21 @@ export class ArtifactComponent implements OnInit {
   }
 
   openUploadArtifactDialog() {
-
+    const results = this.modalService.open({
+      id: 'job-artifact-upload',
+      width: '580px',
+      backdropCloseable: true,
+      component: ArtifactUploadComponent,
+      data: {
+        title: {name: this.translate.instant('job.artifact.name_')},
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
   }
 
   openDeleteArtifactDialog(items: FlinkArtifact[]) {
@@ -102,7 +118,7 @@ export class ArtifactComponent implements OnInit {
 
   downloadArtifact(item: FlinkArtifact) {
     let url: string =
-      'api/flink/artifact/download/' + item.id +
+      'api/flink/artifact/' + item.id +
       '?' +
       USER_AUTH.token +
       '=' +

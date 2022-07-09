@@ -23,8 +23,9 @@ export class ArtifactService {
     const params: FormData = new FormData();
     params.append("name", uploadParam.name)
     params.append("entryClass", uploadParam.entryClass)
+    params.append("file", uploadParam.file)
     params.append("remark", uploadParam.remark)
-    return this.http.post<ResponseBody<any>>(`${this.url}/upload`, params);
+    return this.http.post<ResponseBody<any>>(`${this.url}`, params);
   }
 
   delete(row: FlinkArtifact): Observable<ResponseBody<any>> {

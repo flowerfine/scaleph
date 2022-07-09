@@ -16,7 +16,8 @@ export class FlinkArtifactParam extends QueryParam {
 
 export class FlinkArtifactUploadParam {
   name?: string;
-  entryClass?: File;
+  entryClass?: string;
+  file?: File;
   remark?: string;
 }
 
