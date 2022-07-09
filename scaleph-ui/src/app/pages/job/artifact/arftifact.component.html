@@ -6,25 +6,11 @@
             <div class="da-list-header">
               <div class="da-header-left">
                 <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
-
                   <d-col>
-                    <div class="da-header-item-label">{{ 'flink.release.version' | translate }}:</div>
+                    <div class="da-header-item-label">{{ 'job.artifact.name' | translate }}:</div>
                   </d-col>
                   <d-col>
-                    <d-select name="version"
-                              [allowClear]="true"
-                              [filterKey]="'label'"
-                              [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                              [options]="flinkVersionList"
-                              size="sm"
-                              [(ngModel)]="searchFormConfig.version"
-                              (valueChange)="refreshTable()"></d-select>
-                  </d-col>
-                  <d-col>
-                    <div class="da-header-item-label">{{ 'flink.release.fileName' | translate }}:</div>
-                  </d-col>
-                  <d-col>
-                    <input dTextInput name="fileName" [(ngModel)]="searchFormConfig.fileName" (keyup.enter)="refreshTable()" />
+                    <input dTextInput name="name" [(ngModel)]="searchFormConfig.name" (keyup.enter)="refreshTable()" />
                   </d-col>
                 </d-row>
               </div>
@@ -49,17 +35,12 @@
                   <d-button
                     *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
                     bsStyle="primary"
-                    (btnClick)="openUploadReleaseDialog()"
+                    (btnClick)="openUploadArtifactDialog()"
                     >{{ 'flink.release.upload' | translate }}</d-button>
-                  <d-button
-                    *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
-                    bsStyle="common"
-                    (btnClick)="openLoadReleaseDialog()"
-                  >{{ 'flink.release.load' | translate }}</d-button>
                   <d-button
                     *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                     bsStyle="common"
-                    (btnClick)="openDeleteReleaseDialog(dataTable.getCheckedRows())"
+                    (btnClick)="openDeleteArtifactDialog(dataTable.getCheckedRows())"
                     [disabled]="!dataTableChecked"
                     >{{ 'app.common.operate.delete.label' | translate }}</d-button>
                 </d-button-group>
@@ -78,32 +59,27 @@
                 (checkAllChange)="getDataTableCheckedStatus()"
 
               >
-                <d-column field="version" header="{{ 'flink.release.version' | translate }}">
-                  <d-cell>
-                    <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
-                  </d-cell>
-                </d-column>
-                <d-column field="fileName" header="{{ 'flink.release.fileName' | translate }}">
+                <d-column field="name" header="{{ 'job.artifact.name' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="path" header="{{ 'flink.release.path' | translate }}">
+                <d-column field="path" header="{{ 'job.artifact.path' | translate }}">
                     <d-cell>
                       <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                     </d-cell>
                   </d-column>
-                <d-column field="remark" header="{{ 'flink.remark' | translate }}">
+                <d-column field="remark" header="{{ 'job.remark' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="createTime" header="{{ 'flink.createTime' | translate }}">
+                <d-column field="createTime" header="{{ 'job.createTime' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="updateTime" header="{{ 'flink.updateTime' | translate }}">
+                <d-column field="updateTime" header="{{ 'job.updateTime' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
                   </d-cell>
@@ -116,14 +92,14 @@
                           *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
                           icon="icon-download"
                           bsStyle="text-dark"
-                          (btnClick)="downloadRelease(rowItem)"
+                          (btnClick)="downloadArtifact(rowItem)"
                           title="{{ 'app.common.operate.download.label' | translate }}"
                         ></d-button>
                         <d-button
                           *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
                           icon="icon-delete"
                           bsStyle="text-dark"
-                          (btnClick)="openDeleteReleaseDialog([rowItem])"
+                          (btnClick)="openDeleteArtifactDialog([rowItem])"
                           title="{{ 'app.common.operate.delete.label' | translate }}"
                         ></d-button>
                       </div>

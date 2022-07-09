@@ -3,11 +3,10 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
-import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/app.data';
-import {FlinkRelease, FlinkReleaseParam} from 'src/app/@core/data/flink.data';
+import {DEFAULT_PAGE_PARAM, PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/app.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
-import {ReleaseService} from 'src/app/@core/services/flink/release.service';
-import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
+import {FlinkArtifact, FlinkArtifactParam} from "../../../@core/data/job.data";
+import {ArtifactService} from "../../../@core/services/job/artifact.service";
 
 @Component({
   selector: 'app-job-artifact',
@@ -20,7 +19,7 @@ export class ArtifactComponent implements OnInit {
   dataLoading: boolean = false;
   dataTableChecked: boolean = false;
   loadTarget: any;
-  dataTableDs: FlinkRelease[] = [];
+  dataTableDs: FlinkArtifact[] = [];
   pager = {
     total: 0,
     pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -28,9 +27,7 @@ export class ArtifactComponent implements OnInit {
     pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
   };
 
-  searchFormConfig = {version: null, fileName: ''};
-
-  flinkVersionList: Dict[] = []
+  searchFormConfig = {name: ''};
 
   constructor(
     public authService: AuthService,
@@ -38,29 +35,24 @@ export class ArtifactComponent implements OnInit {
     private loadingService: LoadingService,
     private translate: TranslateService,
     private modalService: ModalService,
-    private dictDataService: SysDictDataService,
-    private releaseService: ReleaseService,
+    private artifactService: ArtifactService,
     private router: Router
   ) {
   }
 
   ngOnInit(): void {
     this.refreshTable();
-    this.dictDataService.listByType(DICT_TYPE.flinkVersion).subscribe((d) => {
-      this.flinkVersionList = d;
-    });
   }
 
   refreshTable() {
     this.openDataTableLoading();
-    let param: FlinkReleaseParam = {
+    let param: FlinkArtifactParam = {
       pageSize: this.pager.pageSize,
       current: this.pager.pageIndex,
-      version: this.searchFormConfig.version ? this.searchFormConfig.version.value : '',
-      fileName: this.searchFormConfig.fileName,
+      name: this.searchFormConfig.name || '',
     };
 
-    this.releaseService.list(param).subscribe((d) => {
+    this.artifactService.list(param).subscribe((d) => {
       this.pager.total = d.total;
       this.dataTableDs = d.records;
       this.loadTarget.loadingInstance.close();
@@ -90,7 +82,7 @@ export class ArtifactComponent implements OnInit {
   }
 
   reset() {
-    this.searchFormConfig = {version: null, fileName: ''};
+    this.searchFormConfig = {name: ''};
     this.pager = {
       total: 0,
       pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -100,28 +92,24 @@ export class ArtifactComponent implements OnInit {
     this.refreshTable();
   }
 
-  openUploadReleaseDialog() {
+  openUploadArtifactDialog() {
 
   }
 
-  openLoadReleaseDialog() {
-    alert("work in progress")
-  }
-
-  openDeleteReleaseDialog(items: FlinkRelease[]) {
+  openDeleteArtifactDialog(items: FlinkArtifact[]) {
 
   }
 
-  downloadRelease(item: FlinkRelease) {
+  downloadArtifact(item: FlinkArtifact) {
     let url: string =
-      'api/flink/release/download/' + item.id +
+      'api/flink/artifact/download/' + item.id +
       '?' +
       USER_AUTH.token +
       '=' +
       localStorage.getItem(USER_AUTH.token);
     const a = document.createElement('a');
     a.href = url;
-    a.download = item.fileName;
+    a.download = item.name;
     a.click();
     window.URL.revokeObjectURL(url);
   }

@@ -460,6 +460,19 @@
       "status": "集群状态"
     }
   },
+  "job": {
+    "remark": "备注",
+    "createTime": "创建时间",
+    "updateTime": "更新时间",
+    "artifact": {
+      "name_": "artifact",
+      "name": "名称",
+      "path": "存储路径",
+      "entryClass": "Entry Class",
+      "upload": "上传",
+      "download": "下载"
+    }
+  },
   "header": {
     "userCenter": "个人中心",
     "userSettings": "个人设置",

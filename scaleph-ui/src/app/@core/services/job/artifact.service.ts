@@ -8,7 +8,7 @@ import {FlinkArtifact, FlinkArtifactUploadParam} from "../../data/job.data";
 @Injectable({
   providedIn: 'root',
 })
-export class ReleaseService {
+export class ArtifactService {
   private url = 'api/flink/artifact';
 
   constructor(private http: HttpClient) {
