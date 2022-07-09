@@ -87,3 +87,4 @@ CREATE TABLE flink_artifact
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB COMMENT = 'flink artifact';
 
+
