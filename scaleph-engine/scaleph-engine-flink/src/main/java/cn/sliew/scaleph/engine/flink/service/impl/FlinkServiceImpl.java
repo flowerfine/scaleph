@@ -19,10 +19,10 @@
 package cn.sliew.scaleph.engine.flink.service.impl;
 
 import cn.sliew.flinkful.cli.base.SessionClient;
+import cn.sliew.flinkful.cli.base.util.FlinkUtil;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
-import cn.sliew.flinkful.rest.base.RestClient;
-import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import cn.sliew.scaleph.common.constant.DictConstants;
+import cn.sliew.scaleph.common.enums.DeployMode;
 import cn.sliew.scaleph.common.enums.ResourceProvider;
 import cn.sliew.scaleph.common.nio.TarUtil;
 import cn.sliew.scaleph.common.nio.TempFileUtil;
@@ -106,16 +106,34 @@ public class FlinkServiceImpl implements FlinkService {
         final Path flinkDeployConfigPath = loadDeployConfig(flinkClusterConfigDTO.getDeployConfigFileId(), workspace);
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, flinkDeployConfigPath);
         final DictVO resourceProvider = flinkClusterConfigDTO.getResourceProvider();
+        final DictVO deployMode = flinkClusterConfigDTO.getDeployMode();
         if (resourceProvider.getValue().equals(String.valueOf(ResourceProvider.YARN.getCode()))) {
             configuration.setString(YarnConfigOptions.APPLICATION_ID, flinkClusterInstanceDTO.getClusterId());
+            if (deployMode.getValue().equals(String.valueOf(DeployMode.APPLICATION.getCode()))) {
+                DeploymentTarget.YARN_APPLICATION.apply(configuration);
+            } else if (deployMode.getValue().equals(String.valueOf(DeployMode.PER_JOB.getCode()))) {
+                DeploymentTarget.YARN_PER_JOB.apply(configuration);
+            } else if (deployMode.getValue().equals(String.valueOf(DeployMode.SESSION.getCode()))) {
+                DeploymentTarget.YARN_SESSION.apply(configuration);
+            }
         } else if (resourceProvider.getValue().equals(String.valueOf(ResourceProvider.NATIVE_KUBERNETES.getCode()))) {
             configuration.setString(KubernetesConfigOptions.CLUSTER_ID, flinkClusterInstanceDTO.getClusterId());
+            if (deployMode.getValue().equals(String.valueOf(DeployMode.APPLICATION.getCode()))) {
+                DeploymentTarget.NATIVE_KUBERNETES_APPLICATION.apply(configuration);
+            } else if (deployMode.getValue().equals(String.valueOf(DeployMode.SESSION.getCode()))) {
+                DeploymentTarget.NATIVE_KUBERNETES_SESSION.apply(configuration);
+            }
         } else {
             // standalone session
         }
-        // todo create cluster client
-        RestClient restClient = new FlinkRestClient("localhost", 8081, configuration);
-        restClient.cluster().shutdownCluster();
+
+        ClusterClient client = FlinkUtil.retrieve(configuration);
+        client.shutDownCluster();
+
+        FlinkClusterInstanceDTO dto = new FlinkClusterInstanceDTO();
+        dto.setId(id);
+        dto.setStatus(DictVO.toVO(DictConstants.FLINK_CLUSTER_STATUS, String.valueOf(FlinkClusterStatus.STOP.getCode())));
+        flinkClusterInstanceService.update(dto);
     }
 
     @Override
