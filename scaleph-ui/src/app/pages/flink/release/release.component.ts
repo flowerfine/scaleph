@@ -126,7 +126,7 @@ export class ReleaseComponent implements OnInit {
 
   openDeleteReleaseDialog(items: FlinkRelease[]) {
     const results = this.modalService.open({
-      id: 'resource-delete',
+      id: 'release-delete',
       width: '346px',
       backdropCloseable: true,
       component: ReleaseDeleteComponent,

@@ -7,8 +7,8 @@ import {DEFAULT_PAGE_PARAM, PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {FlinkArtifact, FlinkArtifactParam} from "../../../@core/data/job.data";
 import {ArtifactService} from "../../../@core/services/job/artifact.service";
-import {ReleaseUploadComponent} from "../../flink/release/release-upload/release-upload.component";
 import {ArtifactUploadComponent} from "./artifact-upload/artifact-upload.component";
+import {ArtifactDeleteComponent} from "./artifact-delete/artifact-delete.component";
 
 @Component({
   selector: 'app-job-artifact',
@@ -113,7 +113,22 @@ export class ArtifactComponent implements OnInit {
   }
 
   openDeleteArtifactDialog(items: FlinkArtifact[]) {
-
+    const results = this.modalService.open({
+      id: 'job-artifact-delete',
+      width: '346px',
+      backdropCloseable: true,
+      component: ArtifactDeleteComponent,
+      data: {
+        title: this.translate.instant('app.common.operate.delete.confirm.title'),
+        items: items,
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
   }
 
   downloadArtifact(item: FlinkArtifact) {
