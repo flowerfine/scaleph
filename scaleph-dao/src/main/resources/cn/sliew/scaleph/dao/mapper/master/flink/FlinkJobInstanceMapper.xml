@@ -17,25 +17,26 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.sliew.scaleph.dao.mapper.master.flink.FlinkReleaseMapper">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.master.flink.FlinkJobInstanceMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease">
+    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.flink.FlinkJobInstance">
         <result column="id" property="id" />
         <result column="creator" property="creator" />
         <result column="create_time" property="createTime" />
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
-        <result column="version" property="version" />
-        <result column="file_name" property="fileName" />
-        <result column="path" property="path" />
+        <result column="flink_job_config_id" property="flinkJobConfigId" />
+        <result column="flink_cluster_instance_id" property="flinkClusterInstanceId" />
+        <result column="job_id" property="jobId" />
+        <result column="status" property="status" />
         <result column="remark" property="remark" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        version, `file_name`, path, remark
+        flink_job_config_id, flink_cluster_instance_id, job_id, `status`, remark
     </sql>
 
 </mapper>
