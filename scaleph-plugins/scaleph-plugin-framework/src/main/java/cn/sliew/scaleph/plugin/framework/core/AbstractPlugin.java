@@ -20,6 +20,7 @@ package cn.sliew.scaleph.plugin.framework.core;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.plugin.framework.property.*;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -100,6 +101,8 @@ public abstract class AbstractPlugin implements Plugin {
                 results.add(builder.build());
                 continue;
             } else if (value == null) {
+                continue;
+            } else if (CollectionUtils.isEmpty(descriptor.getValidators())) {
                 continue;
             }
 

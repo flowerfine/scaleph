@@ -77,7 +77,8 @@ INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `edit
 VALUES ('flink_state_backend', 'Flink State Backend', 'sys', 'sys');
 INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
 VALUES ('flink_cluster_status', 'Flink 集群状态', 'sys', 'sys');
-
+INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+VALUES ('flink_semantic', 'Flink 时间语义', 'sys', 'sys');
 
 /* 数据字典表 */
 drop table if exists sys_dict;
@@ -298,6 +299,12 @@ INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `
 VALUES ('flink_cluster_status', '1', '运行中', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_cluster_status', '2', '停止', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_semantic', 'exactly_once', '精确一次', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_semantic', 'at_least_once', '至少一次', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_semantic', 'none', '无', 'sys', 'sys');
 
 /*系统配置信息表 */
 drop table if exists sys_config;
@@ -1426,7 +1433,18 @@ values ('source', 'mockStream', 'mock_data_schema', null, '0', '数据模式', '
 insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
                                    step_attr_describe, creator, editor)
 values ('source', 'mockStream', 'mock_data_interval', null, '0', '时间间隔', 'sys', 'sys');
-
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'kafka', 'topics', null, '1', '主题', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'kafka', 'producer_bootstrap_servers', null, '1', 'kafka集群地址', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'kafka', 'producer_conf', null, '0', 'kafka生产者参数', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'kafka', 'semantic', null, '0', '时间语义', 'sys', 'sys');
 /* 作业连线信息 */
 drop table if exists di_job_link;
 create table di_job_link
