@@ -61,7 +61,7 @@ CREATE TABLE `flink_cluster_instance`
     `name`                    VARCHAR(255) NOT NULL COMMENT '集群名称',
     `cluster_id`              VARCHAR(64)  NOT NULL DEFAULT '' COMMENT '集群id',
     `web_interface_url`       VARCHAR(255) NOT NULL COMMENT '集群 web-ui 链接',
-    `status`                  VARCHAR(4)      NOT NULL COMMENT '集群状态。0: 已创建, 1: 运行中, 2: 停止',
+    `status`                  VARCHAR(4)   NOT NULL COMMENT '集群状态。0: 已创建, 1: 运行中, 2: 停止',
     `remark`                  VARCHAR(256)          DEFAULT NULL COMMENT '备注',
     `creator`                 VARCHAR(32) COMMENT '创建人',
     `create_time`             TIMESTAMP             DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -87,4 +87,38 @@ CREATE TABLE flink_artifact
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB COMMENT = 'flink artifact';
 
+/* flink job config */
+DROP TABLE IF EXISTS flink_job_config;
+CREATE TABLE flink_job_config
+(
+    `id`                        BIGINT       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    `type`                      VARCHAR(4)   NOT NULL COMMENT '类型。0: artifact, 1: sql+udf',
+    `name`                      VARCHAR(255) NOT NULL COMMENT '名称',
+    `flink_cluster_config_id`   BIGINT       NOT NULL COMMENT 'flink 集群配置 ID',
+    `job_config`                VARCHAR(255) COMMENT '任务自身 配置参数',
+    `flink_config`              VARCHAR(255) COMMENT 'flink 配置参数',
+    `version`                   INT               DEFAULT 1 COMMENT '版本号',
+    `remark`                    VARCHAR(255) COMMENT '备注',
+    `creator`                   VARCHAR(32) COMMENT '创建人',
+    `create_time`               TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `editor`                    VARCHAR(32) COMMENT '修改人',
+    `update_time`               TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB COMMENT = 'flink job';
 
+/* flink job instance */
+DROP TABLE IF EXISTS flink_job_instance;
+CREATE TABLE flink_job_instance
+(
+    `id`                        BIGINT    NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    `flink_job_config_id`       BIGINT    NOT NULL COMMENT 'flink 任务配置 ID',
+    `flink_cluster_instance_id` BIGINT    NOT NULL COMMENT 'flink 集群实例 ID',
+    `job_id`                    BIGINT    NOT NULL COMMENT 'flink 任务 ID',
+    `status`                    VARCHAR(4) COMMENT '任务状态。0: 已创建, 1: 创建失败',
+    `remark`                    VARCHAR(255) COMMENT '备注',
+    `creator`                   VARCHAR(32) COMMENT '创建人',
+    `create_time`               TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `editor`                    VARCHAR(32) COMMENT '修改人',
+    `update_time`               TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB COMMENT = 'flink job instance';
