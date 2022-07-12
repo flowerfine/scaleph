@@ -77,6 +77,10 @@ INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `edit
 VALUES ('flink_state_backend', 'Flink State Backend', 'sys', 'sys');
 INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
 VALUES ('flink_cluster_status', 'Flink 集群状态', 'sys', 'sys');
+INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+VALUES ('flink_job_type', 'Flink 任务类型', 'sys', 'sys');
+INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+VALUES ('flink_job_status', 'Flink 任务状态', 'sys', 'sys');
 
 
 /* 数据字典表 */
@@ -304,6 +308,37 @@ INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `
 VALUES ('flink_cluster_status', '1', '运行中', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_cluster_status', '2', '停止', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_job_type', '0', 'artifact', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_job_type', '1', 'sql+udf', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_job_status', '0', 'SUBMITED', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_job_status', '1', 'SUBMIT FAILED', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_job_status', '2', 'INITIALIZING', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_job_status', '3', 'CREATED', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_job_status', '4', 'RUNNING', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_job_status', '5', 'FAILING', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_job_status', '6', 'FAILED', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_job_status', '7', 'CANCELLING', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_job_status', '8', 'CANCELED', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_job_status', '9', 'FINISHED', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_job_status', '10', 'RESTARTING', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_job_status', '11', 'SUSPENDED', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_job_status', '12', 'RECONCILING', 'sys', 'sys');
+
 
 /*系统配置信息表 */
 drop table if exists sys_config;
