@@ -27,5 +27,8 @@
     <div *ngSwitchCase="'JDBC'">
       <app-jdbc-datasource [data]="{ item: data }" #datasource></app-jdbc-datasource>
     </div>
+    <div *ngSwitchCase="'Kafka'">
+      <app-kafka-datasource [data]="{ item: data }" #datasource></app-kafka-datasource>
+    </div>
   </div>
 </div>
