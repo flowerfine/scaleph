@@ -16,32 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import io.swagger.annotations.ApiModel;
+import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
-
-@Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifactDTO extends BaseDTO {
+@Data
+public class FlinkJobInstanceListParam extends PaginationParam {
 
-    @NotBlank
-    @ApiModelProperty("名称")
-    private String name;
+    @ApiModelProperty("flink 任务配置 ID")
+    private Long flinkJobConfigId;
 
-    @ApiModelProperty("存储路径")
-    private String path;
+    @ApiModelProperty("flink 集群实例 ID")
+    private Long flinkClusterInstanceId;
 
-    @NotBlank
-    @ApiModelProperty("entry point class")
-    private String entryClass;
+    @ApiModelProperty("flink 任务 ID")
+    private Long jobId;
 
-    @ApiModelProperty("备注")
-    private String remark;
+    @ApiModelProperty("任务状态。0: 已创建, 1: 创建失败")
+    private String status;
 }
