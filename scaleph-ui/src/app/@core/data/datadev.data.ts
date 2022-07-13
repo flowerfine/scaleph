@@ -223,6 +223,16 @@ export const STEP_ATTR_TYPE = {
   producerBootstrapServers: 'producer_bootstrap_servers',
   producerConf: 'producer_conf',
   semantic: 'semantic',
+  consumerBootstrapServers: 'consumer_bootstrap_servers',
+  consumerGroupId: 'consumer_group_id',
+  consumerConf: 'consumer_conf',
+  offsetReset: 'offset_reset',
+  offsetResetSpecific: 'offset_reset_specific',
+  rowtimeField: 'rowtime_field',
+  watermark: 'watermark',
+  formatType: 'format_type',
+  formatConf: 'format_conf',
+  schema: 'schema',
 };
 
 export class MockData {

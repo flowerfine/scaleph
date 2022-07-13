@@ -23,7 +23,7 @@ import cn.sliew.scaleph.plugin.framework.property.*;
 public enum KafkaSinkProperties {
     ;
 
-    public static final PropertyDescriptor<String> TOPIC = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> TOPICS = new PropertyDescriptor.Builder<String>()
             .name("topics")
             .description("Kafka topic")
             .type(PropertyType.STRING)

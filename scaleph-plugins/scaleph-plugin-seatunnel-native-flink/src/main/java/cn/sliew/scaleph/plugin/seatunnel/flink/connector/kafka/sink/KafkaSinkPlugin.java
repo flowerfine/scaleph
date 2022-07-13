@@ -46,24 +46,19 @@ public class KafkaSinkPlugin extends SeatunnelNativeFlinkPlugin {
         this.pluginInfo = new PluginInfo(KAFKA_SINK.getValue(), "kafka sink connector", "2.1.1", KafkaSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(TOPIC);
+        props.add(TOPICS);
         props.add(PRODUCER_BOOTSTRAP_SERVERS);
         props.add(PRODUCER_CONF);
         props.add(SEMANTIC);
 
         props.add(CommonProperties.SOURCE_TABLE_NAME);
+        props.add(CommonProperties.FIELD_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
     @Override
     public JobStepTypeEnum getStepType() {
         return JobStepTypeEnum.SINK;
-    }
-
-
-    @Override
-    public List<PropertyDescriptor> additionalResources() {
-        return super.additionalResources();
     }
 
     @Override

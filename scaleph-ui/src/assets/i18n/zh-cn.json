@@ -346,7 +346,21 @@
     "step.sink-kafka.producerConf": "kafka生产者参数",
     "step.sink-kafka.producerConf.tooltip": "参考kafka官方文档,按照key=value格式配置属性，每个属性一行",
     "step.sink-kafka.topic": "主题",
-    "step.sink-kafka.producerBootstrapServers": "Kafka集群地址"
+    "step.sink-kafka.producerBootstrapServers": "Kafka集群地址",
+    "step.source-kafka.consumerBootstrapServers": "Kafka集群地址",
+    "step.source-kafka.topic": "主题",
+    "step.source-kafka.consumerGroupId": "消费者组ID",
+    "step.source-kafka.schema": "模式",
+    "step.source-kafka.schema.tooltip": "JSON格式配置一个带有所有字段的原始json数据<br/>CSV和AVRO格式参考官方文档进行配置",
+    "step.source-kafka.formatType": "格式类型",
+    "step.source-kafka.formatConf": "格式化配置",
+    "step.source-kafka.formatConf.tooltip": "参考官网说明",
+    "step.source-kafka.rowtimeField": "时间戳字段",
+    "step.source-kafka.watermark": "水位线",
+    "step.source-kafka.offsetReset": "偏移量",
+    "step.source-kafka.offsetReset.specific": "指定偏移量",
+    "step.source-kafka.consumerConf": "kafka消费者参数",
+    "step.source-kafka.consumerConf.tooltip": "参考kafka官方文档,按照key=value格式配置属性，每个属性一行"
   },
   "stdata": {
     "remark": "备注",

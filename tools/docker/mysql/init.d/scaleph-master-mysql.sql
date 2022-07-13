@@ -1445,6 +1445,41 @@ values ('sink', 'kafka', 'producer_conf', null, '0', 'kafka生产者参数', 'sy
 insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
                                    step_attr_describe, creator, editor)
 values ('sink', 'kafka', 'semantic', null, '0', '时间语义', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('source', 'kafka', 'topics', null, '1', '主题', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('source', 'kafka', 'consumer_bootstrap_servers', null, '1', 'kafka集群地址', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('source', 'kafka', 'consumer_group_id', null, '1', '消费者组ID', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('source', 'kafka', 'format_type', null, '1', '格式类型', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('source', 'kafka', 'schema', null, '1', '模式', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('source', 'kafka', 'consumer_conf', null, '0', 'kafka消费者参数', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('source', 'kafka', 'offset_reset', null, '0', '偏移量', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('source', 'kafka', 'offset_reset_specific', null, '0', '指定偏移量', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('source', 'kafka', 'rowtime_field', null, '0', '时间戳字段', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('source', 'kafka', 'watermark', null, '0', '水位线', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('source', 'kafka', 'format_conf', null, '0', '格式化配置', 'sys', 'sys');
+
+
 /* 作业连线信息 */
 drop table if exists di_job_link;
 create table di_job_link
