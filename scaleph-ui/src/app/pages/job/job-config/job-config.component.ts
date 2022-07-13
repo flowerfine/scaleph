@@ -10,6 +10,8 @@ import {ClusterConfigService} from "../../../@core/services/flink/cluster-config
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 import {FlinkJobConfig, FlinkJobConfigParam} from "../../../@core/data/job.data";
 import {JobConfigService} from "../../../@core/services/job/job-config.service";
+import {ClusterConfigNewComponent} from "../../flink/cluster-config/cluster-config-new/cluster-config-new.component";
+import {JobConfigNewComponent} from "./job-config-new/job-config-new.component";
 
 @Component({
   selector: 'app-job-config',
@@ -140,7 +142,21 @@ export class JobConfigComponent implements OnInit {
   }
 
   openAddJobConfigDialog() {
-
+    const results = this.modalService.open({
+      id: 'cluster-config-add',
+      width: '580px',
+      backdropCloseable: true,
+      component: JobConfigNewComponent,
+      data: {
+        title: {name: this.translate.instant('job.job-config.name_')},
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
   }
 
   openEditJobConfigDialog(item: FlinkClusterConfig) {

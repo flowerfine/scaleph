@@ -136,13 +136,6 @@
                     <div class="btn-group over-flow-ellipsis">
                       <d-button
                         *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
-                        icon="icon-bulk-edit"
-                        bsStyle="text-dark"
-
-                        title="{{ 'app.common.operate.download.label' | translate }}"
-                      ></d-button>
-                      <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
                         icon="icon-edit"
                         bsStyle="text-dark"
                         (btnClick)="openEditJobConfigDialog(rowItem)"
