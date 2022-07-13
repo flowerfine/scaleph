@@ -3,11 +3,13 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
-import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE} from 'src/app/@core/data/app.data';
+import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse, PRIVILEGE_CODE} from 'src/app/@core/data/app.data';
 import {FlinkClusterConfig, FlinkClusterConfigParam} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {ClusterConfigService} from "../../../@core/services/flink/cluster-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
+import {FlinkJobConfig, FlinkJobConfigParam} from "../../../@core/data/job.data";
+import {JobConfigService} from "../../../@core/services/job/job-config.service";
 
 @Component({
   selector: 'app-job-config',
@@ -20,7 +22,7 @@ export class JobConfigComponent implements OnInit {
   dataLoading: boolean = false;
   dataTableChecked: boolean = false;
   loadTarget: any;
-  dataTableDs: FlinkClusterConfig[] = [];
+  dataTableDs: FlinkJobConfig[] = [];
   pager = {
     total: 0,
     pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -29,15 +31,14 @@ export class JobConfigComponent implements OnInit {
   };
 
   searchFormConfig = {
+    type: null,
     name: '',
-    flinkVersion: null,
-    resourceProvider: null,
-    deployMode: null
+    flinkClusterConfig: null
   };
 
-  flinkVersionList: Dict[] = []
-  resourceProviderList: Dict[] = []
-  deployModeList: Dict[] = []
+  typeList: Dict[] = []
+  flinkClusterConfigList: FlinkClusterConfig[] = []
+  flinkClusterConfigResult: PageResponse<FlinkClusterConfig> = null
 
   constructor(
     public authService: AuthService,
@@ -47,26 +48,37 @@ export class JobConfigComponent implements OnInit {
     private modalService: ModalService,
     private dictDataService: SysDictDataService,
     private clusterConfigService: ClusterConfigService,
+    private jobConfigService: JobConfigService,
     private router: Router
   ) {
   }
 
   ngOnInit(): void {
     this.refreshTable();
+    this.dictDataService.listByType(DICT_TYPE.flinkJobType).subscribe((d) => {
+      this.typeList = d;
+    });
+    let flinkClusterConfigParam: FlinkClusterConfigParam = {
+      pageSize: DEFAULT_PAGE_PARAM.pageSize,
+      current: DEFAULT_PAGE_PARAM.pageIndex
+    }
+    this.clusterConfigService.list(flinkClusterConfigParam).subscribe((d) => {
+      this.flinkClusterConfigResult = d
+      this.flinkClusterConfigList = d.records;
+    });
   }
 
   refreshTable() {
     this.openDataTableLoading();
-    let param: FlinkClusterConfigParam = {
+    let param: FlinkJobConfigParam = {
       pageSize: this.pager.pageSize,
       current: this.pager.pageIndex,
+      type: this.searchFormConfig.type ? this.searchFormConfig.type.value : '',
       name: this.searchFormConfig.name || '',
-      flinkVersion: this.searchFormConfig.flinkVersion ? this.searchFormConfig.flinkVersion.value : '',
-      resourceProvider: this.searchFormConfig.resourceProvider ? this.searchFormConfig.resourceProvider.value : '',
-      deployMode: this.searchFormConfig.deployMode ? this.searchFormConfig.deployMode.value : ''
+      flinkClusterConfigId: this.searchFormConfig.flinkClusterConfig ? this.searchFormConfig.flinkClusterConfig.id : ''
     };
 
-    this.clusterConfigService.list(param).subscribe((d) => {
+    this.jobConfigService.list(param).subscribe((d) => {
       this.pager.total = d.total;
       this.dataTableDs = d.records;
       this.loadTarget.loadingInstance.close();
@@ -97,10 +109,9 @@ export class JobConfigComponent implements OnInit {
 
   reset() {
     this.searchFormConfig = {
+      type: null,
       name: '',
-      flinkVersion: null,
-      resourceProvider: null,
-      deployMode: null
+      flinkClusterConfig: null
     };
     this.pager = {
       total: 0,
@@ -111,15 +122,32 @@ export class JobConfigComponent implements OnInit {
     this.refreshTable();
   }
 
-  openAddClusterConfigDialog() {
+  onFlinkClusterConfigLoadMore(event) {
+    let loaded = this.flinkClusterConfigResult.current * this.flinkClusterConfigResult.size
+    if (loaded >= this.flinkClusterConfigResult.total) {
+      event.instance.loadFinish();
+    } else {
+      let flinkClusterConfigParam: FlinkClusterConfigParam = {
+        pageSize: this.flinkClusterConfigResult.size,
+        current: this.flinkClusterConfigResult.current + 1
+      }
+      this.clusterConfigService.list(flinkClusterConfigParam).subscribe((d) => {
+        this.flinkClusterConfigResult = d
+        this.flinkClusterConfigList = [...this.flinkClusterConfigList, ...d.records];
+        event.instance.loadFinish();
+      });
+    }
+  }
+
+  openAddJobConfigDialog() {
 
   }
 
-  openEditClusterConfigDialog(item: FlinkClusterConfig) {
+  openEditJobConfigDialog(item: FlinkClusterConfig) {
 
   }
 
-  openDeleteClusterConfigDialog(items: FlinkClusterConfig[]) {
+  openDeleteJobConfigDialog(items: FlinkClusterConfig[]) {
 
   }
 }
