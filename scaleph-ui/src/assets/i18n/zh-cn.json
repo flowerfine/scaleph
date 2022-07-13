@@ -40,7 +40,9 @@
     },
     "job": {
       "title": "Flink任务管理",
-      "artifact": "artifact管理"
+      "artifact": "artifact管理",
+      "job-config": "任务配置管理",
+      "job-instance": "任务实例管理"
     }
   },
   "app": {
@@ -471,6 +473,12 @@
       "entryClass": "Entry Class",
       "upload": "上传",
       "download": "下载"
+    },
+    "job-config": {
+      "name_": "任务配置"
+    },
+    "job-instance": {
+      "name_": "任务实例"
     }
   },
   "header": {

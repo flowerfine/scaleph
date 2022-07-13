@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {JobComponent} from './job.component';
 import {ArtifactComponent} from "./artifact/artifact.component";
+import {JobConfigComponent} from "./job-config/job-config.component";
 
 const routes: Routes = [
   {
@@ -9,6 +10,7 @@ const routes: Routes = [
     component: JobComponent,
     children: [
       {path: 'artifact', component: ArtifactComponent},
+      {path: 'job-config', component: JobConfigComponent},
       {path: '', redirectTo: 'artifact', pathMatch: 'full'},
     ],
   },

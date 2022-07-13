@@ -70,6 +70,11 @@ export default function (values) {
           title: values['job']['artifact'],
           link: '/scaleph/job/artifact',
           pCode: PRIVILEGE_CODE.flinkReleaseShow,
+        },
+        {
+          title: values['job']['job-config'],
+          link: '/scaleph/job/job-config',
+          pCode: PRIVILEGE_CODE.flinkReleaseShow,
         }
       ],
     },

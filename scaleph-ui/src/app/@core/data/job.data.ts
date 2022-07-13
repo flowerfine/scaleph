@@ -21,4 +21,23 @@ export class FlinkArtifactUploadParam {
   remark?: string;
 }
 
+export class FlinkJobConfig {
+  id?: number;
+  type?: Dict;
+  name?: string;
+  flinkClusterConfigId?: number;
+  jobConfig?: object;
+  flinkConfig?: object;
+  version?: number;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+}
+
+export class FlinkJobConfigParam extends QueryParam {
+  type?: string;
+  name?: string;
+  flinkClusterConfigId?: number;
+}
+
 

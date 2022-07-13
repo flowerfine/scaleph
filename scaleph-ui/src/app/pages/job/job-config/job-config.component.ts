@@ -1,0 +1,125 @@
+import {DOCUMENT} from '@angular/common';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Router} from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
+import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE} from 'src/app/@core/data/app.data';
+import {FlinkClusterConfig, FlinkClusterConfigParam} from 'src/app/@core/data/flink.data';
+import {AuthService} from 'src/app/@core/services/auth.service';
+import {ClusterConfigService} from "../../../@core/services/flink/cluster-config.service";
+import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
+
+@Component({
+  selector: 'app-job-config',
+  templateUrl: './job-config.component.html',
+  styleUrls: ['./job-config.component.scss'],
+})
+export class JobConfigComponent implements OnInit {
+  PRIVILEGE_CODE = PRIVILEGE_CODE;
+  @ViewChild('dataTable', {static: true}) dataTable: DataTableComponent;
+  dataLoading: boolean = false;
+  dataTableChecked: boolean = false;
+  loadTarget: any;
+  dataTableDs: FlinkClusterConfig[] = [];
+  pager = {
+    total: 0,
+    pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
+    pageSize: DEFAULT_PAGE_PARAM.pageSize,
+    pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
+  };
+
+  searchFormConfig = {
+    name: '',
+    flinkVersion: null,
+    resourceProvider: null,
+    deployMode: null
+  };
+
+  flinkVersionList: Dict[] = []
+  resourceProviderList: Dict[] = []
+  deployModeList: Dict[] = []
+
+  constructor(
+    public authService: AuthService,
+    @Inject(DOCUMENT) private doc: any,
+    private loadingService: LoadingService,
+    private translate: TranslateService,
+    private modalService: ModalService,
+    private dictDataService: SysDictDataService,
+    private clusterConfigService: ClusterConfigService,
+    private router: Router
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.refreshTable();
+  }
+
+  refreshTable() {
+    this.openDataTableLoading();
+    let param: FlinkClusterConfigParam = {
+      pageSize: this.pager.pageSize,
+      current: this.pager.pageIndex,
+      name: this.searchFormConfig.name || '',
+      flinkVersion: this.searchFormConfig.flinkVersion ? this.searchFormConfig.flinkVersion.value : '',
+      resourceProvider: this.searchFormConfig.resourceProvider ? this.searchFormConfig.resourceProvider.value : '',
+      deployMode: this.searchFormConfig.deployMode ? this.searchFormConfig.deployMode.value : ''
+    };
+
+    this.clusterConfigService.list(param).subscribe((d) => {
+      this.pager.total = d.total;
+      this.dataTableDs = d.records;
+      this.loadTarget.loadingInstance.close();
+      this.dataLoading = false;
+      this.dataTable.setTableCheckStatus({pageAllChecked: false});
+      this.getDataTableCheckedStatus();
+    });
+  }
+
+  openDataTableLoading() {
+    const dc = this.doc.querySelector('#dataTableContent');
+    this.loadTarget = this.loadingService.open({
+      target: dc,
+      message: this.translate.instant('app.common.loading'),
+      positionType: 'relative',
+      zIndex: 1,
+    });
+    this.dataLoading = true;
+  }
+
+  getDataTableCheckedStatus() {
+    if (this.dataTable.getCheckedRows().length > 0) {
+      this.dataTableChecked = true;
+    } else {
+      this.dataTableChecked = false;
+    }
+  }
+
+  reset() {
+    this.searchFormConfig = {
+      name: '',
+      flinkVersion: null,
+      resourceProvider: null,
+      deployMode: null
+    };
+    this.pager = {
+      total: 0,
+      pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
+      pageSize: DEFAULT_PAGE_PARAM.pageSize,
+      pageSizeOptions: DEFAULT_PAGE_PARAM.pageParams,
+    };
+    this.refreshTable();
+  }
+
+  openAddClusterConfigDialog() {
+
+  }
+
+  openEditClusterConfigDialog(item: FlinkClusterConfig) {
+
+  }
+
+  openDeleteClusterConfigDialog(items: FlinkClusterConfig[]) {
+
+  }
+}

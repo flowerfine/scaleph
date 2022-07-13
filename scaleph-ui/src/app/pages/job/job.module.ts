@@ -7,6 +7,7 @@ import {JobRoutingModule} from './job.routing.module';
 import {ArtifactComponent} from "./artifact/artifact.component";
 import {ArtifactUploadComponent} from "./artifact/artifact-upload/artifact-upload.component";
 import {ArtifactDeleteComponent} from "./artifact/artifact-delete/artifact-delete.component";
+import {JobConfigComponent} from "./job-config/job-config.component";
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import {ArtifactDeleteComponent} from "./artifact/artifact-delete/artifact-delet
     ArtifactComponent,
     ArtifactUploadComponent,
     ArtifactDeleteComponent,
+    JobConfigComponent,
   ],
   imports: [SharedModule, JobRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })
