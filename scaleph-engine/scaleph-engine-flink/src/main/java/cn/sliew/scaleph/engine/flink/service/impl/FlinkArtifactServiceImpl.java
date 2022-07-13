@@ -32,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -71,7 +72,7 @@ public class FlinkArtifactServiceImpl implements FlinkArtifactService {
             FileCopyUtils.copy(inputStream, outputStream);
         }
         final String path = dto.getPath();
-        return path.substring(path.lastIndexOf("/"));
+        return path.substring(path.lastIndexOf("/") + 1);
     }
 
     @Override
@@ -79,6 +80,17 @@ public class FlinkArtifactServiceImpl implements FlinkArtifactService {
         final FlinkArtifactDTO dto = selectOne(id);
         fileSystemService.delete(dto.getPath());
         return flinkArtifactMapper.deleteById(id);
+    }
+
+    @Override
+    public int deleteBatch(List<Long> ids) throws IOException {
+        if (CollectionUtils.isEmpty(ids)) {
+            return 0;
+        }
+        for (Long id : ids) {
+            deleteById(id);
+        }
+        return ids.size();
     }
 
     @Override

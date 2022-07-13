@@ -16,32 +16,47 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
+package cn.sliew.scaleph.dao.entity.master.flink;
 
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
-
+/**
+ * <p>
+ * flink job instance
+ * </p>
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifactDTO extends BaseDTO {
+@TableName("flink_job_instance")
+@ApiModel(value = "FlinkJobInstance对象", description = "flink job instance")
+public class FlinkJobInstance extends BaseDO {
 
-    @NotBlank
-    @ApiModelProperty("名称")
-    private String name;
+    private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("存储路径")
-    private String path;
+    @ApiModelProperty("flink 任务配置 ID")
+    @TableField("flink_job_config_id")
+    private Long flinkJobConfigId;
 
-    @NotBlank
-    @ApiModelProperty("entry point class")
-    private String entryClass;
+    @ApiModelProperty("flink 集群实例 ID")
+    @TableField("flink_cluster_instance_id")
+    private Long flinkClusterInstanceId;
+
+    @ApiModelProperty("flink 任务 ID")
+    @TableField("job_id")
+    private Long jobId;
+
+    @ApiModelProperty("任务状态。0: 已创建, 1: 创建失败")
+    @TableField("`status`")
+    private String status;
 
     @ApiModelProperty("备注")
+    @TableField("remark")
     private String remark;
+
 }

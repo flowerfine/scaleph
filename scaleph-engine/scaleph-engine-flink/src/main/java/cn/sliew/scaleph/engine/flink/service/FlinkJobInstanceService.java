@@ -18,27 +18,16 @@
 
 package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactListParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactUploadParam;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobInstanceDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkJobInstanceListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.List;
+public interface FlinkJobInstanceService {
 
-public interface FlinkArtifactService {
+    Page<FlinkJobInstanceDTO> list(FlinkJobInstanceListParam param);
 
-    void upload(FlinkArtifactUploadParam param, MultipartFile file) throws IOException;
+    FlinkJobInstanceDTO selectOne(Long id);
 
-    String download(Long id, OutputStream outputStream) throws IOException;
+    // todo 提交，取消，停止，创建 savepoint等操作
 
-    int deleteById(Long id) throws IOException;
-
-    int deleteBatch(List<Long> ids) throws IOException;
-
-    Page<FlinkArtifactDTO> list(FlinkArtifactListParam param);
-
-    FlinkArtifactDTO selectOne(Long id);
 }

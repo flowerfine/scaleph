@@ -19,28 +19,41 @@
 package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifactDTO extends BaseDTO {
+@ApiModel(value = "FlinkJobConfig对象", description = "flink job config")
+public class FlinkJobConfigDTO extends BaseDTO {
+
+    @NotNull
+    @ApiModelProperty("类型。0: artifact, 1: sql+udf")
+    private DictVO type;
 
     @NotBlank
     @ApiModelProperty("名称")
     private String name;
 
-    @ApiModelProperty("存储路径")
-    private String path;
+    @NotNull
+    @ApiModelProperty("flink 集群配置 ID")
+    private Long flinkClusterConfigId;
 
-    @NotBlank
-    @ApiModelProperty("entry point class")
-    private String entryClass;
+    @ApiModelProperty("任务自身 配置参数")
+    private Map<String, String> jobConfig;
+
+    @ApiModelProperty("flink 配置参数")
+    private Map<String, String> flinkConfig;
+
+    @ApiModelProperty("版本号")
+    private Integer version;
 
     @ApiModelProperty("备注")
     private String remark;

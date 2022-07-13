@@ -16,32 +16,54 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
+package cn.sliew.scaleph.dao.entity.master.flink;
 
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
-
+/**
+ * <p>
+ * flink job
+ * </p>
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifactDTO extends BaseDTO {
+@TableName("flink_job_config")
+@ApiModel(value = "FlinkJobConfig对象", description = "flink job")
+public class FlinkJobConfig extends BaseDO {
 
-    @NotBlank
+    private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty("类型。0: artifact, 1: sql+udf")
+    @TableField("`type`")
+    private String type;
+
     @ApiModelProperty("名称")
+    @TableField("`name`")
     private String name;
 
-    @ApiModelProperty("存储路径")
-    private String path;
+    @ApiModelProperty("flink 集群配置 ID")
+    @TableField("flink_cluster_config_id")
+    private Long flinkClusterConfigId;
 
-    @NotBlank
-    @ApiModelProperty("entry point class")
-    private String entryClass;
+    @ApiModelProperty("任务自身 配置参数")
+    @TableField("job_config")
+    private String jobConfig;
+
+    @ApiModelProperty("flink 配置参数")
+    @TableField("flink_config")
+    private String flinkConfig;
+
+    @ApiModelProperty("版本号")
+    @TableField("version")
+    private Integer version;
 
     @ApiModelProperty("备注")
+    @TableField("remark")
     private String remark;
 }

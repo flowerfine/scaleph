@@ -36,6 +36,10 @@ const routes: Routes = [
         loadChildren: () => import('./flink/flink.module').then((m) => m.FlinkModule),
       },
       {
+        path: 'job',
+        loadChildren: () => import('./job/job.module').then((m) => m.JobModule),
+      },
+      {
         path: '',
         redirectTo: 'studio',
         pathMatch: 'full',

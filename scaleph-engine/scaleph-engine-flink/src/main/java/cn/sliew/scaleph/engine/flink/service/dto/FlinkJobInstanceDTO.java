@@ -19,28 +19,31 @@
 package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifactDTO extends BaseDTO {
+@ApiModel(value = "FlinkJobConfig对象", description = "flink job config")
+public class FlinkJobInstanceDTO extends BaseDTO {
 
-    @NotBlank
-    @ApiModelProperty("名称")
-    private String name;
+    @NotNull
+    @ApiModelProperty("flink 任务配置 ID")
+    private Long flinkJobConfigId;
 
-    @ApiModelProperty("存储路径")
-    private String path;
+    @ApiModelProperty("flink 集群实例 ID")
+    private Long flinkClusterInstanceId;
 
-    @NotBlank
-    @ApiModelProperty("entry point class")
-    private String entryClass;
+    @ApiModelProperty("flink 任务 ID")
+    private Long jobId;
+
+    @ApiModelProperty("任务状态。0: 已创建, 1: 创建失败")
+    private DictVO status;
 
     @ApiModelProperty("备注")
     private String remark;

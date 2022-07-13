@@ -16,32 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
+package cn.sliew.scaleph.dao.mapper.master.flink;
 
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobConfig;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.NotBlank;
+/**
+ * <p>
+ * flink job Mapper 接口
+ * </p>
+ */
+@Repository
+public interface FlinkJobConfigMapper extends BaseMapper<FlinkJobConfig> {
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifactDTO extends BaseDTO {
-
-    @NotBlank
-    @ApiModelProperty("名称")
-    private String name;
-
-    @ApiModelProperty("存储路径")
-    private String path;
-
-    @NotBlank
-    @ApiModelProperty("entry point class")
-    private String entryClass;
-
-    @ApiModelProperty("备注")
-    private String remark;
 }

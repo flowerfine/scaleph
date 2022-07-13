@@ -18,27 +18,23 @@
 
 package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactListParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactUploadParam;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkJobConfigListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
-public interface FlinkArtifactService {
+public interface FlinkJobConfigService {
 
-    void upload(FlinkArtifactUploadParam param, MultipartFile file) throws IOException;
+    Page<FlinkJobConfigDTO> list(FlinkJobConfigListParam param);
 
-    String download(Long id, OutputStream outputStream) throws IOException;
+    FlinkJobConfigDTO selectOne(Long id);
 
-    int deleteById(Long id) throws IOException;
+    int insert(FlinkJobConfigDTO dto);
 
-    int deleteBatch(List<Long> ids) throws IOException;
+    int update(FlinkJobConfigDTO dto);
 
-    Page<FlinkArtifactDTO> list(FlinkArtifactListParam param);
+    int deleteById(Long id);
 
-    FlinkArtifactDTO selectOne(Long id);
+    int deleteBatch(List<Long> ids);
 }
