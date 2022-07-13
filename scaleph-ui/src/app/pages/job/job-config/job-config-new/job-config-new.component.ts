@@ -1,13 +1,7 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {DValidateRules, FormLayout} from 'ng-devui';
-import {
-  FlinkClusterConfig, FlinkClusterConfigParam,
-  FlinkDeployConfig,
-  FlinkDeployConfigParam,
-  FlinkRelease,
-  FlinkReleaseParam
-} from "../../../../@core/data/flink.data";
+import {FlinkClusterConfig, FlinkClusterConfigParam} from "../../../../@core/data/flink.data";
 import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
@@ -27,19 +21,7 @@ export class JobConfigNewComponent implements OnInit {
   formLayout = FormLayout.Horizontal;
   formConfig: { [Key: string]: DValidateRules } = {
     rule: {message: this.translate.instant('app.error.formValidateError'), messageShowType: 'text'},
-    flinkVersionRules: {
-      validators: [{required: true}],
-    },
-    resourceProviderRules: {
-      validators: [{required: true}],
-    },
-    deployModeRules: {
-      validators: [{required: true}],
-    },
-    flinkReleaseRules: {
-      validators: [{required: true}],
-    },
-    flinkDeployConfigRules: {
+    typeRules: {
       validators: [{required: true}],
     },
     nameRules: {
