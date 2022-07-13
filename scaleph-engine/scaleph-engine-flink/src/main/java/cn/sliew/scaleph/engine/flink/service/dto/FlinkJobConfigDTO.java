@@ -25,6 +25,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
@@ -32,12 +34,15 @@ import java.util.Map;
 @ApiModel(value = "FlinkJobConfig对象", description = "flink job config")
 public class FlinkJobConfigDTO extends BaseDTO {
 
+    @NotNull
     @ApiModelProperty("类型。0: artifact, 1: sql+udf")
     private DictVO type;
 
+    @NotBlank
     @ApiModelProperty("名称")
     private String name;
 
+    @NotNull
     @ApiModelProperty("flink 集群配置 ID")
     private Long flinkClusterConfigId;
 

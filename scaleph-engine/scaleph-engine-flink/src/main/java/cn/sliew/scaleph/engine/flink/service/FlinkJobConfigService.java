@@ -16,32 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
+package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkJobConfigListParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import javax.validation.constraints.NotBlank;
+import java.util.List;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifactDTO extends BaseDTO {
+public interface FlinkJobConfigService {
 
-    @NotBlank
-    @ApiModelProperty("名称")
-    private String name;
+    Page<FlinkJobConfigDTO> list(FlinkJobConfigListParam param);
 
-    @ApiModelProperty("存储路径")
-    private String path;
+    FlinkJobConfigDTO selectOne(Long id);
 
-    @NotBlank
-    @ApiModelProperty("entry point class")
-    private String entryClass;
+    int insert(FlinkJobConfigDTO dto);
 
-    @ApiModelProperty("备注")
-    private String remark;
+    int update(FlinkJobConfigDTO dto);
+
+    int deleteById(Long id);
+
+    int deleteBatch(List<Long> ids);
 }
