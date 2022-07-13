@@ -16,6 +16,10 @@ import {
   ClusterConfigDeleteComponent
 } from "../../flink/cluster-config/cluster-config-delete/cluster-config-delete.component";
 import {JobConfigDeleteComponent} from "./job-config-delete/job-config-delete.component";
+import {
+  ClusterConfigUpdateComponent
+} from "../../flink/cluster-config/cluster-config-update/cluster-config-update.component";
+import {JobConfigUpdateComponent} from "./job-config-update/job-config-update.component";
 
 @Component({
   selector: 'app-job-config',
@@ -164,7 +168,22 @@ export class JobConfigComponent implements OnInit {
   }
 
   openEditJobConfigDialog(item: FlinkJobConfig) {
-
+    const results = this.modalService.open({
+      id: 'job-config-edit',
+      width: '580px',
+      backdropCloseable: true,
+      component: JobConfigUpdateComponent,
+      data: {
+        title: {name: this.translate.instant('job.job-config.name_')},
+        item: item,
+        onClose: (event: any) => {
+          results.modalInstance.hide();
+        },
+        refresh: () => {
+          this.refreshTable();
+        },
+      },
+    });
   }
 
   openDeleteJobConfigDialog(items: FlinkJobConfig[]) {

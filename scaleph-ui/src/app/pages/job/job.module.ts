@@ -10,6 +10,7 @@ import {ArtifactDeleteComponent} from "./artifact/artifact-delete/artifact-delet
 import {JobConfigComponent} from "./job-config/job-config.component";
 import {JobConfigNewComponent} from "./job-config/job-config-new/job-config-new.component";
 import {JobConfigDeleteComponent} from "./job-config/job-config-delete/job-config-delete.component";
+import {JobConfigUpdateComponent} from "./job-config/job-config-update/job-config-update.component";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {JobConfigDeleteComponent} from "./job-config/job-config-delete/job-confi
     ArtifactDeleteComponent,
     JobConfigComponent,
     JobConfigNewComponent,
+    JobConfigUpdateComponent,
     JobConfigDeleteComponent,
   ],
   imports: [SharedModule, JobRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
