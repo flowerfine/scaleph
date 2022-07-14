@@ -40,4 +40,22 @@ export class FlinkJobConfigParam extends QueryParam {
   flinkClusterConfigId?: number;
 }
 
+export class FlinkJobInstance {
+  id?: number;
+  flinkJobConfigId?: number;
+  flinkClusterInstanceId?: number;
+  jobId?: number;
+  status?: string;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+}
+
+export class FlinkJobInstanceParam extends QueryParam {
+  flinkJobConfigId?: number;
+  flinkClusterInstanceId?: number;
+  jobId?: number;
+  status?: string;
+}
+
 
