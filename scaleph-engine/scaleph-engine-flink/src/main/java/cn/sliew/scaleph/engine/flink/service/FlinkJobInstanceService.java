@@ -16,20 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.datasource.kafka;
+package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.plugin.framework.property.*;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobInstanceDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkJobInstanceListParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-public enum KafkaProperties {
-    ;
+public interface FlinkJobInstanceService {
 
-    public static final PropertyDescriptor<String> BOOTSTRAP_SERVERS = new PropertyDescriptor.Builder()
-            .name("bootstrapServers")
-            .description("A comma-separated list of known Kafka Brokers in the format <host>:<port>")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .defaultValue("localhost:9092")
-            .properties(Property.Required)
-            .validateAndBuild();
+    Page<FlinkJobInstanceDTO> list(FlinkJobInstanceListParam param);
+
+    FlinkJobInstanceDTO selectOne(Long id);
+
+    // todo 提交，取消，停止，创建 savepoint等操作
+
 }

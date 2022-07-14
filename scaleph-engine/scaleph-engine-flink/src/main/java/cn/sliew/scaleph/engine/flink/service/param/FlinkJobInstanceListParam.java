@@ -16,20 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.datasource.kafka;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-import cn.sliew.scaleph.plugin.framework.property.*;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-public enum KafkaProperties {
-    ;
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class FlinkJobInstanceListParam extends PaginationParam {
 
-    public static final PropertyDescriptor<String> BOOTSTRAP_SERVERS = new PropertyDescriptor.Builder()
-            .name("bootstrapServers")
-            .description("A comma-separated list of known Kafka Brokers in the format <host>:<port>")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .defaultValue("localhost:9092")
-            .properties(Property.Required)
-            .validateAndBuild();
+    @ApiModelProperty("flink 任务配置 ID")
+    private Long flinkJobConfigId;
+
+    @ApiModelProperty("flink 集群实例 ID")
+    private Long flinkClusterInstanceId;
+
+    @ApiModelProperty("flink 任务 ID")
+    private Long jobId;
+
+    @ApiModelProperty("任务状态。0: 已创建, 1: 创建失败")
+    private String status;
 }

@@ -37,7 +37,10 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-plugin-datasource</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>scaleph-meta</artifactId>
+        </dependency>
         <dependency>
             <groupId>cn.sliew</groupId>
             <artifactId>flinkful-cli-descriptor</artifactId>

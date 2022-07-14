@@ -16,20 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.datasource.kafka;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-import cn.sliew.scaleph.plugin.framework.property.*;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-public enum KafkaProperties {
-    ;
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class FlinkJobConfigListParam extends PaginationParam {
 
-    public static final PropertyDescriptor<String> BOOTSTRAP_SERVERS = new PropertyDescriptor.Builder()
-            .name("bootstrapServers")
-            .description("A comma-separated list of known Kafka Brokers in the format <host>:<port>")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .defaultValue("localhost:9092")
-            .properties(Property.Required)
-            .validateAndBuild();
+    @ApiModelProperty("类型。0: artifact, 1: sql+udf")
+    private String type;
+
+    @ApiModelProperty("名称。支持模糊搜索")
+    private String name;
+
+    @ApiModelProperty("flink 集群配置 ID")
+    private Long flinkClusterConfigId;
+
 }

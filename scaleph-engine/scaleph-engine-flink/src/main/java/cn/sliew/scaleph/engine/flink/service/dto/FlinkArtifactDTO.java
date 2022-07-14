@@ -19,30 +19,29 @@
 package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import javax.validation.constraints.NotBlank;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
 public class FlinkArtifactDTO extends BaseDTO {
 
+    @NotBlank
     @ApiModelProperty("名称")
-    @TableField("`name`")
     private String name;
 
     @ApiModelProperty("存储路径")
-    @TableField("path")
     private String path;
 
+    @NotBlank
     @ApiModelProperty("entry point class")
-    @TableField("entry_class")
     private String entryClass;
 
     @ApiModelProperty("备注")
-    @TableField("remark")
     private String remark;
 }

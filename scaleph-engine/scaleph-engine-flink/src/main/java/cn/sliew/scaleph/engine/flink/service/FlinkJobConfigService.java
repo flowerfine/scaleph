@@ -16,20 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.datasource.kafka;
+package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.plugin.framework.property.*;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkJobConfigListParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-public enum KafkaProperties {
-    ;
+import java.util.List;
 
-    public static final PropertyDescriptor<String> BOOTSTRAP_SERVERS = new PropertyDescriptor.Builder()
-            .name("bootstrapServers")
-            .description("A comma-separated list of known Kafka Brokers in the format <host>:<port>")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .defaultValue("localhost:9092")
-            .properties(Property.Required)
-            .validateAndBuild();
+public interface FlinkJobConfigService {
+
+    Page<FlinkJobConfigDTO> list(FlinkJobConfigListParam param);
+
+    FlinkJobConfigDTO selectOne(Long id);
+
+    int insert(FlinkJobConfigDTO dto);
+
+    int update(FlinkJobConfigDTO dto);
+
+    int deleteById(Long id);
+
+    int deleteBatch(List<Long> ids);
 }

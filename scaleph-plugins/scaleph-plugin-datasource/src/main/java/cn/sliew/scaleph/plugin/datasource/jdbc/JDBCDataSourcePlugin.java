@@ -26,7 +26,6 @@ import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.ValidationResult;
-import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
@@ -39,8 +38,6 @@ import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 @Slf4j
 public class JDBCDataSourcePlugin extends DatasourcePlugin<Connection> {
 
-    private MeterRegistry meterRegistry;
-
     protected volatile Connection connection;
 
     public JDBCDataSourcePlugin() {
@@ -52,23 +49,6 @@ public class JDBCDataSourcePlugin extends DatasourcePlugin<Connection> {
         props.add(USERNAME);
         props.add(PASSWORD);
         supportedProperties = Collections.unmodifiableList(props);
-    }
-
-
-    @Override
-    public void configure(PropertyContext properties) {
-        super.configure(properties);
-
-        final Collection<ValidationResult> validate = validate(properties);
-        final Optional<ValidationResult> validationResult = validate.stream().filter(result -> !result.isValid()).findAny();
-        if (validationResult.isPresent()) {
-            throw new IllegalArgumentException(JacksonUtil.toJsonString(validationResult.get()));
-        }
-    }
-
-    @Override
-    public Collection<ValidationResult> validate(PropertyContext properties) {
-        return super.validate(properties);
     }
 
     @Override
@@ -104,11 +84,6 @@ public class JDBCDataSourcePlugin extends DatasourcePlugin<Connection> {
     @Override
     public Connection getDatasource() {
         return this.connection;
-    }
-
-    @Override
-    public void setMeterRegistry(MeterRegistry meterRegistry) {
-        this.meterRegistry = meterRegistry;
     }
 
     @Override

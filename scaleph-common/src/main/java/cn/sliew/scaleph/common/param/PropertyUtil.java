@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.system.util;
+package cn.sliew.scaleph.common.param;
 
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;

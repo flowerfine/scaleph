@@ -37,8 +37,6 @@ public abstract class DatasourcePlugin<T> extends AbstractPlugin {
         this.additionalProperties = properties;
     }
 
-    public abstract void setMeterRegistry(MeterRegistry meterRegistry);
-
     public abstract boolean testConnection();
 
     public Map<String, Object> getProperties() {

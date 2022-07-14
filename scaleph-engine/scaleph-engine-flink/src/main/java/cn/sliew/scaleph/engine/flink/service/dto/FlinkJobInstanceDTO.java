@@ -20,34 +20,31 @@ package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
-import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "FlinkJobConfig对象", description = "flink job config")
 public class FlinkJobInstanceDTO extends BaseDTO {
 
+    @NotNull
     @ApiModelProperty("flink 任务配置 ID")
-    @TableField("flink_job_config_id")
     private Long flinkJobConfigId;
 
     @ApiModelProperty("flink 集群实例 ID")
-    @TableField("flink_cluster_instance_id")
     private Long flinkClusterInstanceId;
 
     @ApiModelProperty("flink 任务 ID")
-    @TableField("job_id")
     private Long jobId;
 
     @ApiModelProperty("任务状态。0: 已创建, 1: 创建失败")
-    @TableField("`status`")
     private DictVO status;
 
     @ApiModelProperty("备注")
-    @TableField("remark")
     private String remark;
 }

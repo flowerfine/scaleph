@@ -16,15 +16,51 @@
   </div>
   <div class="modal-body" style="padding: 0px 48px 48px 48px">
     <h3>{{ 'datadev.rdbms' | translate }}</h3>
-    <d-button bsSize="lg" bsStyle="common" width="384px" class="db-button" (btnClick)="openAddDataSourceDialog('Mysql')">Mysql</d-button>
-    <d-button bsSize="lg" bsStyle="common" width="384px" class="db-button" (btnClick)="openAddDataSourceDialog('Oracle')">Oracle</d-button>
-    <d-button bsSize="lg" bsStyle="common" width="384px" class="db-button" (btnClick)="openAddDataSourceDialog('PostGreSQL')"
-      >PostGreSQL</d-button
-    >
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="6">
+        <d-card (click)="openAddDataSourceDialog('Mysql')">
+          <div class="indicator-card-content">Mysql</div>
+        </d-card>
+      </d-col>
+      <d-col [dSpan]="6">
+        <d-card (click)="openAddDataSourceDialog('Oracle')">
+          <div class="indicator-card-content">Oracle</div>
+        </d-card>
+      </d-col>
+      <d-col [dSpan]="6">
+        <d-card (click)="openAddDataSourceDialog('PostGreSQL')">
+          <div class="indicator-card-content">PostGreSQL</div>
+        </d-card>
+      </d-col>
+    </d-row>
     <h3>{{ 'datadev.bigdata' | translate }}</h3>
-    <d-button bsSize="lg" bsStyle="common" width="384px" class="db-button" (btnClick)="openAddDataSourceDialog('hive')">Hive</d-button>
-    <d-button bsSize="lg" bsStyle="common" width="384px" class="db-button" (btnClick)="openAddDataSourceDialog('hbase')">Hbase</d-button>
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="6">
+        <d-card (click)="openAddDataSourceDialog('hive')">
+          <div class="indicator-card-content">Hive</div>
+        </d-card>
+      </d-col>
+      <d-col [dSpan]="6">
+        <d-card (click)="openAddDataSourceDialog('hbase')">
+          <div class="indicator-card-content">Hbase</div>
+        </d-card>
+      </d-col>
+    </d-row>
+    <h3>{{ 'datadev.mq' | translate }}</h3>
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="6">
+        <d-card (click)="openAddDataSourceDialog('Kafka')">
+          <div class="indicator-card-content">Kafka</div>
+        </d-card>
+      </d-col>
+    </d-row>
     <h3>{{ 'datadev.other' | translate }}</h3>
-    <d-button bsSize="lg" bsStyle="common" width="384px" class="db-button" (btnClick)="openAddDataSourceDialog('JDBC')">JDBC</d-button>
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="6">
+        <d-card (click)="openAddDataSourceDialog('JDBC')">
+          <div class="indicator-card-content">JDBC</div>
+        </d-card>
+      </d-col>
+    </d-row>
   </div>
 </div>
