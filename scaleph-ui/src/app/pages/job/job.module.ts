@@ -11,6 +11,7 @@ import {JobConfigComponent} from "./job-config/job-config.component";
 import {JobConfigNewComponent} from "./job-config/job-config-new/job-config-new.component";
 import {JobConfigDeleteComponent} from "./job-config/job-config-delete/job-config-delete.component";
 import {JobConfigUpdateComponent} from "./job-config/job-config-update/job-config-update.component";
+import {JobInstanceComponent} from "./job-instance/job-instance.component";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {JobConfigUpdateComponent} from "./job-config/job-config-update/job-confi
     JobConfigNewComponent,
     JobConfigUpdateComponent,
     JobConfigDeleteComponent,
+    JobInstanceComponent,
   ],
   imports: [SharedModule, JobRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })
