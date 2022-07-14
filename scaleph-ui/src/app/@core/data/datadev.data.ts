@@ -29,6 +29,7 @@ export const WORKBENCH_MENU = [
       { title: 'datadev.step.source-table', menuIcon: 'icon-table', menuType: 'source', menuName: 'table' },
       { title: 'datadev.step.source-mock', menuIcon: 'icon-modify-trace', menuType: 'source', menuName: 'mock' },
       { title: 'datadev.step.source-mockStream', menuIcon: 'icon-modify-trace', menuType: 'source', menuName: 'mockStream' },
+      { title: 'datadev.step.source-kafka', menuIcon: 'icon-system', menuType: 'source', menuName: 'kafka' },
     ],
   },
   {
@@ -39,6 +40,7 @@ export const WORKBENCH_MENU = [
       { title: 'datadev.step.sink-excel', menuIcon: 'icon-file', menuType: 'sink', menuName: 'excel' },
       { title: 'datadev.step.sink-table', menuIcon: 'icon-table', menuType: 'sink', menuName: 'table' },
       { title: 'datadev.step.sink-console', menuIcon: 'icon-operation-log', menuType: 'sink', menuName: 'console' },
+      { title: 'datadev.step.sink-kafka', menuIcon: 'icon-system', menuType: 'sink', menuName: 'kafka' },
     ],
   },
   {
@@ -217,6 +219,20 @@ export const STEP_ATTR_TYPE = {
   mockDataSize: 'mock_data_size',
   mockDataSchema: 'mock_data_schema',
   mockDataInterval: 'mock_data_interval',
+  topics: 'topics',
+  producerBootstrapServers: 'producer_bootstrap_servers',
+  producerConf: 'producer_conf',
+  semantic: 'semantic',
+  consumerBootstrapServers: 'consumer_bootstrap_servers',
+  consumerGroupId: 'consumer_group_id',
+  consumerConf: 'consumer_conf',
+  offsetReset: 'offset_reset',
+  offsetResetSpecific: 'offset_reset_specific',
+  rowtimeField: 'rowtime_field',
+  watermark: 'watermark',
+  formatType: 'format_type',
+  formatConf: 'format_conf',
+  schema: 'schema',
 };
 
 export class MockData {

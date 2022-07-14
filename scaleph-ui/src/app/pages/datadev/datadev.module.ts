@@ -41,6 +41,9 @@ import { GenericDbDatasourceComponent } from './datasource/generic-db-datasource
 import { SinkConsoleStepComponent } from './workbench/steps/sink-console-step/sink-console-step.component';
 import { SourceMockStepComponent } from './workbench/steps/source-mock-step/source-mock-step.component';
 import { SourceMockStreamStepComponent } from './workbench/steps/source-mock-stream-step/source-mock-stream-step.component';
+import { KafkaDatasourceComponent } from './datasource/kafka-datasource/kafka-datasource.component';
+import { SourceKafkaStepComponent } from './workbench/steps/source-kafka-step/source-kafka-step.component';
+import { SinkKafkaStepComponent } from './workbench/steps/sink-kafka-step/sink-kafka-step.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +85,9 @@ import { SourceMockStreamStepComponent } from './workbench/steps/source-mock-str
     SinkConsoleStepComponent,
     SourceMockStepComponent,
     SourceMockStreamStepComponent,
+    KafkaDatasourceComponent,
+    SourceKafkaStepComponent,
+    SinkKafkaStepComponent,
   ],
   imports: [SharedModule, DataDevRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })
