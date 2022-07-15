@@ -52,6 +52,8 @@ datanode:
 ...
 ```
 
+Then you should add  `${host ip} datanode namenode` to your local hosts file.
+
 But user should realize that flinkful client can get `${container id}` only from deployed flink cluster and always throw DNS resolve exception.
 
 ## hadoop conf
