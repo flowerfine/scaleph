@@ -54,7 +54,6 @@ export class FlinkJobInstance {
 export class FlinkJobInstanceParam extends QueryParam {
   flinkJobConfigId?: number;
   flinkClusterInstanceId?: number;
-  jobId?: number;
   status?: string;
 }
 

@@ -99,6 +99,7 @@ export const DICT_TYPE = {
   flinkClusterStatus: 'flink_cluster_status',
   flinkJobType: 'flink_job_type',
   flinkSemantic: 'flink_semantic',
+  flinkJobStatus: 'flink_job_status',
 };
 
 export const USER_AUTH = {

@@ -505,7 +505,8 @@
       "flinkConfig": "集群参数"
     },
     "job-instance": {
-      "name_": "任务实例"
+      "name_": "任务实例",
+      "status": "任务状态"
     }
   },
   "header": {
