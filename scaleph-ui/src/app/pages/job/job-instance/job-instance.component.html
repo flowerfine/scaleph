@@ -66,26 +66,6 @@
     <d-row [dGutter]="[12, 12]">
       <d-col [dSpan]="24">
         <div class="da-list-container">
-          <div class="da-list-header">
-            <div class="header-left"></div>
-            <div class="header-right">
-              <d-button-group>
-                <d-button
-                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectAdd)"
-                  bsStyle="primary"
-                  (btnClick)="openAddJobConfigDialog()"
-                >{{ 'app.common.operate.new.label' | translate }}
-                </d-button>
-                <d-button
-                  *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
-                  bsStyle="common"
-                  (btnClick)="openDeleteJobConfigDialog(dataTable.getCheckedRows())"
-                  [disabled]="!dataTableChecked"
-                >{{ 'app.common.operate.delete.label' | translate }}
-                </d-button>
-              </d-button-group>
-            </div>
-          </div>
           <div class="list-content" id="dataTableContent">
             <d-data-table
               #dataTable
@@ -96,9 +76,7 @@
               [scrollable]="true"
               [fixHeader]="true"
               (rowCheckChange)="getDataTableCheckedStatus()"
-              (checkAllChange)="getDataTableCheckedStatus()"
-
-            >
+              (checkAllChange)="getDataTableCheckedStatus()">
               <d-column field="type" header="{{ 'job.job-config.type' | translate }}">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
@@ -137,28 +115,6 @@
               <d-column field="updateTime" header="{{ 'flink.updateTime' | translate }}">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="actions" header="{{ 'app.common.operate.label' | translate }}">
-                <d-cell>
-                  <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
-                    <div class="btn-group over-flow-ellipsis">
-                      <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectEdit)"
-                        icon="icon-edit"
-                        bsStyle="text-dark"
-                        (btnClick)="openEditJobConfigDialog(rowItem)"
-                        title="{{ 'app.common.operate.download.label' | translate }}"
-                      ></d-button>
-                      <d-button
-                        *ngIf="authService.hasPrivilege(PRIVILEGE_CODE.datadevProjectDelete)"
-                        icon="icon-delete"
-                        bsStyle="text-dark"
-                        (btnClick)="openDeleteJobConfigDialog([rowItem])"
-                        title="{{ 'app.common.operate.delete.label' | translate }}"
-                      ></d-button>
-                    </div>
-                  </ng-template>
                 </d-cell>
               </d-column>
               <ng-template #noResultTemplateRef>
