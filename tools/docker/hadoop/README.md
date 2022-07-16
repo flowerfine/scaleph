@@ -110,7 +110,7 @@ Unluckily, this doesn't work on macOS, you can find more on https://github.com/b
 If user wants to access Hadoop cluster, then more works has to do：
 
 * Exec `docker ps -a` find namenode, datanode and resourcemanager container id.
-* Add `${host ip} datanode namenode ${namenode container id} ${datanode container id}` to your local hosts file.
+* Add `${host ip} datanode namenode ... ${namenode container id} ${datanode container id} ...` to your local hosts file.
 
 The final `hosts` file like this:
 
@@ -121,9 +121,9 @@ The final `hosts` file like this:
 # localhost is used to configure the loopback interface
 # when the system is booting.  Do not change this entry.
 ##
-127.0.0.1       localhost namenode datanode resourcemanager 40adcdd1c793 78c36a73f43a c8a7196cb9de
+127.0.0.1       localhost namenode datanode nodemanager resourcemanager historyserver 40adcdd1c793 78c36a73f43a 1e3974bf4bd8 c8a7196cb9de 8051dc34d80f
 255.255.255.255 broadcasthost
-::1             localhost namenode datanode resourcemanager 40adcdd1c793 78c36a73f43a c8a7196cb9de
+::1             localhost namenode datanode nodemanager resourcemanager historyserver 40adcdd1c793 78c36a73f43a 1e3974bf4bd8 c8a7196cb9de 8051dc34d80f
 ```
 
 User can find and access Hadoop interfaces with the following URLs:
@@ -141,7 +141,7 @@ If user want to deploy flink job on Hadoop cluster, then more works has to do：
 * Set client configuration parameter `dfs.client.use.datanode.hostname` to `true`
 * Set client configuration parameter `dfs.datanode.use.datanode.hostname` to `true`
 
-If you do not want to add `${namenode container id} ${datanode container id}` to your local hosts file, you can set datanode container hostname to `datanode` and namenode container hostname to `namenode` by `hostname` instruction to container configuraion in `docker-compose.yaml`:
+If you do not want to add `${namenode container id} ${datanode container id} ...` to your local hosts file, you can set datanode container hostname to `datanode` and namenode container hostname to `namenode` by `hostname` instruction to container configuraion in `docker-compose.yaml`:
 
 ```yaml
 ...
@@ -155,9 +155,20 @@ datanode:
 ...
 ```
 
-Then you should add  `${host ip} datanode namenode` to your local hosts file.
+Then you should add  `${host ip} datanode namenode nodemanager resourcemanager historyserver` to your local hosts file.
 
-But user should realize that flinkful client can get `${container id}` only from deployed flink cluster and always throw DNS resolve exception.
+But user should realize that flinkful client can get `${container id}` only from deployed flink cluster and always throw DNS resolve exception:
+
+```
+22/07/16 16:52:36 INFO YarnClusterDescriptor: Found Web Interface 1e3974bf4bd8:39055 of application 'application_1657958703044_0003'.
+Exception in thread "main" java.lang.RuntimeException: Error while creating RestClusterClient.
+	at org.apache.flink.yarn.YarnClusterDescriptor.lambda$deployInternal$2(YarnClusterDescriptor.java:614)
+	at cn.sliew.flink.demo.submit.JarYarnPerJobSubmitDemo.createClusterClient(JarYarnPerJobSubmitDemo.java:72)
+	at cn.sliew.flink.demo.submit.JarYarnPerJobSubmitDemo.main(JarYarnPerJobSubmitDemo.java:32)
+Caused by: java.net.UnknownHostException: 1e3974bf4bd8: nodename nor servname provided, or not known
+	at java.base/java.net.Inet6AddressImpl.lookupAllHostAddr(Native Method)
+	at java.base/java.net.InetAddress$PlatformNameService.lookupAllHostAddr(InetAddress.java:928)
+```
 
 ## hadoop conf
 
