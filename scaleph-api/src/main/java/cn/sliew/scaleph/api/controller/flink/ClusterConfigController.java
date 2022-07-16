@@ -34,7 +34,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Api(tags = "Flink管理-集群配置管理")
@@ -51,6 +50,14 @@ public class ClusterConfigController {
     public ResponseEntity<Page<FlinkClusterConfigDTO>> list(@Valid FlinkClusterConfigListParam param) {
         Page<FlinkClusterConfigDTO> page = flinkClusterConfigService.listByPage(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping({"{id}"})
+    @ApiOperation(value = "查询集群配置", notes = "查询集群配置")
+    public ResponseEntity<FlinkClusterConfigDTO> selectOne(@PathVariable("id") Long id) {
+        final FlinkClusterConfigDTO result = flinkClusterConfigService.selectOne(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Logging

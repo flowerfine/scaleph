@@ -93,9 +93,8 @@ export class DatasourceComponent implements OnInit {
   openAddDataSourceDialog(): void {
     const results = this.modalService.open({
       id: 'datasource-new-pre',
-      width: '480px',
+      width: '640px',
       backdropCloseable: true,
-      placement: 'top',
       component: DatasourceNewPreComponent,
       data: {
         title: '',

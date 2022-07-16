@@ -44,12 +44,12 @@ public enum PrivilegeConstants {
     public static final String STUDIO_SHOW = PRIVILEGE_PREFIX + ModuleCode.STUDIO + ActionCode.SHOW;
     @Desc("{\"id\":1001,\"privilegeName\":\"数据看板\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":10}")
     public static final String STUDIO_DATA_BOARD_SHOW =
-        PRIVILEGE_PREFIX + ModuleCode.STUDIO_DATA_BOARD + ActionCode.SHOW;
+            PRIVILEGE_PREFIX + ModuleCode.STUDIO_DATA_BOARD + ActionCode.SHOW;
     @Desc("{\"id\":20,\"privilegeName\":\"数据开发\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
     public static final String DATADEV_SHOW = PRIVILEGE_PREFIX + ModuleCode.DATADEV + ActionCode.SHOW;
     @Desc("{\"id\":2001,\"privilegeName\":\"数据源\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":20}")
     public static final String DATADEV_DATASOURCE_SHOW =
-        PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.SHOW;
+            PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.SHOW;
     @Desc("{\"id\":2002,\"privilegeName\":\"项目管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":20}")
     public static final String DATADEV_PROJECT_SHOW = PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.SHOW;
     @Desc("{\"id\":2003,\"privilegeName\":\"资源管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":20}")
@@ -64,17 +64,17 @@ public enum PrivilegeConstants {
     public static final String OPSCENTER_BATCH_SHOW = PRIVILEGE_PREFIX + ModuleCode.OPSCENTER_BATCH + ActionCode.SHOW;
     @Desc("{\"id\":3002,\"privilegeName\":\"实时任务\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":30}")
     public static final String OPSCENTER_REALTIME_SHOW =
-        PRIVILEGE_PREFIX + ModuleCode.OPSCENTER_REALTIME + ActionCode.SHOW;
+            PRIVILEGE_PREFIX + ModuleCode.OPSCENTER_REALTIME + ActionCode.SHOW;
     @Desc("{\"id\":40,\"privilegeName\":\"数据标准\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
     public static final String STDATA_SHOW = PRIVILEGE_PREFIX + ModuleCode.STDATA + ActionCode.SHOW;
     @Desc("{\"id\":4001,\"privilegeName\":\"参考数据\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":40}")
     public static final String STDATA_REF_DATA_SHOW = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA + ActionCode.SHOW;
     @Desc("{\"id\":4002,\"privilegeName\":\"数据映射\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":40}")
     public static final String STDATA_REF_DATA_MAP_SHOW =
-        PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.SHOW;
+            PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.SHOW;
     @Desc("{\"id\":4003,\"privilegeName\":\"数据元\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":40}")
     public static final String STDATA_DATA_ELEMENT_SHOW =
-        PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.SHOW;
+            PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.SHOW;
     @Desc("{\"id\":4004,\"privilegeName\":\"业务系统\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":40}")
     public static final String STDATA_SYSTEM_SHOW = PRIVILEGE_PREFIX + ModuleCode.STDATA_SYSTEM + ActionCode.SHOW;
     @Desc("{\"id\":50,\"privilegeName\":\"系统管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
@@ -93,42 +93,42 @@ public enum PrivilegeConstants {
 
     @Desc("{\"id\":200101,\"privilegeName\":\"数据源\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
     public static final String DATADEV_DATASOURCE_SELECT =
-        PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.SELECT;
+            PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.SELECT;
     @Desc("{\"id\":20010101,\"privilegeName\":\"新增数据源\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200101}")
     public static final String DATADEV_DATASOURCE_ADD =
-        PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.ADD;
+            PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.ADD;
     @Desc("{\"id\":20010102,\"privilegeName\":\"删除数据源\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200101}")
     public static final String DATADEV_DATASOURCE_DELETE =
-        PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.DELETE;
+            PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.DELETE;
     @Desc("{\"id\":20010103,\"privilegeName\":\"修改数据源\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200101}")
     public static final String DATADEV_DATASOURCE_EDIT =
-        PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.EDIT;
+            PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.EDIT;
     @Desc("{\"id\":20010104,\"privilegeName\":\"查看密码\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200101}")
     public static final String DATADEV_DATASOURCE_SECURITY =
-        PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.SECURITY;
+            PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.SECURITY;
     @Desc("{\"id\":200201,\"privilegeName\":\"项目管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
     public static final String DATADEV_PROJECT_SELECT =
-        PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.SELECT;
+            PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.SELECT;
     @Desc("{\"id\":20020101,\"privilegeName\":\"新增项目\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200201}")
     public static final String DATADEV_PROJECT_ADD = PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.ADD;
     @Desc("{\"id\":20020102,\"privilegeName\":\"删除项目\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200201}")
     public static final String DATADEV_PROJECT_DELETE =
-        PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.DELETE;
+            PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.DELETE;
     @Desc("{\"id\":20020103,\"privilegeName\":\"修改项目\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200201}")
     public static final String DATADEV_PROJECT_EDIT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.EDIT;
     @Desc("{\"id\":200301,\"privilegeName\":\"资源管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
     public static final String DATADEV_RESOURCE_SELECT =
-        PRIVILEGE_PREFIX + ModuleCode.DATADEV_RESOURCE + ActionCode.SELECT;
+            PRIVILEGE_PREFIX + ModuleCode.DATADEV_RESOURCE + ActionCode.SELECT;
     @Desc("{\"id\":20030101,\"privilegeName\":\"新增资源\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200301}")
     public static final String DATADEV_RESOURCE_ADD = PRIVILEGE_PREFIX + ModuleCode.DATADEV_RESOURCE + ActionCode.ADD;
     @Desc("{\"id\":20030102,\"privilegeName\":\"删除资源\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200301}")
     public static final String DATADEV_RESOURCE_DELETE =
-        PRIVILEGE_PREFIX + ModuleCode.DATADEV_RESOURCE + ActionCode.DELETE;
+            PRIVILEGE_PREFIX + ModuleCode.DATADEV_RESOURCE + ActionCode.DELETE;
     @Desc("{\"id\":20030103,\"privilegeName\":\"修改资源\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200301}")
     public static final String DATADEV_RESOURCE_EDIT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_RESOURCE + ActionCode.EDIT;
     @Desc("{\"id\":20030104,\"privilegeName\":\"下载资源\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200301}")
     public static final String DATADEV_RESOURCE_DOWNLOAD =
-        PRIVILEGE_PREFIX + ModuleCode.DATADEV_RESOURCE + ActionCode.DOWNLOAD;
+            PRIVILEGE_PREFIX + ModuleCode.DATADEV_RESOURCE + ActionCode.DOWNLOAD;
     @Desc("{\"id\":200401,\"privilegeName\":\"作业管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
     public static final String DATADEV_JOB_SELECT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_JOB + ActionCode.SELECT;
     @Desc("{\"id\":20040101,\"privilegeName\":\"新增作业\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200401}")
@@ -147,66 +147,66 @@ public enum PrivilegeConstants {
     public static final String DATADEV_DIR_EDIT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_DIR + ActionCode.EDIT;
     @Desc("{\"id\":200501,\"privilegeName\":\"集群管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
     public static final String DATADEV_CLUSTER_SELECT =
-        PRIVILEGE_PREFIX + ModuleCode.DATADEV_CLUSTER + ActionCode.SELECT;
+            PRIVILEGE_PREFIX + ModuleCode.DATADEV_CLUSTER + ActionCode.SELECT;
     @Desc("{\"id\":20050101,\"privilegeName\":\"新增集群\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200501}")
     public static final String DATADEV_CLUSTER_ADD = PRIVILEGE_PREFIX + ModuleCode.DATADEV_CLUSTER + ActionCode.ADD;
     @Desc("{\"id\":20050102,\"privilegeName\":\"删除集群\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200501}")
     public static final String DATADEV_CLUSTER_DELETE =
-        PRIVILEGE_PREFIX + ModuleCode.DATADEV_CLUSTER + ActionCode.DELETE;
+            PRIVILEGE_PREFIX + ModuleCode.DATADEV_CLUSTER + ActionCode.DELETE;
     @Desc("{\"id\":20050103,\"privilegeName\":\"修改集群\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200501}")
     public static final String DATADEV_CLUSTER_EDIT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_CLUSTER + ActionCode.EDIT;
     @Desc("{\"id\":300101,\"privilegeName\":\"周期任务\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
     public static final String OPSCENTER_BATCH_SELECT =
-        PRIVILEGE_PREFIX + ModuleCode.OPSCENTER_BATCH + ActionCode.SELECT;
+            PRIVILEGE_PREFIX + ModuleCode.OPSCENTER_BATCH + ActionCode.SELECT;
     @Desc("{\"id\":300201,\"privilegeName\":\"实时任务\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
     public static final String OPSCENTER_REALTIME_SELECT =
-        PRIVILEGE_PREFIX + ModuleCode.OPSCENTER_REALTIME + ActionCode.SELECT;
+            PRIVILEGE_PREFIX + ModuleCode.OPSCENTER_REALTIME + ActionCode.SELECT;
     @Desc("{\"id\":400101,\"privilegeName\":\"参考数据类型管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
     public static final String STDATA_REF_DATA_TYPE_SELECT =
-        PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_TYPE + ActionCode.SELECT;
+            PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_TYPE + ActionCode.SELECT;
     @Desc("{\"id\":40010101,\"privilegeName\":\"新增参考数据类型\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":400101}")
     public static final String STDATA_REF_DATA_TYPE_ADD =
-        PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_TYPE + ActionCode.ADD;
+            PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_TYPE + ActionCode.ADD;
     @Desc("{\"id\":40010102,\"privilegeName\":\"删除参考数据类型\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":400101}")
     public static final String STDATA_REF_DATA_TYPE_DELETE =
-        PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_TYPE + ActionCode.DELETE;
+            PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_TYPE + ActionCode.DELETE;
     @Desc("{\"id\":40010103,\"privilegeName\":\"修改参考数据类型\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":400101}")
     public static final String STDATA_REF_DATA_TYPE_EDIT =
-        PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_TYPE + ActionCode.EDIT;
+            PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_TYPE + ActionCode.EDIT;
     @Desc("{\"id\":400102,\"privilegeName\":\"参考数据管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
     public static final String STDATA_REF_DATA_SELECT =
-        PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA + ActionCode.SELECT;
+            PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA + ActionCode.SELECT;
     @Desc("{\"id\":40010201,\"privilegeName\":\"新增参考数据\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":400102}")
     public static final String STDATA_REF_DATA_ADD = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA + ActionCode.ADD;
     @Desc("{\"id\":40010202,\"privilegeName\":\"删除参考数据\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":400102}")
     public static final String STDATA_REF_DATA_DELETE =
-        PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA + ActionCode.DELETE;
+            PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA + ActionCode.DELETE;
     @Desc("{\"id\":40010203,\"privilegeName\":\"修改参考数据\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":400102}")
     public static final String STDATA_REF_DATA_EDIT = PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA + ActionCode.EDIT;
     @Desc("{\"id\":400201,\"privilegeName\":\"参考数据映射管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
     public static final String STDATA_REF_DATA_MAP_SELECT =
-        PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.SELECT;
+            PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.SELECT;
     @Desc("{\"id\":40020101,\"privilegeName\":\"新增参考数据映射\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":400201}")
     public static final String STDATA_REF_DATA_MAP_ADD =
-        PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.ADD;
+            PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.ADD;
     @Desc("{\"id\":40020102,\"privilegeName\":\"删除参考数据映射\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":400201}")
     public static final String STDATA_REF_DATA_MAP_DELETE =
-        PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.DELETE;
+            PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.DELETE;
     @Desc("{\"id\":40020103,\"privilegeName\":\"修改参考数据映射\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":400201}")
     public static final String STDATA_REF_DATA_MAP_EDIT =
-        PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.EDIT;
+            PRIVILEGE_PREFIX + ModuleCode.STDATA_REF_DATA_MAP + ActionCode.EDIT;
     @Desc("{\"id\":400301,\"privilegeName\":\"数据元管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
     public static final String STDATA_DATA_ELEMENT_SELECT =
-        PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.SELECT;
+            PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.SELECT;
     @Desc("{\"id\":40030101,\"privilegeName\":\"新增数据元\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":400301}")
     public static final String STDATA_DATA_ELEMENT_ADD =
-        PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.ADD;
+            PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.ADD;
     @Desc("{\"id\":40030102,\"privilegeName\":\"删除数据元\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":400301}")
     public static final String STDATA_DATA_ELEMENT_DELETE =
-        PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.DELETE;
+            PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.DELETE;
     @Desc("{\"id\":40030103,\"privilegeName\":\"修改数据元\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":400301}")
     public static final String STDATA_DATA_ELEMENT_EDIT =
-        PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.EDIT;
+            PRIVILEGE_PREFIX + ModuleCode.STDATA_DATA_ELEMENT + ActionCode.EDIT;
     @Desc("{\"id\":400401,\"privilegeName\":\"业务系统\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
     public static final String STDATA_SYSTEM_SELECT = PRIVILEGE_PREFIX + ModuleCode.STDATA_SYSTEM + ActionCode.SELECT;
     @Desc("{\"id\":40040101,\"privilegeName\":\"新增业务系统\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":400401}")
@@ -256,9 +256,10 @@ public enum PrivilegeConstants {
     @Desc("{\"id\":50030201,\"privilegeName\":\"新增数据字典\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":500302}")
     public static final String DICT_DATA_ADD = PRIVILEGE_PREFIX + ModuleCode.DICT_DATA + ActionCode.ADD;
     @Desc("{\"id\":50030202,\"privilegeName\":\"删除数据字典\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":500302}")
-    String DICT_DATA_DELETE = PRIVILEGE_PREFIX + ModuleCode.DICT_DATA + ActionCode.DELETE;
+    public static final String DICT_DATA_DELETE = PRIVILEGE_PREFIX + ModuleCode.DICT_DATA + ActionCode.DELETE;
     @Desc("{\"id\":50030203,\"privilegeName\":\"修改数据字典\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":500302}")
     public static final String DICT_DATA_EDIT = PRIVILEGE_PREFIX + ModuleCode.DICT_DATA + ActionCode.EDIT;
+
     /**
      * 系统菜单
      */
@@ -370,6 +371,7 @@ public enum PrivilegeConstants {
         public static final String OPSCENTER_BATCH = "obt";
         public static final String OPSCENTER_REALTIME = "ort";
     }
+
     /**
      * 操作权限
      */

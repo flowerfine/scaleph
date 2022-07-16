@@ -18,6 +18,10 @@ export class ClusterConfigService {
     return this.http.get<PageResponse<FlinkClusterConfig>>(`${this.url}`, {params});
   }
 
+  selectOne(id): Observable<ResponseBody<FlinkClusterConfig>> {
+    return this.http.get<ResponseBody<FlinkClusterConfig>>(`${this.url}/` + id);
+  }
+
   add(row: FlinkClusterConfig): Observable<ResponseBody<any>> {
     return this.http.put<ResponseBody<any>>(this.url, row);
   }

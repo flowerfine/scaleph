@@ -63,4 +63,29 @@ public class FlinkJobInstanceServiceImpl implements FlinkJobInstanceService {
         }
         return FlinkJobInstanceConvert.INSTANCE.toDto(record);
     }
+
+    @Override
+    public boolean submit(Long flinkJobConfigId) throws Exception {
+        return false;
+    }
+
+    @Override
+    public boolean suspend(Long id) throws Exception {
+        return false;
+    }
+
+    @Override
+    public boolean resume(Long flinkJobConfigId, Long id) throws Exception {
+        return false;
+    }
+
+    @Override
+    public boolean triggerSavepoint(Long id) throws Exception {
+        return false;
+    }
+
+    @Override
+    public boolean cancel(Long id) throws Exception {
+        return false;
+    }
 }
