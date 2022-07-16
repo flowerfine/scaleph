@@ -28,6 +28,23 @@ public interface FlinkJobInstanceService {
 
     FlinkJobInstanceDTO selectOne(Long id);
 
-    // todo 提交，取消，停止，创建 savepoint等操作
+    // todo 根据 flinkJobConfigId 删除
+
+
+    boolean submit(Long flinkJobConfigId) throws Exception;
+
+    /**
+     * 暂停时会创建 savepoint，恢复时可以根据任务的上一次 savepoint 进行重启
+     */
+    boolean suspend(Long id) throws Exception;
+
+    /**
+     * 重新提交任务，并使用之前任务实例的 savepoint
+     */
+    boolean resume(Long flinkJobConfigId, Long id) throws Exception;
+
+    boolean triggerSavepoint(Long id) throws Exception;
+
+    boolean cancel(Long id) throws Exception;
 
 }
