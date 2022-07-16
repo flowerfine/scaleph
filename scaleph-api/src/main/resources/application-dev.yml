@@ -74,4 +74,4 @@ logging:
     org.springframework.context: warn
     cn.sliew.scaleph:
       api.schedule: info
-      dao.mapper: debug
+      dao.mapper: info
