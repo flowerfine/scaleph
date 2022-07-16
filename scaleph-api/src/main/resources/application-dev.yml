@@ -57,6 +57,11 @@ file-system:
   endPoint: http://127.0.0.1:9000
   accessKey: admin
   secretKey: password
+#  type: oss
+#  bucket: ${spring.application.name}
+#  endPoint: Aliyun OSS endpoint to connect to
+#  accessKey: Aliyun access key ID
+#  secretKey: Aliyun access key secret
 
 
 # log
