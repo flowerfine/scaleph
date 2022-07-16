@@ -67,4 +67,6 @@ logging:
     org.springframework.boot.autoconfigure: warn
     org.springframework.beans.factory: warn
     org.springframework.context: warn
-    cn.sliew.scaleph.api.schedule: info
+    cn.sliew.scaleph:
+      api.schedule: info
+      dao.mapper: debug
