@@ -223,6 +223,7 @@
     "host": "主机地址",
     "databaseName": "数据库名称",
     "port": "端口号",
+    "port.http": "HTTP端口号",
     "userName": "用户名",
     "password": "密码",
     "remark": "备注",

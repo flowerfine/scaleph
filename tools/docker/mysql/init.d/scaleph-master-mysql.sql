@@ -185,6 +185,8 @@ values ('datasource_type', 'PostGreSQL', 'PostGreSQL', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('datasource_type', 'Kafka', 'Kafka', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
+values ('datasource_type', 'Doris', 'Doris', 'sys', 'sys');
+insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('job_type', 'b', '周期作业', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('job_type', 'r', '实时作业', 'sys', 'sys');

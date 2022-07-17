@@ -37,7 +37,7 @@ public class OracleDataSourcePlugin extends JDBCDataSourcePlugin {
 
     @Override
     public String getJdbcUrl() {
-        return "jdbc:oracle:thin:@//" + properties.get(HOST) + ":" + String.valueOf(properties.get(PORT)) + "/" + properties.get(DATABASE_NAME);
+        return "jdbc:oracle:thin:@//" + properties.get(HOST) + ":" + properties.get(PORT) + "/" + properties.get(DATABASE_NAME);
     }
 
     @Override
