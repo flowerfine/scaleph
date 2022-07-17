@@ -18,9 +18,11 @@
 
 package cn.sliew.scaleph.storage.configuration;
 
+import org.apache.flink.configuration.CoreOptions;
 import org.apache.flink.core.fs.FileSystem;
 import org.apache.flink.fs.osshadoop.OSSFileSystemFactory;
 import org.apache.flink.fs.s3hadoop.S3FileSystemFactory;
+import org.apache.flink.runtime.fs.hdfs.HadoopFsFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -80,5 +82,24 @@ public class FileSystemConfiguration {
         config.setString("fs.oss.accessKeySecret", ossFileSystemProperties.getSecretKey());
         factory.configure(config);
         return factory.create(new URI(FileSystemType.OSS.getSchema() + ossFileSystemProperties.getBucket()));
+    }
+
+    @SuppressWarnings("all")
+    @Bean
+    @ConfigurationProperties(prefix = "file-system")
+    @ConditionalOnProperty(value = "file-system.type", havingValue = "hdfs")
+    public HDFSFileSystemProperties hdfsFileSystemProperties() {
+        return new HDFSFileSystemProperties();
+    }
+
+    @Bean
+    @ConditionalOnProperty(value = "file-system.type", havingValue = "hdfs")
+    public FileSystem hdfsFileSystem(HDFSFileSystemProperties hdfsFileSystemProperties) throws URISyntaxException, IOException {
+        HadoopFsFactory factory = new HadoopFsFactory();
+        org.apache.flink.configuration.Configuration config = new org.apache.flink.configuration.Configuration();
+        config.setString(CoreOptions.FLINK_HADOOP_CONF_DIR, hdfsFileSystemProperties.getHadoopConfPath());
+        factory.configure(config);
+//        return factory.create(new URI(FileSystemType.HDFS.getSchema() + "namenode:9000/"));
+        return factory.create(new URI("hdfs://namenode:9002"));
     }
 }
