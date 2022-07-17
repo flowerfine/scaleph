@@ -112,7 +112,7 @@
         <appender-ref ref="SERVER-LOG"/>
     </root>
 
-    <springProfile name="default">
+    <springProfile name="default, dev">
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
         </root>
@@ -120,18 +120,6 @@
             <appender-ref ref="CONSOLE"/>
         </logger>
         <logger name="cn.sliew.scaleph.dao.mapper" level="INFO" additivity="false">
-            <appender-ref ref="CONSOLE"/>
-        </logger>
-    </springProfile>
-
-    <springProfile name="dev">
-        <root level="INFO">
-            <appender-ref ref="CONSOLE"/>
-        </root>
-        <logger name="cn.sliew.scaleph" level="INFO" additivity="false">
-            <appender-ref ref="CONSOLE"/>
-        </logger>
-        <logger name="cn.sliew.scaleph.dao.mapper" level="DEBUG" additivity="false">
             <appender-ref ref="CONSOLE"/>
         </logger>
     </springProfile>
