@@ -24,6 +24,7 @@ import cn.sliew.scaleph.engine.flink.FlinkRelease;
 import cn.sliew.scaleph.engine.seatunnel.SeatunnelRelease;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelStorageService;
 import cn.sliew.scaleph.storage.service.BlobService;
+import cn.sliew.scaleph.storage.service.FileSystemService;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,8 @@ public class SeatunnelStorageServiceImpl implements SeatunnelStorageService {
 
     @Autowired
     private BlobService blobService;
+    @Autowired
+    private FileSystemService fileSystemService;
 
     public SeatunnelStorageServiceImpl() {
         this.httpClient = new OkHttpClient.Builder()
