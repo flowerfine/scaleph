@@ -99,7 +99,6 @@ public class FileSystemConfiguration {
         org.apache.flink.configuration.Configuration config = new org.apache.flink.configuration.Configuration();
         config.setString(CoreOptions.FLINK_HADOOP_CONF_DIR, hdfsFileSystemProperties.getHadoopConfPath());
         factory.configure(config);
-//        return factory.create(new URI(FileSystemType.HDFS.getSchema() + "namenode:9000/"));
-        return factory.create(new URI("hdfs://namenode:9002"));
+        return factory.create(new URI(hdfsFileSystemProperties.getDefaultFS()));
     }
 }

@@ -52,18 +52,19 @@ app:
 
 file-system:
 #  type: local
-#  type: s3
-#  bucket: ${spring.application.name}
-#  endPoint: http://127.0.0.1:9000
-#  accessKey: admin
-#  secretKey: password
+  type: s3
+  bucket: ${spring.application.name}
+  endPoint: http://127.0.0.1:9000
+  accessKey: admin
+  secretKey: password
 #  type: oss
 #  bucket: ${spring.application.name}
 #  endPoint: Aliyun OSS endpoint to connect to
 #  accessKey: Aliyun access key ID
 #  secretKey: Aliyun access key secret
-  type: hdfs
-  hadoopConfPath: /Users/wangqi/Documents/repository/sliew/scaleph/tools/docker/hadoop/etc
+#  type: hdfs
+#  hadoopConfPath: Hadoop conf path
+#  defaultFS: hdfs://namenode:9002
 
 
 # log
