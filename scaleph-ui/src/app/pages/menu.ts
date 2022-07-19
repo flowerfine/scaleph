@@ -61,6 +61,29 @@ export default function (values) {
       ],
     },
     {
+      title: values['job']['title'],
+      link: '/scaleph/job',
+      menuIcon: 'icon icon-op-task',
+      pCode: PRIVILEGE_CODE.flinkShow,
+      children: [
+        {
+          title: values['job']['artifact'],
+          link: '/scaleph/job/artifact',
+          pCode: PRIVILEGE_CODE.flinkReleaseShow,
+        },
+        {
+          title: values['job']['job-config'],
+          link: '/scaleph/job/job-config',
+          pCode: PRIVILEGE_CODE.flinkReleaseShow,
+        },
+        {
+          title: values['job']['job-instance'],
+          link: '/scaleph/job/job-instance',
+          pCode: PRIVILEGE_CODE.flinkReleaseShow,
+        }
+      ],
+    },
+    {
       title: values['datadev']['title'],
       link: '/scaleph/datadev',
       menuIcon: 'icon icon-classroom-post-answers-large',

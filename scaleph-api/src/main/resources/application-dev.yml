@@ -57,6 +57,14 @@ file-system:
   endPoint: http://127.0.0.1:9000
   accessKey: admin
   secretKey: password
+#  type: oss
+#  bucket: ${spring.application.name}
+#  endPoint: Aliyun OSS endpoint to connect to
+#  accessKey: Aliyun access key ID
+#  secretKey: Aliyun access key secret
+#  type: hdfs
+#  hadoopConfPath: Hadoop conf path
+#  defaultFS: hdfs://namenode:9002
 
 
 # log
@@ -67,4 +75,6 @@ logging:
     org.springframework.boot.autoconfigure: warn
     org.springframework.beans.factory: warn
     org.springframework.context: warn
-    cn.sliew.scaleph.api.schedule: info
+    cn.sliew.scaleph:
+      api.schedule: info
+      dao.mapper: info

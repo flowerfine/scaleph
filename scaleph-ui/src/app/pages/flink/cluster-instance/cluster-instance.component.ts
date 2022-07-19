@@ -17,7 +17,6 @@ import {ClusterInstanceService} from "../../../@core/services/flink/cluster-inst
 import {
   SessionClusterInstanceNewComponent
 } from "./session-cluster-instance-new/session-cluster-instance-new.component";
-import {ClusterConfigDeleteComponent} from "../cluster-config/cluster-config-delete/cluster-config-delete.component";
 import {ClusterInstanceShutdownComponent} from "./cluster-instance-shutdown/cluster-instance-shutdown.component";
 
 @Component({

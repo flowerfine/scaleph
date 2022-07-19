@@ -33,7 +33,7 @@ public enum KafkaSourceProperties {
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> CONSUMER_GROUP_ID = new PropertyDescriptor.Builder<String>()
-            .name("consumer.group.id")
+            .name("consumer_group_id")
             .description("kafka consumer group id")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
@@ -42,7 +42,7 @@ public enum KafkaSourceProperties {
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> CONSUMER_BOOTSTRAP_SERVERS = new PropertyDescriptor.Builder<String>()
-            .name("consumer.bootstrap.servers")
+            .name("consumer_bootstrap_servers")
             .description("cluster address, separated by (,)")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
@@ -51,7 +51,7 @@ public enum KafkaSourceProperties {
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> FORMAT_TYPE = new PropertyDescriptor.Builder<String>()
-            .name("format.type")
+            .name("format_type")
             .description("message format")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
@@ -60,8 +60,8 @@ public enum KafkaSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> FORMAT_XXX = new PropertyDescriptor.Builder<String>()
-            .name("format.*")
+    public static final PropertyDescriptor<String> FORMAT_CONF = new PropertyDescriptor.Builder<String>()
+            .name("format_conf")
             .description("The csv format uses this parameter to set the separator and so on. For example, set the column delimiter to \\t , format.field-delimiter=\\\\t")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
@@ -77,7 +77,7 @@ public enum KafkaSourceProperties {
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> ROWTIME_FIELD = new PropertyDescriptor.Builder<String>()
-            .name("rowtime.field")
+            .name("rowtime_field")
             .description("Extract timestamp using current configuration field for flink event time watermark")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
@@ -94,7 +94,7 @@ public enum KafkaSourceProperties {
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> OFFSET_RESET = new PropertyDescriptor.Builder<String>()
-            .name("offset.reset")
+            .name("offset_reset")
             .description("The consumer's initial offset is only valid for new consumers")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
@@ -102,8 +102,16 @@ public enum KafkaSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> CONSUMER_XXX = new PropertyDescriptor.Builder<String>()
-            .name("consumer.*")
+    public static final PropertyDescriptor<String> OFFSET_RESET_SPECIFIC = new PropertyDescriptor.Builder<String>()
+            .name("offset_reset_specific")
+            .description("start consumption from the specified offset , and specify the start offset of each partition at this time. ")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> CONSUMER_CONF = new PropertyDescriptor.Builder<String>()
+            .name("consumer_conf")
             .description("Specify parameters adding the prefix consumer to the original parameter name")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)

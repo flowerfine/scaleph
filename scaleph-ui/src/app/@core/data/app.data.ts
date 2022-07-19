@@ -97,6 +97,9 @@ export const DICT_TYPE = {
   flinkVersion: 'flink_version',
   flinkStateBackend: 'flink_state_backend',
   flinkClusterStatus: 'flink_cluster_status',
+  flinkJobType: 'flink_job_type',
+  flinkSemantic: 'flink_semantic',
+  flinkJobStatus: 'flink_job_status',
 };
 
 export const USER_AUTH = {

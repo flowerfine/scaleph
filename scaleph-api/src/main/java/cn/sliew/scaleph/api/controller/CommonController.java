@@ -27,8 +27,7 @@ import cn.sliew.scaleph.api.util.SecurityUtil;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.cache.util.RedisUtil;
 import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.common.exception.Rethrower;
-import cn.sliew.scaleph.storage.service.StorageService;
+import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.system.util.I18nUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,13 +40,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 import java.awt.*;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
@@ -65,8 +62,8 @@ public class CommonController {
     @Autowired
     private RedisUtil redisUtil;
 
-    @Resource(name = "${app.resource.type}")
-    private StorageService storageService;
+    @Autowired
+    private FileSystemService fileSystemService;
 
     /**
      * 生成验证码
@@ -95,16 +92,17 @@ public class CommonController {
     @Logging
     @PostMapping(path = "/file/upload")
     @ApiOperation(value = "上传文件", notes = "上传文件到公共目录")
-    public ResponseEntity<ResponseVO> upload(@RequestParam("file") MultipartFile file)
-            throws IOException {
-        if (StringUtils.hasText(SecurityUtil.getCurrentUserName())) {
-            this.storageService.upload(file.getInputStream(), "", file.getName());
-            return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
-        } else {
+    public ResponseEntity<ResponseVO> upload(@RequestParam("file") MultipartFile file) throws IOException {
+        if (StringUtils.isEmpty(SecurityUtil.getCurrentUserName())) {
             return new ResponseEntity<>(
                     ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
                             I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
         }
+
+        try (final InputStream inputStream = file.getInputStream()) {
+            fileSystemService.upload(inputStream, file.getName());
+        }
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
@@ -117,17 +115,12 @@ public class CommonController {
                     ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
                             I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
         }
-        response.setHeader("Content-Disposition",
-                "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
-        InputStream is = this.storageService.get("", fileName);
-        if (is != null) {
-            try (BufferedInputStream bis = new BufferedInputStream(is);
-                 BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream())
-            ) {
-                FileCopyUtils.copy(bis, bos);
-            } catch (Exception e) {
-                Rethrower.throwAs(e);
-            }
+
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+        try (final InputStream inputStream = fileSystemService.get(fileName);
+             final ServletOutputStream outputStream = response.getOutputStream()) {
+            FileCopyUtils.copy(inputStream, outputStream);
+            outputStream.flush();
         }
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -135,13 +128,13 @@ public class CommonController {
     @Logging
     @DeleteMapping(path = "/file/delete")
     @ApiOperation(value = "删除文件", notes = "从公共目录删除文件")
-    public ResponseEntity<ResponseVO> deleteFile(@NotNull String fileName) {
+    public ResponseEntity<ResponseVO> deleteFile(@NotNull String fileName) throws IOException {
         if (StringUtils.isEmpty(SecurityUtil.getCurrentUserName())) {
             return new ResponseEntity<>(
                     ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
                             I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
         }
-        this.storageService.delete("", fileName);
+        fileSystemService.delete(fileName);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 

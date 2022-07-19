@@ -16,27 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.service;
+package cn.sliew.scaleph.dao.mapper.master.flink;
 
-import java.io.InputStream;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobInstance;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
- * @deprecated file directory is not suitable for object store, try to remove directory.
+ * <p>
+ * flink job instance Mapper 接口
+ * </p>
  */
-@Deprecated
-public interface StorageService {
+@Repository
+public interface FlinkJobInstanceMapper extends BaseMapper<FlinkJobInstance> {
 
-    boolean exists(String filePath);
-
-    void delete(String filePath, String fileName);
-
-    void mkdirs(String filePath);
-
-    String upload(InputStream inputStream, String filePath, String fileName);
-
-    boolean isDirectory(String filePath);
-
-    InputStream get(String filePath, String fileName);
-
-    Long getFileSize(String filePath, String fileName);
 }

@@ -102,7 +102,6 @@ thread:
 app:
   name: ${spring.application.name}
   resource:
-    type: minio
     minio:
       bucket: ${spring.application.name}
   engine:
