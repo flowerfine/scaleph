@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { DValidateRules, FormLayout } from 'ng-devui';
 import { Dict } from 'src/app/@core/data/app.data';
 import { DiJobStepAttr, STEP_ATTR_TYPE } from 'src/app/@core/data/datadev.data';
-import { SysDictDataService } from 'src/app/@core/services/admin/dict-data.service';
 import { DataSourceService } from 'src/app/@core/services/datadev/datasource.service';
 import { JobService } from 'src/app/@core/services/datadev/job.service';
 import { CustomValidate } from 'src/app/@core/validate/CustomValidate';
@@ -22,7 +21,7 @@ export class SourceKafkaStepComponent implements OnInit {
   stepCode: string = '';
   stepTitle: string = '';
 
-  dataSourceType: string = 'kafka';
+  dataSourceType: string = 'Kafka';
   dataSourceList: Dict[] = [];
   offsetResetOptions: string[] = ['latest', 'earliest', 'specific'];
   formatTypeOptions: string[] = ['json', 'csv', 'avro'];

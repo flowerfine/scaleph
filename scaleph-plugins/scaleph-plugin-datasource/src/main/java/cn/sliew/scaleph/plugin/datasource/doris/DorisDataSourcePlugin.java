@@ -28,8 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.datasource.doris.DorisProperties.FENODES;
-import static cn.sliew.scaleph.plugin.datasource.doris.DorisProperties.HTTP_PORT;
+import static cn.sliew.scaleph.plugin.datasource.doris.DorisProperties.*;
 import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 
 public class DorisDataSourcePlugin extends JDBCDataSourcePlugin {
@@ -48,6 +47,8 @@ public class DorisDataSourcePlugin extends JDBCDataSourcePlugin {
         props.add(JDBC_URL_UNREQUIRED);
         props.add(DRIVER_CLASS_NAME_UNREQUIRED);
         props.add(FENODES);
+        props.add(DATABASE);
+        props.add(USER);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
@@ -57,6 +58,8 @@ public class DorisDataSourcePlugin extends JDBCDataSourcePlugin {
         properties.set(JDBC_URL_UNREQUIRED, getJdbcUrl());
         properties.set(DRIVER_CLASS_NAME_UNREQUIRED, getDriverClassNmae());
         properties.set(FENODES, getFeNodes());
+        properties.set(DATABASE, properties.getString(DATABASE_NAME));
+        properties.set(USER, properties.getString(USERNAME));
     }
 
     @Override

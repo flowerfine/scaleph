@@ -18,15 +18,19 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connector.doris.sink;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
+import cn.sliew.scaleph.common.param.PropertyUtil;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.DORIS_SINK;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.doris.sink.DorisSinkProperties.*;
@@ -37,16 +41,16 @@ public class DorisSinkPlugin extends SeatunnelNativeFlinkPlugin {
         this.pluginInfo = new PluginInfo(DORIS_SINK.getValue(), "doris sink connector", "2.1.1", DorisSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(FENODES);
-        props.add(USER);
-        props.add(PASSWORD);
-        props.add(DATABASE);
         props.add(TABLE);
         props.add(BATCH_SIZE);
         props.add(INTERVAL);
         props.add(MAX_RETRIES);
-        props.add(DORIS_XXX);
+        props.add(DORIS_CONF);
         props.add(PARALLELISM);
+        props.add(FENODES);
+        props.add(USER);
+        props.add(PASSWORD);
+        props.add(DATABASE);
 
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
@@ -57,4 +61,21 @@ public class DorisSinkPlugin extends SeatunnelNativeFlinkPlugin {
         return JobStepTypeEnum.SINK;
     }
 
+    @Override
+    public ObjectNode createConf() {
+        ObjectNode objectNode = JacksonUtil.createObjectNode();
+        for (PropertyDescriptor descriptor : getSupportedProperties()) {
+            if (properties.contains(descriptor)) {
+                if (DORIS_CONF.getName().equals(descriptor.getName())) {
+                    Map<String, Object> map = PropertyUtil.formatPropFromStr(properties.getValue(descriptor), "\n", "=");
+                    for (Map.Entry<String, Object> entry : map.entrySet()) {
+                        objectNode.put("doris." + entry.getKey(), String.valueOf(entry.getValue()));
+                    }
+                } else {
+                    objectNode.put(descriptor.getName(), properties.getValue(descriptor));
+                }
+            }
+        }
+        return objectNode;
+    }
 }
