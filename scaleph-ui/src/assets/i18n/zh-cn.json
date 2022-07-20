@@ -225,6 +225,7 @@
     "host": "主机地址",
     "databaseName": "数据库名称",
     "port": "端口号",
+    "port.http": "HTTP端口号",
     "userName": "用户名",
     "password": "密码",
     "remark": "备注",
@@ -320,6 +321,7 @@
     "step.sink-table": "表输出",
     "step.sink-console": "写日志",
     "step.sink-kafka": "kafka生产者",
+    "step.sink-doris": "Doris输出",
     "step.trans-field-select": "字段选择",
     "step.trans-field-set-value": "设置字段值",
     "step.trans-group": "数据聚合",
@@ -366,7 +368,14 @@
     "step.source-kafka.offsetReset": "偏移量",
     "step.source-kafka.offsetReset.specific": "指定偏移量",
     "step.source-kafka.consumerConf": "kafka消费者参数",
-    "step.source-kafka.consumerConf.tooltip": "参考kafka官方文档,按照key=value格式配置属性，每个属性一行"
+    "step.source-kafka.consumerConf.tooltip": "参考kafka官方文档,按照key=value格式配置属性，每个属性一行",
+    "step.sink-doris.dataSource": "数据源",
+    "step.sink-doris.table": "表名",
+    "step.sink-doris.batchSize": "提交记录数量",
+    "step.sink-doris.interval": "时间间隔(毫秒)",
+    "step.sink-doris.maxRetries": "重试次数",
+    "step.sink-doris.dorisConf": "doris配置",
+    "step.sink-doris.dorisConf.tooltip": "参考doris官方文档,按照key=value格式配置属性，每个属性一行"
   },
   "stdata": {
     "remark": "备注",

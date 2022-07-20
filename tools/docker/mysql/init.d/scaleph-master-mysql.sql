@@ -185,6 +185,8 @@ values ('datasource_type', 'PostGreSQL', 'PostGreSQL', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('datasource_type', 'Kafka', 'Kafka', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
+values ('datasource_type', 'Doris', 'Doris', 'sys', 'sys');
+insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('job_type', 'b', '周期作业', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('job_type', 'r', '实时作业', 'sys', 'sys');
@@ -1513,7 +1515,27 @@ values ('source', 'kafka', 'watermark', null, '0', '水位线', 'sys', 'sys');
 insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
                                    step_attr_describe, creator, editor)
 values ('source', 'kafka', 'format_conf', null, '0', '格式化配置', 'sys', 'sys');
-
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'doris', 'dataSource', null, '1', '数据源', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'doris', 'table', null, '1', '表名', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'doris', 'batch_size', null, '0', '提交记录数量', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'doris', 'interval', null, '0', '时间间隔', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'doris', 'max_retries', null, '0', '重试次数', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'doris', 'doris_conf', null, '0', 'doris配置', 'sys', 'sys');
+insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
+                                   step_attr_describe, creator, editor)
+values ('sink', 'doris', 'parallelism', null, '0', '并行数量', 'sys', 'sys');
 
 /* 作业连线信息 */
 drop table if exists di_job_link;
