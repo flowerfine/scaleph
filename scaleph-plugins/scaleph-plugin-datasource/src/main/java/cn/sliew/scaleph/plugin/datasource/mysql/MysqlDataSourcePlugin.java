@@ -37,7 +37,7 @@ public class MysqlDataSourcePlugin extends JDBCDataSourcePlugin {
 
     @Override
     public String getJdbcUrl() {
-        return "jdbc:mysql://" + properties.getString(HOST) + ":" + String.valueOf(properties.get(PORT)) + "/" + properties.getString(DATABASE_NAME) + "?" + getAdditionalProps();
+        return "jdbc:mysql://" + properties.getString(HOST) + ":" + properties.get(PORT) + "/" + properties.getString(DATABASE_NAME) + "?" + getAdditionalProps();
     }
 
     @Override

@@ -74,14 +74,15 @@
       </d-form-control>
     </d-form-item>
     <d-form-item>
+      <d-form-label [required]="true">{{ 'datadev.port.http' | translate }}</d-form-label>
+      <d-form-control>
+        <input dTextInput name="httpPort" [(ngModel)]="formData.httpPort" [dValidateRules]="formConfig.httpPortRules" />
+      </d-form-control>
+    </d-form-item>
+    <d-form-item>
       <d-form-label>{{ 'datadev.remark' | translate }}</d-form-label>
       <d-form-control>
-        <input
-          dTextInput
-          name="remark"
-          [(ngModel)]="formData.remark"
-          [dValidateRules]="formConfig.remarkRules"
-        />
+        <input dTextInput name="remark" [(ngModel)]="formData.remark" [dValidateRules]="formConfig.remarkRules" />
       </d-form-control>
     </d-form-item>
     <d-form-item>

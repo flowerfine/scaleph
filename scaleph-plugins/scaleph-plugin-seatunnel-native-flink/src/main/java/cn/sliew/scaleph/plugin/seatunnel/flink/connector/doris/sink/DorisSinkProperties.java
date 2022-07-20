@@ -22,14 +22,11 @@ import cn.sliew.scaleph.plugin.framework.property.*;
 
 public enum DorisSinkProperties {
     ;
-
     public static final PropertyDescriptor<String> FENODES = new PropertyDescriptor.Builder<String>()
             .name("fenodes")
             .description("Doris FE http address")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> USER = new PropertyDescriptor.Builder<String>()
@@ -37,8 +34,6 @@ public enum DorisSinkProperties {
             .description("Doris username")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> PASSWORD = new PropertyDescriptor.Builder<String>()
@@ -46,8 +41,6 @@ public enum DorisSinkProperties {
             .description("Doris password")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> DATABASE = new PropertyDescriptor.Builder<String>()
@@ -55,8 +48,6 @@ public enum DorisSinkProperties {
             .description("Doris database name")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> TABLE = new PropertyDescriptor.Builder<String>()
@@ -73,7 +64,6 @@ public enum DorisSinkProperties {
             .description("Maximum number of lines in a single write Doris,default value is 5000.")
             .type(PropertyType.INT)
             .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> INTERVAL = new PropertyDescriptor.Builder<Integer>()
@@ -82,7 +72,6 @@ public enum DorisSinkProperties {
                     "Set to 0 to turn off periodic writing.")
             .type(PropertyType.INT)
             .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> MAX_RETRIES = new PropertyDescriptor.Builder<Integer>()
@@ -90,15 +79,13 @@ public enum DorisSinkProperties {
             .description("Number of retries after writing Doris failed")
             .type(PropertyType.INT)
             .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> DORIS_XXX = new PropertyDescriptor.Builder<String>()
-            .name("doris.*")
+    public static final PropertyDescriptor<String> DORIS_CONF = new PropertyDescriptor.Builder<String>()
+            .name("doris_conf")
             .description("The doris stream load parameters.you can use 'doris.' prefix + stream_load properties.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> PARALLELISM = new PropertyDescriptor.Builder()
@@ -107,7 +94,6 @@ public enum DorisSinkProperties {
             .type(PropertyType.INT)
             .defaultValue(1)
             .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
 }

@@ -41,6 +41,7 @@ export const WORKBENCH_MENU = [
       { title: 'datadev.step.sink-table', menuIcon: 'icon-table', menuType: 'sink', menuName: 'table' },
       { title: 'datadev.step.sink-console', menuIcon: 'icon-operation-log', menuType: 'sink', menuName: 'console' },
       { title: 'datadev.step.sink-kafka', menuIcon: 'icon-system', menuType: 'sink', menuName: 'kafka' },
+      { title: 'datadev.step.sink-doris', menuIcon: 'icon-system', menuType: 'sink', menuName: 'doris' },
     ],
   },
   {
@@ -233,6 +234,11 @@ export const STEP_ATTR_TYPE = {
   formatType: 'format_type',
   formatConf: 'format_conf',
   schema: 'schema',
+  table: 'table',
+  batch_size: 'batch_size',
+  interval: 'interval',
+  maxRetries: 'max_retries',
+  dorisConf: 'doris_conf',
 };
 
 export class MockData {
