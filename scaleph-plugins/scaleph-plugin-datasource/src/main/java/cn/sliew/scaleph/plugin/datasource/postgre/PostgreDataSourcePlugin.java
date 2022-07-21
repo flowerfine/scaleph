@@ -37,7 +37,7 @@ public class PostgreDataSourcePlugin extends JDBCDataSourcePlugin {
 
     @Override
     public String getJdbcUrl() {
-        return "jdbc:postgresql://" + properties.get(HOST) + ":" + String.valueOf(properties.get(PORT)) + "/" + properties.get(DATABASE_NAME);
+        return "jdbc:postgresql://" + properties.get(HOST) + ":" + properties.get(PORT) + "/" + properties.get(DATABASE_NAME);
     }
 
     @Override

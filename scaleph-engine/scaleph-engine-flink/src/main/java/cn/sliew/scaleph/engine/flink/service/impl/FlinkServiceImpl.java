@@ -145,18 +145,20 @@ public class FlinkServiceImpl implements FlinkService {
 
     private ClusterClient createYarnSessionCluster(FlinkClusterConfigDTO flinkClusterConfigDTO) throws Exception {
         final Path workspace = getWorkspace();
+        final Path flinkHomePath = loadFlinkRelease(flinkClusterConfigDTO.getFlinkReleaseId(), workspace);
         final Path flinkDeployConfigPath = loadDeployConfig(flinkClusterConfigDTO.getDeployConfigFileId(), workspace);
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, flinkDeployConfigPath);
-        ClusterClient<ApplicationId> clusterClient = SessionClient.create(DeploymentTarget.YARN_SESSION, configuration);
+        ClusterClient<ApplicationId> clusterClient = SessionClient.create(DeploymentTarget.YARN_SESSION, flinkHomePath, configuration);
         FileUtils.deleteDirectory(workspace.toFile());
         return clusterClient;
     }
 
     private ClusterClient createKubernetesSessionCluster(FlinkClusterConfigDTO flinkClusterConfigDTO) throws Exception {
         final Path workspace = getWorkspace();
+        final Path flinkHomePath = loadFlinkRelease(flinkClusterConfigDTO.getFlinkReleaseId(), workspace);
         final Path flinkDeployConfigPath = loadDeployConfig(flinkClusterConfigDTO.getDeployConfigFileId(), workspace);
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, flinkDeployConfigPath);
-        ClusterClient<String> clusterClient = SessionClient.create(DeploymentTarget.NATIVE_KUBERNETES_SESSION, configuration);
+        ClusterClient<String> clusterClient = SessionClient.create(DeploymentTarget.NATIVE_KUBERNETES_SESSION, flinkHomePath, configuration);
         FileUtils.deleteDirectory(workspace.toFile());
         return clusterClient;
     }

@@ -30,5 +30,8 @@
     <div *ngSwitchCase="'Kafka'">
       <app-kafka-datasource [data]="{ item: data }" #datasource></app-kafka-datasource>
     </div>
+    <div *ngSwitchCase="'Doris'">
+      <app-doris-datasource [data]="{ item: data }" #datasource></app-doris-datasource>
+    </div>
   </div>
 </div>

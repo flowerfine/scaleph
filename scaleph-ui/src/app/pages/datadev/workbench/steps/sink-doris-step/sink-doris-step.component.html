@@ -1,0 +1,99 @@
+<form
+  dForm
+  ngForm
+  [layout]="formLayout"
+  [formGroup]="formGroup"
+  [dValidateRules]="formConfig.rule"
+  #form="dValidateRules"
+  (ngSubmit)="submitForm()"
+>
+  <d-row [dGutter]="[24, 12]">
+    <d-col [dSpan]="24">
+      <d-form-item>
+        <d-form-label [required]="true">{{ 'datadev.step.stepTitle' | translate }}</d-form-label>
+        <d-form-control>
+          <input dTextInput name="stepTitle" formControlName="stepTitle" [dValidateRules]="formConfig.stepTitleRules" />
+        </d-form-control>
+      </d-form-item>
+    </d-col>
+  </d-row>
+  <d-row [dGutter]="[24, 12]">
+    <d-col [dSpan]="24">
+      <d-form-item>
+        <d-form-label [required]="true">{{ 'datadev.step.sink-doris.dataSource' | translate }}</d-form-label>
+        <d-form-control>
+          <d-select
+            [options]="dataSourceList"
+            name="dataSource"
+            [isSearch]="true"
+            [allowClear]="true"
+            formControlName="dataSource"
+            [filterKey]="'label'"
+            [dValidateRules]="formConfig.dataSourceRules"
+            [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+          >
+            <ng-template let-option="option"> {{ option['label'] }} </ng-template>
+          </d-select>
+        </d-form-control>
+      </d-form-item>
+    </d-col>
+  </d-row>
+  <d-row [dGutter]="[24, 12]">
+    <d-col [dSpan]="24">
+      <d-form-item>
+        <d-form-label [required]="true">{{ 'datadev.step.sink-doris.table' | translate }}</d-form-label>
+        <d-form-control>
+          <input dTextInput name="table" formControlName="table" [dValidateRules]="formConfig.tableRules" />
+        </d-form-control>
+      </d-form-item>
+    </d-col>
+  </d-row>
+  <d-row [dGutter]="[24, 12]">
+    <d-col [dSpan]="12">
+      <d-form-item>
+        <d-form-label>{{ 'datadev.step.sink-doris.batchSize' | translate }}</d-form-label>
+        <d-form-control>
+          <d-input-number formControlName="batch_size" name="batch_size" [min]="1" [allowEmpty]="true"></d-input-number>
+        </d-form-control>
+      </d-form-item>
+    </d-col>
+    <d-col [dSpan]="12">
+      <d-form-item>
+        <d-form-label>{{ 'datadev.step.sink-doris.interval' | translate }}</d-form-label>
+        <d-form-control>
+          <d-input-number formControlName="interval" name="interval" [min]="1" [allowEmpty]="true"></d-input-number>
+        </d-form-control>
+      </d-form-item>
+    </d-col>
+  </d-row>
+  <d-row [dGutter]="[24, 12]">
+    <d-col [dSpan]="24">
+      <d-form-item>
+        <d-form-label>{{ 'datadev.step.sink-doris.maxRetries' | translate }}</d-form-label>
+        <d-form-control>
+          <d-input-number formControlName="max_retries" name="max_retries" [min]="1" [allowEmpty]="true"></d-input-number>
+        </d-form-control>
+      </d-form-item>
+    </d-col>
+  </d-row>
+  <d-row [dGutter]="[24, 12]">
+    <d-col [dSpan]="24">
+      <d-form-item>
+        <d-form-label
+          >{{ 'datadev.step.sink-doris.dorisConf' | translate }}
+          <a [href]="'https://doris.apache.org/zh-CN/docs/data-operate/import/import-way/stream-load-manual.html'" target="_blank">
+            <d-icon
+              [icon]="'icon-infomation'"
+              dTooltip
+              content="{{ 'datadev.step.sink-doris.dorisConf.tooltip' | translate }}"
+              [position]="'bottom'"
+            ></d-icon>
+          </a>
+        </d-form-label>
+        <d-form-control>
+          <textarea dTextarea resize="vertical" name="doris_conf" formControlName="doris_conf"> </textarea>
+        </d-form-control>
+      </d-form-item>
+    </d-col>
+  </d-row>
+</form>

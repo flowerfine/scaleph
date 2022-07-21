@@ -29,8 +29,8 @@ public enum DataSourceTypeEnum {
     JDBC("JDBC", "JDBC"),
     MYSQL("Mysql", "Mysql"),
     ORACLE("Oracle", "Oracle"),
-
     POSTGRESQL("PostGreSQL", "PostGreSQL"),
+    DORIS("Doris", "Doris"),
 
     KAFKA("Kafka", "Kafka")
     ;

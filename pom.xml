@@ -134,6 +134,7 @@
         <disruptor.version>3.4.4</disruptor.version>
         <ojdbc.version>21.1.0.0</ojdbc.version>
         <mysql.version>8.0.28</mysql.version>
+        <doris.version>5.1.26</doris.version>
         <postgresql.version>42.3.3</postgresql.version>
         <flink.version>1.13.6</flink.version>
         <flinkful.version>1.13.6_1_8-SNAPSHOT</flinkful.version>
@@ -434,6 +435,12 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
                 <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${doris.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.postgresql</groupId>

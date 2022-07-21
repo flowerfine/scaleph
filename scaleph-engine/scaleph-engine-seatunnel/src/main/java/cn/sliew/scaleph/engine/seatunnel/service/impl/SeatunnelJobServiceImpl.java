@@ -144,7 +144,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         //prevent System.exit() invocation when seatunnel job config check result is false
         CliClient client = new DescriptorCliClient();
         JobID jobInstanceID = SecurityContext.call(() ->
-                client.submit(DeploymentTarget.STANDALONE_SESSION, configuration, jarJob));
+                client.submit(DeploymentTarget.STANDALONE_SESSION, null, configuration, jarJob));
 
         //write log
         insertJobLog(diJobDTO, configuration, jobInstanceID);

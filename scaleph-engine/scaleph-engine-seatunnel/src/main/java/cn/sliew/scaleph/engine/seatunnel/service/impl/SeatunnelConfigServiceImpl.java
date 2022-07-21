@@ -25,6 +25,7 @@ import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.common.exception.Rethrower;
+import cn.sliew.scaleph.common.param.PropertyUtil;
 import cn.sliew.scaleph.core.di.service.dto.*;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
@@ -36,7 +37,6 @@ import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.JobNameProperties;
 import cn.sliew.scaleph.system.service.vo.DictVO;
-import cn.sliew.scaleph.common.param.PropertyUtil;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.graph.GraphBuilder;
@@ -74,16 +74,18 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         JOB_STEP_MAP.put("sink-table", JDBC_SINK.getValue());
         JOB_STEP_MAP.put("sink-console", CONSOLE_SINK.getValue());
         JOB_STEP_MAP.put("sink-kafka", KAFKA_SINK.getValue());
+        JOB_STEP_MAP.put("sink-doris", DORIS_SINK.getValue());
         //init plugin map
         PLUGIN_MAP.put("source-table", "jdbc");
         PLUGIN_MAP.put("sink-table", "jdbc");
         PLUGIN_MAP.put("source-mock", "fake");
         PLUGIN_MAP.put("source-mockStream", "fake");
         PLUGIN_MAP.put("sink-console", "console");
-        PLUGIN_MAP.put("sink-kafka","kafka");
-        PLUGIN_MAP.put("source-kafka","kafka");
-        PLUGIN_MAP.put("source-csv", "file");
-        PLUGIN_MAP.put("sink-csv", "file");
+        PLUGIN_MAP.put("sink-kafka", "kafka");
+        PLUGIN_MAP.put("source-kafka", "kafka");
+        PLUGIN_MAP.put("sink-doris", "doris");
+//        PLUGIN_MAP.put("source-csv", "file");
+//        PLUGIN_MAP.put("sink-csv", "file");
     }
 
     @Override
