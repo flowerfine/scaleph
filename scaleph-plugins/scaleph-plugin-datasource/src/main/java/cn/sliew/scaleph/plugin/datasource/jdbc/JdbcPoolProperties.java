@@ -68,7 +68,7 @@ public enum JdbcPoolProperties {
             .properties(Property.Required)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> PORT = new PropertyDescriptor.Builder()
+    public static final PropertyDescriptor<Integer> PORT = new PropertyDescriptor.Builder()
             .name("port")
             .description("port for the database")
             .type(PropertyType.INT)
@@ -101,4 +101,5 @@ public enum JdbcPoolProperties {
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
+
 }

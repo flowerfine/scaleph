@@ -39,8 +39,7 @@ import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.privilege.SecurityContext;
-import cn.sliew.scaleph.storage.service.StorageService;
-import cn.sliew.scaleph.storage.service.impl.NioFileServiceImpl;
+import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.system.service.SysConfigService;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import lombok.extern.slf4j.Slf4j;
@@ -60,7 +59,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -92,9 +90,8 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     private DiJobLogService diJobLogService;
     @Autowired
     private DiClusterConfigService diClusterConfigService;
-
-    @Resource(name = "${app.resource.type}")
-    private StorageService storageService;
+    @Autowired
+    private FileSystemService fileSystemService;
     @Autowired
     private SysConfigService sysConfigService;
     @Autowired
@@ -147,7 +144,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         //prevent System.exit() invocation when seatunnel job config check result is false
         CliClient client = new DescriptorCliClient();
         JobID jobInstanceID = SecurityContext.call(() ->
-                client.submit(DeploymentTarget.STANDALONE_SESSION, configuration, jarJob));
+                client.submit(DeploymentTarget.STANDALONE_SESSION, null, configuration, jarJob));
 
         //write log
         insertJobLog(diJobDTO, configuration, jobInstanceID);
@@ -313,17 +310,10 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         }
         jars.add(seatunnelJarPath.toUri().toString());
 
-        StorageService localStorageService = new NioFileServiceImpl(projectPath.getAbsolutePath());
         for (DiResourceFileDTO file : resourceList) {
-            Long fileSize = storageService.getFileSize(file.getFilePath(), file.getFileName());
-            if (localStorageService.exists(file.getFileName()) &&
-                    fileSize.equals(localStorageService.getFileSize("", file.getFileName()))) {
+            try (final InputStream inputStream = fileSystemService.get(file.getFilePath() + "/" + file.getFileName())) {
                 File localFile = FileUtil.file(projectPath, file.getFileName());
-                jars.add(localFile.toURI().toString());
-            } else {
-                InputStream is = storageService.get(file.getFilePath(), file.getFileName());
-                File localFile = FileUtil.file(projectPath, file.getFileName());
-                FileUtil.writeFromStream(is, localFile);
+                FileUtil.writeFromStream(inputStream, localFile);
                 jars.add(localFile.toURI().toString());
             }
         }

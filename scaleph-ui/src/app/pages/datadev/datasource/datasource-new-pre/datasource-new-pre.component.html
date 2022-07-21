@@ -36,6 +36,11 @@
     <h3>{{ 'datadev.bigdata' | translate }}</h3>
     <d-row [dGutter]="[12, 12]">
       <d-col [dSpan]="6">
+        <d-card (click)="openAddDataSourceDialog('Doris')">
+          <div class="indicator-card-content">Doris</div>
+        </d-card>
+      </d-col>
+      <d-col [dSpan]="6">
         <d-card (click)="openAddDataSourceDialog('hive')">
           <div class="indicator-card-content">Hive</div>
         </d-card>

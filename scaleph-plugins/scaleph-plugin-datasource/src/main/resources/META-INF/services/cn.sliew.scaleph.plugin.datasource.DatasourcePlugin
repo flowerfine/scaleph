@@ -3,3 +3,4 @@ cn.sliew.scaleph.plugin.datasource.mysql.MysqlDataSourcePlugin
 cn.sliew.scaleph.plugin.datasource.oracle.OracleDataSourcePlugin
 cn.sliew.scaleph.plugin.datasource.postgre.PostgreDataSourcePlugin
 cn.sliew.scaleph.plugin.datasource.kafka.KafkaDataSourcePlugin
+cn.sliew.scaleph.plugin.datasource.doris.DorisDataSourcePlugin
