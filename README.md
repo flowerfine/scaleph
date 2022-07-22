@@ -71,6 +71,10 @@ please refer [wiki](https://github.com/flowerfine/scaleph/wiki)
    2. java 17, quarkus.
 2. plugins. https://dubbo.apache.org/zh/docsv2.7/dev/principals/
 
+## Code of Conduct
+
+This project adheres to the Contributor Covenant [code of conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/)
+
 ## Contributing
 
 For contributions, please refer [CONTRIBUTING](https://github.com/flowerfine/scaleph)
