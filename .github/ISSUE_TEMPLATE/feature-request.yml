@@ -68,7 +68,7 @@ body:
         The Code of Conduct helps create a safe space for everyone. We require that everyone agrees to it.
       options:
         - label: |
-            I agree to follow this project's [Code of Conduct](https://www.apache.org/foundation/policies/conduct)
+            I agree to follow this project's [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/)
           required: true
 
   - type: markdown
