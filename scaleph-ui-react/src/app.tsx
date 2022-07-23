@@ -1,46 +1,37 @@
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
 import { LinkOutlined } from '@ant-design/icons';
-import type { Settings as LayoutSettings } from '@ant-design/pro-components';
+import { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
+import { RequestConfig } from 'umi';
 import { history, Link } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
-import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
+import { USER_AUTH } from './constant';
+import { message, notification } from 'antd';
+import { OnlineUserInfo, ResponseBody } from './app.d';
+import { getOnlineUserInfo, setSession } from './services/auth';
 
 const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/user/login';
-
+const whiteList: string[] = ['login', 'register'];
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
-  currentUser?: API.CurrentUser;
-  loading?: boolean;
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
+  currentUser?: OnlineUserInfo;
 }> {
-  const fetchUserInfo = async () => {
-    try {
-      const msg = await queryCurrentUser();
-      return msg.data;
-    } catch (error) {
-      history.push(loginPath);
+  const token = localStorage.getItem(USER_AUTH.token);
+  if (token != null && token != undefined && token != '') {
+    const info = await getOnlineUserInfo(token);
+    if (info.success) {
+      await setSession(info.data || {});
     }
-    return undefined;
-  };
-  // 如果不是登录页面，执行
-  if (history.location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
-    return {
-      fetchUserInfo,
-      currentUser,
-      settings: defaultSettings,
-    };
   }
+  const user: OnlineUserInfo = JSON.parse(localStorage.getItem(USER_AUTH.userInfo) || '');
   return {
-    fetchUserInfo,
     settings: defaultSettings,
+    currentUser: user,
   };
 }
 
@@ -49,16 +40,25 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   return {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
-    waterMarkProps: {
-      content: initialState?.currentUser?.name,
-    },
+    // waterMarkProps: {
+    //   content: initialState?.currentUser?.userName,
+    // },
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;
-      console.log(history);
-      // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
-        history.push(loginPath);
+      const token = localStorage.getItem(USER_AUTH.token);
+      if (!token && !whiteList.includes(location.pathname)) {
+        localStorage.clear();
+        history.push('/login');
+      } else if (whiteList.includes(location.pathname)) {
+        localStorage.clear();
+      } else if (token) {
+        //check if token expired
+        let expireTime = Number(localStorage.getItem(USER_AUTH.expireTime));
+        let ctime = new Date().getTime();
+        if (expireTime == null || expireTime == undefined || ctime > expireTime) {
+          history.push('/login');
+        }
       }
     },
     layoutBgImgList: [
@@ -83,11 +83,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     ],
     links: isDev
       ? [
-          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
-            <LinkOutlined />
-            <span>OpenAPI 文档</span>
-          </Link>,
-        ]
+        <Link key="api" to="/scaleph/doc.html" target="_blank">
+          <LinkOutlined />
+          <span>API 文档</span>
+        </Link>,
+      ]
       : [],
     menuHeaderRender: undefined,
     // 自定义 403 页面
@@ -116,4 +116,61 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     ...initialState?.settings,
   };
+};
+
+const requestHeaderInterceptor: any = (url: string, options: RequestConfig) => {
+  const headers = {
+    ...options.headers,
+    u_token: localStorage.getItem(USER_AUTH.token) || '',
+  };
+  return {
+    url: `${url}`,
+    options: { ...options, interceptors: true, headers: headers },
+  };
+}
+
+const responseErrorInterceptor: any = (response: any, options: RequestConfig) => {
+  // debugger
+  // check response status 
+  if (response.status != 200) {
+    switch (response.status) {
+      case 401:
+        history.push('/login');
+        break;
+      case 403:
+        history.push('/403');
+        break;
+      default:
+        break;
+    }
+  }
+  // check response body info 
+  let respBody: ResponseBody<any> = response?.data;
+  if (respBody && respBody.success != null && respBody.success != undefined && !respBody.success) {
+    if (respBody.errorCode == '401') {
+      history.push('/login');
+    } else if (respBody.errorCode == '403') {
+      history.push('/403');
+    } else {
+      handleError(respBody.errorCode, respBody.errorMessage, respBody.showType);
+    }
+  }
+  return response;
+}
+
+const handleError = (errorCode: string | undefined, errorMessage: string, showType: string | undefined) => {
+  if (showType == '1') {
+    message.warning(errorMessage, 2);
+  } else if (showType == '2') {
+    message.error(errorMessage, 2);
+  } else if (showType == '4') {
+    notification.error({ message: 'Error:' + errorCode, description: errorMessage, duration: 3 });
+  }
+}
+
+export const request: RequestConfig = {
+  timeout: 1000,
+  errorConfig: {},
+  requestInterceptors: [requestHeaderInterceptor],
+  responseInterceptors: [responseErrorInterceptor],
 };

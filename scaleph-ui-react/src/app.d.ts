@@ -1,16 +1,16 @@
-/**验证码 */
 export type AuthCode = {
   uuid: string;
   img: string;
 };
-/**通用response结构 */
-export type ResponseBody<T> = {
+
+export interface ResponseBody<T> {
   success: boolean;
   data?: T;
   errorCode?: string;
   errorMessage: string;
   showType?: string;
-};
+}
+
 export type PageResponse<T> = {
   size: number;
   current: number;
@@ -42,12 +42,12 @@ export type LoginInfo = {
 };
 
 export type OnlineUserInfo = {
-  userName: string;
-  email: string;
-  token: string;
-  privileges: string[];
-  roles: string[];
-  expireTime: bigint;
+  userName?: string;
+  email?: string;
+  token?: string;
+  privileges?: string[];
+  roles?: string[];
+  expireTime?: bigint;
 };
 
 export type SoterField = {

@@ -1,5 +1,19 @@
 ﻿export default [
   {
+    path: '/',
+    layout: false,
+    routes: [
+      {
+        name: 'login',
+        path: '/login',
+        component: './User/Login',
+      },
+      {
+        component: './404',
+      },
+    ],
+  },
+  {
     path: '/user',
     layout: false,
     routes: [
@@ -19,6 +33,7 @@
     icon: 'smile',
     component: './Welcome',
   },
+
   {
     path: '/admin',
     name: 'admin',
