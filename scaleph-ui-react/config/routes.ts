@@ -1,66 +1,145 @@
 ﻿export default [
   {
     path: '/',
+    redirect: '/studio/databoard',
+  },
+  {
+    path: '/login',
     layout: false,
+    component: './User/Login',
+  },
+  {
+    path: '/register',
+    layout: false,
+    component: './User/Register',
+  },
+  {
+    name: 'studio',
+    path: 'studio',
+    icon: 'codeSandbox',
     routes: [
       {
-        name: 'login',
-        path: '/login',
-        component: './User/Login',
-      },
-      {
-        component: './404',
+        name: 'databoard',
+        path: 'databoard',
+        component: './Studio/DataBoard',
       },
     ],
   },
   {
-    path: '/user',
-    layout: false,
+    name: 'datadev',
+    path: 'datadev',
+    icon: 'desktop',
     routes: [
       {
-        name: 'login',
-        path: '/user/login',
-        component: './User/Login',
+        name: 'datasource',
+        path: 'datasource',
+        component: './DI/DataSource',
       },
       {
-        component: './404',
+        name: 'project',
+        path: 'project',
+        component: './DI/Project',
+      },
+      {
+        name: 'resource',
+        path: 'resource',
+        component: './DI/Resource',
+      },
+      {
+        name: 'cluster',
+        path: 'cluster',
+        component: './DI/Cluster',
       },
     ],
   },
   {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
-    component: './Welcome',
+    name: 'opscenter',
+    path: 'opscenter',
+    icon: 'lineChart',
+    routes: [
+      {
+        name: 'batch',
+        path: 'batch',
+        component: './OpsCenter/BatchJob',
+      },
+      {
+        name: 'realtime',
+        path: 'realtime',
+        component: './OpsCenter/RealtimeJob',
+      },
+    ],
   },
-
   {
-    path: '/admin',
+    name: 'stdata',
+    path: 'stdata',
+    icon: 'database',
+    routes: [
+      {
+        name: 'dataElement',
+        path: 'dataElement',
+        component: './Stdata/DataElement',
+      },
+      {
+        name: 'refdata',
+        path: 'refdata',
+        component: './Stdata/RefData',
+      },
+      {
+        name: 'refdataMap',
+        path: 'refdataMap',
+        component: './Stdata/RefDataMap',
+      },
+      {
+        name: 'system',
+        path: 'system',
+        component: './Stdata/System',
+      },
+    ],
+  },
+  {
     name: 'admin',
-    icon: 'crown',
-    access: 'canAdmin',
+    path: 'admin',
+    icon: 'setting',
     routes: [
       {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        icon: 'smile',
-        component: './Welcome',
+        name: 'user',
+        path: 'user',
+        component: './Admin/User',
       },
       {
-        component: './404',
+        name: 'privilege',
+        path: 'privilege',
+        component: './Admin/Privilege',
+      },
+      {
+        name: 'dict',
+        path: 'dict',
+        component: './Admin/Dict',
+      },
+      {
+        name: 'setting',
+        path: 'setting',
+        component: './Admin/Setting',
       },
     ],
   },
-  {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
-  },
-  {
-    path: '/',
-    redirect: '/welcome',
-  },
+  // {
+  //   path: '/admin',
+  //   name: 'admin',
+  //   icon: 'crown',
+  //   access: 'canAdmin',
+  //   routes: [
+  //     {
+  //       path: '/admin/sub-page',
+  //       name: 'sub-page',
+  //       icon: 'smile',
+  //       component: './Welcome',
+  //     },
+  //     {
+  //       component: './404',
+  //     },
+  //   ],
+  // },
   {
     component: './404',
   },

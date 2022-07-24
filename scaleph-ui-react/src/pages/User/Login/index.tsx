@@ -108,7 +108,7 @@ const Login: React.FC = () => {
               </Button>
             </Form.Item>
             <Form.Item>
-              <a style={{ float: 'right' }}> {intl.formatMessage({ id: 'pages.user.login.register' })}</a>
+              <a href='/register' style={{ float: 'right' }}> {intl.formatMessage({ id: 'pages.user.login.register' })}</a>
             </Form.Item>
           </Form>
         </div>
