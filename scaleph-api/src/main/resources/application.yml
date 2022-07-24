@@ -86,6 +86,12 @@ spring:
       restart:
         enabled: false
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+
 logging:
   level:
     root: info
