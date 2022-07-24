@@ -49,3 +49,12 @@ export async function hasPrivilege(code: string) {
     return false;
   }
 }
+
+export async function logout() {
+  let token: string = localStorage.getItem(USER_AUTH.token) || '';
+  console.log(token);
+  request<ResponseBody<any>>('/api/user/logout', {
+    method: 'POST',
+    params: { token: token },
+  });
+}
