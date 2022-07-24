@@ -30,6 +30,11 @@ export class FlinkDeployConfig {
   updateTime?: Date;
 }
 
+export interface KeyValueConfig {
+  key: string;
+  value: string;
+}
+
 export class FlinkDeployConfigParam extends QueryParam {
   configType?: string;
   name?: string;

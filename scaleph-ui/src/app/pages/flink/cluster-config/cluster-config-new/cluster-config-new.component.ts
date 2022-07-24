@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit} from '@angular/core';
+import {AfterContentInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {DValidateRules, FormLayout} from 'ng-devui';
 import {
@@ -6,22 +6,29 @@ import {
   FlinkDeployConfig,
   FlinkDeployConfigParam,
   FlinkRelease,
-  FlinkReleaseParam
+  FlinkReleaseParam,
+  KeyValueConfig
 } from "../../../../@core/data/flink.data";
 import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
 import {ReleaseService} from "../../../../@core/services/flink/release.service";
 import {ClusterConfigService} from "../../../../@core/services/flink/cluster-config.service";
+import {TableWidthConfig} from 'ng-devui/data-table';
+import {DataTableComponent} from "@devui";
 
 @Component({
   selector: 'app-cluster-config-new',
   templateUrl: './cluster-config-new.component.html',
   styleUrls: ['../cluster-config.component.scss'],
 })
-export class ClusterConfigNewComponent implements OnInit {
+export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
   parent: HTMLElement;
   @Input() data: any;
+  @ViewChild('quickAddRowTip') quickAddRowTip: ElementRef;
+  @ViewChild('quickAddRowContent') quickAddRowContent: ElementRef;
+  @ViewChild('addSubRowContent') addSubRowContent: ElementRef;
+  @ViewChild('dataTable', { static: true }) dataTable: DataTableComponent;
   formLayout = FormLayout.Horizontal;
   formConfig: { [Key: string]: DValidateRules } = {
     rule: {message: this.translate.instant('app.error.formValidateError'), messageShowType: 'text'},
@@ -66,6 +73,13 @@ export class ClusterConfigNewComponent implements OnInit {
     remark: null,
   };
 
+  headerNewForm: boolean = false;
+  customConfigdataTableDs: Array<KeyValueConfig> = []
+  defaultRowData = {
+    key: 'foo',
+    value: 'bar'
+  }
+
   constructor(
     private elr: ElementRef,
     private translate: TranslateService,
@@ -77,6 +91,9 @@ export class ClusterConfigNewComponent implements OnInit {
 
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;
+    // const newData = {...this.defaultRowData};
+    // this.customConfigdataTableDs.unshift(newData);
+
     this.dictDataService.listByType(DICT_TYPE.flinkVersion).subscribe((d) => {
       this.flinkVersionList = d;
     });
@@ -88,13 +105,16 @@ export class ClusterConfigNewComponent implements OnInit {
     });
 
     let flinkDeployConfigParam: FlinkDeployConfigParam = {
-      pageSize:  DEFAULT_PAGE_PARAM.pageSize,
+      pageSize: DEFAULT_PAGE_PARAM.pageSize,
       current: DEFAULT_PAGE_PARAM.pageIndex
     }
     this.deployConfigService.list(flinkDeployConfigParam).subscribe((d) => {
       this.flinkDeployConfigResult = d
       this.flinkDeployConfigList = d.records;
     });
+  }
+
+  ngAfterContentInit() {
   }
 
   onFlinkVersionValueChange(flinkVersion) {
@@ -114,7 +134,7 @@ export class ClusterConfigNewComponent implements OnInit {
       event.instance.loadFinish();
     } else {
       let flinkDeployConfigParam: FlinkDeployConfigParam = {
-        pageSize:  this.flinkDeployConfigResult.size,
+        pageSize: this.flinkDeployConfigResult.size,
         current: this.flinkDeployConfigResult.current + 1
       }
       this.deployConfigService.list(flinkDeployConfigParam).subscribe((d) => {
@@ -122,6 +142,26 @@ export class ClusterConfigNewComponent implements OnInit {
         this.flinkDeployConfigList = [...this.flinkDeployConfigList, ...d.records];
         event.instance.loadFinish();
       });
+    }
+  }
+
+  newRow() {
+    this.headerNewForm = true;
+  }
+
+  quickRowAdded() {
+    const newData = {...this.defaultRowData};
+    this.customConfigdataTableDs.unshift(newData);
+    this.headerNewForm = false;
+  }
+
+  quickRowCancel() {
+    this.headerNewForm = false;
+  }
+
+  toggleExpand(rowItem) {
+    if (rowItem.$expandConfig) {
+      rowItem.$expandConfig.expand = !rowItem.$expandConfig.expand;
     }
   }
 

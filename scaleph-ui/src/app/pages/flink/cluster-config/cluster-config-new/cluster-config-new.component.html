@@ -20,7 +20,7 @@
       <d-form-item>
         <d-form-label [required]="true">{{ 'flink.cluster-config.name' | translate }}</d-form-label>
         <d-form-control>
-          <input dTextInput name="name" [(ngModel)]="formData.name" [dValidateRules]="formConfig.nameRules" />
+          <input dTextInput name="name" [(ngModel)]="formData.name" [dValidateRules]="formConfig.nameRules"/>
         </d-form-control>
       </d-form-item>
       <d-form-item>
@@ -94,6 +94,105 @@
         <d-form-label>{{ 'flink.remark' | translate }}</d-form-label>
         <d-form-control>
           <input dTextInput name="remark" [(ngModel)]="formData.remark" [dValidateRules]="formConfig.remarkRules"/>
+        </d-form-control>
+      </d-form-item>
+      <d-form-item>
+        <d-form-label>自定义配置</d-form-label>
+        <d-form-control>
+          <d-data-table
+            #dataTable
+            [dataSource]="customConfigdataTableDs"
+            [tableOverflowType]="'overlay'"
+            [scrollable]="true">
+            <tbody dTableBody>
+            <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
+              <tr dTableRow *ngIf="rowIndex === 0" row-height="1.5" style="line-height: 1.5">
+                <td dTableCell [attr.colspan]="3" >
+                  <div class="btn-group" style="text-align: center;">
+                    <d-button
+                      icon="icon-code-editor-add"
+                      bsStyle="text-dark"
+                      (click)="newRow()"
+                      title="{{ 'app.common.operate.add.label' | translate }}"></d-button>
+                  </div>
+                </td>
+              </tr>
+              <tr dTableRow *ngIf="rowIndex === 0">
+                <td dTableCell *ngIf="headerNewForm">
+                  <div class="input-block">
+                    <input class="devui-form-control" name="key" [(ngModel)]="defaultRowData.key" placeholder="key" type="text"/>
+                  </div>
+                </td>
+                <td dTableCell *ngIf="headerNewForm">
+                  <div class="input-block">
+                    <input class="devui-form-control" name="value" [(ngModel)]="defaultRowData.value" placeholder="value" type="text"/>
+                  </div>
+                </td>
+                <td dTableCell *ngIf="headerNewForm">
+                  <div class="btn-group">
+                    <d-button
+                      icon="icon-right"
+                      bsStyle="text-dark"
+                      (click)="quickRowAdded()"
+                      title="{{ 'app.common.operate.add.label' | translate }}"></d-button>
+                    <d-button
+                      icon="icon-error"
+                      bsStyle="text-dark"
+                      (click)="quickRowCancel()"
+                      title="{{ 'app.common.operate.delete.label' | translate }}"></d-button>
+                  </div>
+                </td>
+              </tr>
+              <tr dTableRow >
+                <td dTableCell>{{ rowItem.key }}</td>
+                <td dTableCell>{{ rowItem.value }}</td>
+                <td dTableCell>
+                  <div class="btn-group">
+                    <d-button
+                      icon="icon-delete"
+                      bsStyle="text-dark"
+                      title="{{ 'app.common.operate.delete.label' | translate }}"></d-button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template #noResultTemplateRef>
+              <div class="btn-group" style="text-align: center; margin-top: -40px">
+                <d-button
+                  icon="icon-code-editor-add"
+                  bsStyle="text-dark"
+                  (click)="newRow()"
+                  title="{{ 'app.common.operate.add.label' | translate }}"></d-button>
+              </div>
+              <tr dTableRow *ngIf="headerNewForm">
+                <td dTableCell>
+                  <div class="input-block">
+                    <input class="devui-form-control" name="key" [(ngModel)]="defaultRowData.key" placeholder="key" type="text"/>
+                  </div>
+                </td>
+                <td dTableCell>
+                  <div class="input-block">
+                    <input class="devui-form-control" name="value" [(ngModel)]="defaultRowData.value" placeholder="value" type="text"/>
+                  </div>
+                </td>
+                <td dTableCell>
+                  <div class="btn-group">
+                    <d-button
+                      icon="icon-right"
+                      bsStyle="text-dark"
+                      (click)="quickRowAdded()"
+                      title="{{ 'app.common.operate.add.label' | translate }}"></d-button>
+                    <d-button
+                      icon="icon-error"
+                      bsStyle="text-dark"
+                      (click)="quickRowCancel()"
+                      title="{{ 'app.common.operate.delete.label' | translate }}"></d-button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            </tbody>
+          </d-data-table>
         </d-form-control>
       </d-form-item>
     </div>
