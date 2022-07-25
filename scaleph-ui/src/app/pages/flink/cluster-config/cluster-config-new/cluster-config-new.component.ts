@@ -72,8 +72,8 @@ export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
   headerNewForm: boolean = false;
   customConfigdataTableDs: Array<KeyValueConfig> = []
   defaultRowData = {
-    key: 'foo',
-    value: 'bar'
+    key: null,
+    value: null
   }
 
   constructor(
@@ -146,6 +146,10 @@ export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
     const newData = {...this.defaultRowData};
     this.customConfigdataTableDs.unshift(newData);
     this.headerNewForm = false;
+    this.defaultRowData = {
+      key: null,
+      value: null
+    }
   }
 
   quickRowCancel() {

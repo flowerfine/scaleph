@@ -6,14 +6,14 @@ import {
   FlinkDeployConfig,
   FlinkDeployConfigParam,
   FlinkRelease,
-  FlinkReleaseParam
+  FlinkReleaseParam, KeyValueConfig
 } from "../../../../@core/data/flink.data";
 import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
 import {ReleaseService} from "../../../../@core/services/flink/release.service";
 import {ClusterConfigService} from "../../../../@core/services/flink/cluster-config.service";
-import {DFormGroupRuleDirective} from "@devui";
+import {DataTableComponent, DFormGroupRuleDirective} from "@devui";
 
 @Component({
   selector: 'app-cluster-config-update',
@@ -24,6 +24,7 @@ export class ClusterConfigUpdateComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
   @ViewChild('form') formDir: DFormGroupRuleDirective;
+  @ViewChild('dataTable', {static: true}) dataTable: DataTableComponent;
   formLayout = FormLayout.Horizontal;
   formConfig: { [Key: string]: DValidateRules } = {
     rule: {message: this.translate.instant('app.error.formValidateError'), messageShowType: 'text'},
@@ -68,6 +69,13 @@ export class ClusterConfigUpdateComponent implements OnInit {
     flinkDeployConfig: null,
     remark: null,
   };
+
+  headerNewForm: boolean = false;
+  customConfigdataTableDs: Array<KeyValueConfig> = []
+  defaultRowData = {
+    key: null,
+    value: null
+  }
 
   constructor(
     private elr: ElementRef,
@@ -146,6 +154,28 @@ export class ClusterConfigUpdateComponent implements OnInit {
         event.instance.loadFinish();
       });
     }
+  }
+
+  newRow() {
+    this.headerNewForm = true;
+  }
+
+  quickRowAdded() {
+    const newData = {...this.defaultRowData};
+    this.customConfigdataTableDs.unshift(newData);
+    this.headerNewForm = false;
+    this.defaultRowData = {
+      key: null,
+      value: null
+    }
+  }
+
+  quickRowCancel() {
+    this.headerNewForm = false;
+  }
+
+  deleteRow(rowIndex) {
+    this.customConfigdataTableDs.splice(rowIndex, 1);
   }
 
   submitForm({valid}) {
