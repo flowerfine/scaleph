@@ -24,9 +24,6 @@ import {DataTableComponent} from "@devui";
 export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
   parent: HTMLElement;
   @Input() data: any;
-  @ViewChild('quickAddRowTip') quickAddRowTip: ElementRef;
-  @ViewChild('quickAddRowContent') quickAddRowContent: ElementRef;
-  @ViewChild('addSubRowContent') addSubRowContent: ElementRef;
   @ViewChild('dataTable', {static: true}) dataTable: DataTableComponent;
   formLayout = FormLayout.Horizontal;
   formConfig: { [Key: string]: DValidateRules } = {
