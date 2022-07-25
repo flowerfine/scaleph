@@ -160,9 +160,9 @@ export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
   }
 
   submitForm({valid}) {
-    let customConfigOptions: Map<string, any> = new Map();
+    let customConfigOptions: {[key:string]: any} = {};
     this.customConfigdataTableDs.forEach((config) => {
-      customConfigOptions.set(config.key, config.value)
+      customConfigOptions[config.key] = config.value
     })
 
     let row: FlinkClusterConfig = {

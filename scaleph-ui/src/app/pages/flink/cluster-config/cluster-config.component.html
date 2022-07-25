@@ -134,7 +134,7 @@
               </d-column>
               <d-column field="configOptions" header="{{ 'flink.cluster-config.configOptions' | translate }}">
                 <d-cell>
-                  <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
+                  <ng-template let-cellItem="cellItem">{{ cellItem ? (cellItem | json) : '' }}</ng-template>
                 </d-cell>
               </d-column>
               <d-column field="remark" header="{{ 'flink.remark' | translate }}">
