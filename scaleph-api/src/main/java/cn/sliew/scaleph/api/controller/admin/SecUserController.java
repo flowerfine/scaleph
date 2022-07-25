@@ -170,7 +170,7 @@ public class SecUserController {
     @AnonymousAccess
     @PostMapping(path = "/user/logout")
     @ApiOperation(value = "用户登出", notes = "用户登出接口")
-    public ResponseEntity<ResponseVO> logout(@RequestBody String token) {
+    public ResponseEntity<ResponseVO> logout(String token) {
         if (token != null) {
             this.onlineUserService.logoutByToken(token);
         }
