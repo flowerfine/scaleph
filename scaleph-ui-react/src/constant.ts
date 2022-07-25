@@ -33,6 +33,7 @@ export const USER_AUTH = {
   userInfo: 'u_info',
   pCodes: 'u_pCode',
   roleSysAdmin: 'sys_super_admin',
+  expireTime: 'u_expire_time',
 };
 
 export const PRIVILEGE_CODE = {

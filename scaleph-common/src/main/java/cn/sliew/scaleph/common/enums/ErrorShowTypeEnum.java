@@ -27,6 +27,8 @@ import lombok.Getter;
 public enum ErrorShowTypeEnum {
 
     SILENT(0, "SILENT"),
+
+    WARN_MESSAGE(1,"WARN_MESSAGE"),
     ERROR_MESSAGE(2, "ERROR_MESSAGE"),
     NOTIFICATION(4, "NOTIFICATION"),
     REDIRECT(9, "REDIRECT");

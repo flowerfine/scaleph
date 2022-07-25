@@ -5,13 +5,13 @@ const Settings: LayoutSettings & {
   logo?: string;
 } = {
   navTheme: 'light',
-  // 拂晓蓝
   primaryColor: '#1890ff',
   layout: 'mix',
   contentWidth: 'Fluid',
-  fixedHeader: false,
+  fixedHeader: true,
   fixSiderbar: true,
   colorWeak: false,
+  splitMenus: true,
   title: 'Scaleph',
   pwa: false,
   logo: 'https://res.hc-cdn.com/x-roma-components/1.0.10/assets/devui/logo.svg',
