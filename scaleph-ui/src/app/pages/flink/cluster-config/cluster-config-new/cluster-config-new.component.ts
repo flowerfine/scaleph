@@ -24,9 +24,6 @@ import {DataTableComponent} from "@devui";
 export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
   parent: HTMLElement;
   @Input() data: any;
-  @ViewChild('quickAddRowTip') quickAddRowTip: ElementRef;
-  @ViewChild('quickAddRowContent') quickAddRowContent: ElementRef;
-  @ViewChild('addSubRowContent') addSubRowContent: ElementRef;
   @ViewChild('dataTable', {static: true}) dataTable: DataTableComponent;
   formLayout = FormLayout.Horizontal;
   formConfig: { [Key: string]: DValidateRules } = {
@@ -75,8 +72,8 @@ export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
   headerNewForm: boolean = false;
   customConfigdataTableDs: Array<KeyValueConfig> = []
   defaultRowData = {
-    key: 'foo',
-    value: 'bar'
+    key: null,
+    value: null
   }
 
   constructor(
@@ -149,6 +146,10 @@ export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
     const newData = {...this.defaultRowData};
     this.customConfigdataTableDs.unshift(newData);
     this.headerNewForm = false;
+    this.defaultRowData = {
+      key: null,
+      value: null
+    }
   }
 
   quickRowCancel() {
