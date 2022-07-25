@@ -98,6 +98,13 @@ export class ClusterConfigUpdateComponent implements OnInit {
       flinkDeployConfig: null,
       remark: this.data.item.remark,
     };
+    for (let name in this.data.item.configOptions) {
+      let keyValueConfig = {
+        key: name,
+        value: this.data.item.configOptions[name]
+      }
+      this.customConfigdataTableDs.push(keyValueConfig)
+    }
     this.releaseService.selectOne(this.data.item.flinkReleaseId).subscribe((d) => {
       this.formData.flinkRelease = d;
     });
@@ -179,6 +186,11 @@ export class ClusterConfigUpdateComponent implements OnInit {
   }
 
   submitForm({valid}) {
+    let customConfigOptions: {[key:string]: any} = {};
+    this.customConfigdataTableDs.forEach((config) => {
+      customConfigOptions[config.key] = config.value
+    })
+
     let row: FlinkClusterConfig = {
       id: this.formData.id,
       name: this.formData.name,
@@ -187,6 +199,7 @@ export class ClusterConfigUpdateComponent implements OnInit {
       deployMode: this.formData.deployMode,
       flinkReleaseId: this.formData.flinkRelease.id,
       deployConfigFileId: this.formData.flinkDeployConfig.id,
+      configOptions: customConfigOptions,
       remark: this.formData.remark
     };
     if (valid) {
