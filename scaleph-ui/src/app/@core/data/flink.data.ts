@@ -63,7 +63,7 @@ export class FlinkClusterConfig {
   deployMode?: Dict;
   flinkReleaseId?: number;
   deployConfigFileId?: number;
-  configOptions?: object;
+  configOptions?: Map<string, any>;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;

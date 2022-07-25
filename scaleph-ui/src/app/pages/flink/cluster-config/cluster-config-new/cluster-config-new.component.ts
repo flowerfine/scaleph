@@ -14,7 +14,6 @@ import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse} from "../../../../@co
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
 import {ReleaseService} from "../../../../@core/services/flink/release.service";
 import {ClusterConfigService} from "../../../../@core/services/flink/cluster-config.service";
-import {TableWidthConfig} from 'ng-devui/data-table';
 import {DataTableComponent} from "@devui";
 
 @Component({
@@ -28,7 +27,7 @@ export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
   @ViewChild('quickAddRowTip') quickAddRowTip: ElementRef;
   @ViewChild('quickAddRowContent') quickAddRowContent: ElementRef;
   @ViewChild('addSubRowContent') addSubRowContent: ElementRef;
-  @ViewChild('dataTable', { static: true }) dataTable: DataTableComponent;
+  @ViewChild('dataTable', {static: true}) dataTable: DataTableComponent;
   formLayout = FormLayout.Horizontal;
   formConfig: { [Key: string]: DValidateRules } = {
     rule: {message: this.translate.instant('app.error.formValidateError'), messageShowType: 'text'},
@@ -91,9 +90,6 @@ export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
 
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;
-    // const newData = {...this.defaultRowData};
-    // this.customConfigdataTableDs.unshift(newData);
-
     this.dictDataService.listByType(DICT_TYPE.flinkVersion).subscribe((d) => {
       this.flinkVersionList = d;
     });
@@ -159,13 +155,16 @@ export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
     this.headerNewForm = false;
   }
 
-  toggleExpand(rowItem) {
-    if (rowItem.$expandConfig) {
-      rowItem.$expandConfig.expand = !rowItem.$expandConfig.expand;
-    }
+  deleteRow(rowIndex) {
+    this.customConfigdataTableDs.splice(rowIndex, 1);
   }
 
   submitForm({valid}) {
+    let customConfigOptions: Map<string, any> = new Map();
+    this.customConfigdataTableDs.forEach((config) => {
+      customConfigOptions.set(config.key, config.value)
+    })
+
     let row: FlinkClusterConfig = {
       name: this.formData.name,
       flinkVersion: this.formData.flinkVersion,
@@ -173,8 +172,10 @@ export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
       deployMode: this.formData.deployMode,
       flinkReleaseId: this.formData.flinkRelease.id,
       deployConfigFileId: this.formData.flinkDeployConfig.id,
+      configOptions: customConfigOptions,
       remark: this.formData.remark
     };
+
     if (valid) {
       this.clusterConfigService.add(row).subscribe((d) => {
         if (d.success) {
