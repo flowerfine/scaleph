@@ -83,6 +83,10 @@ For contributions, please refer [CONTRIBUTING](https://github.com/flowerfine/sca
 
 * Bugs and Features: [Issues](https://github.com/flowerfine/scaleph/issues)
 
+* Chinese user:
+
+   ![wechat](docs/image/wechat.png)
+
 ## Sponsor
 
 Thanks to [JetBrains](https://www.jetbrains.com/?from=scaleph) for supporting us free open source licenses.
