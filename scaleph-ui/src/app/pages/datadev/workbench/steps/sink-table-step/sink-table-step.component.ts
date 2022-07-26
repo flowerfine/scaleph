@@ -46,7 +46,7 @@ export class SinkTableStepComponent implements OnInit {
     stepTitle: [null],
     dataSourceType: [null],
     dataSource: [null],
-    batchSize: [this.defaultBatchSize],
+    batch_size: [this.defaultBatchSize],
     query: [null],
     pre_sql: [null],
     post_sql: [null],
@@ -82,9 +82,9 @@ export class SinkTableStepComponent implements OnInit {
         this.formGroup.patchValue({ dataSource: JSON.parse(stepAttrMap.get(STEP_ATTR_TYPE.dataSource)) });
       }
       if (stepAttrMap.get(STEP_ATTR_TYPE.batchSize)) {
-        this.formGroup.patchValue({ batchSize: stepAttrMap.get(STEP_ATTR_TYPE.batchSize) });
+        this.formGroup.patchValue({ batch_size: stepAttrMap.get(STEP_ATTR_TYPE.batchSize) });
       } else {
-        this.formGroup.patchValue({ batchSize: this.defaultBatchSize });
+        this.formGroup.patchValue({ batch_size: this.defaultBatchSize });
       }
       this.formGroup.patchValue({ query: stepAttrMap.get(STEP_ATTR_TYPE.query) });
       this.formGroup.patchValue({ pre_sql: stepAttrMap.get(STEP_ATTR_TYPE.preSQL) });
