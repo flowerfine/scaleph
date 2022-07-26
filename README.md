@@ -79,6 +79,11 @@ This project adheres to the Contributor Covenant [code of conduct](https://www.c
 
 For contributions, please refer [CONTRIBUTING](https://github.com/flowerfine/scaleph)
 
+Thanks for all people who already contributed to Scaleph!
+
+<a href="https://github.com/flowerfine/scaleph/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=flowerfine/scaleph" /></a>
+
 ## Contact
 
 * Bugs and Features: [Issues](https://github.com/flowerfine/scaleph/issues)
