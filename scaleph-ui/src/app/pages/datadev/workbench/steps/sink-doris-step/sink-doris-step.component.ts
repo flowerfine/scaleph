@@ -71,7 +71,7 @@ export class SinkDorisStepComponent implements OnInit {
         this.formGroup.patchValue({ dataSource: JSON.parse(stepAttrMap.get(STEP_ATTR_TYPE.dataSource)) });
       }
       this.formGroup.patchValue({ table: stepAttrMap.get(STEP_ATTR_TYPE.table) });
-      this.formGroup.patchValue({ batch_size: stepAttrMap.get(STEP_ATTR_TYPE.batch_size) });
+      this.formGroup.patchValue({ batch_size: stepAttrMap.get(STEP_ATTR_TYPE.batchSize) });
       this.formGroup.patchValue({ interval: stepAttrMap.get(STEP_ATTR_TYPE.interval) });
       this.formGroup.patchValue({ max_retries: stepAttrMap.get(STEP_ATTR_TYPE.maxRetries) });
       this.formGroup.patchValue({ doris_conf: stepAttrMap.get(STEP_ATTR_TYPE.dorisConf) });
@@ -84,7 +84,7 @@ export class SinkDorisStepComponent implements OnInit {
       stepAttrMap.set(STEP_ATTR_TYPE.stepTitle, this.formGroup.get(STEP_ATTR_TYPE.stepTitle).value);
       stepAttrMap.set(STEP_ATTR_TYPE.dataSource, this.formGroup.get(STEP_ATTR_TYPE.dataSource).value);
       stepAttrMap.set(STEP_ATTR_TYPE.table, this.formGroup.get(STEP_ATTR_TYPE.table).value);
-      stepAttrMap.set(STEP_ATTR_TYPE.batch_size, this.formGroup.get(STEP_ATTR_TYPE.batch_size).value);
+      stepAttrMap.set(STEP_ATTR_TYPE.batchSize, this.formGroup.get(STEP_ATTR_TYPE.batchSize).value);
       stepAttrMap.set(STEP_ATTR_TYPE.interval, this.formGroup.get(STEP_ATTR_TYPE.interval).value);
       stepAttrMap.set(STEP_ATTR_TYPE.maxRetries, this.formGroup.get(STEP_ATTR_TYPE.maxRetries).value);
       stepAttrMap.set(STEP_ATTR_TYPE.dorisConf, this.formGroup.get(STEP_ATTR_TYPE.dorisConf).value);
