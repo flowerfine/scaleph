@@ -1,14 +1,14 @@
-import { outLogin } from '@/services/ant-design-pro/api';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
-import { history, useModel } from '@umijs/max';
+import { history } from '@umijs/max';
 import { useIntl } from 'umi';
 import { Avatar, Menu, Spin } from 'antd';
-import { stringify } from 'querystring';
 import type { MenuInfo } from 'rc-menu/lib/interface';
 import React, { useCallback } from 'react';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 import { logout } from '@/services/auth';
+import { OnlineUserInfo } from '@/app.d';
+import { USER_AUTH } from '@/constant';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -16,7 +16,8 @@ export type GlobalHeaderRightProps = {
 
 const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   const intl = useIntl();
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const user: OnlineUserInfo = JSON.parse(localStorage.getItem(USER_AUTH.userInfo) || '');
+  // const { initialState, setInitialState } = useModel('@@initialState');
 
   const onMenuClick = useCallback(
     (event: MenuInfo) => {
@@ -43,13 +44,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     </span>
   );
 
-  if (!initialState) {
-    return loading;
-  }
-
-  const { currentUser } = initialState;
-
-  if (!currentUser || !currentUser.userName) {
+  if (!user || !user.userName) {
     return loading;
   }
 
@@ -72,8 +67,8 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
-        <Avatar size="small" className={styles.avatar} alt={currentUser.userName} gap={2}>
-          {currentUser.userName.charAt(0)}
+        <Avatar size="small" className={styles.avatar} alt={user.userName} gap={2}>
+          {user.userName.charAt(0)}
         </Avatar>
       </span>
     </HeaderDropdown>

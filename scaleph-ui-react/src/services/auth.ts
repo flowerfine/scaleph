@@ -17,7 +17,7 @@ export async function refreshAuthImage() {
 }
 
 export async function getOnlineUserInfo(token: string) {
-  return request<ResponseBody<OnlineUserInfo>>('api/user/get/' + token);
+  return request<ResponseBody<OnlineUserInfo>>('/api/user/get/' + token);
 }
 
 export async function setSession(userInfo: OnlineUserInfo) {

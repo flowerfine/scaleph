@@ -1,6 +1,5 @@
 export default {
   //scaleph
-
   'menu.studio': '工作台',
   'menu.studio.databoard': '数据看板',
   'menu.user.center': '个人中心',
