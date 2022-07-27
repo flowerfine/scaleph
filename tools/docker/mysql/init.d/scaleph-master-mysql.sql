@@ -1448,7 +1448,7 @@ insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_att
 values ('sink', 'table', 'query', null, '1', '输出sql语句', 'sys', 'sys');
 insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
                                    step_attr_describe, creator, editor)
-values ('sink', 'table', 'batchSize', null, '1', '提交记录数量', 'sys', 'sys');
+values ('sink', 'table', 'batch_size', null, '1', '提交记录数量', 'sys', 'sys');
 insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
                                    step_attr_describe, creator, editor)
 values ('sink', 'table', 'pre_sql', null, '0', '前置SQL', 'sys', 'sys');
