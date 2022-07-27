@@ -235,7 +235,6 @@ export const STEP_ATTR_TYPE = {
   formatConf: 'format_conf',
   schema: 'schema',
   table: 'table',
-  batch_size: 'batch_size',
   interval: 'interval',
   maxRetries: 'max_retries',
   dorisConf: 'doris_conf',
