@@ -30,6 +30,11 @@ export class FlinkDeployConfig {
   updateTime?: Date;
 }
 
+export interface KeyValueConfig {
+  key: string;
+  value: string;
+}
+
 export class FlinkDeployConfigParam extends QueryParam {
   configType?: string;
   name?: string;
@@ -58,7 +63,7 @@ export class FlinkClusterConfig {
   deployMode?: Dict;
   flinkReleaseId?: number;
   deployConfigFileId?: number;
-  configOptions?: object;
+  configOptions?: {[key:string]: any};
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
