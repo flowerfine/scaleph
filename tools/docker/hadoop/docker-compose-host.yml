@@ -17,6 +17,8 @@
 # https://github.com/big-data-europe/docker-hadoop
 # https://github.com/big-data-europe/docker-hadoop/issues/98
 
+# https://docs.docker.com/network/host/
+# network_mode: "host" not working for mac.
 
 services:
   namenode:
@@ -27,46 +29,33 @@ services:
       - ./hadoop.env
     environment:
       CLUSTER_NAME: docker
-    ports:
-      - 9870:9870
-      - 9002:9002
 
   datanode:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
     hostname: datanode
-    network_mode: "host"
+#    network_mode: "host"
     depends_on:
       - namenode
     env_file:
       - ./hadoop.env
     environment:
       SERVICE_PRECONDITION: "namenode:9870"
-    ports:
-      - 9864:9864
-      - 9866:9866
 
   resourcemanager:
     image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8
-    network_mode: "host"
+#    network_mode: "host"
     env_file:
       - ./hadoop.env
     environment:
       SERVICE_PRECONDITION: "namenode:9002 namenode:9870 datanode:9864 datanode:9866"
-    ports:
-      - 8088:8088
-      - 8032:8032
-      - 8030:8030
-      - 8031:8031
 
   nodemanager:
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8
-    network_mode: "host"
+#    network_mode: "host"
     env_file:
       - ./hadoop.env
     environment:
       SERVICE_PRECONDITION: "namenode:9002 namenode:9870 datanode:9864 datanode:9866 resourcemanager:8088"
-    ports:
-      - 8042:8042
 
   historyserver:
     image: bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8
@@ -75,5 +64,4 @@ services:
       - ./hadoop.env
     environment:
       SERVICE_PRECONDITION: "namenode:9002 namenode:9870 datanode:9864 datanode:9866 resourcemanager:8088"
-    ports:
-      - 8188:8188
+

@@ -29,8 +29,6 @@ services:
     ports:
       - 9870:9870
       - 9002:9002
-    expose:
-      - 0-65536
     networks:
       - hadoop
 
