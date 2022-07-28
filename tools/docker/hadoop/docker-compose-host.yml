@@ -33,7 +33,7 @@ services:
   datanode:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
     hostname: datanode
-#    network_mode: "host"
+    network_mode: "host"
     depends_on:
       - namenode
     env_file:
@@ -43,7 +43,7 @@ services:
 
   resourcemanager:
     image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8
-#    network_mode: "host"
+    network_mode: "host"
     env_file:
       - ./hadoop.env
     environment:
@@ -51,7 +51,7 @@ services:
 
   nodemanager:
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8
-#    network_mode: "host"
+    network_mode: "host"
     env_file:
       - ./hadoop.env
     environment:
