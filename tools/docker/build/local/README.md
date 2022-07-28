@@ -21,6 +21,8 @@ scaleph-api 是服务端镜像。
 命令如下：
 
 ```shell
+cd /path/to/scaleph
+
 docker build \
     --no-cache \
     -f tools/docker/build/flink/Dockerfile \
@@ -38,7 +40,50 @@ docker build \
     .
 ```
 
-注意在制作 seatunnel 镜像时，使用的是上一步创建的镜像
+注意在制作 seatunnel 镜像时，使用的是上一步创建的镜像。
+
+flink 和 seatunnel 镜像制作时，会从 flink 和 seatunnel 的 release 页面下载 flink 和 seatunnel 的安装包。对于网络不好的环境，可以提前下载好 flink 和 seatunnel 的安装包，并修改对应的 Dockerfile，注释掉从远端下载的逻辑，打开使用本地安装包的部分，注意 `/path/to/$TAR_FILE` 换成本地的路径。
+
+```dockerfile
+ARG BASE_IMAGE=adoptopenjdk/openjdk8:jre
+
+FROM $BASE_IMAGE
+
+ARG FLINK_VERSION
+ARG SCALA_VERSION
+ARG TAR_FILE=flink-${FLINK_VERSION}-bin-scala_${SCALA_VERSION}.tgz
+
+ENV FLINK_HOME /opt/flink
+
+# download from flink release page
+RUN mkdir -p $FLINK_HOME ; cd $FLINK_HOME ; \
+    curl -LSO https://archive.apache.org/dist/flink/flink-${FLINK_VERSION}/$TAR_FILE ; \
+    tar -zxf $TAR_FILE --strip 1 -C . ; \
+    rm $TAR_FILE
+
+# copy pre-downloaded flink release
+#RUN mkdir -p $FLINK_HOME
+#COPY /path/to/$TAR_FILE $FLINK_HOME/$TAR_FILE
+#RUN cd $FLINK_HOME ;\
+#    tar -zxf $TAR_FILE --strip 1 -C . ; \
+#    rm $TAR_FILE
+```
+
+注意，本地下载的 flink 或 seatunnel 的存储目录必须在 docker build 的 context 范围内：
+
+```shell
+cd /path/to/scaleph
+
+docker build \
+    --no-cache \
+    -f tools/docker/build/flink/Dockerfile \
+    --build-arg FLINK_VERSION=1.13.6 \
+    --build-arg SCALA_VERSION=2.11 \
+    -t scaleph_flink:1.13.6_2.11 \
+    .
+```
+
+上面的 docker build 的构建命令的 context 即为 `path/to/scaleph`，即 flink 和 seatunnel 的存储目录必须在 `path/to/scaleph` 目录下。
 
 
 
