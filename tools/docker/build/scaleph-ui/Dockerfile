@@ -9,7 +9,7 @@ FROM nginx:latest as release
 RUN mkdir /dist
 COPY --from=build  /scaleph/scaleph-ui/dist /dist
 # COPY ./dist /usr/share/nginx/html
-COPY --from=build /scaleph/scaleph-ui/nginx.conf.template /
+COPY --from=build /scaleph/tools/docker/build/scaleph-ui/nginx.conf.template /
 
 CMD envsubst '$$SCALEPH_API_URL' < /nginx.conf.template > /etc/nginx/nginx.conf \
 	&& cat /etc/nginx/nginx.conf \

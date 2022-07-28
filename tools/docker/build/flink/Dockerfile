@@ -20,10 +20,19 @@ FROM $BASE_IMAGE
 
 ARG FLINK_VERSION
 ARG SCALA_VERSION
+ARG TAR_FILE=flink-${FLINK_VERSION}-bin-scala_${SCALA_VERSION}.tgz
 
 ENV FLINK_HOME /opt/flink
+
+# download from flink release page
 RUN mkdir -p $FLINK_HOME ; cd $FLINK_HOME ; \
-    tar_file=flink-${FLINK_VERSION}-bin-scala_${SCALA_VERSION}.tgz ; \
-    curl -LSO https://archive.apache.org/dist/flink/flink-${FLINK_VERSION}/$tar_file ; \
-    tar -zxf $tar_file --strip 1 -C . ; \
-    rm $tar_file
+    curl -LSO https://archive.apache.org/dist/flink/flink-${FLINK_VERSION}/$TAR_FILE ; \
+    tar -zxf $TAR_FILE --strip 1 -C . ; \
+    rm $TAR_FILE
+
+# copy pre-downloaded flink release
+#RUN mkdir -p $FLINK_HOME
+#COPY /path/to/$TAR_FILE $FLINK_HOME/$TAR_FILE
+#RUN cd $FLINK_HOME ;\
+#    tar -zxf $TAR_FILE --strip 1 -C . ; \
+#    rm $TAR_FILE

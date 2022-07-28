@@ -32,7 +32,6 @@
   <properties>
     <build.node.version>v16.14.0</build.node.version>
     <build.npm.version>8.5.4</build.npm.version>
-
   </properties>
 
   <build>
@@ -79,19 +78,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <profile>
-      <id>docker</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-
 </project>
