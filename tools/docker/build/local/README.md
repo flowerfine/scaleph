@@ -16,6 +16,27 @@ scaleph 目前对于 flink 和 seatunnel 的依赖是通过 `FLINK_HOME` 和 `SE
 
 scaleph-api 是服务端镜像。
 
+制作 flink 和 seatunne 的镜像
+
+```shell
+docker build \
+    --no-cache \
+    --push \
+    -f tools/docker/build/flink/Dockerfile \
+    --build-arg FLINK_VERSION=${{ env.FLINK_VERSION }} \
+    --build-arg SCALA_VERSION=${{ env.SCALA_VERSION }} \
+    -t ${{ env.HUB }}:${{ env.FLINK_VERSION }}_${{ env.SCALA_VERSION }} \
+    .
+
+docker build \
+    --no-cache \
+    --push \
+    -f tools/docker/build/seatunnel/Dockerfile \
+    --build-arg SEATUNNEL_VERSION=${{ env.SEATUNNEL_VERSION }} \
+    -t ${{ env.HUB }}:${{ env.SEATUNNEL_VERSION }} \
+    .
+```
+
 
 
 ## scaleph-ui
