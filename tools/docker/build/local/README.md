@@ -23,17 +23,18 @@ docker build \
     --no-cache \
     --push \
     -f tools/docker/build/flink/Dockerfile \
-    --build-arg FLINK_VERSION=${{ env.FLINK_VERSION }} \
-    --build-arg SCALA_VERSION=${{ env.SCALA_VERSION }} \
-    -t ${{ env.HUB }}:${{ env.FLINK_VERSION }}_${{ env.SCALA_VERSION }} \
+    --build-arg FLINK_VERSION=1.13.6 \
+    --build-arg SCALA_VERSION=2.11 \
+    -t scaleph_flink:1.13.6_2.11 \
     .
 
 docker build \
     --no-cache \
     --push \
     -f tools/docker/build/seatunnel/Dockerfile \
-    --build-arg SEATUNNEL_VERSION=${{ env.SEATUNNEL_VERSION }} \
-    -t ${{ env.HUB }}:${{ env.SEATUNNEL_VERSION }} \
+    --build-arg BASE_IMAGE=scaleph_flink:1.13.6_2.11 \
+    --build-arg SEATUNNEL_VERSION=2.1.2 \
+    -t scaleph_seatunnel:2.1.2 \
     .
 ```
 
