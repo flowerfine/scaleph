@@ -68,3 +68,10 @@ export type Dict = {
   label?: string;
   value?: string;
 };
+
+export type ModalFormProps<T> = {
+  data: T;
+  visible: boolean;
+  onVisibleChange: (visible: boolean) => void;
+  onCancel: () => void;
+};
