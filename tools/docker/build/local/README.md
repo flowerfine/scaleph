@@ -85,13 +85,26 @@ docker build \
 
 上面的 docker build 的构建命令的 context 即为 `path/to/scaleph`，即 flink 和 seatunnel 的存储目录必须在 `path/to/scaleph` 目录下。
 
+### 制作 scaleph-api 镜像
 
+```shell
+docker build \
+    --no-cache \
+    -f tools/docker/build/scaleph-api/Dockerfile \
+    --build-arg BASE_IMAGE=scaleph_seatunnel:2.1.2 \
+    -t scaleph-api:dev \
+    .
+```
 
 ## scaleph-ui
 
-scaleph-ui 是服务端镜像。
-
-
+```shell
+docker build \
+    --no-cache \
+    -f tools/docker/build/scaleph-ui/Dockerfile \
+    -t scaleph-ui:dev \
+    .
+```
 
 ### 后续
 
