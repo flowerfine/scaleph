@@ -39,8 +39,8 @@ jobs:
           docker build \
             --no-cache \
             -f tools/docker/build/scaleph-api/Dockerfile \
-            -t ${env.HUB}/scaleph-api:${{ github.sha }} \
-            -t ${env.HUB}/scaleph-api:latest
+            -t ${{ env.HUB }}/scaleph-api:${{ github.sha }} \
+            -t ${{ env.HUB }}/scaleph-api:latest
             .
       - name: Push scaleph-api image
         run: |
@@ -48,16 +48,16 @@ jobs:
             --no-cache \
             --push \
             -f tools/docker/build/scaleph-api/Dockerfile \
-            -t ${env.HUB}/scaleph-api:${{ github.sha }} \
-            -t ${env.HUB}/scaleph-api:latest
+            -t ${{ env.HUB }}/scaleph-api:${{ github.sha }} \
+            -t ${{ env.HUB }}/scaleph-api:latest
             .
       - name: Build scaleph-ui image
         run: |
           docker build \
             --no-cache \
             -f tools/docker/build/scaleph-ui/Dockerfile \
-            -t ${env.HUB}/scaleph-ui:${{ github.sha }} \
-            -t ${env.HUB}/scaleph-ui:latest
+            -t ${{ env.HUB }}/scaleph-ui:${{ github.sha }} \
+            -t ${{ env.HUB }}/scaleph-ui:latest
             .
       - name: Push scaleph-ui image
         run: |
@@ -65,6 +65,6 @@ jobs:
             --no-cache \
             --push \
             -f tools/docker/build/scaleph-ui/Dockerfile \
-            -t ${env.HUB}/scaleph-ui:${{ github.sha }} \
-            -t ${env.HUB}/scaleph-ui:latest
+            -t ${{ env.HUB }}/scaleph-ui:${{ github.sha }} \
+            -t ${{ env.HUB }}/scaleph-ui:latest
             .

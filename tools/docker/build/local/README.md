@@ -91,7 +91,7 @@ docker build \
 docker build \
     --no-cache \
     -f tools/docker/build/scaleph-api/Dockerfile \
-    --build-arg BASE_IMAGE=scaleph_seatunnel:2.1.2 \
+    --build-arg BASE_RELEASE_IMAGE=scaleph_seatunnel:2.1.2 \
     -t scaleph-api:dev \
     .
 ```
