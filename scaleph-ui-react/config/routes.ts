@@ -127,7 +127,7 @@
       {
         name: 'dict',
         path: 'dict',
-        icon: 'menu',
+        icon: 'table',
         component: './Admin/Dict',
       },
       {
