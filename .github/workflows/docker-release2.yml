@@ -3,8 +3,8 @@ name: Docker-Release2
 on:
   push:
     paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
-    branches:
-      - master
+#    branches:
+#      - master
 
 env:
   HUB: ghcr.io/flowerfine/scaleph
@@ -32,20 +32,37 @@ jobs:
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - name: Build docker images
+      - name: Build scaleph-api image
         run: |
           docker build \
-          --no-cache \
-          -f tools/docker/build/seatunnel/Dockerfile \
-          --build-arg SEATUNNEL_VERSION=${{ env.SEATUNNEL_VERSION }} \
-          -t ${{ env.HUB }}:${{ env.SEATUNNEL_VERSION }} \
-          .
-      - name: Push docker images
+            --no-cache \
+            -f tools/docker/build/scaleph-api/Dockerfile \
+            -t ${env.HUB}/scaleph-api:${{ github.sha }} \
+            -t ${env.HUB}/scaleph-api:latest
+            .
+      - name: Push scaleph-api image
         run: |
           docker buildx build \
-          --no-cache \
-          --push \
-          -f tools/docker/build/seatunnel/Dockerfile \
-          --build-arg SEATUNNEL_VERSION=${{ env.SEATUNNEL_VERSION }} \
-          -t ${{ env.HUB }}:${{ env.SEATUNNEL_VERSION }} \
-          .
+            --no-cache \
+            --push \
+            -f tools/docker/build/scaleph-api/Dockerfile \
+            -t ${env.HUB}/scaleph-api:${{ github.sha }} \
+            -t ${env.HUB}/scaleph-api:latest
+            .
+      - name: Build scaleph-ui image
+        run: |
+          docker build \
+            --no-cache \
+            -f tools/docker/build/scaleph-ui/Dockerfile \
+            -t ${env.HUB}/scaleph-ui:${{ github.sha }} \
+            -t ${env.HUB}/scaleph-ui:latest
+            .
+      - name: Push scaleph-ui image
+        run: |
+          docker buildx build \
+            --no-cache \
+            --push \
+            -f tools/docker/build/scaleph-ui/Dockerfile \
+            -t ${env.HUB}/scaleph-ui:${{ github.sha }} \
+            -t ${env.HUB}/scaleph-ui:latest
+            .
