@@ -16,12 +16,13 @@ scaleph 目前对于 flink 和 seatunnel 的依赖是通过 `FLINK_HOME` 和 `SE
 
 scaleph-api 是服务端镜像。
 
-制作 flink 和 seatunne 的镜像
+### 制作 flink 和 seatunnel 的基础镜像
+
+命令如下：
 
 ```shell
 docker build \
     --no-cache \
-    --push \
     -f tools/docker/build/flink/Dockerfile \
     --build-arg FLINK_VERSION=1.13.6 \
     --build-arg SCALA_VERSION=2.11 \
@@ -30,13 +31,14 @@ docker build \
 
 docker build \
     --no-cache \
-    --push \
     -f tools/docker/build/seatunnel/Dockerfile \
     --build-arg BASE_IMAGE=scaleph_flink:1.13.6_2.11 \
     --build-arg SEATUNNEL_VERSION=2.1.2 \
     -t scaleph_seatunnel:2.1.2 \
     .
 ```
+
+注意在制作 seatunnel 镜像时，使用的是上一步创建的镜像
 
 
 
