@@ -1,10 +1,12 @@
 name: Docker-Release2
 
 on:
+  pull_request:
+    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg']
   push:
-    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
-#    branches:
-#      - master
+    paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg']
+    branches:
+      - master
 
 env:
   HUB: ghcr.io/flowerfine/scaleph
