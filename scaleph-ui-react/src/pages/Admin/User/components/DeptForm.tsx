@@ -1,10 +1,10 @@
-import { SysDictType } from "@/services/admin/typings";
+import { SecDept } from "@/services/admin/typings";
 import { ModalFormProps } from "@/app.d";
 import { Form, Input, message, Modal } from "antd";
 import { useIntl } from "umi";
-import { addDictType, updateDictType } from "@/services/admin/dictType.service";
+import { addDept, updateDept } from "@/services/admin/dept.service";
 
-const DictTypeForm: React.FC<ModalFormProps<SysDictType>> = ({
+const DeptForm: React.FC<ModalFormProps<SecDept>> = ({
     data,
     visible,
     onVisibleChange,
@@ -17,8 +17,8 @@ const DictTypeForm: React.FC<ModalFormProps<SysDictType>> = ({
             visible={visible}
             title={
                 data.id ?
-                    intl.formatMessage({ id: 'app.common.operate.edit.label' }) + intl.formatMessage({ id: 'pages.admin.dict.dictType' }) :
-                    intl.formatMessage({ id: 'app.common.operate.new.label' }) + intl.formatMessage({ id: 'pages.admin.dict.dictType' })
+                    intl.formatMessage({ id: 'app.common.operate.edit.label' }) + intl.formatMessage({ id: 'pages.admin.user.dept' }) :
+                    intl.formatMessage({ id: 'app.common.operate.new.label' }) + intl.formatMessage({ id: 'pages.admin.user.dept' })
             }
             width={580}
             destroyOnClose={true}
@@ -26,13 +26,13 @@ const DictTypeForm: React.FC<ModalFormProps<SysDictType>> = ({
             onOk={() => {
                 form.validateFields().then((values) => {
                     data.id ?
-                        updateDictType({ ...values }).then(d => {
+                        updateDept({ ...values }).then(d => {
                             if (d.success) {
                                 message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
                                 onVisibleChange(false);
                             }
                         }) :
-                        addDictType({ ...values }).then(d => {
+                        addDept({ ...values }).then(d => {
                             if (d.success) {
                                 message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
                                 onVisibleChange(false);
@@ -51,7 +51,7 @@ const DictTypeForm: React.FC<ModalFormProps<SysDictType>> = ({
                 <Form.Item name="id" hidden>
                     <Input></Input>
                 </Form.Item>
-                <Form.Item
+                {/* <Form.Item
                     name="dictTypeCode"
                     label={intl.formatMessage({ id: 'pages.admin.dict.dictTypeCode' })}
                     rules={[
@@ -75,10 +75,10 @@ const DictTypeForm: React.FC<ModalFormProps<SysDictType>> = ({
                     label={intl.formatMessage({ id: 'pages.admin.dict.remark' })}
                     rules={[{ max: 200 }]}>
                     <Input></Input>
-                </Form.Item>
+                </Form.Item> */}
             </Form>
         </Modal>
     );
 }
 
-export default DictTypeForm;
+export default DeptForm;

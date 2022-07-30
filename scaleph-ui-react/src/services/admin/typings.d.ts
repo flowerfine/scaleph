@@ -50,6 +50,14 @@ export type SecDept = {
   deptStatus?: Dict;
 };
 
+export type SecDeptTreeNode = {
+  deptId: number;
+  deptCode: string;
+  deptName: string;
+  pid: number;
+  children: SecDeptTreeNode[];
+};
+
 export type SecUser = {
   id?: number;
   userName?: string;
