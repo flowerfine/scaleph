@@ -18,16 +18,15 @@
 
 package cn.sliew.scaleph.storage.configuration;
 
-import org.apache.flink.configuration.CoreOptions;
-import org.apache.flink.core.fs.FileSystem;
-import org.apache.flink.fs.osshadoop.OSSFileSystemFactory;
-import org.apache.flink.fs.s3hadoop.S3FileSystemFactory;
-import org.apache.flink.runtime.fs.hdfs.HadoopFsFactory;
+import cn.sliew.scaleph.storage.utils.HadoopUtil;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.aliyun.oss.AliyunOSSFileSystem;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.net.URI;
@@ -39,8 +38,9 @@ public class FileSystemConfiguration {
 
     @Bean
     @ConditionalOnProperty(value = "file-system.type", havingValue = "local")
-    public FileSystem localFileSystem(LocalFileSystemProperties localFileSystemProperties) {
-        return FileSystem.getLocalFileSystem();
+    public FileSystem localFileSystem(LocalFileSystemProperties localFileSystemProperties) throws IOException {
+        org.apache.hadoop.conf.Configuration conf = HadoopUtil.getHadoopConfiguration(localFileSystemProperties.getHadoopConfPath());
+        return FileSystem.getLocal(conf);
     }
 
     @SuppressWarnings("all")
@@ -54,14 +54,13 @@ public class FileSystemConfiguration {
     @Bean
     @ConditionalOnProperty(value = "file-system.type", havingValue = "s3")
     public FileSystem s3FileSystem(S3FileSystemProperties s3FileSystemProperties) throws URISyntaxException, IOException {
-        S3FileSystemFactory factory = new S3FileSystemFactory();
-        org.apache.flink.configuration.Configuration config = new org.apache.flink.configuration.Configuration();
-        config.setString("s3.endpoint", s3FileSystemProperties.getEndpoint());
-        config.setString("s3.access-key", s3FileSystemProperties.getAccessKey());
-        config.setString("s3.secret-key", s3FileSystemProperties.getSecretKey());
-        config.setBoolean("fs.s3a.path-style-access", true); // container
-        factory.configure(config);
-        return factory.create(new URI(FileSystemType.S3.getSchema() + s3FileSystemProperties.getBucket()));
+        org.apache.hadoop.conf.Configuration conf = HadoopUtil.getHadoopConfiguration(s3FileSystemProperties.getHadoopConfPath());
+        conf.set("fs.s3a.endpoint", s3FileSystemProperties.getEndpoint());
+        conf.set("fs.s3a.access.key", s3FileSystemProperties.getAccessKey());
+        conf.set("fs.s3a.secret.key", s3FileSystemProperties.getSecretKey());
+        conf.setBoolean("fs.s3a.path-style-access", true);
+        URI uri = new URI(FileSystemType.S3.getSchema() + s3FileSystemProperties.getBucket());
+        return FileSystem.get(uri, conf);
     }
 
     @SuppressWarnings("all")
@@ -74,14 +73,15 @@ public class FileSystemConfiguration {
 
     @Bean
     @ConditionalOnProperty(value = "file-system.type", havingValue = "oss")
-    public FileSystem ossFileSystem(OSSFileSystemProperties ossFileSystemProperties) throws URISyntaxException, IOException {
-        OSSFileSystemFactory factory = new OSSFileSystemFactory();
-        org.apache.flink.configuration.Configuration config = new org.apache.flink.configuration.Configuration();
-        config.setString("fs.oss.endpoint", ossFileSystemProperties.getEndpoint());
-        config.setString("fs.oss.accessKeyId", ossFileSystemProperties.getAccessKey());
-        config.setString("fs.oss.accessKeySecret", ossFileSystemProperties.getSecretKey());
-        factory.configure(config);
-        return factory.create(new URI(FileSystemType.OSS.getSchema() + ossFileSystemProperties.getBucket()));
+    public FileSystem ossFileSystem(OSSFileSystemProperties ossFileSystemProperties) throws IOException, URISyntaxException {
+        org.apache.hadoop.conf.Configuration conf = HadoopUtil.getHadoopConfiguration(ossFileSystemProperties.getHadoopConfPath());
+        conf.set("fs.oss.endpoint", ossFileSystemProperties.getEndpoint());
+        conf.set("fs.oss.accessKeyId", ossFileSystemProperties.getAccessKey());
+        conf.set("fs.oss.accessKeySecret", ossFileSystemProperties.getSecretKey());
+        URI uri = new URI(FileSystemType.OSS.getSchema() + ossFileSystemProperties.getBucket());
+        final AliyunOSSFileSystem aliyunOSSFileSystem = new AliyunOSSFileSystem();
+        aliyunOSSFileSystem.initialize(uri, conf);
+        return aliyunOSSFileSystem;
     }
 
     @SuppressWarnings("all")
@@ -95,10 +95,10 @@ public class FileSystemConfiguration {
     @Bean
     @ConditionalOnProperty(value = "file-system.type", havingValue = "hdfs")
     public FileSystem hdfsFileSystem(HDFSFileSystemProperties hdfsFileSystemProperties) throws URISyntaxException, IOException {
-        HadoopFsFactory factory = new HadoopFsFactory();
-        org.apache.flink.configuration.Configuration config = new org.apache.flink.configuration.Configuration();
-        config.setString(CoreOptions.FLINK_HADOOP_CONF_DIR, hdfsFileSystemProperties.getHadoopConfPath());
-        factory.configure(config);
-        return factory.create(new URI(hdfsFileSystemProperties.getDefaultFS()));
+        org.apache.hadoop.conf.Configuration conf = HadoopUtil.getHadoopConfiguration(hdfsFileSystemProperties.getHadoopConfPath());
+        if (StringUtils.hasText(hdfsFileSystemProperties.getDefaultFS())) {
+            conf.set("fs.defaultFS", hdfsFileSystemProperties.getDefaultFS());
+        }
+        return FileSystem.get(conf);
     }
 }

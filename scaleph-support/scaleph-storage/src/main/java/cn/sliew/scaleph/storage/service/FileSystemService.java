@@ -18,8 +18,8 @@
 
 package cn.sliew.scaleph.storage.service;
 
-import org.apache.flink.core.fs.FileStatus;
-import org.apache.flink.core.fs.FileSystem;
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.FileSystem;
 
 import java.io.IOException;
 import java.io.InputStream;

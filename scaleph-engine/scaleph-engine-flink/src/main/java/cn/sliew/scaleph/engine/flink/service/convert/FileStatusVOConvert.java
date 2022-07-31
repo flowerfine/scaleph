@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.flink.service.convert;
 
 import cn.sliew.scaleph.engine.flink.service.vo.FileStatusVO;
-import org.apache.flink.core.fs.FileStatus;
+import org.apache.hadoop.fs.FileStatus;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

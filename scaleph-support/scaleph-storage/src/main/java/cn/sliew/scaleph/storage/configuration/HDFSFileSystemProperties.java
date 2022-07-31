@@ -25,8 +25,6 @@ import lombok.Setter;
 @Setter
 public class HDFSFileSystemProperties extends FileSystemProperties {
 
-    private String hadoopConfPath;
-
     private String defaultFS;
 
     private String krb5ConfPath;

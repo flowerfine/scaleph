@@ -26,7 +26,7 @@ public enum FileSystemType {
 
     LOCAL(0, "local", "file://"),
     HDFS(1, "hdfs", "hdfs://"),
-    S3(2, "s3", "s3://"),
+    S3(2, "s3", "s3a://"),
     OSS(3, "oss", "oss://"),
     ;
 
