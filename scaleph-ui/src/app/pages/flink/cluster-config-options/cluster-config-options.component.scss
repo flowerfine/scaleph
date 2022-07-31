@@ -1,2 +1,10 @@
 @import "~ng-devui/styles-var/devui-var.scss";
 @import "/src/app/@shared/styles/common.scss";
+
+.devui-form-horizontal {
+  flex: 0 0 150px
+}
+
+.devui-form-label {
+  flex: 0 0 150px
+}

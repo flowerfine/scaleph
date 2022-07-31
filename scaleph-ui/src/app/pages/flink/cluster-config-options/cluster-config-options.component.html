@@ -9,6 +9,7 @@
         </div>
       </d-col>
     </d-row>
+
     <d-row [dGutter]="[12, 12]">
       <d-col [dSpan]="24">
         <div class="da-list-container">
@@ -16,7 +17,7 @@
             <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
               <d-panel-header>
                 <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
-                State Backend
+                Basic
               </d-panel-header>
               <d-panel-body>
                 <d-row [dGutter]="[12, 12]">
@@ -25,21 +26,105 @@
                       <div class="list-content">
                         <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
                           <d-col>
-                            <div class="da-header-item-label">state.backend:</div>
+                            <div class="da-header-item-label">state.savepoints.dir:</div>
                           </d-col>
                           <d-col>
+                            <input dTextInput name="state.savepoints.dir"/>
+                          </d-col>
+                        </d-row>
+                      </div>
+                    </div>
+                  </d-col>
+                </d-row>
+              </d-panel-body>
+            </d-panel>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="list-content">
+            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+              <d-panel-header>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                State & Checkpoints & Savepoints
+              </d-panel-header>
+              <d-panel-body>
+                <d-row [dGutter]="20">
+                  <d-col [dSpan]="12">
+                    <form dForm ngForm [layout]="layoutDirection">
+                      <div class="modal-body" style="padding: 0px 0px 0px 0px">
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">state.backend:</d-form-label>
+                          <d-form-control>
                             <d-select name="state.backend"
                                       [allowClear]="true"
                                       [filterKey]="'label'"
                                       [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
                                       [options]="flinkStateBackendList"
                                       size="sm"></d-select>
-                          </d-col>
-                        </d-row>
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">state checkpoints dir</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="state.checkpoints.dir" />
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">execution.checkpointing.mode</d-form-label>
+                          <d-form-control>
+                            <d-select name="state.backend"
+                                      [allowClear]="true"
+                                      [filterKey]="'label'"
+                                      [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                                      [options]="flinkStateBackendList"
+                                      size="sm"></d-select>
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">execution.checkpointing.unaligned</d-form-label>
+                          <d-form-control>
+                            <d-toggle [checked]="true" [size]="'sm'"></d-toggle>
+                          </d-form-control>
+                        </d-form-item>
                       </div>
-                    </div>
+                    </form>
+                  </d-col>
+                  <d-col [dSpan]="12">
+                    <form dForm ngForm [layout]="layoutDirection">
+                      <div class="modal-body" style="padding: 0px 0px 0px 0px">
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">state savepoints dir:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="state.savepoints.dir" />
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">execution checkpointing interval:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="execution.checkpointing.interval" />
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">execution.checkpointing.externalized-checkpoint-retention</d-form-label>
+                          <d-form-control>
+                            <d-select name="state.backend"
+                                      [allowClear]="true"
+                                      [filterKey]="'label'"
+                                      [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                                      [options]="flinkStateBackendList"
+                                      size="sm"></d-select>
+                          </d-form-control>
+                        </d-form-item>
+                      </div>
+                    </form>
                   </d-col>
                 </d-row>
+
               </d-panel-body>
             </d-panel>
           </div>
@@ -53,96 +138,62 @@
             <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
               <d-panel-header>
                 <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
-                Checkpoints
+                Fault Tolerance
               </d-panel-header>
               <d-panel-body>
-                <d-row [dGutter]="[12, 12]">
-                  <d-col [dSpan]="24">
-                    <div class="da-list-container">
-                      <div class="list-content">
-                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
-                          <d-col>
-                            <div class="da-header-item-label">state.checkpoints.dir:</div>
-                          </d-col>
-                          <d-col>
-                            <input dTextInput name="state.checkpoints.dir"/>
-                          </d-col>
-                          <d-col>
-                            <div class="da-header-item-label">state.checkpoint-storage(当填写路径时，会自动选择 filesystem):</div>
-                          </d-col>
-                          <d-col>
-                            <input dTextInput name="state.checkpoint-storage"/>
-                          </d-col>
-                        </d-row>
+                <d-row [dGutter]="20">
+                  <d-col [dSpan]="12">
+                    <form dForm ngForm [layout]="layoutDirection">
+                      <div class="modal-body" style="padding: 0px 0px 0px 0px">
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">restart-strategy:</d-form-label>
+                          <d-form-control>
+                            <d-select name="state.backend"
+                                      [allowClear]="true"
+                                      [filterKey]="'label'"
+                                      [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                                      [options]="flinkStateBackendList"
+                                      size="sm"></d-select>
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">restart-strategy.fixed-delay.delay:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="restart-strategy.fixed-delay.delay" />
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">restart-strategy.failure-rate.failure-rate-interval:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="restart-strategy.failure-rate.failure-rate-interval" />
+                          </d-form-control>
+                        </d-form-item>
                       </div>
-                    </div>
+                    </form>
                   </d-col>
-                </d-row>
-              </d-panel-body>
-            </d-panel>
-          </div>
-        </div>
-      </d-col>
-    </d-row>
-
-    <d-row [dGutter]="[12, 12]">
-      <d-col [dSpan]="24">
-        <div class="da-list-container">
-          <div class="list-content">
-            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
-              <d-panel-header>
-                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
-                Savepoints
-              </d-panel-header>
-              <d-panel-body>
-                <d-row [dGutter]="[12, 12]">
-                  <d-col [dSpan]="24">
-                    <div class="da-list-container">
-                      <div class="list-content">
-                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
-                          <d-col>
-                            <div class="da-header-item-label">state.savepoints.dir:</div>
-                          </d-col>
-                          <d-col>
-                            <input dTextInput name="state.savepoints.dir"/>
-                          </d-col>
-                        </d-row>
+                  <d-col [dSpan]="12">
+                    <form dForm ngForm [layout]="layoutDirection">
+                      <div class="modal-body" style="padding: 0px 0px 0px 0px">
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">restart-strategy.fixed-delay.attempts:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="restart-strategy.fixed-delay.attempts" />
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">restart-strategy.failure-rate.delay:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="restart-strategy.failure-rate.delay" />
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">restart-strategy.failure-rate.max-failures-per-interval:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="restart-strategy.failure-rate.max-failures-per-interval" />
+                          </d-form-control>
+                        </d-form-item>
                       </div>
-                    </div>
-                  </d-col>
-                </d-row>
-              </d-panel-body>
-            </d-panel>
-          </div>
-        </div>
-      </d-col>
-    </d-row>
-
-
-    <d-row [dGutter]="[12, 12]">
-      <d-col [dSpan]="24">
-        <div class="da-list-container">
-          <div class="list-content">
-            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
-              <d-panel-header>
-                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
-                Task Failure Recovery
-              </d-panel-header>
-              <d-panel-body>
-                <d-row [dGutter]="[12, 12]">
-                  <d-col [dSpan]="24">
-                    <div class="da-list-container">
-                      <div class="list-content">
-                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
-                          <d-col>
-                            <div class="da-header-item-label">state.savepoints.dir:</div>
-                          </d-col>
-                          <d-col>
-                            <input dTextInput name="state.savepoints.dir"/>
-                          </d-col>
-                        </d-row>
-                      </div>
-                    </div>
+                    </form>
                   </d-col>
                 </d-row>
               </d-panel-body>
@@ -162,20 +213,53 @@
                 High Availability
               </d-panel-header>
               <d-panel-body>
-                <d-row [dGutter]="[12, 12]">
-                  <d-col [dSpan]="24">
-                    <div class="da-list-container">
-                      <div class="list-content">
-                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
-                          <d-col>
-                            <div class="da-header-item-label">state.savepoints.dir:</div>
-                          </d-col>
-                          <d-col>
-                            <input dTextInput name="state.savepoints.dir"/>
-                          </d-col>
-                        </d-row>
+                <d-row [dGutter]="20">
+                  <d-col [dSpan]="12">
+                    <form dForm ngForm [layout]="layoutDirection">
+                      <div class="modal-body" style="padding: 0px 0px 0px 0px">
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">high-availability:</d-form-label>
+                          <d-form-control>
+                            <d-select name="high-availability"
+                                      [allowClear]="true"
+                                      [filterKey]="'label'"
+                                      [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                                      [options]="flinkStateBackendList"
+                                      size="sm"></d-select>
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">high-availability.storageDir:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="high-availability.storageDir" />
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">high-availability.zookeeper.path.root:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="high-availability.zookeeper.path.root" />
+                          </d-form-control>
+                        </d-form-item>
                       </div>
-                    </div>
+                    </form>
+                  </d-col>
+                  <d-col [dSpan]="12">
+                    <form dForm ngForm [layout]="layoutDirection">
+                      <div class="modal-body" style="padding: 0px 0px 0px 0px">
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">high-availability.cluster-id:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="high-availability.cluster-id" />
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">high-availability.zookeeper.quorum:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="high-availability.zookeeper.quorum" />
+                          </d-form-control>
+                        </d-form-item>
+                      </div>
+                    </form>
                   </d-col>
                 </d-row>
               </d-panel-body>
@@ -184,6 +268,7 @@
         </div>
       </d-col>
     </d-row>
+
 
     <d-row [dGutter]="[12, 12]">
       <d-col [dSpan]="24">
@@ -195,20 +280,42 @@
                 Memory Configuration
               </d-panel-header>
               <d-panel-body>
-                <d-row [dGutter]="[12, 12]">
-                  <d-col [dSpan]="24">
-                    <div class="da-list-container">
-                      <div class="list-content">
-                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
-                          <d-col>
-                            <div class="da-header-item-label">state.savepoints.dir:</div>
-                          </d-col>
-                          <d-col>
-                            <input dTextInput name="state.savepoints.dir"/>
-                          </d-col>
-                        </d-row>
+                <d-row [dGutter]="20">
+                  <d-col [dSpan]="12">
+                    <form dForm ngForm [layout]="layoutDirection">
+                      <div class="modal-body" style="padding: 0px 0px 0px 0px">
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">jobmanager.memory.process.size:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="jobmanager.memory.process.size" />
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">jobmanager.memory.flink.size:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="jobmanager.memory.flink.size" />
+                          </d-form-control>
+                        </d-form-item>
                       </div>
-                    </div>
+                    </form>
+                  </d-col>
+                  <d-col [dSpan]="12">
+                    <form dForm ngForm [layout]="layoutDirection">
+                      <div class="modal-body" style="padding: 0px 0px 0px 0px">
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">taskmanager.memory.process.size:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="taskmanager.memory.process.size" />
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label style="flex: 0 0 180px;">taskmanager.memory.flink.size:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="taskmanager.memory.flink.size" />
+                          </d-form-control>
+                        </d-form-item>
+                      </div>
+                    </form>
                   </d-col>
                 </d-row>
               </d-panel-body>
@@ -250,6 +357,41 @@
         </div>
       </d-col>
     </d-row>
+
+    <d-row [dGutter]="[12, 12]">
+      <d-col [dSpan]="24">
+        <div class="da-list-container">
+          <div class="list-content">
+            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+              <d-panel-header>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                Additional Configuration
+              </d-panel-header>
+              <d-panel-body>
+                <d-row [dGutter]="[12, 12]">
+                  <d-col [dSpan]="24">
+                    <div class="da-list-container">
+                      <div class="list-content">
+                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                          <d-col>
+                            <div class="da-header-item-label">state.savepoints.dir:</div>
+                          </d-col>
+                          <d-col>
+                            <input dTextInput name="state.savepoints.dir"/>
+                          </d-col>
+                        </d-row>
+                      </div>
+                    </div>
+                  </d-col>
+                </d-row>
+              </d-panel-body>
+            </d-panel>
+          </div>
+        </div>
+      </d-col>
+    </d-row>
+
+
 
   </div>
 </div>
