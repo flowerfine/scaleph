@@ -20,6 +20,7 @@ package cn.sliew.scaleph.storage.configuration;
 
 import cn.sliew.scaleph.storage.utils.HadoopUtil;
 import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.aliyun.oss.AliyunOSSFileSystem;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -72,12 +73,15 @@ public class FileSystemConfiguration {
 
     @Bean
     @ConditionalOnProperty(value = "file-system.type", havingValue = "oss")
-    public FileSystem ossFileSystem(OSSFileSystemProperties ossFileSystemProperties) throws IOException {
+    public FileSystem ossFileSystem(OSSFileSystemProperties ossFileSystemProperties) throws IOException, URISyntaxException {
         org.apache.hadoop.conf.Configuration conf = HadoopUtil.getHadoopConfiguration(ossFileSystemProperties.getHadoopConfPath());
         conf.set("fs.oss.endpoint", ossFileSystemProperties.getEndpoint());
         conf.set("fs.oss.accessKeyId", ossFileSystemProperties.getAccessKey());
         conf.set("fs.oss.accessKeySecret", ossFileSystemProperties.getSecretKey());
-        return FileSystem.get(conf);
+        URI uri = new URI(FileSystemType.OSS.getSchema() + ossFileSystemProperties.getBucket());
+        final AliyunOSSFileSystem aliyunOSSFileSystem = new AliyunOSSFileSystem();
+        aliyunOSSFileSystem.initialize(uri, conf);
+        return aliyunOSSFileSystem;
     }
 
     @SuppressWarnings("all")
