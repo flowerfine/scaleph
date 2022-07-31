@@ -29,5 +29,4 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConditionalOnProperty(value = "file-system.type", havingValue = "local")
 public class LocalFileSystemProperties extends FileSystemProperties {
 
-    private String rootPath;
 }

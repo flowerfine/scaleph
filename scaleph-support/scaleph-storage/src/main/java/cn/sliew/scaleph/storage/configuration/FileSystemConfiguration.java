@@ -18,12 +18,14 @@
 
 package cn.sliew.scaleph.storage.configuration;
 
+import cn.sliew.scaleph.storage.utils.HadoopUtil;
 import org.apache.hadoop.fs.FileSystem;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.net.URI;
@@ -36,7 +38,7 @@ public class FileSystemConfiguration {
     @Bean
     @ConditionalOnProperty(value = "file-system.type", havingValue = "local")
     public FileSystem localFileSystem(LocalFileSystemProperties localFileSystemProperties) throws IOException {
-        org.apache.hadoop.conf.Configuration conf = new org.apache.hadoop.conf.Configuration();
+        org.apache.hadoop.conf.Configuration conf = HadoopUtil.getHadoopConfiguration(localFileSystemProperties.getHadoopConfPath());
         return FileSystem.getLocal(conf);
     }
 
@@ -51,7 +53,7 @@ public class FileSystemConfiguration {
     @Bean
     @ConditionalOnProperty(value = "file-system.type", havingValue = "s3")
     public FileSystem s3FileSystem(S3FileSystemProperties s3FileSystemProperties) throws URISyntaxException, IOException {
-        org.apache.hadoop.conf.Configuration conf = new org.apache.hadoop.conf.Configuration();
+        org.apache.hadoop.conf.Configuration conf = HadoopUtil.getHadoopConfiguration(s3FileSystemProperties.getHadoopConfPath());
         conf.set("fs.s3a.endpoint", s3FileSystemProperties.getEndpoint());
         conf.set("fs.s3a.access.key", s3FileSystemProperties.getAccessKey());
         conf.set("fs.s3a.secret.key", s3FileSystemProperties.getSecretKey());
@@ -71,7 +73,7 @@ public class FileSystemConfiguration {
     @Bean
     @ConditionalOnProperty(value = "file-system.type", havingValue = "oss")
     public FileSystem ossFileSystem(OSSFileSystemProperties ossFileSystemProperties) throws IOException {
-        org.apache.hadoop.conf.Configuration conf = new org.apache.hadoop.conf.Configuration();
+        org.apache.hadoop.conf.Configuration conf = HadoopUtil.getHadoopConfiguration(ossFileSystemProperties.getHadoopConfPath());
         conf.set("fs.oss.endpoint", ossFileSystemProperties.getEndpoint());
         conf.set("fs.oss.accessKeyId", ossFileSystemProperties.getAccessKey());
         conf.set("fs.oss.accessKeySecret", ossFileSystemProperties.getSecretKey());
@@ -89,11 +91,10 @@ public class FileSystemConfiguration {
     @Bean
     @ConditionalOnProperty(value = "file-system.type", havingValue = "hdfs")
     public FileSystem hdfsFileSystem(HDFSFileSystemProperties hdfsFileSystemProperties) throws URISyntaxException, IOException {
-//        HadoopFsFactory factory = new HadoopFsFactory();
-//        org.apache.flink.configuration.Configuration config = new org.apache.flink.configuration.Configuration();
-//        config.setString(CoreOptions.FLINK_HADOOP_CONF_DIR, hdfsFileSystemProperties.getHadoopConfPath());
-//        factory.configure(config);
-//        return factory.create(new URI(hdfsFileSystemProperties.getDefaultFS()));
-        return null;
+        org.apache.hadoop.conf.Configuration conf = HadoopUtil.getHadoopConfiguration(hdfsFileSystemProperties.getHadoopConfPath());
+        if (StringUtils.hasText(hdfsFileSystemProperties.getDefaultFS())) {
+            conf.set("fs.defaultFS", hdfsFileSystemProperties.getDefaultFS());
+        }
+        return FileSystem.get(conf);
     }
 }
