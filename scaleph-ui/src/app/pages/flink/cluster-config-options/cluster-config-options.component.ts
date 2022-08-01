@@ -18,7 +18,13 @@ export class ClusterConfigOptionsComponent implements OnInit {
 
   layoutDirection: FormLayout = FormLayout.Horizontal;
 
-  isCollapsed = true;
+  isBasicCollapsed = true;
+  isStateCollapsed = true;
+  isFaultCollapsed = true;
+  isHACollapsed = true;
+  isMemCollapsed = true;
+  isLogCollapsed = true;
+  isAdditionalCollapsed = true;
 
   flinkStateBackendList: Dict[] = []
 

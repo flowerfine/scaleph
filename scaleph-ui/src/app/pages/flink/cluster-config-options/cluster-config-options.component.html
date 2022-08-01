@@ -14,26 +14,64 @@
       <d-col [dSpan]="24">
         <div class="da-list-container">
           <div class="list-content">
-            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+            <d-panel [type]="'primary'" #basicPanel [isCollapsed]="isBasicCollapsed" [showAnimation]="true">
               <d-panel-header>
-                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: basicPanel.isCollapsed }"></em>
                 Basic
               </d-panel-header>
               <d-panel-body>
-                <d-row [dGutter]="[12, 12]">
-                  <d-col [dSpan]="24">
-                    <div class="da-list-container">
-                      <div class="list-content">
-                        <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
-                          <d-col>
-                            <div class="da-header-item-label">state.savepoints.dir:</div>
-                          </d-col>
-                          <d-col>
-                            <input dTextInput name="state.savepoints.dir"/>
-                          </d-col>
-                        </d-row>
+                <d-row [dGutter]="20">
+                  <d-col [dSpan]="12">
+                    <form dForm ngForm [layout]="layoutDirection">
+                      <div class="modal-body" style="padding: 0px 0px 0px 0px">
+                        <d-form-item>
+                          <d-form-label [required]="true" style="flex: 0 0 180px;">name:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="name" />
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label [required]="true" style="flex: 0 0 180px;">资源:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="resource" />
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label [required]="true" style="flex: 0 0 180px;">备注:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="remark" />
+                          </d-form-control>
+                        </d-form-item>
                       </div>
-                    </div>
+                    </form>
+                  </d-col>
+                  <d-col [dSpan]="12">
+                    <form dForm ngForm [layout]="layoutDirection">
+                      <div class="modal-body" style="padding: 0px 0px 0px 0px">
+                        <d-form-item>
+                          <d-form-label [required]="true" style="flex: 0 0 180px;">Flink 版本:</d-form-label>
+                          <d-form-control>
+                            <d-select name="version"
+                                      [allowClear]="true"
+                                      [filterKey]="'label'"
+                                      [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                                      [options]="flinkStateBackendList"
+                                      size="sm"></d-select>
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item>
+                          <d-form-label [required]="true" style="flex: 0 0 180px;">模式:</d-form-label>
+                          <d-form-control>
+                            <d-select name="version"
+                                      [allowClear]="true"
+                                      [filterKey]="'label'"
+                                      [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                                      [options]="flinkStateBackendList"
+                                      size="sm"></d-select>
+                          </d-form-control>
+                        </d-form-item>
+                      </div>
+                    </form>
                   </d-col>
                 </d-row>
               </d-panel-body>
@@ -47,9 +85,9 @@
       <d-col [dSpan]="24">
         <div class="da-list-container">
           <div class="list-content">
-            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+            <d-panel [type]="'primary'" #statePanel [isCollapsed]="isStateCollapsed" [showAnimation]="true">
               <d-panel-header>
-                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: statePanel.isCollapsed }"></em>
                 State & Checkpoints & Savepoints
               </d-panel-header>
               <d-panel-body>
@@ -135,9 +173,9 @@
       <d-col [dSpan]="24">
         <div class="da-list-container">
           <div class="list-content">
-            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+            <d-panel [type]="'primary'" #faultPanel [isCollapsed]="isFaultCollapsed" [showAnimation]="true">
               <d-panel-header>
-                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: faultPanel.isCollapsed }"></em>
                 Fault Tolerance
               </d-panel-header>
               <d-panel-body>
@@ -207,9 +245,9 @@
       <d-col [dSpan]="24">
         <div class="da-list-container">
           <div class="list-content">
-            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+            <d-panel [type]="'primary'" #haPanel [isCollapsed]="isHACollapsed" [showAnimation]="true">
               <d-panel-header>
-                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: haPanel.isCollapsed }"></em>
                 High Availability
               </d-panel-header>
               <d-panel-body>
@@ -274,9 +312,9 @@
       <d-col [dSpan]="24">
         <div class="da-list-container">
           <div class="list-content">
-            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+            <d-panel [type]="'primary'" #memPanel [isCollapsed]="isMemCollapsed" [showAnimation]="true">
               <d-panel-header>
-                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: memPanel.isCollapsed }"></em>
                 Memory Configuration
               </d-panel-header>
               <d-panel-body>
@@ -329,9 +367,9 @@
       <d-col [dSpan]="24">
         <div class="da-list-container">
           <div class="list-content">
-            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+            <d-panel [type]="'primary'" #logPanel [isCollapsed]="isLogCollapsed" [showAnimation]="true">
               <d-panel-header>
-                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: logPanel.isCollapsed }"></em>
                 Log
               </d-panel-header>
               <d-panel-body>
@@ -362,9 +400,9 @@
       <d-col [dSpan]="24">
         <div class="da-list-container">
           <div class="list-content">
-            <d-panel [type]="'primary'" #panel [isCollapsed]="isCollapsed" [showAnimation]="true">
+            <d-panel [type]="'primary'" #additionalPanel [isCollapsed]="isAdditionalCollapsed" [showAnimation]="true">
               <d-panel-header>
-                <em class="icon icon-select-arrow" [ngClass]="{ open: panel.isCollapsed }"></em>
+                <em class="icon icon-select-arrow" [ngClass]="{ open: additionalPanel.isCollapsed }"></em>
                 Additional Configuration
               </d-panel-header>
               <d-panel-body>

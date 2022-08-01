@@ -8,3 +8,14 @@
 .devui-form-label {
   flex: 0 0 150px
 }
+
+em.icon-select-arrow {
+  transition: transform $devui-animation-duration-slow $devui-animation-ease-in-out-smooth;
+  font-size: 14px;
+  vertical-align: text-bottom;
+  margin-right: 4px;
+
+  &.open {
+    transform: rotate(180deg);
+  }
+}
