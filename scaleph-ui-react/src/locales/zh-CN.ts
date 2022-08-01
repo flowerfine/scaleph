@@ -5,6 +5,7 @@ import pages from './zh-CN/pages/pages';
 import pwa from './zh-CN/pwa';
 import settingDrawer from './zh-CN/settingDrawer';
 import settings from './zh-CN/settings';
+import studio from './zh-CN/studio';
 
 export default {
   'navBar.lang': '语言',
@@ -22,6 +23,7 @@ export default {
   ...settings,
   ...pwa,
   ...component,
+  ...studio,
   //scaleph app
   'app.title.short': 'Scaleph',
   'app.title.long': 'Scaleph',
