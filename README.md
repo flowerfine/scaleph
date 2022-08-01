@@ -90,7 +90,7 @@ Thanks for all people who already contributed to Scaleph!
 
 * Chinese user:
 
-   ![wechat](docs/image/wechat.png)
+   ![wechat](docs/image/wechat.jpeg)
 
 ## Sponsor
 
