@@ -100,6 +100,8 @@ export const DICT_TYPE = {
   flinkJobType: 'flink_job_type',
   flinkSemantic: 'flink_semantic',
   flinkJobStatus: 'flink_job_status',
+  flinkCheckpointRetain: 'flink_checkpoint_retain',
+  flinkRestartStrategy: 'flink_restart_strategy',
 };
 
 export const USER_AUTH = {

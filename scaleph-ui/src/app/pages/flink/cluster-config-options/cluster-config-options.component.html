@@ -27,13 +27,21 @@
                         <d-form-item>
                           <d-form-label [required]="true" style="flex: 0 0 180px;">name:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="name" />
+                            <input dTextInput name="name" [(ngModel)]="formData.name" />
                           </d-form-control>
                         </d-form-item>
                         <d-form-item>
                           <d-form-label [required]="true" style="flex: 0 0 180px;">资源:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="resource" />
+                            <d-select name="flinkDeployConfig"
+                                      [allowClear]="true"
+                                      [enableLazyLoad]="true"
+                                      [filterKey]="'name'"
+                                      [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
+                                      [options]="flinkDeployConfigList"
+                                      size="sm"
+                                      (loadMore)="onFlinkDeployConfigLoadMore($event)"
+                                      [(ngModel)]="formData.flinkDeployConfig"></d-select>
                           </d-form-control>
                         </d-form-item>
                         <d-form-item>
@@ -51,23 +59,27 @@
                         <d-form-item>
                           <d-form-label [required]="true" style="flex: 0 0 180px;">Flink 版本:</d-form-label>
                           <d-form-control>
-                            <d-select name="version"
+                            <d-select name="flinkRelease"
                                       [allowClear]="true"
-                                      [filterKey]="'label'"
+                                      [enableLazyLoad]="true"
+                                      [filterKey]="'fileName'"
                                       [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                                      [options]="flinkStateBackendList"
-                                      size="sm"></d-select>
+                                      [options]="flinkReleaseList"
+                                      size="sm"
+                                      (loadMore)="onFlinkReleaseLoadMore($event)"
+                                      [(ngModel)]="formData.flinkRelease"></d-select>
                           </d-form-control>
                         </d-form-item>
                         <d-form-item>
                           <d-form-label [required]="true" style="flex: 0 0 180px;">模式:</d-form-label>
                           <d-form-control>
-                            <d-select name="version"
+                            <d-select name="deployMode"
                                       [allowClear]="true"
                                       [filterKey]="'label'"
                                       [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                                      [options]="flinkStateBackendList"
-                                      size="sm"></d-select>
+                                      [options]="deployModeList"
+                                      size="sm"
+                                      [(ngModel)]="formData.deployMode"></d-select>
                           </d-form-control>
                         </d-form-item>
                       </div>
@@ -103,30 +115,35 @@
                                       [filterKey]="'label'"
                                       [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
                                       [options]="flinkStateBackendList"
-                                      size="sm"></d-select>
+                                      size="sm"
+                                      [(ngModel)]="formData.configOptions['state.backend']"></d-select>
                           </d-form-control>
                         </d-form-item>
                         <d-form-item>
                           <d-form-label style="flex: 0 0 180px;">state checkpoints dir</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="state.checkpoints.dir" />
+                            <input dTextInput name="state.checkpoints.dir" [(ngModel)]="formData.configOptions['state.checkpoints.dir']" />
                           </d-form-control>
                         </d-form-item>
                         <d-form-item>
                           <d-form-label style="flex: 0 0 180px;">execution.checkpointing.mode</d-form-label>
                           <d-form-control>
-                            <d-select name="state.backend"
+                            <d-select name="flinkSemantic"
                                       [allowClear]="true"
                                       [filterKey]="'label'"
                                       [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                                      [options]="flinkStateBackendList"
-                                      size="sm"></d-select>
+                                      [options]="flinkSemanticList"
+                                      size="sm"
+                                      [(ngModel)]="formData.configOptions['execution.checkpointing.mode']"></d-select>
                           </d-form-control>
                         </d-form-item>
                         <d-form-item>
                           <d-form-label style="flex: 0 0 180px;">execution.checkpointing.unaligned</d-form-label>
                           <d-form-control>
-                            <d-toggle [checked]="true" [size]="'sm'"></d-toggle>
+                            <d-toggle name="execution.checkpointing.unaligned"
+                                      [size]="'sm'"
+                                      (change)="onValueChange($event)"
+                                      [(ngModel)]="formData.configOptions['execution.checkpointing.unaligned']"></d-toggle>
                           </d-form-control>
                         </d-form-item>
                       </div>
@@ -138,24 +155,25 @@
                         <d-form-item>
                           <d-form-label style="flex: 0 0 180px;">state savepoints dir:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="state.savepoints.dir" />
+                            <input dTextInput name="state.savepoints.dir" [(ngModel)]="formData.configOptions['state.savepoints.dir']"/>
                           </d-form-control>
                         </d-form-item>
                         <d-form-item>
                           <d-form-label style="flex: 0 0 180px;">execution checkpointing interval:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="execution.checkpointing.interval" />
+                            <input dTextInput name="execution.checkpointing.interval" [(ngModel)]="formData.configOptions['execution.checkpointing.interval']"/>
                           </d-form-control>
                         </d-form-item>
                         <d-form-item>
                           <d-form-label style="flex: 0 0 180px;">execution.checkpointing.externalized-checkpoint-retention</d-form-label>
                           <d-form-control>
-                            <d-select name="state.backend"
+                            <d-select name="flinkCheckpointRetain"
                                       [allowClear]="true"
                                       [filterKey]="'label'"
                                       [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                                      [options]="flinkStateBackendList"
-                                      size="sm"></d-select>
+                                      [options]="flinkCheckpointRetainList"
+                                      size="sm"
+                                      [(ngModel)]="formData.configOptions['execution.checkpointing.externalized-checkpoint-retention']"></d-select>
                           </d-form-control>
                         </d-form-item>
                       </div>
@@ -169,6 +187,7 @@
         </div>
       </d-col>
     </d-row>
+
     <d-row [dGutter]="[12, 12]">
       <d-col [dSpan]="24">
         <div class="da-list-container">
@@ -186,12 +205,13 @@
                         <d-form-item>
                           <d-form-label style="flex: 0 0 180px;">restart-strategy:</d-form-label>
                           <d-form-control>
-                            <d-select name="state.backend"
+                            <d-select name="restart-strategy"
                                       [allowClear]="true"
                                       [filterKey]="'label'"
                                       [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                                      [options]="flinkStateBackendList"
-                                      size="sm"></d-select>
+                                      [options]="flinkRestartStrategyList"
+                                      size="sm"
+                                      [(ngModel)]="formData.configOptions['restart-strategy']"></d-select>
                           </d-form-control>
                         </d-form-item>
                         <d-form-item>
