@@ -95,7 +95,7 @@ create table sys_dict
 (
     id             bigint       not null auto_increment comment '自增主键',
     dict_type_code varchar(32)  not null comment '字典类型编码',
-    dict_code      varchar(32)  not null comment '字典编码',
+    dict_code      varchar(128)  not null comment '字典编码',
     dict_value     varchar(128) not null comment '字典值',
     remark         varchar(256) comment '备注',
     is_valid       varchar(1) default '1' comment '是否有效',

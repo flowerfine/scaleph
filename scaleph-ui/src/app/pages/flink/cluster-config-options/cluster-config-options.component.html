@@ -211,19 +211,35 @@
                                       [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
                                       [options]="flinkRestartStrategyList"
                                       size="sm"
+                                      (valueChange)="onRestartStrategyValueChange($event)"
                                       [(ngModel)]="formData.configOptions['restart-strategy']"></d-select>
                           </d-form-control>
                         </d-form-item>
-                        <d-form-item>
-                          <d-form-label style="flex: 0 0 180px;">restart-strategy.fixed-delay.delay:</d-form-label>
+
+                        <d-form-item *ngIf="isFixedDelay">
+                          <d-form-label style="flex: 0 0 180px;">restart-strategy.fixed-delay.attempts:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="restart-strategy.fixed-delay.delay" />
+                            <input dTextInput name="restart-strategy.fixed-delay.attempts" [(ngModel)]="formData.configOptions['restart-strategy.fixed-delay.attempts']" />
                           </d-form-control>
                         </d-form-item>
-                        <d-form-item>
+
+                        <d-form-item *ngIf="isFailureRate">
                           <d-form-label style="flex: 0 0 180px;">restart-strategy.failure-rate.failure-rate-interval:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="restart-strategy.failure-rate.failure-rate-interval" />
+                            <input dTextInput name="restart-strategy.failure-rate.failure-rate-interval" [(ngModel)]="formData.configOptions['restart-strategy.failure-rate.failure-rate-interval']" />
+                          </d-form-control>
+                        </d-form-item>
+
+                        <d-form-item *ngIf="isExponentialDelay">
+                          <d-form-label style="flex: 0 0 180px;">restart-strategy.exponential-delay.initial-backoff:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="restart-strategy.exponential-delay.initial-backoff" [(ngModel)]="formData.configOptions['restart-strategy.exponential-delay.initial-backoff']" />
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item *ngIf="isExponentialDelay">
+                          <d-form-label style="flex: 0 0 180px;">restart-strategy.exponential-delay.backoff-multiplier:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="restart-strategy.exponential-delay.backoff-multiplier" [(ngModel)]="formData.configOptions['restart-strategy.exponential-delay.backoff-multiplier']" />
                           </d-form-control>
                         </d-form-item>
                       </div>
@@ -232,22 +248,43 @@
                   <d-col [dSpan]="12">
                     <form dForm ngForm [layout]="layoutDirection">
                       <div class="modal-body" style="padding: 0px 0px 0px 0px">
-                        <d-form-item>
-                          <d-form-label style="flex: 0 0 180px;">restart-strategy.fixed-delay.attempts:</d-form-label>
+
+                        <d-form-item *ngIf="isFixedDelay">
+                          <d-form-label style="flex: 0 0 180px;">restart-strategy.fixed-delay.delay:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="restart-strategy.fixed-delay.attempts" />
+                            <input dTextInput name="restart-strategy.fixed-delay.delay" [(ngModel)]="formData.configOptions['restart-strategy.fixed-delay.delay']" />
                           </d-form-control>
                         </d-form-item>
-                        <d-form-item>
+
+                        <d-form-item *ngIf="isFailureRate">
                           <d-form-label style="flex: 0 0 180px;">restart-strategy.failure-rate.delay:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="restart-strategy.failure-rate.delay" />
+                            <input dTextInput name="restart-strategy.failure-rate.delay" [(ngModel)]="formData.configOptions['restart-strategy.failure-rate.delay']" />
                           </d-form-control>
                         </d-form-item>
-                        <d-form-item>
+                        <d-form-item *ngIf="isFailureRate">
                           <d-form-label style="flex: 0 0 180px;">restart-strategy.failure-rate.max-failures-per-interval:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="restart-strategy.failure-rate.max-failures-per-interval" />
+                            <input dTextInput name="restart-strategy.failure-rate.max-failures-per-interval" [(ngModel)]="formData.configOptions['restart-strategy.failure-rate.max-failures-per-interval']" />
+                          </d-form-control>
+                        </d-form-item>
+
+                        <d-form-item *ngIf="isExponentialDelay">
+                          <d-form-label style="flex: 0 0 180px;">restart-strategy.exponential-delay.max-backoff:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="restart-strategy.exponential-delay.max-backoff" [(ngModel)]="formData.configOptions['restart-strategy.exponential-delay.max-backoff']" />
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item *ngIf="isExponentialDelay">
+                          <d-form-label style="flex: 0 0 180px;">restart-strategy.exponential-delay.reset-backoff-threshold:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="restart-strategy.exponential-delay.reset-backoff-threshold" [(ngModel)]="formData.configOptions['restart-strategy.exponential-delay.reset-backoff-threshold']" />
+                          </d-form-control>
+                        </d-form-item>
+                        <d-form-item *ngIf="isExponentialDelay">
+                          <d-form-label style="flex: 0 0 180px;">restart-strategy.exponential-delay.jitter-factor:</d-form-label>
+                          <d-form-control>
+                            <input dTextInput name="restart-strategy.exponential-delay.jitter-factor" [(ngModel)]="formData.configOptions['restart-strategy.exponential-delay.jitter-factor']" />
                           </d-form-control>
                         </d-form-item>
                       </div>
@@ -282,20 +319,22 @@
                                       [allowClear]="true"
                                       [filterKey]="'label'"
                                       [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                                      [options]="flinkStateBackendList"
-                                      size="sm"></d-select>
+                                      [options]="flinkHAList"
+                                      size="sm"
+                                      (valueChange)="onHAValueChange($event)"
+                                      [(ngModel)]="formData.configOptions['high-availability']"></d-select>
                           </d-form-control>
                         </d-form-item>
                         <d-form-item>
                           <d-form-label style="flex: 0 0 180px;">high-availability.storageDir:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="high-availability.storageDir" />
+                            <input dTextInput name="high-availability.storageDir" [(ngModel)]="formData.configOptions['high-availability.storageDir']" />
                           </d-form-control>
                         </d-form-item>
-                        <d-form-item>
+                        <d-form-item *ngIf="isZookeeperHA">
                           <d-form-label style="flex: 0 0 180px;">high-availability.zookeeper.path.root:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="high-availability.zookeeper.path.root" />
+                            <input dTextInput name="high-availability.zookeeper.path.root" [(ngModel)]="formData.configOptions['high-availability.zookeeper.path.root']" />
                           </d-form-control>
                         </d-form-item>
                       </div>
@@ -307,13 +346,13 @@
                         <d-form-item>
                           <d-form-label style="flex: 0 0 180px;">high-availability.cluster-id:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="high-availability.cluster-id" />
+                            <input dTextInput name="high-availability.cluster-id" [(ngModel)]="formData.configOptions['high-availability.cluster-id']" />
                           </d-form-control>
                         </d-form-item>
-                        <d-form-item>
+                        <d-form-item *ngIf="isZookeeperHA">
                           <d-form-label style="flex: 0 0 180px;">high-availability.zookeeper.quorum:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="high-availability.zookeeper.quorum" />
+                            <input dTextInput name="high-availability.zookeeper.quorum" [(ngModel)]="formData.configOptions['high-availability.zookeeper.quorum']" />
                           </d-form-control>
                         </d-form-item>
                       </div>
@@ -345,13 +384,13 @@
                         <d-form-item>
                           <d-form-label style="flex: 0 0 180px;">jobmanager.memory.process.size:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="jobmanager.memory.process.size" />
+                            <input dTextInput name="jobmanager.memory.process.size" [(ngModel)]="formData.configOptions['jobmanager.memory.process.size']" />
                           </d-form-control>
                         </d-form-item>
                         <d-form-item>
                           <d-form-label style="flex: 0 0 180px;">jobmanager.memory.flink.size:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="jobmanager.memory.flink.size" />
+                            <input dTextInput name="jobmanager.memory.flink.size" [(ngModel)]="formData.configOptions['jobmanager.memory.flink.size']" />
                           </d-form-control>
                         </d-form-item>
                       </div>
@@ -363,13 +402,13 @@
                         <d-form-item>
                           <d-form-label style="flex: 0 0 180px;">taskmanager.memory.process.size:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="taskmanager.memory.process.size" />
+                            <input dTextInput name="taskmanager.memory.process.size" [(ngModel)]="formData.configOptions['taskmanager.memory.process.size']" />
                           </d-form-control>
                         </d-form-item>
                         <d-form-item>
                           <d-form-label style="flex: 0 0 180px;">taskmanager.memory.flink.size:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="taskmanager.memory.flink.size" />
+                            <input dTextInput name="taskmanager.memory.flink.size" [(ngModel)]="formData.configOptions['taskmanager.memory.flink.size']" />
                           </d-form-control>
                         </d-form-item>
                       </div>
@@ -399,10 +438,10 @@
                       <div class="list-content">
                         <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
                           <d-col>
-                            <div class="da-header-item-label">state.savepoints.dir:</div>
+                            <div class="da-header-item-label">env.log.dir:</div>
                           </d-col>
                           <d-col>
-                            <input dTextInput name="state.savepoints.dir"/>
+                            <input dTextInput name="env.log.dir" [(ngModel)]="formData.configOptions['env.log.dir']"/>
                           </d-col>
                         </d-row>
                       </div>

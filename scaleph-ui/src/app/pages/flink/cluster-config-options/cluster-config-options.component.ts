@@ -34,6 +34,14 @@ export class ClusterConfigOptionsComponent implements OnInit {
   isLogCollapsed = true;
   isAdditionalCollapsed = true;
 
+  isNone: boolean = false;
+  isFixedDelay: boolean = false;
+  isFailureRate: boolean = false;
+  isExponentialDelay: boolean = false;
+
+  isZookeeperHA: boolean = false;
+  isKubernetesHA: boolean = false;
+
   formData = {
     name: null,
     flinkRelease: null,
@@ -53,6 +61,7 @@ export class ClusterConfigOptionsComponent implements OnInit {
   flinkSemanticList: Dict[] = []
   flinkCheckpointRetainList: Dict[] = []
   flinkRestartStrategyList: Dict[] = []
+  flinkHAList: Dict[] = []
 
   constructor(
     public authService: AuthService,
@@ -84,6 +93,9 @@ export class ClusterConfigOptionsComponent implements OnInit {
     this.dictDataService.listByType(DICT_TYPE.flinkRestartStrategy).subscribe((d) => {
       this.flinkRestartStrategyList = d;
     });
+    this.dictDataService.listByType(DICT_TYPE.flinkHA).subscribe((d) => {
+      this.flinkHAList = d;
+    });
 
     let flinkReleaseParam: FlinkReleaseParam = {
       pageSize: DEFAULT_PAGE_PARAM.pageSize,
@@ -106,6 +118,18 @@ export class ClusterConfigOptionsComponent implements OnInit {
 
   onValueChange(event) {
     console.log(this.formData)
+  }
+
+  onRestartStrategyValueChange(event) {
+    this.isNone = event.label == 'none'
+    this.isFixedDelay = event.label == 'fixed-delay'
+    this.isFailureRate = event.label == 'failure-rate'
+    this.isExponentialDelay = event.label == 'exponential-delay'
+  }
+
+  onHAValueChange(event) {
+    this.isZookeeperHA = event.label == 'ZooKeeper'
+    this.isKubernetesHA = event.label == 'Kubernetes'
   }
 
   onFlinkReleaseLoadMore(event) {
