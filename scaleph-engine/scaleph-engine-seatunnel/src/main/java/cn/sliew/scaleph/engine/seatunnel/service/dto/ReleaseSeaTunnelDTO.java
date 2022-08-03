@@ -16,42 +16,32 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.resource;
+package cn.sliew.scaleph.engine.seatunnel.service.dto;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * release-seatunnel
- * </p>
- */
+import javax.validation.constraints.NotBlank;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("release_seatunnel")
-@ApiModel(value = "ReleaseSeatunnel对象", description = "release-seatunnel")
-public class ReleaseSeatunnel extends BaseDO {
+@ApiModel(value = "ReleaseSeatunnel对象", description = "release seatunnel")
+public class ReleaseSeaTunnelDTO extends BaseDTO {
 
-    private static final long serialVersionUID = 1L;
-
+    @NotBlank
     @ApiModelProperty("版本")
-    @TableField("version")
-    private String version;
+    private DictVO version;
 
     @ApiModelProperty("文件名称")
-    @TableField("file_name")
     private String fileName;
 
     @ApiModelProperty("存储路径")
-    @TableField("path")
     private String path;
 
     @ApiModelProperty("备注")
-    @TableField("remark")
     private String remark;
 }

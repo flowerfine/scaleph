@@ -16,18 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.resource;
+package cn.sliew.scaleph.engine.seatunnel.service.param;
 
-import cn.sliew.scaleph.dao.entity.master.resource.ReleaseSeatunnel;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
-/**
- * <p>
- * release-seatunnel Mapper 接口
- * </p>
- */
-@Repository
-public interface ReleaseSeatunnelMapper extends BaseMapper<ReleaseSeatunnel> {
+import javax.validation.constraints.NotBlank;
 
+@Data
+public class ReleaseSeaTunnelUploadParam {
+
+    @NotBlank
+    @ApiModelProperty("flink 版本")
+    private String version;
+
+    @ApiModelProperty("备注")
+    private String remark;
 }
