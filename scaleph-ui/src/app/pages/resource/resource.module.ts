@@ -7,6 +7,9 @@ import {ResourceRoutingModule} from './resource.routing.module';
 import {ReleaseSeatunnelComponent} from "./seatunnel/release-seatunnel.component";
 import {ReleaseSeatunnelUploadComponent} from "./seatunnel/release-seatunnel-upload/release-seatunnel-upload.component";
 import {ReleaseSeatunnelDeleteComponent} from "./seatunnel/release-seatunnel-delete/release-seatunnel-delete.component";
+import {ReleaseFlinkComponent} from "./flink/release-flink.component";
+import {ReleaseFlinkUploadComponent} from "./flink/release-flink-upload/release-flink-upload.component";
+import {ReleaseFlinkDeleteComponent} from "./flink/release-flink-delete/release-flink-delete.component";
 
 @NgModule({
   declarations: [
@@ -14,6 +17,9 @@ import {ReleaseSeatunnelDeleteComponent} from "./seatunnel/release-seatunnel-del
     ReleaseSeatunnelComponent,
     ReleaseSeatunnelUploadComponent,
     ReleaseSeatunnelDeleteComponent,
+    ReleaseFlinkComponent,
+    ReleaseFlinkUploadComponent,
+    ReleaseFlinkDeleteComponent,
   ],
   imports: [SharedModule, ResourceRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })
