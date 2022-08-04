@@ -135,6 +135,24 @@ export default function (values) {
       ],
     },
     {
+      title: values['resource']['title'],
+      link: '/scaleph/resource',
+      menuIcon: 'icon icon-log',
+      pCode: PRIVILEGE_CODE.opscenterShow,
+      children: [
+        {
+          title: values['opscenter']['realtime'],
+          link: '/scaleph/opscenter/realtime',
+          pCode: PRIVILEGE_CODE.opscenterRealtimeShow,
+        },
+        {
+          title: values['opscenter']['batch'],
+          link: '/scaleph/opscenter/batch',
+          pCode: PRIVILEGE_CODE.opscenterBatchShow,
+        },
+      ],
+    },
+    {
       title: values['stdata']['title'],
       link: '/scaleph/stdata',
       menuIcon: 'icon icon-function-guide',
