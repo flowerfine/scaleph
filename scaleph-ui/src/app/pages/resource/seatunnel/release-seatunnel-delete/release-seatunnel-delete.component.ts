@@ -3,10 +3,10 @@ import {ReleaseService} from "../../../../@core/services/flink/release.service";
 
 @Component({
   selector: 'app-release-delete',
-  templateUrl: './release-delete.component.html',
-  styleUrls: ['../release.component.scss'],
+  templateUrl: './release-seatunnel-delete.component.html',
+  styleUrls: ['../release-seatunnel.component.scss'],
 })
-export class ReleaseDeleteComponent implements OnInit {
+export class ReleaseSeatunnelDeleteComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
 

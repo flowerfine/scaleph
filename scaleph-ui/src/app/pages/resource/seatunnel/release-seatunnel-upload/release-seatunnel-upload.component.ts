@@ -8,10 +8,10 @@ import {SysDictDataService} from "../../../../@core/services/admin/dict-data.ser
 
 @Component({
   selector: 'app-release-upload',
-  templateUrl: './release-upload.component.html',
-  styleUrls: ['../release.component.scss'],
+  templateUrl: './release-seatunnel-upload.component.html',
+  styleUrls: ['../release-seatunnel.component.scss'],
 })
-export class ReleaseUploadComponent implements OnInit {
+export class ReleaseSeatunnelUploadComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
   formLayout = FormLayout.Horizontal;

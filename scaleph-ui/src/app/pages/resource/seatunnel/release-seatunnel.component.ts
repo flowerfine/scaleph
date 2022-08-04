@@ -7,16 +7,16 @@ import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE, USER_AUTH} from 'sr
 import {FlinkRelease, FlinkReleaseParam} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {ReleaseService} from 'src/app/@core/services/flink/release.service';
-import {ReleaseUploadComponent} from "./release-upload/release-upload.component";
-import {ReleaseDeleteComponent} from "./release-delete/release-delete.component";
+import {ReleaseSeatunnelUploadComponent} from "./release-seatunnel-upload/release-seatunnel-upload.component";
+import {ReleaseSeatunnelDeleteComponent} from "./release-seatunnel-delete/release-seatunnel-delete.component";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 
 @Component({
-  selector: 'app-release',
-  templateUrl: './release.component.html',
-  styleUrls: ['./release.component.scss'],
+  selector: 'app-release-seatunnel',
+  templateUrl: './release-seatunnel.component.html',
+  styleUrls: ['./release-seatunnel.component.scss'],
 })
-export class ReleaseComponent implements OnInit {
+export class ReleaseSeatunnelComponent implements OnInit {
   PRIVILEGE_CODE = PRIVILEGE_CODE;
   @ViewChild('dataTable', {static: true}) dataTable: DataTableComponent;
   dataLoading: boolean = false;
@@ -107,7 +107,7 @@ export class ReleaseComponent implements OnInit {
       id: 'release-upload',
       width: '580px',
       backdropCloseable: true,
-      component: ReleaseUploadComponent,
+      component: ReleaseSeatunnelUploadComponent,
       data: {
         title: {name: this.translate.instant('flink.release.name')},
         onClose: (event: any) => {
@@ -129,7 +129,7 @@ export class ReleaseComponent implements OnInit {
       id: 'release-delete',
       width: '346px',
       backdropCloseable: true,
-      component: ReleaseDeleteComponent,
+      component: ReleaseSeatunnelDeleteComponent,
       data: {
         title: this.translate.instant('app.common.operate.delete.confirm.title'),
         items: items,
