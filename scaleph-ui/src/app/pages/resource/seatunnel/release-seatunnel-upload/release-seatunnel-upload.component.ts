@@ -1,10 +1,10 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {DValidateRules, FormLayout, IFileOptions, IUploadOptions} from 'ng-devui';
-import {ReleaseService} from "../../../../@core/services/flink/release.service";
-import {FlinkReleaseUploadParam} from "../../../../@core/data/flink.data";
 import {Dict, DICT_TYPE} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
+import {ReleaseSeaTunnelUploadParam} from "../../../../@core/data/resource.data";
+import {ReleaseSeaTunnelService} from "../../../../@core/services/resource/release-seatunnel.service";
 
 @Component({
   selector: 'app-release-seatunnel-upload',
@@ -30,7 +30,7 @@ export class ReleaseSeatunnelUploadComponent implements OnInit {
       validators: [{maxlength: 200}],
     },
   };
-  flinkVersionList: Dict[] = []
+  seatunnelVersionList: Dict[] = []
   fileOptions: IFileOptions = {
     multiple: false,
   };
@@ -47,24 +47,24 @@ export class ReleaseSeatunnelUploadComponent implements OnInit {
     remark: null,
   };
 
-  constructor(private elr: ElementRef, private translate: TranslateService, private dictDataService: SysDictDataService, private releaseService: ReleaseService) {
+  constructor(private elr: ElementRef, private translate: TranslateService, private dictDataService: SysDictDataService, private releaseSeaTunnelService: ReleaseSeaTunnelService) {
   }
 
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;
-    this.dictDataService.listByType(DICT_TYPE.flinkVersion).subscribe((d) => {
-      this.flinkVersionList = d;
+    this.dictDataService.listByType(DICT_TYPE.seatunnelVersion).subscribe((d) => {
+      this.seatunnelVersionList = d;
     });
   }
 
   submitForm({valid}) {
-    let uploadParam: FlinkReleaseUploadParam = {
+    let uploadParam: ReleaseSeaTunnelUploadParam = {
       version: this.formData.version ? this.formData.version.value : '',
       file: this.file,
       remark: this.formData.remark || '',
     };
     if (valid && this.file) {
-      this.releaseService.upload(uploadParam).subscribe((d) => {
+      this.releaseSeaTunnelService.upload(uploadParam).subscribe((d) => {
         if (d.success) {
           this.data.onClose();
           this.data.refresh();

@@ -10,6 +10,8 @@ import {ReleaseService} from 'src/app/@core/services/flink/release.service';
 import {ReleaseSeatunnelUploadComponent} from "./release-seatunnel-upload/release-seatunnel-upload.component";
 import {ReleaseSeatunnelDeleteComponent} from "./release-seatunnel-delete/release-seatunnel-delete.component";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
+import {ReleaseSeaTunnelService} from "../../../@core/services/resource/release-seatunnel.service";
+import {ReleaseSeaTunnel, ReleaseSeaTunnelParam} from "../../../@core/data/resource.data";
 
 @Component({
   selector: 'app-release-seatunnel',
@@ -22,7 +24,7 @@ export class ReleaseSeatunnelComponent implements OnInit {
   dataLoading: boolean = false;
   dataTableChecked: boolean = false;
   loadTarget: any;
-  dataTableDs: FlinkRelease[] = [];
+  dataTableDs: ReleaseSeaTunnel[] = [];
   pager = {
     total: 0,
     pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -32,7 +34,7 @@ export class ReleaseSeatunnelComponent implements OnInit {
 
   searchFormConfig = {version: null, fileName: ''};
 
-  flinkVersionList: Dict[] = []
+  seatunnelVersionList: Dict[] = []
 
   constructor(
     public authService: AuthService,
@@ -41,28 +43,28 @@ export class ReleaseSeatunnelComponent implements OnInit {
     private translate: TranslateService,
     private modalService: ModalService,
     private dictDataService: SysDictDataService,
-    private releaseService: ReleaseService,
+    private releaseSeaTunnelService: ReleaseSeaTunnelService,
     private router: Router
   ) {
   }
 
   ngOnInit(): void {
     this.refreshTable();
-    this.dictDataService.listByType(DICT_TYPE.flinkVersion).subscribe((d) => {
-      this.flinkVersionList = d;
+    this.dictDataService.listByType(DICT_TYPE.seatunnelVersion).subscribe((d) => {
+      this.seatunnelVersionList = d;
     });
   }
 
   refreshTable() {
     this.openDataTableLoading();
-    let param: FlinkReleaseParam = {
+    let param: ReleaseSeaTunnelParam = {
       pageSize: this.pager.pageSize,
       current: this.pager.pageIndex,
       version: this.searchFormConfig.version ? this.searchFormConfig.version.value : '',
       fileName: this.searchFormConfig.fileName,
     };
 
-    this.releaseService.list(param).subscribe((d) => {
+    this.releaseSeaTunnelService.list(param).subscribe((d) => {
       this.pager.total = d.total;
       this.dataTableDs = d.records;
       this.loadTarget.loadingInstance.close();
@@ -120,11 +122,7 @@ export class ReleaseSeatunnelComponent implements OnInit {
     });
   }
 
-  openLoadReleaseDialog() {
-    alert("work in progress")
-  }
-
-  openDeleteReleaseDialog(items: FlinkRelease[]) {
+  openDeleteReleaseDialog(items: ReleaseSeaTunnel[]) {
     const results = this.modalService.open({
       id: 'release-seatunnel-delete',
       width: '346px',
@@ -143,9 +141,9 @@ export class ReleaseSeatunnelComponent implements OnInit {
     });
   }
 
-  downloadRelease(item: FlinkRelease) {
+  downloadRelease(item: ReleaseSeaTunnel) {
     let url: string =
-      'api/flink/release/download/' + item.id +
+      'api/resource/release/seatunnel/download/' + item.id +
       '?' +
       USER_AUTH.token +
       '=' +
