@@ -141,13 +141,18 @@ export default function (values) {
       pCode: PRIVILEGE_CODE.opscenterShow,
       children: [
         {
-          title: values['opscenter']['realtime'],
-          link: '/scaleph/opscenter/realtime',
+          title: values['resource']['flink'],
+          link: '/scaleph/flink/release',
           pCode: PRIVILEGE_CODE.opscenterRealtimeShow,
         },
         {
-          title: values['opscenter']['batch'],
-          link: '/scaleph/opscenter/batch',
+          title: values['resource']['seatunnel'],
+          link: '/scaleph/flink/release',
+          pCode: PRIVILEGE_CODE.opscenterRealtimeShow,
+        },
+        {
+          title: values['resource']['cluster'],
+          link: '/scaleph/flink/deploy-config',
           pCode: PRIVILEGE_CODE.opscenterBatchShow,
         },
       ],
