@@ -39,11 +39,6 @@ export default function (values) {
       pCode: PRIVILEGE_CODE.flinkShow,
       children: [
         {
-          title: values['flink']['release'],
-          link: '/scaleph/flink/release',
-          pCode: PRIVILEGE_CODE.flinkReleaseShow,
-        },
-        {
           title: values['flink']['deploy-config'],
           link: '/scaleph/flink/deploy-config',
           pCode: PRIVILEGE_CODE.flinkReleaseShow,
@@ -142,7 +137,7 @@ export default function (values) {
       children: [
         {
           title: values['resource']['flink'],
-          link: '/scaleph/flink/release',
+          link: '/scaleph/resource/flink',
           pCode: PRIVILEGE_CODE.opscenterRealtimeShow,
         },
         {

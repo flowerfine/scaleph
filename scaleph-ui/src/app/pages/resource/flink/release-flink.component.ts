@@ -8,8 +8,8 @@ import {FlinkRelease, FlinkReleaseParam} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {ReleaseService} from 'src/app/@core/services/flink/release.service';
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
-import {ReleaseUploadComponent} from "../../flink/release/release-upload/release-upload.component";
-import {ReleaseDeleteComponent} from "../../flink/release/release-delete/release-delete.component";
+import {ReleaseFlinkUploadComponent} from "./release-flink-upload/release-flink-upload.component";
+import {ReleaseFlinkDeleteComponent} from "./release-flink-delete/release-flink-delete.component";
 
 @Component({
   selector: 'app-release-flink',
@@ -107,7 +107,7 @@ export class ReleaseFlinkComponent implements OnInit {
       id: 'release-flink-upload',
       width: '580px',
       backdropCloseable: true,
-      component: ReleaseUploadComponent,
+      component: ReleaseFlinkUploadComponent,
       data: {
         title: {name: this.translate.instant('flink.release.name')},
         onClose: (event: any) => {
@@ -129,7 +129,7 @@ export class ReleaseFlinkComponent implements OnInit {
       id: 'release-flink-delete',
       width: '346px',
       backdropCloseable: true,
-      component: ReleaseDeleteComponent,
+      component: ReleaseFlinkDeleteComponent,
       data: {
         title: this.translate.instant('app.common.operate.delete.confirm.title'),
         items: items,
