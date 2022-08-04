@@ -7,7 +7,7 @@ import {Dict, DICT_TYPE} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
 
 @Component({
-  selector: 'app-release-upload',
+  selector: 'app-release-seatunnel-upload',
   templateUrl: './release-seatunnel-upload.component.html',
   styleUrls: ['../release-seatunnel.component.scss'],
 })

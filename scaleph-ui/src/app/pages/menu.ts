@@ -147,7 +147,7 @@ export default function (values) {
         },
         {
           title: values['resource']['seatunnel'],
-          link: '/scaleph/flink/release',
+          link: '/scaleph/resource/seatunnel',
           pCode: PRIVILEGE_CODE.opscenterRealtimeShow,
         },
         {

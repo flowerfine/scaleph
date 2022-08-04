@@ -104,7 +104,7 @@ export class ReleaseSeatunnelComponent implements OnInit {
 
   openUploadReleaseDialog() {
     const results = this.modalService.open({
-      id: 'release-upload',
+      id: 'release-seatunnel-upload',
       width: '580px',
       backdropCloseable: true,
       component: ReleaseSeatunnelUploadComponent,
@@ -126,7 +126,7 @@ export class ReleaseSeatunnelComponent implements OnInit {
 
   openDeleteReleaseDialog(items: FlinkRelease[]) {
     const results = this.modalService.open({
-      id: 'release-delete',
+      id: 'release-seatunnel-delete',
       width: '346px',
       backdropCloseable: true,
       component: ReleaseSeatunnelDeleteComponent,

@@ -2,7 +2,7 @@ import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {ReleaseService} from "../../../../@core/services/flink/release.service";
 
 @Component({
-  selector: 'app-release-delete',
+  selector: 'app-release-seatunnel-delete',
   templateUrl: './release-seatunnel-delete.component.html',
   styleUrls: ['../release-seatunnel.component.scss'],
 })
