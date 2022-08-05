@@ -44,6 +44,12 @@
       "artifact": "artifact管理",
       "job-config": "任务配置管理",
       "job-instance": "任务实例管理"
+    },
+    "resource": {
+      "title": "资源中心",
+      "flink": "Flink Release",
+      "seatunnel": "SeaTunnel Release",
+      "cluster": "集群资源"
     }
   },
   "app": {

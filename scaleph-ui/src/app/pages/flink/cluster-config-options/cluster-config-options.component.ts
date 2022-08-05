@@ -7,14 +7,10 @@ import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse, PRIVILEGE_CODE} from 
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {ClusterConfigService} from "../../../@core/services/flink/cluster-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
-import {
-  FlinkClusterConfig,
-  FlinkDeployConfig,
-  FlinkDeployConfigParam,
-  FlinkRelease, FlinkReleaseParam
-} from "../../../@core/data/flink.data";
-import {ReleaseService} from "../../../@core/services/flink/release.service";
+import {FlinkDeployConfig, FlinkDeployConfigParam} from "../../../@core/data/flink.data";
 import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
+import {ReleaseFlinkService} from "../../../@core/services/resource/release-flink.service";
+import {ReleaseFlink, ReleaseFlinkParam} from "../../../@core/data/resource.data";
 
 @Component({
   selector: 'app-cluster-config-options',
@@ -50,8 +46,8 @@ export class ClusterConfigOptionsComponent implements OnInit {
     configOptions: {}
   }
 
-  flinkReleaseList: FlinkRelease[] = []
-  flinkReleaseResult: PageResponse<FlinkRelease> = null
+  flinkReleaseList: ReleaseFlink[] = []
+  flinkReleaseResult: PageResponse<ReleaseFlink> = null
 
   flinkDeployConfigList: FlinkDeployConfig[] = []
   flinkDeployConfigResult: PageResponse<FlinkDeployConfig> = null
@@ -70,7 +66,7 @@ export class ClusterConfigOptionsComponent implements OnInit {
     private translate: TranslateService,
     private modalService: ModalService,
     private dictDataService: SysDictDataService,
-    private releaseService: ReleaseService,
+    private releaseFlinkService: ReleaseFlinkService,
     private deployConfigService: DeployConfigService,
     private clusterConfigService: ClusterConfigService,
     private router: Router
@@ -97,11 +93,11 @@ export class ClusterConfigOptionsComponent implements OnInit {
       this.flinkHAList = d;
     });
 
-    let flinkReleaseParam: FlinkReleaseParam = {
+    let releaseFlinkParam: ReleaseFlinkParam = {
       pageSize: DEFAULT_PAGE_PARAM.pageSize,
       current: DEFAULT_PAGE_PARAM.pageIndex
     }
-    this.releaseService.list(flinkReleaseParam).subscribe((d) => {
+    this.releaseFlinkService.list(releaseFlinkParam).subscribe((d) => {
       this.flinkReleaseResult = d
       this.flinkReleaseList = d.records;
     });
@@ -137,11 +133,11 @@ export class ClusterConfigOptionsComponent implements OnInit {
     if (loaded >= this.flinkReleaseResult.total) {
       event.instance.loadFinish();
     } else {
-      let flinkReleaseParam: FlinkReleaseParam = {
+      let releaseFlinkParam: ReleaseFlinkParam = {
         pageSize: this.flinkReleaseResult.size,
         current: this.flinkReleaseResult.current + 1
       }
-      this.releaseService.list(flinkReleaseParam).subscribe((d) => {
+      this.releaseFlinkService.list(releaseFlinkParam).subscribe((d) => {
         this.flinkReleaseResult = d
         this.flinkReleaseList = [...this.flinkReleaseList, ...d.records];
         event.instance.loadFinish();
