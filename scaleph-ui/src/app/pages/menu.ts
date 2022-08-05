@@ -132,7 +132,7 @@ export default function (values) {
     {
       title: values['resource']['title'],
       link: '/scaleph/resource',
-      menuIcon: 'icon icon-log',
+      menuIcon: 'icon icon-release-set',
       pCode: PRIVILEGE_CODE.opscenterShow,
       children: [
         {
