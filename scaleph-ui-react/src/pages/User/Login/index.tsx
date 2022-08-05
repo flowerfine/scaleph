@@ -61,7 +61,7 @@ const Login: React.FC = () => {
       </div>
       <div className={styles.content}>
         <div className={styles.logoInfo}>
-          <img className={styles.logo} alt="logo" src="/devui-logo.svg" />
+          <img className={styles.logo} alt="logo" src="/scaleph.svg" />
           <span className={styles.title}>Scaleph</span>
         </div>
         <div className={styles.loginForm}>
