@@ -4,12 +4,12 @@ import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/app.data';
-import {FlinkRelease, FlinkReleaseParam} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
-import {ReleaseService} from 'src/app/@core/services/flink/release.service';
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 import {ReleaseFlinkUploadComponent} from "./release-flink-upload/release-flink-upload.component";
 import {ReleaseFlinkDeleteComponent} from "./release-flink-delete/release-flink-delete.component";
+import {ReleaseFlinkService} from "../../../@core/services/resource/release-flink.service";
+import {ReleaseFlink, ReleaseFlinkParam} from "../../../@core/data/resource.data";
 
 @Component({
   selector: 'app-release-flink',
@@ -22,7 +22,7 @@ export class ReleaseFlinkComponent implements OnInit {
   dataLoading: boolean = false;
   dataTableChecked: boolean = false;
   loadTarget: any;
-  dataTableDs: FlinkRelease[] = [];
+  dataTableDs: ReleaseFlink[] = [];
   pager = {
     total: 0,
     pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -41,7 +41,7 @@ export class ReleaseFlinkComponent implements OnInit {
     private translate: TranslateService,
     private modalService: ModalService,
     private dictDataService: SysDictDataService,
-    private releaseService: ReleaseService,
+    private releaseFlinkService: ReleaseFlinkService,
     private router: Router
   ) {
   }
@@ -55,14 +55,14 @@ export class ReleaseFlinkComponent implements OnInit {
 
   refreshTable() {
     this.openDataTableLoading();
-    let param: FlinkReleaseParam = {
+    let param: ReleaseFlinkParam = {
       pageSize: this.pager.pageSize,
       current: this.pager.pageIndex,
       version: this.searchFormConfig.version ? this.searchFormConfig.version.value : '',
       fileName: this.searchFormConfig.fileName,
     };
 
-    this.releaseService.list(param).subscribe((d) => {
+    this.releaseFlinkService.list(param).subscribe((d) => {
       this.pager.total = d.total;
       this.dataTableDs = d.records;
       this.loadTarget.loadingInstance.close();
@@ -120,11 +120,7 @@ export class ReleaseFlinkComponent implements OnInit {
     });
   }
 
-  openLoadReleaseDialog() {
-    alert("work in progress")
-  }
-
-  openDeleteReleaseDialog(items: FlinkRelease[]) {
+  openDeleteReleaseDialog(items: ReleaseFlink[]) {
     const results = this.modalService.open({
       id: 'release-flink-delete',
       width: '346px',
@@ -143,9 +139,9 @@ export class ReleaseFlinkComponent implements OnInit {
     });
   }
 
-  downloadRelease(item: FlinkRelease) {
+  downloadRelease(item: ReleaseFlink) {
     let url: string =
-      'api/flink/release/download/' + item.id +
+      'api/resource/release/flink/download/' + item.id +
       '?' +
       USER_AUTH.token +
       '=' +
