@@ -5,10 +5,10 @@ import {FlinkClusterConfig, FlinkClusterConfigParam} from "../../../../@core/dat
 import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
-import {ReleaseService} from "../../../../@core/services/flink/release.service";
 import {ClusterConfigService} from "../../../../@core/services/flink/cluster-config.service";
 import {FlinkJobConfig} from "../../../../@core/data/job.data";
 import {JobConfigService} from "../../../../@core/services/job/job-config.service";
+import {ReleaseFlinkService} from "../../../../@core/services/resource/release-flink.service";
 
 @Component({
   selector: 'app-job-config-new',
@@ -50,7 +50,7 @@ export class JobConfigNewComponent implements OnInit {
     private elr: ElementRef,
     private translate: TranslateService,
     private dictDataService: SysDictDataService,
-    private releaseService: ReleaseService,
+    private releaseFlinkService: ReleaseFlinkService,
     private deployConfigService: DeployConfigService,
     private clusterConfigService: ClusterConfigService,
     private jobConfigService: JobConfigService) {

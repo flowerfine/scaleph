@@ -1,5 +1,4 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
-import {ReleaseService} from "../../../../@core/services/flink/release.service";
 import {ReleaseSeaTunnelService} from "../../../../@core/services/resource/release-seatunnel.service";
 
 @Component({

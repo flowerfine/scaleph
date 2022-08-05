@@ -5,15 +5,15 @@ import {
   FlinkClusterConfig,
   FlinkDeployConfig,
   FlinkDeployConfigParam,
-  FlinkRelease,
-  FlinkReleaseParam, KeyValueConfig
+  KeyValueConfig
 } from "../../../../@core/data/flink.data";
 import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
-import {ReleaseService} from "../../../../@core/services/flink/release.service";
 import {ClusterConfigService} from "../../../../@core/services/flink/cluster-config.service";
 import {DataTableComponent, DFormGroupRuleDirective} from "@devui";
+import {ReleaseFlink, ReleaseFlinkParam} from "../../../../@core/data/resource.data";
+import {ReleaseFlinkService} from "../../../../@core/services/resource/release-flink.service";
 
 @Component({
   selector: 'app-cluster-config-update',
@@ -54,7 +54,7 @@ export class ClusterConfigUpdateComponent implements OnInit {
   flinkVersionList: Dict[] = []
   resourceProviderList: Dict[] = []
   deployModeList: Dict[] = []
-  flinkReleaseList: FlinkRelease[] = []
+  flinkReleaseList: ReleaseFlink[] = []
   flinkDeployConfigList: FlinkDeployConfig[] = []
 
   flinkDeployConfigResult: PageResponse<FlinkDeployConfig> = null
@@ -81,7 +81,7 @@ export class ClusterConfigUpdateComponent implements OnInit {
     private elr: ElementRef,
     private translate: TranslateService,
     private dictDataService: SysDictDataService,
-    private releaseService: ReleaseService,
+    private releaseFlinkService: ReleaseFlinkService,
     private deployConfigService: DeployConfigService,
     private clusterConfigService: ClusterConfigService) {
   }
@@ -105,7 +105,7 @@ export class ClusterConfigUpdateComponent implements OnInit {
       }
       this.customConfigdataTableDs.push(keyValueConfig)
     }
-    this.releaseService.selectOne(this.data.item.flinkReleaseId).subscribe((d) => {
+    this.releaseFlinkService.selectOne(this.data.item.flinkReleaseId).subscribe((d) => {
       this.formData.flinkRelease = d;
     });
     this.deployConfigService.selectOne(this.data.item.deployConfigFileId).subscribe((d) => {
@@ -121,12 +121,12 @@ export class ClusterConfigUpdateComponent implements OnInit {
     this.dictDataService.listByType(DICT_TYPE.flinkDeploymentMode).subscribe((d) => {
       this.deployModeList = d;
     });
-    this.releaseService.list(this.data.item.flinkVersion?.value||'').subscribe((d) => {
+    this.releaseFlinkService.list(this.data.item.flinkVersion?.value || '').subscribe((d) => {
       this.flinkReleaseList = d.records;
     });
 
     let flinkDeployConfigParam: FlinkDeployConfigParam = {
-      pageSize:  DEFAULT_PAGE_PARAM.pageSize,
+      pageSize: DEFAULT_PAGE_PARAM.pageSize,
       current: DEFAULT_PAGE_PARAM.pageIndex
     }
     this.deployConfigService.list(flinkDeployConfigParam).subscribe((d) => {
@@ -137,11 +137,11 @@ export class ClusterConfigUpdateComponent implements OnInit {
 
   onFlinkVersionValueChange(flinkVersion) {
     this.formData.flinkRelease = null
-    let param: FlinkReleaseParam = {
+    let param: ReleaseFlinkParam = {
       version: flinkVersion.value,
     };
 
-    this.releaseService.list(param).subscribe((d) => {
+    this.releaseFlinkService.list(param).subscribe((d) => {
       this.flinkReleaseList = d.records;
     });
   }
@@ -152,7 +152,7 @@ export class ClusterConfigUpdateComponent implements OnInit {
       event.instance.loadFinish();
     } else {
       let flinkDeployConfigParam: FlinkDeployConfigParam = {
-        pageSize:  this.flinkDeployConfigResult.size,
+        pageSize: this.flinkDeployConfigResult.size,
         current: this.flinkDeployConfigResult.current + 1
       }
       this.deployConfigService.list(flinkDeployConfigParam).subscribe((d) => {
@@ -186,7 +186,7 @@ export class ClusterConfigUpdateComponent implements OnInit {
   }
 
   submitForm({valid}) {
-    let customConfigOptions: {[key:string]: any} = {};
+    let customConfigOptions: { [key: string]: any } = {};
     this.customConfigdataTableDs.forEach((config) => {
       customConfigOptions[config.key] = config.value
     })
