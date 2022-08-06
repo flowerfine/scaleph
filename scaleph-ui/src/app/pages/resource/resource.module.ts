@@ -10,6 +10,8 @@ import {ReleaseSeatunnelDeleteComponent} from "./seatunnel/release-seatunnel-del
 import {ReleaseFlinkComponent} from "./flink/release-flink.component";
 import {ReleaseFlinkUploadComponent} from "./flink/release-flink-upload/release-flink-upload.component";
 import {ReleaseFlinkDeleteComponent} from "./flink/release-flink-delete/release-flink-delete.component";
+import {ClusterConfigComponent} from "./cluster/cluster-config.component";
+import {ClusterConfigNewComponent} from "./cluster/cluster-config-new/cluster-config-new.component";
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import {ReleaseFlinkDeleteComponent} from "./flink/release-flink-delete/release-
     ReleaseFlinkComponent,
     ReleaseFlinkUploadComponent,
     ReleaseFlinkDeleteComponent,
+    ClusterConfigComponent,
+    ClusterConfigNewComponent,
   ],
   imports: [SharedModule, ResourceRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })

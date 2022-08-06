@@ -147,7 +147,7 @@ export default function (values) {
         },
         {
           title: values['resource']['cluster'],
-          link: '/scaleph/flink/deploy-config',
+          link: '/scaleph/resource/cluster',
           pCode: PRIVILEGE_CODE.opscenterBatchShow,
         },
       ],
