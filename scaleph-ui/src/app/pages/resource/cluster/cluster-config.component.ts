@@ -121,7 +121,7 @@ export class ClusterConfigComponent implements OnInit {
   }
 
   openDeployConfig(row: FlinkDeployConfig) {
-    this.router.navigate(['/scaleph', 'flink', 'deploy-config-file'], {
+    this.router.navigate(['/scaleph', 'resource', 'cluster-config-file'], {
       queryParams: {
         id: row.id
       }

@@ -5,18 +5,22 @@ import {TranslateService} from '@ngx-translate/core';
 import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
 import {PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/app.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
-import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
-import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
-import {DeployConfigFileUploadComponent} from "./deploy-config-file-upload/deploy-config-file-upload.component";
-import {FileStatus} from "../../../@core/data/flink.data";
-import {DeployConfigFileDeleteComponent} from "./deploy-config-file-delete/deploy-config-file-delete.component";
+import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
+import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
+import {
+  DeployConfigFileUploadComponent
+} from "../../../flink/deploy-config-file/deploy-config-file-upload/deploy-config-file-upload.component";
+import {FileStatus} from "../../../../@core/data/flink.data";
+import {
+  DeployConfigFileDeleteComponent
+} from "../../../flink/deploy-config-file/deploy-config-file-delete/deploy-config-file-delete.component";
 
 @Component({
-  selector: 'app-deploy-config-file',
-  templateUrl: './deploy-config-file.component.html',
-  styleUrls: ['./deploy-config-file.component.scss'],
+  selector: 'app-cluster-config-file',
+  templateUrl: './cluster-config-file.component.html',
+  styleUrls: ['./cluster-config-file.component.scss'],
 })
-export class DeployConfigFileComponent implements OnInit {
+export class ClusterConfigFileComponent implements OnInit {
   PRIVILEGE_CODE = PRIVILEGE_CODE;
   @ViewChild('dataTable', {static: true}) dataTable: DataTableComponent;
   dataLoading: boolean = false;
