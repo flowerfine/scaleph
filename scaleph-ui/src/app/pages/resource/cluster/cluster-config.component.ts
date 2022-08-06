@@ -8,13 +8,9 @@ import {FlinkDeployConfig, FlinkDeployConfigParam} from 'src/app/@core/data/flin
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
-import {
-  DeployConfigUpdateComponent
-} from "../../flink/deploy-config/deploy-config-update/deploy-config-update.component";
-import {
-  DeployConfigDeleteComponent
-} from "../../flink/deploy-config/deploy-config-delete/deploy-config-delete.component";
 import {ClusterConfigNewComponent} from "./cluster-config-new/cluster-config-new.component";
+import {ClusterConfigUpdateComponent} from "./cluster-config-update/cluster-config-update.component";
+import {ClusterConfigDeleteComponent} from "./cluster-config-delete/cluster-config-delete.component";
 
 @Component({
   selector: 'app-cluster-config',
@@ -108,7 +104,7 @@ export class ClusterConfigComponent implements OnInit {
 
   openAddDeployConfigDialog() {
     const results = this.modalService.open({
-      id: 'deploy-config-add',
+      id: 'cluster-config-add',
       width: '580px',
       backdropCloseable: true,
       component: ClusterConfigNewComponent,
@@ -134,10 +130,10 @@ export class ClusterConfigComponent implements OnInit {
 
   openEditDeployConfigDialog(item: FlinkDeployConfig) {
     const results = this.modalService.open({
-      id: 'deploy-config-edit',
+      id: 'cluster-config-edit',
       width: '580px',
       backdropCloseable: true,
-      component: DeployConfigUpdateComponent,
+      component: ClusterConfigUpdateComponent,
       data: {
         title: {name: this.translate.instant('flink.deploy-config.name_')},
         item: item,
@@ -153,10 +149,10 @@ export class ClusterConfigComponent implements OnInit {
 
   openDeleteDeployConfigDialog(items: FlinkDeployConfig[]) {
     const results = this.modalService.open({
-      id: 'deploy-config-delete',
+      id: 'cluster-config-delete',
       width: '346px',
       backdropCloseable: true,
-      component: DeployConfigDeleteComponent,
+      component: ClusterConfigDeleteComponent,
       data: {
         title: this.translate.instant('app.common.operate.delete.confirm.title'),
         items: items,

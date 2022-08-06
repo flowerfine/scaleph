@@ -12,6 +12,8 @@ import {ReleaseFlinkUploadComponent} from "./flink/release-flink-upload/release-
 import {ReleaseFlinkDeleteComponent} from "./flink/release-flink-delete/release-flink-delete.component";
 import {ClusterConfigComponent} from "./cluster/cluster-config.component";
 import {ClusterConfigNewComponent} from "./cluster/cluster-config-new/cluster-config-new.component";
+import {ClusterConfigUpdateComponent} from "./cluster/cluster-config-update/cluster-config-update.component";
+import {ClusterConfigDeleteComponent} from "./cluster/cluster-config-delete/cluster-config-delete.component";
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import {ClusterConfigNewComponent} from "./cluster/cluster-config-new/cluster-co
     ReleaseFlinkDeleteComponent,
     ClusterConfigComponent,
     ClusterConfigNewComponent,
+    ClusterConfigUpdateComponent,
+    ClusterConfigDeleteComponent,
   ],
   imports: [SharedModule, ResourceRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })
