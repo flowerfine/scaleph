@@ -32,7 +32,7 @@ export class ClusterConfigComponent implements OnInit {
   };
   searchFormConfig = {configType: null, name: ''};
 
-  flinkDeployConfigTypeList: Dict[] = []
+  resourceClusterTypeList: Dict[] = []
 
   constructor(
     public authService: AuthService,
@@ -48,8 +48,8 @@ export class ClusterConfigComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshTable();
-    this.dictDataService.listByType(DICT_TYPE.flinkDeployConfigType).subscribe((d) => {
-      this.flinkDeployConfigTypeList = d;
+    this.dictDataService.listByType(DICT_TYPE.resourceClusterType).subscribe((d) => {
+      this.resourceClusterTypeList = d;
     });
   }
 

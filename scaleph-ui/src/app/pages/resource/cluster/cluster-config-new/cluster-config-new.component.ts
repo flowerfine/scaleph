@@ -31,7 +31,7 @@ export class ClusterConfigNewComponent implements OnInit {
     },
   };
 
-  flinkDeployConfigTypeList: Dict[] = []
+  resourceClusterTypeList: Dict[] = []
 
   formData = {
     configType: null,
@@ -44,8 +44,8 @@ export class ClusterConfigNewComponent implements OnInit {
 
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;
-    this.dictDataService.listByType(DICT_TYPE.flinkDeployConfigType).subscribe((d) => {
-      this.flinkDeployConfigTypeList = d;
+    this.dictDataService.listByType(DICT_TYPE.resourceClusterType).subscribe((d) => {
+      this.resourceClusterTypeList = d;
     });
   }
 

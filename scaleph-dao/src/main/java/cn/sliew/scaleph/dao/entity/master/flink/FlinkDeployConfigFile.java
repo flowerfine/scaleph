@@ -39,7 +39,7 @@ public class FlinkDeployConfigFile extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("配置文件类型。0: hadoop conf, 1: kubeconfig, 2: flink-conf.yaml")
+    @ApiModelProperty("配置文件类型。0: Hadoop, 1: Kubernetes")
     @TableField("config_type")
     private String configType;
 
