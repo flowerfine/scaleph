@@ -109,7 +109,7 @@ export class ClusterConfigComponent implements OnInit {
       backdropCloseable: true,
       component: ClusterConfigNewComponent,
       data: {
-        title: {name: this.translate.instant('flink.deploy-config.name_')},
+        title: {name: this.translate.instant('resource.cluster-config.name_')},
         onClose: (event: any) => {
           results.modalInstance.hide();
         },
@@ -135,7 +135,7 @@ export class ClusterConfigComponent implements OnInit {
       backdropCloseable: true,
       component: ClusterConfigUpdateComponent,
       data: {
-        title: {name: this.translate.instant('flink.deploy-config.name_')},
+        title: {name: this.translate.instant('resource.cluster-config.name_')},
         item: item,
         onClose: (event: any) => {
           results.modalInstance.hide();

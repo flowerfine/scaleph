@@ -85,7 +85,7 @@ export class ClusterConfigFileComponent implements OnInit {
       backdropCloseable: true,
       component: ClusterConfigFileUploadComponent,
       data: {
-        title: {name: this.translate.instant('flink.deploy-config-file.name_')},
+        title: {name: this.translate.instant('resource.cluster-config-file.name_')},
         flinkDeployConfig: this.flinkDeployConfig,
         onClose: (event: any) => {
           results.modalInstance.hide();

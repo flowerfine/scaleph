@@ -527,10 +527,17 @@
       "file": "文件",
       "upload": "上传"
     },
-    "deploy-config": {
-      "name_": "部署配置",
-      "configType": "配置类型",
-      "name": "配置名称"
+    "cluster-config": {
+      "name_": "集群资源",
+      "configType": "集群类型",
+      "name": "集群名称"
+    },
+    "cluster-config-file": {
+      "name_": "集群配置文件",
+      "name": "文件名",
+      "len": "文件大小",
+      "modificationTime": "修改时间",
+      "upload": "上传"
     }
   },
   "header": {
