@@ -14,7 +14,7 @@ const Settings: LayoutSettings & {
   splitMenus: true,
   title: 'Scaleph',
   pwa: false,
-  logo: 'https://res.hc-cdn.com/x-roma-components/1.0.10/assets/devui/logo.svg',
+  logo: '/scaleph.svg',
   iconfontUrl: '',
 };
 
