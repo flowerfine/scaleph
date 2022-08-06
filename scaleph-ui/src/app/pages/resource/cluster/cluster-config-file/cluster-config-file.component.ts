@@ -14,6 +14,7 @@ import {FileStatus} from "../../../../@core/data/flink.data";
 import {
   DeployConfigFileDeleteComponent
 } from "../../../flink/deploy-config-file/deploy-config-file-delete/deploy-config-file-delete.component";
+import {ClusterConfigFileUploadComponent} from "./cluster-config-file-upload/cluster-config-file-upload.component";
 
 @Component({
   selector: 'app-cluster-config-file',
@@ -84,10 +85,10 @@ export class ClusterConfigFileComponent implements OnInit {
 
   openUploadDeployConfigFileDialog() {
     const results = this.modalService.open({
-      id: 'deploy-config-file-upload',
+      id: 'cluster-config-file-upload',
       width: '580px',
       backdropCloseable: true,
-      component: DeployConfigFileUploadComponent,
+      component: ClusterConfigFileUploadComponent,
       data: {
         title: {name: this.translate.instant('flink.deploy-config-file.name_')},
         flinkDeployConfig: this.flinkDeployConfig,
@@ -117,7 +118,7 @@ export class ClusterConfigFileComponent implements OnInit {
 
   openDeleteDeployConfigFileDialog(items: FileStatus[]) {
     const results = this.modalService.open({
-      id: 'deploy-config-file-delete',
+      id: 'cluster-config-file-delete',
       width: '346px',
       backdropCloseable: true,
       component: DeployConfigFileDeleteComponent,
