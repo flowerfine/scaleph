@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE} from 'src/app/@core/data/app.data';
-import {FlinkClusterConfig, FlinkClusterConfigParam} from 'src/app/@core/data/flink.data';
+import {FlinkClusterConfig, FlinkClusterConfigParam, FlinkDeployConfig} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {ClusterConfigService} from "../../../@core/services/flink/cluster-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
@@ -124,22 +124,31 @@ export class ClusterConfigComponent implements OnInit {
   }
 
   openAddClusterConfigDialog() {
-    const results = this.modalService.open({
-      id: 'cluster-config-add',
-      width: '580px',
-      backdropCloseable: true,
-      component: ClusterConfigNewComponent,
-      data: {
-        title: {name: this.translate.instant('flink.cluster-config.name_')},
-        onClose: (event: any) => {
-          results.modalInstance.hide();
-        },
-        refresh: () => {
-          this.refreshTable();
-        },
-      },
+    this.router.navigate(['/scaleph', 'flink', 'cluster-config-options'], {
+      queryParams: {
+
+      }
     });
   }
+
+  // openAddClusterConfigDialog() {
+  //
+  //   const results = this.modalService.open({
+  //     id: 'cluster-config-add',
+  //     width: '580px',
+  //     backdropCloseable: true,
+  //     component: ClusterConfigNewComponent,
+  //     data: {
+  //       title: {name: this.translate.instant('flink.cluster-config.name_')},
+  //       onClose: (event: any) => {
+  //         results.modalInstance.hide();
+  //       },
+  //       refresh: () => {
+  //         this.refreshTable();
+  //       },
+  //     },
+  //   });
+  // }
 
   openEditClusterConfigDialog(item: FlinkClusterConfig) {
     const results = this.modalService.open({
