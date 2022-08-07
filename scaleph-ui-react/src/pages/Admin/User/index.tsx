@@ -1,4 +1,4 @@
-import { Dict } from '@/app';
+import { Dict } from '@/app.d';
 import { DICT_TYPE } from '@/constant';
 import { listDictDataByType } from '@/services/admin/dictData.service';
 import { deleteRole, listAllRole } from '@/services/admin/role.service';
