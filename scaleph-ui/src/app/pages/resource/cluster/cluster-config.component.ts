@@ -7,17 +7,17 @@ import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE} from 'src/app/@core
 import {FlinkDeployConfig, FlinkDeployConfigParam} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
-import {DeployConfigNewComponent} from "./deploy-config-new/deploy-config-new.component";
-import {DeployConfigDeleteComponent} from "./deploy-config-delete/deploy-config-delete.component";
-import {DeployConfigUpdateComponent} from "./deploy-config-update/deploy-config-update.component";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
+import {ClusterConfigNewComponent} from "./cluster-config-new/cluster-config-new.component";
+import {ClusterConfigUpdateComponent} from "./cluster-config-update/cluster-config-update.component";
+import {ClusterConfigDeleteComponent} from "./cluster-config-delete/cluster-config-delete.component";
 
 @Component({
-  selector: 'app-deploy-config',
-  templateUrl: './deploy-config.component.html',
-  styleUrls: ['./deploy-config.component.scss'],
+  selector: 'app-cluster-config',
+  templateUrl: './cluster-config.component.html',
+  styleUrls: ['./cluster-config.component.scss'],
 })
-export class DeployConfigComponent implements OnInit {
+export class ClusterConfigComponent implements OnInit {
   PRIVILEGE_CODE = PRIVILEGE_CODE;
   @ViewChild('dataTable', {static: true}) dataTable: DataTableComponent;
   dataLoading: boolean = false;
@@ -32,7 +32,7 @@ export class DeployConfigComponent implements OnInit {
   };
   searchFormConfig = {configType: null, name: ''};
 
-  flinkDeployConfigTypeList: Dict[] = []
+  resourceClusterTypeList: Dict[] = []
 
   constructor(
     public authService: AuthService,
@@ -48,8 +48,8 @@ export class DeployConfigComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshTable();
-    this.dictDataService.listByType(DICT_TYPE.flinkDeployConfigType).subscribe((d) => {
-      this.flinkDeployConfigTypeList = d;
+    this.dictDataService.listByType(DICT_TYPE.resourceClusterType).subscribe((d) => {
+      this.resourceClusterTypeList = d;
     });
   }
 
@@ -104,12 +104,12 @@ export class DeployConfigComponent implements OnInit {
 
   openAddDeployConfigDialog() {
     const results = this.modalService.open({
-      id: 'deploy-config-add',
+      id: 'cluster-config-add',
       width: '580px',
       backdropCloseable: true,
-      component: DeployConfigNewComponent,
+      component: ClusterConfigNewComponent,
       data: {
-        title: {name: this.translate.instant('flink.deploy-config.name_')},
+        title: {name: this.translate.instant('resource.cluster-config.name_')},
         onClose: (event: any) => {
           results.modalInstance.hide();
         },
@@ -121,7 +121,7 @@ export class DeployConfigComponent implements OnInit {
   }
 
   openDeployConfig(row: FlinkDeployConfig) {
-    this.router.navigate(['/scaleph', 'flink', 'deploy-config-file'], {
+    this.router.navigate(['/scaleph', 'resource', 'cluster-config-file'], {
       queryParams: {
         id: row.id
       }
@@ -130,12 +130,12 @@ export class DeployConfigComponent implements OnInit {
 
   openEditDeployConfigDialog(item: FlinkDeployConfig) {
     const results = this.modalService.open({
-      id: 'deploy-config-edit',
+      id: 'cluster-config-edit',
       width: '580px',
       backdropCloseable: true,
-      component: DeployConfigUpdateComponent,
+      component: ClusterConfigUpdateComponent,
       data: {
-        title: {name: this.translate.instant('flink.deploy-config.name_')},
+        title: {name: this.translate.instant('resource.cluster-config.name_')},
         item: item,
         onClose: (event: any) => {
           results.modalInstance.hide();
@@ -149,10 +149,10 @@ export class DeployConfigComponent implements OnInit {
 
   openDeleteDeployConfigDialog(items: FlinkDeployConfig[]) {
     const results = this.modalService.open({
-      id: 'deploy-config-delete',
+      id: 'cluster-config-delete',
       width: '346px',
       backdropCloseable: true,
-      component: DeployConfigDeleteComponent,
+      component: ClusterConfigDeleteComponent,
       data: {
         title: this.translate.instant('app.common.operate.delete.confirm.title'),
         items: items,

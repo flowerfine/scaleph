@@ -7,13 +7,13 @@
               <div class="da-header-left">
                 <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
                   <d-col>
-                    <div class="da-header-item-label">{{ 'flink.deploy-config.configType' | translate }}:</div>
+                    <div class="da-header-item-label">{{ 'resource.cluster-config.configType' | translate }}:</div>
                   </d-col>
                   <d-col>
                     <div class="da-header-item-label">{{ flinkDeployConfig?.configType?.label}}</div>
                   </d-col>
                   <d-col>
-                    <div class="da-header-item-label">{{ 'flink.deploy-config.name_' | translate }}:</div>
+                    <div class="da-header-item-label">{{ 'resource.cluster-config.name' | translate }}:</div>
                   </d-col>
                   <d-col>
                     <div class="da-header-item-label">{{ flinkDeployConfig?.name}}</div>
@@ -61,19 +61,18 @@
                 [scrollable]="true"
                 [fixHeader]="true"
                 (rowCheckChange)="getDataTableCheckedStatus()"
-                (checkAllChange)="getDataTableCheckedStatus()"
-              >
-                <d-column field="name" header="{{ 'flink.deploy-config-file.name' | translate }}">
+                (checkAllChange)="getDataTableCheckedStatus()">
+                <d-column field="name" header="{{ 'resource.cluster-config-file.name' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="len" header="{{ 'flink.deploy-config-file.len' | translate }}">
+                <d-column field="len" header="{{ 'resource.cluster-config-file.len' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem }} B</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="modificationTime" header="{{ 'flink.deploy-config-file.modificationTime' | translate }}">
+                <d-column field="modificationTime" header="{{ 'resource.cluster-config-file.modificationTime' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
                   </d-cell>

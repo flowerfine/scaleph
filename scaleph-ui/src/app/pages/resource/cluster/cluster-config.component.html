@@ -7,20 +7,20 @@
               <div class="da-header-left">
                 <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
                   <d-col>
-                    <div class="da-header-item-label">{{ 'flink.deploy-config.configType' | translate }}:</div>
+                    <div class="da-header-item-label">{{ 'resource.cluster-config.configType' | translate }}:</div>
                   </d-col>
                   <d-col>
                     <d-select name="configType"
                               [allowClear]="true"
                               [filterKey]="'label'"
                               [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                              [options]="flinkDeployConfigTypeList"
+                              [options]="resourceClusterTypeList"
                               size="sm"
                               [(ngModel)]="searchFormConfig.configType"
                               (valueChange)="refreshTable()"></d-select>
                   </d-col>
                   <d-col>
-                    <div class="da-header-item-label">{{ 'flink.deploy-config.name' | translate }}:</div>
+                    <div class="da-header-item-label">{{ 'resource.cluster-config.name' | translate }}:</div>
                   </d-col>
                   <d-col>
                     <input dTextInput name="name" [(ngModel)]="searchFormConfig.name" (keyup.enter)="refreshTable()" />
@@ -70,30 +70,28 @@
                 [scrollable]="true"
                 [fixHeader]="true"
                 (rowCheckChange)="getDataTableCheckedStatus()"
-                (checkAllChange)="getDataTableCheckedStatus()"
-
-              >
-                <d-column field="configType" header="{{ 'flink.deploy-config.configType' | translate }}">
+                (checkAllChange)="getDataTableCheckedStatus()">
+                <d-column field="configType" header="{{ 'resource.cluster-config.configType' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem?.label }}</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="name" header="{{ 'flink.deploy-config.name' | translate }}">
+                <d-column field="name" header="{{ 'resource.cluster-config.name' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="remark" header="{{ 'flink.remark' | translate }}">
+                <d-column field="remark" header="{{ 'resource.remark' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem }}</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="createTime" header="{{ 'flink.createTime' | translate }}">
+                <d-column field="createTime" header="{{ 'resource.createTime' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="updateTime" header="{{ 'flink.updateTime' | translate }}">
+                <d-column field="updateTime" header="{{ 'resource.updateTime' | translate }}">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">{{ cellItem | date: 'yyyy-MM-dd HH:mm:ss' }}</ng-template>
                   </d-cell>

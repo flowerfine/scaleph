@@ -1,14 +1,14 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {DValidateRules, FormLayout, IFileOptions, IUploadOptions} from 'ng-devui';
-import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
+import {DeployConfigService} from "../../../../../@core/services/flink/deploy-config.service";
 
 @Component({
   selector: 'app-deploy-config-file-upload',
-  templateUrl: './deploy-config-file-upload.component.html',
-  styleUrls: ['../deploy-config-file.component.scss'],
+  templateUrl: './cluster-config-file-upload.component.html',
+  styleUrls: ['../cluster-config-file.component.scss'],
 })
-export class DeployConfigFileUploadComponent implements OnInit {
+export class ClusterConfigFileUploadComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
   formLayout = FormLayout.Horizontal;

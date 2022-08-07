@@ -91,6 +91,7 @@ export const DICT_TYPE = {
   runtimeState: 'runtime_state',
   clusterType: 'cluster_type',
   dataType: 'data_type',
+  resourceClusterType: 'resource_cluster_type',
   flinkDeployConfigType: 'flink_deploy_config_type',
   flinkResourceProvider: 'flink_resource_provider',
   flinkDeploymentMode: 'flink_deployment_mode',

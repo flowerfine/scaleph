@@ -39,11 +39,6 @@ export default function (values) {
       pCode: PRIVILEGE_CODE.flinkShow,
       children: [
         {
-          title: values['flink']['deploy-config'],
-          link: '/scaleph/flink/deploy-config',
-          pCode: PRIVILEGE_CODE.flinkReleaseShow,
-        },
-        {
           title: values['flink']['cluster-config'],
           link: '/scaleph/flink/cluster-config',
           pCode: PRIVILEGE_CODE.flinkReleaseShow,
@@ -147,7 +142,7 @@ export default function (values) {
         },
         {
           title: values['resource']['cluster'],
-          link: '/scaleph/flink/deploy-config',
+          link: '/scaleph/resource/cluster',
           pCode: PRIVILEGE_CODE.opscenterBatchShow,
         },
       ],

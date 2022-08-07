@@ -5,11 +5,11 @@ import {DeployConfigService} from "../../../../@core/services/flink/deploy-confi
 import {FlinkDeployConfig} from "../../../../@core/data/flink.data";
 
 @Component({
-  selector: 'app-deploy-config-update',
-  templateUrl: './deploy-config-update.component.html',
-  styleUrls: ['../deploy-config.component.scss'],
+  selector: 'app-cluster-config-update',
+  templateUrl: './cluster-config-update.component.html',
+  styleUrls: ['../cluster-config.component.scss'],
 })
-export class DeployConfigUpdateComponent implements OnInit {
+export class ClusterConfigUpdateComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
   @ViewChild('form') formDir: DFormGroupRuleDirective;

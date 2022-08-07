@@ -7,11 +7,11 @@ import {Dict, DICT_TYPE} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
 
 @Component({
-  selector: 'app-deploy-config-new',
-  templateUrl: './deploy-config-new.component.html',
-  styleUrls: ['../deploy-config.component.scss'],
+  selector: 'app-cluster-config-new',
+  templateUrl: './cluster-config-new.component.html',
+  styleUrls: ['../cluster-config.component.scss'],
 })
-export class DeployConfigNewComponent implements OnInit {
+export class ClusterConfigNewComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
   formLayout = FormLayout.Horizontal;
@@ -31,7 +31,7 @@ export class DeployConfigNewComponent implements OnInit {
     },
   };
 
-  flinkDeployConfigTypeList: Dict[] = []
+  resourceClusterTypeList: Dict[] = []
 
   formData = {
     configType: null,
@@ -44,8 +44,8 @@ export class DeployConfigNewComponent implements OnInit {
 
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;
-    this.dictDataService.listByType(DICT_TYPE.flinkDeployConfigType).subscribe((d) => {
-      this.flinkDeployConfigTypeList = d;
+    this.dictDataService.listByType(DICT_TYPE.resourceClusterType).subscribe((d) => {
+      this.resourceClusterTypeList = d;
     });
   }
 

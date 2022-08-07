@@ -10,6 +10,17 @@ import {ReleaseSeatunnelDeleteComponent} from "./seatunnel/release-seatunnel-del
 import {ReleaseFlinkComponent} from "./flink/release-flink.component";
 import {ReleaseFlinkUploadComponent} from "./flink/release-flink-upload/release-flink-upload.component";
 import {ReleaseFlinkDeleteComponent} from "./flink/release-flink-delete/release-flink-delete.component";
+import {ClusterConfigComponent} from "./cluster/cluster-config.component";
+import {ClusterConfigNewComponent} from "./cluster/cluster-config-new/cluster-config-new.component";
+import {ClusterConfigUpdateComponent} from "./cluster/cluster-config-update/cluster-config-update.component";
+import {ClusterConfigDeleteComponent} from "./cluster/cluster-config-delete/cluster-config-delete.component";
+import {ClusterConfigFileComponent} from "./cluster/cluster-config-file/cluster-config-file.component";
+import {
+  ClusterConfigFileUploadComponent
+} from "./cluster/cluster-config-file/cluster-config-file-upload/cluster-config-file-upload.component";
+import {
+  ClusterConfigFileDeleteComponent
+} from "./cluster/cluster-config-file/cluster-config-file-delete/cluster-config-file-delete.component";
 
 @NgModule({
   declarations: [
@@ -20,6 +31,13 @@ import {ReleaseFlinkDeleteComponent} from "./flink/release-flink-delete/release-
     ReleaseFlinkComponent,
     ReleaseFlinkUploadComponent,
     ReleaseFlinkDeleteComponent,
+    ClusterConfigComponent,
+    ClusterConfigNewComponent,
+    ClusterConfigUpdateComponent,
+    ClusterConfigDeleteComponent,
+    ClusterConfigFileComponent,
+    ClusterConfigFileUploadComponent,
+    ClusterConfigFileDeleteComponent,
   ],
   imports: [SharedModule, ResourceRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })

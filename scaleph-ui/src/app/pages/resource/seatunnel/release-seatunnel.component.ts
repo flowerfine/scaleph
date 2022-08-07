@@ -109,7 +109,7 @@ export class ReleaseSeatunnelComponent implements OnInit {
       backdropCloseable: true,
       component: ReleaseSeatunnelUploadComponent,
       data: {
-        title: {name: this.translate.instant('flink.release.name')},
+        title: {name: this.translate.instant('resource.release.name')},
         onClose: (event: any) => {
           results.modalInstance.hide();
         },
