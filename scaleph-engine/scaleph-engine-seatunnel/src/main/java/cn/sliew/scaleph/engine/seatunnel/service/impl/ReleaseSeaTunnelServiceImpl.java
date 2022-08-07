@@ -18,8 +18,8 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.impl;
 
-import cn.sliew.scaleph.dao.entity.master.resource.ReleaseSeaTunnel;
-import cn.sliew.scaleph.dao.mapper.master.resource.ReleaseSeaTunnelMapper;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceSeaTunnelRelease;
+import cn.sliew.scaleph.dao.mapper.master.resource.ResourceSeaTunnelReleaseMapper;
 import cn.sliew.scaleph.engine.seatunnel.service.ReleaseSeaTunnelService;
 import cn.sliew.scaleph.engine.seatunnel.service.convert.ReleaseSeaTunnelConvert;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.ReleaseSeaTunnelDTO;
@@ -49,15 +49,15 @@ public class ReleaseSeaTunnelServiceImpl implements ReleaseSeaTunnelService {
     @Autowired
     private FileSystemService fileSystemService;
     @Autowired
-    private ReleaseSeaTunnelMapper releaseSeaTunnelMapper;
+    private ResourceSeaTunnelReleaseMapper releaseSeaTunnelMapper;
 
     @Override
     public Page<ReleaseSeaTunnelDTO> list(ReleaseSeaTunnelListParam param) throws IOException {
-        final Page<ReleaseSeaTunnel> page = releaseSeaTunnelMapper.selectPage(
+        final Page<ResourceSeaTunnelRelease> page = releaseSeaTunnelMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
-                Wrappers.lambdaQuery(ReleaseSeaTunnel.class)
-                        .eq(StringUtils.hasText(param.getVersion()), ReleaseSeaTunnel::getVersion, param.getVersion())
-                        .like(StringUtils.hasText(param.getFileName()), ReleaseSeaTunnel::getFileName, param.getFileName()));
+                Wrappers.lambdaQuery(ResourceSeaTunnelRelease.class)
+                        .eq(StringUtils.hasText(param.getVersion()), ResourceSeaTunnelRelease::getVersion, param.getVersion())
+                        .like(StringUtils.hasText(param.getFileName()), ResourceSeaTunnelRelease::getFileName, param.getFileName()));
         Page<ReleaseSeaTunnelDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         List<ReleaseSeaTunnelDTO> dtoList = ReleaseSeaTunnelConvert.INSTANCE.toDto(page.getRecords());
@@ -67,7 +67,7 @@ public class ReleaseSeaTunnelServiceImpl implements ReleaseSeaTunnelService {
 
     @Override
     public ReleaseSeaTunnelDTO selectOne(Long id) {
-        final ReleaseSeaTunnel record = releaseSeaTunnelMapper.selectById(id);
+        final ResourceSeaTunnelRelease record = releaseSeaTunnelMapper.selectById(id);
         checkState(record != null, () -> "release seatunnel not exists for id: " + id);
         return ReleaseSeaTunnelConvert.INSTANCE.toDto(record);
     }
@@ -79,7 +79,7 @@ public class ReleaseSeaTunnelServiceImpl implements ReleaseSeaTunnelService {
         try (final InputStream inputStream = file.getInputStream()) {
             fileSystemService.upload(inputStream, filePath);
         }
-        ReleaseSeaTunnel record = new ReleaseSeaTunnel();
+        ResourceSeaTunnelRelease record = new ResourceSeaTunnelRelease();
         BeanUtils.copyProperties(param, record);
         record.setFileName(fileName);
         record.setPath(filePath);

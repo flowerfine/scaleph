@@ -16,18 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.flink;
+package cn.sliew.scaleph.dao.mapper.master.resource;
 
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkDeployConfigFile;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceSeaTunnelRelease;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
 /**
  * <p>
- * flink 部署配置文件 Mapper 接口
+ * resource seatunnel release Mapper 接口
  * </p>
  */
 @Repository
-public interface FlinkDeployConfigFileMapper extends BaseMapper<FlinkDeployConfigFile> {
+public interface ResourceSeaTunnelReleaseMapper extends BaseMapper<ResourceSeaTunnelRelease> {
 
 }

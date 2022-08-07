@@ -16,18 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.flink;
+package cn.sliew.scaleph.dao.mapper.master.resource;
 
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceClusterCredential;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
 /**
  * <p>
- * flink release Mapper 接口
+ * 集群凭证 Mapper 接口
  * </p>
  */
 @Repository
-public interface FlinkReleaseMapper extends BaseMapper<FlinkRelease> {
+public interface ResourceClusterCredentialMapper extends BaseMapper<ResourceClusterCredential> {
 
 }

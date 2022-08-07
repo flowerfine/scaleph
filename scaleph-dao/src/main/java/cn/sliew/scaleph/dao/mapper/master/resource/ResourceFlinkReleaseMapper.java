@@ -18,16 +18,16 @@
 
 package cn.sliew.scaleph.dao.mapper.master.resource;
 
-import cn.sliew.scaleph.dao.entity.master.resource.ReleaseSeaTunnel;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceFlinkRelease;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
 /**
  * <p>
- * release-seatunnel Mapper 接口
+ * resource flink release Mapper 接口
  * </p>
  */
 @Repository
-public interface ReleaseSeaTunnelMapper extends BaseMapper<ReleaseSeaTunnel> {
+public interface ResourceFlinkReleaseMapper extends BaseMapper<ResourceFlinkRelease> {
 
 }

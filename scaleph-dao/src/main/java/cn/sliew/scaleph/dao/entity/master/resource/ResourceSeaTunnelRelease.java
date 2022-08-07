@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.flink;
+package cn.sliew.scaleph.dao.entity.master.resource;
 
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -28,14 +28,14 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * flink release
+ * seatunnel release
  * </p>
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("flink_release")
-@ApiModel(value = "FlinkRelease对象", description = "flink release")
-public class FlinkRelease extends BaseDO {
+@TableName("release_seatunnel")
+@ApiModel(value = "ReleaseSeatunnel对象", description = "release-seatunnel")
+public class ResourceSeaTunnelRelease extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class FlinkRelease extends BaseDO {
     private String version;
 
     @ApiModelProperty("文件名称")
-    @TableField("`file_name`")
+    @TableField("file_name")
     private String fileName;
 
     @ApiModelProperty("存储路径")
@@ -54,6 +54,4 @@ public class FlinkRelease extends BaseDO {
     @ApiModelProperty("备注")
     @TableField("remark")
     private String remark;
-
-
 }

@@ -18,7 +18,8 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
-import cn.sliew.scaleph.dao.mapper.master.flink.FlinkReleaseMapper;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceFlinkRelease;
+import cn.sliew.scaleph.dao.mapper.master.resource.ResourceFlinkReleaseMapper;
 import cn.sliew.scaleph.engine.flink.FlinkRelease;
 import cn.sliew.scaleph.engine.flink.service.FlinkReleaseService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkReleaseConvert;
@@ -59,7 +60,7 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService, Initializin
     @Autowired
     private FileSystemService fileSystemService;
     @Autowired
-    private FlinkReleaseMapper flinkReleaseMapper;
+    private ResourceFlinkReleaseMapper flinkReleaseMapper;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -73,11 +74,11 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService, Initializin
 
     @Override
     public Page<FlinkReleaseDTO> list(FlinkReleaseListParam param) throws IOException {
-        final Page<cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease> page = flinkReleaseMapper.selectPage(
+        final Page<ResourceFlinkRelease> page = flinkReleaseMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
-                Wrappers.lambdaQuery(cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease.class)
-                        .eq(StringUtils.hasText(param.getVersion()), cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease::getVersion, param.getVersion())
-                        .like(StringUtils.hasText(param.getFileName()), cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease::getFileName, param.getFileName()));
+                Wrappers.lambdaQuery(ResourceFlinkRelease.class)
+                        .eq(StringUtils.hasText(param.getVersion()), ResourceFlinkRelease::getVersion, param.getVersion())
+                        .like(StringUtils.hasText(param.getFileName()), ResourceFlinkRelease::getFileName, param.getFileName()));
         Page<FlinkReleaseDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         List<FlinkReleaseDTO> dtoList = FlinkReleaseConvert.INSTANCE.toDto(page.getRecords());
@@ -87,7 +88,7 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService, Initializin
 
     @Override
     public FlinkReleaseDTO selectOne(Long id) {
-        final cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease record = flinkReleaseMapper.selectById(id);
+        final ResourceFlinkRelease record = flinkReleaseMapper.selectById(id);
         checkState(record != null, () -> "flink release not exists for id: " + id);
         return FlinkReleaseConvert.INSTANCE.toDto(record);
     }
@@ -126,7 +127,7 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService, Initializin
                 try (final InputStream inputStream = response.body().byteStream()) {
                     String filePath = getFlinkReleasePath(release.getVersion(), release.getName());
                     fileSystemService.upload(inputStream, filePath);
-                    cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease record = new cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease();
+                    ResourceFlinkRelease record = new ResourceFlinkRelease();
                     record.setVersion(release.getVersion());
                     record.setFileName(release.getName());
                     record.setPath(filePath);
@@ -146,7 +147,7 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService, Initializin
         try (final InputStream inputStream = file.getInputStream()) {
             fileSystemService.upload(inputStream, filePath);
         }
-        cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease record = new cn.sliew.scaleph.dao.entity.master.flink.FlinkRelease();
+        ResourceFlinkRelease record = new ResourceFlinkRelease();
         BeanUtils.copyProperties(param, record);
         record.setFileName(fileName);
         record.setPath(filePath);

@@ -17,9 +17,10 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.sliew.scaleph.dao.mapper.master.resource.ReleaseSeaTunnelMapper">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.master.resource.ResourceFlinkReleaseMapper">
 
-    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.resource.ReleaseSeaTunnel">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.resource.ResourceFlinkRelease">
         <result column="id" property="id" />
         <result column="creator" property="creator" />
         <result column="create_time" property="createTime" />
@@ -31,13 +32,10 @@
         <result column="remark" property="remark" />
     </resultMap>
 
+    <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,
-        creator,
-        create_time,
-        editor,
-        update_time,
-        version, file_name, path, remark
+        id, creator, create_time, editor, update_time,
+        version, `file_name`, path, remark
     </sql>
 
 </mapper>

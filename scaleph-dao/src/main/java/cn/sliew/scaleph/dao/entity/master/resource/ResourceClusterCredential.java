@@ -28,30 +28,27 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * release-seatunnel
+ * 集群凭证
  * </p>
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("release_seatunnel")
-@ApiModel(value = "ReleaseSeatunnel对象", description = "release-seatunnel")
-public class ReleaseSeaTunnel extends BaseDO {
+@TableName("resource_cluster_credential")
+@ApiModel(value = "ResourceClusterCredential对象", description = "集群凭证")
+public class ResourceClusterCredential extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("版本")
-    @TableField("version")
-    private String version;
+    @ApiModelProperty("配置文件类型。0: Hadoop, 1: Kubernetes")
+    @TableField("config_type")
+    private String configType;
 
-    @ApiModelProperty("文件名称")
-    @TableField("file_name")
-    private String fileName;
-
-    @ApiModelProperty("存储路径")
-    @TableField("path")
-    private String path;
-
+    @ApiModelProperty("配置名称")
+    @TableField("`name`")
+    private String name;
+    
     @ApiModelProperty("备注")
     @TableField("remark")
     private String remark;
+
 }

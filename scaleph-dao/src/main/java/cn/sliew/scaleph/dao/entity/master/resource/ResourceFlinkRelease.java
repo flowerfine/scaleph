@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.flink;
+package cn.sliew.scaleph.dao.entity.master.resource;
 
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -28,27 +28,32 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * flink 部署配置文件
+ * resource flink release
  * </p>
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("flink_deploy_config_file")
-@ApiModel(value = "FlinkDeployConfigFile对象", description = "flink 部署配置文件")
-public class FlinkDeployConfigFile extends BaseDO {
+@TableName("resource_flink_release")
+@ApiModel(value = "ResourceFlinkRelease对象", description = "flink release")
+public class ResourceFlinkRelease extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("配置文件类型。0: Hadoop, 1: Kubernetes")
-    @TableField("config_type")
-    private String configType;
+    @ApiModelProperty("版本")
+    @TableField("version")
+    private String version;
 
-    @ApiModelProperty("配置名称")
-    @TableField("`name`")
-    private String name;
-    
+    @ApiModelProperty("文件名称")
+    @TableField("`file_name`")
+    private String fileName;
+
+    @ApiModelProperty("存储路径")
+    @TableField("path")
+    private String path;
+
     @ApiModelProperty("备注")
     @TableField("remark")
     private String remark;
+
 
 }

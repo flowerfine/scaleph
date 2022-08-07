@@ -19,8 +19,8 @@
 package cn.sliew.scaleph.engine.flink.service.impl;
 
 import cn.sliew.milky.common.exception.Rethrower;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkDeployConfigFile;
-import cn.sliew.scaleph.dao.mapper.master.flink.FlinkDeployConfigFileMapper;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceClusterCredential;
+import cn.sliew.scaleph.dao.mapper.master.resource.ResourceClusterCredentialMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkDeployConfigFileService;
 import cn.sliew.scaleph.engine.flink.service.convert.FileStatusVOConvert;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkDeployConfigFileConvert;
@@ -53,15 +53,15 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
     @Autowired
     private FileSystemService fileSystemService;
     @Autowired
-    private FlinkDeployConfigFileMapper flinkDeployConfigFileMapper;
+    private ResourceClusterCredentialMapper flinkDeployConfigFileMapper;
 
     @Override
     public Page<FlinkDeployConfigFileDTO> list(FlinkDeployConfigFileListParam param) {
-        final Page<FlinkDeployConfigFile> page = flinkDeployConfigFileMapper.selectPage(
+        final Page<ResourceClusterCredential> page = flinkDeployConfigFileMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
-                Wrappers.lambdaQuery(FlinkDeployConfigFile.class)
-                        .eq(StringUtils.hasText(param.getConfigType()), FlinkDeployConfigFile::getConfigType, param.getConfigType())
-                        .like(StringUtils.hasText(param.getName()), FlinkDeployConfigFile::getName, param.getName()));
+                Wrappers.lambdaQuery(ResourceClusterCredential.class)
+                        .eq(StringUtils.hasText(param.getConfigType()), ResourceClusterCredential::getConfigType, param.getConfigType())
+                        .like(StringUtils.hasText(param.getName()), ResourceClusterCredential::getName, param.getName()));
 
         Page<FlinkDeployConfigFileDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
@@ -72,7 +72,7 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
 
     @Override
     public FlinkDeployConfigFileDTO selectOne(Serializable id) {
-        final FlinkDeployConfigFile record = flinkDeployConfigFileMapper.selectById(id);
+        final ResourceClusterCredential record = flinkDeployConfigFileMapper.selectById(id);
         if (record == null) {
             throw new IllegalStateException("flink deploy config not exists for id: " + id);
         }
@@ -81,13 +81,13 @@ public class FlinkDeployConfigFileServiceImpl implements FlinkDeployConfigFileSe
 
     @Override
     public void insert(FlinkDeployConfigFileDTO dto) {
-        final FlinkDeployConfigFile record = FlinkDeployConfigFileConvert.INSTANCE.toDo(dto);
+        final ResourceClusterCredential record = FlinkDeployConfigFileConvert.INSTANCE.toDo(dto);
         flinkDeployConfigFileMapper.insert(record);
     }
 
     @Override
     public int update(FlinkDeployConfigFileDTO dto) {
-        final FlinkDeployConfigFile record = FlinkDeployConfigFileConvert.INSTANCE.toDo(dto);
+        final ResourceClusterCredential record = FlinkDeployConfigFileConvert.INSTANCE.toDo(dto);
         return flinkDeployConfigFileMapper.updateById(record);
     }
 
