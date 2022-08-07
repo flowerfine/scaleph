@@ -33,6 +33,8 @@ public interface DictVoConvert {
     default String toDo(DictVO vo) {
         if (vo == null) {
             return null;
+        } else if (vo.getValue() == null) {
+            return "";
         }
         return vo.getValue();
     }

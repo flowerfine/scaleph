@@ -68,7 +68,7 @@ export type SecUser = {
   idCardType?: Dict;
   idCardNo?: string;
   gender?: Dict;
-  nation?: string;
+  nation?: Dict;
   birthday?: number;
   qq?: string;
   wechat?: string;

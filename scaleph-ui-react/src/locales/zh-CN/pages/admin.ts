@@ -20,4 +20,11 @@ export default {
   'pages.admin.user.mobilePhone': '手机号码',
   'pages.admin.user.gender': '性别',
   'pages.admin.user.userStatus': '用户状态',
+  'pages.admin.user.idCardType': '证件类型',
+  'pages.admin.user.idCardNo': '证件号码',
+  'pages.admin.user.nation': '国籍',
+  'pages.admin.user.birthday': '出生日期',
+  'pages.admin.user.qq': 'QQ',
+  'pages.admin.user.wechat': '微信',
+  'pages.admin.user.summary': '简介',
 };
