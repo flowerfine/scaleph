@@ -7,7 +7,7 @@ import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse, PRIVILEGE_CODE} from 
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {ClusterConfigService} from "../../../@core/services/flink/cluster-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
-import {FlinkDeployConfig, FlinkDeployConfigParam} from "../../../@core/data/flink.data";
+import {FlinkClusterConfig, FlinkDeployConfig, FlinkDeployConfigParam} from "../../../@core/data/flink.data";
 import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
 import {ReleaseFlinkService} from "../../../@core/services/resource/release-flink.service";
 import {ReleaseFlink, ReleaseFlinkParam} from "../../../@core/data/resource.data";
@@ -43,7 +43,8 @@ export class ClusterConfigOptionsComponent implements OnInit {
     flinkRelease: null,
     flinkDeployConfig: null,
     deployMode: null,
-    configOptions: {}
+    configOptions: {},
+    remark: null
   }
 
   flinkReleaseList: ReleaseFlink[] = []
@@ -112,10 +113,6 @@ export class ClusterConfigOptionsComponent implements OnInit {
     });
   }
 
-  onValueChange(event) {
-    console.log(this.formData)
-  }
-
   onRestartStrategyValueChange(event) {
     this.isNone = event.label == 'none'
     this.isFixedDelay = event.label == 'fixed-delay'
@@ -162,5 +159,38 @@ export class ClusterConfigOptionsComponent implements OnInit {
     }
   }
 
+
+
+  submitForm() {
+    let isDict = (vlaue: any): vlaue is Dict =>
+      typeof (vlaue as Dict)['label'] == 'string'
+
+    let customConfigOptions: { [key: string]: any } = {};
+    for (let key in this.formData.configOptions) {
+      let value = this.formData.configOptions[key]
+      if (isDict(value)) {
+        customConfigOptions[key] = value['value']
+      } else {
+        customConfigOptions[key] = value
+      }
+    }
+
+    let row: FlinkClusterConfig = {
+      name: this.formData.name,
+      flinkVersion: this.formData.flinkRelease.version,
+      resourceProvider: this.formData.flinkDeployConfig.configType,
+      deployMode: this.formData.deployMode,
+      flinkReleaseId: this.formData.flinkRelease.id,
+      deployConfigFileId: this.formData.flinkDeployConfig.id,
+      configOptions: customConfigOptions,
+      remark: this.formData.remark
+    };
+
+    this.clusterConfigService.add(row).subscribe((d) => {
+      if (d.success) {
+
+      }
+    });
+  }
 
 }
