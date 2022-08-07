@@ -50,7 +50,8 @@ public enum DictConstants {
     public static final String DATA_TYPE = "data_type";
     public static final String JOB_INSTANCE_STATE = "job_instance_state";
 
-    public static final String FLINK_DEPLOY_CONFIG_TYPE = "flink_deploy_config_type";
+    public static final String RESOURCE_CLUSTER_TYPE = "resource_cluster_type";
+
     public static final String FLINK_RESOURCE_PROVIDER = "flink_resource_provider";
     public static final String FLINK_DEPLOYMENT_MODE = "flink_deployment_mode";
     public static final String FLINK_VERSION = "flink_version";
@@ -58,5 +59,10 @@ public enum DictConstants {
     public static final String FLINK_CLUSTER_STATUS = "flink_cluster_status";
     public static final String FLINK_JOB_TYPE = "flink_job_type";
     public static final String FLINK_JOB_STATUS = "flink_job_status";
+    public static final String FLINK_CHECKPOINT_RETAIN = "flink_checkpoint_retain";
+    public static final String FLINK_RESTART_STRATEGY = "flink_restart_strategy";
+    public static final String FLINK_HA = "flink_high_availability";
+
+    public static final String SEATUNNEL_VERSION = "seatunnel_version";
 
 }

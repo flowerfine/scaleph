@@ -32,6 +32,6 @@ public interface FlinkDeployConfigFileConvert extends BaseConvert<FlinkDeployCon
     FlinkDeployConfigFileConvert INSTANCE = Mappers.getMapper(FlinkDeployConfigFileConvert.class);
 
     @Override
-    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.FLINK_DEPLOY_CONFIG_TYPE,entity.getConfigType()))", target = "configType")
+    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.RESOURCE_CLUSTER_TYPE,entity.getConfigType()))", target = "configType")
     FlinkDeployConfigFileDTO toDto(FlinkDeployConfigFile entity);
 }

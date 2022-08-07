@@ -5,6 +5,7 @@ import pages from './en-US/pages/pages';
 import pwa from './en-US/pwa';
 import settingDrawer from './en-US/settingDrawer';
 import settings from './en-US/settings';
+import studio from './en-US/studio';
 
 export default {
   'navBar.lang': 'Languages',
@@ -22,4 +23,5 @@ export default {
   ...pwa,
   ...component,
   ...pages,
+  ...studio,
 };

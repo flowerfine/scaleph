@@ -1,12 +1,12 @@
-import Footer from '@/components/Footer';
-import { useIntl, SelectLang, useModel } from 'umi';
-import { useNavigate } from "react-router-dom";
-import { Button, Checkbox, Col, Form, Input, Row, message } from 'antd';
-import React, { useEffect, useState } from 'react';
-import styles from './index.less';
-import { refreshAuthImage, login } from '@/services/auth';
-import { USER_AUTH } from '@/constant';
 import { AuthCode, LoginInfo } from '@/app.d';
+import Footer from '@/components/Footer';
+import { USER_AUTH } from '@/constant';
+import { login, refreshAuthImage } from '@/services/auth';
+import { Button, Checkbox, Col, Form, Input, message, Row } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { SelectLang, useIntl, useModel } from 'umi';
+import styles from './index.less';
 
 const Login: React.FC = () => {
   const intl = useIntl();
@@ -14,12 +14,14 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const [authCode, setAuthCode] = useState<AuthCode>();
   const { refresh } = useModel('@@initialState');
-
+  const [initialValues, setInitialValues] = useState({
+    remember: true,
+  });
   const handleSubmit = async () => {
     try {
       form.validateFields().then((values: any) => {
         const params: LoginInfo = { ...values, uuid: authCode?.uuid };
-        login(params).then(async d => {
+        login(params).then(async (d) => {
           if (d.success) {
             localStorage.setItem(USER_AUTH.token, d.data);
             refresh();
@@ -50,7 +52,7 @@ const Login: React.FC = () => {
   const refreshAuthCode = async () => {
     const data = await refreshAuthImage();
     setAuthCode(data);
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -59,22 +61,42 @@ const Login: React.FC = () => {
       </div>
       <div className={styles.content}>
         <div className={styles.logoInfo}>
-          <img className={styles.logo} alt="logo" src="/devui-logo.svg" />
+          <img className={styles.logo} alt="logo" src="/scaleph.svg" />
           <span className={styles.title}>Scaleph</span>
         </div>
         <div className={styles.loginForm}>
-          <Form form={form} layout="vertical" >
-            <Form.Item label={intl.formatMessage({ id: 'pages.user.login.userName' })} name="userName" rules={[{ required: true, min: 5, max: 30, }]}>
-              <Input placeholder={intl.formatMessage({ id: 'pages.user.login.userName.placeholder' })} />
+          <Form form={form} initialValues={initialValues} layout="vertical">
+            <Form.Item
+              label={intl.formatMessage({ id: 'pages.user.login.userName' })}
+              name="userName"
+              rules={[{ required: true, min: 5, max: 30 }]}
+            >
+              <Input
+                placeholder={intl.formatMessage({ id: 'pages.user.login.userName.placeholder' })}
+              />
             </Form.Item>
-            <Form.Item label={intl.formatMessage({ id: 'pages.user.login.password' })} name="password" rules={[{ required: true, min: 6, max: 32 }]}>
-              <Input.Password placeholder={intl.formatMessage({ id: 'pages.user.login.password.placeholder' })} />
+            <Form.Item
+              label={intl.formatMessage({ id: 'pages.user.login.password' })}
+              name="password"
+              rules={[{ required: true, min: 6, max: 32 }]}
+            >
+              <Input.Password
+                placeholder={intl.formatMessage({ id: 'pages.user.login.password.placeholder' })}
+              />
             </Form.Item>
-            <Form.Item label={intl.formatMessage({ id: 'pages.user.login.authCode' })} rules={[{ required: true, len: 5 }]} name="authCode">
+            <Form.Item
+              label={intl.formatMessage({ id: 'pages.user.login.authCode' })}
+              rules={[{ required: true, len: 5 }]}
+              name="authCode"
+            >
               <Row gutter={[16, 0]}>
                 <Col span={15}>
-                  <Form.Item noStyle >
-                    <Input placeholder={intl.formatMessage({ id: 'pages.user.login.authCode.placeholder' })} />
+                  <Form.Item noStyle>
+                    <Input
+                      placeholder={intl.formatMessage({
+                        id: 'pages.user.login.authCode.placeholder',
+                      })}
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={9}>
@@ -86,11 +108,9 @@ const Login: React.FC = () => {
                 </Col>
               </Row>
             </Form.Item>
-            <Form.Item style={{ marginBottom: '12px' }} >
+            <Form.Item style={{ marginBottom: '12px' }}>
               <Form.Item noStyle name="remember" valuePropName="checked">
-                <Checkbox >
-                  {intl.formatMessage({ id: 'pages.user.login.remember' })}
-                </Checkbox>
+                <Checkbox>{intl.formatMessage({ id: 'pages.user.login.remember' })}</Checkbox>
               </Form.Item>
               <div style={{ float: 'right' }}>
                 <a>{intl.formatMessage({ id: 'pages.user.login.forget' })}</a>
@@ -99,7 +119,7 @@ const Login: React.FC = () => {
             <Form.Item style={{ marginBottom: '6px' }}>
               <Button
                 type="primary"
-                size='large'
+                size="large"
                 htmlType="submit"
                 style={{ width: '100%' }}
                 onClick={handleSubmit}
@@ -108,7 +128,9 @@ const Login: React.FC = () => {
               </Button>
             </Form.Item>
             <Form.Item>
-              <a href='/register' style={{ float: 'right' }}> {intl.formatMessage({ id: 'pages.user.login.register' })}</a>
+              <a href="/register" style={{ float: 'right' }}>
+                {intl.formatMessage({ id: 'pages.user.login.register' })}
+              </a>
             </Form.Item>
           </Form>
         </div>
@@ -119,4 +141,3 @@ const Login: React.FC = () => {
 };
 
 export default Login;
-

@@ -27,7 +27,7 @@ import lombok.EqualsAndHashCode;
 @Data
 public class FlinkDeployConfigFileListParam extends PaginationParam {
 
-    @ApiModelProperty("配置文件类型。0: hadoop conf, 1: kubeconfig, 2: flink-conf.yaml")
+    @ApiModelProperty("配置文件类型。0: Hadoop, 1: Kubernetes")
     private String configType;
 
     @ApiModelProperty("配置名称")

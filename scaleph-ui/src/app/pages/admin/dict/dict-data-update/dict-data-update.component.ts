@@ -23,7 +23,7 @@ export class DictDataUpdateComponent implements OnInit {
     dictCodeRules: {
       validators: [
         { required: true },
-        { maxlength: 30 },
+        { maxlength: 120 },
         { pattern: /^[a-zA-Z0-9_]+$/, message: this.translate.instant('app.common.validate.characterWord') },
       ],
     },

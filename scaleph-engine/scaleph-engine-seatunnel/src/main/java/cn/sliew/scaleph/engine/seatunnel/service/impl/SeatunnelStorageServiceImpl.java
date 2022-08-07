@@ -18,32 +18,17 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.impl;
 
-import cn.sliew.scaleph.common.nio.TempFileUtil;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.engine.flink.FlinkRelease;
 import cn.sliew.scaleph.engine.seatunnel.SeatunnelRelease;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelStorageService;
-import cn.sliew.scaleph.storage.service.BlobService;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.attribute.FileAttribute;
-import java.nio.file.attribute.PosixFilePermission;
-import java.nio.file.attribute.PosixFilePermissions;
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -53,30 +38,8 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class SeatunnelStorageServiceImpl implements SeatunnelStorageService {
 
-    private final FileAttribute<Set<PosixFilePermission>> attributes = PosixFilePermissions.asFileAttribute(
-            new HashSet<>(Arrays.asList(
-                    PosixFilePermission.OWNER_WRITE,
-                    PosixFilePermission.OWNER_READ,
-                    PosixFilePermission.OWNER_EXECUTE,
-                    PosixFilePermission.GROUP_READ,
-                    PosixFilePermission.GROUP_WRITE,
-                    PosixFilePermission.GROUP_EXECUTE)));
-
-    private OkHttpClient httpClient;
-
-    @Autowired
-    private BlobService blobService;
     @Autowired
     private FileSystemService fileSystemService;
-
-    public SeatunnelStorageServiceImpl() {
-        this.httpClient = new OkHttpClient.Builder()
-                .connectTimeout(Duration.ofSeconds(3L))
-                .readTimeout(Duration.ofHours(1L))
-                .writeTimeout(Duration.ofHours(1L))
-                .callTimeout(Duration.ofHours(1L))
-                .build();
-    }
 
     @Override
     public String getRootDir() {
@@ -110,29 +73,7 @@ public class SeatunnelStorageServiceImpl implements SeatunnelStorageService {
 
     @Override
     public CompletableFuture<Boolean> downloadFlinkRelease(FlinkRelease flinkRelease) {
-        Request request = new Request.Builder()
-                .url(flinkRelease.getUrl())
-                .build();
-        CompletableFuture<Boolean> future = new CompletableFuture();
-        final Callback callback = new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                log.error("download flink release {} from {} error!",
-                        flinkRelease.getVersion(), flinkRelease.getUrl(), e);
-                future.completeExceptionally(e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final InputStream inputStream = response.body().byteStream();
-                String filePath = getFlinkReleasePath(flinkRelease);
-                String fileName = flinkRelease.getName();
-                blobService.upload(inputStream, filePath + fileName);
-                future.complete(true);
-            }
-        };
-        httpClient.newCall(request).enqueue(callback);
-        return future;
+        return null;
     }
 
     private String getFlinkReleasePath(FlinkRelease flinkRelease) {
@@ -143,39 +84,12 @@ public class SeatunnelStorageServiceImpl implements SeatunnelStorageService {
 
     @Override
     public Path loadFlinkRelease(FlinkRelease flinkRelease) throws IOException {
-        String filePath = getFlinkReleasePath(flinkRelease);
-        String fileName = flinkRelease.getName();
-        final InputStream inputStream = blobService.get(filePath + fileName);
-        final Path tempFile = TempFileUtil.createTempFile(fileName);
-        Files.copy(inputStream, tempFile, StandardCopyOption.ATOMIC_MOVE);
-        return tempFile;
+        return null;
     }
 
     @Override
     public CompletableFuture<Boolean> downloadSeatunnelRelease(SeatunnelRelease seatunnelRelease) {
-        Request request = new Request.Builder()
-                .url(seatunnelRelease.getReleaseUrl())
-                .build();
-        CompletableFuture<Boolean> future = new CompletableFuture();
-        final Callback callback = new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                log.error("download seatunnel release {} from {} error!",
-                        seatunnelRelease.getVersion(), seatunnelRelease.getReleaseUrl(), e);
-                future.completeExceptionally(e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final InputStream inputStream = response.body().byteStream();
-                String filePath = getSeatunnelReleasePath(seatunnelRelease);
-                String fileName = seatunnelRelease.getReleaseName();
-                blobService.upload(inputStream, filePath + fileName);
-                future.complete(true);
-            }
-        };
-        httpClient.newCall(request).enqueue(callback);
-        return future;
+        return null;
     }
 
     private String getSeatunnelReleasePath(SeatunnelRelease seatunnelRelease) {
@@ -186,18 +100,12 @@ public class SeatunnelStorageServiceImpl implements SeatunnelStorageService {
 
     @Override
     public Path loadSeatunnelRelease(SeatunnelRelease seatunnelRelease) throws IOException {
-        String filePath = getSeatunnelReleasePath(seatunnelRelease);
-        String fileName = seatunnelRelease.getReleaseName();
-        final InputStream inputStream = blobService.get(filePath + fileName);
-        final Path tempFile = TempFileUtil.createTempFile(fileName);
-        Files.copy(inputStream, tempFile, StandardCopyOption.ATOMIC_MOVE);
-        return tempFile;
+        return null;
     }
 
     @Override
     public void uploadSeatunnelConfigFile(DiJobDTO diJobDTO, String configJson) throws IOException {
-        final ByteArrayInputStream inputStream = new ByteArrayInputStream(configJson.getBytes(StandardCharsets.UTF_8));
-        blobService.upload(inputStream, getSeatunnelConfigFile(diJobDTO));
+
     }
 
     private String getSeatunnelConfigFile(DiJobDTO diJobDTO) {
@@ -207,10 +115,6 @@ public class SeatunnelStorageServiceImpl implements SeatunnelStorageService {
 
     @Override
     public Path loadSeatunnelConfigFile(DiJobDTO diJobDTO) throws IOException {
-        final String configFile = getSeatunnelConfigFile(diJobDTO);
-        final Path tempFile = TempFileUtil.createTempFile(getSeatunnelConfigFile(diJobDTO));
-        final InputStream inputStream = blobService.get(configFile);
-        Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
-        return tempFile;
+        return null;
     }
 }

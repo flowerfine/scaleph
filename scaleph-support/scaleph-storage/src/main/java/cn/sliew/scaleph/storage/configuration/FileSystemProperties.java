@@ -29,4 +29,6 @@ public class FileSystemProperties {
      * @see FileSystemType
      */
     private String type;
+
+    private String hadoopConfPath;
 }
