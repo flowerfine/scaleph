@@ -17,7 +17,7 @@ import {ClusterCredential, ClusterCredentialParam} from "../../../@core/data/res
   templateUrl: './cluster-config.component.html',
   styleUrls: ['./cluster-config.component.scss'],
 })
-export class ClusterConfigComponent implements OnInit {
+export class ClusterCredentialComponent implements OnInit {
   PRIVILEGE_CODE = PRIVILEGE_CODE;
   @ViewChild('dataTable', {static: true}) dataTable: DataTableComponent;
   dataLoading: boolean = false;

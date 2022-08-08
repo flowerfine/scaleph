@@ -10,7 +10,7 @@ import {ReleaseSeatunnelDeleteComponent} from "./seatunnel/release-seatunnel-del
 import {ReleaseFlinkComponent} from "./flink/release-flink.component";
 import {ReleaseFlinkUploadComponent} from "./flink/release-flink-upload/release-flink-upload.component";
 import {ReleaseFlinkDeleteComponent} from "./flink/release-flink-delete/release-flink-delete.component";
-import {ClusterConfigComponent} from "./cluster/cluster-config.component";
+import {ClusterCredentialComponent} from "./cluster/cluster-credential.component";
 import {ClusterConfigNewComponent} from "./cluster/cluster-config-new/cluster-config-new.component";
 import {ClusterConfigUpdateComponent} from "./cluster/cluster-config-update/cluster-config-update.component";
 import {ClusterConfigDeleteComponent} from "./cluster/cluster-config-delete/cluster-config-delete.component";
@@ -31,7 +31,7 @@ import {
     ReleaseFlinkComponent,
     ReleaseFlinkUploadComponent,
     ReleaseFlinkDeleteComponent,
-    ClusterConfigComponent,
+    ClusterCredentialComponent,
     ClusterConfigNewComponent,
     ClusterConfigUpdateComponent,
     ClusterConfigDeleteComponent,
