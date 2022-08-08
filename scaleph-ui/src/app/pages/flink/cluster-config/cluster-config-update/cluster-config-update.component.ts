@@ -3,17 +3,20 @@ import {TranslateService} from '@ngx-translate/core';
 import {DValidateRules, FormLayout} from 'ng-devui';
 import {
   FlinkClusterConfig,
-  FlinkDeployConfig,
-  FlinkDeployConfigParam,
   KeyValueConfig
 } from "../../../../@core/data/flink.data";
-import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
+import {ClusterCredentialService} from "../../../../@core/services/resource/cluster-credential.service";
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
 import {ClusterConfigService} from "../../../../@core/services/flink/cluster-config.service";
 import {DataTableComponent, DFormGroupRuleDirective} from "@devui";
-import {ReleaseFlink, ReleaseFlinkParam} from "../../../../@core/data/resource.data";
-import {ReleaseFlinkService} from "../../../../@core/services/resource/release-flink.service";
+import {FlinkReleaseService} from "../../../../@core/services/resource/flink-release.service";
+import {
+  ClusterCredential,
+  ClusterCredentialParam,
+  FlinkRelease,
+  FlinkReleaseParam
+} from "../../../../@core/data/resource.data";
 
 @Component({
   selector: 'app-cluster-config-update',
@@ -54,10 +57,10 @@ export class ClusterConfigUpdateComponent implements OnInit {
   flinkVersionList: Dict[] = []
   resourceProviderList: Dict[] = []
   deployModeList: Dict[] = []
-  flinkReleaseList: ReleaseFlink[] = []
-  flinkDeployConfigList: FlinkDeployConfig[] = []
+  flinkReleaseList: FlinkRelease[] = []
+  flinkDeployConfigList: ClusterCredential[] = []
 
-  flinkDeployConfigResult: PageResponse<FlinkDeployConfig> = null
+  flinkDeployConfigResult: PageResponse<ClusterCredential> = null
 
   formData = {
     id: null,
@@ -81,8 +84,8 @@ export class ClusterConfigUpdateComponent implements OnInit {
     private elr: ElementRef,
     private translate: TranslateService,
     private dictDataService: SysDictDataService,
-    private releaseFlinkService: ReleaseFlinkService,
-    private deployConfigService: DeployConfigService,
+    private releaseFlinkService: FlinkReleaseService,
+    private deployConfigService: ClusterCredentialService,
     private clusterConfigService: ClusterConfigService) {
   }
 
@@ -125,7 +128,7 @@ export class ClusterConfigUpdateComponent implements OnInit {
       this.flinkReleaseList = d.records;
     });
 
-    let flinkDeployConfigParam: FlinkDeployConfigParam = {
+    let flinkDeployConfigParam: ClusterCredentialParam = {
       pageSize: DEFAULT_PAGE_PARAM.pageSize,
       current: DEFAULT_PAGE_PARAM.pageIndex
     }
@@ -137,7 +140,7 @@ export class ClusterConfigUpdateComponent implements OnInit {
 
   onFlinkVersionValueChange(flinkVersion) {
     this.formData.flinkRelease = null
-    let param: ReleaseFlinkParam = {
+    let param: FlinkReleaseParam = {
       version: flinkVersion.value,
     };
 
@@ -151,7 +154,7 @@ export class ClusterConfigUpdateComponent implements OnInit {
     if (loaded >= this.flinkDeployConfigResult.total) {
       event.instance.loadFinish();
     } else {
-      let flinkDeployConfigParam: FlinkDeployConfigParam = {
+      let flinkDeployConfigParam: ClusterCredentialParam = {
         pageSize: this.flinkDeployConfigResult.size,
         current: this.flinkDeployConfigResult.current + 1
       }

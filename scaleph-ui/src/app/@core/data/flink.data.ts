@@ -1,37 +1,8 @@
-import { Dict, QueryParam } from './app.data';
-
-export class FlinkDeployConfig {
-  id?: number;
-  configType?: Dict;
-  name?: string;
-  remark?: string;
-  createTime?: Date;
-  updateTime?: Date;
-}
+import {Dict, QueryParam} from './app.data';
 
 export interface KeyValueConfig {
   key: string;
   value: string;
-}
-
-export class FlinkDeployConfigParam extends QueryParam {
-  configType?: string;
-  name?: string;
-}
-
-export class FlinkDeployConfigUploadParam {
-  configType?: string;
-  name?: string;
-  files?: File[];
-  remark?: string;
-}
-
-export class FileStatus {
-  name?: string;
-  len?: number;
-  blockSize?: number;
-  modificationTime?: Date;
-  accessTime?: Date;
 }
 
 export class FlinkClusterConfig {
@@ -42,7 +13,7 @@ export class FlinkClusterConfig {
   deployMode?: Dict;
   flinkReleaseId?: number;
   deployConfigFileId?: number;
-  configOptions?: {[key:string]: any};
+  configOptions?: { [key: string]: any };
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
