@@ -32,17 +32,23 @@
     },
     "flink": {
       "title": "Flink集群管理",
-      "release": "发布管理",
       "deploy-config": "部署配置",
       "deploy-config-file": "部署配置文件",
       "cluster-config": "集群配置",
-      "cluster-instance": "集群实例"
+      "cluster-instance": "集群实例",
+      "cluster-config-options": "集群配置选项"
     },
     "job": {
       "title": "Flink任务管理",
       "artifact": "artifact管理",
       "job-config": "任务配置管理",
       "job-instance": "任务实例管理"
+    },
+    "resource": {
+      "title": "资源中心",
+      "flink": "Flink Release",
+      "seatunnel": "SeaTunnel Release",
+      "cluster": "集群资源"
     }
   },
   "app": {
@@ -454,15 +460,6 @@
     "remark": "备注",
     "createTime": "创建时间",
     "updateTime": "更新时间",
-    "release": {
-      "name": "发布",
-      "version": "版本",
-      "fileName": "名称",
-      "path": "存储路径",
-      "file": "文件",
-      "upload": "上传",
-      "load": "加载"
-    },
     "deploy-config": {
       "name_": "部署配置",
       "configType": "配置类型",
@@ -516,6 +513,31 @@
     "job-instance": {
       "name_": "任务实例",
       "status": "任务状态"
+    }
+  },
+  "resource": {
+    "remark": "备注",
+    "createTime": "创建时间",
+    "updateTime": "更新时间",
+    "release": {
+      "name": "Release",
+      "version": "版本",
+      "fileName": "名称",
+      "path": "存储路径",
+      "file": "文件",
+      "upload": "上传"
+    },
+    "cluster-config": {
+      "name_": "集群资源",
+      "configType": "集群类型",
+      "name": "集群名称"
+    },
+    "cluster-config-file": {
+      "name_": "集群配置文件",
+      "name": "文件名",
+      "len": "文件大小",
+      "modificationTime": "修改时间",
+      "upload": "上传"
     }
   },
   "header": {

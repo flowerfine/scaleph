@@ -91,6 +91,7 @@ export const DICT_TYPE = {
   runtimeState: 'runtime_state',
   clusterType: 'cluster_type',
   dataType: 'data_type',
+  resourceClusterType: 'resource_cluster_type',
   flinkDeployConfigType: 'flink_deploy_config_type',
   flinkResourceProvider: 'flink_resource_provider',
   flinkDeploymentMode: 'flink_deployment_mode',
@@ -100,6 +101,10 @@ export const DICT_TYPE = {
   flinkJobType: 'flink_job_type',
   flinkSemantic: 'flink_semantic',
   flinkJobStatus: 'flink_job_status',
+  flinkCheckpointRetain: 'flink_checkpoint_retain',
+  flinkRestartStrategy: 'flink_restart_strategy',
+  flinkHA: 'flink_high_availability',
+  seatunnelVersion: 'seatunnel_version'
 };
 
 export const USER_AUTH = {

@@ -50,7 +50,7 @@ public class SysDictDTO extends BaseDTO {
     private SysDictTypeDTO dictType;
 
     @NotBlank
-    @Length(min = 1, max = 30)
+    @Length(min = 1, max = 120)
     @Pattern(regexp = "[\\w.]+$")
     @ApiModelProperty(value = "字典编码")
     private String dictCode;

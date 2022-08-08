@@ -30,11 +30,11 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "MetaDataElement对象", description = "元数据-数据元信息")
+@ApiModel(value = "FlinkDeployConfigFile对象", description = "Flink-部署配置文件")
 public class FlinkDeployConfigFileDTO extends BaseDTO {
 
     @NotNull
-    @ApiModelProperty("配置文件类型。0: hadoop conf, 1: kubeconfig, 2: flink-conf.yaml")
+    @ApiModelProperty("配置文件类型。0: Hadoop, 1: Kubernetes")
     private DictVO configType;
 
     @NotBlank

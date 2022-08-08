@@ -40,6 +40,10 @@ const routes: Routes = [
         loadChildren: () => import('./job/job.module').then((m) => m.JobModule),
       },
       {
+        path: 'resource',
+        loadChildren: () => import('./resource/resource.module').then((m) => m.ResourceModule),
+      },
+      {
         path: '',
         redirectTo: 'studio',
         pathMatch: 'full',

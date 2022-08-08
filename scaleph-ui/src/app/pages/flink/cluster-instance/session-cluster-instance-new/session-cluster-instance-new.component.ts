@@ -4,7 +4,6 @@ import {DValidateRules, FormLayout} from 'ng-devui';
 import {
   FlinkClusterConfig,
   FlinkClusterConfigParam,
-  FlinkDeployConfig,
   FlinkSessionClusterAddParam
 } from "../../../../@core/data/flink.data";
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse} from "../../../../@core/data/app.data";

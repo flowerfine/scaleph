@@ -7,16 +7,16 @@
   "background_color": "#001529",
   "icons": [
     {
-      "src": "icons/icon-192x192.png",
-      "sizes": "192x192"
+      "src": "icons/scaleph.png",
+      "sizes": "200x200"
     },
     {
-      "src": "icons/icon-128x128.png",
-      "sizes": "128x128"
+      "src": "icons/scaleph@0.5x.png",
+      "sizes": "100x100"
     },
     {
-      "src": "icons/icon-512x512.png",
-      "sizes": "512x512"
+      "src": "icons/scaleph@2x.png",
+      "sizes": "400x400"
     }
   ]
 }

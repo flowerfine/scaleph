@@ -5,16 +5,15 @@ import {
   FlinkClusterConfig,
   FlinkDeployConfig,
   FlinkDeployConfigParam,
-  FlinkRelease,
-  FlinkReleaseParam,
   KeyValueConfig
 } from "../../../../@core/data/flink.data";
 import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
-import {ReleaseService} from "../../../../@core/services/flink/release.service";
 import {ClusterConfigService} from "../../../../@core/services/flink/cluster-config.service";
 import {DataTableComponent} from "@devui";
+import {ReleaseFlinkService} from "../../../../@core/services/resource/release-flink.service";
+import {ReleaseFlink, ReleaseFlinkParam} from "../../../../@core/data/resource.data";
 
 @Component({
   selector: 'app-cluster-config-new',
@@ -54,7 +53,7 @@ export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
   flinkVersionList: Dict[] = []
   resourceProviderList: Dict[] = []
   deployModeList: Dict[] = []
-  flinkReleaseList: FlinkRelease[] = []
+  flinkReleaseList: ReleaseFlink[] = []
   flinkDeployConfigList: FlinkDeployConfig[] = []
 
   flinkDeployConfigResult: PageResponse<FlinkDeployConfig> = null
@@ -80,7 +79,7 @@ export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
     private elr: ElementRef,
     private translate: TranslateService,
     private dictDataService: SysDictDataService,
-    private releaseService: ReleaseService,
+    private releaseFlinkService: ReleaseFlinkService,
     private deployConfigService: DeployConfigService,
     private clusterConfigService: ClusterConfigService) {
   }
@@ -112,11 +111,11 @@ export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
 
   onFlinkVersionValueChange(flinkVersion) {
     this.formData.flinkRelease = null
-    let param: FlinkReleaseParam = {
+    let param: ReleaseFlinkParam = {
       version: flinkVersion.value,
     };
 
-    this.releaseService.list(param).subscribe((d) => {
+    this.releaseFlinkService.list(param).subscribe((d) => {
       this.flinkReleaseList = d.records;
     });
   }
@@ -161,7 +160,7 @@ export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
   }
 
   submitForm({valid}) {
-    let customConfigOptions: {[key:string]: any} = {};
+    let customConfigOptions: { [key: string]: any } = {};
     this.customConfigdataTableDs.forEach((config) => {
       customConfigOptions[config.key] = config.value
     })
