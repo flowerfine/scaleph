@@ -21,11 +21,10 @@ package cn.sliew.scaleph.api.controller.resource;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.exception.CustomException;
-import cn.sliew.scaleph.engine.flink.service.FlinkReleaseService;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkReleaseDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkReleaseListParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkReleaseLoadParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkReleaseUploadParam;
+import cn.sliew.scaleph.resource.service.SeaTunnelReleaseService;
+import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
+import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseListParam;
+import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseUploadParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -44,36 +43,28 @@ import java.net.URLEncoder;
 import java.util.List;
 
 @Slf4j
-@Api(tags = "资源管理-release-flink")
+@Api(tags = "资源管理-seatunnel-release")
 @RestController
-@RequestMapping(path = "/api/resource/release/flink")
-public class ReleaseFlinkController {
+@RequestMapping(path = "/api/resource/seatunnel-release")
+public class SeaTunnelReleaseController {
 
     @Autowired
-    private FlinkReleaseService flinkReleaseService;
+    private SeaTunnelReleaseService seaTunnelReleaseService;
 
     @Logging
     @GetMapping
     @ApiOperation(value = "查询 release 列表", notes = "查询 release 列表")
-    public ResponseEntity<Page<FlinkReleaseDTO>> list(@Valid FlinkReleaseListParam param) throws IOException {
-        final Page<FlinkReleaseDTO> flinkReleaseDTOS = flinkReleaseService.list(param);
-        return new ResponseEntity<>(flinkReleaseDTOS, HttpStatus.OK);
+    public ResponseEntity<Page<SeaTunnelReleaseDTO>> list(@Valid SeaTunnelReleaseListParam param) throws IOException {
+        final Page<SeaTunnelReleaseDTO> releaseSeaTunnelDTOS = seaTunnelReleaseService.list(param);
+        return new ResponseEntity<>(releaseSeaTunnelDTOS, HttpStatus.OK);
     }
 
     @Logging
     @GetMapping("/{id}")
     @ApiOperation(value = "查询 release 详情", notes = "查询 release 详情")
-    public ResponseEntity<FlinkReleaseDTO> get(@PathVariable("id") Long id) throws IOException {
-        final FlinkReleaseDTO result = flinkReleaseService.selectOne(id);
+    public ResponseEntity<SeaTunnelReleaseDTO> get(@PathVariable("id") Long id) throws IOException {
+        final SeaTunnelReleaseDTO result = seaTunnelReleaseService.selectOne(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @Logging
-    @PostMapping("load")
-    @ApiOperation(value = "加载 release", notes = "加载 release")
-    public ResponseEntity<ResponseVO> load(@Valid @RequestBody FlinkReleaseLoadParam param) throws IOException {
-        flinkReleaseService.load(param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     /**
@@ -82,11 +73,11 @@ public class ReleaseFlinkController {
     @Logging
     @PostMapping("upload")
     @ApiOperation(value = "上传 release", notes = "上传 release")
-    public ResponseEntity<ResponseVO> upload(@Valid FlinkReleaseUploadParam param, @RequestPart("file") MultipartFile file) throws Exception {
+    public ResponseEntity<ResponseVO> upload(@Valid SeaTunnelReleaseUploadParam param, @RequestPart("file") MultipartFile file) throws Exception {
         if (file.isEmpty()) {
             throw new CustomException("缺少文件");
         }
-        flinkReleaseService.upload(param, file);
+        seaTunnelReleaseService.upload(param, file);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -95,7 +86,7 @@ public class ReleaseFlinkController {
     @ApiOperation("下载 release")
     public ResponseEntity<ResponseVO> download(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
         try (ServletOutputStream outputStream = response.getOutputStream()) {
-            final String name = flinkReleaseService.download(id, outputStream);
+            final String name = seaTunnelReleaseService.download(id, outputStream);
             response.setCharacterEncoding("utf-8");// 设置字符编码
             response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(name, "UTF-8")); // 设置响应头
         }
@@ -106,7 +97,7 @@ public class ReleaseFlinkController {
     @DeleteMapping("{id}")
     @ApiOperation(value = "删除 release", notes = "删除 release")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws IOException {
-        flinkReleaseService.delete(id);
+        seaTunnelReleaseService.delete(id);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -114,7 +105,7 @@ public class ReleaseFlinkController {
     @DeleteMapping(path = "/batch")
     @ApiOperation(value = "批量删除 release", notes = "批量删除 release")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) throws IOException {
-        flinkReleaseService.deleteBatch(ids);
+        seaTunnelReleaseService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 }

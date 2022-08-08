@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.api.controller.flink;
+package cn.sliew.scaleph.api.controller.resource;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
-import cn.sliew.scaleph.engine.flink.service.FlinkDeployConfigFileService;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkDeployConfigFileDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkDeployConfigFileListParam;
-import cn.sliew.scaleph.engine.flink.service.vo.FileStatusVO;
+import cn.sliew.scaleph.resource.service.ClusterCredentialService;
+import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
+import cn.sliew.scaleph.resource.service.param.ClusterCredentialListParam;
+import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,43 +42,43 @@ import java.net.URLEncoder;
 import java.util.List;
 
 @Slf4j
-@Api(tags = "Flink管理-部署配置文件管理")
+@Api(tags = "资源管理-集群凭证")
 @RestController
-@RequestMapping(path = "/api/flink/deploy-config")
-public class DeployConfigFileController {
+@RequestMapping(path = "/api/resource/cluster-credential")
+public class ClusterCredentialController {
 
     @Autowired
-    private FlinkDeployConfigFileService flinkDeployConfigFileService;
+    private ClusterCredentialService clusterCredentialService;
 
     @Logging
     @GetMapping
     @ApiOperation(value = "查询部署配置列表", notes = "查询部署配置列表")
-    public ResponseEntity<Page<FlinkDeployConfigFileDTO>> list(@Valid FlinkDeployConfigFileListParam param) {
-        final Page<FlinkDeployConfigFileDTO> result = flinkDeployConfigFileService.list(param);
+    public ResponseEntity<Page<ClusterCredentialDTO>> list(@Valid ClusterCredentialListParam param) {
+        final Page<ClusterCredentialDTO> result = clusterCredentialService.list(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Logging
     @GetMapping({"{id}"})
     @ApiOperation(value = "查询部署配置", notes = "查询部署配置")
-    public ResponseEntity<FlinkDeployConfigFileDTO> selectOne(@PathVariable("id") Long id) {
-        final FlinkDeployConfigFileDTO result = flinkDeployConfigFileService.selectOne(id);
+    public ResponseEntity<ClusterCredentialDTO> selectOne(@PathVariable("id") Long id) {
+        final ClusterCredentialDTO result = clusterCredentialService.selectOne(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Logging
     @PutMapping
     @ApiOperation(value = "新增部署配置", notes = "新增部署配置")
-    public ResponseEntity<ResponseVO> addDeployConfig(@Valid @RequestBody FlinkDeployConfigFileDTO param) {
-        flinkDeployConfigFileService.insert(param);
+    public ResponseEntity<ResponseVO> addDeployConfig(@Valid @RequestBody ClusterCredentialDTO param) {
+        clusterCredentialService.insert(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
     @PostMapping
     @ApiOperation(value = "修改部署配置", notes = "修改部署配置")
-    public ResponseEntity<ResponseVO> updateDeployConfig(@Valid @RequestBody FlinkDeployConfigFileDTO param) {
-        flinkDeployConfigFileService.update(param);
+    public ResponseEntity<ResponseVO> updateDeployConfig(@Valid @RequestBody ClusterCredentialDTO param) {
+        clusterCredentialService.update(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -86,7 +86,7 @@ public class DeployConfigFileController {
     @DeleteMapping("{id}")
     @ApiOperation(value = "删除部署配置", notes = "删除部署配置")
     public ResponseEntity<ResponseVO> deleteDeployConfig(@PathVariable("id") Long id) {
-        flinkDeployConfigFileService.deleteById(id);
+        clusterCredentialService.deleteById(id);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -94,7 +94,7 @@ public class DeployConfigFileController {
     @DeleteMapping(path = "/batch")
     @ApiOperation(value = "批量删除部署配置", notes = "批量删除部署配置")
     public ResponseEntity<ResponseVO> deleteDeployConfig(@RequestBody List<Long> ids) {
-        flinkDeployConfigFileService.deleteBatch(ids);
+        clusterCredentialService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -102,7 +102,7 @@ public class DeployConfigFileController {
     @GetMapping("{id}/file")
     @ApiOperation(value = "查询部署配置文件列表", notes = "查询部署配置文件列表")
     public ResponseEntity<List<FileStatusVO>> listDeployConfigFile(@PathVariable("id") Long id) throws IOException {
-        final List<FileStatusVO> fileStatuses = flinkDeployConfigFileService.listDeployConfigFile(id);
+        final List<FileStatusVO> fileStatuses = clusterCredentialService.listDeployConfigFile(id);
         return new ResponseEntity<>(fileStatuses, HttpStatus.OK);
     }
 
@@ -113,7 +113,7 @@ public class DeployConfigFileController {
     @PostMapping("{id}/file")
     @ApiOperation(value = "上传部署配置文件", notes = "上传部署配置文件，支持上传多个文件")
     public ResponseEntity<ResponseVO> uploadDeployConfigFile(@PathVariable("id") Long id, @RequestPart("files") MultipartFile[] files) throws IOException {
-        flinkDeployConfigFileService.uploadDeployConfigFile(id, files);
+        clusterCredentialService.uploadDeployConfigFile(id, files);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -125,7 +125,7 @@ public class DeployConfigFileController {
             @PathVariable("fileName") String fileName,
             HttpServletResponse response) throws IOException {
         try (ServletOutputStream outputStream = response.getOutputStream()) {
-            flinkDeployConfigFileService.downloadDeployConfigFile(id, fileName, outputStream);
+            clusterCredentialService.downloadDeployConfigFile(id, fileName, outputStream);
             response.setCharacterEncoding("utf-8");// 设置字符编码
             response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8")); // 设置响应头
         }
@@ -138,7 +138,7 @@ public class DeployConfigFileController {
     public ResponseEntity<ResponseVO> deleteDeployConfigFile(
             @PathVariable("id") Long id,
             @PathVariable("fileName") String fileName) throws IOException {
-        flinkDeployConfigFileService.deleteDeployConfigFile(id, fileName);
+        clusterCredentialService.deleteDeployConfigFile(id, fileName);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -148,7 +148,7 @@ public class DeployConfigFileController {
     public ResponseEntity<ResponseVO> deleteDeployConfigFiles(
             @PathVariable("id") Long id,
             @RequestBody List<String> fileNames) throws IOException {
-        flinkDeployConfigFileService.deleteDeployConfigFiles(id, fileNames);
+        clusterCredentialService.deleteDeployConfigFiles(id, fileNames);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 }
