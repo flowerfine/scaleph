@@ -1,71 +1,70 @@
-import {Component, ElementRef, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {DValidateRules, FormLayout} from 'ng-devui';
+import {DFormGroupRuleDirective, DValidateRules, FormLayout} from 'ng-devui';
 import {ClusterCredentialService} from "../../../../@core/services/resource/cluster-credential.service";
-import {Dict, DICT_TYPE} from "../../../../@core/data/app.data";
-import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
 import {ClusterCredential} from "../../../../@core/data/resource.data";
 
 @Component({
-  selector: 'app-cluster-credential-new',
-  templateUrl: './cluster-config-new.component.html',
-  styleUrls: ['../cluster-config.component.scss'],
+  selector: 'app-cluster-credential-update',
+  templateUrl: './cluster-credential-update.component.html',
+  styleUrls: ['../cluster-credential.component.scss'],
 })
-export class ClusterConfigNewComponent implements OnInit {
+export class ClusterCredentialUpdateComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
+  @ViewChild('form') formDir: DFormGroupRuleDirective;
   formLayout = FormLayout.Horizontal;
   formConfig: { [Key: string]: DValidateRules } = {
     rule: {message: this.translate.instant('app.error.formValidateError'), messageShowType: 'text'},
     configTypeRules: {
       validators: [
         {required: true},
-        {maxlength: 30}
+        {maxlength: 30},
+        {pattern: /^[a-zA-Z0-9_]+$/, message: this.translate.instant('app.common.validate.characterWord')},
       ],
     },
     nameRules: {
-      validators: [{required: true}],
+      validators: [{required: true}, {maxlength: 60}],
     },
     remarkRules: {
       validators: [{maxlength: 200}],
     },
   };
 
-  resourceClusterTypeList: Dict[] = []
-
   formData = {
+    id: null,
     configType: null,
     name: null,
     remark: null,
   };
 
-  constructor(private elr: ElementRef, private translate: TranslateService, private dictDataService: SysDictDataService, private deployConfigService: ClusterCredentialService) {
+  constructor(private elr: ElementRef, private translate: TranslateService, private deployConfigService: ClusterCredentialService) {
   }
 
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;
-    this.dictDataService.listByType(DICT_TYPE.resourceClusterType).subscribe((d) => {
-      this.resourceClusterTypeList = d;
-    });
+    this.formData = {
+      id: this.data.item.id,
+      configType: this.data.item.configType,
+      name: this.data.item.name,
+      remark: this.data.item.remark,
+    };
   }
 
   submitForm({valid}) {
-    let row: ClusterCredential = {
+    let ds: ClusterCredential = {
+      id: this.formData.id,
       configType: this.formData.configType,
       name: this.formData.name,
       remark: this.formData.remark,
     };
     if (valid) {
-      this.deployConfigService.add(row).subscribe((d) => {
+      this.deployConfigService.update(ds).subscribe((d) => {
         if (d.success) {
           this.data.onClose();
           this.data.refresh();
         }
       });
     }
-  }
-
-  close(event) {
-    this.data.onClose(event);
   }
 }

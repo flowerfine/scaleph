@@ -5,10 +5,10 @@ import {ClusterCredentialService} from "../../../../../@core/services/resource/c
 
 @Component({
   selector: 'app-cluster-credential-file-upload',
-  templateUrl: './cluster-config-file-upload.component.html',
-  styleUrls: ['../cluster-config-file.component.scss'],
+  templateUrl: './cluster-credential-file-upload.component.html',
+  styleUrls: ['../cluster-credential-file.component.scss'],
 })
-export class ClusterConfigFileUploadComponent implements OnInit {
+export class ClusterCredentialFileUploadComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
   formLayout = FormLayout.Horizontal;

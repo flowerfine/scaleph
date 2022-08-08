@@ -4,7 +4,7 @@ import {ResourceComponent} from './resource.component';
 import {ReleaseSeatunnelComponent} from "./seatunnel/release-seatunnel.component";
 import {ReleaseFlinkComponent} from "./flink/release-flink.component";
 import {ClusterCredentialComponent} from "./cluster/cluster-credential.component";
-import {ClusterConfigFileComponent} from "./cluster/cluster-config-file/cluster-config-file.component";
+import {ClusterCredentialFileComponent} from "./cluster/cluster-credential-file/cluster-credential-file.component";
 
 const routes: Routes = [
   {
@@ -14,7 +14,7 @@ const routes: Routes = [
       {path: 'flink', component: ReleaseFlinkComponent},
       {path: 'seatunnel', component: ReleaseSeatunnelComponent},
       {path: 'cluster', component: ClusterCredentialComponent},
-      {path: 'cluster-config-file', component: ClusterConfigFileComponent},
+      {path: 'cluster-config-file', component: ClusterCredentialFileComponent},
       {path: '', redirectTo: 'flink', pathMatch: 'full'},
     ],
   },

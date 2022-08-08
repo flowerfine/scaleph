@@ -33,8 +33,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("release_seatunnel")
-@ApiModel(value = "ReleaseSeatunnel对象", description = "release-seatunnel")
+@TableName("resource_seatunnel_release")
+@ApiModel(value = "SeatunnelRelease对象", description = "seatunnel-release")
 public class ResourceSeaTunnelRelease extends BaseDO {
 
     private static final long serialVersionUID = 1L;

@@ -7,15 +7,15 @@ import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE} from 'src/app/@core
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {ClusterCredentialService} from "../../../@core/services/resource/cluster-credential.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
-import {ClusterConfigNewComponent} from "./cluster-config-new/cluster-config-new.component";
-import {ClusterConfigUpdateComponent} from "./cluster-config-update/cluster-config-update.component";
-import {ClusterConfigDeleteComponent} from "./cluster-config-delete/cluster-config-delete.component";
 import {ClusterCredential, ClusterCredentialParam} from "../../../@core/data/resource.data";
+import {ClusterCredentialNewComponent} from "./cluster-credential-new/cluster-credential-new.component";
+import {ClusterCredentialUpdateComponent} from "./cluster-credential-update/cluster-credential-update.component";
+import {ClusterCredentialDeleteComponent} from "./cluster-credential-delete/cluster-credential-delete.component";
 
 @Component({
   selector: 'app-cluster-credential',
-  templateUrl: './cluster-config.component.html',
-  styleUrls: ['./cluster-config.component.scss'],
+  templateUrl: './cluster-credential.component.html',
+  styleUrls: ['./cluster-credential.component.scss'],
 })
 export class ClusterCredentialComponent implements OnInit {
   PRIVILEGE_CODE = PRIVILEGE_CODE;
@@ -107,7 +107,7 @@ export class ClusterCredentialComponent implements OnInit {
       id: 'cluster-credential-add',
       width: '580px',
       backdropCloseable: true,
-      component: ClusterConfigNewComponent,
+      component: ClusterCredentialNewComponent,
       data: {
         title: {name: this.translate.instant('resource.cluster-config.name_')},
         onClose: (event: any) => {
@@ -133,7 +133,7 @@ export class ClusterCredentialComponent implements OnInit {
       id: 'cluster-credential-edit',
       width: '580px',
       backdropCloseable: true,
-      component: ClusterConfigUpdateComponent,
+      component: ClusterCredentialUpdateComponent,
       data: {
         title: {name: this.translate.instant('resource.cluster-config.name_')},
         item: item,
@@ -152,7 +152,7 @@ export class ClusterCredentialComponent implements OnInit {
       id: 'cluster-credential-delete',
       width: '346px',
       backdropCloseable: true,
-      component: ClusterConfigDeleteComponent,
+      component: ClusterCredentialDeleteComponent,
       data: {
         title: this.translate.instant('app.common.operate.delete.confirm.title'),
         items: items,

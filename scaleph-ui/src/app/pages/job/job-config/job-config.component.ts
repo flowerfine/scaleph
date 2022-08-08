@@ -10,15 +10,8 @@ import {ClusterConfigService} from "../../../@core/services/flink/cluster-config
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 import {FlinkJobConfig, FlinkJobConfigParam} from "../../../@core/data/job.data";
 import {JobConfigService} from "../../../@core/services/job/job-config.service";
-import {ClusterConfigNewComponent} from "../../flink/cluster-config/cluster-config-new/cluster-config-new.component";
 import {JobConfigNewComponent} from "./job-config-new/job-config-new.component";
-import {
-  ClusterConfigDeleteComponent
-} from "../../flink/cluster-config/cluster-config-delete/cluster-config-delete.component";
 import {JobConfigDeleteComponent} from "./job-config-delete/job-config-delete.component";
-import {
-  ClusterConfigUpdateComponent
-} from "../../flink/cluster-config/cluster-config-update/cluster-config-update.component";
 import {JobConfigUpdateComponent} from "./job-config-update/job-config-update.component";
 
 @Component({

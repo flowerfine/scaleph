@@ -4,11 +4,10 @@ import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE} from 'src/app/@core/data/app.data';
-import {FlinkClusterConfig, FlinkClusterConfigParam, FlinkDeployConfig} from 'src/app/@core/data/flink.data';
+import {FlinkClusterConfig, FlinkClusterConfigParam} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {ClusterConfigService} from "../../../@core/services/flink/cluster-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
-import {ClusterConfigNewComponent} from "./cluster-config-new/cluster-config-new.component";
 import {ClusterConfigDeleteComponent} from "./cluster-config-delete/cluster-config-delete.component";
 import {ClusterConfigUpdateComponent} from "./cluster-config-update/cluster-config-update.component";
 
@@ -125,9 +124,7 @@ export class ClusterConfigComponent implements OnInit {
 
   openAddClusterConfigDialog() {
     this.router.navigate(['/scaleph', 'flink', 'cluster-config-options'], {
-      queryParams: {
-
-      }
+      queryParams: {}
     });
   }
 
@@ -137,7 +134,7 @@ export class ClusterConfigComponent implements OnInit {
   //     id: 'cluster-config-add',
   //     width: '580px',
   //     backdropCloseable: true,
-  //     component: ClusterConfigNewComponent,
+  //     component: ClusterCredentialNewComponent,
   //     data: {
   //       title: {name: this.translate.instant('flink.cluster-config.name_')},
   //       onClose: (event: any) => {

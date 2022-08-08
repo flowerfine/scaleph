@@ -4,9 +4,9 @@ import {ClusterCredentialService} from "../../../../../@core/services/resource/c
 @Component({
   selector: 'app-cluster-credential-file-delete',
   templateUrl: './cluster-config-file-delete.component.html',
-  styleUrls: ['../cluster-config-file.component.scss'],
+  styleUrls: ['../cluster-credential-file.component.scss'],
 })
-export class ClusterConfigFileDeleteComponent implements OnInit {
+export class ClusterCredentialFileDeleteComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
 
