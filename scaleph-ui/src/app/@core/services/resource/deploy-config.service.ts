@@ -2,40 +2,40 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {PageResponse, ResponseBody} from '../../data/app.data';
-import {FileStatus, FlinkDeployConfig, FlinkDeployConfigUploadParam} from '../../data/flink.data';
+import {ClusterCredential, ClusterCredentialUploadParam, FileStatus} from "../../data/resource.data";
 
 @Injectable({
   providedIn: 'root',
 })
 export class DeployConfigService {
-  private url = 'api/flink/deploy-config';
+  private url = 'api/resource/cluster-credential';
 
   constructor(private http: HttpClient) {
   }
 
-  list(queryParam): Observable<PageResponse<FlinkDeployConfig>> {
+  list(queryParam): Observable<PageResponse<ClusterCredential>> {
     const params: HttpParams = new HttpParams({fromObject: queryParam});
-    return this.http.get<PageResponse<FlinkDeployConfig>>(`${this.url}`, {params});
+    return this.http.get<PageResponse<ClusterCredential>>(`${this.url}`, {params});
   }
 
-  selectOne(id): Observable<ResponseBody<FlinkDeployConfig>> {
-    return this.http.get<ResponseBody<FlinkDeployConfig>>(`${this.url}/` + id);
+  selectOne(id): Observable<ResponseBody<ClusterCredential>> {
+    return this.http.get<ResponseBody<ClusterCredential>>(`${this.url}/` + id);
   }
 
-  add(row: FlinkDeployConfig): Observable<ResponseBody<any>> {
+  add(row: ClusterCredential): Observable<ResponseBody<any>> {
     return this.http.put<ResponseBody<any>>(this.url, row);
   }
 
-  update(row: FlinkDeployConfig): Observable<ResponseBody<any>> {
+  update(row: ClusterCredential): Observable<ResponseBody<any>> {
     return this.http.post<ResponseBody<any>>(this.url, row);
   }
 
-  deleteBatch(rows: FlinkDeployConfig[]): Observable<ResponseBody<any>> {
+  deleteBatch(rows: ClusterCredential[]): Observable<ResponseBody<any>> {
     let params = rows.map((row) => row.id);
     return this.http.delete<ResponseBody<any>>(`${this.url}/batch`, {body: params});
   }
 
-  upload(uploadParam: FlinkDeployConfigUploadParam): Observable<ResponseBody<any>> {
+  upload(uploadParam: ClusterCredentialUploadParam): Observable<ResponseBody<any>> {
     const params: FormData = new FormData();
     params.append("configType", uploadParam.configType)
     params.append("name", uploadParam.name)

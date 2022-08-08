@@ -8,7 +8,7 @@ import {AuthService} from 'src/app/@core/services/auth.service';
 import {ClusterConfigService} from "../../../@core/services/flink/cluster-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 import {FlinkClusterConfig, FlinkDeployConfig, FlinkDeployConfigParam} from "../../../@core/data/flink.data";
-import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
+import {DeployConfigService} from "../../../@core/services/resource/deploy-config.service";
 import {ReleaseFlinkService} from "../../../@core/services/resource/release-flink.service";
 import {ReleaseFlink, ReleaseFlinkParam} from "../../../@core/data/resource.data";
 

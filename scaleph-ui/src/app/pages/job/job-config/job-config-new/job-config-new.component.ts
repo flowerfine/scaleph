@@ -2,7 +2,7 @@ import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {DValidateRules, FormLayout} from 'ng-devui';
 import {FlinkClusterConfig, FlinkClusterConfigParam} from "../../../../@core/data/flink.data";
-import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
+import {DeployConfigService} from "../../../../@core/services/resource/deploy-config.service";
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
 import {ClusterConfigService} from "../../../../@core/services/flink/cluster-config.service";

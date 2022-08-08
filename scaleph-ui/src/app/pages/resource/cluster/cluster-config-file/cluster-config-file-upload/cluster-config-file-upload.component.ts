@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {DValidateRules, FormLayout, IFileOptions, IUploadOptions} from 'ng-devui';
-import {DeployConfigService} from "../../../../../@core/services/flink/deploy-config.service";
+import {DeployConfigService} from "../../../../../@core/services/resource/deploy-config.service";
 
 @Component({
   selector: 'app-deploy-config-file-upload',

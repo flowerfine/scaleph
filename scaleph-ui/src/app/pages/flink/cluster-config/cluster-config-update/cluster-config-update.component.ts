@@ -7,7 +7,7 @@ import {
   FlinkDeployConfigParam,
   KeyValueConfig
 } from "../../../../@core/data/flink.data";
-import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
+import {DeployConfigService} from "../../../../@core/services/resource/deploy-config.service";
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
 import {ClusterConfigService} from "../../../../@core/services/flink/cluster-config.service";

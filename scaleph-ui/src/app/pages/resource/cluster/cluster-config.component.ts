@@ -6,7 +6,7 @@ import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE} from 'src/app/@core/data/app.data';
 import {FlinkDeployConfig, FlinkDeployConfigParam} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
-import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
+import {DeployConfigService} from "../../../@core/services/resource/deploy-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 import {ClusterConfigNewComponent} from "./cluster-config-new/cluster-config-new.component";
 import {ClusterConfigUpdateComponent} from "./cluster-config-update/cluster-config-update.component";

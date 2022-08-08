@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
-import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
+import {DeployConfigService} from "../../../../@core/services/resource/deploy-config.service";
 
 @Component({
   selector: 'app-cluster-config-delete',

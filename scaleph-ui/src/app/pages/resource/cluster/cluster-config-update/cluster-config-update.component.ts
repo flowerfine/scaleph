@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {DFormGroupRuleDirective, DValidateRules, FormLayout} from 'ng-devui';
-import {DeployConfigService} from "../../../../@core/services/flink/deploy-config.service";
+import {DeployConfigService} from "../../../../@core/services/resource/deploy-config.service";
 import {FlinkDeployConfig} from "../../../../@core/data/flink.data";
 
 @Component({
