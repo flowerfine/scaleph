@@ -1,13 +1,13 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {DValidateRules, FormLayout} from 'ng-devui';
-import {FlinkDeployConfig} from "../../../../@core/data/flink.data";
-import {DeployConfigService} from "../../../../@core/services/resource/deploy-config.service";
+import {ClusterCredentialService} from "../../../../@core/services/resource/cluster-credential.service";
 import {Dict, DICT_TYPE} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
+import {ClusterCredential} from "../../../../@core/data/resource.data";
 
 @Component({
-  selector: 'app-cluster-config-new',
+  selector: 'app-cluster-credential-new',
   templateUrl: './cluster-config-new.component.html',
   styleUrls: ['../cluster-config.component.scss'],
 })
@@ -39,7 +39,7 @@ export class ClusterConfigNewComponent implements OnInit {
     remark: null,
   };
 
-  constructor(private elr: ElementRef, private translate: TranslateService, private dictDataService: SysDictDataService, private deployConfigService: DeployConfigService) {
+  constructor(private elr: ElementRef, private translate: TranslateService, private dictDataService: SysDictDataService, private deployConfigService: ClusterCredentialService) {
   }
 
   ngOnInit(): void {
@@ -50,7 +50,7 @@ export class ClusterConfigNewComponent implements OnInit {
   }
 
   submitForm({valid}) {
-    let row: FlinkDeployConfig = {
+    let row: ClusterCredential = {
       configType: this.formData.configType,
       name: this.formData.name,
       remark: this.formData.remark,

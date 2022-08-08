@@ -1,8 +1,8 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
-import {DeployConfigService} from "../../../../@core/services/resource/deploy-config.service";
+import {ClusterCredentialService} from "../../../../@core/services/resource/cluster-credential.service";
 
 @Component({
-  selector: 'app-cluster-config-delete',
+  selector: 'app-cluster-credential-delete',
   templateUrl: './cluster-config-delete.component.html',
   styleUrls: ['../cluster-config.component.scss'],
 })
@@ -10,7 +10,7 @@ export class ClusterConfigDeleteComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
 
-  constructor(private elr: ElementRef, private deployConfigService: DeployConfigService) {
+  constructor(private elr: ElementRef, private deployConfigService: ClusterCredentialService) {
   }
 
   ngOnInit(): void {

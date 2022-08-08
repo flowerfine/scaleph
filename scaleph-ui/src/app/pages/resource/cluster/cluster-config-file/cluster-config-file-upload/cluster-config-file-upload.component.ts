@@ -1,10 +1,10 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {DValidateRules, FormLayout, IFileOptions, IUploadOptions} from 'ng-devui';
-import {DeployConfigService} from "../../../../../@core/services/resource/deploy-config.service";
+import {ClusterCredentialService} from "../../../../../@core/services/resource/cluster-credential.service";
 
 @Component({
-  selector: 'app-deploy-config-file-upload',
+  selector: 'app-cluster-credential-file-upload',
   templateUrl: './cluster-config-file-upload.component.html',
   styleUrls: ['../cluster-config-file.component.scss'],
 })
@@ -33,7 +33,7 @@ export class ClusterConfigFileUploadComponent implements OnInit {
     remark: null,
   };
 
-  constructor(private elr: ElementRef, private translate: TranslateService, private deployConfigService: DeployConfigService) {
+  constructor(private elr: ElementRef, private translate: TranslateService, private deployConfigService: ClusterCredentialService) {
   }
 
   ngOnInit(): void {

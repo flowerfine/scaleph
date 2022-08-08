@@ -6,13 +6,13 @@ import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
 import {PRIVILEGE_CODE, USER_AUTH} from 'src/app/@core/data/app.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
-import {DeployConfigService} from "../../../../@core/services/resource/deploy-config.service";
-import {FileStatus} from "../../../../@core/data/flink.data";
+import {ClusterCredentialService} from "../../../../@core/services/resource/cluster-credential.service";
 import {ClusterConfigFileUploadComponent} from "./cluster-config-file-upload/cluster-config-file-upload.component";
 import {ClusterConfigFileDeleteComponent} from "./cluster-config-file-delete/cluster-config-file-delete.component";
+import {FileStatus} from "../../../../@core/data/resource.data";
 
 @Component({
-  selector: 'app-cluster-config-file',
+  selector: 'app-cluster-credential-file',
   templateUrl: './cluster-config-file.component.html',
   styleUrls: ['./cluster-config-file.component.scss'],
 })
@@ -33,7 +33,7 @@ export class ClusterConfigFileComponent implements OnInit {
     private translate: TranslateService,
     private modalService: ModalService,
     private dictDataService: SysDictDataService,
-    private deployConfigService: DeployConfigService,
+    private deployConfigService: ClusterCredentialService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -80,7 +80,7 @@ export class ClusterConfigFileComponent implements OnInit {
 
   openUploadDeployConfigFileDialog() {
     const results = this.modalService.open({
-      id: 'cluster-config-file-upload',
+      id: 'cluster-credential-file-upload',
       width: '580px',
       backdropCloseable: true,
       component: ClusterConfigFileUploadComponent,
@@ -99,7 +99,7 @@ export class ClusterConfigFileComponent implements OnInit {
 
   downloadDeployConfigFile(item: FileStatus) {
     let url: string =
-      'api/flink/deploy-config/' + this.flinkDeployConfig.id + '/file/' + item.name
+      'api/resource/cluster-credential/' + this.flinkDeployConfig.id + '/file/' + item.name
     '?' +
     USER_AUTH.token +
     '=' +
@@ -113,7 +113,7 @@ export class ClusterConfigFileComponent implements OnInit {
 
   openDeleteDeployConfigFileDialog(items: FileStatus[]) {
     const results = this.modalService.open({
-      id: 'cluster-config-file-delete',
+      id: 'cluster-credential-file-delete',
       width: '346px',
       backdropCloseable: true,
       component: ClusterConfigFileDeleteComponent,

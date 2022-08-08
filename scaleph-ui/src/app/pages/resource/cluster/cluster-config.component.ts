@@ -4,16 +4,16 @@ import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {DataTableComponent, LoadingService, ModalService} from 'ng-devui';
 import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PRIVILEGE_CODE} from 'src/app/@core/data/app.data';
-import {FlinkDeployConfig, FlinkDeployConfigParam} from 'src/app/@core/data/flink.data';
 import {AuthService} from 'src/app/@core/services/auth.service';
-import {DeployConfigService} from "../../../@core/services/resource/deploy-config.service";
+import {ClusterCredentialService} from "../../../@core/services/resource/cluster-credential.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 import {ClusterConfigNewComponent} from "./cluster-config-new/cluster-config-new.component";
 import {ClusterConfigUpdateComponent} from "./cluster-config-update/cluster-config-update.component";
 import {ClusterConfigDeleteComponent} from "./cluster-config-delete/cluster-config-delete.component";
+import {ClusterCredential, ClusterCredentialParam} from "../../../@core/data/resource.data";
 
 @Component({
-  selector: 'app-cluster-config',
+  selector: 'app-cluster-credential',
   templateUrl: './cluster-config.component.html',
   styleUrls: ['./cluster-config.component.scss'],
 })
@@ -23,7 +23,7 @@ export class ClusterConfigComponent implements OnInit {
   dataLoading: boolean = false;
   dataTableChecked: boolean = false;
   loadTarget: any;
-  dataTableDs: FlinkDeployConfig[] = [];
+  dataTableDs: ClusterCredential[] = [];
   pager = {
     total: 0,
     pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -41,7 +41,7 @@ export class ClusterConfigComponent implements OnInit {
     private translate: TranslateService,
     private modalService: ModalService,
     private dictDataService: SysDictDataService,
-    private deployConfigService: DeployConfigService,
+    private deployConfigService: ClusterCredentialService,
     private router: Router
   ) {
   }
@@ -55,7 +55,7 @@ export class ClusterConfigComponent implements OnInit {
 
   refreshTable() {
     this.openDataTableLoading();
-    let param: FlinkDeployConfigParam = {
+    let param: ClusterCredentialParam = {
       pageSize: this.pager.pageSize,
       current: this.pager.pageIndex,
       configType: this.searchFormConfig.configType ? this.searchFormConfig.configType.value : '',
@@ -104,7 +104,7 @@ export class ClusterConfigComponent implements OnInit {
 
   openAddDeployConfigDialog() {
     const results = this.modalService.open({
-      id: 'cluster-config-add',
+      id: 'cluster-credential-add',
       width: '580px',
       backdropCloseable: true,
       component: ClusterConfigNewComponent,
@@ -120,7 +120,7 @@ export class ClusterConfigComponent implements OnInit {
     });
   }
 
-  openDeployConfig(row: FlinkDeployConfig) {
+  openDeployConfig(row: ClusterCredential) {
     this.router.navigate(['/scaleph', 'resource', 'cluster-config-file'], {
       queryParams: {
         id: row.id
@@ -128,9 +128,9 @@ export class ClusterConfigComponent implements OnInit {
     });
   }
 
-  openEditDeployConfigDialog(item: FlinkDeployConfig) {
+  openEditDeployConfigDialog(item: ClusterCredential) {
     const results = this.modalService.open({
-      id: 'cluster-config-edit',
+      id: 'cluster-credential-edit',
       width: '580px',
       backdropCloseable: true,
       component: ClusterConfigUpdateComponent,
@@ -147,9 +147,9 @@ export class ClusterConfigComponent implements OnInit {
     });
   }
 
-  openDeleteDeployConfigDialog(items: FlinkDeployConfig[]) {
+  openDeleteDeployConfigDialog(items: ClusterCredential[]) {
     const results = this.modalService.open({
-      id: 'cluster-config-delete',
+      id: 'cluster-credential-delete',
       width: '346px',
       backdropCloseable: true,
       component: ClusterConfigDeleteComponent,

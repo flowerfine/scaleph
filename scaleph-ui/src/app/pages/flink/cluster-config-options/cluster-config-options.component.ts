@@ -8,8 +8,8 @@ import {AuthService} from 'src/app/@core/services/auth.service';
 import {ClusterConfigService} from "../../../@core/services/flink/cluster-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 import {FlinkClusterConfig, FlinkDeployConfig, FlinkDeployConfigParam} from "../../../@core/data/flink.data";
-import {DeployConfigService} from "../../../@core/services/resource/deploy-config.service";
-import {ReleaseFlinkService} from "../../../@core/services/resource/release-flink.service";
+import {ClusterCredentialService} from "../../../@core/services/resource/cluster-credential.service";
+import {FlinkReleaseService} from "../../../@core/services/resource/flink-release.service";
 import {ReleaseFlink, ReleaseFlinkParam} from "../../../@core/data/resource.data";
 
 @Component({
@@ -67,8 +67,8 @@ export class ClusterConfigOptionsComponent implements OnInit {
     private translate: TranslateService,
     private modalService: ModalService,
     private dictDataService: SysDictDataService,
-    private releaseFlinkService: ReleaseFlinkService,
-    private deployConfigService: DeployConfigService,
+    private releaseFlinkService: FlinkReleaseService,
+    private deployConfigService: ClusterCredentialService,
     private clusterConfigService: ClusterConfigService,
     private router: Router
   ) {

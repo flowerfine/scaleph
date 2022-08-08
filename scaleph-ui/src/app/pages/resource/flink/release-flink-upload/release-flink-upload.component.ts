@@ -3,11 +3,11 @@ import {TranslateService} from '@ngx-translate/core';
 import {DValidateRules, FormLayout, IFileOptions, IUploadOptions} from 'ng-devui';
 import {Dict, DICT_TYPE} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
-import {ReleaseFlinkService} from "../../../../@core/services/resource/release-flink.service";
-import {ReleaseFlinkUploadParam} from "../../../../@core/data/resource.data";
+import {FlinkReleaseService} from "../../../../@core/services/resource/flink-release.service";
+import {FlinkReleaseUploadParam} from "../../../../@core/data/resource.data";
 
 @Component({
-  selector: 'app-release-flink-upload',
+  selector: 'app-flink-release-upload',
   templateUrl: './release-flink-upload.component.html',
   styleUrls: ['../release-flink.component.scss'],
 })
@@ -47,7 +47,7 @@ export class ReleaseFlinkUploadComponent implements OnInit {
     remark: null,
   };
 
-  constructor(private elr: ElementRef, private translate: TranslateService, private dictDataService: SysDictDataService, private releaseFlinkService: ReleaseFlinkService) {
+  constructor(private elr: ElementRef, private translate: TranslateService, private dictDataService: SysDictDataService, private releaseFlinkService: FlinkReleaseService) {
   }
 
   ngOnInit(): void {
@@ -58,7 +58,7 @@ export class ReleaseFlinkUploadComponent implements OnInit {
   }
 
   submitForm({valid}) {
-    let uploadParam: ReleaseFlinkUploadParam = {
+    let uploadParam: FlinkReleaseUploadParam = {
       version: this.formData.version ? this.formData.version.value : '',
       file: this.file,
       remark: this.formData.remark || '',

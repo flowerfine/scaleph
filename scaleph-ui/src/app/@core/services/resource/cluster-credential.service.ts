@@ -7,7 +7,7 @@ import {ClusterCredential, ClusterCredentialUploadParam, FileStatus} from "../..
 @Injectable({
   providedIn: 'root',
 })
-export class DeployConfigService {
+export class ClusterCredentialService {
   private url = 'api/resource/cluster-credential';
 
   constructor(private http: HttpClient) {
