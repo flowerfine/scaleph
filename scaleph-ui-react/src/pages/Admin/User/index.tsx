@@ -35,6 +35,7 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'umi';
 import RoleForm from './components/RoleForm';
+import RoleGrant from './components/RoleGrant';
 import UserForm from './components/UserForm';
 import styles from './index.less';
 
@@ -56,7 +57,15 @@ const User: React.FC = () => {
     visiable: false,
     data: {},
   });
+  const [roleGrantData, setRoleGrantData] = useState<{ visiable: boolean; data: SecRole }>({
+    visiable: false,
+    data: {},
+  });
   const [deptFormData, setDeptFormData] = useState<{ visiable: boolean; data: SecDept }>({
+    visiable: false,
+    data: {},
+  });
+  const [deptGrantData, setDeptGrantData] = useState<{ visiable: boolean; data: SecDept }>({
     visiable: false,
     data: {},
   });
@@ -338,7 +347,9 @@ const User: React.FC = () => {
                           type="text"
                           size="small"
                           icon={<UserSwitchOutlined />}
-                          onClick={() => {}}
+                          onClick={() => {
+                            setRoleGrantData({ visiable: true, data: item });
+                          }}
                         ></Button>
                       </Space>
                     )}
@@ -443,6 +454,18 @@ const User: React.FC = () => {
           }}
           data={userFormData.data}
         ></UserForm>
+      ) : null}
+      {roleGrantData.visiable ? (
+        <RoleGrant
+          visible={roleGrantData.visiable}
+          onCancel={() => {
+            setRoleGrantData({ visiable: false, data: {} });
+          }}
+          onVisibleChange={(visiable) => {
+            setRoleGrantData({ visiable: visiable, data: {} });
+          }}
+          data={roleGrantData.data}
+        ></RoleGrant>
       ) : null}
     </Row>
   );

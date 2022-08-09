@@ -27,4 +27,6 @@ export default {
   'pages.admin.user.qq': 'QQ',
   'pages.admin.user.wechat': '微信',
   'pages.admin.user.summary': '简介',
+  'pages.admin.user.awaitGrant': '待授权',
+  'pages.admin.user.granted': '已授权',
 };
