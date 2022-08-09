@@ -36,6 +36,6 @@ export async function grantDeptToUsers(deptId: string, userIds: string[]) {
   return request<ResponseBody<any>>(`${url}`, {
     method: 'POST',
     data: { deptId: deptId, userIds: JSON.stringify(userIds) },
-    requestType: 'form',
+    headers: { 'Content-Type': 'multipart/form-data' },
   });
 }

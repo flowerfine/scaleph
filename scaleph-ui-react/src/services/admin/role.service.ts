@@ -31,10 +31,10 @@ export async function deleteRole(row: SecRole) {
 }
 
 export async function grantRoleToUsers(roleId: string, userIds: string[]) {
-  return request<ResponseBody<any>>(`${url}`, {
+  return request<ResponseBody<any>>(`${url}/grant`, {
     method: 'POST',
     data: { roleId: roleId, userIds: JSON.stringify(userIds) },
-    requestType: 'form',
+    headers: { 'Content-Type': 'multipart/form-data' },
   });
 }
 

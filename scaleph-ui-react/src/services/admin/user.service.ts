@@ -65,6 +65,7 @@ export async function listByUserNameAndDept(userName: string, deptId: string, di
   return request<TransferData[]>('/api/user/dept', {
     method: 'POST',
     data: { userName: userName, deptId: deptId, direction: direction },
+    headers: { 'Content-Type': 'multipart/form-data' },
   });
 }
 
@@ -72,6 +73,7 @@ export async function listByUserNameAndRole(userName: string, roleId: string, di
   return request<TransferData[]>('/api/user/role', {
     method: 'POST',
     data: { userName: userName, roleId: roleId, direction: direction },
+    headers: { 'Content-Type': 'multipart/form-data' },
   });
 }
 
@@ -91,6 +93,7 @@ export async function editPassword(oldPassword: string, password: string, confir
   return request<ResponseBody<any>>('/api/user/passwd/edit', {
     method: 'POST',
     data: { oldPassword: oldPassword, password: password, confirmPassword: confirmPassword },
+    headers: { 'Content-Type': 'multipart/form-data' },
   });
 }
 
