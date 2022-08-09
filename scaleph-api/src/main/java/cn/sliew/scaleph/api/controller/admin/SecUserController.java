@@ -404,7 +404,7 @@ public class SecUserController {
     @PostMapping(path = "/admin/user/batch")
     @ApiOperation(value = "批量删除用户", notes = "根据id列表批量删除用户")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).USER_DELETE)")
-    public ResponseEntity<ResponseVO> deleteBatchUser(@RequestBody Map<Integer, String> map) {
+    public ResponseEntity<ResponseVO> deleteBatchUser(@RequestBody Map<Integer, Integer> map) {
         this.secUserService.deleteBatch(map);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
