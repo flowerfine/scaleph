@@ -25,8 +25,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * <p>
@@ -57,15 +55,15 @@ public class FlinkClusterConfig extends BaseDO {
     @TableField("deploy_mode")
     private String deployMode;
 
-    @ApiModelProperty("release id")
+    @ApiModelProperty("flink release")
     @TableField("flink_release_id")
     private Long flinkReleaseId;
 
-    @ApiModelProperty("配置文件 id。配置如 hadoop 的 core-site.xml，kubernetes 的 kubeconfig")
-    @TableField("deploy_config_file_id")
-    private Long deployConfigFileId;
+    @ApiModelProperty("集群凭证 id。如 hadoop 的 core-site.xml，kubernetes 的 kubeconfig")
+    @TableField("cluster_credential_id")
+    private Long clusterCredentialId;
 
-    @ApiModelProperty("集群配置")
+    @ApiModelProperty("flink 集群配置项")
     @TableField("config_options")
     private String configOptions;
 

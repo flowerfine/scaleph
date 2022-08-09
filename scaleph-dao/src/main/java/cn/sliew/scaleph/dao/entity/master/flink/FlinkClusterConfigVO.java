@@ -16,20 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
+package cn.sliew.scaleph.dao.entity.master.flink;
 
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
-import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceClusterCredential;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceFlinkRelease;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.Map;
 
 /**
  * <p>
@@ -39,34 +36,37 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "FlinkClusterConfig对象", description = "flink 集群配置")
-public class FlinkClusterConfigDTO extends BaseDTO {
+public class FlinkClusterConfigVO extends BaseDO {
 
-    @NotBlank
+    private static final long serialVersionUID = 1L;
+
     @ApiModelProperty("名称")
+    @TableField("`name`")
     private String name;
 
-    @NotNull
     @ApiModelProperty("集群版本")
-    private DictVO flinkVersion;
+    @TableField("flink_version")
+    private String flinkVersion;
 
-    @NotNull
     @ApiModelProperty("Resource。0: Standalone, 1: Native Kubernetes, 2: YARN")
-    private DictVO resourceProvider;
+    @TableField("resource_provider")
+    private String resourceProvider;
 
-    @NotNull
     @ApiModelProperty("flink 部署模式。0: Application, 1: Per-Job, 2: Session")
-    private DictVO deployMode;
+    @TableField("deploy_mode")
+    private String deployMode;
 
-    @NotNull
-    @ApiModelProperty("release id")
-    private FlinkReleaseDTO flinkRelease;
+    @ApiModelProperty("flink release")
+    private ResourceFlinkRelease flinkRelease;
 
     @ApiModelProperty("集群凭证 id。如 hadoop 的 core-site.xml，kubernetes 的 kubeconfig")
-    private ClusterCredentialDTO clusterCredential;
+    private ResourceClusterCredential clusterCredential;
 
     @ApiModelProperty("flink 集群配置项")
-    private Map<String, Object> configOptions;
+    @TableField("config_options")
+    private String configOptions;
 
     @ApiModelProperty("备注")
+    @TableField("remark")
     private String remark;
 }
