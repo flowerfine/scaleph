@@ -25,6 +25,8 @@ import lombok.Setter;
 @Setter
 public class S3FileSystemProperties extends FileSystemProperties {
 
+    private boolean proxy;
+
     private String bucket;
 
     private String region;

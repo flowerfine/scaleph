@@ -185,8 +185,8 @@ export class ClusterConfigOptionsComponent implements OnInit {
       flinkVersion: this.formData.flinkRelease.version,
       resourceProvider: this.formData.flinkDeployConfig.configType,
       deployMode: this.formData.deployMode,
-      flinkReleaseId: this.formData.flinkRelease.id,
-      deployConfigFileId: this.formData.flinkDeployConfig.id,
+      flinkRelease: this.formData.flinkRelease,
+      clusterCredential: this.formData.flinkDeployConfig,
       configOptions: customConfigOptions,
       remark: this.formData.remark
     };

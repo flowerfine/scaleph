@@ -49,26 +49,26 @@
         <result column="remark" property="remark"/>
         <association property="flinkRelease"
                      javaType="cn.sliew.scaleph.dao.entity.master.resource.ResourceFlinkRelease">
-            <result column="id" property="flink_resource_id"/>
-            <result column="creator" property="flink_resource_creator"/>
-            <result column="create_time" property="flink_resource_createTime"/>
-            <result column="editor" property="flink_resource_editor"/>
-            <result column="update_time" property="flink_resource_updateTime"/>
-            <result column="version" property="flink_resource_version"/>
-            <result column="file_name" property="flink_resource_fileName"/>
-            <result column="path" property="flink_resource_path"/>
-            <result column="remark" property="flink_resource_remark"/>
+            <result column="flink_release_id" property="id"/>
+            <result column="flink_release_creator" property="creator"/>
+            <result column="flink_release_create_time" property="createTime"/>
+            <result column="flink_release_editor" property="editor"/>
+            <result column="flink_release_update_time" property="updateTime"/>
+            <result column="flink_release_version" property="version"/>
+            <result column="flink_release_file_name" property="fileName"/>
+            <result column="flink_release_path" property="path"/>
+            <result column="flink_release_remark" property="remark"/>
         </association>
         <association property="clusterCredential"
                      javaType="cn.sliew.scaleph.dao.entity.master.resource.ResourceClusterCredential">
-            <result column="id" property="cluster_credential_id"/>
-            <result column="creator" property="cluster_credential_creator"/>
-            <result column="create_time" property="cluster_credential_createTime"/>
-            <result column="editor" property="cluster_credential_editor"/>
-            <result column="update_time" property="cluster_credential_updateTime"/>
-            <result column="config_type" property="cluster_credential_configType"/>
-            <result column="name" property="cluster_credential_name"/>
-            <result column="remark" property="cluster_credential_remark"/>
+            <result column="cluster_credential_id" property="id"/>
+            <result column="cluster_credential_creator" property="creator"/>
+            <result column="cluster_credential_create_time" property="createTime"/>
+            <result column="cluster_credential_editor" property="editor"/>
+            <result column="cluster_credential_update_time" property="updateTime"/>
+            <result column="cluster_credential_config_type" property="configType"/>
+            <result column="cluster_credential_name" property="name"/>
+            <result column="cluster_credential_remark" property="remark"/>
         </association>
     </resultMap>
 
@@ -90,6 +90,41 @@
     </sql>
 
     <select id="list" resultMap="FlinkClusterConfigVOMap">
+        SELECT t1.*,
+               t2.id          AS flink_release_id,
+               t2.version     AS flink_release_version,
+               t2.file_name   AS flink_release_file_name,
+               t2.path        AS flink_release_path,
+               t2.remark      AS flink_release_remark,
+               t2.creator     AS flink_release_creator,
+               t2.create_time AS flink_release_create_time,
+               t2.editor      AS flink_release_editor,
+               t2.update_time AS flink_release_update_time,
+               t3.id          AS cluster_credential_id,
+               t3.config_type AS cluster_credential_config_type,
+               t3.`name`      AS cluster_credential_name,
+               t3.remark      AS cluster_credential_remark,
+               t3.creator     AS cluster_credential_creator,
+               t3.create_time AS cluster_credential_create_time,
+               t3.editor      AS cluster_credential_editor,
+               t3.update_time AS cluster_credential_update_time
+        FROM flink_cluster_config t1
+                     JOIN resource_flink_release t2 ON t1.flink_release_id = t2.id
+                     JOIN resource_cluster_credential t3 ON t1.cluster_credential_id = t3.id
+        <where>
+            <if test="param.name != null and param.name != ''">
+                AND t1.`name` like CONCAT('%', #{param.name},'%')
+            </if>
+            <if test="param.flinkVersion != null and param.flinkVersion != '' ">
+                AND t1.flink_version = #{param.flinkVersion}
+            </if>
+            <if test="param.resourceProvider != null and param.resourceProvider != '' ">
+                AND t1.resource_provider = #{param.resourceProvider}
+            </if>
+            <if test="param.deployMode != null and param.deployMode != '' ">
+                AND t1.deploy_mode = #{param.deployMode}
+            </if>
+        </where>
     </select>
 
     <select id="getById" resultMap="FlinkClusterConfigVOMap">
@@ -104,15 +139,16 @@
                t2.editor      AS flink_release_editor,
                t2.update_time AS flink_release_update_time,
                t3.id          AS cluster_credential_id,
-               t3.config_type,
-               t3.`name`,
-               t3.remark,
-               t3.creator,
-               t3.create_time,
-               t3.editor,
-               t3.update_time
+               t3.config_type AS cluster_credential_config_type,
+               t3.`name`      AS cluster_credential_name,
+               t3.remark      AS cluster_credential_remark,
+               t3.creator     AS cluster_credential_creator,
+               t3.create_time AS cluster_credential_create_time,
+               t3.editor      AS cluster_credential_editor,
+               t3.update_time AS cluster_credential_update_time
         FROM flink_cluster_config t1
                      JOIN resource_flink_release t2 ON t1.flink_release_id = t2.id
-                     JOIN resource_cluster_credential ON t1.cluster_credential_id = t2.id
+                     JOIN resource_cluster_credential t3 ON t1.cluster_credential_id = t3.id
+        WHERE t1.id = #{id}
     </select>
 </mapper>

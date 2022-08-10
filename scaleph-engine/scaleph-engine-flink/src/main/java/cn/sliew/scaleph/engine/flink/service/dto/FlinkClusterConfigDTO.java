@@ -65,7 +65,7 @@ public class FlinkClusterConfigDTO extends BaseDTO {
     private ClusterCredentialDTO clusterCredential;
 
     @ApiModelProperty("flink 集群配置项")
-    private Map<String, Object> configOptions;
+    private Map<String, String> configOptions;
 
     @ApiModelProperty("备注")
     private String remark;

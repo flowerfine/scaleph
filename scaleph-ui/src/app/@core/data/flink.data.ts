@@ -1,4 +1,5 @@
 import {Dict, QueryParam} from './app.data';
+import {ClusterCredential, FlinkRelease} from "./resource.data";
 
 export interface KeyValueConfig {
   key: string;
@@ -11,8 +12,8 @@ export class FlinkClusterConfig {
   flinkVersion?: Dict;
   resourceProvider?: Dict;
   deployMode?: Dict;
-  flinkReleaseId?: number;
-  deployConfigFileId?: number;
+  flinkRelease?: FlinkRelease;
+  clusterCredential?: ClusterCredential;
   configOptions?: { [key: string]: any };
   remark?: string;
   createTime?: Date;

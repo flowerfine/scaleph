@@ -18,17 +18,18 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfig;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfigVO;
 import cn.sliew.scaleph.dao.mapper.master.flink.FlinkClusterConfigMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkClusterConfigConvert;
+import cn.sliew.scaleph.engine.flink.service.convert.FlinkClusterConfigVOConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigListParam;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -67,24 +68,21 @@ public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService 
 
     @Override
     public Page<FlinkClusterConfigDTO> listByPage(FlinkClusterConfigListParam param) {
-        final Page<FlinkClusterConfig> page = flinkClusterConfigMapper.selectPage(
-                new Page<>(param.getCurrent(), param.getPageSize()),
-                Wrappers.lambdaQuery(FlinkClusterConfig.class)
-                        .like(StringUtils.hasText(param.getName()), FlinkClusterConfig::getName, param.getName())
-                        .eq(StringUtils.hasText(param.getFlinkVersion()), FlinkClusterConfig::getFlinkVersion, param.getFlinkVersion())
-                        .eq(StringUtils.hasText(param.getResourceProvider()), FlinkClusterConfig::getResourceProvider, param.getResourceProvider())
-                        .eq(StringUtils.hasText(param.getDeployMode()), FlinkClusterConfig::getDeployMode, param.getDeployMode()));
+        final Page<FlinkClusterConfig> page = new Page<>(param.getCurrent(), param.getPageSize());
+        FlinkClusterConfig flinkClusterConfig = BeanUtil.copy(param, new FlinkClusterConfig());
+        final Page<FlinkClusterConfigVO> flinkClusterConfigVOPage = flinkClusterConfigMapper.list(page, flinkClusterConfig);
+
         Page<FlinkClusterConfigDTO> result =
-                new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
-        List<FlinkClusterConfigDTO> dtoList = FlinkClusterConfigConvert.INSTANCE.toDto(page.getRecords());
+                new Page<>(flinkClusterConfigVOPage.getCurrent(), flinkClusterConfigVOPage.getSize(), flinkClusterConfigVOPage.getTotal());
+        List<FlinkClusterConfigDTO> dtoList = FlinkClusterConfigVOConvert.INSTANCE.toDto(flinkClusterConfigVOPage.getRecords());
         result.setRecords(dtoList);
         return result;
     }
 
     @Override
     public FlinkClusterConfigDTO selectOne(Long id) {
-        FlinkClusterConfig record = flinkClusterConfigMapper.selectById(id);
+        FlinkClusterConfigVO record = flinkClusterConfigMapper.getById(id);
         checkState(record != null, () -> "flink cluster config not exists for id: " + id);
-        return FlinkClusterConfigConvert.INSTANCE.toDto(record);
+        return FlinkClusterConfigVOConvert.INSTANCE.toDto(record);
     }
 }

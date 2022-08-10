@@ -105,8 +105,8 @@ public class FlinkServiceImpl implements FlinkService {
         final FlinkClusterInstanceDTO flinkClusterInstanceDTO = flinkClusterInstanceService.selectOne(id);
         final FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(flinkClusterInstanceDTO.getFlinkClusterConfigId());
         final Path workspace = getWorkspace();
-        final Path flinkDeployConfigPath = loadDeployConfig(flinkClusterConfigDTO.getDeployConfigFileId(), workspace);
-        final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, flinkDeployConfigPath);
+        final Path clusterCredentialPath = loadClusterCredential(flinkClusterConfigDTO.getClusterCredential(), workspace);
+        final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, clusterCredentialPath);
         final DictVO resourceProvider = flinkClusterConfigDTO.getResourceProvider();
         final DictVO deployMode = flinkClusterConfigDTO.getDeployMode();
         if (resourceProvider.getValue().equals(String.valueOf(ResourceProvider.YARN.getCode()))) {
@@ -147,9 +147,9 @@ public class FlinkServiceImpl implements FlinkService {
 
     private ClusterClient createYarnSessionCluster(FlinkClusterConfigDTO flinkClusterConfigDTO) throws Exception {
         final Path workspace = getWorkspace();
-        final Path flinkHomePath = loadFlinkRelease(flinkClusterConfigDTO.getFlinkReleaseId(), workspace);
-        final Path flinkDeployConfigPath = loadDeployConfig(flinkClusterConfigDTO.getDeployConfigFileId(), workspace);
-        final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, flinkDeployConfigPath);
+        final Path flinkHomePath = loadFlinkRelease(flinkClusterConfigDTO.getFlinkRelease(), workspace);
+        final Path clusterCredentialPath = loadClusterCredential(flinkClusterConfigDTO.getClusterCredential(), workspace);
+        final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, clusterCredentialPath);
         ClusterClient<ApplicationId> clusterClient = SessionClient.create(DeploymentTarget.YARN_SESSION, flinkHomePath, configuration);
         FileUtils.deleteDirectory(workspace.toFile());
         return clusterClient;
@@ -157,8 +157,8 @@ public class FlinkServiceImpl implements FlinkService {
 
     private ClusterClient createKubernetesSessionCluster(FlinkClusterConfigDTO flinkClusterConfigDTO) throws Exception {
         final Path workspace = getWorkspace();
-        final Path flinkHomePath = loadFlinkRelease(flinkClusterConfigDTO.getFlinkReleaseId(), workspace);
-        final Path flinkDeployConfigPath = loadDeployConfig(flinkClusterConfigDTO.getDeployConfigFileId(), workspace);
+        final Path flinkHomePath = loadFlinkRelease(flinkClusterConfigDTO.getFlinkRelease(), workspace);
+        final Path flinkDeployConfigPath = loadClusterCredential(flinkClusterConfigDTO.getClusterCredential(), workspace);
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, flinkDeployConfigPath);
         ClusterClient<String> clusterClient = SessionClient.create(DeploymentTarget.NATIVE_KUBERNETES_SESSION, flinkHomePath, configuration);
         FileUtils.deleteDirectory(workspace.toFile());
@@ -167,7 +167,7 @@ public class FlinkServiceImpl implements FlinkService {
 
     private ClusterClient createExistingSessionCluster(FlinkClusterConfigDTO flinkClusterConfigDTO) throws Exception {
         final Path workspace = getWorkspace();
-        final Path flinkDeployConfigPath = loadDeployConfig(flinkClusterConfigDTO.getDeployConfigFileId(), workspace);
+        final Path flinkDeployConfigPath = loadClusterCredential(flinkClusterConfigDTO.getClusterCredential(), workspace);
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, flinkDeployConfigPath);
         // 落库
 
@@ -182,8 +182,7 @@ public class FlinkServiceImpl implements FlinkService {
      *
      * @see ConfigType
      */
-    private Configuration buildConfiguration(FlinkClusterConfigDTO flinkClusterConfigDTO, Path flinkDeployConfigPath) throws IOException {
-        final ClusterCredentialDTO clusterCredentialDTO = clusterCredentialService.selectOne(flinkClusterConfigDTO.getDeployConfigFileId());
+    private Configuration buildConfiguration(FlinkClusterConfigDTO flinkClusterConfigDTO, Path clusterCredentialPath) throws IOException {
         Configuration dynamicProperties;
         if (CollectionUtils.isEmpty(flinkClusterConfigDTO.getConfigOptions())) {
             dynamicProperties = new Configuration();
@@ -191,8 +190,9 @@ public class FlinkServiceImpl implements FlinkService {
             dynamicProperties = Configuration.fromMap(flinkClusterConfigDTO.getConfigOptions());
         }
 
+        final ClusterCredentialDTO clusterCredentialDTO = flinkClusterConfigDTO.getClusterCredential();
         if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ConfigType.FLINK_CONF.getCode()))) {
-            final List<Path> childs = Files.list(flinkDeployConfigPath).collect(Collectors.toList());
+            final List<Path> childs = Files.list(clusterCredentialPath).collect(Collectors.toList());
             if (CollectionUtils.isEmpty(childs)) {
                 return dynamicProperties;
             }
@@ -201,7 +201,7 @@ public class FlinkServiceImpl implements FlinkService {
         }
 
         if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ConfigType.HADOOP_CONF.getCode()))) {
-            dynamicProperties.set(CoreOptions.FLINK_HADOOP_CONF_DIR, flinkDeployConfigPath.toAbsolutePath().toString());
+            dynamicProperties.set(CoreOptions.FLINK_HADOOP_CONF_DIR, clusterCredentialPath.toAbsolutePath().toString());
             dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
             dynamicProperties.setLong(TaskManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
             dynamicProperties.set(TaskManagerOptions.NUM_TASK_SLOTS, 2);
@@ -209,7 +209,7 @@ public class FlinkServiceImpl implements FlinkService {
         }
 
         if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ConfigType.KUBECONFIG.getCode()))) {
-            final List<Path> childs = Files.list(flinkDeployConfigPath).collect(Collectors.toList());
+            final List<Path> childs = Files.list(clusterCredentialPath).collect(Collectors.toList());
             if (CollectionUtils.isEmpty(childs)) {
                 return dynamicProperties;
             }
@@ -228,25 +228,23 @@ public class FlinkServiceImpl implements FlinkService {
         return TempFileUtil.createTempDir();
     }
 
-    private Path loadFlinkRelease(Long flinkReleaseId, Path workspace) throws IOException {
-        final FlinkReleaseDTO releaseDTO = flinkReleaseService.selectOne(flinkReleaseId);
-        final Path tempFile = TempFileUtil.createTempFile(workspace, releaseDTO.getFileName());
+    private Path loadFlinkRelease(FlinkReleaseDTO flinkRelease, Path workspace) throws IOException {
+        final Path tempFile = TempFileUtil.createTempFile(workspace, flinkRelease.getFileName());
         try (final OutputStream outputStream = Files.newOutputStream(tempFile, StandardOpenOption.WRITE)) {
-            flinkReleaseService.download(flinkReleaseId, outputStream);
+            flinkReleaseService.download(flinkRelease.getId(), outputStream);
         }
         final Path untarDir = TarUtil.untar(tempFile);
         return Files.list(untarDir).collect(Collectors.toList()).get(0);
     }
 
-    private Path loadDeployConfig(Long flinkDeployConfigFileId, Path workspace) throws IOException {
-        final ClusterCredentialDTO clusterCredentialDTO = clusterCredentialService.selectOne(flinkDeployConfigFileId);
-        final List<FileStatusVO> fileStatusVOS = clusterCredentialService.listDeployConfigFile(flinkDeployConfigFileId);
-        final Path tempDir = TempFileUtil.createTempDir(workspace, clusterCredentialDTO.getName());
+    private Path loadClusterCredential(ClusterCredentialDTO clusterCredential, Path workspace) throws IOException {
+        final List<FileStatusVO> fileStatusVOS = clusterCredentialService.listDeployConfigFile(clusterCredential.getId());
+        final Path tempDir = TempFileUtil.createTempDir(workspace, clusterCredential.getName());
         for (FileStatusVO fileStatusVO : fileStatusVOS) {
             final Path deployConfigFile = tempDir.resolve(fileStatusVO.getName());
             Files.createFile(deployConfigFile, TempFileUtil.attributes);
             try (final OutputStream outputStream = Files.newOutputStream(deployConfigFile, StandardOpenOption.WRITE)) {
-                clusterCredentialService.downloadDeployConfigFile(flinkDeployConfigFileId, fileStatusVO.getName(), outputStream);
+                clusterCredentialService.downloadDeployConfigFile(clusterCredential.getId(), fileStatusVO.getName(), outputStream);
             }
         }
         return tempDir;

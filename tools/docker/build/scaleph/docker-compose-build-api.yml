@@ -27,8 +27,8 @@ services:
       minio:
         condition: service_started
     build:
-      dockerfile: ../scaleph-api/Dockerfile
-      context: ../../../../scaleph-api
+      context: ../../../../
+      dockerfile: tools/docker/build/scaleph-api/Dockerfile
     ports:
       - 8080:8080
     healthcheck:
