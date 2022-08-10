@@ -1,31 +1,45 @@
 import { SecDept } from "@/services/admin/typings";
-import { ModalFormProps } from "@/app.d";
-import { Form, Input, message, Modal } from "antd";
+import { TreeNode } from "@/app.d";
+import { Form, Input, message, Modal, TreeSelect } from "antd";
 import { useIntl } from "umi";
 import { addDept, updateDept } from "@/services/admin/dept.service";
 
-const DeptForm: React.FC<ModalFormProps<SecDept>> = ({
+interface DeptFormProps<SecDept> {
+    data: SecDept;
+    visible: boolean;
+    isUpdate: boolean;
+    treeData: TreeNode[];
+    onVisibleChange: (visible: boolean) => void;
+    onCancel: () => void;
+}
+
+const DeptForm: React.FC<DeptFormProps<SecDept>> = ({
     data,
     visible,
+    isUpdate,
+    treeData,
     onVisibleChange,
     onCancel,
 }) => {
     const intl = useIntl();
     const [form] = Form.useForm();
+
     return (
         <Modal
             visible={visible}
             title={
-                data.id ?
-                    intl.formatMessage({ id: 'app.common.operate.edit.label' }) + intl.formatMessage({ id: 'pages.admin.user.dept' }) :
-                    intl.formatMessage({ id: 'app.common.operate.new.label' }) + intl.formatMessage({ id: 'pages.admin.user.dept' })
+                isUpdate
+                    ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
+                    intl.formatMessage({ id: 'pages.admin.user.dept' })
+                    : intl.formatMessage({ id: 'app.common.operate.new.label' }) +
+                    intl.formatMessage({ id: 'pages.admin.user.dept' })
             }
             width={580}
             destroyOnClose={true}
             onCancel={onCancel}
             onOk={() => {
                 form.validateFields().then((values) => {
-                    data.id ?
+                    isUpdate ?
                         updateDept({ ...values }).then(d => {
                             if (d.success) {
                                 message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
@@ -51,31 +65,44 @@ const DeptForm: React.FC<ModalFormProps<SecDept>> = ({
                 <Form.Item name="id" hidden>
                     <Input></Input>
                 </Form.Item>
-                {/* <Form.Item
-                    name="dictTypeCode"
-                    label={intl.formatMessage({ id: 'pages.admin.dict.dictTypeCode' })}
+                <Form.Item
+                    name="deptCode"
+                    label={intl.formatMessage({ id: 'pages.admin.user.dept.deptCode' })}
                     rules={[
                         { required: true },
-                        { max: 30 },
+                        { max: 36 },
                         {
                             pattern: /^[a-zA-Z0-9_]+$/,
-                            message: intl.formatMessage({ id: 'app.common.validate.characterWord' })
-                        }]}
+                            message: intl.formatMessage({ id: 'app.common.validate.characterWord' }),
+                        },
+                    ]}
                 >
-                    <Input disabled={data.id ? true : false}></Input>
+                    <Input disabled={isUpdate}></Input>
                 </Form.Item>
                 <Form.Item
-                    name="dictTypeName"
-                    label={intl.formatMessage({ id: 'pages.admin.dict.dictTypeName' })}
-                    rules={[{ required: true }, { max: 100 }]}>
+                    name="deptName"
+                    label={intl.formatMessage({ id: 'pages.admin.user.dept.deptName' })}
+                    rules={[{ required: true }, { max: 60 }]}
+                >
                     <Input></Input>
                 </Form.Item>
                 <Form.Item
-                    name="remark"
-                    label={intl.formatMessage({ id: 'pages.admin.dict.remark' })}
-                    rules={[{ max: 200 }]}>
-                    <Input></Input>
-                </Form.Item> */}
+                    name="pid"
+                    label={intl.formatMessage({ id: 'pages.admin.user.dept.pid' })}
+                >
+                    <TreeSelect
+                        style={{ width: '100%' }}
+                        dropdownStyle={{ maxHeight: 480, overflow: 'auto' }}
+                        treeData={treeData}
+                        fieldNames={{ label: 'title', value: 'key', children: 'children' }}
+                        allowClear={true}
+                        showSearch={true}
+                        treeLine={{ showLeafIcon: false }}
+                        disabled={!isUpdate && data.pid != undefined}
+                        treeDefaultExpandAll={true}
+                    >
+                    </TreeSelect>
+                </Form.Item>
             </Form>
         </Modal>
     );

@@ -29,4 +29,7 @@ export default {
   'pages.admin.user.summary': '简介',
   'pages.admin.user.awaitGrant': '待授权',
   'pages.admin.user.granted': '已授权',
+  'pages.admin.user.dept.deptCode': '部门编码',
+  'pages.admin.user.dept.deptName': '部门名称',
+  'pages.admin.user.dept.pid': '上级部门',
 };

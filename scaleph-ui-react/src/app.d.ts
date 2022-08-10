@@ -75,3 +75,11 @@ export type ModalFormProps<T> = {
   onVisibleChange: (visible: boolean) => void;
   onCancel: () => void;
 };
+
+export type TreeNode = {
+  key: React.Key;
+  title: React.ReactNode;
+  children?: TreeNode[];
+  origin?: any;
+  showOpIcon?: boolean;
+};
