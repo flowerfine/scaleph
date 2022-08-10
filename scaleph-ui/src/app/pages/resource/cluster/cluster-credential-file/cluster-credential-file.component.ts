@@ -37,7 +37,7 @@ export class ClusterCredentialFileComponent implements OnInit {
     private translate: TranslateService,
     private modalService: ModalService,
     private dictDataService: SysDictDataService,
-    private deployConfigService: ClusterCredentialService,
+    private clusterCredentialService: ClusterCredentialService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -45,7 +45,7 @@ export class ClusterCredentialFileComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.deployConfigService.selectOne(params.id).subscribe((d) => {
+      this.clusterCredentialService.selectOne(params.id).subscribe((d) => {
         this.flinkDeployConfig = d
         this.refreshTable();
       });
@@ -54,7 +54,7 @@ export class ClusterCredentialFileComponent implements OnInit {
 
   refreshTable() {
     this.openDataTableLoading();
-    this.deployConfigService.getFiles(this.flinkDeployConfig?.id).subscribe((d) => {
+    this.clusterCredentialService.getFiles(this.flinkDeployConfig?.id).subscribe((d) => {
       this.dataTableDs = d;
       this.loadTarget.loadingInstance.close();
       this.dataLoading = false;
@@ -82,14 +82,14 @@ export class ClusterCredentialFileComponent implements OnInit {
     }
   }
 
-  openUploadDeployConfigFileDialog() {
+  openUploadClusterCredentialFileDialog() {
     const results = this.modalService.open({
       id: 'cluster-credential-file-upload',
       width: '580px',
       backdropCloseable: true,
       component: ClusterCredentialFileUploadComponent,
       data: {
-        title: {name: this.translate.instant('resource.cluster-config-file.name_')},
+        title: {name: this.translate.instant('resource.cluster-credential-file.name_')},
         flinkDeployConfig: this.flinkDeployConfig,
         onClose: (event: any) => {
           results.modalInstance.hide();
@@ -101,7 +101,7 @@ export class ClusterCredentialFileComponent implements OnInit {
     });
   }
 
-  downloadDeployConfigFile(item: FileStatus) {
+  downloadClusterCredentialFile(item: FileStatus) {
     let url: string =
       'api/resource/cluster-credential/' + this.flinkDeployConfig.id + '/file/' + item.name
     '?' +
@@ -115,7 +115,7 @@ export class ClusterCredentialFileComponent implements OnInit {
     window.URL.revokeObjectURL(url);
   }
 
-  openDeleteDeployConfigFileDialog(items: FileStatus[]) {
+  openDeleteClusterCredentialFileDialog(items: FileStatus[]) {
     const results = this.modalService.open({
       id: 'cluster-credential-file-delete',
       width: '346px',

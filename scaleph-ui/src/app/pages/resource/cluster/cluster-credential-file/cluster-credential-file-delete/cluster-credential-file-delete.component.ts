@@ -3,14 +3,14 @@ import {ClusterCredentialService} from "../../../../../@core/services/resource/c
 
 @Component({
   selector: 'app-cluster-credential-file-delete',
-  templateUrl: './cluster-config-file-delete.component.html',
+  templateUrl: './cluster-credential-file-delete.component.html',
   styleUrls: ['../cluster-credential-file.component.scss'],
 })
 export class ClusterCredentialFileDeleteComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
 
-  constructor(private elr: ElementRef, private deployConfigService: ClusterCredentialService) {
+  constructor(private elr: ElementRef, private clusterCredentialService: ClusterCredentialService) {
   }
 
   ngOnInit(): void {
@@ -18,7 +18,7 @@ export class ClusterCredentialFileDeleteComponent implements OnInit {
   }
 
   delete() {
-    this.deployConfigService.deleteFiles(this.data.id, this.data.items).subscribe((d) => {
+    this.clusterCredentialService.deleteFiles(this.data.id, this.data.items).subscribe((d) => {
       if (d.success) {
         this.data.refresh();
       }

@@ -41,7 +41,7 @@ export class ClusterCredentialComponent implements OnInit {
     private translate: TranslateService,
     private modalService: ModalService,
     private dictDataService: SysDictDataService,
-    private deployConfigService: ClusterCredentialService,
+    private clusterCredentialService: ClusterCredentialService,
     private router: Router
   ) {
   }
@@ -62,7 +62,7 @@ export class ClusterCredentialComponent implements OnInit {
       name: this.searchFormConfig.name,
     };
 
-    this.deployConfigService.list(param).subscribe((d) => {
+    this.clusterCredentialService.list(param).subscribe((d) => {
       this.pager.total = d.total;
       this.dataTableDs = d.records;
       this.loadTarget.loadingInstance.close();
@@ -102,14 +102,14 @@ export class ClusterCredentialComponent implements OnInit {
     this.refreshTable();
   }
 
-  openAddDeployConfigDialog() {
+  openAddClusterCredentialDialog() {
     const results = this.modalService.open({
       id: 'cluster-credential-add',
       width: '580px',
       backdropCloseable: true,
       component: ClusterCredentialNewComponent,
       data: {
-        title: {name: this.translate.instant('resource.cluster-config.name_')},
+        title: {name: this.translate.instant('resource.cluster-credential.name_')},
         onClose: (event: any) => {
           results.modalInstance.hide();
         },
@@ -120,22 +120,22 @@ export class ClusterCredentialComponent implements OnInit {
     });
   }
 
-  openDeployConfig(row: ClusterCredential) {
-    this.router.navigate(['/scaleph', 'resource', 'cluster-config-file'], {
+  openClusterCredential(row: ClusterCredential) {
+    this.router.navigate(['/scaleph', 'resource', 'cluster-credential-file'], {
       queryParams: {
         id: row.id
       }
     });
   }
 
-  openEditDeployConfigDialog(item: ClusterCredential) {
+  openEditClusterCredentialDialog(item: ClusterCredential) {
     const results = this.modalService.open({
       id: 'cluster-credential-edit',
       width: '580px',
       backdropCloseable: true,
       component: ClusterCredentialUpdateComponent,
       data: {
-        title: {name: this.translate.instant('resource.cluster-config.name_')},
+        title: {name: this.translate.instant('resource.cluster-credential.name_')},
         item: item,
         onClose: (event: any) => {
           results.modalInstance.hide();
@@ -147,7 +147,7 @@ export class ClusterCredentialComponent implements OnInit {
     });
   }
 
-  openDeleteDeployConfigDialog(items: ClusterCredential[]) {
+  openDeleteClusterCredentialDialog(items: ClusterCredential[]) {
     const results = this.modalService.open({
       id: 'cluster-credential-delete',
       width: '346px',

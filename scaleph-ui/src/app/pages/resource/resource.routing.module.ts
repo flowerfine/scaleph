@@ -14,7 +14,7 @@ const routes: Routes = [
       {path: 'flink', component: ReleaseFlinkComponent},
       {path: 'seatunnel', component: ReleaseSeatunnelComponent},
       {path: 'cluster', component: ClusterCredentialComponent},
-      {path: 'cluster-config-file', component: ClusterCredentialFileComponent},
+      {path: 'cluster-credential-file', component: ClusterCredentialFileComponent},
       {path: '', redirectTo: 'flink', pathMatch: 'full'},
     ],
   },
