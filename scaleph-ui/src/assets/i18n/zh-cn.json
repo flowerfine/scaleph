@@ -531,13 +531,13 @@
       "file": "文件",
       "upload": "上传"
     },
-    "cluster-config": {
+    "cluster-credential": {
       "name_": "集群资源",
       "configType": "集群类型",
       "name": "集群名称"
     },
-    "cluster-config-file": {
-      "name_": "集群配置文件",
+    "cluster-credential-file": {
+      "name_": "集群凭证",
       "name": "文件名",
       "len": "文件大小",
       "modificationTime": "修改时间",

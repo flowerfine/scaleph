@@ -173,8 +173,8 @@ export class ClusterConfigNewComponent implements OnInit, AfterContentInit {
       flinkVersion: this.formData.flinkVersion,
       resourceProvider: this.formData.resourceProvider,
       deployMode: this.formData.deployMode,
-      flinkReleaseId: this.formData.flinkRelease.id,
-      deployConfigFileId: this.formData.flinkDeployConfig.id,
+      flinkRelease: this.formData.flinkRelease,
+      clusterCredential: this.formData.flinkDeployConfig,
       configOptions: customConfigOptions,
       remark: this.formData.remark
     };

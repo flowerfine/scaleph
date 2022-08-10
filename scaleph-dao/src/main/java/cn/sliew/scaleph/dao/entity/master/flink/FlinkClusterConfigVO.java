@@ -19,6 +19,8 @@
 package cn.sliew.scaleph.dao.entity.master.flink;
 
 import cn.sliew.scaleph.dao.entity.BaseDO;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceClusterCredential;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceFlinkRelease;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -33,9 +35,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("flink_cluster_config")
 @ApiModel(value = "FlinkClusterConfig对象", description = "flink 集群配置")
-public class FlinkClusterConfig extends BaseDO {
+public class FlinkClusterConfigVO extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
@@ -56,12 +57,10 @@ public class FlinkClusterConfig extends BaseDO {
     private String deployMode;
 
     @ApiModelProperty("flink release")
-    @TableField("flink_release_id")
-    private Long flinkReleaseId;
+    private ResourceFlinkRelease flinkRelease;
 
     @ApiModelProperty("集群凭证 id。如 hadoop 的 core-site.xml，kubernetes 的 kubeconfig")
-    @TableField("cluster_credential_id")
-    private Long clusterCredentialId;
+    private ResourceClusterCredential clusterCredential;
 
     @ApiModelProperty("flink 集群配置项")
     @TableField("config_options")

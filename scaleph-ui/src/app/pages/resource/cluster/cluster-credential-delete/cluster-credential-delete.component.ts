@@ -10,7 +10,7 @@ export class ClusterCredentialDeleteComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
 
-  constructor(private elr: ElementRef, private deployConfigService: ClusterCredentialService) {
+  constructor(private elr: ElementRef, private clusterCredentialService: ClusterCredentialService) {
   }
 
   ngOnInit(): void {
@@ -18,7 +18,7 @@ export class ClusterCredentialDeleteComponent implements OnInit {
   }
 
   delete() {
-    this.deployConfigService.deleteBatch(this.data.items).subscribe((d) => {
+    this.clusterCredentialService.deleteBatch(this.data.items).subscribe((d) => {
       if (d.success) {
         this.data.refresh();
       }

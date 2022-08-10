@@ -38,7 +38,7 @@ export class ClusterCredentialUpdateComponent implements OnInit {
     remark: null,
   };
 
-  constructor(private elr: ElementRef, private translate: TranslateService, private deployConfigService: ClusterCredentialService) {
+  constructor(private elr: ElementRef, private translate: TranslateService, private clusterCredentialService: ClusterCredentialService) {
   }
 
   ngOnInit(): void {
@@ -59,7 +59,7 @@ export class ClusterCredentialUpdateComponent implements OnInit {
       remark: this.formData.remark,
     };
     if (valid) {
-      this.deployConfigService.update(ds).subscribe((d) => {
+      this.clusterCredentialService.update(ds).subscribe((d) => {
         if (d.success) {
           this.data.onClose();
           this.data.refresh();
