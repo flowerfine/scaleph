@@ -8,11 +8,11 @@ import {AuthService} from 'src/app/@core/services/auth.service';
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
 import {ReleaseFlinkUploadComponent} from "./release-flink-upload/release-flink-upload.component";
 import {ReleaseFlinkDeleteComponent} from "./release-flink-delete/release-flink-delete.component";
-import {ReleaseFlinkService} from "../../../@core/services/resource/release-flink.service";
-import {ReleaseFlink, ReleaseFlinkParam} from "../../../@core/data/resource.data";
+import {FlinkReleaseService} from "../../../@core/services/resource/flink-release.service";
+import {FlinkRelease, FlinkReleaseParam} from "../../../@core/data/resource.data";
 
 @Component({
-  selector: 'app-release-flink',
+  selector: 'app-flink-release',
   templateUrl: './release-flink.component.html',
   styleUrls: ['./release-flink.component.scss'],
 })
@@ -22,7 +22,7 @@ export class ReleaseFlinkComponent implements OnInit {
   dataLoading: boolean = false;
   dataTableChecked: boolean = false;
   loadTarget: any;
-  dataTableDs: ReleaseFlink[] = [];
+  dataTableDs: FlinkRelease[] = [];
   pager = {
     total: 0,
     pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -41,7 +41,7 @@ export class ReleaseFlinkComponent implements OnInit {
     private translate: TranslateService,
     private modalService: ModalService,
     private dictDataService: SysDictDataService,
-    private releaseFlinkService: ReleaseFlinkService,
+    private releaseFlinkService: FlinkReleaseService,
     private router: Router
   ) {
   }
@@ -55,7 +55,7 @@ export class ReleaseFlinkComponent implements OnInit {
 
   refreshTable() {
     this.openDataTableLoading();
-    let param: ReleaseFlinkParam = {
+    let param: FlinkReleaseParam = {
       pageSize: this.pager.pageSize,
       current: this.pager.pageIndex,
       version: this.searchFormConfig.version ? this.searchFormConfig.version.value : '',
@@ -104,7 +104,7 @@ export class ReleaseFlinkComponent implements OnInit {
 
   openUploadReleaseDialog() {
     const results = this.modalService.open({
-      id: 'release-flink-upload',
+      id: 'flink-release-upload',
       width: '580px',
       backdropCloseable: true,
       component: ReleaseFlinkUploadComponent,
@@ -120,9 +120,9 @@ export class ReleaseFlinkComponent implements OnInit {
     });
   }
 
-  openDeleteReleaseDialog(items: ReleaseFlink[]) {
+  openDeleteReleaseDialog(items: FlinkRelease[]) {
     const results = this.modalService.open({
-      id: 'release-flink-delete',
+      id: 'flink-release-delete',
       width: '346px',
       backdropCloseable: true,
       component: ReleaseFlinkDeleteComponent,
@@ -139,9 +139,9 @@ export class ReleaseFlinkComponent implements OnInit {
     });
   }
 
-  downloadRelease(item: ReleaseFlink) {
+  downloadRelease(item: FlinkRelease) {
     let url: string =
-      'api/resource/release/flink/download/' + item.id +
+      'api/resource/flink-release/download/' + item.id +
       '?' +
       USER_AUTH.token +
       '=' +

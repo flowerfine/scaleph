@@ -1,6 +1,6 @@
 import { Dict, QueryParam } from './app.data';
 
-export class ReleaseFlink {
+export class FlinkRelease {
   id?: number;
   version?: Dict;
   fileName?: string;
@@ -10,18 +10,18 @@ export class ReleaseFlink {
   updateTime?: Date;
 }
 
-export class ReleaseFlinkParam extends QueryParam {
+export class FlinkReleaseParam extends QueryParam {
   version?: string;
   fileName?: string;
 }
 
-export class ReleaseFlinkUploadParam {
+export class FlinkReleaseUploadParam {
   version?: string;
   file?: File;
   remark?: string;
 }
 
-export class ReleaseSeaTunnel {
+export class SeaTunnelRelease {
   id?: number;
   version?: Dict;
   fileName?: string;
@@ -31,13 +31,42 @@ export class ReleaseSeaTunnel {
   updateTime?: Date;
 }
 
-export class ReleaseSeaTunnelParam extends QueryParam {
+export class SeaTunnelReleaseParam extends QueryParam {
   version?: string;
   fileName?: string;
 }
 
-export class ReleaseSeaTunnelUploadParam {
+export class SeaTunnelReleaseUploadParam {
   version?: string;
   file?: File;
   remark?: string;
+}
+
+export class ClusterCredential {
+  id?: number;
+  configType?: Dict;
+  name?: string;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+}
+
+export class ClusterCredentialParam extends QueryParam {
+  configType?: string;
+  name?: string;
+}
+
+export class ClusterCredentialUploadParam {
+  configType?: string;
+  name?: string;
+  files?: File[];
+  remark?: string;
+}
+
+export class FileStatus {
+  name?: string;
+  len?: number;
+  blockSize?: number;
+  modificationTime?: Date;
+  accessTime?: Date;
 }

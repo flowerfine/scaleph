@@ -2,7 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {PageResponse, ResponseBody} from '../../data/app.data';
-import {FlinkClusterConfig, FlinkDeployConfig} from '../../data/flink.data';
+import {FlinkClusterConfig} from '../../data/flink.data';
 
 @Injectable({
   providedIn: 'root',

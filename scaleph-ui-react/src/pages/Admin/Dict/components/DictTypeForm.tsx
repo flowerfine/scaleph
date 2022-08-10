@@ -27,7 +27,6 @@ const DictTypeForm: React.FC<ModalFormProps<SysDictType>> = ({
                 form.validateFields().then((values) => {
                     data.id ?
                         updateDictType({ ...values }).then(d => {
-                            console.log(values);
                             if (d.success) {
                                 message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
                                 onVisibleChange(false);

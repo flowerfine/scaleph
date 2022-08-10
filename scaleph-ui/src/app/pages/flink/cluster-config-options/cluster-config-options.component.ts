@@ -7,10 +7,15 @@ import {DEFAULT_PAGE_PARAM, Dict, DICT_TYPE, PageResponse, PRIVILEGE_CODE} from 
 import {AuthService} from 'src/app/@core/services/auth.service';
 import {ClusterConfigService} from "../../../@core/services/flink/cluster-config.service";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
-import {FlinkDeployConfig, FlinkDeployConfigParam} from "../../../@core/data/flink.data";
-import {DeployConfigService} from "../../../@core/services/flink/deploy-config.service";
-import {ReleaseFlinkService} from "../../../@core/services/resource/release-flink.service";
-import {ReleaseFlink, ReleaseFlinkParam} from "../../../@core/data/resource.data";
+import {FlinkClusterConfig} from "../../../@core/data/flink.data";
+import {ClusterCredentialService} from "../../../@core/services/resource/cluster-credential.service";
+import {FlinkReleaseService} from "../../../@core/services/resource/flink-release.service";
+import {
+  ClusterCredential,
+  ClusterCredentialParam,
+  FlinkRelease,
+  FlinkReleaseParam
+} from "../../../@core/data/resource.data";
 
 @Component({
   selector: 'app-cluster-config-options',
@@ -43,14 +48,15 @@ export class ClusterConfigOptionsComponent implements OnInit {
     flinkRelease: null,
     flinkDeployConfig: null,
     deployMode: null,
-    configOptions: {}
+    configOptions: {},
+    remark: null
   }
 
-  flinkReleaseList: ReleaseFlink[] = []
-  flinkReleaseResult: PageResponse<ReleaseFlink> = null
+  flinkReleaseList: FlinkRelease[] = []
+  flinkReleaseResult: PageResponse<FlinkRelease> = null
 
-  flinkDeployConfigList: FlinkDeployConfig[] = []
-  flinkDeployConfigResult: PageResponse<FlinkDeployConfig> = null
+  flinkDeployConfigList: ClusterCredential[] = []
+  flinkDeployConfigResult: PageResponse<ClusterCredential> = null
 
   flinkStateBackendList: Dict[] = []
   deployModeList: Dict[] = []
@@ -66,8 +72,8 @@ export class ClusterConfigOptionsComponent implements OnInit {
     private translate: TranslateService,
     private modalService: ModalService,
     private dictDataService: SysDictDataService,
-    private releaseFlinkService: ReleaseFlinkService,
-    private deployConfigService: DeployConfigService,
+    private releaseFlinkService: FlinkReleaseService,
+    private deployConfigService: ClusterCredentialService,
     private clusterConfigService: ClusterConfigService,
     private router: Router
   ) {
@@ -93,7 +99,7 @@ export class ClusterConfigOptionsComponent implements OnInit {
       this.flinkHAList = d;
     });
 
-    let releaseFlinkParam: ReleaseFlinkParam = {
+    let releaseFlinkParam: FlinkReleaseParam = {
       pageSize: DEFAULT_PAGE_PARAM.pageSize,
       current: DEFAULT_PAGE_PARAM.pageIndex
     }
@@ -102,7 +108,7 @@ export class ClusterConfigOptionsComponent implements OnInit {
       this.flinkReleaseList = d.records;
     });
 
-    let flinkDeployConfigParam: FlinkDeployConfigParam = {
+    let flinkDeployConfigParam: ClusterCredentialParam = {
       pageSize: DEFAULT_PAGE_PARAM.pageSize,
       current: DEFAULT_PAGE_PARAM.pageIndex
     }
@@ -110,10 +116,6 @@ export class ClusterConfigOptionsComponent implements OnInit {
       this.flinkDeployConfigResult = d
       this.flinkDeployConfigList = d.records;
     });
-  }
-
-  onValueChange(event) {
-    console.log(this.formData)
   }
 
   onRestartStrategyValueChange(event) {
@@ -133,7 +135,7 @@ export class ClusterConfigOptionsComponent implements OnInit {
     if (loaded >= this.flinkReleaseResult.total) {
       event.instance.loadFinish();
     } else {
-      let releaseFlinkParam: ReleaseFlinkParam = {
+      let releaseFlinkParam: FlinkReleaseParam = {
         pageSize: this.flinkReleaseResult.size,
         current: this.flinkReleaseResult.current + 1
       }
@@ -150,7 +152,7 @@ export class ClusterConfigOptionsComponent implements OnInit {
     if (loaded >= this.flinkDeployConfigResult.total) {
       event.instance.loadFinish();
     } else {
-      let flinkDeployConfigParam: FlinkDeployConfigParam = {
+      let flinkDeployConfigParam: ClusterCredentialParam = {
         pageSize: this.flinkDeployConfigResult.size,
         current: this.flinkDeployConfigResult.current + 1
       }
@@ -162,5 +164,38 @@ export class ClusterConfigOptionsComponent implements OnInit {
     }
   }
 
+
+
+  submitForm() {
+    let isDict = (vlaue: any): vlaue is Dict =>
+      typeof (vlaue as Dict)['label'] == 'string'
+
+    let customConfigOptions: { [key: string]: any } = {};
+    for (let key in this.formData.configOptions) {
+      let value = this.formData.configOptions[key]
+      if (isDict(value)) {
+        customConfigOptions[key] = value['value']
+      } else {
+        customConfigOptions[key] = value
+      }
+    }
+
+    let row: FlinkClusterConfig = {
+      name: this.formData.name,
+      flinkVersion: this.formData.flinkRelease.version,
+      resourceProvider: this.formData.flinkDeployConfig.configType,
+      deployMode: this.formData.deployMode,
+      flinkReleaseId: this.formData.flinkRelease.id,
+      deployConfigFileId: this.formData.flinkDeployConfig.id,
+      configOptions: customConfigOptions,
+      remark: this.formData.remark
+    };
+
+    this.clusterConfigService.add(row).subscribe((d) => {
+      if (d.success) {
+
+      }
+    });
+  }
 
 }

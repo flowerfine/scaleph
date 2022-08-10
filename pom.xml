@@ -86,17 +86,19 @@
 
     <modules>
         <module>scaleph-ui</module>
+        <module>scaleph-ui-react</module>
+
         <module>scaleph-common</module>
         <module>scaleph-dao</module>
         <module>scaleph-security</module>
-        <module>scaleph-api</module>
+        <module>scaleph-resource</module>
+        <module>scaleph-support</module>
 
+        <module>scaleph-api</module>
+        <module>scaleph-core</module>
         <module>scaleph-meta</module>
         <module>scaleph-engine</module>
-        <module>scaleph-support</module>
         <module>scaleph-plugins</module>
-        <module>scaleph-core</module>
-        <module>scaleph-ui-react</module>
     </modules>
 
     <properties>
@@ -173,6 +175,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-resource</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

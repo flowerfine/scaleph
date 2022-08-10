@@ -8,11 +8,11 @@ import {AuthService} from 'src/app/@core/services/auth.service';
 import {ReleaseSeatunnelUploadComponent} from "./release-seatunnel-upload/release-seatunnel-upload.component";
 import {ReleaseSeatunnelDeleteComponent} from "./release-seatunnel-delete/release-seatunnel-delete.component";
 import {SysDictDataService} from "../../../@core/services/admin/dict-data.service";
-import {ReleaseSeaTunnelService} from "../../../@core/services/resource/release-seatunnel.service";
-import {ReleaseSeaTunnel, ReleaseSeaTunnelParam} from "../../../@core/data/resource.data";
+import {SeatunnelReleaseService} from "../../../@core/services/resource/seatunnel-release.service";
+import {SeaTunnelRelease, SeaTunnelReleaseParam} from "../../../@core/data/resource.data";
 
 @Component({
-  selector: 'app-release-seatunnel',
+  selector: 'app-seatunnel-release',
   templateUrl: './release-seatunnel.component.html',
   styleUrls: ['./release-seatunnel.component.scss'],
 })
@@ -22,7 +22,7 @@ export class ReleaseSeatunnelComponent implements OnInit {
   dataLoading: boolean = false;
   dataTableChecked: boolean = false;
   loadTarget: any;
-  dataTableDs: ReleaseSeaTunnel[] = [];
+  dataTableDs: SeaTunnelRelease[] = [];
   pager = {
     total: 0,
     pageIndex: DEFAULT_PAGE_PARAM.pageIndex,
@@ -41,7 +41,7 @@ export class ReleaseSeatunnelComponent implements OnInit {
     private translate: TranslateService,
     private modalService: ModalService,
     private dictDataService: SysDictDataService,
-    private releaseSeaTunnelService: ReleaseSeaTunnelService,
+    private releaseSeaTunnelService: SeatunnelReleaseService,
     private router: Router
   ) {
   }
@@ -55,7 +55,7 @@ export class ReleaseSeatunnelComponent implements OnInit {
 
   refreshTable() {
     this.openDataTableLoading();
-    let param: ReleaseSeaTunnelParam = {
+    let param: SeaTunnelReleaseParam = {
       pageSize: this.pager.pageSize,
       current: this.pager.pageIndex,
       version: this.searchFormConfig.version ? this.searchFormConfig.version.value : '',
@@ -104,7 +104,7 @@ export class ReleaseSeatunnelComponent implements OnInit {
 
   openUploadReleaseDialog() {
     const results = this.modalService.open({
-      id: 'release-seatunnel-upload',
+      id: 'seatunnel-release-upload',
       width: '580px',
       backdropCloseable: true,
       component: ReleaseSeatunnelUploadComponent,
@@ -120,9 +120,9 @@ export class ReleaseSeatunnelComponent implements OnInit {
     });
   }
 
-  openDeleteReleaseDialog(items: ReleaseSeaTunnel[]) {
+  openDeleteReleaseDialog(items: SeaTunnelRelease[]) {
     const results = this.modalService.open({
-      id: 'release-seatunnel-delete',
+      id: 'seatunnel-release-delete',
       width: '346px',
       backdropCloseable: true,
       component: ReleaseSeatunnelDeleteComponent,
@@ -139,9 +139,9 @@ export class ReleaseSeatunnelComponent implements OnInit {
     });
   }
 
-  downloadRelease(item: ReleaseSeaTunnel) {
+  downloadRelease(item: SeaTunnelRelease) {
     let url: string =
-      'api/resource/release/seatunnel/download/' + item.id +
+      'api/resource/seatunnel-release/download/' + item.id +
       '?' +
       USER_AUTH.token +
       '=' +
