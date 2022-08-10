@@ -33,7 +33,7 @@ export async function deleteDept(row: SecDept) {
 }
 
 export async function grantDeptToUsers(deptId: string, userIds: string[]) {
-  return request<ResponseBody<any>>(`${url}`, {
+  return request<ResponseBody<any>>(`${url}/grant`, {
     method: 'POST',
     data: { deptId: deptId, userIds: JSON.stringify(userIds) },
     headers: { 'Content-Type': 'multipart/form-data' },

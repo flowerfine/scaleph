@@ -38,6 +38,7 @@ export default {
   'app.common.operate.delete.confirm.title': '确认删除？',
   'app.common.operate.delete.confirm.content': '数据删除后不可恢复，请谨慎操作！',
   'app.common.operate.refresh.label': '刷新',
+  'app.common.operate.search.label': '搜索',
   'app.common.operate.query.label': '查询',
   'app.common.operate.reset.label': '重置',
   'app.common.operate.confirm.label': '确认',
