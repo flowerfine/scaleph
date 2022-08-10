@@ -73,6 +73,10 @@
           "title": "修改{{name}}",
           "success": "修改成功"
         },
+        "save": {
+          "label": "保存",
+          "success": "保存成功"
+        },
         "delete": {
           "label": "删除",
           "title": "删除{{name}}",

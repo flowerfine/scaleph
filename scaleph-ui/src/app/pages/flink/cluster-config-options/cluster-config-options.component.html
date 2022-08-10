@@ -3,8 +3,22 @@
     <d-row [dGutter]="[12, 12]">
       <d-col [dSpan]="24">
         <div class="da-list-container">
-          <div class="list-content">
-            <b>Configuration</b>
+          <div class="da-list-header">
+            <div class="da-header-left">
+              <d-row [dSpace]="15" [dAlign]="'center'" [dSpaceDirection]="'horizontal'">
+                <d-col>
+                  <div class="da-header-item-label">集群配置</div>
+                </d-col>
+              </d-row>
+            </div>
+            <div class="header-right">
+              <d-button style="margin-right: 8px" bsStyle="primary" (btnClick)="submitForm()">
+                {{ 'app.common.operate.save.label' | translate }}
+              </d-button>
+              <d-button bsStyle="common">
+                {{ 'app.common.operate.cancel.label' | translate }}
+              </d-button>
+            </div>
           </div>
         </div>
       </d-col>
@@ -47,7 +61,7 @@
                         <d-form-item>
                           <d-form-label [required]="true" style="flex: 0 0 180px;">备注:</d-form-label>
                           <d-form-control>
-                            <input dTextInput name="remark" />
+                            <input dTextInput name="remark" [(ngModel)]="formData.remark" />
                           </d-form-control>
                         </d-form-item>
                       </div>
@@ -142,7 +156,6 @@
                           <d-form-control>
                             <d-toggle name="execution.checkpointing.unaligned"
                                       [size]="'sm'"
-                                      (change)="onValueChange($event)"
                                       [(ngModel)]="formData.configOptions['execution.checkpointing.unaligned']"></d-toggle>
                           </d-form-control>
                         </d-form-item>

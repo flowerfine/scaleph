@@ -31,10 +31,12 @@ import cn.sliew.scaleph.engine.flink.enums.FlinkClusterStatus;
 import cn.sliew.scaleph.engine.flink.service.*;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterInstanceDTO;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkDeployConfigFileDTO;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkReleaseDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
-import cn.sliew.scaleph.engine.flink.service.vo.FileStatusVO;
+import cn.sliew.scaleph.resource.service.ClusterCredentialService;
+import cn.sliew.scaleph.resource.service.FlinkReleaseService;
+import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
+import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
+import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -65,7 +67,7 @@ public class FlinkServiceImpl implements FlinkService {
     @Autowired
     private FlinkReleaseService flinkReleaseService;
     @Autowired
-    private FlinkDeployConfigFileService flinkDeployConfigFileService;
+    private ClusterCredentialService clusterCredentialService;
     @Autowired
     private FlinkClusterInstanceService flinkClusterInstanceService;
 
@@ -181,7 +183,7 @@ public class FlinkServiceImpl implements FlinkService {
      * @see ConfigType
      */
     private Configuration buildConfiguration(FlinkClusterConfigDTO flinkClusterConfigDTO, Path flinkDeployConfigPath) throws IOException {
-        final FlinkDeployConfigFileDTO flinkDeployConfigFileDTO = flinkDeployConfigFileService.selectOne(flinkClusterConfigDTO.getDeployConfigFileId());
+        final ClusterCredentialDTO clusterCredentialDTO = clusterCredentialService.selectOne(flinkClusterConfigDTO.getDeployConfigFileId());
         Configuration dynamicProperties;
         if (CollectionUtils.isEmpty(flinkClusterConfigDTO.getConfigOptions())) {
             dynamicProperties = new Configuration();
@@ -189,7 +191,7 @@ public class FlinkServiceImpl implements FlinkService {
             dynamicProperties = Configuration.fromMap(flinkClusterConfigDTO.getConfigOptions());
         }
 
-        if (flinkDeployConfigFileDTO.getConfigType().getValue().equals(String.valueOf(ConfigType.FLINK_CONF.getCode()))) {
+        if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ConfigType.FLINK_CONF.getCode()))) {
             final List<Path> childs = Files.list(flinkDeployConfigPath).collect(Collectors.toList());
             if (CollectionUtils.isEmpty(childs)) {
                 return dynamicProperties;
@@ -198,7 +200,7 @@ public class FlinkServiceImpl implements FlinkService {
             return GlobalConfiguration.loadConfiguration(flinkConf.toAbsolutePath().toString(), dynamicProperties);
         }
 
-        if (flinkDeployConfigFileDTO.getConfigType().getValue().equals(String.valueOf(ConfigType.HADOOP_CONF.getCode()))) {
+        if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ConfigType.HADOOP_CONF.getCode()))) {
             dynamicProperties.set(CoreOptions.FLINK_HADOOP_CONF_DIR, flinkDeployConfigPath.toAbsolutePath().toString());
             dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
             dynamicProperties.setLong(TaskManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
@@ -206,7 +208,7 @@ public class FlinkServiceImpl implements FlinkService {
             return dynamicProperties;
         }
 
-        if (flinkDeployConfigFileDTO.getConfigType().getValue().equals(String.valueOf(ConfigType.KUBECONFIG.getCode()))) {
+        if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ConfigType.KUBECONFIG.getCode()))) {
             final List<Path> childs = Files.list(flinkDeployConfigPath).collect(Collectors.toList());
             if (CollectionUtils.isEmpty(childs)) {
                 return dynamicProperties;
@@ -237,14 +239,14 @@ public class FlinkServiceImpl implements FlinkService {
     }
 
     private Path loadDeployConfig(Long flinkDeployConfigFileId, Path workspace) throws IOException {
-        final FlinkDeployConfigFileDTO flinkDeployConfigFileDTO = flinkDeployConfigFileService.selectOne(flinkDeployConfigFileId);
-        final List<FileStatusVO> fileStatusVOS = flinkDeployConfigFileService.listDeployConfigFile(flinkDeployConfigFileId);
-        final Path tempDir = TempFileUtil.createTempDir(workspace, flinkDeployConfigFileDTO.getName());
+        final ClusterCredentialDTO clusterCredentialDTO = clusterCredentialService.selectOne(flinkDeployConfigFileId);
+        final List<FileStatusVO> fileStatusVOS = clusterCredentialService.listDeployConfigFile(flinkDeployConfigFileId);
+        final Path tempDir = TempFileUtil.createTempDir(workspace, clusterCredentialDTO.getName());
         for (FileStatusVO fileStatusVO : fileStatusVOS) {
             final Path deployConfigFile = tempDir.resolve(fileStatusVO.getName());
             Files.createFile(deployConfigFile, TempFileUtil.attributes);
             try (final OutputStream outputStream = Files.newOutputStream(deployConfigFile, StandardOpenOption.WRITE)) {
-                flinkDeployConfigFileService.downloadDeployConfigFile(flinkDeployConfigFileId, fileStatusVO.getName(), outputStream);
+                clusterCredentialService.downloadDeployConfigFile(flinkDeployConfigFileId, fileStatusVO.getName(), outputStream);
             }
         }
         return tempDir;

@@ -10,17 +10,21 @@ import {ReleaseSeatunnelDeleteComponent} from "./seatunnel/release-seatunnel-del
 import {ReleaseFlinkComponent} from "./flink/release-flink.component";
 import {ReleaseFlinkUploadComponent} from "./flink/release-flink-upload/release-flink-upload.component";
 import {ReleaseFlinkDeleteComponent} from "./flink/release-flink-delete/release-flink-delete.component";
-import {ClusterConfigComponent} from "./cluster/cluster-config.component";
-import {ClusterConfigNewComponent} from "./cluster/cluster-config-new/cluster-config-new.component";
-import {ClusterConfigUpdateComponent} from "./cluster/cluster-config-update/cluster-config-update.component";
-import {ClusterConfigDeleteComponent} from "./cluster/cluster-config-delete/cluster-config-delete.component";
-import {ClusterConfigFileComponent} from "./cluster/cluster-config-file/cluster-config-file.component";
+import {ClusterCredentialComponent} from "./cluster/cluster-credential.component";
+import {ClusterCredentialNewComponent} from "./cluster/cluster-credential-new/cluster-credential-new.component";
 import {
-  ClusterConfigFileUploadComponent
-} from "./cluster/cluster-config-file/cluster-config-file-upload/cluster-config-file-upload.component";
+  ClusterCredentialUpdateComponent
+} from "./cluster/cluster-credential-update/cluster-credential-update.component";
 import {
-  ClusterConfigFileDeleteComponent
-} from "./cluster/cluster-config-file/cluster-config-file-delete/cluster-config-file-delete.component";
+  ClusterCredentialDeleteComponent
+} from "./cluster/cluster-credential-delete/cluster-credential-delete.component";
+import {ClusterCredentialFileComponent} from "./cluster/cluster-credential-file/cluster-credential-file.component";
+import {
+  ClusterCredentialFileUploadComponent
+} from "./cluster/cluster-credential-file/cluster-credential-file-upload/cluster-credential-file-upload.component";
+import {
+  ClusterCredentialFileDeleteComponent
+} from "./cluster/cluster-credential-file/cluster-credential-file-delete/cluster-credential-file-delete.component";
 
 @NgModule({
   declarations: [
@@ -31,13 +35,13 @@ import {
     ReleaseFlinkComponent,
     ReleaseFlinkUploadComponent,
     ReleaseFlinkDeleteComponent,
-    ClusterConfigComponent,
-    ClusterConfigNewComponent,
-    ClusterConfigUpdateComponent,
-    ClusterConfigDeleteComponent,
-    ClusterConfigFileComponent,
-    ClusterConfigFileUploadComponent,
-    ClusterConfigFileDeleteComponent,
+    ClusterCredentialComponent,
+    ClusterCredentialNewComponent,
+    ClusterCredentialUpdateComponent,
+    ClusterCredentialDeleteComponent,
+    ClusterCredentialFileComponent,
+    ClusterCredentialFileUploadComponent,
+    ClusterCredentialFileDeleteComponent,
   ],
   imports: [SharedModule, ResourceRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })

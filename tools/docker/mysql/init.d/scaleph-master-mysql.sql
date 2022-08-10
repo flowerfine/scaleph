@@ -1604,3 +1604,51 @@ create table di_job_log
     key (job_id),
     unique key (job_instance_id)
 ) engine = innodb comment '数据集成-作业运行日志';
+
+
+/* seatunnel release */
+DROP TABLE IF EXISTS resource_seatunnel_release;
+CREATE TABLE `resource_seatunnel_release`
+(
+    `id`          BIGINT       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    `version`     VARCHAR(255) NOT NULL COMMENT '版本',
+    `file_name`   VARCHAR(255) NOT NULL COMMENT '文件名称',
+    `path`        VARCHAR(255) NOT NULL COMMENT '存储路径',
+    `remark`      VARCHAR(255) COMMENT '备注',
+    `creator`     VARCHAR(32) COMMENT '创建人',
+    `create_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `editor`      VARCHAR(32) COMMENT '修改人',
+    `update_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB COMMENT = 'seatunnel release';
+
+/* flink release */
+DROP TABLE IF EXISTS resource_flink_release;
+CREATE TABLE `resource_flink_release`
+(
+    `id`          BIGINT       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    `version`     VARCHAR(255) NOT NULL COMMENT '版本',
+    `file_name`   VARCHAR(255) NOT NULL COMMENT '文件名称',
+    `path`        VARCHAR(255) NOT NULL COMMENT '存储路径',
+    `remark`      VARCHAR(255) COMMENT '备注',
+    `creator`     VARCHAR(32) COMMENT '创建人',
+    `create_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `editor`      VARCHAR(32) COMMENT '修改人',
+    `update_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB COMMENT = 'flink release';
+
+/* flink 部署配置文件 */
+DROP TABLE IF EXISTS resource_cluster_credential;
+CREATE TABLE resource_cluster_credential
+(
+    id          BIGINT      NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    config_type VARCHAR(4)  NOT NULL COMMENT '配置文件类型。0: Hadoop, 1: Kubernetes',
+    `name`      VARCHAR(64) NOT NULL COMMENT '配置名称',
+    remark      VARCHAR(256) COMMENT '备注',
+    creator     VARCHAR(32) COMMENT '创建人',
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    editor      VARCHAR(32) COMMENT '修改人',
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (id)
+) ENGINE = INNODB COMMENT = 'cluster credential';

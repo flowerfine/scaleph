@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.seatunnel.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.resource.ReleaseSeaTunnel;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceSeaTunnelRelease;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.ReleaseSeaTunnelDTO;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
@@ -28,11 +28,11 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(uses = {DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ReleaseSeaTunnelConvert extends BaseConvert<ReleaseSeaTunnel, ReleaseSeaTunnelDTO> {
+public interface ReleaseSeaTunnelConvert extends BaseConvert<ResourceSeaTunnelRelease, ReleaseSeaTunnelDTO> {
     ReleaseSeaTunnelConvert INSTANCE = Mappers.getMapper(ReleaseSeaTunnelConvert.class);
 
     @Override
     @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.SEATUNNEL_VERSION,entity.getVersion()))", target = "version")
-    ReleaseSeaTunnelDTO toDto(ReleaseSeaTunnel entity);
+    ReleaseSeaTunnelDTO toDto(ResourceSeaTunnelRelease entity);
 
 }

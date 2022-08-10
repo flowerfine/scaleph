@@ -3,11 +3,11 @@ import {TranslateService} from '@ngx-translate/core';
 import {DValidateRules, FormLayout, IFileOptions, IUploadOptions} from 'ng-devui';
 import {Dict, DICT_TYPE} from "../../../../@core/data/app.data";
 import {SysDictDataService} from "../../../../@core/services/admin/dict-data.service";
-import {ReleaseSeaTunnelUploadParam} from "../../../../@core/data/resource.data";
-import {ReleaseSeaTunnelService} from "../../../../@core/services/resource/release-seatunnel.service";
+import {SeaTunnelReleaseUploadParam} from "../../../../@core/data/resource.data";
+import {SeatunnelReleaseService} from "../../../../@core/services/resource/seatunnel-release.service";
 
 @Component({
-  selector: 'app-release-seatunnel-upload',
+  selector: 'app-seatunnel-release-upload',
   templateUrl: './release-seatunnel-upload.component.html',
   styleUrls: ['../release-seatunnel.component.scss'],
 })
@@ -47,7 +47,7 @@ export class ReleaseSeatunnelUploadComponent implements OnInit {
     remark: null,
   };
 
-  constructor(private elr: ElementRef, private translate: TranslateService, private dictDataService: SysDictDataService, private releaseSeaTunnelService: ReleaseSeaTunnelService) {
+  constructor(private elr: ElementRef, private translate: TranslateService, private dictDataService: SysDictDataService, private releaseSeaTunnelService: SeatunnelReleaseService) {
   }
 
   ngOnInit(): void {
@@ -58,7 +58,7 @@ export class ReleaseSeatunnelUploadComponent implements OnInit {
   }
 
   submitForm({valid}) {
-    let uploadParam: ReleaseSeaTunnelUploadParam = {
+    let uploadParam: SeaTunnelReleaseUploadParam = {
       version: this.formData.version ? this.formData.version.value : '',
       file: this.file,
       remark: this.formData.remark || '',

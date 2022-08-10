@@ -1,8 +1,8 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
-import {ReleaseFlinkService} from "../../../../@core/services/resource/release-flink.service";
+import {FlinkReleaseService} from "../../../../@core/services/resource/flink-release.service";
 
 @Component({
-  selector: 'app-release-flink-delete',
+  selector: 'app-flink-release-delete',
   templateUrl: './release-flink-delete.component.html',
   styleUrls: ['../release-flink.component.scss'],
 })
@@ -10,7 +10,7 @@ export class ReleaseFlinkDeleteComponent implements OnInit {
   parent: HTMLElement;
   @Input() data: any;
 
-  constructor(private elr: ElementRef, private releaseFlinkService: ReleaseFlinkService) {
+  constructor(private elr: ElementRef, private releaseFlinkService: FlinkReleaseService) {
   }
 
   ngOnInit(): void {
