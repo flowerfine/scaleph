@@ -1,20 +1,134 @@
 // antd 全局变量 修改
 
+// [CSS-VARIABLE-REPLACE-BEGIN: html-variables]
+// [CSS-VARIABLE-REPLACE-END: html-variables]
+
+// Base Scaffolding Variables
+// ---
+@font-size-base: 14px;
+@font-size-lg: @font-size-base + 2px;
+@font-size-sm: @font-size-base - 2px;
+
+// https://github.com/ant-design/ant-design/issues/20210
+@line-height-base: 1.5715;
+@border-radius-base: 2px;
+@border-radius-sm: @border-radius-base;
+
+// control border
+@control-border-radius: @border-radius-base;
+
+// arrow border
+@arrow-border-radius: 2px;
+
 // vertical paddings
-@padding-lg: 8px; // containers
-@padding-md: 8px; // small containers and buttons
+@padding-lg: 16px; // containers
+@padding-md: 12px; // small containers and buttons
 @padding-sm: 8px; // Form controls and items
-@padding-xs: 4px; // small items
-@padding-xss: 0px; // more small
+@padding-xs: 6px; // small items
+@padding-xss: 4px; // more small
+
+// vertical padding for all form controls
+@control-padding-horizontal: @padding-sm;
+@control-padding-horizontal-sm: @padding-xs;
 
 // vertical margins
-@margin-lg: 8px; // containers
-@margin-md: 8px; // small containers and buttons
+@margin-lg: 16px; // containers
+@margin-md: 12px; // small containers and buttons
 @margin-sm: 8px; // Form controls and items
-@margin-xs: 0px; // small items
-@margin-xss: 0px; // more small
+@margin-xs: 6px; // small items
+@margin-xss: 4px; // more small
 
 // height rules
-@height-base: 24px;
-@height-lg: 24px;
+@height-base: 30px;
+@height-lg: 36px;
 @height-sm: 24px;
+
+// Form
+// ---
+@form-item-margin-bottom: 22px;
+@form-vertical-label-padding: 0 0 6px;
+
+// Input
+@input-padding-horizontal-lg: @input-padding-horizontal;
+@input-padding-vertical-base: max(
+  (round(((@input-height-base - @font-size-base * @line-height-base) / 2) * 10) / 10) -
+    @border-width-base,
+  3px
+);
+
+// Select
+// ---
+@select-dropdown-height: @height-base;
+@select-multiple-item-height: @input-height-base - max(@input-padding-vertical-base, 4) * 2; // Normal 24px
+@select-multiple-item-height-lg: @height-base;
+@select-multiple-item-spacing-half: ceil((@input-padding-vertical-base / 2));
+
+// Popover
+// ---
+@popover-min-height: @height-base;
+@popover-padding-horizontal: @padding-md;
+
+// Modal
+
+@modal-header-padding-vertical: @padding-md;
+@modal-header-padding: @modal-header-padding-vertical @modal-header-padding-horizontal;
+@modal-footer-padding-vertical: @padding-md;
+@modal-header-close-size: @modal-header-title-line-height + 2 * @modal-header-padding-vertical;
+@modal-confirm-body-padding: 48px 48px 32px;
+
+// Progress
+// --
+@progress-circle-text-font-size: 1em;
+// Menu
+// ---
+@menu-item-padding-horizontal: 20px;
+@menu-item-padding: 0 @menu-item-padding-horizontal;
+@menu-horizontal-line-height: 46px;
+@menu-inline-toplevel-item-height: 36px;
+@menu-item-height: 36px;
+@menu-item-vertical-margin: 0px;
+@menu-item-boundary-margin: 0px;
+@menu-icon-margin-right: 8px;
+
+// Table
+// --
+@table-padding-vertical: 14px;
+@table-padding-horizontal: 12px;
+@table-padding-vertical-md: (@table-padding-vertical * 3 / 4);
+@table-padding-horizontal-md: (@table-padding-horizontal / 2);
+@table-padding-vertical-sm: (@table-padding-vertical / 2);
+@table-padding-horizontal-sm: (@table-padding-horizontal / 2);
+@table-selection-column-width: 32px;
+
+// Tag
+// --
+@tag-line-height: 20px;
+
+// Card
+// ---
+@card-head-padding: 12px;
+@card-head-padding-sm: (@card-head-padding / 2);
+@card-head-height: 48px;
+@card-head-height-sm: 36px;
+@card-inner-head-padding: 12px;
+@card-padding-base: 16px;
+@card-padding-base-sm: (@card-padding-base / 2);
+@card-actions-li-margin: 12px 0;
+@card-head-tabs-margin-bottom: -17px;
+
+// Tabs
+// ---
+
+@tabs-card-horizontal-padding: (
+    (@tabs-card-height - floor(@font-size-base * @line-height-base)) / 2
+  ) - @border-width-base @padding-md;
+
+// // Pagination
+@pagination-mini-options-size-changer-top: 0px;
+@pagination-item-size-sm: 24px;
+
+// // List
+@list-item-meta-description-font-size: @font-size-sm;
+@list-item-padding: 6px 12px;
+@list-item-padding-sm: 4px 12px;
+@list-item-padding-lg: 8px 16px;

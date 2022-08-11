@@ -43,6 +43,7 @@ const Dict: React.FC = () => {
             title: intl.formatMessage({ id: 'app.common.operate.label' }),
             dataIndex: 'actions',
             width: 120,
+            align: "center",
             fixed: 'right',
             valueType: "option",
             render: (_, record) => (
@@ -120,6 +121,7 @@ const Dict: React.FC = () => {
             title: intl.formatMessage({ id: 'app.common.operate.label' }),
             dataIndex: 'actions',
             width: 120,
+            align: "center",
             fixed: 'right',
             valueType: "option",
             render: (_, record) => (
@@ -174,7 +176,6 @@ const Dict: React.FC = () => {
                     headerTitle={intl.formatMessage({ id: 'pages.admin.dict.dictType' })}
                     search={{ filterType: "light" }}
                     scroll={{ x: 800 }}
-                    size="small"
                     rowKey="dictTypeCode"
                     actionRef={dictTypeActionRef}
                     formRef={dictTypeFormRef}
@@ -246,7 +247,6 @@ const Dict: React.FC = () => {
                     headerTitle={intl.formatMessage({ id: 'pages.admin.dict.dictData' })}
                     search={{ filterType: "light" }}
                     scroll={{ x: 800 }}
-                    size="small"
                     rowKey="id"
                     actionRef={dictDataActionRef}
                     formRef={dictDataFormRef}

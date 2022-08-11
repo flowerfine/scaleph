@@ -339,7 +339,7 @@ const User: React.FC = () => {
 
   return (
     <Row gutter={[12, 12]}>
-      <Col span={6}>
+      <Col span={5}>
         <Card>
           <Tabs
             tabBarExtraContent={tabBarButtonOperations(tabId)}
@@ -351,7 +351,6 @@ const User: React.FC = () => {
           >
             <Tabs.TabPane tab={intl.formatMessage({ id: 'pages.admin.user.role' })} key={roleTab}>
               <List
-                size="small"
                 bordered={false}
                 dataSource={roleList}
                 itemLayout="vertical"
@@ -375,7 +374,6 @@ const User: React.FC = () => {
                           <Button
                             shape="default"
                             type="text"
-                            size="small"
                             icon={<EditOutlined />}
                             onClick={() => {
                               setRoleFormData({ visiable: true, data: item });
@@ -568,12 +566,15 @@ const User: React.FC = () => {
           </Tabs>
         </Card>
       </Col>
-      <Col span={18}>
+      <Col span={19}>
         <ProTable<SecUser>
           headerTitle={intl.formatMessage({ id: 'pages.admin.user' })}
-          search={{ filterType: 'query' }}
+          search={{
+            labelWidth: 'auto',
+            span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 }
+          }}
+          sticky
           scroll={{ x: 800 }}
-          size="small"
           rowKey="id"
           actionRef={actionRef}
           formRef={formRef}

@@ -28,7 +28,7 @@ export default defineConfig({
   },
 
   targets: {
-    chrome:'86'
+    chrome: '86',
   },
   // umi routes: https://umijs.org/docs/routing
   routes,
