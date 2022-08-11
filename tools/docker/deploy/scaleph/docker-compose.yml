@@ -33,7 +33,7 @@ services:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/scaleph/actuator/health" ]
       interval: 3s
       timeout: 1s
-      retries: 16
+      retries: 128
       start_period: 1m
     networks:
       - scaleph
