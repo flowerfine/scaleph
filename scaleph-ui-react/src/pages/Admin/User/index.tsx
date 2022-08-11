@@ -1,8 +1,9 @@
-import { Dict } from '@/app.d';
+import { Dict, TreeNode } from '@/app.d';
 import { DICT_TYPE } from '@/constant';
+import { deleteDept, listAllDept } from '@/services/admin/dept.service';
 import { listDictDataByType } from '@/services/admin/dictData.service';
 import { deleteRole, listAllRole } from '@/services/admin/role.service';
-import { SecDept, SecRole, SecUser } from '@/services/admin/typings';
+import { SecDept, SecDeptTreeNode, SecRole, SecUser } from '@/services/admin/typings';
 import {
   deleteUserBatch,
   deleteUserRow,
@@ -22,6 +23,7 @@ import {
   Button,
   Card,
   Col,
+  Input,
   List,
   message,
   Modal,
@@ -30,14 +32,19 @@ import {
   Space,
   Tabs,
   Tooltip,
+  Tree,
   Typography,
 } from 'antd';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'umi';
+import DeptForm from './components/DeptForm';
+import DeptGrant from './components/DeptGrant';
 import RoleForm from './components/RoleForm';
 import RoleGrant from './components/RoleGrant';
 import UserForm from './components/UserForm';
 import styles from './index.less';
+
+
 
 const User: React.FC = () => {
   const intl = useIntl();
@@ -45,6 +52,10 @@ const User: React.FC = () => {
   const deptTab: string = 'dept';
   const [tabId, setTabId] = useState<string>(roleTab);
   const [roleList, setRoleList] = useState<SecRole[]>([]);
+  const [deptTreeList, setDeptTreeList] = useState<TreeNode[]>([]);
+  const [searchValue, setSearchValue] = useState<string>();
+  const [expandKeys, setExpandKeys] = useState<React.Key[]>([]);
+  const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<SecUser[]>([]);
@@ -61,9 +72,10 @@ const User: React.FC = () => {
     visiable: false,
     data: {},
   });
-  const [deptFormData, setDeptFormData] = useState<{ visiable: boolean; data: SecDept }>({
+  const [deptFormData, setDeptFormData] = useState<{ visiable: boolean; data: SecDept, isUpdate: boolean }>({
     visiable: false,
     data: {},
+    isUpdate: false
   });
   const [deptGrantData, setDeptGrantData] = useState<{ visiable: boolean; data: SecDept }>({
     visiable: false,
@@ -240,7 +252,7 @@ const User: React.FC = () => {
             type="link"
             icon={<PlusOutlined />}
             onClick={() => {
-              console.log('创建部门');
+              setDeptFormData({ visiable: true, data: {}, isUpdate: false });
             }}
           ></Button>
         </Tooltip>
@@ -250,19 +262,80 @@ const User: React.FC = () => {
     }
   };
 
+  //init data
+  useEffect(() => {
+    refreshRoles();
+    refreshDepts();
+    listDictDataByType(DICT_TYPE.userStatus).then((d) => {
+      setUserStatusList(d);
+    });
+  }, []);
+
   const refreshRoles = () => {
     listAllRole().then((d) => {
       setRoleList(d);
     });
   };
 
-  //init data
-  useEffect(() => {
-    refreshRoles();
-    listDictDataByType(DICT_TYPE.userStatus).then((d) => {
-      setUserStatusList(d);
+  const refreshDepts = () => {
+    listAllDept().then(d => {
+      setDeptTreeList(buildTree(d));
+    })
+  }
+
+  const buildTree = (data: SecDeptTreeNode[]): TreeNode[] => {
+    let tree: TreeNode[] = [];
+    data.forEach(dept => {
+      const node: TreeNode = {
+        key: '',
+        title: '',
+        origin: {
+          id: dept.deptId,
+          deptCode: dept.deptCode,
+          deptName: dept.deptName,
+          pid: dept.pid
+        }
+      };
+      if (dept.children) {
+        node.key = dept.deptId;
+        node.title = dept.deptName;
+        node.children = buildTree(dept.children);
+        node.showOpIcon = false;
+      } else {
+        node.key = dept.deptId;
+        node.title = dept.deptName;
+        node.showOpIcon = false;
+      }
+      tree.push(node);
     });
-  }, []);
+    return tree;
+  }
+
+  let keys: React.Key[] = [];
+  const buildExpandKeys = (data: TreeNode[], value: string): React.Key[] => {
+    data.forEach(dept => {
+      if (dept.children) {
+        buildExpandKeys(dept.children, value);
+      }
+      if (dept.title?.toString().includes(value)) {
+        console.log(dept.title?.toString());
+        keys.push(dept.key + '');
+      }
+    });
+    return keys;
+  }
+
+  const searchDeptTree = (value: string) => {
+    keys = [];
+    setExpandKeys(buildExpandKeys(deptTreeList, value));
+    setSearchValue(value);
+    setAutoExpandParent(true);
+  }
+
+  const onExpand = (newExpandedKeys: React.Key[]) => {
+    setExpandKeys(newExpandedKeys);
+    setAutoExpandParent(false);
+  };
 
   return (
     <Row gutter={[12, 12]}>
@@ -298,59 +371,65 @@ const User: React.FC = () => {
                     <Typography.Text style={{ paddingRight: 12 }}>{item.roleName}</Typography.Text>
                     {item.showOpIcon && (
                       <Space size={2}>
-                        <Button
-                          shape="default"
-                          type="text"
-                          size="small"
-                          icon={<EditOutlined />}
-                          onClick={() => {
-                            setRoleFormData({ visiable: true, data: item });
-                          }}
-                        ></Button>
-                        <Button
-                          shape="default"
-                          type="text"
-                          size="small"
-                          icon={<DeleteOutlined />}
-                          onClick={() => {
-                            Modal.confirm({
-                              title: intl.formatMessage({
-                                id: 'app.common.operate.delete.confirm.title',
-                              }),
-                              content: intl.formatMessage({
-                                id: 'app.common.operate.delete.confirm.content',
-                              }),
-                              okText: intl.formatMessage({
-                                id: 'app.common.operate.confirm.label',
-                              }),
-                              okButtonProps: { danger: true },
-                              cancelText: intl.formatMessage({
-                                id: 'app.common.operate.cancel.label',
-                              }),
-                              onOk() {
-                                deleteRole(item).then((d) => {
-                                  if (d.success) {
-                                    message.success(
-                                      intl.formatMessage({
-                                        id: 'app.common.operate.delete.success',
-                                      }),
-                                    );
-                                    refreshRoles();
-                                  }
-                                });
-                              },
-                            });
-                          }}
-                        ></Button>
-                        <Button
-                          shape="default"
-                          type="text"
-                          size="small"
-                          icon={<UserSwitchOutlined />}
-                          onClick={() => {
-                            setRoleGrantData({ visiable: true, data: item });
-                          }}
-                        ></Button>
+                        <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
+                          <Button
+                            shape="default"
+                            type="text"
+                            size="small"
+                            icon={<EditOutlined />}
+                            onClick={() => {
+                              setRoleFormData({ visiable: true, data: item });
+                            }}
+                          ></Button>
+                        </Tooltip>
+                        <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
+                          <Button
+                            shape="default"
+                            type="text"
+                            size="small"
+                            icon={<DeleteOutlined />}
+                            onClick={() => {
+                              Modal.confirm({
+                                title: intl.formatMessage({
+                                  id: 'app.common.operate.delete.confirm.title',
+                                }),
+                                content: intl.formatMessage({
+                                  id: 'app.common.operate.delete.confirm.content',
+                                }),
+                                okText: intl.formatMessage({
+                                  id: 'app.common.operate.confirm.label',
+                                }),
+                                okButtonProps: { danger: true },
+                                cancelText: intl.formatMessage({
+                                  id: 'app.common.operate.cancel.label',
+                                }),
+                                onOk() {
+                                  deleteRole(item).then((d) => {
+                                    if (d.success) {
+                                      message.success(
+                                        intl.formatMessage({
+                                          id: 'app.common.operate.delete.success',
+                                        }),
+                                      );
+                                      refreshRoles();
+                                    }
+                                  });
+                                },
+                              });
+                            }}
+                          ></Button>
+                        </Tooltip>
+                        <Tooltip title={intl.formatMessage({ id: 'app.common.operate.grant.label' })}>
+                          <Button
+                            shape="default"
+                            type="text"
+                            size="small"
+                            icon={<UserSwitchOutlined />}
+                            onClick={() => {
+                              setRoleGrantData({ visiable: true, data: item });
+                            }}
+                          ></Button>
+                        </Tooltip>
                       </Space>
                     )}
                   </List.Item>
@@ -358,7 +437,133 @@ const User: React.FC = () => {
               />
             </Tabs.TabPane>
             <Tabs.TabPane tab={intl.formatMessage({ id: 'pages.admin.user.dept' })} key={deptTab}>
-              部门树
+              <Input.Search
+                style={{ marginBottom: 8 }}
+                allowClear={true}
+                onSearch={searchDeptTree}
+                placeholder={intl.formatMessage({ id: 'app.common.operate.search.label' })}
+              >
+              </Input.Search>
+              <Tree
+                treeData={deptTreeList}
+                showLine={{ showLeafIcon: false }}
+                blockNode={true}
+                showIcon={false}
+                defaultExpandAll={true}
+                expandedKeys={expandKeys}
+                autoExpandParent={autoExpandParent}
+                onExpand={onExpand}
+                titleRender={(node) => {
+                  return (
+                    <Row
+                      className={node.title?.toString().includes(searchValue + '') && searchValue != '' ? styles.siteTreeSearchValue : ''}
+                    >
+                      <Col
+                        span={24}
+                        onMouseEnter={() => {
+                          node.showOpIcon = true;
+                          setDeptTreeList([...deptTreeList]);
+                        }}
+                        onMouseLeave={() => {
+                          node.showOpIcon = false;
+                          setDeptTreeList([...deptTreeList]);
+                        }}
+                      >
+
+                        <Typography.Text style={{ paddingRight: 12 }} >{node.title}</Typography.Text>
+                        {node.showOpIcon && (
+                          <Space size={2}>
+                            <Tooltip title={intl.formatMessage({ id: 'app.common.operate.new.label' })}>
+                              <Button
+                                shape="default"
+                                type="text"
+                                size="small"
+                                icon={<PlusOutlined />}
+                                onClick={() => {
+                                  setDeptFormData({
+                                    visiable: true,
+                                    data: {
+                                      pid: node.origin.id
+                                    },
+                                    isUpdate: false
+                                  });
+                                }}
+                              ></Button>
+                            </Tooltip>
+                            <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
+                              <Button
+                                shape="default"
+                                type="text"
+                                size="small"
+                                icon={<EditOutlined />}
+                                onClick={() => {
+                                  setDeptFormData({
+                                    visiable: true,
+                                    data: {
+                                      id: node.origin.id,
+                                      deptCode: node.origin.deptCode,
+                                      deptName: node.origin.deptName,
+                                      pid: node.origin.pid == '0' ? undefined : node.origin.pid
+                                    },
+                                    isUpdate: true
+                                  });
+                                }}
+                              ></Button>
+                            </Tooltip>
+                            <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
+                              <Button
+                                shape="default"
+                                type="text"
+                                size="small"
+                                icon={<DeleteOutlined />}
+                                onClick={() => {
+                                  Modal.confirm({
+                                    title: intl.formatMessage({
+                                      id: 'app.common.operate.delete.confirm.title',
+                                    }),
+                                    content: intl.formatMessage({
+                                      id: 'app.common.operate.delete.confirm.content',
+                                    }),
+                                    okText: intl.formatMessage({
+                                      id: 'app.common.operate.confirm.label',
+                                    }),
+                                    okButtonProps: { danger: true },
+                                    cancelText: intl.formatMessage({
+                                      id: 'app.common.operate.cancel.label',
+                                    }),
+                                    onOk() {
+                                      deleteDept(node.origin).then((d) => {
+                                        if (d.success) {
+                                          message.success(
+                                            intl.formatMessage({
+                                              id: 'app.common.operate.delete.success',
+                                            }),
+                                          );
+                                          refreshDepts();
+                                        }
+                                      });
+                                    },
+                                  });
+                                }}
+                              ></Button>
+                            </Tooltip>
+                            <Tooltip title={intl.formatMessage({ id: 'app.common.operate.grant.label' })}>
+                              <Button
+                                shape="default"
+                                type="text"
+                                size="small"
+                                icon={<UserSwitchOutlined />}
+                                onClick={() => {
+                                  setDeptGrantData({ visiable: true, data: node.origin });
+                                }}
+                              ></Button>
+                            </Tooltip>
+                          </Space>)}
+                      </Col>
+                    </Row>
+                  );
+                }}
+              ></Tree>
             </Tabs.TabPane>
           </Tabs>
         </Card>
@@ -442,6 +647,45 @@ const User: React.FC = () => {
           data={roleFormData.data}
         />
       ) : null}
+      {roleGrantData.visiable ? (
+        <RoleGrant
+          visible={roleGrantData.visiable}
+          onCancel={() => {
+            setRoleGrantData({ visiable: false, data: {} });
+          }}
+          onVisibleChange={(visiable) => {
+            setRoleGrantData({ visiable: visiable, data: {} });
+          }}
+          data={roleGrantData.data}
+        ></RoleGrant>
+      ) : null}
+      {deptFormData.visiable ? (
+        <DeptForm
+          visible={deptFormData.visiable}
+          treeData={deptTreeList}
+          isUpdate={deptFormData.isUpdate}
+          onCancel={() => {
+            setDeptFormData({ visiable: false, data: {}, isUpdate: false });
+          }}
+          onVisibleChange={(visiable) => {
+            setDeptFormData({ visiable: visiable, data: {}, isUpdate: false });
+            refreshDepts();
+          }}
+          data={deptFormData.data}
+        />
+      ) : null}
+      {deptGrantData.visiable ? (
+        <DeptGrant
+          visible={deptGrantData.visiable}
+          onCancel={() => {
+            setDeptGrantData({ visiable: false, data: {} });
+          }}
+          onVisibleChange={(visiable) => {
+            setDeptGrantData({ visiable: visiable, data: {} });
+          }}
+          data={deptGrantData.data}
+        />
+      ) : null}
       {userFormData.visiable ? (
         <UserForm
           visible={userFormData.visiable}
@@ -455,18 +699,7 @@ const User: React.FC = () => {
           data={userFormData.data}
         ></UserForm>
       ) : null}
-      {roleGrantData.visiable ? (
-        <RoleGrant
-          visible={roleGrantData.visiable}
-          onCancel={() => {
-            setRoleGrantData({ visiable: false, data: {} });
-          }}
-          onVisibleChange={(visiable) => {
-            setRoleGrantData({ visiable: visiable, data: {} });
-          }}
-          data={roleGrantData.data}
-        ></RoleGrant>
-      ) : null}
+
     </Row>
   );
 };

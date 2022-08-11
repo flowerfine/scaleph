@@ -47,19 +47,19 @@
                         <d-form-item>
                           <d-form-label [required]="true" style="flex: 0 0 180px;">资源:</d-form-label>
                           <d-form-control>
-                            <d-select name="flinkDeployConfig"
+                            <d-select name="clusterCredential"
                                       [allowClear]="true"
                                       [enableLazyLoad]="true"
                                       [filterKey]="'name'"
                                       [extraConfig]="{ selectedItemWithTemplate: { enable: true } }"
-                                      [options]="flinkDeployConfigList"
+                                      [options]="clusterCredentialList"
                                       size="sm"
-                                      (loadMore)="onFlinkDeployConfigLoadMore($event)"
-                                      [(ngModel)]="formData.flinkDeployConfig"></d-select>
+                                      (loadMore)="onClusterCredentialLoadMore($event)"
+                                      [(ngModel)]="formData.clusterCredential"></d-select>
                           </d-form-control>
                         </d-form-item>
                         <d-form-item>
-                          <d-form-label [required]="true" style="flex: 0 0 180px;">备注:</d-form-label>
+                          <d-form-label style="flex: 0 0 180px;">备注:</d-form-label>
                           <d-form-control>
                             <input dTextInput name="remark" [(ngModel)]="formData.remark" />
                           </d-form-control>

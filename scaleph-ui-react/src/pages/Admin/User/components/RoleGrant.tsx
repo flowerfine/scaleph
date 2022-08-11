@@ -1,5 +1,5 @@
 import { ModalFormProps } from '@/app.d';
-import { grantRoleToUsers, listAllRole } from '@/services/admin/role.service';
+import { grantRoleToUsers } from '@/services/admin/role.service';
 import { SecRole, SecUser } from '@/services/admin/typings';
 import { listByUserNameAndRole, listUserByPage } from '@/services/admin/user.service';
 import { message, Modal, Transfer } from 'antd';
@@ -25,7 +25,7 @@ const RoleGrant: React.FC<ModalFormProps<SecRole>> = ({
     //user granted with role id
     listByUserNameAndRole('', data.id + '', "1").then(resp => {
       setTargetKeys(resp.map(item => item.value));
-    })
+    });
   }, []);
 
   const onSelectChange = (sourceSelectedKeys: string[], targetSelectedKeys: string[]) => {

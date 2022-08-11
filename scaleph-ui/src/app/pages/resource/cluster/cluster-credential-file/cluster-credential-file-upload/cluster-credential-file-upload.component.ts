@@ -33,7 +33,7 @@ export class ClusterCredentialFileUploadComponent implements OnInit {
     remark: null,
   };
 
-  constructor(private elr: ElementRef, private translate: TranslateService, private deployConfigService: ClusterCredentialService) {
+  constructor(private elr: ElementRef, private translate: TranslateService, private clusterCredentialService: ClusterCredentialService) {
   }
 
   ngOnInit(): void {
@@ -42,7 +42,7 @@ export class ClusterCredentialFileUploadComponent implements OnInit {
 
   submitForm({valid}) {
     if (valid && this.files) {
-      this.deployConfigService.uploadFiles(this.data.flinkDeployConfig.id, this.files).subscribe((d) => {
+      this.clusterCredentialService.uploadFiles(this.data.flinkDeployConfig.id, this.files).subscribe((d) => {
         if (d.success) {
           this.data.onClose();
           this.data.refresh();
