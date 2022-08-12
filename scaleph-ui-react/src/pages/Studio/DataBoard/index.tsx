@@ -30,7 +30,7 @@ const DataBoard: React.FC = () => {
         <Col span="8">
           <Card>
             <Statistic
-              title={intl.formatMessage({ id: 'studio.databoard.clusterCnt' })}
+              title={intl.formatMessage({ id: 'pages.studio.databoard.clusterCnt' })}
               value={clusterCnt}
               valueStyle={{ color: '#3f8600' }}
             />
@@ -39,7 +39,7 @@ const DataBoard: React.FC = () => {
         <Col span="8">
           <Card>
             <Statistic
-              title={intl.formatMessage({ id: 'studio.databoard.batchJobCnt' })}
+              title={intl.formatMessage({ id: 'pages.studio.databoard.batchJobCnt' })}
               value={batchJobCnt}
               valueStyle={{ color: '#3f8600' }}
             />
@@ -48,7 +48,7 @@ const DataBoard: React.FC = () => {
         <Col span="8">
           <Card>
             <Statistic
-              title={intl.formatMessage({ id: 'studio.databoard.realtimeJobCnt' })}
+              title={intl.formatMessage({ id: 'pages.studio.databoard.realtimeJobCnt' })}
               value={realtimeJobCnt}
               valueStyle={{ color: '#3f8600' }}
             />
