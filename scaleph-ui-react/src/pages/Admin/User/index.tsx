@@ -340,14 +340,13 @@ const User: React.FC = () => {
   return (
     <Row gutter={[12, 12]}>
       <Col span={5}>
-        <Card>
+        <Card className={styles.leftCard}>
           <Tabs
             tabBarExtraContent={tabBarButtonOperations(tabId)}
             type="card"
             onChange={(activeKey) => {
               setTabId(activeKey);
             }}
-            className={styles.leftCard}
           >
             <Tabs.TabPane tab={intl.formatMessage({ id: 'pages.admin.user.role' })} key={roleTab}>
               <List
