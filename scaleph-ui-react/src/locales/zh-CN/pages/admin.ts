@@ -32,4 +32,7 @@ export default {
   'pages.admin.user.dept.deptCode': '部门编码',
   'pages.admin.user.dept.deptName': '部门名称',
   'pages.admin.user.dept.pid': '上级部门',
+  'pages.admin.user.privilege.menu': '菜单权限',
+  'pages.admin.user.privilege.opt': '操作权限',
+  'pages.admin.user.privilege.data': '数据权限',
 };

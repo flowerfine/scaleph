@@ -28,7 +28,7 @@ export default defineConfig({
   },
 
   targets: {
-    chrome:'86'
+    chrome: '86',
   },
   // umi routes: https://umijs.org/docs/routing
   routes,
@@ -48,11 +48,11 @@ export default defineConfig({
   // Fast Refresh 热更新
   fastRefresh: true,
   presets: ['umi-presets-pro'],
-  openAPI: [
-    {
-      requestLibPath: "import { request } from '@umijs/max'",
-      schemaPath: 'https://gw.alipayobjects.com/os/antfincdn/CA1dOm%2631B/openapi.json',
-      projectName: 'swagger',
-    },
-  ],
+  // openAPI: [
+  //   {
+  //     requestLibPath: "import { request } from '@umijs/max'",
+  //     schemaPath: 'https://gw.alipayobjects.com/os/antfincdn/CA1dOm%2631B/openapi.json',
+  //     projectName: 'swagger',
+  //   },
+  // ],
 });

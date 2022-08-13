@@ -44,8 +44,6 @@ import RoleGrant from './components/RoleGrant';
 import UserForm from './components/UserForm';
 import styles from './index.less';
 
-
-
 const User: React.FC = () => {
   const intl = useIntl();
   const roleTab: string = 'role';
@@ -72,10 +70,14 @@ const User: React.FC = () => {
     visiable: false,
     data: {},
   });
-  const [deptFormData, setDeptFormData] = useState<{ visiable: boolean; data: SecDept, isUpdate: boolean }>({
+  const [deptFormData, setDeptFormData] = useState<{
+    visiable: boolean;
+    data: SecDept;
+    isUpdate: boolean;
+  }>({
     visiable: false,
     data: {},
-    isUpdate: false
+    isUpdate: false,
   });
   const [deptGrantData, setDeptGrantData] = useState<{ visiable: boolean; data: SecDept }>({
     visiable: false,
@@ -278,14 +280,14 @@ const User: React.FC = () => {
   };
 
   const refreshDepts = () => {
-    listAllDept().then(d => {
+    listAllDept().then((d) => {
       setDeptTreeList(buildTree(d));
-    })
-  }
+    });
+  };
 
   const buildTree = (data: SecDeptTreeNode[]): TreeNode[] => {
     let tree: TreeNode[] = [];
-    data.forEach(dept => {
+    data.forEach((dept) => {
       const node: TreeNode = {
         key: '',
         title: '',
@@ -293,8 +295,8 @@ const User: React.FC = () => {
           id: dept.deptId,
           deptCode: dept.deptCode,
           deptName: dept.deptName,
-          pid: dept.pid
-        }
+          pid: dept.pid,
+        },
       };
       if (dept.children) {
         node.key = dept.deptId;
@@ -309,28 +311,27 @@ const User: React.FC = () => {
       tree.push(node);
     });
     return tree;
-  }
+  };
 
   let keys: React.Key[] = [];
   const buildExpandKeys = (data: TreeNode[], value: string): React.Key[] => {
-    data.forEach(dept => {
+    data.forEach((dept) => {
       if (dept.children) {
         buildExpandKeys(dept.children, value);
       }
       if (dept.title?.toString().includes(value)) {
-        console.log(dept.title?.toString());
         keys.push(dept.key + '');
       }
     });
     return keys;
-  }
+  };
 
   const searchDeptTree = (value: string) => {
     keys = [];
     setExpandKeys(buildExpandKeys(deptTreeList, value));
     setSearchValue(value);
     setAutoExpandParent(true);
-  }
+  };
 
   const onExpand = (newExpandedKeys: React.Key[]) => {
     setExpandKeys(newExpandedKeys);
@@ -339,19 +340,17 @@ const User: React.FC = () => {
 
   return (
     <Row gutter={[12, 12]}>
-      <Col span={6}>
-        <Card>
+      <Col span={5}>
+        <Card className={styles.leftCard}>
           <Tabs
             tabBarExtraContent={tabBarButtonOperations(tabId)}
             type="card"
             onChange={(activeKey) => {
               setTabId(activeKey);
             }}
-            className={styles.leftCard}
           >
             <Tabs.TabPane tab={intl.formatMessage({ id: 'pages.admin.user.role' })} key={roleTab}>
               <List
-                size="small"
                 bordered={false}
                 dataSource={roleList}
                 itemLayout="vertical"
@@ -371,18 +370,21 @@ const User: React.FC = () => {
                     <Typography.Text style={{ paddingRight: 12 }}>{item.roleName}</Typography.Text>
                     {item.showOpIcon && (
                       <Space size={2}>
-                        <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
+                        <Tooltip
+                          title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}
+                        >
                           <Button
                             shape="default"
                             type="text"
-                            size="small"
                             icon={<EditOutlined />}
                             onClick={() => {
                               setRoleFormData({ visiable: true, data: item });
                             }}
                           ></Button>
                         </Tooltip>
-                        <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
+                        <Tooltip
+                          title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}
+                        >
                           <Button
                             shape="default"
                             type="text"
@@ -419,7 +421,9 @@ const User: React.FC = () => {
                             }}
                           ></Button>
                         </Tooltip>
-                        <Tooltip title={intl.formatMessage({ id: 'app.common.operate.grant.label' })}>
+                        <Tooltip
+                          title={intl.formatMessage({ id: 'app.common.operate.grant.label' })}
+                        >
                           <Button
                             shape="default"
                             type="text"
@@ -442,13 +446,13 @@ const User: React.FC = () => {
                 allowClear={true}
                 onSearch={searchDeptTree}
                 placeholder={intl.formatMessage({ id: 'app.common.operate.search.label' })}
-              >
-              </Input.Search>
+              ></Input.Search>
               <Tree
                 treeData={deptTreeList}
                 showLine={{ showLeafIcon: false }}
                 blockNode={true}
                 showIcon={false}
+                height={680}
                 defaultExpandAll={true}
                 expandedKeys={expandKeys}
                 autoExpandParent={autoExpandParent}
@@ -456,7 +460,11 @@ const User: React.FC = () => {
                 titleRender={(node) => {
                   return (
                     <Row
-                      className={node.title?.toString().includes(searchValue + '') && searchValue != '' ? styles.siteTreeSearchValue : ''}
+                      className={
+                        node.title?.toString().includes(searchValue + '') && searchValue != ''
+                          ? styles.siteTreeSearchValue
+                          : ''
+                      }
                     >
                       <Col
                         span={24}
@@ -469,11 +477,12 @@ const User: React.FC = () => {
                           setDeptTreeList([...deptTreeList]);
                         }}
                       >
-
-                        <Typography.Text style={{ paddingRight: 12 }} >{node.title}</Typography.Text>
+                        <Typography.Text style={{ paddingRight: 12 }}>{node.title}</Typography.Text>
                         {node.showOpIcon && (
                           <Space size={2}>
-                            <Tooltip title={intl.formatMessage({ id: 'app.common.operate.new.label' })}>
+                            <Tooltip
+                              title={intl.formatMessage({ id: 'app.common.operate.new.label' })}
+                            >
                               <Button
                                 shape="default"
                                 type="text"
@@ -483,14 +492,16 @@ const User: React.FC = () => {
                                   setDeptFormData({
                                     visiable: true,
                                     data: {
-                                      pid: node.origin.id
+                                      pid: node.origin.id,
                                     },
-                                    isUpdate: false
+                                    isUpdate: false,
                                   });
                                 }}
                               ></Button>
                             </Tooltip>
-                            <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
+                            <Tooltip
+                              title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}
+                            >
                               <Button
                                 shape="default"
                                 type="text"
@@ -503,14 +514,16 @@ const User: React.FC = () => {
                                       id: node.origin.id,
                                       deptCode: node.origin.deptCode,
                                       deptName: node.origin.deptName,
-                                      pid: node.origin.pid == '0' ? undefined : node.origin.pid
+                                      pid: node.origin.pid == '0' ? undefined : node.origin.pid,
                                     },
-                                    isUpdate: true
+                                    isUpdate: true,
                                   });
                                 }}
                               ></Button>
                             </Tooltip>
-                            <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
+                            <Tooltip
+                              title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}
+                            >
                               <Button
                                 shape="default"
                                 type="text"
@@ -547,7 +560,9 @@ const User: React.FC = () => {
                                 }}
                               ></Button>
                             </Tooltip>
-                            <Tooltip title={intl.formatMessage({ id: 'app.common.operate.grant.label' })}>
+                            <Tooltip
+                              title={intl.formatMessage({ id: 'app.common.operate.grant.label' })}
+                            >
                               <Button
                                 shape="default"
                                 type="text"
@@ -558,7 +573,8 @@ const User: React.FC = () => {
                                 }}
                               ></Button>
                             </Tooltip>
-                          </Space>)}
+                          </Space>
+                        )}
                       </Col>
                     </Row>
                   );
@@ -568,12 +584,15 @@ const User: React.FC = () => {
           </Tabs>
         </Card>
       </Col>
-      <Col span={18}>
+      <Col span={19}>
         <ProTable<SecUser>
           headerTitle={intl.formatMessage({ id: 'pages.admin.user' })}
-          search={{ filterType: 'query' }}
+          search={{
+            labelWidth: 'auto',
+            span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
+          }}
+          sticky
           scroll={{ x: 800 }}
-          size="small"
           rowKey="id"
           actionRef={actionRef}
           formRef={formRef}
@@ -699,7 +718,6 @@ const User: React.FC = () => {
           data={userFormData.data}
         ></UserForm>
       ) : null}
-
     </Row>
   );
 };
