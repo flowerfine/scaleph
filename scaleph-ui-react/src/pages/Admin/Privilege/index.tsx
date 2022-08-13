@@ -1,15 +1,33 @@
 import { TreeNode } from '@/app.d';
 import { listAllDept } from '@/services/admin/dept.service';
 import {
+  grantPrivilegeToRole,
+  listAllPrivilege,
+  listPrivilegeByRole,
+} from '@/services/admin/privilege.service';
+import {
   grantDeptRole,
   listAllRole,
   listGrantRoleByDept,
   listRoleByDept,
   revokeDeptRole,
 } from '@/services/admin/role.service';
-import { SecDeptTreeNode, SecRole } from '@/services/admin/typings';
-import { Button, Card, Col, Empty, Input, List, Row, Space, Tabs, Tree, Typography } from 'antd';
-import { useEffect, useState } from 'react';
+import { SecDeptTreeNode, SecPrivilegeTreeNode, SecRole } from '@/services/admin/typings';
+import {
+  Button,
+  Card,
+  Col,
+  Empty,
+  Input,
+  List,
+  Row,
+  Space,
+  Tabs,
+  Tree,
+  TreeProps,
+  Typography,
+} from 'antd';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'umi';
 import styles from './index.less';
 
@@ -18,19 +36,19 @@ const Privilege: React.FC = () => {
   const roleTab: string = 'role';
   const deptTab: string = 'dept';
   const [tabId, setTabId] = useState<string>(roleTab);
+  const [privilegeTabId, setPrivilegeTabId] = useState<string>('0');
   const [roleList, setRoleList] = useState<SecRole[]>([]);
   const [checkedItemId, setCheckedItemId] = useState<string>('');
   const [grantRoleList, setGrantRoleList] = useState<SecRole[]>([]);
   const [grantedRoleList, setGrantedRoleList] = useState<SecRole[]>([]);
-
   const [deptTreeList, setDeptTreeList] = useState<TreeNode[]>([]);
   const [searchValue, setSearchValue] = useState<string>();
   const [expandKeys, setExpandKeys] = useState<React.Key[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
-  const [targetKeys, setTargetKeys] = useState<string[]>([]);
-  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
-  // const [privilegeList, setPrivilegeList] = useState();
-  // privilegeList: ITreeItem[];
+  const [privilegeTreeList, setPrivilegeTreeList] = useState<TreeNode[]>([]);
+  const [checkedPrivilegeList, setCheckedPrivilegeList] = useState<React.Key[]>([]);
+  const [expandedPrivilegeKeys, setExpandedPrivilegeKeys] = useState<React.Key[]>([]);
+  const [autoExpandPrivilegeParent, setAutoExpandPrivilegeParent] = useState<boolean>(true);
   //init data
   useEffect(() => {
     refreshRoles();
@@ -45,8 +63,28 @@ const Privilege: React.FC = () => {
 
   const refreshDepts = () => {
     listAllDept().then((d) => {
-      setDeptTreeList(buildTree(d));
+      setDeptTreeList(buildDeptTree(d));
     });
+  };
+
+  const refreshPrivileges = (roleId: string, resourceType: string) => {
+    Promise.all([listAllPrivilege(resourceType), listPrivilegeByRole(roleId, resourceType)]).then(
+      ([resp1, resp2]) => {
+        setPrivilegeTreeList(buildPrivilegeTree(resp1));
+        setCheckedPrivilegeList(
+          resp2.map((value, index) => {
+            return value.id as number;
+          }),
+        );
+      },
+    );
+  };
+
+  const changePrivilegeTypeTab = (activeKey: string) => {
+    if (checkedItemId) {
+      setPrivilegeTabId(activeKey);
+      refreshPrivileges(checkedItemId, activeKey);
+    }
   };
 
   let keys: React.Key[] = [];
@@ -56,7 +94,6 @@ const Privilege: React.FC = () => {
         buildExpandKeys(dept.children, value);
       }
       if (dept.title?.toString().includes(value)) {
-        console.log(dept.title?.toString());
         keys.push(dept.key + '');
       }
     });
@@ -84,7 +121,7 @@ const Privilege: React.FC = () => {
     });
   };
 
-  const buildTree = (data: SecDeptTreeNode[]): TreeNode[] => {
+  const buildDeptTree = (data: SecDeptTreeNode[]): TreeNode[] => {
     let tree: TreeNode[] = [];
     data.forEach((dept) => {
       const node: TreeNode = {
@@ -100,7 +137,7 @@ const Privilege: React.FC = () => {
       if (dept.children) {
         node.key = dept.deptId;
         node.title = dept.deptName;
-        node.children = buildTree(dept.children);
+        node.children = buildDeptTree(dept.children);
         node.showOpIcon = false;
       } else {
         node.key = dept.deptId;
@@ -112,6 +149,45 @@ const Privilege: React.FC = () => {
     return tree;
   };
 
+  const buildPrivilegeTree = (data: SecPrivilegeTreeNode[]): TreeNode[] => {
+    let tree: TreeNode[] = [];
+    data.forEach((privilege) => {
+      const node: TreeNode = {
+        key: '',
+        title: '',
+        origin: {
+          id: privilege.privilegeId,
+          privilegeCode: privilege.privilegeCode,
+          privilegeName: privilege.privilegeName,
+          pid: privilege.pid,
+        },
+      };
+      if (privilege.children) {
+        node.key = privilege.privilegeId;
+        node.title = privilege.privilegeName;
+        node.children = buildPrivilegeTree(privilege.children);
+      } else {
+        node.key = privilege.privilegeId;
+        node.title = privilege.privilegeName;
+      }
+      tree.push(node);
+    });
+    return tree;
+  };
+
+  const onPrivielgeTreeCheck: TreeProps['onCheck'] = (checkedKeys, info) => {
+    grantPrivilegeToRole(checkedItemId, checkedKeys as string[], privilegeTabId).then((d) => {
+      if (d.success) {
+        refreshPrivileges(checkedItemId, privilegeTabId);
+      }
+    });
+  };
+
+  const onPrivilegeTreeExpand = (expandedKeysValue: React.Key[]) => {
+    setExpandedPrivilegeKeys(expandedKeysValue);
+    setAutoExpandPrivilegeParent(false);
+  };
+
   return (
     <Row gutter={[12, 12]}>
       <Col span={5}>
@@ -120,6 +196,7 @@ const Privilege: React.FC = () => {
             type="card"
             onChange={(activeKey) => {
               setTabId(activeKey);
+              setCheckedItemId('');
             }}
           >
             <Tabs.TabPane tab={intl.formatMessage({ id: 'pages.admin.user.role' })} key={roleTab}>
@@ -129,7 +206,15 @@ const Privilege: React.FC = () => {
                 itemLayout="vertical"
                 split={false}
                 renderItem={(item) => (
-                  <List.Item className={styles.roleListItem}>
+                  <List.Item
+                    className={
+                      checkedItemId == item.id + '' ? styles.selected : styles.roleListItem
+                    }
+                    onClick={() => {
+                      setCheckedItemId(item.id + '');
+                      refreshPrivileges(item.id + '', privilegeTabId + '');
+                    }}
+                  >
                     <Typography.Text style={{ paddingRight: 12 }}>{item.roleName}</Typography.Text>
                   </List.Item>
                 )}
@@ -147,6 +232,7 @@ const Privilege: React.FC = () => {
                 showLine={{ showLeafIcon: false }}
                 blockNode={true}
                 showIcon={false}
+                height={680}
                 defaultExpandAll={true}
                 expandedKeys={expandKeys}
                 autoExpandParent={autoExpandParent}
@@ -183,25 +269,51 @@ const Privilege: React.FC = () => {
       <Col span={19}>
         {tabId == roleTab && (
           <Card className={styles.rightCard}>
-            <Tabs defaultActiveKey="menu" centered>
+            <Tabs defaultActiveKey="0" centered onChange={changePrivilegeTypeTab}>
               <Tabs.TabPane
                 tab={intl.formatMessage({ id: 'pages.admin.user.privilege.menu' })}
-                key="menu"
+                key="0"
               >
-                {intl.formatMessage({ id: 'pages.admin.user.privilege.menu' })}
+                <Tree
+                  treeData={privilegeTreeList}
+                  showLine={{ showLeafIcon: false }}
+                  showIcon={false}
+                  checkable={true}
+                  height={680}
+                  autoExpandParent={autoExpandPrivilegeParent}
+                  onExpand={onPrivilegeTreeExpand}
+                  expandedKeys={expandedPrivilegeKeys}
+                  checkedKeys={checkedPrivilegeList}
+                  onCheck={onPrivielgeTreeCheck}
+                  titleRender={(node) => {
+                    return <Typography.Text>{node.title}</Typography.Text>;
+                  }}
+                ></Tree>
               </Tabs.TabPane>
               <Tabs.TabPane
                 tab={intl.formatMessage({ id: 'pages.admin.user.privilege.opt' })}
-                key="opt"
+                key="1"
               >
-                {intl.formatMessage({ id: 'pages.admin.user.privilege.opt' })}
+                <Tree
+                  treeData={privilegeTreeList}
+                  showLine={{ showLeafIcon: false }}
+                  showIcon={false}
+                  checkable={true}
+                  height={680}
+                  autoExpandParent={autoExpandPrivilegeParent}
+                  onExpand={onPrivilegeTreeExpand}
+                  expandedKeys={expandedPrivilegeKeys}
+                  checkedKeys={checkedPrivilegeList}
+                  onCheck={onPrivielgeTreeCheck}
+                  titleRender={(node) => {
+                    return <Typography.Text>{node.title}</Typography.Text>;
+                  }}
+                ></Tree>
               </Tabs.TabPane>
               <Tabs.TabPane
                 tab={intl.formatMessage({ id: 'pages.admin.user.privilege.data' })}
-                key="data"
+                key="2"
               >
-                {/* {intl.formatMessage({ id: 'pages.admin.user.privilege.data' })} */}
-                {/* <Typography.Text style={{ paddingRight: 12 }} >{node.title}</Typography.Text> */}
                 <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
               </Tabs.TabPane>
             </Tabs>
