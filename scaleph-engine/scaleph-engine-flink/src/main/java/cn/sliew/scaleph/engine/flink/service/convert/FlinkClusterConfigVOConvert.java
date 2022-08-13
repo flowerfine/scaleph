@@ -21,8 +21,10 @@ package cn.sliew.scaleph.engine.flink.service.convert;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfig;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfigVO;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
+import cn.sliew.scaleph.resource.service.convert.ClusterCredentialConvert;
+import cn.sliew.scaleph.resource.service.convert.FlinkReleaseConvert;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import org.mapstruct.Mapper;
@@ -35,18 +37,16 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FlinkClusterConfigConvert extends BaseConvert<FlinkClusterConfig, FlinkClusterConfigDTO> {
-    FlinkClusterConfigConvert INSTANCE = Mappers.getMapper(FlinkClusterConfigConvert.class);
+public interface FlinkClusterConfigVOConvert extends BaseConvert<FlinkClusterConfigVO, FlinkClusterConfigDTO> {
+    FlinkClusterConfigVOConvert INSTANCE = Mappers.getMapper(FlinkClusterConfigVOConvert.class);
 
     @Override
-    default FlinkClusterConfig toDo(FlinkClusterConfigDTO dto) {
-        FlinkClusterConfig entity = new FlinkClusterConfig();
+    default FlinkClusterConfigVO toDo(FlinkClusterConfigDTO dto) {
+        FlinkClusterConfigVO entity = new FlinkClusterConfigVO();
         BeanUtils.copyProperties(dto, entity);
         entity.setFlinkVersion(DictVoConvert.INSTANCE.toDo(dto.getFlinkVersion()));
         entity.setResourceProvider(DictVoConvert.INSTANCE.toDo(dto.getResourceProvider()));
         entity.setDeployMode(DictVoConvert.INSTANCE.toDo(dto.getDeployMode()));
-        entity.setFlinkReleaseId(dto.getFlinkRelease().getId());
-        entity.setClusterCredentialId(dto.getClusterCredential().getId());
         if (CollectionUtils.isEmpty(dto.getConfigOptions()) == false) {
             entity.setConfigOptions(JacksonUtil.toJsonString(dto.getConfigOptions()));
         }
@@ -54,12 +54,14 @@ public interface FlinkClusterConfigConvert extends BaseConvert<FlinkClusterConfi
     }
 
     @Override
-    default FlinkClusterConfigDTO toDto(FlinkClusterConfig entity) {
+    default FlinkClusterConfigDTO toDto(FlinkClusterConfigVO entity) {
         FlinkClusterConfigDTO dto = new FlinkClusterConfigDTO();
         BeanUtils.copyProperties(entity, dto);
         dto.setFlinkVersion(DictVO.toVO(DictConstants.FLINK_VERSION, entity.getFlinkVersion()));
         dto.setResourceProvider(DictVO.toVO(DictConstants.FLINK_RESOURCE_PROVIDER, entity.getResourceProvider()));
         dto.setDeployMode(DictVO.toVO(DictConstants.FLINK_DEPLOYMENT_MODE, entity.getDeployMode()));
+        dto.setFlinkRelease(FlinkReleaseConvert.INSTANCE.toDto(entity.getFlinkRelease()));
+        dto.setClusterCredential(ClusterCredentialConvert.INSTANCE.toDto(entity.getClusterCredential()));
         if (StringUtils.hasText(entity.getConfigOptions())) {
             dto.setConfigOptions(JacksonUtil.parseJsonString(entity.getConfigOptions(), Map.class));
         }

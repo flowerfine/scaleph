@@ -46,7 +46,7 @@ export class ClusterConfigOptionsComponent implements OnInit {
   formData = {
     name: null,
     flinkRelease: null,
-    flinkDeployConfig: null,
+    clusterCredential: null,
     deployMode: null,
     configOptions: {},
     remark: null
@@ -55,8 +55,8 @@ export class ClusterConfigOptionsComponent implements OnInit {
   flinkReleaseList: FlinkRelease[] = []
   flinkReleaseResult: PageResponse<FlinkRelease> = null
 
-  flinkDeployConfigList: ClusterCredential[] = []
-  flinkDeployConfigResult: PageResponse<ClusterCredential> = null
+  clusterCredentialList: ClusterCredential[] = []
+  clusterCredentialResult: PageResponse<ClusterCredential> = null
 
   flinkStateBackendList: Dict[] = []
   deployModeList: Dict[] = []
@@ -73,7 +73,7 @@ export class ClusterConfigOptionsComponent implements OnInit {
     private modalService: ModalService,
     private dictDataService: SysDictDataService,
     private releaseFlinkService: FlinkReleaseService,
-    private deployConfigService: ClusterCredentialService,
+    private clusterCredentialService: ClusterCredentialService,
     private clusterConfigService: ClusterConfigService,
     private router: Router
   ) {
@@ -108,13 +108,13 @@ export class ClusterConfigOptionsComponent implements OnInit {
       this.flinkReleaseList = d.records;
     });
 
-    let flinkDeployConfigParam: ClusterCredentialParam = {
+    let clusterCredentialParam: ClusterCredentialParam = {
       pageSize: DEFAULT_PAGE_PARAM.pageSize,
       current: DEFAULT_PAGE_PARAM.pageIndex
     }
-    this.deployConfigService.list(flinkDeployConfigParam).subscribe((d) => {
-      this.flinkDeployConfigResult = d
-      this.flinkDeployConfigList = d.records;
+    this.clusterCredentialService.list(clusterCredentialParam).subscribe((d) => {
+      this.clusterCredentialResult = d
+      this.clusterCredentialList = d.records;
     });
   }
 
@@ -147,18 +147,18 @@ export class ClusterConfigOptionsComponent implements OnInit {
     }
   }
 
-  onFlinkDeployConfigLoadMore(event) {
-    let loaded = this.flinkDeployConfigResult.current * this.flinkDeployConfigResult.size
-    if (loaded >= this.flinkDeployConfigResult.total) {
+  onClusterCredentialLoadMore(event) {
+    let loaded = this.clusterCredentialResult.current * this.clusterCredentialResult.size
+    if (loaded >= this.clusterCredentialResult.total) {
       event.instance.loadFinish();
     } else {
-      let flinkDeployConfigParam: ClusterCredentialParam = {
-        pageSize: this.flinkDeployConfigResult.size,
-        current: this.flinkDeployConfigResult.current + 1
+      let clusterCredentialParam: ClusterCredentialParam = {
+        pageSize: this.clusterCredentialResult.size,
+        current: this.clusterCredentialResult.current + 1
       }
-      this.deployConfigService.list(flinkDeployConfigParam).subscribe((d) => {
-        this.flinkDeployConfigResult = d
-        this.flinkDeployConfigList = [...this.flinkDeployConfigList, ...d.records];
+      this.clusterCredentialService.list(clusterCredentialParam).subscribe((d) => {
+        this.clusterCredentialResult = d
+        this.clusterCredentialList = [...this.clusterCredentialList, ...d.records];
         event.instance.loadFinish();
       });
     }
@@ -183,10 +183,10 @@ export class ClusterConfigOptionsComponent implements OnInit {
     let row: FlinkClusterConfig = {
       name: this.formData.name,
       flinkVersion: this.formData.flinkRelease.version,
-      resourceProvider: this.formData.flinkDeployConfig.configType,
+      resourceProvider: this.formData.clusterCredential.configType,
       deployMode: this.formData.deployMode,
-      flinkReleaseId: this.formData.flinkRelease.id,
-      deployConfigFileId: this.formData.flinkDeployConfig.id,
+      flinkRelease: this.formData.flinkRelease,
+      clusterCredential: this.formData.clusterCredential,
       configOptions: customConfigOptions,
       remark: this.formData.remark
     };

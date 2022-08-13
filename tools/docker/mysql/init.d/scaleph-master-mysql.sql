@@ -87,6 +87,8 @@ INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `edit
 VALUES ('flink_checkpoint_retain', 'Flink 外部 checkpoint 保留模式', 'sys', 'sys');
 INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
 VALUES ('flink_restart_strategy', 'Flink 重启策略', 'sys', 'sys');
+INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+VALUES ('flink_high_availability', 'Flink HA', 'sys', 'sys');
 INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
 VALUES ('seatunnel_version', 'SeaTunnel 版本', 'sys', 'sys');
 
@@ -360,6 +362,11 @@ INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `
 VALUES ('flink_restart_strategy', 'failurerate', 'failure-rate', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_restart_strategy', 'exponentialdelay', 'exponential-delay', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_high_availability', 'org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory',
+        'Kubernetes', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_high_availability', 'zookeeper', 'ZooKeeper', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('seatunnel_version', '2.1.2', '2.1.2', 'sys', 'sys');
 

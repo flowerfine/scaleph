@@ -19,7 +19,10 @@
 package cn.sliew.scaleph.dao.mapper.master.flink;
 
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfig;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfigVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -29,5 +32,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface FlinkClusterConfigMapper extends BaseMapper<FlinkClusterConfig> {
+
+    Page<FlinkClusterConfigVO> list(Page<FlinkClusterConfig> page,
+                                    @Param("param") FlinkClusterConfig param);
+
+    FlinkClusterConfigVO getById(@Param("id") Long id);
 
 }

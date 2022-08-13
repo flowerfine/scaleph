@@ -19,6 +19,8 @@
 package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
+import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -57,12 +59,12 @@ public class FlinkClusterConfigDTO extends BaseDTO {
 
     @NotNull
     @ApiModelProperty("release id")
-    private Long flinkReleaseId;
+    private FlinkReleaseDTO flinkRelease;
 
-    @ApiModelProperty("配置文件 id。配置如 hadoop 的 core-site.xml，kubernetes 的 kubeconfig")
-    private Long deployConfigFileId;
+    @ApiModelProperty("集群凭证 id。如 hadoop 的 core-site.xml，kubernetes 的 kubeconfig")
+    private ClusterCredentialDTO clusterCredential;
 
-    @ApiModelProperty("集群配置")
+    @ApiModelProperty("flink 集群配置项")
     private Map<String, String> configOptions;
 
     @ApiModelProperty("备注")

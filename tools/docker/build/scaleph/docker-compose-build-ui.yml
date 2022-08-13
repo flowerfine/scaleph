@@ -44,8 +44,8 @@ services:
       scaleph-api:
         condition: service_healthy
     build:
-      dockerfile: ../scaleph-ui/Dockerfile
-      context: ../../../../scaleph-ui
+      context: ../../../../
+      dockerfile: tools/docker/build/scaleph-ui/Dockerfile
     environment:
       - SCALEPH_API_URL="scaleph-api:8080"
     ports:
