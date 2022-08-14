@@ -19,21 +19,9 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink;
 
 import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.CLICKHOUSE_SINK;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseProperties.CLICKHOUSE_CONF;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseProperties.DATABASE;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseProperties.FIELDS;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseProperties.HOST;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseProperties.PASSWORD;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseProperties.TABLE;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseProperties.USERNAME;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseSinkProperties.BULK_SIZE;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseSinkProperties.CLICKHOUSE_XXX;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseSinkProperties.RETRY;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseSinkProperties.RETRY_CODES;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseSinkProperties.SHARDING_KEY;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseSinkProperties.SPLIT_MODE;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseSinkProperties.*;
 
-import cn.hutool.json.JSONUtil;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.common.param.PropertyUtil;
@@ -44,7 +32,6 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +80,7 @@ public class ClickHouseSinkPlugin extends SeatunnelNativeFlinkPlugin {
                 } else if (FIELDS.getName().equals(descriptor.getName())) {
                     String[] splitFields = properties.getValue(descriptor).split(",");
                     ArrayNode jsonNodes = objectNode.putArray(descriptor.getName());
-                    for (String field:splitFields){
+                    for (String field : splitFields) {
                         jsonNodes.add(field);
                     }
                 } else {
