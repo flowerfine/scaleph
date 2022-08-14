@@ -59,9 +59,8 @@ public class FileSystemConfiguration {
             URI uri = new URI(s3FileSystemProperties.getEndpoint());
             conf.set("fs.s3a.proxy.host", uri.getHost());
             conf.setInt("fs.s3a.proxy.port", uri.getPort());
-        } else {
-            conf.set("fs.s3a.endpoint", s3FileSystemProperties.getEndpoint());
         }
+        conf.set("fs.s3a.endpoint", s3FileSystemProperties.getEndpoint());
         conf.set("fs.s3a.access.key", s3FileSystemProperties.getAccessKey());
         conf.set("fs.s3a.secret.key", s3FileSystemProperties.getSecretKey());
         conf.setBoolean("fs.s3a.path-style-access", true);

@@ -144,7 +144,7 @@
         <guava.version>31.0-jre</guava.version>
         <minio.version>8.3.8</minio.version>
         <milky.version>1.0.6_8</milky.version>
-        <hadoop.version>3.3.2</hadoop.version>
+        <hadoop.version>3.3.4</hadoop.version>
     </properties>
 
     <dependencyManagement>
@@ -409,11 +409,19 @@
                     </exclusion>
                     <exclusion>
                         <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-reload4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
                         <artifactId>slf4j-log4j12</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>ch.qos.reload4j</groupId>
+                        <artifactId>reload4j</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>javax.servlet.jsp</groupId>

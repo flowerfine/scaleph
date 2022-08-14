@@ -80,7 +80,7 @@ Install dependencies. Note: this step only needs when first time bootstraps fron
 cd scaleph-ui
 
 npm install -g @angular/cli
-npm install
+npm install --force
 ```
 
 Start frontend server:
