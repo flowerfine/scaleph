@@ -77,7 +77,7 @@ http {
          }
 
      location ~ .*\.(js|css|ico|png|jpg|eot|svg|ttf|woff|html) {
-         root html\scaleph;
+         root html/scaleph;
          expires 30d;
          }
      }
