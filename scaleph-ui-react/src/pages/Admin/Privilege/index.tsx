@@ -68,6 +68,7 @@ const Privilege: React.FC = () => {
   };
 
   const refreshPrivileges = (roleId: string, resourceType: string) => {
+    setCheckedPrivilegeList([]);
     Promise.all([listAllPrivilege(resourceType), listPrivilegeByRole(roleId, resourceType)]).then(
       ([resp1, resp2]) => {
         setPrivilegeTreeList(buildPrivilegeTree(resp1));
@@ -81,8 +82,8 @@ const Privilege: React.FC = () => {
   };
 
   const changePrivilegeTypeTab = (activeKey: string) => {
+    setPrivilegeTabId(activeKey);
     if (checkedItemId) {
-      setPrivilegeTabId(activeKey);
       refreshPrivileges(checkedItemId, activeKey);
     }
   };
