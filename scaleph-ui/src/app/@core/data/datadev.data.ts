@@ -42,6 +42,7 @@ export const WORKBENCH_MENU = [
       { title: 'datadev.step.sink-console', menuIcon: 'icon-operation-log', menuType: 'sink', menuName: 'console' },
       { title: 'datadev.step.sink-kafka', menuIcon: 'icon-system', menuType: 'sink', menuName: 'kafka' },
       { title: 'datadev.step.sink-doris', menuIcon: 'icon-system', menuType: 'sink', menuName: 'doris' },
+      { title: 'datadev.step.sink-clickhouse', menuIcon: 'icon-system', menuType: 'sink', menuName: 'clickhouse' },
     ],
   },
   {
@@ -214,6 +215,7 @@ export const STEP_ATTR_TYPE = {
   query: 'query',
   partitionColumn: 'partition_column',
   batchSize: 'batch_size',
+  bulkSize: 'bulk_size',
   preSQL: 'pre_sql',
   postSQL: 'post_sql',
   limit: 'limit',
@@ -238,6 +240,8 @@ export const STEP_ATTR_TYPE = {
   interval: 'interval',
   maxRetries: 'max_retries',
   dorisConf: 'doris_conf',
+  fields: 'fields',
+  clickhouseConf: 'clickhouse_conf'
 };
 
 export class MockData {

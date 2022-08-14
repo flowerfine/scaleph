@@ -58,6 +58,10 @@
       <app-sink-doris-step [data]="{ onClose: close, item: cell, jobId: jobId }" (onSave)="saveStepInfo($event)" #step>
       </app-sink-doris-step>
     </div>
+    <div *ngSwitchCase="'sink-clickhouse'">
+      <app-sink-clickhouse-step [data]="{ onClose: close, item: cell, jobId: jobId }" (onSave)="saveStepInfo($event)" #step>
+      </app-sink-clickhouse-step>
+    </div>
   </div>
   <d-row [dGutter]="[12, 12]" class="drawer-footer">
     <d-button bsStyle="primary" (btnClick)="submitForm()">{{ 'app.common.operate.confirm.label' | translate }}</d-button>

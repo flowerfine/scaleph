@@ -136,6 +136,7 @@
         <disruptor.version>3.4.4</disruptor.version>
         <ojdbc.version>21.1.0.0</ojdbc.version>
         <mysql.version>8.0.28</mysql.version>
+        <clickhouse-jdbc.version>0.2</clickhouse-jdbc.version>
         <doris.version>5.1.26</doris.version>
         <postgresql.version>42.3.3</postgresql.version>
         <flink.version>1.13.6</flink.version>
@@ -478,6 +479,11 @@
                 <artifactId>ojdbc8</artifactId>
                 <version>${ojdbc.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>ru.yandex.clickhouse</groupId>
+                <artifactId>clickhouse-jdbc</artifactId>
+                <version>${clickhouse-jdbc.version}</version>
             </dependency>
 
         </dependencies>

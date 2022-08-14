@@ -31,6 +31,7 @@ public enum DataSourceTypeEnum {
     ORACLE("Oracle", "Oracle"),
     POSTGRESQL("PostGreSQL", "PostGreSQL"),
     DORIS("Doris", "Doris"),
+    CLICKHOUSE("ClickHouse", "ClickHouse"),
 
     KAFKA("Kafka", "Kafka")
     ;

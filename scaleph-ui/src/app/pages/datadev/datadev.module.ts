@@ -46,6 +46,8 @@ import { SourceKafkaStepComponent } from './workbench/steps/source-kafka-step/so
 import { SinkKafkaStepComponent } from './workbench/steps/sink-kafka-step/sink-kafka-step.component';
 import { DorisDatasourceComponent } from './datasource/doris-datasource/doris-datasource.component';
 import { SinkDorisStepComponent } from './workbench/steps/sink-doris-step/sink-doris-step.component';
+import { ClickHouseDatasourceComponent } from './datasource/clickhouse-datasource/clickhouse-datasource.component';
+import { SinkClickHouseStepComponent } from './workbench/steps/sink-clickhouse-step/sink-clickhouse-step.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +94,8 @@ import { SinkDorisStepComponent } from './workbench/steps/sink-doris-step/sink-d
     SinkKafkaStepComponent,
     DorisDatasourceComponent,
     SinkDorisStepComponent,
+    ClickHouseDatasourceComponent,
+    SinkClickHouseStepComponent
   ],
   imports: [SharedModule, DataDevRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })

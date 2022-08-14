@@ -41,6 +41,11 @@
         </d-card>
       </d-col>
       <d-col [dSpan]="6">
+        <d-card (click)="openAddDataSourceDialog('ClickHouse')">
+          <div class="indicator-card-content">ClickHouse</div>
+        </d-card>
+      </d-col>
+      <d-col [dSpan]="6">
         <d-card (click)="openAddDataSourceDialog('hive')">
           <div class="indicator-card-content">Hive</div>
         </d-card>
