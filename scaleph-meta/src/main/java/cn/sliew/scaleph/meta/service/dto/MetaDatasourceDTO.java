@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.meta.service.dto;
 
+import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.I18nUtil;
@@ -83,11 +84,14 @@ public class MetaDatasourceDTO extends BaseDTO {
     public void setPropsStr(Map<String, Object> props) {
         if (!CollectionUtils.isEmpty(props)) {
             StringBuffer buffer = new StringBuffer();
-            props.forEach((k, v) ->
-                    buffer.append("<b>" + I18nUtil.get("datadev.datasource.props." + k) + "</b>")
-                            .append(":")
-                            .append(v)
-                            .append("<br/>")
+            props.forEach((k, v) -> {
+                        if (!v.toString().startsWith(Constants.CODEC_STR_PREFIX)) {
+                            buffer.append("<b>" + I18nUtil.get("datadev.datasource.props." + k) + "</b>")
+                                    .append(":")
+                                    .append(v)
+                                    .append("<br/>");
+                        }
+                    }
             );
             setPropsStr(buffer.toString());
         }

@@ -42,6 +42,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 
+import static cn.sliew.scaleph.common.constant.Constants.CODEC_STR_PREFIX;
+
 /**
  * @author gleiyu
  */
@@ -63,7 +65,11 @@ public class SysConfigController {
     public ResponseEntity<ResponseVO> configEmail(
             @Validated @RequestBody EmailConfigVO emailConfig) {
         String password = emailConfig.getPassword();
-        emailConfig.setPassword(CodecUtil.encodeToBase64(password));
+        if (!password.startsWith(CODEC_STR_PREFIX)) {
+            emailConfig.setPassword(CODEC_STR_PREFIX + CodecUtil.encodeToBase64(password));
+        } else {
+            emailConfig.setPassword(password);
+        }
         this.sysConfigService.deleteByCode(Constants.CFG_EMAIL_CODE);
         SysConfigDTO sysConfig = new SysConfigDTO();
         sysConfig.setCfgCode(Constants.CFG_EMAIL_CODE);

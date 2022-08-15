@@ -46,11 +46,8 @@
 
 // Input
 @input-padding-horizontal-lg: @input-padding-horizontal;
-@input-padding-vertical-base: max(
-  (round(((@input-height-base - @font-size-base * @line-height-base) / 2) * 10) / 10) -
-    @border-width-base,
-  3px
-);
+@input-padding-vertical-base: max((round(((@input-height-base - @font-size-base * @line-height-base) / 2) * 10) / 10) - @border-width-base,
+    3px);
 
 // Select
 // ---
@@ -115,9 +112,7 @@
 // Tabs
 // ---
 
-@tabs-card-horizontal-padding: (
-    (@tabs-card-height - floor(@font-size-base * @line-height-base)) / 2
-  ) - @border-width-base @padding-md;
+@tabs-card-horizontal-padding: ((@tabs-card-height - floor(@font-size-base * @line-height-base)) / 2) - @border-width-base @padding-md;
 
 // // Pagination
 @pagination-mini-options-size-changer-top: 0px;

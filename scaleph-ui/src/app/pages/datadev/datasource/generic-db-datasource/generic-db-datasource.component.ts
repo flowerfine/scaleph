@@ -66,7 +66,7 @@ export class GenericDbDatasourceComponent implements OnInit {
     private translate: TranslateService,
     private datasourceService: DataSourceService,
     private notificationService: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;
@@ -79,7 +79,7 @@ export class GenericDbDatasourceComponent implements OnInit {
         port: this.data.item.item.props.port,
         databaseName: this.data.item.item.props.databaseName,
         username: this.data.item.item.props.username,
-        password: '***',
+        password: this.data.item.item.props.password,
         remark: this.data.item.item.remark,
         additionalPropsStr: this.data.item.item.additionalPropsStr,
       };
