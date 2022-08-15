@@ -123,7 +123,8 @@ public class EmailServiceImpl implements EmailService {
             this.setFrom(emailConfig.getEmail());
             JavaMailSenderImpl jms = new JavaMailSenderImpl();
             jms.setUsername(emailConfig.getEmail());
-            jms.setPassword(CodecUtil.decodeFromBase64(emailConfig.getPassword()));
+            String encodedPasswd = emailConfig.getPassword().substring(Constants.CODEC_STR_PREFIX.length());
+            jms.setPassword(CodecUtil.decodeFromBase64(encodedPasswd));
             jms.setHost(emailConfig.getHost());
             jms.setPort(emailConfig.getPort());
             jms.setDefaultEncoding(emailConfig.getEncoding());
