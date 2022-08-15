@@ -33,5 +33,8 @@
     <div *ngSwitchCase="'Doris'">
       <app-doris-datasource [data]="{ item: data }" #datasource></app-doris-datasource>
     </div>
+    <div *ngSwitchCase="'ClickHouse'">
+      <app-clickhouse-datasource [data]="{ item: data }" #datasource></app-clickhouse-datasource>
+    </div>
   </div>
 </div>

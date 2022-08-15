@@ -195,6 +195,8 @@ values ('datasource_type', 'Kafka', 'Kafka', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('datasource_type', 'Doris', 'Doris', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
+values ('datasource_type', 'ClickHouse', 'ClickHouse', 'sys', 'sys');
+insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('job_type', 'b', '周期作业', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('job_type', 'r', '实时作业', 'sys', 'sys');
@@ -1563,6 +1565,25 @@ values ('sink', 'doris', 'doris_conf', null, '0', 'doris配置', 'sys', 'sys');
 insert into di_job_step_attr_type (step_type, step_name, step_attr_key, step_attr_default_value, is_required,
                                    step_attr_describe, creator, editor)
 values ('sink', 'doris', 'parallelism', null, '0', '并行数量', 'sys', 'sys');
+
+INSERT INTO `di_job_step_attr_type`(`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`, `is_required`,
+                                    `step_attr_describe`, `creator`, `create_time`, `editor`, `update_time`)
+                                    VALUES ('sink', 'clickhouse', 'dataSource', NULL, '1', '数据源', 'sys', '2022-08-13 21:34:38', 'sys', '2022-08-13 21:34:38');
+INSERT INTO `di_job_step_attr_type`(`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`, `is_required`,
+                                    `step_attr_describe`, `creator`, `create_time`, `editor`, `update_time`)
+                                    VALUES ('sink', 'clickhouse', 'table', NULL, '1', '表名', 'sys', '2022-08-13 21:34:38', 'sys', '2022-08-13 21:34:38');
+INSERT INTO `di_job_step_attr_type`(`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`, `is_required`,
+                                    `step_attr_describe`, `creator`, `create_time`, `editor`, `update_time`)
+                                    VALUES ('sink', 'clickhouse', 'bulk_size', NULL, '0', '提交记录数量', 'sys', '2022-08-13 21:34:38', 'sys', '2022-08-13 21:34:38');
+INSERT INTO `di_job_step_attr_type`(`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`, `is_required`,
+                                    `step_attr_describe`, `creator`, `create_time`, `editor`, `update_time`)
+                                    VALUES ('sink', 'clickhouse', 'max_retries', NULL, '0', '重试次数', 'sys', '2022-08-13 21:34:38', 'sys', '2022-08-13 21:34:38');
+INSERT INTO `di_job_step_attr_type`(`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`, `is_required`,
+                                    `step_attr_describe`, `creator`, `create_time`, `editor`, `update_time`)
+                                    VALUES ('sink', 'clickhouse', 'clickhouse_conf', NULL, '0', 'clickhouse配置', 'sys', '2022-08-13 21:34:38', 'sys', '2022-08-13 21:34:38');
+INSERT INTO `di_job_step_attr_type`(`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`, `is_required`,
+                                    `step_attr_describe`, `creator`, `create_time`, `editor`, `update_time`)
+                                    VALUES ('sink', 'clickhouse', 'fields', NULL, '0', '列信息', 'sys', '2022-08-14 15:58:09', 'sys', '2022-08-14 15:58:14');
 
 /* 作业连线信息 */
 drop table if exists di_job_link;

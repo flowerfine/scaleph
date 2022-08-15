@@ -73,4 +73,13 @@ public enum ClickHouseProperties {
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
+
+
+    public static final PropertyDescriptor<String> CLICKHOUSE_CONF = new PropertyDescriptor.Builder<String>()
+        .name("clickhouse_conf")
+        .description("The clickhouse load parameters.you can use 'clickhouse.' prefix + load properties.")
+        .type(PropertyType.STRING)
+        .parser(Parsers.STRING_PARSER)
+        .validateAndBuild();
+
 }
