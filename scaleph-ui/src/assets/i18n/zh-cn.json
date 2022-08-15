@@ -393,7 +393,7 @@
     "step.sink-clickhouse.batchSize": "提交记录数量",
     "step.sink-clickhouse.maxRetries": "重试次数",
     "step.sink-clickhouse.clickhouseConf": "clickhouse配置",
-    "step.sink-clickhouse.clickhouseConf.tooltip": "参考clickhouse官方文档,按照key=value格式配置属性，每个属性一行"
+    "step.sink-clickhouse.clickhouseConf.tooltip": "参考clickhouse-jdbc文档,按照key=value格式配置属性，每个属性一行"
   },
   "stdata": {
     "remark": "备注",
