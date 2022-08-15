@@ -131,7 +131,7 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
         Page<MetaDatasourceDTO> result =
                 new Page<>(list.getCurrent(), list.getSize(), list.getTotal());
         List<MetaDatasourceDTO> dtoList = MetaDataSourceConvert.INSTANCE.toDto(list.getRecords());
-        dtoList.forEach(this::cleanSensitiveParam);
+//        dtoList.forEach(this::cleanSensitiveParam);
         result.setRecords(dtoList);
         return result;
     }
