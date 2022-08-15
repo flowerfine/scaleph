@@ -57,7 +57,7 @@ export class JdbcDatasourceComponent implements OnInit {
     private translate: TranslateService,
     private datasourceService: DataSourceService,
     private notificationService: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;
@@ -68,7 +68,7 @@ export class JdbcDatasourceComponent implements OnInit {
         jdbcUrl: this.data.item.item.props.jdbcUrl,
         driverClassName: this.data.item.item.props.driverClassName,
         username: this.data.item.item.props.username,
-        password: '***',
+        password: this.data.item.item.props.password,
         remark: this.data.item.item.remark,
       };
     }
