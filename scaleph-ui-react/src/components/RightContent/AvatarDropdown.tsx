@@ -28,7 +28,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
         });
         return;
       }
-      history.push(`/account/${key}`);
+      history.push(`/user/${key}`);
     }, []
   );
 

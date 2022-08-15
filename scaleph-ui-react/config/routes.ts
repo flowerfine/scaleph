@@ -14,6 +14,10 @@
     component: './User/Register',
   },
   {
+    path: '/user/center',
+    component: './User',
+  },
+  {
     name: 'studio',
     path: '/studio',
     icon: 'codeSandbox',
