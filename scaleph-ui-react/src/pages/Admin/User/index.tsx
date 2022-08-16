@@ -1,10 +1,10 @@
-import {Dict, TreeNode} from '@/app.d';
-import {DICT_TYPE} from '@/constant';
-import {deleteDept, listAllDept} from '@/services/admin/dept.service';
-import {listDictDataByType} from '@/services/admin/dictData.service';
-import {deleteRole, listAllRole} from '@/services/admin/role.service';
-import {SecDept, SecDeptTreeNode, SecRole, SecUser} from '@/services/admin/typings';
-import {deleteUserBatch, deleteUserRow, listUserByPage, updateUser,} from '@/services/admin/user.service';
+import { Dict, TreeNode } from '@/app.d';
+import { DICT_TYPE } from '@/constant';
+import { deleteDept, listAllDept } from '@/services/admin/dept.service';
+import { listDictDataByType } from '@/services/admin/dictData.service';
+import { deleteRole, listAllRole } from '@/services/admin/role.service';
+import { SecDept, SecDeptTreeNode, SecRole, SecUser } from '@/services/admin/typings';
+import { deleteUserBatch, deleteUserRow, listUserByPage, updateUser, } from '@/services/admin/user.service';
 import {
   DeleteOutlined,
   EditOutlined,
@@ -13,7 +13,7 @@ import {
   StopOutlined,
   UserSwitchOutlined,
 } from '@ant-design/icons';
-import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
+import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import {
   Button,
   Card,
@@ -30,8 +30,8 @@ import {
   Tree,
   Typography,
 } from 'antd';
-import React, {useEffect, useRef, useState} from 'react';
-import {useIntl} from 'umi';
+import React, { useEffect, useRef, useState } from 'react';
+import { useIntl } from 'umi';
 import DeptForm from './components/DeptForm';
 import DeptGrant from './components/DeptGrant';
 import RoleForm from './components/RoleForm';
@@ -81,29 +81,29 @@ const User: React.FC = () => {
 
   const tableColumns: ProColumns<SecUser>[] = [
     {
-      title: intl.formatMessage({id: 'pages.admin.user.userName'}),
+      title: intl.formatMessage({ id: 'pages.admin.user.userName' }),
       dataIndex: 'userName',
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.user.nickName'}),
+      title: intl.formatMessage({ id: 'pages.admin.user.nickName' }),
       dataIndex: 'nickName',
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.user.email'}),
+      title: intl.formatMessage({ id: 'pages.admin.user.email' }),
       dataIndex: 'email',
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.user.realName'}),
+      title: intl.formatMessage({ id: 'pages.admin.user.realName' }),
       dataIndex: 'realName',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.user.mobilePhone'}),
+      title: intl.formatMessage({ id: 'pages.admin.user.mobilePhone' }),
       dataIndex: 'mobilePhone',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.user.gender'}),
+      title: intl.formatMessage({ id: 'pages.admin.user.gender' }),
       dataIndex: 'gender',
       hideInSearch: true,
       render: (text, record, index) => {
@@ -111,9 +111,9 @@ const User: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.user.userStatus'}),
+      title: intl.formatMessage({ id: 'pages.admin.user.userStatus' }),
       dataIndex: 'userStatus',
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+      renderFormItem: (item, { defaultRender, ...rest }, form) => {
         return (
           <Select
             showSearch={true}
@@ -138,7 +138,7 @@ const User: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({id: 'app.common.operate.label'}),
+      title: intl.formatMessage({ id: 'app.common.operate.label' }),
       dataIndex: 'actions',
       width: 120,
       fixed: 'right',
@@ -146,37 +146,37 @@ const User: React.FC = () => {
       render: (_, record) => (
         <>
           <Space>
-            <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
+            <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
               <Button
                 shape="default"
                 type="link"
-                icon={<EditOutlined/>}
+                icon={<EditOutlined />}
                 onClick={() => {
-                  setUserFormData({visiable: true, data: record});
+                  setUserFormData({ visiable: true, data: record });
                   actionRef.current?.reload();
                 }}
               ></Button>
             </Tooltip>
             {record.userStatus?.value?.substring(0, 1) != '9' && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.forbid.label'})}>
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.forbid.label' })}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<StopOutlined/>}
+                  icon={<StopOutlined />}
                   onClick={() => {
                     Modal.confirm({
-                      title: intl.formatMessage({id: 'app.common.operate.forbid.confirm.title'}),
+                      title: intl.formatMessage({ id: 'app.common.operate.forbid.confirm.title' }),
                       content: intl.formatMessage({
                         id: 'app.common.operate.forbid.confirm.content',
                       }),
-                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                      okButtonProps: {danger: true},
-                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                      okButtonProps: { danger: true },
+                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
                         deleteUserRow(record).then((d) => {
                           if (d.success) {
                             message.success(
-                              intl.formatMessage({id: 'app.common.operate.forbid.success'}),
+                              intl.formatMessage({ id: 'app.common.operate.forbid.success' }),
                             );
                             actionRef.current?.reload();
                           }
@@ -188,21 +188,21 @@ const User: React.FC = () => {
               </Tooltip>
             )}
             {record.userStatus?.value?.substring(0, 1) == '9' && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.enable.label'})}>
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.enable.label' })}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<RedoOutlined/>}
+                  icon={<RedoOutlined />}
                   onClick={() => {
                     let user: SecUser = {
                       userName: record.userName,
                       id: record.id,
-                      userStatus: {value: '10', label: ''},
+                      userStatus: { value: '10', label: '' },
                       email: record.email,
                     };
                     updateUser(user).then((resp) => {
                       if (resp.success) {
-                        message.success(intl.formatMessage({id: 'app.common.operate.success'}));
+                        message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
                         actionRef.current?.reload();
                       }
                     });
@@ -222,16 +222,16 @@ const User: React.FC = () => {
       return (
         <Tooltip
           title={
-            intl.formatMessage({id: 'app.common.operate.new.label'}) +
-            intl.formatMessage({id: 'pages.admin.user.role'})
+            intl.formatMessage({ id: 'app.common.operate.new.label' }) +
+            intl.formatMessage({ id: 'pages.admin.user.role' })
           }
         >
           <Button
             shape="default"
             type="link"
-            icon={<PlusOutlined/>}
+            icon={<PlusOutlined />}
             onClick={() => {
-              setRoleFormData({visiable: true, data: {}});
+              setRoleFormData({ visiable: true, data: {} });
             }}
           ></Button>
         </Tooltip>
@@ -240,16 +240,16 @@ const User: React.FC = () => {
       return (
         <Tooltip
           title={
-            intl.formatMessage({id: 'app.common.operate.new.label'}) +
-            intl.formatMessage({id: 'pages.admin.user.dept'})
+            intl.formatMessage({ id: 'app.common.operate.new.label' }) +
+            intl.formatMessage({ id: 'pages.admin.user.dept' })
           }
         >
           <Button
             shape="default"
             type="link"
-            icon={<PlusOutlined/>}
+            icon={<PlusOutlined />}
             onClick={() => {
-              setDeptFormData({visiable: true, data: {}, isUpdate: false});
+              setDeptFormData({ visiable: true, data: {}, isUpdate: false });
             }}
           ></Button>
         </Tooltip>
@@ -344,7 +344,7 @@ const User: React.FC = () => {
               setTabId(activeKey);
             }}
           >
-            <Tabs.TabPane tab={intl.formatMessage({id: 'pages.admin.user.role'})} key={roleTab}>
+            <Tabs.TabPane tab={intl.formatMessage({ id: 'pages.admin.user.role' })} key={roleTab}>
               <List
                 bordered={false}
                 dataSource={roleList}
@@ -362,29 +362,29 @@ const User: React.FC = () => {
                       setRoleList([...roleList]);
                     }}
                   >
-                    <Typography.Text style={{paddingRight: 12}}>{item.roleName}</Typography.Text>
+                    <Typography.Text style={{ paddingRight: 12 }}>{item.roleName}</Typography.Text>
                     {item.showOpIcon && (
                       <Space size={2}>
                         <Tooltip
-                          title={intl.formatMessage({id: 'app.common.operate.edit.label'})}
+                          title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}
                         >
                           <Button
                             shape="default"
                             type="text"
-                            icon={<EditOutlined/>}
+                            icon={<EditOutlined />}
                             onClick={() => {
-                              setRoleFormData({visiable: true, data: item});
+                              setRoleFormData({ visiable: true, data: item });
                             }}
                           ></Button>
                         </Tooltip>
                         <Tooltip
-                          title={intl.formatMessage({id: 'app.common.operate.delete.label'})}
+                          title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}
                         >
                           <Button
                             shape="default"
                             type="text"
                             size="small"
-                            icon={<DeleteOutlined/>}
+                            icon={<DeleteOutlined />}
                             onClick={() => {
                               Modal.confirm({
                                 title: intl.formatMessage({
@@ -396,7 +396,7 @@ const User: React.FC = () => {
                                 okText: intl.formatMessage({
                                   id: 'app.common.operate.confirm.label',
                                 }),
-                                okButtonProps: {danger: true},
+                                okButtonProps: { danger: true },
                                 cancelText: intl.formatMessage({
                                   id: 'app.common.operate.cancel.label',
                                 }),
@@ -417,15 +417,15 @@ const User: React.FC = () => {
                           ></Button>
                         </Tooltip>
                         <Tooltip
-                          title={intl.formatMessage({id: 'app.common.operate.grant.label'})}
+                          title={intl.formatMessage({ id: 'app.common.operate.grant.label' })}
                         >
                           <Button
                             shape="default"
                             type="text"
                             size="small"
-                            icon={<UserSwitchOutlined/>}
+                            icon={<UserSwitchOutlined />}
                             onClick={() => {
-                              setRoleGrantData({visiable: true, data: item});
+                              setRoleGrantData({ visiable: true, data: item });
                             }}
                           ></Button>
                         </Tooltip>
@@ -435,16 +435,16 @@ const User: React.FC = () => {
                 )}
               />
             </Tabs.TabPane>
-            <Tabs.TabPane tab={intl.formatMessage({id: 'pages.admin.user.dept'})} key={deptTab}>
+            <Tabs.TabPane tab={intl.formatMessage({ id: 'pages.admin.user.dept' })} key={deptTab}>
               <Input.Search
-                style={{marginBottom: 8}}
+                style={{ marginBottom: 8 }}
                 allowClear={true}
                 onSearch={searchDeptTree}
-                placeholder={intl.formatMessage({id: 'app.common.operate.search.label'})}
+                placeholder={intl.formatMessage({ id: 'app.common.operate.search.label' })}
               ></Input.Search>
               <Tree
                 treeData={deptTreeList}
-                showLine={{showLeafIcon: false}}
+                showLine={{ showLeafIcon: false }}
                 blockNode={true}
                 showIcon={false}
                 height={680}
@@ -472,17 +472,17 @@ const User: React.FC = () => {
                           setDeptTreeList([...deptTreeList]);
                         }}
                       >
-                        <Typography.Text style={{paddingRight: 12}}>{node.title}</Typography.Text>
+                        <Typography.Text style={{ paddingRight: 12 }}>{node.title}</Typography.Text>
                         {node.showOpIcon && (
                           <Space size={2}>
                             <Tooltip
-                              title={intl.formatMessage({id: 'app.common.operate.new.label'})}
+                              title={intl.formatMessage({ id: 'app.common.operate.new.label' })}
                             >
                               <Button
                                 shape="default"
                                 type="text"
                                 size="small"
-                                icon={<PlusOutlined/>}
+                                icon={<PlusOutlined />}
                                 onClick={() => {
                                   setDeptFormData({
                                     visiable: true,
@@ -495,13 +495,13 @@ const User: React.FC = () => {
                               ></Button>
                             </Tooltip>
                             <Tooltip
-                              title={intl.formatMessage({id: 'app.common.operate.edit.label'})}
+                              title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}
                             >
                               <Button
                                 shape="default"
                                 type="text"
                                 size="small"
-                                icon={<EditOutlined/>}
+                                icon={<EditOutlined />}
                                 onClick={() => {
                                   setDeptFormData({
                                     visiable: true,
@@ -517,13 +517,13 @@ const User: React.FC = () => {
                               ></Button>
                             </Tooltip>
                             <Tooltip
-                              title={intl.formatMessage({id: 'app.common.operate.delete.label'})}
+                              title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}
                             >
                               <Button
                                 shape="default"
                                 type="text"
                                 size="small"
-                                icon={<DeleteOutlined/>}
+                                icon={<DeleteOutlined />}
                                 onClick={() => {
                                   Modal.confirm({
                                     title: intl.formatMessage({
@@ -535,7 +535,7 @@ const User: React.FC = () => {
                                     okText: intl.formatMessage({
                                       id: 'app.common.operate.confirm.label',
                                     }),
-                                    okButtonProps: {danger: true},
+                                    okButtonProps: { danger: true },
                                     cancelText: intl.formatMessage({
                                       id: 'app.common.operate.cancel.label',
                                     }),
@@ -556,15 +556,15 @@ const User: React.FC = () => {
                               ></Button>
                             </Tooltip>
                             <Tooltip
-                              title={intl.formatMessage({id: 'app.common.operate.grant.label'})}
+                              title={intl.formatMessage({ id: 'app.common.operate.grant.label' })}
                             >
                               <Button
                                 shape="default"
                                 type="text"
                                 size="small"
-                                icon={<UserSwitchOutlined/>}
+                                icon={<UserSwitchOutlined />}
                                 onClick={() => {
-                                  setDeptGrantData({visiable: true, data: node.origin});
+                                  setDeptGrantData({ visiable: true, data: node.origin });
                                 }}
                               ></Button>
                             </Tooltip>
@@ -581,13 +581,12 @@ const User: React.FC = () => {
       </Col>
       <Col span={19}>
         <ProTable<SecUser>
-          headerTitle={intl.formatMessage({id: 'pages.admin.user'})}
+          headerTitle={intl.formatMessage({ id: 'pages.admin.user' })}
           search={{
             labelWidth: 'auto',
-            span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
+            span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
           }}
-          sticky
-          scroll={{x: 800}}
+          scroll={{ x: 800 }}
           rowKey="id"
           actionRef={actionRef}
           formRef={formRef}
@@ -598,10 +597,10 @@ const User: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setUserFormData({visiable: true, data: {}});
+                  setUserFormData({ visiable: true, data: {} });
                 }}
               >
-                {intl.formatMessage({id: 'app.common.operate.new.label'})}
+                {intl.formatMessage({ id: 'app.common.operate.new.label' })}
               </Button>,
               <Button
                 key="del"
@@ -609,18 +608,18 @@ const User: React.FC = () => {
                 disabled={selectedRows.length < 1}
                 onClick={() => {
                   Modal.confirm({
-                    title: intl.formatMessage({id: 'app.common.operate.forbid.confirm.title'}),
+                    title: intl.formatMessage({ id: 'app.common.operate.forbid.confirm.title' }),
                     content: intl.formatMessage({
                       id: 'app.common.operate.forbid.confirm.content',
                     }),
-                    okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                    okButtonProps: {danger: true},
-                    cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                    okButtonProps: { danger: true },
+                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                     onOk() {
                       deleteUserBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(
-                            intl.formatMessage({id: 'app.common.operate.forbid.success'}),
+                            intl.formatMessage({ id: 'app.common.operate.forbid.success' }),
                           );
                           actionRef.current?.reload();
                         }
@@ -629,7 +628,7 @@ const User: React.FC = () => {
                   });
                 }}
               >
-                {intl.formatMessage({id: 'app.common.operate.forbid.label'})}
+                {intl.formatMessage({ id: 'app.common.operate.forbid.label' })}
               </Button>,
             ],
           }}
@@ -637,7 +636,7 @@ const User: React.FC = () => {
           request={(params, sorter, filter) => {
             return listUserByPage(params);
           }}
-          pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
+          pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
           rowSelection={{
             fixed: true,
             onChange(selectedRowKeys, selectedRows, info) {
@@ -652,10 +651,10 @@ const User: React.FC = () => {
         <RoleForm
           visible={roleFormData.visiable}
           onCancel={() => {
-            setRoleFormData({visiable: false, data: {}});
+            setRoleFormData({ visiable: false, data: {} });
           }}
           onVisibleChange={(visiable) => {
-            setRoleFormData({visiable: visiable, data: {}});
+            setRoleFormData({ visiable: visiable, data: {} });
             refreshRoles();
           }}
           data={roleFormData.data}
@@ -665,10 +664,10 @@ const User: React.FC = () => {
         <RoleGrant
           visible={roleGrantData.visiable}
           onCancel={() => {
-            setRoleGrantData({visiable: false, data: {}});
+            setRoleGrantData({ visiable: false, data: {} });
           }}
           onVisibleChange={(visiable) => {
-            setRoleGrantData({visiable: visiable, data: {}});
+            setRoleGrantData({ visiable: visiable, data: {} });
           }}
           data={roleGrantData.data}
         ></RoleGrant>
@@ -679,10 +678,10 @@ const User: React.FC = () => {
           treeData={deptTreeList}
           isUpdate={deptFormData.isUpdate}
           onCancel={() => {
-            setDeptFormData({visiable: false, data: {}, isUpdate: false});
+            setDeptFormData({ visiable: false, data: {}, isUpdate: false });
           }}
           onVisibleChange={(visiable) => {
-            setDeptFormData({visiable: visiable, data: {}, isUpdate: false});
+            setDeptFormData({ visiable: visiable, data: {}, isUpdate: false });
             refreshDepts();
           }}
           data={deptFormData.data}
@@ -692,10 +691,10 @@ const User: React.FC = () => {
         <DeptGrant
           visible={deptGrantData.visiable}
           onCancel={() => {
-            setDeptGrantData({visiable: false, data: {}});
+            setDeptGrantData({ visiable: false, data: {} });
           }}
           onVisibleChange={(visiable) => {
-            setDeptGrantData({visiable: visiable, data: {}});
+            setDeptGrantData({ visiable: visiable, data: {} });
           }}
           data={deptGrantData.data}
         />
@@ -704,10 +703,10 @@ const User: React.FC = () => {
         <UserForm
           visible={userFormData.visiable}
           onCancel={() => {
-            setUserFormData({visiable: false, data: {}});
+            setUserFormData({ visiable: false, data: {} });
           }}
           onVisibleChange={(visiable) => {
-            setUserFormData({visiable: visiable, data: {}});
+            setUserFormData({ visiable: visiable, data: {} });
             actionRef.current?.reload();
           }}
           data={userFormData.data}

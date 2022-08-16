@@ -21,6 +21,7 @@ package cn.sliew.scaleph.api.controller.datadev;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.exception.CustomException;
+import cn.sliew.scaleph.common.param.PropertyUtil;
 import cn.sliew.scaleph.meta.service.MetaDatasourceService;
 import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;
 import cn.sliew.scaleph.meta.service.param.MetaDatasourceParam;
@@ -28,7 +29,6 @@ import cn.sliew.scaleph.plugin.framework.property.Property;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.I18nUtil;
-import cn.sliew.scaleph.common.param.PropertyUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -52,7 +52,7 @@ import java.util.Map;
 @Slf4j
 @Api(tags = "数据开发-数据源")
 @RestController
-@RequestMapping(path = "/api/datadev/datasource")
+@RequestMapping(path = {"/api/datadev/datasource", "/api/di/datasource"})
 public class DataSourceController {
 
     @Autowired

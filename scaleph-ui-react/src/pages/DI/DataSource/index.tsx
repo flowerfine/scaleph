@@ -1,5 +1,236 @@
+import { Dict } from '@/app.d';
+import { DICT_TYPE } from '@/constant';
+import { listDictDataByType } from '@/services/admin/dictData.service';
+import { deleteDataSourceBatch, deleteDataSourceRow, listDataSourceByPage } from '@/services/di/dataSource.service';
+import { MetaDataSource } from '@/services/di/typings';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
+import { Button, message, Modal, Select, Space, Tooltip } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { useIntl } from 'umi';
+import DataSourceNewPre from './components/DataSourceNewPre';
+
 const DataSource: React.FC = () => {
-    return (<div>DataSource works</div>);
+    const intl = useIntl();
+    const actionRef = useRef<ActionType>();
+    const formRef = useRef<ProFormInstance>();
+    const [selectedRows, setSelectedRows] = useState<MetaDataSource[]>([]);
+    const [dataSourceTypeList, setDataSourceTypeList] = useState<Dict[]>([]);
+    const [dataSourceNewPre, setDataSourceNewPre] = useState<{ visiable: boolean }>({
+        visiable: false,
+    });
+    const tableColumns: ProColumns<MetaDataSource>[] = [
+        {
+            title: intl.formatMessage({ id: 'pages.di.dataSource.dataSourceName' }),
+            dataIndex: 'datasourceName',
+            width: 160,
+
+        },
+        {
+            title: intl.formatMessage({ id: 'pages.di.dataSource.dataSourceType' }),
+            dataIndex: 'datasourceType',
+            width: 140,
+            render: (text, record, index) => {
+                return record.datasourceType?.label;
+            },
+            renderFormItem: (item, { defaultRender, ...rest }, form) => {
+                return (
+                    <Select
+                        showSearch={true}
+                        allowClear={true}
+                        optionFilterProp="label"
+                        filterOption={(input, option) =>
+                            (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
+                        }
+                    >
+                        {dataSourceTypeList.map((item) => {
+                            return (
+                                <Select.Option key={item.value} value={item.value}>
+                                    {item.label}
+                                </Select.Option>
+                            );
+                        })}
+                    </Select>
+                );
+            },
+        },
+        {
+            title: intl.formatMessage({ id: 'pages.di.dataSource.props' }),
+            dataIndex: 'props',
+            hideInSearch: true,
+            width: 480,
+            render: (text, record, index) => {
+                return (<span dangerouslySetInnerHTML={{ __html: record.propsStr + '' }}></span>);
+            }
+
+        },
+        {
+            title: intl.formatMessage({ id: 'pages.di.dataSource.remark' }),
+            dataIndex: 'remark',
+            hideInSearch: true,
+            width: 150,
+        },
+        {
+            title: intl.formatMessage({ id: 'pages.di.dataSource.createTime' }),
+            dataIndex: 'createTime',
+            hideInSearch: true,
+            width: 180,
+        },
+        {
+            title: intl.formatMessage({ id: 'pages.di.dataSource.updateTime' }),
+            dataIndex: 'updateTime',
+            hideInSearch: true,
+            width: 180,
+        },
+        {
+            title: intl.formatMessage({ id: 'app.common.operate.label' }),
+            dataIndex: 'actions',
+            width: 120,
+            fixed: 'right',
+            valueType: 'option',
+            render: (_, record) => (
+                <>
+                    <Space>
+                        <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
+                            <Button
+                                shape="default"
+                                type="link"
+                                icon={<EditOutlined />}
+                                onClick={() => {
+                                    // setUserFormData({ visiable: true, data: record });
+                                    actionRef.current?.reload();
+                                }}
+                            ></Button>
+                        </Tooltip>
+                        <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
+                            <Button
+                                shape="default"
+                                type="link"
+                                icon={<DeleteOutlined />}
+                                onClick={() => {
+                                    Modal.confirm({
+                                        title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
+                                        content: intl.formatMessage({
+                                            id: 'app.common.operate.delete.confirm.content',
+                                        }),
+                                        okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                                        okButtonProps: { danger: true },
+                                        cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                                        onOk() {
+                                            deleteDataSourceRow(record).then((d) => {
+                                                if (d.success) {
+                                                    message.success(
+                                                        intl.formatMessage({ id: 'app.common.operate.delete.success' }),
+                                                    );
+                                                    actionRef.current?.reload();
+                                                }
+                                            });
+                                        },
+                                    });
+                                }}
+                            ></Button>
+                        </Tooltip>
+                    </Space>
+                </>
+            ),
+        },
+    ];
+
+    useEffect(() => {
+        listDictDataByType(DICT_TYPE.datasourceType).then((d) => {
+            setDataSourceTypeList(d);
+        });
+    }, []);
+
+    return (
+        <div>
+
+
+            <ProTable<MetaDataSource>
+                headerTitle={intl.formatMessage({ id: 'pages.di.dataSource' })}
+                search={{
+                    labelWidth: 'auto',
+                    span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
+                }}
+                rowKey="id"
+                actionRef={actionRef}
+                formRef={formRef}
+                options={false}
+                columns={tableColumns}
+                request={(params, sorter, filter) => {
+                    return listDataSourceByPage(params);
+                }}
+
+                toolbar={{
+                    actions: [
+                        <Button
+                            key="new"
+                            type="primary"
+                            onClick={() => {
+                                setDataSourceNewPre({ visiable: true });
+                            }}
+                        >
+                            {intl.formatMessage({ id: 'app.common.operate.new.label' })}
+                        </Button>,
+                        <Button
+                            key="del"
+                            type="default"
+                            disabled={selectedRows.length < 1}
+                            onClick={() => {
+                                Modal.confirm({
+                                    title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
+                                    content: intl.formatMessage({
+                                        id: 'app.common.operate.delete.confirm.content',
+                                    }),
+                                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                                    okButtonProps: { danger: true },
+                                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                                    onOk() {
+                                        deleteDataSourceBatch(selectedRows).then((d) => {
+                                            if (d.success) {
+                                                message.success(
+                                                    intl.formatMessage({ id: 'app.common.operate.delete.success' }),
+                                                );
+                                                actionRef.current?.reload();
+                                            }
+                                        });
+                                    },
+                                });
+                            }}
+                        >
+                            {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
+                        </Button>,
+                    ]
+                }}
+                pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
+                rowSelection={{
+                    fixed: true,
+                    onChange(selectedRowKeys, selectedRows, info) {
+                        setSelectedRows(selectedRows);
+                    },
+                }}
+                tableAlertRender={false}
+                tableAlertOptionRender={false}
+            >
+
+            </ProTable>
+            {
+                dataSourceNewPre.visiable ? (
+                    <DataSourceNewPre
+                        visible={dataSourceNewPre.visiable}
+                        onCancel={() => {
+                            setDataSourceNewPre({ visiable: false });
+                        }}
+                        onVisibleChange={(visiable) => {
+                            setDataSourceNewPre({ visiable: visiable });
+                            actionRef.current?.reload();
+                        }}
+                        data={null}
+                    ></DataSourceNewPre>
+                ) : null
+            }
+        </div>
+    );
 }
 
 export default DataSource;
