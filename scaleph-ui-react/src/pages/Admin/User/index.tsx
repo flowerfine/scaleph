@@ -153,7 +153,6 @@ const User: React.FC = () => {
                 icon={<EditOutlined />}
                 onClick={() => {
                   setUserFormData({ visiable: true, data: record });
-                  actionRef.current?.reload();
                 }}
               ></Button>
             </Tooltip>

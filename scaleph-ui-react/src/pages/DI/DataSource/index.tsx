@@ -9,6 +9,8 @@ import { Button, message, Modal, Select, Space, Tooltip } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'umi';
 import DataSourceNewPre from './components/DataSourceNewPre';
+import GenericDataSourceForm from './components/GenericDataSourceForm';
+import JdbcDataSourceForm from './components/JdbcDataSourceForm';
 
 const DataSource: React.FC = () => {
     const intl = useIntl();
@@ -16,9 +18,8 @@ const DataSource: React.FC = () => {
     const formRef = useRef<ProFormInstance>();
     const [selectedRows, setSelectedRows] = useState<MetaDataSource[]>([]);
     const [dataSourceTypeList, setDataSourceTypeList] = useState<Dict[]>([]);
-    const [dataSourceNewPre, setDataSourceNewPre] = useState<{ visiable: boolean }>({
-        visiable: false,
-    });
+    const [dataSourceNewPre, setDataSourceNewPre] = useState<boolean>(false);
+    const [dataSourceFormData, setDataSourceFormData] = useState<{ visiable: boolean, data: MetaDataSource }>({ visiable: false, data: {} });
     const tableColumns: ProColumns<MetaDataSource>[] = [
         {
             title: intl.formatMessage({ id: 'pages.di.dataSource.dataSourceName' }),
@@ -97,8 +98,7 @@ const DataSource: React.FC = () => {
                                 type="link"
                                 icon={<EditOutlined />}
                                 onClick={() => {
-                                    // setUserFormData({ visiable: true, data: record });
-                                    actionRef.current?.reload();
+                                    setDataSourceFormData({ visiable: true, data: record });
                                 }}
                             ></Button>
                         </Tooltip>
@@ -144,8 +144,6 @@ const DataSource: React.FC = () => {
 
     return (
         <div>
-
-
             <ProTable<MetaDataSource>
                 headerTitle={intl.formatMessage({ id: 'pages.di.dataSource' })}
                 search={{
@@ -160,14 +158,13 @@ const DataSource: React.FC = () => {
                 request={(params, sorter, filter) => {
                     return listDataSourceByPage(params);
                 }}
-
                 toolbar={{
                     actions: [
                         <Button
                             key="new"
                             type="primary"
                             onClick={() => {
-                                setDataSourceNewPre({ visiable: true });
+                                setDataSourceNewPre(true);
                             }}
                         >
                             {intl.formatMessage({ id: 'app.common.operate.new.label' })}
@@ -215,19 +212,52 @@ const DataSource: React.FC = () => {
 
             </ProTable>
             {
-                dataSourceNewPre.visiable ? (
+                dataSourceNewPre ? (
                     <DataSourceNewPre
-                        visible={dataSourceNewPre.visiable}
+                        visible={dataSourceNewPre}
                         onCancel={() => {
-                            setDataSourceNewPre({ visiable: false });
+                            setDataSourceNewPre(false);
                         }}
                         onVisibleChange={(visiable) => {
-                            setDataSourceNewPre({ visiable: visiable });
-                            actionRef.current?.reload();
+                            setDataSourceNewPre(visiable);
                         }}
-                        data={null}
+                        data={{}}
+                        onSelect={(type) => {
+                            setDataSourceNewPre(false);
+                            setDataSourceFormData({ visiable: true, data: { datasourceType: { value: type } } });
+                        }}
                     ></DataSourceNewPre>
                 ) : null
+            }
+            {dataSourceFormData.visiable && dataSourceFormData.data.datasourceType?.value == 'JDBC' ?
+                <JdbcDataSourceForm
+                    visible={dataSourceFormData.visiable}
+                    onCancel={() => {
+                        setDataSourceFormData({ visiable: false, data: {} });
+                    }}
+                    onVisibleChange={(visiable) => {
+                        setDataSourceFormData({ visiable: visiable, data: {} });
+                        actionRef.current?.reload();
+                    }}
+                    data={dataSourceFormData.data}
+                ></JdbcDataSourceForm>
+                : null
+            }
+            {dataSourceFormData.visiable && (dataSourceFormData.data.datasourceType?.value == 'Mysql' ||
+                dataSourceFormData.data.datasourceType?.value == 'Oracle' ||
+                dataSourceFormData.data.datasourceType?.value == 'PostGreSQL') ?
+                <GenericDataSourceForm
+                    visible={dataSourceFormData.visiable}
+                    onCancel={() => {
+                        setDataSourceFormData({ visiable: false, data: {} });
+                    }}
+                    onVisibleChange={(visiable) => {
+                        setDataSourceFormData({ visiable: visiable, data: {} });
+                        actionRef.current?.reload();
+                    }}
+                    data={dataSourceFormData.data}
+                ></GenericDataSourceForm>
+                : null
             }
         </div>
     );

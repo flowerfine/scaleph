@@ -1,7 +1,8 @@
 import { ModalFormProps } from "@/app.d";
-import { addDataSource, updateDataSource } from "@/services/di/dataSource.service";
+import { addDataSource, testConnection, updateDataSource } from "@/services/di/dataSource.service";
 import { MetaDataSource } from "@/services/di/typings";
-import { Form, Input, message, Modal } from "antd";
+import { Button, Form, Input, message, Modal } from "antd";
+import { useState } from "react";
 import { useIntl } from "umi";
 
 const JdbcDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
@@ -12,6 +13,13 @@ const JdbcDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
 }) => {
     const intl = useIntl();
     const [form] = Form.useForm();
+    const [isPasswordChange, setPasswordChange] = useState<boolean>(false);
+
+    const clearPassword = () => {
+        form.setFieldValue("password", '');
+        setPasswordChange(true);
+    }
+
     return (
         <Modal
             visible={visible}
@@ -25,37 +33,91 @@ const JdbcDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
             width={580}
             destroyOnClose={true}
             onCancel={onCancel}
-            onOk={() => {
-                form.validateFields().then((values) => {
-                    let ds: MetaDataSource = {
-                        id: values.id,
-                        // roleCode: values.roleCode,
-                        // roleName: values.roleName,
-                        // roleStatus: { value: values.roleStatus },
-                        // roleDesc: values.roleDesc,
-                    };
-                    data.id
-                        ? updateDataSource({ ...ds }).then((d) => {
-                            if (d.success) {
-                                message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
-                                onVisibleChange(false);
-                            }
-                        })
-                        : addDataSource({ ...ds }).then((d) => {
-                            if (d.success) {
-                                message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
-                                onVisibleChange(false);
-                            }
+            footer={[
+                <Button
+                    key="test"
+                    type="primary"
+                    danger={true}
+                    onClick={() => {
+                        form.validateFields().then((values) => {
+                            let ds: MetaDataSource = {
+                                id: values.id,
+                                datasourceName: values.datasourceName,
+                                datasourceType: data.datasourceType,
+                                props: {
+                                    jdbcUrl: values.jdbcUrl,
+                                    driverClassName: values.driverClassName,
+                                    username: values.username,
+                                    password: values.password,
+                                },
+                                remark: values.remark,
+                                passwdChanged: data.id ? isPasswordChange : true
+                            };
+                            testConnection(ds).then(resp => {
+                                if (resp.success) {
+                                    message.success(intl.formatMessage({ id: 'pages.di.dataSource.testConnect.success' }))
+                                }
+                            });
                         });
-                });
-            }}
+                    }}
+                >
+                    {intl.formatMessage({ id: 'pages.di.dataSource.testConnect' })}
+                </Button>,
+                <Button
+                    key="cancel"
+                    onClick={onCancel}>
+                    {intl.formatMessage({ id: 'app.common.operate.cancel.label' })}
+                </Button>,
+                <Button
+                    key="confirm"
+                    type="primary"
+                    onClick={() => {
+                        form.validateFields().then((values) => {
+                            let ds: MetaDataSource = {
+                                id: values.id,
+                                datasourceName: values.datasourceName,
+                                datasourceType: data.datasourceType,
+                                props: {
+                                    jdbcUrl: values.jdbcUrl,
+                                    driverClassName: values.driverClassName,
+                                    username: values.username,
+                                    password: values.password,
+                                },
+                                remark: values.remark,
+                            };
+                            data.id
+                                ? updateDataSource({ ...ds }).then((d) => {
+                                    if (d.success) {
+                                        message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
+                                        onVisibleChange(false);
+                                    }
+                                })
+                                : addDataSource({ ...ds }).then((d) => {
+                                    if (d.success) {
+                                        message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
+                                        onVisibleChange(false);
+                                    }
+                                });
+                        });
+                    }}>
+                    {intl.formatMessage({ id: 'app.common.operate.confirm.label' })}
+                </Button>,
+            ]}
         >
             <Form
                 form={form}
                 layout="horizontal"
                 labelCol={{ span: 6 }}
                 wrapperCol={{ span: 16 }}
-                initialValues={{}}
+                initialValues={{
+                    id: data.id,
+                    datasourceName: data.datasourceName,
+                    jdbcUrl: data.props?.jdbcUrl,
+                    driverClassName: data.props?.driverClassName,
+                    username: data.props?.username,
+                    password: data.props?.password,
+                    remark: data.remark
+                }}
             >
                 <Form.Item name="id" hidden>
                     <Input></Input>
@@ -70,6 +132,55 @@ const JdbcDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                             pattern: /^[a-zA-Z0-9_]+$/,
                             message: intl.formatMessage({ id: 'app.common.validate.characterWord' }),
                         },
+                    ]}
+                >
+                    <Input disabled={data.id ? true : false}></Input>
+                </Form.Item>
+                <Form.Item
+                    name="jdbcUrl"
+                    label={intl.formatMessage({ id: 'pages.di.dataSource.jdbcUrl' })}
+                    rules={[
+                        { required: true },
+                        { max: 2048 }
+                    ]}
+                >
+                    <Input onChange={clearPassword}></Input>
+                </Form.Item>
+                <Form.Item
+                    name="driverClassName"
+                    label={intl.formatMessage({ id: 'pages.di.dataSource.driverClassName' })}
+                    rules={[
+                        { required: true },
+                        { max: 200 }
+                    ]}
+                >
+                    <Input onChange={clearPassword}></Input>
+                </Form.Item>
+                <Form.Item
+                    name="username"
+                    label={intl.formatMessage({ id: 'pages.di.dataSource.username' })}
+                    rules={[
+                        { required: true },
+                        { max: 120 }
+                    ]}
+                >
+                    <Input onChange={clearPassword}></Input>
+                </Form.Item>
+                <Form.Item
+                    name="password"
+                    label={intl.formatMessage({ id: 'pages.di.dataSource.password' })}
+                    rules={[
+                        { required: true },
+                        { max: 120 }
+                    ]}
+                >
+                    <Input.Password></Input.Password>
+                </Form.Item>
+                <Form.Item
+                    name="remark"
+                    label={intl.formatMessage({ id: 'pages.di.dataSource.remark' })}
+                    rules={[
+                        { max: 200 },
                     ]}
                 >
                     <Input></Input>
