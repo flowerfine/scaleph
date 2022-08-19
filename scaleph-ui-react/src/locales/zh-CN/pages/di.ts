@@ -15,6 +15,7 @@ export default {
   'pages.di.dataSource.additionalProps.placeholder': '按照key:value格式配置属性，每个属性一行。例如：\nserverTimezone:Asia/Shanghai\ncharacterEncoding:UTF-8',
   'pages.di.dataSource.createTime': '创建时间',
   'pages.di.dataSource.updateTime': '更新时间',
+  'pages.di.dataSource.bootstrapServers': 'Kafka集群地址',
   'pages.di.dataSource.testConnect': '测试连接',
   'pages.di.dataSource.testConnect.success': '连接成功',
   'pages.di.dataSource.dataSourceType.chose': '选择数据源类型',

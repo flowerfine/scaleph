@@ -70,7 +70,7 @@ const DataSourceNewPre: React.FC<DataSourceFormProps> = ({
                     {intl.formatMessage({ id: 'pages.di.dataSource.dataSourceType.mq' })}
                 </Typography.Title>
                 <Card bordered={false}>
-                    <Card.Grid style={gridStyle}>
+                    <Card.Grid style={gridStyle} onClick={() => { onSelect('Kafka') }}>
                         <Typography.Text strong >Kafka</Typography.Text>
                     </Card.Grid>
                 </Card>
