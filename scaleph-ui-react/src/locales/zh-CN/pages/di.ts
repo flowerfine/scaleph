@@ -16,6 +16,7 @@ export default {
   'pages.di.dataSource.createTime': '创建时间',
   'pages.di.dataSource.updateTime': '更新时间',
   'pages.di.dataSource.bootstrapServers': 'Kafka集群地址',
+  'pages.di.dataSource.httpPort': 'HTTP端口号',
   'pages.di.dataSource.testConnect': '测试连接',
   'pages.di.dataSource.testConnect.success': '连接成功',
   'pages.di.dataSource.dataSourceType.chose': '选择数据源类型',

@@ -9,6 +9,7 @@ import { Button, message, Modal, Select, Space, Tooltip } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'umi';
 import DataSourceNewPre from './components/DataSourceNewPre';
+import DorisDataSourceForm from './components/DorisDataSourceForm';
 import GenericDataSourceForm from './components/GenericDataSourceForm';
 import JdbcDataSourceForm from './components/JdbcDataSourceForm';
 import KafkaDataSourceForm from './components/KafkaDataSourceForm';
@@ -246,7 +247,9 @@ const DataSource: React.FC = () => {
             }
             {dataSourceFormData.visiable && (dataSourceFormData.data.datasourceType?.value == 'Mysql' ||
                 dataSourceFormData.data.datasourceType?.value == 'Oracle' ||
-                dataSourceFormData.data.datasourceType?.value == 'PostGreSQL') ?
+                dataSourceFormData.data.datasourceType?.value == 'PostGreSQL' ||
+                dataSourceFormData.data.datasourceType?.value == 'ClickHouse'
+            ) ?
                 <GenericDataSourceForm
                     visible={dataSourceFormData.visiable}
                     onCancel={() => {
@@ -272,6 +275,20 @@ const DataSource: React.FC = () => {
                     }}
                     data={dataSourceFormData.data}
                 ></KafkaDataSourceForm>
+                : null
+            }
+            {dataSourceFormData.visiable && dataSourceFormData.data.datasourceType?.value == 'Doris' ?
+                <DorisDataSourceForm
+                    visible={dataSourceFormData.visiable}
+                    onCancel={() => {
+                        setDataSourceFormData({ visiable: false, data: {} });
+                    }}
+                    onVisibleChange={(visiable) => {
+                        setDataSourceFormData({ visiable: visiable, data: {} });
+                        actionRef.current?.reload();
+                    }}
+                    data={dataSourceFormData.data}
+                ></DorisDataSourceForm>
                 : null
             }
         </div>

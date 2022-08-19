@@ -52,10 +52,10 @@ const DataSourceNewPre: React.FC<DataSourceFormProps> = ({
                     {intl.formatMessage({ id: 'pages.di.dataSource.dataSourceType.bigdata' })}
                 </Typography.Title>
                 <Card bordered={false}>
-                    <Card.Grid style={gridStyle}>
+                    <Card.Grid style={gridStyle} onClick={() => { onSelect('Doris') }}>
                         <Typography.Text strong >Doris</Typography.Text>
                     </Card.Grid>
-                    <Card.Grid style={gridStyle}>
+                    <Card.Grid style={gridStyle} onClick={() => { onSelect('ClickHouse') }}>
                         <Typography.Text strong >ClickHouse</Typography.Text>
                     </Card.Grid>
                     <Card.Grid style={gridStyle}>
