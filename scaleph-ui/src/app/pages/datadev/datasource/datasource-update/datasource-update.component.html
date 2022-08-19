@@ -5,12 +5,8 @@
         {{ 'app.common.operate.edit.title' | translate: data.title }}
       </d-col>
       <d-col [dSpan]="2" style="text-align: right">
-        <d-button
-          icon="icon-close"
-          bsStyle="text-dark"
-          title="{{ 'app.common.operate.close.label' | translate }}"
-          (btnClick)="data.onClose()"
-        ></d-button>
+        <d-button icon="icon-close" bsStyle="text-dark" title="{{ 'app.common.operate.close.label' | translate }}"
+          (btnClick)="data.onClose()"></d-button>
       </d-col>
     </d-row>
   </div>
@@ -34,7 +30,7 @@
       <app-doris-datasource [data]="{ item: data }" #datasource></app-doris-datasource>
     </div>
     <div *ngSwitchCase="'ClickHouse'">
-      <app-clickhouse-datasource [data]="{ item: data }" #datasource></app-clickhouse-datasource>
+      <app-generic-db-datasource [data]="{ item: data }" #datasource></app-generic-db-datasource>
     </div>
   </div>
 </div>
