@@ -9,7 +9,7 @@ import { MetaDataSource } from '../../data/datadev.data';
 })
 export class DataSourceService {
   private url = 'api/datadev/datasource';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   listByPage(queryParam): Observable<PageResponse<MetaDataSource>> {
     const params: HttpParams = new HttpParams({ fromObject: queryParam });

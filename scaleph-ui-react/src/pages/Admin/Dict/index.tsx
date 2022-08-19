@@ -56,7 +56,6 @@ const Dict: React.FC = () => {
                                 icon={<EditOutlined />}
                                 onClick={() => {
                                     setDictTypeFormData({ visiable: true, data: record });
-                                    dictTypeActionRef.current?.reload();
                                 }}>
                             </Button>
                         </Tooltip>
@@ -134,7 +133,6 @@ const Dict: React.FC = () => {
                                 icon={<EditOutlined />}
                                 onClick={() => {
                                     setDictDataFormData({ visiable: true, data: record });
-                                    dictDataActionRef.current?.reload();
                                 }}>
                             </Button>
                         </Tooltip>
