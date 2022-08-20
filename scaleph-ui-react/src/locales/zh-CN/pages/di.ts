@@ -8,6 +8,7 @@ export default {
   'pages.di.dataSource.driverClassName': '驱动类名',
   'pages.di.dataSource.username': '用户名',
   'pages.di.dataSource.password': '密码',
+  'pages.di.dataSource.password.show': '查看密码',
   'pages.di.dataSource.databaseName': '数据库名称',
   'pages.di.dataSource.port': '端口号',
   'pages.di.dataSource.host': '主机地址',
