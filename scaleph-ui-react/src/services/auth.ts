@@ -41,7 +41,7 @@ export async function isUserLoggedIn() {
   return localStorage.getItem(USER_AUTH.token) ? true : false;
 }
 
-export async function hasPrivilege(code: string) {
+export function hasPrivilege(code: string) {
   let pCodes: string[] = JSON.parse(localStorage.getItem(USER_AUTH.pCodes) || '');
   if (pCodes != null && pCodes != undefined) {
     return pCodes.includes(USER_AUTH.roleSysAdmin) || pCodes.includes(code);

@@ -1,4 +1,6 @@
-﻿export default [
+﻿import { PRIVILEGE_CODE } from '../src/constant';
+
+export default [
   {
     path: '/',
     redirect: '/studio/databoard',
@@ -21,10 +23,14 @@
     name: 'studio',
     path: '/studio',
     icon: 'codeSandbox',
+    pCode: PRIVILEGE_CODE.studioShow,
+    access: 'normalRouteFilter',
     routes: [
       {
         path: '/studio',
         redirect: '/studio/databoard',
+        pCode: PRIVILEGE_CODE.studioShow,
+        access: 'normalRouteFilter',
       },
       {
         name: 'databoard',
@@ -32,6 +38,8 @@
         icon: 'dashboard',
         exact: true,
         component: './Studio/DataBoard',
+        pCode: PRIVILEGE_CODE.studioDataBoardShow,
+        access: 'normalRouteFilter',
       },
     ],
   },
@@ -39,10 +47,14 @@
     name: 'datadev',
     path: '/datadev',
     icon: 'desktop',
+    pCode: PRIVILEGE_CODE.datadevShow,
+    access: 'normalRouteFilter',
     routes: [
       {
         path: '/datadev',
         redirect: '/datadev/datasource',
+        pCode: PRIVILEGE_CODE.datadevShow,
+        access: 'normalRouteFilter',
       },
       {
         name: 'datasource',
@@ -50,6 +62,8 @@
         icon: 'link',
         exact: true,
         component: './DI/DataSource',
+        pCode: PRIVILEGE_CODE.datadevResourceShow,
+        access: 'normalRouteFilter',
       },
       {
         name: 'project',
@@ -57,6 +71,8 @@
         icon: 'project',
         exact: true,
         component: './DI/Project',
+        pCode: PRIVILEGE_CODE.datadevProjectShow,
+        access: 'normalRouteFilter',
       },
       {
         name: 'resource',
@@ -64,6 +80,8 @@
         icon: 'fileText',
         exact: true,
         component: './DI/Resource',
+        pCode: PRIVILEGE_CODE.datadevResourceShow,
+        access: 'normalRouteFilter',
       },
       {
         name: 'cluster',
@@ -71,6 +89,8 @@
         icon: 'cluster',
         exact: true,
         component: './DI/Cluster',
+        pCode: PRIVILEGE_CODE.datadevClusterShow,
+        access: 'normalRouteFilter',
       },
     ],
   },
@@ -78,10 +98,14 @@
     name: 'opscenter',
     path: '/opscenter',
     icon: 'lineChart',
+    pCode: PRIVILEGE_CODE.opscenterShow,
+    access: 'normalRouteFilter',
     routes: [
       {
         path: '/opscenter',
         redirect: '/opscenter/batch',
+        pCode: PRIVILEGE_CODE.opscenterShow,
+        access: 'normalRouteFilter',
       },
       {
         name: 'batch',
@@ -89,6 +113,8 @@
         icon: 'menu',
         exact: true,
         component: './OpsCenter/BatchJob',
+        pCode: PRIVILEGE_CODE.opscenterBatchShow,
+        access: 'normalRouteFilter',
       },
       {
         name: 'realtime',
@@ -96,6 +122,8 @@
         icon: 'menu',
         exact: true,
         component: './OpsCenter/RealtimeJob',
+        pCode: PRIVILEGE_CODE.opscenterRealtimeShow,
+        access: 'normalRouteFilter',
       },
     ],
   },
@@ -103,10 +131,14 @@
     name: 'stdata',
     path: '/stdata',
     icon: 'database',
+    pCode: PRIVILEGE_CODE.stdataShow,
+    access: 'normalRouteFilter',
     routes: [
       {
         path: '/stdata',
         redirect: '/stdata/dataElement',
+        pCode: PRIVILEGE_CODE.stdataShow,
+        access: 'normalRouteFilter',
       },
       {
         name: 'dataElement',
@@ -114,6 +146,8 @@
         icon: 'menu',
         exact: true,
         component: './Stdata/DataElement',
+        pCode: PRIVILEGE_CODE.stdataDataElementShow,
+        access: 'normalRouteFilter',
       },
       {
         name: 'refdata',
@@ -121,6 +155,8 @@
         icon: 'menu',
         exact: true,
         component: './Stdata/RefData',
+        pCode: PRIVILEGE_CODE.stdataRefDataShow,
+        access: 'normalRouteFilter',
       },
       {
         name: 'refdataMap',
@@ -128,6 +164,8 @@
         icon: 'menu',
         exact: true,
         component: './Stdata/RefDataMap',
+        pCode: PRIVILEGE_CODE.stdataRefDataMapShow,
+        access: 'normalRouteFilter',
       },
       {
         name: 'system',
@@ -135,6 +173,8 @@
         icon: 'menu',
         exact: true,
         component: './Stdata/System',
+        pCode: PRIVILEGE_CODE.stdataSystemShow,
+        access: 'normalRouteFilter',
       },
     ],
   },
@@ -142,10 +182,14 @@
     name: 'admin',
     path: '/admin',
     icon: 'setting',
+    pCode: PRIVILEGE_CODE.adminShow,
+    access: 'normalRouteFilter',
     routes: [
       {
         path: '/admin',
         redirect: '/admin/user',
+        pCode: PRIVILEGE_CODE.adminShow,
+        access: 'normalRouteFilter',
       },
       {
         name: 'user',
@@ -153,6 +197,8 @@
         icon: 'user',
         exact: true,
         component: './Admin/User',
+        pCode: PRIVILEGE_CODE.userShow,
+        access: 'normalRouteFilter',
       },
       {
         name: 'privilege',
@@ -160,6 +206,8 @@
         icon: 'team',
         exact: true,
         component: './Admin/Privilege',
+        pCode: PRIVILEGE_CODE.privilegeShow,
+        access: 'normalRouteFilter',
       },
       {
         name: 'dict',
@@ -167,6 +215,8 @@
         icon: 'table',
         exact: true,
         component: './Admin/Dict',
+        pCode: PRIVILEGE_CODE.dictShow,
+        access: 'normalRouteFilter',
       },
       {
         name: 'setting',
@@ -174,6 +224,8 @@
         icon: 'setting',
         exact: true,
         component: './Admin/Setting',
+        pCode: PRIVILEGE_CODE.settingShow,
+        access: 'normalRouteFilter',
       },
     ],
   },

@@ -1,4 +1,5 @@
 import { TreeNode } from '@/app.d';
+import { PRIVILEGE_CODE } from '@/constant';
 import { listAllDept } from '@/services/admin/dept.service';
 import {
   grantPrivilegeToRole,
@@ -28,11 +29,12 @@ import {
   Typography,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useIntl } from 'umi';
+import { useAccess, useIntl } from 'umi';
 import styles from './index.less';
 
 const Privilege: React.FC = () => {
   const intl = useIntl();
+  const access = useAccess();
   const roleTab: string = 'role';
   const deptTab: string = 'dept';
   const [tabId, setTabId] = useState<string>(roleTab);
@@ -177,11 +179,13 @@ const Privilege: React.FC = () => {
   };
 
   const onPrivielgeTreeCheck: TreeProps['onCheck'] = (checkedKeys, info) => {
-    grantPrivilegeToRole(checkedItemId, checkedKeys as string[], privilegeTabId).then((d) => {
-      if (d.success) {
-        refreshPrivileges(checkedItemId, privilegeTabId);
-      }
-    });
+    grantPrivilegeToRole(checkedItemId, checkedKeys?.checked as string[], privilegeTabId).then(
+      (d) => {
+        if (d.success) {
+          refreshPrivileges(checkedItemId, privilegeTabId);
+        }
+      },
+    );
   };
 
   const onPrivilegeTreeExpand = (expandedKeysValue: React.Key[]) => {
@@ -200,70 +204,78 @@ const Privilege: React.FC = () => {
               setCheckedItemId('');
             }}
           >
-            <Tabs.TabPane tab={intl.formatMessage({ id: 'pages.admin.user.role' })} key={roleTab}>
-              <List
-                bordered={false}
-                dataSource={roleList}
-                itemLayout="vertical"
-                split={false}
-                renderItem={(item) => (
-                  <List.Item
-                    className={
-                      checkedItemId == item.id + '' ? styles.selected : styles.roleListItem
-                    }
-                    onClick={() => {
-                      setCheckedItemId(item.id + '');
-                      refreshPrivileges(item.id + '', privilegeTabId + '');
-                    }}
-                  >
-                    <Typography.Text style={{ paddingRight: 12 }}>{item.roleName}</Typography.Text>
-                  </List.Item>
-                )}
-              />
-            </Tabs.TabPane>
-            <Tabs.TabPane tab={intl.formatMessage({ id: 'pages.admin.user.dept' })} key={deptTab}>
-              <Input.Search
-                style={{ marginBottom: 8 }}
-                allowClear={true}
-                onSearch={searchDeptTree}
-                placeholder={intl.formatMessage({ id: 'app.common.operate.search.label' })}
-              ></Input.Search>
-              <Tree
-                treeData={deptTreeList}
-                showLine={{ showLeafIcon: false }}
-                blockNode={true}
-                showIcon={false}
-                height={680}
-                defaultExpandAll={true}
-                expandedKeys={expandKeys}
-                autoExpandParent={autoExpandParent}
-                onExpand={onExpand}
-                onSelect={(selectedKeys, { selected, selectedNodes, node, event }) => {
-                  if (selected) {
-                    setCheckedItemId(node.key + '');
-                    refreshGrantRole(node.key + '');
-                  } else {
-                    setGrantRoleList([]);
-                    setGrantedRoleList([]);
-                  }
-                }}
-                titleRender={(node) => {
-                  return (
-                    <Row
+            {access.canAccess(PRIVILEGE_CODE.roleSelect) && (
+              <Tabs.TabPane tab={intl.formatMessage({ id: 'pages.admin.user.role' })} key={roleTab}>
+                <List
+                  bordered={false}
+                  dataSource={roleList}
+                  itemLayout="vertical"
+                  split={false}
+                  renderItem={(item) => (
+                    <List.Item
                       className={
-                        node.title?.toString().includes(searchValue + '') && searchValue != ''
-                          ? styles.siteTreeSearchValue
-                          : ''
+                        checkedItemId == item.id + '' ? styles.selected : styles.roleListItem
                       }
+                      onClick={() => {
+                        setCheckedItemId(item.id + '');
+                        refreshPrivileges(item.id + '', privilegeTabId + '');
+                      }}
                     >
-                      <Col span={24}>
-                        <Typography.Text style={{ paddingRight: 12 }}>{node.title}</Typography.Text>
-                      </Col>
-                    </Row>
-                  );
-                }}
-              ></Tree>
-            </Tabs.TabPane>
+                      <Typography.Text style={{ paddingRight: 12 }}>
+                        {item.roleName}
+                      </Typography.Text>
+                    </List.Item>
+                  )}
+                />
+              </Tabs.TabPane>
+            )}
+            {access.canAccess(PRIVILEGE_CODE.deptSelect) && (
+              <Tabs.TabPane tab={intl.formatMessage({ id: 'pages.admin.user.dept' })} key={deptTab}>
+                <Input.Search
+                  style={{ marginBottom: 8 }}
+                  allowClear={true}
+                  onSearch={searchDeptTree}
+                  placeholder={intl.formatMessage({ id: 'app.common.operate.search.label' })}
+                ></Input.Search>
+                <Tree
+                  treeData={deptTreeList}
+                  showLine={{ showLeafIcon: false }}
+                  blockNode={true}
+                  showIcon={false}
+                  height={680}
+                  defaultExpandAll={true}
+                  expandedKeys={expandKeys}
+                  autoExpandParent={autoExpandParent}
+                  onExpand={onExpand}
+                  onSelect={(selectedKeys, { selected, selectedNodes, node, event }) => {
+                    if (selected) {
+                      setCheckedItemId(node.key + '');
+                      refreshGrantRole(node.key + '');
+                    } else {
+                      setGrantRoleList([]);
+                      setGrantedRoleList([]);
+                    }
+                  }}
+                  titleRender={(node) => {
+                    return (
+                      <Row
+                        className={
+                          node.title?.toString().includes(searchValue + '') && searchValue != ''
+                            ? styles.siteTreeSearchValue
+                            : ''
+                        }
+                      >
+                        <Col span={24}>
+                          <Typography.Text style={{ paddingRight: 12 }}>
+                            {node.title}
+                          </Typography.Text>
+                        </Col>
+                      </Row>
+                    );
+                  }}
+                ></Tree>
+              </Tabs.TabPane>
+            )}
           </Tabs>
         </Card>
       </Col>
@@ -280,6 +292,7 @@ const Privilege: React.FC = () => {
                   showLine={{ showLeafIcon: false }}
                   showIcon={false}
                   checkable={true}
+                  checkStrictly={true}
                   height={680}
                   autoExpandParent={autoExpandPrivilegeParent}
                   onExpand={onPrivilegeTreeExpand}
@@ -300,6 +313,7 @@ const Privilege: React.FC = () => {
                   showLine={{ showLeafIcon: false }}
                   showIcon={false}
                   checkable={true}
+                  checkStrictly={true}
                   height={680}
                   autoExpandParent={autoExpandPrivilegeParent}
                   onExpand={onPrivilegeTreeExpand}
