@@ -77,16 +77,6 @@
             <name>Sonatype Nexus Snapshots</name>
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
-        <repository>
-            <id>nexus-aliyun</id>
-            <name>Nexus aliyun</name>
-            <url>https://maven.aliyun.com/repository/central</url>
-        </repository>
-        <repository>
-            <id>central</id>
-            <name>Central</name>
-            <url>https://repo1.maven.org/maven2/</url>
-        </repository>
     </repositories>
 
     <modules>
