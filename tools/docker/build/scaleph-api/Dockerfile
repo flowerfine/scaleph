@@ -34,7 +34,6 @@ ENV ENV_PARAMS=" --spring.datasource.master.jdbc-url=$MYSQL_URL \
  --spring.redis.port=$REDIS_PORT \
  --spring.redis.password=$REDIS_PASSWORD \
  --file-system.endPoint=$MINIO_ENDPOINT \
- --file-system.proxy=true \
  --file-system.accessKey=$MINIO_ACCESS_KEY \
  --file-system.secretKey=$MINIO_SECRET_KEY \
  "

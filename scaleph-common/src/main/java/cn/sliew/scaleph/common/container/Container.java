@@ -16,22 +16,29 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.configuration;
+package cn.sliew.scaleph.common.container;
 
-import lombok.Getter;
-import lombok.Setter;
+import cn.sliew.milky.common.lifecycle.LifeCycle;
 
-@Getter
-@Setter
-public class S3FileSystemProperties extends FileSystemProperties {
+import java.time.Duration;
 
-    private String bucket;
+public interface Container extends LifeCycle {
 
-    private String region;
+    @Override
+    LifeCycleResult initialize();
 
-    private String endpoint;
+    @Override
+    LifeCycleResult start();
 
-    private String accessKey;
+    @Override
+    boolean isStarted();
 
-    private String secretKey;
+    @Override
+    LifeCycleResult stop();
+
+    @Override
+    LifeCycleResult stop(Duration timeout);
+
+    @Override
+    boolean isStopped();
 }
