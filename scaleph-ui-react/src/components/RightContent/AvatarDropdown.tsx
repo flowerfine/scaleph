@@ -1,14 +1,14 @@
+import { OnlineUserInfo } from '@/app.d';
+import { USER_AUTH } from '@/constant';
+import { logout } from '@/services/auth';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { history } from '@umijs/max';
-import { useIntl } from 'umi';
 import { Avatar, Menu, Spin } from 'antd';
 import type { MenuInfo } from 'rc-menu/lib/interface';
 import React, { useCallback } from 'react';
+import { useIntl } from 'umi';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
-import { logout } from '@/services/auth';
-import { OnlineUserInfo } from '@/app.d';
-import { USER_AUTH } from '@/constant';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -19,18 +19,18 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   const user: OnlineUserInfo = JSON.parse(localStorage.getItem(USER_AUTH.userInfo) || '');
   // const { initialState, setInitialState } = useModel('@@initialState');
 
-  const onMenuClick = useCallback(
-    (event: MenuInfo) => {
-      const { key } = event;
-      if (key === 'logout') {
-        logout().then(() => {
-          history.push('/login');
-        });
-        return;
-      }
-      history.push(`/user/${key}`);
-    }, []
-  );
+  const onMenuClick = useCallback((event: MenuInfo) => {
+    const { key } = event;
+    if (key === 'logout') {
+      logout().then(() => {
+        history.push('/login');
+      });
+      return;
+    } else if (key === 'center') {
+      history.push(`/user/${key}`, { defaultMenu: 'profile' });
+    }
+    history.push(`/user/${key}`);
+  }, []);
 
   const loading = (
     <span className={`${styles.action} ${styles.account}`}>
@@ -49,7 +49,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   }
 
   const menuHeaderDropdown = (
-    <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}  >
+    <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
       {menu && (
         <Menu.Item key={'center'}>
           <UserOutlined />
@@ -65,7 +65,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   );
 
   return (
-    <HeaderDropdown overlay={menuHeaderDropdown}>
+    <HeaderDropdown overlay={menuHeaderDropdown} placement="bottom">
       <span className={`${styles.action} ${styles.account}`}>
         <Avatar size="small" className={styles.avatar} alt={user.userName} gap={2}>
           {user.userName.charAt(0)}

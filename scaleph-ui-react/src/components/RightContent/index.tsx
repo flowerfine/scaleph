@@ -2,7 +2,7 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import { SelectLang, useModel } from '@umijs/max';
 import { Space } from 'antd';
 import React from 'react';
-import HeaderSearch from '../HeaderSearch';
+import NoticeIconView from '../NoticeIcon';
 import Avatar from './AvatarDropdown';
 import styles from './index.less';
 
@@ -23,7 +23,7 @@ const GlobalHeaderRight: React.FC = () => {
   }
   return (
     <Space className={className}>
-      <HeaderSearch
+      {/* <HeaderSearch
         className={`${styles.action} ${styles.search}`}
         placeholder="站内搜索"
         defaultValue="umi ui"
@@ -42,18 +42,19 @@ const GlobalHeaderRight: React.FC = () => {
             value: 'Pro Layout',
           },
         ]}
-      // onSearch={value => {
-      //   console.log('input', value);
-      // }}
-      />
+        onSearch={value => {
+          console.log('input', value);
+        }}
+      /> */}
       <span
         className={styles.action}
         onClick={() => {
-          window.open('https://pro.ant.design/docs/getting-started');
+          window.open('https://flowerfine.github.io/scaleph');
         }}
       >
         <QuestionCircleOutlined />
       </span>
+      <NoticeIconView></NoticeIconView>
       <Avatar menu={true} />
       <SelectLang className={styles.action} />
     </Space>

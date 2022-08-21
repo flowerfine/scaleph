@@ -1,3 +1,4 @@
+import { LogMessage } from '@/services/admin/typings';
 import { BellOutlined } from '@ant-design/icons';
 import { Badge, Spin, Tabs } from 'antd';
 import classNames from 'classnames';
@@ -16,7 +17,7 @@ export type NoticeIconProps = {
   className?: string;
   loading?: boolean;
   onClear?: (tabName: string, tabKey: string) => void;
-  onItemClick?: (item: API.NoticeIconItem, tabProps: NoticeIconTabProps) => void;
+  onItemClick?: (item: LogMessage, tabProps: NoticeIconTabProps) => void;
   onViewMore?: (tabProps: NoticeIconTabProps, e: MouseEvent) => void;
   onTabChange?: (tabTile: string) => void;
   style?: React.CSSProperties;
@@ -26,7 +27,7 @@ export type NoticeIconProps = {
   viewMoreText?: string;
   clearClose?: boolean;
   emptyImage?: string;
-  children?: React.ReactElement<NoticeIconTabProps>[];
+  children?: any[];
 };
 
 const NoticeIcon: React.FC<NoticeIconProps> & {
@@ -105,20 +106,16 @@ const NoticeIcon: React.FC<NoticeIconProps> & {
 
   return (
     <HeaderDropdown
-      placement="bottomRight"
+      placement="bottom"
       overlay={notificationBox}
       overlayClassName={styles.popover}
-      trigger={['click']}
+      trigger={['hover']}
       visible={visible}
       onVisibleChange={setVisible}
     >
       {trigger}
     </HeaderDropdown>
   );
-};
-
-NoticeIcon.defaultProps = {
-  emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg',
 };
 
 NoticeIcon.Tab = NoticeList;
