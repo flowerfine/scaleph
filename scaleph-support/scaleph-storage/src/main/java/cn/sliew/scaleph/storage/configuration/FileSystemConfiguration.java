@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.storage.configuration;
 
 import cn.sliew.scaleph.storage.utils.HadoopUtil;
+import com.amazonaws.services.s3.internal.BucketNameUtils;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.aliyun.oss.AliyunOSSFileSystem;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -55,15 +56,10 @@ public class FileSystemConfiguration {
     @ConditionalOnProperty(value = "file-system.type", havingValue = "s3")
     public FileSystem s3FileSystem(S3FileSystemProperties s3FileSystemProperties) throws URISyntaxException, IOException {
         org.apache.hadoop.conf.Configuration conf = HadoopUtil.getHadoopConfiguration(s3FileSystemProperties.getHadoopConfPath());
-        if (s3FileSystemProperties.isProxy()) {
-            URI uri = new URI(s3FileSystemProperties.getEndpoint());
-            conf.set("fs.s3a.proxy.host", uri.getHost());
-            conf.setInt("fs.s3a.proxy.port", uri.getPort());
-        }
         conf.set("fs.s3a.endpoint", s3FileSystemProperties.getEndpoint());
         conf.set("fs.s3a.access.key", s3FileSystemProperties.getAccessKey());
         conf.set("fs.s3a.secret.key", s3FileSystemProperties.getSecretKey());
-        conf.setBoolean("fs.s3a.path-style-access", true);
+        conf.setBoolean("fs.s3a.path.style.access", true);
         URI uri = new URI(FileSystemType.S3.getSchema() + s3FileSystemProperties.getBucket());
         return FileSystem.get(uri, conf);
     }

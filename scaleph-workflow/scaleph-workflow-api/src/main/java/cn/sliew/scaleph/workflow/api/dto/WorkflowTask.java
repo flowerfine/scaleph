@@ -16,22 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.configuration;
+package cn.sliew.scaleph.workflow.api.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-public class S3FileSystemProperties extends FileSystemProperties {
-
-    private String bucket;
-
-    private String region;
-
-    private String endpoint;
-
-    private String accessKey;
-
-    private String secretKey;
+public class WorkflowTask {
 }

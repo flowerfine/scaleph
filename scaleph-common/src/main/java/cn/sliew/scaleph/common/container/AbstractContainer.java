@@ -16,22 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.configuration;
+package cn.sliew.scaleph.common.container;
 
-import lombok.Getter;
-import lombok.Setter;
+import cn.sliew.milky.common.lifecycle.AbstractLifeCycle;
 
-@Getter
-@Setter
-public class S3FileSystemProperties extends FileSystemProperties {
+public abstract class AbstractContainer extends AbstractLifeCycle implements Container {
 
-    private String bucket;
+    @Override
+    protected abstract void doInitialize();
 
-    private String region;
+    @Override
+    protected abstract void doStart();
 
-    private String endpoint;
-
-    private String accessKey;
-
-    private String secretKey;
+    @Override
+    protected abstract void doStop();
 }

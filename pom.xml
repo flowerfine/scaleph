@@ -77,11 +77,6 @@
             <name>Sonatype Nexus Snapshots</name>
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
-        <repository>
-            <id>central</id>
-            <name>Central</name>
-            <url>https://repo1.maven.org/maven2/</url>
-        </repository>
     </repositories>
 
     <modules>
@@ -99,12 +94,14 @@
         <module>scaleph-meta</module>
         <module>scaleph-engine</module>
         <module>scaleph-plugins</module>
+        <module>scaleph-workflow</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <akka.scala.binary.version>2.13</akka.scala.binary.version>
         <scala.binary.version>2.11</scala.binary.version>
         <scala.version>2.11.12</scala.version>
         <java.version>1.8</java.version>
@@ -146,6 +143,7 @@
         <minio.version>8.3.8</minio.version>
         <milky.version>1.0.6_8</milky.version>
         <hadoop.version>3.3.4</hadoop.version>
+        <akka.version>2.6.19</akka.version>
     </properties>
 
     <dependencyManagement>
@@ -154,6 +152,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-bom_${akka.scala.binary.version}</artifactId>
+                <version>${akka.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -423,6 +428,10 @@
                     <exclusion>
                         <groupId>ch.qos.reload4j</groupId>
                         <artifactId>reload4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>javax.servlet-api</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>javax.servlet.jsp</groupId>

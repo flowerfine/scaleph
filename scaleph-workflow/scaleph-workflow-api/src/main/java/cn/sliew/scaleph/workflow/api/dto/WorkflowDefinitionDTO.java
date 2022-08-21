@@ -16,22 +16,43 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.configuration;
+package cn.sliew.scaleph.workflow.api.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import cn.sliew.scaleph.common.dto.BaseDTO;
 
-@Getter
-@Setter
-public class S3FileSystemProperties extends FileSystemProperties {
+public class WorkflowDefinitionDTO extends BaseDTO {
 
-    private String bucket;
+    /**
+     * 名称
+     */
+    private String name;
 
-    private String region;
+    /**
+     * 状态。启动，暂停，运行中
+     */
+    private Integer status;
 
-    private String endpoint;
+    /**
+     * 类型。java（pipeline，DAG，job），http，shell 等
+     */
+    private Integer type;
 
-    private String accessKey;
+    /**
+     * 参数
+     */
+    private String param;
 
-    private String secretKey;
+    /**
+     * 版本
+     */
+    private Integer version;
+
+
+
+
+
+
+
+
+
 }

@@ -16,22 +16,34 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.configuration;
+package cn.sliew.scaleph.common.container;
 
-import lombok.Getter;
-import lombok.Setter;
+import cn.sliew.scaleph.common.concurrent.RunnableWrapper;
 
-@Getter
-@Setter
-public class S3FileSystemProperties extends FileSystemProperties {
+public class ThreadContainer extends AbstractContainer implements RunnableWrapper {
 
-    private String bucket;
+    @Override
+    public void doRun() throws Exception {
+        this.start();
+    }
 
-    private String region;
+    @Override
+    public void onFailure(Exception e) {
+        this.stop();
+    }
 
-    private String endpoint;
+    @Override
+    protected void doInitialize() {
 
-    private String accessKey;
+    }
 
-    private String secretKey;
+    @Override
+    protected void doStart() {
+
+    }
+
+    @Override
+    protected void doStop() {
+
+    }
 }
