@@ -60,6 +60,7 @@ const Log: React.FC = () => {
         size="small"
         showSizeChanger
         showQuickJumper
+        hideOnSinglePage
         onChange={(page, pageSize) => {
           setPageInfo({ pageSize: pageSize, current: page });
           refreshLogs(pageSize, page);
