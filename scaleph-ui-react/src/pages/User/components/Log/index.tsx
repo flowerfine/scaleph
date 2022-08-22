@@ -8,7 +8,7 @@ const Log: React.FC = () => {
   const intl = useIntl();
   const [logs, setLogs] = useState<LogLogin[]>([]);
   const [pageInfo, setPageInfo] = useState<{ pageSize: number; current: number }>({
-    pageSize: 2,
+    pageSize: 10,
     current: 1,
   });
   const [total, setTotal] = useState<number>(0);
