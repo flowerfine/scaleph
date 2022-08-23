@@ -237,6 +237,11 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-plugin-framework</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-plugin-datasource</artifactId>
                 <version>${project.version}</version>
             </dependency>

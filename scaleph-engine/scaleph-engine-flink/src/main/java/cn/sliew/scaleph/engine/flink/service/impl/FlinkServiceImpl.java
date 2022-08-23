@@ -26,7 +26,7 @@ import cn.sliew.scaleph.common.enums.DeployMode;
 import cn.sliew.scaleph.common.enums.ResourceProvider;
 import cn.sliew.scaleph.common.nio.TarUtil;
 import cn.sliew.scaleph.common.nio.TempFileUtil;
-import cn.sliew.scaleph.engine.flink.enums.ConfigType;
+import cn.sliew.scaleph.engine.flink.enums.ClusterCredentialType;
 import cn.sliew.scaleph.engine.flink.enums.FlinkClusterStatus;
 import cn.sliew.scaleph.engine.flink.service.*;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
@@ -180,7 +180,7 @@ public class FlinkServiceImpl implements FlinkService {
      * kubeconfig
      * flink-conf.yaml
      *
-     * @see ConfigType
+     * @see ClusterCredentialType
      */
     private Configuration buildConfiguration(FlinkClusterConfigDTO flinkClusterConfigDTO, Path clusterCredentialPath) throws IOException {
         Configuration dynamicProperties;
@@ -191,16 +191,8 @@ public class FlinkServiceImpl implements FlinkService {
         }
 
         final ClusterCredentialDTO clusterCredentialDTO = flinkClusterConfigDTO.getClusterCredential();
-        if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ConfigType.FLINK_CONF.getCode()))) {
-            final List<Path> childs = Files.list(clusterCredentialPath).collect(Collectors.toList());
-            if (CollectionUtils.isEmpty(childs)) {
-                return dynamicProperties;
-            }
-            final Path flinkConf = childs.get(0);
-            return GlobalConfiguration.loadConfiguration(flinkConf.toAbsolutePath().toString(), dynamicProperties);
-        }
 
-        if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ConfigType.HADOOP_CONF.getCode()))) {
+        if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ClusterCredentialType.HADOOP.getCode()))) {
             dynamicProperties.set(CoreOptions.FLINK_HADOOP_CONF_DIR, clusterCredentialPath.toAbsolutePath().toString());
             dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
             dynamicProperties.setLong(TaskManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
@@ -208,7 +200,7 @@ public class FlinkServiceImpl implements FlinkService {
             return dynamicProperties;
         }
 
-        if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ConfigType.KUBECONFIG.getCode()))) {
+        if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ClusterCredentialType.KUBERNETES.getCode()))) {
             final List<Path> childs = Files.list(clusterCredentialPath).collect(Collectors.toList());
             if (CollectionUtils.isEmpty(childs)) {
                 return dynamicProperties;
