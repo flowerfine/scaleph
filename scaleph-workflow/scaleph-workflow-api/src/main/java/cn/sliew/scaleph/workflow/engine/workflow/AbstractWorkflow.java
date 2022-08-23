@@ -23,7 +23,7 @@ import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractWorkflow implements Workflow{
+public abstract class AbstractWorkflow implements Workflow {
 
     private final String name;
 
@@ -45,4 +45,6 @@ public abstract class AbstractWorkflow implements Workflow{
     public List<PropertyDescriptor> getOutputs() {
         return Collections.emptyList();
     }
+
+
 }

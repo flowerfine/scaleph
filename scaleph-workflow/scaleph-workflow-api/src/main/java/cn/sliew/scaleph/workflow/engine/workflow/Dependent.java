@@ -18,5 +18,6 @@
 
 package cn.sliew.scaleph.workflow.engine.workflow;
 
-public interface Dependent {
+public interface Dependent extends Workflow {
+
 }
