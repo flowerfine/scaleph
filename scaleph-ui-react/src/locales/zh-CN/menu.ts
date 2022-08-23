@@ -2,6 +2,7 @@ export default {
   //scaleph
   'menu.studio': '工作台',
   'menu.studio.databoard': '数据看板',
+  'menu.studio.project': '项目管理',
   'menu.user.center': '个人中心',
   'menu.user.logout': '退出登录',
   'menu.admin': '系统管理',
@@ -16,7 +17,6 @@ export default {
   'menu.stdata.system': '业务系统',
   'menu.datadev': '数据集成',
   'menu.datadev.datasource': '数据源',
-  'menu.datadev.project': '项目管理',
   'menu.datadev.resource': '资源管理',
   'menu.datadev.cluster': '集群管理',
   'menu.opscenter': '运维中心',
