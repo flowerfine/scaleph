@@ -18,15 +18,28 @@
 
 package cn.sliew.scaleph.workflow.engine.workflow;
 
+import cn.sliew.milky.common.chain.ContextMap;
+import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.scaleph.workflow.engine.action.Action;
-import cn.sliew.scaleph.workflow.engine.workflow.control.Condition;
+import cn.sliew.scaleph.workflow.engine.action.ActionResult;
+import cn.sliew.scaleph.workflow.engine.workflow.control.AbstractCondition;
+import cn.sliew.scaleph.workflow.engine.workflow.control.ActionResultCondition;
 
 import java.util.List;
 
-public class Dependent extends Condition {
+public class Dependent extends AbstractCondition {
 
-    private List<Action> denpendencies;
+    private final List<Action> dependencies;
+    private final Action downstream;
 
+    public Dependent(String name, ActionResultCondition condition, List<Action> dependencies, Action downstream) {
+        super(name, condition);
+        this.dependencies = dependencies;
+        this.downstream = downstream;
+    }
 
-
+    @Override
+    public void execute(ContextMap<String, Object> context, ActionListener<ActionResult> listener) {
+        //
+    }
 }
