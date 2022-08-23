@@ -60,7 +60,7 @@ const Message: React.FC = () => {
               <Typography.Text>{item.content}</Typography.Text>
               <br />
               <Tooltip title={item.createTime}>
-                <Typography.Text type="secondary">{moment().from(item.createTime)}</Typography.Text>
+                <Typography.Text type="secondary">{moment(item.createTime).fromNow()}</Typography.Text>
               </Tooltip>
             </Collapse.Panel>
           );

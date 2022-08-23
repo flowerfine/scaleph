@@ -1,6 +1,7 @@
 import { listLoginLogByPage } from '@/services/admin/log.service';
 import { LogLogin } from '@/services/admin/typings';
-import { List, Pagination, Typography } from 'antd';
+import { List, Pagination, Tooltip, Typography } from 'antd';
+import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'umi';
 
@@ -34,7 +35,10 @@ const Log: React.FC = () => {
             <List.Item.Meta
               title={
                 <Typography.Text strong>
-                  {item.loginType?.label}&nbsp;&nbsp; {item.loginTime}
+                  {item.loginType?.label}&nbsp;&nbsp;
+                  <Tooltip title={item.loginTime}>
+                    <Typography.Text type="secondary">{moment(item.loginTime).fromNow()}</Typography.Text>
+                  </Tooltip>
                 </Typography.Text>
               }
               description={

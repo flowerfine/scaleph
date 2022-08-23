@@ -3,10 +3,20 @@ import { getUserInfo } from '@/services/admin/user.service';
 import { Button, List, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'umi';
+import EmailBindForm from './EmailBindForm';
+import PasswordEditForm from './PasswordEditForm';
 
 const Security: React.FC = () => {
   const intl = useIntl();
   const [user, setUser] = useState<SecUser>();
+  const [passwordFormData, setPasswordFormData] = useState<{ visiable: boolean; data: any }>({
+    visiable: false,
+    data: {},
+  });
+  const [emailFormData, setEmailFormData] = useState<{ visiable: boolean; data: any }>({
+    visiable: false,
+    data: {},
+  });
 
   const refreshUserInfo = () => {
     getUserInfo().then((resp) => {
@@ -26,7 +36,7 @@ const Security: React.FC = () => {
             <Button
               type="link"
               onClick={() => {
-                alert('edit password');
+                setPasswordFormData({ visiable: true, data: {} });
               }}
             >
               {intl.formatMessage({ id: 'pages.admin.usercenter.security.password.edit' })}
@@ -51,7 +61,7 @@ const Security: React.FC = () => {
             <Button
               type="link"
               onClick={() => {
-                alert('bind email');
+                setEmailFormData({ visiable: true, data: {} });
               }}
             >
               {intl.formatMessage({ id: 'pages.admin.usercenter.security.email.bind' })}
@@ -73,6 +83,31 @@ const Security: React.FC = () => {
           ></List.Item.Meta>
         </List.Item>
       </List>
+      {passwordFormData.visiable &&
+        <PasswordEditForm
+          visible={passwordFormData.visiable}
+          onCancel={() => {
+            setPasswordFormData({ visiable: false, data: {} });
+          }}
+          onVisibleChange={(visiable) => {
+            setPasswordFormData({ visiable: visiable, data: {} });
+            refreshUserInfo();
+          }}
+          data={{}}
+        ></PasswordEditForm>}
+
+      {emailFormData.visiable &&
+        <EmailBindForm
+          visible={emailFormData.visiable}
+          onCancel={() => {
+            setEmailFormData({ visiable: false, data: {} });
+          }}
+          onVisibleChange={(visiable) => {
+            setEmailFormData({ visiable: visiable, data: {} });
+            refreshUserInfo();
+          }}
+          data={{}}
+        ></EmailBindForm>}
     </div>
   );
 };
