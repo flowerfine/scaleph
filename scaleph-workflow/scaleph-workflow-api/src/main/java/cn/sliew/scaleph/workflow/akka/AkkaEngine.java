@@ -16,15 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.engine;
+package cn.sliew.scaleph.workflow.akka;
 
+import akka.actor.typed.ActorSystem;
+import akka.stream.javadsl.Source;
 import cn.sliew.milky.common.chain.ContextMap;
 import cn.sliew.milky.common.filter.ActionListener;
-import cn.sliew.scaleph.plugin.framework.lifecycle.LifeCycle;
+import cn.sliew.scaleph.workflow.engine.Engine;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
 
-public interface Engine extends LifeCycle {
+public class AkkaEngine implements Engine {
 
-    void run(WorkFlow workflow, ContextMap<String, Object> context, ActionListener<ActionResult> listener);
+    private final ActorSystem actorSystem;
+
+    public AkkaEngine(ActorSystem actorSystem) {
+        this.actorSystem = actorSystem;
+    }
+
+    @Override
+    public void run(WorkFlow workflow, ContextMap<String, Object> context, ActionListener<ActionResult> listener) {
+        Source.single(workflow).runForeach(flow -> flow.execute(context, listener), actorSystem);
+    }
 }
