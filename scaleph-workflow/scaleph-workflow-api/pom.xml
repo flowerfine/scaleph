@@ -38,6 +38,15 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-plugin-framework</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-actor-typed_${akka.scala.binary.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-stream_${akka.scala.binary.version}</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
