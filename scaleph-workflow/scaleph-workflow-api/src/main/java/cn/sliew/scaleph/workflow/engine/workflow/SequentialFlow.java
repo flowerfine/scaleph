@@ -18,42 +18,6 @@
 
 package cn.sliew.scaleph.workflow.engine.workflow;
 
-import akka.Done;
-import akka.actor.typed.ActorSystem;
-import akka.stream.javadsl.Sink;
-import akka.stream.javadsl.Source;
-import cn.sliew.milky.common.chain.ContextMap;
-import cn.sliew.milky.common.filter.ActionListener;
-import cn.sliew.scaleph.workflow.engine.action.Action;
-import cn.sliew.scaleph.workflow.engine.action.ActionResult;
+public interface SequentialFlow extends WorkFlow {
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletionStage;
-
-public class SequentialFlow extends AbstractWorkflow {
-
-    private final ActorSystem actorSystem;
-    private final List<Action> actions = new ArrayList<>();
-
-    public SequentialFlow(String name, ActorSystem actorSystem, List<Action> actions) {
-        super(name);
-        this.actorSystem = actorSystem;
-        this.actions.addAll(actions);
-    }
-
-    @Override
-    public void execute(ContextMap<String, Object> context, ActionListener<ActionResult> listener) {
-        final CompletionStage<Done> future = Source.from(actions).runWith(doExecute(context, listener), actorSystem);
-        future.whenComplete((done, throwable) -> {
-            if (throwable != null) {
-                listener.onFailure(new Exception(throwable));
-            }
-        });
-    }
-
-    private Sink<Action, CompletionStage<Done>> doExecute(ContextMap<String, Object> context,
-                                                          ActionListener<ActionResult> listener) {
-        return Sink.foreach(action -> action.execute(context, listener));
-    }
 }

@@ -18,8 +18,9 @@
 
 package cn.sliew.scaleph.workflow.engine.workflow;
 
+import cn.sliew.scaleph.plugin.framework.lifecycle.LifeCycle;
 import cn.sliew.scaleph.workflow.engine.action.Action;
 
-public interface Workflow extends Action {
+public interface WorkFlow extends Action, LifeCycle {
 
 }

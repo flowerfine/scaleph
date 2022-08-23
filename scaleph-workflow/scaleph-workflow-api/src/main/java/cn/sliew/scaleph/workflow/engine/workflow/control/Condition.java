@@ -16,15 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.engine.workflow;
+package cn.sliew.scaleph.workflow.engine.workflow.control;
 
-import cn.sliew.scaleph.workflow.engine.action.ActionResult;
+import cn.sliew.scaleph.workflow.engine.workflow.ControlFlow;
 
-import java.util.function.Predicate;
+public interface Condition extends ControlFlow {
 
-@FunctionalInterface
-public interface ActionResultCondition extends Predicate<ActionResult> {
-
-    @Override
-    boolean test(ActionResult result);
+    ActionResultCondition getCondition();
 }

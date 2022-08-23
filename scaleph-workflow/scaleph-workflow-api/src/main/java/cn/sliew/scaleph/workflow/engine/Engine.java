@@ -19,10 +19,11 @@
 package cn.sliew.scaleph.workflow.engine;
 
 import cn.sliew.milky.common.chain.ContextMap;
+import cn.sliew.scaleph.plugin.framework.lifecycle.LifeCycle;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
-import cn.sliew.scaleph.workflow.engine.workflow.Workflow;
+import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
 
-public interface Engine {
+public interface Engine extends LifeCycle {
 
-    ActionResult run(Workflow workflow, ContextMap<String, Object> context);
+    ActionResult run(WorkFlow workflow, ContextMap<String, Object> context);
 }

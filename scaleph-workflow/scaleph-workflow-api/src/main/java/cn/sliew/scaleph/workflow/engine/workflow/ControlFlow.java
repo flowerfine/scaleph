@@ -18,12 +18,6 @@
 
 package cn.sliew.scaleph.workflow.engine.workflow;
 
-/**
- * if ifelse else
- * switch
- * while
- */
-public interface ControlFlow extends ConditionFlow {
-
+public interface ControlFlow extends WorkFlow {
 
 }

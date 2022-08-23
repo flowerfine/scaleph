@@ -26,13 +26,13 @@ import cn.sliew.milky.common.chain.ContextMap;
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.scaleph.workflow.engine.action.Action;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
-import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkflow;
+import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletionStage;
 
-public class AkkaParallelFlow extends AbstractWorkflow {
+public class AkkaParallelFlow extends AbstractWorkFlow {
 
     private ActorSystem actorSystem;
     private final List<Action> actions = new ArrayList<>();

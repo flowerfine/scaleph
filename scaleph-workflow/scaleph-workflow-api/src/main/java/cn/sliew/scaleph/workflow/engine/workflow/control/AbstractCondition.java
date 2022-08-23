@@ -16,9 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.engine.workflow;
+package cn.sliew.scaleph.workflow.engine.workflow.control;
 
-public interface ConditionFlow extends Workflow {
+import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
 
-    ActionResultCondition getCondition();
+public abstract class AbstractCondition extends AbstractWorkFlow implements Condition {
+
+    private final ActionResultCondition condition;
+
+    public AbstractCondition(String name, ActionResultCondition condition) {
+        super(name);
+        this.condition = condition;
+    }
+
+    @Override
+    public ActionResultCondition getCondition() {
+        return condition;
+    }
 }

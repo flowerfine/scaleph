@@ -18,6 +18,6 @@
 
 package cn.sliew.scaleph.workflow.engine.workflow;
 
-public interface ParallelFlow extends Workflow {
+public interface ParallelFlow extends WorkFlow {
 
 }

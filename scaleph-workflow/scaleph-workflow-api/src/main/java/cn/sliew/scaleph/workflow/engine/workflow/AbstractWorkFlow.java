@@ -18,17 +18,31 @@
 
 package cn.sliew.scaleph.workflow.engine.workflow;
 
-public abstract class AbstractConditionFlow extends AbstractWorkflow implements ConditionFlow{
+import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 
-    private final ActionResultCondition condition;
+import java.util.Collections;
+import java.util.List;
 
-    public AbstractConditionFlow(String name, ActionResultCondition condition) {
-        super(name);
-        this.condition = condition;
+public abstract class AbstractWorkFlow implements WorkFlow {
+
+    private final String name;
+
+    public AbstractWorkFlow(String name) {
+        this.name = name;
     }
 
     @Override
-    public ActionResultCondition getCondition() {
-        return condition;
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public List<PropertyDescriptor> getInputs() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<PropertyDescriptor> getOutputs() {
+        return Collections.emptyList();
     }
 }

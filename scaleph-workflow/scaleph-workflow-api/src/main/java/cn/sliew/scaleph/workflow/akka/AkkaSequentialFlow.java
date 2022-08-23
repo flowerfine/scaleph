@@ -16,48 +16,45 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.engine.workflow.control;
+package cn.sliew.scaleph.workflow.akka;
 
+import akka.Done;
+import akka.actor.typed.ActorSystem;
+import akka.stream.javadsl.Sink;
+import akka.stream.javadsl.Source;
 import cn.sliew.milky.common.chain.ContextMap;
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.scaleph.workflow.engine.action.Action;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletionStage;
 
-public class SwitchFlow extends AbstractWorkFlow {
+public class AkkaSequentialFlow extends AbstractWorkFlow {
 
-    private final Action action;
-    private final LinkedHashMap<ActionResultCondition, Action> onConditions;
+    private final ActorSystem actorSystem;
+    private final List<Action> actions = new ArrayList<>();
 
-    public SwitchFlow(String name, Action action, LinkedHashMap<ActionResultCondition, Action> onConditions) {
+    public AkkaSequentialFlow(String name, ActorSystem actorSystem, List<Action> actions) {
         super(name);
-        this.action = action;
-        this.onConditions = onConditions;
+        this.actorSystem = actorSystem;
+        this.actions.addAll(actions);
     }
 
     @Override
     public void execute(ContextMap<String, Object> context, ActionListener<ActionResult> listener) {
-        action.execute(context, new ActionListener<ActionResult>() {
-            @Override
-            public void onResponse(ActionResult result) {
-                for (Map.Entry<ActionResultCondition, Action> entry : onConditions.entrySet()) {
-                    final ActionResultCondition condition = entry.getKey();
-                    final Action onCondition = entry.getValue();
-                    if (condition.test(result)) {
-                        onCondition.execute(result.getContext(), listener);
-                        break;
-                    }
-                }
-                listener.onFailure(new IllegalStateException("unmatched condition for " + result));
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                listener.onFailure(e);
+        final CompletionStage<Done> future = Source.from(actions).runWith(doExecute(context, listener), actorSystem);
+        future.whenComplete((done, throwable) -> {
+            if (throwable != null) {
+                listener.onFailure(new Exception(throwable));
             }
         });
+    }
+
+    private Sink<Action, CompletionStage<Done>> doExecute(ContextMap<String, Object> context,
+                                                          ActionListener<ActionResult> listener) {
+        return Sink.foreach(action -> action.execute(context, listener));
     }
 }

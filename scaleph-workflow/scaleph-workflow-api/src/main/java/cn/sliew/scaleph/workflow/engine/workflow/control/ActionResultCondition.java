@@ -16,35 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.engine.workflow;
+package cn.sliew.scaleph.workflow.engine.workflow.control;
 
-import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.function.Predicate;
 
-public abstract class AbstractWorkflow implements Workflow {
-
-    private final String name;
-
-    public AbstractWorkflow(String name) {
-        this.name = name;
-    }
+@FunctionalInterface
+public interface ActionResultCondition extends Predicate<ActionResult> {
 
     @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public List<PropertyDescriptor> getInputs() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<PropertyDescriptor> getOutputs() {
-        return Collections.emptyList();
-    }
-
-
+    boolean test(ActionResult result);
 }

@@ -18,6 +18,15 @@
 
 package cn.sliew.scaleph.workflow.engine.workflow;
 
-public interface Dependent extends Workflow {
+import cn.sliew.scaleph.workflow.engine.action.Action;
+import cn.sliew.scaleph.workflow.engine.workflow.control.Condition;
+
+import java.util.List;
+
+public class Dependent extends Condition {
+
+    private List<Action> denpendencies;
+
+
 
 }

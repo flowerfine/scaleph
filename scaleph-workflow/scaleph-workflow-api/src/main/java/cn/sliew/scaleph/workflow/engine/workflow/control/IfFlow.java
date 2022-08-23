@@ -22,10 +22,8 @@ import cn.sliew.milky.common.chain.ContextMap;
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.scaleph.workflow.engine.action.Action;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
-import cn.sliew.scaleph.workflow.engine.workflow.AbstractConditionFlow;
-import cn.sliew.scaleph.workflow.engine.workflow.ActionResultCondition;
 
-public class IfFlow extends AbstractConditionFlow {
+public class IfFlow extends AbstractCondition {
 
     private final Action action;
     private final Action onSuccess;
