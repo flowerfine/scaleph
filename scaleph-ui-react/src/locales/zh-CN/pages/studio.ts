@@ -11,4 +11,11 @@ export default {
   'pages.studio.databoard.startTime': '开始时间',
   'pages.studio.databoard.endTime': '结束时间',
   'pages.studio.databoard.jobInstanceState': '任务实例状态',
+  'pages.studio.project': '项目',
+  'pages.studio.project.projectCode': '项目编码',
+  'pages.studio.project.projectName': '项目名称',
+  'pages.studio.project.remark': '备注',
+  'pages.studio.project.createTime': '创建时间',
+  'pages.studio.project.updateTime': '更新时间',
+  'pages.studio.project.open': '进入项目',
 };

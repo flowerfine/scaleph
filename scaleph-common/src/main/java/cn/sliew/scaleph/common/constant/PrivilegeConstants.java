@@ -45,13 +45,14 @@ public enum PrivilegeConstants {
     @Desc("{\"id\":1001,\"privilegeName\":\"数据看板\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":10}")
     public static final String STUDIO_DATA_BOARD_SHOW =
             PRIVILEGE_PREFIX + ModuleCode.STUDIO_DATA_BOARD + ActionCode.SHOW;
+    @Desc("{\"id\":1002,\"privilegeName\":\"项目管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":10}")
+    public static final String DATADEV_PROJECT_SHOW = PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.SHOW;
     @Desc("{\"id\":20,\"privilegeName\":\"数据开发\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":0}")
     public static final String DATADEV_SHOW = PRIVILEGE_PREFIX + ModuleCode.DATADEV + ActionCode.SHOW;
     @Desc("{\"id\":2001,\"privilegeName\":\"数据源\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":20}")
     public static final String DATADEV_DATASOURCE_SHOW =
             PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.SHOW;
-    @Desc("{\"id\":2002,\"privilegeName\":\"项目管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":20}")
-    public static final String DATADEV_PROJECT_SHOW = PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.SHOW;
+
     @Desc("{\"id\":2003,\"privilegeName\":\"资源管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":20}")
     public static final String DATADEV_RESOURCE_SHOW = PRIVILEGE_PREFIX + ModuleCode.DATADEV_RESOURCE + ActionCode.SHOW;
     @Desc("{\"id\":2004,\"privilegeName\":\"作业管理\",\"resourceType\":0, \"resourcePath\":\"\",\"pid\":20}")
@@ -106,15 +107,15 @@ public enum PrivilegeConstants {
     @Desc("{\"id\":20010104,\"privilegeName\":\"查看密码\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200101}")
     public static final String DATADEV_DATASOURCE_SECURITY =
             PRIVILEGE_PREFIX + ModuleCode.DATADEV_DATASOURCE + ActionCode.SECURITY;
-    @Desc("{\"id\":200201,\"privilegeName\":\"项目管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
+    @Desc("{\"id\":100201,\"privilegeName\":\"项目管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
     public static final String DATADEV_PROJECT_SELECT =
             PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.SELECT;
-    @Desc("{\"id\":20020101,\"privilegeName\":\"新增项目\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200201}")
+    @Desc("{\"id\":10020101,\"privilegeName\":\"新增项目\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100201}")
     public static final String DATADEV_PROJECT_ADD = PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.ADD;
-    @Desc("{\"id\":20020102,\"privilegeName\":\"删除项目\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200201}")
+    @Desc("{\"id\":10020102,\"privilegeName\":\"删除项目\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100201}")
     public static final String DATADEV_PROJECT_DELETE =
             PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.DELETE;
-    @Desc("{\"id\":20020103,\"privilegeName\":\"修改项目\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":200201}")
+    @Desc("{\"id\":10020103,\"privilegeName\":\"修改项目\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":100201}")
     public static final String DATADEV_PROJECT_EDIT = PRIVILEGE_PREFIX + ModuleCode.DATADEV_PROJECT + ActionCode.EDIT;
     @Desc("{\"id\":200301,\"privilegeName\":\"资源管理\",\"resourceType\":1, \"resourcePath\":\"\",\"pid\":0}")
     public static final String DATADEV_RESOURCE_SELECT =
