@@ -18,26 +18,39 @@
 
 package cn.sliew.scaleph.workflow.engine.workflow;
 
+import akka.Done;
+import akka.actor.typed.ActorSystem;
+import akka.stream.javadsl.Sink;
+import akka.stream.javadsl.Source;
 import cn.sliew.milky.common.chain.ContextMap;
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.scaleph.workflow.engine.action.Action;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletionStage;
 
 public class ParallelFlow extends AbstractWorkflow {
 
-    private final List<Action> actions;
+    private ActorSystem actorSystem;
+    private final List<Action> actions = new ArrayList<>();
     private final Integer parallelism;
 
-    public ParallelFlow(String name, List<Action> actions, Integer parallelism) {
+    public ParallelFlow(String name, ActorSystem actorSystem, List<Action> actions, Integer parallelism) {
         super(name);
-        this.actions = actions;
+        this.actorSystem = actorSystem;
+        this.actions.addAll(actions);
         this.parallelism = parallelism;
     }
 
     @Override
     public void execute(ContextMap<String, Object> context, ActionListener<ActionResult> listener) {
-        // 并行处理
+        Source.from(actions).runWith(doExecute(context, listener), actorSystem);
+    }
+
+    private Sink<Action, CompletionStage<Done>> doExecute(ContextMap<String, Object> context,
+                                                          ActionListener<ActionResult> listener) {
+        return Sink.foreachParallel(parallelism, action -> action.execute(context, listener), actorSystem.executionContext());
     }
 }
