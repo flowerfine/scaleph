@@ -9,7 +9,7 @@ import { DeleteOutlined, EditOutlined, FolderOpenOutlined } from '@ant-design/ic
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { Button, message, Modal, Space, Tooltip } from 'antd';
 import { useRef, useState } from 'react';
-import { useAccess, useIntl } from 'umi';
+import { history, useAccess, useIntl } from 'umi';
 import ProjectForm from './components/ProjectForm';
 
 const Project: React.FC = () => {
@@ -65,7 +65,7 @@ const Project: React.FC = () => {
                   type="link"
                   icon={<FolderOpenOutlined />}
                   onClick={() => {
-                    alert('open project');
+                    history.push('/workspace?id=' + record.id);
                   }}
                 ></Button>
               </Tooltip>
