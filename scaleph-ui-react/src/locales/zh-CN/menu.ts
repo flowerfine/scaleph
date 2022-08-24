@@ -3,6 +3,8 @@ export default {
   'menu.studio': '工作台',
   'menu.studio.databoard': '数据看板',
   'menu.studio.project': '项目管理',
+  'menu.workspace': '工作空间',
+  'menu.workspace.databoard': '数据看板',
   'menu.user.center': '个人中心',
   'menu.user.logout': '退出登录',
   'menu.admin': '系统管理',
