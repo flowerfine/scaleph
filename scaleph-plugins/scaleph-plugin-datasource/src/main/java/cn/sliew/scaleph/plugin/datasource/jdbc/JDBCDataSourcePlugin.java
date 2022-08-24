@@ -19,13 +19,10 @@
 package cn.sliew.scaleph.plugin.datasource.jdbc;
 
 import cn.sliew.milky.common.exception.Rethrower;
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
 import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
-import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.framework.property.ValidationResult;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
@@ -59,7 +56,7 @@ public class JDBCDataSourcePlugin extends DatasourcePlugin<Connection> {
         final Properties jdbcProperties = new Properties();
         properties.addAllToProperties(jdbcProperties);
         String jdbcUrl = getJdbcUrl();
-        String driver = getDriverClassNmae();
+        String driver = getDriverClassName();
         String userName = jdbcProperties.getProperty(USERNAME.getName());
         String password = jdbcProperties.getProperty(PASSWORD.getName());
         try {
@@ -95,7 +92,7 @@ public class JDBCDataSourcePlugin extends DatasourcePlugin<Connection> {
         return properties.get(JDBC_URL);
     }
 
-    public String getDriverClassNmae() {
+    public String getDriverClassName() {
         return properties.get(DRIVER_CLASS_NAME);
     }
 

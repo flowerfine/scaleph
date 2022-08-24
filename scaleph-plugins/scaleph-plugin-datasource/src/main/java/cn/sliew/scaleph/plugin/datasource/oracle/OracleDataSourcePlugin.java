@@ -32,7 +32,7 @@ public class OracleDataSourcePlugin extends JDBCDataSourcePlugin {
     public void configure(PropertyContext props) {
         super.configure(props);
         properties.set(JDBC_URL_UNREQUIRED, getJdbcUrl());
-        properties.set(DRIVER_CLASS_NAME_UNREQUIRED, getDriverClassNmae());
+        properties.set(DRIVER_CLASS_NAME_UNREQUIRED, getDriverClassName());
     }
 
     @Override
@@ -41,7 +41,7 @@ public class OracleDataSourcePlugin extends JDBCDataSourcePlugin {
     }
 
     @Override
-    public String getDriverClassNmae() {
+    public String getDriverClassName() {
         return "oracle.jdbc.driver.OracleDriver";
     }
 

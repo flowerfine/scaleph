@@ -5,3 +5,4 @@ cn.sliew.scaleph.plugin.datasource.postgre.PostgreDataSourcePlugin
 cn.sliew.scaleph.plugin.datasource.kafka.KafkaDataSourcePlugin
 cn.sliew.scaleph.plugin.datasource.doris.DorisDataSourcePlugin
 cn.sliew.scaleph.plugin.datasource.clickhouse.ClickHouseDataSourcePlugin
+cn.sliew.scaleph.plugin.datasource.elasticsearch.ElasticsearchDataSourcePlugin

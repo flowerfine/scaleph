@@ -25,17 +25,17 @@ services:
     networks:
       - scaleph
 
-    kibana:
-      image: docker.elastic.co/kibana/kibana:7.10.2
-      environment:
-        - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-      depends_on:
-        - elasticsearch
-      restart: unless-stopped
-      ports:
-        - 5601:5601
-      networks:
-        - scaleph
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.2
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+    ports:
+      - 5601:5601
+    networks:
+      - scaleph
 
 networks:
   scaleph:

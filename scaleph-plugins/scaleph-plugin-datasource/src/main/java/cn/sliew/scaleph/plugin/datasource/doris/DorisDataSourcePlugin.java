@@ -56,7 +56,7 @@ public class DorisDataSourcePlugin extends JDBCDataSourcePlugin {
     public void configure(PropertyContext props) {
         super.configure(props);
         properties.set(JDBC_URL_UNREQUIRED, getJdbcUrl());
-        properties.set(DRIVER_CLASS_NAME_UNREQUIRED, getDriverClassNmae());
+        properties.set(DRIVER_CLASS_NAME_UNREQUIRED, getDriverClassName());
         properties.set(FENODES, getFeNodes());
         properties.set(DATABASE, properties.getString(DATABASE_NAME));
         properties.set(USER, properties.getString(USERNAME));
@@ -68,7 +68,7 @@ public class DorisDataSourcePlugin extends JDBCDataSourcePlugin {
     }
 
     @Override
-    public String getDriverClassNmae() {
+    public String getDriverClassName() {
         return "com.mysql.jdbc.Driver";
     }
 

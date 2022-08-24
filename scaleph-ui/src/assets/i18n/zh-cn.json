@@ -233,6 +233,7 @@
     "additionalProps": "扩展属性",
     "additionalProps.placeholder": "按照key:value格式配置属性，每个属性一行。例如：\nserverTimezone:Asia/Shanghai\ncharacterEncoding:UTF-8",
     "host": "主机地址",
+    "hosts": "主机地址",
     "databaseName": "数据库名称",
     "port": "端口号",
     "port.http": "HTTP端口号",
