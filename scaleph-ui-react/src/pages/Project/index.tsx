@@ -65,6 +65,7 @@ const Project: React.FC = () => {
                   type="link"
                   icon={<FolderOpenOutlined />}
                   onClick={() => {
+                    //todo store project id into localstore
                     history.push('/workspace?id=' + record.id);
                   }}
                 ></Button>
