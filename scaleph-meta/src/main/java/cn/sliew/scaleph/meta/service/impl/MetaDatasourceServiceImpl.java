@@ -150,6 +150,10 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
         Map<String, Object> propMap = metaDatasourceDTO.getProps();
         List<PropertyDescriptor> propDescList = getSupportedProperties(pluginName);
         for (PropertyDescriptor prop : propDescList) {
+            if (propMap.containsKey(prop.getName()) == false
+                    || StringUtils.isEmpty(propMap.get(prop.getName()))) {
+                continue;
+            }
             EnumSet<Property> propEnumSet = prop.getProperties();
             if (propEnumSet.contains(Property.Sensitive)) {
                 String value = (String) propMap.get(prop.getName());

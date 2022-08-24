@@ -395,7 +395,11 @@
     "step.sink-clickhouse.batchSize": "提交记录数量",
     "step.sink-clickhouse.maxRetries": "重试次数",
     "step.sink-clickhouse.clickhouseConf": "clickhouse配置",
-    "step.sink-clickhouse.clickhouseConf.tooltip": "参考clickhouse-jdbc文档,按照key=value格式配置属性，每个属性一行"
+    "step.sink-clickhouse.clickhouseConf.tooltip": "参考clickhouse-jdbc文档,按照key=value格式配置属性，每个属性一行",
+    "step.sink-elasticsearch.dataSource": "数据源",
+    "step.sink-elasticsearch.index": "索引",
+    "step.sink-elasticsearch.indexTimeFormat": "索引时间滚动格式",
+    "step.sink-clickhouse.clickhouseConf.tooltip111": "参考clickhouse-jdbc文档,按照key=value格式配置属性，每个属性一行"
   },
   "stdata": {
     "remark": "备注",

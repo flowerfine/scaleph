@@ -50,6 +50,9 @@ import { SinkClickHouseStepComponent } from './workbench/steps/sink-clickhouse-s
 import {
   ElasticsearchDatasourceComponent
 } from "./datasource/elasticsearch-datasource/elasticsearch-datasource.component";
+import {
+  SinkElasticsearchStepComponent
+} from "./workbench/steps/sink-elasticsearch-step/sink-elasticsearch-step.component";
 
 @NgModule({
   declarations: [
@@ -98,6 +101,7 @@ import {
     SinkDorisStepComponent,
     SinkClickHouseStepComponent,
     ElasticsearchDatasourceComponent,
+    SinkElasticsearchStepComponent,
   ],
   imports: [SharedModule, DataDevRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })

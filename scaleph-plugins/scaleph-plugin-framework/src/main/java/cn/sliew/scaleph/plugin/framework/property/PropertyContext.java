@@ -42,7 +42,11 @@ public class PropertyContext implements java.io.Serializable {
 
     public static PropertyContext fromMap(Map<String, Object> map) {
         final PropertyContext context = new PropertyContext();
-        map.forEach(context::setString);
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            if (entry.getValue() != null) {
+                context.setString(entry.getKey(), entry.getValue());
+            }
+        }
         return context;
     }
 
