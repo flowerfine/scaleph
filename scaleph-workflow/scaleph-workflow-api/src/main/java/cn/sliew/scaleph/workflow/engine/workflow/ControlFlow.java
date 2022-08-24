@@ -16,22 +16,8 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.config;
+package cn.sliew.scaleph.workflow.engine.workflow;
 
-import org.apache.flink.configuration.Configuration;
+public interface ControlFlow extends WorkFlow {
 
-/**
- * checkpoint 配置
- */
-public class CheckpointConfigBuilder {
-
-    private final Configuration configuration;
-
-    public CheckpointConfigBuilder(Configuration configuration) {
-        this.configuration = configuration;
-    }
-
-    public CheckpointConfigBuilder set() {
-        return this;
-    }
 }

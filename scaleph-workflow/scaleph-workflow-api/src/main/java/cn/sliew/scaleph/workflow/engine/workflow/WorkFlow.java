@@ -16,13 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.submit;
+package cn.sliew.scaleph.workflow.engine.workflow;
 
-import org.apache.flink.configuration.Configuration;
+import cn.sliew.scaleph.plugin.framework.lifecycle.LifeCycle;
+import cn.sliew.scaleph.workflow.engine.action.Action;
 
-public interface Submitter {
+public interface WorkFlow extends Action, LifeCycle {
 
-    void configure(Configuration configuration);
-
-    void submit();
 }

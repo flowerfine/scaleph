@@ -41,6 +41,15 @@ export default [
         pCode: PRIVILEGE_CODE.studioDataBoardShow,
         access: 'normalRouteFilter',
       },
+      {
+        name: 'project',
+        path: '/studio/project',
+        icon: 'project',
+        exact: true,
+        component: './Studio/Project',
+        pCode: PRIVILEGE_CODE.datadevProjectShow,
+        access: 'normalRouteFilter',
+      },
     ],
   },
   {
@@ -63,15 +72,6 @@ export default [
         exact: true,
         component: './DI/DataSource',
         pCode: PRIVILEGE_CODE.datadevResourceShow,
-        access: 'normalRouteFilter',
-      },
-      {
-        name: 'project',
-        path: '/datadev/project',
-        icon: 'project',
-        exact: true,
-        component: './DI/Project',
-        pCode: PRIVILEGE_CODE.datadevProjectShow,
         access: 'normalRouteFilter',
       },
       {

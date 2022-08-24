@@ -23,11 +23,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 @Getter
-public enum ConfigType {
+public enum ClusterCredentialType {
 
-    HADOOP_CONF(0, "hadoop conf"),
-    KUBECONFIG(1, "kubeconfig"),
-    FLINK_CONF(2, "flink-conf.yaml"),
+    HADOOP(0, "Hadoop"),
+    KUBERNETES(1, "Kubernetes"),
     ;
 
     @EnumValue
@@ -35,7 +34,7 @@ public enum ConfigType {
     private int code;
     private String desc;
 
-    ConfigType(int code, String desc) {
+    ClusterCredentialType(int code, String desc) {
         this.code = code;
         this.desc = desc;
     }
