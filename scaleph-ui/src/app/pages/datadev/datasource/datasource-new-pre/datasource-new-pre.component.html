@@ -67,6 +67,11 @@
     <h3>{{ 'datadev.other' | translate }}</h3>
     <d-row [dGutter]="[12, 12]">
       <d-col [dSpan]="6">
+        <d-card (click)="openAddDataSourceDialog('Elasticsearch')">
+          <div class="indicator-card-content">Elasticsearch</div>
+        </d-card>
+      </d-col>
+      <d-col [dSpan]="6">
         <d-card (click)="openAddDataSourceDialog('JDBC')">
           <div class="indicator-card-content">JDBC</div>
         </d-card>

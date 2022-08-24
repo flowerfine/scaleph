@@ -32,5 +32,8 @@
     <div *ngSwitchCase="'ClickHouse'">
       <app-generic-db-datasource [data]="{ item: data }" #datasource></app-generic-db-datasource>
     </div>
+    <div *ngSwitchCase="'Elasticsearch'">
+      <app-elasticsearch-datasource [data]="{ item: data }" #datasource></app-elasticsearch-datasource>
+    </div>
   </div>
 </div>

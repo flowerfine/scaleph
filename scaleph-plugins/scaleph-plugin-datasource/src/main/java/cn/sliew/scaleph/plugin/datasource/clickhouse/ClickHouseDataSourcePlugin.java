@@ -33,7 +33,7 @@ public class ClickHouseDataSourcePlugin extends JDBCDataSourcePlugin {
         super.configure(props);
         properties.set(DATABASE, properties.getString(DATABASE_NAME));
         properties.set(JDBC_URL_UNREQUIRED, getJdbcUrl());
-        properties.set(DRIVER_CLASS_NAME_UNREQUIRED, getDriverClassNmae());
+        properties.set(DRIVER_CLASS_NAME_UNREQUIRED, getDriverClassName());
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ClickHouseDataSourcePlugin extends JDBCDataSourcePlugin {
     }
 
     @Override
-    public String getDriverClassNmae() {
+    public String getDriverClassName() {
         return "ru.yandex.clickhouse.ClickHouseDriver";
     }
 

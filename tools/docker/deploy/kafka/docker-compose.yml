@@ -15,30 +15,53 @@
 # limitations under the License.
 
 services:
-  kafdrop:
-    image: obsidiandynamics/kafdrop
-    restart: "no"
+  zookeeper:
+    image: bitnami/zookeeper:3.7.0
+    container_name: zookeeper
     ports:
-      - "9090:9000"
+      - 2181:2181
     environment:
-      KAFKA_BROKERCONNECT: "kafka:29092"
-    depends_on:
-      - "kafka"
+      - TZ=Asia/Shanghai
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    restart: unless-stopped
     networks:
       - scaleph
 
   kafka:
-    image: obsidiandynamics/kafka
-    restart: "no"
+    image: bitnami/kafka:2.2.0
+    container_name: kafka
+    depends_on:
+      - zookeeper
     ports:
-      - "9092:9092"
+      - 9092:9092
+      - 9093:9093
     environment:
-      KAFKA_LISTENERS: "INTERNAL://:29092,EXTERNAL://:9092"
-      KAFKA_ADVERTISED_LISTENERS: "INTERNAL://kafka:29092,EXTERNAL://localhost:9092"
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT"
-      KAFKA_INTER_BROKER_LISTENER_NAME: "INTERNAL"
+      - KAFKA_BROKER_ID=1
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092, EXTERNAL://localhost:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+    restart: unless-stopped
     networks:
       - scaleph
+
+  canal-server:
+    image: canal/canal-server:v1.1.5
+    container_name: canal-server
+    depends_on:
+      - mysql
+      - kafka
+    ports:
+      - 11111:11111
+    volumes:
+      - ../canal/canal.properties:/home/admin/canal-server/conf/canal.properties
+      - ../canal/instance.properties:/home/admin/canal-server/conf/data_service/instance.properties
+    networks:
+      - scaleph
+
 networks:
   scaleph:
     driver: bridge

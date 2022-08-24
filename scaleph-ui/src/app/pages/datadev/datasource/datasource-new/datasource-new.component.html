@@ -20,6 +20,9 @@
     <div *ngSwitchCase="'PostGreSQL'">
       <app-generic-db-datasource [data]="{ item: data }" #datasource></app-generic-db-datasource>
     </div>
+    <div *ngSwitchCase="'ClickHouse'">
+      <app-generic-db-datasource [data]="{ item: data }" #datasource></app-generic-db-datasource>
+    </div>
     <div *ngSwitchCase="'JDBC'">
       <app-jdbc-datasource [data]="{ item: data }" #datasource></app-jdbc-datasource>
     </div>
@@ -29,8 +32,8 @@
     <div *ngSwitchCase="'Doris'">
       <app-doris-datasource [data]="{ item: data }" #datasource></app-doris-datasource>
     </div>
-    <div *ngSwitchCase="'ClickHouse'">
-      <app-generic-db-datasource [data]="{ item: data }" #datasource></app-generic-db-datasource>
+    <div *ngSwitchCase="'Elasticsearch'">
+      <app-elasticsearch-datasource [data]="{ item: data }" #datasource></app-elasticsearch-datasource>
     </div>
   </div>
 </div>
