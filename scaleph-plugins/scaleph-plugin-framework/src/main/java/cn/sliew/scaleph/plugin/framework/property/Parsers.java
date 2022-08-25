@@ -24,6 +24,9 @@ import cn.sliew.milky.common.primitives.Floats;
 import cn.sliew.milky.common.primitives.Integers;
 import cn.sliew.milky.common.primitives.Longs;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum Parsers {
     ;
 
@@ -38,4 +41,6 @@ public enum Parsers {
     public static final Parser<Double> DOUBLE_PARSER = value -> Doubles.parseDouble(value);
 
     public static final Parser<String> STRING_PARSER = value -> value;
+
+    public static final Parser<List<String>> STRING_ARRAY_PARSER = value -> Arrays.asList(value.split(","));
 }
