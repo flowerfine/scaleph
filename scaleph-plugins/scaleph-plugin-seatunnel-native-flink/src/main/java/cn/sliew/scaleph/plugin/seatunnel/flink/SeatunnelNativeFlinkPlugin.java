@@ -44,7 +44,7 @@ public abstract class SeatunnelNativeFlinkPlugin extends AbstractPlugin {
         ObjectNode objectNode = JacksonUtil.createObjectNode();
         for (PropertyDescriptor descriptor : getSupportedProperties()) {
             if (properties.contains(descriptor)) {
-                objectNode.put(descriptor.getName(), properties.getValue(descriptor));
+                objectNode.putPOJO(descriptor.getName(), properties.get(descriptor));
             }
         }
         return objectNode;

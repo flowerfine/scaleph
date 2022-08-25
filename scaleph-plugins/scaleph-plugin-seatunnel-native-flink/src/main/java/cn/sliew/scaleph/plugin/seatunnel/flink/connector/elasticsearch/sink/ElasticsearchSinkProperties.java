@@ -26,8 +26,8 @@ public enum ElasticsearchSinkProperties {
     public static final PropertyDescriptor<String> HOSTS = new PropertyDescriptor.Builder<String>()
             .name("hosts")
             .description("Elasticsearch cluster address, the format is host:port , allowing multiple hosts to be specified. Such as [\"host1:9200\", \"host2:9200\"]")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
+            .type(PropertyType.ARRAY)
+            .parser(Parsers.STRING_ARRAY_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();

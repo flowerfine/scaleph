@@ -28,12 +28,6 @@ export class ElasticsearchDatasourceComponent implements OnInit {
     hostRules: {
       validators: [{ required: true }, { maxlength: 256 }],
     },
-    usernameRules: {
-      validators: [{ required: true }, { maxlength: 120 }],
-    },
-    passwordRules: {
-      validators: [{ required: true }, { maxlength: 120 }],
-    },
     remarkRules: {
       validators: [{ maxlength: 200 }],
     },

@@ -62,6 +62,10 @@
       <app-sink-clickhouse-step [data]="{ onClose: close, item: cell, jobId: jobId }" (onSave)="saveStepInfo($event)" #step>
       </app-sink-clickhouse-step>
     </div>
+    <div *ngSwitchCase="'sink-elasticsearch'">
+      <app-sink-elasticsearch-step [data]="{ onClose: close, item: cell, jobId: jobId }" (onSave)="saveStepInfo($event)" #step>
+      </app-sink-elasticsearch-step>
+    </div>
   </div>
   <d-row [dGutter]="[12, 12]" class="drawer-footer">
     <d-button bsStyle="primary" (btnClick)="submitForm()">{{ 'app.common.operate.confirm.label' | translate }}</d-button>
