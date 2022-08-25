@@ -806,6 +806,8 @@ values ('local_data_service', 'Mysql',
         '{"host":"localhost","port":"3306","databaseName":"data_service","username":"root","password":"Encrypted:MTIzNDU2"}',
         '{"serverTimezone":"Asia/Shanghai","zeroDateTimeBehavior":"convertToNull","characterEncoding":"utf8"}', null,
         'sys_admin', 'sys_admin');
+insert into meta_datasource(datasource_name, datasource_type, props, additional_props, remark, creator, editor)
+values ('local', 'Elasticsearch', '{"hosts":"localhost:9200"}', 'null', NULL, 'sys_admin', 'sys_admin');
 /*元数据-数据表信息*/
 drop table if exists meta_table;
 create table meta_table

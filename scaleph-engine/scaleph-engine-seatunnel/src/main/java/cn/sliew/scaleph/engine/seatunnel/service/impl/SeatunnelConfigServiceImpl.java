@@ -76,6 +76,7 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         JOB_STEP_MAP.put("sink-kafka", KAFKA_SINK.getValue());
         JOB_STEP_MAP.put("sink-doris", DORIS_SINK.getValue());
         JOB_STEP_MAP.put("sink-clickhouse", CLICKHOUSE_SINK.getValue());
+        JOB_STEP_MAP.put("sink-elasticsearch", ELASTICSEARCH_SINK.getValue());
         //init plugin map
         PLUGIN_MAP.put("source-table", "jdbc");
         PLUGIN_MAP.put("sink-table", "jdbc");
