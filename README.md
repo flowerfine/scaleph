@@ -41,10 +41,16 @@ please refer [wiki](https://github.com/flowerfine/scaleph/wiki)
 
 * [develop](docs/develop/develop.md). This doc describes how to set up local development environment of Scaleph project.
 * checkstyle. Scaleph project requires clean and robust code, which can help Scaleph go further and develop better.
-* [build](docs/build/build.md). This doc describes how to build the Scaleph project from source. Scaleph adopts `maven` as its build system, for more information about build from source and deployment.
-* [docker](docs/docker/docker-build.md). As more application runs in container on cloud then bare metal machine, Scaleph provides own image.
+* [build](docs/build/build.md). This doc describes how to compile `scaleph-api` or `scaleph-ui` from source and build corresponding docker image. For more information about build from source, refer [workflows](https://github.com/flowerfine/scaleph/tree/dev/.github/workflows) and [actions](https://github.com/flowerfine/scaleph/actions).
+    * compile.  Scaleph adopts `maven` as its build system, .
+        * [local](docs/build/build-local.md)。People has to install jdk, maven, node, use `mvn clean package` or `npm` command to compile project.
+        * [docker](docs/build/build-docker.md)。Recommend way. Just need git and docker, after clone the source code, use docker as the build tools to compile project.
+    
+    * docker. As more application runs in container on cloud then bare metal machine, Scaleph provides own image.
+        * [docker-image-build](docs/docker/docker-image-build.md)。Choose different docker compose yaml file, people can build scalph-api, scaleph-ui or both.
+        * [docker-image-build-zh](docs/docker/docker-image-build-zh.md)。For Chinese user.
+    
 * deploy. For different deployment purpose such as develop, test or production, Scaleph make the best effort for people deploy project on local, docker and kubernetes.
-  * [local](docs/deploy/local/local.md). require fluent network.
   * [docker](docs/deploy/docker/docker.md). require fluent network.
   * [kubernetes](docs/deploy/kubernetes/kubernetes.md). work in process.
 

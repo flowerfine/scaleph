@@ -24,8 +24,8 @@ services:
       - redis
       - minio
     build:
+      context: ../../../../
       dockerfile: tools/docker/build/scaleph-api/Dockerfile
-      context: .
     ports:
       - 8080:8080
     networks:
@@ -35,10 +35,11 @@ services:
     image: scaleph/scaleph-ui:dev
     container_name: scaleph-ui
 #    depends_on:
-#      - scaleph-api
+#      scaleph-api:
+#        condition: service_healthy
     build:
+      context: ../../../../
       dockerfile: tools/docker/build/scaleph-ui/Dockerfile
-      context: .
     environment:
       - SCALEPH_API_URL="scaleph-api:8080"
     ports:
@@ -58,8 +59,8 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ../mysql/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
-      - ../mysql/init.d:/docker-entrypoint-initdb.d
+      - ../../mysql/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
+      - ../../mysql/init.d:/docker-entrypoint-initdb.d
     networks:
       - scaleph
 
@@ -84,6 +85,8 @@ services:
     ports:
       - 9000:9000
       - 9001:9001
+    networks:
+      - scaleph
 
 networks:
   scaleph:
