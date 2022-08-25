@@ -1,14 +1,17 @@
-# build
+# build-local
 
-Requirements:
+Build requirements:
 
 - Git
 - Java 8
 - Maven
-- Mysql 8.0
-- redis
-- node v16.14.0
-- IDE。lombok
+- node >= v16.14.0
+
+Run requirements:
+
+* mysql
+* redis
+* minio
 
 ## clone
 
@@ -38,6 +41,7 @@ java -jar scaleph-api.jar
 #### install dependencies
 
 ```shell
+cd scaleph-ui
 npm install --location=global @angular/cli
 npm install --force
 ```
