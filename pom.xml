@@ -136,6 +136,8 @@
         <clickhouse-jdbc.version>0.2</clickhouse-jdbc.version>
         <doris.version>5.1.26</doris.version>
         <postgresql.version>42.3.3</postgresql.version>
+        <druid.version>0.22.1</druid.version>
+        <calcite-druid.version>1.31.0</calcite-druid.version>
         <flink.version>1.13.6</flink.version>
         <flinkful.version>1.13.6_1_8-SNAPSHOT</flinkful.version>
         <okhttp.version>4.9.3</okhttp.version>
@@ -283,22 +285,6 @@
                 <artifactId>kafka-clients</artifactId>
                 <version>2.8.1</version>
             </dependency>
-
-   <!--         <dependency>
-                <groupId>org.elasticsearch</groupId>
-                <artifactId>elasticsearch</artifactId>
-                <version>6.8.23</version>
-            </dependency>
-            <dependency>
-                <groupId>org.elasticsearch.client</groupId>
-                <artifactId>elasticsearch-rest-client</artifactId>
-                <version>6.8.23</version>
-            </dependency>
-            <dependency>
-                <groupId>org.elasticsearch.client</groupId>
-                <artifactId>elasticsearch-rest-high-level-client</artifactId>
-                <version>6.8.23</version>
-            </dependency>-->
 
             <!-- swagger-->
             <dependency>
@@ -495,6 +481,35 @@
             </dependency>
 
             <dependency>
+                <groupId>ru.yandex.clickhouse</groupId>
+                <artifactId>clickhouse-jdbc</artifactId>
+                <version>${clickhouse-jdbc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.druid</groupId>
+                <artifactId>druid-indexing-service</artifactId>
+                <version>${druid.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>javax.servlet-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>log4j-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>log4j-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.calcite</groupId>
+                <artifactId>calcite-druid</artifactId>
+                <version>${calcite-druid.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
@@ -512,12 +527,6 @@
                 <version>${ojdbc.version}</version>
                 <scope>test</scope>
             </dependency>
-            <dependency>
-                <groupId>ru.yandex.clickhouse</groupId>
-                <artifactId>clickhouse-jdbc</artifactId>
-                <version>${clickhouse-jdbc.version}</version>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 

@@ -37,6 +37,7 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -58,6 +59,22 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>${doris.version}</version>
             <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.druid</groupId>
+            <artifactId>druid-indexing-service</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.calcite</groupId>
+            <artifactId>calcite-druid</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.21.5</version>
+<!--            <optional>true</optional>-->
         </dependency>
 
         <dependency>

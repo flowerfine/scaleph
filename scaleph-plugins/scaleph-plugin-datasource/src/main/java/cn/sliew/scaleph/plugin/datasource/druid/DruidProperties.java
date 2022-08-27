@@ -16,17 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.api.config;
+package cn.sliew.scaleph.plugin.datasource.druid;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchRestClientAutoConfiguration;
-import org.springframework.context.annotation.Configuration;
+import cn.sliew.scaleph.plugin.framework.property.*;
 
-/**
- * have to disable springboot autoconfigure elasticsearch
- */
-@Configuration
-@EnableAutoConfiguration(exclude = ElasticsearchRestClientAutoConfiguration.class)
-public class ElasticsearchConfig {
+public enum DruidProperties {
+    ;
 
+    public static final PropertyDescriptor<String> JDBC_URL = new PropertyDescriptor.Builder()
+            .name("jdbc_url")
+            .description("druid jdbc url")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .properties(Property.Required)
+            .validateAndBuild();
 }

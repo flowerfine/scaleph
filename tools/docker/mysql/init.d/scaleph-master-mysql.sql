@@ -198,6 +198,8 @@ insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('datasource_type', 'ClickHouse', 'ClickHouse', 'sys', 'sys');
 insert into `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 values ('datasource_type', 'Elasticsearch', 'Elasticsearch', 'sys', 'sys');
+insert into `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+values ('datasource_type', 'Druid', 'Druid', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('job_type', 'b', '周期作业', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
@@ -796,18 +798,22 @@ create TABLE meta_datasource
     KEY datasource_name (datasource_name),
     KEY datasource_type (datasource_type)
 ) ENGINE = InnoDB COMMENT ='元数据-数据源信息';
-insert into meta_datasource (datasource_name, datasource_type, props, additional_props, remark, creator, editor)
-values ('docker_data_service', 'Mysql',
+insert into meta_datasource (id, datasource_name, datasource_type, props, additional_props, remark, creator, editor)
+values (1, 'docker_data_service', 'Mysql',
         '{"host":"mysql","port":"3306","databaseName":"data_service","username":"root","password":"Encrypted:MTIzNDU2"}',
         '{"serverTimezone":"Asia/Shanghai","zeroDateTimeBehavior":"convertToNull","characterEncoding":"utf8"}', null,
         'sys_admin', 'sys_admin');
-insert into meta_datasource (datasource_name, datasource_type, props, additional_props, remark, creator, editor)
-values ('local_data_service', 'Mysql',
+insert into meta_datasource (id, datasource_name, datasource_type, props, additional_props, remark, creator, editor)
+values (2, 'local_data_service', 'Mysql',
         '{"host":"localhost","port":"3306","databaseName":"data_service","username":"root","password":"Encrypted:MTIzNDU2"}',
         '{"serverTimezone":"Asia/Shanghai","zeroDateTimeBehavior":"convertToNull","characterEncoding":"utf8"}', null,
         'sys_admin', 'sys_admin');
-insert into meta_datasource(datasource_name, datasource_type, props, additional_props, remark, creator, editor)
-values ('local', 'Elasticsearch', '{"hosts":"localhost:9200"}', 'null', NULL, 'sys_admin', 'sys_admin');
+insert into meta_datasource(id, datasource_name, datasource_type, props, additional_props, remark, creator, editor)
+values (3, 'local', 'Elasticsearch', '{"hosts":"localhost:9200"}', 'null', NULL, 'sys_admin', 'sys_admin');
+insert into meta_datasource (id, datasource_name, datasource_type, props, additional_props, remark,
+                               creator, editor)
+VALUES (4, 'local', 'Druid', '{"jdbc_url":"jdbc:avatica:remote:url=http://localhost:8082/druid/v2/sql/avatica/"}',
+        'null', NULL, 'sys_admin', 'sys_admin');
 /*元数据-数据表信息*/
 drop table if exists meta_table;
 create table meta_table
