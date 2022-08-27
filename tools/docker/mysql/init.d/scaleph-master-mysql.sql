@@ -1,5 +1,7 @@
-create database if not exists scaleph default character set utf8mb4 collate utf8mb4_unicode_ci;
-use scaleph;
+create
+database if not exists scaleph default character set utf8mb4 collate utf8mb4_unicode_ci;
+use
+scaleph;
 /* 数据字典类型表 */
 drop table if exists sys_dict_type;
 create table sys_dict_type
@@ -789,14 +791,14 @@ create TABLE meta_datasource
     datasource_type  varchar(32) not null comment '数据源类型',
     props            text COMMENT '数据源支持的属性',
     additional_props text COMMENT '数据源支持的额外属性',
-    remark           varchar(256)     DEFAULT NULL COMMENT '备注描述',
-    creator          varchar(32)      DEFAULT NULL COMMENT '创建人',
-    create_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    editor           varchar(32)      DEFAULT NULL COMMENT '修改人',
-    update_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT '修改时间',
+    remark           varchar(256) DEFAULT NULL COMMENT '备注描述',
+    creator          varchar(32)  DEFAULT NULL COMMENT '创建人',
+    create_time      timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    editor           varchar(32)  DEFAULT NULL COMMENT '修改人',
+    update_time      timestamp NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (id),
-    KEY datasource_name (datasource_name),
-    KEY datasource_type (datasource_type)
+    KEY              datasource_name (datasource_name),
+    KEY              datasource_type (datasource_type)
 ) ENGINE = InnoDB COMMENT ='元数据-数据源信息';
 insert into meta_datasource (id, datasource_name, datasource_type, props, additional_props, remark, creator, editor)
 values (1, 'docker_data_service', 'Mysql',
@@ -811,7 +813,7 @@ values (2, 'local_data_service', 'Mysql',
 insert into meta_datasource(id, datasource_name, datasource_type, props, additional_props, remark, creator, editor)
 values (3, 'local', 'Elasticsearch', '{"hosts":"localhost:9200"}', 'null', NULL, 'sys_admin', 'sys_admin');
 insert into meta_datasource (id, datasource_name, datasource_type, props, additional_props, remark,
-                               creator, editor)
+                             creator, editor)
 VALUES (4, 'local', 'Druid', '{"jdbc_url":"jdbc:avatica:remote:url=http://localhost:8082/druid/v2/sql/avatica/"}',
         'null', NULL, 'sys_admin', 'sys_admin');
 /*元数据-数据表信息*/
@@ -1309,19 +1311,22 @@ create table di_job
     unique key (project_id, job_code, job_version)
 ) engine = innodb comment '数据集成-作业信息';
 
-insert into di_job(project_id, job_code, job_name, directory_id, job_type, job_owner, job_status,
+insert into di_job(id, project_id, job_code, job_name, directory_id, job_type, job_owner, job_status,
                    runtime_state, job_version, cluster_id, job_crontab, remark, creator, editor)
-VALUES (1, 'docker_jdbc_to_jdbc', 'docker_jdbc_to_jdbc', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL,
-        'sys_admin',
-        'sys_admin');
-INSERT INTO di_job(project_id, job_code, job_name, directory_id, job_type, job_owner, job_status, runtime_state,
+VALUES (1, 1, 'docker_jdbc_to_jdbc', 'docker_jdbc_to_jdbc', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL,
+        'sys_admin', 'sys_admin');
+INSERT INTO di_job(id, project_id, job_code, job_name, directory_id, job_type, job_owner, job_status, runtime_state,
                    job_version, cluster_id, job_crontab, remark, creator, editor)
-VALUES (1, 'local_jdbc_to_jdbc', 'local_jdbc_to_jdbc', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys_admin',
-        'sys_admin');
-INSERT INTO `di_job`(`project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
+VALUES (2, 1, 'local_jdbc_to_jdbc', 'local_jdbc_to_jdbc', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL,
+        'sys_admin', 'sys_admin');
+INSERT INTO `di_job`(id, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
                      `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
-VALUES (1, 'local_jdbc_to_elasticsearch', 'local_jdbc_to_elasticsearch', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL,
-        NULL, 'sys_admin', 'sys_admin');
+VALUES (3, 1, 'local_jdbc_to_elasticsearch', 'local_jdbc_to_elasticsearch', 2, 'b', 'sys_admin', '2', '1', 1, NULL,
+        NULL, NULL, 'sys_admin', 'sys_admin');
+INSERT INTO `di_job` (`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
+                      `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
+VALUES (4, 1, 'local_druid_to_jdbc', 'local_druid_to_jdbc', 2, 'b', 'sys_admin', '1', '1', 1, NULL, NULL, NULL,
+        'sys_admin', 'sys_admin');
 
 drop table if exists di_job_resource_file;
 create table di_job_resource_file
@@ -1632,6 +1637,37 @@ VALUES ('sink', 'elasticsearch', 'index', NULL, '0', '索引', 'sys', 'sys');
 INSERT INTO `di_job_step_attr_type`(`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`, `is_required`,
                                     `step_attr_describe`, `creator`, `editor`)
 VALUES ('sink', 'elasticsearch', 'index_time_format', NULL, '0', '索引时间滚动格式', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('source', 'druid', 'dataSource', NULL, '1', '数据源', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('source', 'druid', 'datasourceName', NULL, '1', '数据源名称', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('source', 'druid', 'start_date', NULL, '0', '数据源开始时间', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('source', 'druid', 'end_date', NULL, '0', '数据源结束时间', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('source', 'druid', 'columns', NULL, '0', '数据源字段列表', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('sink', 'druid', 'coordinator_url', NULL, '1', 'Coordinator 服务地址', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('sink', 'druid', 'datasourceName', NULL, '1', '数据源名称', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('sink', 'druid', 'timestamp_column', NULL, '0', '时间戳列', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('sink', 'druid', 'timestamp_format', NULL, '0', '时间戳列格式', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('sink', 'druid', 'timestamp_missing_value', NULL, '0', '时间戳列默认值', 'sys', 'sys');
+
 /* 作业连线信息 */
 drop table if exists di_job_link;
 create table di_job_link
@@ -1694,9 +1730,9 @@ CREATE TABLE `resource_seatunnel_release`
     `path`        VARCHAR(255) NOT NULL COMMENT '存储路径',
     `remark`      VARCHAR(255) COMMENT '备注',
     `creator`     VARCHAR(32) COMMENT '创建人',
-    `create_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `editor`      VARCHAR(32) COMMENT '修改人',
-    `update_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    `update_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB COMMENT = 'seatunnel release';
 
@@ -1710,9 +1746,9 @@ CREATE TABLE `resource_flink_release`
     `path`        VARCHAR(255) NOT NULL COMMENT '存储路径',
     `remark`      VARCHAR(255) COMMENT '备注',
     `creator`     VARCHAR(32) COMMENT '创建人',
-    `create_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `editor`      VARCHAR(32) COMMENT '修改人',
-    `update_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    `update_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB COMMENT = 'flink release';
 
