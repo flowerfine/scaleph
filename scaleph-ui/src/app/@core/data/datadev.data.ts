@@ -246,7 +246,12 @@ export const STEP_ATTR_TYPE = {
   fields: 'fields',
   clickhouseConf: 'clickhouse_conf',
   index: 'index',
-  indexTimeFormat: 'index_time_format'
+  indexTimeFormat: 'index_time_format',
+  datasourceName: 'datasourceName',
+  startDate: 'start_date',
+  endDate: 'end_date',
+  columns: 'columns',
+  parallelism: 'parallelism',
 };
 
 export class MockData {

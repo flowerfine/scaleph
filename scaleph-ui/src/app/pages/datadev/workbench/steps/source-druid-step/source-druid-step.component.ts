@@ -76,19 +76,14 @@ export class SourceDruidStepComponent implements OnInit {
       for (const stepAttr of list) {
         stepAttrMap.set(stepAttr.stepAttrKey, stepAttr.stepAttrValue);
       }
-      if (stepAttrMap.get(STEP_ATTR_TYPE.consumerBootstrapServers)) {
-        this.formGroup.patchValue({ consumer_bootstrap_servers: JSON.parse(stepAttrMap.get(STEP_ATTR_TYPE.consumerBootstrapServers)) });
+      if (stepAttrMap.get(STEP_ATTR_TYPE.dataSource)) {
+        this.formGroup.patchValue({ dataSource: JSON.parse(stepAttrMap.get(STEP_ATTR_TYPE.dataSource)) });
       }
-      this.formGroup.patchValue({ topics: stepAttrMap.get(STEP_ATTR_TYPE.topics) });
-      this.formGroup.patchValue({ consumer_group_id: stepAttrMap.get(STEP_ATTR_TYPE.consumerGroupId) });
-      this.formGroup.patchValue({ consumer_conf: stepAttrMap.get(STEP_ATTR_TYPE.consumerConf) });
-      this.formGroup.patchValue({ offset_reset: stepAttrMap.get(STEP_ATTR_TYPE.offsetReset) });
-      this.formGroup.patchValue({ offset_reset_specific: stepAttrMap.get(STEP_ATTR_TYPE.offsetResetSpecific) });
-      this.formGroup.patchValue({ rowtime_field: stepAttrMap.get(STEP_ATTR_TYPE.rowtimeField) });
-      this.formGroup.patchValue({ watermark: stepAttrMap.get(STEP_ATTR_TYPE.watermark) });
-      this.formGroup.patchValue({ format_type: stepAttrMap.get(STEP_ATTR_TYPE.formatType) });
-      this.formGroup.patchValue({ format_conf: stepAttrMap.get(STEP_ATTR_TYPE.formatConf) });
-      this.formGroup.patchValue({ schema: stepAttrMap.get(STEP_ATTR_TYPE.schema) });
+      this.formGroup.patchValue({ datasourceName: stepAttrMap.get(STEP_ATTR_TYPE.datasourceName) });
+      this.formGroup.patchValue({ start_date: stepAttrMap.get(STEP_ATTR_TYPE.startDate) });
+      this.formGroup.patchValue({ end_date: stepAttrMap.get(STEP_ATTR_TYPE.endDate) });
+      this.formGroup.patchValue({ columns: stepAttrMap.get(STEP_ATTR_TYPE.columns) });
+      this.formGroup.patchValue({ parallelism: stepAttrMap.get(STEP_ATTR_TYPE.parallelism) });
     });
   }
 
@@ -97,17 +92,12 @@ export class SourceDruidStepComponent implements OnInit {
     if (this.formGroup.valid) {
       let stepAttrMap: Map<string, string> = new Map();
       stepAttrMap.set(STEP_ATTR_TYPE.stepTitle, this.formGroup.get(STEP_ATTR_TYPE.stepTitle).value);
-      stepAttrMap.set(STEP_ATTR_TYPE.consumerBootstrapServers, this.formGroup.get(STEP_ATTR_TYPE.consumerBootstrapServers).value);
-      stepAttrMap.set(STEP_ATTR_TYPE.topics, this.formGroup.get(STEP_ATTR_TYPE.topics).value);
-      stepAttrMap.set(STEP_ATTR_TYPE.consumerGroupId, this.formGroup.get(STEP_ATTR_TYPE.consumerGroupId).value);
-      stepAttrMap.set(STEP_ATTR_TYPE.consumerConf, this.formGroup.get(STEP_ATTR_TYPE.consumerConf).value);
-      stepAttrMap.set(STEP_ATTR_TYPE.offsetReset, this.formGroup.get(STEP_ATTR_TYPE.offsetReset).value);
-      stepAttrMap.set(STEP_ATTR_TYPE.offsetResetSpecific, this.formGroup.get(STEP_ATTR_TYPE.offsetResetSpecific).value);
-      stepAttrMap.set(STEP_ATTR_TYPE.rowtimeField, this.formGroup.get(STEP_ATTR_TYPE.rowtimeField).value);
-      stepAttrMap.set(STEP_ATTR_TYPE.watermark, this.formGroup.get(STEP_ATTR_TYPE.watermark).value);
-      stepAttrMap.set(STEP_ATTR_TYPE.formatType, this.formGroup.get(STEP_ATTR_TYPE.formatType).value);
-      stepAttrMap.set(STEP_ATTR_TYPE.formatConf, this.formGroup.get(STEP_ATTR_TYPE.formatConf).value);
-      stepAttrMap.set(STEP_ATTR_TYPE.schema, this.formGroup.get(STEP_ATTR_TYPE.schema).value);
+      stepAttrMap.set(STEP_ATTR_TYPE.dataSource, this.formGroup.get(STEP_ATTR_TYPE.dataSource).value);
+      stepAttrMap.set(STEP_ATTR_TYPE.datasourceName, this.formGroup.get(STEP_ATTR_TYPE.datasourceName).value);
+      stepAttrMap.set(STEP_ATTR_TYPE.startDate, this.formGroup.get(STEP_ATTR_TYPE.startDate).value);
+      stepAttrMap.set(STEP_ATTR_TYPE.endDate, this.formGroup.get(STEP_ATTR_TYPE.endDate).value);
+      stepAttrMap.set(STEP_ATTR_TYPE.columns, this.formGroup.get(STEP_ATTR_TYPE.columns).value);
+      stepAttrMap.set(STEP_ATTR_TYPE.parallelism, this.formGroup.get(STEP_ATTR_TYPE.parallelism).value);
       this.onSave.emit(stepAttrMap);
     }
   }

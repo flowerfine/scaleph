@@ -1654,6 +1654,9 @@ INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, 
 VALUES ('source', 'druid', 'columns', NULL, '0', '数据源字段列表', 'sys', 'sys');
 INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
                                      `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('source', 'druid', 'parallelism', '1', '0', '并行度', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
 VALUES ('sink', 'druid', 'coordinator_url', NULL, '1', 'Coordinator 服务地址', 'sys', 'sys');
 INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
                                      `is_required`, `step_attr_describe`, `creator`, `editor`)
@@ -1667,6 +1670,9 @@ VALUES ('sink', 'druid', 'timestamp_format', NULL, '0', '时间戳列格式', 's
 INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
                                      `is_required`, `step_attr_describe`, `creator`, `editor`)
 VALUES ('sink', 'druid', 'timestamp_missing_value', NULL, '0', '时间戳列默认值', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('sink', 'druid', 'parallelism', '1', '0', '并行度', 'sys', 'sys');
 
 /* 作业连线信息 */
 drop table if exists di_job_link;

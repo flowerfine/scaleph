@@ -52,7 +52,11 @@
         <d-form-label>{{ 'datadev.step.source-druid.parallelism' | translate }}</d-form-label>
         <d-form-control>
           <d-form-control>
-            <input dTextInput name="parallelism" formControlName="parallelism" />
+            <d-input-number
+              [min]="1"
+              formControlName="parallelism"
+              class="input-number">
+            </d-input-number>
           </d-form-control>
         </d-form-control>
       </d-form-item>
