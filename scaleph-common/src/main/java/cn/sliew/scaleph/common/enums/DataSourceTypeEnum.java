@@ -35,7 +35,7 @@ public enum DataSourceTypeEnum {
 
     KAFKA("Kafka", "Kafka"),
     ELASTICSEARCH("Elasticsearch", "Elasticsearch"),
-    DRUID_JDBC("Druid_JDBC", "Druid_JDBC"),
+    DRUID("Druid", "Druid"),
     ;
 
     private String code;

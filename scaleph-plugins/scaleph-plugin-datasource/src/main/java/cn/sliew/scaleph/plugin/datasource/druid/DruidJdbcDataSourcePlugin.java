@@ -38,7 +38,7 @@ public class DruidJdbcDataSourcePlugin extends DatasourcePlugin<Connection> {
     private Connection connection;
 
     public DruidJdbcDataSourcePlugin() {
-        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.DRUID_JDBC.getValue(), "Druid JDBC Datasource", "1.29.0", DruidJdbcDataSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.DRUID.getValue(), "Druid JDBC Datasource", "1.29.0", DruidJdbcDataSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(JDBC_URL);
