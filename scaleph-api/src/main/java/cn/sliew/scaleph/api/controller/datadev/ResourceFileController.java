@@ -51,7 +51,7 @@ import java.util.Map;
 @Slf4j
 @Api(tags = "数据开发-资源管理")
 @RestController
-@RequestMapping(path = "/api/datadev/resource")
+@RequestMapping(path = {"/api/datadev/resource", "/api/di/resource"})
 public class ResourceFileController {
 
     @Autowired
