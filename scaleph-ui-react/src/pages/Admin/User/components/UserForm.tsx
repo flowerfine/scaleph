@@ -37,9 +37,9 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-            intl.formatMessage({ id: 'pages.admin.user' })
+          intl.formatMessage({ id: 'pages.admin.user' })
           : intl.formatMessage({ id: 'app.common.operate.new.label' }) +
-            intl.formatMessage({ id: 'pages.admin.user' })
+          intl.formatMessage({ id: 'pages.admin.user' })
       }
       width={780}
       destroyOnClose={true}
@@ -64,17 +64,17 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({
           };
           data.id
             ? updateUser({ ...user }).then((d) => {
-                if (d.success) {
-                  message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
-                  onVisibleChange(false);
-                }
-              })
+              if (d.success) {
+                message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
+                onVisibleChange(false);
+              }
+            })
             : addUser({ ...user }).then((d) => {
-                if (d.success) {
-                  message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
-                  onVisibleChange(false);
-                }
-              });
+              if (d.success) {
+                message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
+                onVisibleChange(false);
+              }
+            });
         });
       }}
     >
@@ -119,14 +119,14 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({
                     data.id
                       ? callback()
                       : isUserExists(value).then((resp) => {
-                          if (resp) {
-                            callback();
-                          } else {
-                            callback(
-                              intl.formatMessage({ id: 'app.common.validate.sameUserName' }),
-                            );
-                          }
-                        });
+                        if (resp) {
+                          callback();
+                        } else {
+                          callback(
+                            intl.formatMessage({ id: 'app.common.validate.sameUserName' }),
+                          );
+                        }
+                      });
                   },
                 },
               ]}
@@ -135,7 +135,6 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({
             </Form.Item>
           </Col>
           <Col span={12}>
-            {' '}
             <Form.Item
               name="email"
               label={intl.formatMessage({ id: 'pages.admin.user.email' })}
@@ -148,12 +147,12 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({
                     data.id
                       ? callback()
                       : isEmailExists(value).then((resp) => {
-                          if (resp) {
-                            callback();
-                          } else {
-                            callback(intl.formatMessage({ id: 'app.common.validate.sameEmail' }));
-                          }
-                        });
+                        if (resp) {
+                          callback();
+                        } else {
+                          callback(intl.formatMessage({ id: 'app.common.validate.sameEmail' }));
+                        }
+                      });
                   },
                 },
               ]}

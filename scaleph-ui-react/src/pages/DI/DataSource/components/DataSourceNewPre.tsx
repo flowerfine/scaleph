@@ -1,5 +1,5 @@
 import { ModalFormProps } from "@/app.d";
-import { MetaDataSource } from "@/services/di/typings";
+import { MetaDataSource } from "@/services/project/typings";
 import { Card, Modal, Typography } from "antd";
 import { useIntl } from "umi";
 

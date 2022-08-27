@@ -146,6 +146,7 @@ const User: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'app.common.operate.label' }),
       dataIndex: 'actions',
+      align: 'center',
       width: 120,
       fixed: 'right',
       valueType: 'option',

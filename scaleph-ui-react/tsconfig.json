@@ -3,7 +3,10 @@
     "outDir": "build/dist",
     "module": "esnext",
     "target": "esnext",
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "sourceMap": true,
     "baseUrl": ".",
     "jsx": "react-jsx",
@@ -18,10 +21,19 @@
     "skipLibCheck": true,
     "experimentalDecorators": true,
     "strict": true,
+    "noImplicitThis": false,
     "paths": {
-      "@/*": ["./src/*"],
-      "@@/*": ["./src/.umi/*"]
-    }
+      "@/*": [
+        "./src/*"
+      ],
+      "@@/*": [
+        "./src/.umi/*"
+      ]
+    },
+    "typeRoots": [
+      "node_modules/@types",
+      "./src/types"
+    ]
   },
   "include": [
     "mock/**/*",
@@ -37,5 +49,13 @@
     "jest.config.js",
     "mock/*"
   ],
-  "exclude": ["node_modules", "build", "dist", "scripts", "src/.umi/*", "webpack", "jest"]
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist",
+    "scripts",
+    "src/.umi/*",
+    "webpack",
+    "jest"
+  ]
 }

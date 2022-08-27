@@ -56,6 +56,7 @@ export default [
         pCode: PRIVILEGE_CODE.datadevProjectShow,
         access: 'normalRouteFilter',
       },
+
     ],
   },
   {
@@ -65,6 +66,7 @@ export default [
     routes: [
       {
         name: 'di',
+        path: '/workspace/di',
         icon: 'link',
         pCode: PRIVILEGE_CODE.datadevShow,
         access: 'normalRouteFilter',
@@ -74,6 +76,47 @@ export default [
             path: '/workspace/di/datasource',
             exact: true,
             component: './DI/DataSource',
+            pCode: PRIVILEGE_CODE.datadevDatasourceShow,
+            access: 'normalRouteFilter',
+          },
+          {
+            name: 'realtime',
+            path: '/workspace/di/realtime',
+            exact: true,
+            component: './DI/DiRealtimeJob',
+            pCode: PRIVILEGE_CODE.datadevDatasourceShow,
+            access: 'normalRouteFilter',
+          },
+          {
+            name: 'batch',
+            path: '/workspace/di/batch',
+            exact: true,
+            component: './DI/DiBatchJob',
+            pCode: PRIVILEGE_CODE.datadevDatasourceShow,
+            access: 'normalRouteFilter',
+          },
+        ],
+      },
+      {
+        name: 'dev',
+        path: '/workspace/dev',
+        icon: 'consoleSql',
+        pCode: PRIVILEGE_CODE.datadevShow,
+        access: 'normalRouteFilter',
+        routes: [
+          {
+            name: 'realtime',
+            path: '/workspace/dev/realtime',
+            exact: true,
+            component: './DEV/DevRealtimeJob',
+            pCode: PRIVILEGE_CODE.datadevDatasourceShow,
+            access: 'normalRouteFilter',
+          },
+          {
+            name: 'batch',
+            path: '/workspace/dev/batch',
+            exact: true,
+            component: './DEV/DevBatchJob',
             pCode: PRIVILEGE_CODE.datadevDatasourceShow,
             access: 'normalRouteFilter',
           },

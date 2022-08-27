@@ -6,8 +6,8 @@ import {
   deleteDataSourceRow,
   listDataSourceByPage,
   showPassword,
-} from '@/services/di/dataSource.service';
-import { MetaDataSource } from '@/services/di/typings';
+} from '@/services/project/dataSource.service';
+import { MetaDataSource } from '@/services/project/typings';
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { Button, message, Modal, Select, Space, Tooltip, Typography } from 'antd';
@@ -95,6 +95,7 @@ const DataSource: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'app.common.operate.label' }),
       dataIndex: 'actions',
+      align: 'center',
       width: 120,
       fixed: 'right',
       valueType: 'option',
@@ -275,10 +276,10 @@ const DataSource: React.FC = () => {
         ></JdbcDataSourceForm>
       ) : null}
       {dataSourceFormData.visiable &&
-      (dataSourceFormData.data.datasourceType?.value == 'Mysql' ||
-        dataSourceFormData.data.datasourceType?.value == 'Oracle' ||
-        dataSourceFormData.data.datasourceType?.value == 'PostGreSQL' ||
-        dataSourceFormData.data.datasourceType?.value == 'ClickHouse') ? (
+        (dataSourceFormData.data.datasourceType?.value == 'Mysql' ||
+          dataSourceFormData.data.datasourceType?.value == 'Oracle' ||
+          dataSourceFormData.data.datasourceType?.value == 'PostGreSQL' ||
+          dataSourceFormData.data.datasourceType?.value == 'ClickHouse') ? (
         <GenericDataSourceForm
           visible={dataSourceFormData.visiable}
           onCancel={() => {

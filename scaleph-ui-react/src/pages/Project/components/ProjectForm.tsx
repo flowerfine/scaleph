@@ -1,6 +1,6 @@
 import { ModalFormProps } from '@/app.d';
-import { DiProject } from '@/services/di/typings';
-import { addProject, updateProject } from '@/services/studio/project.service';
+import { DiProject } from '@/services/project/typings';
+import { addProject, updateProject } from '@/services/project/project.service';
 import { Form, Input, message, Modal } from 'antd';
 import { useIntl } from 'umi';
 
@@ -18,9 +18,9 @@ const ProjectForm: React.FC<ModalFormProps<DiProject>> = ({
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-            intl.formatMessage({ id: 'pages.studio.project' })
+          intl.formatMessage({ id: 'pages.project' })
           : intl.formatMessage({ id: 'app.common.operate.new.label' }) +
-            intl.formatMessage({ id: 'pages.studio.project' })
+          intl.formatMessage({ id: 'pages.project' })
       }
       width={580}
       destroyOnClose={true}
@@ -35,17 +35,17 @@ const ProjectForm: React.FC<ModalFormProps<DiProject>> = ({
           };
           data.id
             ? updateProject({ ...d }).then((d) => {
-                if (d.success) {
-                  message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
-                  onVisibleChange(false);
-                }
-              })
+              if (d.success) {
+                message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
+                onVisibleChange(false);
+              }
+            })
             : addProject({ ...d }).then((d) => {
-                if (d.success) {
-                  message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
-                  onVisibleChange(false);
-                }
-              });
+              if (d.success) {
+                message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
+                onVisibleChange(false);
+              }
+            });
         });
       }}
     >
@@ -61,7 +61,7 @@ const ProjectForm: React.FC<ModalFormProps<DiProject>> = ({
         </Form.Item>
         <Form.Item
           name="projectCode"
-          label={intl.formatMessage({ id: 'pages.studio.project.projectCode' })}
+          label={intl.formatMessage({ id: 'pages.project.projectCode' })}
           rules={[
             { required: true },
             { max: 30 },
@@ -75,14 +75,14 @@ const ProjectForm: React.FC<ModalFormProps<DiProject>> = ({
         </Form.Item>
         <Form.Item
           name="projectName"
-          label={intl.formatMessage({ id: 'pages.studio.project.projectName' })}
+          label={intl.formatMessage({ id: 'pages.project.projectName' })}
           rules={[{ required: true }, { max: 60 }]}
         >
           <Input></Input>
         </Form.Item>
         <Form.Item
           name="remark"
-          label={intl.formatMessage({ id: 'pages.studio.project.remark' })}
+          label={intl.formatMessage({ id: 'pages.project.remark' })}
           rules={[{ max: 200 }]}
         >
           <Input></Input>
