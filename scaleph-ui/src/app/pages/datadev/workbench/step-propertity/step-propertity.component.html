@@ -70,6 +70,10 @@
       <app-source-druid-step [data]="{ onClose: close, item: cell, jobId: jobId }" (onSave)="saveStepInfo($event)" #step>
       </app-source-druid-step>
     </div>
+    <div *ngSwitchCase="'sink-druid'">
+      <app-sink-druid-step [data]="{ onClose: close, item: cell, jobId: jobId }" (onSave)="saveStepInfo($event)" #step>
+      </app-sink-druid-step>
+    </div>
   </div>
   <d-row [dGutter]="[12, 12]" class="drawer-footer">
     <d-button bsStyle="primary" (btnClick)="submitForm()">{{ 'app.common.operate.confirm.label' | translate }}</d-button>

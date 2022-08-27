@@ -252,6 +252,10 @@ export const STEP_ATTR_TYPE = {
   endDate: 'end_date',
   columns: 'columns',
   parallelism: 'parallelism',
+  coordinatorUrl: 'coordinator_url',
+  timestampColumn: 'timestamp_column',
+  timestampFormat: 'timestamp_format',
+  timestampMissingValue: 'timestamp_missing_value',
 };
 
 export class MockData {
