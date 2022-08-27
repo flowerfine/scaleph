@@ -83,7 +83,11 @@ export class SourceDruidStepComponent implements OnInit {
       this.formGroup.patchValue({ start_date: stepAttrMap.get(STEP_ATTR_TYPE.startDate) });
       this.formGroup.patchValue({ end_date: stepAttrMap.get(STEP_ATTR_TYPE.endDate) });
       this.formGroup.patchValue({ columns: stepAttrMap.get(STEP_ATTR_TYPE.columns) });
-      this.formGroup.patchValue({ parallelism: stepAttrMap.get(STEP_ATTR_TYPE.parallelism) });
+      if (stepAttrMap.get(STEP_ATTR_TYPE.parallelism)) {
+        this.formGroup.patchValue({ parallelism: stepAttrMap.get(STEP_ATTR_TYPE.parallelism) });
+      } else {
+        this.formGroup.patchValue({ parallelism: 1 });
+      }
     });
   }
 
