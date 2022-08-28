@@ -31,6 +31,10 @@ public class ActionContext implements AttributeMap {
     private ContainerPool containerPool;
     private DefaultAttributeMap attributeMap;
 
+    public ContainerPool getContainerPool() {
+        return containerPool;
+    }
+
     @Override
     public <T> Collection<Attribute<T>> attrs() {
         return attributeMap.attrs();

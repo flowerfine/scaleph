@@ -18,6 +18,48 @@
 
 package cn.sliew.scaleph.workflow.engine.workflow;
 
-public interface SequentialFlow extends WorkFlow {
+import cn.sliew.milky.common.filter.ActionListener;
+import cn.sliew.scaleph.workflow.engine.action.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+public class SequentialFlow extends AbstractWorkFlow {
+
+    private final List<Action> actions = new ArrayList<>();
+
+    public SequentialFlow(String name, List<Action> actions) {
+        super(name);
+        this.actions.addAll(actions);
+    }
+
+    @Override
+    protected Runnable doExecute(ActionContext context, ActionListener<ActionResult> listener) {
+        return () -> {
+            try {
+                sequentialExecute(0, context, listener);
+            } catch (Exception e) {
+                listener.onFailure(e);
+            }
+        };
+    }
+
+    private void sequentialExecute(int index, ActionContext context, ActionListener<ActionResult> listener) {
+        Action action = actions.get(index);
+        action.execute(context, new ActionListener<ActionResult>() {
+            @Override
+            public void onResponse(ActionResult result) {
+                if (index == actions.size()) {
+                    listener.onResponse(result);
+                } else {
+                    sequentialExecute(index + 1, context, listener);
+                }
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                listener.onFailure(e);
+            }
+        });
+    }
 }

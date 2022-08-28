@@ -37,8 +37,8 @@ public class IfFlow extends AbstractCondition {
     }
 
     @Override
-    public void execute(ActionContext context, ActionListener<ActionResult> listener) {
-        action.execute(context, new ActionListener<ActionResult>() {
+    protected Runnable doExecute(ActionContext context, ActionListener<ActionResult> listener) {
+        return () -> action.execute(context, new ActionListener<ActionResult>() {
             @Override
             public void onResponse(ActionResult result) {
                 if (getCondition().test(result)) {
@@ -54,4 +54,5 @@ public class IfFlow extends AbstractCondition {
             }
         });
     }
+
 }

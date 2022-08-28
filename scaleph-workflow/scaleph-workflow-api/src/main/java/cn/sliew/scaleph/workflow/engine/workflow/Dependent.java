@@ -39,7 +39,24 @@ public class Dependent extends AbstractCondition {
     }
 
     @Override
-    public void execute(ActionContext context, ActionListener<ActionResult> listener) {
-        //
+    protected Runnable doExecute(ActionContext context, ActionListener<ActionResult> listener) {
+        return () -> {
+            final ParallelFlow upstream = new ParallelFlow(getName() + "-dependencies", dependencies);
+            upstream.execute(context, new ActionListener<ActionResult>() {
+                @Override
+                public void onResponse(ActionResult result) {
+                    if (getCondition().test(result)) {
+                        downstream.execute(result.getContext(), listener);
+                    } else {
+                        listener.onFailure(new IllegalStateException("dependencies failure! result: " + result));
+                    }
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    listener.onFailure(e);
+                }
+            });
+        };
     }
 }

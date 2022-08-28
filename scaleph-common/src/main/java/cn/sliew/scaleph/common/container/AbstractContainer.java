@@ -18,9 +18,19 @@
 
 package cn.sliew.scaleph.common.container;
 
+import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.milky.common.lifecycle.AbstractLifeCycle;
 
 public abstract class AbstractContainer extends AbstractLifeCycle implements Container {
+
+    protected Runnable task;
+    protected ActionListener<Void> listener;
+
+    @Override
+    public void execute(Runnable task, ActionListener<Void> listener) {
+        this.task = task;
+        this.listener = listener;
+    }
 
     @Override
     protected abstract void doInitialize();

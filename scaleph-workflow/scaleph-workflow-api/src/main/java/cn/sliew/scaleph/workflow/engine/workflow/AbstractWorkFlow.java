@@ -19,6 +19,12 @@
 package cn.sliew.scaleph.workflow.engine.workflow;
 
 import cn.sliew.milky.common.constant.AttributeKey;
+import cn.sliew.milky.common.filter.ActionListener;
+import cn.sliew.scaleph.common.container.Container;
+import cn.sliew.scaleph.common.container.pool.ContainerPool;
+import cn.sliew.scaleph.common.container.pool.ContainerValue;
+import cn.sliew.scaleph.workflow.engine.action.ActionContext;
+import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 
 import java.util.Collections;
 import java.util.List;
@@ -45,4 +51,33 @@ public abstract class AbstractWorkFlow implements WorkFlow {
     public List<AttributeKey> getOutputs() {
         return Collections.emptyList();
     }
+
+    @Override
+    public void execute(ActionContext context, ActionListener<ActionResult> listener) {
+        final ContainerValue containerValue = getContainer(context);
+        try {
+            final Container container = containerValue.value();
+            container.execute(doExecute(context, listener), new ActionListener<Void>() {
+                @Override
+                public void onResponse(Void unused) {
+
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    listener.onFailure(e);
+                }
+            });
+
+        } finally {
+            containerValue.close();
+        }
+    }
+
+    protected ContainerValue getContainer(ActionContext context) {
+        ContainerPool containerPool = context.getContainerPool();
+        return containerPool.obtain();
+    }
+
+    protected abstract Runnable doExecute(ActionContext context, ActionListener<ActionResult> listener);
 }
