@@ -137,7 +137,7 @@ public class ResourceFileController {
     }
 
     @Logging
-    @DeleteMapping
+    @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "删除资源", notes = "删除资源")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_RESOURCE_DELETE)")
     public ResponseEntity<ResponseVO> deleteResource(@PathVariable(value = "id") Long id) throws IOException {

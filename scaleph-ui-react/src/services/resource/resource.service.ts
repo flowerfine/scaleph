@@ -2,7 +2,7 @@ import { Dict, ResponseBody, PageResponse } from "@/app.d";
 import { request } from "umi";
 import { DiResourceFile, DiResourceFileParam } from "./typings";
 
-const url: string = '/api/datadev/resource';
+const url: string = '/api/di/resource';
 
 export async function listResourceFileByPage(queryParam: DiResourceFileParam) {
     return request<PageResponse<DiResourceFile>>(`${url}`, {
@@ -48,12 +48,12 @@ export async function addResourceFile(row: DiResourceFile) {
 }
 
 
-export async function downloadResourceFile(row: DiResourceFile) {
-    return request(`${url}/download`, {
-        method: 'GET',
-        params: {
-            projectId: row.projectId,
-            fileName: row.fileName
-        }
-    });
-}
+// export async function downloadResourceFile(row: DiResourceFile) {
+//     return request(`${url}/download`, {
+//         method: 'GET',
+//         params: {
+//             projectId: row.projectId,
+//             fileName: row.fileName
+//         }
+//     });
+// }
