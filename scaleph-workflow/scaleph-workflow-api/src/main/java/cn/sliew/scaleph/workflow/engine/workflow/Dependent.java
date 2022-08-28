@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.workflow.engine.workflow;
 
-import cn.sliew.milky.common.chain.ContextMap;
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.scaleph.workflow.engine.action.Action;
+import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.control.AbstractCondition;
 import cn.sliew.scaleph.workflow.engine.workflow.control.ActionResultCondition;
@@ -39,7 +39,7 @@ public class Dependent extends AbstractCondition {
     }
 
     @Override
-    public void execute(ContextMap<String, Object> context, ActionListener<ActionResult> listener) {
+    public void execute(ActionContext context, ActionListener<ActionResult> listener) {
         //
     }
 }

@@ -22,9 +22,9 @@ import akka.Done;
 import akka.actor.typed.ActorSystem;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
-import cn.sliew.milky.common.chain.ContextMap;
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.scaleph.workflow.engine.action.Action;
+import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
 
@@ -44,7 +44,7 @@ public class AkkaSequentialFlow extends AbstractWorkFlow {
     }
 
     @Override
-    public void execute(ContextMap<String, Object> context, ActionListener<ActionResult> listener) {
+    public void execute(ActionContext context, ActionListener<ActionResult> listener) {
         final CompletionStage<Done> future = Source.from(actions).runWith(doExecute(context, listener), actorSystem);
         future.whenComplete((done, throwable) -> {
             if (throwable != null) {
@@ -53,7 +53,7 @@ public class AkkaSequentialFlow extends AbstractWorkFlow {
         });
     }
 
-    private Sink<Action, CompletionStage<Done>> doExecute(ContextMap<String, Object> context,
+    private Sink<Action, CompletionStage<Done>> doExecute(ActionContext context,
                                                           ActionListener<ActionResult> listener) {
         return Sink.foreach(action -> action.execute(context, listener));
     }

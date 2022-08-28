@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.workflow.engine.workflow.control;
 
-import cn.sliew.milky.common.chain.ContextMap;
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.scaleph.workflow.engine.action.Action;
+import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
 
@@ -39,7 +39,7 @@ public class SwitchFlow extends AbstractWorkFlow {
     }
 
     @Override
-    public void execute(ContextMap<String, Object> context, ActionListener<ActionResult> listener) {
+    public void execute(ActionContext context, ActionListener<ActionResult> listener) {
         action.execute(context, new ActionListener<ActionResult>() {
             @Override
             public void onResponse(ActionResult result) {

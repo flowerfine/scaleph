@@ -16,15 +16,36 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.engine;
+package cn.sliew.scaleph.workflow.engine.action;
 
-import cn.sliew.milky.common.filter.ActionListener;
-import cn.sliew.scaleph.plugin.framework.lifecycle.LifeCycle;
-import cn.sliew.scaleph.workflow.engine.action.ActionContext;
-import cn.sliew.scaleph.workflow.engine.action.ActionResult;
-import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
+public class DefaultActionResult implements ActionResult {
 
-public interface Engine extends LifeCycle {
+    private final ActionStatus status;
+    private final ActionContext context;
+    private Throwable cause;
 
-    void run(WorkFlow workflow, ActionContext context, ActionListener<ActionResult> listener);
+    public DefaultActionResult(ActionStatus status, ActionContext context) {
+        this.status = status;
+        this.context = context;
+    }
+
+    public DefaultActionResult(ActionStatus status, ActionContext context, Throwable cause) {
+        this(status, context);
+        this.cause = cause;
+    }
+
+    @Override
+    public ActionStatus getStatus() {
+        return status;
+    }
+
+    @Override
+    public Throwable getCause() {
+        return cause;
+    }
+
+    @Override
+    public ActionContext getContext() {
+        return context;
+    }
 }

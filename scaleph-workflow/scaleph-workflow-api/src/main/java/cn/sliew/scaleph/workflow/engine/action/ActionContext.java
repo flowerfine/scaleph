@@ -16,33 +16,33 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.engine.workflow;
+package cn.sliew.scaleph.workflow.engine.action;
 
+import cn.sliew.milky.common.constant.Attribute;
 import cn.sliew.milky.common.constant.AttributeKey;
+import cn.sliew.milky.common.constant.AttributeMap;
+import cn.sliew.milky.common.constant.DefaultAttributeMap;
+import cn.sliew.scaleph.common.container.pool.ContainerPool;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Collection;
 
-public abstract class AbstractWorkFlow implements WorkFlow {
+public class ActionContext implements AttributeMap {
 
-    private final String name;
+    private ContainerPool containerPool;
+    private DefaultAttributeMap attributeMap;
 
-    public AbstractWorkFlow(String name) {
-        this.name = name;
+    @Override
+    public <T> Collection<Attribute<T>> attrs() {
+        return attributeMap.attrs();
     }
 
     @Override
-    public String getName() {
-        return name;
+    public <T> Attribute<T> attr(AttributeKey<T> key) {
+        return attributeMap.attr(key);
     }
 
     @Override
-    public List<AttributeKey> getInputs() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<AttributeKey> getOutputs() {
-        return Collections.emptyList();
+    public <T> boolean hasAttr(AttributeKey<T> key) {
+        return attributeMap.hasAttr(key);
     }
 }

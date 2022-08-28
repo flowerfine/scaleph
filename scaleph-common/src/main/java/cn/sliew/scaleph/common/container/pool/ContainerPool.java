@@ -16,15 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.engine;
+package cn.sliew.scaleph.common.container.pool;
 
-import cn.sliew.milky.common.filter.ActionListener;
-import cn.sliew.scaleph.plugin.framework.lifecycle.LifeCycle;
-import cn.sliew.scaleph.workflow.engine.action.ActionContext;
-import cn.sliew.scaleph.workflow.engine.action.ActionResult;
-import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
+import cn.sliew.milky.common.recycler.Recycler;
+import cn.sliew.scaleph.common.container.Container;
 
-public interface Engine extends LifeCycle {
+public interface ContainerPool extends Recycler<Container> {
 
-    void run(WorkFlow workflow, ActionContext context, ActionListener<ActionResult> listener);
+    @Override
+    ContainerValue obtain();
 }

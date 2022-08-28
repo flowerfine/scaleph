@@ -20,9 +20,9 @@ package cn.sliew.scaleph.workflow.akka;
 
 import akka.actor.typed.ActorSystem;
 import akka.stream.javadsl.Source;
-import cn.sliew.milky.common.chain.ContextMap;
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.scaleph.workflow.engine.Engine;
+import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
 
@@ -35,7 +35,7 @@ public class AkkaEngine implements Engine {
     }
 
     @Override
-    public void run(WorkFlow workflow, ContextMap<String, Object> context, ActionListener<ActionResult> listener) {
+    public void run(WorkFlow workflow, ActionContext context, ActionListener<ActionResult> listener) {
         Source.single(workflow).runForeach(flow -> flow.execute(context, listener), actorSystem);
     }
 }
