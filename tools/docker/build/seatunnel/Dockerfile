@@ -31,8 +31,8 @@ RUN mkdir -p $SEATUNNEL_HOME ; cd $SEATUNNEL_HOME ; \
 
 
 # copy pre-downloaded seatunnel release
-RUN mkdir -p $SEATUNNEL_HOME
-COPY /path/to/$TAR_FILE $SEATUNNEL_HOME/$TAR_FILE
-RUN cd $SEATUNNEL_HOME ;\
-    tar -zxf $TAR_FILE --strip 1 -C . ; \
-    rm $TAR_FILE
+#RUN mkdir -p $SEATUNNEL_HOME
+#COPY /path/to/$TAR_FILE $SEATUNNEL_HOME/$TAR_FILE
+#RUN cd $SEATUNNEL_HOME ;\
+#    tar -zxf $TAR_FILE --strip 1 -C . ; \
+#    rm $TAR_FILE

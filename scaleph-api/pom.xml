@@ -34,10 +34,6 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-meta</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-security</artifactId>
         </dependency>
         <dependency>
@@ -104,7 +100,6 @@
                 <configuration>
                     <mainClass>cn.sliew.scaleph.Application</mainClass>
                     <layout>ZIP</layout>
-                    <fork>true</fork>
                     <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
                     <excludes>
                         <exclude>

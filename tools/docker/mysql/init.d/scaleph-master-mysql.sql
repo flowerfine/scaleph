@@ -1,4 +1,5 @@
-create database if not exists scaleph default character set utf8mb4 collate utf8mb4_unicode_ci;
+create
+    database if not exists scaleph default character set utf8mb4 collate utf8mb4_unicode_ci;
 use scaleph;
 /* 数据字典类型表 */
 drop table if exists sys_dict_type;
@@ -802,18 +803,18 @@ insert into meta_datasource (id, datasource_name, datasource_type, props, additi
 values (1, 'docker_data_service', 'Mysql',
         '{"host":"mysql","port":"3306","databaseName":"data_service","username":"root","password":"Encrypted:MTIzNDU2"}',
         '{"serverTimezone":"Asia/Shanghai","zeroDateTimeBehavior":"convertToNull","characterEncoding":"utf8"}', null,
-        'sys_admin', 'sys_admin');
+        'sys', 'sys');
 insert into meta_datasource (id, datasource_name, datasource_type, props, additional_props, remark, creator, editor)
 values (2, 'local_data_service', 'Mysql',
         '{"host":"localhost","port":"3306","databaseName":"data_service","username":"root","password":"Encrypted:MTIzNDU2"}',
         '{"serverTimezone":"Asia/Shanghai","zeroDateTimeBehavior":"convertToNull","characterEncoding":"utf8"}', null,
-        'sys_admin', 'sys_admin');
+        'sys', 'sys');
 insert into meta_datasource(id, datasource_name, datasource_type, props, additional_props, remark, creator, editor)
-values (3, 'local', 'Elasticsearch', '{"hosts":"localhost:9200"}', 'null', NULL, 'sys_admin', 'sys_admin');
+values (3, 'local', 'Elasticsearch', '{"hosts":"localhost:9200"}', 'null', NULL, 'sys', 'sys');
 insert into meta_datasource (id, datasource_name, datasource_type, props, additional_props, remark,
-                               creator, editor)
+                             creator, editor)
 VALUES (4, 'local', 'Druid', '{"jdbc_url":"jdbc:avatica:remote:url=http://localhost:8082/druid/v2/sql/avatica/"}',
-        'null', NULL, 'sys_admin', 'sys_admin');
+        'null', NULL, 'sys', 'sys');
 /*元数据-数据表信息*/
 drop table if exists meta_table;
 create table meta_table
@@ -899,28 +900,28 @@ create table meta_data_element
 -- init sample data
 INSERT INTO meta_data_element (id, element_code, element_name, data_type, data_length, data_precision, data_scale,
                                nullable, data_default, low_value, high_value, data_set_type_id, creator, editor)
-VALUES (5, 'id', 'ID', 'bigint', 0, 0, 0, '0', '0', '0', null, null, 'sys_admin', 'sys_admin');
+VALUES (5, 'id', 'ID', 'bigint', 0, 0, 0, '0', '0', '0', null, null, 'sys', 'sys');
 INSERT INTO meta_data_element (id, element_code, element_name, data_type, data_length, data_precision, data_scale,
                                nullable, data_default, low_value, high_value, data_set_type_id, creator, editor)
-VALUES (6, 'user_name', '用户名', 'string', 32, 0, 0, '0', null, null, null, 0, 'sys_admin', 'sys_admin');
+VALUES (6, 'user_name', '用户名', 'string', 32, 0, 0, '0', null, null, null, 0, 'sys', 'sys');
 INSERT INTO meta_data_element (id, element_code, element_name, data_type, data_length, data_precision, data_scale,
                                nullable, data_default, low_value, high_value, data_set_type_id, creator, editor)
-VALUES (7, 'nick_name', '昵称', 'string', 50, 0, 0, '1', null, null, null, null, 'sys_admin', 'sys_admin');
+VALUES (7, 'nick_name', '昵称', 'string', 50, 0, 0, '1', null, null, null, null, 'sys', 'sys');
 INSERT INTO meta_data_element (id, element_code, element_name, data_type, data_length, data_precision, data_scale,
                                nullable, data_default, low_value, high_value, data_set_type_id, creator, editor)
-VALUES (8, 'create_time', '创建时间', 'timestamp', 0, 0, 0, '0', null, null, null, null, 'sys_admin', 'sys_admin');
+VALUES (8, 'create_time', '创建时间', 'timestamp', 0, 0, 0, '0', null, null, null, null, 'sys', 'sys');
 INSERT INTO meta_data_element (id, element_code, element_name, data_type, data_length, data_precision, data_scale,
                                nullable, data_default, low_value, high_value, data_set_type_id, creator, editor)
-VALUES (9, 'update_time', '更新时间', 'timestamp', 0, 0, 0, '0', null, null, null, null, 'sys_admin', 'sys_admin');
+VALUES (9, 'update_time', '更新时间', 'timestamp', 0, 0, 0, '0', null, null, null, null, 'sys', 'sys');
 INSERT INTO meta_data_element (id, element_code, element_name, data_type, data_length, data_precision, data_scale,
                                nullable, data_default, low_value, high_value, data_set_type_id, creator, editor)
-VALUES (10, 'gender', '性别', 'string', 4, 0, 0, '1', null, null, null, 2, 'sys_admin', 'sys_admin');
+VALUES (10, 'gender', '性别', 'string', 4, 0, 0, '1', null, null, null, 2, 'sys', 'sys');
 INSERT INTO meta_data_element (id, element_code, element_name, data_type, data_length, data_precision, data_scale,
                                nullable, data_default, low_value, high_value, data_set_type_id, creator, editor)
-VALUES (11, 'user_status', '用户状态', 'string', 4, 0, 0, '0', null, null, null, 3, 'sys_admin', 'sys_admin');
+VALUES (11, 'user_status', '用户状态', 'string', 4, 0, 0, '0', null, null, null, 3, 'sys', 'sys');
 INSERT INTO meta_data_element (id, element_code, element_name, data_type, data_length, data_precision, data_scale,
                                nullable, data_default, low_value, high_value, data_set_type_id, creator, editor)
-VALUES (12, 'order_status', '订单状态', 'string', 4, 0, 0, '0', null, null, null, 4, 'sys_admin', 'sys_admin');
+VALUES (12, 'order_status', '订单状态', 'string', 4, 0, 0, '0', null, null, null, 4, 'sys', 'sys');
 
 /* 元数据-业务系统信息 */
 drop table if exists meta_system;
@@ -942,15 +943,15 @@ create table meta_system
 ) engine = innodb comment '元数据-业务系统信息';
 -- init sample data
 INSERT INTO meta_system (id, system_code, system_name, contacts, contacts_phone, remark, creator, editor)
-VALUES (1, 'STD_SAMR', '全国标准信息公共服务平台', null, null, 'http://std.samr.gov.cn/', 'sys_admin', 'sys_admin');
+VALUES (1, 'STD_SAMR', '全国标准信息公共服务平台', null, null, 'http://std.samr.gov.cn/', 'sys', 'sys');
 INSERT INTO meta_system (id, system_code, system_name, contacts, contacts_phone, remark, creator, editor)
-VALUES (2, 'TRADE', '电商交易系统', null, null, null, 'sys_admin', 'sys_admin');
+VALUES (2, 'TRADE', '电商交易系统', null, null, null, 'sys', 'sys');
 INSERT INTO meta_system (id, system_code, system_name, contacts, contacts_phone, remark, creator, editor)
-VALUES (3, 'KS_TRADE', '快手电商', null, null, null, 'sys_admin', 'sys_admin');
+VALUES (3, 'KS_TRADE', '快手电商', null, null, null, 'sys', 'sys');
 INSERT INTO meta_system (id, system_code, system_name, contacts, contacts_phone, remark, creator, editor)
-VALUES (4, 'DY_TRADE', '抖音电商', null, null, null, 'sys_admin', 'sys_admin');
+VALUES (4, 'DY_TRADE', '抖音电商', null, null, null, 'sys', 'sys');
 INSERT INTO meta_system (id, system_code, system_name, contacts, contacts_phone, remark, creator, editor)
-VALUES (5, 'TB_TRADE', '淘宝电商', null, null, null, 'sys_admin', 'sys_admin');
+VALUES (5, 'TB_TRADE', '淘宝电商', null, null, null, 'sys', 'sys');
 
 
 /* 元数据-参考数据类型 */
@@ -1256,12 +1257,12 @@ insert into di_cluster_config(cluster_name, cluster_type, cluster_home, cluster_
                               remark, creator, editor)
 VALUES ('docker_standalone', 'flink', '/opt/flink', '1.13.6',
         'rest.port=8081\njobmanager.rpc.address=jobmanager\njobmanager.rpc.port=6123\n', 'docker environment',
-        'sys_admin', 'sys_admin');
+        'sys', 'sys');
 INSERT INTO di_cluster_config(cluster_name, cluster_type, cluster_home, cluster_version, cluster_conf, remark, creator,
                               editor)
 VALUES ('local_standalone', 'flink', '/opt/flink', '1.13.6',
         'rest.port=8081\njobmanager.rpc.address=localhost\njobmanager.rpc.port=6123\n', 'local environment',
-        'sys_admin', 'sys_admin');
+        'sys', 'sys');
 
 /* 数据集成-项目目录*/
 drop table if exists di_directory;
@@ -1280,9 +1281,9 @@ create table di_directory
 ) engine = innodb comment '数据集成-项目目录';
 
 insert into di_directory(project_id, directory_name, pid, creator, editor)
-VALUES (1, 'seatunnel', 0, 'sys_admin', 'sys_admin');
+VALUES (1, 'seatunnel', 0, 'sys', 'sys');
 insert into di_directory(project_id, directory_name, pid, creator, editor)
-VALUES (1, 'example', 1, 'sys_admin', 'sys_admin');
+VALUES (1, 'example', 1, 'sys', 'sys');
 
 /* 数据集成-作业信息*/
 drop table if exists di_job;
@@ -1309,19 +1310,26 @@ create table di_job
     unique key (project_id, job_code, job_version)
 ) engine = innodb comment '数据集成-作业信息';
 
-insert into di_job(project_id, job_code, job_name, directory_id, job_type, job_owner, job_status,
+insert into di_job(id, project_id, job_code, job_name, directory_id, job_type, job_owner, job_status,
                    runtime_state, job_version, cluster_id, job_crontab, remark, creator, editor)
-VALUES (1, 'docker_jdbc_to_jdbc', 'docker_jdbc_to_jdbc', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL,
-        'sys_admin',
-        'sys_admin');
-INSERT INTO di_job(project_id, job_code, job_name, directory_id, job_type, job_owner, job_status, runtime_state,
+VALUES (1, 1, 'docker_jdbc_to_jdbc', 'docker_jdbc_to_jdbc', 2, 'b', 'sys', '2', '1', 1, NULL, NULL, NULL,
+        'sys', 'sys');
+INSERT INTO di_job(id, project_id, job_code, job_name, directory_id, job_type, job_owner, job_status, runtime_state,
                    job_version, cluster_id, job_crontab, remark, creator, editor)
-VALUES (1, 'local_jdbc_to_jdbc', 'local_jdbc_to_jdbc', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys_admin',
-        'sys_admin');
-INSERT INTO `di_job`(`project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
+VALUES (2, 1, 'local_jdbc_to_jdbc', 'local_jdbc_to_jdbc', 2, 'b', 'sys', '2', '1', 1, NULL, NULL, NULL,
+        'sys', 'sys');
+INSERT INTO `di_job`(id, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
                      `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
-VALUES (1, 'local_jdbc_to_elasticsearch', 'local_jdbc_to_elasticsearch', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL,
-        NULL, 'sys_admin', 'sys_admin');
+VALUES (3, 1, 'local_jdbc_to_elasticsearch', 'local_jdbc_to_elasticsearch', 2, 'b', 'sys', '2', '1', 1, NULL,
+        NULL, NULL, 'sys', 'sys');
+INSERT INTO `di_job` (`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
+                      `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
+VALUES (4, 1, 'local_druid_to_console', 'local_druid_to_console', 2, 'b', 'sys', '2', '1', 1, NULL, NULL, NULL,
+        'sys', 'sys');
+INSERT INTO `di_job`(`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
+                     `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
+VALUES (5, 1, 'local_jdbc_to_druid', 'local_jdbc_to_druid', 2, 'b', 'sys', '2', '1', 1, NULL, NULL, NULL,
+        'sys', 'sys');
 
 drop table if exists di_job_resource_file;
 create table di_job_resource_file
@@ -1375,25 +1383,43 @@ create table di_job_step
     unique key (job_id, step_code)
 ) engine = innodb comment '数据集成-作业步骤信息';
 
-insert into di_job_step(job_id, step_code, step_title, step_type, step_name, position_x, position_y,
+insert into di_job_step(id, job_id, step_code, step_title, step_type, step_name, position_x, position_y,
                         creator, editor)
-VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', '表输入', 'source', 'table', -440, -320, 'sys_admin', 'sys_admin');
-insert into di_job_step(job_id, step_code, step_title, step_type, step_name, position_x, position_y,
+VALUES (1, 1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', '表输入', 'source', 'table', -440, -320, 'sys', 'sys');
+insert into di_job_step(id, job_id, step_code, step_title, step_type, step_name, position_x, position_y,
                         creator, editor)
-VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', '表输出', 'sink', 'table', -240, -120, 'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
+VALUES (2, 1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', '表输出', 'sink', 'table', -240, -120, 'sys', 'sys');
+INSERT INTO `di_job_step`(`id`, `job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`,
+                          `position_y`,
                           `creator`, `editor`)
-VALUES (2, '01f16fcb-faa4-45e4-8f46-edc2dc756e8a', '表输入', 'source', 'table', -320, -280, 'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
+VALUES (3, 2, '01f16fcb-faa4-45e4-8f46-edc2dc756e8a', '表输入', 'source', 'table', -320, -280, 'sys', 'sys');
+INSERT INTO `di_job_step`(`id`, `job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`,
+                          `position_y`,
                           `creator`, `editor`)
-VALUES (2, 'ac5622d2-77dd-47e3-99e4-9090dbd790ea', '表输出', 'sink', 'table', -110, -80, 'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
+VALUES (4, 2, 'ac5622d2-77dd-47e3-99e4-9090dbd790ea', '表输出', 'sink', 'table', -110, -80, 'sys', 'sys');
+INSERT INTO `di_job_step`(`id`, `job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`,
+                          `position_y`,
                           `creator`, `editor`)
-VALUES (3, '2af4c9d8-d1a7-41c9-83df-601dae708cfd', 'JDBC', 'source', 'table', -240, -280, 'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
+VALUES (5, 3, '2af4c9d8-d1a7-41c9-83df-601dae708cfd', 'JDBC', 'source', 'table', -240, -280, 'sys', 'sys');
+INSERT INTO `di_job_step`(`id`, `job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`,
+                          `position_y`,
                           `creator`, `editor`)
-VALUES (3, '014742ce-8fbd-4c77-bf63-6432d348dc5f', 'Elasticsearch7.x', 'sink', 'elasticsearch', -240, -124, 'sys_admin',
-        'sys_admin');
+VALUES (6, 3, '014742ce-8fbd-4c77-bf63-6432d348dc5f', 'Elasticsearch7.x', 'sink', 'elasticsearch', -240, -124,
+        'sys',
+        'sys');
+INSERT INTO `di_job_step` (`id`, `job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`,
+                           `position_y`, `creator`, `editor`)
+VALUES (7, 4, 'b3f8863d-2a4f-4626-ba6f-d77770c26716', 'Druid', 'source', 'druid', -200, -320, 'sys', 'sys');
+INSERT INTO `di_job_step` (`id`, `job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`,
+                           `position_y`, `creator`, `editor`)
+VALUES (8, 4, 'dfcad4bd-4bad-4c19-9f04-6d0a88dbfa0c', 'Console', 'sink', 'console', -200, -161, 'sys', 'sys');
+INSERT INTO `di_job_step`(`id`, `job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`,
+                          `position_y`, `creator`, `editor`)
+VALUES (9, 5, '78ce13cc-dd5f-4d50-8562-a9bb2c4eda6d', 'JDBC', 'source', 'table', -200, -320, 'sys', 'sys');
+INSERT INTO `di_job_step`(`id`, `job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`,
+                          `position_y`, `creator`, `editor`)
+VALUES (10, 5, 'e2c9b49f-7e1f-4f95-a75b-6451082f8ddf', 'Druid', 'sink', 'druid', -200, -161, 'sys', 'sys');
+
 
 /* 作业步骤参数 */
 drop table if exists di_job_step_attr;
@@ -1472,6 +1498,41 @@ INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_att
 VALUES (3, '014742ce-8fbd-4c77-bf63-6432d348dc5f', 'index', NULL, 'sys_admin', 'sys_admin');
 INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
 VALUES (3, '014742ce-8fbd-4c77-bf63-6432d348dc5f', 'index_time_format', NULL, 'sys_admin', 'sys_admin');
+INSERT INTO `di_job_step_attr` (`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (4, 'b3f8863d-2a4f-4626-ba6f-d77770c26716', 'columns', NULL, 'sys', 'sys');
+INSERT INTO `di_job_step_attr` (`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (4, 'b3f8863d-2a4f-4626-ba6f-d77770c26716', 'dataSource', '{\"label\":\"local\",\"value\":\"4\"}', 'sys', 'sys');
+INSERT INTO `di_job_step_attr` (`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (4, 'b3f8863d-2a4f-4626-ba6f-d77770c26716', 'datasourceName', 'wikipedia', 'sys', 'sys');
+INSERT INTO `di_job_step_attr` (`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (4, 'b3f8863d-2a4f-4626-ba6f-d77770c26716', 'end_date', NULL, 'sys', 'sys');
+INSERT INTO `di_job_step_attr` (`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (4, 'b3f8863d-2a4f-4626-ba6f-d77770c26716', 'parallelism', '2', 'sys', 'sys');
+INSERT INTO `di_job_step_attr` (`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (4, 'b3f8863d-2a4f-4626-ba6f-d77770c26716', 'start_date', NULL, 'sys', 'sys');
+INSERT INTO `di_job_step_attr` (`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (4, 'dfcad4bd-4bad-4c19-9f04-6d0a88dbfa0c', 'limit', NULL, 'sys', 'sys');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (5, '78ce13cc-dd5f-4d50-8562-a9bb2c4eda6d', 'dataSource', '{"label":"local_data_service","value":"2"}', 'sys',
+        'sys');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (5, '78ce13cc-dd5f-4d50-8562-a9bb2c4eda6d', 'dataSourceType', '{"label":"Mysql","value":"Mysql"}', 'sys', 'sys');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (5, '78ce13cc-dd5f-4d50-8562-a9bb2c4eda6d', 'partition_column', NULL, 'sys', 'sys');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (5, '78ce13cc-dd5f-4d50-8562-a9bb2c4eda6d', 'query', 'select * from sample_data_e_commerce', 'sys', 'sys');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (5, 'e2c9b49f-7e1f-4f95-a75b-6451082f8ddf', 'coordinator_url', 'http://localhost:8081', 'sys', 'sys');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (5, 'e2c9b49f-7e1f-4f95-a75b-6451082f8ddf', 'datasourceName', 'wikipedia', 'sys', 'sys');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (5, 'e2c9b49f-7e1f-4f95-a75b-6451082f8ddf', 'parallelism', '1', 'sys', 'sys');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (5, 'e2c9b49f-7e1f-4f95-a75b-6451082f8ddf', 'timestamp_column', 'timestamp', 'sys', 'sys');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (5, 'e2c9b49f-7e1f-4f95-a75b-6451082f8ddf', 'timestamp_format', 'iso', 'sys', 'sys');
+INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
+VALUES (5, 'e2c9b49f-7e1f-4f95-a75b-6451082f8ddf', 'timestamp_missing_value', '2022-02-02T02:02:02.222', 'sys', 'sys');
 
 /* 数据集成-作业步骤参数类型信息 */
 drop table if exists di_job_step_attr_type;
@@ -1632,6 +1693,43 @@ VALUES ('sink', 'elasticsearch', 'index', NULL, '0', '索引', 'sys', 'sys');
 INSERT INTO `di_job_step_attr_type`(`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`, `is_required`,
                                     `step_attr_describe`, `creator`, `editor`)
 VALUES ('sink', 'elasticsearch', 'index_time_format', NULL, '0', '索引时间滚动格式', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('source', 'druid', 'dataSource', NULL, '1', '数据源', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('source', 'druid', 'datasourceName', NULL, '1', '数据源名称', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('source', 'druid', 'start_date', NULL, '0', '数据源开始时间', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('source', 'druid', 'end_date', NULL, '0', '数据源结束时间', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('source', 'druid', 'columns', NULL, '0', '数据源字段列表', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('source', 'druid', 'parallelism', '1', '0', '并行度', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('sink', 'druid', 'coordinator_url', NULL, '1', 'Coordinator 服务地址', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('sink', 'druid', 'datasourceName', NULL, '1', '数据源名称', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('sink', 'druid', 'timestamp_column', NULL, '0', '时间戳列', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('sink', 'druid', 'timestamp_format', NULL, '0', '时间戳列格式', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('sink', 'druid', 'timestamp_missing_value', NULL, '0', '时间戳列默认值', 'sys', 'sys');
+INSERT INTO `di_job_step_attr_type` (`step_type`, `step_name`, `step_attr_key`, `step_attr_default_value`,
+                                     `is_required`, `step_attr_describe`, `creator`, `editor`)
+VALUES ('sink', 'druid', 'parallelism', '1', '0', '并行度', 'sys', 'sys');
+
 /* 作业连线信息 */
 drop table if exists di_job_link;
 create table di_job_link
@@ -1648,15 +1746,21 @@ create table di_job_link
     primary key (id),
     key (job_id)
 ) engine = innodb comment '数据集成-作业连线';
-insert into di_job_link(job_id, link_code, from_step_code, to_step_code, creator, editor)
+INSERT INTO di_job_link(job_id, link_code, from_step_code, to_step_code, creator, editor)
 VALUES (1, '0c23960c-e59f-480f-beef-6cd59878d0e5', 'ead21aa2-a825-4827-a9ba-3833c6b83941',
-        'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'sys_admin', 'sys_admin');
+        'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'sys', 'sys');
 INSERT INTO `di_job_link`(`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
 VALUES (2, '5cd7b126-c603-455b-93b2-5fc3ebb4fdca', '01f16fcb-faa4-45e4-8f46-edc2dc756e8a',
-        'ac5622d2-77dd-47e3-99e4-9090dbd790ea', 'sys_admin', 'sys_admin');
+        'ac5622d2-77dd-47e3-99e4-9090dbd790ea', 'sys', 'sys');
 INSERT INTO `di_job_link`(`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
 VALUES (3, '30d76f7d-5205-41bf-8a0d-807ad0dfb624', '2af4c9d8-d1a7-41c9-83df-601dae708cfd',
-        '014742ce-8fbd-4c77-bf63-6432d348dc5f', 'sys_admin', 'sys_admin');
+        '014742ce-8fbd-4c77-bf63-6432d348dc5f', 'sys', 'sys');
+INSERT INTO `di_job_link` (`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
+VALUES (4, '383fa941-652d-4e17-9145-e10aad5610bd', 'b3f8863d-2a4f-4626-ba6f-d77770c26716',
+        'dfcad4bd-4bad-4c19-9f04-6d0a88dbfa0c', 'sys', 'sys');
+INSERT INTO `di_job_link`(`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
+VALUES (5, 'c1d1e030-5300-4934-b333-6917881f2173', '78ce13cc-dd5f-4d50-8562-a9bb2c4eda6d',
+        'e2c9b49f-7e1f-4f95-a75b-6451082f8ddf', 'sys', 'sys');
 
 /* 数据同步-运行日志 */
 drop table if exists di_job_log;

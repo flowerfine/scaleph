@@ -30,6 +30,7 @@ export const WORKBENCH_MENU = [
       { title: 'datadev.step.source-mock', menuIcon: 'icon-modify-trace', menuType: 'source', menuName: 'mock' },
       { title: 'datadev.step.source-mockStream', menuIcon: 'icon-modify-trace', menuType: 'source', menuName: 'mockStream' },
       { title: 'datadev.step.source-kafka', menuIcon: 'icon-system', menuType: 'source', menuName: 'kafka' },
+      { title: 'datadev.step.source-druid', menuIcon: 'icon-global-guide', menuType: 'source', menuName: 'druid' },
     ],
   },
   {
@@ -44,6 +45,7 @@ export const WORKBENCH_MENU = [
       { title: 'datadev.step.sink-doris', menuIcon: 'icon-selct-template', menuType: 'sink', menuName: 'doris' },
       { title: 'datadev.step.sink-clickhouse', menuIcon: 'icon-date', menuType: 'sink', menuName: 'clickhouse' },
       { title: 'datadev.step.sink-elasticsearch', menuIcon: 'icon-json', menuType: 'sink', menuName: 'elasticsearch' },
+      { title: 'datadev.step.sink-druid', menuIcon: 'icon-time-update', menuType: 'sink', menuName: 'druid' },
     ],
   },
   {
@@ -244,7 +246,16 @@ export const STEP_ATTR_TYPE = {
   fields: 'fields',
   clickhouseConf: 'clickhouse_conf',
   index: 'index',
-  indexTimeFormat: 'index_time_format'
+  indexTimeFormat: 'index_time_format',
+  datasourceName: 'datasourceName',
+  startDate: 'start_date',
+  endDate: 'end_date',
+  columns: 'columns',
+  parallelism: 'parallelism',
+  coordinatorUrl: 'coordinator_url',
+  timestampColumn: 'timestamp_column',
+  timestampFormat: 'timestamp_format',
+  timestampMissingValue: 'timestamp_missing_value',
 };
 
 export class MockData {

@@ -35,5 +35,8 @@
     <div *ngSwitchCase="'Elasticsearch'">
       <app-elasticsearch-datasource [data]="{ item: data }" #datasource></app-elasticsearch-datasource>
     </div>
+    <div *ngSwitchCase="'Druid'">
+      <app-druid-datasource [data]="{ item: data }" #datasource></app-druid-datasource>
+    </div>
   </div>
 </div>

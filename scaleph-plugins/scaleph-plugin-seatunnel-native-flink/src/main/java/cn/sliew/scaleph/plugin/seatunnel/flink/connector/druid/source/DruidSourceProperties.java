@@ -32,6 +32,15 @@ public enum DruidSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<String> DATASOURCE_NAME = new PropertyDescriptor.Builder()
+            .name("datasourceName")
+            .description("Apache Druid datasource name")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<String> DATASOURCE = new PropertyDescriptor.Builder<String>()
             .name("datasource")
             .description("Apache Druid datasource name")
@@ -39,6 +48,7 @@ public enum DruidSourceProperties {
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .fallbackProperty(DATASOURCE_NAME)
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> START_DATE = new PropertyDescriptor.Builder<String>()

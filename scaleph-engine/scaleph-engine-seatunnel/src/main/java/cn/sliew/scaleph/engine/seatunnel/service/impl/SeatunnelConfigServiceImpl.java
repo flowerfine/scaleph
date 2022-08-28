@@ -71,12 +71,15 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         JOB_STEP_MAP.put("source-mock", FAKE_SOURCE.getValue());
         JOB_STEP_MAP.put("source-mockStream", FAKE_STREAM_SOURCE.getValue());
         JOB_STEP_MAP.put("source-kafka", KAFKA_SOURCE.getValue());
+        JOB_STEP_MAP.put("source-druid", DRUID_SOURCE.getValue());
         JOB_STEP_MAP.put("sink-table", JDBC_SINK.getValue());
         JOB_STEP_MAP.put("sink-console", CONSOLE_SINK.getValue());
         JOB_STEP_MAP.put("sink-kafka", KAFKA_SINK.getValue());
         JOB_STEP_MAP.put("sink-doris", DORIS_SINK.getValue());
         JOB_STEP_MAP.put("sink-clickhouse", CLICKHOUSE_SINK.getValue());
         JOB_STEP_MAP.put("sink-elasticsearch", ELASTICSEARCH_SINK.getValue());
+        JOB_STEP_MAP.put("sink-druid", DRUID_SINK.getValue());
+
         //init plugin map
         PLUGIN_MAP.put("source-table", "jdbc");
         PLUGIN_MAP.put("sink-table", "jdbc");
@@ -87,6 +90,9 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         PLUGIN_MAP.put("source-kafka", "kafka");
         PLUGIN_MAP.put("sink-doris", "doris");
         PLUGIN_MAP.put("sink-clickhouse", "clickhouse");
+        PLUGIN_MAP.put("sink-elasticsearch", "elasticsearch");
+        PLUGIN_MAP.put("sink-druid", "druid");
+        PLUGIN_MAP.put("source-druid", "druid");
 //        PLUGIN_MAP.put("source-csv", "file");
 //        PLUGIN_MAP.put("sink-csv", "file");
     }

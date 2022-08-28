@@ -54,6 +54,8 @@ import {
   SinkElasticsearchStepComponent
 } from "./workbench/steps/sink-elasticsearch-step/sink-elasticsearch-step.component";
 import {DruidDatasourceComponent} from "./datasource/druid-datasource/druid-datasource.component";
+import {SourceDruidStepComponent} from "./workbench/steps/source-druid-step/source-druid-step.component";
+import {SinkDruidStepComponent} from "./workbench/steps/sink-druid-step/sink-druid-step.component";
 
 @NgModule({
   declarations: [
@@ -104,6 +106,8 @@ import {DruidDatasourceComponent} from "./datasource/druid-datasource/druid-data
     ElasticsearchDatasourceComponent,
     SinkElasticsearchStepComponent,
     DruidDatasourceComponent,
+    SourceDruidStepComponent,
+    SinkDruidStepComponent,
   ],
   imports: [SharedModule, DataDevRoutingModule, TranslateModule, FormsModule, ReactiveFormsModule],
 })
