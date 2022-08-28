@@ -56,7 +56,7 @@ import java.util.Map;
 @Slf4j
 @Api(tags = "数据开发-集群管理")
 @RestController
-@RequestMapping(path = "/api/datadev/cluster")
+@RequestMapping(path = {"/api/datadev/cluster","/api/di/cluster"})
 public class ClusterController {
 
     @Autowired

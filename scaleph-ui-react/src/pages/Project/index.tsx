@@ -1,15 +1,15 @@
-import { PRIVILEGE_CODE } from '@/constant';
-import { DiProject } from '@/services/di/typings';
+import { PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
+import { DiProject } from '@/services/project/typings';
 import {
   deleteProjectBatch,
   deleteProjectRow,
   listProjectByPage,
-} from '@/services/studio/project.service';
+} from '@/services/project/project.service';
 import { DeleteOutlined, EditOutlined, FolderOpenOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { Button, message, Modal, Space, Tooltip } from 'antd';
-import { useRef, useState } from 'react';
-import { useAccess, useIntl } from 'umi';
+import { useEffect, useRef, useState } from 'react';
+import { history, useAccess, useIntl } from 'umi';
 import ProjectForm from './components/ProjectForm';
 
 const Project: React.FC = () => {
@@ -25,26 +25,26 @@ const Project: React.FC = () => {
 
   const tableColumns: ProColumns<DiProject>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.studio.project.projectCode' }),
+      title: intl.formatMessage({ id: 'pages.project.projectCode' }),
       dataIndex: 'projectCode',
     },
     {
-      title: intl.formatMessage({ id: 'pages.studio.project.projectName' }),
+      title: intl.formatMessage({ id: 'pages.project.projectName' }),
       dataIndex: 'projectName',
     },
     {
-      title: intl.formatMessage({ id: 'pages.studio.project.remark' }),
+      title: intl.formatMessage({ id: 'pages.project.remark' }),
       dataIndex: 'remark',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.studio.project.createTime' }),
+      title: intl.formatMessage({ id: 'pages.project.createTime' }),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.studio.project.updateTime' }),
+      title: intl.formatMessage({ id: 'pages.project.updateTime' }),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
@@ -52,6 +52,7 @@ const Project: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'app.common.operate.label' }),
       dataIndex: 'actions',
+      align: 'center',
       width: 120,
       fixed: 'right',
       valueType: 'option',
@@ -59,13 +60,14 @@ const Project: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevJobShow) && (
-              <Tooltip title={intl.formatMessage({ id: 'pages.studio.project.open' })}>
+              <Tooltip title={intl.formatMessage({ id: 'pages.project.open' })}>
                 <Button
                   shape="default"
                   type="link"
                   icon={<FolderOpenOutlined />}
                   onClick={() => {
-                    alert('open project');
+                    localStorage.setItem(WORKSPACE_CONF.projectId, record.id + '');
+                    history.push('/workspace');
                   }}
                 ></Button>
               </Tooltip>
@@ -118,10 +120,15 @@ const Project: React.FC = () => {
     },
   ];
 
+  useEffect(() => {
+    //remove projectid from local store
+    localStorage.removeItem(WORKSPACE_CONF.projectId);
+  }, []);
+
   return (
     <div>
       <ProTable<DiProject>
-        headerTitle={intl.formatMessage({ id: 'pages.studio.project' })}
+        headerTitle={intl.formatMessage({ id: 'pages.project' })}
         search={{
           labelWidth: 'auto',
           span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },

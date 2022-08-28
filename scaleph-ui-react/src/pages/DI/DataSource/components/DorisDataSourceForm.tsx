@@ -1,6 +1,6 @@
 import { ModalFormProps } from "@/app.d";
-import { addDataSource, testConnection, updateDataSource } from "@/services/di/dataSource.service";
-import { MetaDataSource } from "@/services/di/typings";
+import { addDataSource, testConnection, updateDataSource } from "@/services/project/dataSource.service";
+import { MetaDataSource } from "@/services/project/typings";
 import { Button, Form, Input, InputNumber, message, Modal } from "antd";
 import { useState } from "react";
 import { useIntl } from "umi";

@@ -156,7 +156,7 @@ public class FileSystemServiceImpl implements FileSystemService, InitializingBea
         }
         Path path = new Path(fs.getWorkingDirectory(), fileName);
         final FileStatus fileStatus = fs.getFileStatus(path);
-        return fileStatus.getBlockSize();
+        return fileStatus.getLen();
     }
 
     private Long localGetFileSize(String fileName) throws IOException {

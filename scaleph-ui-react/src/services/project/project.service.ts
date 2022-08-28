@@ -1,6 +1,6 @@
 import { Dict, PageResponse, ResponseBody } from '@/app.d';
 import { request } from 'umi';
-import { DiProject, DiProjectParam } from '../di/typings';
+import { DiProject, DiProjectParam } from './typings';
 
 const url: string = '/api/datadev/project';
 
