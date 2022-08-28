@@ -29,12 +29,9 @@
     <artifactId>scaleph-engine-seatunnel</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-meta</artifactId>
-            <!-- stop various datasource dependency share -->
-            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -79,10 +76,10 @@
         </dependency>
 
         <!-- seatunnel additional dependency -->
+        <!-- fixme stop uber-jar internal calcite share -->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-planner_${scala.binary.version}</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <dependency>

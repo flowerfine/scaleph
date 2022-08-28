@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.sink;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
+import cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.source.DruidSourceProperties;
 
 public enum DruidSinkProperties {
     ;
@@ -39,6 +40,7 @@ public enum DruidSinkProperties {
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .fallbackProperty(DruidSourceProperties.DATASOURCE_NAME)
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> TIMESTAMP_COLUMN = new PropertyDescriptor.Builder<String>()
