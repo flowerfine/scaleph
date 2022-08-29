@@ -22,7 +22,6 @@ import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.scaleph.workflow.engine.Engine;
 import cn.sliew.scaleph.workflow.engine.EngineBuilder;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
-import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -39,20 +38,10 @@ class DefaultEngineImplTest {
 
         // when
         Mockito.when(workFlow.getName()).thenReturn("mockito");
-        engine.run(workFlow, context, new ActionListener<ActionResult>() {
-            @Override
-            public void onResponse(ActionResult result) {
-                System.out.println(result);
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                e.printStackTrace();
-            }
-        });
+        engine.run(workFlow, context, listener);
 
         // then
-        Mockito.verify(workFlow).execute(context,listener);
+        Mockito.verify(workFlow).execute(context, listener);
     }
 
 }
