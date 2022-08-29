@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.workflow.engine.workflow.control;
 
-import cn.sliew.milky.common.chain.ContextMap;
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.scaleph.workflow.engine.action.Action;
+import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 
 public class WhileFlow extends AbstractCondition {
@@ -33,8 +33,8 @@ public class WhileFlow extends AbstractCondition {
     }
 
     @Override
-    public void execute(ContextMap<String, Object> context, ActionListener<ActionResult> listener) {
-        action.execute(context, new ActionListener<ActionResult>() {
+    protected Runnable doExecute(ActionContext context, ActionListener<ActionResult> listener) {
+        return () -> action.execute(context, new ActionListener<ActionResult>() {
             @Override
             public void onResponse(ActionResult result) {
                 if (getCondition().test(result)) {

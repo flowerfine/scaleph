@@ -16,28 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.service.impl;
+package cn.sliew.scaleph.common.container.pool;
 
-import java.util.ArrayList;
-import java.util.List;
+import cn.sliew.milky.common.recycler.Source;
+import cn.sliew.scaleph.common.container.Container;
 
-import cn.sliew.scaleph.ApplicationTest;
-import cn.sliew.scaleph.core.di.service.DiDirectoryService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+public interface ContainerSource extends Source<Container> {
 
-class DiDirectoryServiceImplTest extends ApplicationTest {
+    @Override
+    Container newInstance();
 
-    @Autowired
-    private DiDirectoryService directoryService;
+    @Override
+    void recycle(Container value);
 
-    @Test
-    void simpleTest() {
-        List<Long> ids = new ArrayList<Long>() {{
-            add(3L);
-            add(4L);
-            add(7L);
-        }};
-        this.directoryService.loadFullPath(ids);
-    }
+    @Override
+    void destroy(Container value);
 }

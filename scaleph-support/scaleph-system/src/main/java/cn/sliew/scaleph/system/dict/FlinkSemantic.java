@@ -16,28 +16,40 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.service.impl;
+package cn.sliew.scaleph.system.dict;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-import cn.sliew.scaleph.ApplicationTest;
-import cn.sliew.scaleph.core.di.service.DiDirectoryService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+public enum FlinkSemantic implements DictInstance{
 
-class DiDirectoryServiceImplTest extends ApplicationTest {
+    EXACTLY_ONCE("exactly_once", "精确一次"),
+    AT_LEAST_ONCE("at_least_once", "至少一次"),
+    NONE("none", "无"),
+    ;
 
-    @Autowired
-    private DiDirectoryService directoryService;
+    @JsonValue
+    @EnumValue
+    private String code;
+    private String value;
 
-    @Test
-    void simpleTest() {
-        List<Long> ids = new ArrayList<Long>() {{
-            add(3L);
-            add(4L);
-            add(7L);
-        }};
-        this.directoryService.loadFullPath(ids);
+    FlinkSemantic(String code, String value) {
+        this.code = code;
+        this.value = value;
+    }
+
+    @Override
+    public DictDefinition getDefinition() {
+        return DictType.FLINK_SEMANTIC;
+    }
+
+    @Override
+    public String getCode() {
+        return code;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
     }
 }

@@ -16,28 +16,36 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.service.impl;
+package cn.sliew.scaleph.workflow.engine.action;
 
-import java.util.ArrayList;
-import java.util.List;
+public class DefaultActionResult implements ActionResult {
 
-import cn.sliew.scaleph.ApplicationTest;
-import cn.sliew.scaleph.core.di.service.DiDirectoryService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+    private final ActionStatus status;
+    private final ActionContext context;
+    private Throwable cause;
 
-class DiDirectoryServiceImplTest extends ApplicationTest {
+    public DefaultActionResult(ActionStatus status, ActionContext context) {
+        this.status = status;
+        this.context = context;
+    }
 
-    @Autowired
-    private DiDirectoryService directoryService;
+    public DefaultActionResult(ActionStatus status, ActionContext context, Throwable cause) {
+        this(status, context);
+        this.cause = cause;
+    }
 
-    @Test
-    void simpleTest() {
-        List<Long> ids = new ArrayList<Long>() {{
-            add(3L);
-            add(4L);
-            add(7L);
-        }};
-        this.directoryService.loadFullPath(ids);
+    @Override
+    public ActionStatus getStatus() {
+        return status;
+    }
+
+    @Override
+    public Throwable getCause() {
+        return cause;
+    }
+
+    @Override
+    public ActionContext getContext() {
+        return context;
     }
 }

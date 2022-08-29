@@ -16,28 +16,40 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.service.impl;
+package cn.sliew.scaleph.system.dict;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-import cn.sliew.scaleph.ApplicationTest;
-import cn.sliew.scaleph.core.di.service.DiDirectoryService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+public enum FlinkResourceProvider implements DictInstance {
 
-class DiDirectoryServiceImplTest extends ApplicationTest {
+    STANDALONE("0", "Standalone"),
+    NATIVE_KUBERNETES("1", "Native Kubernetes"),
+    YARN("2", "YARN"),
+    ;
 
-    @Autowired
-    private DiDirectoryService directoryService;
+    @JsonValue
+    @EnumValue
+    private String code;
+    private String value;
 
-    @Test
-    void simpleTest() {
-        List<Long> ids = new ArrayList<Long>() {{
-            add(3L);
-            add(4L);
-            add(7L);
-        }};
-        this.directoryService.loadFullPath(ids);
+    FlinkResourceProvider(String code, String value) {
+        this.code = code;
+        this.value = value;
+    }
+
+    @Override
+    public DictDefinition getDefinition() {
+        return DictType.FLINK_RESOURCE_PROVIDER;
+    }
+
+    @Override
+    public String getCode() {
+        return code;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
     }
 }

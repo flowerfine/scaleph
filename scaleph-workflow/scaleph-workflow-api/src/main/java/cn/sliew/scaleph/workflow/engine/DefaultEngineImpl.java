@@ -16,28 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.service.impl;
+package cn.sliew.scaleph.workflow.engine;
 
-import java.util.ArrayList;
-import java.util.List;
+import cn.sliew.milky.common.filter.ActionListener;
+import cn.sliew.scaleph.workflow.engine.action.ActionContext;
+import cn.sliew.scaleph.workflow.engine.action.ActionResult;
+import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
+import lombok.extern.slf4j.Slf4j;
 
-import cn.sliew.scaleph.ApplicationTest;
-import cn.sliew.scaleph.core.di.service.DiDirectoryService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+@Slf4j
+public class DefaultEngineImpl implements Engine {
 
-class DiDirectoryServiceImplTest extends ApplicationTest {
-
-    @Autowired
-    private DiDirectoryService directoryService;
-
-    @Test
-    void simpleTest() {
-        List<Long> ids = new ArrayList<Long>() {{
-            add(3L);
-            add(4L);
-            add(7L);
-        }};
-        this.directoryService.loadFullPath(ids);
+    @Override
+    public void run(WorkFlow workflow, ActionContext context, ActionListener<ActionResult> listener) {
+        log.info("Running workflow ''{}''", workflow.getName());
+        workflow.execute(context, listener);
     }
 }

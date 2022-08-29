@@ -16,26 +16,37 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.akka;
+package cn.sliew.scaleph.system.dict;
 
-import akka.actor.typed.ActorSystem;
-import akka.stream.javadsl.Source;
-import cn.sliew.milky.common.chain.ContextMap;
-import cn.sliew.milky.common.filter.ActionListener;
-import cn.sliew.scaleph.workflow.engine.Engine;
-import cn.sliew.scaleph.workflow.engine.action.ActionResult;
-import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-public class AkkaEngine implements Engine {
+public enum FlinkJobStatus implements DictInstance {
 
-    private final ActorSystem actorSystem;
 
-    public AkkaEngine(ActorSystem actorSystem) {
-        this.actorSystem = actorSystem;
+    ;
+    @JsonValue
+    @EnumValue
+    private String code;
+    private String value;
+
+    FlinkJobStatus(String code, String value) {
+        this.code = code;
+        this.value = value;
     }
 
     @Override
-    public void run(WorkFlow workflow, ContextMap<String, Object> context, ActionListener<ActionResult> listener) {
-        Source.single(workflow).runForeach(flow -> flow.execute(context, listener), actorSystem);
+    public DictDefinition getDefinition() {
+        return DictType.FLINK_JOB_STATUS;
+    }
+
+    @Override
+    public String getCode() {
+        return code;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
     }
 }

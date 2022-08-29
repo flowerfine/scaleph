@@ -16,28 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.service.impl;
+package cn.sliew.scaleph.system.dict;
 
-import java.util.ArrayList;
-import java.util.List;
+public interface DictInstance {
 
-import cn.sliew.scaleph.ApplicationTest;
-import cn.sliew.scaleph.core.di.service.DiDirectoryService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+    DictDefinition getDefinition();
 
-class DiDirectoryServiceImplTest extends ApplicationTest {
+    String getCode();
 
-    @Autowired
-    private DiDirectoryService directoryService;
+    String getValue();
 
-    @Test
-    void simpleTest() {
-        List<Long> ids = new ArrayList<Long>() {{
-            add(3L);
-            add(4L);
-            add(7L);
-        }};
-        this.directoryService.loadFullPath(ids);
+    default boolean isValid() {
+        return true;
+    }
+
+    default String getRemark() {
+        return null;
     }
 }

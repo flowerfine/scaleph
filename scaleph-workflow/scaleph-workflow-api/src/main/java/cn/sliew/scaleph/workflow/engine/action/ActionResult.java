@@ -26,5 +26,5 @@ public interface ActionResult {
 
     Throwable getCause();
 
-    ContextMap<String, Object> getContext();
+    ActionContext getContext();
 }

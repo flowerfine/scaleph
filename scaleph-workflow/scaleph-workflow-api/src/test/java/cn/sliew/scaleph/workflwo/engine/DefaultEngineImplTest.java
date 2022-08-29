@@ -16,15 +16,32 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.engine;
+package cn.sliew.scaleph.workflwo.engine;
 
 import cn.sliew.milky.common.filter.ActionListener;
-import cn.sliew.scaleph.plugin.framework.lifecycle.LifeCycle;
+import cn.sliew.scaleph.workflow.engine.Engine;
+import cn.sliew.scaleph.workflow.engine.EngineBuilder;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
-import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-public interface Engine extends LifeCycle {
+class DefaultEngineImplTest {
 
-    void run(WorkFlow workflow, ActionContext context, ActionListener<ActionResult> listener);
+    @Test
+    void run() {
+        Engine engine = EngineBuilder.newInstance().build();
+        // given
+        WorkFlow workFlow = Mockito.mock(WorkFlow.class);
+        ActionContext context = Mockito.mock(ActionContext.class);
+        ActionListener listener = Mockito.mock(ActionListener.class);
+
+        // when
+        Mockito.when(workFlow.getName()).thenReturn("mockito");
+        engine.run(workFlow, context, listener);
+
+        // then
+        Mockito.verify(workFlow).execute(context, listener);
+    }
+
 }

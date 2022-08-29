@@ -16,32 +16,41 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.container;
+package cn.sliew.scaleph.system.dict;
 
-import cn.sliew.milky.common.filter.ActionListener;
-import cn.sliew.milky.common.lifecycle.LifeCycle;
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-import java.time.Duration;
+public enum FlinkRestartStrategy implements DictInstance {
 
-public interface Container extends LifeCycle {
+    NONE("none", "none"),
+    FIXED_DELAY("fixeddelay", "fixed-delay"),
+    FAILURE_RATE("failurerate", "failure-rate"),
+    EXPONENTIAL_DELAY("exponentialdelay", "exponential-delay"),
+    ;
 
-    void execute(Runnable task, ActionListener<Void> listener);
+    @JsonValue
+    @EnumValue
+    private String code;
+    private String value;
 
-    @Override
-    LifeCycleResult initialize();
-
-    @Override
-    LifeCycleResult start();
-
-    @Override
-    boolean isStarted();
-
-    @Override
-    LifeCycleResult stop();
-
-    @Override
-    LifeCycleResult stop(Duration timeout);
+    FlinkRestartStrategy(String code, String value) {
+        this.code = code;
+        this.value = value;
+    }
 
     @Override
-    boolean isStopped();
+    public DictDefinition getDefinition() {
+        return DictType.FLINK_RESTART_STRATEGY;
+    }
+
+    @Override
+    public String getCode() {
+        return code;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
+    }
 }

@@ -18,18 +18,35 @@
 
 package cn.sliew.scaleph.workflow.engine.action;
 
+import cn.sliew.milky.common.constant.Attribute;
 import cn.sliew.milky.common.constant.AttributeKey;
-import cn.sliew.milky.common.filter.ActionListener;
+import cn.sliew.milky.common.constant.AttributeMap;
+import cn.sliew.milky.common.constant.DefaultAttributeMap;
+import cn.sliew.scaleph.common.container.pool.ContainerPool;
 
-import java.util.List;
+import java.util.Collection;
 
-public interface Action {
+public class ActionContext implements AttributeMap {
 
-    String getName();
+    private ContainerPool containerPool;
+    private DefaultAttributeMap attributeMap;
 
-    List<AttributeKey> getInputs();
+    public ContainerPool getContainerPool() {
+        return containerPool;
+    }
 
-    List<AttributeKey> getOutputs();
+    @Override
+    public <T> Collection<Attribute<T>> attrs() {
+        return attributeMap.attrs();
+    }
 
-    void execute(ActionContext context, ActionListener<ActionResult> listener);
+    @Override
+    public <T> Attribute<T> attr(AttributeKey<T> key) {
+        return attributeMap.attr(key);
+    }
+
+    @Override
+    public <T> boolean hasAttr(AttributeKey<T> key) {
+        return attributeMap.hasAttr(key);
+    }
 }

@@ -16,28 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.service.impl;
+package cn.sliew.scaleph.workflow.engine;
 
-import java.util.ArrayList;
-import java.util.List;
+public class EngineBuilder {
 
-import cn.sliew.scaleph.ApplicationTest;
-import cn.sliew.scaleph.core.di.service.DiDirectoryService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+    public static EngineBuilder newInstance() {
+        return new EngineBuilder();
+    }
 
-class DiDirectoryServiceImplTest extends ApplicationTest {
+    private EngineBuilder() {
 
-    @Autowired
-    private DiDirectoryService directoryService;
+    }
 
-    @Test
-    void simpleTest() {
-        List<Long> ids = new ArrayList<Long>() {{
-            add(3L);
-            add(4L);
-            add(7L);
-        }};
-        this.directoryService.loadFullPath(ids);
+    public Engine build() {
+        return new DefaultEngineImpl();
     }
 }
