@@ -33,12 +33,12 @@ const DataSource: React.FC = () => {
   }>({ visiable: false, data: {} });
   const tableColumns: ProColumns<MetaDataSource>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.di.dataSource.dataSourceName' }),
+      title: intl.formatMessage({ id: 'pages.project.di.dataSource.dataSourceName' }),
       dataIndex: 'datasourceName',
       width: 160,
     },
     {
-      title: intl.formatMessage({ id: 'pages.di.dataSource.dataSourceType' }),
+      title: intl.formatMessage({ id: 'pages.project.di.dataSource.dataSourceType' }),
       dataIndex: 'datasourceType',
       width: 140,
       render: (text, record, index) => {
@@ -66,7 +66,7 @@ const DataSource: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.di.dataSource.props' }),
+      title: intl.formatMessage({ id: 'pages.project.di.dataSource.props' }),
       dataIndex: 'props',
       hideInSearch: true,
       width: 480,
@@ -75,19 +75,19 @@ const DataSource: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.di.dataSource.remark' }),
+      title: intl.formatMessage({ id: 'pages.project.di.dataSource.remark' }),
       dataIndex: 'remark',
       hideInSearch: true,
       width: 150,
     },
     {
-      title: intl.formatMessage({ id: 'pages.di.dataSource.createTime' }),
+      title: intl.formatMessage({ id: 'pages.project.di.dataSource.createTime' }),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.di.dataSource.updateTime' }),
+      title: intl.formatMessage({ id: 'pages.project.di.dataSource.updateTime' }),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
@@ -103,7 +103,7 @@ const DataSource: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevDatasourceSecurity) && (
-              <Tooltip title={intl.formatMessage({ id: 'pages.di.dataSource.password.show' })}>
+              <Tooltip title={intl.formatMessage({ id: 'pages.project.di.dataSource.password.show' })}>
                 <Button
                   shape="default"
                   type="link"
@@ -178,7 +178,7 @@ const DataSource: React.FC = () => {
   return (
     <div>
       <ProTable<MetaDataSource>
-        headerTitle={intl.formatMessage({ id: 'pages.di.dataSource' })}
+        headerTitle={intl.formatMessage({ id: 'pages.project.di.dataSource' })}
         search={{
           labelWidth: 'auto',
           span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },

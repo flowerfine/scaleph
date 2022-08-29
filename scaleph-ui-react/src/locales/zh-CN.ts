@@ -1,9 +1,6 @@
 import menu from './zh-CN/menu';
 import pages from './zh-CN/pages/pages';
-import studio from './zh-CN/pages/studio';
-import cluster from './zh-CN/pages/cluster';
-import project from './zh-CN/pages/project';
-import resource from './zh-CN/pages/resource';
+
 import settingDrawer from './zh-CN/settingDrawer';
 
 export default {
@@ -18,10 +15,7 @@ export default {
   ...pages,
   ...menu,
   ...settingDrawer,
-  ...studio,
-  ...cluster,
-  ...project,
-  ...resource,
+
   //scaleph app
   'app.title.short': 'Scaleph',
   'app.title.long': 'Scaleph',
