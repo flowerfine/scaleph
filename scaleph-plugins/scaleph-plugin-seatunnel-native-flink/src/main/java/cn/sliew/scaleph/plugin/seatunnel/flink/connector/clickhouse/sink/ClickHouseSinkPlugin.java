@@ -31,11 +31,14 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.auto.service.AutoService;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+@AutoService(SeatunnelNativeFlinkPlugin.class)
 public class ClickHouseSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
     public ClickHouseSinkPlugin() {

@@ -23,6 +23,7 @@ import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
 import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import com.google.auto.service.AutoService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
@@ -33,6 +34,7 @@ import java.util.*;
 import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 
 @Slf4j
+@AutoService(DatasourcePlugin.class)
 public class JDBCDataSourcePlugin extends DatasourcePlugin<Connection> {
 
     protected volatile Connection connection;

@@ -49,5 +49,4 @@ public enum ElasticsearchProperties {
             .properties(Property.Sensitive)
             .validateAndBuild();
 
-
 }
