@@ -83,7 +83,8 @@ maven:3.8-openjdk-8 \
 mvn -B -U clean package -DskipTests -Dfast
 
 # untar seatunnel
-tar -zxf apache-seatunnel-incubating-2.1.2-bin.tar.gz
+cd seatunnel-dist/target
+tar -zxf apache-seatunnel-incubating-xxx-bin.tar.gz
 ```
 
 ## start backend
