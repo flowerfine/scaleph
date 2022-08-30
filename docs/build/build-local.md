@@ -27,7 +27,7 @@ cd scaleph
 #### build the project
 
 ```shell
-mvn clean package -DskipTests
+mvn -B -U -T 4 clean package -DskipTests -Dfast
 ```
 
 #### bootstrap backend server

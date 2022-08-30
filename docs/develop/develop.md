@@ -22,6 +22,7 @@ Clone the source code repository from [github](https://github.com/flowerfine/sca
 ```shell
 git clone https://github.com/flowerfine/scaleph.git --depth 1
 mvn install -DskipTests
+mvn -B -T 4 clean package -DskipTests -Dfast
 ```
 
 ## environment

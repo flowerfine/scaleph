@@ -30,7 +30,11 @@ Scaleph为用户提供了docker环境，可以快速启动项目以及项目的�
 3. 编译打包
    ```shell
    cd scaleph
-   mvn clean package -DskipTests
+   mvn -B -U clean package -DskipTests -Dfast
+   
+   # -T 4C parallel compile by 4 core
+   # -T 4 parallel compile by 4 thread
+   mvn -B -U -T 4 clean package -DskipTests -Dfast
    ```
 4. 启动服务端
    ```shell
