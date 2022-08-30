@@ -23,6 +23,7 @@ import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
+import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,6 +33,7 @@ import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.INFLU
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.InfluxDBProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.sink.InfluxDBSinkProperties.*;
 
+@AutoService(SeatunnelNativeFlinkPlugin.class)
 public class InfluxDBSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
     public InfluxDBSinkPlugin() {

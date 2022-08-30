@@ -31,6 +31,7 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.SpringApplicationContextUtil;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,6 +41,7 @@ import java.util.Map;
 import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.KAFKA_SOURCE;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.source.KafkaSourceProperties.*;
 
+@AutoService(SeatunnelNativeFlinkPlugin.class)
 public class KafkaSourcePlugin extends SeatunnelNativeFlinkPlugin {
 
     public KafkaSourcePlugin() {

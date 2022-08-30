@@ -1,9 +1,0 @@
-cn.sliew.scaleph.plugin.datasource.jdbc.JDBCDataSourcePlugin
-cn.sliew.scaleph.plugin.datasource.mysql.MysqlDataSourcePlugin
-cn.sliew.scaleph.plugin.datasource.oracle.OracleDataSourcePlugin
-cn.sliew.scaleph.plugin.datasource.postgre.PostgreDataSourcePlugin
-cn.sliew.scaleph.plugin.datasource.kafka.KafkaDataSourcePlugin
-cn.sliew.scaleph.plugin.datasource.doris.DorisDataSourcePlugin
-cn.sliew.scaleph.plugin.datasource.clickhouse.ClickHouseDataSourcePlugin
-cn.sliew.scaleph.plugin.datasource.elasticsearch.ElasticsearchDataSourcePlugin
-cn.sliew.scaleph.plugin.datasource.druid.DruidJdbcDataSourcePlugin

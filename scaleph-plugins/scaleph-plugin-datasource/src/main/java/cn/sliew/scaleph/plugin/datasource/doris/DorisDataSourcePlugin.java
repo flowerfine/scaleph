@@ -19,10 +19,12 @@
 package cn.sliew.scaleph.plugin.datasource.doris;
 
 import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
+import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
 import cn.sliew.scaleph.plugin.datasource.jdbc.JDBCDataSourcePlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +33,7 @@ import java.util.List;
 import static cn.sliew.scaleph.plugin.datasource.doris.DorisProperties.*;
 import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 
+@AutoService(DatasourcePlugin.class)
 public class DorisDataSourcePlugin extends JDBCDataSourcePlugin {
 
     public DorisDataSourcePlugin() {

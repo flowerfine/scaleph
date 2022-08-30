@@ -27,7 +27,7 @@ cd scaleph
 #### build the project
 
 ```shell
-mvn clean package -DskipTests
+mvn -B -U -T 4 clean package -DskipTests -Dfast
 ```
 
 #### bootstrap backend server
@@ -41,8 +41,7 @@ java -jar scaleph-api.jar
 #### install dependencies
 
 ```shell
-cd scaleph-ui
-npm install --location=global @angular/cli
+cd scaleph-ui-react
 npm install --force
 ```
 

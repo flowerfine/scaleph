@@ -32,7 +32,7 @@ docker run -it --rm \
 -v "$(pwd)":/usr/src/mymaven \
 -w /usr/src/mymaven \
 maven:3.8-openjdk-8 \
-mvn -B -U clean package -DskipTests -Dfast -am --projects scaleph-api
+mvn -B -U -T 4 clean package -DskipTests -Dfast -am --projects scaleph-api
 ```
 
 For speeding up build, people can reuse cached local repository and change `settings.xml` repository settings
@@ -45,7 +45,7 @@ docker run -it --rm \
 -v "$(pwd)":/usr/src/mymaven \
 -w /usr/src/mymaven \
 maven:3.8-openjdk-8 \
-mvn -B -U clean package -DskipTests -Dfast -am --projects scaleph-api
+mvn -B -U -T 4 clean package -DskipTests -Dfast -am --projects scaleph-api
 ```
 
 people can change maven central repository url as follow:
@@ -80,8 +80,8 @@ java -jar scaleph-api/target/scaleph-api.jar
 
 ```shell
 docker run -it --rm \
---name scaleph-ui-build \
--v "$(pwd)/scaleph-ui":/usr/src/mymaven \
+--name scaleph-ui-react-build \
+-v "$(pwd)/scaleph-ui-react":/usr/src/mymaven \
 -w /usr/src/mymaven/ \
 node:16 \
 npm install --force
@@ -91,8 +91,8 @@ npm install --force
 
 ```shell
 docker run -it --rm \
---name scaleph-ui-build \
--v "$(pwd)/scaleph-ui":/usr/src/mymaven \
+--name scaleph-ui-react-build \
+-v "$(pwd)/scaleph-ui-react":/usr/src/mymaven \
 -w /usr/src/mymaven/ \
 node:16 \
 npm run build --prod

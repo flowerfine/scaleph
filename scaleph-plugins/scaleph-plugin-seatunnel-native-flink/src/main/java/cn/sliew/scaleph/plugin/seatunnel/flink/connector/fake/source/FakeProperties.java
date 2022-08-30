@@ -24,6 +24,7 @@ import cn.sliew.scaleph.plugin.framework.property.PropertyType;
 
 public enum FakeProperties {
     ;
+
     public static final PropertyDescriptor<Integer> MOCK_DATA_SCHEMA = new PropertyDescriptor.Builder<String>()
             .name("mock_data_schema")
             .description("config mock data's schema. Each is column_config option")

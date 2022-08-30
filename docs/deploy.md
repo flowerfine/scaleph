@@ -30,7 +30,11 @@ Scaleph为用户提供了docker环境，可以快速启动项目以及项目的�
 3. 编译打包
    ```shell
    cd scaleph
-   mvn clean package -DskipTests
+   mvn -B -U clean package -DskipTests -Dfast
+   
+   # -T 4C parallel compile by 4 core
+   # -T 4 parallel compile by 4 thread
+   mvn -B -U -T 4 clean package -DskipTests -Dfast
    ```
 4. 启动服务端
    ```shell
@@ -40,5 +44,5 @@ Scaleph为用户提供了docker环境，可以快速启动项目以及项目的�
    ```
 5. 启动前端
    ```text
-   前端打包后的文件在 scaleph/tools/scaleph-ui/dist 目录中，拷贝部署到nginx中，可参考 scaleph/tools/docker/build/scaleph-ui/nginx.conf.template 配置nginx文件,启动服务，访问页面。
+   前端打包后的文件在 scaleph/tools/scaleph-ui-react/dist 目录中，拷贝部署到nginx中，可参考 scaleph/tools/docker/build/scaleph-ui-react/nginx.conf.template 配置nginx文件,启动服务，访问页面。
    ```
