@@ -26,6 +26,7 @@ import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +36,7 @@ import java.util.Map;
 import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.DORIS_SINK;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.doris.sink.DorisSinkProperties.*;
 
+@AutoService(SeatunnelNativeFlinkPlugin.class)
 public class DorisSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
     public DorisSinkPlugin() {

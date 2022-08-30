@@ -11,7 +11,7 @@ Scaleph local deployment would build image from source code directly, then boots
 git clone https://github.com/flowerfine/scaleph.git --depth 1
 
 # 编译并启动容器
-cd scaleph
+cd scaleph/tools/docker/build/scaleph
 docker compose up -d
 ```
 
