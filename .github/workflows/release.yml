@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - '*'
+      - 'v*'
 
 env:
   HUB: ghcr.io/flowerfine/scaleph
@@ -37,7 +37,7 @@ jobs:
             --no-cache \
             -f tools/docker/build/scaleph-api/Dockerfile \
             -t ${{ env.HUB }}/scaleph-api:${{ github.sha }} \
-            -t ${{ env.HUB }}/scaleph-api:${{ github.ref }} \
+            -t ${{ env.HUB }}/scaleph-api:${{ github.ref_name }} \
             .
       - name: Push scaleph-api image
         run: |
@@ -46,7 +46,7 @@ jobs:
             --push \
             -f tools/docker/build/scaleph-api/Dockerfile \
             -t ${{ env.HUB }}/scaleph-api:${{ github.sha }} \
-            -t ${{ env.HUB }}/scaleph-api:${{ github.ref }} \
+            -t ${{ env.HUB }}/scaleph-api:${{ github.ref_name }} \
             .
       - name: Build scaleph-ui image
         run: |
@@ -54,7 +54,7 @@ jobs:
             --no-cache \
             -f tools/docker/build/scaleph-ui/Dockerfile \
             -t ${{ env.HUB }}/scaleph-ui:${{ github.sha }} \
-            -t ${{ env.HUB }}/scaleph-ui:${{ github.ref }} \
+            -t ${{ env.HUB }}/scaleph-ui:${{ github.ref_name }} \
             .
       - name: Push scaleph-ui image
         run: |
@@ -63,5 +63,5 @@ jobs:
             --push \
             -f tools/docker/build/scaleph-ui/Dockerfile \
             -t ${{ env.HUB }}/scaleph-ui:${{ github.sha }} \
-            -t ${{ env.HUB }}/scaleph-ui:${{ github.ref }} \
+            -t ${{ env.HUB }}/scaleph-ui:${{ github.ref_name }} \
             .
