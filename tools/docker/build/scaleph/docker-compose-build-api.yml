@@ -41,7 +41,7 @@ services:
       - scaleph
 
   scaleph-ui:
-    image: ghcr.io/flowerfine/scaleph/scaleph-ui:latest
+    image: ghcr.io/flowerfine/scaleph/scaleph-ui:0.0.1
     container_name: scaleph-ui
     depends_on:
       scaleph-api:
