@@ -40,5 +40,5 @@ Scaleph为用户提供了docker环境，可以快速启动项目以及项目的�
    ```
 5. 启动前端
    ```text
-   前端打包后的文件在 scaleph/tools/scaleph-ui/dist 目录中，拷贝部署到nginx中，可参考 scaleph/tools/docker/build/scaleph-ui/nginx.conf.template 配置nginx文件,启动服务，访问页面。
+   前端打包后的文件在 scaleph/tools/scaleph-ui-react/dist 目录中，拷贝部署到nginx中，可参考 scaleph/tools/docker/build/scaleph-ui-react/nginx.conf.template 配置nginx文件,启动服务，访问页面。
    ```

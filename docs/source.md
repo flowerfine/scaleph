@@ -47,7 +47,7 @@ scaleph
 │   ├── scaleph-storage
 │   └── scaleph-system
 ├── scaleph-ui
-│	  └── Dockerfile
+├── scaleph-ui-react
 └── tools
     ├── checkstyle
     ├── docker
@@ -57,7 +57,11 @@ scaleph
 
 ### `scaleph-ui`
 
-前端项目代码,使用Angular + DevUI编写，内部包含了 `Dockerfile` 和 `nginx.conf.template` 文件，用于生成基于 nginx 的前端项目镜像。
+前端项目代码,使用Angular + DevUI编写，在 `tools/docker/build/scaleph-ui`内部包含了 `Dockerfile` 和 `nginx.conf.template` 文件，用于生成基于 nginx 的前端项目镜像。
+
+`scaleph-ui-react`
+
+使用 react + antd 编写的前端代码，在 `tools/docker/build/scaleph-ui-react`内部包含了 `Dockerfile` 和 `nginx.conf.template` 文件，用于生成基于 nginx 的前端项目镜像。
 
 ### `scaleph-api`
 
