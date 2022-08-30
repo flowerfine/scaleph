@@ -80,8 +80,8 @@ java -jar scaleph-api/target/scaleph-api.jar
 
 ```shell
 docker run -it --rm \
---name scaleph-ui-build \
--v "$(pwd)/scaleph-ui":/usr/src/mymaven \
+--name scaleph-ui-react-build \
+-v "$(pwd)/scaleph-ui-react":/usr/src/mymaven \
 -w /usr/src/mymaven/ \
 node:16 \
 npm install --force
@@ -91,8 +91,8 @@ npm install --force
 
 ```shell
 docker run -it --rm \
---name scaleph-ui-build \
--v "$(pwd)/scaleph-ui":/usr/src/mymaven \
+--name scaleph-ui-react-build \
+-v "$(pwd)/scaleph-ui-react":/usr/src/mymaven \
 -w /usr/src/mymaven/ \
 node:16 \
 npm run build --prod

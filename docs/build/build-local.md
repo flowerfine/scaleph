@@ -41,8 +41,7 @@ java -jar scaleph-api.jar
 #### install dependencies
 
 ```shell
-cd scaleph-ui
-npm install --location=global @angular/cli
+cd scaleph-ui-react
 npm install --force
 ```
 

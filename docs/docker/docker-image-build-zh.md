@@ -43,16 +43,14 @@ docker compose -f docker-compose-build-api.yml up -d
 运行如下命令，编译前端项目
 
 ```shell
-cd $SCALEPH_HOME/scaleph-ui
-
-npm install --location=global @angular/cli
+cd $SCALEPH_HOME/scaleph-ui-react
 
 npm install --force
 
 npm run build --prod
 ```
 
-构建结束后前端项目文件在 `scaleph-ui` 模块 `dist` 目录中。
+构建结束后前端项目文件在 `scaleph-ui-react` 模块 `dist` 目录中。
 
 ### 构建镜像
 

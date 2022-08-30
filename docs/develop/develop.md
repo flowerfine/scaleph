@@ -12,7 +12,8 @@ This doc describes how to set up development environment for Scaleph and run the
 - node v16.14.0
 - flink
 - IDE. eg. IDEA
-- IDE plugin. lombok
+    - IDE plugin. lombok
+
 
 ## clone
 
@@ -56,11 +57,30 @@ cd flink-1.13.6
 ./bin/stop-cluster.sh
 ```
 
-download [seatunnel](https://seatunnel.apache.org/download) (version 2.1.2) and untar.
+clone [seatunnel](https://github.com/apache/incubator-seatunnel) and build from the source code.
 
 ```shell
-# download seatunnel-2.1.2
-curl -LsO https://archive.apache.org/dist/incubator/seatunnel/2.1.2/apache-seatunnel-incubating-2.1.2-bin.tar.gz
+# clone seatunnel
+git clone https://github.com/apache/incubator-seatunnel.git --depth 1
+cd seatunnel
+
+# build seatunnel
+docker run -it --rm \
+--name seatunnel-build \
+-v "$(pwd)":/usr/src/seatunnel \
+-w /usr/src/seatunnel \
+maven:3.8-openjdk-8 \
+mvn -B -U clean package -DskipTests -Dfast
+
+# build seatunnel with local repository and custom central repository mirror
+docker run -it --rm \
+--name seatunnel-build \
+-v /path/to/settings.xml:/usr/share/maven/ref/settings.xml \
+-v /path/to/repository:/usr/share/maven/ref/repository \
+-v "$(pwd)":/usr/src/seatunnel \
+-w /usr/src/seatunnel \
+maven:3.8-openjdk-8 \
+mvn -B -U clean package -DskipTests -Dfast
 
 # untar seatunnel
 tar -zxf apache-seatunnel-incubating-2.1.2-bin.tar.gz
@@ -77,9 +97,8 @@ Start backend server through `cn.sliew.scaleph.Application` on `scaleph-api` mod
 Install dependencies. Note: this step only needs when first time bootstraps frontend service.
 
 ```shell
-cd scaleph-ui
+cd scaleph-ui-react
 
-npm install -g @angular/cli
 npm install --force
 ```
 
@@ -89,7 +108,7 @@ Start frontend server:
 npm start
 ```
 
-After web server started, user can open http://localhost:4200/ in browser and admin account is `sys_admin/123456`.
+After web server started, user can open http://localhost:8000/ in browser and admin account is `sys_admin/123456`.
 
 ### try local jdbc_to_jdbc seatunnel job
 
