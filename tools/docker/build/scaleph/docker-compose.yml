@@ -39,7 +39,7 @@ services:
 #        condition: service_healthy
     build:
       context: ../../../../
-      dockerfile: ../scaleph-ui-react/Dockerfile
+      dockerfile: tools/docker/build/scaleph-ui-react/Dockerfile
     environment:
       - SCALEPH_API_URL="scaleph-api:8080"
     ports:
