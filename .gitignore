@@ -39,3 +39,4 @@ target/
 **/dependency-reduced-pom.xml
 .gitee
 /lib/
+**/pom.xml.versionsBackup
