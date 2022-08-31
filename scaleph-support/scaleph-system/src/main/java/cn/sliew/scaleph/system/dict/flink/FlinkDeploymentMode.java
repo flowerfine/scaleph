@@ -16,16 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.system.dict;
+package cn.sliew.scaleph.system.dict.flink;
 
+import cn.sliew.scaleph.system.dict.DictDefinition;
+import cn.sliew.scaleph.system.dict.DictInstance;
+import cn.sliew.scaleph.system.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum FlinkResourceProvider implements DictInstance {
+public enum FlinkDeploymentMode implements DictInstance {
 
-    STANDALONE("0", "Standalone"),
-    NATIVE_KUBERNETES("1", "Native Kubernetes"),
-    YARN("2", "YARN"),
+    APPLICATION("0", "Application"),
+    PER_JOB("1", "Per-Job"),
+    SESSION("2", "Session"),
     ;
 
     @JsonValue
@@ -33,14 +36,14 @@ public enum FlinkResourceProvider implements DictInstance {
     private String code;
     private String value;
 
-    FlinkResourceProvider(String code, String value) {
+    FlinkDeploymentMode(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
     @Override
     public DictDefinition getDefinition() {
-        return DictType.FLINK_RESOURCE_PROVIDER;
+        return DictType.FLINK_DEPLOYMENT_MODE;
     }
 
     @Override

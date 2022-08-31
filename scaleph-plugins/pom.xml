@@ -33,6 +33,7 @@
         <module>scaleph-plugin-framework</module>
         <module>scaleph-plugin-datasource</module>
         <module>scaleph-plugin-seatunnel-native-flink</module>
+        <module>scaleph-plugin-seatunnel-connectors</module>
     </modules>
 
     <dependencyManagement>

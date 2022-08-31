@@ -16,16 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.system.dict;
+package cn.sliew.scaleph.system.dict.flink;
 
+import cn.sliew.scaleph.system.dict.DictDefinition;
+import cn.sliew.scaleph.system.dict.DictInstance;
+import cn.sliew.scaleph.system.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum FlinkDeploymentMode implements DictInstance{
+public enum FlinkClusterStatus implements DictInstance {
 
-    APPLICATION("0", "Application"),
-    PER_JOB("1", "Per-Job"),
-    SESSION("2", "Session"),
+    CREATED("0", "已创建"),
+    RUNNING("1", "运行中"),
+    STOPED("2", "停止"),
     ;
 
     @JsonValue
@@ -33,14 +36,14 @@ public enum FlinkDeploymentMode implements DictInstance{
     private String code;
     private String value;
 
-    FlinkDeploymentMode(String code, String value) {
+    FlinkClusterStatus(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
     @Override
     public DictDefinition getDefinition() {
-        return DictType.FLINK_DEPLOYMENT_MODE;
+        return DictType.FLINK_CLUSTER_STATUS;
     }
 
     @Override

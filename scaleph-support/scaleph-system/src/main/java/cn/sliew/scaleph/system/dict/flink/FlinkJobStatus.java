@@ -16,8 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.system.dict;
+package cn.sliew.scaleph.system.dict.flink;
 
+import cn.sliew.scaleph.system.dict.DictDefinition;
+import cn.sliew.scaleph.system.dict.DictInstance;
+import cn.sliew.scaleph.system.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 

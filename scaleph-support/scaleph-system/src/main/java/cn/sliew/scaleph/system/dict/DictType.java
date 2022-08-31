@@ -32,7 +32,10 @@ public enum DictType implements DictDefinition {
     FLINK_JOB_STATUS("flink_job_status", "Flink 任务状态"),
     FLINK_JOB_TYPE("flink_job_type", "Flink 任务类型"),
 
-    SEATUNNEL_VERSION("seatunnel_version", "SeaTunnel 版本")
+    SEATUNNEL_VERSION("seatunnel_version", "SeaTunnel 版本"),
+    SEATUNNEL_ENGINE_TYPE("seatunnel_engine_type", "SeaTunnel 引擎类型"),
+    SEATUNNEL_PLUGIN_TYPE("seatunnel_plugin_type", "SeaTunnel 插件类型"),
+    SEATUNNEL_PLUGIN_NAME("seatunnel_plugin_name", "SeaTunnel 插件名称"),
     ;
 
     private String code;

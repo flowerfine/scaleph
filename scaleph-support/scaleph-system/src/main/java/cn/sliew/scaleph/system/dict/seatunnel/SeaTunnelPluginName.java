@@ -16,16 +16,45 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.system.dict;
+package cn.sliew.scaleph.system.dict.seatunnel;
 
+import cn.sliew.scaleph.system.dict.DictDefinition;
+import cn.sliew.scaleph.system.dict.DictInstance;
+import cn.sliew.scaleph.system.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum FlinkCheckpointRetain implements DictInstance {
+public enum SeaTunnelPluginName implements DictInstance {
 
-    DELETE_ON_CANCELLATION("DELETE_ON_CANCELLATION", "DELETE_ON_CANCELLATION"),
-    RETAIN_ON_CANCELLATION("RETAIN_ON_CANCELLATION", "RETAIN_ON_CANCELLATION"),
-    NO_EXTERNALIZED_CHECKPOINTS("NO_EXTERNALIZED_CHECKPOINTS", "NO_EXTERNALIZED_CHECKPOINTS"),
+    FAKESOURCE("FakeSource", "Fake"),
+    ASSERT("Assert", "Assert"),
+    SOCKET("Socket", "Socket"),
+    CONSOLE("Console", "Console"),
+    EMAIL("Email", "Email"),
+    HTTP("Http", "Http"),
+    FEISHU("Feishu", "Feishu"),
+    DINGTALK("DingTalk", "DingTalk"),
+
+    LOCAL_FILE("LocalFile", "LocalFile"),
+    FTP_FILE("FtpFile", "FtpFile"),
+    HDFS_FILE("HdfsFile", "HdfsFile"),
+    OSS_FILE("OssFile", "OssFile"),
+
+    KAFKA("Kafka", "Kafka"),
+    PULSAR("Pulsar", "Pulsar"),
+    DATAHUB("DataHub", "DataHub"),
+
+    JDBC("Jdbc", "Jdbc"),
+    REDIS("Redis", "Redis"),
+    ELASTICSEARCH("elasticsearch", "elasticsearch"),
+
+    HIVE("Hive", "Hive"),
+    CLICKHOUSE("Clickhouse", "Clickhouse"),
+    CLICKHOUSE_FILE("ClickhouseFile", "ClickhouseFile"),
+    HUDI("Hudi", "Hudi"),
+    KUDU("Kudu", "Kudu"),
+    IOTDB("IoTDB", "IoTDB"),
+    NEO4J("Neo4j", "Neo4j"),
     ;
 
     @JsonValue
@@ -33,14 +62,14 @@ public enum FlinkCheckpointRetain implements DictInstance {
     private String code;
     private String value;
 
-    FlinkCheckpointRetain(String code, String value) {
+    SeaTunnelPluginName(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
     @Override
     public DictDefinition getDefinition() {
-        return DictType.FLINK_CHECKPOINT_RETAIN;
+        return DictType.SEATUNNEL_PLUGIN_NAME;
     }
 
     @Override

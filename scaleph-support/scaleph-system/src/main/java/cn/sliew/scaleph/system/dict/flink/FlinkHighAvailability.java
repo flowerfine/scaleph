@@ -16,17 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.system.dict;
+package cn.sliew.scaleph.system.dict.flink;
 
+import cn.sliew.scaleph.system.dict.DictDefinition;
+import cn.sliew.scaleph.system.dict.DictInstance;
+import cn.sliew.scaleph.system.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum FlinkRestartStrategy implements DictInstance {
+public enum FlinkHighAvailability implements DictInstance {
 
-    NONE("none", "none"),
-    FIXED_DELAY("fixeddelay", "fixed-delay"),
-    FAILURE_RATE("failurerate", "failure-rate"),
-    EXPONENTIAL_DELAY("exponentialdelay", "exponential-delay"),
+    KUBERNETES("org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory", "Kubernetes"),
+    ZOOKEEPER("zookeeper", "ZooKeeper"),
     ;
 
     @JsonValue
@@ -34,14 +35,14 @@ public enum FlinkRestartStrategy implements DictInstance {
     private String code;
     private String value;
 
-    FlinkRestartStrategy(String code, String value) {
+    FlinkHighAvailability(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
     @Override
     public DictDefinition getDefinition() {
-        return DictType.FLINK_RESTART_STRATEGY;
+        return DictType.FLINK_HIGH_AVAILABILITY;
     }
 
     @Override
@@ -53,4 +54,5 @@ public enum FlinkRestartStrategy implements DictInstance {
     public String getValue() {
         return value;
     }
+
 }

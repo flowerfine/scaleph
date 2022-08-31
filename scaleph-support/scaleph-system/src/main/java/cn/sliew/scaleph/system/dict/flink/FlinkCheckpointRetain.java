@@ -16,16 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.system.dict;
+package cn.sliew.scaleph.system.dict.flink;
 
+import cn.sliew.scaleph.system.dict.DictDefinition;
+import cn.sliew.scaleph.system.dict.DictInstance;
+import cn.sliew.scaleph.system.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum FlinkClusterStatus implements DictInstance{
+public enum FlinkCheckpointRetain implements DictInstance {
 
-    CREATED("0", "已创建"),
-    RUNNING("1", "运行中"),
-    STOPED("2", "停止"),
+    DELETE_ON_CANCELLATION("DELETE_ON_CANCELLATION", "DELETE_ON_CANCELLATION"),
+    RETAIN_ON_CANCELLATION("RETAIN_ON_CANCELLATION", "RETAIN_ON_CANCELLATION"),
+    NO_EXTERNALIZED_CHECKPOINTS("NO_EXTERNALIZED_CHECKPOINTS", "NO_EXTERNALIZED_CHECKPOINTS"),
     ;
 
     @JsonValue
@@ -33,14 +36,14 @@ public enum FlinkClusterStatus implements DictInstance{
     private String code;
     private String value;
 
-    FlinkClusterStatus(String code, String value) {
+    FlinkCheckpointRetain(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
     @Override
     public DictDefinition getDefinition() {
-        return DictType.FLINK_CLUSTER_STATUS;
+        return DictType.FLINK_CHECKPOINT_RETAIN;
     }
 
     @Override

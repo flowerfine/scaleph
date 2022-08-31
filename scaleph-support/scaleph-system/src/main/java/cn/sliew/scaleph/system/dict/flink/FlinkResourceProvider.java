@@ -16,15 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.system.dict;
+package cn.sliew.scaleph.system.dict.flink;
 
+import cn.sliew.scaleph.system.dict.DictDefinition;
+import cn.sliew.scaleph.system.dict.DictInstance;
+import cn.sliew.scaleph.system.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum FlinkStateBackend implements DictInstance {
+public enum FlinkResourceProvider implements DictInstance {
 
-    HASHMAP("HashMapStateBackend", "HashMap"),
-    ROCKSDB("EmbeddedRocksDBStateBackend", "RocksDB"),
+    STANDALONE("0", "Standalone"),
+    NATIVE_KUBERNETES("1", "Native Kubernetes"),
+    YARN("2", "YARN"),
     ;
 
     @JsonValue
@@ -32,14 +36,14 @@ public enum FlinkStateBackend implements DictInstance {
     private String code;
     private String value;
 
-    FlinkStateBackend(String code, String value) {
+    FlinkResourceProvider(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
     @Override
     public DictDefinition getDefinition() {
-        return DictType.FLINK_STATE_BACKEND;
+        return DictType.FLINK_RESOURCE_PROVIDER;
     }
 
     @Override

@@ -16,15 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.system.dict;
+package cn.sliew.scaleph.system.dict.flink;
 
+import cn.sliew.scaleph.system.dict.DictDefinition;
+import cn.sliew.scaleph.system.dict.DictInstance;
+import cn.sliew.scaleph.system.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum FlinkHighAvailability implements DictInstance {
+public enum FlinkSemantic implements DictInstance {
 
-    KUBERNETES("org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory", "Kubernetes"),
-    ZOOKEEPER("zookeeper", "ZooKeeper"),
+    EXACTLY_ONCE("exactly_once", "精确一次"),
+    AT_LEAST_ONCE("at_least_once", "至少一次"),
+    NONE("none", "无"),
     ;
 
     @JsonValue
@@ -32,14 +36,14 @@ public enum FlinkHighAvailability implements DictInstance {
     private String code;
     private String value;
 
-    FlinkHighAvailability(String code, String value) {
+    FlinkSemantic(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
     @Override
     public DictDefinition getDefinition() {
-        return DictType.FLINK_HIGH_AVAILABILITY;
+        return DictType.FLINK_SEMANTIC;
     }
 
     @Override
@@ -51,5 +55,4 @@ public enum FlinkHighAvailability implements DictInstance {
     public String getValue() {
         return value;
     }
-
 }

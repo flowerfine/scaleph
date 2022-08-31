@@ -16,16 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.system.dict;
+package cn.sliew.scaleph.system.dict.flink;
 
+import cn.sliew.scaleph.system.dict.DictDefinition;
+import cn.sliew.scaleph.system.dict.DictInstance;
+import cn.sliew.scaleph.system.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum FlinkSemantic implements DictInstance{
+public enum FlinkRestartStrategy implements DictInstance {
 
-    EXACTLY_ONCE("exactly_once", "精确一次"),
-    AT_LEAST_ONCE("at_least_once", "至少一次"),
-    NONE("none", "无"),
+    NONE("none", "none"),
+    FIXED_DELAY("fixeddelay", "fixed-delay"),
+    FAILURE_RATE("failurerate", "failure-rate"),
+    EXPONENTIAL_DELAY("exponentialdelay", "exponential-delay"),
     ;
 
     @JsonValue
@@ -33,14 +37,14 @@ public enum FlinkSemantic implements DictInstance{
     private String code;
     private String value;
 
-    FlinkSemantic(String code, String value) {
+    FlinkRestartStrategy(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
     @Override
     public DictDefinition getDefinition() {
-        return DictType.FLINK_SEMANTIC;
+        return DictType.FLINK_RESTART_STRATEGY;
     }
 
     @Override

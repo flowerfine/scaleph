@@ -22,39 +22,42 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>scaleph-engine</artifactId>
+        <artifactId>scaleph-plugins</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>scaleph-engine-seatunnel</artifactId>
+    <artifactId>scaleph-plugin-seatunnel-connectors</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-storage</artifactId>
+            <artifactId>scaleph-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-plugin-datasource</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>scaleph-meta</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>flinkful-cli-base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>flinkful-cli-descriptor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>flinkful-rest-client</artifactId>
         </dependency>
 
+        <!-- seatunnel additional dependency -->
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-privilege</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-engine-flink</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-core-di</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-core-scheduler</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-plugin-seatunnel-native-flink</artifactId>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-planner_${scala.binary.version}</artifactId>
         </dependency>
 
         <dependency>
