@@ -42,7 +42,7 @@ export async function isUserLoggedIn() {
 }
 
 export function hasPrivilege(code: string) {
-  let pCodes: string[] = JSON.parse(localStorage.getItem(USER_AUTH.pCodes) || '');
+  let pCodes: string[] = JSON.parse(localStorage.getItem(USER_AUTH.pCodes) || 'null');
   if (pCodes != null && pCodes != undefined) {
     return pCodes.includes(USER_AUTH.roleSysAdmin) || pCodes.includes(code);
   } else {
