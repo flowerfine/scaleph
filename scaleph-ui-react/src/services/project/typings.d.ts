@@ -39,18 +39,18 @@ export type DiDirectory = {
   directoryName?: string;
   pid?: number;
   fullPath?: string;
-}
+};
 
 export type DiDirectoryTreeNode = {
   id: number;
   pid: number;
   directoryName: string;
   children: DiDirectoryTreeNode[];
-}
+};
 
 export type DiJob = {
   id?: number;
-  projectId?: number;
+  projectId?: string;
   jobCode?: string;
   jobName?: string;
   directory?: DiDirectory;
@@ -66,16 +66,16 @@ export type DiJob = {
   jobLinkList?: DiJobLink[];
   jobStepList?: DiJobStep[];
   jobGraph?: any;
-}
+};
 
 export type DiJobParam = QueryParam & {
-  projectId: number;
-  jobCode: string;
-  jobName: string;
-  jobType: string;
-  runtimeState: string;
+  projectId: string;
+  jobCode?: string;
+  jobName?: string;
+  jobType?: string;
+  runtimeState?: string;
   directoryId?: string;
-}
+};
 
 export type DiJobAttr = {
   id?: number;
@@ -83,7 +83,7 @@ export type DiJobAttr = {
   jobAttrType: Dict;
   jobAttrKey: string;
   jobAttrValue: string;
-}
+};
 
 export type DiJobLink = {
   id?: number;
@@ -91,7 +91,7 @@ export type DiJobLink = {
   linkCode: string;
   fromStepCode: string;
   toStepCode: string;
-}
+};
 
 export type DiJobStep = {
   id?: number;
@@ -103,7 +103,7 @@ export type DiJobStep = {
   positionX: number;
   positionY: number;
   jobStepAttrList: DiJobStepAttr[];
-}
+};
 
 export type DiJobStepAttr = {
   id?: number;
@@ -111,7 +111,7 @@ export type DiJobStepAttr = {
   stepCode: string;
   stepAttrKey: string;
   stepAttrValue: string;
-}
+};
 
 export type DiJobStepAttrType = {
   id?: number;
@@ -121,4 +121,4 @@ export type DiJobStepAttrType = {
   stepAttrDefaultValue: string;
   isRequired: string;
   stepAttrDescribe: string;
-}
+};
