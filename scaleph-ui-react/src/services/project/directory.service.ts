@@ -4,7 +4,7 @@ import { DiDirectory, DiDirectoryTreeNode } from './typings';
 
 const url: string = '/api/di/dir';
 
-export async function listProjectDir(projectId: number) {
+export async function listProjectDir(projectId: string) {
     return request<DiDirectoryTreeNode[]>(`${url}/` + projectId, {
         method: 'GET'
     });

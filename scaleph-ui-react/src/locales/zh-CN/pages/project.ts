@@ -33,4 +33,6 @@ export default {
     'pages.project.di.dataSource.dataSourceType.mq': '消息队列',
     'pages.project.di.dataSource.dataSourceType.other': '其他',
     // 'pages.project.di.batch':''
+    'pages.project.dir': '目录',
+    'pages.project.dir.directoryName': '目录名称',
 }

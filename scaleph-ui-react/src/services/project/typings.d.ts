@@ -35,7 +35,7 @@ export type DiProjectParam = QueryParam & {
 
 export type DiDirectory = {
   id?: number;
-  projectId?: number;
+  projectId?: string;
   directoryName?: string;
   pid?: number;
   fullPath?: string;
