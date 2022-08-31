@@ -68,7 +68,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Api(tags = "数据开发-作业管理")
 @RestController
-@RequestMapping(path = "/api/datadev/job")
+@RequestMapping(path = {"/api/datadev/job", "/api/di/job"})
 public class JobController {
 
     @Autowired
