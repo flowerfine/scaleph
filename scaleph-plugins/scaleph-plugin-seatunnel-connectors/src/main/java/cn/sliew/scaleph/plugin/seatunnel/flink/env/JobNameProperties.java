@@ -16,13 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.check;
+package cn.sliew.scaleph.plugin.seatunnel.flink.env;
 
-import java.util.List;
+import cn.sliew.scaleph.plugin.framework.property.Parsers;
+import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.framework.property.PropertyType;
+import cn.sliew.scaleph.plugin.framework.property.Validators;
 
-import org.apache.flink.configuration.Configuration;
+public enum JobNameProperties {
+    ;
 
-public interface ConfigurationChecker {
-
-    List<CheckResult> check(Configuration configuration);
+    public static final PropertyDescriptor<String> JOB_NAME = new PropertyDescriptor.Builder<String>()
+            .name("job.name")
+            .description("The pipeline name")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .defaultValue("seatunnel")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
 }
