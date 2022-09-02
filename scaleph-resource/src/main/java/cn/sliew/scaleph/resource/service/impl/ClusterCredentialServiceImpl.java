@@ -119,11 +119,11 @@ public class ClusterCredentialServiceImpl implements ClusterCredentialService {
     public int deleteById(Serializable id) {
         try {
             final ClusterCredentialDTO flinkDeployConfigFileDTO = selectOne(id);
-            final String rootPath = getFlinkDeployConfigFileRootPath() + "/" + flinkDeployConfigFileDTO.getName();
+            final String rootPath = getCredentialFileRootPath() + "/" + flinkDeployConfigFileDTO.getName();
             if (fileSystemService.exists(rootPath)) {
                 final List<FileStatus> fileStatuses = fileSystemService.listStatus(rootPath);
                 for (FileStatus fileStatus : fileStatuses) {
-                    deleteDeployConfigFile((Long) id, fileStatus.getPath().getName());
+                    deleteCredentialFile((Long) id, fileStatus.getPath().getName());
                 }
             }
             return resourceClusterCredentialMapper.deleteById(id);
@@ -142,48 +142,48 @@ public class ClusterCredentialServiceImpl implements ClusterCredentialService {
     }
 
     @Override
-    public List<FileStatusVO> listDeployConfigFile(Long id) throws IOException {
-        final List<FileStatus> fileStatuses = fileSystemService.listStatus(getFlinkDeployConfigFileRootPath() + "/" + id);
+    public List<FileStatusVO> listCredentialFile(Long id) throws IOException {
+        final List<FileStatus> fileStatuses = fileSystemService.listStatus(getCredentialFileRootPath() + "/" + id);
         return FileStatusVOConvert.INSTANCE.toVO(fileStatuses);
     }
 
     @Override
-    public void uploadDeployConfigFile(Long id, MultipartFile[] files) throws IOException {
+    public void uploadCredentialFile(Long id, MultipartFile[] files) throws IOException {
         checkArgument(files != null && files.length > 0, () -> "upload config file must not be empty");
         for (MultipartFile file : files) {
             try (final InputStream inputStream = file.getInputStream()) {
-                final String flinkDeployConfigFilePath = getFlinkDeployConfigFilePath(id, file.getOriginalFilename());
+                final String flinkDeployConfigFilePath = getCredentialFilePath(id, file.getOriginalFilename());
                 fileSystemService.upload(inputStream, flinkDeployConfigFilePath);
             }
         }
     }
 
     @Override
-    public void downloadDeployConfigFile(Long id, String fileName, OutputStream outputStream) throws IOException {
-        String path = getFlinkDeployConfigFilePath(id, fileName);
+    public void downloadCredentialFile(Long id, String fileName, OutputStream outputStream) throws IOException {
+        String path = getCredentialFilePath(id, fileName);
         try (final InputStream inputStream = fileSystemService.get(path)) {
             FileCopyUtils.copy(inputStream, outputStream);
         }
     }
 
     @Override
-    public void deleteDeployConfigFile(Long id, String fileName) throws IOException {
-        String path = getFlinkDeployConfigFilePath(id, fileName);
+    public void deleteCredentialFile(Long id, String fileName) throws IOException {
+        String path = getCredentialFilePath(id, fileName);
         fileSystemService.delete(path);
     }
 
     @Override
-    public void deleteDeployConfigFiles(Long id, List<String> fileNames) throws IOException {
+    public void deleteCredentialFiles(Long id, List<String> fileNames) throws IOException {
         for (String fileName : fileNames) {
-            deleteDeployConfigFile(id, fileName);
+            deleteCredentialFile(id, fileName);
         }
     }
 
-    private String getFlinkDeployConfigFilePath(Long id, String fileName) {
-        return String.format("%s/%d/%s", getFlinkDeployConfigFileRootPath(), id, fileName);
+    private String getCredentialFilePath(Long id, String fileName) {
+        return String.format("%s/%d/%s", getCredentialFileRootPath(), id, fileName);
     }
 
-    private String getFlinkDeployConfigFileRootPath() {
-        return "deploy/flink/config";
+    private String getCredentialFileRootPath() {
+        return "cluster/credential/file";
     }
 }
