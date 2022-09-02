@@ -18,7 +18,28 @@
 
 package cn.sliew.scaleph.resource.service;
 
-public interface JarService {
+import cn.sliew.scaleph.resource.service.dto.JarDTO;
+import cn.sliew.scaleph.resource.service.param.JarListParam;
+import cn.sliew.scaleph.resource.service.param.JarUploadParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
+
+public interface JarService extends ResourceDescriptor<JarDTO> {
+
+    Page<JarDTO> list(JarListParam param) throws IOException;
+
+    JarDTO selectOne(Long id);
+
+    void upload(JarUploadParam param, MultipartFile file) throws IOException;
+
+    String download(Long id, OutputStream outputStream) throws IOException;
+
+    int deleteBatch(List<Long> ids) throws IOException;
+
+    void delete(Long id) throws IOException;
 
 }

@@ -19,15 +19,42 @@
 package cn.sliew.scaleph.resource.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceJar;
 import cn.sliew.scaleph.resource.service.dto.JarDTO;
+import cn.sliew.scaleph.resource.service.enums.ResourceType;
+import cn.sliew.scaleph.resource.service.param.JarListParam;
+import cn.sliew.scaleph.resource.service.param.ResourceListParam;
+import cn.sliew.scaleph.resource.service.vo.ResourceVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface JarConvert extends BaseConvert<ResourceJar, JarDTO> {
 
     JarConvert INSTANCE = Mappers.getMapper(JarConvert.class);
+
+    default JarListParam convert(ResourceListParam param) {
+        JarListParam target = BeanUtil.copy(param, new JarListParam());
+        target.setGroup(param.getLabel());
+        target.setFileName(param.getName());
+        return target;
+    }
+
+    default List<ResourceVO> convert(List<JarDTO> dtos) {
+        return dtos.stream().map(this::convert).collect(Collectors.toList());
+    }
+
+    default ResourceVO convert(JarDTO dto) {
+        ResourceVO target = BeanUtil.copy(dto, new ResourceVO());
+        target.setType(ResourceType.JAR);
+        target.setLabel(dto.getGroup());
+        target.setName(dto.getFileName());
+        return target;
+    }
 
 }
