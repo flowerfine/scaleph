@@ -27,7 +27,7 @@ public enum ResourceType {
 
     SEATUNNEL_RELEASE("seatunnel_release", "SeaTunnel Release"),
     FLINK_RELEASE("flink_release", "Flink Release"),
-    CLUSTER_CREDENTIAL("flink_release", "Cluster Credential"),
+    CLUSTER_CREDENTIAL("cluster_credential", "Cluster Credential"),
 
     // todo
     JAR("jar", "Additional Dependency Jar"),

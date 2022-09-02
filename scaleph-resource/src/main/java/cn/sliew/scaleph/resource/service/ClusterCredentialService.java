@@ -29,7 +29,7 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.List;
 
-public interface ClusterCredentialService {
+public interface ClusterCredentialService extends ResourceDescriptor<ClusterCredentialDTO> {
 
     Page<ClusterCredentialDTO> list(ClusterCredentialListParam param);
 

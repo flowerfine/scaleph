@@ -25,8 +25,11 @@ import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.convert.ClusterCredentialConvert;
 import cn.sliew.scaleph.resource.service.convert.FileStatusVOConvert;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
+import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.ClusterCredentialListParam;
+import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
+import cn.sliew.scaleph.resource.service.vo.ResourceVO;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -54,6 +57,27 @@ public class ClusterCredentialServiceImpl implements ClusterCredentialService {
     private FileSystemService fileSystemService;
     @Autowired
     private ResourceClusterCredentialMapper resourceClusterCredentialMapper;
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.CLUSTER_CREDENTIAL;
+    }
+
+    @Override
+    public Page<ResourceVO> list(ResourceListParam param) {
+        ClusterCredentialListParam clusterCredentialListParam = ClusterCredentialConvert.INSTANCE.convert(param);
+        Page<ClusterCredentialDTO> page = list(clusterCredentialListParam);
+        Page<ResourceVO> result =
+                new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
+        List<ResourceVO> dtoList = ClusterCredentialConvert.INSTANCE.convert(page.getRecords());
+        result.setRecords(dtoList);
+        return result;
+    }
+
+    @Override
+    public ClusterCredentialDTO getRaw(Long id) {
+        return selectOne(id);
+    }
 
     @Override
     public Page<ClusterCredentialDTO> list(ClusterCredentialListParam param) {
