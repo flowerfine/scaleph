@@ -16,43 +16,28 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.resource;
+package cn.sliew.scaleph.resource.service.dto;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.sliew.scaleph.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * resource flink release
- * </p>
- */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("resource_flink_release")
-@ApiModel(value = "ResourceFlinkRelease对象", description = "flink release")
-public class ResourceFlinkRelease extends BaseDO {
+@ApiModel(value = "Jar对象", description = "java jar")
+public class JarDTO extends BaseDTO {
 
-    private static final long serialVersionUID = 1L;
-
-    @ApiModelProperty("版本")
-    @TableField("version")
-    private String version;
+    @ApiModelProperty("jar group")
+    private String group;
 
     @ApiModelProperty("文件名称")
-    @TableField("`file_name`")
     private String fileName;
 
     @ApiModelProperty("存储路径")
-    @TableField("path")
     private String path;
 
     @ApiModelProperty("备注")
-    @TableField("remark")
     private String remark;
-
 }

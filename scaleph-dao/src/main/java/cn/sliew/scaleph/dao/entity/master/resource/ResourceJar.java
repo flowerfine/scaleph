@@ -28,23 +28,23 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * resource flink release
+ * java jar
  * </p>
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("resource_flink_release")
-@ApiModel(value = "ResourceFlinkRelease对象", description = "flink release")
-public class ResourceFlinkRelease extends BaseDO {
+@TableName("resource_jar")
+@ApiModel(value = "ResourceJar对象", description = "java jar")
+public class ResourceJar extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("版本")
-    @TableField("version")
-    private String version;
+    @ApiModelProperty("jar group")
+    @TableField("`group`")
+    private String group;
 
     @ApiModelProperty("文件名称")
-    @TableField("`file_name`")
+    @TableField("file_name")
     private String fileName;
 
     @ApiModelProperty("存储路径")
