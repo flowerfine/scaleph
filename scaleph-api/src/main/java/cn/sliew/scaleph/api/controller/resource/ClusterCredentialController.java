@@ -102,7 +102,7 @@ public class ClusterCredentialController {
     @GetMapping("{id}/file")
     @ApiOperation(value = "查询部署配置文件列表", notes = "查询部署配置文件列表")
     public ResponseEntity<List<FileStatusVO>> listDeployConfigFile(@PathVariable("id") Long id) throws IOException {
-        final List<FileStatusVO> fileStatuses = clusterCredentialService.listDeployConfigFile(id);
+        final List<FileStatusVO> fileStatuses = clusterCredentialService.listCredentialFile(id);
         return new ResponseEntity<>(fileStatuses, HttpStatus.OK);
     }
 
@@ -113,7 +113,7 @@ public class ClusterCredentialController {
     @PostMapping("{id}/file")
     @ApiOperation(value = "上传部署配置文件", notes = "上传部署配置文件，支持上传多个文件")
     public ResponseEntity<ResponseVO> uploadDeployConfigFile(@PathVariable("id") Long id, @RequestPart("files") MultipartFile[] files) throws IOException {
-        clusterCredentialService.uploadDeployConfigFile(id, files);
+        clusterCredentialService.uploadCredentialFile(id, files);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -125,7 +125,7 @@ public class ClusterCredentialController {
             @PathVariable("fileName") String fileName,
             HttpServletResponse response) throws IOException {
         try (ServletOutputStream outputStream = response.getOutputStream()) {
-            clusterCredentialService.downloadDeployConfigFile(id, fileName, outputStream);
+            clusterCredentialService.downloadCredentialFile(id, fileName, outputStream);
             response.setCharacterEncoding("utf-8");// 设置字符编码
             response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8")); // 设置响应头
         }
@@ -138,7 +138,7 @@ public class ClusterCredentialController {
     public ResponseEntity<ResponseVO> deleteDeployConfigFile(
             @PathVariable("id") Long id,
             @PathVariable("fileName") String fileName) throws IOException {
-        clusterCredentialService.deleteDeployConfigFile(id, fileName);
+        clusterCredentialService.deleteCredentialFile(id, fileName);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -148,7 +148,7 @@ public class ClusterCredentialController {
     public ResponseEntity<ResponseVO> deleteDeployConfigFiles(
             @PathVariable("id") Long id,
             @RequestBody List<String> fileNames) throws IOException {
-        clusterCredentialService.deleteDeployConfigFiles(id, fileNames);
+        clusterCredentialService.deleteCredentialFiles(id, fileNames);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 }

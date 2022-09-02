@@ -18,13 +18,17 @@
 
 package cn.sliew.scaleph.resource.service.impl;
 
+import cn.sliew.scaleph.common.exception.Rethrower;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceSeaTunnelRelease;
 import cn.sliew.scaleph.dao.mapper.master.resource.ResourceSeaTunnelReleaseMapper;
 import cn.sliew.scaleph.resource.service.SeaTunnelReleaseService;
 import cn.sliew.scaleph.resource.service.convert.SeaTunnelReleaseConvert;
 import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
+import cn.sliew.scaleph.resource.service.enums.ResourceType;
+import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseListParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseUploadParam;
+import cn.sliew.scaleph.resource.service.vo.ResourceVO;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -50,6 +54,32 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
     private FileSystemService fileSystemService;
     @Autowired
     private ResourceSeaTunnelReleaseMapper releaseSeaTunnelMapper;
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.SEATUNNEL_RELEASE;
+    }
+
+    @Override
+    public Page<ResourceVO> list(ResourceListParam param) {
+        try {
+            SeaTunnelReleaseListParam seaTunnelReleaseListParam = SeaTunnelReleaseConvert.INSTANCE.convert(param);
+            Page<SeaTunnelReleaseDTO> page = list(seaTunnelReleaseListParam);
+            Page<ResourceVO> result =
+                    new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
+            List<ResourceVO> dtoList = SeaTunnelReleaseConvert.INSTANCE.convert(page.getRecords());
+            result.setRecords(dtoList);
+            return result;
+        } catch (IOException e) {
+            Rethrower.throwAs(e);
+            return null;
+        }
+    }
+
+    @Override
+    public SeaTunnelReleaseDTO getRaw(Long id) {
+        return selectOne(id);
+    }
 
     @Override
     public Page<SeaTunnelReleaseDTO> list(SeaTunnelReleaseListParam param) throws IOException {
