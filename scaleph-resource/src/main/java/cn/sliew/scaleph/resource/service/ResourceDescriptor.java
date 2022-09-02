@@ -23,11 +23,11 @@ import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import cn.sliew.scaleph.resource.service.vo.ResourceVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-public interface ResourceDescriptor {
+public interface ResourceDescriptor<T> {
 
     ResourceType getResourceType();
 
     Page<ResourceVO> list(ResourceListParam param);
 
-    ResourceVO get(Long id);
+    T getRaw(Long id);
 }

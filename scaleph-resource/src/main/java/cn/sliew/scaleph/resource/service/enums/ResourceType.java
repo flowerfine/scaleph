@@ -32,6 +32,7 @@ public enum ResourceType {
     // todo
     JAR("jar", "Additional Dependency Jar"),
     SCHEMA("schema", "Schema"),
+    DATASOURCE("datasource", "DataSource"),
 
     ;
     @JsonValue

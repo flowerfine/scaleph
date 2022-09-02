@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
-public interface FlinkReleaseService {
+public interface FlinkReleaseService extends ResourceDescriptor<FlinkReleaseDTO> {
 
     Page<FlinkReleaseDTO> list(FlinkReleaseListParam param) throws IOException;
 
