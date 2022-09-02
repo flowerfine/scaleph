@@ -230,13 +230,13 @@ public class FlinkServiceImpl implements FlinkService {
     }
 
     private Path loadClusterCredential(ClusterCredentialDTO clusterCredential, Path workspace) throws IOException {
-        final List<FileStatusVO> fileStatusVOS = clusterCredentialService.listDeployConfigFile(clusterCredential.getId());
+        final List<FileStatusVO> fileStatusVOS = clusterCredentialService.listCredentialFile(clusterCredential.getId());
         final Path tempDir = TempFileUtil.createTempDir(workspace, clusterCredential.getName());
         for (FileStatusVO fileStatusVO : fileStatusVOS) {
             final Path deployConfigFile = tempDir.resolve(fileStatusVO.getName());
             Files.createFile(deployConfigFile, TempFileUtil.attributes);
             try (final OutputStream outputStream = Files.newOutputStream(deployConfigFile, StandardOpenOption.WRITE)) {
-                clusterCredentialService.downloadDeployConfigFile(clusterCredential.getId(), fileStatusVO.getName(), outputStream);
+                clusterCredentialService.downloadCredentialFile(clusterCredential.getId(), fileStatusVO.getName(), outputStream);
             }
         }
         return tempDir;

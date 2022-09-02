@@ -29,7 +29,7 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.List;
 
-public interface ClusterCredentialService {
+public interface ClusterCredentialService extends ResourceDescriptor<ClusterCredentialDTO> {
 
     Page<ClusterCredentialDTO> list(ClusterCredentialListParam param);
 
@@ -43,13 +43,13 @@ public interface ClusterCredentialService {
 
     int deleteBatch(List<Long> ids);
 
-    List<FileStatusVO> listDeployConfigFile(Long id) throws IOException;
+    List<FileStatusVO> listCredentialFile(Long id) throws IOException;
 
-    void uploadDeployConfigFile(Long id, MultipartFile[] files) throws IOException;
+    void uploadCredentialFile(Long id, MultipartFile[] files) throws IOException;
 
-    void downloadDeployConfigFile(Long id, String fileName, OutputStream outputStream) throws IOException;
+    void downloadCredentialFile(Long id, String fileName, OutputStream outputStream) throws IOException;
 
-    void deleteDeployConfigFile(Long id, String fileName) throws IOException;
+    void deleteCredentialFile(Long id, String fileName) throws IOException;
 
-    void deleteDeployConfigFiles(Long id, List<String> fileNames) throws IOException;
+    void deleteCredentialFiles(Long id, List<String> fileNames) throws IOException;
 }

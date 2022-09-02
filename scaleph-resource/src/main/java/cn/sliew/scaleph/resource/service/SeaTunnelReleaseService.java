@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
-public interface SeaTunnelReleaseService {
+public interface SeaTunnelReleaseService extends ResourceDescriptor<SeaTunnelReleaseDTO> {
 
     Page<SeaTunnelReleaseDTO> list(SeaTunnelReleaseListParam param) throws IOException;
 

@@ -18,17 +18,20 @@
 
 package cn.sliew.scaleph.resource.service.impl;
 
+import cn.sliew.scaleph.common.exception.Rethrower;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceFlinkRelease;
 import cn.sliew.scaleph.dao.mapper.master.resource.ResourceFlinkReleaseMapper;
 import cn.sliew.scaleph.resource.service.FlinkReleaseService;
 import cn.sliew.scaleph.resource.service.convert.FlinkReleaseConvert;
 import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
+import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.FlinkReleaseListParam;
 import cn.sliew.scaleph.resource.service.param.FlinkReleaseUploadParam;
+import cn.sliew.scaleph.resource.service.param.ResourceListParam;
+import cn.sliew.scaleph.resource.service.vo.ResourceVO;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +47,6 @@ import java.util.List;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
-@Slf4j
 @Service
 public class FlinkReleaseServiceImpl implements FlinkReleaseService {
 
@@ -52,6 +54,32 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService {
     private FileSystemService fileSystemService;
     @Autowired
     private ResourceFlinkReleaseMapper flinkReleaseMapper;
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.FLINK_RELEASE;
+    }
+
+    @Override
+    public Page<ResourceVO> list(ResourceListParam param) {
+        try {
+            FlinkReleaseListParam flinkReleaseListParam = FlinkReleaseConvert.INSTANCE.convert(param);
+            Page<FlinkReleaseDTO> page = list(flinkReleaseListParam);
+            Page<ResourceVO> result =
+                    new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
+            List<ResourceVO> dtoList = FlinkReleaseConvert.INSTANCE.convert(page.getRecords());
+            result.setRecords(dtoList);
+            return result;
+        } catch (IOException e) {
+            Rethrower.throwAs(e);
+            return null;
+        }
+    }
+
+    @Override
+    public FlinkReleaseDTO getRaw(Long id) {
+        return selectOne(id);
+    }
 
     @Override
     public Page<FlinkReleaseDTO> list(FlinkReleaseListParam param) throws IOException {
