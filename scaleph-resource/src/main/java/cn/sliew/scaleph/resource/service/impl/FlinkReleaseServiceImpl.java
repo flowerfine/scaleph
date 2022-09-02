@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.resource.service.impl;
 
+import cn.sliew.scaleph.common.exception.Rethrower;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceFlinkRelease;
 import cn.sliew.scaleph.dao.mapper.master.resource.ResourceFlinkReleaseMapper;
 import cn.sliew.scaleph.resource.service.FlinkReleaseService;
@@ -61,7 +62,18 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService {
 
     @Override
     public Page<ResourceVO> list(ResourceListParam param) {
-        return null;
+        try {
+            FlinkReleaseListParam flinkReleaseListParam = FlinkReleaseConvert.INSTANCE.convert(param);
+            Page<FlinkReleaseDTO> page = list(flinkReleaseListParam);
+            Page<ResourceVO> result =
+                    new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
+            List<ResourceVO> dtoList = FlinkReleaseConvert.INSTANCE.convert(page.getRecords());
+            result.setRecords(dtoList);
+            return result;
+        } catch (IOException e) {
+            Rethrower.throwAs(e);
+            return null;
+        }
     }
 
     @Override
