@@ -31,7 +31,7 @@ import {
   Tree,
   Typography,
 } from 'antd';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useAccess, useIntl } from 'umi';
 import DiJobForm from './components/DiJobForm';
 import DirectoryForm from './components/DirectoryForm';
@@ -50,7 +50,7 @@ const DiJobView: React.FC = () => {
   const [selectedRows, setSelectedRows] = useState<DiJob[]>([]);
   const [jobTypeList, setJobTypeList] = useState<Dict[]>([]);
   const [runtimeStateList, setRuntimeStateList] = useState<Dict[]>([]);
-
+  const [selectDir, setSelectDir] = useState<React.Key>('');
   const [dirFormData, setDirFormData] = useState<{
     visiable: boolean;
     data: DiDirectory;
@@ -145,20 +145,20 @@ const DiJobView: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.project.di.directory' }),
-      dataIndex: 'directory',
-      hideInSearch: true,
-      width: 150,
-      render: (_, record) => {
-        return record.directory?.fullPath;
-      },
-    },
-    {
       title: intl.formatMessage({ id: 'pages.project.di.jobCrontab' }),
       dataIndex: 'jobCrontab',
       align: 'center',
       hideInSearch: true,
       width: 120,
+    },
+    {
+      title: intl.formatMessage({ id: 'pages.project.di.directory' }),
+      dataIndex: 'directory',
+      hideInSearch: true,
+      width: 200,
+      render: (_, record) => {
+        return record.directory?.fullPath;
+      },
     },
     {
       title: intl.formatMessage({ id: 'pages.project.di.jobVersion' }),
@@ -387,6 +387,12 @@ const DiJobView: React.FC = () => {
             expandedKeys={expandKeys}
             autoExpandParent={autoExpandParent}
             onExpand={onExpand}
+            onSelect={(selectedKeys, e: { selected: boolean }) => {
+              if (e.selected) {
+                setSelectDir(selectedKeys[0]);
+                actionRef.current?.reload();
+              }
+            }}
             titleRender={(node) => {
               return (
                 <Row
@@ -517,15 +523,14 @@ const DiJobView: React.FC = () => {
             labelWidth: 'auto',
             span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
           }}
-          scroll={{ x: 1200 }}
+          scroll={{ x: 1200, y: 480 }}
           rowKey="id"
           actionRef={actionRef}
           formRef={formRef}
           options={false}
           columns={tableColumns}
           request={(params, sorter, filter) => {
-            //todo dir params
-            return listJobByProject({ ...params, projectId: projectId });
+            return listJobByProject({ ...params, projectId: projectId, directoryId: selectDir as string });
           }}
           toolbar={{
             actions: [
@@ -646,7 +651,7 @@ const DiJobView: React.FC = () => {
           }}
           onVisibleChange={(visiable, data) => {
             setJobFormData({ visiable: visiable, data: {} });
-            if(data?.id){
+            if (data?.id) {
               alert('define dag');
             }
             actionRef.current?.reload();
