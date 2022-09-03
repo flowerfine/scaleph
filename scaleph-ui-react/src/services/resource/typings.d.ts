@@ -1,3 +1,5 @@
+import {Dict, QueryParam} from "@/app";
+
 export type DiResourceFile = {
     id?: number;
     projectId?: number;
@@ -32,6 +34,48 @@ export type JarListParam = QueryParam & {
 
 export type JarUploadParam = QueryParam & {
   group?: string;
+  file: File;
+  remark?: String;
+}
+
+export type FlinkRelease = {
+  id?: number;
+  version?: Dict;
+  fileName?: string;
+  path?: string;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+}
+
+export type FlinkReleaseListParam = QueryParam & {
+  version?: string;
+  fileName?: string;
+}
+
+export type FlinkReleaseUploadParam = QueryParam & {
+  version?: string;
+  file: File;
+  remark?: String;
+}
+
+export class SeaTunnelRelease {
+  id?: number;
+  version?: Dict;
+  fileName?: string;
+  path?: string;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+}
+
+export type SeaTunnelReleaseListParam = QueryParam & {
+  version?: string;
+  fileName?: string;
+}
+
+export type SeaTunnelReleaseUploadParam = QueryParam & {
+  version?: string;
   file: File;
   remark?: String;
 }
