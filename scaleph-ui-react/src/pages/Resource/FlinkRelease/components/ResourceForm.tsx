@@ -1,10 +1,12 @@
-import {ModalFormProps} from '@/app.d';
+import {Dict, ModalFormProps} from '@/app.d';
 import {FlinkRelease, FlinkReleaseUploadParam} from '@/services/resource/typings';
-import {Button, Form, Input, message, Modal, Upload, UploadFile, UploadProps} from 'antd';
+import {Button, Form, Input, message, Modal, Select, Upload, UploadFile, UploadProps} from 'antd';
 import {useIntl} from 'umi';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {UploadOutlined} from "@ant-design/icons";
 import {upload} from "@/services/resource/flinkRelease.service";
+import {listDictDataByType} from "@/services/admin/dictData.service";
+import {DICT_TYPE} from "@/constant";
 
 const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
   data,
@@ -16,6 +18,12 @@ const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [uploading, setUploading] = useState(false);
+  const [flinkVersionList, setFlinkVersionList] = useState<Dict[]>([]);
+  useEffect(() => {
+    listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
+      setFlinkVersionList(d);
+    });
+  }, []);
 
   const props: UploadProps = {
     multiple: false,
@@ -80,7 +88,25 @@ const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
           label={intl.formatMessage({ id: 'pages.resource.flinkRelease.version' })}
           rules={[{ required: true }, { max: 128 }]}
         >
-          <Input></Input>
+          <Select
+            disabled={data.id ? true : false}
+            showSearch={true}
+            allowClear={true}
+            optionFilterProp="label"
+            filterOption={(input, option) =>
+              (option!.children as unknown as string)
+                .toLowerCase()
+                .includes(input.toLowerCase())
+            }
+          >
+            {flinkVersionList.map((item) => {
+              return (
+                <Select.Option key={item.value} value={item.value}>
+                  {item.label}
+                </Select.Option>
+              );
+            })}
+          </Select>
         </Form.Item>
         <Form.Item
           label={intl.formatMessage({ id: 'pages.resource.file' })}
