@@ -1,15 +1,12 @@
-import {Dict, ModalFormProps} from '@/app.d';
-import {USER_AUTH} from '@/constant';
-import {listAllProject} from '@/services/project/project.service';
-import {addResourceFile} from '@/services/resource/resource.service';
-import {DiResourceFile} from '@/services/resource/typings';
-import {InboxOutlined} from '@ant-design/icons';
-import {Form, Input, message, Modal, Select, Spin, Upload} from 'antd';
-import {RcFile, UploadChangeParam, UploadFile} from 'antd/lib/upload';
-import {useEffect, useState} from 'react';
-import {request, useIntl} from 'umi';
+import {ModalFormProps} from '@/app.d';
+import {Jar, JarUploadParam} from '@/services/resource/typings';
+import {Button, Form, Input, message, Modal, Upload, UploadFile, UploadProps} from 'antd';
+import {useIntl} from 'umi';
+import {useState} from "react";
+import {UploadOutlined} from "@ant-design/icons";
+import {upload} from "@/services/resource/jar.service";
 
-const ResourceForm: React.FC<ModalFormProps<DiResourceFile>> = ({
+const JarForm: React.FC<ModalFormProps<Jar>> = ({
   data,
   visible,
   onVisibleChange,
@@ -17,16 +14,24 @@ const ResourceForm: React.FC<ModalFormProps<DiResourceFile>> = ({
 }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
-  const [projectList, setProjectList] = useState<Dict[]>([]);
-  const [projectId, setProjectId] = useState<number>();
-  const [fileName, setFileName] = useState<string>('');
-  const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [isDone, setIsDone] = useState<boolean>(false);
-  useEffect(() => {
-    listAllProject().then((d) => {
-      setProjectList(d);
-    });
-  }, []);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [uploading, setUploading] = useState(false);
+
+  const props: UploadProps = {
+    multiple: false,
+    maxCount: 1,
+    onRemove: file => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: file => {
+      setFileList([...fileList, file]);
+      return false;
+    },
+    fileList,
+  };
 
   return (
     <Modal
@@ -34,26 +39,36 @@ const ResourceForm: React.FC<ModalFormProps<DiResourceFile>> = ({
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-            intl.formatMessage({ id: 'pages.resource' })
+            intl.formatMessage({ id: 'pages.resource.jar' })
           : intl.formatMessage({ id: 'app.common.operate.new.label' }) +
-            intl.formatMessage({ id: 'pages.resource' })
+            intl.formatMessage({ id: 'pages.resource.jar' })
       }
       width={580}
       destroyOnClose={true}
       onCancel={onCancel}
-      okButtonProps={{ disabled: !isDone }}
+      confirmLoading={uploading}
+      okText={uploading ? intl.formatMessage({ id: 'app.common.operate.uploading.label' }) : intl.formatMessage({ id: 'app.common.operate.upload.label' })}
       onOk={() => {
         form.validateFields().then((values) => {
-          let d: DiResourceFile = {
-            projectId: projectId,
-            fileName: fileName,
+          const uploadParam: JarUploadParam  ={
+            group: values.group,
+            file: fileList[0],
+            remark: values.remark
           };
-          addResourceFile({ ...d }).then((d) => {
-            if (d.success) {
-              message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
+          setUploading(true);
+          upload(uploadParam)
+            .then(() => {
+              setFileList([]);
+              message.success(intl.formatMessage({ id: 'app.common.operate.upload.success' }));
               onVisibleChange(false);
-            }
-          });
+            })
+            .catch(() => {
+              message.error(intl.formatMessage({ id: 'app.common.operate.upload.failure' }));
+              onVisibleChange(false);
+            })
+            .finally(() => {
+              setUploading(false);
+            });
         });
       }}
     >
@@ -62,94 +77,30 @@ const ResourceForm: React.FC<ModalFormProps<DiResourceFile>> = ({
           <Input></Input>
         </Form.Item>
         <Form.Item
-          name="projectId"
-          label={intl.formatMessage({ id: 'pages.resource.projectCode' })}
+          name="group"
+          label={intl.formatMessage({ id: 'pages.resource.jar.group' })}
           rules={[{ required: true }, { max: 128 }]}
         >
-          <Select
-            disabled={data.id ? true : false}
-            showSearch={true}
-            allowClear={true}
-            optionFilterProp="label"
-            filterOption={(input, option) =>
-              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-            }
-            onChange={(item) => {
-              setProjectId(item);
-            }}
-          >
-            {projectList.map((item) => {
-              return (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label}
-                </Select.Option>
-              );
-            })}
-          </Select>
+          <Input></Input>
         </Form.Item>
-        <Form.Item label={intl.formatMessage({ id: 'pages.resource.file' })}>
-          <Form.Item name="fileName" noStyle>
-            <Spin spinning={isUploading}>
-              <Upload.Dragger
-                action="/api/di/resource/upload"
-                maxCount={1}
-                name="file"
-                headers={{ u_token: localStorage.getItem(USER_AUTH.token) + '' }}
-                data={{ projectId: form.getFieldValue('projectId') }}
-                disabled={projectId ? false : true}
-                beforeUpload={(file: RcFile) => {
-                  const sizeLimit = file.size / 1024 / 1024 <= 500;
-                  if (!sizeLimit) {
-                    message.error(
-                      intl.formatMessage({ id: 'pages.resource.file.upload.limit.500' }),
-                    );
-                  }
-                  return sizeLimit;
-                }}
-                onChange={(info: UploadChangeParam<UploadFile<any>>) => {
-                  let status = info.file.status;
-                  let response = info.file.response;
-                  status === 'uploading' ? setIsUploading(true) : setIsUploading(false);
-                  if (status === 'done' && response && response.success) {
-                    setIsDone(true);
-                    setFileName(response.data);
-                    message.success(
-                      intl.formatMessage({ id: 'pages.resource.file.upload.success' }),
-                    );
-                  } else if (status === 'error') {
-                    setFileName('');
-                    message.success(intl.formatMessage({ id: 'pages.resource.file.upload.error' }));
-                  } else if (status === 'removed') {
-                    setFileName('');
-                  } else if (response && !response.success) {
-                    setFileName('');
-                    message.error(response.errorMessage);
-                  }
-                }}
-                onRemove={(file: UploadFile) => {
-                  setIsDone(false);
-                  request('/api/di/resource/upload', {
-                    method: 'DELETE',
-                    params: { projectId: form.getFieldValue('projectId'), fileName: file.name },
-                  });
-                }}
-              >
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">
-                  {intl.formatMessage({ id: 'pages.resource.file.upload.tooltip' })}
-                </p>
-                <p className="ant-upload-hint">
-                  {intl.formatMessage({ id: 'pages.resource.file.upload.hint.single' })}
-                </p>
-              </Upload.Dragger>
-            </Spin>
-          </Form.Item>
+        <Form.Item
+          label={intl.formatMessage({ id: 'pages.resource.file' })}
+          rules={[{ required: true }]}
+        >
+          <Upload {...props}>
+            <Button icon={<UploadOutlined />}>{intl.formatMessage({ id: 'pages.resource.jar.file' })}</Button>
+          </Upload>
+        </Form.Item>
+        <Form.Item
+          name="remark"
+          label={intl.formatMessage({ id: 'pages.resource.jar.remark' })}
+          rules={[{ max: 200 }]}
+        >
+          <Input></Input>
         </Form.Item>
       </Form>
     </Modal>
   );
 };
 
-export default ResourceForm;
+export default JarForm;

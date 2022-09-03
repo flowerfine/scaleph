@@ -29,8 +29,10 @@ export async function upload(uploadParam: JarUploadParam) {
   const formData = new FormData()
   formData.append("group", uploadParam.group)
   formData.append("file", uploadParam.file)
-  formData.append("remark", uploadParam.remark)
-  return request<PageResponse<ResponseBody<any>>>(`${url}/upload`, {
+  if (uploadParam.remark) {
+    formData.append("remark", uploadParam.remark)
+  }
+  return request<ResponseBody<any>>(`${url}/upload`, {
     method: 'POST',
     data: formData
   })
@@ -46,7 +48,7 @@ export async function deleteBatch(rows: Jar[]) {
   const params = rows.map((row) => row.id);
   return request<ResponseBody<Jar>>(`${url}/batch`, {
     method: 'DELETE',
-    body: params
+    data: params
   })
 }
 

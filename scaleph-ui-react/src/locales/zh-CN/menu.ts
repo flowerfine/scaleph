@@ -12,7 +12,7 @@ export default {
   'menu.dev.batch': '周期任务',
   'menu.dev.realtime': '实时任务',
   'menu.resource': '资源中心',
-  'menu.resource.jar': '公共jar',
+  'menu.resource.jar': '公共 Jar',
   'menu.cluster': '集群',
   'menu.user.center': '个人中心',
   'menu.user.logout': '退出登录',
