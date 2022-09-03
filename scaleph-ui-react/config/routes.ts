@@ -129,11 +129,19 @@ export default [
     path: '/resource',
     icon: 'fileText',
     pCode: PRIVILEGE_CODE.datadevResourceShow,
+    access: 'normalRouteFilter',
     routes: [
       {
         path: '/resource',
+        redirect: '/resource/jar',
+        pCode: PRIVILEGE_CODE.stdataShow,
+        access: 'normalRouteFilter',
+      },
+      {
+        name: 'jar',
+        path: '/resource/jar',
         exact: true,
-        component: './Resource',
+        component: './Resource/Jar',
         pCode: PRIVILEGE_CODE.datadevResourceShow,
         access: 'normalRouteFilter',
       },

@@ -34,6 +34,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,6 +46,7 @@ import java.util.List;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
+@Service
 public class JarServiceImpl implements JarService {
 
     @Autowired

@@ -1,17 +1,13 @@
-import { Dict } from '@/app.d';
-import { PRIVILEGE_CODE, USER_AUTH } from '@/constant';
-import { listAllProject } from '@/services/project/project.service';
-import {
-  deleteResourceBatch,
-  deleteResourceRow,
-  listResourceFileByPage,
-} from '@/services/resource/resource.service';
-import { DiResourceFile } from '@/services/resource/typings';
-import { DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
-import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
-import { Button, message, Modal, Select, Space, Tooltip } from 'antd';
-import { useEffect, useRef, useState } from 'react';
-import { useAccess, useIntl } from 'umi';
+import {Dict} from '@/app.d';
+import {PRIVILEGE_CODE, USER_AUTH} from '@/constant';
+import {listAllProject} from '@/services/project/project.service';
+import {deleteResourceBatch, deleteResourceRow, listResourceFileByPage,} from '@/services/resource/resource.service';
+import {DiResourceFile} from '@/services/resource/typings';
+import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
+import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
+import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
+import {useEffect, useRef, useState} from 'react';
+import {useAccess, useIntl} from 'umi';
 import ResourceForm from './components/ResourceForm';
 
 const Resource: React.FC = () => {
@@ -24,14 +20,14 @@ const Resource: React.FC = () => {
   const [resourceFormData, setResourceFormData] = useState<{
     visiable: boolean;
     data: DiResourceFile;
-  }>({ visiable: false, data: {} });
+  }>({visiable: false, data: {}});
 
   const tableColumns: ProColumns<DiResourceFile>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.resource.projectCode' }),
+      title: intl.formatMessage({id: 'pages.resource.projectCode'}),
       dataIndex: 'projectCode',
       width: 180,
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
         return (
           <Select
             showSearch={true}
@@ -53,42 +49,42 @@ const Resource: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.fileName' }),
+      title: intl.formatMessage({id: 'pages.resource.fileName'}),
       dataIndex: 'fileName',
       width: 280,
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.fileType' }),
+      title: intl.formatMessage({id: 'pages.resource.fileType'}),
       dataIndex: 'fileType',
       hideInSearch: true,
       width: 100,
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.filePath' }),
+      title: intl.formatMessage({id: 'pages.resource.filePath'}),
       dataIndex: 'filePath',
       hideInSearch: true,
       hideInTable: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.fileSize' }),
+      title: intl.formatMessage({id: 'pages.resource.fileSize'}),
       dataIndex: 'fileSize',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.createTime' }),
+      title: intl.formatMessage({id: 'pages.resource.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.updateTime' }),
+      title: intl.formatMessage({id: 'pages.resource.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'app.common.operate.label' }),
+      title: intl.formatMessage({id: 'app.common.operate.label'}),
       dataIndex: 'actions',
       align: 'center',
       width: 120,
@@ -98,7 +94,7 @@ const Resource: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDownload) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.download.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.download.label'})}>
                 <Button
                   shape="default"
                   type="link"
@@ -123,25 +119,25 @@ const Resource: React.FC = () => {
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DeleteOutlined />}
+                  icon={<DeleteOutlined/>}
                   onClick={() => {
                     Modal.confirm({
-                      title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
+                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
                       content: intl.formatMessage({
                         id: 'app.common.operate.delete.confirm.content',
                       }),
-                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                      okButtonProps: { danger: true },
-                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                      okButtonProps: {danger: true},
+                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
                         deleteResourceRow(record).then((d) => {
                           if (d.success) {
                             message.success(
-                              intl.formatMessage({ id: 'app.common.operate.delete.success' }),
+                              intl.formatMessage({id: 'app.common.operate.delete.success'}),
                             );
                             actionRef.current?.reload();
                           }
@@ -167,10 +163,10 @@ const Resource: React.FC = () => {
   return (
     <div>
       <ProTable<DiResourceFile>
-        headerTitle={intl.formatMessage({ id: 'pages.resource' })}
+        headerTitle={intl.formatMessage({id: 'pages.resource'})}
         search={{
           labelWidth: 'auto',
-          span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
+          span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
         }}
         rowKey="id"
         actionRef={actionRef}
@@ -187,10 +183,10 @@ const Resource: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setResourceFormData({ visiable: true, data: {} });
+                  setResourceFormData({visiable: true, data: {}});
                 }}
               >
-                {intl.formatMessage({ id: 'app.common.operate.new.label' })}
+                {intl.formatMessage({id: 'app.common.operate.new.label'})}
               </Button>
             ),
             access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
@@ -200,18 +196,18 @@ const Resource: React.FC = () => {
                 disabled={selectedRows.length < 1}
                 onClick={() => {
                   Modal.confirm({
-                    title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
+                    title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
                     content: intl.formatMessage({
                       id: 'app.common.operate.delete.confirm.content',
                     }),
-                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                    okButtonProps: { danger: true },
-                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                    okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                    okButtonProps: {danger: true},
+                    cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
                       deleteResourceBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(
-                            intl.formatMessage({ id: 'app.common.operate.delete.success' }),
+                            intl.formatMessage({id: 'app.common.operate.delete.success'}),
                           );
                           actionRef.current?.reload();
                         }
@@ -220,12 +216,12 @@ const Resource: React.FC = () => {
                   });
                 }}
               >
-                {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
+                {intl.formatMessage({id: 'app.common.operate.delete.label'})}
               </Button>
             ),
           ],
         }}
-        pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
+        pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
         rowSelection={{
           fixed: true,
           onChange(selectedRowKeys, selectedRows, info) {
@@ -239,10 +235,10 @@ const Resource: React.FC = () => {
         <ResourceForm
           visible={resourceFormData.visiable}
           onCancel={() => {
-            setResourceFormData({ visiable: false, data: {} });
+            setResourceFormData({visiable: false, data: {}});
           }}
           onVisibleChange={(visiable) => {
-            setResourceFormData({ visiable: visiable, data: {} });
+            setResourceFormData({visiable: visiable, data: {}});
             actionRef.current?.reload();
           }}
           data={resourceFormData.data}

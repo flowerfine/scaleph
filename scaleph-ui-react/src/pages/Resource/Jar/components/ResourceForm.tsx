@@ -1,13 +1,13 @@
-import { Dict, ModalFormProps } from '@/app.d';
-import { USER_AUTH } from '@/constant';
-import { listAllProject } from '@/services/project/project.service';
-import { addResourceFile } from '@/services/resource/resource.service';
-import { DiResourceFile } from '@/services/resource/typings';
-import { InboxOutlined } from '@ant-design/icons';
-import { Form, Input, message, Modal, Select, Spin, Upload } from 'antd';
-import { RcFile, UploadChangeParam, UploadFile } from 'antd/lib/upload';
-import { useEffect, useState } from 'react';
-import { request, useIntl } from 'umi';
+import {Dict, ModalFormProps} from '@/app.d';
+import {USER_AUTH} from '@/constant';
+import {listAllProject} from '@/services/project/project.service';
+import {addResourceFile} from '@/services/resource/resource.service';
+import {DiResourceFile} from '@/services/resource/typings';
+import {InboxOutlined} from '@ant-design/icons';
+import {Form, Input, message, Modal, Select, Spin, Upload} from 'antd';
+import {RcFile, UploadChangeParam, UploadFile} from 'antd/lib/upload';
+import {useEffect, useState} from 'react';
+import {request, useIntl} from 'umi';
 
 const ResourceForm: React.FC<ModalFormProps<DiResourceFile>> = ({
   data,
