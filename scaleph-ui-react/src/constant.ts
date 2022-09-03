@@ -26,6 +26,7 @@ export const DICT_TYPE = {
   flinkVersion: 'flink_version',
   flinkStateBackend: 'flink_state_backend',
   flinkClusterStatus: 'flink_cluster_status',
+  seatunnelVersion: 'seatunnel_version',
 };
 
 export const USER_AUTH = {

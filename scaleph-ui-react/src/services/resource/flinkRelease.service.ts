@@ -1,12 +1,12 @@
+import {FlinkRelease, FlinkReleaseListParam, FlinkReleaseUploadParam} from "@/services/resource/typings";
+import {request} from "@@/exports";
 import {PageResponse, ResponseBody} from "@/app.d";
-import {request} from "umi";
-import {Jar, JarListParam, JarUploadParam} from "@/services/resource/typings";
 import {USER_AUTH} from "@/constant";
 
-const url: string = '/api/resource/jar';
+const url: string = '/api/resource/flink-release';
 
-export async function list(queryParam: JarListParam) {
-  return request<PageResponse<Jar>>(`${url}`, {
+export async function list(queryParam: FlinkReleaseListParam) {
+  return request<PageResponse<FlinkRelease>>(`${url}`, {
     method: 'GET',
     params: queryParam
   }).then((res) => {
@@ -21,14 +21,14 @@ export async function list(queryParam: JarListParam) {
 }
 
 export async function selectOne(id: number) {
-  return request<ResponseBody<Jar>>(`${url}/` + id, {
+  return request<ResponseBody<FlinkRelease>>(`${url}/` + id, {
     method: 'GET'
   })
 }
 
-export async function upload(uploadParam: JarUploadParam) {
+export async function upload(uploadParam: FlinkReleaseUploadParam) {
   const formData = new FormData()
-  formData.append("group", uploadParam.group)
+  formData.append("version", uploadParam.version)
   formData.append("file", uploadParam.file)
   if (uploadParam.remark) {
     formData.append("remark", uploadParam.remark)
@@ -39,7 +39,7 @@ export async function upload(uploadParam: JarUploadParam) {
   })
 }
 
-export async function download(row: Jar) {
+export async function download(row: FlinkRelease) {
   const a = document.createElement('a');
   a.href = `${url}/download/` + row.id + '?' + USER_AUTH.token + '=' + localStorage.getItem(USER_AUTH.token);
   a.download = row.fileName + '';
@@ -47,18 +47,16 @@ export async function download(row: Jar) {
   window.URL.revokeObjectURL(url);
 }
 
-export async function deleteOne(row: Jar) {
+export async function deleteOne(row: FlinkRelease) {
   return request<ResponseBody<any>>(`${url}/` + row.id, {
     method: 'DELETE'
   })
 }
 
-export async function deleteBatch(rows: Jar[]) {
+export async function deleteBatch(rows: FlinkRelease[]) {
   const params = rows.map((row) => row.id);
   return request<ResponseBody<any>>(`${url}/batch`, {
     method: 'DELETE',
     data: params
   })
 }
-
-
