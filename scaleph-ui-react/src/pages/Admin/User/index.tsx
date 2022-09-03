@@ -59,6 +59,8 @@ const User: React.FC = () => {
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<SecUser[]>([]);
   const [userStatusList, setUserStatusList] = useState<Dict[]>([]);
+  const [selectDept, setSelectDept] = useState<React.Key>('');
+  const [selectRole, setSelectRole] = useState<string>('');
   const [userFormData, setUserFormData] = useState<{ visiable: boolean; data: SecUser }>({
     visiable: false,
     data: {},
@@ -355,6 +357,8 @@ const User: React.FC = () => {
             type="card"
             onChange={(activeKey) => {
               setTabId(activeKey);
+              setSelectRole('');
+              setSelectDept('');
             }}
           >
             {access.canAccess(PRIVILEGE_CODE.roleSelect) && (
@@ -374,6 +378,10 @@ const User: React.FC = () => {
                       onMouseLeave={() => {
                         item.showOpIcon = false;
                         setRoleList([...roleList]);
+                      }}
+                      onClick={() => {
+                        setSelectRole(item.id + '');
+                        actionRef.current?.reload();
                       }}
                     >
                       <Typography.Text style={{ paddingRight: 12 }}>
@@ -476,6 +484,14 @@ const User: React.FC = () => {
                   expandedKeys={expandKeys}
                   autoExpandParent={autoExpandParent}
                   onExpand={onExpand}
+                  onSelect={(selectedKeys, e: { selected: boolean }) => {
+                    if (e.selected) {
+                      setSelectDept(selectedKeys[0]);
+                    } else {
+                      setSelectDept('');
+                    }
+                    actionRef.current?.reload();
+                  }}
                   titleRender={(node) => {
                     return (
                       <Row
@@ -679,7 +695,7 @@ const User: React.FC = () => {
           }}
           columns={tableColumns}
           request={(params, sorter, filter) => {
-            return listUserByPage(params);
+            return listUserByPage({ ...params, deptId: selectDept as string, roleId: selectRole });
           }}
           pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
           rowSelection={{
