@@ -18,18 +18,18 @@
 
 package cn.sliew.scaleph.resource.service.param;
 
-import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import javax.validation.constraints.NotBlank;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class ClusterCredentialListParam extends PaginationParam {
+public class JarUploadParam {
 
-    @ApiModelProperty("配置文件类型。0: Hadoop, 1: Kubernetes")
-    private String configType;
+    @NotBlank
+    @ApiModelProperty("jar group")
+    private String group;
 
-    @ApiModelProperty("配置名称")
-    private String name;
+    @ApiModelProperty("备注")
+    private String remark;
 }

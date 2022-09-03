@@ -54,4 +54,5 @@ public class ResourceSeaTunnelRelease extends BaseDO {
     @ApiModelProperty("备注")
     @TableField("remark")
     private String remark;
+
 }

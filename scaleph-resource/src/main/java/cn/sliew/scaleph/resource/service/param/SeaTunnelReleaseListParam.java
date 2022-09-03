@@ -23,8 +23,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class SeaTunnelReleaseListParam extends PaginationParam {
 
     @ApiModelProperty("版本")

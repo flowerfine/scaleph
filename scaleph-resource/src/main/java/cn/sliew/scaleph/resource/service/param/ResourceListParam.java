@@ -22,8 +22,8 @@ import cn.sliew.scaleph.common.param.PaginationParam;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class ResourceListParam extends PaginationParam {
 
     private String label;

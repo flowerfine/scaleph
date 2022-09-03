@@ -11,6 +11,15 @@ export default {
   'pages.resource.fileType': '文件类型',
   'pages.resource.filePath': '文件路径',
   'pages.resource.fileSize': '文件大小',
+  'pages.resource.remark': '备注',
   'pages.resource.createTime': '创建时间',
   'pages.resource.updateTime': '更新时间',
+
+
+  'pages.resource.jar': '公共 Jar',
+  'pages.resource.jar.group': 'Group',
+  'pages.resource.jar.file': 'Jar',
+  'pages.resource.jar.fileName': '文件名',
+  'pages.resource.jar.path': '存储路径',
+  'pages.resource.jar.remark': '备注',
 };

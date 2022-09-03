@@ -16,20 +16,43 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.resource.service.param;
+package cn.sliew.scaleph.dao.entity.master.resource;
 
-import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * <p>
+ * java jar
+ * </p>
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ClusterCredentialListParam extends PaginationParam {
+@TableName("resource_jar")
+@ApiModel(value = "ResourceJar对象", description = "java jar")
+public class ResourceJar extends BaseDO {
 
-    @ApiModelProperty("配置文件类型。0: Hadoop, 1: Kubernetes")
-    private String configType;
+    private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("配置名称")
-    private String name;
+    @ApiModelProperty("jar group")
+    @TableField("`group`")
+    private String group;
+
+    @ApiModelProperty("文件名称")
+    @TableField("file_name")
+    private String fileName;
+
+    @ApiModelProperty("存储路径")
+    @TableField("path")
+    private String path;
+
+    @ApiModelProperty("备注")
+    @TableField("remark")
+    private String remark;
+
 }
