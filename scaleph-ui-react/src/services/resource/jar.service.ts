@@ -48,14 +48,14 @@ export async function download(row: Jar) {
 }
 
 export async function deleteOne(row: Jar) {
-  return request<ResponseBody<Jar>>(`${url}/` + row.id, {
+  return request<ResponseBody<any>>(`${url}/` + row.id, {
     method: 'DELETE'
   })
 }
 
 export async function deleteBatch(rows: Jar[]) {
   const params = rows.map((row) => row.id);
-  return request<ResponseBody<Jar>>(`${url}/batch`, {
+  return request<ResponseBody<any>>(`${url}/batch`, {
     method: 'DELETE',
     data: params
   })

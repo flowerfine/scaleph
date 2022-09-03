@@ -14,6 +14,7 @@ export default {
   'menu.resource': '资源中心',
   'menu.resource.jar': '公共 Jar',
   'menu.resource.flinkRelease': 'Flink Release',
+  'menu.resource.seatunnelRelease': 'SeaTunnel Release',
   'menu.cluster': '集群',
   'menu.user.center': '个人中心',
   'menu.user.logout': '退出登录',

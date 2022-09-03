@@ -153,6 +153,14 @@ export default [
         pCode: PRIVILEGE_CODE.datadevResourceShow,
         access: 'normalRouteFilter',
       },
+      {
+        name: 'seatunnelRelease',
+        path: '/resource/seatunnel-release',
+        exact: true,
+        component: './Resource/SeaTunnelRelease',
+        pCode: PRIVILEGE_CODE.datadevResourceShow,
+        access: 'normalRouteFilter',
+      },
     ],
   },
   {

@@ -1,12 +1,12 @@
-import {FlinkRelease, FlinkReleaseListParam, FlinkReleaseUploadParam} from "@/services/resource/typings";
+import {SeaTunnelRelease, SeaTunnelReleaseListParam, SeaTunnelReleaseUploadParam} from "@/services/resource/typings";
 import {request} from "@@/exports";
 import {PageResponse, ResponseBody} from "@/app.d";
 import {USER_AUTH} from "@/constant";
 
-const url: string = '/api/resource/flink-release';
+const url: string = '/api/resource/seatunnel-release';
 
-export async function list(queryParam: FlinkReleaseListParam) {
-  return request<PageResponse<FlinkRelease>>(`${url}`, {
+export async function list(queryParam: SeaTunnelReleaseListParam) {
+  return request<PageResponse<SeaTunnelRelease>>(`${url}`, {
     method: 'GET',
     params: queryParam
   }).then((res) => {
@@ -21,12 +21,12 @@ export async function list(queryParam: FlinkReleaseListParam) {
 }
 
 export async function selectOne(id: number) {
-  return request<ResponseBody<FlinkRelease>>(`${url}/` + id, {
+  return request<ResponseBody<SeaTunnelRelease>>(`${url}/` + id, {
     method: 'GET'
   })
 }
 
-export async function upload(uploadParam: FlinkReleaseUploadParam) {
+export async function upload(uploadParam: SeaTunnelReleaseUploadParam) {
   const formData = new FormData()
   formData.append("version", uploadParam.version)
   formData.append("file", uploadParam.file)
@@ -39,7 +39,7 @@ export async function upload(uploadParam: FlinkReleaseUploadParam) {
   })
 }
 
-export async function download(row: FlinkRelease) {
+export async function download(row: SeaTunnelRelease) {
   const a = document.createElement('a');
   a.href = `${url}/download/` + row.id + '?' + USER_AUTH.token + '=' + localStorage.getItem(USER_AUTH.token);
   a.download = row.fileName + '';
@@ -47,13 +47,13 @@ export async function download(row: FlinkRelease) {
   window.URL.revokeObjectURL(url);
 }
 
-export async function deleteOne(row: FlinkRelease) {
+export async function deleteOne(row: SeaTunnelRelease) {
   return request<ResponseBody<any>>(`${url}/` + row.id, {
     method: 'DELETE'
   })
 }
 
-export async function deleteBatch(rows: FlinkRelease[]) {
+export async function deleteBatch(rows: SeaTunnelRelease[]) {
   const params = rows.map((row) => row.id);
   return request<ResponseBody<any>>(`${url}/batch`, {
     method: 'DELETE',
