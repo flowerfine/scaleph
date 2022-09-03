@@ -48,7 +48,7 @@ const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
             intl.formatMessage({ id: 'pages.resource.flinkRelease' })
-          : intl.formatMessage({ id: 'app.common.operate.new.label' }) +
+          : intl.formatMessage({ id: 'app.common.operate.upload.label' }) +
             intl.formatMessage({ id: 'pages.resource.flinkRelease' })
       }
       width={580}

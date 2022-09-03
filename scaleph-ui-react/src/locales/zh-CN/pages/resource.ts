@@ -26,4 +26,7 @@ export default {
   'pages.resource.flinkRelease': 'Flink Release',
   'pages.resource.flinkRelease.version': '版本',
   'pages.resource.flinkRelease.file': 'Flink Release',
+  'pages.resource.seatunnelRelease': 'SeaTunnel Release',
+  'pages.resource.seatunnelRelease.version': '版本',
+  'pages.resource.seatunnelRelease.file': 'SeaTunnel Release',
 };

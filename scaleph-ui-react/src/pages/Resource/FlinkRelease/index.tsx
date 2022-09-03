@@ -167,7 +167,7 @@ const FlinkReleaseResource: React.FC = () => {
                   setFlinkReleaseData({visiable: true, data: {}});
                 }}
               >
-                {intl.formatMessage({id: 'app.common.operate.new.label'})}
+                {intl.formatMessage({id: 'app.common.operate.upload.label'})}
               </Button>
             ),
             access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
