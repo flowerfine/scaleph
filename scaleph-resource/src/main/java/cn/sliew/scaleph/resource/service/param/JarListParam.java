@@ -25,11 +25,12 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ClusterCredentialListParam extends PaginationParam {
+public class JarListParam extends PaginationParam {
 
-    @ApiModelProperty("配置文件类型。0: Hadoop, 1: Kubernetes")
-    private String configType;
+    @ApiModelProperty("jar group")
+    private String group;
 
-    @ApiModelProperty("配置名称")
-    private String name;
+    @ApiModelProperty("文件名称。支持模糊匹配")
+    private String fileName;
+
 }

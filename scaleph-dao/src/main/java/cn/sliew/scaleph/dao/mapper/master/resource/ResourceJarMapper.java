@@ -16,20 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.resource.service.param;
+package cn.sliew.scaleph.dao.mapper.master.resource;
 
-import cn.sliew.scaleph.common.param.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceJar;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class ClusterCredentialListParam extends PaginationParam {
+/**
+ * <p>
+ * java jar Mapper 接口
+ * </p>
+ */
+@Repository
+public interface ResourceJarMapper extends BaseMapper<ResourceJar> {
 
-    @ApiModelProperty("配置文件类型。0: Hadoop, 1: Kubernetes")
-    private String configType;
-
-    @ApiModelProperty("配置名称")
-    private String name;
 }

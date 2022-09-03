@@ -16,20 +16,28 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.resource.service.param;
+package cn.sliew.scaleph.resource.service.dto;
 
-import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.common.dto.BaseDTO;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ClusterCredentialListParam extends PaginationParam {
+@ApiModel(value = "Jar对象", description = "java jar")
+public class JarDTO extends BaseDTO {
 
-    @ApiModelProperty("配置文件类型。0: Hadoop, 1: Kubernetes")
-    private String configType;
+    @ApiModelProperty("jar group")
+    private String group;
 
-    @ApiModelProperty("配置名称")
-    private String name;
+    @ApiModelProperty("文件名称")
+    private String fileName;
+
+    @ApiModelProperty("存储路径")
+    private String path;
+
+    @ApiModelProperty("备注")
+    private String remark;
 }

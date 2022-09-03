@@ -55,5 +55,4 @@ public class ResourceFlinkRelease extends BaseDO {
     @TableField("remark")
     private String remark;
 
-
 }
