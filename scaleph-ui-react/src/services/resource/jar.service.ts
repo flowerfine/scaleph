@@ -1,6 +1,7 @@
 import {PageResponse, ResponseBody} from "@/app.d";
 import {request} from "umi";
 import {Jar, JarListParam, JarUploadParam} from "@/services/resource/typings";
+import {USER_AUTH} from "@/constant";
 
 const url: string = '/api/resource/jar';
 
@@ -36,6 +37,14 @@ export async function upload(uploadParam: JarUploadParam) {
     method: 'POST',
     data: formData
   })
+}
+
+export async function download(row: Jar) {
+    const a = document.createElement('a');
+    a.href = `${url}/download/` + row.id + '?' + USER_AUTH.token + '=' + localStorage.getItem(USER_AUTH.token);
+    a.download = row.fileName + '';
+    a.click();
+    window.URL.revokeObjectURL(url);
 }
 
 export async function deleteOne(row: Jar) {

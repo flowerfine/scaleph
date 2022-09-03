@@ -1,5 +1,5 @@
-import {PRIVILEGE_CODE, USER_AUTH} from '@/constant';
-import {deleteBatch, deleteOne, list} from '@/services/resource/jar.service';
+import {PRIVILEGE_CODE} from '@/constant';
+import {deleteBatch, deleteOne, download, list} from '@/services/resource/jar.service';
 import {Jar} from '@/services/resource/typings';
 import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
@@ -68,18 +68,7 @@ const Resource: React.FC = () => {
                   type="link"
                   icon={<DownloadOutlined></DownloadOutlined>}
                   onClick={() => {
-                    let url: string =
-                      `api/resource/jar/download/` +
-                      record.id +
-                      '?' +
-                      USER_AUTH.token +
-                      '=' +
-                      localStorage.getItem(USER_AUTH.token);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = record.fileName + '';
-                    a.click();
-                    window.URL.revokeObjectURL(url);
+                    download(record)
                   }}
                 ></Button>
               </Tooltip>

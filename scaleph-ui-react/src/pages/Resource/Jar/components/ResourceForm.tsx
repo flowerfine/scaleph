@@ -60,14 +60,13 @@ const JarForm: React.FC<ModalFormProps<Jar>> = ({
             .then(() => {
               setFileList([]);
               message.success(intl.formatMessage({ id: 'app.common.operate.upload.success' }));
-              onVisibleChange(false);
             })
             .catch(() => {
               message.error(intl.formatMessage({ id: 'app.common.operate.upload.failure' }));
-              onVisibleChange(false);
             })
             .finally(() => {
               setUploading(false);
+              onVisibleChange(false);
             });
         });
       }}
