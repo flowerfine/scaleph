@@ -1,12 +1,14 @@
-import {ModalFormProps} from '@/app.d';
-import {Jar, JarUploadParam} from '@/services/resource/typings';
-import {Button, Form, Input, message, Modal, Upload, UploadFile, UploadProps} from 'antd';
+import {Dict, ModalFormProps} from '@/app.d';
+import {SeaTunnelRelease, SeaTunnelReleaseUploadParam} from '@/services/resource/typings';
+import {Button, Form, Input, message, Modal, Select, Upload, UploadFile, UploadProps} from 'antd';
 import {useIntl} from 'umi';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {UploadOutlined} from "@ant-design/icons";
-import {upload} from "@/services/resource/jar.service";
+import {listDictDataByType} from "@/services/admin/dictData.service";
+import {DICT_TYPE} from "@/constant";
+import {upload} from "@/services/resource/seatunnelRelease.service";
 
-const JarForm: React.FC<ModalFormProps<Jar>> = ({
+const SeaTunnelReleaseForm: React.FC<ModalFormProps<SeaTunnelRelease>> = ({
   data,
   visible,
   onVisibleChange,
@@ -16,6 +18,12 @@ const JarForm: React.FC<ModalFormProps<Jar>> = ({
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [uploading, setUploading] = useState(false);
+  const [seatunnelVersionList, setSeatunnelVersionList] = useState<Dict[]>([]);
+  useEffect(() => {
+    listDictDataByType(DICT_TYPE.seatunnelVersion).then((d) => {
+      setSeatunnelVersionList(d);
+    });
+  }, []);
 
   const props: UploadProps = {
     multiple: false,
@@ -39,9 +47,9 @@ const JarForm: React.FC<ModalFormProps<Jar>> = ({
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-            intl.formatMessage({ id: 'pages.resource.jar' })
+            intl.formatMessage({ id: 'pages.resource.seatunnelRelease' })
           : intl.formatMessage({ id: 'app.common.operate.upload.label' }) +
-            intl.formatMessage({ id: 'pages.resource.jar' })
+            intl.formatMessage({ id: 'pages.resource.seatunnelRelease' })
       }
       width={580}
       destroyOnClose={true}
@@ -50,8 +58,8 @@ const JarForm: React.FC<ModalFormProps<Jar>> = ({
       okText={uploading ? intl.formatMessage({ id: 'app.common.operate.uploading.label' }) : intl.formatMessage({ id: 'app.common.operate.upload.label' })}
       onOk={() => {
         form.validateFields().then((values) => {
-          const uploadParam: JarUploadParam  ={
-            group: values.group,
+          const uploadParam: SeaTunnelReleaseUploadParam  ={
+            version: values.version,
             file: fileList[0],
             remark: values.remark
           };
@@ -76,18 +84,36 @@ const JarForm: React.FC<ModalFormProps<Jar>> = ({
           <Input></Input>
         </Form.Item>
         <Form.Item
-          name="group"
-          label={intl.formatMessage({ id: 'pages.resource.jar.group' })}
+          name="version"
+          label={intl.formatMessage({ id: 'pages.resource.seatunnelRelease.version' })}
           rules={[{ required: true }, { max: 128 }]}
         >
-          <Input></Input>
+          <Select
+            disabled={data.id ? true : false}
+            showSearch={true}
+            allowClear={true}
+            optionFilterProp="label"
+            filterOption={(input, option) =>
+              (option!.children as unknown as string)
+                .toLowerCase()
+                .includes(input.toLowerCase())
+            }
+          >
+            {seatunnelVersionList.map((item) => {
+              return (
+                <Select.Option key={item.value} value={item.value}>
+                  {item.label}
+                </Select.Option>
+              );
+            })}
+          </Select>
         </Form.Item>
         <Form.Item
           label={intl.formatMessage({ id: 'pages.resource.file' })}
           rules={[{ required: true }]}
         >
           <Upload {...props}>
-            <Button icon={<UploadOutlined />}>{intl.formatMessage({ id: 'pages.resource.jar.file' })}</Button>
+            <Button icon={<UploadOutlined />}>{intl.formatMessage({ id: 'pages.resource.seatunnelRelease.file' })}</Button>
           </Upload>
         </Form.Item>
         <Form.Item
@@ -102,4 +128,4 @@ const JarForm: React.FC<ModalFormProps<Jar>> = ({
   );
 };
 
-export default JarForm;
+export default SeaTunnelReleaseForm;

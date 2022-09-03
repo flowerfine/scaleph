@@ -145,6 +145,22 @@ export default [
         pCode: PRIVILEGE_CODE.datadevResourceShow,
         access: 'normalRouteFilter',
       },
+      {
+        name: 'flinkRelease',
+        path: '/resource/flink-release',
+        exact: true,
+        component: './Resource/FlinkRelease',
+        pCode: PRIVILEGE_CODE.datadevResourceShow,
+        access: 'normalRouteFilter',
+      },
+      {
+        name: 'seatunnelRelease',
+        path: '/resource/seatunnel-release',
+        exact: true,
+        component: './Resource/SeaTunnelRelease',
+        pCode: PRIVILEGE_CODE.datadevResourceShow,
+        access: 'normalRouteFilter',
+      },
     ],
   },
   {

@@ -1,28 +1,54 @@
-import {PRIVILEGE_CODE} from '@/constant';
-import {deleteBatch, deleteOne, download, list} from '@/services/resource/jar.service';
-import {Jar} from '@/services/resource/typings';
+import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
+import {FlinkRelease} from '@/services/resource/typings';
 import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, message, Modal, Space, Tooltip} from 'antd';
-import {useRef, useState} from 'react';
+import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
+import {useEffect, useRef, useState} from 'react';
 import {useAccess, useIntl} from 'umi';
-import JarForm from './components/ResourceForm';
+import FlinkReleaseForm from './components/ResourceForm';
+import {deleteBatch, deleteOne, download, list} from "@/services/resource/flinkRelease.service";
+import {Dict} from "@/app.d";
+import {listDictDataByType} from "@/services/admin/dictData.service";
 
-const JarResource: React.FC = () => {
+const FlinkReleaseResource: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<Jar[]>([]);
-  const [jarFormData, setJarData] = useState<{
+  const [selectedRows, setSelectedRows] = useState<FlinkRelease[]>([]);
+  const [flinkVersionList, setFlinkVersionList] = useState<Dict[]>([]);
+  const [flinkReleaseFormData, setFlinkReleaseData] = useState<{
     visiable: boolean;
-    data: Jar;
+    data: FlinkRelease;
   }>({visiable: false, data: {}});
 
-  const tableColumns: ProColumns<Jar>[] = [
+  const tableColumns: ProColumns<FlinkRelease>[] = [
     {
-      title: intl.formatMessage({id: 'pages.resource.jar.group'}),
-      dataIndex: 'group',
+      title: intl.formatMessage({id: 'pages.resource.flinkRelease.version'}),
+      dataIndex: 'version',
+      render: (text, record, index) => {
+        return record.version?.label;
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <Select
+            showSearch={true}
+            allowClear={true}
+            optionFilterProp="label"
+            filterOption={(input, option) =>
+              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
+            }
+          >
+            {flinkVersionList.map((item) => {
+              return (
+                <Select.Option key={item.value} value={item.value}>
+                  {item.label}
+                </Select.Option>
+              );
+            })}
+          </Select>
+        );
+      },
     },
     {
       title: intl.formatMessage({id: 'pages.resource.fileName'}),
@@ -109,10 +135,16 @@ const JarResource: React.FC = () => {
     },
   ];
 
+  useEffect(() => {
+    listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
+      setFlinkVersionList(d);
+    });
+  }, []);
+
   return (
     <div>
-      <ProTable<Jar>
-        headerTitle={intl.formatMessage({id: 'pages.resource.jar'})}
+      <ProTable<FlinkRelease>
+        headerTitle={intl.formatMessage({id: 'pages.resource.flinkRelease'})}
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -132,7 +164,7 @@ const JarResource: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setJarData({visiable: true, data: {}});
+                  setFlinkReleaseData({visiable: true, data: {}});
                 }}
               >
                 {intl.formatMessage({id: 'app.common.operate.upload.label'})}
@@ -180,21 +212,21 @@ const JarResource: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       ></ProTable>
-      {jarFormData.visiable && (
-        <JarForm
-          visible={jarFormData.visiable}
+      {flinkReleaseFormData.visiable && (
+        <FlinkReleaseForm
+          visible={flinkReleaseFormData.visiable}
           onCancel={() => {
-            setJarData({visiable: false, data: {}});
+            setFlinkReleaseData({visiable: false, data: {}});
           }}
           onVisibleChange={(visiable) => {
-            setJarData({visiable: visiable, data: {}});
+            setFlinkReleaseData({visiable: visiable, data: {}});
             actionRef.current?.reload();
           }}
-          data={jarFormData.data}
+          data={flinkReleaseFormData.data}
         />
       )}
     </div>
   );
 };
 
-export default JarResource;
+export default FlinkReleaseResource;

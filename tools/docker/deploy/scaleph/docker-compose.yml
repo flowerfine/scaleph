@@ -17,7 +17,7 @@
 services:
 
   scaleph-api:
-    image: ghcr.io/flowerfine/scaleph/scaleph-api:0.0.1
+    image: ghcr.io/flowerfine/scaleph/scaleph-api:latest
     container_name: scaleph-api
     depends_on:
       mysql:
