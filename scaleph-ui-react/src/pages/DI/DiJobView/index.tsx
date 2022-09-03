@@ -390,8 +390,10 @@ const DiJobView: React.FC = () => {
             onSelect={(selectedKeys, e: { selected: boolean }) => {
               if (e.selected) {
                 setSelectDir(selectedKeys[0]);
-                actionRef.current?.reload();
+              } else {
+                setSelectDir('');
               }
+              actionRef.current?.reload();
             }}
             titleRender={(node) => {
               return (
