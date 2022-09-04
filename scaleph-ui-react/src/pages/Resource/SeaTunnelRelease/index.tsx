@@ -5,7 +5,7 @@ import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro
 import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
 import {useEffect, useRef, useState} from 'react';
 import {useAccess, useIntl} from 'umi';
-import SeaTunnelReleaseForm from './components/ResourceForm';
+import SeaTunnelReleaseForm from './components/SeaTunnelReleaseForm';
 import {Dict} from "@/app.d";
 import {listDictDataByType} from "@/services/admin/dictData.service";
 import {deleteBatch, deleteOne, download, list} from "@/services/resource/seatunnelRelease.service";

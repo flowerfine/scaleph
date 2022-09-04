@@ -5,7 +5,7 @@ import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro
 import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
 import {useEffect, useRef, useState} from 'react';
 import {useAccess, useIntl} from 'umi';
-import ClusterCredentialForm from './components/ResourceForm';
+import ClusterCredentialForm from './components/ClusterCredentialForm';
 import {Dict} from "@/app.d";
 import {listDictDataByType} from "@/services/admin/dictData.service";
 import {deleteBatch, deleteOne, list} from "@/services/resource/clusterCredential.service";
