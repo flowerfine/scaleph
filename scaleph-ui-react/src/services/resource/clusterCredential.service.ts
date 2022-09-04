@@ -1,6 +1,7 @@
 import {ClusterCredential, ClusterCredentialListParam, CredentialFile} from "@/services/resource/typings";
 import {request} from "@@/exports";
 import {PageResponse, ResponseBody} from "@/app.d";
+import {USER_AUTH} from "@/constant";
 
 const url: string = '/api/resource/cluster-credential';
 
@@ -54,7 +55,7 @@ export async function deleteBatch(rows: ClusterCredential[]) {
 }
 
 export async function listFiles(id: number) {
-  return request<ResponseBody<Array<CredentialFile>>>(`${url}/` + id, {
+  return request<ResponseBody<Array<CredentialFile>>>(`${url}/` + id + '/file', {
     method: 'GET'
   })
 }
@@ -68,6 +69,14 @@ export async function uploadFiles(id: number, files: File[]) {
     method: 'POST',
     data: params
   })
+}
+
+export async function downloadFile(id: number, row: CredentialFile) {
+  const a = document.createElement('a');
+  a.href = `${url}/` + id + '/file/' + row.name + '?' + USER_AUTH.token + '=' + localStorage.getItem(USER_AUTH.token);
+  a.download = row.name + '';
+  a.click();
+  window.URL.revokeObjectURL(url);
 }
 
 export async function deleteFiles(id: number, files: CredentialFile[]) {

@@ -169,6 +169,13 @@ export default [
         pCode: PRIVILEGE_CODE.datadevResourceShow,
         access: 'normalRouteFilter',
       },
+      {
+        path: '/resource/cluster-credential/file',
+        exact: true,
+        component: './Resource/CredentialFile',
+        pCode: PRIVILEGE_CODE.datadevDatasourceShow,
+        access: 'normalRouteFilter',
+      },
     ],
   },
   {

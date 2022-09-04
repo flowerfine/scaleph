@@ -16,6 +16,7 @@ export default {
   'menu.resource.flinkRelease': 'Flink Release',
   'menu.resource.seatunnelRelease': 'SeaTunnel Release',
   'menu.resource.clusterCredential': 'Cluster Credential',
+  'menu.resource.clusterCredential.file': 'Credential File',
   'menu.cluster': '集群',
   'menu.user.center': '个人中心',
   'menu.user.logout': '退出登录',

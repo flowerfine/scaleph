@@ -105,7 +105,7 @@ const ClusterCredentialForm: React.FC<ModalFormProps<ClusterCredential>> = ({
             { max: 30 },
             {
               pattern: /^[\w\s_]+$/,
-              message: intl.formatMessage({ id: 'app.common.validate.characterWord3' }),
+              message: intl.formatMessage({ id: 'app.common.validate.characterWord3npm ' }),
             },
           ]}
         >
