@@ -1,23 +1,11 @@
 import { selectJobById } from '@/services/project/job.service';
 import { DiJob } from '@/services/project/typings';
-import { CloseOutlined, SaveOutlined } from '@ant-design/icons';
-import {
-  CanvasToolbar,
-  createGraphConfig,
-  createToolbarConfig,
-  IAppLoad,
-  IconStore,
-  IToolbarItemOptions,
-  NsGraph,
-  NsGraphCmd,
-  XFlow,
-  XFlowCanvas,
-  XFlowGraphCommands,
-} from '@antv/xflow';
-import { Button, Col, Drawer, message, Popover, Row, Space, Tag, Tooltip } from 'antd';
-import React, { useLayoutEffect, useState } from 'react';
-import { useAccess, useIntl } from 'umi';
-import styles from './index.less';
+import { CloseOutlined } from '@ant-design/icons';
+import { IAppLoad, NsGraph } from '@antv/xflow';
+import { Button, Drawer, Popover, Space, Tag, Tooltip } from 'antd';
+import { useState } from 'react';
+import { useIntl } from 'umi';
+import { configGraph, configToolbar } from './variables';
 interface DiJobFlowPorps {
   visible: boolean;
   data: DiJob;
@@ -25,99 +13,18 @@ interface DiJobFlowPorps {
   onCancel: () => void;
 }
 
-export const useGraphConfig = createGraphConfig<{}>((config) => {
-  config.setDefaultNodeRender((props) => {
-    return <div className="react-node"> {props.data.label} </div>;
-  });
-  config.setX6Config({
-    grid: {
-      size: 10,
-      visible: true,
-      type: 'doubleMesh',
-      args: [
-        {
-          color: '#E7E8EA',
-          thickness: 1,
-        },
-        {
-          color: '#CBCED3',
-          thickness: 1,
-          factor: 4,
-        },
-      ],
-    },
-    history: { enabled: true },
-    background: { color: '#F8F8FA' },
-    snapline: {
-      enabled: true,
-      sharp: true,
-    },
-    clipboard: {
-      enabled: true,
-    },
-    keyboard: {
-      enabled: true,
-    },
-    selecting: {
-      enabled: true,
-      rubberband: true,
-      multiple: true,
-      movable: true,
-      strict: true,
-      showNodeSelectionBox: true,
-      showEdgeSelectionBox: true,
-    },
-    scaling: {
-      min: 0.2,
-      max: 1,
-    },
-    panning: {
-      enabled: true,
-      modifiers: 'shift',
-    },
-  });
-});
-
-export const useToolbarConfig = createToolbarConfig<{}>((config) => {
-  const intl = useIntl();
-  IconStore.set('SaveOutlined', SaveOutlined);
-  const toolbarGroup: IToolbarItemOptions[] = [
-    {
-      id: XFlowGraphCommands.SAVE_GRAPH_DATA.id,
-      iconName: 'SaveOutlined',
-      tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.save' }),
-    //   onClick: async ({ commandService }) => {
-    //     commandService.executeCommand<NsGraphCmd.SaveGraphData.IArgs>(
-    //       XFlowGraphCommands.SAVE_GRAPH_DATA.id,
-    //       {
-    //         saveGraphDataService: async (meta, data) => {
-    //           console.log(data);
-    //           message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
-    //         },
-    //       },
-    //     );
-    //   },
-    },
-  ];
-  config.setToolbarModelService(async (toolbarModel) => {
-    const toolbarItems = [{ name: 'actionGropu', items: toolbarGroup }];
-    toolbarModel.setValue((toolbar) => {
-      toolbar.mainGroups = toolbarItems;
-    });
-  });
-});
-
 const DiJobFlow: React.FC<DiJobFlowPorps> = ({ visible, data, onVisibleChange, onCancel }) => {
   const intl = useIntl();
-  const access = useAccess();
+  // const access = useAccess();
   const [jobInfo, setJobInfo] = useState<DiJob>({});
-  const graphConfig = useGraphConfig({});
-  const toolbarConfig = useToolbarConfig({});
+  const graphConfig = configGraph({});
+  const toolbarConfig = configToolbar({});
   const [graphData, setGraphData] = useState<NsGraph.IGraphData>();
-  useLayoutEffect(() => {
-    console.log(visible);
-    refreshGraph();
-  }, []);
+
+  // useEffect(() => {
+  //   console.log(data);
+  //   refreshGraph();
+  // }, []);
 
   const refreshGraph = () => {
     selectJobById(data.id as number).then((d) => {
@@ -133,10 +40,8 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = ({ visible, data, onVisibleChange, o
     //todo init graph
     //todo event listener
   };
-
   return (
     <>
-      <Button type="primary">Open</Button>
       <Drawer
         title={
           <Space>
@@ -185,6 +90,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = ({ visible, data, onVisibleChange, o
         width="100%"
         height="100%"
         closable={false}
+        open={visible}
         onClose={onCancel}
         extra={
           <Space>
@@ -197,24 +103,15 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = ({ visible, data, onVisibleChange, o
             ></Button>
           </Space>
         }
-        visible={visible}
       >
-        <Row>
+        {/* <Row>
           <Col span={24}>
             <XFlow
               className={styles.xflowWorkspace}
               isAutoCenter={true}
               graphData={graphData}
+              graphLayout={graphLayout}
               onLoad={onGraphLoad}
-              graphLayout={{
-                layoutType: 'dagre',
-                layoutOptions: {
-                  type: 'dagre',
-                  rankdir: 'TB', // from top to bottom
-                  nodesep: 50,
-                  ranksep: 50,
-                },
-              }}
             >
               <CanvasToolbar
                 layout="horizontal"
@@ -227,7 +124,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = ({ visible, data, onVisibleChange, o
               ></XFlowCanvas>
             </XFlow>
           </Col>
-        </Row>
+        </Row> */}
       </Drawer>
     </>
   );

@@ -61,9 +61,9 @@ const DiJobView: React.FC = () => {
     data: {},
     isUpdate: false,
   });
-  const [jobFlowData, setJobFlowData] = useState<{ visible: boolean, data: DiJob }>({
+  const [jobFlowData, setJobFlowData] = useState<{ visible: boolean; data: DiJob }>({
     visible: false,
-    data: {}
+    data: {},
   });
   const [jobFormData, setJobFormData] = useState<{ visible: boolean; data: DiJob }>({
     visible: false,
@@ -366,320 +366,329 @@ const DiJobView: React.FC = () => {
   };
 
   return (
-    <Row gutter={[12, 12]}>
-      <Col span={5}>
-        <Card
-          className={styles.leftCard}
-          title={
-            <Typography.Title level={5}>
-              {intl.formatMessage({ id: 'pages.project.dir' })}
-            </Typography.Title>
-          }
-        >
-          <Input.Search
-            style={{ marginBottom: 8 }}
-            allowClear={true}
-            onSearch={searchDirTree}
-            placeholder={intl.formatMessage({ id: 'app.common.operate.search.label' })}
-          ></Input.Search>
-          <Tree
+    <>
+      <Row gutter={[12, 12]}>
+        <Col span={5}>
+          <Card
+            className={styles.leftCard}
+            title={
+              <Typography.Title level={5}>
+                {intl.formatMessage({ id: 'pages.project.dir' })}
+              </Typography.Title>
+            }
+          >
+            <Input.Search
+              style={{ marginBottom: 8 }}
+              allowClear={true}
+              onSearch={searchDirTree}
+              placeholder={intl.formatMessage({ id: 'app.common.operate.search.label' })}
+            ></Input.Search>
+            <Tree
+              treeData={dirList}
+              showLine={{ showLeafIcon: false }}
+              blockNode={true}
+              showIcon={false}
+              height={680}
+              defaultExpandAll={true}
+              expandedKeys={expandKeys}
+              autoExpandParent={autoExpandParent}
+              onExpand={onExpand}
+              onSelect={(selectedKeys, e: { selected: boolean }) => {
+                if (e.selected) {
+                  setSelectDir(selectedKeys[0]);
+                } else {
+                  setSelectDir('');
+                }
+                actionRef.current?.reload();
+              }}
+              titleRender={(node) => {
+                return (
+                  <Row
+                    className={
+                      node.title?.toString().includes(searchValue + '') && searchValue != ''
+                        ? styles.siteTreeSearchValue
+                        : ''
+                    }
+                  >
+                    <Col
+                      span={24}
+                      onMouseEnter={() => {
+                        node.showOpIcon = true;
+                        setDirList([...dirList]);
+                      }}
+                      onMouseLeave={() => {
+                        node.showOpIcon = false;
+                        setDirList([...dirList]);
+                      }}
+                    >
+                      <Typography.Text style={{ paddingRight: 12 }}>{node.title}</Typography.Text>
+                      {node.showOpIcon && (
+                        <Space size={2}>
+                          {access.canAccess(PRIVILEGE_CODE.datadevDirAdd) && (
+                            <Tooltip
+                              title={intl.formatMessage({ id: 'app.common.operate.new.label' })}
+                            >
+                              <Button
+                                shape="default"
+                                type="text"
+                                size="small"
+                                icon={<PlusOutlined />}
+                                onClick={() => {
+                                  setDirFormData({
+                                    visible: true,
+                                    data: {
+                                      pid: node.origin.id,
+                                      projectId: projectId,
+                                    },
+                                    isUpdate: false,
+                                  });
+                                }}
+                              ></Button>
+                            </Tooltip>
+                          )}
+                          {access.canAccess(PRIVILEGE_CODE.datadevDirEdit) && (
+                            <Tooltip
+                              title={intl.formatMessage({
+                                id: 'app.common.operate.edit.label',
+                              })}
+                            >
+                              <Button
+                                shape="default"
+                                type="text"
+                                size="small"
+                                icon={<EditOutlined />}
+                                onClick={() => {
+                                  setDirFormData({
+                                    visible: true,
+                                    data: {
+                                      id: node.origin.id,
+                                      directoryName: node.origin.directoryName,
+                                      pid: node.origin.pid == '0' ? undefined : node.origin.pid,
+                                      projectId: projectId,
+                                    },
+                                    isUpdate: true,
+                                  });
+                                }}
+                              ></Button>
+                            </Tooltip>
+                          )}
+                          {access.canAccess(PRIVILEGE_CODE.datadevDirDelete) && (
+                            <Tooltip
+                              title={intl.formatMessage({
+                                id: 'app.common.operate.delete.label',
+                              })}
+                            >
+                              <Button
+                                shape="default"
+                                type="text"
+                                size="small"
+                                icon={<DeleteOutlined />}
+                                onClick={() => {
+                                  Modal.confirm({
+                                    title: intl.formatMessage({
+                                      id: 'app.common.operate.delete.confirm.title',
+                                    }),
+                                    content: intl.formatMessage({
+                                      id: 'app.common.operate.delete.confirm.content',
+                                    }),
+                                    okText: intl.formatMessage({
+                                      id: 'app.common.operate.confirm.label',
+                                    }),
+                                    okButtonProps: { danger: true },
+                                    cancelText: intl.formatMessage({
+                                      id: 'app.common.operate.cancel.label',
+                                    }),
+                                    onOk() {
+                                      deleteDir(node.origin).then((d) => {
+                                        if (d.success) {
+                                          message.success(
+                                            intl.formatMessage({
+                                              id: 'app.common.operate.delete.success',
+                                            }),
+                                          );
+                                          refreshDirList();
+                                        }
+                                      });
+                                    },
+                                  });
+                                }}
+                              ></Button>
+                            </Tooltip>
+                          )}
+                        </Space>
+                      )}
+                    </Col>
+                  </Row>
+                );
+              }}
+            ></Tree>
+          </Card>
+        </Col>
+        <Col span={19}>
+          <ProTable<DiJob>
+            headerTitle={intl.formatMessage({ id: 'pages.project.di.job' })}
+            search={{
+              labelWidth: 'auto',
+              span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
+            }}
+            scroll={{ x: 1200, y: 480 }}
+            rowKey="id"
+            actionRef={actionRef}
+            formRef={formRef}
+            options={false}
+            columns={tableColumns}
+            request={(params, sorter, filter) => {
+              return listJobByProject({
+                ...params,
+                projectId: projectId,
+                directoryId: selectDir as string,
+              });
+            }}
+            toolbar={{
+              actions: [
+                access.canAccess(PRIVILEGE_CODE.datadevJobAdd) && (
+                  <Dropdown
+                    arrow={true}
+                    placement="bottom"
+                    overlay={
+                      <Menu
+                        items={[
+                          {
+                            key: 'r',
+                            label: (
+                              <Button
+                                type="text"
+                                onClick={() => {
+                                  setJobFormData({
+                                    visible: true,
+                                    data: { projectId: projectId, jobType: { value: 'r' } },
+                                  });
+                                }}
+                              >
+                                {intl.formatMessage({ id: 'pages.project.di.job.realtime' })}
+                              </Button>
+                            ),
+                          },
+                          {
+                            key: 'b',
+                            label: (
+                              <Button
+                                type="text"
+                                onClick={() => {
+                                  setJobFormData({
+                                    visible: true,
+                                    data: { projectId: projectId, jobType: { value: 'b' } },
+                                  });
+                                }}
+                              >
+                                {intl.formatMessage({ id: 'pages.project.di.job.batch' })}
+                              </Button>
+                            ),
+                          },
+                        ]}
+                      ></Menu>
+                    }
+                  >
+                    <Button key="new" type="primary">
+                      <Space>
+                        {intl.formatMessage({ id: 'app.common.operate.new.label' })}
+                        <DownOutlined />
+                      </Space>
+                    </Button>
+                  </Dropdown>
+                ),
+                access.canAccess(PRIVILEGE_CODE.datadevJobDelete) && (
+                  <Button
+                    key="del"
+                    type="default"
+                    disabled={selectedRows.length < 1}
+                    onClick={() => {
+                      Modal.confirm({
+                        title: intl.formatMessage({
+                          id: 'app.common.operate.delete.confirm.title',
+                        }),
+                        content: intl.formatMessage({
+                          id: 'app.common.operate.delete.confirm.content',
+                        }),
+                        okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                        okButtonProps: { danger: true },
+                        cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                        onOk() {
+                          deleteJobBatch(selectedRows).then((d) => {
+                            if (d.success) {
+                              message.success(
+                                intl.formatMessage({ id: 'app.common.operate.delete.success' }),
+                              );
+                              actionRef.current?.reload();
+                            }
+                          });
+                        },
+                      });
+                    }}
+                  >
+                    {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
+                  </Button>
+                ),
+              ],
+            }}
+            pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
+            rowSelection={{
+              fixed: true,
+              onChange(selectedRowKeys, selectedRows, info) {
+                setSelectedRows(selectedRows);
+              },
+            }}
+            tableAlertRender={false}
+            tableAlertOptionRender={false}
+          ></ProTable>
+        </Col>
+
+        {dirFormData.visible && (
+          <DirectoryForm
+            visible={dirFormData.visible}
+            isUpdate={dirFormData.isUpdate}
+            onCancel={() => {
+              setDirFormData({ visible: false, data: {}, isUpdate: false });
+            }}
+            onVisibleChange={(visible) => {
+              setDirFormData({ visible: false, data: {}, isUpdate: false });
+              refreshDirList();
+            }}
+            data={dirFormData.data}
+          ></DirectoryForm>
+        )}
+        {jobFormData.visible && (
+          <DiJobForm
+            visible={jobFormData.visible}
             treeData={dirList}
-            showLine={{ showLeafIcon: false }}
-            blockNode={true}
-            showIcon={false}
-            height={680}
-            defaultExpandAll={true}
-            expandedKeys={expandKeys}
-            autoExpandParent={autoExpandParent}
-            onExpand={onExpand}
-            onSelect={(selectedKeys, e: { selected: boolean }) => {
-              if (e.selected) {
-                setSelectDir(selectedKeys[0]);
-              } else {
-                setSelectDir('');
+            onCancel={() => {
+              setJobFormData({ visible: false, data: {} });
+            }}
+            onVisibleChange={(visible, data) => {
+              setJobFormData({ visible: visible, data: {} });
+              if (data?.id) {
+                setJobFlowData({ visible: true, data: data });
               }
               actionRef.current?.reload();
             }}
-            titleRender={(node) => {
-              return (
-                <Row
-                  className={
-                    node.title?.toString().includes(searchValue + '') && searchValue != ''
-                      ? styles.siteTreeSearchValue
-                      : ''
-                  }
-                >
-                  <Col
-                    span={24}
-                    onMouseEnter={() => {
-                      node.showOpIcon = true;
-                      setDirList([...dirList]);
-                    }}
-                    onMouseLeave={() => {
-                      node.showOpIcon = false;
-                      setDirList([...dirList]);
-                    }}
-                  >
-                    <Typography.Text style={{ paddingRight: 12 }}>{node.title}</Typography.Text>
-                    {node.showOpIcon && (
-                      <Space size={2}>
-                        {access.canAccess(PRIVILEGE_CODE.datadevDirAdd) && (
-                          <Tooltip
-                            title={intl.formatMessage({ id: 'app.common.operate.new.label' })}
-                          >
-                            <Button
-                              shape="default"
-                              type="text"
-                              size="small"
-                              icon={<PlusOutlined />}
-                              onClick={() => {
-                                setDirFormData({
-                                  visible: true,
-                                  data: {
-                                    pid: node.origin.id,
-                                    projectId: projectId,
-                                  },
-                                  isUpdate: false,
-                                });
-                              }}
-                            ></Button>
-                          </Tooltip>
-                        )}
-                        {access.canAccess(PRIVILEGE_CODE.datadevDirEdit) && (
-                          <Tooltip
-                            title={intl.formatMessage({
-                              id: 'app.common.operate.edit.label',
-                            })}
-                          >
-                            <Button
-                              shape="default"
-                              type="text"
-                              size="small"
-                              icon={<EditOutlined />}
-                              onClick={() => {
-                                setDirFormData({
-                                  visible: true,
-                                  data: {
-                                    id: node.origin.id,
-                                    directoryName: node.origin.directoryName,
-                                    pid: node.origin.pid == '0' ? undefined : node.origin.pid,
-                                    projectId: projectId,
-                                  },
-                                  isUpdate: true,
-                                });
-                              }}
-                            ></Button>
-                          </Tooltip>
-                        )}
-                        {access.canAccess(PRIVILEGE_CODE.datadevDirDelete) && (
-                          <Tooltip
-                            title={intl.formatMessage({
-                              id: 'app.common.operate.delete.label',
-                            })}
-                          >
-                            <Button
-                              shape="default"
-                              type="text"
-                              size="small"
-                              icon={<DeleteOutlined />}
-                              onClick={() => {
-                                Modal.confirm({
-                                  title: intl.formatMessage({
-                                    id: 'app.common.operate.delete.confirm.title',
-                                  }),
-                                  content: intl.formatMessage({
-                                    id: 'app.common.operate.delete.confirm.content',
-                                  }),
-                                  okText: intl.formatMessage({
-                                    id: 'app.common.operate.confirm.label',
-                                  }),
-                                  okButtonProps: { danger: true },
-                                  cancelText: intl.formatMessage({
-                                    id: 'app.common.operate.cancel.label',
-                                  }),
-                                  onOk() {
-                                    deleteDir(node.origin).then((d) => {
-                                      if (d.success) {
-                                        message.success(
-                                          intl.formatMessage({
-                                            id: 'app.common.operate.delete.success',
-                                          }),
-                                        );
-                                        refreshDirList();
-                                      }
-                                    });
-                                  },
-                                });
-                              }}
-                            ></Button>
-                          </Tooltip>
-                        )}
-                      </Space>
-                    )}
-                  </Col>
-                </Row>
-              );
+            data={jobFormData.data}
+          ></DiJobForm>
+        )}
+        {jobFlowData.visible && (
+          <DiJobFlow
+            visible={jobFlowData.visible}
+            onCancel={() => {
+              setJobFlowData({ visible: false, data: {} });
             }}
-          ></Tree>
-        </Card>
-      </Col>
-      <Col span={19}>
-        <ProTable<DiJob>
-          headerTitle={intl.formatMessage({ id: 'pages.project.di.job' })}
-          search={{
-            labelWidth: 'auto',
-            span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
-          }}
-          scroll={{ x: 1200, y: 480 }}
-          rowKey="id"
-          actionRef={actionRef}
-          formRef={formRef}
-          options={false}
-          columns={tableColumns}
-          request={(params, sorter, filter) => {
-            return listJobByProject({ ...params, projectId: projectId, directoryId: selectDir as string });
-          }}
-          toolbar={{
-            actions: [
-              access.canAccess(PRIVILEGE_CODE.datadevJobAdd) && (
-                <Dropdown
-                  arrow={true}
-                  placement="bottom"
-                  overlay={
-                    <Menu
-                      items={[
-                        {
-                          key: 'r',
-                          label: (
-                            <Button
-                              type="text"
-                              onClick={() => {
-                                setJobFormData({
-                                  visible: true,
-                                  data: { projectId: projectId, jobType: { value: 'r' } },
-                                });
-                              }}
-                            >
-                              {intl.formatMessage({ id: 'pages.project.di.job.realtime' })}
-                            </Button>
-                          ),
-                        },
-                        {
-                          key: 'b',
-                          label: (
-                            <Button
-                              type="text"
-                              onClick={() => {
-                                setJobFormData({
-                                  visible: true,
-                                  data: { projectId: projectId, jobType: { value: 'b' } },
-                                });
-                              }}
-                            >
-                              {intl.formatMessage({ id: 'pages.project.di.job.batch' })}
-                            </Button>
-                          ),
-                        },
-                      ]}
-                    ></Menu>
-                  }
-                >
-                  <Button key="new" type="primary">
-                    <Space>
-                      {intl.formatMessage({ id: 'app.common.operate.new.label' })}
-                      <DownOutlined />
-                    </Space>
-                  </Button>
-                </Dropdown>
-              ),
-              access.canAccess(PRIVILEGE_CODE.datadevJobDelete) && (
-                <Button
-                  key="del"
-                  type="default"
-                  disabled={selectedRows.length < 1}
-                  onClick={() => {
-                    Modal.confirm({
-                      title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                      content: intl.formatMessage({
-                        id: 'app.common.operate.delete.confirm.content',
-                      }),
-                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                      okButtonProps: { danger: true },
-                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
-                      onOk() {
-                        deleteJobBatch(selectedRows).then((d) => {
-                          if (d.success) {
-                            message.success(
-                              intl.formatMessage({ id: 'app.common.operate.delete.success' }),
-                            );
-                            actionRef.current?.reload();
-                          }
-                        });
-                      },
-                    });
-                  }}
-                >
-                  {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
-                </Button>
-              ),
-            ],
-          }}
-          pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
-          rowSelection={{
-            fixed: true,
-            onChange(selectedRowKeys, selectedRows, info) {
-              setSelectedRows(selectedRows);
-            },
-          }}
-          tableAlertRender={false}
-          tableAlertOptionRender={false}
-        ></ProTable>
-      </Col>
-      {dirFormData.visible && (
-        <DirectoryForm
-          visible={dirFormData.visible}
-          isUpdate={dirFormData.isUpdate}
-          onCancel={() => {
-            setDirFormData({ visible: false, data: {}, isUpdate: false });
-          }}
-          onVisibleChange={(visible) => {
-            setDirFormData({ visible: false, data: {}, isUpdate: false });
-            refreshDirList();
-          }}
-          data={dirFormData.data}
-        ></DirectoryForm>
-      )}
-      {jobFormData.visible && (
-        <DiJobForm
-          visible={jobFormData.visible}
-          treeData={dirList}
-          onCancel={() => {
-            setJobFormData({ visible: false, data: {} });
-          }}
-          onVisibleChange={(visible, data) => {
-            setJobFormData({ visible: visible, data: {} });
-            if (data?.id) {
-              setJobFlowData({ visible: true, data: data });
-            }
-            actionRef.current?.reload();
-          }}
-          data={jobFormData.data}
-        ></DiJobForm>
-      )}
-      {jobFlowData.visible && (
-        <DiJobFlow
-          visible={jobFlowData.visible}
-          onCancel={() => {
-            setJobFlowData({ visible: false, data: {} });
-          }}
-          onVisibleChange={(visiable) => {
-            setJobFlowData({ visible: false, data: {} });
-            actionRef.current?.reload();
-          }}
-          data={jobFlowData.data}
-        ></DiJobFlow>
-      )}
-    </Row >
+            onVisibleChange={(visiable) => {
+              setJobFlowData({ visible: false, data: {} });
+              actionRef.current?.reload();
+            }}
+            data={jobFlowData.data}
+          ></DiJobFlow>
+        )}
+      </Row>
+    </>
   );
 };
 
