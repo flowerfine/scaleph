@@ -25,11 +25,13 @@ const CredentialFileResource: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.resource.credentialFile.name'}),
       dataIndex: 'name',
+      hideInSearch: true,
     },
     {
       title: intl.formatMessage({id: 'pages.resource.credentialFile.len'}),
       dataIndex: 'len',
       width: 280,
+      hideInSearch: true,
     },
     {
       title: intl.formatMessage({id: 'pages.resource.credentialFile.blockSize'}),
@@ -110,10 +112,7 @@ const CredentialFileResource: React.FC = () => {
     <div>
       <ProTable<CredentialFile>
         headerTitle={intl.formatMessage({id: 'pages.resource.credentialFile'})}
-        search={{
-          labelWidth: 'auto',
-          span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
-        }}
+        search={false}
         rowKey="id"
         actionRef={actionRef}
         formRef={formRef}
@@ -167,7 +166,7 @@ const CredentialFileResource: React.FC = () => {
             ),
           ],
         }}
-        pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
+        pagination={false}
         rowSelection={{
           fixed: true,
           onChange(selectedRowKeys, selectedRows, info) {
