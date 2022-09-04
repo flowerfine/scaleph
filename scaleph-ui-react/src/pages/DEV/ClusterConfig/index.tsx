@@ -30,12 +30,12 @@ const FlinkClusterConfigWeb: React.FC = () => {
       dataIndex: 'flinkVersion',
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.clusterConfig.resourceProvider'}),
-      dataIndex: 'resourceProvider',
-    },
-    {
       title: intl.formatMessage({id: 'pages.dev.clusterConfig.deployMode'}),
       dataIndex: 'deployMode',
+    },
+    {
+      title: intl.formatMessage({id: 'pages.dev.clusterConfig.resourceProvider'}),
+      dataIndex: 'resourceProvider',
     },
     {
       title: intl.formatMessage({id: 'pages.dev.clusterConfig.flinkRelease'}),
