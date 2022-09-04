@@ -66,9 +66,6 @@ const CredentialFileForm: React.FC<ModalFormProps<number>> = ({
       }}
     >
       <Form form={form} layout="horizontal">
-        <Form.Item name="id" hidden>
-          <Input></Input>
-        </Form.Item>
         <Form.Item>
           <Dragger {...props}>
             <p className="ant-upload-drag-icon">

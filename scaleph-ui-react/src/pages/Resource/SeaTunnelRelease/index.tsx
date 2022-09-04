@@ -144,7 +144,6 @@ const SeaTunnelReleaseResource: React.FC = () => {
   return (
     <div>
       <ProTable<SeaTunnelRelease>
-        headerTitle={intl.formatMessage({id: 'pages.resource.seatunnelRelease'})}
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
