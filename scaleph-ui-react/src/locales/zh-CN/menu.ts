@@ -10,6 +10,7 @@ export default {
   'menu.di.realtime': '实时任务',
   'menu.dev': '数据开发',
   'menu.dev.artifact': 'Artifact',
+  'menu.dev.clusterConfig': '集群配置',
   'menu.dev.batch': '周期任务',
   'menu.dev.realtime': '实时任务',
   'menu.resource': '资源中心',
