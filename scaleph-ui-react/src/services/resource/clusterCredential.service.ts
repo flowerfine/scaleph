@@ -55,8 +55,10 @@ export async function deleteBatch(rows: ClusterCredential[]) {
 }
 
 export async function listFiles(id: number) {
-  return request<ResponseBody<Array<CredentialFile>>>(`${url}/` + id + '/file', {
+  return request<Array<CredentialFile>>(`${url}/` + id + '/file', {
     method: 'GET'
+  }).then((res) => {
+    return {data: res};
   })
 }
 
