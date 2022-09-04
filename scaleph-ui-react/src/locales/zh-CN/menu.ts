@@ -9,6 +9,7 @@ export default {
   'menu.di.batch': '周期任务',
   'menu.di.realtime': '实时任务',
   'menu.dev': '数据开发',
+  'menu.dev.artifact': 'Artifact',
   'menu.dev.batch': '周期任务',
   'menu.dev.realtime': '实时任务',
   'menu.resource': '资源中心',

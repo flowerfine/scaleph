@@ -4,6 +4,7 @@ import studio from './zh-CN/pages/studio';
 import cluster from './zh-CN/pages/cluster';
 import project from './zh-CN/pages/project';
 import resource from './zh-CN/pages/resource';
+import dev from "@/locales/zh-CN/pages/dev";
 import settingDrawer from './zh-CN/settingDrawer';
 
 export default {
@@ -22,6 +23,7 @@ export default {
   ...cluster,
   ...project,
   ...resource,
+  ...dev,
   //scaleph app
   'app.title.short': 'Scaleph',
   'app.title.long': 'Scaleph',

@@ -105,6 +105,14 @@ export default [
         access: 'normalRouteFilter',
         routes: [
           {
+            name: 'artifact',
+            path: '/workspace/dev/artifact',
+            exact: true,
+            component: './DEV/Artifact',
+            pCode: PRIVILEGE_CODE.datadevDatasourceShow,
+            access: 'normalRouteFilter',
+          },
+          {
             name: 'realtime',
             path: '/workspace/dev/realtime',
             exact: true,

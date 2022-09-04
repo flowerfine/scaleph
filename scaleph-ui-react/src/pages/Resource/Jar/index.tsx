@@ -112,7 +112,6 @@ const JarResource: React.FC = () => {
   return (
     <div>
       <ProTable<Jar>
-        headerTitle={intl.formatMessage({id: 'pages.resource.jar'})}
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
