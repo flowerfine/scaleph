@@ -46,6 +46,7 @@ export default {
   'app.common.operate.confirm.label': '确认',
   'app.common.operate.cancel.label': '取消',
   'app.common.operate.clear.label': '清空',
+  'app.common.operate.return.label': '返回',
   'app.common.operate.more.label': '查看更多',
   'app.common.operate.download.label': '下载',
   'app.common.operate.forbid.label': '注销',

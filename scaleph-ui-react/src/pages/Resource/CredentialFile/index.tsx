@@ -10,7 +10,7 @@ import {deleteFiles, downloadFile, listFiles} from "@/services/resource/clusterC
 import {history} from "@@/core/history";
 
 const CredentialFileResource: React.FC = () => {
-  const state = history.location.state as {id: number}
+  const state = history.location.state as { id: number }
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
@@ -42,12 +42,14 @@ const CredentialFileResource: React.FC = () => {
       title: intl.formatMessage({id: 'pages.resource.credentialFile.accessTime'}),
       dataIndex: 'accessTime',
       hideInSearch: true,
+      valueType: 'dateTime',
       width: 180,
     },
     {
       title: intl.formatMessage({id: 'pages.resource.credentialFile.modificationTime'}),
       dataIndex: 'modificationTime',
       hideInSearch: true,
+      valueType: 'dateTime',
       width: 180,
     },
     {
@@ -111,7 +113,9 @@ const CredentialFileResource: React.FC = () => {
   return (
     <div>
       <ProTable<CredentialFile>
-        headerTitle={intl.formatMessage({id: 'pages.resource.credentialFile'})}
+        headerTitle={<Button key="return" type="default" onClick={() => history.back()}>
+          {intl.formatMessage({id: 'app.common.operate.return.label'})}
+        </Button>}
         search={false}
         rowKey="name"
         actionRef={actionRef}
