@@ -6,7 +6,7 @@ import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro
 import {Button, message, Modal, Space, Tooltip} from 'antd';
 import {useRef, useState} from 'react';
 import {useAccess, useIntl} from 'umi';
-import JarForm from './components/ResourceForm';
+import JarForm from './components/JarForm';
 
 const JarResource: React.FC = () => {
   const intl = useIntl();

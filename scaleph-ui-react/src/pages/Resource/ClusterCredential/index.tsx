@@ -1,33 +1,34 @@
 import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
-import {FlinkRelease, SeaTunnelRelease} from '@/services/resource/typings';
-import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
+import {ClusterCredential} from '@/services/resource/typings';
+import {DeleteOutlined, EditOutlined, UploadOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
 import {useEffect, useRef, useState} from 'react';
 import {useAccess, useIntl} from 'umi';
-import SeaTunnelReleaseForm from './components/SeaTunnelReleaseForm';
+import ClusterCredentialForm from './components/ClusterCredentialForm';
 import {Dict} from "@/app.d";
 import {listDictDataByType} from "@/services/admin/dictData.service";
-import {deleteBatch, deleteOne, download, list} from "@/services/resource/seatunnelRelease.service";
+import {deleteBatch, deleteOne, list} from "@/services/resource/clusterCredential.service";
+import {history} from "@@/core/history";
 
-const SeaTunnelReleaseResource: React.FC = () => {
+const ClusterCredentialResource: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<FlinkRelease[]>([]);
-  const [seatunnelVersionList, setSeatunnelVersionList] = useState<Dict[]>([]);
-  const [seatunnelReleaseFormData, setSeatunnelReleaseData] = useState<{
+  const [selectedRows, setSelectedRows] = useState<ClusterCredential[]>([]);
+  const [clusterTypeList, setClusterTypeList] = useState<Dict[]>([]);
+  const [clusterCredentialFormData, setClusterCredentialData] = useState<{
     visiable: boolean;
-    data: SeaTunnelRelease;
+    data: ClusterCredential;
   }>({visiable: false, data: {}});
 
-  const tableColumns: ProColumns<SeaTunnelRelease>[] = [
+  const tableColumns: ProColumns<ClusterCredential>[] = [
     {
-      title: intl.formatMessage({id: 'pages.resource.seatunnelRelease.version'}),
-      dataIndex: 'version',
+      title: intl.formatMessage({id: 'pages.resource.clusterCredential.configType'}),
+      dataIndex: 'configType',
       render: (text, record, index) => {
-        return record.version?.label;
+        return record.configType?.label;
       },
       renderFormItem: (item, {defaultRender, ...rest}, form) => {
         return (
@@ -39,7 +40,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
               (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
             }
           >
-            {seatunnelVersionList.map((item) => {
+            {clusterTypeList.map((item) => {
               return (
                 <Select.Option key={item.value} value={item.value}>
                   {item.label}
@@ -51,14 +52,9 @@ const SeaTunnelReleaseResource: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.fileName'}),
-      dataIndex: 'fileName',
+      title: intl.formatMessage({id: 'pages.resource.clusterCredential.name'}),
+      dataIndex: 'name',
       width: 280,
-    },
-    {
-      title: intl.formatMessage({id: 'pages.resource.path'}),
-      dataIndex: 'path',
-      hideInSearch: true,
     },
     {
       title: intl.formatMessage({id: 'pages.resource.remark'}),
@@ -87,14 +83,26 @@ const SeaTunnelReleaseResource: React.FC = () => {
       render: (_, record) => (
         <>
           <Space>
-            {access.canAccess(PRIVILEGE_CODE.datadevResourceDownload) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.download.label'})}>
+            {access.canAccess(PRIVILEGE_CODE.datadevJobShow) && (
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.upload.label' })}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DownloadOutlined></DownloadOutlined>}
+                  icon={<UploadOutlined />}
                   onClick={() => {
-                    download(record)
+                    history.push('/resource/cluster-credential/file', {id: record.id});
+                  }}
+                ></Button>
+              </Tooltip>
+            )}
+            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
+                <Button
+                  shape="default"
+                  type="link"
+                  icon={<EditOutlined />}
+                  onClick={() => {
+                    setClusterCredentialData({ visiable: true, data: record });
                   }}
                 ></Button>
               </Tooltip>
@@ -136,15 +144,15 @@ const SeaTunnelReleaseResource: React.FC = () => {
   ];
 
   useEffect(() => {
-    listDictDataByType(DICT_TYPE.seatunnelVersion).then((d) => {
-      setSeatunnelVersionList(d);
+    listDictDataByType(DICT_TYPE.resourceClusterType).then((d) => {
+      setClusterTypeList(d);
     });
   }, []);
 
   return (
     <div>
-      <ProTable<SeaTunnelRelease>
-        headerTitle={intl.formatMessage({id: 'pages.resource.seatunnelRelease'})}
+      <ProTable<ClusterCredential>
+        headerTitle={intl.formatMessage({id: 'pages.resource.clusterCredential'})}
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -164,10 +172,10 @@ const SeaTunnelReleaseResource: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setSeatunnelReleaseData({visiable: true, data: {}});
+                  setClusterCredentialData({visiable: true, data: {}});
                 }}
               >
-                {intl.formatMessage({id: 'app.common.operate.upload.label'})}
+                {intl.formatMessage({id: 'app.common.operate.new.label'})}
               </Button>
             ),
             access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
@@ -212,21 +220,21 @@ const SeaTunnelReleaseResource: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       ></ProTable>
-      {seatunnelReleaseFormData.visiable && (
-        <SeaTunnelReleaseForm
-          visible={seatunnelReleaseFormData.visiable}
+      {clusterCredentialFormData.visiable && (
+        <ClusterCredentialForm
+          visible={clusterCredentialFormData.visiable}
           onCancel={() => {
-            setSeatunnelReleaseData({visiable: false, data: {}});
+            setClusterCredentialData({visiable: false, data: {}});
           }}
           onVisibleChange={(visiable) => {
-            setSeatunnelReleaseData({visiable: visiable, data: {}});
+            setClusterCredentialData({visiable: visiable, data: {}});
             actionRef.current?.reload();
           }}
-          data={seatunnelReleaseFormData.data}
+          data={clusterCredentialFormData.data}
         />
       )}
     </div>
   );
 };
 
-export default SeaTunnelReleaseResource;
+export default ClusterCredentialResource;
