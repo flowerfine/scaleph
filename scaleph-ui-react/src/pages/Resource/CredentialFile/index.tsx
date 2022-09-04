@@ -113,7 +113,7 @@ const CredentialFileResource: React.FC = () => {
       <ProTable<CredentialFile>
         headerTitle={intl.formatMessage({id: 'pages.resource.credentialFile'})}
         search={false}
-        rowKey="id"
+        rowKey="name"
         actionRef={actionRef}
         formRef={formRef}
         options={false}
