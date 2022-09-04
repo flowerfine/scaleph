@@ -1,80 +1,55 @@
-import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
-import {FlinkRelease, SeaTunnelRelease} from '@/services/resource/typings';
+import {PRIVILEGE_CODE} from '@/constant';
+import {CredentialFile} from '@/services/resource/typings';
 import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
-import {useEffect, useRef, useState} from 'react';
+import {Button, message, Modal, Space, Tooltip} from 'antd';
+import {useRef, useState} from 'react';
 import {useAccess, useIntl} from 'umi';
-import SeaTunnelReleaseForm from './components/SeaTunnelReleaseForm';
-import {Dict} from "@/app.d";
-import {listDictDataByType} from "@/services/admin/dictData.service";
-import {deleteBatch, deleteOne, download, list} from "@/services/resource/seatunnelRelease.service";
+import CredentialFileForm from './components/CredentialFileForm';
+import {deleteFiles, downloadFile, listFiles} from "@/services/resource/clusterCredential.service";
+import {history} from "@@/core/history";
 
-const SeaTunnelReleaseResource: React.FC = () => {
+const CredentialFileResource: React.FC = () => {
+  const state = history.location.state as { id: number }
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<FlinkRelease[]>([]);
-  const [seatunnelVersionList, setSeatunnelVersionList] = useState<Dict[]>([]);
-  const [seatunnelReleaseFormData, setSeatunnelReleaseData] = useState<{
+  const [selectedRows, setSelectedRows] = useState<CredentialFile[]>([]);
+  const [credentialFileFormData, setCredentialFileData] = useState<{
     visiable: boolean;
-    data: SeaTunnelRelease;
+    data: CredentialFile;
   }>({visiable: false, data: {}});
 
-  const tableColumns: ProColumns<SeaTunnelRelease>[] = [
+  const tableColumns: ProColumns<CredentialFile>[] = [
     {
-      title: intl.formatMessage({id: 'pages.resource.seatunnelRelease.version'}),
-      dataIndex: 'version',
-      render: (text, record, index) => {
-        return record.version?.label;
-      },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
-        return (
-          <Select
-            showSearch={true}
-            allowClear={true}
-            optionFilterProp="label"
-            filterOption={(input, option) =>
-              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-            }
-          >
-            {seatunnelVersionList.map((item) => {
-              return (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        );
-      },
+      title: intl.formatMessage({id: 'pages.resource.credentialFile.name'}),
+      dataIndex: 'name',
+      hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.fileName'}),
-      dataIndex: 'fileName',
+      title: intl.formatMessage({id: 'pages.resource.credentialFile.len'}),
+      dataIndex: 'len',
       width: 280,
-    },
-    {
-      title: intl.formatMessage({id: 'pages.resource.path'}),
-      dataIndex: 'path',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.remark'}),
-      dataIndex: 'remark',
+      title: intl.formatMessage({id: 'pages.resource.credentialFile.blockSize'}),
+      dataIndex: 'blockSize',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.createTime'}),
-      dataIndex: 'createTime',
+      title: intl.formatMessage({id: 'pages.resource.credentialFile.accessTime'}),
+      dataIndex: 'accessTime',
       hideInSearch: true,
+      valueType: 'dateTime',
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.updateTime'}),
-      dataIndex: 'updateTime',
+      title: intl.formatMessage({id: 'pages.resource.credentialFile.modificationTime'}),
+      dataIndex: 'modificationTime',
       hideInSearch: true,
+      valueType: 'dateTime',
       width: 180,
     },
     {
@@ -94,7 +69,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
                   type="link"
                   icon={<DownloadOutlined></DownloadOutlined>}
                   onClick={() => {
-                    download(record)
+                    downloadFile(state.id, record)
                   }}
                 ></Button>
               </Tooltip>
@@ -115,7 +90,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        deleteOne(record).then((d) => {
+                        deleteFiles(state.id, [record]).then((d) => {
                           if (d.success) {
                             message.success(
                               intl.formatMessage({id: 'app.common.operate.delete.success'}),
@@ -135,27 +110,20 @@ const SeaTunnelReleaseResource: React.FC = () => {
     },
   ];
 
-  useEffect(() => {
-    listDictDataByType(DICT_TYPE.seatunnelVersion).then((d) => {
-      setSeatunnelVersionList(d);
-    });
-  }, []);
-
   return (
     <div>
-      <ProTable<SeaTunnelRelease>
-        headerTitle={intl.formatMessage({id: 'pages.resource.seatunnelRelease'})}
-        search={{
-          labelWidth: 'auto',
-          span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
-        }}
-        rowKey="id"
+      <ProTable<CredentialFile>
+        headerTitle={<Button key="return" type="default" onClick={() => history.back()}>
+          {intl.formatMessage({id: 'app.common.operate.return.label'})}
+        </Button>}
+        search={false}
+        rowKey="name"
         actionRef={actionRef}
         formRef={formRef}
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return list(params);
+          return listFiles(state.id);
         }}
         toolbar={{
           actions: [
@@ -164,7 +132,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setSeatunnelReleaseData({visiable: true, data: {}});
+                  setCredentialFileData({visiable: true, data: {}});
                 }}
               >
                 {intl.formatMessage({id: 'app.common.operate.upload.label'})}
@@ -185,7 +153,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
-                      deleteBatch(selectedRows).then((d) => {
+                      deleteFiles(state.id, selectedRows).then((d) => {
                         if (d.success) {
                           message.success(
                             intl.formatMessage({id: 'app.common.operate.delete.success'}),
@@ -202,7 +170,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
             ),
           ],
         }}
-        pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
+        pagination={false}
         rowSelection={{
           fixed: true,
           onChange(selectedRowKeys, selectedRows, info) {
@@ -212,21 +180,21 @@ const SeaTunnelReleaseResource: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       ></ProTable>
-      {seatunnelReleaseFormData.visiable && (
-        <SeaTunnelReleaseForm
-          visible={seatunnelReleaseFormData.visiable}
+      {credentialFileFormData.visiable && (
+        <CredentialFileForm
+          visible={credentialFileFormData.visiable}
           onCancel={() => {
-            setSeatunnelReleaseData({visiable: false, data: {}});
+            setCredentialFileData({visiable: false, data: {}});
           }}
           onVisibleChange={(visiable) => {
-            setSeatunnelReleaseData({visiable: visiable, data: {}});
+            setCredentialFileData({visiable: visiable, data: {}});
             actionRef.current?.reload();
           }}
-          data={seatunnelReleaseFormData.data}
+          data={state.id}
         />
       )}
     </div>
   );
 };
 
-export default SeaTunnelReleaseResource;
+export default CredentialFileResource;

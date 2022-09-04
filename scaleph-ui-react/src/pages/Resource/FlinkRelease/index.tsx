@@ -5,7 +5,7 @@ import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro
 import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
 import {useEffect, useRef, useState} from 'react';
 import {useAccess, useIntl} from 'umi';
-import FlinkReleaseForm from './components/ResourceForm';
+import FlinkReleaseForm from './components/FlinkReleaseForm';
 import {deleteBatch, deleteOne, download, list} from "@/services/resource/flinkRelease.service";
 import {Dict} from "@/app.d";
 import {listDictDataByType} from "@/services/admin/dictData.service";
