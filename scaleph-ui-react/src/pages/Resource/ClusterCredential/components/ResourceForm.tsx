@@ -1,14 +1,13 @@
 import {Dict, ModalFormProps} from '@/app.d';
-import {FlinkRelease, FlinkReleaseUploadParam} from '@/services/resource/typings';
-import {Button, Form, Input, message, Modal, Select, Upload, UploadFile, UploadProps} from 'antd';
+import {ClusterCredential} from '@/services/resource/typings';
+import {Form, Input, message, Modal, Select} from 'antd';
 import {useIntl} from 'umi';
 import {useEffect, useState} from "react";
-import {UploadOutlined} from "@ant-design/icons";
-import {upload} from "@/services/resource/flinkRelease.service";
 import {listDictDataByType} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constant";
+import {add, update} from '@/services/resource/clusterCredential.service';
 
-const ClusterCredentialForm: React.FC<ModalFormProps<FlinkRelease>> = ({
+const ClusterCredentialForm: React.FC<ModalFormProps<ClusterCredential>> = ({
   data,
   visible,
   onVisibleChange,
@@ -16,30 +15,13 @@ const ClusterCredentialForm: React.FC<ModalFormProps<FlinkRelease>> = ({
 }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [uploading, setUploading] = useState(false);
-  const [flinkVersionList, setFlinkVersionList] = useState<Dict[]>([]);
+  const [clusterTypeList, setClusterTypeList] = useState<Dict[]>([]);
   useEffect(() => {
-    listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
-      setFlinkVersionList(d);
+    listDictDataByType(DICT_TYPE.resourceClusterType).then((d) => {
+      setClusterTypeList(d);
     });
   }, []);
 
-  const props: UploadProps = {
-    multiple: false,
-    maxCount: 1,
-    onRemove: file => {
-      const index = fileList.indexOf(file);
-      const newFileList = fileList.slice();
-      newFileList.splice(index, 1);
-      setFileList(newFileList);
-    },
-    beforeUpload: file => {
-      setFileList([...fileList, file]);
-      return false;
-    },
-    fileList,
-  };
 
   return (
     <Modal
@@ -47,45 +29,52 @@ const ClusterCredentialForm: React.FC<ModalFormProps<FlinkRelease>> = ({
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-            intl.formatMessage({ id: 'pages.resource.flinkRelease' })
-          : intl.formatMessage({ id: 'app.common.operate.upload.label' }) +
-            intl.formatMessage({ id: 'pages.resource.flinkRelease' })
+            intl.formatMessage({ id: 'pages.resource.clusterCredential' })
+          : intl.formatMessage({ id: 'app.common.operate.new.label' }) +
+            intl.formatMessage({ id: 'pages.resource.clusterCredential' })
       }
       width={580}
       destroyOnClose={true}
       onCancel={onCancel}
-      confirmLoading={uploading}
-      okText={uploading ? intl.formatMessage({ id: 'app.common.operate.uploading.label' }) : intl.formatMessage({ id: 'app.common.operate.upload.label' })}
       onOk={() => {
         form.validateFields().then((values) => {
-          const uploadParam: FlinkReleaseUploadParam  ={
-            version: values.version,
-            file: fileList[0],
+          const param: ClusterCredential = {
+            id: values.id,
+            configType: { value: values.configType },
+            name: values.name,
             remark: values.remark
           };
-          setUploading(true);
-          upload(uploadParam)
-            .then(() => {
-              setFileList([]);
-              message.success(intl.formatMessage({ id: 'app.common.operate.upload.success' }));
+          data.id
+            ? update(param).then((d) => {
+              if (d.success) {
+                message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
+                onVisibleChange(false);
+              }
             })
-            .catch(() => {
-              message.error(intl.formatMessage({ id: 'app.common.operate.upload.failure' }));
-            })
-            .finally(() => {
-              setUploading(false);
-              onVisibleChange(false);
+            : add(param).then((d) => {
+              if (d.success) {
+                message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
+                onVisibleChange(false);
+              }
             });
         });
       }}
     >
-      <Form form={form} layout="horizontal" labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}>
+      <Form
+        form={form} layout="horizontal" labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}
+        initialValues={{
+          id: data.id,
+          configType: data.configType?.value,
+          name: data.name,
+          remark: data.remark,
+        }}
+      >
         <Form.Item name="id" hidden>
           <Input></Input>
         </Form.Item>
         <Form.Item
-          name="version"
-          label={intl.formatMessage({ id: 'pages.resource.flinkRelease.version' })}
+          name="configType"
+          label={intl.formatMessage({ id: 'pages.resource.clusterCredential.configType' })}
           rules={[{ required: true }, { max: 128 }]}
         >
           <Select
@@ -99,7 +88,7 @@ const ClusterCredentialForm: React.FC<ModalFormProps<FlinkRelease>> = ({
                 .includes(input.toLowerCase())
             }
           >
-            {flinkVersionList.map((item) => {
+            {clusterTypeList.map((item) => {
               return (
                 <Select.Option key={item.value} value={item.value}>
                   {item.label}
@@ -109,12 +98,18 @@ const ClusterCredentialForm: React.FC<ModalFormProps<FlinkRelease>> = ({
           </Select>
         </Form.Item>
         <Form.Item
+          name="name"
           label={intl.formatMessage({ id: 'pages.resource.file' })}
-          rules={[{ required: true }]}
+          rules={[
+            { required: true },
+            { max: 30 },
+            {
+              pattern: /^[\w\s_]+$/,
+              message: intl.formatMessage({ id: 'app.common.validate.characterWord3' }),
+            },
+          ]}
         >
-          <Upload {...props}>
-            <Button icon={<UploadOutlined />}>{intl.formatMessage({ id: 'pages.resource.flinkRelease.file' })}</Button>
-          </Upload>
+          <Input></Input>
         </Form.Item>
         <Form.Item
           name="remark"

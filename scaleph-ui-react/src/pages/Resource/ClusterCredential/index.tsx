@@ -1,33 +1,33 @@
 import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
-import {FlinkRelease} from '@/services/resource/typings';
-import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
+import {ClusterCredential} from '@/services/resource/typings';
+import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
 import {useEffect, useRef, useState} from 'react';
 import {useAccess, useIntl} from 'umi';
 import ClusterCredentialForm from './components/ResourceForm';
-import {deleteBatch, deleteOne, download, list} from "@/services/resource/flinkRelease.service";
 import {Dict} from "@/app.d";
 import {listDictDataByType} from "@/services/admin/dictData.service";
+import {deleteBatch, deleteOne, list} from "@/services/resource/clusterCredential.service";
 
 const ClusterCredentialResource: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<FlinkRelease[]>([]);
-  const [flinkVersionList, setFlinkVersionList] = useState<Dict[]>([]);
-  const [flinkReleaseFormData, setFlinkReleaseData] = useState<{
+  const [selectedRows, setSelectedRows] = useState<ClusterCredential[]>([]);
+  const [clusterTypeList, setClusterTypeList] = useState<Dict[]>([]);
+  const [clusterCredentialFormData, setClusterCredentialData] = useState<{
     visiable: boolean;
-    data: FlinkRelease;
+    data: ClusterCredential;
   }>({visiable: false, data: {}});
 
-  const tableColumns: ProColumns<FlinkRelease>[] = [
+  const tableColumns: ProColumns<ClusterCredential>[] = [
     {
-      title: intl.formatMessage({id: 'pages.resource.flinkRelease.version'}),
-      dataIndex: 'version',
+      title: intl.formatMessage({id: 'pages.resource.clusterCredential.configType'}),
+      dataIndex: 'configType',
       render: (text, record, index) => {
-        return record.version?.label;
+        return record.configType?.label;
       },
       renderFormItem: (item, {defaultRender, ...rest}, form) => {
         return (
@@ -39,7 +39,7 @@ const ClusterCredentialResource: React.FC = () => {
               (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
             }
           >
-            {flinkVersionList.map((item) => {
+            {clusterTypeList.map((item) => {
               return (
                 <Select.Option key={item.value} value={item.value}>
                   {item.label}
@@ -51,14 +51,9 @@ const ClusterCredentialResource: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.fileName'}),
-      dataIndex: 'fileName',
+      title: intl.formatMessage({id: 'pages.resource.clusterCredential.name'}),
+      dataIndex: 'name',
       width: 280,
-    },
-    {
-      title: intl.formatMessage({id: 'pages.resource.path'}),
-      dataIndex: 'path',
-      hideInSearch: true,
     },
     {
       title: intl.formatMessage({id: 'pages.resource.remark'}),
@@ -87,14 +82,14 @@ const ClusterCredentialResource: React.FC = () => {
       render: (_, record) => (
         <>
           <Space>
-            {access.canAccess(PRIVILEGE_CODE.datadevResourceDownload) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.download.label'})}>
+            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DownloadOutlined></DownloadOutlined>}
+                  icon={<EditOutlined />}
                   onClick={() => {
-                    download(record)
+                    setClusterCredentialData({ visiable: true, data: record });
                   }}
                 ></Button>
               </Tooltip>
@@ -136,15 +131,15 @@ const ClusterCredentialResource: React.FC = () => {
   ];
 
   useEffect(() => {
-    listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
-      setFlinkVersionList(d);
+    listDictDataByType(DICT_TYPE.resourceClusterType).then((d) => {
+      setClusterTypeList(d);
     });
   }, []);
 
   return (
     <div>
-      <ProTable<FlinkRelease>
-        headerTitle={intl.formatMessage({id: 'pages.resource.flinkRelease'})}
+      <ProTable<ClusterCredential>
+        headerTitle={intl.formatMessage({id: 'pages.resource.clusterCredential'})}
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -164,10 +159,10 @@ const ClusterCredentialResource: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setFlinkReleaseData({visiable: true, data: {}});
+                  setClusterCredentialData({visiable: true, data: {}});
                 }}
               >
-                {intl.formatMessage({id: 'app.common.operate.upload.label'})}
+                {intl.formatMessage({id: 'app.common.operate.new.label'})}
               </Button>
             ),
             access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
@@ -212,17 +207,17 @@ const ClusterCredentialResource: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       ></ProTable>
-      {flinkReleaseFormData.visiable && (
+      {clusterCredentialFormData.visiable && (
         <ClusterCredentialForm
-          visible={flinkReleaseFormData.visiable}
+          visible={clusterCredentialFormData.visiable}
           onCancel={() => {
-            setFlinkReleaseData({visiable: false, data: {}});
+            setClusterCredentialData({visiable: false, data: {}});
           }}
           onVisibleChange={(visiable) => {
-            setFlinkReleaseData({visiable: visiable, data: {}});
+            setClusterCredentialData({visiable: visiable, data: {}});
             actionRef.current?.reload();
           }}
-          data={flinkReleaseFormData.data}
+          data={clusterCredentialFormData.data}
         />
       )}
     </div>

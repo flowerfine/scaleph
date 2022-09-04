@@ -29,4 +29,8 @@ export default {
   'pages.resource.seatunnelRelease': 'SeaTunnel Release',
   'pages.resource.seatunnelRelease.version': '版本',
   'pages.resource.seatunnelRelease.file': 'SeaTunnel Release',
+
+  'pages.resource.clusterCredential': 'Cluster Credential',
+  'pages.resource.clusterCredential.configType': '类型',
+  'pages.resource.clusterCredential.name': '名称',
 };

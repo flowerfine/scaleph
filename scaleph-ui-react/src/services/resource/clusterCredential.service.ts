@@ -39,6 +39,12 @@ export async function update(row: ClusterCredential) {
   })
 }
 
+export async function deleteOne(row: ClusterCredential) {
+  return request<ResponseBody<any>>(`${url}/` + row.id, {
+    method: 'DELETE'
+  })
+}
+
 export async function deleteBatch(rows: ClusterCredential[]) {
   const params = rows.map((row) => row.id);
   return request<ResponseBody<any>>(`${url}/batch`, {
