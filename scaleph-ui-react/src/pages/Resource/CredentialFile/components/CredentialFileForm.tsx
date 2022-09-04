@@ -7,7 +7,7 @@ import {uploadFiles} from "@/services/resource/clusterCredential.service";
 
 const { Dragger } = Upload;
 
-const ClusterCredentialForm: React.FC<ModalFormProps<number>> = ({
+const CredentialFileForm: React.FC<ModalFormProps<number>> = ({
   data,
   visible,
   onVisibleChange,
@@ -87,4 +87,4 @@ const ClusterCredentialForm: React.FC<ModalFormProps<number>> = ({
   );
 };
 
-export default ClusterCredentialForm;
+export default CredentialFileForm;

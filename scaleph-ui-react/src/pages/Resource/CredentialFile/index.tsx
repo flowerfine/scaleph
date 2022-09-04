@@ -5,7 +5,7 @@ import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro
 import {Button, message, Modal, Space, Tooltip} from 'antd';
 import {useRef, useState} from 'react';
 import {useAccess, useIntl} from 'umi';
-import ClusterCredentialForm from './components/ClusterCredentialForm';
+import CredentialFileForm from './components/CredentialFileForm';
 import {deleteFiles, downloadFile, listFiles} from "@/services/resource/clusterCredential.service";
 import {history} from "@@/core/history";
 
@@ -178,7 +178,7 @@ const CredentialFileResource: React.FC = () => {
         tableAlertOptionRender={false}
       ></ProTable>
       {credentialFileFormData.visiable && (
-        <ClusterCredentialForm
+        <CredentialFileForm
           visible={credentialFileFormData.visiable}
           onCancel={() => {
             setCredentialFileData({visiable: false, data: {}});
