@@ -27,9 +27,9 @@ const DiJobForm: React.FC<DiJobFormProps<DiJob>> = ({
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-            intl.formatMessage({ id: 'pages.project.di.job' })
+          intl.formatMessage({ id: 'pages.project.di.job' })
           : intl.formatMessage({ id: 'app.common.operate.new.label' }) +
-            intl.formatMessage({ id: 'pages.project.di.job' })
+          intl.formatMessage({ id: 'pages.project.di.job' })
       }
       width={580}
       destroyOnClose={true}
@@ -47,17 +47,17 @@ const DiJobForm: React.FC<DiJobFormProps<DiJob>> = ({
           };
           data.id
             ? updateJob({ ...d }).then((d) => {
-                if (d.success) {
-                  message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
-                  onVisibleChange(false, null);
-                }
-              })
+              if (d.success) {
+                message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
+                onVisibleChange(false, null);
+              }
+            })
             : addJob({ ...d }).then((d) => {
-                if (d.success) {
-                  message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
-                  onVisibleChange(false, d.data);
-                }
-              });
+              if (d.success) {
+                // message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
+                onVisibleChange(false, d.data);
+              }
+            });
         });
       }}
     >

@@ -52,5 +52,5 @@ export default {
     'pages.project.di.define': '流程定义',
     'pages.project.di.setting': '定时设置',
     'pages.project.di.job.realtime': '实时作业',
-    'pages.project.di.job.batch': '离线作业',
+    'pages.project.di.job.batch': '周期作业',
 }

@@ -22,9 +22,9 @@ const Resource: React.FC = () => {
   const [selectedRows, setSelectedRows] = useState<DiResourceFile[]>([]);
   const [projectList, setProjectList] = useState<Dict[]>([]);
   const [resourceFormData, setResourceFormData] = useState<{
-    visiable: boolean;
+    visible: boolean;
     data: DiResourceFile;
-  }>({ visiable: false, data: {} });
+  }>({ visible: false, data: {} });
 
   const tableColumns: ProColumns<DiResourceFile>[] = [
     {
@@ -187,7 +187,7 @@ const Resource: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setResourceFormData({ visiable: true, data: {} });
+                  setResourceFormData({ visible: true, data: {} });
                 }}
               >
                 {intl.formatMessage({ id: 'app.common.operate.new.label' })}
@@ -235,14 +235,14 @@ const Resource: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       ></ProTable>
-      {resourceFormData.visiable && (
+      {resourceFormData.visible && (
         <ResourceForm
-          visible={resourceFormData.visiable}
+          visible={resourceFormData.visible}
           onCancel={() => {
-            setResourceFormData({ visiable: false, data: {} });
+            setResourceFormData({ visible: false, data: {} });
           }}
-          onVisibleChange={(visiable) => {
-            setResourceFormData({ visiable: visiable, data: {} });
+          onVisibleChange={(visible) => {
+            setResourceFormData({ visible: visible, data: {} });
             actionRef.current?.reload();
           }}
           data={resourceFormData.data}

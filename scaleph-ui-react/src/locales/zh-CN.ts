@@ -38,6 +38,7 @@ export default {
   'app.common.operate.clear.label': '清空',
   'app.common.operate.more.label': '查看更多',
   'app.common.operate.download.label': '下载',
+  'app.common.operate.close.label': '关闭',
   'app.common.operate.forbid.label': '注销',
   'app.common.operate.forbid.success': '注销成功',
   'app.common.operate.forbid.confirm.title': '确认注销?',

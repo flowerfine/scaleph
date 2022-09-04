@@ -28,9 +28,9 @@ const DataSource: React.FC = () => {
   const [dataSourceTypeList, setDataSourceTypeList] = useState<Dict[]>([]);
   const [dataSourceNewPre, setDataSourceNewPre] = useState<boolean>(false);
   const [dataSourceFormData, setDataSourceFormData] = useState<{
-    visiable: boolean;
+    visible: boolean;
     data: MetaDataSource;
-  }>({ visiable: false, data: {} });
+  }>({ visible: false, data: {} });
   const tableColumns: ProColumns<MetaDataSource>[] = [
     {
       title: intl.formatMessage({ id: 'pages.project.di.dataSource.dataSourceName' }),
@@ -128,7 +128,7 @@ const DataSource: React.FC = () => {
                   type="link"
                   icon={<EditOutlined />}
                   onClick={() => {
-                    setDataSourceFormData({ visiable: true, data: record });
+                    setDataSourceFormData({ visible: true, data: record });
                   }}
                 ></Button>
               </Tooltip>
@@ -252,67 +252,67 @@ const DataSource: React.FC = () => {
           onCancel={() => {
             setDataSourceNewPre(false);
           }}
-          onVisibleChange={(visiable) => {
-            setDataSourceNewPre(visiable);
+          onVisibleChange={(visible) => {
+            setDataSourceNewPre(visible);
           }}
           data={{}}
           onSelect={(type) => {
             setDataSourceNewPre(false);
-            setDataSourceFormData({ visiable: true, data: { datasourceType: { value: type } } });
+            setDataSourceFormData({ visible: true, data: { datasourceType: { value: type } } });
           }}
         ></DataSourceNewPre>
       ) : null}
-      {dataSourceFormData.visiable && dataSourceFormData.data.datasourceType?.value == 'JDBC' ? (
+      {dataSourceFormData.visible && dataSourceFormData.data.datasourceType?.value == 'JDBC' ? (
         <JdbcDataSourceForm
-          visible={dataSourceFormData.visiable}
+          visible={dataSourceFormData.visible}
           onCancel={() => {
-            setDataSourceFormData({ visiable: false, data: {} });
+            setDataSourceFormData({ visible: false, data: {} });
           }}
-          onVisibleChange={(visiable) => {
-            setDataSourceFormData({ visiable: visiable, data: {} });
+          onVisibleChange={(visible) => {
+            setDataSourceFormData({ visible: visible, data: {} });
             actionRef.current?.reload();
           }}
           data={dataSourceFormData.data}
         ></JdbcDataSourceForm>
       ) : null}
-      {dataSourceFormData.visiable &&
+      {dataSourceFormData.visible &&
         (dataSourceFormData.data.datasourceType?.value == 'Mysql' ||
           dataSourceFormData.data.datasourceType?.value == 'Oracle' ||
           dataSourceFormData.data.datasourceType?.value == 'PostGreSQL' ||
           dataSourceFormData.data.datasourceType?.value == 'ClickHouse') ? (
         <GenericDataSourceForm
-          visible={dataSourceFormData.visiable}
+          visible={dataSourceFormData.visible}
           onCancel={() => {
-            setDataSourceFormData({ visiable: false, data: {} });
+            setDataSourceFormData({ visible: false, data: {} });
           }}
-          onVisibleChange={(visiable) => {
-            setDataSourceFormData({ visiable: visiable, data: {} });
+          onVisibleChange={(visible) => {
+            setDataSourceFormData({ visible: visible, data: {} });
             actionRef.current?.reload();
           }}
           data={dataSourceFormData.data}
         ></GenericDataSourceForm>
       ) : null}
-      {dataSourceFormData.visiable && dataSourceFormData.data.datasourceType?.value == 'Kafka' ? (
+      {dataSourceFormData.visible && dataSourceFormData.data.datasourceType?.value == 'Kafka' ? (
         <KafkaDataSourceForm
-          visible={dataSourceFormData.visiable}
+          visible={dataSourceFormData.visible}
           onCancel={() => {
-            setDataSourceFormData({ visiable: false, data: {} });
+            setDataSourceFormData({ visible: false, data: {} });
           }}
-          onVisibleChange={(visiable) => {
-            setDataSourceFormData({ visiable: visiable, data: {} });
+          onVisibleChange={(visible) => {
+            setDataSourceFormData({ visible: visible, data: {} });
             actionRef.current?.reload();
           }}
           data={dataSourceFormData.data}
         ></KafkaDataSourceForm>
       ) : null}
-      {dataSourceFormData.visiable && dataSourceFormData.data.datasourceType?.value == 'Doris' ? (
+      {dataSourceFormData.visible && dataSourceFormData.data.datasourceType?.value == 'Doris' ? (
         <DorisDataSourceForm
-          visible={dataSourceFormData.visiable}
+          visible={dataSourceFormData.visible}
           onCancel={() => {
-            setDataSourceFormData({ visiable: false, data: {} });
+            setDataSourceFormData({ visible: false, data: {} });
           }}
-          onVisibleChange={(visiable) => {
-            setDataSourceFormData({ visiable: visiable, data: {} });
+          onVisibleChange={(visible) => {
+            setDataSourceFormData({ visible: visible, data: {} });
             actionRef.current?.reload();
           }}
           data={dataSourceFormData.data}

@@ -33,6 +33,7 @@ import {
 } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { useAccess, useIntl } from 'umi';
+import DiJobFlow from '../DiJobFlow';
 import DiJobForm from './components/DiJobForm';
 import DirectoryForm from './components/DirectoryForm';
 import styles from './index.less';
@@ -52,16 +53,20 @@ const DiJobView: React.FC = () => {
   const [runtimeStateList, setRuntimeStateList] = useState<Dict[]>([]);
   const [selectDir, setSelectDir] = useState<React.Key>('');
   const [dirFormData, setDirFormData] = useState<{
-    visiable: boolean;
+    visible: boolean;
     data: DiDirectory;
     isUpdate: boolean;
   }>({
-    visiable: false,
+    visible: false,
     data: {},
     isUpdate: false,
   });
-  const [jobFormData, setJobFormData] = useState<{ visiable: boolean; data: DiJob }>({
-    visiable: false,
+  const [jobFlowData, setJobFlowData] = useState<{ visible: boolean, data: DiJob }>({
+    visible: false,
+    data: {}
+  });
+  const [jobFormData, setJobFormData] = useState<{ visible: boolean; data: DiJob }>({
+    visible: false,
     data: {},
   });
   const tableColumns: ProColumns<DiJob>[] = [
@@ -226,7 +231,7 @@ const DiJobView: React.FC = () => {
                   type="link"
                   icon={<NodeIndexOutlined />}
                   onClick={() => {
-                    alert('define');
+                    setJobFlowData({ visible: true, data: record });
                   }}
                 ></Button>
               </Tooltip>
@@ -240,7 +245,7 @@ const DiJobView: React.FC = () => {
                   type="link"
                   icon={<EditOutlined />}
                   onClick={() => {
-                    setJobFormData({ visiable: true, data: record });
+                    setJobFormData({ visible: true, data: record });
                   }}
                 ></Button>
               </Tooltip>
@@ -429,7 +434,7 @@ const DiJobView: React.FC = () => {
                               icon={<PlusOutlined />}
                               onClick={() => {
                                 setDirFormData({
-                                  visiable: true,
+                                  visible: true,
                                   data: {
                                     pid: node.origin.id,
                                     projectId: projectId,
@@ -453,7 +458,7 @@ const DiJobView: React.FC = () => {
                               icon={<EditOutlined />}
                               onClick={() => {
                                 setDirFormData({
-                                  visiable: true,
+                                  visible: true,
                                   data: {
                                     id: node.origin.id,
                                     directoryName: node.origin.directoryName,
@@ -550,7 +555,7 @@ const DiJobView: React.FC = () => {
                               type="text"
                               onClick={() => {
                                 setJobFormData({
-                                  visiable: true,
+                                  visible: true,
                                   data: { projectId: projectId, jobType: { value: 'r' } },
                                 });
                               }}
@@ -566,7 +571,7 @@ const DiJobView: React.FC = () => {
                               type="text"
                               onClick={() => {
                                 setJobFormData({
-                                  visiable: true,
+                                  visible: true,
                                   data: { projectId: projectId, jobType: { value: 'b' } },
                                 });
                               }}
@@ -630,38 +635,51 @@ const DiJobView: React.FC = () => {
           tableAlertOptionRender={false}
         ></ProTable>
       </Col>
-      {dirFormData.visiable && (
+      {dirFormData.visible && (
         <DirectoryForm
-          visible={dirFormData.visiable}
+          visible={dirFormData.visible}
           isUpdate={dirFormData.isUpdate}
           onCancel={() => {
-            setDirFormData({ visiable: false, data: {}, isUpdate: false });
+            setDirFormData({ visible: false, data: {}, isUpdate: false });
           }}
-          onVisibleChange={(visiable) => {
-            setDirFormData({ visiable: false, data: {}, isUpdate: false });
+          onVisibleChange={(visible) => {
+            setDirFormData({ visible: false, data: {}, isUpdate: false });
             refreshDirList();
           }}
           data={dirFormData.data}
         ></DirectoryForm>
       )}
-      {jobFormData.visiable && (
+      {jobFormData.visible && (
         <DiJobForm
-          visible={jobFormData.visiable}
+          visible={jobFormData.visible}
           treeData={dirList}
           onCancel={() => {
-            setJobFormData({ visiable: false, data: {} });
+            setJobFormData({ visible: false, data: {} });
           }}
-          onVisibleChange={(visiable, data) => {
-            setJobFormData({ visiable: visiable, data: {} });
+          onVisibleChange={(visible, data) => {
+            setJobFormData({ visible: visible, data: {} });
             if (data?.id) {
-              alert('define dag');
+              setJobFlowData({ visible: true, data: data });
             }
             actionRef.current?.reload();
           }}
           data={jobFormData.data}
         ></DiJobForm>
       )}
-    </Row>
+      {jobFlowData.visible && (
+        <DiJobFlow
+          visible={jobFlowData.visible}
+          onCancel={() => {
+            setJobFlowData({ visible: false, data: {} });
+          }}
+          onVisibleChange={(visiable) => {
+            setJobFlowData({ visible: false, data: {} });
+            actionRef.current?.reload();
+          }}
+          data={jobFlowData.data}
+        ></DiJobFlow>
+      )}
+    </Row >
   );
 };
 
