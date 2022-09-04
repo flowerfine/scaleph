@@ -3,8 +3,9 @@ import { DiProject } from '@/services/project/typings';
 import { addProject, updateProject } from '@/services/project/project.service';
 import { Form, Input, message, Modal } from 'antd';
 import { useIntl } from 'umi';
+import {FlinkClusterConfig} from "@/services/dev/typings";
 
-const FlinkClusterConfigForm: React.FC<ModalFormProps<DiProject>> = ({
+const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
   data,
   visible,
   onVisibleChange,
@@ -18,9 +19,9 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<DiProject>> = ({
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-          intl.formatMessage({ id: 'pages.project' })
+          intl.formatMessage({ id: 'pages.dev.clusterConfig' })
           : intl.formatMessage({ id: 'app.common.operate.new.label' }) +
-          intl.formatMessage({ id: 'pages.project' })
+          intl.formatMessage({ id: 'pages.dev.clusterConfig' })
       }
       width={580}
       destroyOnClose={true}

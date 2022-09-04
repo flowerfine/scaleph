@@ -1,7 +1,7 @@
 import {Dict, QueryParam} from "@/app";
 import {ClusterCredential, FlinkRelease} from "@/services/resource/typings";
 
-export class FlinkArtifact {
+export type FlinkArtifact = {
   id?: number;
   name?: string;
   path?: string;
@@ -22,7 +22,7 @@ export type FlinkArtifactUploadParam = QueryParam & {
   remark?: string;
 };
 
-export class FlinkClusterConfig {
+export type FlinkClusterConfig = {
   id?: number;
   name?: string;
   flinkVersion?: Dict;
@@ -43,7 +43,7 @@ export type FlinkClusterConfigParam = QueryParam & {
   deployMode?: string;
 }
 
-export class FlinkClusterInstance {
+export type FlinkClusterInstance = {
   id?: number;
   flinkClusterConfigId?: number;
   name?: string;
