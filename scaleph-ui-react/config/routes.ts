@@ -161,6 +161,14 @@ export default [
         pCode: PRIVILEGE_CODE.datadevResourceShow,
         access: 'normalRouteFilter',
       },
+      {
+        name: 'clusterCredential',
+        path: '/resource/cluster-credential',
+        exact: true,
+        component: './Resource/ClusterCredential',
+        pCode: PRIVILEGE_CODE.datadevResourceShow,
+        access: 'normalRouteFilter',
+      },
     ],
   },
   {
