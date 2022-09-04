@@ -80,6 +80,35 @@ export type SeaTunnelReleaseUploadParam = QueryParam & {
   remark?: String;
 }
 
+export class ClusterCredential {
+  id?: number;
+  configType?: Dict;
+  name?: string;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+}
+
+export type ClusterCredentialListParam = QueryParam & {
+  configType?: string;
+  name?: string;
+}
+
+export class CredentialFile {
+  name?: string;
+  len?: number;
+  blockSize?: number;
+  modificationTime?: Date;
+  accessTime?: Date;
+}
+
+export class CredentialFileUploadParam {
+  configType?: string;
+  name?: string;
+  files?: File[];
+  remark?: string;
+}
+
 
 
 
