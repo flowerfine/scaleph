@@ -1,74 +1,53 @@
-import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
-import {ClusterCredential} from '@/services/resource/typings';
-import {DeleteOutlined, EditOutlined, UploadOutlined} from '@ant-design/icons';
+import {PRIVILEGE_CODE} from '@/constant';
+import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
-import {useEffect, useRef, useState} from 'react';
+import {Button, message, Modal, Space, Tooltip} from 'antd';
+import {useRef, useState} from 'react';
 import {useAccess, useIntl} from 'umi';
-import ClusterCredentialForm from './components/ClusterCredentialForm';
-import {Dict} from "@/app.d";
-import {listDictDataByType} from "@/services/admin/dictData.service";
-import {deleteBatch, deleteOne, list} from "@/services/resource/clusterCredential.service";
-import {history} from "@@/core/history";
+import FlinkArtifactForm from "@/pages/DEV/Artifact/components/FlinkArtifactForm";
+import {FlinkArtifact} from "@/services/dev/typings";
+import {deleteBatch, deleteOne, download, list} from "@/services/dev/flinkArtifact.service";
 
-const ClusterCredentialResource: React.FC = () => {
+const FlinkArtifactJar: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<ClusterCredential[]>([]);
-  const [clusterTypeList, setClusterTypeList] = useState<Dict[]>([]);
-  const [clusterCredentialFormData, setClusterCredentialData] = useState<{
+  const [selectedRows, setSelectedRows] = useState<FlinkArtifact[]>([]);
+  const [flinkArtifactFormData, setFlinkArtifactData] = useState<{
     visiable: boolean;
-    data: ClusterCredential;
+    data: FlinkArtifact;
   }>({visiable: false, data: {}});
 
-  const tableColumns: ProColumns<ClusterCredential>[] = [
+  const tableColumns: ProColumns<FlinkArtifact>[] = [
     {
-      title: intl.formatMessage({id: 'pages.resource.clusterCredential.configType'}),
-      dataIndex: 'configType',
-      render: (text, record, index) => {
-        return record.configType?.label;
-      },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
-        return (
-          <Select
-            showSearch={true}
-            allowClear={true}
-            optionFilterProp="label"
-            filterOption={(input, option) =>
-              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-            }
-          >
-            {clusterTypeList.map((item) => {
-              return (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        );
-      },
+      title: intl.formatMessage({id: 'pages.dev.artifact.name'}),
+      dataIndex: 'name',
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.clusterCredential.name'}),
-      dataIndex: 'name',
+      title: intl.formatMessage({id: 'pages.dev.artifact.entryClass'}),
+      dataIndex: 'entryClass',
+      hideInSearch: true,
       width: 280,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.remark'}),
+      title: intl.formatMessage({id: 'pages.dev.artifact.path'}),
+      dataIndex: 'path',
+      hideInSearch: true,
+    },
+    {
+      title: intl.formatMessage({id: 'pages.dev.remark'}),
       dataIndex: 'remark',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.createTime'}),
+      title: intl.formatMessage({id: 'pages.dev.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.updateTime'}),
+      title: intl.formatMessage({id: 'pages.dev.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
@@ -83,26 +62,14 @@ const ClusterCredentialResource: React.FC = () => {
       render: (_, record) => (
         <>
           <Space>
-            {access.canAccess(PRIVILEGE_CODE.datadevJobShow) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.upload.label' })}>
+            {access.canAccess(PRIVILEGE_CODE.datadevResourceDownload) && (
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.download.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<UploadOutlined />}
+                  icon={<DownloadOutlined></DownloadOutlined>}
                   onClick={() => {
-                    history.push('/resource/cluster-credential/file', {id: record.id});
-                  }}
-                ></Button>
-              </Tooltip>
-            )}
-            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<EditOutlined />}
-                  onClick={() => {
-                    setClusterCredentialData({ visiable: true, data: record });
+                    download(record)
                   }}
                 ></Button>
               </Tooltip>
@@ -143,15 +110,9 @@ const ClusterCredentialResource: React.FC = () => {
     },
   ];
 
-  useEffect(() => {
-    listDictDataByType(DICT_TYPE.resourceClusterType).then((d) => {
-      setClusterTypeList(d);
-    });
-  }, []);
-
   return (
     <div>
-      <ProTable<ClusterCredential>
+      <ProTable<FlinkArtifact>
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -171,10 +132,10 @@ const ClusterCredentialResource: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setClusterCredentialData({visiable: true, data: {}});
+                  setFlinkArtifactData({visiable: true, data: {}});
                 }}
               >
-                {intl.formatMessage({id: 'app.common.operate.new.label'})}
+                {intl.formatMessage({id: 'app.common.operate.upload.label'})}
               </Button>
             ),
             access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
@@ -219,21 +180,21 @@ const ClusterCredentialResource: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       ></ProTable>
-      {clusterCredentialFormData.visiable && (
-        <ClusterCredentialForm
-          visible={clusterCredentialFormData.visiable}
+      {flinkArtifactFormData.visiable && (
+        <FlinkArtifactForm
+          visible={flinkArtifactFormData.visiable}
           onCancel={() => {
-            setClusterCredentialData({visiable: false, data: {}});
+            setFlinkArtifactData({visiable: false, data: {}});
           }}
           onVisibleChange={(visiable) => {
-            setClusterCredentialData({visiable: visiable, data: {}});
+            setFlinkArtifactData({visiable: visiable, data: {}});
             actionRef.current?.reload();
           }}
-          data={clusterCredentialFormData.data}
+          data={flinkArtifactFormData.data}
         />
       )}
     </div>
   );
 };
 
-export default ClusterCredentialResource;
+export default FlinkArtifactJar;

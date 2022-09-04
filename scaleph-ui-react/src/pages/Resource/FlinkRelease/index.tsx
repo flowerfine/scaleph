@@ -144,7 +144,6 @@ const FlinkReleaseResource: React.FC = () => {
   return (
     <div>
       <ProTable<FlinkRelease>
-        headerTitle={intl.formatMessage({id: 'pages.resource.flinkRelease'})}
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},

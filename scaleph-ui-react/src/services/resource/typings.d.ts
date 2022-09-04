@@ -56,7 +56,7 @@ export type FlinkReleaseListParam = QueryParam & {
 export type FlinkReleaseUploadParam = QueryParam & {
   version?: string;
   file: File;
-  remark?: String;
+  remark?: string;
 }
 
 export class SeaTunnelRelease {

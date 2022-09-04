@@ -10,16 +10,14 @@ export default {
   'pages.resource.filePath': '文件路径',
   'pages.resource.fileSize': '文件大小',
 
-  'pages.resource.files.upload.tooltip': '点击或者拖动文件到此区域上传',
-  'pages.resource.files.upload.hint': '不要一次性选择多个超大文件，影响上传速度',
-
   'pages.resource.file': '文件',
   'pages.resource.fileName': '文件名称',
   'pages.resource.path': '存储路径',
   'pages.resource.remark': '备注',
   'pages.resource.createTime': '创建时间',
   'pages.resource.updateTime': '更新时间',
-
+  'pages.resource.files.upload.tooltip': '点击或者拖动文件到此区域上传',
+  'pages.resource.files.upload.hint': '不要一次性选择多个超大文件，影响上传速度',
   'pages.resource.jar': '公共 Jar',
   'pages.resource.jar.group': 'Group',
   'pages.resource.jar.file': 'Jar',
@@ -32,15 +30,13 @@ export default {
   'pages.resource.seatunnelRelease': 'SeaTunnel Release',
   'pages.resource.seatunnelRelease.version': '版本',
   'pages.resource.seatunnelRelease.file': 'SeaTunnel Release',
-
   'pages.resource.clusterCredential': 'Cluster Credential',
   'pages.resource.clusterCredential.configType': '类型',
   'pages.resource.clusterCredential.name': '名称',
-
   'pages.resource.credentialFile': 'Credential',
-  'pages.resource.credentialFile.name': '名称',
-  'pages.resource.credentialFile.len': '长度',
-  'pages.resource.credentialFile.blockSize': '块规模',
+  'pages.resource.credentialFile.name': '文件名',
+  'pages.resource.credentialFile.len': '文件大小',
+  'pages.resource.credentialFile.blockSize': '所在块大小',
   'pages.resource.credentialFile.accessTime': '访问时间',
   'pages.resource.credentialFile.modificationTime': '修改时间',
 };

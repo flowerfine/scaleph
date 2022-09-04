@@ -21,12 +21,15 @@ package cn.sliew.scaleph.resource.service.impl;
 import cn.sliew.scaleph.resource.service.ResourceDescriptor;
 import cn.sliew.scaleph.resource.service.ResourceService;
 import cn.sliew.scaleph.resource.service.enums.ResourceType;
+import cn.sliew.scaleph.resource.service.param.ResourceListParam;
+import cn.sliew.scaleph.resource.service.vo.ResourceVO;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ResourceServiceImpl implements ResourceService {
@@ -35,8 +38,10 @@ public class ResourceServiceImpl implements ResourceService {
     private List<ResourceDescriptor> resourceDescriptors;
 
     @Override
-    public List<ResourceDescriptor> getSupportedResources() {
-        return Collections.unmodifiableList(resourceDescriptors);
+    public List<ResourceType> getSupportedResources() {
+        return resourceDescriptors.stream()
+                .map(ResourceDescriptor::getResourceType)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -45,5 +50,17 @@ public class ResourceServiceImpl implements ResourceService {
                 .filter(resourceDescriptor -> resourceDescriptor.getResourceType() == type)
                 .findAny();
         return optional.orElseThrow(() -> new IllegalStateException("unknown resource type for " + type.getValue()));
+    }
+
+    @Override
+    public Page<ResourceVO> list(ResourceType type, ResourceListParam param) {
+        final ResourceDescriptor resourceDescriptor = getResourceDescriptor(type);
+        return resourceDescriptor.list(param);
+    }
+
+    @Override
+    public <T> T getRaw(ResourceType type, Long id) {
+        final ResourceDescriptor resourceDescriptor = getResourceDescriptor(type);
+        return (T) resourceDescriptor.getRaw(id);
     }
 }
