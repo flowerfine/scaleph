@@ -1,10 +1,9 @@
 import {ModalFormProps} from '@/app.d';
-import {Form, Input, message, Modal, Upload, UploadFile, UploadProps} from 'antd';
+import {Form, message, Modal, Upload,UploadFile, UploadProps} from 'antd';
 import {useIntl} from 'umi';
 import {useState} from "react";
 import {InboxOutlined} from "@ant-design/icons";
 import {uploadFiles} from "@/services/resource/clusterCredential.service";
-
 const { Dragger } = Upload;
 
 const CredentialFileForm: React.FC<ModalFormProps<number>> = ({
