@@ -33,6 +33,20 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
     listDictDataByType(DICT_TYPE.flinkDeploymentMode).then((d) => {
       setDeployModeList(d);
     });
+    const flinkReleaseParam: ResourceListParam = {
+      resourceType: RESOURCE_TYPE.flinkRelease,
+      label: data.flinkVersion?.value,
+    }
+    list(flinkReleaseParam).then((d) => {
+      setFlinkReleaseList(d.records);
+    });
+    const clusterCredentialParam: ResourceListParam = {
+      resourceType: RESOURCE_TYPE.clusterCredential,
+      label: data.resourceProvider?.value,
+    }
+    list(clusterCredentialParam).then((d) => {
+      setClusterCredentialList(d.records);
+    });
   }, []);
 
   return (
@@ -60,6 +74,7 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
             clusterCredential: {id: values.clusterCredential},
             remark: values.remark,
           };
+          console.log(values)
           data.id
             ? update({ ...d }).then((d) => {
               if (d.success) {
@@ -81,7 +96,16 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
         layout="horizontal"
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
-        initialValues={data}
+        initialValues={{
+          id: data.id,
+          name: data.name,
+          flinkVersion: data.flinkVersion?.value,
+          resourceProvider: data.resourceProvider?.value,
+          deployMode: data.deployMode?.value,
+          flinkRelease: data.flinkRelease?.id,
+          clusterCredential: data.clusterCredential?.id,
+          remark: data.remark,
+        }}
       >
         <Form.Item name="id" hidden>
           <Input></Input>
@@ -106,7 +130,6 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
           rules={[{ required: true }]}
         >
           <Select
-            disabled={data.id ? true : false}
             showSearch={true}
             allowClear={true}
             optionFilterProp="label"
@@ -123,6 +146,7 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
               list(param).then((d) => {
                 setFlinkReleaseList(d.records);
               });
+              form.setFieldValue('flinkRelease', null)
             }}
           >
             {flinkVersionList.map((item) => {
@@ -140,7 +164,6 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
           rules={[{ required: true }]}
         >
           <Select
-            disabled={data.id ? true : false}
             showSearch={true}
             allowClear={true}
             optionFilterProp="label"
@@ -165,7 +188,6 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
           rules={[{ required: true }]}
         >
           <Select
-            disabled={data.id ? true : false}
             showSearch={true}
             allowClear={true}
             optionFilterProp="label"
@@ -190,7 +212,6 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
           rules={[{ required: true }]}
         >
           <Select
-            disabled={data.id ? true : false}
             showSearch={true}
             allowClear={true}
             optionFilterProp="label"
@@ -207,6 +228,7 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
               list(param).then((d) => {
                 setClusterCredentialList(d.records);
               });
+              form.setFieldValue('clusterCredential', null)
             }}
           >
             {resourceProviderList.map((item) => {
@@ -224,7 +246,6 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
           rules={[{ required: true }]}
         >
           <Select
-            disabled={data.id ? true : false}
             showSearch={true}
             allowClear={true}
             optionFilterProp="label"

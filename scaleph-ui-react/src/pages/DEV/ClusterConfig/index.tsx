@@ -1,5 +1,4 @@
 import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
-import {deleteProjectBatch, deleteProjectRow,} from '@/services/project/project.service';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
@@ -7,9 +6,9 @@ import {useEffect, useRef, useState} from 'react';
 import {useAccess, useIntl} from 'umi';
 import FlinkClusterConfigForm from './components/FlinkClusterConfigForm';
 import {FlinkClusterConfig} from "@/services/dev/typings";
-import {list} from "@/services/dev/flinkClusterConfig.service";
+import {deleteBatch, deleteOne, list} from "@/services/dev/flinkClusterConfig.service";
 import {listDictDataByType} from "@/services/admin/dictData.service";
-import { Dict } from '@/app.d';
+import {Dict} from '@/app.d';
 
 const FlinkClusterConfigWeb: React.FC = () => {
   const intl = useIntl();
@@ -194,7 +193,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        deleteProjectRow(record).then((d) => {
+                        deleteOne(record).then((d) => {
                           if (d.success) {
                             message.success(
                               intl.formatMessage({id: 'app.common.operate.delete.success'}),
@@ -257,7 +256,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
-                      deleteProjectBatch(selectedRows).then((d) => {
+                      deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(
                             intl.formatMessage({id: 'app.common.operate.delete.success'}),
