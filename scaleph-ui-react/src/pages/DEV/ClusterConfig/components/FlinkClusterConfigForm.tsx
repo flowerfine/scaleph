@@ -1,12 +1,13 @@
 import {Dict, ModalFormProps} from '@/app.d';
-import { DiProject } from '@/services/project/typings';
-import { addProject, updateProject } from '@/services/project/project.service';
 import {Form, Input, message, Modal, Select} from 'antd';
-import { useIntl } from 'umi';
+import {useIntl} from 'umi';
 import {FlinkClusterConfig} from "@/services/dev/typings";
 import {useEffect, useState} from "react";
+import {DICT_TYPE, RESOURCE_TYPE} from "@/constant";
+import {Resource, ResourceListParam} from "@/services/resource/typings";
 import {listDictDataByType} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
+import {list} from "@/services/resource/resource.service";
+import {add, update} from "@/services/dev/flinkClusterConfig.service";
 
 const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
   data,
@@ -19,6 +20,8 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
   const [flinkVersionList, setFlinkVersionList] = useState<Dict[]>([]);
   const [resourceProviderList, setResourceProviderList] = useState<Dict[]>([]);
   const [deployModeList, setDeployModeList] = useState<Dict[]>([]);
+  const [flinkReleaseList, setFlinkReleaseList] = useState<Resource[]>([]);
+  const [clusterCredentialList, setClusterCredentialList] = useState<Resource[]>([]);
 
   useEffect(() => {
     listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
@@ -30,7 +33,6 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
     listDictDataByType(DICT_TYPE.flinkDeploymentMode).then((d) => {
       setDeployModeList(d);
     });
-
   }, []);
 
   return (
@@ -48,20 +50,24 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          let d: DiProject = {
+          let d: FlinkClusterConfig = {
             id: values.id,
-            projectCode: values.projectCode,
-            projectName: values.projectName,
+            name: values.name,
+            flinkVersion: {value: values.flinkVersion},
+            resourceProvider: {value: values.resourceProvider},
+            deployMode: {value: values.deployMode},
+            flinkRelease: {id: values.flinkRelease},
+            clusterCredential: {id: values.clusterCredential},
             remark: values.remark,
           };
           data.id
-            ? updateProject({ ...d }).then((d) => {
+            ? update({ ...d }).then((d) => {
               if (d.success) {
                 message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
                 onVisibleChange(false);
               }
             })
-            : addProject({ ...d }).then((d) => {
+            : add({ ...d }).then((d) => {
               if (d.success) {
                 message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
                 onVisibleChange(false);
@@ -109,11 +115,45 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
                 .toLowerCase()
                 .includes(input.toLowerCase())
             }
+            onChange={(value, option) => {
+              const param: ResourceListParam = {
+                resourceType: RESOURCE_TYPE.flinkRelease,
+                label: value,
+              }
+              list(param).then((d) => {
+                setFlinkReleaseList(d.records);
+              });
+            }}
           >
             {flinkVersionList.map((item) => {
               return (
                 <Select.Option key={item.value} value={item.value}>
                   {item.label}
+                </Select.Option>
+              );
+            })}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="flinkRelease"
+          label={intl.formatMessage({ id: 'pages.dev.clusterConfig.flinkRelease' })}
+          rules={[{ required: true }]}
+        >
+          <Select
+            disabled={data.id ? true : false}
+            showSearch={true}
+            allowClear={true}
+            optionFilterProp="label"
+            filterOption={(input, option) =>
+              (option!.children as unknown as string)
+                .toLowerCase()
+                .includes(input.toLowerCase())
+            }
+          >
+            {flinkReleaseList.map((item) => {
+              return (
+                <Select.Option key={item.id} value={item.id}>
+                  {item.name}
                 </Select.Option>
               );
             })}
@@ -159,11 +199,45 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
                 .toLowerCase()
                 .includes(input.toLowerCase())
             }
+            onChange={(value, option) => {
+              const param: ResourceListParam = {
+                resourceType: RESOURCE_TYPE.clusterCredential,
+                label: value,
+              }
+              list(param).then((d) => {
+                setClusterCredentialList(d.records);
+              });
+            }}
           >
             {resourceProviderList.map((item) => {
               return (
                 <Select.Option key={item.value} value={item.value}>
                   {item.label}
+                </Select.Option>
+              );
+            })}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="clusterCredential"
+          label={intl.formatMessage({ id: 'pages.dev.clusterConfig.clusterCredential' })}
+          rules={[{ required: true }]}
+        >
+          <Select
+            disabled={data.id ? true : false}
+            showSearch={true}
+            allowClear={true}
+            optionFilterProp="label"
+            filterOption={(input, option) =>
+              (option!.children as unknown as string)
+                .toLowerCase()
+                .includes(input.toLowerCase())
+            }
+          >
+            {clusterCredentialList.map((item) => {
+              return (
+                <Select.Option key={item.id} value={item.id}>
+                  {item.name}
                 </Select.Option>
               );
             })}

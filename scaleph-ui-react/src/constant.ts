@@ -38,6 +38,11 @@ export const USER_AUTH = {
   expireTime: 'u_expire_time',
 };
 
+export const RESOURCE_TYPE = {
+  flinkRelease: 'flink_release',
+  clusterCredential: 'cluster_credential',
+};
+
 export const WORKSPACE_CONF = {
   projectId: 'projectId',
 }

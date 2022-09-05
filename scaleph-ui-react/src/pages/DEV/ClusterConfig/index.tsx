@@ -1,13 +1,13 @@
-import {PRIVILEGE_CODE, WORKSPACE_CONF} from '@/constant';
-import {DiProject} from '@/services/project/typings';
-import {deleteProjectBatch, deleteProjectRow, listProjectByPage,} from '@/services/project/project.service';
-import {DeleteOutlined, EditOutlined, FolderOpenOutlined} from '@ant-design/icons';
+import {PRIVILEGE_CODE} from '@/constant';
+import {deleteProjectBatch, deleteProjectRow,} from '@/services/project/project.service';
+import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {Button, message, Modal, Space, Tooltip} from 'antd';
 import {useEffect, useRef, useState} from 'react';
-import {history, useAccess, useIntl} from 'umi';
+import {useAccess, useIntl} from 'umi';
 import FlinkClusterConfigForm from './components/FlinkClusterConfigForm';
 import {FlinkClusterConfig} from "@/services/dev/typings";
+import {list} from "@/services/dev/flinkClusterConfig.service";
 
 const FlinkClusterConfigWeb: React.FC = () => {
   const intl = useIntl();
@@ -79,19 +79,6 @@ const FlinkClusterConfigWeb: React.FC = () => {
       render: (_, record) => (
         <>
           <Space>
-            {access.canAccess(PRIVILEGE_CODE.datadevJobShow) && (
-              <Tooltip title={intl.formatMessage({id: 'pages.dev.clusterConfig'})}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<FolderOpenOutlined/>}
-                  onClick={() => {
-                    localStorage.setItem(WORKSPACE_CONF.projectId, record.id + '');
-                    history.push('/workspace');
-                  }}
-                ></Button>
-              </Tooltip>
-            )}
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
               <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
                 <Button
@@ -142,7 +129,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
 
   return (
     <div>
-      <ProTable<DiProject>
+      <ProTable<FlinkClusterConfig>
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -153,7 +140,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return listProjectByPage(params);
+          return list(params);
         }}
         toolbar={{
           actions: [
