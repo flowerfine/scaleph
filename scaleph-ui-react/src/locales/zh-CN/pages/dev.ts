@@ -18,5 +18,12 @@ export default {
   'pages.dev.clusterConfig.flinkRelease': 'Flink Release',
   'pages.dev.clusterConfig.clusterCredential': 'Cluster Credential',
   'pages.dev.clusterConfig.configOptions': '自定义配置项',
+  'pages.dev.clusterInstance': '集群实例',
+  'pages.dev.clusterInstance.flinkClusterConfigId': '集群配置 ID',
+  'pages.dev.clusterInstance.name': '实例名称',
+  'pages.dev.clusterInstance.clusterId': 'Cluster ID',
+  'pages.dev.clusterInstance.webInterfaceUrl': 'Web UI',
+  'pages.dev.clusterInstance.status': '状态',
+
 
 }
