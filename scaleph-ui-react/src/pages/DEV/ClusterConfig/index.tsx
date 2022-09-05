@@ -1,13 +1,15 @@
-import {PRIVILEGE_CODE} from '@/constant';
+import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
 import {deleteProjectBatch, deleteProjectRow,} from '@/services/project/project.service';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, message, Modal, Space, Tooltip} from 'antd';
+import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
 import {useEffect, useRef, useState} from 'react';
 import {useAccess, useIntl} from 'umi';
 import FlinkClusterConfigForm from './components/FlinkClusterConfigForm';
 import {FlinkClusterConfig} from "@/services/dev/typings";
 import {list} from "@/services/dev/flinkClusterConfig.service";
+import {listDictDataByType} from "@/services/admin/dictData.service";
+import { Dict } from '@/app.d';
 
 const FlinkClusterConfigWeb: React.FC = () => {
   const intl = useIntl();
@@ -15,10 +17,25 @@ const FlinkClusterConfigWeb: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<FlinkClusterConfig[]>([]);
+  const [flinkVersionList, setFlinkVersionList] = useState<Dict[]>([]);
+  const [resourceProviderList, setResourceProviderList] = useState<Dict[]>([]);
+  const [deployModeList, setDeployModeList] = useState<Dict[]>([]);
   const [flinkClusterConfigFormData, setFlinkClusterConfigFormData] = useState<{
     visiable: boolean;
     data: FlinkClusterConfig;
   }>({visiable: false, data: {}});
+
+  useEffect(() => {
+    listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
+      setFlinkVersionList(d);
+    });
+    listDictDataByType(DICT_TYPE.flinkResourceProvider).then((d) => {
+      setResourceProviderList(d);
+    });
+    listDictDataByType(DICT_TYPE.flinkDeploymentMode).then((d) => {
+      setDeployModeList(d);
+    });
+  }, []);
 
   const tableColumns: ProColumns<FlinkClusterConfig>[] = [
     {
@@ -28,29 +45,99 @@ const FlinkClusterConfigWeb: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.dev.clusterConfig.flinkVersion'}),
       dataIndex: 'flinkVersion',
+      render: (text, record, index) => {
+        return record.flinkVersion?.label;
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <Select
+            showSearch={true}
+            allowClear={true}
+            optionFilterProp="label"
+            filterOption={(input, option) =>
+              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
+            }
+          >
+            {flinkVersionList.map((item) => {
+              return (
+                <Select.Option key={item.value} value={item.value}>
+                  {item.label}
+                </Select.Option>
+              );
+            })}
+          </Select>
+        );
+      },
     },
     {
       title: intl.formatMessage({id: 'pages.dev.clusterConfig.deployMode'}),
       dataIndex: 'deployMode',
+      render: (text, record, index) => {
+        return record.deployMode?.label;
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <Select
+            showSearch={true}
+            allowClear={true}
+            optionFilterProp="label"
+            filterOption={(input, option) =>
+              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
+            }
+          >
+            {deployModeList.map((item) => {
+              return (
+                <Select.Option key={item.value} value={item.value}>
+                  {item.label}
+                </Select.Option>
+              );
+            })}
+          </Select>
+        );
+      },
     },
     {
       title: intl.formatMessage({id: 'pages.dev.clusterConfig.resourceProvider'}),
       dataIndex: 'resourceProvider',
+      render: (text, record, index) => {
+        return record.resourceProvider?.label;
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <Select
+            showSearch={true}
+            allowClear={true}
+            optionFilterProp="label"
+            filterOption={(input, option) =>
+              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
+            }
+          >
+            {resourceProviderList.map((item) => {
+              return (
+                <Select.Option key={item.value} value={item.value}>
+                  {item.label}
+                </Select.Option>
+              );
+            })}
+          </Select>
+        );
+      },
     },
     {
       title: intl.formatMessage({id: 'pages.dev.clusterConfig.flinkRelease'}),
       dataIndex: 'flinkRelease',
       hideInSearch: true,
+      render: (text, record, index) => {
+        return record.flinkRelease?.fileName;
+      },
     },
     {
       title: intl.formatMessage({id: 'pages.dev.clusterConfig.clusterCredential'}),
       dataIndex: 'clusterCredential',
       hideInSearch: true,
-    },
-    {
-      title: intl.formatMessage({id: 'pages.dev.clusterConfig.configOptions'}),
-      dataIndex: 'configOptions',
-      hideInSearch: true,
+      render: (text, record, index) => {
+        return record.clusterCredential?.name;
+      },
     },
     {
       title: intl.formatMessage({id: 'pages.dev.remark'}),
