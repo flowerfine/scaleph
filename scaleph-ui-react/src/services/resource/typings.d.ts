@@ -1,20 +1,17 @@
 import {Dict, QueryParam} from "@/app";
 
-export type DiResourceFile = {
-    id?: number;
-    projectId?: number;
-    projectCode?: string;
-    fileName?: string;
-    fileType?: string;
-    filePath?: string;
-    fileSize?: number;
-    createTime?: Date;
-    updateTime?: Date;
+export type Resource = {
+  id?: number;
+  type?: string;
+  label?: string;
+  name?: string;
+  remark?: string;
 }
 
-export type DiResourceFileParam = QueryParam & {
-    projectId?: string;
-    fileName?: string;
+export type ResourceListParam = QueryParam & {
+  resourceType?: string;
+  label?: string;
+  name?: string;
 }
 
 export type Jar = {
@@ -59,7 +56,7 @@ export type FlinkReleaseUploadParam = QueryParam & {
   remark?: string;
 }
 
-export class SeaTunnelRelease {
+export type SeaTunnelRelease = {
   id?: number;
   version?: Dict;
   fileName?: string;
@@ -80,7 +77,7 @@ export type SeaTunnelReleaseUploadParam = QueryParam & {
   remark?: String;
 }
 
-export class ClusterCredential {
+export type ClusterCredential = {
   id?: number;
   configType?: Dict;
   name?: string;
@@ -94,7 +91,7 @@ export type ClusterCredentialListParam = QueryParam & {
   name?: string;
 }
 
-export class CredentialFile {
+export type CredentialFile = {
   name?: string;
   len?: number;
   blockSize?: number;
@@ -102,7 +99,7 @@ export class CredentialFile {
   accessTime?: Date;
 }
 
-export class CredentialFileUploadParam {
+export type CredentialFileUploadParam = QueryParam & {
   configType?: string;
   name?: string;
   files?: File[];

@@ -113,6 +113,14 @@ export default [
             access: 'normalRouteFilter',
           },
           {
+            name: 'clusterConfig',
+            path: '/workspace/dev/clusterConfig',
+            exact: true,
+            component: './DEV/ClusterConfig',
+            pCode: PRIVILEGE_CODE.datadevDatasourceShow,
+            access: 'normalRouteFilter',
+          },
+          {
             name: 'realtime',
             path: '/workspace/dev/realtime',
             exact: true,
