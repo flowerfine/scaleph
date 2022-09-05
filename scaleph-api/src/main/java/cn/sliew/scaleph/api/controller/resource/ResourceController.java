@@ -46,7 +46,7 @@ public class ResourceController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询资源列表", notes = "查询资源列表")
+    @ApiOperation(value = "查询支持的资源类型", notes = "查询支持的资源类型")
     public ResponseEntity<List<ResourceType>> getTypes() {
         final List<ResourceType> resourceTypes = resourceService.getSupportedResources();
         return new ResponseEntity<>(resourceTypes, HttpStatus.OK);
@@ -63,7 +63,7 @@ public class ResourceController {
 
     @Logging
     @GetMapping("/{resourceType}/{id}")
-    @ApiOperation(value = "查询资源列表", notes = "查询资源列表")
+    @ApiOperation(value = "查询资源详情", notes = "查询资源详情")
     public ResponseEntity<Object> list(@PathVariable("resourceType") ResourceType resourceType,
                                        @PathVariable("id") Long id) {
         final Object resource = resourceService.getRaw(resourceType, id);
