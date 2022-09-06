@@ -11,6 +11,7 @@ export default {
   'menu.dev': '数据开发',
   'menu.dev.artifact': 'Artifact',
   'menu.dev.clusterConfig': '集群配置',
+  'menu.dev.clusterConfigOptions': '集群配置选项',
   'menu.dev.clusterInstance': '集群实例',
   'menu.dev.batch': '周期任务',
   'menu.dev.realtime': '实时任务',
