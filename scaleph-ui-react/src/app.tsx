@@ -132,7 +132,7 @@ const requestHeaderInterceptor: any = (url: string, options: RequestConfig) => {
 
 const responseErrorInterceptor: any = (response: any, options: RequestConfig) => {
   // debugger
-  // check response status 
+  // check response status
   if (response.status != 200) {
     switch (response.status) {
       case 401:
@@ -145,7 +145,7 @@ const responseErrorInterceptor: any = (response: any, options: RequestConfig) =>
         break;
     }
   }
-  // check response body info 
+  // check response body info
   let respBody: ResponseBody<any> = response?.data;
   if (respBody && respBody.success != null && respBody.success != undefined && !respBody.success) {
     if (respBody.errorCode == '401') {
@@ -170,7 +170,7 @@ const handleError = (errorCode: string | undefined, errorMessage: string, showTy
 }
 
 export const request: RequestConfig = {
-  timeout: 1000,
+  timeout: 1800000,
   errorConfig: {},
   requestInterceptors: [requestHeaderInterceptor],
   responseInterceptors: [responseErrorInterceptor],

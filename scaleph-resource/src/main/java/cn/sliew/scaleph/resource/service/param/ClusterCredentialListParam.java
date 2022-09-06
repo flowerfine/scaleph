@@ -23,8 +23,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class ClusterCredentialListParam extends PaginationParam {
 
     @ApiModelProperty("配置文件类型。0: Hadoop, 1: Kubernetes")

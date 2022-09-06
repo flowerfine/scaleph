@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>scaleph</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>scaleph-plugins</artifactId>
@@ -33,6 +33,7 @@
         <module>scaleph-plugin-framework</module>
         <module>scaleph-plugin-datasource</module>
         <module>scaleph-plugin-seatunnel-native-flink</module>
+        <module>scaleph-plugin-seatunnel-connectors</module>
     </modules>
 
     <dependencyManagement>
@@ -41,6 +42,11 @@
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-plugin-framework</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.auto.service</groupId>
+                <artifactId>auto-service</artifactId>
+                <version>${auto-service.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

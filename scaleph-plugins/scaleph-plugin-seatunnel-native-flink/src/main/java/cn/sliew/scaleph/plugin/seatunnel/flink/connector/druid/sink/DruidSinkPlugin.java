@@ -18,13 +18,12 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.sink;
 
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +32,7 @@ import java.util.List;
 import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.DRUID_SINK;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.sink.DruidSinkProperties.*;
 
+@AutoService(SeatunnelNativeFlinkPlugin.class)
 public class DruidSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
     public DruidSinkPlugin() {

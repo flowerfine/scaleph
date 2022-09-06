@@ -18,13 +18,13 @@
 
 package cn.sliew.scaleph.workflow.engine;
 
-import cn.sliew.milky.common.chain.ContextMap;
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.scaleph.plugin.framework.lifecycle.LifeCycle;
+import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
 
 public interface Engine extends LifeCycle {
 
-    void run(WorkFlow workflow, ContextMap<String, Object> context, ActionListener<ActionResult> listener);
+    void run(WorkFlow workflow, ActionContext context, ActionListener<ActionResult> listener);
 }

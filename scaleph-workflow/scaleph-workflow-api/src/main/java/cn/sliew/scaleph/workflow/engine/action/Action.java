@@ -18,9 +18,8 @@
 
 package cn.sliew.scaleph.workflow.engine.action;
 
-import cn.sliew.milky.common.chain.ContextMap;
+import cn.sliew.milky.common.constant.AttributeKey;
 import cn.sliew.milky.common.filter.ActionListener;
-import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 
 import java.util.List;
 
@@ -28,9 +27,9 @@ public interface Action {
 
     String getName();
 
-    List<PropertyDescriptor> getInputs();
+    List<AttributeKey> getInputs();
 
-    List<PropertyDescriptor> getOutputs();
+    List<AttributeKey> getOutputs();
 
-    void execute(ContextMap<String, Object> context, ActionListener<ActionResult> listener);
+    void execute(ActionContext context, ActionListener<ActionResult> listener);
 }

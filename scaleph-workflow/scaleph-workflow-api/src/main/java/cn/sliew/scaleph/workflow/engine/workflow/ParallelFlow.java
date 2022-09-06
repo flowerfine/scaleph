@@ -18,6 +18,45 @@
 
 package cn.sliew.scaleph.workflow.engine.workflow;
 
-public interface ParallelFlow extends WorkFlow {
+import cn.sliew.milky.common.filter.ActionListener;
+import cn.sliew.scaleph.workflow.engine.action.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ParallelFlow extends AbstractWorkFlow {
+
+    private final List<Action> actions = new ArrayList<>();
+
+    public ParallelFlow(String name, List<Action> actions) {
+        super(name);
+        this.actions.addAll(actions);
+    }
+
+    @Override
+    protected Runnable doExecute(ActionContext context, ActionListener<ActionResult> listener) {
+        return () -> {
+            try {
+                List<ActionResult> results = new ArrayList<>(actions.size());
+                for (Action action : actions) {
+                    action.execute(context, new ActionListener<ActionResult>() {
+                        @Override
+                        public void onResponse(ActionResult result) {
+                            results.add(result);
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+                            results.add(new DefaultActionResult(ActionStatus.FAILURE, context, e));
+                        }
+                    });
+                }
+                listener.onResponse(new ParallelActionResult(context, results));
+            } catch (Exception e) {
+                listener.onFailure(e);
+            }
+        };
+    }
+
 
 }

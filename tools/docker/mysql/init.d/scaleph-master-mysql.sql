@@ -1,5 +1,5 @@
 create
-    database if not exists scaleph default character set utf8mb4 collate utf8mb4_unicode_ci;
+database if not exists scaleph default character set utf8mb4 collate utf8mb4_unicode_ci;
 use scaleph;
 /* 数据字典类型表 */
 drop table if exists sys_dict_type;
@@ -790,14 +790,14 @@ create TABLE meta_datasource
     datasource_type  varchar(32) not null comment '数据源类型',
     props            text COMMENT '数据源支持的属性',
     additional_props text COMMENT '数据源支持的额外属性',
-    remark           varchar(256)     DEFAULT NULL COMMENT '备注描述',
-    creator          varchar(32)      DEFAULT NULL COMMENT '创建人',
-    create_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    editor           varchar(32)      DEFAULT NULL COMMENT '修改人',
-    update_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT '修改时间',
+    remark           varchar(256) DEFAULT NULL COMMENT '备注描述',
+    creator          varchar(32)  DEFAULT NULL COMMENT '创建人',
+    create_time      timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    editor           varchar(32)  DEFAULT NULL COMMENT '修改人',
+    update_time      timestamp NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (id),
-    KEY datasource_name (datasource_name),
-    KEY datasource_type (datasource_type)
+    KEY              datasource_name (datasource_name),
+    KEY              datasource_type (datasource_type)
 ) ENGINE = InnoDB COMMENT ='元数据-数据源信息';
 insert into meta_datasource (id, datasource_name, datasource_type, props, additional_props, remark, creator, editor)
 values (1, 'docker_data_service', 'Mysql',
@@ -1798,9 +1798,9 @@ CREATE TABLE `resource_seatunnel_release`
     `path`        VARCHAR(255) NOT NULL COMMENT '存储路径',
     `remark`      VARCHAR(255) COMMENT '备注',
     `creator`     VARCHAR(32) COMMENT '创建人',
-    `create_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `editor`      VARCHAR(32) COMMENT '修改人',
-    `update_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    `update_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB COMMENT = 'seatunnel release';
 
@@ -1814,13 +1814,13 @@ CREATE TABLE `resource_flink_release`
     `path`        VARCHAR(255) NOT NULL COMMENT '存储路径',
     `remark`      VARCHAR(255) COMMENT '备注',
     `creator`     VARCHAR(32) COMMENT '创建人',
-    `create_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `editor`      VARCHAR(32) COMMENT '修改人',
-    `update_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    `update_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB COMMENT = 'flink release';
 
-/* flink 部署配置文件 */
+/* hadoop 或 kubernetes 部署配置文件 */
 DROP TABLE IF EXISTS resource_cluster_credential;
 CREATE TABLE resource_cluster_credential
 (
@@ -1834,3 +1834,19 @@ CREATE TABLE resource_cluster_credential
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (id)
 ) ENGINE = INNODB COMMENT = 'cluster credential';
+
+/* 公共 java jar */
+DROP TABLE IF EXISTS resource_jar;
+CREATE TABLE `resource_jar`
+(
+    `id`          bigint       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    `group`       varchar(255) NOT NULL COMMENT 'jar group',
+    `file_name`   varchar(255) NOT NULL COMMENT '文件名称',
+    `path`        varchar(255) NOT NULL COMMENT '存储路径',
+    `remark`      varchar(255) DEFAULT NULL COMMENT '备注',
+    `creator`     varchar(32)  DEFAULT NULL COMMENT '创建人',
+    `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `editor`      varchar(32)  DEFAULT NULL COMMENT '修改人',
+    `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB COMMENT='java jar';

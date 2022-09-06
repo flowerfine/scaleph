@@ -38,14 +38,14 @@ services:
       - scaleph
 
   scaleph-ui:
-    image: scaleph/scaleph-ui:dev
-    container_name: scaleph-ui
+    image: scaleph/scaleph-ui-react:dev
+    container_name: scaleph-ui-react
     depends_on:
       scaleph-api:
         condition: service_healthy
     build:
       context: ../../../../
-      dockerfile: tools/docker/build/scaleph-ui/Dockerfile
+      dockerfile: tools/docker/build/scaleph-ui-react/Dockerfile
     environment:
       - SCALEPH_API_URL="scaleph-api:8080"
     ports:

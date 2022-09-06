@@ -18,18 +18,19 @@
 
 package cn.sliew.scaleph.common.container;
 
-import cn.sliew.scaleph.common.concurrent.RunnableWrapper;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
-public class ThreadContainer extends AbstractContainer implements RunnableWrapper {
+import static cn.sliew.milky.common.check.Ensures.checkNotNull;
 
-    @Override
-    public void doRun() throws Exception {
-        this.start();
-    }
+public class ThreadContainer extends AbstractContainer {
 
-    @Override
-    public void onFailure(Exception e) {
-        this.stop();
+    private final Executor executor;
+
+    private transient CompletableFuture<Void> future;
+
+    public ThreadContainer(Executor executor) {
+        this.executor = checkNotNull(executor);
     }
 
     @Override
@@ -39,11 +40,20 @@ public class ThreadContainer extends AbstractContainer implements RunnableWrappe
 
     @Override
     protected void doStart() {
-
+        future = CompletableFuture.runAsync(task, executor);
+        future.whenComplete((unused, throwable) -> {
+            if (throwable != null) {
+                listener.onFailure(new Exception(throwable));
+            } else {
+                listener.onResponse(unused);
+            }
+        });
     }
 
     @Override
     protected void doStop() {
-
+        if (future.isDone() == false) {
+            future.cancel(true);
+        }
     }
 }

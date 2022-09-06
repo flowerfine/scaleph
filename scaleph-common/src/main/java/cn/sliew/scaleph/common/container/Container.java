@@ -18,11 +18,14 @@
 
 package cn.sliew.scaleph.common.container;
 
+import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.milky.common.lifecycle.LifeCycle;
 
 import java.time.Duration;
 
 public interface Container extends LifeCycle {
+
+    void execute(Runnable task, ActionListener<Void> listener);
 
     @Override
     LifeCycleResult initialize();
