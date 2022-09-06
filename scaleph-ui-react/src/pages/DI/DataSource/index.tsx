@@ -171,6 +171,11 @@ const DataSource: React.FC = () => {
 
   useEffect(() => {
     listDictDataByType(DICT_TYPE.datasourceType).then((d) => {
+      let dictMap = new Map();
+      d.map((value, index, array) => {
+        dictMap.set(value.value, value.label);
+      });
+      console.log(dictMap);
       setDataSourceTypeList(d);
     });
   }, []);

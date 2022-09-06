@@ -4,6 +4,7 @@ import studio from './studio';
 import cluster from './cluster';
 import project from './project';
 import resource from './resource';
+import dev from './dev';
 export default {
   ...user,
   ...admin,
@@ -11,4 +12,5 @@ export default {
   ...cluster,
   ...project,
   ...resource,
+  ...dev,
 };
