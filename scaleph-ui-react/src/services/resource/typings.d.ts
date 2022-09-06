@@ -100,10 +100,8 @@ export type CredentialFile = {
 }
 
 export type CredentialFileUploadParam = QueryParam & {
-  configType?: string;
-  name?: string;
+  id?: number;
   files?: File[];
-  remark?: string;
 }
 
 

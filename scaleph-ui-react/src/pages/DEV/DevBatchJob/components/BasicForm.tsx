@@ -1,4 +1,4 @@
-import {Form, Select} from "antd";
+import {Card, Form, Select} from "antd";
 import {ProForm, ProFormSelect, ProFormText} from "@ant-design/pro-components";
 import {useIntl} from "@@/exports";
 import {useEffect, useState} from "react";
@@ -46,6 +46,9 @@ const BasicForm: React.FC = () => {
       title={"Basic"}
       collapsible={true}
     >
+      <Card title="仓库管理" bordered={false}>
+
+      </Card>
       <ProFormText
         name="name"
         label={intl.formatMessage({id: 'pages.dev.clusterConfig.name'})}
