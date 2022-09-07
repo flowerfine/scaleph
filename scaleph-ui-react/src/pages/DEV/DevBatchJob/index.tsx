@@ -1,6 +1,10 @@
 import {ProForm} from "@ant-design/pro-components";
-import {Col, Form, Input, Row, Space} from "antd";
+import {Col, Row, Space} from "antd";
 import BasicForm from "@/pages/DEV/DevBatchJob/components/BasicForm";
+import StateForm from "@/pages/DEV/DevBatchJob/components/StateForm";
+import FaultToleranceForm from "@/pages/DEV/DevBatchJob/components/FaultToleranceForm";
+import HAForm from "@/pages/DEV/DevBatchJob/components/HAForm";
+import MemoryForm from "@/pages/DEV/DevBatchJob/components/MemoryForm";
 
 const DevBatchJob: React.FC = () => {
   return (<div>
@@ -12,7 +16,7 @@ const DevBatchJob: React.FC = () => {
         render: (props, doms) => {
           return (
             <Row>
-              <Col span={14} offset={4}>
+              <Col span={14}>
                 <Space>{doms}</Space>
               </Col>
             </Row>
@@ -21,11 +25,10 @@ const DevBatchJob: React.FC = () => {
       }}
     >
       <BasicForm></BasicForm>
-      <ProForm.Group title={"State & Checkpoints & Savepoints"} collapsible={true} defaultCollapsed={true}>
-        <Form.Item name="switch" label="Switch" valuePropName="checked">
-          <Input/>
-        </Form.Item>
-      </ProForm.Group>
+      <StateForm></StateForm>
+      <FaultToleranceForm></FaultToleranceForm>
+      <HAForm></HAForm>
+      <MemoryForm></MemoryForm>
     </ProForm>
   </div>);
 }
