@@ -18,7 +18,7 @@ const BasicForm: React.FC = () => {
       <ProFormText
         name="name"
         label={intl.formatMessage({id: 'pages.dev.clusterConfig.name'})}
-        colProps={{span: 8, offset: 2}}
+        colProps={{span: 10, offset: 1}}
         rules={[
           {required: true},
           {max: 30},
@@ -31,7 +31,7 @@ const BasicForm: React.FC = () => {
       <ProFormSelect
         name="deployMode"
         label={intl.formatMessage({id: 'pages.dev.clusterConfig.deployMode'})}
-        colProps={{span: 8, offset: 2}}
+        colProps={{span: 10, offset: 1}}
         rules={[{required: true}]}
         showSearch={true}
         allowClear={true}
@@ -40,7 +40,7 @@ const BasicForm: React.FC = () => {
       <ProFormSelect
         name="flinkVersion"
         label={intl.formatMessage({id: 'pages.dev.clusterConfig.flinkVersion'})}
-        colProps={{span: 8, offset: 2}}
+        colProps={{span: 10, offset: 1}}
         rules={[{required: true}]}
         showSearch={true}
         allowClear={true}
@@ -49,7 +49,7 @@ const BasicForm: React.FC = () => {
       <ProFormSelect
         name="flinkRelease"
         label={intl.formatMessage({id: 'pages.dev.clusterConfig.flinkRelease'})}
-        colProps={{span: 8, offset: 2}}
+        colProps={{span: 10, offset: 1}}
         rules={[{required: true}]}
         showSearch={true}
         allowClear={true}
@@ -71,7 +71,7 @@ const BasicForm: React.FC = () => {
       <ProFormSelect
         name="resourceProvider"
         label={intl.formatMessage({id: 'pages.dev.clusterConfig.resourceProvider'})}
-        colProps={{span: 8, offset: 2}}
+        colProps={{span: 10, offset: 1}}
         rules={[{required: true}]}
         showSearch={true}
         allowClear={true}
@@ -80,7 +80,7 @@ const BasicForm: React.FC = () => {
       <ProFormSelect
         name="clusterCredential"
         label={intl.formatMessage({id: 'pages.dev.clusterConfig.clusterCredential'})}
-        colProps={{span: 8, offset: 2}}
+        colProps={{span: 10, offset: 1}}
         rules={[{required: true}]}
         showSearch={true}
         allowClear={true}
@@ -101,7 +101,7 @@ const BasicForm: React.FC = () => {
       <ProFormText
         name="remark"
         label={intl.formatMessage({id: 'pages.dev.remark'})}
-        colProps={{span: 8, offset: 2}}
+        colProps={{span: 10, offset: 1}}
         rules={[{max: 200}]}
       />
     </ProForm.Group>
