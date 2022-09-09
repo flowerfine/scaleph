@@ -54,5 +54,9 @@ export default {
   'pages.project.di.setting': '定时设置',
   'pages.project.di.job.realtime': '实时作业',
   'pages.project.di.job.batch': '周期作业',
+  'pages.project.di.flow.dag.start': '启动',
+  'pages.project.di.flow.dag.stop': '停止',
   'pages.project.di.flow.dag.save': '保存',
+  'pages.project.di.flow.dag.publish': '发布',
+  'pages.project.di.flow.dag.prop': '参数设置',
 };

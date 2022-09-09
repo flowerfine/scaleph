@@ -187,7 +187,7 @@ function showModal(node, getAppContext) {
 
 const createContainer = () => {
   const div = document.createElement('div')
-  div.classList.add('xflow-modal-container')
+  // div.classList.add('xflow-modal-container')
   window.document.body.append(div)
   return {
     element: div,
