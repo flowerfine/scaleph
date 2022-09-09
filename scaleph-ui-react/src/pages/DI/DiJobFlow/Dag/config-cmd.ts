@@ -7,7 +7,6 @@ export const useCmdConfig = createCmdConfig(config => {
   config.setCommandContributions(() => commandContributions)
   // 设置hook
   config.setRegisterHookFn(hooks => {
-    console.log('aaaaaaaaaaa', hooks);
     const list = [
       hooks.graphMeta.registerHook({
         name: 'get graph meta from backend',

@@ -4,7 +4,7 @@ import { Button, Drawer, Popover, Space, Tag, Tooltip } from 'antd';
 import { useAccess, useIntl } from 'umi';
 import React from 'react'
 /** app 核心组件 */
-import { XFlow, XFlowCanvas, KeyBindings, IApplication, IAppLoad, createCtxMenuConfig, MenuItemType, XFlowNodeCommands, XFlowEdgeCommands, IconStore, createToolbarConfig } from '@antv/xflow'
+import { XFlow, XFlowCanvas, KeyBindings, IApplication, IAppLoad, createCtxMenuConfig, MenuItemType, XFlowNodeCommands, XFlowEdgeCommands, IconStore, createToolbarConfig, createKeybindingConfig, XFlowGraphCommands } from '@antv/xflow'
 /** 交互组件 */
 import {
   /** 触发Command的交互组件 */
@@ -54,7 +54,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = props => {
   // const menuConfig = useMenuConfig()
   const cmdConfig = useCmdConfig()
   const modelServiceConfig = useModelServiceConfig()
-  const keybindingConfig = useKeybindingConfig()
+  // const keybindingConfig = useKeybindingConfig()
 
   /**register icons */
   IconStore.set('DeleteOutlined', DeleteOutlined);
@@ -256,6 +256,68 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = props => {
     })
   })
 
+  /**
+   * key bind config
+   */
+  const keybindingConfig = createKeybindingConfig(config => {
+    config.setKeybindingFunc(register => {
+      return register.registerKeybinding([
+        {
+          id: 'delete',
+          keybinding: ['delete', 'backspace'],
+          callback: async function (item, modeService, cmd, e) {
+            e.preventDefault();
+            console.log('item:', item);
+            console.log('modeService:', modeService);
+            console.log('cmd:', cmd);
+            console.log('e:', e);
+          }
+        },
+        {
+          id: 'copy',
+          keybinding: ['command+c', 'ctrl+c'],
+          callback: async function (item, modeService, cmd, e) {
+            e.preventDefault();
+            cmd.executeCommand(XFlowGraphCommands.GRAPH_COPY.id, {});
+          }
+        },
+        {
+          id: 'cut',
+          keybinding: ['command+x', 'ctrl+x'],
+          callback: async function (item, modeService, cmd, e) {
+            e.preventDefault();
+            // cmd.executeCommand(XFlowGraphCommands.GRAPH_.id, {});
+          }
+        },
+        {
+          id: 'paste',
+          keybinding: ['command+v', 'ctrl+v'],
+          callback: async function (item, modeService, cmd, e) {
+            e.preventDefault();
+            cmd.executeCommand(XFlowGraphCommands.GRAPH_PASTE.id, {});
+          }
+        },
+        {
+          id: 'redo',
+          keybinding: ['command+y', 'ctrl+y'],
+          callback: async function (item, modeService, cmd, e) {
+            e.preventDefault();
+            console.log('redo');
+            cmd.executeCommand(XFlowGraphCommands.GRAPH_HISTORY_REDO.id, {});
+          }
+        },
+        {
+          id: 'undo',
+          keybinding: ['command+z', 'ctrl+z'],
+          callback: async function (item, modeService, cmd, e) {
+            e.preventDefault();
+            console.log('undo');
+            cmd.executeCommand(XFlowGraphCommands.GRAPH_HISTORY_UNDO.id, {});
+          }
+        },
+      ]);
+    })
+  })
 
   return (
     <>
@@ -352,7 +414,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = props => {
             <CanvasMiniMap minimapOptions={{ width: 200, height: 120 }} />
             <CanvasNodePortTooltip />
           </XFlowCanvas>
-          <KeyBindings config={keybindingConfig} />
+          <KeyBindings config={keybindingConfig()} />
         </XFlow>
       </Drawer>
     </>
