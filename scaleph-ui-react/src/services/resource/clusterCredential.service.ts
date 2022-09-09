@@ -7,6 +7,7 @@ import {
 import {request} from "@@/exports";
 import {PageResponse, ResponseBody} from "@/app.d";
 import {USER_AUTH} from "@/constant";
+import {UploadFile} from "antd";
 
 const url: string = '/api/resource/cluster-credential';
 
