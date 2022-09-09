@@ -1,12 +1,14 @@
 import {ModalFormProps} from '@/app.d';
-import {Form, message, Modal, Upload,UploadFile, UploadProps} from 'antd';
+import {Form, message, Modal, Upload, UploadFile, UploadProps} from 'antd';
 import {useIntl} from 'umi';
 import {useState} from "react";
 import {InboxOutlined} from "@ant-design/icons";
 import {uploadFiles} from "@/services/resource/clusterCredential.service";
+import {CredentialFileUploadParam} from "@/services/resource/typings";
+
 const { Dragger } = Upload;
 
-const CredentialFileForm: React.FC<ModalFormProps<number>> = ({
+const CredentialFileForm: React.FC<ModalFormProps<{id: number}>> = ({
   data,
   visible,
   onVisibleChange,
@@ -48,8 +50,12 @@ const CredentialFileForm: React.FC<ModalFormProps<number>> = ({
       okText={uploading ? intl.formatMessage({ id: 'app.common.operate.uploading.label' }) : intl.formatMessage({ id: 'app.common.operate.upload.label' })}
       onOk={() => {
         form.validateFields().then((values) => {
+          const uploadParam: CredentialFileUploadParam  ={
+            id: data.id,
+            files: fileList,
+          };
           setUploading(true);
-          uploadFiles(data, fileList)
+          uploadFiles(uploadParam)
             .then(() => {
               setFileList([]);
               message.success(intl.formatMessage({ id: 'app.common.operate.upload.success' }));

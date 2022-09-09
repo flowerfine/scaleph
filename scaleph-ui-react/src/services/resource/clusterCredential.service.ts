@@ -1,8 +1,12 @@
-import {ClusterCredential, ClusterCredentialListParam, CredentialFile} from "@/services/resource/typings";
+import {
+  ClusterCredential,
+  ClusterCredentialListParam,
+  CredentialFile,
+  CredentialFileUploadParam
+} from "@/services/resource/typings";
 import {request} from "@@/exports";
 import {PageResponse, ResponseBody} from "@/app.d";
 import {USER_AUTH} from "@/constant";
-import {UploadFile} from "antd";
 
 const url: string = '/api/resource/cluster-credential';
 
@@ -63,14 +67,12 @@ export async function listFiles(id: number) {
   })
 }
 
-export async function uploadFiles(id: number, files: UploadFile[]) {
+export async function uploadFiles(uploadParam: CredentialFileUploadParam) {
   const params: FormData = new FormData();
-  files.forEach(function (file) {
-    if (file.originFileObj) {
-      params.append("files", file.originFileObj);
-    }
+  uploadParam.files.forEach(function (file: string | Blob) {
+    params.append("files", file);
   })
-  return request<ResponseBody<any>>(`${url}/` + id + "/file", {
+  return request<ResponseBody<any>>(`${url}/` + uploadParam.id + "/file", {
     method: 'POST',
     data: params
   })
