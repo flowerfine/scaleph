@@ -15,11 +15,12 @@ import {listDictDataByType} from "@/services/admin/dictData.service";
 import {DICT_TYPE, RESOURCE_TYPE} from "@/constant";
 import {ResourceListParam} from "@/services/resource/typings";
 import {list} from "@/services/resource/resource.service";
-import {useIntl} from "@@/exports";
 import {FlinkClusterConfig} from "@/services/dev/typings";
 import {add} from "@/services/dev/flinkClusterConfig.service";
+import {history, useIntl} from 'umi';
 
 const DevBatchJob: React.FC = () => {
+  const state = history.location.state as FlinkClusterConfig
   const intl = useIntl();
 
   return (<div>
@@ -27,7 +28,6 @@ const DevBatchJob: React.FC = () => {
       layout={"horizontal"}
       grid={true}
       rowProps={{gutter: [16, 8]}}
-      // colProps={{span: 10, offset: 1}}
       submitter={{
         render: (props, doms) => {
           return (
@@ -38,9 +38,15 @@ const DevBatchJob: React.FC = () => {
             </Row>
           )
         },
+        searchConfig: {
+          resetText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+          submitText: intl.formatMessage({id: 'app.common.operate.submit.label'})
+        },
+        onReset: () => {
+          history.back();
+        },
       }}
       onFinish={(value) => {
-        console.log(value)
         const options: { [key: string]: any } = {}
         options['state.backend'] = value['state.backend']
         options['state.savepoints.dir'] = value['state.savepoints.dir']
@@ -70,7 +76,7 @@ const DevBatchJob: React.FC = () => {
         options['taskmanager.memory.process.size'] = value['taskmanager.memory.process.size']
         options['taskmanager.memory.flink.size'] = value['taskmanager.memory.flink.size']
 
-        value.options.forEach(function (item: Record<string, any>) {
+        value.options?.forEach(function (item: Record<string, any>) {
           options[item.key] = item.value
         })
 
@@ -87,8 +93,16 @@ const DevBatchJob: React.FC = () => {
         return add(param).then((d) => {
           if (d.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
+          } else {
+            message.error(d.errorMessage);
           }
-        });
+        })
+          .catch(() => {
+            message.error(intl.formatMessage({id: 'app.common.operate.new.failure'}));
+          })
+          .finally(() => {
+            history.back();
+          });
       }}
     >
       <ProCard

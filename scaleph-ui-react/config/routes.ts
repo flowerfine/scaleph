@@ -121,7 +121,6 @@ export default [
             access: 'normalRouteFilter',
           },
           {
-            name: 'clusterConfigOptions',
             path: '/workspace/dev/clusterConfigOptions',
             exact: true,
             component: './DEV/ClusterConfigOptions',
