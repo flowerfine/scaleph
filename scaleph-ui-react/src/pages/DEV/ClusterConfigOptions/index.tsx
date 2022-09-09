@@ -10,12 +10,14 @@ import {
   ProFormSwitch,
   ProFormText
 } from "@ant-design/pro-components";
-import {Col, Row} from "antd";
+import {Col, message, Row} from "antd";
 import {listDictDataByType} from "@/services/admin/dictData.service";
 import {DICT_TYPE, RESOURCE_TYPE} from "@/constant";
 import {ResourceListParam} from "@/services/resource/typings";
 import {list} from "@/services/resource/resource.service";
 import {useIntl} from "@@/exports";
+import {FlinkClusterConfig} from "@/services/dev/typings";
+import {add} from "@/services/dev/flinkClusterConfig.service";
 
 const DevBatchJob: React.FC = () => {
   const intl = useIntl();
@@ -39,7 +41,54 @@ const DevBatchJob: React.FC = () => {
       }}
       onFinish={(value) => {
         console.log(value)
-        return Promise.resolve()
+        const options: { [key: string]: any } = {}
+        options['state.backend'] = value['state.backend']
+        options['state.savepoints.dir'] = value['state.savepoints.dir']
+        options['state.checkpoints.dir'] = value['state.checkpoints.dir']
+        options['execution.checkpointing.mode'] = value['execution.checkpointing.mode']
+        options['execution.checkpointing.unaligned'] = value['execution.checkpointing.unaligned']
+        options['execution checkpointing interval'] = value['execution checkpointing interval']
+        options['execution.checkpointing.externalized-checkpoint-retention'] = value['execution.checkpointing.externalized-checkpoint-retention']
+        options['restart-strategy'] = value['strategy']
+        options['restart-strategy.fixed-delay.attempts'] = value['restart-strategy.fixed-delay.attempts']
+        options['restart-strategy.fixed-delay.delay'] = value['restart-strategy.fixed-delay.delay']
+        options['restart-strategy.failure-rate.delay'] = value['restart-strategy.failure-rate.delay']
+        options['restart-strategy.failure-rate.failure-rate-interval'] = value['restart-strategy.failure-rate.failure-rate-interval']
+        options['restart-strategy.failure-rate.max-failures-per-interval'] = value['restart-strategy.failure-rate.max-failures-per-interval']
+        options['restart-strategy.exponential-delay.initial-backoff'] = value['restart-strategy.exponential-delay.initial-backoff']
+        options['restart-strategy.exponential-delay.backoff-multiplier'] = value['restart-strategy.exponential-delay.backoff-multiplier']
+        options['restart-strategy.exponential-delay.max-backoff'] = value['restart-strategy.exponential-delay.max-backoff']
+        options['restart-strategy.exponential-delay.reset-backoff-threshold'] = value['restart-strategy.exponential-delay.reset-backoff-threshold']
+        options['restart-strategy.exponential-delay.jitter-factor'] = value['restart-strategy.exponential-delay.jitter-factor']
+        options['high-availability'] = value['ha']
+        options['high-availability.storageDir'] = value['high-availability.storageDir']
+        options['high-availability.cluster-id'] = value['high-availability.cluster-id']
+        options['high-availability.zookeeper.path.root'] = value['high-availability.zookeeper.path.root']
+        options['high-availability.zookeeper.quorum'] = value['high-availability.zookeeper.quorum']
+        options['jobmanager.memory.process.size'] = value['jobmanager.memory.process.size']
+        options['jobmanager.memory.flink.size'] = value['jobmanager.memory.flink.size']
+        options['taskmanager.memory.process.size'] = value['taskmanager.memory.process.size']
+        options['taskmanager.memory.flink.size'] = value['taskmanager.memory.flink.size']
+
+        value.options.forEach(function (item: Record<string, any>) {
+          options[item.key] = item.value
+        })
+
+        const param: FlinkClusterConfig = {
+          name: value['name'],
+          flinkVersion: {value: value['flinkVersion']},
+          resourceProvider: {value: value['resourceProvider']},
+          deployMode: {value: value['deployMode']},
+          flinkRelease: {id: value['flinkRelease']},
+          clusterCredential: {id: value['clusterCredential']},
+          remark: value['remark'],
+          configOptions: options
+        }
+        return add(param).then((d) => {
+          if (d.success) {
+            message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
+          }
+        });
       }}
     >
       <ProCard
