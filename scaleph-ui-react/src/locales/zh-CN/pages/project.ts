@@ -59,4 +59,10 @@ export default {
   'pages.project.di.flow.dag.save': '保存',
   'pages.project.di.flow.dag.publish': '发布',
   'pages.project.di.flow.dag.prop': '参数设置',
+  'pages.project.di.flow.dag.fullScreen': '全屏',
+  'pages.project.di.flow.dag.fullScreenExit': '退出全屏',
+  'pages.project.di.flow.dag.zoomIn': '放大',
+  'pages.project.di.flow.dag.zoomOut': '缩小',
+  'pages.project.di.flow.dag.zoomFit': '缩放到适应屏幕',
+  'pages.project.di.flow.dag.zoomTo': '当前缩放比例:{factor}',
 };

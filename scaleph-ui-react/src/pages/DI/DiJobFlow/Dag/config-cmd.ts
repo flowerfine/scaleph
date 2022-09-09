@@ -70,50 +70,50 @@ export const useCmdConfig = createCmdConfig(config => {
 export const initGraphCmds = (app: IApplication) => {
   app.executeCommandPipeline([
     /** 1. 从服务端获取数据 */
-    {
-      commandId: XFlowGraphCommands.LOAD_DATA.id,
-      getCommandOption: async () => {
-        return {
-          args: {
-            loadDataService: MockApi.loadGraphData,
-          },
-        }
-      },
-    },
-    /** 2. 执行布局算法 */
-    {
-      commandId: XFlowGraphCommands.GRAPH_LAYOUT.id,
-      getCommandOption: async ctx => {
-        const { graphData } = ctx.getResult()
-        return {
-          args: {
-            layoutType: 'dagre',
-            layoutOptions: {
-              type: 'dagre',
-              /** 布局方向 */
-              rankdir: 'TB',
-              /** 节点间距 */
-              nodesep: 60,
-              /** 层间距 */
-              ranksep: 30,
-            },
-            graphData,
-          },
-        }
-      },
-    },
-    /** 3. 画布内容渲染 */
-    {
-      commandId: XFlowGraphCommands.GRAPH_RENDER.id,
-      getCommandOption: async ctx => {
-        const { graphData } = ctx.getResult()
-        return {
-          args: {
-            graphData,
-          },
-        }
-      },
-    },
+    // {
+    //   commandId: XFlowGraphCommands.LOAD_DATA.id,
+    //   getCommandOption: async () => {
+    //     return {
+    //       args: {
+    //         loadDataService: MockApi.loadGraphData,
+    //       },
+    //     }
+    //   },
+    // },
+    // /** 2. 执行布局算法 */
+    // {
+    //   commandId: XFlowGraphCommands.GRAPH_LAYOUT.id,
+    //   getCommandOption: async ctx => {
+    //     const { graphData } = ctx.getResult()
+    //     return {
+    //       args: {
+    //         layoutType: 'dagre',
+    //         layoutOptions: {
+    //           type: 'dagre',
+    //           /** 布局方向 */
+    //           rankdir: 'TB',
+    //           /** 节点间距 */
+    //           nodesep: 60,
+    //           /** 层间距 */
+    //           ranksep: 30,
+    //         },
+    //         graphData,
+    //       },
+    //     }
+    //   },
+    // },
+    // /** 3. 画布内容渲染 */
+    // {
+    //   commandId: XFlowGraphCommands.GRAPH_RENDER.id,
+    //   getCommandOption: async ctx => {
+    //     const { graphData } = ctx.getResult()
+    //     return {
+    //       args: {
+    //         graphData,
+    //       },
+    //     }
+    //   },
+    // },
     /** 4. 缩放画布 */
     {
       commandId: XFlowGraphCommands.GRAPH_ZOOM.id,
