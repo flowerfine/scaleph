@@ -99,7 +99,7 @@ const ClusterCredentialForm: React.FC<ModalFormProps<ClusterCredential>> = ({
         </Form.Item>
         <Form.Item
           name="name"
-          label={intl.formatMessage({ id: 'pages.resource.file' })}
+          label={intl.formatMessage({ id: 'pages.resource.clusterCredential.name' })}
           rules={[
             { required: true },
             { max: 30 },

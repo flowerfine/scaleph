@@ -190,7 +190,7 @@ const CredentialFileResource: React.FC = () => {
             setCredentialFileData({visiable: visiable, data: {}});
             actionRef.current?.reload();
           }}
-          data={state.id}
+          data={state}
         />
       )}
     </div>
