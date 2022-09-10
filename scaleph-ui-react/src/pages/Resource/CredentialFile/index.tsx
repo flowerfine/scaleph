@@ -10,6 +10,7 @@ import {deleteFiles, downloadFile, listFiles} from "@/services/resource/clusterC
 
 const CredentialFileResource: React.FC = () => {
   const state = history.location.state as { id: number }
+  console.log(history.location)
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
