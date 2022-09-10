@@ -21,10 +21,14 @@ package cn.sliew.scaleph.plugin.seatunnel.flink;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.resource.service.ResourceDescriptor;
 import cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelPluginType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.util.Collections;
+import java.util.List;
 
 public abstract class SeaTunnelConnectorPlugin extends AbstractPlugin {
 
@@ -48,6 +52,10 @@ public abstract class SeaTunnelConnectorPlugin extends AbstractPlugin {
             }
         }
         return objectNode;
+    }
+
+    public List<ResourceDescriptor> getSupportedResources() {
+        return Collections.emptyList();
     }
 
     protected abstract SeaTunnelPluginMapping getPluginMapping();

@@ -243,7 +243,7 @@ const DevBatchJob: React.FC = () => {
               }
               return list(resourceParam).then((response) => {
                 return response.records.map((item) => {
-                  return {label: item.name, value: item.id}
+                  return {label: item.fileName, value: item.id}
                 })
               })
             }}

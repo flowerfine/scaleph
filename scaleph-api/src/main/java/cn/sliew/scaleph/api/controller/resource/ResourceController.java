@@ -22,7 +22,6 @@ import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.resource.service.ResourceService;
 import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
-import cn.sliew.scaleph.resource.service.vo.ResourceVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -55,9 +54,9 @@ public class ResourceController {
     @Logging
     @GetMapping("/{resourceType}")
     @ApiOperation(value = "查询资源列表", notes = "查询资源列表")
-    public ResponseEntity<Page<ResourceVO>> list(@PathVariable("resourceType") ResourceType resourceType,
-                                                 ResourceListParam param) {
-        final Page<ResourceVO> resourceVOS = resourceService.list(resourceType, param);
+    public ResponseEntity<Page> list(@PathVariable("resourceType") ResourceType resourceType,
+                                     ResourceListParam param) {
+        final Page resourceVOS = resourceService.list(resourceType, param);
         return new ResponseEntity<>(resourceVOS, HttpStatus.OK);
     }
 
