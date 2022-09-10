@@ -38,6 +38,10 @@
             <artifactId>scaleph-plugin-datasource</artifactId>
         </dependency>
         <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-resource</artifactId>
+        </dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>scaleph-meta</artifactId>
         </dependency>
