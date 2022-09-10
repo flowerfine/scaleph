@@ -4,13 +4,13 @@ import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {Button, message, Modal, Space, Tooltip} from 'antd';
 import {useRef, useState} from 'react';
-import {useAccess, useIntl} from 'umi';
+import {history, useAccess, useIntl} from 'umi';
 import CredentialFileForm from './components/CredentialFileForm';
 import {deleteFiles, downloadFile, listFiles} from "@/services/resource/clusterCredential.service";
-import {history} from "@@/core/history";
 
 const CredentialFileResource: React.FC = () => {
   const state = history.location.state as { id: number }
+  console.log(history.location)
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
