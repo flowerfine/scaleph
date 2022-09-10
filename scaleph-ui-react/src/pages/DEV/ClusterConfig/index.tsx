@@ -3,7 +3,7 @@ import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
 import {useEffect, useRef, useState} from 'react';
-import {useAccess, useIntl} from 'umi';
+import {history, useAccess, useIntl} from 'umi';
 import FlinkClusterConfigForm from './components/FlinkClusterConfigForm';
 import {FlinkClusterConfig} from "@/services/dev/typings";
 import {deleteBatch, deleteOne, list} from "@/services/dev/flinkClusterConfig.service";
@@ -172,7 +172,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
                   type="link"
                   icon={<EditOutlined/>}
                   onClick={() => {
-                    setFlinkClusterConfigFormData({visiable: true, data: record});
+                    history.push("/workspace/dev/clusterConfigOptions", record);
                   }}
                 ></Button>
               </Tooltip>
@@ -235,7 +235,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setFlinkClusterConfigFormData({visiable: true, data: {}});
+                  history.push("/workspace/dev/clusterConfigOptions", {});
                 }}
               >
                 {intl.formatMessage({id: 'app.common.operate.new.label'})}

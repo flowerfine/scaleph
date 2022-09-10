@@ -74,7 +74,6 @@ const FlinkClusterConfigForm: React.FC<ModalFormProps<FlinkClusterConfig>> = ({
             clusterCredential: {id: values.clusterCredential},
             remark: values.remark,
           };
-          console.log(values)
           data.id
             ? update({ ...d }).then((d) => {
               if (d.success) {
