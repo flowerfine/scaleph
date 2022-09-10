@@ -28,7 +28,6 @@ import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.JarListParam;
 import cn.sliew.scaleph.resource.service.param.JarUploadParam;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
-import cn.sliew.scaleph.resource.service.vo.ResourceVO;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -60,15 +59,10 @@ public class JarServiceImpl implements JarService {
     }
 
     @Override
-    public Page<ResourceVO> list(ResourceListParam param) {
+    public Page<JarDTO> list(ResourceListParam param) {
         try {
             JarListParam jarListParam = JarConvert.INSTANCE.convert(param);
-            Page<JarDTO> page = list(jarListParam);
-            Page<ResourceVO> result =
-                    new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
-            List<ResourceVO> dtoList = JarConvert.INSTANCE.convert(page.getRecords());
-            result.setRecords(dtoList);
-            return result;
+            return list(jarListParam);
         } catch (IOException e) {
             Rethrower.throwAs(e);
             return null;

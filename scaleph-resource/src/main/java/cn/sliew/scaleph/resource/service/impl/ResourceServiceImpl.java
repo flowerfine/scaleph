@@ -22,7 +22,6 @@ import cn.sliew.scaleph.resource.service.ResourceDescriptor;
 import cn.sliew.scaleph.resource.service.ResourceService;
 import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
-import cn.sliew.scaleph.resource.service.vo.ResourceVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,7 +52,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public Page<ResourceVO> list(ResourceType type, ResourceListParam param) {
+    public <T> Page<T> list(ResourceType type, ResourceListParam param) {
         final ResourceDescriptor resourceDescriptor = getResourceDescriptor(type);
         return resourceDescriptor.list(param);
     }

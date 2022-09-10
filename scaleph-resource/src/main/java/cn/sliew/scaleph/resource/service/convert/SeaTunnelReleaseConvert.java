@@ -22,18 +22,13 @@ import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceSeaTunnelRelease;
 import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
-import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseListParam;
-import cn.sliew.scaleph.resource.service.vo.ResourceVO;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(uses = {DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SeaTunnelReleaseConvert extends BaseConvert<ResourceSeaTunnelRelease, SeaTunnelReleaseDTO> {
@@ -47,18 +42,6 @@ public interface SeaTunnelReleaseConvert extends BaseConvert<ResourceSeaTunnelRe
         SeaTunnelReleaseListParam target = BeanUtil.copy(param, new SeaTunnelReleaseListParam());
         target.setVersion(param.getLabel());
         target.setFileName(param.getName());
-        return target;
-    }
-
-    default List<ResourceVO> convert(List<SeaTunnelReleaseDTO> dtos) {
-        return dtos.stream().map(this::convert).collect(Collectors.toList());
-    }
-
-    default ResourceVO convert(SeaTunnelReleaseDTO dto) {
-        ResourceVO target = BeanUtil.copy(dto, new ResourceVO());
-        target.setType(ResourceType.SEATUNNEL_RELEASE);
-        target.setLabel(dto.getVersion().getLabel());
-        target.setName(dto.getFileName());
         return target;
     }
 
