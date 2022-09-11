@@ -49,13 +49,6 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({data, visible, onVis
       wrapperCol={{span: 16}}
     >
       <ProFormSelect
-        name="deployMode"
-        label={intl.formatMessage({id: 'pages.dev.clusterConfig.deployMode'})}
-        rules={[{required: true}]}
-        showSearch={true}
-        request={() => listDictDataByType(DICT_TYPE.flinkDeploymentMode)}
-      />
-      <ProFormSelect
         name="flinkVersion"
         label={intl.formatMessage({id: 'pages.dev.clusterConfig.flinkVersion'})}
         rules={[{required: true}]}
@@ -74,12 +67,12 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({data, visible, onVis
         label={intl.formatMessage({id: 'pages.dev.clusterConfig'})}
         rules={[{required: true}]}
         showSearch={true}
-        dependencies={['deployMode', 'flinkVersion', 'resourceProvider']}
+        dependencies={['flinkVersion', 'resourceProvider']}
         request={(params) => {
           const listParam: FlinkClusterConfigParam = {
             flinkVersion: params.flinkVersion,
             resourceProvider: params.resourceProvider,
-            deployMode: params.deployMode,
+            deployMode: '2',
           }
           return list(listParam).then((response) => {
             return response.data.map((item) => {
