@@ -22,6 +22,12 @@ const ClusterCredentialResource: React.FC = () => {
     data: ClusterCredential;
   }>({visiable: false, data: {}});
 
+  useEffect(() => {
+    listDictDataByType(DICT_TYPE.flinkResourceProvider).then((d) => {
+      setClusterTypeList(d);
+    });
+  }, []);
+
   const tableColumns: ProColumns<ClusterCredential>[] = [
     {
       title: intl.formatMessage({id: 'pages.resource.clusterCredential.configType'}),
@@ -141,12 +147,6 @@ const ClusterCredentialResource: React.FC = () => {
       ),
     },
   ];
-
-  useEffect(() => {
-    listDictDataByType(DICT_TYPE.resourceClusterType).then((d) => {
-      setClusterTypeList(d);
-    });
-  }, []);
 
   return (
     <div>

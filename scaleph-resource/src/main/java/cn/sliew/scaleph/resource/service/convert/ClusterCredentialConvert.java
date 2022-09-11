@@ -35,7 +35,7 @@ public interface ClusterCredentialConvert extends BaseConvert<ResourceClusterCre
     ClusterCredentialConvert INSTANCE = Mappers.getMapper(ClusterCredentialConvert.class);
 
     @Override
-    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.RESOURCE_CLUSTER_TYPE,entity.getConfigType()))", target = "configType")
+    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.FLINK_RESOURCE_PROVIDER,entity.getConfigType()))", target = "configType")
     ClusterCredentialDTO toDto(ResourceClusterCredential entity);
 
     default ClusterCredentialListParam convert(ResourceListParam param) {

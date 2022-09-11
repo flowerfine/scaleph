@@ -16,30 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.enums;
+package cn.sliew.scaleph.engine.flink.service.action;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.Getter;
-
-/**
- * @deprecated replaced by {@link cn.sliew.scaleph.common.enums.ResourceProvider}
- */
-@Deprecated
-@Getter
-public enum ClusterCredentialType {
-
-    HADOOP(0, "Hadoop"),
-    KUBERNETES(1, "Kubernetes"),
-    ;
-
-    @EnumValue
-    @JsonValue
-    private int code;
-    private String desc;
-
-    ClusterCredentialType(int code, String desc) {
-        this.code = code;
-        this.desc = desc;
-    }
+public class SessionKubernetesWorkflow {
 }

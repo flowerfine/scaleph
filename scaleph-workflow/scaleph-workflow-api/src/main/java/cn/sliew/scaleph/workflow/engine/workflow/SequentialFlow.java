@@ -19,9 +19,13 @@
 package cn.sliew.scaleph.workflow.engine.workflow;
 
 import cn.sliew.milky.common.filter.ActionListener;
-import cn.sliew.scaleph.workflow.engine.action.*;
+import cn.sliew.scaleph.workflow.engine.action.Action;
+import cn.sliew.scaleph.workflow.engine.action.ActionContext;
+import cn.sliew.scaleph.workflow.engine.action.ActionResult;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SequentialFlow extends AbstractWorkFlow {
@@ -62,4 +66,34 @@ public class SequentialFlow extends AbstractWorkFlow {
             }
         });
     }
+
+    public static Builder newSequentialFlow() {
+        return new Builder();
+    }
+
+    public static class Builder {
+
+        private String name;
+        private final List<Action> actions;
+
+        private Builder() {
+            this.name = RandomStringUtils.randomAlphabetic(5);
+            this.actions = new ArrayList<>();
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder execute(Action... actions) {
+            this.actions.addAll(Arrays.asList(actions));
+            return this;
+        }
+
+        public WorkFlow build() {
+            return new SequentialFlow(name, actions);
+        }
+    }
+
 }

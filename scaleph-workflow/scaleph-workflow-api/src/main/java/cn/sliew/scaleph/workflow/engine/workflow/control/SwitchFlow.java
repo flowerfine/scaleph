@@ -23,6 +23,8 @@ import cn.sliew.scaleph.workflow.engine.action.Action;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
+import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -59,6 +61,41 @@ public class SwitchFlow extends AbstractWorkFlow {
                 listener.onFailure(e);
             }
         });
+    }
+
+    public static Builder newSwitchFlow() {
+        return new Builder();
+    }
+
+    public static class Builder {
+
+        private String name;
+        private Action action;
+        private final LinkedHashMap<ActionResultCondition, Action> onConditions;
+
+        public Builder() {
+            this.name = RandomStringUtils.randomAlphabetic(5);
+            this.onConditions = new LinkedHashMap<>();
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder execute(Action action) {
+            this.action = action;
+            return this;
+        }
+
+        public Builder onCondition(ActionResultCondition condition, Action onCondition) {
+            onConditions.put(condition, onCondition);
+            return this;
+        }
+
+        public WorkFlow build() {
+            return new SwitchFlow(name, action, onConditions);
+        }
     }
 
 }

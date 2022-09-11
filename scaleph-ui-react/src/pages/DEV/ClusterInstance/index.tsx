@@ -8,6 +8,7 @@ import {FlinkClusterInstance} from "@/services/dev/typings";
 import {list, shutdown, shutdownBatch} from "@/services/dev/flinkClusterInstance.service";
 import {Dict} from '@/app.d';
 import {listDictDataByType} from "@/services/admin/dictData.service";
+import SessionClusterForm from "@/pages/DEV/ClusterInstance/components/SessionClusterForm";
 
 const ClusterInstanceWeb: React.FC = () => {
   const intl = useIntl();
@@ -16,6 +17,9 @@ const ClusterInstanceWeb: React.FC = () => {
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<FlinkClusterInstance[]>([]);
   const [clusterStatusList, setClusterStatusList] = useState<Dict[]>([]);
+  const [sessionClusterFormData, setSessionClusterData] = useState<{
+    visiable: boolean;
+  }>({visiable: false});
 
   useEffect(() => {
     listDictDataByType(DICT_TYPE.flinkClusterStatus).then((d) => {
@@ -149,6 +153,17 @@ const ClusterInstanceWeb: React.FC = () => {
         }}
         toolbar={{
           actions: [
+            access.canAccess(PRIVILEGE_CODE.datadevResourceAdd) && (
+              <Button
+                key="new"
+                type="primary"
+                onClick={() => {
+                  setSessionClusterData({visiable: true});
+                }}
+              >
+                {intl.formatMessage({id: 'app.common.operate.new.label'})}
+              </Button>
+            ),
             access.canAccess(PRIVILEGE_CODE.datadevProjectDelete) && (
               <Button
                 key="del"
@@ -191,6 +206,19 @@ const ClusterInstanceWeb: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       ></ProTable>
+      {sessionClusterFormData.visiable && (
+        <SessionClusterForm
+          visible={sessionClusterFormData.visiable}
+          onCancel={() => {
+            setSessionClusterData({visiable: false});
+          }}
+          onVisibleChange={(visiable) => {
+            setSessionClusterData({visiable: visiable});
+            actionRef.current?.reload();
+          }}
+          data
+        />
+      )}
     </div>
   );
 };

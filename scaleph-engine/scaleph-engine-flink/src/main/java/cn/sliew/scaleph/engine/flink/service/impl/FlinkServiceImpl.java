@@ -41,7 +41,9 @@ import cn.sliew.scaleph.system.service.vo.DictVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.flink.client.deployment.StandaloneClusterId;
 import org.apache.flink.client.program.ClusterClient;
+import org.apache.flink.client.program.rest.RestClusterClient;
 import org.apache.flink.configuration.*;
 import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
 import org.apache.flink.yarn.configuration.YarnConfigOptions;
@@ -169,10 +171,8 @@ public class FlinkServiceImpl implements FlinkService {
         final Path workspace = getWorkspace();
         final Path flinkDeployConfigPath = loadClusterCredential(flinkClusterConfigDTO.getClusterCredential(), workspace);
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, flinkDeployConfigPath);
-        // 落库
-
         FileUtils.deleteDirectory(workspace.toFile());
-        return null;
+        return new RestClusterClient(configuration, StandaloneClusterId.getInstance());
     }
 
     /**
@@ -192,26 +192,41 @@ public class FlinkServiceImpl implements FlinkService {
 
         final ClusterCredentialDTO clusterCredentialDTO = flinkClusterConfigDTO.getClusterCredential();
 
-        if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ClusterCredentialType.HADOOP.getCode()))) {
+        if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ResourceProvider.YARN.getCode()))) {
             dynamicProperties.set(CoreOptions.FLINK_HADOOP_CONF_DIR, clusterCredentialPath.toAbsolutePath().toString());
-            dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
-            dynamicProperties.setLong(TaskManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
-            dynamicProperties.set(TaskManagerOptions.NUM_TASK_SLOTS, 2);
+            if (dynamicProperties.contains(JobManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
+                dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
+            }
+            if (dynamicProperties.contains(TaskManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
+                dynamicProperties.setLong(TaskManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
+            }
             return dynamicProperties;
         }
 
-        if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ClusterCredentialType.KUBERNETES.getCode()))) {
+        if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ResourceProvider.NATIVE_KUBERNETES.getCode()))) {
             final List<Path> childs = Files.list(clusterCredentialPath).collect(Collectors.toList());
             if (CollectionUtils.isEmpty(childs)) {
                 return dynamicProperties;
             }
             final Path kubeConfigFile = childs.get(0);
             dynamicProperties.set(KubernetesConfigOptions.KUBE_CONFIG_FILE, kubeConfigFile.toAbsolutePath().toString());
-            dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
-            dynamicProperties.setLong(TaskManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
-            dynamicProperties.set(TaskManagerOptions.NUM_TASK_SLOTS, 2);
+            if (dynamicProperties.contains(JobManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
+                dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
+            }
+            if (dynamicProperties.contains(TaskManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
+                dynamicProperties.setLong(TaskManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
+            }
             return dynamicProperties;
         }
+
+        if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ResourceProvider.STANDALONE.getCode()))) {
+            final List<Path> childs = Files.list(clusterCredentialPath).collect(Collectors.toList());
+            if (CollectionUtils.isEmpty(childs)) {
+                return dynamicProperties;
+            }
+            return GlobalConfiguration.loadConfiguration(clusterCredentialPath.toString(), dynamicProperties);
+        }
+
         return dynamicProperties;
     }
 
