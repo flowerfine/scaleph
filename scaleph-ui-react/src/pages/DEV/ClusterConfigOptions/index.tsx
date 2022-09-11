@@ -18,6 +18,7 @@ import {list} from "@/services/resource/resource.service";
 import {FlinkClusterConfig} from "@/services/dev/typings";
 import {add, update} from "@/services/dev/flinkClusterConfig.service";
 import {history, useIntl} from 'umi';
+import {Dict} from '@/app.d';
 
 const DevBatchJob: React.FC = () => {
   const state = history.location.state as FlinkClusterConfig
@@ -27,10 +28,10 @@ const DevBatchJob: React.FC = () => {
 
   const data = {
     name: state?.name,
-    deployMode: state?.deployMode.value,
-    flinkVersion: state?.flinkVersion.value,
+    deployMode: state?.deployMode?.value,
+    flinkVersion: state?.flinkVersion?.value,
     flinkRelease: state?.flinkRelease?.id,
-    resourceProvider: state?.resourceProvider.value,
+    resourceProvider: state?.resourceProvider?.value,
     clusterCredential: state?.clusterCredential?.id,
     remark: state?.remark,
     'state.backend': configOptions.get('state.backend'),
@@ -219,7 +220,14 @@ const DevBatchJob: React.FC = () => {
             colProps={{span: 10, offset: 1}}
             rules={[{required: true}]}
             showSearch={true}
-            request={() => listDictDataByType(DICT_TYPE.flinkDeploymentMode)}
+            dependencies={['resourceProvider']}
+            request={(params) => {
+              if (params.resourceProvider == '0') {
+                const dict: Dict = {label: 'Session', value: '2'}
+                return Promise.resolve([dict])
+              }
+              return listDictDataByType(DICT_TYPE.flinkDeploymentMode)
+            }}
           />
           <ProFormSelect
             name="flinkVersion"
@@ -248,7 +256,6 @@ const DevBatchJob: React.FC = () => {
               })
             }}
           />
-
           <ProFormSelect
             name="resourceProvider"
             label={intl.formatMessage({id: 'pages.dev.clusterConfig.resourceProvider'})}

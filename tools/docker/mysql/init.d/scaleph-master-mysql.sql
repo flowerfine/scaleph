@@ -66,8 +66,6 @@ insert into sys_dict_type(dict_type_code, dict_type_name, creator, editor)
 values ('data_type', '数据类型', 'sys', 'sys');
 insert into sys_dict_type(dict_type_code, dict_type_name, creator, editor)
 values ('job_instance_state', '作业实例状态', 'sys', 'sys');
-INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
-VALUES ('resource_cluster_type', '集群资源类型', 'sys', 'sys');
 INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `editor`)
 VALUES ('flink_resource_provider', 'Flink 资源类型', 'sys', 'sys');
 INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `editor`)
@@ -269,10 +267,6 @@ insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('job_instance_state', 'SUSPENDED', '已暂停', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('job_instance_state', 'RECONCILING', '调节中', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('resource_cluster_type', '0', 'Hadoop', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('resource_cluster_type', '1', 'Kubernetes', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_resource_provider', '0', 'Standalone', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)

@@ -24,6 +24,7 @@ export default {
   'pages.dev.clusterInstance.clusterId': 'Cluster ID',
   'pages.dev.clusterInstance.webInterfaceUrl': 'Web UI',
   'pages.dev.clusterInstance.status': '状态',
+  'pages.dev.clusterInstance.session': 'Session 集群',
 
 
 }
