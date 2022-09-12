@@ -19,7 +19,9 @@
 package cn.sliew.scaleph.workflow.engine.workflow.control;
 
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
+import cn.sliew.scaleph.workflow.engine.action.ActionStatus;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
 @FunctionalInterface
@@ -27,4 +29,29 @@ public interface ActionResultCondition extends Predicate<ActionResult> {
 
     @Override
     boolean test(ActionResult result);
+
+    ActionResultCondition ALWAYS_TRUE = workReport -> true;
+    ActionResultCondition ALWAYS_FALSE = workReport -> false;
+    ActionResultCondition SUCCESS = workReport -> workReport.getStatus().equals(ActionStatus.SUCCESS);
+    ActionResultCondition FAILURE = workReport -> workReport.getStatus().equals(ActionStatus.FAILURE);
+
+    class TimesPredicate implements ActionResultCondition {
+
+        private final int times;
+
+        private final AtomicInteger counter = new AtomicInteger();
+
+        public TimesPredicate(int times) {
+            this.times = times;
+        }
+
+        @Override
+        public boolean test(ActionResult result) {
+            return counter.incrementAndGet() != times;
+        }
+
+        public static TimesPredicate times(int times) {
+            return new TimesPredicate(times);
+        }
+    }
 }

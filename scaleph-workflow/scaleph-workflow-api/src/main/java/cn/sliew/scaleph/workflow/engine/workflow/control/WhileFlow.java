@@ -22,6 +22,8 @@ import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.scaleph.workflow.engine.action.Action;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
+import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class WhileFlow extends AbstractCondition {
 
@@ -49,5 +51,35 @@ public class WhileFlow extends AbstractCondition {
                 listener.onFailure(e);
             }
         });
+    }
+
+    public static Builder newWhileFlow() {
+        return new Builder();
+    }
+
+    public static class Builder {
+
+        private String name;
+        private Action action;
+        private ActionResultCondition condition;
+
+        public Builder() {
+            this.name = RandomStringUtils.randomAlphabetic(5);
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder execute(Action action, ActionResultCondition condition) {
+            this.action = action;
+            this.condition = condition;
+            return this;
+        }
+
+        public WorkFlow build() {
+            return new WhileFlow(name, condition, action);
+        }
     }
 }
