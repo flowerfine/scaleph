@@ -26,9 +26,9 @@ const JdbcDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
             title={
                 data.id
                     ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-                    intl.formatMessage({ id: 'pages.di.dataSource' })
+                    intl.formatMessage({ id: 'pages.project.di.dataSource' })
                     : intl.formatMessage({ id: 'app.common.operate.new.label' }) +
-                    intl.formatMessage({ id: 'pages.di.dataSource' })
+                    intl.formatMessage({ id: 'pages.project.di.dataSource' })
             }
             width={580}
             destroyOnClose={true}
@@ -55,13 +55,13 @@ const JdbcDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                             };
                             testConnection(ds).then(resp => {
                                 if (resp.success) {
-                                    message.success(intl.formatMessage({ id: 'pages.di.dataSource.testConnect.success' }))
+                                    message.success(intl.formatMessage({ id: 'pages.project.di.dataSource.testConnect.success' }))
                                 }
                             });
                         });
                     }}
                 >
-                    {intl.formatMessage({ id: 'pages.di.dataSource.testConnect' })}
+                    {intl.formatMessage({ id: 'pages.project.di.dataSource.testConnect' })}
                 </Button>,
                 <Button
                     key="cancel"
@@ -124,7 +124,7 @@ const JdbcDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="datasourceName"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.dataSourceName' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.dataSourceName' })}
                     rules={[
                         { required: true },
                         { max: 60 },
@@ -138,7 +138,7 @@ const JdbcDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="jdbcUrl"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.jdbcUrl' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.jdbcUrl' })}
                     rules={[
                         { required: true },
                         { max: 2048 }
@@ -148,7 +148,7 @@ const JdbcDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="driverClassName"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.driverClassName' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.driverClassName' })}
                     rules={[
                         { required: true },
                         { max: 200 }
@@ -158,7 +158,7 @@ const JdbcDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="username"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.username' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.username' })}
                     rules={[
                         { required: true },
                         { max: 120 }
@@ -168,7 +168,7 @@ const JdbcDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="password"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.password' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.password' })}
                     rules={[
                         { required: true },
                         { max: 120 }
@@ -178,7 +178,7 @@ const JdbcDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="remark"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.remark' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.remark' })}
                     rules={[
                         { max: 200 },
                     ]}

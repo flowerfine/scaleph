@@ -18,9 +18,9 @@ const Cluster: React.FC = () => {
     const [selectedRows, setSelectedRows] = useState<DiClusterConfig[]>([]);
     const [clusterTypeList, setClusterTypeList] = useState<Dict[]>([]);
     const [clusterFormData, setClusterFormData] = useState<{
-        visiable: boolean;
+        visible: boolean;
         data: DiClusterConfig;
-    }>({ visiable: false, data: {} });
+    }>({ visible: false, data: {} });
 
     const tableColumns: ProColumns<DiClusterConfig>[] = [
         {
@@ -110,7 +110,7 @@ const Cluster: React.FC = () => {
                                     type="link"
                                     icon={<EditOutlined />}
                                     onClick={() => {
-                                        setClusterFormData({ visiable: true, data: record });
+                                        setClusterFormData({ visible: true, data: record });
                                     }}
                                 ></Button>
                             </Tooltip>
@@ -180,7 +180,7 @@ const Cluster: React.FC = () => {
                             key="new"
                             type="primary"
                             onClick={() => {
-                                setClusterFormData({ visiable: true, data: {} });
+                                setClusterFormData({ visible: true, data: {} });
                             }}
                         >
                             {intl.formatMessage({ id: 'app.common.operate.new.label' })}
@@ -228,14 +228,14 @@ const Cluster: React.FC = () => {
             tableAlertRender={false}
             tableAlertOptionRender={false}
         ></ProTable>
-        {clusterFormData.visiable && (
+        {clusterFormData.visible && (
             <ClusterForm
-                visible={clusterFormData.visiable}
+                visible={clusterFormData.visible}
                 onCancel={() => {
-                    setClusterFormData({ visiable: false, data: {} });
+                    setClusterFormData({ visible: false, data: {} });
                 }}
-                onVisibleChange={(visiable) => {
-                    setClusterFormData({ visiable: visiable, data: {} });
+                onVisibleChange={(visible) => {
+                    setClusterFormData({ visible: visible, data: {} });
                     actionRef.current?.reload();
                 }}
                 data={clusterFormData.data}

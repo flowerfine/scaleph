@@ -56,7 +56,6 @@ export default [
         pCode: PRIVILEGE_CODE.datadevProjectShow,
         access: 'normalRouteFilter',
       },
-
     ],
   },
   {
@@ -64,6 +63,12 @@ export default [
     pCode: PRIVILEGE_CODE.datadevShow,
     access: 'normalRouteFilter',
     routes: [
+      {
+        path: '/workspace',
+        redirect: '/workspace/di/job',
+        pCode: PRIVILEGE_CODE.datadevJobShow,
+        access: 'normalRouteFilter',
+      },
       {
         name: 'di',
         path: '/workspace/di',
@@ -80,19 +85,11 @@ export default [
             access: 'normalRouteFilter',
           },
           {
-            name: 'realtime',
-            path: '/workspace/di/realtime',
+            name: 'job',
+            path: '/workspace/di/job',
             exact: true,
-            component: './DI/DiRealtimeJob',
-            pCode: PRIVILEGE_CODE.datadevDatasourceShow,
-            access: 'normalRouteFilter',
-          },
-          {
-            name: 'batch',
-            path: '/workspace/di/batch',
-            exact: true,
-            component: './DI/DiBatchJob',
-            pCode: PRIVILEGE_CODE.datadevDatasourceShow,
+            component: './DI/DiJobView',
+            pCode: PRIVILEGE_CODE.datadevJobShow,
             access: 'normalRouteFilter',
           },
         ],
