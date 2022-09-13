@@ -44,7 +44,7 @@ import java.util.List;
 @Slf4j
 @Api(tags = "数据开发-目录管理")
 @RestController
-@RequestMapping(path = "/api/datadev/dir")
+@RequestMapping(path = {"/api/datadev/dir", "/api/di/dir"})
 public class DirectoryController {
 
     @Autowired

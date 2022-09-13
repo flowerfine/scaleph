@@ -1,9 +1,16 @@
 import admin from './admin';
-import di from './di';
 import user from './user';
-
+import studio from './studio';
+import cluster from './cluster';
+import project from './project';
+import resource from './resource';
+import dev from './dev';
 export default {
   ...user,
   ...admin,
-  ...di,
+  ...studio,
+  ...cluster,
+  ...project,
+  ...resource,
+  ...dev,
 };

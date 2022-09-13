@@ -33,6 +33,10 @@ import javax.validation.constraints.NotNull;
 public class FlinkJobInstanceDTO extends BaseDTO {
 
     @NotNull
+    @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
+    private DictVO type;
+
+    @NotNull
     @ApiModelProperty("flink 任务配置 ID")
     private Long flinkJobConfigId;
 
@@ -40,7 +44,7 @@ public class FlinkJobInstanceDTO extends BaseDTO {
     private Long flinkClusterInstanceId;
 
     @ApiModelProperty("flink 任务 ID")
-    private Long jobId;
+    private String jobId;
 
     @ApiModelProperty("任务状态。0: 已创建, 1: 创建失败")
     private DictVO status;

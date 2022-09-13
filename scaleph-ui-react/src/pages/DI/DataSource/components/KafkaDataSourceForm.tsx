@@ -19,9 +19,9 @@ const KafkaDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
             title={
                 data.id
                     ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-                    intl.formatMessage({ id: 'pages.di.dataSource' })
+                    intl.formatMessage({ id: 'pages.project.di.dataSource' })
                     : intl.formatMessage({ id: 'app.common.operate.new.label' }) +
-                    intl.formatMessage({ id: 'pages.di.dataSource' })
+                    intl.formatMessage({ id: 'pages.project.di.dataSource' })
             }
             width={580}
             destroyOnClose={true}
@@ -45,13 +45,13 @@ const KafkaDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                             };
                             testConnection(ds).then(resp => {
                                 if (resp.success) {
-                                    message.success(intl.formatMessage({ id: 'pages.di.dataSource.testConnect.success' }))
+                                    message.success(intl.formatMessage({ id: 'pages.project.di.dataSource.testConnect.success' }))
                                 }
                             });
                         });
                     }}
                 >
-                    {intl.formatMessage({ id: 'pages.di.dataSource.testConnect' })}
+                    {intl.formatMessage({ id: 'pages.project.di.dataSource.testConnect' })}
                 </Button>,
                 <Button
                     key="cancel"
@@ -108,7 +108,7 @@ const KafkaDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="datasourceName"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.dataSourceName' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.dataSourceName' })}
                     rules={[
                         { required: true },
                         { max: 60 },
@@ -122,7 +122,7 @@ const KafkaDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="bootstrapServers"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.bootstrapServers' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.bootstrapServers' })}
                     rules={[
                         { required: true },
                         { max: 2048 }
@@ -132,7 +132,7 @@ const KafkaDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="remark"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.remark' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.remark' })}
                     rules={[
                         { max: 200 },
                     ]}

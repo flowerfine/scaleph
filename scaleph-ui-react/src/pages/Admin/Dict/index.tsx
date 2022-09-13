@@ -28,13 +28,13 @@ const Dict: React.FC = () => {
   const [selectedDictType, setSelectedDictType] = useState<SysDictType[]>([]);
   const [selectedDictData, setSelectedDictData] = useState<SysDictData[]>([]);
   const [dictTypeFormData, setDictTypeFormData] = useState<{
-    visiable: boolean;
+    visible: boolean;
     data: SysDictType;
-  }>({ visiable: false, data: {} });
+  }>({ visible: false, data: {} });
   const [dictDataFormData, setDictDataFormData] = useState<{
-    visiable: boolean;
+    visible: boolean;
     data: SysDictData;
-  }>({ visiable: false, data: {} });
+  }>({ visible: false, data: {} });
 
   const dictTypeTableColumns: ProColumns<SysDictType>[] = [
     {
@@ -72,7 +72,7 @@ const Dict: React.FC = () => {
                   type="link"
                   icon={<EditOutlined />}
                   onClick={() => {
-                    setDictTypeFormData({ visiable: true, data: record });
+                    setDictTypeFormData({ visible: true, data: record });
                   }}
                 ></Button>
               </Tooltip>
@@ -156,7 +156,7 @@ const Dict: React.FC = () => {
                   type="link"
                   icon={<EditOutlined />}
                   onClick={() => {
-                    setDictDataFormData({ visiable: true, data: record });
+                    setDictDataFormData({ visible: true, data: record });
                   }}
                 ></Button>
               </Tooltip>
@@ -216,7 +216,7 @@ const Dict: React.FC = () => {
                     key="new"
                     type="primary"
                     onClick={() => {
-                      setDictTypeFormData({ visiable: true, data: {} });
+                      setDictTypeFormData({ visible: true, data: {} });
                     }}
                   >
                     {intl.formatMessage({ id: 'app.common.operate.new.label' })}
@@ -301,7 +301,7 @@ const Dict: React.FC = () => {
                     key="new"
                     type="primary"
                     onClick={() => {
-                      setDictDataFormData({ visiable: true, data: {} });
+                      setDictDataFormData({ visible: true, data: {} });
                     }}
                   >
                     {intl.formatMessage({ id: 'app.common.operate.new.label' })}
@@ -357,27 +357,27 @@ const Dict: React.FC = () => {
           ></ProTable>
         </Col>
       </Row>
-      {dictTypeFormData.visiable ? (
+      {dictTypeFormData.visible ? (
         <DictTypeForm
-          visible={dictTypeFormData.visiable}
+          visible={dictTypeFormData.visible}
           onCancel={() => {
-            setDictTypeFormData({ visiable: false, data: {} });
+            setDictTypeFormData({ visible: false, data: {} });
           }}
-          onVisibleChange={(visiable) => {
-            setDictTypeFormData({ visiable: visiable, data: {} });
+          onVisibleChange={(visible) => {
+            setDictTypeFormData({ visible: visible, data: {} });
             dictTypeActionRef.current?.reload();
           }}
           data={dictTypeFormData.data}
         />
       ) : null}
-      {dictDataFormData.visiable ? (
+      {dictDataFormData.visible ? (
         <DictDataForm
-          visible={dictDataFormData.visiable}
+          visible={dictDataFormData.visible}
           onCancel={() => {
-            setDictDataFormData({ visiable: false, data: {} });
+            setDictDataFormData({ visible: false, data: {} });
           }}
-          onVisibleChange={(visiable) => {
-            setDictDataFormData({ visiable: visiable, data: {} });
+          onVisibleChange={(visible) => {
+            setDictDataFormData({ visible: visible, data: {} });
             dictDataActionRef.current?.reload();
           }}
           data={dictDataFormData.data}

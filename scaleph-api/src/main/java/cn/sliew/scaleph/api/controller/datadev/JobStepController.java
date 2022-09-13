@@ -44,7 +44,7 @@ import java.util.Set;
 @Slf4j
 @Api(tags = "数据开发-作业管理-step管理")
 @RestController
-@RequestMapping("/api/datadev/job/step")
+@RequestMapping({"/api/datadev/job/step", "/api/di/job/step"})
 public class JobStepController {
 
     @Autowired
