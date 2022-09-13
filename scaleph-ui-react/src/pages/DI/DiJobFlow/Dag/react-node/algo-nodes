@@ -1,4 +1,4 @@
-@light-border: 1px solid #d9d9d9;
+/* @light-border: 1px solid #d9d9d9;
 @primaryColor: #c2c8d5;
 
 .xflow-algo-node {
@@ -56,4 +56,4 @@
       box-shadow: 0 0 5px 5px rgba(48, 86, 227, 0.15);
     }
   }
-}
+} */

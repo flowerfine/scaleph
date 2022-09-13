@@ -1,5 +1,5 @@
 import { ICommandContextProvider, ManaSyringe } from '@antv/xflow'
-import { CustomCommands } from './constants'
+import { CustomCommands } from '../constant'
 
 const { inject, injectable } = ManaSyringe
 

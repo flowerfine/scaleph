@@ -4,7 +4,7 @@ import { Modal, Form, Input, ConfigProvider } from 'antd'
 
 import { ICommandContextProvider } from '@antv/xflow'
 
-import { CustomCommands } from './constants'
+import { CustomCommands } from '../constant'
 
 export const NsRenameNodeCmd = {}
 /** Command: 用于注册named factory */

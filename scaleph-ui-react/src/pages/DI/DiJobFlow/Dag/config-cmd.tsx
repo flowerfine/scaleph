@@ -1,5 +1,5 @@
 import { createCmdConfig, DisposableCollection, IApplication, XFlowGraphCommands } from '@antv/xflow'
-import { MockApi } from './service'
+// import { MockApi } from './service'
 import { commandContributions } from './cmd-extensions'
 
 export const useCmdConfig = createCmdConfig(config => {
@@ -11,33 +11,33 @@ export const useCmdConfig = createCmdConfig(config => {
       hooks.graphMeta.registerHook({
         name: 'get graph meta from backend',
         handler: async args => {
-          args.graphMetaService = MockApi.queryGraphMeta
+          // args.graphMetaService = MockApi.queryGraphMeta
         },
       }),
       hooks.saveGraphData.registerHook({
         name: 'save graph data',
         handler: async args => {
           if (!args.saveGraphDataService) {
-            args.saveGraphDataService = MockApi.saveGraphData
+            // args.saveGraphDataService = MockApi.saveGraphData
           }
         },
       }),
       hooks.addNode.registerHook({
         name: 'get node config from backend api',
         handler: async args => {
-          args.createNodeService = MockApi.addNode
+          // args.createNodeService = MockApi.addNode
         },
       }),
       hooks.delNode.registerHook({
         name: 'get edge config from backend api',
         handler: async args => {
-          args.deleteNodeService = MockApi.delNode
+          // args.deleteNodeService = MockApi.delNode
         },
       }),
       hooks.addEdge.registerHook({
         name: 'get edge config from backend api',
         handler: async args => {
-          args.createEdgeService = MockApi.addEdge
+          // args.createEdgeService = MockApi.addEdge
           args.edgeConfig = {
             ...args.edgeConfig,
             connector: { name: 'rounded' },
@@ -50,7 +50,7 @@ export const useCmdConfig = createCmdConfig(config => {
       hooks.delEdge.registerHook({
         name: 'get edge config from backend api',
         handler: async args => {
-          args.deleteEdgeService = MockApi.delEdge
+          // args.deleteEdgeService = MockApi.delEdge
         },
       }),
       // hooks.updateEdge.registerHook({

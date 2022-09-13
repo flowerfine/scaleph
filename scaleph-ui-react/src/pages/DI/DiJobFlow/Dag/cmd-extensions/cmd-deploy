@@ -1,6 +1,6 @@
 import { XFlowGraphCommands, ManaSyringe } from '@antv/xflow'
 import { ICommandContextProvider } from '@antv/xflow'
-import { CustomCommands } from './constants'
+import { CustomCommands } from '../constant'
 
 export const NsDeployDagCmd = {}
 /** Command: 用于注册named factory */
