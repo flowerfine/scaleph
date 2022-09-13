@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -31,29 +30,28 @@ import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkJobConfig对象", description = "flink job config")
-public class FlinkJobConfigDTO extends BaseDTO {
-
-    @NotNull
-    @ApiModelProperty("类型。0: artifact, 1: sql+udf")
-    private DictVO type;
+@ApiModel(value = "FlinkJobConfigJar对象", description = "flink job config for jar")
+public class FlinkJobConfigJarDTO extends BaseDTO {
 
     @NotBlank
     @ApiModelProperty("名称")
     private String name;
 
     @NotNull
-    @ApiModelProperty("flink 集群配置 ID")
+    @ApiModelProperty("flink artifact ID")
+    private Long flinkArtifactId;
+
+    @ApiModelProperty("flink cluster config ID")
     private Long flinkClusterConfigId;
+
+    @ApiModelProperty("flink cluster instance ID")
+    private Long flinkClusterInstanceId;
 
     @ApiModelProperty("任务自身 配置参数")
     private Map<String, String> jobConfig;
 
     @ApiModelProperty("flink 配置参数")
     private Map<String, String> flinkConfig;
-
-    @ApiModelProperty("版本号")
-    private Integer version;
 
     @ApiModelProperty("备注")
     private String remark;

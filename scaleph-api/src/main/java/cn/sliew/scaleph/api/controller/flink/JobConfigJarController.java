@@ -20,9 +20,9 @@ package cn.sliew.scaleph.api.controller.flink;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
-import cn.sliew.scaleph.engine.flink.service.FlinkJobConfigService;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobConfigDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobConfigListParam;
+import cn.sliew.scaleph.engine.flink.service.FlinkJobConfigJarService;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobConfigJarDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkJobConfigJarListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,36 +36,36 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
-@Api(tags = "Flink管理-任务配置管理")
+@Api(tags = "Flink管理-Jar 任务配置")
 @RestController
-@RequestMapping(path = "/api/flink/job-config")
-public class JobConfigController {
+@RequestMapping(path = "/api/flink/job-config/jar")
+public class JobConfigJarController {
 
     @Autowired
-    private FlinkJobConfigService flinkJobConfigService;
+    private FlinkJobConfigJarService flinkJobConfigJarService;
 
     @Logging
     @GetMapping
     @ApiOperation(value = "查询任务配置列表", notes = "分页任务配置列表")
-    public ResponseEntity<Page<FlinkJobConfigDTO>> list(@Valid FlinkJobConfigListParam param) {
-        Page<FlinkJobConfigDTO> page = flinkJobConfigService.list(param);
+    public ResponseEntity<Page<FlinkJobConfigJarDTO>> list(@Valid FlinkJobConfigJarListParam param) {
+        Page<FlinkJobConfigJarDTO> page = flinkJobConfigJarService.list(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @Logging
     @PutMapping
     @ApiOperation(value = "新增任务配置", notes = "新增任务配置")
-    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody FlinkJobConfigDTO param) {
-        flinkJobConfigService.insert(param);
+    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody FlinkJobConfigJarDTO param) {
+        flinkJobConfigJarService.insert(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
     @PostMapping("{id}")
     @ApiOperation(value = "修改任务配置", notes = "修改任务配置")
-    public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid @RequestBody FlinkJobConfigDTO param) {
+    public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid @RequestBody FlinkJobConfigJarDTO param) {
         param.setId(id);
-        flinkJobConfigService.update(param);
+        flinkJobConfigJarService.update(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -73,7 +73,7 @@ public class JobConfigController {
     @DeleteMapping("{id}")
     @ApiOperation(value = "删除任务配置", notes = "删除任务配置")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) {
-        flinkJobConfigService.deleteById(id);
+        flinkJobConfigJarService.deleteById(id);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -81,7 +81,7 @@ public class JobConfigController {
     @DeleteMapping(path = "/batch")
     @ApiOperation(value = "批量删除任务", notes = "批量删除任务")
     public ResponseEntity<ResponseVO> deleteCluster(@RequestBody List<Long> ids) {
-        flinkJobConfigService.deleteBatch(ids);
+        flinkJobConfigJarService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 }
