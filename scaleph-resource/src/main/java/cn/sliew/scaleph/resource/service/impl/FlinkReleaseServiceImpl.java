@@ -28,7 +28,6 @@ import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.FlinkReleaseListParam;
 import cn.sliew.scaleph.resource.service.param.FlinkReleaseUploadParam;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
-import cn.sliew.scaleph.resource.service.vo.ResourceVO;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -61,15 +60,10 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService {
     }
 
     @Override
-    public Page<ResourceVO> list(ResourceListParam param) {
+    public Page<FlinkReleaseDTO> list(ResourceListParam param) {
         try {
             FlinkReleaseListParam flinkReleaseListParam = FlinkReleaseConvert.INSTANCE.convert(param);
-            Page<FlinkReleaseDTO> page = list(flinkReleaseListParam);
-            Page<ResourceVO> result =
-                    new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
-            List<ResourceVO> dtoList = FlinkReleaseConvert.INSTANCE.convert(page.getRecords());
-            result.setRecords(dtoList);
-            return result;
+            return list(flinkReleaseListParam);
         } catch (IOException e) {
             Rethrower.throwAs(e);
             return null;

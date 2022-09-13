@@ -33,23 +33,27 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("flink_job_config")
-@ApiModel(value = "FlinkJobConfig对象", description = "flink job")
-public class FlinkJobConfig extends BaseDO {
+@TableName("flink_job_config_jar")
+@ApiModel(value = "FlinkJobConfigJar对象", description = "flink job config for jar")
+public class FlinkJobConfigJar extends BaseDO {
 
     private static final long serialVersionUID = 1L;
-
-    @ApiModelProperty("类型。0: artifact, 1: sql+udf")
-    @TableField("`type`")
-    private String type;
 
     @ApiModelProperty("名称")
     @TableField("`name`")
     private String name;
 
-    @ApiModelProperty("flink 集群配置 ID")
+    @ApiModelProperty("flink artifact ID")
+    @TableField("flink_artifact_id")
+    private Long flinkArtifactId;
+
+    @ApiModelProperty("flink cluster config ID")
     @TableField("flink_cluster_config_id")
     private Long flinkClusterConfigId;
+
+    @ApiModelProperty("flink cluster config ID")
+    @TableField("flink_cluster_instance_id")
+    private Long flinkClusterInstanceId;
 
     @ApiModelProperty("任务自身 配置参数")
     @TableField("job_config")
@@ -58,10 +62,6 @@ public class FlinkJobConfig extends BaseDO {
     @ApiModelProperty("flink 配置参数")
     @TableField("flink_config")
     private String flinkConfig;
-
-    @ApiModelProperty("版本号")
-    @TableField("version")
-    private Integer version;
 
     @ApiModelProperty("备注")
     @TableField("remark")

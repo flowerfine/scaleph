@@ -22,6 +22,10 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
+/**
+ * @deprecated replaced by {@link cn.sliew.scaleph.common.enums.ResourceProvider}
+ */
+@Deprecated
 @Getter
 public enum ClusterCredentialType {
 

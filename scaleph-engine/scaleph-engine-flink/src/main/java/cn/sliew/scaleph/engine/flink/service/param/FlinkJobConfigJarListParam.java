@@ -16,18 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.flink;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobConfig;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * flink job Mapper 接口
- * </p>
- */
-@Repository
-public interface FlinkJobConfigMapper extends BaseMapper<FlinkJobConfig> {
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class FlinkJobConfigJarListParam extends PaginationParam {
+
+    @ApiModelProperty("名称。支持模糊搜索")
+    private String name;
+
+    @ApiModelProperty("flink cluster config ID")
+    private Long flinkClusterConfigId;
+
+    @ApiModelProperty("flink cluster instance ID")
+    private Long flinkClusterInstanceId;
 
 }

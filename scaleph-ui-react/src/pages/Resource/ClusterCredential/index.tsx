@@ -4,12 +4,11 @@ import {DeleteOutlined, EditOutlined, UploadOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
 import {useEffect, useRef, useState} from 'react';
-import {useAccess, useIntl} from 'umi';
+import {history, useAccess, useIntl} from 'umi';
 import ClusterCredentialForm from './components/ClusterCredentialForm';
 import {Dict} from "@/app.d";
 import {listDictDataByType} from "@/services/admin/dictData.service";
 import {deleteBatch, deleteOne, list} from "@/services/resource/clusterCredential.service";
-import {history} from "@@/core/history";
 
 const ClusterCredentialResource: React.FC = () => {
   const intl = useIntl();
@@ -22,6 +21,12 @@ const ClusterCredentialResource: React.FC = () => {
     visiable: boolean;
     data: ClusterCredential;
   }>({visiable: false, data: {}});
+
+  useEffect(() => {
+    listDictDataByType(DICT_TYPE.flinkResourceProvider).then((d) => {
+      setClusterTypeList(d);
+    });
+  }, []);
 
   const tableColumns: ProColumns<ClusterCredential>[] = [
     {
@@ -84,11 +89,11 @@ const ClusterCredentialResource: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevJobShow) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.upload.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.upload.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<UploadOutlined />}
+                  icon={<UploadOutlined/>}
                   onClick={() => {
                     history.push('/resource/cluster-credential/file', {id: record.id});
                   }}
@@ -96,13 +101,13 @@ const ClusterCredentialResource: React.FC = () => {
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<EditOutlined />}
+                  icon={<EditOutlined/>}
                   onClick={() => {
-                    setClusterCredentialData({ visiable: true, data: record });
+                    setClusterCredentialData({visiable: true, data: record});
                   }}
                 ></Button>
               </Tooltip>
@@ -142,12 +147,6 @@ const ClusterCredentialResource: React.FC = () => {
       ),
     },
   ];
-
-  useEffect(() => {
-    listDictDataByType(DICT_TYPE.resourceClusterType).then((d) => {
-      setClusterTypeList(d);
-    });
-  }, []);
 
   return (
     <div>

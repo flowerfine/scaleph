@@ -22,6 +22,8 @@ import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.scaleph.workflow.engine.action.Action;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
+import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class IfFlow extends AbstractCondition {
 
@@ -53,6 +55,48 @@ public class IfFlow extends AbstractCondition {
                 listener.onFailure(e);
             }
         });
+    }
+
+    public static Builder newIfFlow() {
+        return new Builder();
+    }
+
+    public static class Builder {
+
+        private String name;
+        private Action action;
+        private ActionResultCondition condition;
+        private Action onSuccess;
+        private Action onFailure;
+
+        public Builder() {
+            this.name = RandomStringUtils.randomAlphabetic(5);
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder execute(Action action, ActionResultCondition condition) {
+            this.action = action;
+            this.condition = condition;
+            return this;
+        }
+
+        public Builder onSuccess(Action onSuccess) {
+            this.onSuccess = onSuccess;
+            return this;
+        }
+
+        public Builder onFailure(Action onFailure) {
+            this.onFailure = onFailure;
+            return this;
+        }
+
+        public WorkFlow build() {
+            return new IfFlow(name, condition, action, onSuccess, onFailure);
+        }
     }
 
 }

@@ -118,6 +118,13 @@ export default [
             access: 'normalRouteFilter',
           },
           {
+            path: '/workspace/dev/clusterConfigOptions',
+            exact: true,
+            component: './DEV/ClusterConfigOptions',
+            pCode: PRIVILEGE_CODE.datadevDatasourceShow,
+            access: 'normalRouteFilter',
+          },
+          {
             name: 'clusterInstance',
             path: '/workspace/dev/clusterInstance',
             exact: true,
@@ -130,14 +137,6 @@ export default [
             path: '/workspace/dev/realtime',
             exact: true,
             component: './DEV/DevRealtimeJob',
-            pCode: PRIVILEGE_CODE.datadevDatasourceShow,
-            access: 'normalRouteFilter',
-          },
-          {
-            name: 'batch',
-            path: '/workspace/dev/batch',
-            exact: true,
-            component: './DEV/DevBatchJob',
             pCode: PRIVILEGE_CODE.datadevDatasourceShow,
             access: 'normalRouteFilter',
           },

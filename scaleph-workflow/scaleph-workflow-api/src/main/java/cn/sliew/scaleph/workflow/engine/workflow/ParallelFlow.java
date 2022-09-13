@@ -20,9 +20,12 @@ package cn.sliew.scaleph.workflow.engine.workflow;
 
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.scaleph.workflow.engine.action.*;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class ParallelFlow extends AbstractWorkFlow {
 
@@ -58,5 +61,33 @@ public class ParallelFlow extends AbstractWorkFlow {
         };
     }
 
+    public static Builder newParallelFlow() {
+        return new Builder();
+    }
+
+    public static class Builder {
+
+        private String name;
+        private final List<Action> actions;
+
+        private Builder() {
+            this.name = RandomStringUtils.randomAlphabetic(5);
+            this.actions = new ArrayList<>();
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder execute(Action... actions) {
+            this.actions.addAll(Arrays.asList(actions));
+            return this;
+        }
+
+        public WorkFlow build() {
+            return new ParallelFlow(name, actions);
+        }
+    }
 
 }

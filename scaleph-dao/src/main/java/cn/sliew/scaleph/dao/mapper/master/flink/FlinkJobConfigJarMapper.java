@@ -16,25 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.dao.mapper.master.flink;
 
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobConfigDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobConfigListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobConfigJar;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+/**
+ * <p>
+ * flink job Mapper 接口
+ * </p>
+ */
+@Repository
+public interface FlinkJobConfigJarMapper extends BaseMapper<FlinkJobConfigJar> {
 
-public interface FlinkJobConfigService {
-
-    Page<FlinkJobConfigDTO> list(FlinkJobConfigListParam param);
-
-    FlinkJobConfigDTO selectOne(Long id);
-
-    int insert(FlinkJobConfigDTO dto);
-
-    int update(FlinkJobConfigDTO dto);
-
-    int deleteById(Long id);
-
-    int deleteBatch(List<Long> ids);
 }

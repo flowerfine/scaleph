@@ -20,14 +20,13 @@ package cn.sliew.scaleph.resource.service;
 
 import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
-import cn.sliew.scaleph.resource.service.vo.ResourceVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 public interface ResourceDescriptor<T> {
 
     ResourceType getResourceType();
 
-    Page<ResourceVO> list(ResourceListParam param);
+    Page<T> list(ResourceListParam param);
 
     T getRaw(Long id);
 }

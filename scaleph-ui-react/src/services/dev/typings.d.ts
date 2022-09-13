@@ -60,3 +60,8 @@ export type FlinkClusterInstanceParam = QueryParam & {
   flinkClusterConfigId?: number;
   status?: string;
 }
+
+export type FlinkSessionClusterNewParam = QueryParam & {
+  flinkClusterConfigId?: number;
+  remark?: string;
+}

@@ -28,7 +28,6 @@ import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseListParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseUploadParam;
-import cn.sliew.scaleph.resource.service.vo.ResourceVO;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -61,15 +60,10 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
     }
 
     @Override
-    public Page<ResourceVO> list(ResourceListParam param) {
+    public Page<SeaTunnelReleaseDTO> list(ResourceListParam param) {
         try {
             SeaTunnelReleaseListParam seaTunnelReleaseListParam = SeaTunnelReleaseConvert.INSTANCE.convert(param);
-            Page<SeaTunnelReleaseDTO> page = list(seaTunnelReleaseListParam);
-            Page<ResourceVO> result =
-                    new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
-            List<ResourceVO> dtoList = SeaTunnelReleaseConvert.INSTANCE.convert(page.getRecords());
-            result.setRecords(dtoList);
-            return result;
+            return list(seaTunnelReleaseListParam);
         } catch (IOException e) {
             Rethrower.throwAs(e);
             return null;

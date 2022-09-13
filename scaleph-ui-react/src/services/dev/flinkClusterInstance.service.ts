@@ -1,4 +1,4 @@
-import {FlinkClusterInstance, FlinkClusterInstanceParam} from "@/services/dev/typings";
+import {FlinkClusterInstance, FlinkClusterInstanceParam, FlinkSessionClusterNewParam} from "@/services/dev/typings";
 import {request} from "@@/exports";
 import {PageResponse, ResponseBody} from "@/app.d";
 
@@ -18,6 +18,14 @@ export async function list(queryParam: FlinkClusterInstanceParam) {
     return result;
   })
 }
+
+export async function newSession(row: FlinkSessionClusterNewParam) {
+  return request<ResponseBody<any>>(`${url}`, {
+    method: 'PUT',
+    data: row,
+  })
+}
+
 
 export async function shutdown(row: FlinkClusterInstance) {
   return request<ResponseBody<any>>(`${url}/` + row.id, {

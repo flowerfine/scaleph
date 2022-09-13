@@ -20,13 +20,16 @@ export const DICT_TYPE = {
   runtimeState: 'runtime_state',
   clusterType: 'cluster_type',
   dataType: 'data_type',
-  resourceClusterType: 'resource_cluster_type',
   flinkDeployConfigType: 'flink_deploy_config_type',
   flinkResourceProvider: 'flink_resource_provider',
   flinkDeploymentMode: 'flink_deployment_mode',
   flinkVersion: 'flink_version',
   flinkStateBackend: 'flink_state_backend',
   flinkClusterStatus: 'flink_cluster_status',
+  flinkSemantic: 'flink_semantic',
+  flinkCheckpointRetain: 'flink_checkpoint_retain',
+  flinkRestartStrategy: 'flink_restart_strategy',
+  flinkHA: 'flink_high_availability',
   seatunnelVersion: 'seatunnel_version',
 };
 

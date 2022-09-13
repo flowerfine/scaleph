@@ -3,8 +3,7 @@ import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
 import {useEffect, useRef, useState} from 'react';
-import {useAccess, useIntl} from 'umi';
-import FlinkClusterConfigForm from './components/FlinkClusterConfigForm';
+import {history, useAccess, useIntl} from 'umi';
 import {FlinkClusterConfig} from "@/services/dev/typings";
 import {deleteBatch, deleteOne, list} from "@/services/dev/flinkClusterConfig.service";
 import {listDictDataByType} from "@/services/admin/dictData.service";
@@ -19,11 +18,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
   const [flinkVersionList, setFlinkVersionList] = useState<Dict[]>([]);
   const [resourceProviderList, setResourceProviderList] = useState<Dict[]>([]);
   const [deployModeList, setDeployModeList] = useState<Dict[]>([]);
-  const [flinkClusterConfigFormData, setFlinkClusterConfigFormData] = useState<{
-    visiable: boolean;
-    data: FlinkClusterConfig;
-  }>({visiable: false, data: {}});
-
+  
   useEffect(() => {
     listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
       setFlinkVersionList(d);
@@ -172,7 +167,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
                   type="link"
                   icon={<EditOutlined/>}
                   onClick={() => {
-                    setFlinkClusterConfigFormData({visiable: true, data: record});
+                    history.push("/workspace/dev/clusterConfigOptions", record);
                   }}
                 ></Button>
               </Tooltip>
@@ -214,89 +209,74 @@ const FlinkClusterConfigWeb: React.FC = () => {
   ];
 
   return (
-    <div>
-      <ProTable<FlinkClusterConfig>
-        search={{
-          labelWidth: 'auto',
-          span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
-        }}
-        rowKey="id"
-        actionRef={actionRef}
-        formRef={formRef}
-        options={false}
-        columns={tableColumns}
-        request={(params, sorter, filter) => {
-          return list(params);
-        }}
-        toolbar={{
-          actions: [
-            access.canAccess(PRIVILEGE_CODE.datadevProjectAdd) && (
-              <Button
-                key="new"
-                type="primary"
-                onClick={() => {
-                  setFlinkClusterConfigFormData({visiable: true, data: {}});
-                }}
-              >
-                {intl.formatMessage({id: 'app.common.operate.new.label'})}
-              </Button>
-            ),
-            access.canAccess(PRIVILEGE_CODE.datadevProjectDelete) && (
-              <Button
-                key="del"
-                type="default"
-                disabled={selectedRows.length < 1}
-                onClick={() => {
-                  Modal.confirm({
-                    title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
-                    content: intl.formatMessage({
-                      id: 'app.common.operate.delete.confirm.content',
-                    }),
-                    okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                    okButtonProps: {danger: true},
-                    cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
-                    onOk() {
-                      deleteBatch(selectedRows).then((d) => {
-                        if (d.success) {
-                          message.success(
-                            intl.formatMessage({id: 'app.common.operate.delete.success'}),
-                          );
-                          actionRef.current?.reload();
-                        }
-                      });
-                    },
-                  });
-                }}
-              >
-                {intl.formatMessage({id: 'app.common.operate.delete.label'})}
-              </Button>
-            ),
-          ],
-        }}
-        pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
-        rowSelection={{
-          fixed: true,
-          onChange(selectedRowKeys, selectedRows, info) {
-            setSelectedRows(selectedRows);
-          },
-        }}
-        tableAlertRender={false}
-        tableAlertOptionRender={false}
-      ></ProTable>
-      {flinkClusterConfigFormData.visiable && (
-        <FlinkClusterConfigForm
-          visible={flinkClusterConfigFormData.visiable}
-          onCancel={() => {
-            setFlinkClusterConfigFormData({visiable: false, data: {}});
-          }}
-          onVisibleChange={(visiable) => {
-            setFlinkClusterConfigFormData({visiable: visiable, data: {}});
-            actionRef.current?.reload();
-          }}
-          data={flinkClusterConfigFormData.data}
-        />
-      )}
-    </div>
+    <ProTable<FlinkClusterConfig>
+      search={{
+        labelWidth: 'auto',
+        span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
+      }}
+      rowKey="id"
+      actionRef={actionRef}
+      formRef={formRef}
+      options={false}
+      columns={tableColumns}
+      request={(params, sorter, filter) => {
+        return list(params);
+      }}
+      toolbar={{
+        actions: [
+          access.canAccess(PRIVILEGE_CODE.datadevProjectAdd) && (
+            <Button
+              key="new"
+              type="primary"
+              onClick={() => {
+                history.push("/workspace/dev/clusterConfigOptions", {});
+              }}
+            >
+              {intl.formatMessage({id: 'app.common.operate.new.label'})}
+            </Button>
+          ),
+          access.canAccess(PRIVILEGE_CODE.datadevProjectDelete) && (
+            <Button
+              key="del"
+              type="default"
+              disabled={selectedRows.length < 1}
+              onClick={() => {
+                Modal.confirm({
+                  title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                  content: intl.formatMessage({
+                    id: 'app.common.operate.delete.confirm.content',
+                  }),
+                  okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                  okButtonProps: {danger: true},
+                  cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                  onOk() {
+                    deleteBatch(selectedRows).then((d) => {
+                      if (d.success) {
+                        message.success(
+                          intl.formatMessage({id: 'app.common.operate.delete.success'}),
+                        );
+                        actionRef.current?.reload();
+                      }
+                    });
+                  },
+                });
+              }}
+            >
+              {intl.formatMessage({id: 'app.common.operate.delete.label'})}
+            </Button>
+          ),
+        ],
+      }}
+      pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
+      rowSelection={{
+        fixed: true,
+        onChange(selectedRowKeys, selectedRows, info) {
+          setSelectedRows(selectedRows);
+        },
+      }}
+      tableAlertRender={false}
+      tableAlertOptionRender={false}
+    />
   );
 };
 

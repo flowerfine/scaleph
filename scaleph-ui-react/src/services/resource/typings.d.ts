@@ -1,13 +1,5 @@
 import {Dict, QueryParam} from "@/app";
 
-export type Resource = {
-  id?: number;
-  type?: string;
-  label?: string;
-  name?: string;
-  remark?: string;
-}
-
 export type ResourceListParam = QueryParam & {
   resourceType?: string;
   label?: string;
@@ -100,10 +92,8 @@ export type CredentialFile = {
 }
 
 export type CredentialFileUploadParam = QueryParam & {
-  configType?: string;
-  name?: string;
+  id?: number;
   files?: File[];
-  remark?: string;
 }
 
 

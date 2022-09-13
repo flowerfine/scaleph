@@ -29,7 +29,6 @@ import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.ClusterCredentialListParam;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
-import cn.sliew.scaleph.resource.service.vo.ResourceVO;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -64,14 +63,9 @@ public class ClusterCredentialServiceImpl implements ClusterCredentialService {
     }
 
     @Override
-    public Page<ResourceVO> list(ResourceListParam param) {
+    public Page<ClusterCredentialDTO> list(ResourceListParam param) {
         ClusterCredentialListParam clusterCredentialListParam = ClusterCredentialConvert.INSTANCE.convert(param);
-        Page<ClusterCredentialDTO> page = list(clusterCredentialListParam);
-        Page<ResourceVO> result =
-                new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
-        List<ResourceVO> dtoList = ClusterCredentialConvert.INSTANCE.convert(page.getRecords());
-        result.setRecords(dtoList);
-        return result;
+        return list(clusterCredentialListParam);
     }
 
     @Override

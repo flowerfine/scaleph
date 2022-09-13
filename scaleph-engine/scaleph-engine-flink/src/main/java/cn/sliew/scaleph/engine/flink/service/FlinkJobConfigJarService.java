@@ -16,24 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.common.param.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobConfigJarDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkJobConfigJarListParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
-public class FlinkJobConfigListParam extends PaginationParam {
+import java.util.List;
 
-    @ApiModelProperty("类型。0: artifact, 1: sql+udf")
-    private String type;
+public interface FlinkJobConfigJarService {
 
-    @ApiModelProperty("名称。支持模糊搜索")
-    private String name;
+    Page<FlinkJobConfigJarDTO> list(FlinkJobConfigJarListParam param);
 
-    @ApiModelProperty("flink 集群配置 ID")
-    private Long flinkClusterConfigId;
+    FlinkJobConfigJarDTO selectOne(Long id);
 
+    int insert(FlinkJobConfigJarDTO dto);
+
+    int update(FlinkJobConfigJarDTO dto);
+
+    int deleteById(Long id);
+
+    int deleteBatch(List<Long> ids);
 }

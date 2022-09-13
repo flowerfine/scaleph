@@ -17,7 +17,7 @@ const ClusterCredentialForm: React.FC<ModalFormProps<ClusterCredential>> = ({
   const [form] = Form.useForm();
   const [clusterTypeList, setClusterTypeList] = useState<Dict[]>([]);
   useEffect(() => {
-    listDictDataByType(DICT_TYPE.resourceClusterType).then((d) => {
+    listDictDataByType(DICT_TYPE.flinkResourceProvider).then((d) => {
       setClusterTypeList(d);
     });
   }, []);
@@ -99,7 +99,7 @@ const ClusterCredentialForm: React.FC<ModalFormProps<ClusterCredential>> = ({
         </Form.Item>
         <Form.Item
           name="name"
-          label={intl.formatMessage({ id: 'pages.resource.file' })}
+          label={intl.formatMessage({ id: 'pages.resource.clusterCredential.name' })}
           rules={[
             { required: true },
             { max: 30 },
