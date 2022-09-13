@@ -19,12 +19,9 @@
 package cn.sliew.scaleph.engine.flink.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobConfig;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobConfigDTO;
-import cn.sliew.scaleph.system.service.convert.DictVoConvert;
-import cn.sliew.scaleph.system.service.vo.DictVO;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobConfigJar;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobConfigJarDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -35,14 +32,13 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FlinkJobConfigConvert extends BaseConvert<FlinkJobConfig, FlinkJobConfigDTO> {
+public interface FlinkJobConfigConvert extends BaseConvert<FlinkJobConfigJar, FlinkJobConfigJarDTO> {
     FlinkJobConfigConvert INSTANCE = Mappers.getMapper(FlinkJobConfigConvert.class);
 
     @Override
-    default FlinkJobConfig toDo(FlinkJobConfigDTO dto) {
-        FlinkJobConfig entity = new FlinkJobConfig();
+    default FlinkJobConfigJar toDo(FlinkJobConfigJarDTO dto) {
+        FlinkJobConfigJar entity = new FlinkJobConfigJar();
         BeanUtils.copyProperties(dto, entity);
-        entity.setType(DictVoConvert.INSTANCE.toDo(dto.getType()));
         if (CollectionUtils.isEmpty(dto.getJobConfig()) == false) {
             entity.setJobConfig(JacksonUtil.toJsonString(dto.getJobConfig()));
         }
@@ -53,10 +49,9 @@ public interface FlinkJobConfigConvert extends BaseConvert<FlinkJobConfig, Flink
     }
 
     @Override
-    default FlinkJobConfigDTO toDto(FlinkJobConfig entity) {
-        FlinkJobConfigDTO dto = new FlinkJobConfigDTO();
+    default FlinkJobConfigJarDTO toDto(FlinkJobConfigJar entity) {
+        FlinkJobConfigJarDTO dto = new FlinkJobConfigJarDTO();
         BeanUtils.copyProperties(entity, dto);
-        dto.setType(DictVO.toVO(DictConstants.FLINK_JOB_TYPE, entity.getType()));
         if (StringUtils.hasText(entity.getJobConfig())) {
             dto.setJobConfig(JacksonUtil.parseJsonString(entity.getJobConfig(), Map.class));
         }

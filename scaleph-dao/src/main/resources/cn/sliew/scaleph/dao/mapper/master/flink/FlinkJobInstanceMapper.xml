@@ -26,6 +26,7 @@
         <result column="create_time" property="createTime" />
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
+        <result column="type" property="type" />
         <result column="flink_job_config_id" property="flinkJobConfigId" />
         <result column="flink_cluster_instance_id" property="flinkClusterInstanceId" />
         <result column="job_id" property="jobId" />
@@ -36,7 +37,8 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        flink_job_config_id, flink_cluster_instance_id, job_id, `status`, remark
+        `type`, flink_job_config_id, flink_cluster_instance_id,
+        job_id, `status`, remark
     </sql>
 
 </mapper>

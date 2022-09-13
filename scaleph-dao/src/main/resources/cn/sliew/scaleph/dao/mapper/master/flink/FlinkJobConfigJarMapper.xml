@@ -17,28 +17,29 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.sliew.scaleph.dao.mapper.master.flink.FlinkJobConfigMapper">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.master.flink.FlinkJobConfigJarMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.flink.FlinkJobConfig">
+    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.flink.FlinkJobConfigJar">
         <result column="id" property="id" />
         <result column="creator" property="creator" />
         <result column="create_time" property="createTime" />
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
-        <result column="type" property="type" />
         <result column="name" property="name" />
+        <result column="flink_artifact_id" property="flinkArtifactId" />
         <result column="flink_cluster_config_id" property="flinkClusterConfigId" />
+        <result column="flink_cluster_instance_id" property="flinkClusterInstanceId" />
         <result column="job_config" property="jobConfig" />
         <result column="flink_config" property="flinkConfig" />
-        <result column="version" property="version" />
         <result column="remark" property="remark" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        `type`, `name`, flink_cluster_config_id, job_config, flink_config, version, remark
+        `name`, flink_artifact_id, flink_cluster_config_id,
+        flink_cluster_instance_id, job_config, flink_config, remark
     </sql>
 
 </mapper>

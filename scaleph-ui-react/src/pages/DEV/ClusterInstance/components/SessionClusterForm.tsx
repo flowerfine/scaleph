@@ -7,10 +7,13 @@ import {listDictDataByType} from "@/services/admin/dictData.service";
 import {FlinkClusterConfigParam, FlinkSessionClusterNewParam} from "@/services/dev/typings";
 import {list} from "@/services/dev/flinkClusterConfig.service";
 import {newSession} from "@/services/dev/flinkClusterInstance.service";
+import {useState} from "react";
 
 const SessionClusterForm: React.FC<ModalFormProps<any>> = ({data, visible, onVisibleChange, onCancel,}) => {
   const intl = useIntl();
   const [form] = Form.useForm();
+  const [confirming, setConfirming] = useState(false);
+
 
   return (<Modal
     visible={visible}
@@ -19,6 +22,7 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({data, visible, onVis
       intl.formatMessage({id: 'pages.dev.clusterInstance.session'})
     }
     width={580}
+    confirmLoading={confirming}
     closable={false}
     destroyOnClose={true}
     onCancel={onCancel}
@@ -28,6 +32,7 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({data, visible, onVis
           flinkClusterConfigId: values.flinkClusterConfig,
           remark: values.remark
         };
+        setConfirming(true)
         newSession(param)
           .then(() => {
             message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
@@ -36,6 +41,7 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({data, visible, onVis
             message.error(intl.formatMessage({id: 'app.common.operate.new.failure'}));
           })
           .finally(() => {
+            setConfirming(false)
             onVisibleChange(false);
           });
       });

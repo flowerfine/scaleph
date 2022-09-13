@@ -32,6 +32,7 @@ public interface FlinkJobInstanceConvert extends BaseConvert<FlinkJobInstance, F
     FlinkJobInstanceConvert INSTANCE = Mappers.getMapper(FlinkJobInstanceConvert.class);
 
     @Override
+    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.FLINK_JOB_TYPE,entity.getType()))", target = "type")
     @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.FLINK_JOB_STATUS,entity.getStatus()))", target = "status")
     FlinkJobInstanceDTO toDto(FlinkJobInstance entity);
 }

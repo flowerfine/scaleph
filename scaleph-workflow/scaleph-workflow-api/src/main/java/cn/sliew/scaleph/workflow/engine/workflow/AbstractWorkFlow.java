@@ -54,9 +54,16 @@ public abstract class AbstractWorkFlow implements WorkFlow {
 
     @Override
     public void execute(ActionContext context, ActionListener<ActionResult> listener) {
+        for (AttributeKey attributeKey : getInputs()) {
+            if (context.hasAttr(attributeKey) == false) {
+                listener.onFailure(new RuntimeException(getName() + " require [" + attributeKey.name() + "] input"));
+                return;
+            }
+        }
+
         final ContainerValue containerValue = getContainer(context);
         try {
-            final Container container = containerValue.value();
+            Container container = containerValue.value();
             container.execute(doExecute(context, listener), new ActionListener<Void>() {
                 @Override
                 public void onResponse(Void unused) {

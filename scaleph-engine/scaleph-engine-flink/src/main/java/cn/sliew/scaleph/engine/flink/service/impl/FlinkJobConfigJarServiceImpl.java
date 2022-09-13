@@ -18,12 +18,12 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobConfig;
-import cn.sliew.scaleph.dao.mapper.master.flink.FlinkJobConfigMapper;
-import cn.sliew.scaleph.engine.flink.service.FlinkJobConfigService;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobConfigJar;
+import cn.sliew.scaleph.dao.mapper.master.flink.FlinkJobConfigJarMapper;
+import cn.sliew.scaleph.engine.flink.service.FlinkJobConfigJarService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobConfigConvert;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobConfigDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobConfigListParam;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobConfigJarDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkJobConfigJarListParam;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
@@ -36,29 +36,29 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class FlinkJobConfigServiceImpl implements FlinkJobConfigService {
+public class FlinkJobConfigJarServiceImpl implements FlinkJobConfigJarService {
 
     @Autowired
-    private FlinkJobConfigMapper flinkJobConfigMapper;
+    private FlinkJobConfigJarMapper flinkJobConfigJarMapper;
 
     @Override
-    public Page<FlinkJobConfigDTO> list(FlinkJobConfigListParam param) {
-        final Page<FlinkJobConfig> page = flinkJobConfigMapper.selectPage(
+    public Page<FlinkJobConfigJarDTO> list(FlinkJobConfigJarListParam param) {
+        final Page<FlinkJobConfigJar> page = flinkJobConfigJarMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
-                Wrappers.lambdaQuery(FlinkJobConfig.class)
-                        .eq(StringUtils.hasText(param.getType()), FlinkJobConfig::getType, param.getType())
-                        .like(StringUtils.hasText(param.getName()), FlinkJobConfig::getName, param.getName())
-                        .eq(param.getFlinkClusterConfigId() != null, FlinkJobConfig::getFlinkClusterConfigId, param.getFlinkClusterConfigId()));
-        Page<FlinkJobConfigDTO> result =
+                Wrappers.lambdaQuery(FlinkJobConfigJar.class)
+                        .like(StringUtils.hasText(param.getName()), FlinkJobConfigJar::getName, param.getName())
+                        .eq(param.getFlinkClusterConfigId() != null, FlinkJobConfigJar::getFlinkClusterConfigId, param.getFlinkClusterConfigId())
+                        .eq(param.getFlinkClusterInstanceId() != null, FlinkJobConfigJar::getFlinkClusterInstanceId, param.getFlinkClusterInstanceId()));
+        Page<FlinkJobConfigJarDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
-        List<FlinkJobConfigDTO> dtoList = FlinkJobConfigConvert.INSTANCE.toDto(page.getRecords());
+        List<FlinkJobConfigJarDTO> dtoList = FlinkJobConfigConvert.INSTANCE.toDto(page.getRecords());
         result.setRecords(dtoList);
         return result;
     }
 
     @Override
-    public FlinkJobConfigDTO selectOne(Long id) {
-        final FlinkJobConfig record = flinkJobConfigMapper.selectById(id);
+    public FlinkJobConfigJarDTO selectOne(Long id) {
+        final FlinkJobConfigJar record = flinkJobConfigJarMapper.selectById(id);
         if (record == null) {
             throw new IllegalStateException("flink job config not exists for id: " + id);
         }
@@ -66,20 +66,20 @@ public class FlinkJobConfigServiceImpl implements FlinkJobConfigService {
     }
 
     @Override
-    public int insert(FlinkJobConfigDTO dto) {
-        final FlinkJobConfig record = FlinkJobConfigConvert.INSTANCE.toDo(dto);
-        return flinkJobConfigMapper.insert(record);
+    public int insert(FlinkJobConfigJarDTO dto) {
+        final FlinkJobConfigJar record = FlinkJobConfigConvert.INSTANCE.toDo(dto);
+        return flinkJobConfigJarMapper.insert(record);
     }
 
     @Override
-    public int update(FlinkJobConfigDTO dto) {
-        final FlinkJobConfig record = FlinkJobConfigConvert.INSTANCE.toDo(dto);
-        return flinkJobConfigMapper.updateById(record);
+    public int update(FlinkJobConfigJarDTO dto) {
+        final FlinkJobConfigJar record = FlinkJobConfigConvert.INSTANCE.toDo(dto);
+        return flinkJobConfigJarMapper.updateById(record);
     }
 
     @Override
     public int deleteById(Long id) {
-        return flinkJobConfigMapper.deleteById(id);
+        return flinkJobConfigJarMapper.deleteById(id);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class FlinkJobConfigServiceImpl implements FlinkJobConfigService {
         if (CollectionUtils.isEmpty(ids)) {
             return 0;
         }
-        flinkJobConfigMapper.deleteBatchIds(ids);
+        flinkJobConfigJarMapper.deleteBatchIds(ids);
         return ids.size();
     }
 }

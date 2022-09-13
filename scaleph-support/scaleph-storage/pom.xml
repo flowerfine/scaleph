@@ -41,6 +41,12 @@
 
         <dependency>
             <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-hdfs-client</artifactId>
+            <version>${hadoop.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs</artifactId>
             <version>${hadoop.version}</version>
             <optional>true</optional>
@@ -51,6 +57,7 @@
             <artifactId>hadoop-aliyun</artifactId>
             <version>${hadoop.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-aws</artifactId>
