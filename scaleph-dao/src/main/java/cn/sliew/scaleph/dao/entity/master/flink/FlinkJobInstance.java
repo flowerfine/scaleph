@@ -39,6 +39,10 @@ public class FlinkJobInstance extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
+    @TableField("`type`")
+    private String type;
+
     @ApiModelProperty("flink 任务配置 ID")
     @TableField("flink_job_config_id")
     private Long flinkJobConfigId;
@@ -49,7 +53,7 @@ public class FlinkJobInstance extends BaseDO {
 
     @ApiModelProperty("flink 任务 ID")
     @TableField("job_id")
-    private Long jobId;
+    private String jobId;
 
     @ApiModelProperty("任务状态。0: 已创建, 1: 创建失败")
     @TableField("`status`")

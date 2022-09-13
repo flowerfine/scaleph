@@ -78,7 +78,7 @@ DROP TABLE IF EXISTS flink_job_instance;
 CREATE TABLE flink_job_instance
 (
     `id`                        BIGINT      NOT NULL AUTO_INCREMENT,
-    `type`                      TINYINT(4)  NOT NULL COMMENT 'job type. 0: jar, 1: sql+udf, 2: seatunnel',
+    `type`                      VARCHAR(4)  NOT NULL COMMENT 'job type. 0: jar, 1: sql+udf, 2: seatunnel',
     `flink_job_config_id`       BIGINT      NOT NULL,
     `flink_cluster_instance_id` BIGINT      NOT NULL,
     `job_id`                    VARCHAR(64) NOT NULL,
