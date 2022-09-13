@@ -9,12 +9,12 @@ import PasswordEditForm from './PasswordEditForm';
 const Security: React.FC = () => {
   const intl = useIntl();
   const [user, setUser] = useState<SecUser>();
-  const [passwordFormData, setPasswordFormData] = useState<{ visiable: boolean; data: any }>({
-    visiable: false,
+  const [passwordFormData, setPasswordFormData] = useState<{ visible: boolean; data: any }>({
+    visible: false,
     data: {},
   });
-  const [emailFormData, setEmailFormData] = useState<{ visiable: boolean; data: any }>({
-    visiable: false,
+  const [emailFormData, setEmailFormData] = useState<{ visible: boolean; data: any }>({
+    visible: false,
     data: {},
   });
 
@@ -36,7 +36,7 @@ const Security: React.FC = () => {
             <Button
               type="link"
               onClick={() => {
-                setPasswordFormData({ visiable: true, data: {} });
+                setPasswordFormData({ visible: true, data: {} });
               }}
             >
               {intl.formatMessage({ id: 'pages.admin.usercenter.security.password.edit' })}
@@ -61,7 +61,7 @@ const Security: React.FC = () => {
             <Button
               type="link"
               onClick={() => {
-                setEmailFormData({ visiable: true, data: {} });
+                setEmailFormData({ visible: true, data: {} });
               }}
             >
               {intl.formatMessage({ id: 'pages.admin.usercenter.security.email.bind' })}
@@ -83,27 +83,27 @@ const Security: React.FC = () => {
           ></List.Item.Meta>
         </List.Item>
       </List>
-      {passwordFormData.visiable &&
+      {passwordFormData.visible &&
         <PasswordEditForm
-          visible={passwordFormData.visiable}
+          visible={passwordFormData.visible}
           onCancel={() => {
-            setPasswordFormData({ visiable: false, data: {} });
+            setPasswordFormData({ visible: false, data: {} });
           }}
-          onVisibleChange={(visiable) => {
-            setPasswordFormData({ visiable: visiable, data: {} });
+          onVisibleChange={(visible) => {
+            setPasswordFormData({ visible: visible, data: {} });
             refreshUserInfo();
           }}
           data={{}}
         ></PasswordEditForm>}
 
-      {emailFormData.visiable &&
+      {emailFormData.visible &&
         <EmailBindForm
-          visible={emailFormData.visiable}
+          visible={emailFormData.visible}
           onCancel={() => {
-            setEmailFormData({ visiable: false, data: {} });
+            setEmailFormData({ visible: false, data: {} });
           }}
-          onVisibleChange={(visiable) => {
-            setEmailFormData({ visiable: visiable, data: {} });
+          onVisibleChange={(visible) => {
+            setEmailFormData({ visible: visible, data: {} });
             refreshUserInfo();
           }}
           data={{}}

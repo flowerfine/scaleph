@@ -28,13 +28,13 @@ const DataSourceNewPre: React.FC<DataSourceFormProps> = ({
             <Modal
                 visible={visible}
                 destroyOnClose={true}
-                title={intl.formatMessage({ id: 'pages.di.dataSource.dataSourceType.chose' })}
+                title={intl.formatMessage({ id: 'pages.project.di.dataSource.dataSourceType.chose' })}
                 width={860}
                 onCancel={onCancel}
                 footer={null}
             >
                 <Typography.Title level={5} type="secondary">
-                    {intl.formatMessage({ id: 'pages.di.dataSource.dataSourceType.rdbms' })}
+                    {intl.formatMessage({ id: 'pages.project.di.dataSource.dataSourceType.rdbms' })}
                 </Typography.Title>
                 <Card bordered={false}>
                     <Card.Grid style={gridStyle} onClick={() => { onSelect('Mysql') }}>
@@ -49,7 +49,7 @@ const DataSourceNewPre: React.FC<DataSourceFormProps> = ({
                 </Card>
 
                 <Typography.Title level={5} type="secondary">
-                    {intl.formatMessage({ id: 'pages.di.dataSource.dataSourceType.bigdata' })}
+                    {intl.formatMessage({ id: 'pages.project.di.dataSource.dataSourceType.bigdata' })}
                 </Typography.Title>
                 <Card bordered={false}>
                     <Card.Grid style={gridStyle} onClick={() => { onSelect('Doris') }}>
@@ -67,7 +67,7 @@ const DataSourceNewPre: React.FC<DataSourceFormProps> = ({
                 </Card>
 
                 <Typography.Title level={5} type="secondary">
-                    {intl.formatMessage({ id: 'pages.di.dataSource.dataSourceType.mq' })}
+                    {intl.formatMessage({ id: 'pages.project.di.dataSource.dataSourceType.mq' })}
                 </Typography.Title>
                 <Card bordered={false}>
                     <Card.Grid style={gridStyle} onClick={() => { onSelect('Kafka') }}>
@@ -76,7 +76,7 @@ const DataSourceNewPre: React.FC<DataSourceFormProps> = ({
                 </Card>
 
                 <Typography.Title level={5} type="secondary">
-                    {intl.formatMessage({ id: 'pages.di.dataSource.dataSourceType.other' })}
+                    {intl.formatMessage({ id: 'pages.project.di.dataSource.dataSourceType.other' })}
                 </Typography.Title>
                 <Card bordered={false}>
                     <Card.Grid style={gridStyle} onClick={() => { onSelect('JDBC') }}>

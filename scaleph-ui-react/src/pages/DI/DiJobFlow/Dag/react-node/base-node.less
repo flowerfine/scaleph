@@ -1,0 +1,38 @@
+.base-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: 32px;
+  font-size: 14px;
+  text-align: left;
+  background-color: #fff;
+  border-color: #5e7ce0;
+  border-width: 2px;
+  border-radius: 5px;
+  box-shadow: 4px 4px 6px 2px rgb(0 0 0 / 20%);
+
+  &:hover {
+    background-color: #fff;
+    border: 1px solid #3057e3;
+    box-shadow: 0 0 3px 3px rgba(48, 86, 227, 0.15);
+    cursor: move;
+  }
+
+  .icon {
+    display: flex;
+    // background-color: #5e7ce0;
+    width: 32px;
+  }
+
+  .label {
+    text-align: center;
+    width: 116px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .status {
+    width: 32px;
+  }
+}

@@ -59,29 +59,31 @@ const User: React.FC = () => {
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<SecUser[]>([]);
   const [userStatusList, setUserStatusList] = useState<Dict[]>([]);
-  const [userFormData, setUserFormData] = useState<{ visiable: boolean; data: SecUser }>({
-    visiable: false,
+  const [selectDept, setSelectDept] = useState<React.Key>('');
+  const [selectRole, setSelectRole] = useState<string>('');
+  const [userFormData, setUserFormData] = useState<{ visible: boolean; data: SecUser }>({
+    visible: false,
     data: {},
   });
-  const [roleFormData, setRoleFormData] = useState<{ visiable: boolean; data: SecRole }>({
-    visiable: false,
+  const [roleFormData, setRoleFormData] = useState<{ visible: boolean; data: SecRole }>({
+    visible: false,
     data: {},
   });
-  const [roleGrantData, setRoleGrantData] = useState<{ visiable: boolean; data: SecRole }>({
-    visiable: false,
+  const [roleGrantData, setRoleGrantData] = useState<{ visible: boolean; data: SecRole }>({
+    visible: false,
     data: {},
   });
   const [deptFormData, setDeptFormData] = useState<{
-    visiable: boolean;
+    visible: boolean;
     data: SecDept;
     isUpdate: boolean;
   }>({
-    visiable: false,
+    visible: false,
     data: {},
     isUpdate: false,
   });
-  const [deptGrantData, setDeptGrantData] = useState<{ visiable: boolean; data: SecDept }>({
-    visiable: false,
+  const [deptGrantData, setDeptGrantData] = useState<{ visible: boolean; data: SecDept }>({
+    visible: false,
     data: {},
   });
 
@@ -160,7 +162,7 @@ const User: React.FC = () => {
                   type="link"
                   icon={<EditOutlined />}
                   onClick={() => {
-                    setUserFormData({ visiable: true, data: record });
+                    setUserFormData({ visible: true, data: record });
                   }}
                 ></Button>
               </Tooltip>
@@ -244,7 +246,7 @@ const User: React.FC = () => {
             type="link"
             icon={<PlusOutlined />}
             onClick={() => {
-              setRoleFormData({ visiable: true, data: {} });
+              setRoleFormData({ visible: true, data: {} });
             }}
           ></Button>
         </Tooltip>
@@ -262,7 +264,7 @@ const User: React.FC = () => {
             type="link"
             icon={<PlusOutlined />}
             onClick={() => {
-              setDeptFormData({ visiable: true, data: {}, isUpdate: false });
+              setDeptFormData({ visible: true, data: {}, isUpdate: false });
             }}
           ></Button>
         </Tooltip>
@@ -355,6 +357,8 @@ const User: React.FC = () => {
             type="card"
             onChange={(activeKey) => {
               setTabId(activeKey);
+              setSelectRole('');
+              setSelectDept('');
             }}
           >
             {access.canAccess(PRIVILEGE_CODE.roleSelect) && (
@@ -375,6 +379,10 @@ const User: React.FC = () => {
                         item.showOpIcon = false;
                         setRoleList([...roleList]);
                       }}
+                      onClick={() => {
+                        setSelectRole(item.id + '');
+                        actionRef.current?.reload();
+                      }}
                     >
                       <Typography.Text style={{ paddingRight: 12 }}>
                         {item.roleName}
@@ -390,7 +398,7 @@ const User: React.FC = () => {
                                 type="text"
                                 icon={<EditOutlined />}
                                 onClick={() => {
-                                  setRoleFormData({ visiable: true, data: item });
+                                  setRoleFormData({ visible: true, data: item });
                                 }}
                               ></Button>
                             </Tooltip>
@@ -446,7 +454,7 @@ const User: React.FC = () => {
                                 size="small"
                                 icon={<UserSwitchOutlined />}
                                 onClick={() => {
-                                  setRoleGrantData({ visiable: true, data: item });
+                                  setRoleGrantData({ visible: true, data: item });
                                 }}
                               ></Button>
                             </Tooltip>
@@ -476,6 +484,14 @@ const User: React.FC = () => {
                   expandedKeys={expandKeys}
                   autoExpandParent={autoExpandParent}
                   onExpand={onExpand}
+                  onSelect={(selectedKeys, e: { selected: boolean }) => {
+                    if (e.selected) {
+                      setSelectDept(selectedKeys[0]);
+                    } else {
+                      setSelectDept('');
+                    }
+                    actionRef.current?.reload();
+                  }}
                   titleRender={(node) => {
                     return (
                       <Row
@@ -512,7 +528,7 @@ const User: React.FC = () => {
                                     icon={<PlusOutlined />}
                                     onClick={() => {
                                       setDeptFormData({
-                                        visiable: true,
+                                        visible: true,
                                         data: {
                                           pid: node.origin.id,
                                         },
@@ -535,7 +551,7 @@ const User: React.FC = () => {
                                     icon={<EditOutlined />}
                                     onClick={() => {
                                       setDeptFormData({
-                                        visiable: true,
+                                        visible: true,
                                         data: {
                                           id: node.origin.id,
                                           deptCode: node.origin.deptCode,
@@ -603,7 +619,7 @@ const User: React.FC = () => {
                                     size="small"
                                     icon={<UserSwitchOutlined />}
                                     onClick={() => {
-                                      setDeptGrantData({ visiable: true, data: node.origin });
+                                      setDeptGrantData({ visible: true, data: node.origin });
                                     }}
                                   ></Button>
                                 </Tooltip>
@@ -639,7 +655,7 @@ const User: React.FC = () => {
                   key="new"
                   type="primary"
                   onClick={() => {
-                    setUserFormData({ visiable: true, data: {} });
+                    setUserFormData({ visible: true, data: {} });
                   }}
                 >
                   {intl.formatMessage({ id: 'app.common.operate.new.label' })}
@@ -679,7 +695,7 @@ const User: React.FC = () => {
           }}
           columns={tableColumns}
           request={(params, sorter, filter) => {
-            return listUserByPage(params);
+            return listUserByPage({ ...params, deptId: selectDept as string, roleId: selectRole });
           }}
           pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
           rowSelection={{
@@ -692,66 +708,66 @@ const User: React.FC = () => {
           tableAlertOptionRender={false}
         ></ProTable>
       </Col>
-      {roleFormData.visiable ? (
+      {roleFormData.visible ? (
         <RoleForm
-          visible={roleFormData.visiable}
+          visible={roleFormData.visible}
           onCancel={() => {
-            setRoleFormData({ visiable: false, data: {} });
+            setRoleFormData({ visible: false, data: {} });
           }}
-          onVisibleChange={(visiable) => {
-            setRoleFormData({ visiable: visiable, data: {} });
+          onVisibleChange={(visible) => {
+            setRoleFormData({ visible: visible, data: {} });
             refreshRoles();
           }}
           data={roleFormData.data}
         />
       ) : null}
-      {roleGrantData.visiable ? (
+      {roleGrantData.visible ? (
         <RoleGrant
-          visible={roleGrantData.visiable}
+          visible={roleGrantData.visible}
           onCancel={() => {
-            setRoleGrantData({ visiable: false, data: {} });
+            setRoleGrantData({ visible: false, data: {} });
           }}
-          onVisibleChange={(visiable) => {
-            setRoleGrantData({ visiable: visiable, data: {} });
+          onVisibleChange={(visible) => {
+            setRoleGrantData({ visible: visible, data: {} });
           }}
           data={roleGrantData.data}
         ></RoleGrant>
       ) : null}
-      {deptFormData.visiable ? (
+      {deptFormData.visible ? (
         <DeptForm
-          visible={deptFormData.visiable}
+          visible={deptFormData.visible}
           treeData={deptTreeList}
           isUpdate={deptFormData.isUpdate}
           onCancel={() => {
-            setDeptFormData({ visiable: false, data: {}, isUpdate: false });
+            setDeptFormData({ visible: false, data: {}, isUpdate: false });
           }}
-          onVisibleChange={(visiable) => {
-            setDeptFormData({ visiable: visiable, data: {}, isUpdate: false });
+          onVisibleChange={(visible) => {
+            setDeptFormData({ visible: visible, data: {}, isUpdate: false });
             refreshDepts();
           }}
           data={deptFormData.data}
         />
       ) : null}
-      {deptGrantData.visiable ? (
+      {deptGrantData.visible ? (
         <DeptGrant
-          visible={deptGrantData.visiable}
+          visible={deptGrantData.visible}
           onCancel={() => {
-            setDeptGrantData({ visiable: false, data: {} });
+            setDeptGrantData({ visible: false, data: {} });
           }}
-          onVisibleChange={(visiable) => {
-            setDeptGrantData({ visiable: visiable, data: {} });
+          onVisibleChange={(visible) => {
+            setDeptGrantData({ visible: visible, data: {} });
           }}
           data={deptGrantData.data}
         />
       ) : null}
-      {userFormData.visiable ? (
+      {userFormData.visible ? (
         <UserForm
-          visible={userFormData.visiable}
+          visible={userFormData.visible}
           onCancel={() => {
-            setUserFormData({ visiable: false, data: {} });
+            setUserFormData({ visible: false, data: {} });
           }}
-          onVisibleChange={(visiable) => {
-            setUserFormData({ visiable: visiable, data: {} });
+          onVisibleChange={(visible) => {
+            setUserFormData({ visible: visible, data: {} });
             actionRef.current?.reload();
           }}
           data={userFormData.data}

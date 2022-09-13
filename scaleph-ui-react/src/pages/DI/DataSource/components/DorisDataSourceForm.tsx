@@ -26,9 +26,9 @@ const DorisDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
             title={
                 data.id
                     ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-                    intl.formatMessage({ id: 'pages.di.dataSource' })
+                    intl.formatMessage({ id: 'pages.project.di.dataSource' })
                     : intl.formatMessage({ id: 'app.common.operate.new.label' }) +
-                    intl.formatMessage({ id: 'pages.di.dataSource' })
+                    intl.formatMessage({ id: 'pages.project.di.dataSource' })
             }
             width={580}
             destroyOnClose={true}
@@ -58,13 +58,13 @@ const DorisDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                             };
                             testConnection(ds).then(resp => {
                                 if (resp.success) {
-                                    message.success(intl.formatMessage({ id: 'pages.di.dataSource.testConnect.success' }))
+                                    message.success(intl.formatMessage({ id: 'pages.project.di.dataSource.testConnect.success' }))
                                 }
                             });
                         });
                     }}
                 >
-                    {intl.formatMessage({ id: 'pages.di.dataSource.testConnect' })}
+                    {intl.formatMessage({ id: 'pages.project.di.dataSource.testConnect' })}
                 </Button>,
                 <Button
                     key="cancel"
@@ -133,7 +133,7 @@ const DorisDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="datasourceName"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.dataSourceName' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.dataSourceName' })}
                     rules={[
                         { required: true },
                         { max: 60 },
@@ -147,7 +147,7 @@ const DorisDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="host"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.host' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.host' })}
                     rules={[
                         { required: true },
                         { max: 256 }
@@ -157,7 +157,7 @@ const DorisDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="databaseName"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.databaseName' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.databaseName' })}
                     rules={[
                         { required: true },
                         { max: 64 }
@@ -167,7 +167,7 @@ const DorisDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="port"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.port' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.port' })}
                     rules={[
                         { required: true },
                     ]}
@@ -176,7 +176,7 @@ const DorisDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="httpPort"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.httpPort' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.httpPort' })}
                     rules={[
                         { required: true },
                     ]}
@@ -185,7 +185,7 @@ const DorisDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="username"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.username' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.username' })}
                     rules={[
                         { required: true },
                         { max: 120 }
@@ -195,7 +195,7 @@ const DorisDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="password"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.password' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.password' })}
                     rules={[
                         { required: true },
                         { max: 120 }
@@ -205,7 +205,7 @@ const DorisDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="remark"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.remark' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.remark' })}
                     rules={[
                         { max: 200 },
                     ]}
@@ -214,14 +214,14 @@ const DorisDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
                 </Form.Item>
                 <Form.Item
                     name="additionalPropsStr"
-                    label={intl.formatMessage({ id: 'pages.di.dataSource.additionalProps' })}
+                    label={intl.formatMessage({ id: 'pages.project.di.dataSource.additionalProps' })}
                     rules={[
                         { max: 2048 },
                     ]}
                 >
                     <Input.TextArea
                         autoSize={{ minRows: 5 }}
-                        placeholder={intl.formatMessage({ id: 'pages.di.dataSource.additionalProps.placeholder' })}
+                        placeholder={intl.formatMessage({ id: 'pages.project.di.dataSource.additionalProps.placeholder' })}
                     >
                     </Input.TextArea>
                 </Form.Item>

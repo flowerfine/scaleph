@@ -19,9 +19,9 @@ const Project: React.FC = () => {
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<DiProject[]>([]);
   const [projectFormData, setProjectFormData] = useState<{
-    visiable: boolean;
+    visible: boolean;
     data: DiProject;
-  }>({ visiable: false, data: {} });
+  }>({ visible: false, data: {} });
 
   const tableColumns: ProColumns<DiProject>[] = [
     {
@@ -79,7 +79,7 @@ const Project: React.FC = () => {
                   type="link"
                   icon={<EditOutlined />}
                   onClick={() => {
-                    setProjectFormData({ visiable: true, data: record });
+                    setProjectFormData({ visible: true, data: record });
                   }}
                 ></Button>
               </Tooltip>
@@ -148,7 +148,7 @@ const Project: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setProjectFormData({ visiable: true, data: {} });
+                  setProjectFormData({ visible: true, data: {} });
                 }}
               >
                 {intl.formatMessage({ id: 'app.common.operate.new.label' })}
@@ -196,14 +196,14 @@ const Project: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       ></ProTable>
-      {projectFormData.visiable && (
+      {projectFormData.visible && (
         <ProjectForm
-          visible={projectFormData.visiable}
+          visible={projectFormData.visible}
           onCancel={() => {
-            setProjectFormData({ visiable: false, data: {} });
+            setProjectFormData({ visible: false, data: {} });
           }}
-          onVisibleChange={(visiable) => {
-            setProjectFormData({ visiable: visiable, data: {} });
+          onVisibleChange={(visible) => {
+            setProjectFormData({ visible: visible, data: {} });
             actionRef.current?.reload();
           }}
           data={projectFormData.data}
