@@ -136,10 +136,10 @@ export default [
             access: 'normalRouteFilter',
           },
           {
-            name: 'realtime',
-            path: '/workspace/dev/realtime',
+            name: 'jobConfigJar',
+            path: '/workspace/dev/jobConfigJar',
             exact: true,
-            component: './DEV/DevRealtimeJob',
+            component: './DEV/JobConfigJar',
             pCode: PRIVILEGE_CODE.datadevDatasourceShow,
             access: 'normalRouteFilter',
           },

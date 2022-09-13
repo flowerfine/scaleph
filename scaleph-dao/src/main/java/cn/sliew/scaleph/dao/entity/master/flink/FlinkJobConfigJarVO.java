@@ -16,43 +16,54 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
+package cn.sliew.scaleph.dao.entity.master.flink;
 
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.Map;
-
+/**
+ * <p>
+ * flink job
+ * </p>
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@TableName("flink_job_config_jar")
 @ApiModel(value = "FlinkJobConfigJar对象", description = "flink job config for jar")
-public class FlinkJobConfigJarDTO extends BaseDTO {
+public class FlinkJobConfigJarVO extends BaseDO {
 
-    @NotBlank
+    private static final long serialVersionUID = 1L;
+
     @ApiModelProperty("名称")
+    @TableField("`name`")
     private String name;
 
-    @NotNull
-    @ApiModelProperty("flink artifact")
-    private FlinkArtifactDTO flinkArtifact;
+    @ApiModelProperty("flink artifact ID")
+    @TableField(value = "flink_artifact_id", exist = false)
+    private FlinkArtifact flinkArtifact;
 
-    @ApiModelProperty("flink cluster config")
-    private FlinkClusterConfigDTO flinkClusterConfig;
+    @ApiModelProperty("flink cluster config ID")
+    @TableField(value = "flink_cluster_config_id", exist = false)
+    private FlinkClusterConfig flinkClusterConfig;
 
-    @ApiModelProperty("flink cluster instance")
-    private FlinkClusterInstanceDTO flinkClusterInstance;
+    @ApiModelProperty("flink cluster config ID")
+    @TableField(value = "flink_cluster_instance_id", exist = false)
+    private FlinkClusterInstance flinkClusterInstance;
 
     @ApiModelProperty("任务自身 配置参数")
-    private Map<String, String> jobConfig;
+    @TableField("job_config")
+    private String jobConfig;
 
     @ApiModelProperty("flink 配置参数")
-    private Map<String, String> flinkConfig;
+    @TableField("flink_config")
+    private String flinkConfig;
 
     @ApiModelProperty("备注")
+    @TableField("remark")
     private String remark;
 }
