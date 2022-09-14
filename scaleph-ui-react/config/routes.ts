@@ -140,6 +140,13 @@ export default [
             pCode: PRIVILEGE_CODE.datadevDatasourceShow,
             access: 'normalRouteFilter',
           },
+          {
+            path: '/workspace/dev/jobConfigJar/options',
+            exact: true,
+            component: './DEV/JobConfig/Jar',
+            pCode: PRIVILEGE_CODE.datadevDatasourceShow,
+            access: 'normalRouteFilter',
+          },
         ],
       },
     ],
