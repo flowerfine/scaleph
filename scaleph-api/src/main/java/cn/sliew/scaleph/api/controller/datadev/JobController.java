@@ -37,6 +37,7 @@ import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
 import cn.sliew.scaleph.core.scheduler.service.ScheduleService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.I18nUtil;
@@ -578,5 +579,14 @@ public class JobController {
     public ResponseEntity<List<Date>> listNext5FireTime(@RequestParam("crontabStr") String crontabStr) throws ParseException {
         List<Date> dates = scheduleService.listNext5FireTime(crontabStr);
         return new ResponseEntity<>(dates, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping(path = "/node/meta")
+    @ApiOperation(value = "查询DAG节点元信息", notes = "后端统一返回节点信息")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_SELECT)")
+    public ResponseEntity<List<DagPanelDTO>> loadNodeMeta() {
+        List<DagPanelDTO> list = this.seatunnelJobService.loadDndPanelInfo();
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

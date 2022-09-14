@@ -20,11 +20,13 @@ package cn.sliew.scaleph.engine.seatunnel.service;
 
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import org.apache.flink.configuration.Configuration;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -54,4 +56,6 @@ public interface SeatunnelJobService {
     Configuration buildConfiguration(DiJobDTO job, Path seatunnelJarPath,
                                      Map<String, String> clusterConf,
                                      File projectPath) throws IOException;
+
+    List<DagPanelDTO> loadDndPanelInfo();
 }

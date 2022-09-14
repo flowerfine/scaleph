@@ -1,3 +1,16 @@
+import { NsNodeCollapsePanel } from '@antv/xflow-extension/es';
+import { request } from 'umi';
+
+export const DagService = {
+    url: '/api/di/job',
+    loadNodeMeta: async () => {
+        return request<NsNodeCollapsePanel.ICollapsePanel[]>(`${DagService.url}/node/meta`, {
+            method: 'GET'
+        })
+    },
+};
+
+
 // import { DND_RENDER_ID, NODE_WIDTH, NODE_HEIGHT, EDGE_NODE_RENDER_ID } from './constant'
 // import { uuidv4, NsGraph, NsGraphStatusCommand } from '@antv/xflow'
 // /** mock 后端接口调用 */
