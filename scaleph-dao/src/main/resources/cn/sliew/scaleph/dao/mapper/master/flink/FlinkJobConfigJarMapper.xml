@@ -18,28 +18,139 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.sliew.scaleph.dao.mapper.master.flink.FlinkJobConfigJarMapper">
-
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.flink.FlinkJobConfigJar">
-        <result column="id" property="id" />
-        <result column="creator" property="creator" />
-        <result column="create_time" property="createTime" />
-        <result column="editor" property="editor" />
-        <result column="update_time" property="updateTime" />
-        <result column="name" property="name" />
-        <result column="flink_artifact_id" property="flinkArtifactId" />
-        <result column="flink_cluster_config_id" property="flinkClusterConfigId" />
-        <result column="flink_cluster_instance_id" property="flinkClusterInstanceId" />
-        <result column="job_config" property="jobConfig" />
-        <result column="flink_config" property="flinkConfig" />
-        <result column="remark" property="remark" />
+        <id column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="name" property="name"/>
+        <result column="flink_artifact_id" property="flinkArtifactId"/>
+        <result column="flink_cluster_config_id" property="flinkClusterConfigId"/>
+        <result column="flink_cluster_instance_id" property="flinkClusterInstanceId"/>
+        <result column="job_config" property="jobConfig"/>
+        <result column="flink_config" property="flinkConfig"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <resultMap id="FLinkJobConfigJarVOMap" type="cn.sliew.scaleph.dao.entity.master.flink.FlinkJobConfigJarVO">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="name" property="name"/>
+        <result column="job_config" property="jobConfig"/>
+        <result column="flink_config" property="flinkConfig"/>
+        <result column="remark" property="remark"/>
+        <association property="flinkArtifact"
+                     javaType="cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifact">
+            <result column="artifact_id" property="id"/>
+            <result column="artifact_name" property="name"/>
+            <result column="artifact_path" property="path"/>
+            <result column="artifact_entry_class" property="entryClass"/>
+            <result column="artifact_remark" property="remark"/>
+        </association>
+        <association property="flinkClusterConfig"
+                     javaType="cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfig">
+            <result column="config_id" property="id"/>
+            <result column="config_name" property="name"/>
+            <result column="config_flink_version" property="flinkVersion"/>
+            <result column="config_resource_provider" property="resourceProvider"/>
+            <result column="config_deploy_mode" property="deployMode"/>
+            <result column="config_flink_release_id" property="flinkReleaseId"/>
+            <result column="config_cluster_credential_id" property="clusterCredentialId"/>
+            <result column="config_config_options" property="configOptions"/>
+            <result column="config_remark" property="remark"/>
+        </association>
+        <association property="flinkClusterInstance"
+                     javaType="cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterInstance">
+            <result column="instance_id" property="id"/>
+            <result column="instance_flink_cluster_config_id" property="flinkClusterConfigId"/>
+            <result column="instance_name" property="name"/>
+            <result column="instance_cluster_id" property="clusterId"/>
+            <result column="instance_web_interface_url" property="webInterfaceUrl"/>
+            <result column="instance_status" property="status"/>
+            <result column="instance_remark" property="remark"/>
+        </association>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, creator, create_time, editor, update_time,
+        id
+        , creator, create_time, editor, update_time,
         `name`, flink_artifact_id, flink_cluster_config_id,
         flink_cluster_instance_id, job_config, flink_config, remark
     </sql>
 
+    <select id="list" resultMap="FLinkJobConfigJarVOMap">
+        SELECT t1.*,
+               t2.id                      AS artifact_id,
+               t2.`name`                  AS artifact_name,
+               t2.path                    AS artifact_path,
+               t2.entry_class             AS artifact_entry_class,
+               t2.remark                  AS artifact_remark,
+               t3.id                      AS config_id,
+               t3.`name`                  AS config_name,
+               t3.flink_version           AS config_flink_version,
+               t3.resource_provider       AS config_resource_provider,
+               t3.deploy_mode             AS config_deploy_mode,
+               t3.flink_release_id        AS config_flink_release_id,
+               t3.cluster_credential_id   AS config_cluster_credential_id,
+               t3.config_options          AS config_config_options,
+               t3.remark                  AS config_remark,
+               t4.id                      AS instance_id,
+               t4.flink_cluster_config_id AS instance_flink_cluster_config_id,
+               t4.`name`                  AS instance_name,
+               t4.cluster_id              AS instance_cluster_id,
+               t4.web_interface_url       AS instance_web_interface_url,
+               t4.`status`                AS instance_status,
+               t4.remark                  AS instance_remark
+        FROM flink_job_config_jar t1
+                 JOIN flink_artifact t2 ON t1.flink_artifact_id = t2.id
+                 JOIN flink_cluster_config t3 ON t1.flink_cluster_config_id = t3.id
+                 LEFT JOIN flink_cluster_instance t4 ON t1.flink_cluster_instance_id = t4.id
+        <where>
+            <if test="param.name != null and param.name != ''">
+                AND t1.`name` like CONCAT('%', #{param.name},'%')
+            </if>
+            <if test="param.flinkClusterConfigId != null">
+                AND t1.flink_cluster_config_id = #{param.flinkClusterConfigId}
+            </if>
+            <if test="param.flinkClusterInstanceId != null">
+                AND t1.flink_cluster_instance_id = #{param.flinkClusterInstanceId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getById" resultMap="FLinkJobConfigJarVOMap">
+        SELECT t1.*,
+               t2.id                      AS artifact_id,
+               t2.`name`                  AS artifact_name,
+               t2.path                    AS artifact_path,
+               t2.entry_class             AS artifact_entry_class,
+               t2.remark                  AS artifact_remark,
+               t3.id                      AS config_id,
+               t3.`name`                  AS config_name,
+               t3.flink_version           AS config_flink_version,
+               t3.resource_provider       AS config_resource_provider,
+               t3.deploy_mode             AS config_deploy_mode,
+               t3.flink_release_id        AS config_flink_release_id,
+               t3.cluster_credential_id   AS config_cluster_credential_id,
+               t3.config_options          AS config_config_options,
+               t3.remark                  AS config_remark,
+               t4.id                      AS instance_id,
+               t4.flink_cluster_config_id AS instance_flink_cluster_config_id,
+               t4.`name`                  AS instance_name,
+               t4.cluster_id              AS instance_cluster_id,
+               t4.web_interface_url       AS instance_web_interface_url,
+               t4.`status`                AS instance_status,
+               t4.remark                  AS instance_remark
+        FROM flink_job_config_jar t1
+                 JOIN flink_artifact t2 ON t1.flink_artifact_id = t2.id
+                 JOIN flink_cluster_config t3 ON t1.flink_cluster_config_id = t3.id
+                 LEFT JOIN flink_cluster_instance t4 ON t1.flink_cluster_instance_id = t4.id
+        WHERE t1.id = #{id}
+    </select>
 </mapper>

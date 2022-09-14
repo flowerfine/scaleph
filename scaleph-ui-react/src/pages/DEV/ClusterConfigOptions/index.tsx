@@ -10,30 +10,33 @@ import {
   ProFormSwitch,
   ProFormText
 } from "@ant-design/pro-components";
-import {Col, message, Row} from "antd";
+import {Col, Form, message, Row} from "antd";
 import {listDictDataByType} from "@/services/admin/dictData.service";
 import {DICT_TYPE, RESOURCE_TYPE} from "@/constant";
 import {ResourceListParam} from "@/services/resource/typings";
 import {list} from "@/services/resource/resource.service";
 import {FlinkClusterConfig} from "@/services/dev/typings";
 import {add, update} from "@/services/dev/flinkClusterConfig.service";
-import {history, useIntl} from 'umi';
+import {history, useIntl, useLocation} from 'umi';
 import {Dict} from '@/app.d';
 
 const DevBatchJob: React.FC = () => {
-  const state = history.location.state as FlinkClusterConfig
+  const urlParams = useLocation();
   const intl = useIntl();
+  const [form] = Form.useForm();
 
-  const configOptions = new Map(Object.entries(state?.configOptions ? state?.configOptions : {}))
+  const params = urlParams.state as FlinkClusterConfig;
+
+  const configOptions = new Map(Object.entries(params?.configOptions ? params?.configOptions : {}))
 
   const data = {
-    name: state?.name,
-    deployMode: state?.deployMode?.value,
-    flinkVersion: state?.flinkVersion?.value,
-    flinkRelease: state?.flinkRelease?.id,
-    resourceProvider: state?.resourceProvider?.value,
-    clusterCredential: state?.clusterCredential?.id,
-    remark: state?.remark,
+    name: params?.name,
+    deployMode: params?.deployMode?.value,
+    flinkVersion: params?.flinkVersion?.value,
+    flinkRelease: params?.flinkRelease?.id,
+    resourceProvider: params?.resourceProvider?.value,
+    clusterCredential: params?.clusterCredential?.id,
+    remark: params?.remark,
     'state.backend': configOptions.get('state.backend'),
     'state.savepoints.dir': configOptions.get('state.savepoints.dir'),
     'state.checkpoints.dir': configOptions.get('state.checkpoints.dir'),
@@ -99,6 +102,7 @@ const DevBatchJob: React.FC = () => {
 
   return (<div>
     <ProForm
+      form={form}
       layout={"horizontal"}
       initialValues={data}
       grid={true}
@@ -156,7 +160,7 @@ const DevBatchJob: React.FC = () => {
         })
 
         const param: FlinkClusterConfig = {
-          id: state?.id,
+          id: params?.id,
           name: value['name'],
           flinkVersion: {value: value['flinkVersion']},
           resourceProvider: {value: value['resourceProvider']},
@@ -166,7 +170,7 @@ const DevBatchJob: React.FC = () => {
           remark: value['remark'],
           configOptions: options
         }
-        return state?.id ?
+        return params?.id ?
           update(param).then((d) => {
             if (d.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
