@@ -1,16 +1,12 @@
-import { PRIVILEGE_CODE } from '@/constant';
-import {
-  deleteFiles,
-  downloadFile,
-  listFiles,
-} from '@/services/resource/clusterCredential.service';
-import { CredentialFile } from '@/services/resource/typings';
-import { history } from '@@/core/history';
-import { DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
-import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
-import { Button, message, Modal, Space, Tooltip } from 'antd';
-import { useEffect, useRef, useState } from 'react';
-import { useAccess, useIntl, useLocation } from 'umi';
+import {PRIVILEGE_CODE} from '@/constant';
+import {deleteFiles, downloadFile, listFiles,} from '@/services/resource/clusterCredential.service';
+import {CredentialFile} from '@/services/resource/typings';
+import {history} from '@@/core/history';
+import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
+import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
+import {Button, message, Modal, Space, Tooltip} from 'antd';
+import {useEffect, useRef, useState} from 'react';
+import {useAccess, useIntl, useLocation} from 'umi';
 import CredentialFileForm from './components/CredentialFileForm';
 
 const CredentialFileResource: React.FC = () => {
@@ -21,45 +17,52 @@ const CredentialFileResource: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<CredentialFile[]>([]);
-  const [credentialId,setCredentialId] = useState<number>(0);
+  const [credentialId, setCredentialId] = useState<number>(0);
   const [credentialFileFormData, setCredentialFileData] = useState<{
     visiable: boolean;
     data: CredentialFile;
-  }>({ visiable: false, data: {} });
+  }>({visiable: false, data: {}});
+
+  useEffect(() => {
+    const params = urlParams.state as { id: number };
+    if (params) {
+      setCredentialId(params?.id);
+    }
+  }, []);
 
   const tableColumns: ProColumns<CredentialFile>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.resource.credentialFile.name' }),
+      title: intl.formatMessage({id: 'pages.resource.credentialFile.name'}),
       dataIndex: 'name',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.credentialFile.len' }),
+      title: intl.formatMessage({id: 'pages.resource.credentialFile.len'}),
       dataIndex: 'len',
       width: 280,
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.credentialFile.blockSize' }),
+      title: intl.formatMessage({id: 'pages.resource.credentialFile.blockSize'}),
       dataIndex: 'blockSize',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.credentialFile.accessTime' }),
+      title: intl.formatMessage({id: 'pages.resource.credentialFile.accessTime'}),
       dataIndex: 'accessTime',
       hideInSearch: true,
       valueType: 'dateTime',
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.credentialFile.modificationTime' }),
+      title: intl.formatMessage({id: 'pages.resource.credentialFile.modificationTime'}),
       dataIndex: 'modificationTime',
       hideInSearch: true,
       valueType: 'dateTime',
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'app.common.operate.label' }),
+      title: intl.formatMessage({id: 'app.common.operate.label'}),
       dataIndex: 'actions',
       align: 'center',
       width: 120,
@@ -69,7 +72,7 @@ const CredentialFileResource: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDownload) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.download.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.download.label'})}>
                 <Button
                   shape="default"
                   type="link"
@@ -81,25 +84,25 @@ const CredentialFileResource: React.FC = () => {
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DeleteOutlined />}
+                  icon={<DeleteOutlined/>}
                   onClick={() => {
                     Modal.confirm({
-                      title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
+                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
                       content: intl.formatMessage({
                         id: 'app.common.operate.delete.confirm.content',
                       }),
-                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                      okButtonProps: { danger: true },
-                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                      okButtonProps: {danger: true},
+                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
                         deleteFiles(credentialId, [record]).then((d) => {
                           if (d.success) {
                             message.success(
-                              intl.formatMessage({ id: 'app.common.operate.delete.success' }),
+                              intl.formatMessage({id: 'app.common.operate.delete.success'}),
                             );
                             actionRef.current?.reload();
                           }
@@ -116,19 +119,12 @@ const CredentialFileResource: React.FC = () => {
     },
   ];
 
-  useEffect(() => {
-    const params = urlParams.state;
-    if (params) {
-      setCredentialId(params?.id);
-    }
-  }, []);
-
   return (
     <div>
       <ProTable<CredentialFile>
         headerTitle={
           <Button key="return" type="default" onClick={() => history.back()}>
-            {intl.formatMessage({ id: 'app.common.operate.return.label' })}
+            {intl.formatMessage({id: 'app.common.operate.return.label'})}
           </Button>
         }
         search={false}
@@ -147,10 +143,10 @@ const CredentialFileResource: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setCredentialFileData({ visiable: true, data: {} });
+                  setCredentialFileData({visiable: true, data: {}});
                 }}
               >
-                {intl.formatMessage({ id: 'app.common.operate.upload.label' })}
+                {intl.formatMessage({id: 'app.common.operate.upload.label'})}
               </Button>
             ),
             access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
@@ -160,18 +156,18 @@ const CredentialFileResource: React.FC = () => {
                 disabled={selectedRows.length < 1}
                 onClick={() => {
                   Modal.confirm({
-                    title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
+                    title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
                     content: intl.formatMessage({
                       id: 'app.common.operate.delete.confirm.content',
                     }),
-                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                    okButtonProps: { danger: true },
-                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                    okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                    okButtonProps: {danger: true},
+                    cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
                       deleteFiles(credentialId, selectedRows).then((d) => {
                         if (d.success) {
                           message.success(
-                            intl.formatMessage({ id: 'app.common.operate.delete.success' }),
+                            intl.formatMessage({id: 'app.common.operate.delete.success'}),
                           );
                           actionRef.current?.reload();
                         }
@@ -180,7 +176,7 @@ const CredentialFileResource: React.FC = () => {
                   });
                 }}
               >
-                {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
+                {intl.formatMessage({id: 'app.common.operate.delete.label'})}
               </Button>
             ),
           ],
@@ -199,13 +195,13 @@ const CredentialFileResource: React.FC = () => {
         <CredentialFileForm
           visible={credentialFileFormData.visiable}
           onCancel={() => {
-            setCredentialFileData({ visiable: false, data: {} });
+            setCredentialFileData({visiable: false, data: {}});
           }}
           onVisibleChange={(visiable) => {
-            setCredentialFileData({ visiable: visiable, data: {} });
+            setCredentialFileData({visiable: visiable, data: {}});
             actionRef.current?.reload();
           }}
-          data={credentialId}
+          data={{id: credentialId}}
         />
       )}
     </div>
