@@ -53,11 +53,6 @@
             <artifactId>scaleph-core-scheduler</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>${project.parent.groupId}</groupId>-->
-<!--            <artifactId>scaleph-plugin-seatunnel-native-flink</artifactId>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-plugin-seatunnel-connectors</artifactId>
