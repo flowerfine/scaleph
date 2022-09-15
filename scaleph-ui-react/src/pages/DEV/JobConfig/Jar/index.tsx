@@ -11,13 +11,31 @@ const JobConfigJarOptions: React.FC = () => {
   return (
     <ProCard>
       <StepsForm>
-        <StepsForm.StepForm name="artifact" title="Artifact" layout={"horizontal"}>
+        <StepsForm.StepForm
+          name="artifact"
+          title="Artifact"
+          layout={"horizontal"}
+          style={{
+            width: 800
+          }}>
           <JobJar/>
         </StepsForm.StepForm>
-        <StepsForm.StepForm name="configOptions" title="Config Options" layout={"horizontal"}>
+        <StepsForm.StepForm
+          name="configOptions"
+          title="Config Options"
+          layout={"horizontal"}
+          style={{
+            width: 800
+          }}>
           <JobClusterConfigOptions/>
         </StepsForm.StepForm>
-        <StepsForm.StepForm name="confirm" title="Confirm" layout={"horizontal"}>
+        <StepsForm.StepForm
+          name="confirm"
+          title="Confirm"
+          layout={"horizontal"}
+          style={{
+            width: 800
+          }}>
 
         </StepsForm.StepForm>
       </StepsForm>

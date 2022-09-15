@@ -29,20 +29,18 @@ const HighAvailability: React.FC = () => {
       <ProFormDependency name={['ha']}>
         {({ha}) => {
           if (ha == 'zookeeper') {
-            return (
-              <ProFormGroup>
-                <ProFormText
-                  name="high-availability.zookeeper.path.root"
-                  label={'high-availability.zookeeper.path.root'}
-                  colProps={{span: 10, offset: 1}}
-                />
-                <ProFormText
-                  name="high-availability.zookeeper.quorum"
-                  label={'high-availability.zookeeper.quorum'}
-                  colProps={{span: 10, offset: 1}}
-                />
-              </ProFormGroup>
-            )
+            return (<ProFormGroup>
+              <ProFormText
+                name="high-availability.zookeeper.path.root"
+                label={'high-availability.zookeeper.path.root'}
+                colProps={{span: 10, offset: 1}}
+              />
+              <ProFormText
+                name="high-availability.zookeeper.quorum"
+                label={'high-availability.zookeeper.quorum'}
+                colProps={{span: 10, offset: 1}}
+              />
+            </ProFormGroup>)
           }
           return <ProFormGroup/>;
         }}
