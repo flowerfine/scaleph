@@ -16,29 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.fake.source;
 
-import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
-import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
-import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelPluginType;
+import cn.sliew.scaleph.plugin.framework.property.*;
 
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+public enum FakeProperties {
+    ;
 
-/**
- * todo connector crud
- */
-public interface SeatunnelConnectorService {
-
-    List<PropertyDescriptor> getSupportedEnvProperties();
-
-    Set<PluginInfo> getAvailableConnectors(SeaTunnelPluginType stepType);
-
-    List<PropertyDescriptor> getSupportedProperties(String name);
-
-    SeaTunnelConnectorPlugin newConnector(String name, Properties properties);
+    public static final PropertyDescriptor<String> SCHEMA = new PropertyDescriptor.Builder<String>()
+            .name("schema")
+            .description("Table structure description ,you should assign schema option to tell connector how to parse data to the row you want.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
 
 }

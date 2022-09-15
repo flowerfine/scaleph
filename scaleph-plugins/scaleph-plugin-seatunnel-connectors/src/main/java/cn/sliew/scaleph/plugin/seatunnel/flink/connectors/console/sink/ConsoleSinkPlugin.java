@@ -16,29 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.console.sink;
 
-import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
-import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelPluginType;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelPluginMapping;
+import com.google.auto.service.AutoService;
 
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+@AutoService(SeaTunnelConnectorPlugin.class)
+public class ConsoleSinkPlugin extends SeaTunnelConnectorPlugin {
 
-/**
- * todo connector crud
- */
-public interface SeatunnelConnectorService {
+    public ConsoleSinkPlugin() {
+        this.pluginInfo = new PluginInfo(getPluginName().getValue(),
+                "Console Sink Plugin, output records to the console.",
+                ConsoleSinkPlugin.class.getName());
+    }
 
-    List<PropertyDescriptor> getSupportedEnvProperties();
-
-    Set<PluginInfo> getAvailableConnectors(SeaTunnelPluginType stepType);
-
-    List<PropertyDescriptor> getSupportedProperties(String name);
-
-    SeaTunnelConnectorPlugin newConnector(String name, Properties properties);
-
+    @Override
+    protected SeaTunnelPluginMapping getPluginMapping() {
+        return SeaTunnelPluginMapping.SINK_CONSOLE;
+    }
 }

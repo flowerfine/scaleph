@@ -30,7 +30,6 @@ import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
 import cn.sliew.scaleph.common.enums.JobRuntimeStateEnum;
-import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.common.enums.JobTypeEnum;
 import cn.sliew.scaleph.core.di.service.*;
 import cn.sliew.scaleph.core.di.service.dto.*;
@@ -46,6 +45,7 @@ import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.privilege.SecurityContext;
 import cn.sliew.scaleph.storage.service.FileSystemService;
+import cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.system.service.SysConfigService;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import lombok.extern.slf4j.Slf4j;
@@ -349,7 +349,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     @Override
     public List<DagPanelDTO> loadDndPanelInfo() {
         List<DagPanelDTO> list = new ArrayList<>();
-        for (JobStepTypeEnum type : JobStepTypeEnum.values()) {
+        for (SeaTunnelPluginType type : SeaTunnelPluginType.values()) {
             Set<PluginInfo> plugins = seatunnelConnectorService.getAvailableConnectors(type);
             DagPanelDTO panel = toDagPanel(type, plugins);
             if (panel != null) {
@@ -359,22 +359,22 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         return list;
     }
 
-    private DagPanelDTO toDagPanel(JobStepTypeEnum type, Set<PluginInfo> pluginInfos) {
+    private DagPanelDTO toDagPanel(SeaTunnelPluginType type, Set<PluginInfo> pluginInfos) {
         if (CollectionUtils.isEmpty(pluginInfos)) {
             return null;
         }
         DagPanelDTO panel = new DagPanelDTO();
         panel.setId(type.getValue());
-        panel.setHeader(type.getLabel());
+        panel.setHeader(type.getValue());
         List<DagNodeDTO> nodeList = new ArrayList<>();
         for (PluginInfo plugin : pluginInfos) {
             DagNodeDTO node = new DagNodeDTO();
             node.setId(plugin.getName());
-            node.setLabel(plugin.getName());
+            node.setLabel(plugin.getName() + " " + type.getValue());
             node.setPopoverContent(plugin.getDescription());
             node.setRenderKey(GraphConstants.DND_RENDER_ID);
             node.setData(new HashMap<>() {{
-                put("type", type.getValue());
+                put("type", type.getCode());
                 put("name", plugin.getName());
             }});
             nodeList.add(node);

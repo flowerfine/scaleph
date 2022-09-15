@@ -91,11 +91,11 @@ public class PluginInfo {
             return false;
         }
         PluginInfo that = (PluginInfo) o;
-        return name.equals(that.name);
+        return name.equals(that.name) && classname.equals(that.classname);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(name + classname);
     }
 }

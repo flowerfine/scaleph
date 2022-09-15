@@ -22,8 +22,11 @@ import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorManager;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPluginManager;
+import cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelPluginType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +38,7 @@ import java.util.Set;
 @Service
 public class SeatunnelConnectorServiceImpl implements SeatunnelConnectorService {
 
-    private final SeatunnelNativeFlinkPluginManager connectorManager = new SeatunnelNativeFlinkPluginManager();
+    private final SeaTunnelConnectorManager connectorManager = new SeaTunnelConnectorManager();
 
     @Override
     public List<PropertyDescriptor> getSupportedEnvProperties() {
@@ -43,7 +46,7 @@ public class SeatunnelConnectorServiceImpl implements SeatunnelConnectorService 
     }
 
     @Override
-    public Set<PluginInfo> getAvailableConnectors(JobStepTypeEnum stepType) {
+    public Set<PluginInfo> getAvailableConnectors(SeaTunnelPluginType stepType) {
         return connectorManager.getAvailableConnectors(stepType);
     }
     
@@ -53,7 +56,7 @@ public class SeatunnelConnectorServiceImpl implements SeatunnelConnectorService 
     }
 
     @Override
-    public SeatunnelNativeFlinkPlugin newConnector(String name, Properties properties) {
+    public SeaTunnelConnectorPlugin newConnector(String name, Properties properties) {
         return connectorManager.newConnector(name, properties);
     }
 }

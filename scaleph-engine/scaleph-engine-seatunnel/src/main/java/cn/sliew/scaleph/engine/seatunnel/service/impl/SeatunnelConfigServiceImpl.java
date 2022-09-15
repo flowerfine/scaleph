@@ -34,7 +34,7 @@ import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;
 import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.JobNameProperties;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -157,7 +157,7 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
             for (DiJobStepDTO step : jobStepList) {
                 String name = JOB_STEP_MAP.get(step.getStepType().getValue() + "-" + step.getStepName());
                 Properties properties = mergeJobAttrs(step);
-                SeatunnelNativeFlinkPlugin connector = seatunnelConnectorService.newConnector(name, properties);
+                SeaTunnelConnectorPlugin connector = seatunnelConnectorService.newConnector(name, properties);
                 ObjectNode stepConf = connector.createConf();
                 stepConf.put(PLUGIN_NAME, name);
                 stepConf.put(NODE_TYPE, step.getStepType().getValue());
