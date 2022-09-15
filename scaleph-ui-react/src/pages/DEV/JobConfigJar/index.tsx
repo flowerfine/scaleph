@@ -135,7 +135,7 @@ const JobConfigJarWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                history.push("/workspace/dev/clusterConfigOptions", {});
+                history.push("/workspace/dev/jobConfigJar/options");
               }}
             >
               {intl.formatMessage({id: 'app.common.operate.new.label'})}
