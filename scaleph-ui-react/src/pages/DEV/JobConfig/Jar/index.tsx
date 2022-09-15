@@ -16,7 +16,7 @@ const JobConfigJarOptions: React.FC = () => {
           title="Artifact"
           layout={"horizontal"}
           style={{
-            width: 800
+            width: 1000
           }}>
           <JobJar/>
         </StepsForm.StepForm>
@@ -25,7 +25,7 @@ const JobConfigJarOptions: React.FC = () => {
           title="Config Options"
           layout={"horizontal"}
           style={{
-            width: 800
+            width: 1000
           }}>
           <JobClusterConfigOptions/>
         </StepsForm.StepForm>
@@ -34,7 +34,7 @@ const JobConfigJarOptions: React.FC = () => {
           title="Confirm"
           layout={"horizontal"}
           style={{
-            width: 800
+            width: 1000
           }}>
 
         </StepsForm.StepForm>

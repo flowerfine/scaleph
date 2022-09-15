@@ -1,6 +1,6 @@
-import {ProCard, ProFormDependency, ProFormGroup, ProFormSelect} from "@ant-design/pro-components";
+import {ProCard, ProForm, ProFormDependency, ProFormGroup, ProFormSelect} from "@ant-design/pro-components";
 import {useIntl} from 'umi';
-import {Col, Form, Row} from "antd";
+import {Form} from "antd";
 import {listDictDataByType} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constant";
 import {FlinkClusterConfigParam, FlinkClusterInstanceParam} from "@/services/dev/typings";
@@ -12,22 +12,27 @@ const JobClusterConfigOptions: React.FC = () => {
   const intl = useIntl();
   const form = Form.useFormInstance();
 
-  return (<div>
+  return (
+    <div>
+      <ProForm
+        form={form}
+        layout={"horizontal"}
+        grid={true}
+        submitter={false}
+        rowProps={{gutter: [16, 8]}}>
         <ProCard
           title={"集群信息"}
-          headerBordered={true}
-        >
+          headerBordered={true}>
           <ProFormSelect
             name="deployMode"
             label={intl.formatMessage({id: 'pages.dev.clusterConfig.deployMode'})}
-            colProps={{span: 10, offset: 1}}
+            colProps={{span: 21, offset: 1}}
             rules={[{required: true}]}
             showSearch={false}
             request={() => {
               return listDictDataByType(DICT_TYPE.flinkDeploymentMode)
             }}
           />
-
           <ProFormDependency name={['deployMode']}>
             {({deployMode}) => {
               if (deployMode == '2') {
@@ -35,7 +40,7 @@ const JobClusterConfigOptions: React.FC = () => {
                   <ProFormSelect
                     name={"flinkClusterInstance"}
                     label={intl.formatMessage({id: 'pages.dev.clusterInstance'})}
-                    colProps={{span: 10, offset: 1}}
+                    colProps={{span: 21, offset: 1}}
                     rules={[{required: true}]}
                     showSearch={true}
                     request={(params) => {
@@ -54,7 +59,7 @@ const JobClusterConfigOptions: React.FC = () => {
                 return (<ProFormSelect
                   name={"flinkClusterConfig"}
                   label={intl.formatMessage({id: 'pages.dev.clusterConfig'})}
-                  colProps={{span: 10, offset: 1}}
+                  colProps={{span: 21, offset: 1}}
                   rules={[{required: true}]}
                   showSearch={true}
                   dependencies={['deployMode']}
@@ -74,9 +79,9 @@ const JobClusterConfigOptions: React.FC = () => {
             }}
           </ProFormDependency>
         </ProCard>
-
-    <HighAvailability/>
-  </div>);
+        <HighAvailability/>
+      </ProForm>
+    </div>);
 }
 
 export default JobClusterConfigOptions;
