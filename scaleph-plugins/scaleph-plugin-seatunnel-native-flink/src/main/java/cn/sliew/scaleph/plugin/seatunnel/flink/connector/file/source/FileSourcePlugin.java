@@ -36,7 +36,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.file.source.File
 public class FileSourcePlugin extends SeatunnelNativeFlinkPlugin {
 
     public FileSourcePlugin() {
-        this.pluginInfo = new PluginInfo(FILE_SOURCE.getValue(), "file source connector", "2.1.1", FileSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(FILE_SOURCE.getValue(), "file source connector", FileSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(FORMAT_TYPE);

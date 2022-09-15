@@ -37,7 +37,7 @@ import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 public class ClickHouseDataSourcePlugin extends JDBCDataSourcePlugin {
 
     public ClickHouseDataSourcePlugin() {
-        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.CLICKHOUSE.getValue(), "ClickHouse Jdbc Datasource", "0.2", ClickHouseDataSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.CLICKHOUSE.getValue(), "ClickHouse Jdbc Datasource", ClickHouseDataSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(HOST);

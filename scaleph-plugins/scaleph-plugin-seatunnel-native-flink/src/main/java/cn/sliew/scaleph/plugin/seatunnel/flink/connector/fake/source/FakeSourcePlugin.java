@@ -50,7 +50,7 @@ public class FakeSourcePlugin extends SeatunnelNativeFlinkPlugin {
     private final static String MOCK_DATA_SCHEMA_VALUE_SEED = "valueSeed";
 
     public FakeSourcePlugin() {
-        this.pluginInfo = new PluginInfo(FAKE_SOURCE.getValue(), "fake source connector", "2.1.1", FakeSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(FAKE_SOURCE.getValue(), "fake source connector", FakeSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(CommonProperties.RESULT_TABLE_NAME);

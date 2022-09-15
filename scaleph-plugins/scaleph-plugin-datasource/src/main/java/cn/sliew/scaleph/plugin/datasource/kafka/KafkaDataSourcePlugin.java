@@ -40,7 +40,7 @@ public class KafkaDataSourcePlugin extends DatasourcePlugin<Admin> {
     private Admin adminClient;
 
     public KafkaDataSourcePlugin() {
-        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.KAFKA.getValue(), "kafka datasource", "2.8.1", KafkaDataSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.KAFKA.getValue(), "kafka datasource",  KafkaDataSourcePlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(BOOTSTRAP_SERVERS);
         supportedProperties = Collections.unmodifiableList(props);

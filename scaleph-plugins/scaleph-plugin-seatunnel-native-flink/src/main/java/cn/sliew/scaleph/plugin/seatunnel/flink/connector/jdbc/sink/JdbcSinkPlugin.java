@@ -37,7 +37,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.sink.JdbcSi
 public class JdbcSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
     public JdbcSinkPlugin() {
-        this.pluginInfo = new PluginInfo(JDBC_SINK.getValue(), "jdbc sink connector", "2.1.1", JdbcSinkPlugin.class.getName());
+        this.pluginInfo = new PluginInfo(JDBC_SINK.getValue(), "jdbc sink connector", JdbcSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(URL);

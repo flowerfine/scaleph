@@ -37,7 +37,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.source.
 public class InfluxDBSourcePlugin extends SeatunnelNativeFlinkPlugin {
 
     public InfluxDBSourcePlugin() {
-        this.pluginInfo = new PluginInfo(INFLUXDB_SOURCE.getValue(), "influxdb source connector", "2.1.1", InfluxDBSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(INFLUXDB_SOURCE.getValue(), "influxdb source connector", InfluxDBSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(SERVER_URL);

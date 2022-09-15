@@ -50,7 +50,7 @@ public class ElasticsearchDataSourcePlugin extends DatasourcePlugin<RestHighLeve
     private RestHighLevelClient client;
 
     public ElasticsearchDataSourcePlugin() {
-        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.ELASTICSEARCH.getValue(), "Elasticsearch Datasource", "7.10.2", ElasticsearchDataSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.ELASTICSEARCH.getValue(), "Elasticsearch Datasource", ElasticsearchDataSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(HOSTS);

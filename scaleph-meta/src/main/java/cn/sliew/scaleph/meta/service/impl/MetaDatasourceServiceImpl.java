@@ -21,6 +21,7 @@ package cn.sliew.scaleph.meta.service.impl;
 import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.exception.Rethrower;
+import cn.sliew.scaleph.common.param.PropertyUtil;
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDatasource;
 import cn.sliew.scaleph.dao.mapper.master.meta.MetaDatasourceMapper;
 import cn.sliew.scaleph.meta.service.MetaDatasourceService;
@@ -33,7 +34,6 @@ import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.Property;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.common.param.PropertyUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +67,7 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
                 name = pluginInfo.getName();
             }
         }
-        PluginInfo pluginInfo = new PluginInfo(name, null, null, null);
+        PluginInfo pluginInfo = new PluginInfo(name, null, null);
         return datasourceManager.getSupportedProperties(pluginInfo);
     }
 
