@@ -17,7 +17,7 @@ const JobConfigJarOptions: React.FC = () => {
         <StepsForm.StepForm name="configOptions" title="Config Options" layout={"horizontal"}>
           <JobClusterConfigOptions/>
         </StepsForm.StepForm>
-        <StepsForm.StepForm name="time" title="发布实验" layout={"horizontal"}>
+        <StepsForm.StepForm name="confirm" title="Confirm" layout={"horizontal"}>
 
         </StepsForm.StepForm>
       </StepsForm>
