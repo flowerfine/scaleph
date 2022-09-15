@@ -1,42 +1,28 @@
-import {StepsForm} from "@ant-design/pro-components";
-import {useIntl} from 'umi';
-import {Form} from "antd";
+import {ProCard, StepsForm,} from '@ant-design/pro-components';
+import {Form} from 'antd';
 import JobJar from "@/pages/DEV/JobConfig/components/JobJar";
 import JobClusterConfigOptions from "@/pages/DEV/JobConfig/components/ClusterConfigOptions";
+import {useIntl} from "umi";
 
 const JobConfigJarOptions: React.FC = () => {
   const intl = useIntl();
   const [form] = Form.useForm();
 
   return (
-    <StepsForm
-      formProps={{
-        form: form,
-        validateMessages: {
-          required: '此项为必填项',
-        },
-      }}>
-      <StepsForm.StepForm<{name: string}>
-        name="artifact"
-        title="Artifact"
-        layout={"horizontal"}>
-        <JobJar></JobJar>
-      </StepsForm.StepForm>
+    <ProCard>
+      <StepsForm>
+        <StepsForm.StepForm name="artifact" title="Artifact" layout={"horizontal"}>
+          <JobJar/>
+        </StepsForm.StepForm>
+        <StepsForm.StepForm name="configOptions" title="Config Options" layout={"horizontal"}>
+          <JobClusterConfigOptions/>
+        </StepsForm.StepForm>
+        <StepsForm.StepForm name="time" title="发布实验" layout={"horizontal"}>
 
-      <StepsForm.StepForm
-        name="configOptions"
-        title="Config Options"
-        layout={"horizontal"}>
-        <JobClusterConfigOptions></JobClusterConfigOptions>
-      </StepsForm.StepForm>
-
-      <StepsForm.StepForm
-        name="time"
-        title="第三步骤">
-      </StepsForm.StepForm>
-
-    </StepsForm>
+        </StepsForm.StepForm>
+      </StepsForm>
+    </ProCard>
   );
-}
+};
 
 export default JobConfigJarOptions;
