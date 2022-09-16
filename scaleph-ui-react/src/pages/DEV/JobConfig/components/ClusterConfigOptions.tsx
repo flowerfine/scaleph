@@ -3,9 +3,9 @@ import {useIntl} from 'umi';
 import {Form} from "antd";
 import {listDictDataByType} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constant";
-import {FlinkClusterConfigParam, FlinkClusterInstanceParam} from "@/services/dev/typings";
+import {FlinkClusterConfig, FlinkClusterConfigParam, FlinkClusterInstanceParam} from "@/services/dev/typings";
 import {list as listClusterInstance} from "@/services/dev/flinkClusterInstance.service";
-import {list as listClusterConfig} from "@/services/dev/flinkClusterConfig.service";
+import {list as listClusterConfig, selectOne, setData} from "@/services/dev/flinkClusterConfig.service";
 import HighAvailability from "@/pages/DEV/ClusterConfigOptions/components/HA";
 import State from "@/pages/DEV/ClusterConfigOptions/components/State";
 import FaultTolerance from "@/pages/DEV/ClusterConfigOptions/components/FaultTolerance";
@@ -15,6 +15,31 @@ import Additional from "@/pages/DEV/ClusterConfigOptions/components/Additional";
 const JobClusterConfigOptions: React.FC = () => {
   const intl = useIntl();
   const form = Form.useFormInstance();
+
+  const handleClusterInstanceChange = (value: any, option: any) => {
+    if (!option) {
+      return
+    }
+    selectOne(option.item.flinkClusterConfigId).then((response) => {
+      handleConfigOptionsChange(response)
+    })
+  }
+
+  const handleClusterConfigChange = (value: any, option: any) => {
+    if (!option) {
+      return
+    }
+    handleConfigOptionsChange(option.item)
+  }
+
+  const handleConfigOptionsChange = (config: FlinkClusterConfig) => {
+    console.log(config)
+    if (!config || !config.configOptions) {
+      return
+    }
+
+    setData(form, new Map(Object.entries(config.configOptions)))
+  }
 
   return (
     <div>
@@ -41,6 +66,9 @@ const JobClusterConfigOptions: React.FC = () => {
                   colProps={{span: 21, offset: 1}}
                   rules={[{required: true}]}
                   showSearch={true}
+                  fieldProps={{
+                    onChange: handleClusterInstanceChange
+                  }}
                   request={(params) => {
                     const param: FlinkClusterInstanceParam = {
                       name: params.keyWords
@@ -60,6 +88,9 @@ const JobClusterConfigOptions: React.FC = () => {
                 colProps={{span: 21, offset: 1}}
                 rules={[{required: true}]}
                 showSearch={true}
+                fieldProps={{
+                  onChange: handleClusterConfigChange
+                }}
                 dependencies={['deployMode']}
                 request={(params) => {
                   const param: FlinkClusterConfigParam = {
