@@ -1,7 +1,6 @@
 create database if not exists scaleph default character set utf8mb4 collate utf8mb4_unicode_ci;
 use scaleph;
 
-/* flink 集群配置 */
 DROP TABLE IF EXISTS flink_cluster_config;
 CREATE TABLE `flink_cluster_config`
 (
@@ -18,10 +17,10 @@ CREATE TABLE `flink_cluster_config`
     `create_time`           DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `editor`                VARCHAR(32),
     `update_time`           DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    KEY                     `idx_name` (`name`)
 ) ENGINE = INNODB COMMENT = 'flink cluster config';
 
-/* flink 集群实例 */
 DROP TABLE IF EXISTS flink_cluster_instance;
 CREATE TABLE `flink_cluster_instance`
 (
@@ -37,43 +36,65 @@ CREATE TABLE `flink_cluster_instance`
     `editor`                  VARCHAR(32),
     `update_time`             DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-    KEY idx_flink_cluster_config_id (`flink_cluster_config_id`)
+    KEY                       `idx_flink_cluster_config` (`flink_cluster_config_id`),
+    KEY                       `idx_name` (`name`)
 ) ENGINE = INNODB COMMENT = 'flink cluster instance';
 
-/* flink artifact */
 DROP TABLE IF EXISTS flink_artifact;
 CREATE TABLE flink_artifact
 (
     `id`          BIGINT       NOT NULL AUTO_INCREMENT,
     `name`        VARCHAR(255) NOT NULL,
-    `path`        VARCHAR(255) NOT NULL,
-    `entry_class` VARCHAR(255),
+    `type`        VARCHAR(4)   NOT NULL COMMENT '0: Jar, 1: UDF, 2: SQL',
     `remark`      VARCHAR(255),
     `creator`     VARCHAR(32),
     `create_time` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `editor`      VARCHAR(32),
     `update_time` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    KEY           `idx_name` (`name`)
 ) ENGINE = INNODB COMMENT = 'flink artifact';
+
+
+DROP TABLE IF EXISTS flink_artifact_jar;
+CREATE TABLE flink_artifact_jar
+(
+    `id`                BIGINT       NOT NULL AUTO_INCREMENT,
+    `flink_artifact_id` BIGINT       NOT NULL,
+    `version`           varchar(32)  NOT NULL,
+    `flink_version`     VARCHAR(32)  NOT NULL,
+    `entry_class`       VARCHAR(255) NOT NULL,
+    `file_name`         VARCHAR(255) NOT NULL,
+    `path`              VARCHAR(255) NOT NULL,
+    `creator`           VARCHAR(32),
+    `create_time`       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `editor`            VARCHAR(32),
+    `update_time`       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    KEY                 `idx_flink_artifact` (`flink_artifact_id`)
+) ENGINE = INNODB COMMENT = 'flink artifact jar';
 
 CREATE TABLE `flink_job_config_jar`
 (
-    `id`                        bigint       NOT NULL AUTO_INCREMENT,
-    `name`                      varchar(255) NOT NULL,
-    `flink_artifact_id`         bigint       NOT NULL,
-    `flink_cluster_config_id`   bigint       NOT NULL,
-    `flink_cluster_instance_id` bigint       NOT NULL,
-    `job_config`                text,
-    `flink_config`              text,
-    `remark`                    varchar(255),
-    `creator`                   varchar(32),
-    `create_time`               datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `editor`                    varchar(32),
-    `update_time`               datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`)
+    `id`                        BIGINT       NOT NULL AUTO_INCREMENT,
+    `name`                      VARCHAR(255) NOT NULL,
+    `flink_artifact_id`         BIGINT       NOT NULL,
+    `flink_cluster_config_id`   BIGINT       NOT NULL,
+    `flink_cluster_instance_id` BIGINT       NOT NULL,
+    `job_config`                TEXT,
+    `flink_config`              TEXT,
+    `remark`                    VARCHAR(255),
+    `creator`                   VARCHAR(32),
+    `create_time`               DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `editor`                    VARCHAR(32),
+    `update_time`               DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    KEY                         `idx_name` (`name`),
+    KEY                         `idx_flink_artifact` (`flink_artifact_id`),
+    KEY                         `idx_flink_cluster_config` (`flink_cluster_config_id`),
+    KEY                         `idx_flink_cluster_instance` (`flink_cluster_instance_id`)
 ) ENGINE = InnoDB COMMENT ='flink job for jar';
 
-/* flink job instance */
 DROP TABLE IF EXISTS flink_job_instance;
 CREATE TABLE flink_job_instance
 (

@@ -23,8 +23,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class FlinkClusterInstanceListParam extends PaginationParam {
 
     @ApiModelProperty("集群配置")

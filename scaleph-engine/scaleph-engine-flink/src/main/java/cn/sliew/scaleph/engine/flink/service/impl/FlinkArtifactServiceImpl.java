@@ -24,22 +24,15 @@ import cn.sliew.scaleph.engine.flink.service.FlinkArtifactService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkArtifactConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactListParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactUploadParam;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
@@ -54,51 +47,12 @@ public class FlinkArtifactServiceImpl implements FlinkArtifactService {
     private FlinkArtifactMapper flinkArtifactMapper;
 
     @Override
-    public void upload(FlinkArtifactUploadParam param, MultipartFile file) throws IOException {
-        String path = getFlinkArtifactPath(file.getOriginalFilename());
-        try (final InputStream inputStream = file.getInputStream()) {
-            fileSystemService.upload(inputStream, path);
-        }
-        FlinkArtifact record = new FlinkArtifact();
-        BeanUtils.copyProperties(param, record);
-        record.setPath(path);
-        flinkArtifactMapper.insert(record);
-    }
-
-    @Override
-    public String download(Long id, OutputStream outputStream) throws IOException {
-        final FlinkArtifactDTO dto = selectOne(id);
-        try (final InputStream inputStream = fileSystemService.get(dto.getPath())) {
-            FileCopyUtils.copy(inputStream, outputStream);
-        }
-        final String path = dto.getPath();
-        return path.substring(path.lastIndexOf("/") + 1);
-    }
-
-    @Override
-    public int deleteById(Long id) throws IOException {
-        final FlinkArtifactDTO dto = selectOne(id);
-        fileSystemService.delete(dto.getPath());
-        return flinkArtifactMapper.deleteById(id);
-    }
-
-    @Override
-    public int deleteBatch(List<Long> ids) throws IOException {
-        if (CollectionUtils.isEmpty(ids)) {
-            return 0;
-        }
-        for (Long id : ids) {
-            deleteById(id);
-        }
-        return ids.size();
-    }
-
-    @Override
     public Page<FlinkArtifactDTO> list(FlinkArtifactListParam param) {
         final Page<FlinkArtifact> page = flinkArtifactMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(FlinkArtifact.class)
-                        .like(StringUtils.hasText(param.getName()), FlinkArtifact::getName, param.getName()));
+                        .like(StringUtils.hasText(param.getName()), FlinkArtifact::getName, param.getName())
+                        .eq(StringUtils.hasText(param.getType()), FlinkArtifact::getType, param.getType()));
         Page<FlinkArtifactDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         List<FlinkArtifactDTO> dtoList = FlinkArtifactConvert.INSTANCE.toDto(page.getRecords());
@@ -113,11 +67,29 @@ public class FlinkArtifactServiceImpl implements FlinkArtifactService {
         return FlinkArtifactConvert.INSTANCE.toDto(record);
     }
 
-    private String getFlinkArtifactPath(String fileName) {
-        return String.format("%s/%s", getFlinkArtifactRootPath(), fileName);
+    @Override
+    public int insert(FlinkArtifactDTO dto) {
+        final FlinkArtifact record = FlinkArtifactConvert.INSTANCE.toDo(dto);
+        return flinkArtifactMapper.insert(record);
     }
 
-    private String getFlinkArtifactRootPath() {
-        return "job/artifact";
+    @Override
+    public int update(FlinkArtifactDTO dto) {
+        final FlinkArtifact record = FlinkArtifactConvert.INSTANCE.toDo(dto);
+        return flinkArtifactMapper.updateById(record);
     }
+
+    @Override
+    public int deleteById(Long id) {
+        return flinkArtifactMapper.deleteById(id);
+    }
+
+    @Override
+    public int deleteBatch(List<Long> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return 0;
+        }
+        return flinkArtifactMapper.deleteBatchIds(ids);
+    }
+
 }

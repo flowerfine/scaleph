@@ -23,10 +23,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class FlinkArtifactListParam extends PaginationParam {
 
     @ApiModelProperty("名称。支持模糊搜索")
     private String name;
+
+    @ApiModelProperty("名称。支持模糊搜索")
+    private String type;
 }

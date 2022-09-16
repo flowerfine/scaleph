@@ -62,6 +62,7 @@ public enum DictConstants {
     public static final String FLINK_CHECKPOINT_RETAIN = "flink_checkpoint_retain";
     public static final String FLINK_RESTART_STRATEGY = "flink_restart_strategy";
     public static final String FLINK_HA = "flink_high_availability";
+    public static final String FLINK_ARTIFACT_TYPE = "flink_artifact_type";
 
     public static final String SEATUNNEL_VERSION = "seatunnel_version";
 

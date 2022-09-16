@@ -5,10 +5,15 @@ export default {
   'pages.dev.updateTime': '更新时间',
 
   'pages.dev.artifact': 'Artifact',
-  'pages.dev.artifact.name': '文件名称',
-  'pages.dev.artifact.entryClass': 'EntryClass',
-  'pages.dev.artifact.path': '存储路径',
-  'pages.dev.artifact.file': 'jar',
+  'pages.dev.artifact.name': '名称',
+  'pages.dev.artifact.type': '类型',
+  'pages.dev.artifact.jar': 'Jar',
+  'pages.dev.artifact.jar.version': '版本',
+  'pages.dev.artifact.jar.entryClass': 'EntryClass',
+  'pages.dev.artifact.jar.fileName': '文件',
+  'pages.dev.artifact.jar.path': '存储路径',
+  'pages.dev.artifact.jar.file': '文件',
+
 
   'pages.dev.clusterConfig': '集群配置',
   'pages.dev.clusterConfig.name': '配置名称',

@@ -16,26 +16,44 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.dao.entity.master.flink;
 
-import cn.sliew.scaleph.common.param.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * <p>
+ * flink artifact jar
+ * </p>
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FlinkJobInstanceListParam extends PaginationParam {
+@TableName("flink_artifact_jar")
+@ApiModel(value = "FlinkArtifactJar对象", description = "flink artifact jar")
+public class FlinkArtifactJar extends BaseDO {
 
-    @ApiModelProperty("flink 任务配置 ID")
-    private Long flinkJobConfigId;
+    private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("flink 集群实例 ID")
-    private Long flinkClusterInstanceId;
+    @TableField("flink_artifact_id")
+    private Long flinkArtifactId;
 
-    @ApiModelProperty("flink 任务 ID")
-    private Long jobId;
+    @TableField("version")
+    private String version;
 
-    @ApiModelProperty("任务状态。0: 已创建, 1: 创建失败")
-    private String status;
+    @TableField("flink_version")
+    private String flinkVersion;
+
+    @TableField("entry_class")
+    private String entryClass;
+
+    @TableField("file_name")
+    private String fileName;
+
+    @TableField("`path`")
+    private String path;
+
 }

@@ -16,26 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.common.param.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactJarDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarListParam;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarUploadParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.web.multipart.MultipartFile;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class FlinkJobInstanceListParam extends PaginationParam {
+import java.io.IOException;
+import java.io.OutputStream;
 
-    @ApiModelProperty("flink 任务配置 ID")
-    private Long flinkJobConfigId;
+public interface FlinkArtifactJarService {
 
-    @ApiModelProperty("flink 集群实例 ID")
-    private Long flinkClusterInstanceId;
+    Page<FlinkArtifactJarDTO> list(FlinkArtifactJarListParam param);
 
-    @ApiModelProperty("flink 任务 ID")
-    private Long jobId;
+    FlinkArtifactJarDTO selectOne(Long id);
 
-    @ApiModelProperty("任务状态。0: 已创建, 1: 创建失败")
-    private String status;
+    void upload(FlinkArtifactJarUploadParam param, MultipartFile file) throws IOException;
+
+    String download(Long id, OutputStream outputStream) throws IOException;
 }

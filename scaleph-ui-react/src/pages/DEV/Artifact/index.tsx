@@ -1,23 +1,32 @@
-import {PRIVILEGE_CODE} from '@/constant';
-import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
+import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
+import {DeleteOutlined, EditOutlined, UploadOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, message, Modal, Space, Tooltip} from 'antd';
-import {useRef, useState} from 'react';
-import {useAccess, useIntl} from 'umi';
+import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
+import {useEffect, useRef, useState} from 'react';
+import {useAccess, useIntl, history} from 'umi';
 import FlinkArtifactForm from "@/pages/DEV/Artifact/components/FlinkArtifactForm";
 import {FlinkArtifact} from "@/services/dev/typings";
-import {deleteBatch, deleteOne, download, list} from "@/services/dev/flinkArtifact.service";
+import {deleteBatch, deleteOne, list} from "@/services/dev/flinkArtifact.service";
+import {listDictDataByType} from "@/services/admin/dictData.service";
+import {Dict} from '@/app.d';
 
-const FlinkArtifactJar: React.FC = () => {
+const FlinkArtifactWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<FlinkArtifact[]>([]);
+  const [flinkArtifactTypeList, setFlinkArtifactTypeList] = useState<Dict[]>([]);
   const [flinkArtifactFormData, setFlinkArtifactData] = useState<{
     visiable: boolean;
     data: FlinkArtifact;
   }>({visiable: false, data: {}});
+
+  useEffect(() => {
+    listDictDataByType(DICT_TYPE.flinkArtifactType).then((d) => {
+      setFlinkArtifactTypeList(d);
+    });
+  }, []);
 
   const tableColumns: ProColumns<FlinkArtifact>[] = [
     {
@@ -25,15 +34,31 @@ const FlinkArtifactJar: React.FC = () => {
       dataIndex: 'name',
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.artifact.entryClass'}),
-      dataIndex: 'entryClass',
-      hideInSearch: true,
-      width: 280,
-    },
-    {
-      title: intl.formatMessage({id: 'pages.dev.artifact.path'}),
-      dataIndex: 'path',
-      hideInSearch: true,
+      title: intl.formatMessage({id: 'pages.dev.artifact.type'}),
+      dataIndex: 'type',
+      render: (text, record, index) => {
+        return record.type?.label;
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <Select
+            showSearch={true}
+            allowClear={true}
+            optionFilterProp="label"
+            filterOption={(input, option) =>
+              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
+            }
+          >
+            {flinkArtifactTypeList.map((item) => {
+              return (
+                <Select.Option key={item.value} value={item.value}>
+                  {item.label}
+                </Select.Option>
+              );
+            })}
+          </Select>
+        );
+      },
     },
     {
       title: intl.formatMessage({id: 'pages.dev.remark'}),
@@ -62,14 +87,25 @@ const FlinkArtifactJar: React.FC = () => {
       render: (_, record) => (
         <>
           <Space>
+            {access.canAccess(PRIVILEGE_CODE.datadevJobShow) && (
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.upload.label'})}>
+                <Button
+                  shape="default"
+                  type="link"
+                  icon={<UploadOutlined/>}
+                  onClick={() => {
+                    history.push('/workspace/dev/artifact/jar', {id: record.id});
+                  }}/>
+              </Tooltip>
+            )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDownload) && (
               <Tooltip title={intl.formatMessage({id: 'app.common.operate.download.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DownloadOutlined></DownloadOutlined>}
+                  icon={<EditOutlined/>}
                   onClick={() => {
-                    download(record)
+                    setFlinkArtifactData({visiable: true, data: record});
                   }}
                 ></Button>
               </Tooltip>
@@ -83,18 +119,14 @@ const FlinkArtifactJar: React.FC = () => {
                   onClick={() => {
                     Modal.confirm({
                       title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
-                      content: intl.formatMessage({
-                        id: 'app.common.operate.delete.confirm.content',
-                      }),
+                      content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
                       okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
                         deleteOne(record).then((d) => {
                           if (d.success) {
-                            message.success(
-                              intl.formatMessage({id: 'app.common.operate.delete.success'}),
-                            );
+                            message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
                           }
                         });
@@ -122,9 +154,7 @@ const FlinkArtifactJar: React.FC = () => {
         formRef={formRef}
         options={false}
         columns={tableColumns}
-        request={(params, sorter, filter) => {
-          return list(params);
-        }}
+        request={(params, sorter, filter) => list(params)}
         toolbar={{
           actions: [
             access.canAccess(PRIVILEGE_CODE.datadevResourceAdd) && (
@@ -133,9 +163,8 @@ const FlinkArtifactJar: React.FC = () => {
                 type="primary"
                 onClick={() => {
                   setFlinkArtifactData({visiable: true, data: {}});
-                }}
-              >
-                {intl.formatMessage({id: 'app.common.operate.upload.label'})}
+                }}>
+                {intl.formatMessage({id: 'app.common.operate.new.label'})}
               </Button>
             ),
             access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
@@ -146,25 +175,20 @@ const FlinkArtifactJar: React.FC = () => {
                 onClick={() => {
                   Modal.confirm({
                     title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
-                    content: intl.formatMessage({
-                      id: 'app.common.operate.delete.confirm.content',
-                    }),
+                    content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
                     okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
                       deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
-                          message.success(
-                            intl.formatMessage({id: 'app.common.operate.delete.success'}),
-                          );
+                          message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();
                         }
                       });
                     },
                   });
-                }}
-              >
+                }}>
                 {intl.formatMessage({id: 'app.common.operate.delete.label'})}
               </Button>
             ),
@@ -197,4 +221,4 @@ const FlinkArtifactJar: React.FC = () => {
   );
 };
 
-export default FlinkArtifactJar;
+export default FlinkArtifactWeb;

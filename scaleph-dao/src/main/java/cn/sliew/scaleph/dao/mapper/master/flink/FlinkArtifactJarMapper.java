@@ -16,26 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.dao.mapper.master.flink;
 
-import cn.sliew.scaleph.common.param.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJar;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class FlinkJobInstanceListParam extends PaginationParam {
+/**
+ * <p>
+ * flink artifact jar Mapper 接口
+ * </p>
+ */
+@Repository
+public interface FlinkArtifactJarMapper extends BaseMapper<FlinkArtifactJar> {
 
-    @ApiModelProperty("flink 任务配置 ID")
-    private Long flinkJobConfigId;
-
-    @ApiModelProperty("flink 集群实例 ID")
-    private Long flinkClusterInstanceId;
-
-    @ApiModelProperty("flink 任务 ID")
-    private Long jobId;
-
-    @ApiModelProperty("任务状态。0: 已创建, 1: 创建失败")
-    private String status;
 }

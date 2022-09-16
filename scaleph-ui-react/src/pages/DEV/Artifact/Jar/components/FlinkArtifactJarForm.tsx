@@ -1,19 +1,19 @@
 import {Dict, ModalFormProps} from '@/app.d';
-import {FlinkRelease, FlinkReleaseUploadParam} from '@/services/resource/typings';
 import {Button, Form, Input, message, Modal, Select, Upload, UploadFile, UploadProps} from 'antd';
 import {useIntl} from 'umi';
 import {useEffect, useState} from "react";
 import {UploadOutlined} from "@ant-design/icons";
-import {upload} from "@/services/resource/flinkRelease.service";
 import {listDictDataByType} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constant";
+import {FlinkArtifactJarUploadParam} from "@/services/dev/typings";
+import {upload} from "@/services/dev/flinkArtifactJar.service";
 
-const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
-  data,
-  visible,
-  onVisibleChange,
-  onCancel,
-}) => {
+const FlinkArtifactJarForm: React.FC<ModalFormProps<{ id: number }>> = ({
+                                                                          data,
+                                                                          visible,
+                                                                          onVisibleChange,
+                                                                          onCancel,
+                                                                        }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -45,32 +45,31 @@ const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
     <Modal
       visible={visible}
       title={
-        data.id
-          ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-            intl.formatMessage({ id: 'pages.resource.flinkRelease' })
-          : intl.formatMessage({ id: 'app.common.operate.upload.label' }) +
-            intl.formatMessage({ id: 'pages.resource.flinkRelease' })
+        intl.formatMessage({id: 'app.common.operate.upload.label'}) +
+        intl.formatMessage({id: 'pages.dev.artifact.jar'})
       }
       width={580}
       destroyOnClose={true}
       onCancel={onCancel}
       confirmLoading={uploading}
-      okText={uploading ? intl.formatMessage({ id: 'app.common.operate.uploading.label' }) : intl.formatMessage({ id: 'app.common.operate.upload.label' })}
+      okText={uploading ? intl.formatMessage({id: 'app.common.operate.uploading.label'}) : intl.formatMessage({id: 'app.common.operate.upload.label'})}
       onOk={() => {
         form.validateFields().then((values) => {
-          const uploadParam: FlinkReleaseUploadParam  ={
+          const uploadParam: FlinkArtifactJarUploadParam = {
+            flinkArtifactId: data.id,
             version: values.version,
+            flinkVersion: values.flinkVersion,
+            entryClass: values.entryClass,
             file: fileList[0],
-            remark: values.remark
           };
           setUploading(true);
           upload(uploadParam)
             .then(() => {
               setFileList([]);
-              message.success(intl.formatMessage({ id: 'app.common.operate.upload.success' }));
+              message.success(intl.formatMessage({id: 'app.common.operate.upload.success'}));
             })
             .catch(() => {
-              message.error(intl.formatMessage({ id: 'app.common.operate.upload.failure' }));
+              message.error(intl.formatMessage({id: 'app.common.operate.upload.failure'}));
             })
             .finally(() => {
               setUploading(false);
@@ -79,17 +78,12 @@ const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
         });
       }}
     >
-      <Form form={form} layout="horizontal" labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}>
-        <Form.Item name="id" hidden>
-          <Input></Input>
-        </Form.Item>
+      <Form form={form} layout="horizontal" labelCol={{span: 6}} wrapperCol={{span: 16}}>
         <Form.Item
-          name="version"
-          label={intl.formatMessage({ id: 'pages.resource.flinkRelease.version' })}
-          rules={[{ required: true }]}
-        >
+          name="flinkVersion"
+          label={intl.formatMessage({id: 'pages.resource.flinkRelease.version'})}
+          rules={[{required: true}]}>
           <Select
-            disabled={data.id ? true : false}
             showSearch={true}
             allowClear={true}
             optionFilterProp="label"
@@ -97,8 +91,7 @@ const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
               (option!.children as unknown as string)
                 .toLowerCase()
                 .includes(input.toLowerCase())
-            }
-          >
+            }>
             {flinkVersionList.map((item) => {
               return (
                 <Select.Option key={item.value} value={item.value}>
@@ -109,23 +102,27 @@ const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
           </Select>
         </Form.Item>
         <Form.Item
-          label={intl.formatMessage({ id: 'pages.resource.file' })}
-          rules={[{ required: true }]}
-        >
-          <Upload {...props}>
-            <Button icon={<UploadOutlined />}>{intl.formatMessage({ id: 'pages.resource.flinkRelease.file' })}</Button>
-          </Upload>
+          name="version"
+          label={intl.formatMessage({id: 'pages.dev.artifact.jar.version'})}
+          rules={[{required: true}]}>
+          <Input/>
         </Form.Item>
         <Form.Item
-          name="remark"
-          label={intl.formatMessage({ id: 'pages.resource.remark' })}
-          rules={[{ max: 200 }]}
-        >
-          <Input></Input>
+          name="entryClass"
+          label={intl.formatMessage({id: 'pages.dev.artifact.jar.entryClass'})}
+          rules={[{required: true}]}>
+          <Input/>
+        </Form.Item>
+        <Form.Item
+          label={intl.formatMessage({id: 'pages.dev.artifact.jar.file'})}
+          rules={[{required: true}]}>
+          <Upload {...props}>
+            <Button icon={<UploadOutlined/>}>{intl.formatMessage({id: 'pages.dev.artifact.jar'})}</Button>
+          </Upload>
         </Form.Item>
       </Form>
     </Modal>
   );
 };
 
-export default FlinkReleaseForm;
+export default FlinkArtifactJarForm;
