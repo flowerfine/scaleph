@@ -45,7 +45,8 @@ const JobClusterConfigOptions: React.FC = () => {
     <div>
       <ProCard
         title={"集群信息"}
-        headerBordered={true}>
+        headerBordered={true}
+        style={{width: 1000}}>
         <ProFormSelect
           name="deployMode"
           label={intl.formatMessage({id: 'pages.dev.clusterConfig.deployMode'})}
