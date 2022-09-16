@@ -16,35 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.flink;
+package cn.sliew.scaleph.dao.mapper.master.flink;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJar;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
- * flink artifact
+ * flink artifact jar Mapper 接口
  * </p>
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
-@TableName("flink_artifact")
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifact extends BaseDO {
-
-    private static final long serialVersionUID = 1L;
-
-    @TableField("`name`")
-    private String name;
-
-    @TableField("`type`")
-    private String type;
-
-    @TableField("remark")
-    private String remark;
+@Repository
+public interface FlinkArtifactJarMapper extends BaseMapper<FlinkArtifactJar> {
 
 }

@@ -27,24 +27,33 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * flink artifact
+ * flink artifact jar
  * </p>
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("flink_artifact")
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifact extends BaseDO {
+@TableName("flink_artifact_jar")
+@ApiModel(value = "FlinkArtifactJar对象", description = "flink artifact jar")
+public class FlinkArtifactJar extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("`name`")
-    private String name;
+    @TableField("flink_artifact_id")
+    private Long flinkArtifactId;
 
-    @TableField("`type`")
-    private String type;
+    @TableField("version")
+    private String version;
 
-    @TableField("remark")
-    private String remark;
+    @TableField("flink_version")
+    private String flinkVersion;
+
+    @TableField("entry_class")
+    private String entryClass;
+
+    @TableField("file_name")
+    private String fileName;
+
+    @TableField("`path`")
+    private String path;
 
 }
