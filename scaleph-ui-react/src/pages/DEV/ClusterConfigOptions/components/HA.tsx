@@ -5,7 +5,8 @@ import {DICT_TYPE} from "@/constant";
 const HighAvailability: React.FC = () => {
   return (<ProCard
     title={"High Availability"}
-    headerBordered>
+    headerBordered
+    collapsible={true}>
     <ProFormGroup>
       <ProFormSelect
         name="ha"
