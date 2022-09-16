@@ -16,26 +16,48 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.engine.flink.service.dto;
 
-import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+/**
+ * <p>
+ * flink artifact jar
+ * </p>
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FlinkJobInstanceListParam extends PaginationParam {
+@ApiModel(value = "FlinkArtifactJar对象", description = "flink artifact jar")
+public class FlinkArtifactJarDTO extends BaseDTO {
 
-    @ApiModelProperty("flink 任务配置 ID")
-    private Long flinkJobConfigId;
+    @NotNull
+    @ApiModelProperty("Flink Artifact ID")
+    private Long flinkArtifactId;
 
-    @ApiModelProperty("flink 集群实例 ID")
-    private Long flinkClusterInstanceId;
+    @NotBlank
+    @ApiModelProperty("Jar 版本")
+    private String version;
 
-    @ApiModelProperty("flink 任务 ID")
-    private Long jobId;
+    @NotBlank
+    @ApiModelProperty("flink 版本")
+    private DictVO flinkVersion;
 
-    @ApiModelProperty("任务状态。0: 已创建, 1: 创建失败")
-    private String status;
+    @NotBlank
+    @ApiModelProperty("Entry Class")
+    private String entryClass;
+
+    @ApiModelProperty("Jar 文件名")
+    private String fileName;
+
+    @ApiModelProperty("Jar 存储路径")
+    private String path;
+
 }

@@ -22,17 +22,23 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
-public class FlinkArtifactUploadParam {
+public class FlinkArtifactJarUploadParam {
+
+    @NotNull
+    @ApiModelProperty("Flink Artifact ID")
+    private Long flinkArtifactId;
+
+    @ApiModelProperty("Jar 版本")
+    private String version;
 
     @NotBlank
-    @ApiModelProperty("名称")
-    private String name;
+    @ApiModelProperty("flink 版本")
+    private String flinkVersion;
 
-    @ApiModelProperty("entry point class")
+    @NotBlank
+    @ApiModelProperty("Entry Class")
     private String entryClass;
-
-    @ApiModelProperty("备注")
-    private String remark;
 }
