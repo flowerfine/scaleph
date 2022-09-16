@@ -1,39 +1,36 @@
-import {
-  FooterToolbar,
-  ProCard,
-  ProForm,
-  ProFormDependency,
-  ProFormDigit,
-  ProFormGroup,
-  ProFormList,
-  ProFormSelect,
-  ProFormSwitch,
-  ProFormText
-} from "@ant-design/pro-components";
-import {Col, message, Row} from "antd";
+import {FooterToolbar, ProCard, ProForm, ProFormSelect, ProFormText} from "@ant-design/pro-components";
+import {Col, Form, message, Row} from "antd";
 import {listDictDataByType} from "@/services/admin/dictData.service";
 import {DICT_TYPE, RESOURCE_TYPE} from "@/constant";
 import {ResourceListParam} from "@/services/resource/typings";
 import {list} from "@/services/resource/resource.service";
 import {FlinkClusterConfig} from "@/services/dev/typings";
 import {add, update} from "@/services/dev/flinkClusterConfig.service";
-import {history, useIntl} from 'umi';
+import {history, useIntl, useLocation} from 'umi';
 import {Dict} from '@/app.d';
+import HighAvailability from "@/pages/DEV/ClusterConfigOptions/components/HA";
+import Resource from "@/pages/DEV/ClusterConfigOptions/components/Resource";
+import FaultTolerance from "@/pages/DEV/ClusterConfigOptions/components/FaultTolerance";
+import Additional from "@/pages/DEV/ClusterConfigOptions/components/Additional";
+import State from "@/pages/DEV/ClusterConfigOptions/components/State";
 
 const DevBatchJob: React.FC = () => {
-  const state = history.location.state as FlinkClusterConfig
+  const urlParams = useLocation();
   const intl = useIntl();
+  const [form] = Form.useForm();
 
-  const configOptions = new Map(Object.entries(state?.configOptions ? state?.configOptions : {}))
+  const params = urlParams.state as FlinkClusterConfig;
+
+  const configOptions = new Map(Object.entries(params?.configOptions ? params?.configOptions : {}))
 
   const data = {
-    name: state?.name,
-    deployMode: state?.deployMode?.value,
-    flinkVersion: state?.flinkVersion?.value,
-    flinkRelease: state?.flinkRelease?.id,
-    resourceProvider: state?.resourceProvider?.value,
-    clusterCredential: state?.clusterCredential?.id,
-    remark: state?.remark,
+    name: params?.name,
+    deployMode: params?.deployMode?.value,
+    flinkVersion: params?.flinkVersion?.value,
+    flinkRelease: params?.flinkRelease?.id,
+    resourceProvider: params?.resourceProvider?.value,
+    clusterCredential: params?.clusterCredential?.id,
+    remark: params?.remark,
     'state.backend': configOptions.get('state.backend'),
     'state.savepoints.dir': configOptions.get('state.savepoints.dir'),
     'state.checkpoints.dir': configOptions.get('state.checkpoints.dir'),
@@ -99,6 +96,7 @@ const DevBatchJob: React.FC = () => {
 
   return (<div>
     <ProForm
+      form={form}
       layout={"horizontal"}
       initialValues={data}
       grid={true}
@@ -156,7 +154,7 @@ const DevBatchJob: React.FC = () => {
         })
 
         const param: FlinkClusterConfig = {
-          id: state?.id,
+          id: params?.id,
           name: value['name'],
           flinkVersion: {value: value['flinkVersion']},
           resourceProvider: {value: value['resourceProvider']},
@@ -166,7 +164,7 @@ const DevBatchJob: React.FC = () => {
           remark: value['remark'],
           configOptions: options
         }
-        return state?.id ?
+        return params?.id ?
           update(param).then((d) => {
             if (d.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
@@ -291,244 +289,11 @@ const DevBatchJob: React.FC = () => {
           />
         </ProForm.Group>
       </ProCard>
-      <ProCard
-        title={'State & Checkpoints & Savepoints'}
-        headerBordered
-        collapsible={true}
-      >
-        <ProForm.Group>
-          <ProFormSelect
-            name="state.backend"
-            label={"state.backend"}
-            colProps={{span: 10, offset: 1}}
-            showSearch={true}
-            request={() => listDictDataByType(DICT_TYPE.flinkStateBackend)}
-          />
-          <ProFormText
-            name="state.savepoints.dir"
-            label={'state.savepoints.dir'}
-            colProps={{span: 10, offset: 1}}
-          />
-          <ProFormText
-            name="state.checkpoints.dir"
-            label={"state.checkpoints.dir"}
-            colProps={{span: 10, offset: 1}}
-          />
-          <ProFormSelect
-            name="execution.checkpointing.mode"
-            label={"execution.checkpointing.mode"}
-            colProps={{span: 10, offset: 1}}
-            showSearch={true}
-            request={() => listDictDataByType(DICT_TYPE.flinkSemantic)}
-          />
-          <ProFormSwitch
-            name="execution.checkpointing.unaligned"
-            label={"execution.checkpointing.unaligned"}
-            colProps={{span: 10, offset: 1}}
-          />
-          <ProFormText
-            name="execution checkpointing interval"
-            label={'execution checkpointing interval'}
-            colProps={{span: 10, offset: 1}}
-          />
-          <ProFormSelect
-            name="execution.checkpointing.externalized-checkpoint-retention"
-            label={"execution.checkpointing.externalized-checkpoint-retention"}
-            colProps={{span: 10, offset: 1}}
-            showSearch={true}
-            request={() => listDictDataByType(DICT_TYPE.flinkCheckpointRetain)}
-          />
-        </ProForm.Group>
-      </ProCard>
-      <ProCard
-        title={"Fault Tolerance"}
-        headerBordered
-        collapsible={true}
-      >
-        <ProForm.Group>
-          <ProFormSelect
-            name="strategy"
-            label={"restart-strategy"}
-            colProps={{span: 10, offset: 1}}
-            showSearch={true}
-            request={() => listDictDataByType(DICT_TYPE.flinkRestartStrategy)}
-          />
-
-          <ProFormDependency name={['strategy']}>
-            {({strategy}) => {
-              if (strategy == 'fixeddelay') {
-                return (
-                  <ProForm.Group>
-                    <ProFormDigit
-                      name="restart-strategy.fixed-delay.attempts"
-                      label="restart-strategy.fixed-delay.attempts"
-                      min={1}
-                      fieldProps={{precision: 0}}
-                      colProps={{span: 10, offset: 1}}
-                    />
-                    <ProFormText
-                      name="restart-strategy.fixed-delay.delay"
-                      label={'restart-strategy.fixed-delay.delay'}
-                      colProps={{span: 10, offset: 1}}
-                    />
-                  </ProForm.Group>
-                )
-              }
-              if (strategy == 'failurerate') {
-                return (
-                  <ProForm.Group>
-                    <ProFormText
-                      name="restart-strategy.failure-rate.delay"
-                      label={'restart-strategy.failure-rate.delay'}
-                      colProps={{span: 10, offset: 1}}
-                    />
-                    <ProFormText
-                      name="restart-strategy.failure-rate.failure-rate-interval"
-                      label={'restart-strategy.failure-rate.failure-rate-interval'}
-                      colProps={{span: 10, offset: 1}}
-                    />
-                    <ProFormText
-                      name="restart-strategy.failure-rate.max-failures-per-interval"
-                      label={'restart-strategy.failure-rate.max-failures-per-interval'}
-                      colProps={{span: 10, offset: 1}}
-                    />
-
-                  </ProForm.Group>
-                )
-              }
-              if (strategy == 'exponentialdelay') {
-                return (
-                  <ProForm.Group>
-                    <ProFormText
-                      name="restart-strategy.exponential-delay.initial-backoff"
-                      label={'restart-strategy.exponential-delay.initial-backoff'}
-                      colProps={{span: 10, offset: 1}}
-                    />
-                    <ProFormText
-                      name="restart-strategy.exponential-delay.backoff-multiplier"
-                      label={'restart-strategy.exponential-delay.backoff-multiplier'}
-                      colProps={{span: 10, offset: 1}}
-                    />
-                    <ProFormText
-                      name="restart-strategy.exponential-delay.max-backoff"
-                      label={'restart-strategy.exponential-delay.max-backoff'}
-                      colProps={{span: 10, offset: 1}}
-                    />
-                    <ProFormText
-                      name="restart-strategy.exponential-delay.reset-backoff-threshold"
-                      label={'restart-strategy.exponential-delay.reset-backoff-threshold'}
-                      colProps={{span: 10, offset: 1}}
-                    />
-                    <ProFormText
-                      name="restart-strategy.exponential-delay.jitter-factor"
-                      label={'restart-strategy.exponential-delay.jitter-factor'}
-                      colProps={{span: 10, offset: 1}}
-                    />
-                  </ProForm.Group>
-                )
-              }
-              return <ProForm.Group/>;
-            }}
-          </ProFormDependency>
-        </ProForm.Group>
-      </ProCard>
-      <ProCard
-        title={"High Availability"}
-        headerBordered
-        collapsible={true}
-      >
-        <ProForm.Group>
-          <ProFormSelect
-            name="ha"
-            label={"high-availability"}
-            colProps={{span: 10, offset: 1}}
-            showSearch={true}
-            request={() => listDictDataByType(DICT_TYPE.flinkHA)}
-          />
-          <ProFormText
-            name="high-availability.storageDir"
-            label={'high-availability.storageDir'}
-            colProps={{span: 10, offset: 1}}
-          />
-          <ProFormText
-            name="high-availability.cluster-id"
-            label={'high-availability.cluster-id'}
-            colProps={{span: 10, offset: 1}}
-          />
-
-          <ProFormDependency name={['ha']}>
-            {({ha}) => {
-              if (ha == 'zookeeper') {
-                return (
-                  <ProForm.Group>
-                    <ProFormText
-                      name="high-availability.zookeeper.path.root"
-                      label={'high-availability.zookeeper.path.root'}
-                      colProps={{span: 10, offset: 1}}
-                    />
-                    <ProFormText
-                      name="high-availability.zookeeper.quorum"
-                      label={'high-availability.zookeeper.quorum'}
-                      colProps={{span: 10, offset: 1}}
-                    />
-                  </ProForm.Group>
-                )
-              }
-              return <ProForm.Group/>;
-            }}
-          </ProFormDependency>
-        </ProForm.Group>
-      </ProCard>
-      <ProCard
-        title={"Memory Configuration"}
-        headerBordered
-        collapsible={true}
-      >
-        <ProForm.Group>
-          <ProFormText
-            name="jobmanager.memory.process.size"
-            label={'jobmanager.memory.process.size'}
-            colProps={{span: 10, offset: 1}}
-          />
-          <ProFormText
-            name="jobmanager.memory.flink.size"
-            label={'jobmanager.memory.flink.size'}
-            colProps={{span: 10, offset: 1}}
-          />
-          <ProFormText
-            name="taskmanager.memory.process.size"
-            label={'taskmanager.memory.process.size'}
-            colProps={{span: 10, offset: 1}}
-          />
-          <ProFormText
-            name="taskmanager.memory.flink.size"
-            label={'taskmanager.memory.flink.size'}
-            colProps={{span: 10, offset: 1}}
-          />
-        </ProForm.Group>
-      </ProCard>
-      <ProCard
-        title={"Additional Config Options"}
-        headerBordered
-        collapsible={true}
-      >
-        <ProFormList
-          name="options"
-        >
-          <ProFormGroup>
-            <ProFormText
-              name="key"
-              label={'Options'}
-              colProps={{span: 10, offset: 1}}
-            />
-            <ProFormText
-              name="value"
-              label={'Value'}
-              colProps={{span: 10, offset: 1}}
-            />
-          </ProFormGroup>
-        </ProFormList>
-      </ProCard>
+      <State/>
+      <FaultTolerance/>
+      <HighAvailability/>
+      <Resource/>
+      <Additional/>
     </ProForm>
   </div>);
 }

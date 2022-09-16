@@ -83,7 +83,7 @@ const FlinkArtifactForm: React.FC<ModalFormProps<FlinkArtifact>> = ({
         <Form.Item
           name="entryClass"
           label={intl.formatMessage({ id: 'pages.dev.artifact.entryClass' })}
-          rules={[{ required: true }, { max: 64 }]}
+          rules={[{ required: true }, { max: 128 }]}
         >
           <Input></Input>
         </Form.Item>

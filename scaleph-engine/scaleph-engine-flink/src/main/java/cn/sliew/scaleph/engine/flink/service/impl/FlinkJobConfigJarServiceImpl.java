@@ -18,19 +18,20 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobConfigJar;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobConfigJarVO;
 import cn.sliew.scaleph.dao.mapper.master.flink.FlinkJobConfigJarMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkJobConfigJarService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobConfigConvert;
+import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobConfigJarVOConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobConfigJarDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobConfigJarListParam;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -43,26 +44,24 @@ public class FlinkJobConfigJarServiceImpl implements FlinkJobConfigJarService {
 
     @Override
     public Page<FlinkJobConfigJarDTO> list(FlinkJobConfigJarListParam param) {
-        final Page<FlinkJobConfigJar> page = flinkJobConfigJarMapper.selectPage(
-                new Page<>(param.getCurrent(), param.getPageSize()),
-                Wrappers.lambdaQuery(FlinkJobConfigJar.class)
-                        .like(StringUtils.hasText(param.getName()), FlinkJobConfigJar::getName, param.getName())
-                        .eq(param.getFlinkClusterConfigId() != null, FlinkJobConfigJar::getFlinkClusterConfigId, param.getFlinkClusterConfigId())
-                        .eq(param.getFlinkClusterInstanceId() != null, FlinkJobConfigJar::getFlinkClusterInstanceId, param.getFlinkClusterInstanceId()));
+        final Page<FlinkJobConfigJar> page = new Page<>(param.getCurrent(), param.getPageSize());
+        FlinkJobConfigJar flinkJobConfigJar = BeanUtil.copy(page, new FlinkJobConfigJar());
+
+        final Page<FlinkJobConfigJarVO> flinkJobConfigJarVOPage = flinkJobConfigJarMapper.list(page, flinkJobConfigJar);
         Page<FlinkJobConfigJarDTO> result =
-                new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
-        List<FlinkJobConfigJarDTO> dtoList = FlinkJobConfigConvert.INSTANCE.toDto(page.getRecords());
+                new Page<>(flinkJobConfigJarVOPage.getCurrent(), flinkJobConfigJarVOPage.getSize(), flinkJobConfigJarVOPage.getTotal());
+        List<FlinkJobConfigJarDTO> dtoList = FlinkJobConfigJarVOConvert.INSTANCE.toDto(flinkJobConfigJarVOPage.getRecords());
         result.setRecords(dtoList);
         return result;
     }
 
     @Override
     public FlinkJobConfigJarDTO selectOne(Long id) {
-        final FlinkJobConfigJar record = flinkJobConfigJarMapper.selectById(id);
+        final FlinkJobConfigJarVO record = flinkJobConfigJarMapper.getById(id);
         if (record == null) {
             throw new IllegalStateException("flink job config not exists for id: " + id);
         }
-        return FlinkJobConfigConvert.INSTANCE.toDto(record);
+        return FlinkJobConfigJarVOConvert.INSTANCE.toDto(record);
     }
 
     @Override
