@@ -41,7 +41,7 @@ public class ArtifactJarController {
 
     @Logging
     @GetMapping("{id}")
-    @ApiOperation(value = "查询 artifact jar 列表", notes = "查询 artifact jar 列表")
+    @ApiOperation(value = "查询 artifact jar 详情", notes = "查询 artifact jar 详情")
     public ResponseEntity<FlinkArtifactJarDTO> selectOne(@PathVariable("id") Long id) {
         final FlinkArtifactJarDTO result = flinkArtifactJarService.selectOne(id);
         return new ResponseEntity<>(result, HttpStatus.OK);

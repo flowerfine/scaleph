@@ -10,7 +10,6 @@ import {useAccess, useIntl, useLocation} from 'umi';
 import CredentialFileForm from './components/CredentialFileForm';
 
 const CredentialFileResource: React.FC = () => {
-  // const state = history.location.state as { id: number }
   const urlParams = useLocation();
   const intl = useIntl();
   const access = useAccess();

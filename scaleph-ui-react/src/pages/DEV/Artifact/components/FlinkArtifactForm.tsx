@@ -1,10 +1,11 @@
-import {ModalFormProps} from '@/app.d';
-import {Button, Form, Input, message, Modal, Upload, UploadFile, UploadProps} from 'antd';
+import {Form, Input, message, Modal, Select} from 'antd';
 import {useIntl} from 'umi';
-import {useState} from "react";
-import {UploadOutlined} from "@ant-design/icons";
-import {FlinkArtifact, FlinkArtifactUploadParam} from "@/services/dev/typings";
-import {upload} from "@/services/dev/flinkArtifact.service";
+import {useEffect, useState} from "react";
+import {DICT_TYPE} from "@/constant";
+import {Dict, ModalFormProps} from '@/app.d';
+import {FlinkArtifact} from "@/services/dev/typings";
+import {listDictDataByType} from "@/services/admin/dictData.service";
+import {add, update} from "@/services/dev/flinkArtifact.service";
 
 const FlinkArtifactForm: React.FC<ModalFormProps<FlinkArtifact>> = ({
   data,
@@ -14,93 +15,84 @@ const FlinkArtifactForm: React.FC<ModalFormProps<FlinkArtifact>> = ({
 }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [uploading, setUploading] = useState(false);
+  const [flinkArtifactTypeList, setFlinkArtifactTypeList] = useState<Dict[]>([]);
 
-  const props: UploadProps = {
-    multiple: false,
-    maxCount: 1,
-    onRemove: file => {
-      const index = fileList.indexOf(file);
-      const newFileList = fileList.slice();
-      newFileList.splice(index, 1);
-      setFileList(newFileList);
-    },
-    beforeUpload: file => {
-      setFileList([...fileList, file]);
-      return false;
-    },
-    fileList,
-  };
-
+  useEffect(() => {
+    listDictDataByType(DICT_TYPE.flinkArtifactType).then((d) => {
+      setFlinkArtifactTypeList(d);
+    });
+  }, []);
   return (
     <Modal
       visible={visible}
       title={
-        intl.formatMessage({ id: 'app.common.operate.upload.label' }) +
+        intl.formatMessage({ id: 'app.common.operate.new.label' }) +
         intl.formatMessage({ id: 'pages.dev.artifact' })
       }
       width={580}
       destroyOnClose={true}
       onCancel={onCancel}
-      confirmLoading={uploading}
-      okText={uploading ? intl.formatMessage({ id: 'app.common.operate.uploading.label' }) : intl.formatMessage({ id: 'app.common.operate.upload.label' })}
       onOk={() => {
         form.validateFields().then((values) => {
-          const uploadParam: FlinkArtifactUploadParam  ={
+          const param: FlinkArtifact = {
+            id: values.id,
             name: values.name,
-            entryClass: values.entryClass,
-            file: fileList[0],
+            type: { value: values.type },
             remark: values.remark
           };
-          setUploading(true);
-          upload(uploadParam)
-            .then(() => {
-              setFileList([]);
-              message.success(intl.formatMessage({ id: 'app.common.operate.upload.success' }));
+          data.id
+            ? update(param).then((d) => {
+              if (d.success) {
+                message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
+                onVisibleChange(false);
+              }
             })
-            .catch(() => {
-              message.error(intl.formatMessage({ id: 'app.common.operate.upload.failure' }));
-            })
-            .finally(() => {
-              setUploading(false);
-              onVisibleChange(false);
+            : add(param).then((d) => {
+              if (d.success) {
+                message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
+                onVisibleChange(false);
+              }
             });
         });
       }}
     >
-      <Form form={form} layout="horizontal" labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}>
+      <Form form={form} layout="horizontal" labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}
+            initialValues={{
+              id: data.id,
+              name: data.name,
+              type: data.type?.value,
+              remark: data.remark
+            }}>
         <Form.Item name="id" hidden>
           <Input></Input>
         </Form.Item>
         <Form.Item
           name="name"
           label={intl.formatMessage({ id: 'pages.dev.artifact.name' })}
-          rules={[{ required: true }, { max: 32 }]}
-        >
-          <Input></Input>
+          rules={[{ required: true }, { max: 32 }]}>
+          <Input/>
         </Form.Item>
         <Form.Item
-          name="entryClass"
-          label={intl.formatMessage({ id: 'pages.dev.artifact.entryClass' })}
-          rules={[{ required: true }, { max: 128 }]}
-        >
-          <Input></Input>
-        </Form.Item>
-        <Form.Item
-          label={intl.formatMessage({ id: 'pages.dev.artifact.file' })}
-          rules={[{ required: true }]}
-        >
-          <Upload {...props}>
-            <Button icon={<UploadOutlined />}>{intl.formatMessage({ id: 'pages.dev.artifact.file' })}</Button>
-          </Upload>
+          name="type"
+          label={intl.formatMessage({ id: 'pages.dev.artifact.type' })}
+          rules={[{ required: true }]}>
+          <Select
+            allowClear={true}
+            optionFilterProp="label">
+            {flinkArtifactTypeList.map((item) => {
+              return (
+                <Select.Option key={item.value} value={item.value}>
+                  {item.label}
+                </Select.Option>
+              );
+            })}
+          </Select>
         </Form.Item>
         <Form.Item
           name="remark"
           label={intl.formatMessage({ id: 'pages.dev.remark' })}
-          rules={[{ max: 200 }]}
-        >
-          <Input></Input>
+          rules={[{ max: 200 }]}>
+          <Input/>
         </Form.Item>
       </Form>
     </Modal>

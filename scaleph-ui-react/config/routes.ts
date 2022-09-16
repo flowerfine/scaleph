@@ -110,6 +110,13 @@ export default [
             access: 'normalRouteFilter',
           },
           {
+            path: '/workspace/dev/artifact/jar',
+            exact: true,
+            component: './DEV/Artifact/Jar',
+            pCode: PRIVILEGE_CODE.datadevDatasourceShow,
+            access: 'normalRouteFilter',
+          },
+          {
             name: 'clusterConfig',
             path: '/workspace/dev/clusterConfig',
             exact: true,
