@@ -14,13 +14,7 @@ const JobJar: React.FC = () => {
     }
   };
 
-  return (<ProCard
-    style={{
-      marginBlockEnd: 16,
-      minWidth: 800,
-      maxWidth: '100%',
-    }}
-  >
+  return (<ProCard>
     <ProFormSelect
       name={"flinkArtifactId"}
       label={intl.formatMessage({id: 'pages.dev.artifact'})}
