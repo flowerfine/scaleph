@@ -36,7 +36,7 @@ const JobJar: React.FC = () => {
     />
     <ProFormText
       name="entryClass"
-      label={intl.formatMessage({id: 'pages.dev.artifact.entryClass'})}
+      label={intl.formatMessage({id: 'pages.dev.artifact.jar.entryClass'})}
       rules={[{required: true}, {max: 128}]}
       readonly
     />
@@ -48,10 +48,9 @@ const JobJar: React.FC = () => {
           type: "text"
         }}>
         <ProFormGroup>
-          <ProFormText name="parameter" label={'Parameter'}/>
-          <ProFormText name="value" label={'Value'}/>
+          <ProFormText name="parameter" label={'Parameter'} colProps={{span: 10, offset: 1}}/>
+          <ProFormText name="value" label={'Value'} colProps={{span: 10, offset: 1}}/>
         </ProFormGroup>
-
       </ProFormList>
   </ProCard>);
 }

@@ -22,6 +22,12 @@ const FlinkReleaseResource: React.FC = () => {
     data: FlinkRelease;
   }>({visiable: false, data: {}});
 
+  useEffect(() => {
+    listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
+      setFlinkVersionList(d);
+    });
+  }, []);
+
   const tableColumns: ProColumns<FlinkRelease>[] = [
     {
       title: intl.formatMessage({id: 'pages.resource.flinkRelease.version'}),
@@ -134,12 +140,6 @@ const FlinkReleaseResource: React.FC = () => {
       ),
     },
   ];
-
-  useEffect(() => {
-    listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
-      setFlinkVersionList(d);
-    });
-  }, []);
 
   return (
     <div>

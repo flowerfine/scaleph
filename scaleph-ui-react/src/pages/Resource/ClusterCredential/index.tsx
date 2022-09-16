@@ -96,8 +96,7 @@ const ClusterCredentialResource: React.FC = () => {
                   icon={<UploadOutlined/>}
                   onClick={() => {
                     history.push('/resource/cluster-credential/file', {id: record.id});
-                  }}
-                ></Button>
+                  }}/>
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (

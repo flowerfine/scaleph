@@ -23,7 +23,6 @@ import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.engine.flink.service.FlinkArtifactService;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactListParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactUploadParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,13 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.List;
 
 @Slf4j
@@ -51,29 +45,34 @@ public class ArtifactController {
     private FlinkArtifactService flinkArtifactService;
 
     @Logging
-    @PostMapping
-    @ApiOperation(value = "上传 artifact", notes = "上传artifact")
-    public ResponseEntity<ResponseVO> upload(@Valid FlinkArtifactUploadParam param, @RequestPart("file") MultipartFile file) throws IOException {
-        flinkArtifactService.upload(param, file);
+    @GetMapping
+    @ApiOperation(value = "查询 artifact 列表", notes = "查询 artifact 列表")
+    public ResponseEntity<Page<FlinkArtifactDTO>> list(@Valid FlinkArtifactListParam param) {
+        final Page<FlinkArtifactDTO> result = flinkArtifactService.list(param);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @PutMapping
+    @ApiOperation(value = "新增 artifact", notes = "新增 artifact")
+    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody FlinkArtifactDTO param) {
+        flinkArtifactService.insert(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
-    @GetMapping("{id}")
-    @ApiOperation(value = "下载 artifact", notes = "下载 artifact")
-    public ResponseEntity<ResponseVO> download(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
-        try (ServletOutputStream outputStream = response.getOutputStream()) {
-            final String fileName = flinkArtifactService.download(id, outputStream);
-            response.setCharacterEncoding("utf-8");// 设置字符编码
-            response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8")); // 设置响应头
-        }
+    @PostMapping("{id}")
+    @ApiOperation(value = "修改 artifact", notes = "修改 artifact")
+    public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid @RequestBody FlinkArtifactDTO param) {
+        param.setId(id);
+        flinkArtifactService.update(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
     @DeleteMapping("{id}")
     @ApiOperation(value = "删除 artifact", notes = "删除 artifact")
-    public ResponseEntity<ResponseVO> deleteById(@PathVariable("id") Long id) throws IOException {
+    public ResponseEntity<ResponseVO> deleteById(@PathVariable("id") Long id) {
         flinkArtifactService.deleteById(id);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -81,16 +80,9 @@ public class ArtifactController {
     @Logging
     @DeleteMapping(path = "/batch")
     @ApiOperation(value = "批量删除 artifact", notes = "批量删除 artifact")
-    public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) throws IOException {
+    public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) {
         flinkArtifactService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
-    @Logging
-    @GetMapping
-    @ApiOperation(value = "查询 artifact 列表", notes = "查询 artifact 列表")
-    public ResponseEntity<Page<FlinkArtifactDTO>> list(@Valid FlinkArtifactListParam param) {
-        final Page<FlinkArtifactDTO> result = flinkArtifactService.list(param);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
 }

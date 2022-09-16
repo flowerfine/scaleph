@@ -22,7 +22,6 @@ import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -39,19 +38,12 @@ public class FlinkArtifact extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("名称")
     @TableField("`name`")
     private String name;
 
-    @ApiModelProperty("存储路径")
-    @TableField("path")
-    private String path;
+    @TableField("`type`")
+    private String type;
 
-    @ApiModelProperty("entry point class")
-    @TableField("entry_class")
-    private String entryClass;
-
-    @ApiModelProperty("备注")
     @TableField("remark")
     private String remark;
 
