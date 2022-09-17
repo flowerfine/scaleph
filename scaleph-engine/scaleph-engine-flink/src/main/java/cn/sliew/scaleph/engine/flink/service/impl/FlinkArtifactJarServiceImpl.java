@@ -53,7 +53,6 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
 
     @Override
     public Page<FlinkArtifactJarDTO> list(FlinkArtifactJarListParam param) {
-
         final Page<FlinkArtifactJar> page = flinkArtifactJarMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(FlinkArtifactJar.class)
