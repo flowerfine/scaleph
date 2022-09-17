@@ -57,6 +57,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.github.zafarkhaja</groupId>
+            <artifactId>java-semver</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>cn.sliew</groupId>
             <artifactId>milky-common</artifactId>
         </dependency>

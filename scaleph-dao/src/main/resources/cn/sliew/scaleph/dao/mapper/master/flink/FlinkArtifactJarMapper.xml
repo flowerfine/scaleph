@@ -40,4 +40,10 @@
         flink_artifact_id, version, flink_version, entry_class, file_name, `path`
     </sql>
 
+    <select id="findMaxVersion" resultType="string">
+        select max(version)
+        from flink_artifact_jar
+        where flink_artifact_id = #{flinkArtifactId}
+    </select>
+
 </mapper>

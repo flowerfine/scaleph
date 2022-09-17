@@ -28,6 +28,7 @@ import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarUploadParam;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.zafarkhaja.semver.Version;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,10 +82,11 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
         FlinkArtifactJar record = new FlinkArtifactJar();
         BeanUtils.copyProperties(param, record);
         if (StringUtils.hasText(param.getVersion())) {
-            // 校验
-
+            Version.valueOf(param.getVersion());
         } else {
-            // 查询最大的版本号
+            final String maxVersion = flinkArtifactJarMapper.findMaxVersion(param.getFlinkArtifactId());
+            final Version version = Version.valueOf(maxVersion).incrementPatchVersion();
+            record.setVersion(version.toString());
         }
         record.setFileName(file.getOriginalFilename());
         record.setPath(path);
