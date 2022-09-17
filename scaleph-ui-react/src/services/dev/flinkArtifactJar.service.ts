@@ -29,7 +29,9 @@ export async function selectOne(id: number) {
 export async function upload(uploadParam: FlinkArtifactJarUploadParam) {
   const formData = new FormData()
   formData.append("flinkArtifactId", uploadParam.flinkArtifactId)
-  formData.append("version", uploadParam.version)
+  if (uploadParam.version) {
+    formData.append("version", uploadParam.version)
+  }
   formData.append("flinkVersion", uploadParam.flinkVersion)
   formData.append("entryClass", uploadParam.entryClass)
   formData.append("file", uploadParam.file)

@@ -26,7 +26,8 @@ import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactJarDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarListParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarUploadParam;
 import cn.sliew.scaleph.storage.service.FileSystemService;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.zafarkhaja.semver.Version;
 import org.springframework.beans.BeanUtils;
@@ -53,11 +54,12 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
 
     @Override
     public Page<FlinkArtifactJarDTO> list(FlinkArtifactJarListParam param) {
+        LambdaQueryWrapper<FlinkArtifactJar> queryWrapper = new QueryWrapper<FlinkArtifactJar>()
+                .orderByDesc("CONCAT(LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 1), '.', -1), 10, '0'), LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 2), '.', -1), 10, '0'), LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 3), '.', -1), 10, '0'))", "id")
+                .lambda()
+                .eq(param.getFlinkArtifactId() != null, FlinkArtifactJar::getFlinkArtifactId, param.getFlinkArtifactId());
         final Page<FlinkArtifactJar> page = flinkArtifactJarMapper.selectPage(
-                new Page<>(param.getCurrent(), param.getPageSize()),
-                Wrappers.lambdaQuery(FlinkArtifactJar.class)
-                        .eq(param.getFlinkArtifactId() != null, FlinkArtifactJar::getFlinkArtifactId, param.getFlinkArtifactId())
-                        .orderByDesc(FlinkArtifactJar::getVersion, FlinkArtifactJar::getId));
+                new Page<>(param.getCurrent(), param.getPageSize()), queryWrapper);
         Page<FlinkArtifactJarDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         List<FlinkArtifactJarDTO> dtoList = FlinkArtifactJarConvert.INSTANCE.toDto(page.getRecords());
@@ -74,19 +76,24 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
 
     @Override
     public void upload(FlinkArtifactJarUploadParam param, MultipartFile file) throws IOException {
-        String path = getFlinkArtifactPath(file.getOriginalFilename());
+        Version version;
+        if (StringUtils.hasText(param.getVersion())) {
+            version = Version.valueOf(param.getVersion());
+        } else {
+            final String maxVersion = flinkArtifactJarMapper.findMaxVersion(param.getFlinkArtifactId());
+            if (StringUtils.hasText(maxVersion)) {
+                version = Version.valueOf(maxVersion).incrementPatchVersion();
+            } else {
+                version = Version.forIntegers(1, 0, 0);
+            }
+        }
+        String path = getFlinkArtifactPath(version.toString(), file.getOriginalFilename());
         try (final InputStream inputStream = file.getInputStream()) {
             fileSystemService.upload(inputStream, path);
         }
         FlinkArtifactJar record = new FlinkArtifactJar();
         BeanUtils.copyProperties(param, record);
-        if (StringUtils.hasText(param.getVersion())) {
-            Version.valueOf(param.getVersion());
-        } else {
-            final String maxVersion = flinkArtifactJarMapper.findMaxVersion(param.getFlinkArtifactId());
-            final Version version = Version.valueOf(maxVersion).incrementPatchVersion();
-            record.setVersion(version.toString());
-        }
+        record.setVersion(version.toString());
         record.setFileName(file.getOriginalFilename());
         record.setPath(path);
         flinkArtifactJarMapper.insert(record);
@@ -101,8 +108,8 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
         return dto.getFileName();
     }
 
-    private String getFlinkArtifactPath(String fileName) {
-        return String.format("%s/%s", getFlinkArtifactJarRootPath(), fileName);
+    private String getFlinkArtifactPath(String version, String fileName) {
+        return String.format("%s/%s/%s", getFlinkArtifactJarRootPath(), version, fileName);
     }
 
     private String getFlinkArtifactJarRootPath() {

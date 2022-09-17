@@ -69,6 +69,13 @@ export type Dict = {
   value?: string;
 };
 
+export type TablePageResponse<T> = {
+  pageSize: number;
+  current: number;
+  total: number;
+  data: T[];
+};
+
 export type ModalFormProps<T> = {
   data: T;
   visible: boolean;

@@ -24,7 +24,6 @@ import cn.sliew.scaleph.engine.flink.service.FlinkArtifactService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkArtifactConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactListParam;
-import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +40,6 @@ import static cn.sliew.milky.common.check.Ensures.checkState;
 @Service
 public class FlinkArtifactServiceImpl implements FlinkArtifactService {
 
-    @Autowired
-    private FileSystemService fileSystemService;
     @Autowired
     private FlinkArtifactMapper flinkArtifactMapper;
 

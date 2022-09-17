@@ -16,28 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.engine.flink.service.vo;
 
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
 
-import java.util.List;
+@Data
+@ApiModel(value = "FlinkArtifactJarVO对象", description = "flink artifact for jar")
+public class FlinkArtifactJarVO {
 
-public interface FlinkArtifactService {
 
-    Page<FlinkArtifactDTO> list(FlinkArtifactListParam param);
-
-//    Page<FlinkArtifactDTO> listJars(FlinkArtifactListParam param);
-
-    FlinkArtifactDTO selectOne(Long id);
-
-    int insert(FlinkArtifactDTO dto);
-
-    int update(FlinkArtifactDTO dto);
-
-    int deleteById(Long id);
-
-    int deleteBatch(List<Long> ids);
 
 }
