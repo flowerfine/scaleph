@@ -22,6 +22,7 @@ import {
   CanvasToolbar,
   createCtxMenuConfig,
   createToolbarConfig,
+  DagGraphExtension,
   IApplication,
   IAppLoad,
   IconStore,
@@ -31,6 +32,8 @@ import {
   MenuItemType,
   MODELS,
   NodeCollapsePanel,
+  NsEdgeCmd,
+  NsGraph,
   NsGraphCmd,
   XFlow,
   XFlowCanvas,
@@ -117,20 +120,15 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             id: 'root',
             type: MenuItemType.Root,
             submenu: [
-              // {
-              //   id: CustomCommands.SHOW_RENAME_MODAL.id,
-              //   type: MenuItemType.Submenu,
-              //   label: intl.formatMessage({ id: 'app.common.operate.edit.label' }),
-              //   isVisible: true,
-              //   iconName: 'EditOutlined',
-              //   onClick: async ({ target, commandService }) => {
-              //     // const nodeConfig = target.data
-              //     // commandService.executeCommand(CustomCommands.SHOW_RENAME_MODAL.id, {
-              //     //   nodeConfig,
-              //     //   updateNodeNameService: MockApi.renameNode,
-              //     // })
-              //   },
-              // },
+              {
+                id: XFlowNodeCommands.UPDATE_NODE.id,
+                type: MenuItemType.Submenu,
+                label: intl.formatMessage({ id: 'app.common.operate.edit.label' }),
+                iconName: 'EditOutlined',
+                onClick: async ({ target, commandService }) => {
+                  console.log(target);
+                }
+              },
               {
                 id: XFlowNodeCommands.DEL_NODE.id,
                 type: MenuItemType.Submenu,
@@ -142,19 +140,6 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
                   });
                 },
               },
-              // {
-              //   id: CustomCommands.SHOW_RENAME_MODAL.id,
-              //   label: '重命名',
-              //   isVisible: true,
-              //   iconName: 'EditOutlined',
-              //   onClick: async ({ target, commandService }) => {
-              //     const nodeConfig = target.data
-              //     commandService.executeCommand(CustomCommands.SHOW_RENAME_MODAL.id, {
-              //       nodeConfig,
-              //       updateNodeNameService: MockApi.renameNode,
-              //     })
-              //   },
-              // }
             ],
           });
           break;
@@ -166,13 +151,12 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             submenu: [
               {
                 id: XFlowEdgeCommands.DEL_EDGE.id,
-                type: MenuItemType.Submenu,
                 label: intl.formatMessage({ id: 'app.common.operate.delete.label' }),
                 iconName: 'DeleteOutlined',
                 onClick: async ({ target, commandService }) => {
-                  commandService.executeCommand(XFlowEdgeCommands.DEL_EDGE.id, {
-                    edgeConfig: target.data,
-                  });
+                  commandService.executeCommand<NsEdgeCmd.DelEdge.IArgs>(XFlowEdgeCommands.DEL_EDGE.id, {
+                    edgeConfig: target.data as NsGraph.IEdgeConfig,
+                  })
                 },
               },
             ],
@@ -185,12 +169,13 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             type: MenuItemType.Root,
             submenu: [
               {
-                id: XFlowEdgeCommands.DEL_EDGE.id,
+                id: "job_params_conf",
                 type: MenuItemType.Submenu,
-                label: intl.formatMessage({ id: 'app.common.operate.delete.label' }),
-                iconName: 'DeleteOutlined',
+                label: intl.formatMessage({ id: 'pages.project.di.flow.dag.prop' }),
+                iconName: 'ProfileOutlined',
                 onClick: async ({ target, commandService }) => {
                   //todo config job info
+                  console.log(target);
                 },
               },
             ],
@@ -217,16 +202,16 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
         name: 'main',
         items: [
           {
-            id: 'main01',
-            iconName: 'PlaySquareOutlined',
-            tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.start' }),
-            onClick: (args) => {},
+            id: 'main03',
+            iconName: 'SaveOutlined',
+            tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.save' }),
+            onClick: (args) => { },
           },
           {
-            id: 'main02',
-            iconName: 'StopOutlined',
-            tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.stop' }),
-            onClick: (args) => {},
+            id: 'main04',
+            iconName: 'SendOutlined',
+            tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.publish' }),
+            onClick: (args) => { },
           },
         ],
       },
@@ -234,22 +219,18 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
         name: 'main',
         items: [
           {
-            id: 'main03',
-            iconName: 'SaveOutlined',
-            tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.save' }),
-            onClick: (args) => {},
+            id: 'main01',
+            iconName: 'PlaySquareOutlined',
+            tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.start' }),
+            onClick: (args) => { },
           },
           {
-            id: 'main04',
-            iconName: 'SendOutlined',
-            tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.publish' }),
-            onClick: (args) => {},
+            id: 'main02',
+            iconName: 'StopOutlined',
+            tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.stop' }),
+            onClick: (args) => { },
           },
         ],
-      },
-      {
-        name: 'main',
-        items: [],
       },
     ] as IToolbarGroupOptions[];
   };
@@ -263,7 +244,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             iconName: 'ProfileOutlined',
             text: intl.formatMessage({ id: 'pages.project.di.flow.dag.prop' }),
             tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.prop' }),
-            onClick: ({ commandService }) => {},
+            onClick: ({ commandService }) => { },
           },
         ],
       },
@@ -466,6 +447,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
           onLoad={onLoad}
           meta={meta}
         >
+          {/* <DagGraphExtension /> */}
           <NodeCollapsePanel
             className="xflow-node-panel"
             position={{ width: 240, top: 0, bottom: 0, left: 0 }}
@@ -481,7 +463,9 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             config={toolbarConfig()}
             position={{ top: 0, left: 240, right: 0, bottom: 0 }}
           />
-          <XFlowCanvas config={graphConfig} position={{ top: 40, left: 240, right: 0, bottom: 0 }}>
+          <XFlowCanvas
+            config={graphConfig}
+            position={{ top: 40, left: 240, right: 0, bottom: 0 }}>
             <CanvasToolbar
               position={{ top: 12, right: 12 }}
               config={scaleToolbarConfig()}

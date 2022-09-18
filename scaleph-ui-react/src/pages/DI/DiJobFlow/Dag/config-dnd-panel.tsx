@@ -9,15 +9,6 @@ import {
 import { CONNECTION_PORT_TYPE, NODE_HEIGHT, NODE_WIDTH } from './constant';
 import { DagService } from './service';
 
-// const NodeDescription = props => {
-//   return (
-//     <Card size="small" title="算法组件介绍" style={{ width: '200px' }} bordered={false}>
-//       欢迎使用：{props.name}
-//       这里可以根据服务端返回的数据显示不同的内容
-//     </Card>
-//   )
-// }
-
 const addNode = (cmd: IGraphCommandService, nodeConfig: NsGraph.INodeConfig) => {
   console.log('node', nodeConfig);
   return cmd.executeCommand<NsNodeCmd.AddNode.IArgs>(XFlowNodeCommands.ADD_NODE.id, {
@@ -80,12 +71,15 @@ const createPortItems = (type: string, label: string) => {
     return [];
   }
 }
-export const onNodeDrop: NsNodeCollapsePanel.IOnNodeDrop = async (nodeConfig, commandService) => {
-  addNode(commandService, nodeConfig);
+
+export const onNodeDrop: NsNodeCollapsePanel.IOnNodeDrop = async (nodeConfig, commandService, modelService) => {
+  const args: NsNodeCmd.AddNode.IArgs = {
+    nodeConfig: { ...nodeConfig, id: uuidv4() },
+  }
+  commandService.executeCommand(XFlowNodeCommands.ADD_NODE.id, args)
 };
 
 export const nodeDataService: NsNodeCollapsePanel.INodeDataService = async (meta, modelService) => {
-  console.log(meta, modelService);
   const data = await DagService.loadNodeMeta();
   return data;
 };
