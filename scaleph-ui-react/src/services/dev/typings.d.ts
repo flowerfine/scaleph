@@ -1,4 +1,4 @@
-import {Dict, QueryParam} from "@/app";
+import {Dict, QueryParam} from "@/app.d";
 import {ClusterCredential, FlinkRelease} from "@/services/resource/typings";
 
 export type FlinkArtifact = {
