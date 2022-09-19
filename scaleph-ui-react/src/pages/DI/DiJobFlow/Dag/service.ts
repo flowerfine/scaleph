@@ -1,3 +1,5 @@
+import { ResponseBody } from '@/app.d';
+import { NsGraph } from '@antv/xflow';
 import { NsNodeCollapsePanel } from '@antv/xflow-extension/es';
 import { request } from 'umi';
 
@@ -8,6 +10,15 @@ export const DagService = {
             method: 'GET'
         })
     },
+    saveGraphData: async (meta: NsGraph.IGraphMeta,
+        graphData: NsGraph.IGraphData) => {
+        meta.origin.jobGraph = graphData;
+        console.log('saveGraphData api', meta.origin);
+        return request<ResponseBody<any>>(`${DagService.url}/detail`, {
+            method: 'POST',
+            data: meta.origin
+        });
+    }
 };
 
 

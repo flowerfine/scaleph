@@ -685,7 +685,7 @@ const DiJobView: React.FC = () => {
               actionRef.current?.reload();
             }}
             data={jobFlowData.data}
-            meta={{ flowId: 'flow_' + jobFlowData.data.jobCode }}
+            meta={{ flowId: 'flow_' + jobFlowData.data.jobCode, origin: jobFlowData.data }}
           ></DiJobFlow>
         )}
       </Row>

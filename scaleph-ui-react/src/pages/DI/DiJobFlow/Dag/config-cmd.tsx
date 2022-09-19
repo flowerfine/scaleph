@@ -5,6 +5,7 @@ import { NODE_HEIGHT, NODE_WIDTH } from './constant'
 import { XFlowEdge } from '@antv/xflow-extension/es/canvas-dag-extension/x6-extension/edge';
 import { XFlowNode } from '@antv/xflow-extension/es/canvas-dag-extension/x6-extension/node';
 import { NsAddEdgeEvent } from './config-graph';
+import { DagService } from './service';
 
 export const useCmdConfig = createCmdConfig(config => {
   // 注册全局Command扩展
@@ -23,8 +24,7 @@ export const useCmdConfig = createCmdConfig(config => {
         name: 'save graph data',
         handler: async args => {
           if (!args.saveGraphDataService) {
-            console.log('save graph cmd', args);
-            // args.saveGraphDataService = MockApi.saveGraphData
+            args.saveGraphDataService = DagService.saveGraphData
           }
         },
       }),
@@ -41,28 +41,13 @@ export const useCmdConfig = createCmdConfig(config => {
           args.cellFactory = cellFactory;
           args.createNodeService = async args => {
             console.log('add node service running', args);
-            const portItems = [
-              {
-                type: NsGraph.AnchorType.INPUT,
-                group: NsGraph.AnchorGroup.TOP,
-                tooltip: '123123'
-              },
-              {
-                type: NsGraph.AnchorType.INPUT,
-                group: NsGraph.AnchorGroup.BOTTOM,
-                tooltip: '243554'
-              }
-            ] as NsGraph.INodeAnchor[];
-            const { id, ports = portItems } = args.nodeConfig;
+            const { id } = args.nodeConfig;
             const nodeId = id || uuidv4();
             const node: NsNodeCmd.AddNode.IArgs['nodeConfig'] = {
               ...args.nodeConfig,
               id: nodeId,
               width: NODE_WIDTH,
               height: NODE_HEIGHT,
-              // ports: (ports as NsGraph.INodeAnchor[]).map(port => {
-              //   return { ...port, id: uuidv4() }
-              // })
               ports: {
                 groups: {
                   top: {
@@ -93,7 +78,6 @@ export const useCmdConfig = createCmdConfig(config => {
                 items: createPortItems(args.nodeConfig.data.type, args.nodeConfig.data.name)
               },
             }
-            console.log("111111111 node info", node)
             return node;
           }
         },
@@ -154,13 +138,7 @@ export const useCmdConfig = createCmdConfig(config => {
           args.createEdgeService = async args => {
             console.log('456467657', args);
             const { edgeConfig } = args;
-            console.log("545345634", {
-              ...edgeConfig,
-              // id: uuidv4(),
-            })
             return edgeConfig
-            // id: uuidv4(),
-
           }
         },
       }),
@@ -177,7 +155,8 @@ const createPortItems = (type: string, label: string) => {
       {
         id: uuidv4(),
         group: NsGraph.AnchorGroup.BOTTOM,
-        type: NsGraph.AnchorType.OUTPUT
+        type: NsGraph.AnchorType.OUTPUT,
+        tooltip: '输出桩'
       }
     ];
     return items;
@@ -186,12 +165,14 @@ const createPortItems = (type: string, label: string) => {
       {
         id: uuidv4(),
         group: NsGraph.AnchorGroup.BOTTOM,
-        type: NsGraph.AnchorType.OUTPUT
+        type: NsGraph.AnchorType.OUTPUT,
+        tooltip: '输出桩'
       },
       {
         id: uuidv4(),
         group: NsGraph.AnchorGroup.TOP,
-        type: NsGraph.AnchorType.INPUT
+        type: NsGraph.AnchorType.INPUT,
+        tooltip: '输入桩'
       }
     ];
     return items;
@@ -200,7 +181,8 @@ const createPortItems = (type: string, label: string) => {
       {
         id: uuidv4(),
         group: NsGraph.AnchorGroup.TOP,
-        type: NsGraph.AnchorType.INPUT
+        type: NsGraph.AnchorType.INPUT,
+        tooltip: '输入桩'
       }
     ];
     return items;

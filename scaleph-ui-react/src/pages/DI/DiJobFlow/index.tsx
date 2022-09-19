@@ -22,7 +22,6 @@ import {
   CanvasToolbar,
   createCtxMenuConfig,
   createToolbarConfig,
-  DagGraphExtension,
   IApplication,
   IAppLoad,
   IconStore,
@@ -51,18 +50,18 @@ import { initGraphCmds, useCmdConfig } from './Dag/config-cmd';
 /** config key bind */
 import { useKeybindingConfig } from './Dag/config-keybinding';
 /** 配置Model */
-// import { useModelServiceConfig } from './Dag/config-model-service';
 /** config dnd panel */
 import '@antv/xflow/dist/index.css';
 import * as dndPanelConfig from './Dag/config-dnd-panel';
 import './index.less';
 import { ZOOM_OPTIONS } from './Dag/constant';
+import { DagService } from './Dag/service';
 interface DiJobFlowPorps {
   visible: boolean;
   data: DiJob;
   onVisibleChange: (visible: boolean, data: any) => void;
   onCancel: () => void;
-  meta: { flowId?: string };
+  meta: { flowId?: string, origin?: DiJob };
 }
 
 const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
@@ -205,7 +204,18 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             id: 'main03',
             iconName: 'SaveOutlined',
             tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.save' }),
-            onClick: (args) => { },
+            onClick: async ({ commandService, modelService }) => {
+              commandService.executeCommand<NsGraphCmd.SaveGraphData.IArgs>(
+                XFlowGraphCommands.SAVE_GRAPH_DATA.id,
+                {
+                  saveGraphDataService: (meta, graphData) => DagService.saveGraphData(meta, graphData).then(resp => {
+                    if (resp.success) {
+                      message.info(intl.formatMessage({ id: 'app.common.operate.success' }));
+                    }
+                  })
+                },
+              )
+            },
           },
           {
             id: 'main04',
@@ -442,12 +452,10 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
           className="dag-user-custom-clz"
           isAutoCenter={true}
           hookConfig={graphHooksConfig}
-          // modelServiceConfig={modelServiceConfig}
           commandConfig={cmdConfig}
           onLoad={onLoad}
           meta={meta}
         >
-          {/* <DagGraphExtension /> */}
           <NodeCollapsePanel
             className="xflow-node-panel"
             position={{ width: 240, top: 0, bottom: 0, left: 0 }}
