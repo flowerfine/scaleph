@@ -44,8 +44,8 @@ public class FlinkJobConfigJarVO extends BaseDO {
     private String name;
 
     @ApiModelProperty("flink artifact ID")
-    @TableField(value = "flink_artifact_id", exist = false)
-    private FlinkArtifact flinkArtifact;
+    @TableField(value = "flink_artifact_jar_id", exist = false)
+    private FlinkArtifactJarVO flinkArtifactJar;
 
     @ApiModelProperty("flink cluster config ID")
     @TableField(value = "flink_cluster_config_id", exist = false)

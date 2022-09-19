@@ -33,11 +33,11 @@ const JobClusterConfigOptions: React.FC = () => {
   }
 
   const handleConfigOptionsChange = (config: FlinkClusterConfig) => {
-    console.log(config)
+    form.setFieldValue("flinkClusterConfig", config.id)
+    console.log('flinkClusterConfig', form.getFieldValue('flinkClusterConfig'))
     if (!config || !config.configOptions) {
       return
     }
-
     setData(form, new Map(Object.entries(config.configOptions)))
   }
 
@@ -59,14 +59,39 @@ const JobClusterConfigOptions: React.FC = () => {
         />
         <ProFormDependency name={['deployMode']}>
           {({deployMode}) => {
-            if (deployMode == '2') {
-              return (
+
+            return (
+              <ProFormGroup>
+                <ProFormSelect
+                  name={"flinkClusterConfig"}
+                  label={intl.formatMessage({id: 'pages.dev.clusterConfig'})}
+                  colProps={{span: 21, offset: 1}}
+                  rules={[{required: true}]}
+                  readonly={(deployMode == '2')}
+                  showSearch={true}
+                  fieldProps={{
+                    onChange: handleClusterConfigChange
+                  }}
+                  dependencies={['deployMode']}
+                  request={(params) => {
+                    const param: FlinkClusterConfigParam = {
+                      name: params.keyWords,
+                      deployMode: params.deployMode
+                    }
+                    return listClusterConfig(param).then((response) => {
+                      return response.data.map((item) => {
+                        return {label: item.name, value: item.id, item: item}
+                      })
+                    })
+                  }}/>
                 <ProFormSelect
                   name={"flinkClusterInstance"}
                   label={intl.formatMessage({id: 'pages.dev.clusterInstance'})}
                   colProps={{span: 21, offset: 1}}
                   rules={[{required: true}]}
                   showSearch={true}
+                  hidden={(deployMode != '2')}
+                  required={(deployMode != '2')}
                   fieldProps={{
                     onChange: handleClusterInstanceChange
                   }}
@@ -81,31 +106,8 @@ const JobClusterConfigOptions: React.FC = () => {
                     })
                   }}
                 />
-              )
-            } else if (deployMode == '0' || deployMode == '1') {
-              return (<ProFormSelect
-                name={"flinkClusterConfig"}
-                label={intl.formatMessage({id: 'pages.dev.clusterConfig'})}
-                colProps={{span: 21, offset: 1}}
-                rules={[{required: true}]}
-                showSearch={true}
-                fieldProps={{
-                  onChange: handleClusterConfigChange
-                }}
-                dependencies={['deployMode']}
-                request={(params) => {
-                  const param: FlinkClusterConfigParam = {
-                    name: params.keyWords,
-                    deployMode: params.deployMode
-                  }
-                  return listClusterConfig(param).then((response) => {
-                    return response.data.map((item) => {
-                      return {label: item.name, value: item.id, item: item}
-                    })
-                  })
-                }}/>);
-            }
-            return (<ProFormGroup/>);
+              </ProFormGroup>
+            )
           }}
         </ProFormDependency>
       </ProCard>
