@@ -94,6 +94,7 @@ export function getData(value: Record<string, any>) {
 }
 
 export async function setData(form: FormInstance, configOptions: { [key: string]: any }) {
+
   const data = {
     'state.backend': configOptions.get('state.backend'),
     'state.savepoints.dir': configOptions.get('state.savepoints.dir'),
@@ -163,5 +164,6 @@ export async function setData(form: FormInstance, configOptions: { [key: string]
     options.push({key: key, value: value})
   })
   data['options'] = options
+  console.log('data', data)
   form.setFieldsValue(data)
 }

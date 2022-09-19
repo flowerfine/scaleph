@@ -47,8 +47,7 @@ const FlinkArtifactWeb: React.FC = () => {
             optionFilterProp="label"
             filterOption={(input, option) =>
               (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-            }
-          >
+            }>
             {flinkArtifactTypeList.map((item) => {
               return (
                 <Select.Option key={item.value} value={item.value}>

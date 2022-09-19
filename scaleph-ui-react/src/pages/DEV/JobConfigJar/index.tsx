@@ -1,11 +1,11 @@
-import {history, useAccess, useIntl} from "@@/exports";
+import {history, useAccess, useIntl} from "umi";
 import {useRef, useState} from "react";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {FlinkClusterConfig, FlinkJobConfigJar} from "@/services/dev/typings";
+import {FlinkJobConfigJar} from "@/services/dev/typings";
 import {Button, message, Modal, Space, Tooltip} from "antd";
 import {PRIVILEGE_CODE} from "@/constant";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import {deleteBatch, deleteOne, list} from "@/services/dev/flinkClusterConfig.service";
+import {deleteBatch, deleteOne, list} from "@/services/dev/flinkJobConfigJar.service";
 
 const JobConfigJarWeb: React.FC = () => {
   const intl = useIntl();
@@ -21,9 +21,9 @@ const JobConfigJarWeb: React.FC = () => {
     },
     {
       title: intl.formatMessage({id: 'pages.dev.artifact'}),
-      dataIndex: 'flinkArtifact',
+      dataIndex: 'flinkArtifactJar',
       render: (text, record, index) => {
-        return record.flinkArtifact?.name;
+        return `${record.flinkArtifactJar?.flinkArtifact.name}/${record.flinkArtifactJar?.version}/${record.flinkArtifactJar?.fileName}`;
       },
     },
     {
@@ -74,7 +74,7 @@ const JobConfigJarWeb: React.FC = () => {
                   type="link"
                   icon={<EditOutlined/>}
                   onClick={() => {
-                    history.push("/workspace/dev/jobConfigJar/options");
+                    history.push("/workspace/dev/jobConfigJar/options", record);
                   }}
                 ></Button>
               </Tooltip>
@@ -115,7 +115,7 @@ const JobConfigJarWeb: React.FC = () => {
     },
   ];
   return (
-    <ProTable<FlinkClusterConfig>
+    <ProTable<FlinkJobConfigJar>
       search={{
         labelWidth: 'auto',
         span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},

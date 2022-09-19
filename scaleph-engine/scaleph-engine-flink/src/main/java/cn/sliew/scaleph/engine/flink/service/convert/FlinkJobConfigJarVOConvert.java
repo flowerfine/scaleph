@@ -39,7 +39,7 @@ public interface FlinkJobConfigJarVOConvert extends BaseConvert<FlinkJobConfigJa
     default FlinkJobConfigJarVO toDo(FlinkJobConfigJarDTO dto) {
         FlinkJobConfigJarVO entity = new FlinkJobConfigJarVO();
         BeanUtils.copyProperties(dto, entity);
-        entity.setFlinkArtifact(FlinkArtifactConvert.INSTANCE.toDo(dto.getFlinkArtifact()));
+        entity.setFlinkArtifactJar(FlinkArtifactJarVOConvert.INSTANCE.toDo(dto.getFlinkArtifactJar()));
         entity.setFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDo(dto.getFlinkClusterConfig()));
         entity.setFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDo(dto.getFlinkClusterInstance()));
         if (CollectionUtils.isEmpty(dto.getJobConfig()) == false) {
@@ -55,7 +55,7 @@ public interface FlinkJobConfigJarVOConvert extends BaseConvert<FlinkJobConfigJa
     default FlinkJobConfigJarDTO toDto(FlinkJobConfigJarVO entity) {
         FlinkJobConfigJarDTO dto = new FlinkJobConfigJarDTO();
         BeanUtils.copyProperties(entity, dto);
-        dto.setFlinkArtifact(FlinkArtifactConvert.INSTANCE.toDto(entity.getFlinkArtifact()));
+        dto.setFlinkArtifactJar(FlinkArtifactJarVOConvert.INSTANCE.toDto(entity.getFlinkArtifactJar()));
         dto.setFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDto(entity.getFlinkClusterConfig()));
         dto.setFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDto(entity.getFlinkClusterInstance()));
         if (StringUtils.hasText(entity.getJobConfig())) {

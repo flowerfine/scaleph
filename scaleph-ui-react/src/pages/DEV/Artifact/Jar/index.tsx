@@ -109,7 +109,7 @@ const FlinkArtifactJarWeb: React.FC = () => {
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) => {
-        return list({flinkArtifactId: flinkArtifactId});
+        return list({...params, flinkArtifactId: flinkArtifactId});
       }}
       toolbar={{
         actions: [
@@ -126,7 +126,7 @@ const FlinkArtifactJarWeb: React.FC = () => {
           )
         ]
       }}
-      pagination={false}
+      pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
       tableAlertRender={false}
       tableAlertOptionRender={false}
     ></ProTable>

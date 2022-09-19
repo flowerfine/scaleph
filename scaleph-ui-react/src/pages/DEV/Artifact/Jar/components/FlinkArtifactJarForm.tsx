@@ -64,9 +64,11 @@ const FlinkArtifactJarForm: React.FC<ModalFormProps<{ id: number }>> = ({
           };
           setUploading(true);
           upload(uploadParam)
-            .then(() => {
+            .then((response) => {
               setFileList([]);
-              message.success(intl.formatMessage({id: 'app.common.operate.upload.success'}));
+              if (response.success) {
+                message.success(intl.formatMessage({id: 'app.common.operate.upload.success'}));
+              }
             })
             .catch(() => {
               message.error(intl.formatMessage({id: 'app.common.operate.upload.failure'}));
@@ -103,8 +105,7 @@ const FlinkArtifactJarForm: React.FC<ModalFormProps<{ id: number }>> = ({
         </Form.Item>
         <Form.Item
           name="version"
-          label={intl.formatMessage({id: 'pages.dev.artifact.jar.version'})}
-          rules={[{required: true}]}>
+          label={intl.formatMessage({id: 'pages.dev.artifact.jar.version'})}>
           <Input/>
         </Form.Item>
         <Form.Item

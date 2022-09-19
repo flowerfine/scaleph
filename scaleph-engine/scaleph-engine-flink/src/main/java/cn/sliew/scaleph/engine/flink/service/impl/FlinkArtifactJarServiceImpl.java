@@ -18,16 +18,18 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJar;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJarVO;
 import cn.sliew.scaleph.dao.mapper.master.flink.FlinkArtifactJarMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkArtifactJarService;
-import cn.sliew.scaleph.engine.flink.service.convert.FlinkArtifactJarConvert;
+import cn.sliew.scaleph.engine.flink.service.convert.FlinkArtifactJarVOConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactJarDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarListParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarUploadParam;
 import cn.sliew.scaleph.storage.service.FileSystemService;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.zafarkhaja.semver.Version;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,40 +54,43 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
 
     @Override
     public Page<FlinkArtifactJarDTO> list(FlinkArtifactJarListParam param) {
-
-        final Page<FlinkArtifactJar> page = flinkArtifactJarMapper.selectPage(
-                new Page<>(param.getCurrent(), param.getPageSize()),
-                Wrappers.lambdaQuery(FlinkArtifactJar.class)
-                        .eq(param.getFlinkArtifactId() != null, FlinkArtifactJar::getFlinkArtifactId, param.getFlinkArtifactId())
-                        .orderByDesc(FlinkArtifactJar::getVersion, FlinkArtifactJar::getId));
+        Page<FlinkArtifactJar> page = new Page<>(param.getCurrent(), param.getPageSize());
+        final FlinkArtifactJar flinkArtifactJar = BeanUtil.copy(param, new FlinkArtifactJar());
+        final Page<FlinkArtifactJarVO> flinkArtifactJarVOPage = flinkArtifactJarMapper.list(page, flinkArtifactJar);
         Page<FlinkArtifactJarDTO> result =
-                new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
-        List<FlinkArtifactJarDTO> dtoList = FlinkArtifactJarConvert.INSTANCE.toDto(page.getRecords());
+                new Page<>(flinkArtifactJarVOPage.getCurrent(), flinkArtifactJarVOPage.getSize(), flinkArtifactJarVOPage.getTotal());
+        List<FlinkArtifactJarDTO> dtoList = FlinkArtifactJarVOConvert.INSTANCE.toDto(flinkArtifactJarVOPage.getRecords());
         result.setRecords(dtoList);
         return result;
     }
 
     @Override
     public FlinkArtifactJarDTO selectOne(Long id) {
-        final FlinkArtifactJar record = flinkArtifactJarMapper.selectById(id);
+        final FlinkArtifactJarVO record = flinkArtifactJarMapper.getById(id);
         checkState(record != null, () -> "flink artifact jar not exists for id: " + id);
-        return FlinkArtifactJarConvert.INSTANCE.toDto(record);
+        return FlinkArtifactJarVOConvert.INSTANCE.toDto(record);
     }
 
     @Override
     public void upload(FlinkArtifactJarUploadParam param, MultipartFile file) throws IOException {
-        String path = getFlinkArtifactPath(file.getOriginalFilename());
+        Version version;
+        if (StringUtils.hasText(param.getVersion())) {
+            version = Version.valueOf(param.getVersion());
+        } else {
+            final String maxVersion = flinkArtifactJarMapper.findMaxVersion(param.getFlinkArtifactId());
+            if (StringUtils.hasText(maxVersion)) {
+                version = Version.valueOf(maxVersion).incrementPatchVersion();
+            } else {
+                version = Version.forIntegers(1, 0, 0);
+            }
+        }
+        String path = getFlinkArtifactPath(version.toString(), file.getOriginalFilename());
         try (final InputStream inputStream = file.getInputStream()) {
             fileSystemService.upload(inputStream, path);
         }
         FlinkArtifactJar record = new FlinkArtifactJar();
         BeanUtils.copyProperties(param, record);
-        if (StringUtils.hasText(param.getVersion())) {
-            // 校验
-
-        } else {
-            // 查询最大的版本号
-        }
+        record.setVersion(version.toString());
         record.setFileName(file.getOriginalFilename());
         record.setPath(path);
         flinkArtifactJarMapper.insert(record);
@@ -100,8 +105,8 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
         return dto.getFileName();
     }
 
-    private String getFlinkArtifactPath(String fileName) {
-        return String.format("%s/%s", getFlinkArtifactJarRootPath(), fileName);
+    private String getFlinkArtifactPath(String version, String fileName) {
+        return String.format("%s/%s/%s", getFlinkArtifactJarRootPath(), version, fileName);
     }
 
     private String getFlinkArtifactJarRootPath() {
