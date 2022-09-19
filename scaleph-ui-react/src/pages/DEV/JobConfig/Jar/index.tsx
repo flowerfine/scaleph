@@ -34,6 +34,7 @@ const JobConfigJarOptions: React.FC = () => {
   return (<ProCard>
     <StepsForm
       formProps={{
+        form: form,
         initialValues: data,
         grid: true,
         wrapperCol: {span: 24}
@@ -46,7 +47,7 @@ const JobConfigJarOptions: React.FC = () => {
       onFinish={async (values) => {
         const jobConfig = new Map<string, any>();
         values.args?.forEach(function (item: Record<string, any>) {
-          jobConfig[item.key] = item.value
+          jobConfig[item.parameter] = item.value
         })
         const param: FlinkJobConfigJar = {
           id: params?.id,
