@@ -35,7 +35,7 @@ import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.plugin.seatunnel.flink.common.JobNameProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.env.JobNameProperties;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -50,8 +50,8 @@ import java.util.*;
 
 import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.*;
 import static cn.sliew.scaleph.engine.seatunnel.service.util.GraphConstants.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties.RESULT_TABLE_NAME;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties.SOURCE_TABLE_NAME;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties.RESULT_TABLE_NAME;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties.SOURCE_TABLE_NAME;
 
 @Slf4j
 @Service
