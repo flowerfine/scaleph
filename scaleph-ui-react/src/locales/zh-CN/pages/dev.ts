@@ -30,6 +30,6 @@ export default {
   'pages.dev.clusterInstance.webInterfaceUrl': 'Web UI',
   'pages.dev.clusterInstance.status': '状态',
   'pages.dev.clusterInstance.session': 'Session 集群',
-  'pages.dev.jobConfigJar.name': '名称',
+  'pages.dev.job.name': '任务',
 
 }
