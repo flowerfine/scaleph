@@ -1,6 +1,6 @@
 import {useIntl} from "umi";
-import {Form} from "antd";
 import {ProCard, ProFormGroup, ProFormText} from "@ant-design/pro-components";
+import {Form} from "antd";
 
 const JobBase: React.FC = () => {
   const intl = useIntl();

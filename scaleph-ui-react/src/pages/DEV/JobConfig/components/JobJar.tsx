@@ -170,7 +170,7 @@ const JobJar: React.FC = () => {
       name="args"
       copyIconProps={false}
       creatorButtonProps={{
-        creatorButtonText: '添加 main args',
+        creatorButtonText: 'Main Args',
         type: "text"
       }}>
       <ProFormGroup>

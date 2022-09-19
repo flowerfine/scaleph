@@ -1,4 +1,4 @@
-import {ProCard, StepsForm,} from '@ant-design/pro-components';
+import {ProCard, StepsForm} from '@ant-design/pro-components';
 import JobJar from "@/pages/DEV/JobConfig/components/JobJar";
 import JobClusterConfigOptions from "@/pages/DEV/JobConfig/components/ClusterConfigOptions";
 import {history, useIntl, useLocation} from "umi";
@@ -10,7 +10,7 @@ import {add, update} from "@/services/dev/flinkJobConfigJar.service";
 const JobConfigJarOptions: React.FC = () => {
   const urlParams = useLocation();
   const intl = useIntl();
-  const [form] = Form.useForm();
+  const [form] = Form.useForm()
 
   const params = urlParams.state as FlinkJobConfigJar;
 

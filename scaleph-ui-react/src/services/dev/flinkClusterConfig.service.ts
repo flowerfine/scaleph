@@ -164,6 +164,5 @@ export async function setData(form: FormInstance, configOptions: { [key: string]
     options.push({key: key, value: value})
   })
   data['options'] = options
-  console.log('data', data)
   form.setFieldsValue(data)
 }
