@@ -1,19 +1,18 @@
+import {useRef} from "react";
+import {message} from "antd";
+import {history, useIntl, useLocation} from "umi";
 import {ProCard, ProFormInstance, StepsForm} from '@ant-design/pro-components';
+import JobBase from "@/pages/DEV/JobConfig/components/JobBase";
 import JobJar from "@/pages/DEV/JobConfig/components/JobJar";
 import JobClusterConfigOptions from "@/pages/DEV/JobConfig/components/ClusterConfigOptions";
-import {history, useIntl, useLocation} from "umi";
-import {Form, message} from "antd";
 import {FlinkJobConfigJar} from "@/services/dev/typings";
 import {getData, setData} from "@/services/dev/flinkClusterConfig.service";
 import {add, update} from "@/services/dev/flinkJobConfigJar.service";
-import {useRef} from "react";
 
 const JobConfigJarOptions: React.FC = () => {
   const urlParams = useLocation();
   const intl = useIntl();
   const formRef = useRef<ProFormInstance>();
-  // const form = formRef.current
-  // const [form] = Form.useForm()
 
   const params = urlParams.state as FlinkJobConfigJar;
 
@@ -23,25 +22,24 @@ const JobConfigJarOptions: React.FC = () => {
     args.push({parameter: key, value: value})
   })
   const data = {
+    name: params?.name,
     flinkArtifactId: params?.flinkArtifactJar?.flinkArtifact.id,
     flinkArtifactJarId: params?.flinkArtifactJar?.id,
     entryClass: params?.flinkArtifactJar?.entryClass,
     args: args,
     deployMode: params?.flinkClusterConfig?.deployMode?.value,
     flinkClusterInstance: params?.flinkClusterInstance?.id,
-    flinkClusterConfig: params?.flinkClusterConfig?.id
+    flinkClusterConfig: params?.flinkClusterConfig?.id,
+    remark: params?.remark
   }
-  const flinkConfig = new Map(Object.entries(params?.flinkConfig ? params?.flinkConfig : {}))
-  // setData(formRef.current, flinkConfig)
+  const flinkConfig = setData(new Map(Object.entries(params?.flinkConfig ? params?.flinkConfig : {})));
 
-  return (<ProCard className={'aaa'}>
+  return (<ProCard className={'step-form-submitter'}>
     <StepsForm
       formRef={formRef}
       formProps={{
-        // form: form,
-        initialValues: data,
-        grid: true,
-        wrapperCol: {span: 24}
+        initialValues: {...data, ...flinkConfig},
+        grid: true
       }}
       submitter={{
         render: (props, doms) => {
@@ -55,13 +53,13 @@ const JobConfigJarOptions: React.FC = () => {
         })
         const param: FlinkJobConfigJar = {
           id: params?.id,
-          name: 'name',
+          name: values['name'],
           flinkArtifactJar: {id: values['flinkArtifactJarId']},
           flinkClusterConfig: {id: values['flinkClusterConfig']},
           flinkClusterInstance: {id: values['flinkClusterInstance']},
           jobConfig: jobConfig,
           flinkConfig: getData(values),
-          remark: 'remark'
+          remark: values['remark']
         }
         return params?.id ?
           update(param).then((d) => {
@@ -86,11 +84,19 @@ const JobConfigJarOptions: React.FC = () => {
             .finally(() => {
               history.back();
             });
-      }}
-    >
+      }}>
+      <StepsForm.StepForm
+        name="base"
+        title={intl.formatMessage({id: 'pages.dev.job.base'})}
+        layout={"horizontal"}
+        style={{
+          width: 1000
+        }}>
+        <JobBase/>
+      </StepsForm.StepForm>
       <StepsForm.StepForm
         name="artifact"
-        title="Artifact"
+        title={intl.formatMessage({id: 'pages.dev.job.artifact'})}
         layout={"horizontal"}
         style={{
           width: 1000
@@ -99,7 +105,7 @@ const JobConfigJarOptions: React.FC = () => {
       </StepsForm.StepForm>
       <StepsForm.StepForm
         name="configOptions"
-        title="Config Options"
+        title={intl.formatMessage({id: 'pages.dev.job.configOptions'})}
         layout={"horizontal"}
         style={{
           width: 1000

@@ -34,17 +34,17 @@ const JobClusterConfigOptions: React.FC = () => {
 
   const handleConfigOptionsChange = (config: FlinkClusterConfig) => {
     form.setFieldValue("flinkClusterConfig", config.id)
-    console.log('flinkClusterConfig', form.getFieldValue('flinkClusterConfig'))
     if (!config || !config.configOptions) {
       return
     }
-    setData(form, new Map(Object.entries(config.configOptions)))
+    const flinkConfig = setData(new Map(Object.entries(config.configOptions)));
+    form.setFieldsValue(flinkConfig)
   }
 
   return (
     <div>
       <ProCard
-        title={"集群信息"}
+        title={intl.formatMessage({id: 'pages.dev.job.config.cluster'})}
         headerBordered={true}
         style={{width: 1000}}>
         <ProFormSelect

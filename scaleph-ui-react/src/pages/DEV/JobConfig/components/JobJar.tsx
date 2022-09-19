@@ -1,6 +1,7 @@
-import {ProCard, ProFormGroup, ProFormList, ProFormText} from "@ant-design/pro-components";
-import {useIntl} from "umi";
+import {useEffect, useState} from "react";
 import {Col, Form, Select} from "antd";
+import {useIntl} from "umi";
+import {ProCard, ProFormGroup, ProFormList, ProFormText} from "@ant-design/pro-components";
 import {
   FlinkArtifact,
   FlinkArtifactJar,
@@ -8,7 +9,6 @@ import {
   FlinkArtifactListParam
 } from "@/services/dev/typings";
 import {list as listArtifactJar} from "@/services/dev/flinkArtifactJar.service";
-import {useEffect, useState} from "react";
 import {list as listArtifact} from "@/services/dev/flinkArtifact.service";
 
 const JobJar: React.FC = () => {
@@ -170,12 +170,12 @@ const JobJar: React.FC = () => {
       name="args"
       copyIconProps={false}
       creatorButtonProps={{
-        creatorButtonText: 'Main Args',
+        creatorButtonText: intl.formatMessage({id: 'pages.dev.job.jar.args'}),
         type: "text"
       }}>
       <ProFormGroup>
-        <ProFormText name="parameter" label={'Parameter'} colProps={{span: 10, offset: 1}}/>
-        <ProFormText name="value" label={'Value'} colProps={{span: 10, offset: 1}}/>
+        <ProFormText name="parameter" label={intl.formatMessage({id: 'pages.dev.job.jar.args.key'})} colProps={{span: 10, offset: 1}}/>
+        <ProFormText name="value" label={intl.formatMessage({id: 'pages.dev.job.jar.args.value'})} colProps={{span: 10, offset: 1}}/>
       </ProFormGroup>
     </ProFormList>
   </ProCard>);
