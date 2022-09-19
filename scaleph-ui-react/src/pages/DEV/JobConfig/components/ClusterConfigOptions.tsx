@@ -88,10 +88,9 @@ const JobClusterConfigOptions: React.FC = () => {
                   name={"flinkClusterInstance"}
                   label={intl.formatMessage({id: 'pages.dev.clusterInstance'})}
                   colProps={{span: 21, offset: 1}}
-                  rules={[{required: true}]}
+                  rules={[{required: !(deployMode != '2')}]}
                   showSearch={true}
                   hidden={(deployMode != '2')}
-                  required={(deployMode != '2')}
                   fieldProps={{
                     onChange: handleClusterInstanceChange
                   }}

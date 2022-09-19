@@ -1,4 +1,4 @@
-import {ProCard, StepsForm} from '@ant-design/pro-components';
+import {ProCard, ProFormInstance, StepsForm} from '@ant-design/pro-components';
 import JobJar from "@/pages/DEV/JobConfig/components/JobJar";
 import JobClusterConfigOptions from "@/pages/DEV/JobConfig/components/ClusterConfigOptions";
 import {history, useIntl, useLocation} from "umi";
@@ -6,11 +6,14 @@ import {Form, message} from "antd";
 import {FlinkJobConfigJar} from "@/services/dev/typings";
 import {getData, setData} from "@/services/dev/flinkClusterConfig.service";
 import {add, update} from "@/services/dev/flinkJobConfigJar.service";
+import {useRef} from "react";
 
 const JobConfigJarOptions: React.FC = () => {
   const urlParams = useLocation();
   const intl = useIntl();
-  const [form] = Form.useForm()
+  const formRef = useRef<ProFormInstance>();
+  // const form = formRef.current
+  // const [form] = Form.useForm()
 
   const params = urlParams.state as FlinkJobConfigJar;
 
@@ -29,12 +32,13 @@ const JobConfigJarOptions: React.FC = () => {
     flinkClusterConfig: params?.flinkClusterConfig?.id
   }
   const flinkConfig = new Map(Object.entries(params?.flinkConfig ? params?.flinkConfig : {}))
-  setData(form, flinkConfig)
+  // setData(formRef.current, flinkConfig)
 
-  return (<ProCard>
+  return (<ProCard className={'aaa'}>
     <StepsForm
+      formRef={formRef}
       formProps={{
-        form: form,
+        // form: form,
         initialValues: data,
         grid: true,
         wrapperCol: {span: 24}
