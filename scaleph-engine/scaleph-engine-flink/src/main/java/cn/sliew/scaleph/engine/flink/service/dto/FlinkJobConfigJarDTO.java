@@ -38,8 +38,8 @@ public class FlinkJobConfigJarDTO extends BaseDTO {
     private String name;
 
     @NotNull
-    @ApiModelProperty("flink artifact")
-    private FlinkArtifactDTO flinkArtifact;
+    @ApiModelProperty("flink artifact jar")
+    private FlinkArtifactJarDTO flinkArtifactJar;
 
     @ApiModelProperty("flink cluster config")
     private FlinkClusterConfigDTO flinkClusterConfig;

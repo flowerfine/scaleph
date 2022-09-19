@@ -52,7 +52,9 @@ const JobJar: React.FC = () => {
         current: response.current + 1,
         total: response.total
       })
-      setFlinkArtifactData([...flinkArtifactData, ...response.data])
+      if (response.data) {
+        setFlinkArtifactData([...flinkArtifactData, ...response.data])
+      }
     }).finally(() => setFlinkArtifactLoading(false))
   }
 

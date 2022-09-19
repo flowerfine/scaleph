@@ -18,16 +18,16 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJar;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJarVO;
 import cn.sliew.scaleph.dao.mapper.master.flink.FlinkArtifactJarMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkArtifactJarService;
-import cn.sliew.scaleph.engine.flink.service.convert.FlinkArtifactJarConvert;
+import cn.sliew.scaleph.engine.flink.service.convert.FlinkArtifactJarVOConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactJarDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarListParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarUploadParam;
 import cn.sliew.scaleph.storage.service.FileSystemService;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.zafarkhaja.semver.Version;
 import org.springframework.beans.BeanUtils;
@@ -54,24 +54,21 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
 
     @Override
     public Page<FlinkArtifactJarDTO> list(FlinkArtifactJarListParam param) {
-        LambdaQueryWrapper<FlinkArtifactJar> queryWrapper = new QueryWrapper<FlinkArtifactJar>()
-                .orderByDesc("CONCAT(LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 1), '.', -1), 10, '0'), LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 2), '.', -1), 10, '0'), LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 3), '.', -1), 10, '0'))", "id")
-                .lambda()
-                .eq(param.getFlinkArtifactId() != null, FlinkArtifactJar::getFlinkArtifactId, param.getFlinkArtifactId());
-        final Page<FlinkArtifactJar> page = flinkArtifactJarMapper.selectPage(
-                new Page<>(param.getCurrent(), param.getPageSize()), queryWrapper);
+        Page<FlinkArtifactJar> page = new Page<>(param.getCurrent(), param.getPageSize());
+        final FlinkArtifactJar flinkArtifactJar = BeanUtil.copy(param, new FlinkArtifactJar());
+        final Page<FlinkArtifactJarVO> flinkArtifactJarVOPage = flinkArtifactJarMapper.list(page, flinkArtifactJar);
         Page<FlinkArtifactJarDTO> result =
-                new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
-        List<FlinkArtifactJarDTO> dtoList = FlinkArtifactJarConvert.INSTANCE.toDto(page.getRecords());
+                new Page<>(flinkArtifactJarVOPage.getCurrent(), flinkArtifactJarVOPage.getSize(), flinkArtifactJarVOPage.getTotal());
+        List<FlinkArtifactJarDTO> dtoList = FlinkArtifactJarVOConvert.INSTANCE.toDto(flinkArtifactJarVOPage.getRecords());
         result.setRecords(dtoList);
         return result;
     }
 
     @Override
     public FlinkArtifactJarDTO selectOne(Long id) {
-        final FlinkArtifactJar record = flinkArtifactJarMapper.selectById(id);
+        final FlinkArtifactJarVO record = flinkArtifactJarMapper.getById(id);
         checkState(record != null, () -> "flink artifact jar not exists for id: " + id);
-        return FlinkArtifactJarConvert.INSTANCE.toDto(record);
+        return FlinkArtifactJarVOConvert.INSTANCE.toDto(record);
     }
 
     @Override

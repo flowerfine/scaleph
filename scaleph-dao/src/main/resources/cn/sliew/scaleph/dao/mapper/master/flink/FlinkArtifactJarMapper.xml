@@ -33,11 +33,40 @@
         <result column="path" property="path"/>
     </resultMap>
 
+    <resultMap id="FlinkArtifactJarVOMap" type="cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJarVO">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="version" property="version"/>
+        <result column="flink_version" property="flinkVersion"/>
+        <result column="entry_class" property="entryClass"/>
+        <result column="file_name" property="fileName"/>
+        <result column="path" property="path"/>
+        <association property="flinkArtifact"
+                     javaType="cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifact">
+            <result column="artifact_id" property="id"/>
+            <result column="artifact_name" property="name"/>
+            <result column="artifact_type" property="type"/>
+            <result column="artifact_remark" property="remark"/>
+        </association>
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id
-        , creator, create_time, editor, update_time,
-        flink_artifact_id, version, flink_version, entry_class, file_name, `path`
+                ,
+        creator,
+        create_time,
+        editor,
+        update_time,
+        flink_artifact_id,
+        version,
+        flink_version,
+        entry_class,
+        file_name,
+        `path`
     </sql>
 
     <select id="findMaxVersion" resultType="string">
@@ -46,12 +75,42 @@
         where flink_artifact_id = #{flinkArtifactId}
         order by CONCAT(
                          LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 1), '.', -
-                             1), 10, '0'),
+                                 1), 10, '0'),
                          LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 2), '.', -
-                             1), 10, '0'),
+                                 1), 10, '0'),
                          LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 3), '.', -
-                             1), 10, '0')
-                     ) DESC
+                                 1), 10, '0')
+                         ) DESC, id DESC
         limit 1
+    </select>
+
+    <select id="list" resultMap="FlinkArtifactJarVOMap">
+        SELECT t1.*,
+               t2.id     AS artifact_id,
+               t2.`name` AS artifact_name,
+               t2.type   AS artifact_type,
+               t2.remark AS artifact_remark
+        FROM flink_artifact_jar t1
+                     JOIN flink_artifact t2 ON t1.flink_artifact_id = t2.id
+        WHERE t1.flink_artifact_id = #{param.flinkArtifactId}
+        ORDER BY CONCAT(
+                         LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(t1.version, '.', 1), '.', -
+                                 1), 10, '0'),
+                         LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(t1.version, '.', 2), '.', -
+                                 1), 10, '0'),
+                         LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(t1.version, '.', 3), '.', -
+                                 1), 10, '0')
+                         ) DESC, t1.id DESC
+    </select>
+
+    <select id="getById" resultMap="FlinkArtifactJarVOMap">
+        SELECT t1.*,
+               t2.id     AS artifact_id,
+               t2.`name` AS artifact_name,
+               t2.type   AS artifact_type,
+               t2.remark AS artifact_remark
+        FROM flink_artifact_jar t1
+                     JOIN flink_artifact t2 ON t1.flink_artifact_id = t2.id
+        WHERE t1.id = #{id}
     </select>
 </mapper>

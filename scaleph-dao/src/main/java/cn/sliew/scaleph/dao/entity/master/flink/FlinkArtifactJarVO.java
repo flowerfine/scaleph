@@ -16,17 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
+package cn.sliew.scaleph.dao.entity.master.flink;
 
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -35,29 +32,28 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@TableName("flink_artifact_jar")
 @ApiModel(value = "FlinkArtifactJar对象", description = "flink artifact jar")
-public class FlinkArtifactJarDTO extends BaseDTO {
+public class FlinkArtifactJarVO extends BaseDO {
 
-    @NotNull
-    @ApiModelProperty("Flink Artifact")
-    private FlinkArtifactDTO flinkArtifact;
+    private static final long serialVersionUID = 1L;
 
-    @NotBlank
-    @ApiModelProperty("Jar 版本")
+    @TableField("flink_artifact_id")
+    private FlinkArtifact flinkArtifact;
+
+    @TableField("version")
     private String version;
 
-    @NotBlank
-    @ApiModelProperty("flink 版本")
-    private DictVO flinkVersion;
+    @TableField("flink_version")
+    private String flinkVersion;
 
-    @NotBlank
-    @ApiModelProperty("Entry Class")
+    @TableField("entry_class")
     private String entryClass;
 
-    @ApiModelProperty("Jar 文件名")
+    @TableField("file_name")
     private String fileName;
 
-    @ApiModelProperty("Jar 存储路径")
+    @TableField("`path`")
     private String path;
 
 }
