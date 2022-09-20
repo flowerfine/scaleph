@@ -3,7 +3,6 @@ import { Typography } from 'antd';
 import './base-node.less';
 
 export const BaseNode = (props: any) => {
-  console.log(props);
   return (
     <div className="base-node">
       <span className="icon">

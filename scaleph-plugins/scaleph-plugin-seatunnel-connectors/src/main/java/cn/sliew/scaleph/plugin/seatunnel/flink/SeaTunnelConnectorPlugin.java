@@ -59,4 +59,5 @@ public abstract class SeaTunnelConnectorPlugin extends AbstractPlugin {
     }
 
     protected abstract SeaTunnelPluginMapping getPluginMapping();
+
 }

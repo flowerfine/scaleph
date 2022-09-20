@@ -18,12 +18,6 @@
 
 package cn.sliew.scaleph.core.di.service.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import java.util.List;
-import java.util.Map;
-
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
@@ -32,6 +26,11 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import java.util.List;
 
 /**
  * <p>
@@ -103,5 +102,5 @@ public class DiJobDTO extends BaseDTO {
     private List<DiJobStepDTO> jobStepList;
 
     @ApiModelProperty(value = "作业图信息")
-    private Map<String, List<JobGraphVO>> jobGraph;
+    private JobGraphVO jobGraph;
 }

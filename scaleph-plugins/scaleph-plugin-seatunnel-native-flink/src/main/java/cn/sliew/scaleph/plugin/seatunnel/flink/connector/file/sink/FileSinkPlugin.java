@@ -36,7 +36,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.file.sink.FileSi
 public class FileSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
     public FileSinkPlugin() {
-        this.pluginInfo = new PluginInfo(FILE_SINK.getValue(), "file sink connector", "2.1.1", FileSinkPlugin.class.getName());
+        this.pluginInfo = new PluginInfo(FILE_SINK.getValue(), "file sink connector", FileSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(FORMAT);

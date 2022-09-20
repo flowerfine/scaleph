@@ -35,7 +35,7 @@ import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.FAKE_
 public class FakeSourceStreamPlugin extends FakeSourcePlugin {
 
     public FakeSourceStreamPlugin() {
-        this.pluginInfo = new PluginInfo(FAKE_STREAM_SOURCE.getValue(), "fake source connector", "2.1.1", FakeSourceStreamPlugin.class.getName());
+        this.pluginInfo = new PluginInfo(FAKE_STREAM_SOURCE.getValue(), "fake source connector", FakeSourceStreamPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(CommonProperties.RESULT_TABLE_NAME);

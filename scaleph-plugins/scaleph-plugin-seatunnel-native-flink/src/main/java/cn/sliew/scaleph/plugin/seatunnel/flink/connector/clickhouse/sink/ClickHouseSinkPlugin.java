@@ -18,10 +18,6 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink;
 
-import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.CLICKHOUSE_SINK;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseSinkProperties.*;
-
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.common.param.PropertyUtil;
@@ -38,12 +34,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.CLICKHOUSE_SINK;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.ClickHouseSinkProperties.*;
+
 @AutoService(SeatunnelNativeFlinkPlugin.class)
 public class ClickHouseSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
     public ClickHouseSinkPlugin() {
         this.pluginInfo = new PluginInfo(CLICKHOUSE_SINK.getValue(), "clickhouse sink connector",
-            "2.1.1", ClickHouseSinkPlugin.class.getName());
+                ClickHouseSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(HOST);
@@ -75,10 +75,10 @@ public class ClickHouseSinkPlugin extends SeatunnelNativeFlinkPlugin {
             if (properties.contains(descriptor)) {
                 if (CLICKHOUSE_CONF.getName().equals(descriptor.getName())) {
                     Map<String, Object> map = PropertyUtil
-                        .formatPropFromStr(properties.getValue(descriptor), "\n", "=");
+                            .formatPropFromStr(properties.getValue(descriptor), "\n", "=");
                     for (Map.Entry<String, Object> entry : map.entrySet()) {
                         objectNode
-                            .put("clickhouse." + entry.getKey(), String.valueOf(entry.getValue()));
+                                .put("clickhouse." + entry.getKey(), String.valueOf(entry.getValue()));
                     }
                 } else if (FIELDS.getName().equals(descriptor.getName())) {
                     String[] splitFields = properties.getValue(descriptor).split(",");

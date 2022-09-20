@@ -36,7 +36,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.console.sink.Con
 public class ConsoleSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
     public ConsoleSinkPlugin() {
-        this.pluginInfo = new PluginInfo(CONSOLE_SINK.getValue(), "console sink connector", "2.1.1", ConsoleSinkPlugin.class.getName());
+        this.pluginInfo = new PluginInfo(CONSOLE_SINK.getValue(), "console sink connector", ConsoleSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(LIMIT);

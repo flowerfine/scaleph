@@ -46,7 +46,6 @@ export const useKeybindingConfig = createKeybindingConfig((config) => {
         keybinding: ['command+x', 'ctrl+x'],
         callback: async function (item, modelService, cmd, e) {
           e.preventDefault();
-          //TODO CUT COMMAND
           cmd.executeCommand(CustomCommands.GRAPH_CUT.id, {});
         },
       },

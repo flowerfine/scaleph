@@ -37,7 +37,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.socket.source.So
 public class SocketSourcePlugin extends SeatunnelNativeFlinkPlugin {
 
     public SocketSourcePlugin() {
-        pluginInfo = new PluginInfo(SOCKET_SOURCE.getValue(), "socket source connector", "2.1.1", SocketSourcePlugin.class.getName());
+        pluginInfo = new PluginInfo(SOCKET_SOURCE.getValue(), "socket source connector", SocketSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(HOST);
