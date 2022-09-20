@@ -6,17 +6,23 @@ import {
   FlinkArtifact,
   FlinkArtifactJar,
   FlinkArtifactJarListParam,
-  FlinkArtifactListParam
+  FlinkArtifactListParam,
+  FlinkJobConfigJar
 } from "@/services/dev/typings";
 import {list as listArtifactJar} from "@/services/dev/flinkArtifactJar.service";
 import {list as listArtifact} from "@/services/dev/flinkArtifact.service";
 
-const JobJar: React.FC = () => {
+const JobJar: React.FC<{ data: FlinkJobConfigJar }> = ({data}) => {
   const intl = useIntl();
   const form = Form.useFormInstance();
   const [flinkArtifactLoading, setFlinkArtifactLoading] = useState(false);
   const [flinkArtifactData, setFlinkArtifactData] = useState<FlinkArtifact[]>([]);
-  const [flinkArtifactPage, setFlinkArtifactPage] = useState({
+  const [flinkArtifactPage, setFlinkArtifactPage] = useState<{
+    keyword?: string;
+    pageSize: number;
+    current: number;
+    total: number
+  }>({
     pageSize: 10,
     current: 1,
     total: 11 // greater than first page
@@ -31,29 +37,32 @@ const JobJar: React.FC = () => {
   });
 
   useEffect(() => {
-    loadFlinkArtifactData()
-    if (!form.getFieldValue("flinkArtifactId")) {
+    // first page load
+    loadFlinkArtifactData([], 1, 10)
+    if (!data?.flinkArtifactJar?.flinkArtifact?.id) {
       return;
     }
-    loadFlinkArtifactJarData(form.getFieldValue("flinkArtifactId"))
+    loadFlinkArtifactJarData([], 1, 10, data.flinkArtifactJar?.flinkArtifact?.id)
   }, []);
 
-  const loadFlinkArtifactData = (keyword?: string) => {
+  const loadFlinkArtifactData = (prevs: Array<FlinkArtifact>, current: number, pageSize: number, keyword?: string) => {
     setFlinkArtifactLoading(true);
     const param: FlinkArtifactListParam = {
       name: keyword,
       type: '0',
-      pageSize: flinkArtifactPage.pageSize,
-      current: flinkArtifactPage.current
+      pageSize: pageSize,
+      current: current
     }
     listArtifact(param).then((response) => {
       setFlinkArtifactPage({
+        keyword: keyword,
         pageSize: response.pageSize,
         current: response.current + 1,
         total: response.total
       })
+      console.log('response', response)
       if (response.data) {
-        setFlinkArtifactData([...flinkArtifactData, ...response.data])
+        setFlinkArtifactData([...prevs, ...response.data])
       }
     }).finally(() => setFlinkArtifactLoading(false))
   }
@@ -63,17 +72,11 @@ const JobJar: React.FC = () => {
     const {scrollTop, scrollHeight, clientHeight} = e.target;
     if (scrollHeight - scrollTop >= clientHeight
       && ((flinkArtifactPage.current - 1) * flinkArtifactPage.pageSize) < flinkArtifactPage.total) {
-      loadFlinkArtifactData()
+      loadFlinkArtifactData(flinkArtifactData, flinkArtifactPage.current, flinkArtifactPage.pageSize, flinkArtifactPage.keyword)
     }
   }
 
   const handleArtifactChange = (value: any, option: any) => {
-    clearFlinkArtifactJar(value).then(() => {
-      loadFlinkArtifactJarData(value)
-    })
-  };
-
-  const clearFlinkArtifactJar = (value: number) => {
     setFlinkArtifactJarPage({
       flinkArtifactId: value,
       pageSize: 10,
@@ -81,16 +84,16 @@ const JobJar: React.FC = () => {
       total: 11 // greater than first page
     })
     setFlinkArtifactJarData([])
-    return Promise.resolve()
-  }
+    loadFlinkArtifactJarData([], 1, 10, value)
+    form.resetFields(["flinkArtifactJarId", "entryClass"])
+  };
 
-  const loadFlinkArtifactJarData = (flinkArtifactId: number) => {
+  const loadFlinkArtifactJarData = (prevs: Array<FlinkArtifactJar>, current: number, pageSize: number, flinkArtifactId: number) => {
     setFlinkArtifactJarLoading(true);
-    console.log('flinkArtifactJarPage', flinkArtifactJarPage)
     const param: FlinkArtifactJarListParam = {
       flinkArtifactId: flinkArtifactId,
-      pageSize: flinkArtifactJarPage.pageSize,
-      current: flinkArtifactJarPage.current
+      pageSize: pageSize,
+      current: current
     }
     listArtifactJar(param).then((response) => {
       setFlinkArtifactJarPage({
@@ -99,7 +102,7 @@ const JobJar: React.FC = () => {
         current: response.current + 1,
         total: response.total
       })
-      setFlinkArtifactJarData([...flinkArtifactJarData, ...response.data])
+      setFlinkArtifactJarData([...prevs, ...response.data])
     }).finally(() => setFlinkArtifactJarLoading(false))
   }
 
@@ -114,7 +117,7 @@ const JobJar: React.FC = () => {
     const {scrollTop, scrollHeight, clientHeight} = e.target;
     if (scrollHeight - scrollTop >= clientHeight
       && ((flinkArtifactJarPage.current - 1) * flinkArtifactJarPage.pageSize) < flinkArtifactJarPage.total) {
-      loadFlinkArtifactJarData(flinkArtifactJarPage.flinkArtifactId)
+      loadFlinkArtifactJarData(flinkArtifactJarData, flinkArtifactJarPage.current, flinkArtifactJarPage.pageSize, flinkArtifactJarPage.flinkArtifactId)
     }
   }
 
@@ -126,8 +129,12 @@ const JobJar: React.FC = () => {
           label={intl.formatMessage({id: 'pages.dev.artifact'})}
           rules={[{required: true}]}>
           <Select
-            showSearch={false}
+            showSearch={true}
+            filterOption={false}
             loading={flinkArtifactLoading}
+            onSearch={(keyword) => {
+              loadFlinkArtifactData([], 1, 10, keyword)
+            }}
             onPopupScroll={handleFlinkArtifactScroll}
             onChange={handleArtifactChange}>
             {flinkArtifactData.map((item) => {
@@ -174,8 +181,12 @@ const JobJar: React.FC = () => {
         type: "text"
       }}>
       <ProFormGroup>
-        <ProFormText name="parameter" label={intl.formatMessage({id: 'pages.dev.job.jar.args.key'})} colProps={{span: 10, offset: 1}}/>
-        <ProFormText name="value" label={intl.formatMessage({id: 'pages.dev.job.jar.args.value'})} colProps={{span: 10, offset: 1}}/>
+        <ProFormText name="parameter"
+                     label={intl.formatMessage({id: 'pages.dev.job.jar.args.key'})}
+                     colProps={{span: 10, offset: 1}}/>
+        <ProFormText name="value"
+                     label={intl.formatMessage({id: 'pages.dev.job.jar.args.value'})}
+                     colProps={{span: 10, offset: 1}}/>
       </ProFormGroup>
     </ProFormList>
   </ProCard>);

@@ -101,7 +101,7 @@ const JobConfigJarOptions: React.FC = () => {
         style={{
           width: 1000
         }}>
-        <JobJar/>
+        <JobJar data={params}/>
       </StepsForm.StepForm>
       <StepsForm.StepForm
         name="configOptions"
