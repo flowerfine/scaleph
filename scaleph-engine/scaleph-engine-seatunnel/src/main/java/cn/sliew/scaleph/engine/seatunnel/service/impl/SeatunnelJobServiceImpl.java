@@ -373,7 +373,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
             node.setLabel(plugin.getName() + " " + type.getValue());
             node.setPopoverContent(plugin.getDescription());
             node.setRenderKey(GraphConstants.DND_RENDER_ID);
-            node.setData(new HashMap<>() {{
+            node.setData(new HashMap<String,String>() {{
                 put("type", type.getCode());
                 put("name", plugin.getName());
             }});

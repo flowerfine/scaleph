@@ -175,7 +175,6 @@ const DataSource: React.FC = () => {
       d.map((value, index, array) => {
         dictMap.set(value.value, value.label);
       });
-      console.log(dictMap);
       setDataSourceTypeList(d);
     });
   }, []);
