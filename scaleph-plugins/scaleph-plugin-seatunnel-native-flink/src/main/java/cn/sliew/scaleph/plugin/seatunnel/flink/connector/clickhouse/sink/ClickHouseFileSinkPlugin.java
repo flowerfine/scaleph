@@ -37,7 +37,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.clickhouse.sink.
 public class ClickHouseFileSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
     public ClickHouseFileSinkPlugin() {
-        this.pluginInfo = new PluginInfo(CLICKHOUSE_FILE_SINK.getValue(), "clickhouse file sink connector", "2.1.1", ClickHouseFileSinkPlugin.class.getName());
+        this.pluginInfo = new PluginInfo(CLICKHOUSE_FILE_SINK.getValue(), "clickhouse file sink connector",  ClickHouseFileSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(HOST);

@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.api.controller.datadev;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
@@ -32,11 +31,10 @@ import cn.sliew.scaleph.common.exception.CustomException;
 import cn.sliew.scaleph.core.di.service.*;
 import cn.sliew.scaleph.core.di.service.dto.*;
 import cn.sliew.scaleph.core.di.service.param.DiJobParam;
-import cn.sliew.scaleph.core.di.service.vo.DiJobAttrVO;
-import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
-import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
+import cn.sliew.scaleph.core.di.service.vo.*;
 import cn.sliew.scaleph.core.scheduler.service.ScheduleService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.I18nUtil;
@@ -241,76 +239,41 @@ public class JobController {
         return job.getId();
     }
 
-    private String getStepAttrByKey(JobGraphVO graph, String key, String defaultValue) {
-        if (graph == null) {
-            return defaultValue;
-        }
-        Map<String, Object> dataList = graph.getData();
-        if (CollectionUtil.isNotEmpty(dataList) && dataList.containsKey(key)) {
-            return String.valueOf(dataList.get(key));
-        }
 
-        return defaultValue;
-    }
-
-    private Integer getPositionByKey(JobGraphVO graph, String key, Integer defaultValue) {
-        if (graph == null) {
-            return defaultValue;
-        }
-        Map<String, Integer> position = graph.getPosition();
-        if (CollectionUtil.isNotEmpty(position) && position.containsKey(key)) {
-            return position.get(key);
-        }
-
-        return defaultValue;
-    }
-
-    private void saveJobGraph(Map<String, List<JobGraphVO>> jobGraph, Long jobId) {
-        String cellKey = "cells";
-        String stepShape = "angular-shape";
-        String linkShape = "edge";
-        if (CollectionUtil.isNotEmpty(jobGraph)) {
-            Map<String, List<JobGraphVO>> map = jobGraph;
-            if (map.containsKey(cellKey)) {
-                List<JobGraphVO> list = map.get(cellKey);
-                // 清除图中已删除的连线信息
-                List<String> linkList = list.stream()
-                        .filter(j -> linkShape.equals(j.getShape()))
-                        .map(JobGraphVO::getId)
-                        .collect(Collectors.toList());
-                this.diJobLinkService.deleteSurplusLink(jobId, linkList);
-                //清除图中已删除的节点信息及节点属性
-                List<String> stepList = list.stream()
-                        .filter(j -> stepShape.equals(j.getShape()))
-                        .map(JobGraphVO::getId)
-                        .collect(Collectors.toList());
-                this.diJobStepService.deleteSurplusStep(jobId, stepList);
-                if (CollectionUtil.isNotEmpty(list)) {
-                    for (JobGraphVO graph : list) {
-                        if (stepShape.equals(graph.getShape())) {
-                            //插入新的，更新已有的 这里不处理节点属性信息
-                            DiJobStepDTO jobStep = new DiJobStepDTO();
-                            jobStep.setJobId(jobId);
-                            jobStep.setStepCode(graph.getId());
-                            jobStep.setStepTitle(getStepAttrByKey(graph, "title", ""));
-                            String type = getStepAttrByKey(graph, "type", "");
-                            jobStep.setStepType(DictVO.toVO(DictConstants.JOB_STEP_TYPE, type));
-                            jobStep.setStepName(getStepAttrByKey(graph, "name", ""));
-                            jobStep.setPositionX(getPositionByKey(graph, "x", 0));
-                            jobStep.setPositionY(getPositionByKey(graph, "y", 0));
-                            this.diJobStepService.upsert(jobStep);
-                        }
-                        if (linkShape.equals(graph.getShape())) {
-                            //插入新的
-                            DiJobLinkDTO jobLink = new DiJobLinkDTO();
-                            jobLink.setLinkCode(graph.getId());
-                            jobLink.setJobId(jobId);
-                            jobLink.setFromStepCode(graph.getSource().getCell());
-                            jobLink.setToStepCode(graph.getTarget().getCell());
-                            this.diJobLinkService.upsert(jobLink);
-                        }
-                    }
-                }
+    private void saveJobGraph(JobGraphVO jobGraph, Long jobId) {
+        if (jobGraph != null) {
+            List<NodeCellVO> nodes = jobGraph.getNodes();
+            List<EdgeCellVO> edges = jobGraph.getEdges();
+            //清除图中已删除的连线信息
+            this.diJobLinkService.deleteSurplusLink(jobId,
+                    edges.stream()
+                            .map(EdgeCellVO::getId)
+                            .collect(Collectors.toList()));
+            //插入新的
+            for (EdgeCellVO edge : edges) {
+                DiJobLinkDTO jobLink = new DiJobLinkDTO();
+                jobLink.setLinkCode(edge.getId());
+                jobLink.setJobId(jobId);
+                jobLink.setFromStepCode(edge.getSource());
+                jobLink.setToStepCode(edge.getTarget());
+                this.diJobLinkService.upsert(jobLink);
+            }
+            //清除图中已删除的节点信息及节点属性
+            this.diJobStepService.deleteSurplusStep(jobId,
+                    nodes.stream()
+                            .map(NodeCellVO::getId)
+                            .collect(Collectors.toList()));
+            //插入新的，更新已有的 这里不处理节点属性信息
+            for (NodeCellVO node : nodes) {
+                DiJobStepDTO jobStep = new DiJobStepDTO();
+                jobStep.setJobId(jobId);
+                jobStep.setStepCode(node.getId());
+                jobStep.setStepTitle(node.getLabel());
+                jobStep.setStepType(DictVO.toVO(DictConstants.JOB_STEP_TYPE, node.getData().get("type")));
+                jobStep.setStepName(node.getData().get("name"));
+                jobStep.setPositionX(node.getX());
+                jobStep.setPositionY(node.getY());
+                this.diJobStepService.upsert(jobStep);
             }
         }
     }
@@ -428,10 +391,8 @@ public class JobController {
                 Long editableJobId = prepareJobVersion(jobInfo);
                 String stepCode = stepAttrMap.get(Constants.JOB_STEP_CODE).toString();
                 String jobGraphStr = toJsonStr(stepAttrMap.get(Constants.JOB_GRAPH));
-                Map<String, List<JobGraphVO>> map = JSONUtil.toBean(jobGraphStr,
-                        new TypeReference<Map<String, List<JobGraphVO>>>() {
-                        }, false);
-                saveJobGraph(map, editableJobId);
+                JobGraphVO jobGraphVO = JSONUtil.toBean(jobGraphStr, JobGraphVO.class);
+                saveJobGraph(jobGraphVO, editableJobId);
                 if (stepAttrMap.containsKey(Constants.JOB_STEP_TITLE)
                         && StrUtil.isNotEmpty(stepAttrMap.get(Constants.JOB_STEP_TITLE).toString())) {
                     DiJobStepDTO step = new DiJobStepDTO();
@@ -578,5 +539,14 @@ public class JobController {
     public ResponseEntity<List<Date>> listNext5FireTime(@RequestParam("crontabStr") String crontabStr) throws ParseException {
         List<Date> dates = scheduleService.listNext5FireTime(crontabStr);
         return new ResponseEntity<>(dates, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping(path = "/node/meta")
+    @ApiOperation(value = "查询DAG节点元信息", notes = "后端统一返回节点信息")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_SELECT)")
+    public ResponseEntity<List<DagPanelDTO>> loadNodeMeta() {
+        List<DagPanelDTO> list = this.seatunnelJobService.loadDndPanelInfo();
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

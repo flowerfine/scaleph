@@ -36,7 +36,7 @@ import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 public class PostgreDataSourcePlugin extends JDBCDataSourcePlugin {
 
     public PostgreDataSourcePlugin() {
-        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.POSTGRESQL.getValue(), "PostGre SQL Jdbc Datasource", "42.4.0", PostgreDataSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.POSTGRESQL.getValue(), "PostGre SQL Jdbc Datasource", PostgreDataSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(HOST);

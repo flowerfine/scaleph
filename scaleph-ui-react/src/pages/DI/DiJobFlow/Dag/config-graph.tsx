@@ -2,12 +2,26 @@ import {
   createGraphConfig,
   createHookConfig,
   DisposableCollection,
-  XFlowNodeCommands /* , XFlowEdgeCommands */,
+  NsNodeCmd,
+  NsGraph,
+  XFlowNodeCommands,
 } from '@antv/xflow';
-import { CONNECTION_PORT_TYPE, DND_RENDER_ID, ZOOM_OPTIONS } from './constant';
+import { XFlowEdge } from '@antv/xflow-extension/es/canvas-dag-extension/x6-extension/edge';
+import type { EventArgs } from '@antv/x6/lib/graph/events';
+import type { Edge, } from '@antv/x6';
+import { DND_RENDER_ID, ZOOM_OPTIONS } from './constant';
 import { BaseNode } from './react-node/base-node';
-// import { AlgoNode } from './react-node/algo-node';
-// import { GroupNode } from './react-node/group';
+
+export namespace NsAddEdgeEvent {
+  export const EVENT_NAME = 'ADD_EDGE_CMD_EVENT'
+  export interface IArgs {
+    targetPortId: string
+    sourcePortId: string
+    source: string
+    target: string
+    edge: Edge
+  }
+}
 
 export const useGraphHookConfig = createHookConfig((config, proxy) => {
   // 获取 Props
@@ -20,25 +34,34 @@ export const useGraphHookConfig = createHookConfig((config, proxy) => {
         name: 'add react node',
         handler: async (renderMap) => {
           renderMap.set(DND_RENDER_ID, BaseNode);
-          // renderMap.set(GROUP_NODE_RENDER_ID, GroupNode);
         },
       }),
 
-      // register graph event
+      // 注册增加 graph event
       hooks.x6Events.registerHook({
-        name: 'add',
-        handler: async (events) => {
+        name: 'node_moved',
+        handler: async events => {
           events.push({
             eventName: 'node:moved',
             callback: (e, cmds) => {
-              const { node } = e;
-              cmds.executeCommand(XFlowNodeCommands.MOVE_NODE.id, {
+              const { node } = e
+              cmds.executeCommand<NsNodeCmd.MoveNode.IArgs>(XFlowNodeCommands.MOVE_NODE.id, {
                 id: node.id,
                 position: node.getPosition(),
-              });
+              })
             },
-          });
+          } as NsGraph.IEvent<'node:moved'>)
         },
+      }),
+      hooks.x6Events.registerHook({
+        name: 'edge_delete',
+        handler: async events => {
+          events.push({
+            eventName: 'edge:removed',
+            callback: (e, cmds) => {
+            }
+          });
+        }
       }),
     ];
     const toDispose = new DisposableCollection();
@@ -97,6 +120,39 @@ export const useGraphCOnfig = createGraphConfig((config) => {
       allowNode: false,
       allowEdge: false,
       connector: 'smooth',
+      highlight: true,
+      createEdge(this, args) {
+        const graph = this;
+        const edge = new XFlowEdge({});
+        const addEdge = (args: EventArgs['edge:connected']) => {
+          const { isNew } = args;
+          const edgeCell = args.edge;
+          if (isNew && edgeCell.isEdge() && edgeCell === edge) {
+            const portId = edgeCell.getTargetPortId();
+            const targetNode = edgeCell.getTargetCell();
+            if (targetNode && targetNode.isNode()) {
+              targetNode.setPortProp(portId + '', 'connected', false);
+              const targetPortId = edgeCell.getTargetPortId();
+              const sourcePortId = edgeCell.getSourcePortId();
+              const sourceCellId = edgeCell.getSourceCellId();
+              const targetCellId = edgeCell.getTargetCellId();
+              graph.trigger(NsAddEdgeEvent.EVENT_NAME, {
+                targetPortId,
+                sourcePortId,
+                source: sourceCellId,
+                target: targetCellId,
+                edge: edge,
+              } as NsAddEdgeEvent.IArgs);
+            }
+          }
+        }
+        graph.once('edge:connected', addEdge);
+        return edge
+      },
+      validateEdge: args => {
+        const { edge } = args
+        return !!(edge?.target as any)?.port
+      },
       validateConnection({
         edge,
         edgeView,
@@ -110,13 +166,24 @@ export const useGraphCOnfig = createGraphConfig((config) => {
         targetCell,
         type,
       }) {
-        if (
-          sourcePort === CONNECTION_PORT_TYPE.source &&
-          targetPort === CONNECTION_PORT_TYPE.target
-        ) {
-          return true;
-        } else {
+        if (sourceView === targetView) {
           return false;
+        } else if (!sourceMagnet || !targetMagnet) {
+          return false;
+        } else {
+          const sourceNode = sourceView?.cell as any;
+          const sourcePortId = sourceMagnet.getAttribute('port');
+          if (!sourcePortId) { return false }
+          const sPort = sourceNode.getPort(sourcePortId);
+          if (sPort.type !== NsGraph.AnchorType.OUTPUT) { return false }
+          const targetNode = targetView?.cell as any;
+          const targetPortId = targetMagnet.getAttribute('port');
+          if (!targetPortId) { return false; }
+          const tPort = targetNode.getPort(targetPortId);
+          if (tPort.type !== NsGraph.AnchorType.INPUT) {
+            return false;
+          }
+          return true;
         }
       },
     },

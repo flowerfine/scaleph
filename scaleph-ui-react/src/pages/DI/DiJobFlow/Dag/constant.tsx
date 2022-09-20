@@ -1,6 +1,6 @@
 import { IGraphCommand, XFlowGraphCommands } from '@antv/xflow';
 
-export const DND_RENDER_ID = 'DND_NDOE';
+export const DND_RENDER_ID = 'DND_NODE';
 export const GROUP_NODE_RENDER_ID = 'GROUP_NODE_RENDER_ID';
 export const EDGE_NODE_RENDER_ID = 'EDGE_NODE_RENDER_ID';
 export const NODE_WIDTH = 180;

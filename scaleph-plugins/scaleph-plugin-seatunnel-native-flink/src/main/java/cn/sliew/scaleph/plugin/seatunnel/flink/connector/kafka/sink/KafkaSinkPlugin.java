@@ -45,7 +45,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.sink.Kafka
 public class KafkaSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
     public KafkaSinkPlugin() {
-        this.pluginInfo = new PluginInfo(KAFKA_SINK.getValue(), "kafka sink connector", "2.1.1", KafkaSinkPlugin.class.getName());
+        this.pluginInfo = new PluginInfo(KAFKA_SINK.getValue(), "kafka sink connector", KafkaSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(TOPICS);

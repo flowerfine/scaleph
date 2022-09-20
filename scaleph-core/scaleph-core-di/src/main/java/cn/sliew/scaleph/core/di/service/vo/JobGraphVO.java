@@ -18,10 +18,10 @@
 
 package cn.sliew.scaleph.core.di.service.vo;
 
-import java.util.Map;
-
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * 前端job graph
@@ -31,10 +31,6 @@ import lombok.Data;
 @Data
 @ApiModel(value = "作业图对象", description = "作业图信息")
 public class JobGraphVO {
-    private String id;
-    private String shape;
-    private Map<String, Integer> position;
-    private Map<String, Object> data;
-    private EdgeNodeVO source;
-    private EdgeNodeVO target;
+    List<NodeCellVO> nodes;
+    List<EdgeCellVO> edges;
 }

@@ -37,7 +37,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.source.Jdbc
 public class JdbcSourcePlugin extends SeatunnelNativeFlinkPlugin {
 
     public JdbcSourcePlugin() {
-        this.pluginInfo = new PluginInfo(JDBC_SOURCE.getValue(), "jdbc source connector", "2.1.1", JdbcSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(JDBC_SOURCE.getValue(), "jdbc source connector", JdbcSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(URL);
