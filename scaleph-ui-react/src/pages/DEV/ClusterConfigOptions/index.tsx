@@ -20,9 +20,6 @@ const DevBatchJob: React.FC = () => {
   const [form] = Form.useForm();
 
   const params = urlParams.state as FlinkClusterConfig;
-
-  const configOptions = new Map(Object.entries(params?.configOptions ? params?.configOptions : {}))
-
   const data = {
     name: params?.name,
     deployMode: params?.deployMode?.value,
@@ -32,14 +29,13 @@ const DevBatchJob: React.FC = () => {
     clusterCredential: params?.clusterCredential?.id,
     remark: params?.remark,
   }
-
-  setData(form, configOptions)
+  const flinkConfig = setData(new Map(Object.entries(params?.configOptions ? params?.configOptions : {})))
 
   return (<div>
     <ProForm
       form={form}
       layout={"horizontal"}
-      initialValues={data}
+      initialValues={{...data, ...flinkConfig}}
       grid={true}
       rowProps={{gutter: [16, 8]}}
       submitter={{
@@ -75,13 +71,13 @@ const DevBatchJob: React.FC = () => {
         return params?.id ?
           update(param).then((d) => {
             if (d.success) {
-              message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
+              message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
             } else {
               message.error(d.errorMessage);
             }
           })
             .catch(() => {
-              message.error(intl.formatMessage({id: 'app.common.operate.new.failure'}));
+              message.error(intl.formatMessage({id: 'app.common.operate.edit.failure'}));
             })
             .finally(() => {
               history.back();
