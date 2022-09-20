@@ -14,7 +14,6 @@ export default {
   'pages.dev.artifact.jar.path': '存储路径',
   'pages.dev.artifact.jar.file': '文件',
 
-
   'pages.dev.clusterConfig': '集群配置',
   'pages.dev.clusterConfig.name': '配置名称',
   'pages.dev.clusterConfig.flinkVersion': 'Flink 版本',
@@ -23,6 +22,8 @@ export default {
   'pages.dev.clusterConfig.flinkRelease': 'Flink Release',
   'pages.dev.clusterConfig.clusterCredential': 'Cluster Credential',
   'pages.dev.clusterConfig.configOptions': '自定义配置项',
+  'pages.dev.clusterConfig.configOptions.key': 'ConfigOption',
+  'pages.dev.clusterConfig.configOptions.value': 'Value',
   'pages.dev.clusterInstance': '集群实例',
   'pages.dev.clusterInstance.flinkClusterConfigId': '集群配置 ID',
   'pages.dev.clusterInstance.name': '实例名称',
@@ -30,6 +31,14 @@ export default {
   'pages.dev.clusterInstance.webInterfaceUrl': 'Web UI',
   'pages.dev.clusterInstance.status': '状态',
   'pages.dev.clusterInstance.session': 'Session 集群',
-  'pages.dev.jobConfigJar.name': '名称',
+
+  'pages.dev.job.name': '任务',
+  'pages.dev.job.base': 'Base',
+  'pages.dev.job.artifact': 'Artifact',
+  'pages.dev.job.configOptions': 'Config Options',
+  'pages.dev.job.jar.args': 'Main Args',
+  'pages.dev.job.jar.args.key': 'Parameter',
+  'pages.dev.job.jar.args.value': 'Value',
+  'pages.dev.job.config.cluster': '集群信息',
 
 }

@@ -16,7 +16,7 @@ const JobConfigJarWeb: React.FC = () => {
 
   const tableColumns: ProColumns<FlinkJobConfigJar>[] = [
     {
-      title: intl.formatMessage({id: 'pages.dev.jobConfigJar.name'}),
+      title: intl.formatMessage({id: 'pages.dev.job.name'}),
       dataIndex: 'name',
     },
     {

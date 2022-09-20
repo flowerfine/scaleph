@@ -1,7 +1,6 @@
 import {FlinkClusterConfig, FlinkClusterConfigParam} from "@/services/dev/typings";
 import {request} from "@@/exports";
 import {PageResponse, ResponseBody} from "@/app.d";
-import {FormInstance} from "antd/lib/form/hooks/useForm";
 
 const url: string = '/api/flink/cluster-config';
 
@@ -93,7 +92,7 @@ export function getData(value: Record<string, any>) {
   return options;
 }
 
-export async function setData(form: FormInstance, configOptions: { [key: string]: any }) {
+export function setData(configOptions: { [key: string]: any }) {
 
   const data = {
     'state.backend': configOptions.get('state.backend'),
@@ -164,6 +163,6 @@ export async function setData(form: FormInstance, configOptions: { [key: string]
     options.push({key: key, value: value})
   })
   data['options'] = options
-  console.log('data', data)
-  form.setFieldsValue(data)
+
+  return data
 }
