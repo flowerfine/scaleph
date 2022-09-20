@@ -25,7 +25,8 @@ import lombok.Getter;
 
 import static cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelEngineType.SEATUNNEL;
 import static cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelPluginName.*;
-import static cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelPluginType.*;
+import static cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelPluginType.SINK;
+import static cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelPluginType.SOURCE;
 
 /**
  * https://github.com/apache/incubator-seatunnel/blob/dev/plugin-mapping.properties

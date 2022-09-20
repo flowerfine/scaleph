@@ -34,7 +34,6 @@ const DirectoryForm: React.FC<DirectoryFormProps<DiDirectory>> = ({
         destroyOnClose={true}
         onCancel={onCancel}
         onOk={() => {
-            console.log(data);
             form.validateFields().then((values) => {
                 let d: DiDirectory = {
                     id: values.id,

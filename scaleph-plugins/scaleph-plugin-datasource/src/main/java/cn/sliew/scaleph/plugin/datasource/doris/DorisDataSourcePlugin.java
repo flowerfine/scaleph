@@ -37,7 +37,7 @@ import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 public class DorisDataSourcePlugin extends JDBCDataSourcePlugin {
 
     public DorisDataSourcePlugin() {
-        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.DORIS.getValue(), "Doris Jdbc Datasource", "5.1.26", DorisDataSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.DORIS.getValue(), "Doris Jdbc Datasource", DorisDataSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(HOST);

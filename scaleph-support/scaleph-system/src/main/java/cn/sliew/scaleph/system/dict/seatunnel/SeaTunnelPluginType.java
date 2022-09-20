@@ -28,7 +28,7 @@ public enum SeaTunnelPluginType implements DictInstance {
 
     SOURCE("source", "Source"),
     SINK("sink", "Sink"),
-
+    TRANSFORM("trans", "Trans"),
     ;
 
     @JsonValue

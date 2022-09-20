@@ -36,7 +36,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.source.Dru
 public class DruidSourcePlugin extends SeatunnelNativeFlinkPlugin {
 
     public DruidSourcePlugin() {
-        this.pluginInfo = new PluginInfo(DRUID_SOURCE.getValue(), "druid source connector", "2.1.1", DruidSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(DRUID_SOURCE.getValue(), "druid source connector", DruidSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(JDBC_URL);

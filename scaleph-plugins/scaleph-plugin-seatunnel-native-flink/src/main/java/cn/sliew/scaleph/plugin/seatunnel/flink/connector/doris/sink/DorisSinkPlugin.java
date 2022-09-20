@@ -40,7 +40,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.doris.sink.Doris
 public class DorisSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
     public DorisSinkPlugin() {
-        this.pluginInfo = new PluginInfo(DORIS_SINK.getValue(), "doris sink connector", "2.1.1", DorisSinkPlugin.class.getName());
+        this.pluginInfo = new PluginInfo(DORIS_SINK.getValue(), "doris sink connector", DorisSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(TABLE);

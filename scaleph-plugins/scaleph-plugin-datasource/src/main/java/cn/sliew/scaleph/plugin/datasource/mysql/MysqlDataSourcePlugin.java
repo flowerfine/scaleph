@@ -36,7 +36,7 @@ import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 public class MysqlDataSourcePlugin extends JDBCDataSourcePlugin {
 
     public MysqlDataSourcePlugin() {
-        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.MYSQL.getValue(), "Mysql Jdbc Datasource", "8.0.25", MysqlDataSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.MYSQL.getValue(), "Mysql Jdbc Datasource",  MysqlDataSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(HOST);
