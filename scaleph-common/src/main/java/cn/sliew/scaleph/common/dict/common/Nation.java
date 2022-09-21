@@ -18,14 +18,14 @@
 
 package cn.sliew.scaleph.common.dict.common;
 
-import cn.sliew.milky.common.primitives.Enums;
 import cn.sliew.scaleph.common.dict.DictDefinition;
 import cn.sliew.scaleph.common.dict.DictInstance;
 import cn.sliew.scaleph.common.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Nation implements DictInstance {
@@ -37,9 +37,10 @@ public enum Nation implements DictInstance {
     ;
 
     @JsonCreator
-    public static Nation of(@JsonProperty("value") String value) {
-        return Enums.toEnum(value, Nation.class)
-                .orElseThrow(() -> new EnumConstantNotPresentException(Nation.class, value));
+    public static Nation of(String value) {
+        return Arrays.stream(values())
+                .filter(instance -> instance.getValue().equals(value))
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(Nation.class, value));
     }
 
     @EnumValue

@@ -18,14 +18,14 @@
 
 package cn.sliew.scaleph.common.dict.job;
 
-import cn.sliew.milky.common.primitives.Enums;
 import cn.sliew.scaleph.common.dict.DictDefinition;
 import cn.sliew.scaleph.common.dict.DictInstance;
 import cn.sliew.scaleph.common.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum JobType implements DictInstance {
@@ -35,9 +35,10 @@ public enum JobType implements DictInstance {
     ;
 
     @JsonCreator
-    public static JobType of(@JsonProperty("value") String value) {
-        return Enums.toEnum(value, JobType.class)
-                .orElseThrow(() -> new EnumConstantNotPresentException(JobType.class, value));
+    public static JobType of(String value) {
+        return Arrays.stream(values())
+                .filter(instance -> instance.getValue().equals(value))
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(JobType.class, value));
     }
 
     @EnumValue

@@ -25,14 +25,14 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "FlinkRelease对象", description = "flink release")
 public class FlinkReleaseDTO extends BaseDTO {
 
-    @NotBlank
+    @NotNull
     @ApiModelProperty("版本")
     private FlinkVersion version;
 

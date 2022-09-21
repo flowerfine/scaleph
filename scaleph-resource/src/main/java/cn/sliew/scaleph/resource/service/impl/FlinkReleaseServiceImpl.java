@@ -114,7 +114,7 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService {
     @Override
     public void upload(FlinkReleaseUploadParam param, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        String filePath = getFlinkReleasePath(param.getVersion(), fileName);
+        String filePath = getFlinkReleasePath(param.getVersion().getValue(), fileName);
         try (final InputStream inputStream = file.getInputStream()) {
             fileSystemService.upload(inputStream, filePath);
         }

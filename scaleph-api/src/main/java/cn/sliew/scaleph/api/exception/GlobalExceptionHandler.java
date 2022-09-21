@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.api.exception;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
@@ -32,9 +33,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 全局exception处理器
@@ -51,7 +57,7 @@ public class GlobalExceptionHandler {
     @Logging
     @ResponseBody
     @ExceptionHandler(ConversionFailedException.class)
-    public ResponseEntity<ResponseVO> defaultException(ConversionFailedException e) {
+    public ResponseEntity<ResponseVO> conversionFailed(ConversionFailedException e) {
         log.error(e.getMessage(), e);
         final TypeDescriptor sourceType = e.getSourceType();
         final TypeDescriptor targetType = e.getTargetType();
@@ -63,8 +69,22 @@ public class GlobalExceptionHandler {
 
     @Logging
     @ResponseBody
+    @ExceptionHandler(BindException.class)
+    public ResponseEntity<ResponseVO> conversionFailed(BindException e) {
+        log.error(e.getMessage(), e);
+        Map<String, Object> errorMap = new HashMap<>();
+        for (FieldError error : e.getFieldErrors()) {
+            errorMap.put(error.getField(), error.getRejectedValue());
+        }
+        ResponseVO errorInfo = ResponseVO.error(String.format("springmvc bind param error for: %s",
+                JacksonUtil.toJsonString(errorMap)));
+        return new ResponseEntity<>(errorInfo, HttpStatus.OK);
+    }
+
+    @Logging
+    @ResponseBody
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseVO> defaultException(Exception e) {
+    public ResponseEntity<ResponseVO> exception(Exception e) {
         log.error(e.getMessage(), e);
         ResponseVO errorInfo = ResponseVO.error(I18nUtil.get(ResponseCodeEnum.ERROR.getValue()));
         return new ResponseEntity<>(errorInfo, HttpStatus.OK);
@@ -79,7 +99,7 @@ public class GlobalExceptionHandler {
     @Logging
     @ResponseBody
     @ExceptionHandler(CustomException.class)
-    public ResponseEntity<ResponseVO> defaultException(CustomException e) {
+    public ResponseEntity<ResponseVO> custom(CustomException e) {
         log.error(String.format("exceptionCode: %s, message: %s", e.getExceptionCode(), e.getMessage()), e);
         ResponseVO errorInfo;
         if (StringUtils.isEmpty(e.getExceptionCode())) {
@@ -99,7 +119,7 @@ public class GlobalExceptionHandler {
     @Logging
     @ResponseBody
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ResponseVO> defaultException(AccessDeniedException e) {
+    public ResponseEntity<ResponseVO> accessDenied(AccessDeniedException e) {
         log.error(e.getMessage(), e);
         ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_NO_PRIVILEGE.getCode(),
                 I18nUtil.get(ResponseCodeEnum.ERROR_NO_PRIVILEGE.getValue()));
@@ -115,7 +135,7 @@ public class GlobalExceptionHandler {
     @Logging
     @ResponseBody
     @ExceptionHandler(DuplicateKeyException.class)
-    public ResponseEntity<ResponseVO> defaultException(DuplicateKeyException e) {
+    public ResponseEntity<ResponseVO> duplicateKey(DuplicateKeyException e) {
         log.error(e.getMessage(), e);
         ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_DUPLICATE_DATA.getCode(),
                 I18nUtil.get(ResponseCodeEnum.ERROR_DUPLICATE_DATA.getValue()));
@@ -131,7 +151,7 @@ public class GlobalExceptionHandler {
     @Logging
     @ResponseBody
     @ExceptionHandler(MailException.class)
-    public ResponseEntity<ResponseVO> defaultException(MailException e) {
+    public ResponseEntity<ResponseVO> mail(MailException e) {
         log.error(e.getMessage(), e);
         ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_EMAIL.getCode(),
                 I18nUtil.get(ResponseCodeEnum.ERROR_EMAIL.getValue()));

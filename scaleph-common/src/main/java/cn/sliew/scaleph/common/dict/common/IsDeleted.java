@@ -18,14 +18,14 @@
 
 package cn.sliew.scaleph.common.dict.common;
 
-import cn.sliew.milky.common.primitives.Enums;
 import cn.sliew.scaleph.common.dict.DictDefinition;
 import cn.sliew.scaleph.common.dict.DictInstance;
 import cn.sliew.scaleph.common.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum IsDeleted implements DictInstance {
@@ -35,9 +35,10 @@ public enum IsDeleted implements DictInstance {
     ;
 
     @JsonCreator
-    public static IsDeleted of(@JsonProperty("value") String value) {
-        return Enums.toEnum(value, IsDeleted.class)
-                .orElseThrow(() -> new EnumConstantNotPresentException(IsDeleted.class, value));
+    public static IsDeleted of(String value) {
+        return Arrays.stream(values())
+                .filter(instance -> instance.getValue().equals(value))
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(IsDeleted.class, value));
     }
 
     @EnumValue
