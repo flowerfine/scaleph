@@ -20,6 +20,20 @@ package cn.sliew.scaleph.system.dict;
 
 public enum DictType implements DictDefinition {
 
+    YES_OR_NO("yes_or_no", "是否"),
+    IS_DELETED("is_delete", "是否删除"),
+
+    GENDER("gender", "性别"),
+    ID_CARD_TYPE("id_card_type", "证件类型"),
+    NATION("nation", "国家"),
+    REGISTER_CHANNEL("register_channel", "注册渠道"),
+    LOGIN_TYPE("login_type", "登录类型"),
+    USER_STATUS("user_status", "用户状态"),
+    ROLE_TYPE("role_type", "角色类型"),
+    ROLE_STATUS("role_status", "角色状态"),
+    DEPT_STATUS("dept_status", "部门状态"),
+    RESOURCE_TYPE("resource_type", "权限资源类型"),
+
     FLINK_VERSION("flink_version", "Flink 版本"),
     FLINK_RESOURCE_PROVIDER("flink_resource_provider", "Flink 资源类型"),
     FLINK_DEPLOYMENT_MODE("flink_deployment_mode", "Flink 部署模式"),
