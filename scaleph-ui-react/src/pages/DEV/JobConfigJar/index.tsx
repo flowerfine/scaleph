@@ -95,7 +95,7 @@ const JobConfigJarWeb: React.FC = () => {
                       onOk() {
                         submit(record).then((d) => {
                           if (d.success) {
-                            message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}),);
+                            message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}),);
                             actionRef.current?.reload();
                           }
                         });
