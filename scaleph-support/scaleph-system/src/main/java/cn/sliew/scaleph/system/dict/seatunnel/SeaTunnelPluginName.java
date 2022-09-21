@@ -18,12 +18,15 @@
 
 package cn.sliew.scaleph.system.dict.seatunnel;
 
+import cn.sliew.milky.common.primitives.Enums;
 import cn.sliew.scaleph.system.dict.DictDefinition;
 import cn.sliew.scaleph.system.dict.DictInstance;
 import cn.sliew.scaleph.system.dict.DictType;
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum SeaTunnelPluginName implements DictInstance {
 
     FAKESOURCE("FakeSource", "Fake"),
@@ -57,8 +60,12 @@ public enum SeaTunnelPluginName implements DictInstance {
     NEO4J("Neo4j", "Neo4j"),
     ;
 
-    @JsonValue
-    @EnumValue
+    @JsonCreator
+    public static SeaTunnelPluginName of(@JsonProperty("code") String code) {
+        return Enums.toEnum(code, SeaTunnelPluginName.class)
+                .orElseThrow(() -> new EnumConstantNotPresentException(SeaTunnelPluginName.class, code));
+    }
+
     private String code;
     private String value;
 

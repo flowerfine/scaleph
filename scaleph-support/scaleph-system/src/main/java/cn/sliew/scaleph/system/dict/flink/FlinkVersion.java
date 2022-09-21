@@ -18,32 +18,41 @@
 
 package cn.sliew.scaleph.system.dict.flink;
 
+import cn.sliew.milky.common.primitives.Enums;
 import cn.sliew.scaleph.system.dict.DictDefinition;
 import cn.sliew.scaleph.system.dict.DictInstance;
 import cn.sliew.scaleph.system.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum FlinkVersion implements DictInstance {
 
-    V_1_13_0("1.13.0","1.13.0"),
-    V_1_13_1("1.13.1","1.13.1"),
-    V_1_13_2("1.13.2","1.13.2"),
-    V_1_13_3("1.13.3","1.13.3"),
-    V_1_13_5("1.13.5","1.13.5"),
-    V_1_13_6("1.13.6","1.13.6"),
+    V_1_13_0("1.13.0", "1.13.0"),
+    V_1_13_1("1.13.1", "1.13.1"),
+    V_1_13_2("1.13.2", "1.13.2"),
+    V_1_13_3("1.13.3", "1.13.3"),
+    V_1_13_5("1.13.5", "1.13.5"),
+    V_1_13_6("1.13.6", "1.13.6"),
 
-    V_1_14_0("1.14.0","1.14.0"),
-    V_1_14_2("1.14.2","1.14.2"),
-    V_1_14_3("1.14.3","1.14.3"),
-    V_1_14_4("1.14.4","1.14.4"),
-    V_1_14_5("1.14.5","1.14.5"),
+    V_1_14_0("1.14.0", "1.14.0"),
+    V_1_14_2("1.14.2", "1.14.2"),
+    V_1_14_3("1.14.3", "1.14.3"),
+    V_1_14_4("1.14.4", "1.14.4"),
+    V_1_14_5("1.14.5", "1.14.5"),
 
-    V_1_15_0("1.15.0","1.15.0"),
-    V_1_15_1("1.15.1","1.15.1"),
+    V_1_15_0("1.15.0", "1.15.0"),
+    V_1_15_1("1.15.1", "1.15.1"),
     ;
 
-    @JsonValue
+    @JsonCreator
+    public static FlinkVersion of(@JsonProperty("code") String code) {
+        return Enums.toEnum(code, FlinkVersion.class)
+                .orElseThrow(() -> new EnumConstantNotPresentException(FlinkVersion.class, code));
+    }
+
     @EnumValue
     private String code;
     private String value;

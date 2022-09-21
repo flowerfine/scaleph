@@ -18,12 +18,16 @@
 
 package cn.sliew.scaleph.system.dict.flink;
 
+import cn.sliew.milky.common.primitives.Enums;
 import cn.sliew.scaleph.system.dict.DictDefinition;
 import cn.sliew.scaleph.system.dict.DictInstance;
 import cn.sliew.scaleph.system.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum FlinkClusterStatus implements DictInstance {
 
     CREATED("0", "已创建"),
@@ -31,7 +35,12 @@ public enum FlinkClusterStatus implements DictInstance {
     STOPED("2", "停止"),
     ;
 
-    @JsonValue
+    @JsonCreator
+    public static FlinkClusterStatus of(@JsonProperty("code") String code) {
+        return Enums.toEnum(code, FlinkClusterStatus.class)
+                .orElseThrow(() -> new EnumConstantNotPresentException(FlinkClusterStatus.class, code));
+    }
+
     @EnumValue
     private String code;
     private String value;

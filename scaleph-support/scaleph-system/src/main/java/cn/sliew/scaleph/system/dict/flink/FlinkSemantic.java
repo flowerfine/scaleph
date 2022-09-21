@@ -18,12 +18,16 @@
 
 package cn.sliew.scaleph.system.dict.flink;
 
+import cn.sliew.milky.common.primitives.Enums;
 import cn.sliew.scaleph.system.dict.DictDefinition;
 import cn.sliew.scaleph.system.dict.DictInstance;
 import cn.sliew.scaleph.system.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum FlinkSemantic implements DictInstance {
 
     EXACTLY_ONCE("exactly_once", "精确一次"),
@@ -31,7 +35,12 @@ public enum FlinkSemantic implements DictInstance {
     NONE("none", "无"),
     ;
 
-    @JsonValue
+    @JsonCreator
+    public static FlinkSemantic of(@JsonProperty("code") String code) {
+        return Enums.toEnum(code, FlinkSemantic.class)
+                .orElseThrow(() -> new EnumConstantNotPresentException(FlinkSemantic.class, code));
+    }
+
     @EnumValue
     private String code;
     private String value;

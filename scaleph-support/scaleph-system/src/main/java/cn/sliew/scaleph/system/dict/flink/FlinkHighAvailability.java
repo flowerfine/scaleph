@@ -18,19 +18,28 @@
 
 package cn.sliew.scaleph.system.dict.flink;
 
+import cn.sliew.milky.common.primitives.Enums;
 import cn.sliew.scaleph.system.dict.DictDefinition;
 import cn.sliew.scaleph.system.dict.DictInstance;
 import cn.sliew.scaleph.system.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum FlinkHighAvailability implements DictInstance {
 
     KUBERNETES("org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory", "Kubernetes"),
     ZOOKEEPER("zookeeper", "ZooKeeper"),
     ;
 
-    @JsonValue
+    @JsonCreator
+    public static FlinkHighAvailability of(@JsonProperty("code") String code) {
+        return Enums.toEnum(code, FlinkHighAvailability.class)
+                .orElseThrow(() -> new EnumConstantNotPresentException(FlinkHighAvailability.class, code));
+    }
+
     @EnumValue
     private String code;
     private String value;

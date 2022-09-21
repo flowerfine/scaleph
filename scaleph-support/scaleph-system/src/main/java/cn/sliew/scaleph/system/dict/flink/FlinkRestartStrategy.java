@@ -18,12 +18,16 @@
 
 package cn.sliew.scaleph.system.dict.flink;
 
+import cn.sliew.milky.common.primitives.Enums;
 import cn.sliew.scaleph.system.dict.DictDefinition;
 import cn.sliew.scaleph.system.dict.DictInstance;
 import cn.sliew.scaleph.system.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum FlinkRestartStrategy implements DictInstance {
 
     NONE("none", "none"),
@@ -32,7 +36,12 @@ public enum FlinkRestartStrategy implements DictInstance {
     EXPONENTIAL_DELAY("exponentialdelay", "exponential-delay"),
     ;
 
-    @JsonValue
+    @JsonCreator
+    public static FlinkRestartStrategy of(@JsonProperty("code") String code) {
+        return Enums.toEnum(code, FlinkRestartStrategy.class)
+                .orElseThrow(() -> new EnumConstantNotPresentException(FlinkRestartStrategy.class, code));
+    }
+
     @EnumValue
     private String code;
     private String value;

@@ -18,12 +18,16 @@
 
 package cn.sliew.scaleph.system.dict.seatunnel;
 
+import cn.sliew.milky.common.primitives.Enums;
 import cn.sliew.scaleph.system.dict.DictDefinition;
 import cn.sliew.scaleph.system.dict.DictInstance;
 import cn.sliew.scaleph.system.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum SeaTunnelEngineType implements DictInstance {
 
     FLINK("flink", "Flink"),
@@ -31,7 +35,12 @@ public enum SeaTunnelEngineType implements DictInstance {
     SEATUNNEL("seatunnel", "SeaTunnel"),
     ;
 
-    @JsonValue
+    @JsonCreator
+    public static SeaTunnelEngineType of(@JsonProperty("code") String code) {
+        return Enums.toEnum(code, SeaTunnelEngineType.class)
+                .orElseThrow(() -> new EnumConstantNotPresentException(SeaTunnelEngineType.class, code));
+    }
+
     @EnumValue
     private String code;
     private String value;

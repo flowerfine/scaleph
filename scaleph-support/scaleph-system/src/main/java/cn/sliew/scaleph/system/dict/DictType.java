@@ -18,6 +18,10 @@
 
 package cn.sliew.scaleph.system.dict;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum DictType implements DictDefinition {
 
     YES_OR_NO("yes_or_no", "是否"),
@@ -65,6 +69,7 @@ public enum DictType implements DictDefinition {
     SEATUNNEL_PLUGIN_NAME("seatunnel_plugin_name", "SeaTunnel 插件名称"),
     ;
 
+    @EnumValue
     private String code;
     private String name;
 

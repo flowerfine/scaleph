@@ -18,9 +18,11 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelPluginType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 
 import static cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelEngineType.SEATUNNEL;
@@ -32,6 +34,7 @@ import static cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelPluginType.SOURCE;
  * https://github.com/apache/incubator-seatunnel/blob/dev/plugin-mapping.properties
  */
 @Getter
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum SeaTunnelPluginMapping {
 
     SOURCE_FAKE(SEATUNNEL, SOURCE, FAKESOURCE, "connector-fake"),
@@ -84,5 +87,9 @@ public enum SeaTunnelPluginMapping {
         this.pluginType = pluginType;
         this.pluginName = pluginName;
         this.pluginJarPrefix = pluginJarPrefix;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(JacksonUtil.toJsonString(SOURCE_FAKE));
     }
 }

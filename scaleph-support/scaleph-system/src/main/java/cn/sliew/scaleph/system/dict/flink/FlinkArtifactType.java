@@ -18,12 +18,16 @@
 
 package cn.sliew.scaleph.system.dict.flink;
 
+import cn.sliew.milky.common.primitives.Enums;
 import cn.sliew.scaleph.system.dict.DictDefinition;
 import cn.sliew.scaleph.system.dict.DictInstance;
 import cn.sliew.scaleph.system.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum FlinkArtifactType implements DictInstance {
 
     JAR("0", "Jar"),
@@ -31,7 +35,12 @@ public enum FlinkArtifactType implements DictInstance {
     SQL("2", "SQL"),
     ;
 
-    @JsonValue
+    @JsonCreator
+    public static FlinkArtifactType of(@JsonProperty("code") String code) {
+        return Enums.toEnum(code, FlinkArtifactType.class)
+                .orElseThrow(() -> new EnumConstantNotPresentException(FlinkArtifactType.class, code));
+    }
+
     @EnumValue
     private String code;
     private String value;
