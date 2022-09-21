@@ -28,6 +28,7 @@ import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
+import org.springframework.util.StringUtils;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ClusterCredentialConvert extends BaseConvert<ResourceClusterCredential, ClusterCredentialDTO> {
@@ -35,7 +36,9 @@ public interface ClusterCredentialConvert extends BaseConvert<ResourceClusterCre
 
     default ClusterCredentialListParam convert(ResourceListParam param) {
         ClusterCredentialListParam target = BeanUtil.copy(param, new ClusterCredentialListParam());
-        target.setConfigType(FlinkResourceProvider.of(param.getLabel()));
+        if (StringUtils.hasText(param.getLabel())) {
+            target.setConfigType(FlinkResourceProvider.of(param.getLabel()));
+        }
         target.setName(param.getName());
         return target;
     }

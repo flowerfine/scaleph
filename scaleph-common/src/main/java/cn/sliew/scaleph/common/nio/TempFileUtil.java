@@ -73,9 +73,9 @@ public enum TempFileUtil {
         Path dir = parentDir.resolve(dirName);
         if (Files.notExists(dir)) {
             if (supportPosix()) {
-                return Files.createDirectory(dir, attributes);
+                return Files.createDirectories(dir, attributes);
             }
-            return Files.createDirectory(dir);
+            return Files.createDirectories(dir);
         } else {
             return dir;
         }
@@ -94,6 +94,13 @@ public enum TempFileUtil {
             return Files.createTempFile(tempDir, prefix, suffix, attributes);
         }
         return Files.createTempFile(tempDir, prefix, suffix);
+    }
+
+    public static Path createFile(Path parent, String fileName) throws IOException {
+        if (supportPosix()) {
+            return Files.createFile(parent.resolve(fileName), attributes);
+        }
+        return Files.createFile(parent.resolve(fileName));
     }
 
 }

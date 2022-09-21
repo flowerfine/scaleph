@@ -50,6 +50,7 @@ import org.apache.flink.client.program.ClusterClient;
 import org.apache.flink.client.program.rest.RestClusterClient;
 import org.apache.flink.configuration.*;
 import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
+import org.apache.flink.runtime.jobgraph.SavepointRestoreSettings;
 import org.apache.flink.yarn.configuration.YarnConfigOptions;
 import org.apache.hadoop.yarn.api.records.ApplicationId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,9 +63,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -132,6 +131,8 @@ public class FlinkServiceImpl implements FlinkService {
         PackageJarJob packageJarJob = new PackageJarJob();
         packageJarJob.setJarFilePath(flinkArtifactJarPath.toUri().toString());
         packageJarJob.setEntryPointClass(flinkArtifactJar.getEntryClass());
+        packageJarJob.setClasspaths(Collections.emptyList());
+        packageJarJob.setSavepointSettings(SavepointRestoreSettings.none());
         if (CollectionUtils.isEmpty(flinkJobConfigJarDTO.getJobConfig()) == false) {
             List<String> args = new ArrayList<>(flinkJobConfigJarDTO.getJobConfig().size() * 2);
             for (Map.Entry<String, String> entry : flinkJobConfigJarDTO.getJobConfig().entrySet()) {
@@ -139,7 +140,10 @@ public class FlinkServiceImpl implements FlinkService {
                 args.add(entry.getValue());
             }
             packageJarJob.setProgramArgs(args.stream().toArray(length -> new String[length]));
+        } else {
+            packageJarJob.setProgramArgs(new String[0]);
         }
+
         if (flinkClusterConfigDTO.getResourceProvider().getValue().equals(String.valueOf(ResourceProvider.YARN.getCode()))) {
             if (flinkClusterConfigDTO.getDeployMode().getValue().equals(String.valueOf(DeployMode.APPLICATION.getCode()))) {
                 client.submitApplication(DeploymentTarget.YARN_APPLICATION, flinkHomePath, configuration, packageJarJob);
@@ -170,6 +174,8 @@ public class FlinkServiceImpl implements FlinkService {
                 client.submit(DeploymentTarget.STANDALONE_SESSION, flinkHomePath, configuration, packageJarJob);
             }
         }
+
+
     }
 
     @Override
@@ -328,13 +334,12 @@ public class FlinkServiceImpl implements FlinkService {
     }
 
     private Path loadFlinkArtifactJar(FlinkArtifactJarDTO flinkArtifactJarDTO, Path workspace) throws IOException {
-        final Path tempDir = TempFileUtil.createTempDir(workspace, flinkArtifactJarDTO.getFlinkArtifact().getName() +
-                "/" + flinkArtifactJarDTO.getVersion() +
-                "/" + flinkArtifactJarDTO.getFileName());
-        try (final OutputStream outputStream = Files.newOutputStream(tempDir, StandardOpenOption.WRITE)) {
-            flinkReleaseService.download(flinkArtifactJarDTO.getId(), outputStream);
+        final Path tempDir = TempFileUtil.createTempDir(workspace, flinkArtifactJarDTO.getFlinkArtifact().getName() + "/" + flinkArtifactJarDTO.getVersion());
+        final Path jarPath = TempFileUtil.createTempFile(tempDir, flinkArtifactJarDTO.getFileName());
+        try (final OutputStream outputStream = Files.newOutputStream(jarPath, StandardOpenOption.WRITE)) {
+            flinkArtifactJarService.download(flinkArtifactJarDTO.getId(), outputStream);
         }
-        return tempDir;
+        return jarPath;
     }
 
 }

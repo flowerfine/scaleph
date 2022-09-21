@@ -28,6 +28,7 @@ import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
+import org.springframework.util.StringUtils;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FlinkReleaseConvert extends BaseConvert<ResourceFlinkRelease, FlinkReleaseDTO> {
@@ -35,7 +36,9 @@ public interface FlinkReleaseConvert extends BaseConvert<ResourceFlinkRelease, F
 
     default FlinkReleaseListParam convert(ResourceListParam param) {
         FlinkReleaseListParam target = BeanUtil.copy(param, new FlinkReleaseListParam());
-        target.setVersion(FlinkVersion.of(param.getLabel()));
+        if (StringUtils.hasText(param.getLabel())) {
+            target.setVersion(FlinkVersion.of(param.getLabel()));
+        }
         target.setFileName(param.getName());
         return target;
     }
