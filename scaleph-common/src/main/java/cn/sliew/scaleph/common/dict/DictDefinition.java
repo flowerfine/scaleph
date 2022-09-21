@@ -16,32 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.resource.service.dto;
+package cn.sliew.scaleph.common.dict;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+public interface DictDefinition {
 
-import javax.validation.constraints.NotBlank;
+    String getCode();
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkRelease对象", description = "flink release")
-public class FlinkReleaseDTO extends BaseDTO {
+    String getName();
 
-    @NotBlank
-    @ApiModelProperty("版本")
-    private FlinkVersion version;
-
-    @ApiModelProperty("文件名称")
-    private String fileName;
-
-    @ApiModelProperty("存储路径")
-    private String path;
-
-    @ApiModelProperty("备注")
-    private String remark;
+    default String getRemark() {
+        return null;
+    }
 }
