@@ -29,7 +29,6 @@ import cn.sliew.scaleph.common.enums.DeployMode;
 import cn.sliew.scaleph.common.enums.ResourceProvider;
 import cn.sliew.scaleph.common.nio.TarUtil;
 import cn.sliew.scaleph.common.nio.TempFileUtil;
-import cn.sliew.scaleph.engine.flink.enums.ClusterCredentialType;
 import cn.sliew.scaleph.engine.flink.enums.FlinkClusterStatus;
 import cn.sliew.scaleph.engine.flink.service.*;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactJarDTO;
@@ -251,7 +250,7 @@ public class FlinkServiceImpl implements FlinkService {
      * kubeconfig
      * flink-conf.yaml
      *
-     * @see ClusterCredentialType
+     * @see cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider
      */
     private Configuration buildConfiguration(FlinkClusterConfigDTO flinkClusterConfigDTO, Path clusterCredentialPath) throws IOException {
         Configuration dynamicProperties;

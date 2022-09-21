@@ -37,7 +37,7 @@ const FlinkArtifactForm: React.FC<ModalFormProps<FlinkArtifact>> = ({
           const param: FlinkArtifact = {
             id: values.id,
             name: values.name,
-            type: { value: values.type },
+            type: values.type,
             remark: values.remark
           };
           data.id

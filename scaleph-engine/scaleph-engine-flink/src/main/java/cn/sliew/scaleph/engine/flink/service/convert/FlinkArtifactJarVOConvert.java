@@ -38,7 +38,6 @@ public interface FlinkArtifactJarVOConvert extends BaseConvert<FlinkArtifactJarV
         FlinkArtifactJarVO entity = new FlinkArtifactJarVO();
         BeanUtils.copyProperties(dto, entity);
         entity.setFlinkArtifact(FlinkArtifactConvert.INSTANCE.toDo(dto.getFlinkArtifact()));
-        entity.setFlinkVersion(DictVoConvert.INSTANCE.toDo(dto.getFlinkVersion()));
         return entity;
     }
 
@@ -47,7 +46,6 @@ public interface FlinkArtifactJarVOConvert extends BaseConvert<FlinkArtifactJarV
         FlinkArtifactJarDTO dto = new FlinkArtifactJarDTO();
         BeanUtils.copyProperties(entity, dto);
         dto.setFlinkArtifact(FlinkArtifactConvert.INSTANCE.toDto(entity.getFlinkArtifact()));
-        dto.setFlinkVersion(DictVO.toVO(DictConstants.FLINK_VERSION, entity.getFlinkVersion()));
         return dto;
     }
 }

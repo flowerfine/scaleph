@@ -18,14 +18,15 @@
 
 package cn.sliew.scaleph.engine.flink.service.dto;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkArtifactType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -36,8 +37,9 @@ public class FlinkArtifactDTO extends BaseDTO {
     @ApiModelProperty("名称")
     private String name;
 
+    @NotNull
     @ApiModelProperty("Artifact 类型。0: Jar, 1: UDF, 2: SQL")
-    private DictVO type;
+    private FlinkArtifactType type;
 
     @ApiModelProperty("备注")
     private String remark;

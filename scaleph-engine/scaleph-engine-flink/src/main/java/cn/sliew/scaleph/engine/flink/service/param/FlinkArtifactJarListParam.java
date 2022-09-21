@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.service.param;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -32,5 +33,8 @@ public class FlinkArtifactJarListParam extends PaginationParam {
     @NotNull
     @ApiModelProperty("Flink Artifact ID")
     private Long flinkArtifactId;
+
+    @ApiModelProperty("flink 版本")
+    private FlinkVersion flinkVersion;
 
 }
