@@ -116,13 +116,13 @@
                 AND t1.`name` like CONCAT('%', #{param.name},'%')
             </if>
             <if test="param.flinkVersion != null">
-                AND t1.flink_version = #{param.flinkVersion.value}
+                AND t1.flink_version = #{param.flinkVersion}
             </if>
             <if test="param.resourceProvider != null">
-                AND t1.resource_provider = #{param.resourceProvider.value}
+                AND t1.resource_provider = #{param.resourceProvider}
             </if>
             <if test="param.deployMode != null">
-                AND t1.deploy_mode = #{param.deployMode.value}
+                AND t1.deploy_mode = #{param.deployMode}
             </if>
         </where>
     </select>
