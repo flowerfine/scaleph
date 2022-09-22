@@ -23,7 +23,7 @@ const JobConfigJarOptions: React.FC = () => {
   })
   const data = {
     name: params?.name,
-    flinkArtifactId: params?.flinkArtifactJar?.flinkArtifact.id,
+    flinkArtifactId: params?.flinkArtifactJar?.flinkArtifact?.id,
     flinkArtifactJarId: params?.flinkArtifactJar?.id,
     entryClass: params?.flinkArtifactJar?.entryClass,
     args: args,

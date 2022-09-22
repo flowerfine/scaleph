@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.api.controller.datadev;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -62,7 +62,7 @@ public class JobStepController {
     @ApiOperation(value = "查询 SeaTunnel connector 列表", notes = "查询 source, transform, sink 类型的 connector")
     public Set<PluginInfo> getAvailableConnectors(@ApiParam(name = "stepType",
             value = "job step 类型。source, trans, sink",
-            example = "source", allowableValues = "source, trans, sink") @PathVariable("stepType") JobStepTypeEnum stepType) {
+            example = "source", allowableValues = "source, trans, sink") @PathVariable("stepType") SeaTunnelPluginType stepType) {
         return seatunnelConnectorService.getAvailableConnectors(stepType);
     }
 

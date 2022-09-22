@@ -40,7 +40,7 @@ public class JDBCDataSourcePlugin extends DatasourcePlugin<Connection> {
     protected volatile Connection connection;
 
     public JDBCDataSourcePlugin() {
-        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.JDBC.getValue(), "Generic Jdbc DataSource", "1.0", JDBCDataSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.JDBC.getValue(), "Generic Jdbc DataSource", JDBCDataSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(JDBC_URL);

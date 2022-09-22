@@ -18,23 +18,23 @@
 
 package cn.sliew.scaleph.resource.service.dto;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "SeaTunnelRelease对象", description = "seatunnel release")
 public class SeaTunnelReleaseDTO extends BaseDTO {
 
-    @NotBlank
+    @NotNull
     @ApiModelProperty("版本")
-    private DictVO version;
+    private SeaTunnelVersion version;
 
     @ApiModelProperty("文件名称")
     private String fileName;

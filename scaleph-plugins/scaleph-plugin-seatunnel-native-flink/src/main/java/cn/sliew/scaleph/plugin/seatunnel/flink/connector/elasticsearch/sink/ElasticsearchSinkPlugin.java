@@ -36,7 +36,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.elasticsearch.si
 public class ElasticsearchSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
     public ElasticsearchSinkPlugin() {
-        this.pluginInfo = new PluginInfo(ELASTICSEARCH_SINK.getValue(), "elasticsearch sink connector", "2.1.1", ElasticsearchSinkPlugin.class.getName());
+        this.pluginInfo = new PluginInfo(ELASTICSEARCH_SINK.getValue(), "elasticsearch sink connector", ElasticsearchSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(HOSTS);

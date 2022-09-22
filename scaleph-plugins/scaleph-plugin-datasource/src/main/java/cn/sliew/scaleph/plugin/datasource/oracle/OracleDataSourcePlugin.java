@@ -36,7 +36,7 @@ import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 public class OracleDataSourcePlugin extends JDBCDataSourcePlugin {
 
     public OracleDataSourcePlugin() {
-        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.ORACLE.getValue(), "Oracle Jdbc Datasource", "11.2.0.4", OracleDataSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.ORACLE.getValue(), "Oracle Jdbc Datasource",  OracleDataSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(HOST);

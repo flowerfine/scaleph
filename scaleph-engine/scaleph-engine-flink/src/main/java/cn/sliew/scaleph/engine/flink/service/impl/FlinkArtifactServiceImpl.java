@@ -49,7 +49,9 @@ public class FlinkArtifactServiceImpl implements FlinkArtifactService {
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(FlinkArtifact.class)
                         .like(StringUtils.hasText(param.getName()), FlinkArtifact::getName, param.getName())
-                        .eq(StringUtils.hasText(param.getType()), FlinkArtifact::getType, param.getType()));
+                        .eq(param.getType() != null,
+                                FlinkArtifact::getType,
+                                param.getType() != null ? param.getType().getValue() : null));
         Page<FlinkArtifactDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         List<FlinkArtifactDTO> dtoList = FlinkArtifactConvert.INSTANCE.toDto(page.getRecords());

@@ -18,19 +18,23 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
+import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.SessionClient;
+import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
 import cn.sliew.flinkful.cli.base.util.FlinkUtil;
+import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.DeployMode;
 import cn.sliew.scaleph.common.enums.ResourceProvider;
 import cn.sliew.scaleph.common.nio.TarUtil;
 import cn.sliew.scaleph.common.nio.TempFileUtil;
-import cn.sliew.scaleph.engine.flink.enums.ClusterCredentialType;
 import cn.sliew.scaleph.engine.flink.enums.FlinkClusterStatus;
 import cn.sliew.scaleph.engine.flink.service.*;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactJarDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterInstanceDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobConfigJarDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.FlinkReleaseService;
@@ -54,10 +58,13 @@ import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -66,6 +73,10 @@ public class FlinkServiceImpl implements FlinkService {
 
     @Autowired
     private FlinkClusterConfigService flinkClusterConfigService;
+    @Autowired
+    private FlinkJobConfigJarService flinkJobConfigJarService;
+    @Autowired
+    private FlinkArtifactJarService flinkArtifactJarService;
     @Autowired
     private FlinkReleaseService flinkReleaseService;
     @Autowired
@@ -101,6 +112,64 @@ public class FlinkServiceImpl implements FlinkService {
         dto.setRemark(param.getRemark());
         flinkClusterInstanceService.insert(dto);
     }
+
+    @Override
+    public void submitJar(Long id) throws Exception {
+        final Path workspace = getWorkspace();
+        try {
+            doSubmitJar(id, workspace);
+        } finally {
+            TempFileUtil.deleteDir(workspace);
+        }
+    }
+
+    public void doSubmitJar(Long id, Path workspace) throws Exception {
+        FlinkJobConfigJarDTO flinkJobConfigJarDTO = flinkJobConfigJarService.selectOne(id);
+        FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(flinkJobConfigJarDTO.getFlinkClusterConfig().getId());
+        Path flinkHomePath = loadFlinkRelease(flinkClusterConfigDTO.getFlinkRelease(), workspace);
+        final Path clusterCredentialPath = loadClusterCredential(flinkClusterConfigDTO.getClusterCredential(), workspace);
+        final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, clusterCredentialPath);
+        if (CollectionUtils.isEmpty(flinkJobConfigJarDTO.getFlinkConfig()) == false) {
+            configuration.addAll(Configuration.fromMap(flinkJobConfigJarDTO.getFlinkConfig()));
+        }
+
+        FlinkArtifactJarDTO flinkArtifactJar = flinkArtifactJarService.selectOne(flinkJobConfigJarDTO.getFlinkArtifactJar().getId());
+        Path flinkArtifactJarPath = loadFlinkArtifactJar(flinkArtifactJar, workspace);
+        PackageJarJob packageJarJob = buildJarJob(flinkJobConfigJarDTO, flinkArtifactJar, flinkArtifactJarPath);
+
+        CliClient client = new DescriptorCliClient();
+        if (flinkClusterConfigDTO.getResourceProvider().getValue().equals(String.valueOf(ResourceProvider.YARN.getCode()))) {
+            if (flinkClusterConfigDTO.getDeployMode().getValue().equals(String.valueOf(DeployMode.APPLICATION.getCode()))) {
+                client.submitApplication(DeploymentTarget.YARN_APPLICATION, flinkHomePath, configuration, packageJarJob);
+            } else if (flinkClusterConfigDTO.getDeployMode().getValue().equals(String.valueOf(DeployMode.PER_JOB.getCode()))) {
+                client.submit(DeploymentTarget.YARN_PER_JOB, flinkHomePath, configuration, packageJarJob);
+            } else {
+                configuration.setString(YarnConfigOptions.APPLICATION_ID, flinkJobConfigJarDTO.getFlinkClusterInstance().getClusterId());
+                client.submit(DeploymentTarget.YARN_SESSION, flinkHomePath, configuration, packageJarJob);
+            }
+        } else if (flinkClusterConfigDTO.getResourceProvider().getValue().equals(String.valueOf(ResourceProvider.NATIVE_KUBERNETES.getCode()))) {
+            if (flinkClusterConfigDTO.getDeployMode().getValue().equals(String.valueOf(DeployMode.APPLICATION.getCode()))) {
+                throw new UnsupportedOperationException("scaleph not supports Application mode for native kubernetes");
+            } else if (flinkClusterConfigDTO.getDeployMode().getValue().equals(String.valueOf(DeployMode.PER_JOB.getCode()))) {
+                throw new UnsupportedOperationException("flink not supports Per-Job mode for native kubernetes");
+            } else {
+                configuration.setString(KubernetesConfigOptions.CLUSTER_ID, flinkJobConfigJarDTO.getFlinkClusterInstance().getClusterId());
+                client.submit(DeploymentTarget.NATIVE_KUBERNETES_SESSION, flinkHomePath, configuration, packageJarJob);
+            }
+        } else {
+            if (flinkClusterConfigDTO.getDeployMode().getValue().equals(String.valueOf(DeployMode.APPLICATION.getCode()))) {
+                throw new UnsupportedOperationException("scaleph not supports Application mode for standalone");
+            } else if (flinkClusterConfigDTO.getDeployMode().getValue().equals(String.valueOf(DeployMode.PER_JOB.getCode()))) {
+                throw new UnsupportedOperationException("scaleph not supports Per-Job mode for standalone");
+            } else {
+                URL url = new URL(flinkJobConfigJarDTO.getFlinkClusterInstance().getWebInterfaceUrl());
+                configuration.setString(RestOptions.ADDRESS, url.getHost());
+                configuration.setInteger(RestOptions.PORT, url.getPort());
+                client.submit(DeploymentTarget.STANDALONE_SESSION, flinkHomePath, configuration, packageJarJob);
+            }
+        }
+    }
+
 
     @Override
     public void shutdown(Long id) throws Exception {
@@ -180,7 +249,7 @@ public class FlinkServiceImpl implements FlinkService {
      * kubeconfig
      * flink-conf.yaml
      *
-     * @see ClusterCredentialType
+     * @see cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider
      */
     private Configuration buildConfiguration(FlinkClusterConfigDTO flinkClusterConfigDTO, Path clusterCredentialPath) throws IOException {
         Configuration dynamicProperties;
@@ -230,6 +299,21 @@ public class FlinkServiceImpl implements FlinkService {
         return dynamicProperties;
     }
 
+    private PackageJarJob buildJarJob(FlinkJobConfigJarDTO flinkJobConfigJarDTO, FlinkArtifactJarDTO flinkArtifactJar, Path flinkArtifactJarPath) {
+        PackageJarJob packageJarJob = new PackageJarJob();
+        packageJarJob.setJarFilePath(flinkArtifactJarPath.toUri().toString());
+        packageJarJob.setEntryPointClass(flinkArtifactJar.getEntryClass());
+        if (CollectionUtils.isEmpty(flinkJobConfigJarDTO.getJobConfig()) == false) {
+            List<String> args = new ArrayList<>(flinkJobConfigJarDTO.getJobConfig().size() * 2);
+            for (Map.Entry<String, String> entry : flinkJobConfigJarDTO.getJobConfig().entrySet()) {
+                args.add("--" + entry.getKey());
+                args.add(entry.getValue());
+            }
+            packageJarJob.setProgramArgs(args.stream().toArray(length -> new String[length]));
+        }
+        return packageJarJob;
+    }
+
 
     private Path getWorkspace() throws IOException {
         return TempFileUtil.createTempDir();
@@ -257,5 +341,13 @@ public class FlinkServiceImpl implements FlinkService {
         return tempDir;
     }
 
+    private Path loadFlinkArtifactJar(FlinkArtifactJarDTO flinkArtifactJarDTO, Path workspace) throws IOException {
+        final Path tempDir = TempFileUtil.createTempDir(workspace, flinkArtifactJarDTO.getFlinkArtifact().getName() + "/" + flinkArtifactJarDTO.getVersion());
+        final Path jarPath = TempFileUtil.createTempFile(tempDir, flinkArtifactJarDTO.getFileName());
+        try (final OutputStream outputStream = Files.newOutputStream(jarPath, StandardOpenOption.WRITE)) {
+            flinkArtifactJarService.download(flinkArtifactJarDTO.getId(), outputStream);
+        }
+        return jarPath;
+    }
 
 }

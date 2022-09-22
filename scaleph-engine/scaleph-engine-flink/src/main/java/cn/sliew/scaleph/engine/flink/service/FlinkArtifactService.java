@@ -28,8 +28,6 @@ public interface FlinkArtifactService {
 
     Page<FlinkArtifactDTO> list(FlinkArtifactListParam param);
 
-//    Page<FlinkArtifactDTO> listJars(FlinkArtifactListParam param);
-
     FlinkArtifactDTO selectOne(Long id);
 
     int insert(FlinkArtifactDTO dto);

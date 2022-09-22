@@ -26,6 +26,8 @@ public interface FlinkService {
 
     void createSessionCluster(FlinkSessionClusterAddParam param) throws Exception;
 
+    void submitJar(Long id) throws Exception;
+
     void shutdown(Long id) throws Exception;
 
     void shutdownBatch(List<Long> ids) throws Exception;

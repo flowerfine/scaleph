@@ -19,10 +19,8 @@
 package cn.sliew.scaleph.common.nio;
 
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
@@ -32,6 +30,8 @@ import java.util.Set;
 
 public enum TempFileUtil {
     ;
+
+    private static boolean supportPosix = supportPosix();
 
     public static final FileAttribute<Set<PosixFilePermission>> attributes = PosixFilePermissions.asFileAttribute(
             new HashSet<>(Arrays.asList(
@@ -50,7 +50,7 @@ public enum TempFileUtil {
     }
 
     public static Path createTempDir() throws IOException {
-        if (supportPosix()) {
+        if (supportPosix) {
             return Files.createTempDirectory(null, attributes);
         }
         return Files.createTempDirectory(null);
@@ -72,10 +72,10 @@ public enum TempFileUtil {
     public static Path createTempDir(Path parentDir, String dirName) throws IOException {
         Path dir = parentDir.resolve(dirName);
         if (Files.notExists(dir)) {
-            if (supportPosix()) {
-                return Files.createDirectory(dir, attributes);
+            if (supportPosix) {
+                return Files.createDirectories(dir, attributes);
             }
-            return Files.createDirectory(dir);
+            return Files.createDirectories(dir);
         } else {
             return dir;
         }
@@ -90,10 +90,40 @@ public enum TempFileUtil {
     }
 
     public static Path createTempFile(Path tempDir, String prefix, String suffix) throws IOException {
-        if (supportPosix()) {
+        if (supportPosix) {
             return Files.createTempFile(tempDir, prefix, suffix, attributes);
         }
         return Files.createTempFile(tempDir, prefix, suffix);
+    }
+
+    public static Path createFile(Path parent, String fileName) throws IOException {
+        if (supportPosix) {
+            return Files.createFile(parent.resolve(fileName), attributes);
+        }
+        return Files.createFile(parent.resolve(fileName));
+    }
+
+    public static void deleteFile(Path file) throws IOException {
+        Files.deleteIfExists(file);
+    }
+
+    public static void deleteDir(Path dir) throws IOException {
+        if (Files.exists(dir)) {
+            Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    Files.deleteIfExists(file);
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                    Files.deleteIfExists(dir);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+            Files.deleteIfExists(dir);
+        }
     }
 
 }

@@ -36,7 +36,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.druid.sink.Druid
 public class DruidSinkPlugin extends SeatunnelNativeFlinkPlugin {
 
     public DruidSinkPlugin() {
-        this.pluginInfo = new PluginInfo(DRUID_SINK.getValue(), "druid sink connector", "2.1.1", DruidSinkPlugin.class.getName());
+        this.pluginInfo = new PluginInfo(DRUID_SINK.getValue(), "druid sink connector", DruidSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(COORDINATOR_URL);

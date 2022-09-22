@@ -28,6 +28,7 @@ import cn.sliew.flinkful.rest.base.RestClient;
 import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
 import cn.sliew.scaleph.common.enums.JobRuntimeStateEnum;
 import cn.sliew.scaleph.common.enums.JobTypeEnum;
@@ -36,8 +37,13 @@ import cn.sliew.scaleph.core.di.service.dto.*;
 import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.core.scheduler.service.ScheduleService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
+import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.DagNodeDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.util.GraphConstants;
 import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
+import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.privilege.SecurityContext;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.system.service.SysConfigService;
@@ -96,10 +102,10 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     private SysConfigService sysConfigService;
     @Autowired
     private ScheduleService scheduleService;
-
     @Autowired
     private SeatunnelConfigService seatunnelConfigService;
-
+    @Autowired
+    private SeatunnelConnectorService seatunnelConnectorService;
     @Value("${app.engine.flink.state.savepoints.dir}")
     private String savePointDir;
 
@@ -338,5 +344,42 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         jarJob.setClasspaths(Collections.emptyList());
         jarJob.setSavepointSettings(SavepointRestoreSettings.none());
         return jarJob;
+    }
+
+    @Override
+    public List<DagPanelDTO> loadDndPanelInfo() {
+        List<DagPanelDTO> list = new ArrayList<>();
+        for (SeaTunnelPluginType type : SeaTunnelPluginType.values()) {
+            Set<PluginInfo> plugins = seatunnelConnectorService.getAvailableConnectors(type);
+            DagPanelDTO panel = toDagPanel(type, plugins);
+            if (panel != null) {
+                list.add(panel);
+            }
+        }
+        return list;
+    }
+
+    private DagPanelDTO toDagPanel(SeaTunnelPluginType type, Set<PluginInfo> pluginInfos) {
+        if (CollectionUtils.isEmpty(pluginInfos)) {
+            return null;
+        }
+        DagPanelDTO panel = new DagPanelDTO();
+        panel.setId(type.getLabel());
+        panel.setHeader(type.getLabel());
+        List<DagNodeDTO> nodeList = new ArrayList<>();
+        for (PluginInfo plugin : pluginInfos) {
+            DagNodeDTO node = new DagNodeDTO();
+            node.setId(plugin.getName());
+            node.setLabel(plugin.getName() + " " + type.getLabel());
+            node.setPopoverContent(plugin.getDescription());
+            node.setRenderKey(GraphConstants.DND_RENDER_ID);
+            node.setData(new HashMap<String,String>() {{
+                put("type", type.getValue());
+                put("name", plugin.getName());
+            }});
+            nodeList.add(node);
+        }
+        panel.setChildren(nodeList);
+        return panel;
     }
 }

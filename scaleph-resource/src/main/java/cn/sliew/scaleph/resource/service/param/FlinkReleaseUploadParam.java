@@ -18,17 +18,18 @@
 
 package cn.sliew.scaleph.resource.service.param;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class FlinkReleaseUploadParam {
 
-    @NotBlank
+    @NotNull
     @ApiModelProperty("flink 版本")
-    private String version;
+    private FlinkVersion version;
 
     @ApiModelProperty("备注")
     private String remark;
