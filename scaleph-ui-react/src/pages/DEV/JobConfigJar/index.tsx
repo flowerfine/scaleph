@@ -24,7 +24,7 @@ const JobConfigJarWeb: React.FC = () => {
       title: intl.formatMessage({id: 'pages.dev.artifact'}),
       dataIndex: 'flinkArtifactJar',
       render: (text, record, index) => {
-        return `${record.flinkArtifactJar?.flinkArtifact.name}/${record.flinkArtifactJar?.version}/${record.flinkArtifactJar?.fileName}`;
+        return `${record.flinkArtifactJar?.flinkArtifact?.name}/${record.flinkArtifactJar?.version}/${record.flinkArtifactJar?.fileName}`;
       },
     },
     {
@@ -88,8 +88,8 @@ const JobConfigJarWeb: React.FC = () => {
                   icon={<PlaySquareOutlined />}
                   onClick={() => {
                     Modal.confirm({
-                      title: "提交任务",
-                      content: "提交任务",
+                      title: intl.formatMessage({id: 'app.common.operate.submit.confirm.title'}),
+                      content: intl.formatMessage({id: 'app.common.operate.submit.confirm.content'}),
                       okText: intl.formatMessage({id: 'app.common.operate.submit.label'}),
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
