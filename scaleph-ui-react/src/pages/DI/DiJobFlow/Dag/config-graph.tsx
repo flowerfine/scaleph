@@ -1,3 +1,5 @@
+import type { Edge } from '@antv/x6';
+import type { EventArgs } from '@antv/x6/lib/graph/events';
 import {
   createGraphConfig,
   createHookConfig,
@@ -7,19 +9,17 @@ import {
   XFlowNodeCommands,
 } from '@antv/xflow';
 import { XFlowEdge } from '@antv/xflow-extension/es/canvas-dag-extension/x6-extension/edge';
-import type { EventArgs } from '@antv/x6/lib/graph/events';
-import type { Edge, } from '@antv/x6';
 import { CustomCommands, DND_RENDER_ID, ZOOM_OPTIONS } from './constant';
 import { BaseNode } from './react-node/base-node';
 
 export namespace NsAddEdgeEvent {
-  export const EVENT_NAME = 'ADD_EDGE_CMD_EVENT'
+  export const EVENT_NAME = 'ADD_EDGE_CMD_EVENT';
   export interface IArgs {
-    targetPortId: string
-    sourcePortId: string
-    source: string
-    target: string
-    edge: Edge
+    targetPortId: string;
+    sourcePortId: string;
+    source: string;
+    target: string;
+    edge: Edge;
   }
 }
 
@@ -41,7 +41,7 @@ export const useGraphHookConfig = createHookConfig((config, proxy) => {
       // 注册增加 graph event
       hooks.x6Events.registerHook({
         name: 'node_moved',
-        handler: async events => {
+        handler: async (events) => {
           events.push({
             eventName: 'node:moved',
             callback: (e, cmds) => {
@@ -49,32 +49,31 @@ export const useGraphHookConfig = createHookConfig((config, proxy) => {
               cmds.executeCommand<NsNodeCmd.MoveNode.IArgs>(XFlowNodeCommands.MOVE_NODE.id, {
                 id: node.id,
                 position: node.getPosition(),
-              })
+              });
             },
-          } as NsGraph.IEvent<'node:moved'>)
+          } as NsGraph.IEvent<'node:moved'>);
         },
       }),
       hooks.x6Events.registerHook({
         name: 'edge_delete',
-        handler: async events => {
+        handler: async (events) => {
           events.push({
             eventName: 'edge:removed',
-            callback: (e, cmds) => {
-            }
+            callback: (e, cmds) => {},
           });
-        }
+        },
       }),
       hooks.x6Events.registerHook({
         name: 'node_dbclick',
-        handler: async events => {
+        handler: async (events) => {
           events.push({
             eventName: 'node:dblclick',
             callback: (e, cmds) => {
               const { node } = e;
-              cmds.executeCommand(CustomCommands.NODE_EDIT.id, {})
-            }
+              cmds.executeCommand(CustomCommands.NODE_EDIT.id, {});
+            },
           });
-        }
+        },
       }),
     ];
     const toDispose = new DisposableCollection();
@@ -158,13 +157,13 @@ export const useGraphCOnfig = createGraphConfig((config) => {
               } as NsAddEdgeEvent.IArgs);
             }
           }
-        }
+        };
         graph.once('edge:connected', addEdge);
-        return edge
+        return edge;
       },
-      validateEdge: args => {
-        const { edge } = args
-        return !!(edge?.target as any)?.port
+      validateEdge: (args) => {
+        const { edge } = args;
+        return !!(edge?.target as any)?.port;
       },
       validateConnection({
         edge,
@@ -186,12 +185,18 @@ export const useGraphCOnfig = createGraphConfig((config) => {
         } else {
           const sourceNode = sourceView?.cell as any;
           const sourcePortId = sourceMagnet.getAttribute('port');
-          if (!sourcePortId) { return false }
+          if (!sourcePortId) {
+            return false;
+          }
           const sPort = sourceNode.getPort(sourcePortId);
-          if (sPort.type !== NsGraph.AnchorType.OUTPUT) { return false }
+          if (sPort.type !== NsGraph.AnchorType.OUTPUT) {
+            return false;
+          }
           const targetNode = targetView?.cell as any;
           const targetPortId = targetMagnet.getAttribute('port');
-          if (!targetPortId) { return false; }
+          if (!targetPortId) {
+            return false;
+          }
           const tPort = targetNode.getPort(targetPortId);
           if (tPort.type !== NsGraph.AnchorType.INPUT) {
             return false;

@@ -1,5 +1,5 @@
 import { GraphCutSelectionCommand, NsGraphCutSelection } from './graph-cut';
-import { NsEditNode, EditNodeCommand } from './step-edit-modal';
+import { EditNodeCommand, NsEditNode } from './step-edit-modal';
 /** 注册成为可以执行的命令 */
 
 export const commandContributions = [
@@ -10,5 +10,5 @@ export const commandContributions = [
   {
     ...NsEditNode,
     CommandHandler: EditNodeCommand,
-  }
+  },
 ];
