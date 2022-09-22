@@ -140,6 +140,14 @@ export default [
             access: 'normalRouteFilter',
           },
           {
+            name: 'jobDetail',
+            path: '/workspace/dev/job/detail',
+            exact: true,
+            component: './DEV/Job/Detail',
+            pCode: PRIVILEGE_CODE.datadevDatasourceShow,
+            access: 'normalRouteFilter',
+          },
+          {
             name: 'jobConfigJar',
             path: '/workspace/dev/jobConfigJar',
             exact: true,
