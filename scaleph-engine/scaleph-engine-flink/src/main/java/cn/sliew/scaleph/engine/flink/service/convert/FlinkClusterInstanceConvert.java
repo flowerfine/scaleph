@@ -21,17 +21,11 @@ package cn.sliew.scaleph.engine.flink.service.convert;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterInstance;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterInstanceDTO;
-import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FlinkClusterInstanceConvert extends BaseConvert<FlinkClusterInstance, FlinkClusterInstanceDTO> {
     FlinkClusterInstanceConvert INSTANCE = Mappers.getMapper(FlinkClusterInstanceConvert.class);
-
-    @Override
-    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.FLINK_CLUSTER_STATUS,entity.getStatus()))", target = "status")
-    FlinkClusterInstanceDTO toDto(FlinkClusterInstance entity);
 }

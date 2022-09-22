@@ -18,6 +18,9 @@
 
 package cn.sliew.scaleph.engine.flink.service.param;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
+import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -31,11 +34,11 @@ public class FlinkClusterConfigListParam extends PaginationParam {
     private String name;
 
     @ApiModelProperty("集群版本")
-    private String flinkVersion;
+    private FlinkVersion flinkVersion;
 
     @ApiModelProperty("Resource。0: Standalone, 1: Native Kubernetes, 2: YARN")
-    private String resourceProvider;
+    private FlinkResourceProvider resourceProvider;
 
     @ApiModelProperty("flink 部署模式。0: Application, 1: Per-Job, 2: Session")
-    private String deployMode;
+    private FlinkDeploymentMode deployMode;
 }

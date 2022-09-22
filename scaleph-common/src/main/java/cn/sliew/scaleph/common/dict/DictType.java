@@ -41,12 +41,14 @@ public enum DictType implements DictDefinition {
 
     TASK_RESULT("task_result", "任务运行结果"),
     DATASOURCE_TYPE("datasource_type", "数据源类型"),
+
     JOB_TYPE("job_type", "作业类型"),
     JOB_STATUS("job_status", "作业状态"),
+    JOB_INSTANCE_TYPE("job_instance_state", "作业实例状态"),
     RUNTIME_STATE("runtime_state", "运行状态"),
     JOB_ATTR_TYPE("job_attr_type", "作业属性类型"),
     JOB_STEP_TYPE("job_step_type", "步骤类型"),
-    JOB_INSTANCE_TYPE("job_instance_state", "作业实例状态"),
+
     CLUSTER_TYPE("cluster_type", "集群类型"),
     DATA_TYPE("data_type", "数据类型"),
 
