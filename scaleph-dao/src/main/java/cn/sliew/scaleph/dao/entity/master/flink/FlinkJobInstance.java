@@ -18,6 +18,8 @@
 
 package cn.sliew.scaleph.dao.entity.master.flink;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkJobStatus;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -41,7 +43,7 @@ public class FlinkJobInstance extends BaseDO {
 
     @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
     @TableField("`type`")
-    private String type;
+    private FlinkJobType type;
 
     @ApiModelProperty("flink 任务配置 ID")
     @TableField("flink_job_config_id")
@@ -55,9 +57,9 @@ public class FlinkJobInstance extends BaseDO {
     @TableField("job_id")
     private String jobId;
 
-    @ApiModelProperty("任务状态。0: 已创建, 1: 创建失败")
+    @ApiModelProperty("任务状态")
     @TableField("`status`")
-    private String status;
+    private FlinkJobStatus status;
 
     @ApiModelProperty("备注")
     @TableField("remark")

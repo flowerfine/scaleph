@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Arrays;
 
+@Deprecated
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum JobInstanceType implements DictInstance {
 

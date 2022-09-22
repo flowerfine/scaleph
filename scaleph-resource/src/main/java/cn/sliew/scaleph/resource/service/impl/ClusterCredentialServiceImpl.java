@@ -78,9 +78,7 @@ public class ClusterCredentialServiceImpl implements ClusterCredentialService {
         final Page<ResourceClusterCredential> page = resourceClusterCredentialMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(ResourceClusterCredential.class)
-                        .eq(param.getConfigType() != null,
-                                ResourceClusterCredential::getConfigType,
-                                param.getConfigType() != null ? param.getConfigType().getValue() : null)
+                        .eq(param.getConfigType() != null, ResourceClusterCredential::getConfigType, param.getConfigType())
                         .like(StringUtils.hasText(param.getName()), ResourceClusterCredential::getName, param.getName()));
 
         Page<ClusterCredentialDTO> result =
