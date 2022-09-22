@@ -50,7 +50,6 @@ import org.apache.flink.client.program.ClusterClient;
 import org.apache.flink.client.program.rest.RestClusterClient;
 import org.apache.flink.configuration.*;
 import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
-import org.apache.flink.runtime.jobgraph.SavepointRestoreSettings;
 import org.apache.flink.yarn.configuration.YarnConfigOptions;
 import org.apache.hadoop.yarn.api.records.ApplicationId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +62,9 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -114,11 +115,17 @@ public class FlinkServiceImpl implements FlinkService {
 
     @Override
     public void submitJar(Long id) throws Exception {
-        FlinkJobConfigJarDTO flinkJobConfigJarDTO = flinkJobConfigJarService.selectOne(id);
-        CliClient client = new DescriptorCliClient();
         final Path workspace = getWorkspace();
-        FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(flinkJobConfigJarDTO.getFlinkClusterConfig().getId());
+        try {
+            doSubmitJar(id, workspace);
+        } finally {
+            TempFileUtil.deleteDir(workspace);
+        }
+    }
 
+    public void doSubmitJar(Long id, Path workspace) throws Exception {
+        FlinkJobConfigJarDTO flinkJobConfigJarDTO = flinkJobConfigJarService.selectOne(id);
+        FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(flinkJobConfigJarDTO.getFlinkClusterConfig().getId());
         Path flinkHomePath = loadFlinkRelease(flinkClusterConfigDTO.getFlinkRelease(), workspace);
         final Path clusterCredentialPath = loadClusterCredential(flinkClusterConfigDTO.getClusterCredential(), workspace);
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, clusterCredentialPath);
@@ -128,22 +135,9 @@ public class FlinkServiceImpl implements FlinkService {
 
         FlinkArtifactJarDTO flinkArtifactJar = flinkArtifactJarService.selectOne(flinkJobConfigJarDTO.getFlinkArtifactJar().getId());
         Path flinkArtifactJarPath = loadFlinkArtifactJar(flinkArtifactJar, workspace);
-        PackageJarJob packageJarJob = new PackageJarJob();
-        packageJarJob.setJarFilePath(flinkArtifactJarPath.toUri().toString());
-        packageJarJob.setEntryPointClass(flinkArtifactJar.getEntryClass());
-        packageJarJob.setClasspaths(Collections.emptyList());
-        packageJarJob.setSavepointSettings(SavepointRestoreSettings.none());
-        if (CollectionUtils.isEmpty(flinkJobConfigJarDTO.getJobConfig()) == false) {
-            List<String> args = new ArrayList<>(flinkJobConfigJarDTO.getJobConfig().size() * 2);
-            for (Map.Entry<String, String> entry : flinkJobConfigJarDTO.getJobConfig().entrySet()) {
-                args.add("--" + entry.getKey());
-                args.add(entry.getValue());
-            }
-            packageJarJob.setProgramArgs(args.stream().toArray(length -> new String[length]));
-        } else {
-            packageJarJob.setProgramArgs(new String[0]);
-        }
+        PackageJarJob packageJarJob = buildJarJob(flinkJobConfigJarDTO, flinkArtifactJar, flinkArtifactJarPath);
 
+        CliClient client = new DescriptorCliClient();
         if (flinkClusterConfigDTO.getResourceProvider().getValue().equals(String.valueOf(ResourceProvider.YARN.getCode()))) {
             if (flinkClusterConfigDTO.getDeployMode().getValue().equals(String.valueOf(DeployMode.APPLICATION.getCode()))) {
                 client.submitApplication(DeploymentTarget.YARN_APPLICATION, flinkHomePath, configuration, packageJarJob);
@@ -174,9 +168,8 @@ public class FlinkServiceImpl implements FlinkService {
                 client.submit(DeploymentTarget.STANDALONE_SESSION, flinkHomePath, configuration, packageJarJob);
             }
         }
-
-
     }
+
 
     @Override
     public void shutdown(Long id) throws Exception {
@@ -304,6 +297,21 @@ public class FlinkServiceImpl implements FlinkService {
         }
 
         return dynamicProperties;
+    }
+
+    private PackageJarJob buildJarJob(FlinkJobConfigJarDTO flinkJobConfigJarDTO, FlinkArtifactJarDTO flinkArtifactJar, Path flinkArtifactJarPath) {
+        PackageJarJob packageJarJob = new PackageJarJob();
+        packageJarJob.setJarFilePath(flinkArtifactJarPath.toUri().toString());
+        packageJarJob.setEntryPointClass(flinkArtifactJar.getEntryClass());
+        if (CollectionUtils.isEmpty(flinkJobConfigJarDTO.getJobConfig()) == false) {
+            List<String> args = new ArrayList<>(flinkJobConfigJarDTO.getJobConfig().size() * 2);
+            for (Map.Entry<String, String> entry : flinkJobConfigJarDTO.getJobConfig().entrySet()) {
+                args.add("--" + entry.getKey());
+                args.add(entry.getValue());
+            }
+            packageJarJob.setProgramArgs(args.stream().toArray(length -> new String[length]));
+        }
+        return packageJarJob;
     }
 
 
