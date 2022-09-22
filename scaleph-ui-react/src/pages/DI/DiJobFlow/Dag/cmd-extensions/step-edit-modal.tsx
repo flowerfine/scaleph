@@ -1,4 +1,5 @@
-import { ResponseBody } from '@/app.d';
+import enUS from '@/locales/en-US';
+import zhCN from '@/locales/zh-CN';
 import {
   IArgsBase,
   ICmdHooks as IHooks,
@@ -8,11 +9,11 @@ import {
   NsGraph,
 } from '@antv/xflow';
 import type { HookHub } from '@antv/xflow-hook';
-import { Modal } from 'antd';
 import { render, unmount } from 'rc-util/lib/React/render';
+import { getLocale, IntlProvider } from 'umi';
 import { CustomCommands } from '../constant';
+import SinkJdbcStepForm from '../steps/sink-jdbc-step';
 import SourceJdbcStepForm from '../steps/source-jdbc-step';
-
 const { inject, injectable, postConstruct } = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
 
@@ -24,16 +25,11 @@ export namespace NsEditNode {
   /** hook 参数类型 */
   export interface IArgs extends IArgsBase {
     nodeConfig: NsGraph.INodeConfig;
-    editNodeService: IEditNodeService;
-  }
-
-  export interface IEditNodeService {
-    (graphData: NsGraph.IGraphData, graphMeta: NsGraph.IGraphMeta): Promise<ResponseBody<any>>;
   }
 
   /** hook handler 返回类型 */
   export interface IResult {
-    test: any;
+    err: any;
   }
   /** hooks 类型 */
   export interface ICmdHooks extends IHooks {
@@ -61,7 +57,7 @@ export class EditNodeCommand implements ICommand {
     const result = await hooks.editNode.call(
       args,
       async (handlerArgs) => {
-        const { commandService, modelService, editNodeService, nodeConfig } = handlerArgs;
+        const { nodeConfig } = handlerArgs;
         const graphMeta = await ctx.getGraphMeta();
         const x6Graph = await ctx.getX6Graph();
         const x6Nodes = x6Graph.getNodes();
@@ -86,13 +82,12 @@ export class EditNodeCommand implements ICommand {
           return model;
         });
         const graphData = { nodes, edges };
-        console.log('13413241234', x6Graph, commandService, modelService, graphData);
-        showModal(true);
-        return { test: true };
+        showModal(nodeConfig, graphData, graphMeta);
+        return { err: null };
       },
       runtimeHook,
     );
-    ctx.setResult(result || { test: '' });
+    ctx.setResult(result || { err: null });
     return this;
   };
 
@@ -119,121 +114,51 @@ export class EditNodeCommand implements ICommand {
   }
 }
 
-export type IModalInstance = ReturnType<typeof Modal.confirm>;
+const messages = {
+  zh: zhCN,
+  en: enUS,
+};
+const getCurrentLocale = () => {
+  const local: string = getLocale() as string;
+  return local.substring(0, local.indexOf('-'));
+};
 
-function showModal(visible: boolean) {
+function showModal(
+  node: NsGraph.INodeConfig,
+  graphData: NsGraph.IGraphData,
+  graphMeta: NsGraph.IGraphMeta,
+) {
   const container = document.createDocumentFragment();
   return render(
-    <SourceJdbcStepForm
-      data=""
-      visible={true}
-      onVisibleChange={(visible) => {
-        if (visible) {
-          unmount(container);
-        }
-      }}
-      onCancel={() => {
-        unmount(container);
-      }}
-    ></SourceJdbcStepForm>,
+    <IntlProvider locale={getCurrentLocale()} messages={messages[getCurrentLocale()]}>
+      {switchStep({ node, graphData, graphMeta }, container)}
+    </IntlProvider>,
     container,
   );
 }
 
-// function showModal(
-//   node: NsGraph.INodeConfig,
-//   graphData: NsGraph.IGraphData,
-//   graphMeta: NsGraph.IGraphMeta,
-//   commandService: IGraphCommandService,
-//   modelService: IModelService,
-//   editNodeService: NsEditNode.IEditNodeService) {
+const onCancel = (container: DocumentFragment) => {
+  unmount(container);
+};
 
-//   const defer = new Deferred<string | void>();
-
-//   class ModalCache {
-//     static modal: IModalInstance;
-//     static form: FormInstance<any>;
-//   }
-
-//   /** modal确认保存逻辑 */
-//   const onOk = async () => {
-//     const { form, modal } = ModalCache
-
-//     try {
-//       modal.update({ okButtonProps: { loading: true } })
-//       await form.validateFields();
-//       const values = await form.getFieldsValue();
-//       // const newName: string = values.newNodeName
-//       /** 执行 backend service */
-//       if (editNodeService) {
-//         await editNodeService(graphData, graphMeta)
-
-//         defer.resolve('');
-//       }
-//       /** 更新成功后，关闭modal */
-//       onHide()
-//     } catch (error) {
-//       console.error(error)
-//       /** 如果resolve空字符串则不更新 */
-//       modal.update({ okButtonProps: { loading: false } })
-//     }
-//   }
-
-//   /** modal销毁逻辑 */
-//   const onHide = () => {
-//     modal.destroy()
-//     ModalCache.form = null as any
-//     ModalCache.modal = null as any
-//     container.destroy()
-//   }
-
-//   /** modal内容 */
-//   const ModalContent = () => {
-//     const [form] = Form.useForm<any>();
-//     /** 缓存form实例 */
-//     ModalCache.form = form
-
-//     return <>asfasdf</>
-//   }
-//   /** 创建modal dom容器 */
-//   const container = createContainer()
-//   /** 创建modal */
-//   const modal = Modal.confirm({
-//     title: '重命名',
-//     content: <ModalContent />,
-//     getContainer: () => {
-//       return container.element
-//     },
-//     okButtonProps: {
-//       onClick: e => {
-//         e.stopPropagation()
-//         onOk()
-//       },
-//     },
-//     onCancel: () => {
-//       onHide()
-//     },
-//     afterClose: () => {
-//       onHide()
-//     },
-//   })
-
-//   /** 缓存modal实例 */
-//   // ModalCache.modal = modal
-
-//   /** showModal 返回一个Promise，用于await */
-//   return defer.promise
-// }
-
-const createContainer = () => {
-  const div = document.createElement('div');
-  div.classList.add('xflow-modal-container');
-  window.document.body.append(div);
-  console.log(12312123);
-  return {
-    element: div,
-    destroy: () => {
-      window.document.body.removeChild(div);
-    },
-  };
+const switchStep = (
+  data: { node: NsGraph.INodeConfig; graphData: NsGraph.IGraphData; graphMeta: NsGraph.IGraphMeta },
+  container: DocumentFragment,
+) => {
+  const { name, type } = data.node.data.data;
+  if (type === 'source' && name === 'Jdbc') {
+    return (
+      <SourceJdbcStepForm
+        visible
+        data={data}
+        onCancel={() => onCancel(container)}
+      ></SourceJdbcStepForm>
+    );
+  } else if (type === 'sink' && name === 'Jdbc') {
+    return (
+      <SinkJdbcStepForm visible data={data} onCancel={() => onCancel(container)}></SinkJdbcStepForm>
+    );
+  } else {
+    return <></>;
+  }
 };

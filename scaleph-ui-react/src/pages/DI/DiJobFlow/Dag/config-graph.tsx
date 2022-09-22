@@ -70,7 +70,7 @@ export const useGraphHookConfig = createHookConfig((config, proxy) => {
             eventName: 'node:dblclick',
             callback: (e, cmds) => {
               const { node } = e;
-              cmds.executeCommand(CustomCommands.NODE_EDIT.id, {});
+              cmds.executeCommand(CustomCommands.NODE_EDIT.id, { nodeConfig: node });
             },
           });
         },

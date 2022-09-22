@@ -165,8 +165,9 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
                 label: intl.formatMessage({ id: 'app.common.operate.edit.label' }),
                 iconName: 'EditOutlined',
                 onClick: async ({ target, commandService }) => {
-                  console.log(target);
-                  commandService.executeCommand(CustomCommands.NODE_EDIT.id, {});
+                  commandService.executeCommand(CustomCommands.NODE_EDIT.id, {
+                    nodeConfig: target,
+                  });
                 },
               },
               {
