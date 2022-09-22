@@ -24,6 +24,7 @@ import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.PipelineOptions;
 import org.apache.flink.runtime.jobgraph.SavepointRestoreSettings;
 import org.apache.flink.runtime.security.FlinkSecurityManager;
+import org.apache.flink.util.CollectionUtil;
 import org.apache.flink.util.InstantiationUtil;
 import org.apache.flink.util.JarUtils;
 import org.slf4j.Logger;
@@ -249,8 +250,10 @@ public class PackagedProgram implements AutoCloseable {
 
         List<String> jars = configuration.get(PipelineOptions.JARS);
         try {
-            for (String jar : jars) {
-                libs.add(new URL(jar));
+            if (CollectionUtil.isNullOrEmpty(jars) == false) {
+                for (String jar : jars) {
+                    libs.add(new URL(jar));
+                }
             }
         } catch (MalformedURLException e) {
             throw new RuntimeException("URL is invalid. This should not happen.", e);

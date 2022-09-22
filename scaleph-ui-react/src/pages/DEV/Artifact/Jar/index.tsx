@@ -1,13 +1,15 @@
-import {useAccess, useIntl, useLocation} from "umi";
 import {useEffect, useRef, useState} from "react";
+import {Button, Select, Space, Tooltip} from "antd";
+import {useAccess, useIntl, useLocation} from "umi";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {FlinkArtifactJar} from "@/services/dev/typings";
-import {Button, Space, Tooltip} from "antd";
-import {PRIVILEGE_CODE} from "@/constant";
+import {DICT_TYPE, PRIVILEGE_CODE} from "@/constant";
 import {DownloadOutlined} from "@ant-design/icons";
 import {download, list} from "@/services/dev/flinkArtifactJar.service";
 import {history} from "@@/core/history";
 import FlinkArtifactJarForm from "@/pages/DEV/Artifact/Jar/components/FlinkArtifactJarForm";
+import {listDictDataByType} from "@/services/admin/dictData.service";
+import {Dict} from "@/app.d";
 
 const FlinkArtifactJarWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -16,10 +18,17 @@ const FlinkArtifactJarWeb: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [flinkArtifactId, setFlinkArtifactId] = useState<number>(0);
+  const [flinkVersionList, setFlinkVersionList] = useState<Dict[]>([]);
   const [flinkArtifactJarData, setFlinkArtifactJarData] = useState<{
     visiable: boolean;
     data: FlinkArtifactJar;
   }>({visiable: false, data: {}});
+
+  useEffect(() => {
+    listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
+      setFlinkVersionList(d);
+    });
+  }, []);
 
   useEffect(() => {
     const params = urlParams.state as { id: number };
@@ -47,10 +56,29 @@ const FlinkArtifactJarWeb: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.resource.flinkRelease.version'}),
       dataIndex: 'flinkVersion',
-      hideInSearch: true,
       render: (text, record, index) => {
         return record.flinkVersion?.label;
-      }
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <Select
+            showSearch={true}
+            allowClear={true}
+            optionFilterProp="label"
+            filterOption={(input, option) =>
+              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
+            }
+          >
+            {flinkVersionList.map((item) => {
+              return (
+                <Select.Option key={item.value} value={item.value}>
+                  {item.label}
+                </Select.Option>
+              );
+            })}
+          </Select>
+        );
+      },
     },
     {
       title: intl.formatMessage({id: 'pages.dev.artifact.jar.path'}),
@@ -102,7 +130,6 @@ const FlinkArtifactJarWeb: React.FC = () => {
           {intl.formatMessage({id: 'app.common.operate.return.label'})}
         </Button>
       }
-      search={false}
       rowKey="name"
       actionRef={actionRef}
       formRef={formRef}

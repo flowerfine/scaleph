@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dao.entity.master.resource;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -41,7 +42,7 @@ public class ResourceClusterCredential extends BaseDO {
 
     @ApiModelProperty("配置文件类型。0: Hadoop, 1: Kubernetes")
     @TableField("config_type")
-    private String configType;
+    private FlinkResourceProvider configType;
 
     @ApiModelProperty("配置名称")
     @TableField("`name`")

@@ -22,7 +22,11 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfig;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceClusterCredential;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceFlinkRelease;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
+import cn.sliew.scaleph.resource.service.convert.ClusterCredentialConvert;
+import cn.sliew.scaleph.resource.service.convert.FlinkReleaseConvert;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import org.mapstruct.Mapper;
@@ -60,6 +64,12 @@ public interface FlinkClusterConfigConvert extends BaseConvert<FlinkClusterConfi
         dto.setFlinkVersion(DictVO.toVO(DictConstants.FLINK_VERSION, entity.getFlinkVersion()));
         dto.setResourceProvider(DictVO.toVO(DictConstants.FLINK_RESOURCE_PROVIDER, entity.getResourceProvider()));
         dto.setDeployMode(DictVO.toVO(DictConstants.FLINK_DEPLOYMENT_MODE, entity.getDeployMode()));
+        ResourceFlinkRelease flinkRelease = new ResourceFlinkRelease();
+        flinkRelease.setId(entity.getFlinkReleaseId());
+        dto.setFlinkRelease(FlinkReleaseConvert.INSTANCE.toDto(flinkRelease));
+        ResourceClusterCredential clusterCredential = new ResourceClusterCredential();
+        clusterCredential.setId(entity.getClusterCredentialId());
+        dto.setClusterCredential(ClusterCredentialConvert.INSTANCE.toDto(clusterCredential));
         if (StringUtils.hasText(entity.getConfigOptions())) {
             dto.setConfigOptions(JacksonUtil.parseJsonString(entity.getConfigOptions(), Map.class));
         }

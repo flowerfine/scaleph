@@ -65,9 +65,11 @@ const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
           };
           setUploading(true);
           upload(uploadParam)
-            .then(() => {
-              setFileList([]);
-              message.success(intl.formatMessage({ id: 'app.common.operate.upload.success' }));
+            .then((response) => {
+              if (response.success) {
+                setFileList([]);
+                message.success(intl.formatMessage({ id: 'app.common.operate.upload.success' }));
+              }
             })
             .catch(() => {
               message.error(intl.formatMessage({ id: 'app.common.operate.upload.failure' }));

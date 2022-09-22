@@ -18,23 +18,23 @@
 
 package cn.sliew.scaleph.resource.service.dto;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "FlinkRelease对象", description = "flink release")
 public class FlinkReleaseDTO extends BaseDTO {
 
-    @NotBlank
+    @NotNull
     @ApiModelProperty("版本")
-    private DictVO version;
+    private FlinkVersion version;
 
     @ApiModelProperty("文件名称")
     private String fileName;

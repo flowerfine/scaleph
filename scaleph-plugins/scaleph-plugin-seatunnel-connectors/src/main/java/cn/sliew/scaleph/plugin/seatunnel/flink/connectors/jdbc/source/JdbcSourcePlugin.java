@@ -9,7 +9,7 @@ import com.google.auto.service.AutoService;
 public class JdbcSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public JdbcSourcePlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getValue(),
+        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
                 "Jdbc Source Plugin , input records from jdbc connection.",
                 JdbcSourcePlugin.class.getName());
     }

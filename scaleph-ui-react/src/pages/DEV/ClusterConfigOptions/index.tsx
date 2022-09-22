@@ -72,8 +72,6 @@ const DevBatchJob: React.FC = () => {
           update(param).then((d) => {
             if (d.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
-            } else {
-              message.error(d.errorMessage);
             }
           })
             .catch(() => {
@@ -85,8 +83,6 @@ const DevBatchJob: React.FC = () => {
           : add(param).then((d) => {
             if (d.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
-            } else {
-              message.error(d.errorMessage);
             }
           })
             .catch(() => {
