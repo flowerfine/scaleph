@@ -19,4 +19,4 @@ jobs:
         with:
           fetch-depth: 0
       - name: Build docker images
-        run: docker-compose -f tools/docker/build/scaleph/docker-compose-api.yml up -d
+        run: docker-compose -f tools/docker/build/scaleph/docker-compose.yml up -d
