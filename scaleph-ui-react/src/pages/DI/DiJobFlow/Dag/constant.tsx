@@ -1,4 +1,4 @@
-import { IGraphCommand, XFlowGraphCommands } from '@antv/xflow';
+import { IGraphCommand, XFlowGraphCommands, XFlowNodeCommands } from '@antv/xflow';
 
 export const DND_RENDER_ID = 'DND_NODE';
 export const GROUP_NODE_RENDER_ID = 'GROUP_NODE_RENDER_ID';
@@ -15,6 +15,12 @@ export namespace CustomCommands {
     label: 'cut',
     category: XFlowGraphCommands.GRAPH_COPY.category,
   };
+
+  export const NODE_EDIT: IGraphCommand = {
+    id: 'xflow:node-edit',
+    label: 'edit',
+    category: XFlowNodeCommands.UPDATE_NODE.category,
+  }
 }
 // export const CustomCommands = {}
 // // export namespace CustomCommands {

@@ -2,14 +2,14 @@ import {
   createGraphConfig,
   createHookConfig,
   DisposableCollection,
-  NsNodeCmd,
   NsGraph,
+  NsNodeCmd,
   XFlowNodeCommands,
 } from '@antv/xflow';
 import { XFlowEdge } from '@antv/xflow-extension/es/canvas-dag-extension/x6-extension/edge';
 import type { EventArgs } from '@antv/x6/lib/graph/events';
 import type { Edge, } from '@antv/x6';
-import { DND_RENDER_ID, ZOOM_OPTIONS } from './constant';
+import { CustomCommands, DND_RENDER_ID, ZOOM_OPTIONS } from './constant';
 import { BaseNode } from './react-node/base-node';
 
 export namespace NsAddEdgeEvent {
@@ -23,6 +23,7 @@ export namespace NsAddEdgeEvent {
   }
 }
 
+/** graph hook config */
 export const useGraphHookConfig = createHookConfig((config, proxy) => {
   // 获取 Props
   const props = proxy.getValue();
@@ -44,7 +45,7 @@ export const useGraphHookConfig = createHookConfig((config, proxy) => {
           events.push({
             eventName: 'node:moved',
             callback: (e, cmds) => {
-              const { node } = e
+              const { node } = e;
               cmds.executeCommand<NsNodeCmd.MoveNode.IArgs>(XFlowNodeCommands.MOVE_NODE.id, {
                 id: node.id,
                 position: node.getPosition(),
@@ -59,6 +60,18 @@ export const useGraphHookConfig = createHookConfig((config, proxy) => {
           events.push({
             eventName: 'edge:removed',
             callback: (e, cmds) => {
+            }
+          });
+        }
+      }),
+      hooks.x6Events.registerHook({
+        name: 'node_dbclick',
+        handler: async events => {
+          events.push({
+            eventName: 'node:dblclick',
+            callback: (e, cmds) => {
+              const { node } = e;
+              cmds.executeCommand(CustomCommands.NODE_EDIT.id, {})
             }
           });
         }

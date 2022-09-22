@@ -4,7 +4,6 @@ import {
   CompressOutlined,
   DeleteOutlined,
   EditOutlined,
-  ExclamationCircleOutlined,
   FullscreenExitOutlined,
   FullscreenOutlined,
   PlaySquareOutlined,
@@ -22,7 +21,9 @@ import {
   CanvasSnapline,
   CanvasToolbar,
   createCtxMenuConfig,
+  createHookConfig,
   createToolbarConfig,
+  DisposableCollection,
   IApplication,
   IAppLoad,
   IconStore,
@@ -35,6 +36,7 @@ import {
   NsEdgeCmd,
   NsGraph,
   NsGraphCmd,
+  NsNodeCmd,
   XFlow,
   XFlowCanvas,
   XFlowEdgeCommands,
@@ -55,7 +57,7 @@ import { useKeybindingConfig } from './Dag/config-keybinding';
 import '@antv/xflow/dist/index.css';
 import * as dndPanelConfig from './Dag/config-dnd-panel';
 import './index.less';
-import { CONNECTION_PORT_TYPE, DND_RENDER_ID, NODE_HEIGHT, NODE_WIDTH, ZOOM_OPTIONS } from './Dag/constant';
+import { CONNECTION_PORT_TYPE, CustomCommands, DND_RENDER_ID, NODE_HEIGHT, NODE_WIDTH, ZOOM_OPTIONS } from './Dag/constant';
 import { DagService } from './Dag/service';
 interface DiJobFlowPorps {
   visible: boolean;
@@ -70,10 +72,9 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
   const access = useAccess();
   const { visible, data, onVisibleChange, onCancel, meta } = props;
   const graphConfig = useGraphCOnfig(props);
-  const graphHooksConfig = useGraphHookConfig(props);
   const [graphData, setGraphData] = useState<NsGraph.IGraphData>({ nodes: [], edges: [] });
   const cmdConfig = useCmdConfig();
-  // const modelServiceConfig = useModelServiceConfig();
+  const graphHookConfig = useGraphHookConfig(props);
   const keybindingConfig = useKeybindingConfig();
 
   /**register icons */
@@ -143,6 +144,8 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
     });
 
   }
+
+
   /**
    * menu config
    */
@@ -162,17 +165,9 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
                 iconName: 'EditOutlined',
                 onClick: async ({ target, commandService }) => {
                   console.log(target);
-                  Modal.confirm({
-                    title: 'Do you Want to delete these items?',
-                    icon: <ExclamationCircleOutlined />,
-                    content: 'Some descriptions',
-                    onOk() {
-                      console.log('OK');
-                    },
-                    onCancel() {
-                      console.log('Cancel');
-                    },
-                  });
+                  commandService.executeCommand(CustomCommands.NODE_EDIT.id, {
+
+                  })
                 }
               },
               {
@@ -500,7 +495,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
       >
         <XFlow
           className="dag-user-custom-clz"
-          hookConfig={graphHooksConfig}
+          hookConfig={graphHookConfig}
           commandConfig={cmdConfig}
           onLoad={onLoad}
           graphData={graphData}
@@ -537,7 +532,6 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
           <KeyBindings config={keybindingConfig} />
         </XFlow>
       </Drawer>
-      { }
     </>
   );
 };
