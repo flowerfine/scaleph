@@ -65,4 +65,13 @@ export default {
   'pages.project.di.flow.dag.zoomOut': '缩小',
   'pages.project.di.flow.dag.zoomFit': '缩放到适应屏幕',
   'pages.project.di.flow.dag.zoomTo': '当前缩放比例:{factor}',
+  'pages.project.di.step.stepTitle': '步骤标题',
+  'pages.project.di.step.dataSourceType': '数据源类型',
+  'pages.project.di.step.dataSource': '数据源',
+  'pages.project.di.step.partitionColumn': '分区字段',
+  'pages.project.di.step.partitionColumn.tooltip': '只支持数值类型字段作为分区字段',
+  'pages.project.di.step.query': 'SQL',
+  'pages.project.di.step.getsql': '获取SQL查询语句',
+  'pages.project.di.step.preview': '预览查询结果',
+
 };

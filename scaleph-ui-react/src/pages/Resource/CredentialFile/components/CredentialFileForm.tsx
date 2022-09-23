@@ -1,14 +1,14 @@
-import {ModalFormProps} from '@/app.d';
-import {Form, message, Modal, Upload, UploadFile, UploadProps} from 'antd';
-import {useIntl} from 'umi';
-import {useState} from "react";
-import {InboxOutlined} from "@ant-design/icons";
-import {uploadFiles} from "@/services/resource/clusterCredential.service";
-import {CredentialFileUploadParam} from "@/services/resource/typings";
+import { ModalFormProps } from '@/app.d';
+import { ClusterCredentialService } from '@/services/resource/clusterCredential.service';
+import { CredentialFileUploadParam } from '@/services/resource/typings';
+import { InboxOutlined } from '@ant-design/icons';
+import { Form, message, Modal, Upload, UploadFile, UploadProps } from 'antd';
+import { useState } from 'react';
+import { useIntl } from 'umi';
 
 const { Dragger } = Upload;
 
-const CredentialFileForm: React.FC<ModalFormProps<{id: number}>> = ({
+const CredentialFileForm: React.FC<ModalFormProps<{ id: number }>> = ({
   data,
   visible,
   onVisibleChange,
@@ -23,13 +23,13 @@ const CredentialFileForm: React.FC<ModalFormProps<{id: number}>> = ({
     name: 'files',
     multiple: true,
     maxCount: 10,
-    onRemove: file => {
+    onRemove: (file) => {
       const index = fileList.indexOf(file);
       const newFileList = fileList.slice();
       newFileList.splice(index, 1);
       setFileList(newFileList);
     },
-    beforeUpload: file => {
+    beforeUpload: (file) => {
       setFileList([...fileList, file]);
       return false;
     },
@@ -47,15 +47,19 @@ const CredentialFileForm: React.FC<ModalFormProps<{id: number}>> = ({
       destroyOnClose={true}
       onCancel={onCancel}
       confirmLoading={uploading}
-      okText={uploading ? intl.formatMessage({ id: 'app.common.operate.uploading.label' }) : intl.formatMessage({ id: 'app.common.operate.upload.label' })}
+      okText={
+        uploading
+          ? intl.formatMessage({ id: 'app.common.operate.uploading.label' })
+          : intl.formatMessage({ id: 'app.common.operate.upload.label' })
+      }
       onOk={() => {
         form.validateFields().then((values) => {
-          const uploadParam: CredentialFileUploadParam  ={
+          const uploadParam: CredentialFileUploadParam = {
             id: data.id,
             files: fileList,
           };
           setUploading(true);
-          uploadFiles(uploadParam)
+          ClusterCredentialService.uploadFiles(uploadParam)
             .then(() => {
               setFileList([]);
               message.success(intl.formatMessage({ id: 'app.common.operate.upload.success' }));

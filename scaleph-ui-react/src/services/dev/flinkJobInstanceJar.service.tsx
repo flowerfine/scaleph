@@ -1,12 +1,13 @@
-import {request} from "@@/exports";
-import {ResponseBody} from "@/app.d";
-import {FlinkJobConfigJar} from "@/services/dev/typings";
+import { ResponseBody } from '@/app.d';
+import { FlinkJobConfigJar } from '@/services/dev/typings';
+import { request } from '@@/exports';
 
-const url: string = '/api/flink/job-instance/jar';
-
-export async function submit(row: FlinkJobConfigJar) {
-  return request<ResponseBody<any>>(`${url}`, {
-    method: 'PUT',
-    data: {flinkJobConfigJarId: row.id},
-  });
-}
+export const FLinkJobInstanceJarService = {
+  url: '/api/flink/job-instance/jar',
+  submit: async (row: FlinkJobConfigJar) => {
+    return request<ResponseBody<any>>(`${FLinkJobInstanceJarService.url}`, {
+      method: 'PUT',
+      data: { flinkJobConfigJarId: row.id },
+    });
+  },
+};

@@ -1,13 +1,13 @@
-import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
-import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
-import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
-import {useEffect, useRef, useState} from 'react';
-import {history, useAccess, useIntl} from 'umi';
-import {FlinkClusterConfig} from "@/services/dev/typings";
-import {deleteBatch, deleteOne, list} from "@/services/dev/flinkClusterConfig.service";
-import {listDictDataByType} from "@/services/admin/dictData.service";
-import {Dict} from '@/app.d';
+import { Dict } from '@/app.d';
+import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
+import { DictDataService } from '@/services/admin/dictData.service';
+import { FlinkClusterConfigService } from '@/services/dev/flinkClusterConfig.service';
+import { FlinkClusterConfig } from '@/services/dev/typings';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
+import { Button, message, Modal, Select, Space, Tooltip } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { history, useAccess, useIntl } from 'umi';
 
 const FlinkClusterConfigWeb: React.FC = () => {
   const intl = useIntl();
@@ -18,31 +18,31 @@ const FlinkClusterConfigWeb: React.FC = () => {
   const [flinkVersionList, setFlinkVersionList] = useState<Dict[]>([]);
   const [resourceProviderList, setResourceProviderList] = useState<Dict[]>([]);
   const [deployModeList, setDeployModeList] = useState<Dict[]>([]);
-  
+
   useEffect(() => {
-    listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
       setFlinkVersionList(d);
     });
-    listDictDataByType(DICT_TYPE.flinkResourceProvider).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.flinkResourceProvider).then((d) => {
       setResourceProviderList(d);
     });
-    listDictDataByType(DICT_TYPE.flinkDeploymentMode).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.flinkDeploymentMode).then((d) => {
       setDeployModeList(d);
     });
   }, []);
 
   const tableColumns: ProColumns<FlinkClusterConfig>[] = [
     {
-      title: intl.formatMessage({id: 'pages.dev.clusterConfig.name'}),
+      title: intl.formatMessage({ id: 'pages.dev.clusterConfig.name' }),
       dataIndex: 'name',
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.clusterConfig.flinkVersion'}),
+      title: intl.formatMessage({ id: 'pages.dev.clusterConfig.flinkVersion' }),
       dataIndex: 'flinkVersion',
       render: (text, record, index) => {
         return record.flinkVersion?.label;
       },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+      renderFormItem: (item, { defaultRender, ...rest }, form) => {
         return (
           <Select
             showSearch={true}
@@ -64,12 +64,12 @@ const FlinkClusterConfigWeb: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.clusterConfig.deployMode'}),
+      title: intl.formatMessage({ id: 'pages.dev.clusterConfig.deployMode' }),
       dataIndex: 'deployMode',
       render: (text, record, index) => {
         return record.deployMode?.label;
       },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+      renderFormItem: (item, { defaultRender, ...rest }, form) => {
         return (
           <Select
             showSearch={true}
@@ -91,12 +91,12 @@ const FlinkClusterConfigWeb: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.clusterConfig.resourceProvider'}),
+      title: intl.formatMessage({ id: 'pages.dev.clusterConfig.resourceProvider' }),
       dataIndex: 'resourceProvider',
       render: (text, record, index) => {
         return record.resourceProvider?.label;
       },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+      renderFormItem: (item, { defaultRender, ...rest }, form) => {
         return (
           <Select
             showSearch={true}
@@ -118,7 +118,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.clusterConfig.flinkRelease'}),
+      title: intl.formatMessage({ id: 'pages.dev.clusterConfig.flinkRelease' }),
       dataIndex: 'flinkRelease',
       hideInSearch: true,
       render: (text, record, index) => {
@@ -126,7 +126,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.clusterConfig.clusterCredential'}),
+      title: intl.formatMessage({ id: 'pages.dev.clusterConfig.clusterCredential' }),
       dataIndex: 'clusterCredential',
       hideInSearch: true,
       render: (text, record, index) => {
@@ -134,24 +134,24 @@ const FlinkClusterConfigWeb: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.remark'}),
+      title: intl.formatMessage({ id: 'pages.dev.remark' }),
       dataIndex: 'remark',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.createTime'}),
+      title: intl.formatMessage({ id: 'pages.dev.createTime' }),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.updateTime'}),
+      title: intl.formatMessage({ id: 'pages.dev.updateTime' }),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'app.common.operate.label'}),
+      title: intl.formatMessage({ id: 'app.common.operate.label' }),
       dataIndex: 'actions',
       align: 'center',
       width: 120,
@@ -161,37 +161,37 @@ const FlinkClusterConfigWeb: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<EditOutlined/>}
+                  icon={<EditOutlined />}
                   onClick={() => {
-                    history.push("/workspace/dev/clusterConfigOptions", record);
+                    history.push('/workspace/dev/clusterConfigOptions', record);
                   }}
                 ></Button>
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevDatasourceDelete) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DeleteOutlined/>}
+                  icon={<DeleteOutlined />}
                   onClick={() => {
                     Modal.confirm({
-                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                      title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
                       content: intl.formatMessage({
                         id: 'app.common.operate.delete.confirm.content',
                       }),
-                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                      okButtonProps: {danger: true},
-                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                      okButtonProps: { danger: true },
+                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        deleteOne(record).then((d) => {
+                        FlinkClusterConfigService.deleteOne(record).then((d) => {
                           if (d.success) {
                             message.success(
-                              intl.formatMessage({id: 'app.common.operate.delete.success'}),
+                              intl.formatMessage({ id: 'app.common.operate.delete.success' }),
                             );
                             actionRef.current?.reload();
                           }
@@ -212,7 +212,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
     <ProTable<FlinkClusterConfig>
       search={{
         labelWidth: 'auto',
-        span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
+        span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
       }}
       rowKey="id"
       actionRef={actionRef}
@@ -220,7 +220,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) => {
-        return list(params);
+        return FlinkClusterConfigService.list(params);
       }}
       toolbar={{
         actions: [
@@ -229,10 +229,10 @@ const FlinkClusterConfigWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                history.push("/workspace/dev/clusterConfigOptions", {});
+                history.push('/workspace/dev/clusterConfigOptions', {});
               }}
             >
-              {intl.formatMessage({id: 'app.common.operate.new.label'})}
+              {intl.formatMessage({ id: 'app.common.operate.new.label' })}
             </Button>
           ),
           access.canAccess(PRIVILEGE_CODE.datadevProjectDelete) && (
@@ -242,18 +242,18 @@ const FlinkClusterConfigWeb: React.FC = () => {
               disabled={selectedRows.length < 1}
               onClick={() => {
                 Modal.confirm({
-                  title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                  title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
                   content: intl.formatMessage({
                     id: 'app.common.operate.delete.confirm.content',
                   }),
-                  okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                  okButtonProps: {danger: true},
-                  cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                  okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                  okButtonProps: { danger: true },
+                  cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                   onOk() {
-                    deleteBatch(selectedRows).then((d) => {
+                    FlinkClusterConfigService.deleteBatch(selectedRows).then((d) => {
                       if (d.success) {
                         message.success(
-                          intl.formatMessage({id: 'app.common.operate.delete.success'}),
+                          intl.formatMessage({ id: 'app.common.operate.delete.success' }),
                         );
                         actionRef.current?.reload();
                       }
@@ -262,12 +262,12 @@ const FlinkClusterConfigWeb: React.FC = () => {
                 });
               }}
             >
-              {intl.formatMessage({id: 'app.common.operate.delete.label'})}
+              {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
             </Button>
           ),
         ],
       }}
-      pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
+      pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
       rowSelection={{
         fixed: true,
         onChange(selectedRowKeys, selectedRows, info) {

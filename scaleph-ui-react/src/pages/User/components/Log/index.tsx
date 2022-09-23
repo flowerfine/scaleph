@@ -1,4 +1,4 @@
-import { listLoginLogByPage } from '@/services/admin/log.service';
+import { LogService } from '@/services/admin/log.service';
 import { LogLogin } from '@/services/admin/typings';
 import { List, Pagination, Tooltip, Typography } from 'antd';
 import moment from 'moment';
@@ -19,7 +19,7 @@ const Log: React.FC = () => {
   }, []);
 
   const refreshLogs = (pageSize: number, current: number) => {
-    listLoginLogByPage({ pageSize, current }).then((resp) => {
+    LogService.listLoginLogByPage({ pageSize, current }).then((resp) => {
       setLogs(resp.data);
       setTotal(resp.total);
     });
@@ -37,7 +37,9 @@ const Log: React.FC = () => {
                 <Typography.Text strong>
                   {item.loginType?.label}&nbsp;&nbsp;
                   <Tooltip title={item.loginTime}>
-                    <Typography.Text type="secondary">{moment(item.loginTime).fromNow()}</Typography.Text>
+                    <Typography.Text type="secondary">
+                      {moment(item.loginTime).fromNow()}
+                    </Typography.Text>
                   </Tooltip>
                 </Typography.Text>
               }

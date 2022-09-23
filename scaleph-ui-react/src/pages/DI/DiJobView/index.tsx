@@ -1,8 +1,8 @@
 import { Dict, TreeNode } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
-import { listDictDataByType } from '@/services/admin/dictData.service';
-import { deleteDir, listProjectDir } from '@/services/project/directory.service';
-import { deleteJobBatch, deleteJobRow, listJobByProject } from '@/services/project/job.service';
+import { DictDataService } from '@/services/admin/dictData.service';
+import { DirectoryService } from '@/services/project/directory.service';
+import { JobService } from '@/services/project/job.service';
 import { DiDirectory, DiDirectoryTreeNode, DiJob } from '@/services/project/typings';
 import {
   DeleteOutlined,
@@ -278,7 +278,7 @@ const DiJobView: React.FC = () => {
                       okButtonProps: { danger: true },
                       cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        deleteJobRow(record).then((d) => {
+                        JobService.deleteJobRow(record).then((d) => {
                           if (d.success) {
                             message.success(
                               intl.formatMessage({ id: 'app.common.operate.delete.success' }),
@@ -298,17 +298,17 @@ const DiJobView: React.FC = () => {
     },
   ];
   useEffect(() => {
-    listDictDataByType(DICT_TYPE.jobType).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.jobType).then((d) => {
       setJobTypeList(d);
     });
-    listDictDataByType(DICT_TYPE.runtimeState).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.runtimeState).then((d) => {
       setRuntimeStateList(d);
     });
     refreshDirList();
   }, []);
 
   const refreshDirList = () => {
-    listProjectDir(projectId).then((d) => {
+    DirectoryService.listProjectDir(projectId).then((d) => {
       setDirList(buildTree(d));
     });
   };
@@ -499,7 +499,7 @@ const DiJobView: React.FC = () => {
                                       id: 'app.common.operate.cancel.label',
                                     }),
                                     onOk() {
-                                      deleteDir(node.origin).then((d) => {
+                                      DirectoryService.deleteDir(node.origin).then((d) => {
                                         if (d.success) {
                                           message.success(
                                             intl.formatMessage({
@@ -538,7 +538,7 @@ const DiJobView: React.FC = () => {
             options={false}
             columns={tableColumns}
             request={(params, sorter, filter) => {
-              return listJobByProject({
+              return JobService.listJobByProject({
                 ...params,
                 projectId: projectId,
                 directoryId: selectDir as string,
@@ -614,7 +614,7 @@ const DiJobView: React.FC = () => {
                         okButtonProps: { danger: true },
                         cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                         onOk() {
-                          deleteJobBatch(selectedRows).then((d) => {
+                          JobService.deleteJobBatch(selectedRows).then((d) => {
                             if (d.success) {
                               message.success(
                                 intl.formatMessage({ id: 'app.common.operate.delete.success' }),

@@ -1,4 +1,4 @@
-import { listMessageByPage, updateMessage } from '@/services/admin/message.service';
+import { MessageService } from '@/services/admin/message.service';
 import { LogMessage } from '@/services/admin/typings';
 import { Card, Collapse, Pagination, Space, Tag, Tooltip, Typography } from 'antd';
 import moment from 'moment';
@@ -19,7 +19,7 @@ const Message: React.FC = () => {
   }, []);
 
   const refreshMessages = (pageSize: number, current: number) => {
-    listMessageByPage({ pageSize, current }).then((resp) => {
+    MessageService.listMessageByPage({ pageSize, current }).then((resp) => {
       setMessages(resp.data);
       setTotal(resp.total);
     });
@@ -43,7 +43,7 @@ const Message: React.FC = () => {
                   onClick={() => {
                     if (item.isRead?.value == '0') {
                       item.isRead.value = '1';
-                      updateMessage(item).then((resp) => {
+                      MessageService.updateMessage(item).then((resp) => {
                         if (resp.success) {
                           refreshMessages(pageInfo.pageSize, pageInfo.current);
                         }
@@ -60,7 +60,9 @@ const Message: React.FC = () => {
               <Typography.Text>{item.content}</Typography.Text>
               <br />
               <Tooltip title={item.createTime}>
-                <Typography.Text type="secondary">{moment(item.createTime).fromNow()}</Typography.Text>
+                <Typography.Text type="secondary">
+                  {moment(item.createTime).fromNow()}
+                </Typography.Text>
               </Tooltip>
             </Collapse.Panel>
           );

@@ -1,11 +1,11 @@
-import {Dict, ModalFormProps} from '@/app.d';
-import {ClusterCredential} from '@/services/resource/typings';
-import {Form, Input, message, Modal, Select} from 'antd';
-import {useIntl} from 'umi';
-import {useEffect, useState} from "react";
-import {listDictDataByType} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
-import {add, update} from '@/services/resource/clusterCredential.service';
+import { Dict, ModalFormProps } from '@/app.d';
+import { DICT_TYPE } from '@/constant';
+import { DictDataService } from '@/services/admin/dictData.service';
+import { ClusterCredentialService } from '@/services/resource/clusterCredential.service';
+import { ClusterCredential } from '@/services/resource/typings';
+import { Form, Input, message, Modal, Select } from 'antd';
+import { useEffect, useState } from 'react';
+import { useIntl } from 'umi';
 
 const ClusterCredentialForm: React.FC<ModalFormProps<ClusterCredential>> = ({
   data,
@@ -17,11 +17,10 @@ const ClusterCredentialForm: React.FC<ModalFormProps<ClusterCredential>> = ({
   const [form] = Form.useForm();
   const [clusterTypeList, setClusterTypeList] = useState<Dict[]>([]);
   useEffect(() => {
-    listDictDataByType(DICT_TYPE.flinkResourceProvider).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.flinkResourceProvider).then((d) => {
       setClusterTypeList(d);
     });
   }, []);
-
 
   return (
     <Modal
@@ -42,26 +41,29 @@ const ClusterCredentialForm: React.FC<ModalFormProps<ClusterCredential>> = ({
             id: values.id,
             configType: values.configType,
             name: values.name,
-            remark: values.remark
+            remark: values.remark,
           };
           data.id
-            ? update(param).then((d) => {
-              if (d.success) {
-                message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
-                onVisibleChange(false);
-              }
-            })
-            : add(param).then((d) => {
-              if (d.success) {
-                message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
-                onVisibleChange(false);
-              }
-            });
+            ? ClusterCredentialService.update(param).then((d) => {
+                if (d.success) {
+                  message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
+                  onVisibleChange(false);
+                }
+              })
+            : ClusterCredentialService.add(param).then((d) => {
+                if (d.success) {
+                  message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
+                  onVisibleChange(false);
+                }
+              });
         });
       }}
     >
       <Form
-        form={form} layout="horizontal" labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}
+        form={form}
+        layout="horizontal"
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 16 }}
         initialValues={{
           id: data.id,
           configType: data.configType?.value,
@@ -83,9 +85,7 @@ const ClusterCredentialForm: React.FC<ModalFormProps<ClusterCredential>> = ({
             allowClear={true}
             optionFilterProp="label"
             filterOption={(input, option) =>
-              (option!.children as unknown as string)
-                .toLowerCase()
-                .includes(input.toLowerCase())
+              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
             }
           >
             {clusterTypeList.map((item) => {
