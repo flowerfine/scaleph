@@ -80,9 +80,7 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
         final Page<ResourceSeaTunnelRelease> page = releaseSeaTunnelMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(ResourceSeaTunnelRelease.class)
-                        .eq(param.getVersion() != null,
-                                ResourceSeaTunnelRelease::getVersion,
-                                param.getVersion() != null ? param.getVersion().getValue() : null)
+                        .eq(param.getVersion() != null, ResourceSeaTunnelRelease::getVersion, param.getVersion())
                         .like(StringUtils.hasText(param.getFileName()), ResourceSeaTunnelRelease::getFileName, param.getFileName()));
         Page<SeaTunnelReleaseDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());

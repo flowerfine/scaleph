@@ -24,12 +24,13 @@ import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
 import cn.sliew.flinkful.cli.base.util.FlinkUtil;
 import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
-import cn.sliew.scaleph.common.constant.DictConstants;
+import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
+import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
+import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
 import cn.sliew.scaleph.common.enums.DeployMode;
 import cn.sliew.scaleph.common.enums.ResourceProvider;
 import cn.sliew.scaleph.common.nio.TarUtil;
 import cn.sliew.scaleph.common.nio.TempFileUtil;
-import cn.sliew.scaleph.engine.flink.enums.FlinkClusterStatus;
 import cn.sliew.scaleph.engine.flink.service.*;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactJarDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
@@ -41,7 +42,6 @@ import cn.sliew.scaleph.resource.service.FlinkReleaseService;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
 import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -66,6 +66,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static cn.sliew.milky.common.check.Ensures.checkState;
 
 @Slf4j
 @Service
@@ -93,14 +95,20 @@ public class FlinkServiceImpl implements FlinkService {
     @Override
     public void createSessionCluster(FlinkSessionClusterAddParam param) throws Exception {
         final FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(param.getFlinkClusterConfigId());
-        final DictVO resourceProvider = flinkClusterConfigDTO.getResourceProvider();
+        final FlinkResourceProvider resourceProvider = flinkClusterConfigDTO.getResourceProvider();
         ClusterClient clusterClient;
-        if (resourceProvider.getValue().equals(String.valueOf(ResourceProvider.YARN.getCode()))) {
-            clusterClient = createYarnSessionCluster(flinkClusterConfigDTO);
-        } else if (resourceProvider.getValue().equals(String.valueOf(ResourceProvider.NATIVE_KUBERNETES.getCode()))) {
-            clusterClient = createKubernetesSessionCluster(flinkClusterConfigDTO);
-        } else {
-            clusterClient = createExistingSessionCluster(flinkClusterConfigDTO);
+        switch (resourceProvider) {
+            case YARN:
+                clusterClient = createYarnSessionCluster(flinkClusterConfigDTO);
+                break;
+            case NATIVE_KUBERNETES:
+                clusterClient = createKubernetesSessionCluster(flinkClusterConfigDTO);
+                break;
+            case STANDALONE:
+                clusterClient = createExistingSessionCluster(flinkClusterConfigDTO);
+                break;
+            default:
+                throw new UnsupportedOperationException("unknown resource provider for " + resourceProvider);
         }
 
         FlinkClusterInstanceDTO dto = new FlinkClusterInstanceDTO();
@@ -108,7 +116,7 @@ public class FlinkServiceImpl implements FlinkService {
         dto.setName(flinkClusterConfigDTO.getName() + "-" + RandomStringUtils.randomAlphabetic(8));
         dto.setClusterId(clusterClient.getClusterId().toString());
         dto.setWebInterfaceUrl(clusterClient.getWebInterfaceURL());
-        dto.setStatus(DictVO.toVO(DictConstants.FLINK_CLUSTER_STATUS, String.valueOf(FlinkClusterStatus.RUNNING.getCode())));
+        dto.setStatus(FlinkClusterStatus.RUNNING);
         dto.setRemark(param.getRemark());
         flinkClusterInstanceService.insert(dto);
     }
@@ -170,7 +178,6 @@ public class FlinkServiceImpl implements FlinkService {
         }
     }
 
-
     @Override
     public void shutdown(Long id) throws Exception {
         final FlinkClusterInstanceDTO flinkClusterInstanceDTO = flinkClusterInstanceService.selectOne(id);
@@ -178,36 +185,17 @@ public class FlinkServiceImpl implements FlinkService {
         final Path workspace = getWorkspace();
         final Path clusterCredentialPath = loadClusterCredential(flinkClusterConfigDTO.getClusterCredential(), workspace);
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, clusterCredentialPath);
-        final DictVO resourceProvider = flinkClusterConfigDTO.getResourceProvider();
-        final DictVO deployMode = flinkClusterConfigDTO.getDeployMode();
-        if (resourceProvider.getValue().equals(String.valueOf(ResourceProvider.YARN.getCode()))) {
-            configuration.setString(YarnConfigOptions.APPLICATION_ID, flinkClusterInstanceDTO.getClusterId());
-            if (deployMode.getValue().equals(String.valueOf(DeployMode.APPLICATION.getCode()))) {
-                DeploymentTarget.YARN_APPLICATION.apply(configuration);
-            } else if (deployMode.getValue().equals(String.valueOf(DeployMode.PER_JOB.getCode()))) {
-                DeploymentTarget.YARN_PER_JOB.apply(configuration);
-            } else if (deployMode.getValue().equals(String.valueOf(DeployMode.SESSION.getCode()))) {
-                DeploymentTarget.YARN_SESSION.apply(configuration);
-            }
-        } else if (resourceProvider.getValue().equals(String.valueOf(ResourceProvider.NATIVE_KUBERNETES.getCode()))) {
-            configuration.setString(KubernetesConfigOptions.CLUSTER_ID, flinkClusterInstanceDTO.getClusterId());
-            if (deployMode.getValue().equals(String.valueOf(DeployMode.APPLICATION.getCode()))) {
-                DeploymentTarget.NATIVE_KUBERNETES_APPLICATION.apply(configuration);
-            } else if (deployMode.getValue().equals(String.valueOf(DeployMode.SESSION.getCode()))) {
-                DeploymentTarget.NATIVE_KUBERNETES_SESSION.apply(configuration);
-            }
-        } else {
-            // standalone session
-        }
+        buildConfiguration(flinkClusterInstanceDTO.getClusterId(), flinkClusterConfigDTO.getResourceProvider(), flinkClusterConfigDTO.getDeployMode(), configuration);
 
         ClusterClient client = FlinkUtil.retrieve(configuration);
         client.shutDownCluster();
 
         FlinkClusterInstanceDTO dto = new FlinkClusterInstanceDTO();
         dto.setId(id);
-        dto.setStatus(DictVO.toVO(DictConstants.FLINK_CLUSTER_STATUS, String.valueOf(FlinkClusterStatus.STOP.getCode())));
+        dto.setStatus(FlinkClusterStatus.STOPED);
         flinkClusterInstanceService.update(dto);
     }
+
 
     @Override
     public void shutdownBatch(List<Long> ids) throws Exception {
@@ -260,43 +248,86 @@ public class FlinkServiceImpl implements FlinkService {
         }
 
         final ClusterCredentialDTO clusterCredentialDTO = flinkClusterConfigDTO.getClusterCredential();
-
-        if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ResourceProvider.YARN.getCode()))) {
-            dynamicProperties.set(CoreOptions.FLINK_HADOOP_CONF_DIR, clusterCredentialPath.toAbsolutePath().toString());
-            if (dynamicProperties.contains(JobManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
-                dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
-            }
-            if (dynamicProperties.contains(TaskManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
-                dynamicProperties.setLong(TaskManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
-            }
-            return dynamicProperties;
-        }
-
-        if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ResourceProvider.NATIVE_KUBERNETES.getCode()))) {
-            final List<Path> childs = Files.list(clusterCredentialPath).collect(Collectors.toList());
-            if (CollectionUtils.isEmpty(childs)) {
+        final FlinkResourceProvider resourceProvider = clusterCredentialDTO.getConfigType();
+        switch (resourceProvider) {
+            case YARN:
+                return buildYarnConfiguration(dynamicProperties, clusterCredentialPath);
+            case NATIVE_KUBERNETES:
+                return buildKubernetesConfiguration(dynamicProperties, clusterCredentialPath);
+            case STANDALONE:
+                return buildStandaloneConfiguration(dynamicProperties, clusterCredentialPath);
+            default:
                 return dynamicProperties;
-            }
-            final Path kubeConfigFile = childs.get(0);
-            dynamicProperties.set(KubernetesConfigOptions.KUBE_CONFIG_FILE, kubeConfigFile.toAbsolutePath().toString());
-            if (dynamicProperties.contains(JobManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
-                dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
-            }
-            if (dynamicProperties.contains(TaskManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
-                dynamicProperties.setLong(TaskManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
-            }
-            return dynamicProperties;
         }
+    }
 
-        if (clusterCredentialDTO.getConfigType().getValue().equals(String.valueOf(ResourceProvider.STANDALONE.getCode()))) {
-            final List<Path> childs = Files.list(clusterCredentialPath).collect(Collectors.toList());
-            if (CollectionUtils.isEmpty(childs)) {
-                return dynamicProperties;
-            }
-            return GlobalConfiguration.loadConfiguration(clusterCredentialPath.toString(), dynamicProperties);
+    private Configuration buildYarnConfiguration(Configuration dynamicProperties, Path clusterCredentialPath) {
+        dynamicProperties.set(CoreOptions.FLINK_HADOOP_CONF_DIR, clusterCredentialPath.toAbsolutePath().toString());
+        if (dynamicProperties.contains(JobManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
+            dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
         }
-
+        if (dynamicProperties.contains(TaskManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
+            dynamicProperties.setLong(TaskManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
+        }
         return dynamicProperties;
+    }
+
+    private Configuration buildKubernetesConfiguration(Configuration dynamicProperties, Path clusterCredentialPath) throws IOException {
+        final List<Path> childs = Files.list(clusterCredentialPath).collect(Collectors.toList());
+        checkState(CollectionUtils.isEmpty(childs) == false, () -> "Kubernetes kubeconfig can't be null");
+
+        final Path kubeConfigFile = childs.get(0);
+        dynamicProperties.set(KubernetesConfigOptions.KUBE_CONFIG_FILE, kubeConfigFile.toAbsolutePath().toString());
+        if (dynamicProperties.contains(JobManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
+            dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
+        }
+        if (dynamicProperties.contains(TaskManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
+            dynamicProperties.setLong(TaskManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
+        }
+        return dynamicProperties;
+    }
+
+    private Configuration buildStandaloneConfiguration(Configuration dynamicProperties, Path clusterCredentialPath) throws IOException {
+        final List<Path> childs = Files.list(clusterCredentialPath).collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(childs)) {
+            return dynamicProperties;
+        }
+        return GlobalConfiguration.loadConfiguration(clusterCredentialPath.toString(), dynamicProperties);
+    }
+
+    private void buildConfiguration(String clusterId, FlinkResourceProvider resourceProvider, FlinkDeploymentMode deployMode, Configuration configuration) throws IOException {
+        switch (resourceProvider) {
+            case YARN:
+                configuration.setString(YarnConfigOptions.APPLICATION_ID, clusterId);
+                switch (deployMode) {
+                    case APPLICATION:
+                        DeploymentTarget.YARN_APPLICATION.apply(configuration);
+                        break;
+                    case PER_JOB:
+                        DeploymentTarget.YARN_PER_JOB.apply(configuration);
+                        break;
+                    case SESSION:
+                        DeploymentTarget.YARN_SESSION.apply(configuration);
+                        break;
+                    default:
+                }
+                break;
+            case NATIVE_KUBERNETES:
+                configuration.setString(KubernetesConfigOptions.CLUSTER_ID, clusterId);
+                switch (deployMode) {
+                    case APPLICATION:
+                        DeploymentTarget.NATIVE_KUBERNETES_APPLICATION.apply(configuration);
+                        break;
+                    case SESSION:
+                        DeploymentTarget.NATIVE_KUBERNETES_SESSION.apply(configuration);
+                        break;
+                    default:
+                }
+                break;
+            case STANDALONE:
+                break;
+            default:
+        }
     }
 
     private PackageJarJob buildJarJob(FlinkJobConfigJarDTO flinkJobConfigJarDTO, FlinkArtifactJarDTO flinkArtifactJar, Path flinkArtifactJarPath) {

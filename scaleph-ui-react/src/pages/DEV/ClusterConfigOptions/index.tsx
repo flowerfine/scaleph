@@ -60,9 +60,9 @@ const DevBatchJob: React.FC = () => {
         const param: FlinkClusterConfig = {
           id: params?.id,
           name: value['name'],
-          flinkVersion: {value: value['flinkVersion']},
-          resourceProvider: {value: value['resourceProvider']},
-          deployMode: {value: value['deployMode']},
+          flinkVersion: value['flinkVersion'],
+          resourceProvider: value['resourceProvider'],
+          deployMode: value['deployMode'],
           flinkRelease: {id: value['flinkRelease']},
           clusterCredential: {id: value['clusterCredential']},
           remark: value['remark'],
