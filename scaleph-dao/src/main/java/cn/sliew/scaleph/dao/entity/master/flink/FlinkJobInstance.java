@@ -18,7 +18,8 @@
 
 package cn.sliew.scaleph.dao.entity.master.flink;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkJobStatus;
+import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -45,24 +46,32 @@ public class FlinkJobInstance extends BaseDO {
     @TableField("`type`")
     private FlinkJobType type;
 
-    @ApiModelProperty("flink 任务配置 ID")
+    @ApiModelProperty("flink job config ID")
     @TableField("flink_job_config_id")
     private Long flinkJobConfigId;
 
-    @ApiModelProperty("flink 集群实例 ID")
-    @TableField("flink_cluster_instance_id")
-    private Long flinkClusterInstanceId;
+    @ApiModelProperty("cluster ID")
+    @TableField("cluster_id")
+    private Object clusterId;
 
-    @ApiModelProperty("flink 任务 ID")
+    @ApiModelProperty("flink web-ui url")
+    @TableField("web_interface_url")
+    private String webInterfaceUrl;
+
+    @ApiModelProperty("flink cluster status")
+    @TableField("cluster_status")
+    private FlinkClusterStatus clusterStatus;
+
+    @ApiModelProperty("flink job ID")
     @TableField("job_id")
     private String jobId;
 
-    @ApiModelProperty("任务状态")
-    @TableField("`status`")
-    private FlinkJobStatus status;
+    @ApiModelProperty("flink job name")
+    @TableField("job_name")
+    private String jobName;
 
-    @ApiModelProperty("备注")
-    @TableField("remark")
-    private String remark;
+    @ApiModelProperty("flink job state")
+    @TableField("`job_state`")
+    private FlinkJobState jobState;
 
 }

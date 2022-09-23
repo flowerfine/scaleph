@@ -46,7 +46,7 @@ public class FlinkJobInstanceServiceImpl implements FlinkJobInstanceService {
                 Wrappers.lambdaQuery(FlinkJobInstance.class)
                         .eq(param.getFlinkJobConfigId() != null, FlinkJobInstance::getFlinkJobConfigId, param.getFlinkJobConfigId())
                         .eq(param.getFlinkClusterInstanceId() != null, FlinkJobInstance::getFlinkClusterInstanceId, param.getFlinkClusterInstanceId())
-                        .eq(param.getStatus() != null, FlinkJobInstance::getStatus, param.getStatus()));
+                        .eq(param.getJobState() != null, FlinkJobInstance::getJobState, param.getJobState()));
         Page<FlinkJobInstanceDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         List<FlinkJobInstanceDTO> dtoList = FlinkJobInstanceConvert.INSTANCE.toDto(page.getRecords());
@@ -61,5 +61,17 @@ public class FlinkJobInstanceServiceImpl implements FlinkJobInstanceService {
             throw new IllegalStateException("flink job instance not exists for id: " + id);
         }
         return FlinkJobInstanceConvert.INSTANCE.toDto(record);
+    }
+
+    @Override
+    public int insert(FlinkJobInstanceDTO dto) {
+        FlinkJobInstance record = FlinkJobInstanceConvert.INSTANCE.toDo(dto);
+        return flinkJobInstanceMapper.insert(record);
+    }
+
+    @Override
+    public int update(FlinkJobInstanceDTO dto) {
+        FlinkJobInstance record = FlinkJobInstanceConvert.INSTANCE.toDo(dto);
+        return flinkJobInstanceMapper.updateById(record);
     }
 }

@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum FlinkJobStatus implements DictInstance {
+public enum FlinkJobState implements DictInstance {
 
     SUBMITING("SUBMITING", "提交中"),
     SUBMITED("SUBMITED", "已提交"),
@@ -48,17 +48,17 @@ public enum FlinkJobStatus implements DictInstance {
     ;
 
     @JsonCreator
-    public static FlinkJobStatus of(String value) {
+    public static FlinkJobState of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(FlinkJobStatus.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(FlinkJobState.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    FlinkJobStatus(String value, String label) {
+    FlinkJobState(String value, String label) {
         this.value = value;
         this.label = label;
     }

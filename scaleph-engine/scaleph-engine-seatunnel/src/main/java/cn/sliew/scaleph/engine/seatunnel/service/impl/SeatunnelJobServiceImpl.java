@@ -21,6 +21,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.impl;
 import cn.hutool.core.io.FileUtil;
 import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
+import cn.sliew.flinkful.cli.base.util.FlinkUtil;
 import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
 import cn.sliew.flinkful.rest.base.JobClient;
@@ -53,7 +54,9 @@ import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.api.common.JobStatus;
 import org.apache.flink.client.deployment.executors.RemoteExecutor;
+import org.apache.flink.client.program.ClusterClient;
 import org.apache.flink.configuration.*;
+import org.apache.flink.runtime.client.JobStatusMessage;
 import org.apache.flink.runtime.jobgraph.SavepointRestoreSettings;
 import org.apache.flink.runtime.rest.handler.async.TriggerResponse;
 import org.apache.flink.runtime.rest.messages.EmptyResponseBody;
@@ -149,11 +152,12 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
 
         //prevent System.exit() invocation when seatunnel job config check result is false
         CliClient client = new DescriptorCliClient();
-        JobID jobInstanceID = SecurityContext.call(() ->
+        ClusterClient clusterClient = SecurityContext.call(() ->
                 client.submit(DeploymentTarget.STANDALONE_SESSION, null, configuration, jarJob));
 
+        Optional<JobID> jobID = FlinkUtil.listJobs(clusterClient).stream().map(JobStatusMessage::getJobId).findFirst();
         //write log
-        insertJobLog(diJobDTO, configuration, jobInstanceID);
+        insertJobLog(diJobDTO, configuration, jobID.orElseThrow(() -> new IllegalStateException("flink job id not exists")));
         diJobDTO.setRuntimeState(
                 DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
         diJobService.update(diJobDTO);

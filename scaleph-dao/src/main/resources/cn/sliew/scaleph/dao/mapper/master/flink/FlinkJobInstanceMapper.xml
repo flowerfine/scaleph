@@ -28,17 +28,19 @@
         <result column="update_time" property="updateTime" />
         <result column="type" property="type" />
         <result column="flink_job_config_id" property="flinkJobConfigId" />
-        <result column="flink_cluster_instance_id" property="flinkClusterInstanceId" />
+        <result column="cluster_id" property="clusterId" />
+        <result column="web_interface_url" property="webInterfaceUrl" />
+        <result column="cluster_status" property="clusterStatus" />
         <result column="job_id" property="jobId" />
-        <result column="status" property="status" />
-        <result column="remark" property="remark" />
+        <result column="job_name" property="jobName" />
+        <result column="job_state" property="jobState" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        `type`, flink_job_config_id, flink_cluster_instance_id,
-        job_id, `status`, remark
+        `type`, flink_job_config_id, cluster_id, web_interface_url,
+        cluster_status, job_id, job_name, job_state
     </sql>
 
 </mapper>

@@ -28,4 +28,8 @@ public interface FlinkJobInstanceService {
 
     FlinkJobInstanceDTO selectOne(Long id);
 
+    int insert(FlinkJobInstanceDTO dto);
+
+    int update(FlinkJobInstanceDTO dto);
+
 }
