@@ -2,7 +2,7 @@ import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
 import FlinkArtifactForm from '@/pages/DEV/Artifact/components/FlinkArtifactForm';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { deleteBatch, deleteOne, list } from '@/services/dev/flinkArtifact.service';
+import { FlinkArtifactService } from '@/services/dev/flinkArtifact.service';
 import { FlinkArtifact } from '@/services/dev/typings';
 import { DeleteOutlined, EditOutlined, UploadOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
@@ -127,7 +127,7 @@ const FlinkArtifactWeb: React.FC = () => {
                       okButtonProps: { danger: true },
                       cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        deleteOne(record).then((d) => {
+                        FlinkArtifactService.deleteOne(record).then((d) => {
                           if (d.success) {
                             message.success(
                               intl.formatMessage({ id: 'app.common.operate.delete.success' }),
@@ -159,7 +159,7 @@ const FlinkArtifactWeb: React.FC = () => {
         formRef={formRef}
         options={false}
         columns={tableColumns}
-        request={(params, sorter, filter) => list(params)}
+        request={(params, sorter, filter) => FlinkArtifactService.list(params)}
         toolbar={{
           actions: [
             access.canAccess(PRIVILEGE_CODE.datadevResourceAdd) && (
@@ -188,7 +188,7 @@ const FlinkArtifactWeb: React.FC = () => {
                     okButtonProps: { danger: true },
                     cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                     onOk() {
-                      deleteBatch(selectedRows).then((d) => {
+                      FlinkArtifactService.deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(
                             intl.formatMessage({ id: 'app.common.operate.delete.success' }),

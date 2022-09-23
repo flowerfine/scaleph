@@ -2,7 +2,7 @@ import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
 import SessionClusterForm from '@/pages/DEV/ClusterInstance/components/SessionClusterForm';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { list, shutdown, shutdownBatch } from '@/services/dev/flinkClusterInstance.service';
+import { FlinkCLusterInstanceService } from '@/services/dev/flinkClusterInstance.service';
 import { FlinkClusterInstance } from '@/services/dev/typings';
 import { CloseOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
@@ -116,7 +116,7 @@ const ClusterInstanceWeb: React.FC = () => {
                       okButtonProps: { danger: true },
                       cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        shutdown(record).then((d) => {
+                        FlinkCLusterInstanceService.shutdown(record).then((d) => {
                           if (d.success) {
                             message.success(
                               intl.formatMessage({ id: 'app.common.operate.close.success' }),
@@ -149,7 +149,7 @@ const ClusterInstanceWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return list(params);
+          return FlinkCLusterInstanceService.list(params);
         }}
         toolbar={{
           actions: [
@@ -179,7 +179,7 @@ const ClusterInstanceWeb: React.FC = () => {
                     okButtonProps: { danger: true },
                     cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                     onOk() {
-                      shutdownBatch(selectedRows).then((d) => {
+                      FlinkCLusterInstanceService.shutdownBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(
                             intl.formatMessage({ id: 'app.common.operate.close.success' }),

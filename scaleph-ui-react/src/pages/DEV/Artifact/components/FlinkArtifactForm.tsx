@@ -1,7 +1,7 @@
 import { Dict, ModalFormProps } from '@/app.d';
 import { DICT_TYPE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { add, update } from '@/services/dev/flinkArtifact.service';
+import { FlinkArtifactService } from '@/services/dev/flinkArtifact.service';
 import { FlinkArtifact } from '@/services/dev/typings';
 import { Form, Input, message, Modal, Select } from 'antd';
 import { useEffect, useState } from 'react';
@@ -41,13 +41,13 @@ const FlinkArtifactForm: React.FC<ModalFormProps<FlinkArtifact>> = ({
             remark: values.remark,
           };
           data.id
-            ? update(param).then((d) => {
+            ? FlinkArtifactService.update(param).then((d) => {
                 if (d.success) {
                   message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
                   onVisibleChange(false);
                 }
               })
-            : add(param).then((d) => {
+            : FlinkArtifactService.add(param).then((d) => {
                 if (d.success) {
                   message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
                   onVisibleChange(false);

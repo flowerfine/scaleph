@@ -5,12 +5,8 @@ import HighAvailability from '@/pages/DEV/ClusterConfigOptions/components/HA';
 import Resource from '@/pages/DEV/ClusterConfigOptions/components/Resource';
 import State from '@/pages/DEV/ClusterConfigOptions/components/State';
 import { DictDataService } from '@/services/admin/dictData.service';
-import {
-  list as listClusterConfig,
-  selectOne,
-  setData,
-} from '@/services/dev/flinkClusterConfig.service';
-import { list as listClusterInstance } from '@/services/dev/flinkClusterInstance.service';
+import { FlinkClusterConfigService } from '@/services/dev/flinkClusterConfig.service';
+import { FlinkCLusterInstanceService } from '@/services/dev/flinkClusterInstance.service';
 import {
   FlinkClusterConfig,
   FlinkClusterConfigParam,
@@ -33,7 +29,7 @@ const JobClusterConfigOptions: React.FC = () => {
     if (!option) {
       return;
     }
-    selectOne(option.item.flinkClusterConfigId).then((response) => {
+    FlinkClusterConfigService.selectOne(option.item.flinkClusterConfigId).then((response) => {
       handleConfigOptionsChange(response);
     });
   };
@@ -50,7 +46,9 @@ const JobClusterConfigOptions: React.FC = () => {
     if (!config || !config.configOptions) {
       return;
     }
-    const flinkConfig = setData(new Map(Object.entries(config.configOptions)));
+    const flinkConfig = FlinkClusterConfigService.setData(
+      new Map(Object.entries(config.configOptions)),
+    );
     form.setFieldsValue(flinkConfig);
   };
 
@@ -91,7 +89,7 @@ const JobClusterConfigOptions: React.FC = () => {
                       name: params.keyWords,
                       deployMode: params.deployMode,
                     };
-                    return listClusterConfig(param).then((response) => {
+                    return FlinkClusterConfigService.list(param).then((response) => {
                       return response.data.map((item) => {
                         return { label: item.name, value: item.id, item: item };
                       });
@@ -112,7 +110,7 @@ const JobClusterConfigOptions: React.FC = () => {
                     const param: FlinkClusterInstanceParam = {
                       name: params.keyWords,
                     };
-                    return listClusterInstance(param).then((response) => {
+                    return FlinkCLusterInstanceService.list(param).then((response) => {
                       return response.data.map((item) => {
                         return { label: item.name, value: item.id, item: item };
                       });

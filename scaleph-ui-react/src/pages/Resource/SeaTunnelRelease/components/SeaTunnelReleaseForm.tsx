@@ -1,7 +1,7 @@
 import { Dict, ModalFormProps } from '@/app.d';
 import { DICT_TYPE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { upload } from '@/services/resource/seatunnelRelease.service';
+import { SeatunnelReleaseService } from '@/services/resource/seatunnelRelease.service';
 import { SeaTunnelRelease, SeaTunnelReleaseUploadParam } from '@/services/resource/typings';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message, Modal, Select, Upload, UploadFile, UploadProps } from 'antd';
@@ -68,7 +68,7 @@ const SeaTunnelReleaseForm: React.FC<ModalFormProps<SeaTunnelRelease>> = ({
             remark: values.remark,
           };
           setUploading(true);
-          upload(uploadParam)
+          SeatunnelReleaseService.upload(uploadParam)
             .then(() => {
               setFileList([]);
               message.success(intl.formatMessage({ id: 'app.common.operate.upload.success' }));

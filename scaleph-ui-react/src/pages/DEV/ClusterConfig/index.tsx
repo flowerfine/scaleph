@@ -1,7 +1,7 @@
 import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { deleteBatch, deleteOne, list } from '@/services/dev/flinkClusterConfig.service';
+import { FlinkClusterConfigService } from '@/services/dev/flinkClusterConfig.service';
 import { FlinkClusterConfig } from '@/services/dev/typings';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
@@ -188,7 +188,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
                       okButtonProps: { danger: true },
                       cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        deleteOne(record).then((d) => {
+                        FlinkClusterConfigService.deleteOne(record).then((d) => {
                           if (d.success) {
                             message.success(
                               intl.formatMessage({ id: 'app.common.operate.delete.success' }),
@@ -220,7 +220,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) => {
-        return list(params);
+        return FlinkClusterConfigService.list(params);
       }}
       toolbar={{
         actions: [
@@ -250,7 +250,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
                   okButtonProps: { danger: true },
                   cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                   onOk() {
-                    deleteBatch(selectedRows).then((d) => {
+                    FlinkClusterConfigService.deleteBatch(selectedRows).then((d) => {
                       if (d.success) {
                         message.success(
                           intl.formatMessage({ id: 'app.common.operate.delete.success' }),

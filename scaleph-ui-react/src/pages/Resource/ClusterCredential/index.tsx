@@ -1,7 +1,7 @@
 import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { deleteBatch, deleteOne, list } from '@/services/resource/clusterCredential.service';
+import { ClusterCredentialService } from '@/services/resource/clusterCredential.service';
 import { ClusterCredential } from '@/services/resource/typings';
 import { DeleteOutlined, EditOutlined, UploadOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
@@ -128,7 +128,7 @@ const ClusterCredentialResource: React.FC = () => {
                       okButtonProps: { danger: true },
                       cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        deleteOne(record).then((d) => {
+                        ClusterCredentialService.deleteOne(record).then((d) => {
                           if (d.success) {
                             message.success(
                               intl.formatMessage({ id: 'app.common.operate.delete.success' }),
@@ -161,7 +161,7 @@ const ClusterCredentialResource: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return list(params);
+          return ClusterCredentialService.list(params);
         }}
         toolbar={{
           actions: [
@@ -191,7 +191,7 @@ const ClusterCredentialResource: React.FC = () => {
                     okButtonProps: { danger: true },
                     cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                     onOk() {
-                      deleteBatch(selectedRows).then((d) => {
+                      ClusterCredentialService.deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(
                             intl.formatMessage({ id: 'app.common.operate.delete.success' }),

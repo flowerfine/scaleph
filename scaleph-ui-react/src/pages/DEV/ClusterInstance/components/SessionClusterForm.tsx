@@ -1,8 +1,8 @@
 import { ModalFormProps } from '@/app.d';
 import { DICT_TYPE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { list } from '@/services/dev/flinkClusterConfig.service';
-import { newSession } from '@/services/dev/flinkClusterInstance.service';
+import { FlinkClusterConfigService } from '@/services/dev/flinkClusterConfig.service';
+import { FlinkCLusterInstanceService } from '@/services/dev/flinkClusterInstance.service';
 import { FlinkClusterConfigParam, FlinkSessionClusterNewParam } from '@/services/dev/typings';
 import { useIntl } from '@@/exports';
 import { ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
@@ -39,7 +39,7 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({
             remark: values.remark,
           };
           setConfirming(true);
-          newSession(param)
+          FlinkCLusterInstanceService.newSession(param)
             .then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
@@ -90,7 +90,7 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({
               resourceProvider: params.resourceProvider,
               deployMode: '2',
             };
-            return list(listParam).then((response) => {
+            return FlinkClusterConfigService.list(listParam).then((response) => {
               return response.data.map((item) => {
                 return { label: item.name, value: item.id };
               });

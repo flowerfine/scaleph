@@ -1,12 +1,7 @@
 import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
-import {
-  deleteBatch,
-  deleteOne,
-  download,
-  list,
-} from '@/services/resource/seatunnelRelease.service';
+import { SeatunnelReleaseService } from '@/services/resource/seatunnelRelease.service';
 import { FlinkRelease, SeaTunnelRelease } from '@/services/resource/typings';
 import { DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
@@ -99,7 +94,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
                   type="link"
                   icon={<DownloadOutlined></DownloadOutlined>}
                   onClick={() => {
-                    download(record);
+                    SeatunnelReleaseService.download(record);
                   }}
                 ></Button>
               </Tooltip>
@@ -120,7 +115,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
                       okButtonProps: { danger: true },
                       cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        deleteOne(record).then((d) => {
+                        SeatunnelReleaseService.deleteOne(record).then((d) => {
                           if (d.success) {
                             message.success(
                               intl.formatMessage({ id: 'app.common.operate.delete.success' }),
@@ -159,7 +154,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return list(params);
+          return SeatunnelReleaseService.list(params);
         }}
         toolbar={{
           actions: [
@@ -189,7 +184,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
                     okButtonProps: { danger: true },
                     cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                     onOk() {
-                      deleteBatch(selectedRows).then((d) => {
+                      SeatunnelReleaseService.deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(
                             intl.formatMessage({ id: 'app.common.operate.delete.success' }),

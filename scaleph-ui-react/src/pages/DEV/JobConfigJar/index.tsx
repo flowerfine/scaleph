@@ -1,11 +1,11 @@
-import {history, useAccess, useIntl} from "umi";
-import {useRef, useState} from "react";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {FlinkJobConfigJar} from "@/services/dev/typings";
-import {Button, message, Modal, Space, Tooltip} from "antd";
-import {PRIVILEGE_CODE} from "@/constant";
-import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import {deleteBatch, deleteOne, list} from "@/services/dev/flinkJobConfigJar.service";
+import { PRIVILEGE_CODE } from '@/constant';
+import { FlinkJobConfigJarService } from '@/services/dev/flinkJobConfigJar.service';
+import { FlinkJobConfigJar } from '@/services/dev/typings';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
+import { Button, message, Modal, Space, Tooltip } from 'antd';
+import { useRef, useState } from 'react';
+import { history, useAccess, useIntl } from 'umi';
 
 const JobConfigJarWeb: React.FC = () => {
   const intl = useIntl();
@@ -16,49 +16,49 @@ const JobConfigJarWeb: React.FC = () => {
 
   const tableColumns: ProColumns<FlinkJobConfigJar>[] = [
     {
-      title: intl.formatMessage({id: 'pages.dev.job.name'}),
+      title: intl.formatMessage({ id: 'pages.dev.job.name' }),
       dataIndex: 'name',
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.artifact'}),
+      title: intl.formatMessage({ id: 'pages.dev.artifact' }),
       dataIndex: 'flinkArtifactJar',
       render: (text, record, index) => {
         return `${record.flinkArtifactJar?.flinkArtifact.name}/${record.flinkArtifactJar?.version}/${record.flinkArtifactJar?.fileName}`;
       },
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.clusterConfig'}),
+      title: intl.formatMessage({ id: 'pages.dev.clusterConfig' }),
       dataIndex: 'flinkClusterConfig',
       render: (text, record, index) => {
         return record.flinkClusterConfig?.name;
-      }
+      },
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.clusterInstance'}),
+      title: intl.formatMessage({ id: 'pages.dev.clusterInstance' }),
       dataIndex: 'flinkClusterInstance',
       render: (text, record, index) => {
         return record.flinkClusterInstance?.name;
-      }
+      },
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.remark'}),
+      title: intl.formatMessage({ id: 'pages.dev.remark' }),
       dataIndex: 'remark',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.createTime'}),
+      title: intl.formatMessage({ id: 'pages.dev.createTime' }),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.updateTime'}),
+      title: intl.formatMessage({ id: 'pages.dev.updateTime' }),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'app.common.operate.label'}),
+      title: intl.formatMessage({ id: 'app.common.operate.label' }),
       dataIndex: 'actions',
       align: 'center',
       width: 120,
@@ -68,37 +68,37 @@ const JobConfigJarWeb: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<EditOutlined/>}
+                  icon={<EditOutlined />}
                   onClick={() => {
-                    history.push("/workspace/dev/jobConfigJar/options", record);
+                    history.push('/workspace/dev/jobConfigJar/options', record);
                   }}
                 ></Button>
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevDatasourceDelete) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DeleteOutlined/>}
+                  icon={<DeleteOutlined />}
                   onClick={() => {
                     Modal.confirm({
-                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                      title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
                       content: intl.formatMessage({
                         id: 'app.common.operate.delete.confirm.content',
                       }),
-                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                      okButtonProps: {danger: true},
-                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                      okButtonProps: { danger: true },
+                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        deleteOne(record).then((d) => {
+                        FlinkJobConfigJarService.deleteOne(record).then((d) => {
                           if (d.success) {
                             message.success(
-                              intl.formatMessage({id: 'app.common.operate.delete.success'}),
+                              intl.formatMessage({ id: 'app.common.operate.delete.success' }),
                             );
                             actionRef.current?.reload();
                           }
@@ -118,7 +118,7 @@ const JobConfigJarWeb: React.FC = () => {
     <ProTable<FlinkJobConfigJar>
       search={{
         labelWidth: 'auto',
-        span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
+        span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
       }}
       rowKey="id"
       actionRef={actionRef}
@@ -126,7 +126,7 @@ const JobConfigJarWeb: React.FC = () => {
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) => {
-        return list(params);
+        return FlinkJobConfigJarService.list(params);
       }}
       toolbar={{
         actions: [
@@ -135,10 +135,10 @@ const JobConfigJarWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                history.push("/workspace/dev/jobConfigJar/options");
+                history.push('/workspace/dev/jobConfigJar/options');
               }}
             >
-              {intl.formatMessage({id: 'app.common.operate.new.label'})}
+              {intl.formatMessage({ id: 'app.common.operate.new.label' })}
             </Button>
           ),
           access.canAccess(PRIVILEGE_CODE.datadevProjectDelete) && (
@@ -148,18 +148,18 @@ const JobConfigJarWeb: React.FC = () => {
               disabled={selectedRows.length < 1}
               onClick={() => {
                 Modal.confirm({
-                  title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                  title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
                   content: intl.formatMessage({
                     id: 'app.common.operate.delete.confirm.content',
                   }),
-                  okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                  okButtonProps: {danger: true},
-                  cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                  okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                  okButtonProps: { danger: true },
+                  cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                   onOk() {
-                    deleteBatch(selectedRows).then((d) => {
+                    FlinkJobConfigJarService.deleteBatch(selectedRows).then((d) => {
                       if (d.success) {
                         message.success(
-                          intl.formatMessage({id: 'app.common.operate.delete.success'}),
+                          intl.formatMessage({ id: 'app.common.operate.delete.success' }),
                         );
                         actionRef.current?.reload();
                       }
@@ -168,12 +168,12 @@ const JobConfigJarWeb: React.FC = () => {
                 });
               }}
             >
-              {intl.formatMessage({id: 'app.common.operate.delete.label'})}
+              {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
             </Button>
           ),
         ],
       }}
-      pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
+      pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
       rowSelection={{
         fixed: true,
         onChange(selectedRowKeys, selectedRows, info) {
@@ -184,6 +184,6 @@ const JobConfigJarWeb: React.FC = () => {
       tableAlertOptionRender={false}
     />
   );
-}
+};
 
 export default JobConfigJarWeb;

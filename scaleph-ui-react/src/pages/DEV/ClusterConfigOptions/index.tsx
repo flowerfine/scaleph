@@ -6,9 +6,9 @@ import HighAvailability from '@/pages/DEV/ClusterConfigOptions/components/HA';
 import Resource from '@/pages/DEV/ClusterConfigOptions/components/Resource';
 import State from '@/pages/DEV/ClusterConfigOptions/components/State';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { add, getData, setData, update } from '@/services/dev/flinkClusterConfig.service';
+import { FlinkClusterConfigService } from '@/services/dev/flinkClusterConfig.service';
 import { FlinkClusterConfig } from '@/services/dev/typings';
-import { list } from '@/services/resource/resource.service';
+import { ResourceService } from '@/services/resource/resource.service';
 import { ResourceListParam } from '@/services/resource/typings';
 import {
   FooterToolbar,
@@ -35,7 +35,7 @@ const DevBatchJob: React.FC = () => {
     clusterCredential: params?.clusterCredential?.id,
     remark: params?.remark,
   };
-  const flinkConfig = setData(
+  const flinkConfig = FlinkClusterConfigService.setData(
     new Map(Object.entries(params?.configOptions ? params?.configOptions : {})),
   );
 
@@ -75,10 +75,10 @@ const DevBatchJob: React.FC = () => {
             flinkRelease: { id: value['flinkRelease'] },
             clusterCredential: { id: value['clusterCredential'] },
             remark: value['remark'],
-            configOptions: getData(value),
+            configOptions: FlinkClusterConfigService.getData(value),
           };
           return params?.id
-            ? update(param)
+            ? FlinkClusterConfigService.update(param)
                 .then((d) => {
                   if (d.success) {
                     message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
@@ -92,7 +92,7 @@ const DevBatchJob: React.FC = () => {
                 .finally(() => {
                   history.back();
                 })
-            : add(param)
+            : FlinkClusterConfigService.add(param)
                 .then((d) => {
                   if (d.success) {
                     message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
@@ -158,7 +158,7 @@ const DevBatchJob: React.FC = () => {
                   resourceType: RESOURCE_TYPE.flinkRelease,
                   label: params.flinkVersion,
                 };
-                return list(resourceParam).then((response) => {
+                return ResourceService.list(resourceParam).then((response) => {
                   return response.records.map((item) => {
                     return { label: item.fileName, value: item.id };
                   });
@@ -185,7 +185,7 @@ const DevBatchJob: React.FC = () => {
                   resourceType: RESOURCE_TYPE.clusterCredential,
                   label: params.resourceProvider,
                 };
-                return list(resourceParam).then((response) => {
+                return ResourceService.list(resourceParam).then((response) => {
                   return response.records.map((item) => {
                     return { label: item.name, value: item.id };
                   });

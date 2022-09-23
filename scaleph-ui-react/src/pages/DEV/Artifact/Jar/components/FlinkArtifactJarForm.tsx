@@ -1,7 +1,7 @@
 import { Dict, ModalFormProps } from '@/app.d';
 import { DICT_TYPE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { upload } from '@/services/dev/flinkArtifactJar.service';
+import { FlinkArtifactJarService } from '@/services/dev/flinkArtifactJar.service';
 import { FlinkArtifactJarUploadParam } from '@/services/dev/typings';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message, Modal, Select, Upload, UploadFile, UploadProps } from 'antd';
@@ -67,7 +67,7 @@ const FlinkArtifactJarForm: React.FC<ModalFormProps<{ id: number }>> = ({
             file: fileList[0],
           };
           setUploading(true);
-          upload(uploadParam)
+          FlinkArtifactJarService.upload(uploadParam)
             .then((response) => {
               setFileList([]);
               if (response.success) {

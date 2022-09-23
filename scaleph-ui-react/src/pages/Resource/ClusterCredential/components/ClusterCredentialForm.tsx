@@ -1,7 +1,7 @@
 import { Dict, ModalFormProps } from '@/app.d';
 import { DICT_TYPE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { add, update } from '@/services/resource/clusterCredential.service';
+import { ClusterCredentialService } from '@/services/resource/clusterCredential.service';
 import { ClusterCredential } from '@/services/resource/typings';
 import { Form, Input, message, Modal, Select } from 'antd';
 import { useEffect, useState } from 'react';
@@ -44,13 +44,13 @@ const ClusterCredentialForm: React.FC<ModalFormProps<ClusterCredential>> = ({
             remark: values.remark,
           };
           data.id
-            ? update(param).then((d) => {
+            ? ClusterCredentialService.update(param).then((d) => {
                 if (d.success) {
                   message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
                   onVisibleChange(false);
                 }
               })
-            : add(param).then((d) => {
+            : ClusterCredentialService.add(param).then((d) => {
                 if (d.success) {
                   message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
                   onVisibleChange(false);
