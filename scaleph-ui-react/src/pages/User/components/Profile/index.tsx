@@ -102,7 +102,6 @@ const Profile: React.FC = () => {
             </Form.Item>
           </Col>
           <Col span={12}>
-            {' '}
             <Form.Item
               name="email"
               label={intl.formatMessage({ id: 'pages.admin.user.email' })}
