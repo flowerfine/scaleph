@@ -19,28 +19,26 @@
 package cn.sliew.scaleph.resource.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceFlinkRelease;
 import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
 import cn.sliew.scaleph.resource.service.param.FlinkReleaseListParam;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
-import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
+import org.springframework.util.StringUtils;
 
-@Mapper(uses = {DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FlinkReleaseConvert extends BaseConvert<ResourceFlinkRelease, FlinkReleaseDTO> {
     FlinkReleaseConvert INSTANCE = Mappers.getMapper(FlinkReleaseConvert.class);
 
-    @Override
-    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.FLINK_VERSION,entity.getVersion()))", target = "version")
-    FlinkReleaseDTO toDto(ResourceFlinkRelease entity);
-
     default FlinkReleaseListParam convert(ResourceListParam param) {
         FlinkReleaseListParam target = BeanUtil.copy(param, new FlinkReleaseListParam());
-        target.setVersion(param.getLabel());
+        if (StringUtils.hasText(param.getLabel())) {
+            target.setVersion(FlinkVersion.of(param.getLabel()));
+        }
         target.setFileName(param.getName());
         return target;
     }

@@ -80,7 +80,7 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService {
         final Page<ResourceFlinkRelease> page = flinkReleaseMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(ResourceFlinkRelease.class)
-                        .eq(StringUtils.hasText(param.getVersion()), ResourceFlinkRelease::getVersion, param.getVersion())
+                        .eq(param.getVersion() != null, ResourceFlinkRelease::getVersion, param.getVersion())
                         .like(StringUtils.hasText(param.getFileName()), ResourceFlinkRelease::getFileName, param.getFileName()));
         Page<FlinkReleaseDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
@@ -114,7 +114,7 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService {
     @Override
     public void upload(FlinkReleaseUploadParam param, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        String filePath = getFlinkReleasePath(param.getVersion(), fileName);
+        String filePath = getFlinkReleasePath(param.getVersion().getValue(), fileName);
         try (final InputStream inputStream = file.getInputStream()) {
             fileSystemService.upload(inputStream, filePath);
         }

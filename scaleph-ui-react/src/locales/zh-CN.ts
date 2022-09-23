@@ -44,6 +44,8 @@ export default {
   'app.common.operate.reset.label': '重置',
   'app.common.operate.confirm.label': '确认',
   'app.common.operate.submit.label': '提交',
+  'app.common.operate.submit.confirm.title': '确认提交？',
+  'app.common.operate.submit.confirm.content': '提交前请仔细检查，谨慎操作',
   'app.common.operate.cancel.label': '取消',
   'app.common.operate.clear.label': '清空',
   'app.common.operate.return.label': '返回',

@@ -1,7 +1,8 @@
 import { PRIVILEGE_CODE } from '@/constant';
 import { FlinkJobConfigJarService } from '@/services/dev/flinkJobConfigJar.service';
+import { FLinkJobInstanceJarService } from '@/services/dev/flinkJobInstanceJar.service';
 import { FlinkJobConfigJar } from '@/services/dev/typings';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, PlaySquareOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { Button, message, Modal, Space, Tooltip } from 'antd';
 import { useRef, useState } from 'react';
@@ -23,7 +24,7 @@ const JobConfigJarWeb: React.FC = () => {
       title: intl.formatMessage({ id: 'pages.dev.artifact' }),
       dataIndex: 'flinkArtifactJar',
       render: (text, record, index) => {
-        return `${record.flinkArtifactJar?.flinkArtifact.name}/${record.flinkArtifactJar?.version}/${record.flinkArtifactJar?.fileName}`;
+        return `${record.flinkArtifactJar?.flinkArtifact?.name}/${record.flinkArtifactJar?.version}/${record.flinkArtifactJar?.fileName}`;
       },
     },
     {
@@ -75,6 +76,35 @@ const JobConfigJarWeb: React.FC = () => {
                   icon={<EditOutlined />}
                   onClick={() => {
                     history.push('/workspace/dev/jobConfigJar/options', record);
+                  }}
+                ></Button>
+              </Tooltip>
+            )}
+            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.submit.label' })}>
+                <Button
+                  shape="default"
+                  type="link"
+                  icon={<PlaySquareOutlined />}
+                  onClick={() => {
+                    Modal.confirm({
+                      title: intl.formatMessage({ id: 'app.common.operate.submit.confirm.title' }),
+                      content: intl.formatMessage({
+                        id: 'app.common.operate.submit.confirm.content',
+                      }),
+                      okText: intl.formatMessage({ id: 'app.common.operate.submit.label' }),
+                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                      onOk() {
+                        FLinkJobInstanceJarService.submit(record).then((d) => {
+                          if (d.success) {
+                            message.success(
+                              intl.formatMessage({ id: 'app.common.operate.submit.success' }),
+                            );
+                            actionRef.current?.reload();
+                          }
+                        });
+                      },
+                    });
                   }}
                 ></Button>
               </Tooltip>

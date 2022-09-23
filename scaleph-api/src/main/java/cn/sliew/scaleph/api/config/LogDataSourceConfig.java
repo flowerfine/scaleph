@@ -21,6 +21,7 @@ package cn.sliew.scaleph.api.config;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
+import com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler;
 import com.baomidou.mybatisplus.core.toolkit.GlobalConfigUtils;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
@@ -75,6 +76,7 @@ public class LogDataSourceConfig {
         factoryBean.setMapperLocations(props.resolveMapperLocations());
 
         MybatisConfiguration configuration = new MybatisConfiguration();
+        configuration.setDefaultEnumTypeHandler(MybatisEnumTypeHandler.class);
         configuration.setMapUnderscoreToCamelCase(true);
         configuration.setLogImpl(Slf4jImpl.class);
         factoryBean.setConfiguration(configuration);

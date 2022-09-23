@@ -43,8 +43,6 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({
             .then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
-              } else {
-                message.error(response.errorMessage);
               }
             })
             .catch(() => {

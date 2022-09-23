@@ -18,37 +18,42 @@
 
 package cn.sliew.scaleph.engine.flink.service.dto;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotNull;
-
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkJobConfig对象", description = "flink job config")
+@ApiModel(value = "FlinkJobInstance对象", description = "flink job instance")
 public class FlinkJobInstanceDTO extends BaseDTO {
 
-    @NotNull
     @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
-    private DictVO type;
+    private FlinkJobType type;
 
-    @NotNull
-    @ApiModelProperty("flink 任务配置 ID")
+    @ApiModelProperty("flink job config ID")
     private Long flinkJobConfigId;
 
-    @ApiModelProperty("flink 集群实例 ID")
-    private Long flinkClusterInstanceId;
-
-    @ApiModelProperty("flink 任务 ID")
+    @ApiModelProperty("flink job ID")
     private String jobId;
 
-    @ApiModelProperty("任务状态。0: 已创建, 1: 创建失败")
-    private DictVO status;
+    @ApiModelProperty("flink job name")
+    private String jobName;
 
-    @ApiModelProperty("备注")
-    private String remark;
+    @ApiModelProperty("flink job state")
+    private FlinkJobState jobState;
+
+    @ApiModelProperty("cluster ID")
+    private Object clusterId;
+
+    @ApiModelProperty("flink web-ui url")
+    private String webInterfaceUrl;
+
+    @ApiModelProperty("flink cluster status")
+    private FlinkClusterStatus clusterStatus;
+
 }

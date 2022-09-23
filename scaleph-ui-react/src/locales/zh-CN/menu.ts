@@ -12,6 +12,7 @@ export default {
   'menu.dev.clusterConfig': '集群配置',
   'menu.dev.clusterConfigOptions': '集群配置选项',
   'menu.dev.clusterInstance': '集群实例',
+  'menu.dev.jobDetail': '任务详情',
   'menu.dev.jobConfigJar': 'Artifact 任务',
   'menu.resource': '资源中心',
   'menu.resource.jar': '公共 Jar',

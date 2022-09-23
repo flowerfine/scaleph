@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.service.param;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -34,9 +35,9 @@ public class FlinkArtifactJarUploadParam {
     @ApiModelProperty("Jar 版本")
     private String version;
 
-    @NotBlank
+    @NotNull
     @ApiModelProperty("flink 版本")
-    private String flinkVersion;
+    private FlinkVersion flinkVersion;
 
     @NotBlank
     @ApiModelProperty("Entry Class")

@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.resource.service.dto;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
@@ -34,8 +35,8 @@ import javax.validation.constraints.NotNull;
 public class ClusterCredentialDTO extends BaseDTO {
 
     @NotNull
-    @ApiModelProperty("配置文件类型。0: Hadoop, 1: Kubernetes")
-    private DictVO configType;
+    @ApiModelProperty("配置文件类型。0: Standalone, 1: Native Kubernetes, 2: YARN")
+    private FlinkResourceProvider configType;
 
     @NotBlank
     @ApiModelProperty("配置名称")

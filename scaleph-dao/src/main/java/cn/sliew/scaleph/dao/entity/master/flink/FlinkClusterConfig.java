@@ -18,6 +18,9 @@
 
 package cn.sliew.scaleph.dao.entity.master.flink;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
+import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -45,15 +48,15 @@ public class FlinkClusterConfig extends BaseDO {
 
     @ApiModelProperty("集群版本")
     @TableField("flink_version")
-    private String flinkVersion;
+    private FlinkVersion flinkVersion;
 
     @ApiModelProperty("Resource。0: Standalone, 1: Native Kubernetes, 2: YARN")
     @TableField("resource_provider")
-    private String resourceProvider;
+    private FlinkResourceProvider resourceProvider;
 
     @ApiModelProperty("flink 部署模式。0: Application, 1: Per-Job, 2: Session")
     @TableField("deploy_mode")
-    private String deployMode;
+    private FlinkDeploymentMode deployMode;
 
     @ApiModelProperty("flink release")
     @TableField("flink_release_id")

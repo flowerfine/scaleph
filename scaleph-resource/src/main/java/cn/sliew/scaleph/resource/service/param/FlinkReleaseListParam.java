@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.resource.service.param;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,7 +29,7 @@ import lombok.EqualsAndHashCode;
 public class FlinkReleaseListParam extends PaginationParam {
 
     @ApiModelProperty("版本")
-    private String version;
+    private FlinkVersion version;
 
     @ApiModelProperty("文件名称。支持模糊匹配")
     private String fileName;

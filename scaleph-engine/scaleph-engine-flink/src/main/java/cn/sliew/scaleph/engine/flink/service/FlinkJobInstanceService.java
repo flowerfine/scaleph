@@ -18,33 +18,22 @@
 
 package cn.sliew.scaleph.engine.flink.service;
 
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobInstance;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobInstanceDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobInstanceListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 
-public interface FlinkJobInstanceService {
+public interface FlinkJobInstanceService extends IService<FlinkJobInstance> {
 
     Page<FlinkJobInstanceDTO> list(FlinkJobInstanceListParam param);
 
     FlinkJobInstanceDTO selectOne(Long id);
 
-    // todo 根据 flinkJobConfigId 删除
+    boolean upsert(FlinkJobInstanceDTO dto);
 
+    int insert(FlinkJobInstanceDTO dto);
 
-    boolean submit(Long flinkJobConfigId) throws Exception;
-
-    /**
-     * 暂停时会创建 savepoint，恢复时可以根据任务的上一次 savepoint 进行重启
-     */
-    boolean suspend(Long id) throws Exception;
-
-    /**
-     * 重新提交任务，并使用之前任务实例的 savepoint
-     */
-    boolean resume(Long flinkJobConfigId, Long id) throws Exception;
-
-    boolean triggerSavepoint(Long id) throws Exception;
-
-    boolean cancel(Long id) throws Exception;
+    int update(FlinkJobInstanceDTO dto);
 
 }

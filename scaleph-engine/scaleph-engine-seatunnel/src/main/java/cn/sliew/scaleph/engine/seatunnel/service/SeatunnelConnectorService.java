@@ -18,11 +18,10 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service;
 
-import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelPluginType;
 
 import java.util.List;
 import java.util.Properties;

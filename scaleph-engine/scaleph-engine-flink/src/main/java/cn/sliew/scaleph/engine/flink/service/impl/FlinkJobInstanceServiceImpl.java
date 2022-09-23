@@ -24,18 +24,22 @@ import cn.sliew.scaleph.engine.flink.service.FlinkJobInstanceService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobInstanceConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobInstanceDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobInstanceListParam;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
 @Slf4j
 @Service
-public class FlinkJobInstanceServiceImpl implements FlinkJobInstanceService {
+public class FlinkJobInstanceServiceImpl
+        extends ServiceImpl<FlinkJobInstanceMapper, FlinkJobInstance>
+        implements FlinkJobInstanceService {
 
     @Autowired
     private FlinkJobInstanceMapper flinkJobInstanceMapper;
@@ -45,9 +49,8 @@ public class FlinkJobInstanceServiceImpl implements FlinkJobInstanceService {
         final Page<FlinkJobInstance> page = flinkJobInstanceMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(FlinkJobInstance.class)
-                        .eq(param.getFlinkJobConfigId() != null, FlinkJobInstance::getFlinkJobConfigId, param.getFlinkJobConfigId())
-                        .eq(param.getFlinkClusterInstanceId() != null, FlinkJobInstance::getFlinkClusterInstanceId, param.getFlinkClusterInstanceId())
-                        .eq(StringUtils.hasText(param.getStatus()), FlinkJobInstance::getStatus, param.getStatus()));
+                        .eq(FlinkJobInstance::getType, param.getType())
+                        .eq(FlinkJobInstance::getFlinkJobConfigId, param.getFlinkJobConfigId()));
         Page<FlinkJobInstanceDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         List<FlinkJobInstanceDTO> dtoList = FlinkJobInstanceConvert.INSTANCE.toDto(page.getRecords());
@@ -65,27 +68,25 @@ public class FlinkJobInstanceServiceImpl implements FlinkJobInstanceService {
     }
 
     @Override
-    public boolean submit(Long flinkJobConfigId) throws Exception {
-        return false;
+    public boolean upsert(FlinkJobInstanceDTO dto) {
+        FlinkJobInstance record = FlinkJobInstanceConvert.INSTANCE.toDo(dto);
+        LambdaUpdateWrapper<FlinkJobInstance> wrapper = new UpdateWrapper<FlinkJobInstance>()
+                .lambda()
+                .eq(FlinkJobInstance::getType, dto.getType())
+                .eq(FlinkJobInstance::getFlinkJobConfigId, dto.getFlinkJobConfigId())
+                .eq(FlinkJobInstance::getJobId, dto.getJobId());
+        return saveOrUpdate(record, wrapper);
     }
 
     @Override
-    public boolean suspend(Long id) throws Exception {
-        return false;
+    public int insert(FlinkJobInstanceDTO dto) {
+        FlinkJobInstance record = FlinkJobInstanceConvert.INSTANCE.toDo(dto);
+        return flinkJobInstanceMapper.insert(record);
     }
 
     @Override
-    public boolean resume(Long flinkJobConfigId, Long id) throws Exception {
-        return false;
-    }
-
-    @Override
-    public boolean triggerSavepoint(Long id) throws Exception {
-        return false;
-    }
-
-    @Override
-    public boolean cancel(Long id) throws Exception {
-        return false;
+    public int update(FlinkJobInstanceDTO dto) {
+        FlinkJobInstance record = FlinkJobInstanceConvert.INSTANCE.toDo(dto);
+        return flinkJobInstanceMapper.updateById(record);
     }
 }

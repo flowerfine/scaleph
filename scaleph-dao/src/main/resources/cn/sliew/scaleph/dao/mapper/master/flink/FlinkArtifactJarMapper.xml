@@ -93,6 +93,9 @@
         FROM flink_artifact_jar t1
                      JOIN flink_artifact t2 ON t1.flink_artifact_id = t2.id
         WHERE t1.flink_artifact_id = #{param.flinkArtifactId}
+            <if test="param.flinkVersion != null">
+                AND t1.flink_version = #{param.flinkVersion}
+            </if>
         ORDER BY CONCAT(
                          LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(t1.version, '.', 1), '.', -
                                  1), 10, '0'),

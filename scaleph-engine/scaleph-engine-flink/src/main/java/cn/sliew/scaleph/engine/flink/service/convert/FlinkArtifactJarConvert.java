@@ -21,17 +21,11 @@ package cn.sliew.scaleph.engine.flink.service.convert;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJar;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactJarDTO;
-import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FlinkArtifactJarConvert extends BaseConvert<FlinkArtifactJar, FlinkArtifactJarDTO> {
     FlinkArtifactJarConvert INSTANCE = Mappers.getMapper(FlinkArtifactJarConvert.class);
-
-    @Override
-    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.FLINK_VERSION,entity.getFlinkVersion()))", target = "flinkVersion")
-    FlinkArtifactJarDTO toDto(FlinkArtifactJar entity);
 }

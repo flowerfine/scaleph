@@ -19,28 +19,23 @@
 package cn.sliew.scaleph.resource.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceSeaTunnelRelease;
 import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseListParam;
-import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SeaTunnelReleaseConvert extends BaseConvert<ResourceSeaTunnelRelease, SeaTunnelReleaseDTO> {
     SeaTunnelReleaseConvert INSTANCE = Mappers.getMapper(SeaTunnelReleaseConvert.class);
 
-    @Override
-    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.SEATUNNEL_VERSION,entity.getVersion()))", target = "version")
-    SeaTunnelReleaseDTO toDto(ResourceSeaTunnelRelease entity);
-
     default SeaTunnelReleaseListParam convert(ResourceListParam param) {
         SeaTunnelReleaseListParam target = BeanUtil.copy(param, new SeaTunnelReleaseListParam());
-        target.setVersion(param.getLabel());
+        target.setVersion(SeaTunnelVersion.of(param.getLabel()));
         target.setFileName(param.getName());
         return target;
     }

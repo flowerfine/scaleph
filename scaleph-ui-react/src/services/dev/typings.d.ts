@@ -17,10 +17,10 @@ export type FlinkArtifactListParam = QueryParam & {
 
 export type FlinkArtifactJar = {
   id?: number;
-  flinkArtifact: FlinkArtifact;
+  flinkArtifact?: FlinkArtifact;
   version?: string;
-  flinkVersion: Dict;
-  entryClass: string;
+  flinkVersion?: Dict;
+  entryClass?: string;
   fileName?: string;
   path?: string;
   remark?: string;

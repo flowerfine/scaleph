@@ -19,11 +19,10 @@
 package cn.sliew.scaleph.api.controller.datadev;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelPluginType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

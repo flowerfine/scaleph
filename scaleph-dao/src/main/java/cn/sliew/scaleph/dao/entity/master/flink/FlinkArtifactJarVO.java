@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dao.entity.master.flink;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -45,7 +46,7 @@ public class FlinkArtifactJarVO extends BaseDO {
     private String version;
 
     @TableField("flink_version")
-    private String flinkVersion;
+    private FlinkVersion flinkVersion;
 
     @TableField("entry_class")
     private String entryClass;

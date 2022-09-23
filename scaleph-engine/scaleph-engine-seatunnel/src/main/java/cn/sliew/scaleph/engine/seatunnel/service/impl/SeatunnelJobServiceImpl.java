@@ -21,6 +21,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.impl;
 import cn.hutool.core.io.FileUtil;
 import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
+import cn.sliew.flinkful.cli.base.util.FlinkUtil;
 import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
 import cn.sliew.flinkful.rest.base.JobClient;
@@ -28,6 +29,7 @@ import cn.sliew.flinkful.rest.base.RestClient;
 import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
 import cn.sliew.scaleph.common.enums.JobRuntimeStateEnum;
 import cn.sliew.scaleph.common.enums.JobTypeEnum;
@@ -45,7 +47,6 @@ import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.privilege.SecurityContext;
 import cn.sliew.scaleph.storage.service.FileSystemService;
-import cn.sliew.scaleph.system.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.system.service.SysConfigService;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +54,9 @@ import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.api.common.JobStatus;
 import org.apache.flink.client.deployment.executors.RemoteExecutor;
+import org.apache.flink.client.program.ClusterClient;
 import org.apache.flink.configuration.*;
+import org.apache.flink.runtime.client.JobStatusMessage;
 import org.apache.flink.runtime.jobgraph.SavepointRestoreSettings;
 import org.apache.flink.runtime.rest.handler.async.TriggerResponse;
 import org.apache.flink.runtime.rest.messages.EmptyResponseBody;
@@ -149,11 +152,12 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
 
         //prevent System.exit() invocation when seatunnel job config check result is false
         CliClient client = new DescriptorCliClient();
-        JobID jobInstanceID = SecurityContext.call(() ->
+        ClusterClient clusterClient = SecurityContext.call(() ->
                 client.submit(DeploymentTarget.STANDALONE_SESSION, null, configuration, jarJob));
 
+        Optional<JobID> jobID = FlinkUtil.listJobs(clusterClient).stream().map(JobStatusMessage::getJobId).findFirst();
         //write log
-        insertJobLog(diJobDTO, configuration, jobInstanceID);
+        insertJobLog(diJobDTO, configuration, jobID.orElseThrow(() -> new IllegalStateException("flink job id not exists")));
         diJobDTO.setRuntimeState(
                 DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
         diJobService.update(diJobDTO);
@@ -364,17 +368,17 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
             return null;
         }
         DagPanelDTO panel = new DagPanelDTO();
-        panel.setId(type.getValue());
-        panel.setHeader(type.getValue());
+        panel.setId(type.getLabel());
+        panel.setHeader(type.getLabel());
         List<DagNodeDTO> nodeList = new ArrayList<>();
         for (PluginInfo plugin : pluginInfos) {
             DagNodeDTO node = new DagNodeDTO();
             node.setId(plugin.getName());
-            node.setLabel(plugin.getName() + " " + type.getValue());
+            node.setLabel(plugin.getName() + " " + type.getLabel());
             node.setPopoverContent(plugin.getDescription());
             node.setRenderKey(GraphConstants.DND_RENDER_ID);
             node.setData(new HashMap<String,String>() {{
-                put("type", type.getCode());
+                put("type", type.getValue());
                 put("name", plugin.getName());
             }});
             nodeList.add(node);

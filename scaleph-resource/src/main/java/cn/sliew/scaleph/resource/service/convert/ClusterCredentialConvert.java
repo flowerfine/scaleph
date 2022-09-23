@@ -19,28 +19,26 @@
 package cn.sliew.scaleph.resource.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceClusterCredential;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import cn.sliew.scaleph.resource.service.param.ClusterCredentialListParam;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
-import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
+import org.springframework.util.StringUtils;
 
-@Mapper(uses = {DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ClusterCredentialConvert extends BaseConvert<ResourceClusterCredential, ClusterCredentialDTO> {
     ClusterCredentialConvert INSTANCE = Mappers.getMapper(ClusterCredentialConvert.class);
 
-    @Override
-    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.FLINK_RESOURCE_PROVIDER,entity.getConfigType()))", target = "configType")
-    ClusterCredentialDTO toDto(ResourceClusterCredential entity);
-
     default ClusterCredentialListParam convert(ResourceListParam param) {
         ClusterCredentialListParam target = BeanUtil.copy(param, new ClusterCredentialListParam());
-        target.setConfigType(param.getLabel());
+        if (StringUtils.hasText(param.getLabel())) {
+            target.setConfigType(FlinkResourceProvider.of(param.getLabel()));
+        }
         target.setName(param.getName());
         return target;
     }

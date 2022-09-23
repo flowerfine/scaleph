@@ -39,7 +39,7 @@ const ClusterCredentialForm: React.FC<ModalFormProps<ClusterCredential>> = ({
         form.validateFields().then((values) => {
           const param: ClusterCredential = {
             id: values.id,
-            configType: { value: values.configType },
+            configType: values.configType,
             name: values.name,
             remark: values.remark,
           };

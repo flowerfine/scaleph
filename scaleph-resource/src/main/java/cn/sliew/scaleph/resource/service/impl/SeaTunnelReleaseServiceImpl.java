@@ -80,7 +80,7 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
         final Page<ResourceSeaTunnelRelease> page = releaseSeaTunnelMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(ResourceSeaTunnelRelease.class)
-                        .eq(StringUtils.hasText(param.getVersion()), ResourceSeaTunnelRelease::getVersion, param.getVersion())
+                        .eq(param.getVersion() != null, ResourceSeaTunnelRelease::getVersion, param.getVersion())
                         .like(StringUtils.hasText(param.getFileName()), ResourceSeaTunnelRelease::getFileName, param.getFileName()));
         Page<SeaTunnelReleaseDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
@@ -99,7 +99,7 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
     @Override
     public void upload(SeaTunnelReleaseUploadParam param, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        String filePath = getReleaseSeaTunnelPath(param.getVersion(), fileName);
+        String filePath = getReleaseSeaTunnelPath(param.getVersion().getValue(), fileName);
         try (final InputStream inputStream = file.getInputStream()) {
             fileSystemService.upload(inputStream, filePath);
         }

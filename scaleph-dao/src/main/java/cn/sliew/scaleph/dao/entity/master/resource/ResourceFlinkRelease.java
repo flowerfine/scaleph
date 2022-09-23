@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dao.entity.master.resource;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -41,7 +42,7 @@ public class ResourceFlinkRelease extends BaseDO {
 
     @ApiModelProperty("版本")
     @TableField("version")
-    private String version;
+    private FlinkVersion version;
 
     @ApiModelProperty("文件名称")
     @TableField("`file_name`")

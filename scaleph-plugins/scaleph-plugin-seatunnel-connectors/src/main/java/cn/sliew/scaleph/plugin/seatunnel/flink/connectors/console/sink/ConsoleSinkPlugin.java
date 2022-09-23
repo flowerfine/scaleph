@@ -27,7 +27,7 @@ import com.google.auto.service.AutoService;
 public class ConsoleSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public ConsoleSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getValue(),
+        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
                 "Console Sink Plugin, output records to the console.",
                 ConsoleSinkPlugin.class.getName());
     }
