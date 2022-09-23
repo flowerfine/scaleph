@@ -21,18 +21,11 @@ package cn.sliew.scaleph.engine.flink.service.convert;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobInstance;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobInstanceDTO;
-import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FlinkJobInstanceConvert extends BaseConvert<FlinkJobInstance, FlinkJobInstanceDTO> {
     FlinkJobInstanceConvert INSTANCE = Mappers.getMapper(FlinkJobInstanceConvert.class);
-
-    @Override
-    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.FLINK_JOB_TYPE,entity.getType()))", target = "type")
-    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.FLINK_JOB_STATUS,entity.getStatus()))", target = "status")
-    FlinkJobInstanceDTO toDto(FlinkJobInstance entity);
 }

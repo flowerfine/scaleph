@@ -115,13 +115,13 @@
             <if test="param.name != null and param.name != ''">
                 AND t1.`name` like CONCAT('%', #{param.name},'%')
             </if>
-            <if test="param.flinkVersion != null and param.flinkVersion != '' ">
+            <if test="param.flinkVersion != null">
                 AND t1.flink_version = #{param.flinkVersion}
             </if>
-            <if test="param.resourceProvider != null and param.resourceProvider != '' ">
+            <if test="param.resourceProvider != null">
                 AND t1.resource_provider = #{param.resourceProvider}
             </if>
-            <if test="param.deployMode != null and param.deployMode != '' ">
+            <if test="param.deployMode != null">
                 AND t1.deploy_mode = #{param.deployMode}
             </if>
         </where>

@@ -80,9 +80,7 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService {
         final Page<ResourceFlinkRelease> page = flinkReleaseMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(ResourceFlinkRelease.class)
-                        .eq(param.getVersion() != null,
-                                ResourceFlinkRelease::getVersion,
-                                param.getVersion() != null ? param.getVersion().getValue() : null)
+                        .eq(param.getVersion() != null, ResourceFlinkRelease::getVersion, param.getVersion())
                         .like(StringUtils.hasText(param.getFileName()), ResourceFlinkRelease::getFileName, param.getFileName()));
         Page<FlinkReleaseDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());

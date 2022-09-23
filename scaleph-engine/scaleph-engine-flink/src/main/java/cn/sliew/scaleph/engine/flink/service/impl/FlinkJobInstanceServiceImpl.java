@@ -29,7 +29,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -47,7 +46,7 @@ public class FlinkJobInstanceServiceImpl implements FlinkJobInstanceService {
                 Wrappers.lambdaQuery(FlinkJobInstance.class)
                         .eq(param.getFlinkJobConfigId() != null, FlinkJobInstance::getFlinkJobConfigId, param.getFlinkJobConfigId())
                         .eq(param.getFlinkClusterInstanceId() != null, FlinkJobInstance::getFlinkClusterInstanceId, param.getFlinkClusterInstanceId())
-                        .eq(StringUtils.hasText(param.getStatus()), FlinkJobInstance::getStatus, param.getStatus()));
+                        .eq(param.getStatus() != null, FlinkJobInstance::getStatus, param.getStatus()));
         Page<FlinkJobInstanceDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         List<FlinkJobInstanceDTO> dtoList = FlinkJobInstanceConvert.INSTANCE.toDto(page.getRecords());
@@ -62,30 +61,5 @@ public class FlinkJobInstanceServiceImpl implements FlinkJobInstanceService {
             throw new IllegalStateException("flink job instance not exists for id: " + id);
         }
         return FlinkJobInstanceConvert.INSTANCE.toDto(record);
-    }
-
-    @Override
-    public boolean submit(Long flinkJobConfigId) throws Exception {
-        return false;
-    }
-
-    @Override
-    public boolean suspend(Long id) throws Exception {
-        return false;
-    }
-
-    @Override
-    public boolean resume(Long flinkJobConfigId, Long id) throws Exception {
-        return false;
-    }
-
-    @Override
-    public boolean triggerSavepoint(Long id) throws Exception {
-        return false;
-    }
-
-    @Override
-    public boolean cancel(Long id) throws Exception {
-        return false;
     }
 }
