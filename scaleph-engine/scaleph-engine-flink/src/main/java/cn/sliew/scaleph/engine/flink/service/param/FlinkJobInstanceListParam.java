@@ -18,25 +18,23 @@
 
 package cn.sliew.scaleph.engine.flink.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkJobStatus;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class FlinkJobInstanceListParam extends PaginationParam {
 
+    @NotNull
+    @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
+    private FlinkJobType type;
+
+    @NotNull
     @ApiModelProperty("flink 任务配置 ID")
     private Long flinkJobConfigId;
-
-    @ApiModelProperty("flink 集群实例 ID")
-    private Long flinkClusterInstanceId;
-
-    @ApiModelProperty("flink 任务 ID")
-    private Long jobId;
-
-    @ApiModelProperty("任务状态。0: 已创建, 1: 创建失败")
-    private FlinkJobStatus status;
 }

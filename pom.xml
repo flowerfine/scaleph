@@ -141,7 +141,7 @@
         <druid.version>0.22.1</druid.version>
         <calcite-druid.version>1.31.0</calcite-druid.version>
         <flink.version>1.13.6</flink.version>
-        <flinkful.version>1.13.6_1_8-SNAPSHOT</flinkful.version>
+        <flinkful.version>1.13.6_2_8-SNAPSHOT</flinkful.version>
         <okhttp.version>4.9.3</okhttp.version>
         <guava.version>31.0-jre</guava.version>
         <minio.version>8.3.8</minio.version>

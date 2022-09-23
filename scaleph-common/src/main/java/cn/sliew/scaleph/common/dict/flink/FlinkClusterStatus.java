@@ -27,6 +27,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Arrays;
 
+/**
+ * todo ApplicationStatus
+ */
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum FlinkClusterStatus implements DictInstance {
 
