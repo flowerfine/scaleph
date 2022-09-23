@@ -2,111 +2,109 @@ import { OnlineUserInfo, PageResponse, ResponseBody, TransferData } from '@/app.
 import { request } from 'umi';
 import { SecUser, SecUserParam } from './typings';
 
-const url: string = '/api/admin/user';
+export const UserService = {
+  url: '/api/admin/user',
 
-export async function listUserByPage(queryParam: SecUserParam) {
-  return request<PageResponse<SecUser>>(`${url}`, {
-    method: 'GET',
-    params: queryParam,
-  }).then((res) => {
-    const result = {
-      data: res.records,
-      total: res.total,
-      pageSize: res.size,
-      current: res.current,
-    };
-    return result;
-  });
-}
+  listUserByPage: async (queryParam: SecUserParam) => {
+    return request<PageResponse<SecUser>>(`${UserService.url}`, {
+      method: 'GET',
+      params: queryParam,
+    }).then((res) => {
+      const result = {
+        data: res.records,
+        total: res.total,
+        pageSize: res.size,
+        current: res.current,
+      };
+      return result;
+    });
+  },
 
-export async function deleteUserRow(row: SecUser) {
-  return request<ResponseBody<any>>(`${url}/` + row.id, {
-    method: 'DELETE',
-  });
-}
+  deleteUserRow: async (row: SecUser) => {
+    return request<ResponseBody<any>>(`${UserService.url}/` + row.id, {
+      method: 'DELETE',
+    });
+  },
+  deleteUserBatch: async (rows: SecUser[]) => {
+    const params = rows.map((row) => row.id);
+    return request<ResponseBody<any>>(`${UserService.url}/` + 'batch', {
+      method: 'POST',
+      data: { ...params },
+    });
+  },
+  addUser: async (row: SecUser) => {
+    return request<ResponseBody<any>>(`${UserService.url}`, {
+      method: 'POST',
+      data: row,
+    });
+  },
 
-export async function deleteUserBatch(rows: SecUser[]) {
-  const params = rows.map((row) => row.id);
-  return request<ResponseBody<any>>(`${url}/` + 'batch', {
-    method: 'POST',
-    data: { ...params },
-  });
-}
+  updateUser: async (row: SecUser) => {
+    return request<ResponseBody<any>>(`${UserService.url}`, {
+      method: 'PUT',
+      data: row,
+    });
+  },
 
-export async function addUser(row: SecUser) {
-  return request<ResponseBody<any>>(`${url}`, {
-    method: 'POST',
-    data: row,
-  });
-}
+  isUserExists: async (userName: string) => {
+    return request<boolean>('/api/user/validation/userName', {
+      method: 'GET',
+      params: { userName: userName },
+    });
+  },
+  isEmailExists: async (email: string) => {
+    return request<boolean>('/api/user/validation/email', {
+      method: 'GET',
+      params: { email: email },
+    });
+  },
+  listByUserNameAndDept: async (userName: string, deptId: string, direction: string) => {
+    return request<TransferData[]>('/api/user/dept', {
+      method: 'POST',
+      data: { userName: userName, deptId: deptId, direction: direction },
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
 
-export async function updateUser(row: SecUser) {
-  return request<ResponseBody<any>>(`${url}`, {
-    method: 'PUT',
-    data: row,
-  });
-}
+  listByUserNameAndRole: async (userName: string, roleId: string, direction: string) => {
+    return request<TransferData[]>('/api/user/role', {
+      method: 'POST',
+      data: { userName: userName, roleId: roleId, direction: direction },
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
 
-export async function isUserExists(userName: string) {
-  return request<boolean>('/api/user/validation/userName', {
-    method: 'GET',
-    params: { userName: userName },
-  });
-}
+  getOnlineUserInfo: async (token: string) => {
+    return request<ResponseBody<OnlineUserInfo>>('/api/user/get/' + token, {
+      method: 'GET',
+    });
+  },
 
-export async function isEmailExists(email: string) {
-  return request<boolean>('/api/user/validation/email', {
-    method: 'GET',
-    params: { email: email },
-  });
-}
+  getUserInfo: async () => {
+    return request<SecUser>('/api/user/info', {
+      method: 'GET',
+    });
+  },
 
-export async function listByUserNameAndDept(userName: string, deptId: string, direction: string) {
-  return request<TransferData[]>('/api/user/dept', {
-    method: 'POST',
-    data: { userName: userName, deptId: deptId, direction: direction },
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
-}
+  editPassword: async (oldPassword: string, password: string, confirmPassword: string) => {
+    return request<ResponseBody<any>>('/api/user/passwd/edit', {
+      method: 'POST',
+      data: { oldPassword: oldPassword, password: password, confirmPassword: confirmPassword },
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
 
-export async function listByUserNameAndRole(userName: string, roleId: string, direction: string) {
-  return request<TransferData[]>('/api/user/role', {
-    method: 'POST',
-    data: { userName: userName, roleId: roleId, direction: direction },
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
-}
+  getAuthCode: async (email: string) => {
+    return request<ResponseBody<any>>('/api/user/email/getAuth', {
+      method: 'GET',
+      params: { email: email },
+    });
+  },
 
-export async function getOnlineUserInfo(token: string) {
-  return request<ResponseBody<OnlineUserInfo>>('/api/user/get/' + token, {
-    method: 'GET',
-  });
-}
-
-export async function getUserInfo() {
-  return request<SecUser>('/api/user/info', {
-    method: 'GET',
-  });
-}
-
-export async function editPassword(oldPassword: string, password: string, confirmPassword: string) {
-  return request<ResponseBody<any>>('/api/user/passwd/edit', {
-    method: 'POST',
-    data: { oldPassword: oldPassword, password: password, confirmPassword: confirmPassword },
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
-}
-
-export async function getAuthCode(email: string) {
-  return request<ResponseBody<any>>('/api/user/email/getAuth', {
-    method: 'GET',
-    params: { email: email },
-  });
-}
-
-export async function bindEmail(email: string, authCode: string) {
-  return request<ResponseBody<any>>('/api/user/email/auth', {
-    method: 'GET',
-    params: { email: email, authCode: authCode },
-  });
-}
+  bindEmail: async (email: string, authCode: string) => {
+    return request<ResponseBody<any>>('/api/user/email/auth', {
+      method: 'GET',
+      params: { email: email, authCode: authCode },
+    });
+  },
+};

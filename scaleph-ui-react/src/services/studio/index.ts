@@ -1,19 +1,22 @@
 // @ts-ignore
-import { request } from '@umijs/max';
-const url = '/api/studio/databoard';
+import { request } from 'umi';
 
-/** 查询集群数量 GET /api/studio/databoard/cluster */
-export async function cluster(options?: { [key: string]: any }) {
-  return request<number>(`${url}/cluster`, {
-    method: 'GET',
-    ...(options || {}),
-  });
-}
-/** 查询集群数量 GET /api/studio/databoard/job */
-export async function job(params: Studio.JobParams, options?: { [key: string]: any }) {
-  return request<number>(`${url}/job`, {
-    method: 'GET',
-    params: params,
-    ...(options || {}),
-  });
-}
+export const DataboardService = {
+  url: '/api/studio/databoard',
+
+  /** 查询集群数量 GET /api/studio/databoard/cluster */
+  cluster: async (options?: { [key: string]: any }) => {
+    return request<number>(`${DataboardService.url}/cluster`, {
+      method: 'GET',
+      ...(options || {}),
+    });
+  },
+  /** 查询集群数量 GET /api/studio/databoard/job */
+  job: async (params: Studio.JobParams, options?: { [key: string]: any }) => {
+    return request<number>(`${DataboardService.url}/job`, {
+      method: 'GET',
+      params: params,
+      ...(options || {}),
+    });
+  },
+};

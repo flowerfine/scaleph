@@ -1,15 +1,10 @@
 import { Dict, TreeNode } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
-import { deleteDept, listAllDept } from '@/services/admin/dept.service';
-import { listDictDataByType } from '@/services/admin/dictData.service';
-import { deleteRole, listAllRole } from '@/services/admin/role.service';
+import { DeptService } from '@/services/admin/dept.service';
+import { DictDataService } from '@/services/admin/dictData.service';
+import { RoleService } from '@/services/admin/role.service';
 import { SecDept, SecDeptTreeNode, SecRole, SecUser } from '@/services/admin/typings';
-import {
-  deleteUserBatch,
-  deleteUserRow,
-  listUserByPage,
-  updateUser,
-} from '@/services/admin/user.service';
+import { UserService } from '@/services/admin/user.service';
 import {
   DeleteOutlined,
   EditOutlined,
@@ -187,7 +182,7 @@ const User: React.FC = () => {
                         okButtonProps: { danger: true },
                         cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                         onOk() {
-                          deleteUserRow(record).then((d) => {
+                          UserService.deleteUserRow(record).then((d) => {
                             if (d.success) {
                               message.success(
                                 intl.formatMessage({ id: 'app.common.operate.forbid.success' }),
@@ -215,7 +210,7 @@ const User: React.FC = () => {
                         userStatus: { value: '10', label: '' },
                         email: record.email,
                       };
-                      updateUser(user).then((resp) => {
+                      UserService.updateUser(user).then((resp) => {
                         if (resp.success) {
                           message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
                           actionRef.current?.reload();
@@ -278,19 +273,19 @@ const User: React.FC = () => {
   useEffect(() => {
     refreshRoles();
     refreshDepts();
-    listDictDataByType(DICT_TYPE.userStatus).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.userStatus).then((d) => {
       setUserStatusList(d);
     });
   }, []);
 
   const refreshRoles = () => {
-    listAllRole().then((d) => {
+    RoleService.listAllRole().then((d) => {
       setRoleList(d);
     });
   };
 
   const refreshDepts = () => {
-    listAllDept().then((d) => {
+    DeptService.listAllDept().then((d) => {
       setDeptTreeList(buildTree(d));
     });
   };
@@ -428,7 +423,7 @@ const User: React.FC = () => {
                                       id: 'app.common.operate.cancel.label',
                                     }),
                                     onOk() {
-                                      deleteRole(item).then((d) => {
+                                      RoleService.deleteRole(item).then((d) => {
                                         if (d.success) {
                                           message.success(
                                             intl.formatMessage({
@@ -591,7 +586,7 @@ const User: React.FC = () => {
                                           id: 'app.common.operate.cancel.label',
                                         }),
                                         onOk() {
-                                          deleteDept(node.origin).then((d) => {
+                                          DeptService.deleteDept(node.origin).then((d) => {
                                             if (d.success) {
                                               message.success(
                                                 intl.formatMessage({
@@ -676,7 +671,7 @@ const User: React.FC = () => {
                       okButtonProps: { danger: true },
                       cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        deleteUserBatch(selectedRows).then((d) => {
+                        UserService.deleteUserBatch(selectedRows).then((d) => {
                           if (d.success) {
                             message.success(
                               intl.formatMessage({ id: 'app.common.operate.forbid.success' }),
@@ -695,7 +690,11 @@ const User: React.FC = () => {
           }}
           columns={tableColumns}
           request={(params, sorter, filter) => {
-            return listUserByPage({ ...params, deptId: selectDept as string, roleId: selectRole });
+            return UserService.listUserByPage({
+              ...params,
+              deptId: selectDept as string,
+              roleId: selectRole,
+            });
           }}
           pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
           rowSelection={{

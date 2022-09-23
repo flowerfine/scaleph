@@ -2,30 +2,31 @@ import { ResponseBody } from '@/app.d';
 import { request } from 'umi';
 import { DiDirectory, DiDirectoryTreeNode } from './typings';
 
-const url: string = '/api/di/dir';
+export const DirectoryService = {
+  url: '/api/di/dir',
 
-export async function listProjectDir(projectId: string) {
-    return request<DiDirectoryTreeNode[]>(`${url}/` + projectId, {
-        method: 'GET'
+  listProjectDir: async (projectId: string) => {
+    return request<DiDirectoryTreeNode[]>(`${DirectoryService.url}/` + projectId, {
+      method: 'GET',
     });
-}
+  },
 
-export async function addDir(row: DiDirectory) {
-    return request<ResponseBody<any>>(`${url}`, {
-        method: 'POST',
-        data: row,
+  addDir: async (row: DiDirectory) => {
+    return request<ResponseBody<any>>(`${DirectoryService.url}`, {
+      method: 'POST',
+      data: row,
     });
-}
+  },
+  updateDir: async (row: DiDirectory) => {
+    return request<ResponseBody<any>>(`${DirectoryService.url}`, {
+      method: 'PUT',
+      data: row,
+    });
+  },
 
-export async function updateDir(row: DiDirectory) {
-    return request<ResponseBody<any>>(`${url}`, {
-        method: 'PUT',
-        data: row,
+  deleteDir: async (row: DiDirectory) => {
+    return request<ResponseBody<any>>(`${DirectoryService.url}/` + row.id, {
+      method: 'DELETE',
     });
-}
-
-export async function deleteDir(row: DiDirectory) {
-    return request<ResponseBody<any>>(`${url}/` + row.id, {
-        method: 'DELETE',
-    });
-}
+  },
+};

@@ -1,4 +1,4 @@
-import { saveJobDetail, selectJobById } from '@/services/project/job.service';
+import { JobService } from '@/services/project/job.service';
 import { NsGraph } from '@antv/xflow';
 import { NsNodeCollapsePanel } from '@antv/xflow-extension/es';
 import { request } from 'umi';
@@ -12,9 +12,9 @@ export const DagService = {
   },
   saveGraphData: async (meta: NsGraph.IGraphMeta, graphData: NsGraph.IGraphData) => {
     meta.origin.jobGraph = graphData;
-    return saveJobDetail(meta.origin);
+    return JobService.saveJobDetail(meta.origin);
   },
   loadJobInfo: async (id: number) => {
-    return selectJobById(id);
+    return JobService.selectJobById(id);
   },
 };

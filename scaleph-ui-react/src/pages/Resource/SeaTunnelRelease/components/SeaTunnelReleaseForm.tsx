@@ -1,12 +1,12 @@
-import {Dict, ModalFormProps} from '@/app.d';
-import {SeaTunnelRelease, SeaTunnelReleaseUploadParam} from '@/services/resource/typings';
-import {Button, Form, Input, message, Modal, Select, Upload, UploadFile, UploadProps} from 'antd';
-import {useIntl} from 'umi';
-import {useEffect, useState} from "react";
-import {UploadOutlined} from "@ant-design/icons";
-import {listDictDataByType} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
-import {upload} from "@/services/resource/seatunnelRelease.service";
+import { Dict, ModalFormProps } from '@/app.d';
+import { DICT_TYPE } from '@/constant';
+import { DictDataService } from '@/services/admin/dictData.service';
+import { upload } from '@/services/resource/seatunnelRelease.service';
+import { SeaTunnelRelease, SeaTunnelReleaseUploadParam } from '@/services/resource/typings';
+import { UploadOutlined } from '@ant-design/icons';
+import { Button, Form, Input, message, Modal, Select, Upload, UploadFile, UploadProps } from 'antd';
+import { useEffect, useState } from 'react';
+import { useIntl } from 'umi';
 
 const SeaTunnelReleaseForm: React.FC<ModalFormProps<SeaTunnelRelease>> = ({
   data,
@@ -20,7 +20,7 @@ const SeaTunnelReleaseForm: React.FC<ModalFormProps<SeaTunnelRelease>> = ({
   const [uploading, setUploading] = useState(false);
   const [seatunnelVersionList, setSeatunnelVersionList] = useState<Dict[]>([]);
   useEffect(() => {
-    listDictDataByType(DICT_TYPE.seatunnelVersion).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.seatunnelVersion).then((d) => {
       setSeatunnelVersionList(d);
     });
   }, []);
@@ -28,13 +28,13 @@ const SeaTunnelReleaseForm: React.FC<ModalFormProps<SeaTunnelRelease>> = ({
   const props: UploadProps = {
     multiple: false,
     maxCount: 1,
-    onRemove: file => {
+    onRemove: (file) => {
       const index = fileList.indexOf(file);
       const newFileList = fileList.slice();
       newFileList.splice(index, 1);
       setFileList(newFileList);
     },
-    beforeUpload: file => {
+    beforeUpload: (file) => {
       setFileList([...fileList, file]);
       return false;
     },
@@ -55,13 +55,17 @@ const SeaTunnelReleaseForm: React.FC<ModalFormProps<SeaTunnelRelease>> = ({
       destroyOnClose={true}
       onCancel={onCancel}
       confirmLoading={uploading}
-      okText={uploading ? intl.formatMessage({ id: 'app.common.operate.uploading.label' }) : intl.formatMessage({ id: 'app.common.operate.upload.label' })}
+      okText={
+        uploading
+          ? intl.formatMessage({ id: 'app.common.operate.uploading.label' })
+          : intl.formatMessage({ id: 'app.common.operate.upload.label' })
+      }
       onOk={() => {
         form.validateFields().then((values) => {
-          const uploadParam: SeaTunnelReleaseUploadParam  ={
+          const uploadParam: SeaTunnelReleaseUploadParam = {
             version: values.version,
             file: fileList[0],
-            remark: values.remark
+            remark: values.remark,
           };
           setUploading(true);
           upload(uploadParam)
@@ -94,9 +98,7 @@ const SeaTunnelReleaseForm: React.FC<ModalFormProps<SeaTunnelRelease>> = ({
             allowClear={true}
             optionFilterProp="label"
             filterOption={(input, option) =>
-              (option!.children as unknown as string)
-                .toLowerCase()
-                .includes(input.toLowerCase())
+              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
             }
           >
             {seatunnelVersionList.map((item) => {
@@ -113,7 +115,9 @@ const SeaTunnelReleaseForm: React.FC<ModalFormProps<SeaTunnelRelease>> = ({
           rules={[{ required: true }]}
         >
           <Upload {...props}>
-            <Button icon={<UploadOutlined />}>{intl.formatMessage({ id: 'pages.resource.seatunnelRelease.file' })}</Button>
+            <Button icon={<UploadOutlined />}>
+              {intl.formatMessage({ id: 'pages.resource.seatunnelRelease.file' })}
+            </Button>
           </Upload>
         </Form.Item>
         <Form.Item

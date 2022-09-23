@@ -1,11 +1,11 @@
-import {Form, Input, message, Modal, Select} from 'antd';
-import {useIntl} from 'umi';
-import {useEffect, useState} from "react";
-import {DICT_TYPE} from "@/constant";
-import {Dict, ModalFormProps} from '@/app.d';
-import {FlinkArtifact} from "@/services/dev/typings";
-import {listDictDataByType} from "@/services/admin/dictData.service";
-import {add, update} from "@/services/dev/flinkArtifact.service";
+import { Dict, ModalFormProps } from '@/app.d';
+import { DICT_TYPE } from '@/constant';
+import { DictDataService } from '@/services/admin/dictData.service';
+import { add, update } from '@/services/dev/flinkArtifact.service';
+import { FlinkArtifact } from '@/services/dev/typings';
+import { Form, Input, message, Modal, Select } from 'antd';
+import { useEffect, useState } from 'react';
+import { useIntl } from 'umi';
 
 const FlinkArtifactForm: React.FC<ModalFormProps<FlinkArtifact>> = ({
   data,
@@ -18,7 +18,7 @@ const FlinkArtifactForm: React.FC<ModalFormProps<FlinkArtifact>> = ({
   const [flinkArtifactTypeList, setFlinkArtifactTypeList] = useState<Dict[]>([]);
 
   useEffect(() => {
-    listDictDataByType(DICT_TYPE.flinkArtifactType).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.flinkArtifactType).then((d) => {
       setFlinkArtifactTypeList(d);
     });
   }, []);
@@ -38,47 +38,52 @@ const FlinkArtifactForm: React.FC<ModalFormProps<FlinkArtifact>> = ({
             id: values.id,
             name: values.name,
             type: { value: values.type },
-            remark: values.remark
+            remark: values.remark,
           };
           data.id
             ? update(param).then((d) => {
-              if (d.success) {
-                message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
-                onVisibleChange(false);
-              }
-            })
+                if (d.success) {
+                  message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
+                  onVisibleChange(false);
+                }
+              })
             : add(param).then((d) => {
-              if (d.success) {
-                message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
-                onVisibleChange(false);
-              }
-            });
+                if (d.success) {
+                  message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
+                  onVisibleChange(false);
+                }
+              });
         });
       }}
     >
-      <Form form={form} layout="horizontal" labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}
-            initialValues={{
-              id: data.id,
-              name: data.name,
-              type: data.type?.value,
-              remark: data.remark
-            }}>
+      <Form
+        form={form}
+        layout="horizontal"
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 16 }}
+        initialValues={{
+          id: data.id,
+          name: data.name,
+          type: data.type?.value,
+          remark: data.remark,
+        }}
+      >
         <Form.Item name="id" hidden>
           <Input></Input>
         </Form.Item>
         <Form.Item
           name="name"
           label={intl.formatMessage({ id: 'pages.dev.artifact.name' })}
-          rules={[{ required: true }, { max: 32 }]}>
-          <Input/>
+          rules={[{ required: true }, { max: 32 }]}
+        >
+          <Input />
         </Form.Item>
         <Form.Item
           name="type"
           label={intl.formatMessage({ id: 'pages.dev.artifact.type' })}
-          rules={[{ required: true }]}>
-          <Select
-            allowClear={true}
-            optionFilterProp="label">
+          rules={[{ required: true }]}
+        >
+          <Select allowClear={true} optionFilterProp="label">
             {flinkArtifactTypeList.map((item) => {
               return (
                 <Select.Option key={item.value} value={item.value}>
@@ -91,8 +96,9 @@ const FlinkArtifactForm: React.FC<ModalFormProps<FlinkArtifact>> = ({
         <Form.Item
           name="remark"
           label={intl.formatMessage({ id: 'pages.dev.remark' })}
-          rules={[{ max: 200 }]}>
-          <Input/>
+          rules={[{ max: 200 }]}
+        >
+          <Input />
         </Form.Item>
       </Form>
     </Modal>

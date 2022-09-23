@@ -1,4 +1,4 @@
-import { cluster, job } from '@/services/studio/index';
+import { DataboardService } from '@/services/studio';
 import { Card, Col, Row, Statistic } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'umi';
@@ -15,12 +15,12 @@ const DataBoard: React.FC = () => {
   }, []);
   // 集群数量
   const fetchCluster = useCallback(async () => {
-    const clusterCnt = await cluster();
+    const clusterCnt = await DataboardService.cluster();
     setClusterCnt(clusterCnt);
   }, []);
   // 任务数量
   const fetchJob = useCallback(async (params: { jobType: string }) => {
-    const clusterCnt = await job(params);
+    const clusterCnt = await DataboardService.job(params);
     return clusterCnt;
   }, []);
 

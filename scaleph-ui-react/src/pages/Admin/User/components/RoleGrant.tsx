@@ -1,7 +1,7 @@
 import { ModalFormProps } from '@/app.d';
-import { grantRoleToUsers } from '@/services/admin/role.service';
+import { RoleService } from '@/services/admin/role.service';
 import { SecRole, SecUser } from '@/services/admin/typings';
-import { listByUserNameAndRole, listUserByPage } from '@/services/admin/user.service';
+import { UserService } from '@/services/admin/user.service';
 import { message, Modal, Transfer } from 'antd';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'umi';
@@ -19,12 +19,12 @@ const RoleGrant: React.FC<ModalFormProps<SecRole>> = ({
 
   useEffect(() => {
     //all user list limit 100000
-    listUserByPage({ current: 1, pageSize: 100000 }).then(resp => {
+    UserService.listUserByPage({ current: 1, pageSize: 100000 }).then((resp) => {
       setUserList(resp.data);
     });
     //user granted with role id
-    listByUserNameAndRole('', data.id + '', "1").then(resp => {
-      setTargetKeys(resp.map(item => item.value));
+    UserService.listByUserNameAndRole('', data.id + '', '1').then((resp) => {
+      setTargetKeys(resp.map((item) => item.value));
     });
   }, []);
 
@@ -40,14 +40,18 @@ const RoleGrant: React.FC<ModalFormProps<SecRole>> = ({
     <Modal
       visible={visible}
       destroyOnClose={true}
-      title={intl.formatMessage(
-        { id: 'app.common.operate.grant.title' },
-        { name: intl.formatMessage({ id: 'pages.admin.user.role' }) },
-      ) + ' - ' + data.roleName}
+      title={
+        intl.formatMessage(
+          { id: 'app.common.operate.grant.title' },
+          { name: intl.formatMessage({ id: 'pages.admin.user.role' }) },
+        ) +
+        ' - ' +
+        data.roleName
+      }
       width={780}
       onCancel={onCancel}
       onOk={() => {
-        grantRoleToUsers(data.id + '', targetKeys).then(d => {
+        RoleService.grantRoleToUsers(data.id + '', targetKeys).then((d) => {
           if (d.success) {
             message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
           }
@@ -71,7 +75,6 @@ const RoleGrant: React.FC<ModalFormProps<SecRole>> = ({
         onSelectChange={onSelectChange}
         render={(item) => item.userName + ''}
         rowKey={(item) => item.id + ''}
-
       ></Transfer>
     </Modal>
   );

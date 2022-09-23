@@ -1,12 +1,7 @@
 import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
-import { listDictDataByType } from '@/services/admin/dictData.service';
-import {
-  deleteDataSourceBatch,
-  deleteDataSourceRow,
-  listDataSourceByPage,
-  showPassword,
-} from '@/services/project/dataSource.service';
+import { DictDataService } from '@/services/admin/dictData.service';
+import { DataSourceService } from '@/services/project/dataSource.service';
 import { MetaDataSource } from '@/services/project/typings';
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
@@ -103,13 +98,15 @@ const DataSource: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevDatasourceSecurity) && (
-              <Tooltip title={intl.formatMessage({ id: 'pages.project.di.dataSource.password.show' })}>
+              <Tooltip
+                title={intl.formatMessage({ id: 'pages.project.di.dataSource.password.show' })}
+              >
                 <Button
                   shape="default"
                   type="link"
                   icon={<EyeOutlined />}
                   onClick={() => {
-                    showPassword(record).then((resp) => {
+                    DataSourceService.showPassword(record).then((resp) => {
                       if (resp.success) {
                         Modal.info({
                           content: <Typography.Text>{resp.data}</Typography.Text>,
@@ -149,7 +146,7 @@ const DataSource: React.FC = () => {
                       okButtonProps: { danger: true },
                       cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        deleteDataSourceRow(record).then((d) => {
+                        DataSourceService.deleteDataSourceRow(record).then((d) => {
                           if (d.success) {
                             message.success(
                               intl.formatMessage({ id: 'app.common.operate.delete.success' }),
@@ -170,7 +167,7 @@ const DataSource: React.FC = () => {
   ];
 
   useEffect(() => {
-    listDictDataByType(DICT_TYPE.datasourceType).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.datasourceType).then((d) => {
       let dictMap = new Map();
       d.map((value, index, array) => {
         dictMap.set(value.value, value.label);
@@ -193,7 +190,7 @@ const DataSource: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return listDataSourceByPage(params);
+          return DataSourceService.listDataSourceByPage(params);
         }}
         toolbar={{
           actions: [
@@ -223,7 +220,7 @@ const DataSource: React.FC = () => {
                     okButtonProps: { danger: true },
                     cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                     onOk() {
-                      deleteDataSourceBatch(selectedRows).then((d) => {
+                      DataSourceService.deleteDataSourceBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(
                             intl.formatMessage({ id: 'app.common.operate.delete.success' }),
@@ -280,10 +277,10 @@ const DataSource: React.FC = () => {
         ></JdbcDataSourceForm>
       ) : null}
       {dataSourceFormData.visible &&
-        (dataSourceFormData.data.datasourceType?.value == 'Mysql' ||
-          dataSourceFormData.data.datasourceType?.value == 'Oracle' ||
-          dataSourceFormData.data.datasourceType?.value == 'PostGreSQL' ||
-          dataSourceFormData.data.datasourceType?.value == 'ClickHouse') ? (
+      (dataSourceFormData.data.datasourceType?.value == 'Mysql' ||
+        dataSourceFormData.data.datasourceType?.value == 'Oracle' ||
+        dataSourceFormData.data.datasourceType?.value == 'PostGreSQL' ||
+        dataSourceFormData.data.datasourceType?.value == 'ClickHouse') ? (
         <GenericDataSourceForm
           visible={dataSourceFormData.visible}
           onCancel={() => {
