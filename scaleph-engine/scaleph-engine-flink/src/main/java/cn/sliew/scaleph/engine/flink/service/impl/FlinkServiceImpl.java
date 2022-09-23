@@ -24,15 +24,11 @@ import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
 import cn.sliew.flinkful.cli.base.util.FlinkUtil;
 import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
-import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
-import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
-import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
-import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
+import cn.sliew.scaleph.common.dict.flink.*;
 import cn.sliew.scaleph.common.enums.DeployMode;
 import cn.sliew.scaleph.common.enums.ResourceProvider;
 import cn.sliew.scaleph.common.nio.TarUtil;
 import cn.sliew.scaleph.common.nio.TempFileUtil;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobInstance;
 import cn.sliew.scaleph.engine.flink.service.*;
 import cn.sliew.scaleph.engine.flink.service.dto.*;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
@@ -63,6 +59,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -182,15 +179,18 @@ public class FlinkServiceImpl implements FlinkService {
     }
 
     private void recordJobs(FlinkJobConfigJarDTO flinkJobConfigJarDTO, ClusterClient clusterClient) throws Exception {
-        for (JobStatusMessage job : FlinkUtil.listJobs(clusterClient)) {
+        Collection<JobStatusMessage> jobs = (Collection<JobStatusMessage>) clusterClient.listJobs().get();
+        for (JobStatusMessage job : jobs) {
             FlinkJobInstanceDTO flinkJobInstanceDTO = new FlinkJobInstanceDTO();
+            flinkJobInstanceDTO.setType(FlinkJobType.JAR);
             flinkJobInstanceDTO.setFlinkJobConfigId(flinkJobConfigJarDTO.getId());
-            flinkJobInstanceDTO.setClusterId(clusterClient.getClusterId());
-            flinkJobInstanceDTO.setWebInterfaceUrl(clusterClient.getWebInterfaceURL());
             flinkJobInstanceDTO.setJobId(job.getJobId().toHexString());
             flinkJobInstanceDTO.setJobName(job.getJobName());
             flinkJobInstanceDTO.setJobState(FlinkJobState.of(job.getJobState().name()));
-            flinkJobInstanceService.insert(flinkJobInstanceDTO);
+            flinkJobInstanceDTO.setClusterId(clusterClient.getClusterId());
+            flinkJobInstanceDTO.setWebInterfaceUrl(clusterClient.getWebInterfaceURL());
+            flinkJobInstanceDTO.setClusterStatus(FlinkClusterStatus.RUNNING);
+            flinkJobInstanceService.upsert(flinkJobInstanceDTO);
         }
     }
 

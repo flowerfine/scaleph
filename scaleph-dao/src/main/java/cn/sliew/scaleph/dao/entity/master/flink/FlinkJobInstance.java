@@ -50,18 +50,6 @@ public class FlinkJobInstance extends BaseDO {
     @TableField("flink_job_config_id")
     private Long flinkJobConfigId;
 
-    @ApiModelProperty("cluster ID")
-    @TableField("cluster_id")
-    private Object clusterId;
-
-    @ApiModelProperty("flink web-ui url")
-    @TableField("web_interface_url")
-    private String webInterfaceUrl;
-
-    @ApiModelProperty("flink cluster status")
-    @TableField("cluster_status")
-    private FlinkClusterStatus clusterStatus;
-
     @ApiModelProperty("flink job ID")
     @TableField("job_id")
     private String jobId;
@@ -73,5 +61,17 @@ public class FlinkJobInstance extends BaseDO {
     @ApiModelProperty("flink job state")
     @TableField("`job_state`")
     private FlinkJobState jobState;
+
+    @ApiModelProperty("cluster ID")
+    @TableField("cluster_id")
+    private Object clusterId;
+
+    @ApiModelProperty("flink web-ui url")
+    @TableField("web_interface_url")
+    private String webInterfaceUrl;
+
+    @ApiModelProperty("flink cluster status")
+    @TableField("cluster_status")
+    private FlinkClusterStatus clusterStatus;
 
 }

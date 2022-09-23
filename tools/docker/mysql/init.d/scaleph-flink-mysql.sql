@@ -101,15 +101,16 @@ CREATE TABLE flink_job_instance
     `id`                  BIGINT       NOT NULL AUTO_INCREMENT,
     `type`                VARCHAR(4)   NOT NULL COMMENT 'job type. 0: jar, 1: sql+udf, 2: seatunnel',
     `flink_job_config_id` BIGINT       NOT NULL,
-    `cluster_id`          VARCHAR(64)  NOT NULL,
-    `web_interface_url`   VARCHAR(255) NOT NULL,
-    `cluster_status`      VARCHAR(16)  NOT NULL,
     `job_id`              VARCHAR(64)  NOT NULL,
     `job_name`            VARCHAR(64)  NOT NULL,
     `job_state`           VARCHAR(16)  NOT NULL,
+    `cluster_id`          VARCHAR(64)  NOT NULL,
+    `web_interface_url`   VARCHAR(255) NOT NULL,
+    `cluster_status`      VARCHAR(16)  NOT NULL,
     `creator`             VARCHAR(32),
     `create_time`         DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `editor`              VARCHAR(32),
     `update_time`         DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uniq_job` (`type`, `flink_job_config_id`, `job_id`)
 ) ENGINE = INNODB COMMENT = 'flink job instance';

@@ -38,6 +38,15 @@ public class FlinkJobInstanceDTO extends BaseDTO {
     @ApiModelProperty("flink job config ID")
     private Long flinkJobConfigId;
 
+    @ApiModelProperty("flink job ID")
+    private String jobId;
+
+    @ApiModelProperty("flink job name")
+    private String jobName;
+
+    @ApiModelProperty("flink job state")
+    private FlinkJobState jobState;
+
     @ApiModelProperty("cluster ID")
     private Object clusterId;
 
@@ -47,12 +56,4 @@ public class FlinkJobInstanceDTO extends BaseDTO {
     @ApiModelProperty("flink cluster status")
     private FlinkClusterStatus clusterStatus;
 
-    @ApiModelProperty("flink job ID")
-    private String jobId;
-
-    @ApiModelProperty("flink job name")
-    private String jobName;
-
-    @ApiModelProperty("flink job state")
-    private FlinkJobState jobState;
 }
