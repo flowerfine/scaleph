@@ -1,7 +1,19 @@
-import {Button, Col, Row} from "antd";
-import {RollbackOutlined} from "@ant-design/icons";
-import {ProDescriptions} from '@ant-design/pro-components';
+import {Button, Col, Row, Tabs} from "antd";
+import {
+  ContainerOutlined,
+  FileZipOutlined,
+  ProjectOutlined,
+  RollbackOutlined,
+  SaveOutlined,
+  ToolOutlined
+} from "@ant-design/icons";
 import {history} from "umi";
+import JobInfoForJarWeb from "@/pages/DEV/Job/Detail/components/JobInfo";
+import JobInstanceWeb from "@/pages/DEV/Job/Detail/components/JobInstanceTab";
+import JobSavepointsWeb from "@/pages/DEV/Job/Detail/components/JobSavepointsTab";
+import JobArtifactForJarWeb from "@/pages/DEV/Job/Detail/components/JobArtifactForJar";
+import JobConfigurationWeb from "@/pages/DEV/Job/Detail/components/JobConfiguration";
+import JobOverviewWeb from "@/pages/DEV/Job/Detail/components/JobOverview";
 
 const JobDetailWeb: React.FC = () => {
 
@@ -15,79 +27,49 @@ const JobDetailWeb: React.FC = () => {
     </Row>
     <Row>
       <Col span={23}>
-        <ProDescriptions
-          title="任务信息"
-          request={async () => {
-            return Promise.resolve({
-              success: true,
-              data: {
-                id: 1,
-                name: 'TopSpeedWindowing',
-                resourceProvider: 'Native Kubernetes',
-                deployMode: 'Application',
-                date: '2022-09-23 12:01:35',
-              },
-            });
-          }}
-          columns={[
+        <JobInfoForJarWeb/>
+      </Col>
+    </Row>
+    <Row>
+      <Col>
+        <Tabs
+          defaultActiveKey="1"
+          items={[
             {
-              title: '名称',
-              key: 'name',
-              dataIndex: 'name',
+              label: (<span><ProjectOutlined />Overview</span>),
+              key: "1",
+              disabled: false,
+              children: (<JobOverviewWeb/>),
             },
             {
-              title: 'Entry Class',
-              key: 'entryClass',
-              dataIndex: 'entryClass',
+              label: (<span><ToolOutlined />Configuration</span>),
+              key: "2",
+              disabled: false,
+              children: (<JobConfigurationWeb/>),
             },
             {
-              title: 'version',
-              key: 'version',
-              dataIndex: 'version',
+              label: (<span><FileZipOutlined />Artifact</span>),
+              key: "3",
+              disabled: false,
+              children: (<JobArtifactForJarWeb/>),
             },
             {
-              title: 'File Name',
-              key: 'fileName',
-              dataIndex: 'fileName',
+              label: (<span><ContainerOutlined/>Jobs</span>),
+              key: "4",
+              disabled: false,
+              children: (<JobInstanceWeb/>),
             },
             {
-              title: 'Flink 版本',
-              key: 'flinkVersion',
-              dataIndex: 'flinkVersion',
-            },
-            {
-              title: 'Flink Resource Provider',
-              key: 'resourceProvider',
-              dataIndex: 'resourceProvider',
-            },
-            {
-              title: 'Flink Deploy Mode',
-              key: 'deployMode',
-              dataIndex: 'deployMode',
-            },
-            {
-              title: '时间',
-              key: 'date',
-              dataIndex: 'date'
+              label: (<span><SaveOutlined />Savepoints</span>),
+              key: "5",
+              disabled: false,
+              children: (<JobSavepointsWeb/>),
             }
           ]}
-          extra={(
-            [
-              <a target="_blank" rel="noopener noreferrer" key="link">
-                链路
-              </a>,
-              <a target="_blank" rel="noopener noreferrer" key="warning">
-                报警
-              </a>,
-              <a target="_blank" rel="noopener noreferrer" key="view">
-                查看
-              </a>,
-            ]
-          )}
         />
       </Col>
     </Row>
   </div>);
 }
 
-export default JobDetailWeb;
+export default JobDetailWeb
