@@ -66,12 +66,12 @@ public class JobStepController {
         return seatunnelConnectorService.getAvailableConnectors(stepType);
     }
 
-    @Logging
-    @GetMapping("{name}/properties")
-    @ApiOperation(value = "查询 SeaTunnel connector 支持的属性")
-    public List<PropertyDescriptor> getSupportedProperties(@PathVariable("name") String name) {
-        return seatunnelConnectorService.getSupportedProperties(name);
-    }
+//    @Logging
+//    @GetMapping("{name}/properties")
+//    @ApiOperation(value = "查询 SeaTunnel connector 支持的属性")
+//    public List<PropertyDescriptor> getSupportedProperties(@PathVariable("name") String name) {
+//        return seatunnelConnectorService.getSupportedProperties(name);
+//    }
 
 }
 

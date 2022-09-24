@@ -2,11 +2,14 @@ import { Dict, ModalFormProps } from '@/app.d';
 import { DICT_TYPE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { DataSourceService } from '@/services/project/dataSource.service';
+import { JobService } from '@/services/project/job.service';
+import { DiJob } from '@/services/project/typings';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { NsGraph } from '@antv/xflow';
-import { Button, Col, Form, Input, Modal, Row, Select, Space } from 'antd';
+import { Button, Col, Form, Input, message, Modal, Row, Select, Space } from 'antd';
 import { useEffect, useState } from 'react';
 import { getIntl, getLocale } from 'umi';
+import { STEP_ATTR_TYPE } from '../constant';
 
 const SourceJdbcStepForm: React.FC<
   ModalFormProps<{
@@ -16,6 +19,8 @@ const SourceJdbcStepForm: React.FC<
   }>
 > = ({ data, visible, onCancel }) => {
   const nodeInfo = data.node.data;
+  const jobInfo = data.graphMeta.origin as DiJob;
+  const jobGraph = data.graphData;
   const intl = getIntl(getLocale(), true);
   const [form] = Form.useForm();
   const [dataSourceTypeList, setDataSourceTypeList] = useState<Dict[]>([]);
@@ -23,6 +28,17 @@ const SourceJdbcStepForm: React.FC<
   useEffect(() => {
     DictDataService.listDictDataByType(DICT_TYPE.datasourceType).then((d) => {
       setDataSourceTypeList(d);
+    });
+    console.log(nodeInfo);
+    form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
+    JobService.listStepAttr(jobInfo.id + '', nodeInfo.id).then((resp) => {
+      console.log(resp);
+      let stepAttrMap: Map<string, string> = new Map();
+      resp.map((step) => {
+        stepAttrMap.set(step.stepAttrKey, step.stepAttrValue);
+      });
+      console.log(stepAttrMap);
+      // form.setFieldValue(STEP_ATTR_TYPE.stepTitle, stepAttrMap[STEP_ATTR_TYPE.stepTitle]);
     });
   }, []);
 
@@ -42,15 +58,26 @@ const SourceJdbcStepForm: React.FC<
       destroyOnClose={true}
       onCancel={onCancel}
       onOk={() => {
-        console.log('local', getLocale());
-
-        console.log(intl.formatMessage({ id: 'pages.project.di.step.partitionColumn.tooltip' }));
         form.validateFields().then((values) => {
-          console.log(values);
+          let map: Map<string, string> = new Map();
+          map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
+          map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
+          map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
+          map.set(STEP_ATTR_TYPE.stepTitle, values[STEP_ATTR_TYPE.stepTitle]);
+          map.set(STEP_ATTR_TYPE.dataSourceType, values[STEP_ATTR_TYPE.dataSourceType]);
+          map.set(STEP_ATTR_TYPE.dataSource, values[STEP_ATTR_TYPE.dataSource]);
+          map.set(STEP_ATTR_TYPE.query, values[STEP_ATTR_TYPE.query]);
+          map.set(STEP_ATTR_TYPE.partitionColumn, values[STEP_ATTR_TYPE.partitionColumn]);
+          JobService.saveStepAttr(map).then((resp) => {
+            if (resp.success) {
+              message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+              onCancel();
+            }
+          });
         });
       }}
     >
-      <Form form={form} layout="vertical">
+      <Form form={form} layout="vertical" >
         <Form.Item
           name="stepTitle"
           label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}

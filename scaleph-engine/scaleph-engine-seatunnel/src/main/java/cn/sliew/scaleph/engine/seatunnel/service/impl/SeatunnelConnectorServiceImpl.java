@@ -27,6 +27,7 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -48,8 +49,15 @@ public class SeatunnelConnectorServiceImpl implements SeatunnelConnectorService 
     }
 
     @Override
-    public List<PropertyDescriptor> getSupportedProperties(String name) {
-        return connectorManager.getConnector(name).getSupportedProperties();
+    public List<PropertyDescriptor> getSupportedProperties(String type, String name) {
+        List<PropertyDescriptor> result = new ArrayList<>();
+        Set<PluginInfo> pluginInfos = connectorManager.getAvailableConnectors(SeaTunnelPluginType.of(type));
+        for (PluginInfo pluginInfo : pluginInfos) {
+            if (pluginInfo.getName().equals(name)) {
+                result = connectorManager.getConnector(pluginInfo).getSupportedProperties();
+            }
+        }
+        return result;
     }
 
     @Override
