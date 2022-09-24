@@ -66,6 +66,8 @@ export default {
   'pages.project.di.flow.dag.zoomFit': '缩放到适应屏幕',
   'pages.project.di.flow.dag.zoomTo': '当前缩放比例:{factor}',
   'pages.project.di.step.stepTitle': '步骤标题',
+  'pages.project.di.step.x': 'x坐标',
+  'pages.project.di.step.y': 'y坐标',
   'pages.project.di.step.dataSourceType': '数据源类型',
   'pages.project.di.step.dataSource': '数据源',
   'pages.project.di.step.partitionColumn': '分区字段',

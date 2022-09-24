@@ -113,40 +113,11 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
     refreshJobGraph();
   }, [cache.app, meta]);
 
-  const refreshJobGraph = () => {
+  const refreshJobGraph = async () => {
     DagService.loadJobInfo(meta.origin?.id as number).then((resp) => {
-      let jobInfo = resp;
-      let nodes: NsGraph.INodeConfig[] = [];
-      let edges: NsGraph.IEdgeConfig[] = [];
-      jobInfo.jobStepList?.map((step) => {
-        nodes.push({
-          id: step.stepCode,
-          x: step.positionX,
-          y: step.positionY,
-          label: step.stepTitle,
-          renderKey: DND_RENDER_ID,
-          width: NODE_WIDTH,
-          height: NODE_HEIGHT,
-          ports: createPorts(step.stepType.value as string),
-          data: {
-            name: step.stepName,
-            type: step.stepType.value as string,
-          },
-        });
-      });
-      jobInfo.jobLinkList?.map((link) => {
-        edges.push({
-          id: link.linkCode,
-          source: link.fromStepCode,
-          target: link.toStepCode,
-          sourcePortId: CONNECTION_PORT_TYPE.source,
-          targetPortId: CONNECTION_PORT_TYPE.target,
-        });
-      });
-      setGraphData({ nodes: nodes, edges: edges });
+      setGraphData(resp);
     });
   };
-
   /**
    * menu config
    */
@@ -268,7 +239,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             id: 'main04',
             iconName: 'SendOutlined',
             tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.publish' }),
-            onClick: (args) => {},
+            onClick: (args) => { },
           },
         ],
       },
@@ -279,13 +250,13 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             id: 'main01',
             iconName: 'PlaySquareOutlined',
             tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.start' }),
-            onClick: (args) => {},
+            onClick: (args) => { },
           },
           {
             id: 'main02',
             iconName: 'StopOutlined',
             tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.stop' }),
-            onClick: (args) => {},
+            onClick: (args) => { },
           },
         ],
       },
@@ -301,7 +272,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             iconName: 'ProfileOutlined',
             text: intl.formatMessage({ id: 'pages.project.di.flow.dag.prop' }),
             tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.prop' }),
-            onClick: ({ commandService }) => {},
+            onClick: ({ commandService }) => { },
           },
         ],
       },

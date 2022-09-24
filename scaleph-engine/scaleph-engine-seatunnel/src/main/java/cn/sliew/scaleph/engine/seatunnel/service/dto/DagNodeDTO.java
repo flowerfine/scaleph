@@ -13,7 +13,7 @@ public class DagNodeDTO {
 
     private String renderKey;
 
-    private String popoverContent;
+    private String description;
     /*
      * node type and node name
      */
