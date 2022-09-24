@@ -117,5 +117,4 @@ A job must contain follow elements:
 * artifact + config
 * flink version,  resource provider, deploy mode
 * instance
-* savepoints
-* checkpoints
+* savepoints, checkpoints
