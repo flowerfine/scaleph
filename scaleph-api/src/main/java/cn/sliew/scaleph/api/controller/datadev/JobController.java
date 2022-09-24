@@ -33,9 +33,11 @@ import cn.sliew.scaleph.core.di.service.dto.*;
 import cn.sliew.scaleph.core.di.service.param.DiJobParam;
 import cn.sliew.scaleph.core.di.service.vo.*;
 import cn.sliew.scaleph.core.scheduler.service.ScheduleService;
+import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
+import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -83,14 +85,14 @@ public class JobController {
     private DiJobStepAttrService diJobStepAttrService;
     @Autowired
     private DiJobStepAttrTypeService diJobStepAttrTypeService;
-
     @Autowired
     private DiJobResourceFileService diJobResourceFileService;
-
     @Autowired
     private ScheduleService scheduleService;
     @Autowired
     private SeatunnelJobService seatunnelJobService;
+    @Autowired
+    private SeatunnelConnectorService seatunnelConnectorService;
 
     @Logging
     @GetMapping
@@ -403,25 +405,24 @@ public class JobController {
                 }
                 DiJobStepDTO dto = this.diJobStepService.selectOne(editableJobId, stepCode);
                 if (dto != null) {
-                    List<DiJobStepAttrTypeDTO> attrTypeList =
-                            this.diJobStepAttrTypeService.listByType(dto.getStepType().getValue(),
-                                    dto.getStepName());
-                    for (DiJobStepAttrTypeDTO attrType : attrTypeList) {
-                        if (stepAttrMap.containsKey(attrType.getStepAttrKey())) {
-                            DiJobStepAttrDTO stepAttr = new DiJobStepAttrDTO();
-                            stepAttr.setJobId(editableJobId);
-                            stepAttr.setStepCode(stepCode);
-                            stepAttr.setStepAttrKey(attrType.getStepAttrKey());
-                            stepAttr.setStepAttrValue(
-                                    toJsonStr(stepAttrMap.get(attrType.getStepAttrKey())));
-                            this.diJobStepAttrService.upsert(stepAttr);
-                        } else {
-                            DiJobStepAttrDTO stepAttr = new DiJobStepAttrDTO();
-                            stepAttr.setJobId(editableJobId);
-                            stepAttr.setStepCode(stepCode);
-                            stepAttr.setStepAttrKey(attrType.getStepAttrKey());
-                            stepAttr.setStepAttrValue(attrType.getStepAttrDefaultValue());
-                            this.diJobStepAttrService.upsert(stepAttr);
+                    List<PropertyDescriptor> supportAttrList = seatunnelConnectorService.getSupportedProperties(dto.getStepType().getValue(), dto.getStepName());
+                    if (CollectionUtil.isNotEmpty(supportAttrList)) {
+                        for (PropertyDescriptor propDesc : supportAttrList) {
+                            if (stepAttrMap.containsKey(propDesc.getName())) {
+                                DiJobStepAttrDTO stepAttr = new DiJobStepAttrDTO();
+                                stepAttr.setJobId(editableJobId);
+                                stepAttr.setStepCode(stepCode);
+                                stepAttr.setStepAttrKey(propDesc.getName());
+                                stepAttr.setStepAttrValue(toJsonStr(stepAttrMap.get(propDesc.getName())));
+                                this.diJobStepAttrService.upsert(stepAttr);
+                            } else {
+                                DiJobStepAttrDTO stepAttr = new DiJobStepAttrDTO();
+                                stepAttr.setJobId(editableJobId);
+                                stepAttr.setStepCode(stepCode);
+                                stepAttr.setStepAttrKey(propDesc.getName());
+                                stepAttr.setStepAttrValue(toJsonStr(propDesc.getDefaultValue()));
+                                this.diJobStepAttrService.upsert(stepAttr);
+                            }
                         }
                     }
                 }
