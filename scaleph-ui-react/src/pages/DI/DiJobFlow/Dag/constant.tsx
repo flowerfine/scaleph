@@ -1,4 +1,4 @@
-import { IGraphCommand, XFlowGraphCommands } from '@antv/xflow';
+import { IGraphCommand, XFlowGraphCommands, XFlowNodeCommands } from '@antv/xflow';
 
 export const DND_RENDER_ID = 'DND_NODE';
 export const GROUP_NODE_RENDER_ID = 'GROUP_NODE_RENDER_ID';
@@ -15,26 +15,10 @@ export namespace CustomCommands {
     label: 'cut',
     category: XFlowGraphCommands.GRAPH_COPY.category,
   };
+
+  export const NODE_EDIT: IGraphCommand = {
+    id: 'xflow:node-edit',
+    label: 'edit',
+    category: XFlowNodeCommands.UPDATE_NODE.category,
+  };
 }
-// export const CustomCommands = {}
-// // export namespace CustomCommands {
-// const category = '节点操作'
-// /** 异步请求demo */
-// CustomCommands.TEST_ASYNC_CMD = {
-//   id: 'xflow:async-cmd',
-//   label: '异步请求',
-//   category,
-// }
-// /** 重命名节点弹窗 */
-// CustomCommands.SHOW_RENAME_MODAL = {
-//   id: 'xflow:rename-node-modal',
-//   label: '打开重命名弹窗',
-//   category,
-// }
-// /** 部署服务 */
-// CustomCommands.DEPLOY_SERVICE = {
-//   id: 'xflow:deploy-service',
-//   label: '部署服务',
-//   category,
-// }
-// // }

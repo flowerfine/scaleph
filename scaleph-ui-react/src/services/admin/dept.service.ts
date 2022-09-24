@@ -2,40 +2,41 @@ import { ResponseBody } from '@/app.d';
 import { request } from 'umi';
 import { SecDept, SecDeptTreeNode } from './typings';
 
-const url = '/api/admin/dept';
+export const DeptService = {
+  url: '/api/admin/dept',
+  listAllDept: async () => {
+    return request<SecDeptTreeNode[]>(`${DeptService.url}`);
+  },
 
-export async function listAllDept() {
-  return request<SecDeptTreeNode[]>(`${url}`);
-}
+  listChildDept: async (pid: string) => {
+    return request<SecDeptTreeNode[]>(`${DeptService.url}/` + pid);
+  },
 
-export async function listChildDept(pid: string) {
-  return request<SecDeptTreeNode[]>(`${url}/` + pid);
-}
+  addDept: async (row: SecDept) => {
+    return request<ResponseBody<any>>(`${DeptService.url}`, {
+      method: 'POST',
+      data: row,
+    });
+  },
 
-export async function addDept(row: SecDept) {
-  return request<ResponseBody<any>>(`${url}`, {
-    method: 'POST',
-    data: row,
-  });
-}
+  updateDept: async (row: SecDept) => {
+    return request<ResponseBody<any>>(`${DeptService.url}`, {
+      method: 'PUT',
+      data: row,
+    });
+  },
 
-export async function updateDept(row: SecDept) {
-  return request<ResponseBody<any>>(`${url}`, {
-    method: 'PUT',
-    data: row,
-  });
-}
+  deleteDept: async (row: SecDept) => {
+    return request<ResponseBody<any>>(`${DeptService.url}/` + row.id, {
+      method: 'DELETE',
+    });
+  },
 
-export async function deleteDept(row: SecDept) {
-  return request<ResponseBody<any>>(`${url}/` + row.id, {
-    method: 'DELETE',
-  });
-}
-
-export async function grantDeptToUsers(deptId: string, userIds: string[]) {
-  return request<ResponseBody<any>>(`${url}/grant`, {
-    method: 'POST',
-    data: { deptId: deptId, userIds: JSON.stringify(userIds) },
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
-}
+  grantDeptToUsers: async (deptId: string, userIds: string[]) => {
+    return request<ResponseBody<any>>(`${DeptService.url}/grant`, {
+      method: 'POST',
+      data: { deptId: deptId, userIds: JSON.stringify(userIds) },
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
+};

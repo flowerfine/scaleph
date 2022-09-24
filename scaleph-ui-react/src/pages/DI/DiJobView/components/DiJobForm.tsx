@@ -1,5 +1,5 @@
 import { TreeNode } from '@/app.d';
-import { addJob, updateJob } from '@/services/project/job.service';
+import { JobService } from '@/services/project/job.service';
 import { DiJob } from '@/services/project/typings';
 import { Form, Input, message, Modal, TreeSelect } from 'antd';
 import { useIntl } from 'umi';
@@ -27,9 +27,9 @@ const DiJobForm: React.FC<DiJobFormProps<DiJob>> = ({
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-          intl.formatMessage({ id: 'pages.project.di.job' })
+            intl.formatMessage({ id: 'pages.project.di.job' })
           : intl.formatMessage({ id: 'app.common.operate.new.label' }) +
-          intl.formatMessage({ id: 'pages.project.di.job' })
+            intl.formatMessage({ id: 'pages.project.di.job' })
       }
       width={580}
       destroyOnClose={true}
@@ -46,18 +46,18 @@ const DiJobForm: React.FC<DiJobFormProps<DiJob>> = ({
             remark: values.remark,
           };
           data.id
-            ? updateJob({ ...d }).then((d) => {
-              if (d.success) {
-                message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
-                onVisibleChange(false, null);
-              }
-            })
-            : addJob({ ...d }).then((d) => {
-              if (d.success) {
-                // message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
-                onVisibleChange(false, d.data);
-              }
-            });
+            ? JobService.updateJob({ ...d }).then((d) => {
+                if (d.success) {
+                  message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
+                  onVisibleChange(false, null);
+                }
+              })
+            : JobService.addJob({ ...d }).then((d) => {
+                if (d.success) {
+                  // message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
+                  onVisibleChange(false, d.data);
+                }
+              });
         });
       }}
     >

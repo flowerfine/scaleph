@@ -1,9 +1,4 @@
-import {
-  countUnReadMessage,
-  listMessageByPage,
-  readAllMessage,
-  updateMessage,
-} from '@/services/admin/message.service';
+import { MessageService } from '@/services/admin/message.service';
 import { LogMessage } from '@/services/admin/typings';
 import { useEffect, useState } from 'react';
 import { history, useIntl } from 'umi';
@@ -26,10 +21,10 @@ const NoticeIconView: React.FC = () => {
   }, []);
 
   const refreshMessage = () => {
-    listMessageByPage({ pageSize: 1000, current: 1, isRead: '0' }).then((resp) => {
+    MessageService.listMessageByPage({ pageSize: 1000, current: 1, isRead: '0' }).then((resp) => {
       setMessages(resp.data);
     });
-    countUnReadMessage().then((resp) => {
+    MessageService.countUnReadMessage().then((resp) => {
       setUnReadCnt(resp);
     });
   };
@@ -39,14 +34,14 @@ const NoticeIconView: React.FC = () => {
       className={styles.action}
       count={unReadCnt}
       onItemClick={(item) => {
-        updateMessage(item).then((resp) => {
+        MessageService.updateMessage(item).then((resp) => {
           if (resp.success) {
             refreshMessage();
           }
         });
       }}
       onClear={() =>
-        readAllMessage().then((resp) => {
+        MessageService.readAllMessage().then((resp) => {
           if (resp.success) {
             refreshMessage();
           }

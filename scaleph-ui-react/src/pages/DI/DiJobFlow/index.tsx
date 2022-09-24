@@ -4,7 +4,6 @@ import {
   CompressOutlined,
   DeleteOutlined,
   EditOutlined,
-  ExclamationCircleOutlined,
   FullscreenExitOutlined,
   FullscreenOutlined,
   PlaySquareOutlined,
@@ -41,9 +40,9 @@ import {
   XFlowGraphCommands,
   XFlowNodeCommands,
 } from '@antv/xflow';
-import { Button, Drawer, message, Modal, Popover, Space, Tag, Tooltip } from 'antd';
+import { Button, Drawer, message, Popover, Space, Tag, Tooltip } from 'antd';
 import React, { useState } from 'react';
-import { useAccess, useIntl } from 'umi';
+import { useIntl } from 'umi';
 /** config graph */
 import { useGraphCOnfig, useGraphHookConfig } from './Dag/config-graph';
 /** config command */
@@ -54,26 +53,31 @@ import { useKeybindingConfig } from './Dag/config-keybinding';
 /** config dnd panel */
 import '@antv/xflow/dist/index.css';
 import * as dndPanelConfig from './Dag/config-dnd-panel';
-import './index.less';
-import { CONNECTION_PORT_TYPE, DND_RENDER_ID, NODE_HEIGHT, NODE_WIDTH, ZOOM_OPTIONS } from './Dag/constant';
+import {
+  CONNECTION_PORT_TYPE,
+  CustomCommands,
+  DND_RENDER_ID,
+  NODE_HEIGHT,
+  NODE_WIDTH,
+  ZOOM_OPTIONS,
+} from './Dag/constant';
 import { DagService } from './Dag/service';
+import './index.less';
 interface DiJobFlowPorps {
   visible: boolean;
   data: DiJob;
   onVisibleChange: (visible: boolean, data: any) => void;
   onCancel: () => void;
-  meta: { flowId?: string, origin?: DiJob };
+  meta: { flowId?: string; origin?: DiJob };
 }
 
 const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
   const intl = useIntl();
-  const access = useAccess();
   const { visible, data, onVisibleChange, onCancel, meta } = props;
   const graphConfig = useGraphCOnfig(props);
-  const graphHooksConfig = useGraphHookConfig(props);
   const [graphData, setGraphData] = useState<NsGraph.IGraphData>({ nodes: [], edges: [] });
   const cmdConfig = useCmdConfig();
-  // const modelServiceConfig = useModelServiceConfig();
+  const graphHookConfig = useGraphHookConfig(props);
   const keybindingConfig = useKeybindingConfig();
 
   /**register icons */
@@ -110,11 +114,11 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
   }, [cache.app, meta]);
 
   const refreshJobGraph = () => {
-    DagService.loadJobInfo(meta.origin?.id as number).then(resp => {
+    DagService.loadJobInfo(meta.origin?.id as number).then((resp) => {
       let jobInfo = resp;
       let nodes: NsGraph.INodeConfig[] = [];
       let edges: NsGraph.IEdgeConfig[] = [];
-      jobInfo.jobStepList?.map(step => {
+      jobInfo.jobStepList?.map((step) => {
         nodes.push({
           id: step.stepCode,
           x: step.positionX,
@@ -126,23 +130,23 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
           ports: createPorts(step.stepType.value as string),
           data: {
             name: step.stepName,
-            type: step.stepType.value as string
-          }
+            type: step.stepType.value as string,
+          },
         });
       });
-      jobInfo.jobLinkList?.map(link => {
+      jobInfo.jobLinkList?.map((link) => {
         edges.push({
           id: link.linkCode,
           source: link.fromStepCode,
           target: link.toStepCode,
           sourcePortId: CONNECTION_PORT_TYPE.source,
-          targetPortId: CONNECTION_PORT_TYPE.target
+          targetPortId: CONNECTION_PORT_TYPE.target,
         });
       });
       setGraphData({ nodes: nodes, edges: edges });
     });
+  };
 
-  }
   /**
    * menu config
    */
@@ -161,19 +165,10 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
                 label: intl.formatMessage({ id: 'app.common.operate.edit.label' }),
                 iconName: 'EditOutlined',
                 onClick: async ({ target, commandService }) => {
-                  console.log(target);
-                  Modal.confirm({
-                    title: 'Do you Want to delete these items?',
-                    icon: <ExclamationCircleOutlined />,
-                    content: 'Some descriptions',
-                    onOk() {
-                      console.log('OK');
-                    },
-                    onCancel() {
-                      console.log('Cancel');
-                    },
+                  commandService.executeCommand(CustomCommands.NODE_EDIT.id, {
+                    nodeConfig: target,
                   });
-                }
+                },
               },
               {
                 id: XFlowNodeCommands.DEL_NODE.id,
@@ -200,9 +195,12 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
                 label: intl.formatMessage({ id: 'app.common.operate.delete.label' }),
                 iconName: 'DeleteOutlined',
                 onClick: async ({ target, commandService }) => {
-                  commandService.executeCommand<NsEdgeCmd.DelEdge.IArgs>(XFlowEdgeCommands.DEL_EDGE.id, {
-                    edgeConfig: target.data as NsGraph.IEdgeConfig,
-                  })
+                  commandService.executeCommand<NsEdgeCmd.DelEdge.IArgs>(
+                    XFlowEdgeCommands.DEL_EDGE.id,
+                    {
+                      edgeConfig: target.data as NsGraph.IEdgeConfig,
+                    },
+                  );
                 },
               },
             ],
@@ -215,7 +213,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             type: MenuItemType.Root,
             submenu: [
               {
-                id: "job_params_conf",
+                id: 'job_params_conf',
                 type: MenuItemType.Submenu,
                 label: intl.formatMessage({ id: 'pages.project.di.flow.dag.prop' }),
                 iconName: 'ProfileOutlined',
@@ -255,21 +253,22 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
               commandService.executeCommand<NsGraphCmd.SaveGraphData.IArgs>(
                 XFlowGraphCommands.SAVE_GRAPH_DATA.id,
                 {
-                  saveGraphDataService: (meta, graphData) => DagService.saveGraphData(meta, graphData).then(resp => {
-                    if (resp.success) {
-                      message.info(intl.formatMessage({ id: 'app.common.operate.success' }));
-                      refreshJobGraph();
-                    }
-                  })
+                  saveGraphDataService: (meta, graphData) =>
+                    DagService.saveGraphData(meta, graphData).then((resp) => {
+                      if (resp.success) {
+                        message.info(intl.formatMessage({ id: 'app.common.operate.success' }));
+                        refreshJobGraph();
+                      }
+                    }),
                 },
-              )
+              );
             },
           },
           {
             id: 'main04',
             iconName: 'SendOutlined',
             tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.publish' }),
-            onClick: (args) => { },
+            onClick: (args) => {},
           },
         ],
       },
@@ -280,13 +279,13 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             id: 'main01',
             iconName: 'PlaySquareOutlined',
             tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.start' }),
-            onClick: (args) => { },
+            onClick: (args) => {},
           },
           {
             id: 'main02',
             iconName: 'StopOutlined',
             tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.stop' }),
-            onClick: (args) => { },
+            onClick: (args) => {},
           },
         ],
       },
@@ -302,9 +301,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             iconName: 'ProfileOutlined',
             text: intl.formatMessage({ id: 'pages.project.di.flow.dag.prop' }),
             tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.prop' }),
-            onClick: ({ commandService }) => {
-
-            },
+            onClick: ({ commandService }) => {},
           },
         ],
       },
@@ -500,7 +497,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
       >
         <XFlow
           className="dag-user-custom-clz"
-          hookConfig={graphHooksConfig}
+          hookConfig={graphHookConfig}
           commandConfig={cmdConfig}
           onLoad={onLoad}
           graphData={graphData}
@@ -521,9 +518,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             config={toolbarConfig()}
             position={{ top: 0, left: 240, right: 0, bottom: 0 }}
           />
-          <XFlowCanvas
-            config={graphConfig}
-            position={{ top: 40, left: 240, right: 0, bottom: 0 }}>
+          <XFlowCanvas config={graphConfig} position={{ top: 40, left: 240, right: 0, bottom: 0 }}>
             <CanvasToolbar
               position={{ top: 12, right: 12 }}
               config={scaleToolbarConfig()}
@@ -537,7 +532,6 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
           <KeyBindings config={keybindingConfig} />
         </XFlow>
       </Drawer>
-      { }
     </>
   );
 };

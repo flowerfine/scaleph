@@ -1,18 +1,8 @@
 import { TreeNode } from '@/app.d';
 import { PRIVILEGE_CODE } from '@/constant';
-import { listAllDept } from '@/services/admin/dept.service';
-import {
-  grantPrivilegeToRole,
-  listAllPrivilege,
-  listPrivilegeByRole,
-} from '@/services/admin/privilege.service';
-import {
-  grantDeptRole,
-  listAllRole,
-  listGrantRoleByDept,
-  listRoleByDept,
-  revokeDeptRole,
-} from '@/services/admin/role.service';
+import { DeptService } from '@/services/admin/dept.service';
+import { PrivilegeService } from '@/services/admin/privilege.service';
+import { RoleService } from '@/services/admin/role.service';
 import { SecDeptTreeNode, SecPrivilegeTreeNode, SecRole } from '@/services/admin/typings';
 import {
   Button,
@@ -58,29 +48,30 @@ const Privilege: React.FC = () => {
   }, []);
 
   const refreshRoles = () => {
-    listAllRole().then((d) => {
+    RoleService.listAllRole().then((d) => {
       setRoleList(d);
     });
   };
 
   const refreshDepts = () => {
-    listAllDept().then((d) => {
+    DeptService.listAllDept().then((d) => {
       setDeptTreeList(buildDeptTree(d));
     });
   };
 
   const refreshPrivileges = (roleId: string, resourceType: string) => {
     setCheckedPrivilegeList([]);
-    Promise.all([listAllPrivilege(resourceType), listPrivilegeByRole(roleId, resourceType)]).then(
-      ([resp1, resp2]) => {
-        setPrivilegeTreeList(buildPrivilegeTree(resp1));
-        setCheckedPrivilegeList(
-          resp2.map((value, index) => {
-            return value.id as number;
-          }),
-        );
-      },
-    );
+    Promise.all([
+      PrivilegeService.listAllPrivilege(resourceType),
+      PrivilegeService.listPrivilegeByRole(roleId, resourceType),
+    ]).then(([resp1, resp2]) => {
+      setPrivilegeTreeList(buildPrivilegeTree(resp1));
+      setCheckedPrivilegeList(
+        resp2.map((value, index) => {
+          return value.id as number;
+        }),
+      );
+    });
   };
 
   const changePrivilegeTypeTab = (activeKey: string) => {
@@ -116,10 +107,10 @@ const Privilege: React.FC = () => {
   };
 
   const refreshGrantRole = (deptId: string) => {
-    listGrantRoleByDept(deptId).then((d) => {
+    RoleService.listGrantRoleByDept(deptId).then((d) => {
       setGrantRoleList(d);
     });
-    listRoleByDept(deptId).then((d) => {
+    RoleService.listRoleByDept(deptId).then((d) => {
       setGrantedRoleList(d);
     });
   };
@@ -179,13 +170,15 @@ const Privilege: React.FC = () => {
   };
 
   const onPrivielgeTreeCheck: TreeProps['onCheck'] = (checkedKeys, info) => {
-    grantPrivilegeToRole(checkedItemId, checkedKeys?.checked as string[], privilegeTabId).then(
-      (d) => {
-        if (d.success) {
-          refreshPrivileges(checkedItemId, privilegeTabId);
-        }
-      },
-    );
+    PrivilegeService.grantPrivilegeToRole(
+      checkedItemId,
+      checkedKeys?.checked as string[],
+      privilegeTabId,
+    ).then((d) => {
+      if (d.success) {
+        refreshPrivileges(checkedItemId, privilegeTabId);
+      }
+    });
   };
 
   const onPrivilegeTreeExpand = (expandedKeysValue: React.Key[]) => {
@@ -347,7 +340,7 @@ const Privilege: React.FC = () => {
                             type="default"
                             size="large"
                             onClick={() => {
-                              grantDeptRole(checkedItemId, item.id + '').then((d) => {
+                              RoleService.grantDeptRole(checkedItemId, item.id + '').then((d) => {
                                 if (d.success) {
                                   refreshGrantRole(checkedItemId + '');
                                 }
@@ -372,7 +365,7 @@ const Privilege: React.FC = () => {
                             type="primary"
                             size="large"
                             onClick={() => {
-                              revokeDeptRole(checkedItemId, item.id + '').then((d) => {
+                              RoleService.revokeDeptRole(checkedItemId, item.id + '').then((d) => {
                                 if (d.success) {
                                   refreshGrantRole(checkedItemId + '');
                                 }

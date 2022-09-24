@@ -1,5 +1,5 @@
 import { SecUser } from '@/services/admin/typings';
-import { getUserInfo } from '@/services/admin/user.service';
+import { UserService } from '@/services/admin/user.service';
 import { Button, List, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'umi';
@@ -19,7 +19,7 @@ const Security: React.FC = () => {
   });
 
   const refreshUserInfo = () => {
-    getUserInfo().then((resp) => {
+    UserService.getUserInfo().then((resp) => {
       setUser(resp);
     });
   };
@@ -83,7 +83,7 @@ const Security: React.FC = () => {
           ></List.Item.Meta>
         </List.Item>
       </List>
-      {passwordFormData.visible &&
+      {passwordFormData.visible && (
         <PasswordEditForm
           visible={passwordFormData.visible}
           onCancel={() => {
@@ -94,9 +94,10 @@ const Security: React.FC = () => {
             refreshUserInfo();
           }}
           data={{}}
-        ></PasswordEditForm>}
+        ></PasswordEditForm>
+      )}
 
-      {emailFormData.visible &&
+      {emailFormData.visible && (
         <EmailBindForm
           visible={emailFormData.visible}
           onCancel={() => {
@@ -107,7 +108,8 @@ const Security: React.FC = () => {
             refreshUserInfo();
           }}
           data={{}}
-        ></EmailBindForm>}
+        ></EmailBindForm>
+      )}
     </div>
   );
 };

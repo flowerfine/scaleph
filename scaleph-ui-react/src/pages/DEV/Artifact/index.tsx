@@ -1,14 +1,14 @@
-import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
-import {DeleteOutlined, EditOutlined, UploadOutlined} from '@ant-design/icons';
-import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
-import {useEffect, useRef, useState} from 'react';
-import {useAccess, useIntl, history} from 'umi';
-import FlinkArtifactForm from "@/pages/DEV/Artifact/components/FlinkArtifactForm";
-import {FlinkArtifact} from "@/services/dev/typings";
-import {deleteBatch, deleteOne, list} from "@/services/dev/flinkArtifact.service";
-import {listDictDataByType} from "@/services/admin/dictData.service";
-import {Dict} from '@/app.d';
+import { Dict } from '@/app.d';
+import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
+import FlinkArtifactForm from '@/pages/DEV/Artifact/components/FlinkArtifactForm';
+import { DictDataService } from '@/services/admin/dictData.service';
+import { FlinkArtifactService } from '@/services/dev/flinkArtifact.service';
+import { FlinkArtifact } from '@/services/dev/typings';
+import { DeleteOutlined, EditOutlined, UploadOutlined } from '@ant-design/icons';
+import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
+import { Button, message, Modal, Select, Space, Tooltip } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { history, useAccess, useIntl } from 'umi';
 
 const FlinkArtifactWeb: React.FC = () => {
   const intl = useIntl();
@@ -20,26 +20,26 @@ const FlinkArtifactWeb: React.FC = () => {
   const [flinkArtifactFormData, setFlinkArtifactData] = useState<{
     visiable: boolean;
     data: FlinkArtifact;
-  }>({visiable: false, data: {}});
+  }>({ visiable: false, data: {} });
 
   useEffect(() => {
-    listDictDataByType(DICT_TYPE.flinkArtifactType).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.flinkArtifactType).then((d) => {
       setFlinkArtifactTypeList(d);
     });
   }, []);
 
   const tableColumns: ProColumns<FlinkArtifact>[] = [
     {
-      title: intl.formatMessage({id: 'pages.dev.artifact.name'}),
+      title: intl.formatMessage({ id: 'pages.dev.artifact.name' }),
       dataIndex: 'name',
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.artifact.type'}),
+      title: intl.formatMessage({ id: 'pages.dev.artifact.type' }),
       dataIndex: 'type',
       render: (text, record, index) => {
         return record.type?.label;
       },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+      renderFormItem: (item, { defaultRender, ...rest }, form) => {
         return (
           <Select
             showSearch={true}
@@ -47,7 +47,8 @@ const FlinkArtifactWeb: React.FC = () => {
             optionFilterProp="label"
             filterOption={(input, option) =>
               (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-            }>
+            }
+          >
             {flinkArtifactTypeList.map((item) => {
               return (
                 <Select.Option key={item.value} value={item.value}>
@@ -60,24 +61,24 @@ const FlinkArtifactWeb: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.remark'}),
+      title: intl.formatMessage({ id: 'pages.dev.remark' }),
       dataIndex: 'remark',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.createTime'}),
+      title: intl.formatMessage({ id: 'pages.dev.createTime' }),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.updateTime'}),
+      title: intl.formatMessage({ id: 'pages.dev.updateTime' }),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'app.common.operate.label'}),
+      title: intl.formatMessage({ id: 'app.common.operate.label' }),
       dataIndex: 'actions',
       align: 'center',
       width: 120,
@@ -87,45 +88,50 @@ const FlinkArtifactWeb: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevJobShow) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.upload.label'})}>
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.upload.label' })}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<UploadOutlined/>}
+                  icon={<UploadOutlined />}
                   onClick={() => {
-                    history.push('/workspace/dev/artifact/jar', {id: record.id});
-                  }}/>
+                    history.push('/workspace/dev/artifact/jar', { id: record.id });
+                  }}
+                />
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDownload) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.download.label'})}>
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.download.label' })}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<EditOutlined/>}
+                  icon={<EditOutlined />}
                   onClick={() => {
-                    setFlinkArtifactData({visiable: true, data: record});
+                    setFlinkArtifactData({ visiable: true, data: record });
                   }}
                 ></Button>
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DeleteOutlined/>}
+                  icon={<DeleteOutlined />}
                   onClick={() => {
                     Modal.confirm({
-                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
-                      content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
-                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                      okButtonProps: {danger: true},
-                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                      title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
+                      content: intl.formatMessage({
+                        id: 'app.common.operate.delete.confirm.content',
+                      }),
+                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                      okButtonProps: { danger: true },
+                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        deleteOne(record).then((d) => {
+                        FlinkArtifactService.deleteOne(record).then((d) => {
                           if (d.success) {
-                            message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
+                            message.success(
+                              intl.formatMessage({ id: 'app.common.operate.delete.success' }),
+                            );
                             actionRef.current?.reload();
                           }
                         });
@@ -146,14 +152,14 @@ const FlinkArtifactWeb: React.FC = () => {
       <ProTable<FlinkArtifact>
         search={{
           labelWidth: 'auto',
-          span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
+          span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
         }}
         rowKey="id"
         actionRef={actionRef}
         formRef={formRef}
         options={false}
         columns={tableColumns}
-        request={(params, sorter, filter) => list(params)}
+        request={(params, sorter, filter) => FlinkArtifactService.list(params)}
         toolbar={{
           actions: [
             access.canAccess(PRIVILEGE_CODE.datadevResourceAdd) && (
@@ -161,9 +167,10 @@ const FlinkArtifactWeb: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setFlinkArtifactData({visiable: true, data: {}});
-                }}>
-                {intl.formatMessage({id: 'app.common.operate.new.label'})}
+                  setFlinkArtifactData({ visiable: true, data: {} });
+                }}
+              >
+                {intl.formatMessage({ id: 'app.common.operate.new.label' })}
               </Button>
             ),
             access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
@@ -173,27 +180,32 @@ const FlinkArtifactWeb: React.FC = () => {
                 disabled={selectedRows.length < 1}
                 onClick={() => {
                   Modal.confirm({
-                    title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
-                    content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
-                    okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                    okButtonProps: {danger: true},
-                    cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                    title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
+                    content: intl.formatMessage({
+                      id: 'app.common.operate.delete.confirm.content',
+                    }),
+                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                    okButtonProps: { danger: true },
+                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                     onOk() {
-                      deleteBatch(selectedRows).then((d) => {
+                      FlinkArtifactService.deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
-                          message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
+                          message.success(
+                            intl.formatMessage({ id: 'app.common.operate.delete.success' }),
+                          );
                           actionRef.current?.reload();
                         }
                       });
                     },
                   });
-                }}>
-                {intl.formatMessage({id: 'app.common.operate.delete.label'})}
+                }}
+              >
+                {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
               </Button>
             ),
           ],
         }}
-        pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
+        pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
         rowSelection={{
           fixed: true,
           onChange(selectedRowKeys, selectedRows, info) {
@@ -207,10 +219,10 @@ const FlinkArtifactWeb: React.FC = () => {
         <FlinkArtifactForm
           visible={flinkArtifactFormData.visiable}
           onCancel={() => {
-            setFlinkArtifactData({visiable: false, data: {}});
+            setFlinkArtifactData({ visiable: false, data: {} });
           }}
           onVisibleChange={(visiable) => {
-            setFlinkArtifactData({visiable: visiable, data: {}});
+            setFlinkArtifactData({ visiable: visiable, data: {} });
             actionRef.current?.reload();
           }}
           data={flinkArtifactFormData.data}

@@ -24,4 +24,5 @@ export default {
   ...component,
   ...pages,
   ...studio,
+  'app.common.operate.label': 'operate',
 };

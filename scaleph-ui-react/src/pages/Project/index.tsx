@@ -1,10 +1,6 @@
 import { PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
+import { ProjectService } from '@/services/project/project.service';
 import { DiProject } from '@/services/project/typings';
-import {
-  deleteProjectBatch,
-  deleteProjectRow,
-  listProjectByPage,
-} from '@/services/project/project.service';
 import { DeleteOutlined, EditOutlined, FolderOpenOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { Button, message, Modal, Space, Tooltip } from 'antd';
@@ -100,7 +96,7 @@ const Project: React.FC = () => {
                       okButtonProps: { danger: true },
                       cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        deleteProjectRow(record).then((d) => {
+                        ProjectService.deleteProjectRow(record).then((d) => {
                           if (d.success) {
                             message.success(
                               intl.formatMessage({ id: 'app.common.operate.delete.success' }),
@@ -139,7 +135,7 @@ const Project: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return listProjectByPage(params);
+          return ProjectService.listProjectByPage(params);
         }}
         toolbar={{
           actions: [
@@ -169,7 +165,7 @@ const Project: React.FC = () => {
                     okButtonProps: { danger: true },
                     cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                     onOk() {
-                      deleteProjectBatch(selectedRows).then((d) => {
+                      ProjectService.deleteProjectBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(
                             intl.formatMessage({ id: 'app.common.operate.delete.success' }),

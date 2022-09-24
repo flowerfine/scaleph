@@ -1,14 +1,14 @@
-import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
-import {CloseOutlined} from '@ant-design/icons';
-import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
-import {useEffect, useRef, useState} from 'react';
-import {useAccess, useIntl} from 'umi';
-import {FlinkClusterInstance} from "@/services/dev/typings";
-import {list, shutdown, shutdownBatch} from "@/services/dev/flinkClusterInstance.service";
-import {Dict} from '@/app.d';
-import {listDictDataByType} from "@/services/admin/dictData.service";
-import SessionClusterForm from "@/pages/DEV/ClusterInstance/components/SessionClusterForm";
+import { Dict } from '@/app.d';
+import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
+import SessionClusterForm from '@/pages/DEV/ClusterInstance/components/SessionClusterForm';
+import { DictDataService } from '@/services/admin/dictData.service';
+import { FlinkCLusterInstanceService } from '@/services/dev/flinkClusterInstance.service';
+import { FlinkClusterInstance } from '@/services/dev/typings';
+import { CloseOutlined } from '@ant-design/icons';
+import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
+import { Button, message, Modal, Select, Space, Tooltip } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { useAccess, useIntl } from 'umi';
 
 const ClusterInstanceWeb: React.FC = () => {
   const intl = useIntl();
@@ -19,30 +19,30 @@ const ClusterInstanceWeb: React.FC = () => {
   const [clusterStatusList, setClusterStatusList] = useState<Dict[]>([]);
   const [sessionClusterFormData, setSessionClusterData] = useState<{
     visiable: boolean;
-  }>({visiable: false});
+  }>({ visiable: false });
 
   useEffect(() => {
-    listDictDataByType(DICT_TYPE.flinkClusterStatus).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.flinkClusterStatus).then((d) => {
       setClusterStatusList(d);
     });
   }, []);
 
   const tableColumns: ProColumns<FlinkClusterInstance>[] = [
     {
-      title: intl.formatMessage({id: 'pages.dev.clusterInstance.flinkClusterConfigId'}),
+      title: intl.formatMessage({ id: 'pages.dev.clusterInstance.flinkClusterConfigId' }),
       dataIndex: 'flinkClusterConfigId',
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.clusterInstance.name'}),
+      title: intl.formatMessage({ id: 'pages.dev.clusterInstance.name' }),
       dataIndex: 'name',
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.clusterInstance.status'}),
+      title: intl.formatMessage({ id: 'pages.dev.clusterInstance.status' }),
       dataIndex: 'status',
       render: (text, record, index) => {
         return record.status?.label;
       },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+      renderFormItem: (item, { defaultRender, ...rest }, form) => {
         return (
           <Select
             showSearch={true}
@@ -64,34 +64,34 @@ const ClusterInstanceWeb: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.clusterInstance.clusterId'}),
+      title: intl.formatMessage({ id: 'pages.dev.clusterInstance.clusterId' }),
       dataIndex: 'clusterId',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.clusterInstance.webInterfaceUrl'}),
+      title: intl.formatMessage({ id: 'pages.dev.clusterInstance.webInterfaceUrl' }),
       dataIndex: 'webInterfaceUrl',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.remark'}),
+      title: intl.formatMessage({ id: 'pages.dev.remark' }),
       dataIndex: 'remark',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.createTime'}),
+      title: intl.formatMessage({ id: 'pages.dev.createTime' }),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.updateTime'}),
+      title: intl.formatMessage({ id: 'pages.dev.updateTime' }),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'app.common.operate.label'}),
+      title: intl.formatMessage({ id: 'app.common.operate.label' }),
       dataIndex: 'actions',
       align: 'center',
       width: 120,
@@ -101,25 +101,25 @@ const ClusterInstanceWeb: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevDatasourceDelete) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.close.label'})}>
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.close.label' })}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<CloseOutlined/>}
+                  icon={<CloseOutlined />}
                   onClick={() => {
                     Modal.confirm({
-                      title: intl.formatMessage({id: 'app.common.operate.close.confirm.title'}),
+                      title: intl.formatMessage({ id: 'app.common.operate.close.confirm.title' }),
                       content: intl.formatMessage({
                         id: 'app.common.operate.close.confirm.content',
                       }),
-                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                      okButtonProps: {danger: true},
-                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                      okButtonProps: { danger: true },
+                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        shutdown(record).then((d) => {
+                        FlinkCLusterInstanceService.shutdown(record).then((d) => {
                           if (d.success) {
                             message.success(
-                              intl.formatMessage({id: 'app.common.operate.close.success'}),
+                              intl.formatMessage({ id: 'app.common.operate.close.success' }),
                             );
                             actionRef.current?.reload();
                           }
@@ -141,7 +141,7 @@ const ClusterInstanceWeb: React.FC = () => {
       <ProTable<FlinkClusterInstance>
         search={{
           labelWidth: 'auto',
-          span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
+          span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
         }}
         rowKey="id"
         actionRef={actionRef}
@@ -149,7 +149,7 @@ const ClusterInstanceWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return list(params);
+          return FlinkCLusterInstanceService.list(params);
         }}
         toolbar={{
           actions: [
@@ -158,10 +158,10 @@ const ClusterInstanceWeb: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setSessionClusterData({visiable: true});
+                  setSessionClusterData({ visiable: true });
                 }}
               >
-                {intl.formatMessage({id: 'app.common.operate.new.label'})}
+                {intl.formatMessage({ id: 'app.common.operate.new.label' })}
               </Button>
             ),
             access.canAccess(PRIVILEGE_CODE.datadevProjectDelete) && (
@@ -171,18 +171,18 @@ const ClusterInstanceWeb: React.FC = () => {
                 disabled={selectedRows.length < 1}
                 onClick={() => {
                   Modal.confirm({
-                    title: intl.formatMessage({id: 'app.common.operate.close.confirm.title'}),
+                    title: intl.formatMessage({ id: 'app.common.operate.close.confirm.title' }),
                     content: intl.formatMessage({
                       id: 'app.common.operate.close.confirm.content',
                     }),
-                    okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                    okButtonProps: {danger: true},
-                    cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                    okButtonProps: { danger: true },
+                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                     onOk() {
-                      shutdownBatch(selectedRows).then((d) => {
+                      FlinkCLusterInstanceService.shutdownBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(
-                            intl.formatMessage({id: 'app.common.operate.close.success'}),
+                            intl.formatMessage({ id: 'app.common.operate.close.success' }),
                           );
                           actionRef.current?.reload();
                         }
@@ -191,12 +191,12 @@ const ClusterInstanceWeb: React.FC = () => {
                   });
                 }}
               >
-                {intl.formatMessage({id: 'app.common.operate.close.label'})}
+                {intl.formatMessage({ id: 'app.common.operate.close.label' })}
               </Button>
             ),
           ],
         }}
-        pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
+        pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
         rowSelection={{
           fixed: true,
           onChange(selectedRowKeys, selectedRows, info) {
@@ -210,10 +210,10 @@ const ClusterInstanceWeb: React.FC = () => {
         <SessionClusterForm
           visible={sessionClusterFormData.visiable}
           onCancel={() => {
-            setSessionClusterData({visiable: false});
+            setSessionClusterData({ visiable: false });
           }}
           onVisibleChange={(visiable) => {
-            setSessionClusterData({visiable: visiable});
+            setSessionClusterData({ visiable: visiable });
             actionRef.current?.reload();
           }}
           data

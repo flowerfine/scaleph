@@ -2,53 +2,53 @@ import { Dict, PageResponse, ResponseBody } from '@/app.d';
 import { request } from 'umi';
 import { SysDictType, SysDictTypeParam } from './typings';
 
-const url = '/api/admin/dict/type';
+export const DictTypeService = {
+  url: '/api/admin/dict/type',
 
-export async function listDictTypeByPage(queryParam: SysDictTypeParam) {
-  return request<PageResponse<SysDictType>>(`${url}`, {
-    method: 'GET',
-    params: queryParam,
-  }).then((res) => {
-    const result = {
-      data: res.records,
-      total: res.total,
-      pageSize: res.size,
-      current: res.current,
-    };
-    return result;
-  });
-}
+  listDictTypeByPage: async (queryParam: SysDictTypeParam) => {
+    return request<PageResponse<SysDictType>>(`${DictTypeService.url}`, {
+      method: 'GET',
+      params: queryParam,
+    }).then((res) => {
+      const result = {
+        data: res.records,
+        total: res.total,
+        pageSize: res.size,
+        current: res.current,
+      };
+      return result;
+    });
+  },
 
-export async function listAllDictType() {
-  return request<Dict[]>(`${url}/all`, {
-    method: 'GET',
-  });
-}
+  listAllDictType: async () => {
+    return request<Dict[]>(`${DictTypeService.url}/all`, {
+      method: 'GET',
+    });
+  },
+  deleteDictTypeRow: async (row: SysDictType) => {
+    return request<ResponseBody<any>>(`${DictTypeService.url}/` + row.id, {
+      method: 'DELETE',
+    });
+  },
 
-export async function deleteDictTypeRow(row: SysDictType) {
-  return request<ResponseBody<any>>(`${url}/` + row.id, {
-    method: 'DELETE',
-  });
-}
+  deleteDictTypeBatch: async (rows: SysDictType[]) => {
+    const params = rows.map((row) => row.id);
+    return request<ResponseBody<any>>(`${DictTypeService.url}/` + 'batch', {
+      method: 'POST',
+      data: { ...params },
+    });
+  },
+  addDictType: async (row: SysDictType) => {
+    return request<ResponseBody<any>>(`${DictTypeService.url}`, {
+      method: 'POST',
+      data: row,
+    });
+  },
 
-export async function deleteDictTypeBatch(rows: SysDictType[]) {
-  const params = rows.map((row) => row.id);
-  return request<ResponseBody<any>>(`${url}/` + 'batch', {
-    method: 'POST',
-    data: { ...params },
-  });
-}
-
-export async function addDictType(row: SysDictType) {
-  return request<ResponseBody<any>>(`${url}`, {
-    method: 'POST',
-    data: row,
-  });
-}
-
-export async function updateDictType(row: SysDictType) {
-  return request<ResponseBody<any>>(`${url}`, {
-    method: 'PUT',
-    data: row,
-  });
-}
+  updateDictType: async (row: SysDictType) => {
+    return request<ResponseBody<any>>(`${DictTypeService.url}`, {
+      method: 'PUT',
+      data: row,
+    });
+  },
+};

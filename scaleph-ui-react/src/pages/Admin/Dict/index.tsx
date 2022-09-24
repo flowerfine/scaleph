@@ -1,14 +1,6 @@
 import { PRIVILEGE_CODE } from '@/constant';
-import {
-  deleteDictDataBatch,
-  deleteDictDataRow,
-  listDictDataByPage,
-} from '@/services/admin/dictData.service';
-import {
-  deleteDictTypeBatch,
-  deleteDictTypeRow,
-  listDictTypeByPage,
-} from '@/services/admin/dictType.service';
+import { DictDataService } from '@/services/admin/dictData.service';
+import { DictTypeService } from '@/services/admin/dictType.service';
 import { SysDictData, SysDictType } from '@/services/admin/typings';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
@@ -93,7 +85,7 @@ const Dict: React.FC = () => {
                       okButtonProps: { danger: true },
                       cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        deleteDictTypeRow(record).then((d) => {
+                        DictTypeService.deleteDictTypeRow(record).then((d) => {
                           if (d.success) {
                             message.success(
                               intl.formatMessage({ id: 'app.common.operate.delete.success' }),
@@ -177,7 +169,7 @@ const Dict: React.FC = () => {
                       okButtonProps: { danger: true },
                       cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        deleteDictDataRow(record).then((d) => {
+                        DictDataService.deleteDictDataRow(record).then((d) => {
                           if (d.success) {
                             message.success(
                               intl.formatMessage({ id: 'app.common.operate.delete.success' }),
@@ -239,7 +231,7 @@ const Dict: React.FC = () => {
                         okButtonProps: { danger: true },
                         cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                         onOk() {
-                          deleteDictTypeBatch(selectedDictType).then((d) => {
+                          DictTypeService.deleteDictTypeBatch(selectedDictType).then((d) => {
                             if (d.success) {
                               message.success(
                                 intl.formatMessage({ id: 'app.common.operate.delete.success' }),
@@ -262,7 +254,7 @@ const Dict: React.FC = () => {
                 dictTypeCode: params.dictTypeCode,
               });
               dictDataFormRef.current?.submit();
-              return listDictTypeByPage(params);
+              return DictTypeService.listDictTypeByPage(params);
             }}
             pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
             onRow={(record) => {
@@ -324,7 +316,7 @@ const Dict: React.FC = () => {
                         okButtonProps: { danger: true },
                         cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                         onOk() {
-                          deleteDictDataBatch(selectedDictData).then((d) => {
+                          DictDataService.deleteDictDataBatch(selectedDictData).then((d) => {
                             if (d.success) {
                               message.success(
                                 intl.formatMessage({ id: 'app.common.operate.delete.success' }),
@@ -343,7 +335,7 @@ const Dict: React.FC = () => {
             }}
             columns={dictDataTableColumns}
             request={(params, sorter, filter) => {
-              return listDictDataByPage(params);
+              return DictDataService.listDictDataByPage(params);
             }}
             pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
             rowSelection={{

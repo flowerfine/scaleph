@@ -1,7 +1,7 @@
 import { AuthCode, LoginInfo } from '@/app.d';
 import Footer from '@/components/Footer';
 import { USER_AUTH } from '@/constant';
-import { login, refreshAuthImage } from '@/services/auth';
+import { AuthService } from '@/services/auth';
 import { Button, Checkbox, Col, Form, Input, message, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +21,7 @@ const Login: React.FC = () => {
     try {
       form.validateFields().then((values: any) => {
         const params: LoginInfo = { ...values, uuid: authCode?.uuid };
-        login(params).then(async (d) => {
+        AuthService.login(params).then(async (d) => {
           if (d.success) {
             localStorage.setItem(USER_AUTH.token, d.data);
             refresh();
@@ -50,7 +50,7 @@ const Login: React.FC = () => {
   }, []);
 
   const refreshAuthCode = async () => {
-    const data = await refreshAuthImage();
+    const data = await AuthService.refreshAuthImage();
     setAuthCode(data);
   };
 

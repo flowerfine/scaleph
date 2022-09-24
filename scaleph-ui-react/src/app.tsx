@@ -1,16 +1,16 @@
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
 import { LinkOutlined } from '@ant-design/icons';
-import { Settings as LayoutSettings } from '@ant-design/pro-components';
-import { SettingDrawer } from '@ant-design/pro-components';
+import { SettingDrawer, Settings as LayoutSettings } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
-import { RequestConfig } from 'umi';
 import { history, Link } from '@umijs/max';
-import defaultSettings from '../config/defaultSettings';
-import { USER_AUTH } from './constant';
 import { message, notification } from 'antd';
+import { RequestConfig } from 'umi';
+import defaultSettings from '../config/defaultSettings';
 import { OnlineUserInfo, ResponseBody } from './app.d';
-import { getOnlineUserInfo, setSession } from './services/auth';
+import { USER_AUTH } from './constant';
+import { UserService } from './services/admin/user.service';
+import { AuthService } from './services/auth';
 
 const isDev = process.env.NODE_ENV === 'development';
 const whiteList: string[] = ['login', 'register'];
@@ -23,9 +23,9 @@ export async function getInitialState(): Promise<{
 }> {
   const token = localStorage.getItem(USER_AUTH.token);
   if (token != null && token != undefined && token != '') {
-    const info = await getOnlineUserInfo(token);
+    const info = await UserService.getOnlineUserInfo(token);
     if (info.success) {
-      await setSession(info.data || {});
+      await AuthService.setSession(info.data || {});
     }
   }
   const user: OnlineUserInfo = JSON.parse(localStorage.getItem(USER_AUTH.userInfo) || '');
@@ -84,11 +84,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     ],
     links: isDev
       ? [
-        <Link key="api" to="/scaleph/doc.html" target="_blank">
-          <LinkOutlined />
-          <span>API 文档</span>
-        </Link>,
-      ]
+          <Link key="api" to="/scaleph/doc.html" target="_blank">
+            <LinkOutlined />
+            <span>API 文档</span>
+          </Link>,
+        ]
       : [],
     menuHeaderRender: undefined,
     // 自定义 403 页面
@@ -128,7 +128,7 @@ const requestHeaderInterceptor: any = (url: string, options: RequestConfig) => {
     url: `${url}`,
     options: { ...options, interceptors: true, headers: headers },
   };
-}
+};
 
 const responseErrorInterceptor: any = (response: any, options: RequestConfig) => {
   // debugger
@@ -157,9 +157,13 @@ const responseErrorInterceptor: any = (response: any, options: RequestConfig) =>
     }
   }
   return response;
-}
+};
 
-const handleError = (errorCode: string | undefined, errorMessage: string, showType: string | undefined) => {
+const handleError = (
+  errorCode: string | undefined,
+  errorMessage: string,
+  showType: string | undefined,
+) => {
   if (showType == '1') {
     message.warning(errorMessage, 2);
   } else if (showType == '2') {
@@ -167,7 +171,7 @@ const handleError = (errorCode: string | undefined, errorMessage: string, showTy
   } else if (showType == '4') {
     notification.error({ message: 'Error:' + errorCode, description: errorMessage, duration: 3 });
   }
-}
+};
 
 export const request: RequestConfig = {
   timeout: 1800000,

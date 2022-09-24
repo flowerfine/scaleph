@@ -1,16 +1,15 @@
-import {
-  NsNodeCmd,
-  NsNodeCollapsePanel,
-  uuidv4,
-  XFlowNodeCommands,
-} from '@antv/xflow';
+import { NsNodeCmd, NsNodeCollapsePanel, uuidv4, XFlowNodeCommands } from '@antv/xflow';
 import { DagService } from './service';
 
-export const onNodeDrop: NsNodeCollapsePanel.IOnNodeDrop = async (nodeConfig, commandService, modelService) => {
+export const onNodeDrop: NsNodeCollapsePanel.IOnNodeDrop = async (
+  nodeConfig,
+  commandService,
+  modelService,
+) => {
   const args: NsNodeCmd.AddNode.IArgs = {
     nodeConfig: { ...nodeConfig, id: uuidv4() },
-  }
-  commandService.executeCommand(XFlowNodeCommands.ADD_NODE.id, args)
+  };
+  commandService.executeCommand(XFlowNodeCommands.ADD_NODE.id, args);
 };
 
 export const nodeDataService: NsNodeCollapsePanel.INodeDataService = async (meta, modelService) => {

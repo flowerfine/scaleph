@@ -1,6 +1,6 @@
 import { OnlineUserInfo } from '@/app.d';
 import { USER_AUTH } from '@/constant';
-import { logout } from '@/services/auth';
+import { AuthService } from '@/services/auth';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { history } from '@umijs/max';
 import { Avatar, Menu, Spin } from 'antd';
@@ -22,7 +22,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   const onMenuClick = useCallback((event: MenuInfo) => {
     const { key } = event;
     if (key === 'logout') {
-      logout().then(() => {
+      AuthService.logout().then(() => {
         history.push('/login');
       });
       return;

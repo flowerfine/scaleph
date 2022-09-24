@@ -1,15 +1,15 @@
-import {useEffect, useRef, useState} from "react";
-import {Button, Select, Space, Tooltip} from "antd";
-import {useAccess, useIntl, useLocation} from "umi";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {FlinkArtifactJar} from "@/services/dev/typings";
-import {DICT_TYPE, PRIVILEGE_CODE} from "@/constant";
-import {DownloadOutlined} from "@ant-design/icons";
-import {download, list} from "@/services/dev/flinkArtifactJar.service";
-import {history} from "@@/core/history";
-import FlinkArtifactJarForm from "@/pages/DEV/Artifact/Jar/components/FlinkArtifactJarForm";
-import {listDictDataByType} from "@/services/admin/dictData.service";
-import {Dict} from "@/app.d";
+import { Dict } from '@/app.d';
+import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
+import FlinkArtifactJarForm from '@/pages/DEV/Artifact/Jar/components/FlinkArtifactJarForm';
+import { DictDataService } from '@/services/admin/dictData.service';
+import { FlinkArtifactJarService } from '@/services/dev/flinkArtifactJar.service';
+import { FlinkArtifactJar } from '@/services/dev/typings';
+import { history } from '@@/core/history';
+import { DownloadOutlined } from '@ant-design/icons';
+import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
+import { Button, Select, Space, Tooltip } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { useAccess, useIntl, useLocation } from 'umi';
 
 const FlinkArtifactJarWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -22,10 +22,10 @@ const FlinkArtifactJarWeb: React.FC = () => {
   const [flinkArtifactJarData, setFlinkArtifactJarData] = useState<{
     visiable: boolean;
     data: FlinkArtifactJar;
-  }>({visiable: false, data: {}});
+  }>({ visiable: false, data: {} });
 
   useEffect(() => {
-    listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
       setFlinkVersionList(d);
     });
   }, []);
@@ -39,27 +39,28 @@ const FlinkArtifactJarWeb: React.FC = () => {
 
   const tableColumns: ProColumns<FlinkArtifactJar>[] = [
     {
-      title: intl.formatMessage({id: 'pages.dev.artifact.jar.fileName'}),
+      title: intl.formatMessage({ id: 'pages.dev.artifact.jar.fileName' }),
       dataIndex: 'fileName',
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.artifact.jar.version'}),
+      title: intl.formatMessage({ id: 'pages.dev.artifact.jar.version' }),
       dataIndex: 'version',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.artifact.jar.entryClass'}),
+      title: intl.formatMessage({ id: 'pages.dev.artifact.jar.entryClass' }),
       dataIndex: 'entryClass',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.flinkRelease.version'}),
+      title: intl.formatMessage({ id: 'pages.resource.flinkRelease.version' }),
       dataIndex: 'flinkVersion',
       render: (text, record, index) => {
         return record.flinkVersion?.label;
       },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+
+      renderFormItem: (item, { defaultRender, ...rest }, form) => {
         return (
           <Select
             showSearch={true}
@@ -81,24 +82,24 @@ const FlinkArtifactJarWeb: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.artifact.jar.path'}),
+      title: intl.formatMessage({ id: 'pages.dev.artifact.jar.path' }),
       dataIndex: 'path',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.createTime'}),
+      title: intl.formatMessage({ id: 'pages.dev.createTime' }),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.updateTime'}),
+      title: intl.formatMessage({ id: 'pages.dev.updateTime' }),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'app.common.operate.label'}),
+      title: intl.formatMessage({ id: 'app.common.operate.label' }),
       dataIndex: 'actions',
       align: 'center',
       width: 120,
@@ -108,14 +109,15 @@ const FlinkArtifactJarWeb: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDownload) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.download.label'})}>
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.download.label' })}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DownloadOutlined/>}
+                  icon={<DownloadOutlined />}
                   onClick={() => {
-                    download(record);
-                  }}/>
+                    FlinkArtifactJarService.download(record);
+                  }}
+                />
               </Tooltip>
             )}
           </Space>
@@ -123,54 +125,56 @@ const FlinkArtifactJarWeb: React.FC = () => {
       ),
     },
   ];
-  return (<div>
-    <ProTable<FlinkArtifactJar>
-      headerTitle={
-        <Button key="return" type="default" onClick={() => history.back()}>
-          {intl.formatMessage({id: 'app.common.operate.return.label'})}
-        </Button>
-      }
-      rowKey="name"
-      actionRef={actionRef}
-      formRef={formRef}
-      options={false}
-      columns={tableColumns}
-      request={(params, sorter, filter) => {
-        return list({...params, flinkArtifactId: flinkArtifactId});
-      }}
-      toolbar={{
-        actions: [
-          access.canAccess(PRIVILEGE_CODE.datadevResourceAdd) && (
-            <Button
-              key="new"
-              type="primary"
-              onClick={() => {
-                setFlinkArtifactJarData({visiable: true, data: {}});
-              }}
-            >
-              {intl.formatMessage({id: 'app.common.operate.upload.label'})}
-            </Button>
-          )
-        ]
-      }}
-      pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
-      tableAlertRender={false}
-      tableAlertOptionRender={false}
-    ></ProTable>
-    {flinkArtifactJarData.visiable && (
-      <FlinkArtifactJarForm
-        visible={flinkArtifactJarData.visiable}
-        onCancel={() => {
-          setFlinkArtifactJarData({visiable: false, data: {}});
+  return (
+    <div>
+      <ProTable<FlinkArtifactJar>
+        headerTitle={
+          <Button key="return" type="default" onClick={() => history.back()}>
+            {intl.formatMessage({ id: 'app.common.operate.return.label' })}
+          </Button>
+        }
+        rowKey="name"
+        actionRef={actionRef}
+        formRef={formRef}
+        options={false}
+        columns={tableColumns}
+        request={(params, sorter, filter) => {
+          return FlinkArtifactJarService.list({ ...params, flinkArtifactId: flinkArtifactId });
         }}
-        onVisibleChange={(visiable) => {
-          setFlinkArtifactJarData({visiable: visiable, data: {}});
-          actionRef.current?.reload();
+        toolbar={{
+          actions: [
+            access.canAccess(PRIVILEGE_CODE.datadevResourceAdd) && (
+              <Button
+                key="new"
+                type="primary"
+                onClick={() => {
+                  setFlinkArtifactJarData({ visiable: true, data: {} });
+                }}
+              >
+                {intl.formatMessage({ id: 'app.common.operate.upload.label' })}
+              </Button>
+            ),
+          ],
         }}
-        data={{id: flinkArtifactId}}
-      />
-    )}
-  </div>);
-}
+        pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
+        tableAlertRender={false}
+        tableAlertOptionRender={false}
+      ></ProTable>
+      {flinkArtifactJarData.visiable && (
+        <FlinkArtifactJarForm
+          visible={flinkArtifactJarData.visiable}
+          onCancel={() => {
+            setFlinkArtifactJarData({ visiable: false, data: {} });
+          }}
+          onVisibleChange={(visiable) => {
+            setFlinkArtifactJarData({ visiable: visiable, data: {} });
+            actionRef.current?.reload();
+          }}
+          data={{ id: flinkArtifactId }}
+        />
+      )}
+    </div>
+  );
+};
 
 export default FlinkArtifactJarWeb;

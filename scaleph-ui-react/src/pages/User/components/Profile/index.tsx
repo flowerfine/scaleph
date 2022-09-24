@@ -1,8 +1,8 @@
 import { Dict } from '@/app.d';
 import { DICT_TYPE } from '@/constant';
-import { listDictDataByType } from '@/services/admin/dictData.service';
+import { DictDataService } from '@/services/admin/dictData.service';
 import { SecUser } from '@/services/admin/typings';
-import { getUserInfo, updateUser } from '@/services/admin/user.service';
+import { UserService } from '@/services/admin/user.service';
 import { Button, Card, Col, DatePicker, Form, Input, message, Row, Select } from 'antd';
 import moment from 'moment';
 import { useLayoutEffect, useState } from 'react';
@@ -15,20 +15,20 @@ const Profile: React.FC = () => {
   const [nationList, setNationList] = useState<Dict[]>([]);
   const [idCardTypeList, setIdCardTypeList] = useState<Dict[]>([]);
   useLayoutEffect(() => {
-    listDictDataByType(DICT_TYPE.idCardType).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.idCardType).then((d) => {
       setIdCardTypeList(d);
     });
-    listDictDataByType(DICT_TYPE.gender).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.gender).then((d) => {
       setGenderList(d);
     });
-    listDictDataByType(DICT_TYPE.nation).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.nation).then((d) => {
       setNationList(d);
     });
     refreshUserInfo();
   }, []);
 
   const refreshUserInfo = () => {
-    getUserInfo().then((resp) => {
+    UserService.getUserInfo().then((resp) => {
       form.setFieldsValue({
         id: resp.id,
         userName: resp.userName,
@@ -71,7 +71,7 @@ const Profile: React.FC = () => {
               wechat: values.wechat,
               summary: values.summary,
             };
-            updateUser({ ...user }).then((d) => {
+            UserService.updateUser({ ...user }).then((d) => {
               if (d.success) {
                 message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
                 refreshUserInfo();
@@ -102,7 +102,6 @@ const Profile: React.FC = () => {
             </Form.Item>
           </Col>
           <Col span={12}>
-            {' '}
             <Form.Item
               name="email"
               label={intl.formatMessage({ id: 'pages.admin.user.email' })}

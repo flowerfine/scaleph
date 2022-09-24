@@ -1,14 +1,14 @@
-import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
-import {FlinkRelease, SeaTunnelRelease} from '@/services/resource/typings';
-import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
-import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
-import {useEffect, useRef, useState} from 'react';
-import {useAccess, useIntl} from 'umi';
+import { Dict } from '@/app.d';
+import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
+import { DictDataService } from '@/services/admin/dictData.service';
+import { SeatunnelReleaseService } from '@/services/resource/seatunnelRelease.service';
+import { FlinkRelease, SeaTunnelRelease } from '@/services/resource/typings';
+import { DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
+import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
+import { Button, message, Modal, Select, Space, Tooltip } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { useAccess, useIntl } from 'umi';
 import SeaTunnelReleaseForm from './components/SeaTunnelReleaseForm';
-import {Dict} from "@/app.d";
-import {listDictDataByType} from "@/services/admin/dictData.service";
-import {deleteBatch, deleteOne, download, list} from "@/services/resource/seatunnelRelease.service";
 
 const SeaTunnelReleaseResource: React.FC = () => {
   const intl = useIntl();
@@ -20,16 +20,16 @@ const SeaTunnelReleaseResource: React.FC = () => {
   const [seatunnelReleaseFormData, setSeatunnelReleaseData] = useState<{
     visiable: boolean;
     data: SeaTunnelRelease;
-  }>({visiable: false, data: {}});
+  }>({ visiable: false, data: {} });
 
   const tableColumns: ProColumns<SeaTunnelRelease>[] = [
     {
-      title: intl.formatMessage({id: 'pages.resource.seatunnelRelease.version'}),
+      title: intl.formatMessage({ id: 'pages.resource.seatunnelRelease.version' }),
       dataIndex: 'version',
       render: (text, record, index) => {
         return record.version?.label;
       },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+      renderFormItem: (item, { defaultRender, ...rest }, form) => {
         return (
           <Select
             showSearch={true}
@@ -51,34 +51,34 @@ const SeaTunnelReleaseResource: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.fileName'}),
+      title: intl.formatMessage({ id: 'pages.resource.fileName' }),
       dataIndex: 'fileName',
       width: 280,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.path'}),
+      title: intl.formatMessage({ id: 'pages.resource.path' }),
       dataIndex: 'path',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.remark'}),
+      title: intl.formatMessage({ id: 'pages.resource.remark' }),
       dataIndex: 'remark',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.createTime'}),
+      title: intl.formatMessage({ id: 'pages.resource.createTime' }),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.updateTime'}),
+      title: intl.formatMessage({ id: 'pages.resource.updateTime' }),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'app.common.operate.label'}),
+      title: intl.formatMessage({ id: 'app.common.operate.label' }),
       dataIndex: 'actions',
       align: 'center',
       width: 120,
@@ -88,37 +88,37 @@ const SeaTunnelReleaseResource: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDownload) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.download.label'})}>
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.download.label' })}>
                 <Button
                   shape="default"
                   type="link"
                   icon={<DownloadOutlined></DownloadOutlined>}
                   onClick={() => {
-                    download(record)
+                    SeatunnelReleaseService.download(record);
                   }}
                 ></Button>
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DeleteOutlined/>}
+                  icon={<DeleteOutlined />}
                   onClick={() => {
                     Modal.confirm({
-                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                      title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
                       content: intl.formatMessage({
                         id: 'app.common.operate.delete.confirm.content',
                       }),
-                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                      okButtonProps: {danger: true},
-                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                      okButtonProps: { danger: true },
+                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        deleteOne(record).then((d) => {
+                        SeatunnelReleaseService.deleteOne(record).then((d) => {
                           if (d.success) {
                             message.success(
-                              intl.formatMessage({id: 'app.common.operate.delete.success'}),
+                              intl.formatMessage({ id: 'app.common.operate.delete.success' }),
                             );
                             actionRef.current?.reload();
                           }
@@ -136,7 +136,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
   ];
 
   useEffect(() => {
-    listDictDataByType(DICT_TYPE.seatunnelVersion).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.seatunnelVersion).then((d) => {
       setSeatunnelVersionList(d);
     });
   }, []);
@@ -146,7 +146,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
       <ProTable<SeaTunnelRelease>
         search={{
           labelWidth: 'auto',
-          span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
+          span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
         }}
         rowKey="id"
         actionRef={actionRef}
@@ -154,7 +154,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return list(params);
+          return SeatunnelReleaseService.list(params);
         }}
         toolbar={{
           actions: [
@@ -163,10 +163,10 @@ const SeaTunnelReleaseResource: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setSeatunnelReleaseData({visiable: true, data: {}});
+                  setSeatunnelReleaseData({ visiable: true, data: {} });
                 }}
               >
-                {intl.formatMessage({id: 'app.common.operate.upload.label'})}
+                {intl.formatMessage({ id: 'app.common.operate.upload.label' })}
               </Button>
             ),
             access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
@@ -176,18 +176,18 @@ const SeaTunnelReleaseResource: React.FC = () => {
                 disabled={selectedRows.length < 1}
                 onClick={() => {
                   Modal.confirm({
-                    title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                    title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
                     content: intl.formatMessage({
                       id: 'app.common.operate.delete.confirm.content',
                     }),
-                    okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                    okButtonProps: {danger: true},
-                    cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                    okButtonProps: { danger: true },
+                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                     onOk() {
-                      deleteBatch(selectedRows).then((d) => {
+                      SeatunnelReleaseService.deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(
-                            intl.formatMessage({id: 'app.common.operate.delete.success'}),
+                            intl.formatMessage({ id: 'app.common.operate.delete.success' }),
                           );
                           actionRef.current?.reload();
                         }
@@ -196,12 +196,12 @@ const SeaTunnelReleaseResource: React.FC = () => {
                   });
                 }}
               >
-                {intl.formatMessage({id: 'app.common.operate.delete.label'})}
+                {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
               </Button>
             ),
           ],
         }}
-        pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
+        pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
         rowSelection={{
           fixed: true,
           onChange(selectedRowKeys, selectedRows, info) {
@@ -215,10 +215,10 @@ const SeaTunnelReleaseResource: React.FC = () => {
         <SeaTunnelReleaseForm
           visible={seatunnelReleaseFormData.visiable}
           onCancel={() => {
-            setSeatunnelReleaseData({visiable: false, data: {}});
+            setSeatunnelReleaseData({ visiable: false, data: {} });
           }}
           onVisibleChange={(visiable) => {
-            setSeatunnelReleaseData({visiable: visiable, data: {}});
+            setSeatunnelReleaseData({ visiable: visiable, data: {} });
             actionRef.current?.reload();
           }}
           data={seatunnelReleaseFormData.data}

@@ -1,30 +1,33 @@
 import { ResponseBody } from '@/app.d';
 import { request } from 'umi';
 import { BasicConfig, EmailConfig } from './typings';
-const url = '/api/admin/config';
 
-export async function getEmailConfig() {
-    return request<EmailConfig>(`${url}` + '/email', {
-        method: 'GET'
-    });
-}
+export const SysConfigService = {
+  url: '/api/admin/config',
 
-export async function configEmail(info: EmailConfig) {
-    return request<ResponseBody<any>>(`${url}` + '/email', {
-        method: 'PUT',
-        data: info
+  getEmailConfig: async () => {
+    return request<EmailConfig>(`${SysConfigService.url}` + '/email', {
+      method: 'GET',
     });
-}
+  },
 
-export async function getBasicConfig() {
-    return request<BasicConfig>(`${url}` + '/basic', {
-        method: 'GET'
+  configEmail: async (info: EmailConfig) => {
+    return request<ResponseBody<any>>(`${SysConfigService.url}` + '/email', {
+      method: 'PUT',
+      data: info,
     });
-}
+  },
 
-export async function configBasic(info: BasicConfig) {
-    return request<ResponseBody<any>>(`${url}` + '/basic', {
-        method: 'PUT',
-        data: info
+  getBasicConfig: async () => {
+    return request<BasicConfig>(`${SysConfigService.url}` + '/basic', {
+      method: 'GET',
     });
-}
+  },
+
+  configBasic: async (info: BasicConfig) => {
+    return request<ResponseBody<any>>(`${SysConfigService.url}` + '/basic', {
+      method: 'PUT',
+      data: info,
+    });
+  },
+};

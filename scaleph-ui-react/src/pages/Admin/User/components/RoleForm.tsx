@@ -1,7 +1,7 @@
 import { Dict, ModalFormProps } from '@/app.d';
 import { DICT_TYPE } from '@/constant';
-import { listDictDataByType } from '@/services/admin/dictData.service';
-import { addRole, updateRole } from '@/services/admin/role.service';
+import { DictDataService } from '@/services/admin/dictData.service';
+import { RoleService } from '@/services/admin/role.service';
 import { SecRole } from '@/services/admin/typings';
 import { Form, Input, message, Modal, Select } from 'antd';
 import { useEffect, useState } from 'react';
@@ -18,7 +18,7 @@ const RoleForm: React.FC<ModalFormProps<SecRole>> = ({
   const [roleStatusList, setRoleStatusList] = useState<Dict[]>([]);
 
   useEffect(() => {
-    listDictDataByType(DICT_TYPE.roleStatus).then((d) => {
+    DictDataService.listDictDataByType(DICT_TYPE.roleStatus).then((d) => {
       setRoleStatusList(d);
     });
   }, []);
@@ -46,13 +46,13 @@ const RoleForm: React.FC<ModalFormProps<SecRole>> = ({
             roleDesc: values.roleDesc,
           };
           data.id
-            ? updateRole({ ...role }).then((d) => {
+            ? RoleService.updateRole({ ...role }).then((d) => {
                 if (d.success) {
                   message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
                   onVisibleChange(false);
                 }
               })
-            : addRole({ ...role }).then((d) => {
+            : RoleService.addRole({ ...role }).then((d) => {
                 if (d.success) {
                   message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
                   onVisibleChange(false);
