@@ -37,7 +37,6 @@ import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
-import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -51,6 +50,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -403,29 +403,23 @@ public class JobController {
                     step.setStepTitle(stepAttrMap.get(Constants.JOB_STEP_TITLE).toString());
                     this.diJobStepService.update(step);
                 }
-                DiJobStepDTO dto = this.diJobStepService.selectOne(editableJobId, stepCode);
-                if (dto != null) {
-                    List<PropertyDescriptor> supportAttrList = seatunnelConnectorService.getSupportedProperties(dto.getStepType().getValue(), dto.getStepName());
-                    if (CollectionUtil.isNotEmpty(supportAttrList)) {
-                        for (PropertyDescriptor propDesc : supportAttrList) {
-                            if (stepAttrMap.containsKey(propDesc.getName())) {
-                                DiJobStepAttrDTO stepAttr = new DiJobStepAttrDTO();
-                                stepAttr.setJobId(editableJobId);
-                                stepAttr.setStepCode(stepCode);
-                                stepAttr.setStepAttrKey(propDesc.getName());
-                                stepAttr.setStepAttrValue(toJsonStr(stepAttrMap.get(propDesc.getName())));
-                                this.diJobStepAttrService.upsert(stepAttr);
-                            } else {
-                                DiJobStepAttrDTO stepAttr = new DiJobStepAttrDTO();
-                                stepAttr.setJobId(editableJobId);
-                                stepAttr.setStepCode(stepCode);
-                                stepAttr.setStepAttrKey(propDesc.getName());
-                                stepAttr.setStepAttrValue(toJsonStr(propDesc.getDefaultValue()));
-                                this.diJobStepAttrService.upsert(stepAttr);
-                            }
+                //insert step attrs
+                stepAttrMap.forEach((k, v) -> {
+                    if (!(k.equals(Constants.JOB_ID)
+                            || k.equals(Constants.JOB_GRAPH)
+                            || k.equals(Constants.JOB_STEP_CODE)
+                            || k.equals(Constants.JOB_STEP_TITLE))
+                    ) {
+                        DiJobStepAttrDTO stepAttr = new DiJobStepAttrDTO();
+                        stepAttr.setJobId(editableJobId);
+                        stepAttr.setStepCode(stepCode);
+                        stepAttr.setStepAttrKey(k);
+                        stepAttr.setStepAttrValue(toJsonStr(v));
+                        if (!StringUtils.isEmpty(v)) {
+                            this.diJobStepAttrService.upsert(stepAttr);
                         }
                     }
-                }
+                });
                 return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.OK);
             } catch (CustomException e) {
                 return new ResponseEntity<>(

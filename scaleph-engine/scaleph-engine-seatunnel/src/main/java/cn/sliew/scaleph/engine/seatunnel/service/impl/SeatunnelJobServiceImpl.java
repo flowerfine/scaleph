@@ -373,13 +373,15 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         List<DagNodeDTO> nodeList = new ArrayList<>();
         for (PluginInfo plugin : pluginInfos) {
             DagNodeDTO node = new DagNodeDTO();
+            String pluginName = StringUtils.capitalize(plugin.getName()) + " " + StringUtils.capitalize(type.getValue());
             node.setId(plugin.getName());
-            node.setLabel(plugin.getName() + " " + type.getLabel());
-            node.setPopoverContent(plugin.getDescription());
+            node.setLabel(pluginName);
+            node.setDescription(plugin.getDescription());
             node.setRenderKey(GraphConstants.DND_RENDER_ID);
-            node.setData(new HashMap<String,String>() {{
+            node.setData(new HashMap<String, String>() {{
                 put("type", type.getValue());
                 put("name", plugin.getName());
+                put("displayName", pluginName);
             }});
             nodeList.add(node);
         }

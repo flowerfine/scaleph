@@ -17,7 +17,7 @@ const SourceJdbcStepForm: React.FC<
     graphData: NsGraph.IGraphData;
     graphMeta: NsGraph.IGraphMeta;
   }>
-> = ({ data, visible, onCancel }) => {
+> = ({ data, visible, onCancel, onOK }) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as DiJob;
   const jobGraph = data.graphData;
@@ -26,33 +26,34 @@ const SourceJdbcStepForm: React.FC<
   const [dataSourceTypeList, setDataSourceTypeList] = useState<Dict[]>([]);
   const [dataSourceList, setDataSourceList] = useState<Dict[]>([]);
   useEffect(() => {
+    console.log(nodeInfo)
     DictDataService.listDictDataByType(DICT_TYPE.datasourceType).then((d) => {
       setDataSourceTypeList(d);
     });
-    console.log(nodeInfo);
     form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
     JobService.listStepAttr(jobInfo.id + '', nodeInfo.id).then((resp) => {
-      console.log(resp);
       let stepAttrMap: Map<string, string> = new Map();
       resp.map((step) => {
         stepAttrMap.set(step.stepAttrKey, step.stepAttrValue);
       });
-      console.log(stepAttrMap);
-      // form.setFieldValue(STEP_ATTR_TYPE.stepTitle, stepAttrMap[STEP_ATTR_TYPE.stepTitle]);
+      refreshDataSource(stepAttrMap.get(STEP_ATTR_TYPE.dataSourceType) as string);
+      form.setFieldValue(STEP_ATTR_TYPE.query, stepAttrMap.get(STEP_ATTR_TYPE.query));
+      form.setFieldValue(STEP_ATTR_TYPE.dataSourceType, stepAttrMap.get(STEP_ATTR_TYPE.dataSourceType));
+      form.setFieldValue(STEP_ATTR_TYPE.dataSource, stepAttrMap.get(STEP_ATTR_TYPE.dataSource));
+      form.setFieldValue(STEP_ATTR_TYPE.partitionColumn, stepAttrMap.get(STEP_ATTR_TYPE.partitionColumn));
     });
   }, []);
 
-  const handleDataSourceTypeChange = (value: string) => {
+  const refreshDataSource = (value: string) => {
     DataSourceService.listDataSourceByType(value).then((d) => {
       setDataSourceList(d);
-      form.setFieldValue('dataSource', null);
     });
   };
 
   return (
     <Modal
       visible={visible}
-      title={nodeInfo.label}
+      title={nodeInfo.data.displayName}
       width={780}
       bodyStyle={{ overflowY: 'scroll', maxHeight: '640px' }}
       destroyOnClose={true}
@@ -72,6 +73,7 @@ const SourceJdbcStepForm: React.FC<
             if (resp.success) {
               message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
               onCancel();
+              onOK ? onOK() : null;
             }
           });
         });
@@ -79,7 +81,7 @@ const SourceJdbcStepForm: React.FC<
     >
       <Form form={form} layout="vertical" >
         <Form.Item
-          name="stepTitle"
+          name={STEP_ATTR_TYPE.stepTitle}
           label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
           rules={[{ required: true }, { max: 120 }]}
         >
@@ -88,7 +90,7 @@ const SourceJdbcStepForm: React.FC<
         <Row gutter={[12, 12]}>
           <Col span={12}>
             <Form.Item
-              name="dataSourceType"
+              name={STEP_ATTR_TYPE.dataSourceType}
               label={intl.formatMessage({ id: 'pages.project.di.step.dataSourceType' })}
               rules={[{ required: true }]}
             >
@@ -101,7 +103,10 @@ const SourceJdbcStepForm: React.FC<
                     .toLowerCase()
                     .includes(input.toLowerCase())
                 }
-                onChange={handleDataSourceTypeChange}
+                onChange={(value) => {
+                  refreshDataSource(value);
+                  form.setFieldValue(STEP_ATTR_TYPE.dataSource, null);
+                }}
               >
                 {dataSourceTypeList.map((item) => {
                   return (
@@ -115,7 +120,7 @@ const SourceJdbcStepForm: React.FC<
           </Col>
           <Col span={12}>
             <Form.Item
-              name="dataSource"
+              name={STEP_ATTR_TYPE.dataSource}
               label={intl.formatMessage({ id: 'pages.project.di.step.dataSource' })}
               rules={[{ required: true }]}
             >
@@ -142,7 +147,7 @@ const SourceJdbcStepForm: React.FC<
         </Row>
 
         <Form.Item
-          name="partitionColumn"
+          name={STEP_ATTR_TYPE.partitionColumn}
           label={intl.formatMessage({ id: 'pages.project.di.step.partitionColumn' })}
           tooltip={{
             title: intl.formatMessage({ id: 'pages.project.di.step.partitionColumn.tooltip' }),
@@ -154,7 +159,7 @@ const SourceJdbcStepForm: React.FC<
         <Row gutter={[12, 12]}>
           <Col span={19}>
             <Form.Item
-              name="query"
+              name={STEP_ATTR_TYPE.query}
               label={intl.formatMessage({ id: 'pages.project.di.step.query' })}
               rules={[{ required: true }]}
             >

@@ -4,7 +4,7 @@ export const DND_RENDER_ID = 'DND_NODE';
 export const GROUP_NODE_RENDER_ID = 'GROUP_NODE_RENDER_ID';
 export const EDGE_NODE_RENDER_ID = 'EDGE_NODE_RENDER_ID';
 export const NODE_WIDTH = 180;
-export const NODE_HEIGHT = 36;
+export const NODE_HEIGHT = 32;
 export const ZOOM_OPTIONS = { maxScale: 2, minScale: 0.5 };
 export const CONNECTION_PORT_TYPE = { source: 'outPort', target: 'inPort' };
 

@@ -8,6 +8,7 @@ import {
   ICommandHandler,
   ManaSyringe,
   NsGraph,
+  XFlowGraphCommands,
 } from '@antv/xflow';
 import type { HookHub } from '@antv/xflow-hook';
 import { ConfigProvider } from 'antd';
@@ -16,6 +17,7 @@ import { getLocale } from 'umi';
 import { CustomCommands } from '../constant';
 import SinkJdbcStepForm from '../steps/sink-jdbc-step';
 import SourceJdbcStepForm from '../steps/source-jdbc-step';
+import { DagService } from '../service';
 const { inject, injectable, postConstruct } = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
 
@@ -44,22 +46,25 @@ export namespace NsEditNode {
 })
 /** 创建节点命令 */
 export class EditNodeCommand implements ICommand {
+
   /** api */
   @inject(ICommandContextProvider) contextProvider: ICommand['contextProvider'];
 
   @postConstruct()
-  init() {}
+  init() {
+
+  }
 
   /** 执行Cmd */
   execute = async () => {
     const ctx = this.contextProvider();
     const hooks = ctx.getHooks();
     const { args, hooks: runtimeHook } = ctx.getArgs();
-
+    const { nodeConfig } = args;
     const result = await hooks.editNode.call(
       args,
-      async (handlerArgs) => {
-        const { nodeConfig } = handlerArgs;
+      async () => {
+        // const { nodeConfig, callback } = handlerArgs;
         const graphMeta = await ctx.getGraphMeta();
         const x6Graph = await ctx.getX6Graph();
         const x6Nodes = x6Graph.getNodes();
@@ -84,7 +89,7 @@ export class EditNodeCommand implements ICommand {
           return model;
         });
         const graphData = { nodes, edges };
-        showModal(nodeConfig, graphData, graphMeta);
+        this.showModal(nodeConfig, graphData, graphMeta);
         return { err: null };
       },
       runtimeHook,
@@ -114,56 +119,72 @@ export class EditNodeCommand implements ICommand {
     const ctx = this.contextProvider();
     return ctx.isUndoable();
   }
-}
 
-const getCurrentLocale = () => {
-  const local: string = getLocale() as string;
-  switch (local) {
-    case 'zh-CN':
-      return zhCN;
-    case 'en-US':
-      return enUS;
-    default:
-      return zhCN;
-  }
-};
+  getCurrentLocale = () => {
+    const local: string = getLocale() as string;
+    switch (local) {
+      case 'zh-CN':
+        return zhCN;
+      case 'en-US':
+        return enUS;
+      default:
+        return zhCN;
+    }
+  };
 
-function showModal(
-  node: NsGraph.INodeConfig,
-  graphData: NsGraph.IGraphData,
-  graphMeta: NsGraph.IGraphMeta,
-) {
-  const container = document.createDocumentFragment();
-  return render(
-    <ConfigProvider locale={getCurrentLocale()}>
-      {switchStep({ node, graphData, graphMeta }, container)}
-    </ConfigProvider>,
-    container,
-  );
-}
-
-const onCancel = (container: DocumentFragment) => {
-  unmount(container);
-};
-
-const switchStep = (
-  data: { node: NsGraph.INodeConfig; graphData: NsGraph.IGraphData; graphMeta: NsGraph.IGraphMeta },
-  container: DocumentFragment,
-) => {
-  const { name, type } = data.node.data.data;
-  if (type === 'source' && name === 'Jdbc') {
-    return (
-      <SourceJdbcStepForm
-        visible
-        data={data}
-        onCancel={() => onCancel(container)}
-      ></SourceJdbcStepForm>
+  showModal = (
+    node: NsGraph.INodeConfig,
+    graphData: NsGraph.IGraphData,
+    graphMeta: NsGraph.IGraphMeta,
+  ) => {
+    const container = document.createDocumentFragment();
+    return render(
+      <ConfigProvider locale={this.getCurrentLocale()}>
+        {this.switchStep({ node, graphData, graphMeta }, container)}
+      </ConfigProvider>,
+      container,
     );
-  } else if (type === 'sink' && name === 'Jdbc') {
-    return (
-      <SinkJdbcStepForm visible data={data} onCancel={() => onCancel(container)}></SinkJdbcStepForm>
-    );
-  } else {
-    return <></>;
   }
-};
+
+  onCancel = (container: DocumentFragment) => {
+    unmount(container);
+  };
+
+  onOk = (
+    data: { node: NsGraph.INodeConfig; graphData: NsGraph.IGraphData; graphMeta: NsGraph.IGraphMeta },
+    container: DocumentFragment,
+  ) => {
+    const jobId = data.node.data.data.jobId;
+    const ctx = this.contextProvider();
+    DagService.loadJobInfo(jobId).then(d => {
+      ctx.getCommands().executeCommand(XFlowGraphCommands.GRAPH_RENDER.id, {
+        graphData: d
+      });
+    })
+    unmount(container);
+  }
+
+  switchStep = (
+    data: { node: NsGraph.INodeConfig; graphData: NsGraph.IGraphData; graphMeta: NsGraph.IGraphMeta },
+    container: DocumentFragment,
+  ) => {
+    const { name, type } = data.node.data.data;
+    if (type === 'source' && name === 'Jdbc') {
+      return (
+        <SourceJdbcStepForm
+          visible
+          data={data}
+          onCancel={() => this.onCancel(container)}
+          onOK={() => { this.onOk(data, container) }}
+        ></SourceJdbcStepForm>
+      );
+    } else if (type === 'sink' && name === 'Jdbc') {
+      return (
+        <SinkJdbcStepForm visible data={data} onCancel={() => this.onCancel(container)}></SinkJdbcStepForm>
+      );
+    } else {
+      return <></>;
+    }
+  };
+
+}
