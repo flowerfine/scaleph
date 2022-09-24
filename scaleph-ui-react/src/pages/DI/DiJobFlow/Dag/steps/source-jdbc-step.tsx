@@ -1,10 +1,12 @@
 import { Dict, ModalFormProps } from '@/app.d';
 import { DICT_TYPE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
+import { DataSourceService } from '@/services/project/dataSource.service';
+import { InfoCircleOutlined } from '@ant-design/icons';
 import { NsGraph } from '@antv/xflow';
 import { Button, Col, Form, Input, Modal, Row, Select, Space } from 'antd';
 import { useEffect, useState } from 'react';
-import { FormattedMessage } from 'umi';
+import { getIntl, getLocale } from 'umi';
 
 const SourceJdbcStepForm: React.FC<
   ModalFormProps<{
@@ -14,6 +16,7 @@ const SourceJdbcStepForm: React.FC<
   }>
 > = ({ data, visible, onCancel }) => {
   const nodeInfo = data.node.data;
+  const intl = getIntl(getLocale(), true);
   const [form] = Form.useForm();
   const [dataSourceTypeList, setDataSourceTypeList] = useState<Dict[]>([]);
   const [dataSourceList, setDataSourceList] = useState<Dict[]>([]);
@@ -23,20 +26,35 @@ const SourceJdbcStepForm: React.FC<
     });
   }, []);
 
+  const handleDataSourceTypeChange = (value: string) => {
+    DataSourceService.listDataSourceByType(value).then((d) => {
+      setDataSourceList(d);
+      form.setFieldValue('dataSource', null);
+    });
+  };
+
   return (
     <Modal
       visible={visible}
       title={nodeInfo.label}
       width={780}
+      bodyStyle={{ overflowY: 'scroll', maxHeight: '640px' }}
       destroyOnClose={true}
       onCancel={onCancel}
-      onOk={() => {}}
+      onOk={() => {
+        console.log('local', getLocale());
+
+        console.log(intl.formatMessage({ id: 'pages.project.di.step.partitionColumn.tooltip' }));
+        form.validateFields().then((values) => {
+          console.log(values);
+        });
+      }}
     >
       <Form form={form} layout="vertical">
         <Form.Item
           name="stepTitle"
-          label={<FormattedMessage id="pages.project.di.step.stepTitle"></FormattedMessage>}
-          rules={[{ required: true }, { max: 30 }]}
+          label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
+          rules={[{ required: true }, { max: 120 }]}
         >
           <Input />
         </Form.Item>
@@ -44,9 +62,7 @@ const SourceJdbcStepForm: React.FC<
           <Col span={12}>
             <Form.Item
               name="dataSourceType"
-              label={
-                <FormattedMessage id="pages.project.di.step.dataSourceType"></FormattedMessage>
-              }
+              label={intl.formatMessage({ id: 'pages.project.di.step.dataSourceType' })}
               rules={[{ required: true }]}
             >
               <Select
@@ -58,6 +74,7 @@ const SourceJdbcStepForm: React.FC<
                     .toLowerCase()
                     .includes(input.toLowerCase())
                 }
+                onChange={handleDataSourceTypeChange}
               >
                 {dataSourceTypeList.map((item) => {
                   return (
@@ -72,7 +89,7 @@ const SourceJdbcStepForm: React.FC<
           <Col span={12}>
             <Form.Item
               name="dataSource"
-              label={<FormattedMessage id="pages.project.di.step.dataSource"></FormattedMessage>}
+              label={intl.formatMessage({ id: 'pages.project.di.step.dataSource' })}
               rules={[{ required: true }]}
             >
               <Select
@@ -99,8 +116,11 @@ const SourceJdbcStepForm: React.FC<
 
         <Form.Item
           name="partitionColumn"
-          label={<FormattedMessage id="pages.project.di.step.partitionColumn"></FormattedMessage>}
-          rules={[{ required: true }]}
+          label={intl.formatMessage({ id: 'pages.project.di.step.partitionColumn' })}
+          tooltip={{
+            title: intl.formatMessage({ id: 'pages.project.di.step.partitionColumn.tooltip' }),
+            icon: <InfoCircleOutlined />,
+          }}
         >
           <Input />
         </Form.Item>
@@ -108,7 +128,7 @@ const SourceJdbcStepForm: React.FC<
           <Col span={19}>
             <Form.Item
               name="query"
-              label={<FormattedMessage id="pages.project.di.step.query"></FormattedMessage>}
+              label={intl.formatMessage({ id: 'pages.project.di.step.query' })}
               rules={[{ required: true }]}
             >
               <Input.TextArea rows={8}></Input.TextArea>
@@ -123,7 +143,7 @@ const SourceJdbcStepForm: React.FC<
                   alert('comming soon ...');
                 }}
               >
-                <FormattedMessage id="pages.project.di.step.getsql"></FormattedMessage>
+                {intl.formatMessage({ id: 'pages.project.di.step.getsql' })}
               </Button>
               <Button
                 type="default"
@@ -132,7 +152,7 @@ const SourceJdbcStepForm: React.FC<
                   alert('comming soon ...');
                 }}
               >
-                <FormattedMessage id="pages.project.di.step.preview"></FormattedMessage>
+                {intl.formatMessage({ id: 'pages.project.di.step.preview' })}
               </Button>
             </Space>
           </Col>

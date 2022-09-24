@@ -1,5 +1,6 @@
-import enUS from '@/locales/en-US';
-import zhCN from '@/locales/zh-CN';
+import enUS from 'antd/es/locale/en_US';
+import zhCN from 'antd/es/locale/zh_CN';
+
 import {
   IArgsBase,
   ICmdHooks as IHooks,
@@ -9,8 +10,9 @@ import {
   NsGraph,
 } from '@antv/xflow';
 import type { HookHub } from '@antv/xflow-hook';
+import { ConfigProvider } from 'antd';
 import { render, unmount } from 'rc-util/lib/React/render';
-import { getLocale, IntlProvider } from 'umi';
+import { getLocale } from 'umi';
 import { CustomCommands } from '../constant';
 import SinkJdbcStepForm from '../steps/sink-jdbc-step';
 import SourceJdbcStepForm from '../steps/source-jdbc-step';
@@ -114,13 +116,16 @@ export class EditNodeCommand implements ICommand {
   }
 }
 
-const messages = {
-  zh: zhCN,
-  en: enUS,
-};
 const getCurrentLocale = () => {
   const local: string = getLocale() as string;
-  return local.substring(0, local.indexOf('-'));
+  switch (local) {
+    case 'zh-CN':
+      return zhCN;
+    case 'en-US':
+      return enUS;
+    default:
+      return zhCN;
+  }
 };
 
 function showModal(
@@ -130,9 +135,9 @@ function showModal(
 ) {
   const container = document.createDocumentFragment();
   return render(
-    <IntlProvider locale={getCurrentLocale()} messages={messages[getCurrentLocale()]}>
+    <ConfigProvider locale={getCurrentLocale()}>
       {switchStep({ node, graphData, graphMeta }, container)}
-    </IntlProvider>,
+    </ConfigProvider>,
     container,
   );
 }
