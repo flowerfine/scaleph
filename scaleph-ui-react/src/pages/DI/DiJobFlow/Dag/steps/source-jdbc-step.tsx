@@ -26,7 +26,6 @@ const SourceJdbcStepForm: React.FC<
   const [dataSourceTypeList, setDataSourceTypeList] = useState<Dict[]>([]);
   const [dataSourceList, setDataSourceList] = useState<Dict[]>([]);
   useEffect(() => {
-    console.log(nodeInfo)
     DictDataService.listDictDataByType(DICT_TYPE.datasourceType).then((d) => {
       setDataSourceTypeList(d);
     });
