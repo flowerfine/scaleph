@@ -84,8 +84,6 @@ public class JobController {
     @Autowired
     private DiJobStepAttrService diJobStepAttrService;
     @Autowired
-    private DiJobStepAttrTypeService diJobStepAttrTypeService;
-    @Autowired
     private DiJobResourceFileService diJobResourceFileService;
     @Autowired
     private ScheduleService scheduleService;
@@ -351,19 +349,6 @@ public class JobController {
                 }
             }
         }
-    }
-
-
-    @Logging
-    @GetMapping(path = "/attrType")
-    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
-    @ApiOperation(value = "查询步骤属性列表", notes = "查询步骤属性列表")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<List<DiJobStepAttrTypeDTO>> listJobStepAttrType(@NotBlank String stepType,
-                                                                          @NotBlank String stepName) {
-        List<DiJobStepAttrTypeDTO> list =
-                this.diJobStepAttrTypeService.listByType(stepType, stepName);
-        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @Logging
