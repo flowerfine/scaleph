@@ -21,6 +21,12 @@ export namespace CustomCommands {
     label: 'edit',
     category: XFlowNodeCommands.UPDATE_NODE.category,
   };
+
+  export const GRAPH_PARAMS_SETTING: IGraphCommand = {
+    id: 'xflow:graph-params-setting',
+    label: 'graph-params',
+    category: XFlowGraphCommands.GRAPH_COPY.category,
+  };
 }
 
 export const STEP_ATTR_TYPE = {
