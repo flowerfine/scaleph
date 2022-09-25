@@ -38,7 +38,7 @@ export const DagService = {
             type: step.stepType.value as string,
             displayName: DagService.titleCase(step.stepName + ' ' + step.stepType.value),
             createTime: step.createTime,
-            updateTime: step.updateTime
+            updateTime: step.updateTime,
           },
         });
       });
@@ -129,5 +129,5 @@ export const DagService = {
       tmpStrArr[i] = tmpStrArr[i].slice(0, 1).toUpperCase() + tmpStrArr[i].slice(1).toLowerCase();
     }
     return tmpStrArr.join(' ');
-  }
+  },
 };

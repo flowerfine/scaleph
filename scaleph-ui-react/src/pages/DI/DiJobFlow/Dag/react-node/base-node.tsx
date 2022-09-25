@@ -9,52 +9,36 @@ export const BaseNode = (props: any) => {
     <Popover
       content={
         <Descriptions style={{ maxWidth: '240px' }} size="small" column={1}>
-          {
-            props.data.data.jobId ?
-              (<>
-                <Descriptions.Item
-                  label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
-                >
-                  {props.data.label}
-                </Descriptions.Item>
-                <Descriptions.Item
-                  label={intl.formatMessage({ id: 'pages.project.di.step.x' })}
-                >
-                  {props.data.x}
-                </Descriptions.Item>
-                <Descriptions.Item
-                  label={intl.formatMessage({ id: 'pages.project.di.step.y' })}
-                >
-                  {props.data.y}
-                </Descriptions.Item>
-                <Descriptions.Item
-                  label={intl.formatMessage({ id: 'pages.project.di.createTime' })}
-                >
-                  {props.data.data.createTime}
-                </Descriptions.Item>
-                <Descriptions.Item
-                  label={intl.formatMessage({ id: 'pages.project.di.updateTime' })}
-                >
-                  {props.data.data.updateTime}
-                </Descriptions.Item>
-              </>)
-              :
-              <Descriptions.Item>
-                {props.data.description}
+          {props.data.data.jobId ? (
+            <>
+              <Descriptions.Item
+                label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
+              >
+                {props.data.label}
               </Descriptions.Item>
-          }
+              <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.di.step.x' })}>
+                {props.data.x}
+              </Descriptions.Item>
+              <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.di.step.y' })}>
+                {props.data.y}
+              </Descriptions.Item>
+              <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.di.createTime' })}>
+                {props.data.data.createTime}
+              </Descriptions.Item>
+              <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.di.updateTime' })}>
+                {props.data.data.updateTime}
+              </Descriptions.Item>
+            </>
+          ) : (
+            <Descriptions.Item>{props.data.description}</Descriptions.Item>
+          )}
         </Descriptions>
       }
       title={
         <div>
-          <Typography.Text>
-            {props.data.data.displayName}
-          </Typography.Text>
-          <a href="https://flowerfine.github.io/scaleph/#/" target='_blank'>
-            <Button shape="default"
-              type="link"
-              icon={<InfoCircleOutlined />}
-            ></Button>
+          <Typography.Text>{props.data.data.displayName}</Typography.Text>
+          <a href="https://flowerfine.github.io/scaleph/#/" target="_blank">
+            <Button shape="default" type="link" icon={<InfoCircleOutlined />}></Button>
           </a>
         </div>
       }
