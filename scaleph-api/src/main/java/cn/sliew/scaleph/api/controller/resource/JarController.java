@@ -20,7 +20,7 @@ package cn.sliew.scaleph.api.controller.resource;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
-import cn.sliew.scaleph.common.exception.CustomException;
+import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.resource.service.JarService;
 import cn.sliew.scaleph.resource.service.dto.JarDTO;
 import cn.sliew.scaleph.resource.service.param.JarListParam;
@@ -75,7 +75,7 @@ public class JarController {
     @ApiOperation(value = "上传 jar", notes = "上传 jar")
     public ResponseEntity<ResponseVO> upload(@Valid JarUploadParam param, @RequestPart("file") MultipartFile file) throws Exception {
         if (file.isEmpty()) {
-            throw new CustomException("缺少文件");
+            throw new ScalephException("缺少文件");
         }
         jarService.upload(param, file);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);

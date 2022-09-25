@@ -16,31 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
-
-import cn.sliew.scaleph.common.dict.flink.FlinkArtifactType;
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-@Data
-@EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifactDTO extends BaseDTO {
-
-    @NotNull
-    @ApiModelProperty("Artifact 类型。0: Jar, 1: UDF, 2: SQL")
-    private FlinkArtifactType type;
-
-    @NotBlank
-    @ApiModelProperty("名称")
-    private String name;
-
-    @ApiModelProperty("备注")
-    private String remark;
-}
+/**
+ * forked from https://github.com/wujun234/uid-generator-spring-boot-starter
+ */
+package cn.sliew.scaleph.system.snowflake;

@@ -27,7 +27,7 @@ import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.*;
-import cn.sliew.scaleph.common.exception.CustomException;
+import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.core.di.service.*;
 import cn.sliew.scaleph.core.di.service.dto.*;
 import cn.sliew.scaleph.core.di.service.param.DiJobParam;
@@ -204,7 +204,7 @@ public class JobController {
             Long editableJobId = prepareJobVersion(job);
             saveJobGraph(diJobDTO.getJobGraph(), editableJobId);
             return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.CREATED);
-        } catch (CustomException e) {
+        } catch (ScalephException e) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
                     e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }
@@ -216,9 +216,9 @@ public class JobController {
      * @param job job info
      * @return job id
      */
-    private Long prepareJobVersion(DiJobDTO job) throws CustomException {
+    private Long prepareJobVersion(DiJobDTO job) throws ScalephException {
         if (JobStatusEnum.ARCHIVE.getValue().equals(job.getJobStatus().getValue())) {
-            throw new CustomException(I18nUtil.get("response.error.di.job.lowVersion"));
+            throw new ScalephException(I18nUtil.get("response.error.di.job.lowVersion"));
         }
 
         if (JobStatusEnum.RELEASE.getValue().equals(job.getJobStatus().getValue())) {
@@ -226,7 +226,7 @@ public class JobController {
             int jobVersion = job.getJobVersion() + 1;
             DiJobDTO newVersionJob = diJobService.selectOne(job.getProjectId(), job.getJobCode(), jobVersion);
             if (newVersionJob != null) {
-                throw new CustomException(I18nUtil.get("response.error.di.job.lowVersion"));
+                throw new ScalephException(I18nUtil.get("response.error.di.job.lowVersion"));
             }
             job.setId(null);
             job.setJobVersion(jobVersion);
@@ -328,7 +328,7 @@ public class JobController {
                 this.diJobAttrService.upsert(entry.getValue());
             }
             return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.OK);
-        } catch (CustomException e) {
+        } catch (ScalephException e) {
             return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
                     e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
         }
@@ -426,7 +426,7 @@ public class JobController {
                     }
                 }
                 return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.OK);
-            } catch (CustomException e) {
+            } catch (ScalephException e) {
                 return new ResponseEntity<>(
                         ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
                                 e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);

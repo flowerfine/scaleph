@@ -16,31 +16,38 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
+package cn.sliew.scaleph.dao.entity.master.snowflake;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkArtifactType;
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifactDTO extends BaseDTO {
+@TableName("snowflake_worker_node")
+@ApiModel(value = "SnowflakeWorkerNode对象", description = "Snowflake worker node")
+public class SnowflakeWorkerNode extends BaseDO {
 
-    @NotNull
-    @ApiModelProperty("Artifact 类型。0: Jar, 1: UDF, 2: SQL")
-    private FlinkArtifactType type;
+    @ApiModelProperty("Type of CONTAINER: HostName, ACTUAL : IP.")
+    @TableField("host_name")
+    private String hostName;
 
-    @NotBlank
-    @ApiModelProperty("名称")
-    private String name;
+    @ApiModelProperty("Type of CONTAINER: Port, ACTUAL : Timestamp + Random(0-10000)")
+    @TableField("port")
+    private String port;
 
-    @ApiModelProperty("备注")
-    private String remark;
+    @ApiModelProperty("node type: CONTAINER(1), ACTUAL(2), FAKE(3)")
+    @TableField("type")
+    private int type;
+
+    @ApiModelProperty("Worker launch date, default now")
+    @TableField("launch_date")
+    private Date launchDate = new Date();
+
 }

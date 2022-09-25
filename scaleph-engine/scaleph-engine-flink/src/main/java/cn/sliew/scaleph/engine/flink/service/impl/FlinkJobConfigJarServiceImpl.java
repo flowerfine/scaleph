@@ -23,7 +23,7 @@ import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobConfigJar;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobConfigJarVO;
 import cn.sliew.scaleph.dao.mapper.master.flink.FlinkJobConfigJarMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkJobConfigJarService;
-import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobConfigConvert;
+import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobConfigJarConvert;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobConfigJarVOConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobConfigJarDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobConfigJarListParam;
@@ -66,13 +66,13 @@ public class FlinkJobConfigJarServiceImpl implements FlinkJobConfigJarService {
 
     @Override
     public int insert(FlinkJobConfigJarDTO dto) {
-        final FlinkJobConfigJar record = FlinkJobConfigConvert.INSTANCE.toDo(dto);
+        final FlinkJobConfigJar record = FlinkJobConfigJarConvert.INSTANCE.toDo(dto);
         return flinkJobConfigJarMapper.insert(record);
     }
 
     @Override
     public int update(FlinkJobConfigJarDTO dto) {
-        final FlinkJobConfigJar record = FlinkJobConfigConvert.INSTANCE.toDo(dto);
+        final FlinkJobConfigJar record = FlinkJobConfigJarConvert.INSTANCE.toDo(dto);
         return flinkJobConfigJarMapper.updateById(record);
     }
 

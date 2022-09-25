@@ -16,31 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
+package cn.sliew.scaleph.system.snowflake;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkArtifactType;
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+/**
+ * Represents a unique id generator.
+ */
+public interface UidGenerator {
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifactDTO extends BaseDTO {
+    /**
+     * Get a unique ID
+     *
+     * @return UID
+     * @throws UidGenerateException
+     */
+    long getUID() throws UidGenerateException;
 
-    @NotNull
-    @ApiModelProperty("Artifact 类型。0: Jar, 1: UDF, 2: SQL")
-    private FlinkArtifactType type;
+    /**
+     * Parse the UID into elements which are used to generate the UID. <br>
+     * Such as timestamp & workerId & sequence...
+     *
+     * @param uid
+     * @return Parsed info
+     */
+    String parseUID(long uid);
 
-    @NotBlank
-    @ApiModelProperty("名称")
-    private String name;
-
-    @ApiModelProperty("备注")
-    private String remark;
 }

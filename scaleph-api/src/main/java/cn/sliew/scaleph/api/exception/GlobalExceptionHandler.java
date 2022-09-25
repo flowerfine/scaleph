@@ -22,7 +22,7 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
-import cn.sliew.scaleph.common.exception.CustomException;
+import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.system.util.I18nUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionFailedException;
@@ -98,8 +98,8 @@ public class GlobalExceptionHandler {
      */
     @Logging
     @ResponseBody
-    @ExceptionHandler(CustomException.class)
-    public ResponseEntity<ResponseVO> custom(CustomException e) {
+    @ExceptionHandler(ScalephException.class)
+    public ResponseEntity<ResponseVO> custom(ScalephException e) {
         log.error(String.format("exceptionCode: %s, message: %s", e.getExceptionCode(), e.getMessage()), e);
         ResponseVO errorInfo;
         if (StringUtils.isEmpty(e.getExceptionCode())) {

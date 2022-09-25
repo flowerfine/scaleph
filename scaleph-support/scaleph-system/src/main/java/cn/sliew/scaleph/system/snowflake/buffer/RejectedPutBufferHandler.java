@@ -16,31 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
+package cn.sliew.scaleph.system.snowflake.buffer;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkArtifactType;
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+/**
+ * If tail catches the cursor it means that the ring buffer is full, any more buffer put request will be rejected.
+ * Specify the policy to handle the reject. This is a Lambda supported interface
+ */
+@FunctionalInterface
+public interface RejectedPutBufferHandler {
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-@Data
-@EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifactDTO extends BaseDTO {
-
-    @NotNull
-    @ApiModelProperty("Artifact 类型。0: Jar, 1: UDF, 2: SQL")
-    private FlinkArtifactType type;
-
-    @NotBlank
-    @ApiModelProperty("名称")
-    private String name;
-
-    @ApiModelProperty("备注")
-    private String remark;
+    /**
+     * Reject put buffer request
+     * 
+     * @param ringBuffer
+     * @param uid
+     */
+    void rejectPutBuffer(RingBuffer ringBuffer, long uid);
 }

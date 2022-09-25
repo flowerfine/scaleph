@@ -18,32 +18,50 @@
 
 package cn.sliew.scaleph.dao.entity.master.flink;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkArtifactType;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * flink artifact
+ * flink job
  * </p>
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@TableName("flink_artifact")
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifact extends BaseDO {
+@TableName("flink_job")
+@ApiModel(value = "FlinkJob对象", description = "flink job")
+public class FlinkJob extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
     @TableField("`type`")
-    private FlinkArtifactType type;
+    private FlinkJobType type;
 
     @TableField("`name`")
     private String name;
+
+    @TableField("flink_artifact_id")
+    private Long flinkArtifactId;
+
+    @TableField("job_config")
+    private String jobConfig;
+
+    @TableField("flink_cluster_config_id")
+    private Long flinkClusterConfigId;
+
+    @TableField("flink_cluster_instance_id")
+    private Long flinkClusterInstanceId;
+
+    @TableField("flink_config")
+    private String flinkConfig;
+
+    @TableField("version")
+    private Long version;
 
     @TableField("remark")
     private String remark;

@@ -55,7 +55,7 @@ public class MybatisPlusGenerator {
     /**
      * just add table names here and run the {@link #main(String[])} method.
      */
-    private static final String[] TABLES = {"resource_jar"};
+    private static final String[] TABLES = {"flink_job"};
 
     public static void main(String[] args) {
         //自动生成配置

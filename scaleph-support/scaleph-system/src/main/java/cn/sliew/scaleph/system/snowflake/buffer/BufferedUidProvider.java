@@ -16,31 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
+package cn.sliew.scaleph.system.snowflake.buffer;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkArtifactType;
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.util.List;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+/**
+ * Buffered UID provider(Lambda supported), which provides UID in the same one second
+ */
+@FunctionalInterface
+public interface BufferedUidProvider {
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifactDTO extends BaseDTO {
-
-    @NotNull
-    @ApiModelProperty("Artifact 类型。0: Jar, 1: UDF, 2: SQL")
-    private FlinkArtifactType type;
-
-    @NotBlank
-    @ApiModelProperty("名称")
-    private String name;
-
-    @ApiModelProperty("备注")
-    private String remark;
+    /**
+     * Provides UID in one second
+     * 
+     * @param momentInSecond
+     * @return
+     */
+    List<Long> provide(long momentInSecond);
 }

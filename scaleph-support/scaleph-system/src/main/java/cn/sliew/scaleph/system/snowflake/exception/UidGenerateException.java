@@ -16,31 +16,32 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
+package cn.sliew.scaleph.system.snowflake.exception;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkArtifactType;
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import cn.sliew.scaleph.common.exception.ScalephException;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+public class UidGenerateException extends ScalephException {
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifactDTO extends BaseDTO {
+    private static final long serialVersionUID = -27048199131316992L;
 
-    @NotNull
-    @ApiModelProperty("Artifact 类型。0: Jar, 1: UDF, 2: SQL")
-    private FlinkArtifactType type;
+    public UidGenerateException() {
+        super();
+    }
 
-    @NotBlank
-    @ApiModelProperty("名称")
-    private String name;
+    public UidGenerateException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-    @ApiModelProperty("备注")
-    private String remark;
+    public UidGenerateException(String message) {
+        super(message);
+    }
+
+    public UidGenerateException(String msgFormat, Object... args) {
+        super(String.format(msgFormat, args));
+    }
+
+    public UidGenerateException(Throwable cause) {
+        super(cause);
+    }
+
 }

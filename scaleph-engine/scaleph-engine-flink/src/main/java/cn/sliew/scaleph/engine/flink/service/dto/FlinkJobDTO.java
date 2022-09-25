@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.service.dto;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkArtifactType;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -27,20 +27,41 @@ import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifactDTO extends BaseDTO {
+@ApiModel(value = "FlinkJob对象", description = "flink job")
+public class FlinkJobDTO extends BaseDTO {
 
     @NotNull
-    @ApiModelProperty("Artifact 类型。0: Jar, 1: UDF, 2: SQL")
-    private FlinkArtifactType type;
+    @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
+    private FlinkJobType type;
 
     @NotBlank
-    @ApiModelProperty("名称")
+    @ApiModelProperty("job name")
     private String name;
 
-    @ApiModelProperty("备注")
+    @NotNull
+    @ApiModelProperty("job artifact id")
+    private Long flinkArtifactId;
+
+    @ApiModelProperty("job config")
+    private Map<String, String> jobConfig;
+
+    @NotNull
+    @ApiModelProperty("flink cluster config id")
+    private Long flinkClusterConfigId;
+
+    @ApiModelProperty("flink cluster instance id")
+    private Long flinkClusterInstanceId;
+
+    @ApiModelProperty("flink config")
+    private Map<String, String> flinkConfig;
+
+    @ApiModelProperty("job version")
+    private Long version;
+
+    @ApiModelProperty("job remark")
     private String remark;
 }
