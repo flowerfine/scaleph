@@ -42,10 +42,6 @@ const PasswordEditForm: React.FC<
             { required: true },
             { min: 6 },
             { max: 32 },
-            {
-              pattern: /^[a-zA-Z0-9\d@$!%*?&.]+(\s+[a-zA-Z0-9]+)*$/,
-              message: intl.formatMessage({ id: 'app.common.validate.patternPassword' }),
-            },
           ]}
         >
           <Input.Password></Input.Password>
@@ -57,10 +53,6 @@ const PasswordEditForm: React.FC<
             { required: true },
             { min: 6 },
             { max: 32 },
-            {
-              pattern: /^[a-zA-Z0-9\d@$!%*?&.]+(\s+[a-zA-Z0-9]+)*$/,
-              message: intl.formatMessage({ id: 'app.common.validate.patternPassword' }),
-            },
             {
               validator: (rule, value, callback) => {
                 if (value && value == form.getFieldValue('oldPassword')) {
@@ -81,10 +73,6 @@ const PasswordEditForm: React.FC<
             { required: true },
             { min: 6 },
             { max: 32 },
-            {
-              pattern: /^[a-zA-Z0-9\d@$!%*?&.]+(\s+[a-zA-Z0-9]+)*$/,
-              message: intl.formatMessage({ id: 'app.common.validate.patternPassword' }),
-            },
             {
               validator: (rule, value, callback) => {
                 if (value && value != form.getFieldValue('password')) {

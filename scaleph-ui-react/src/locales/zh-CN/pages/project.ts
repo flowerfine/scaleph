@@ -73,7 +73,7 @@ export default {
   'pages.project.di.step.partitionColumn': '分区字段',
   'pages.project.di.step.partitionColumn.tooltip': '只支持数值类型字段作为分区字段',
   'pages.project.di.step.query': 'SQL',
-  'pages.project.di.step.getsql': '获取SQL查询语句',
-  'pages.project.di.step.preview': '预览查询结果',
-
+  'pages.project.di.step.getsql': '获取SQL',
+  'pages.project.di.step.preview': '预览结果',
+  'pages.project.di.step.batchSize': '提交记录数量',
 };

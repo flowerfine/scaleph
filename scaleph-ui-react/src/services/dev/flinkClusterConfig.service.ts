@@ -54,7 +54,7 @@ export const FlinkClusterConfigService = {
     });
   },
 
-  getData: async (value: Record<string, any>) => {
+  getData: (value: Record<string, any>) => {
     const options = new Map<string, any>();
     options['state.backend'] = value['state.backend'];
     options['state.savepoints.dir'] = value['state.savepoints.dir'];
@@ -103,7 +103,7 @@ export const FlinkClusterConfigService = {
     return options;
   },
 
-  setData: async (configOptions: { [key: string]: any }) => {
+  setData: (configOptions: { [key: string]: any }) => {
     const data = {
       'state.backend': configOptions.get('state.backend'),
       'state.savepoints.dir': configOptions.get('state.savepoints.dir'),
