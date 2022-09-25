@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.hutool.core.util.StrUtil;
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.system.SysDictType;
 import cn.sliew.scaleph.dao.mapper.master.system.SysDictTypeMapper;
 import cn.sliew.scaleph.system.cache.DictTypeCache;
@@ -70,7 +71,7 @@ public class SysDictTypeServiceImpl implements SysDictTypeService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public int deleteById(Long id) {
         SysDictType sysDictType = this.sysDictTypeMapper.selectById(id);
         int result = this.sysDictTypeMapper.deleteById(id);
@@ -80,7 +81,7 @@ public class SysDictTypeServiceImpl implements SysDictTypeService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public int deleteBatch(Map<Integer, ? extends Serializable> map) {
         List<SysDictType> list = this.sysDictTypeMapper.selectBatchIds(map.values());
         int result = this.sysDictTypeMapper.deleteBatchIds(map.values());

@@ -23,6 +23,7 @@ import java.util.List;
 import cn.sliew.scaleph.core.di.service.DiJobResourceFileService;
 import cn.sliew.scaleph.core.di.service.convert.DiResourceFileConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiResourceFileDTO;
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.di.DiJobResourceFile;
 import cn.sliew.scaleph.dao.entity.master.di.DiResourceFile;
 import cn.sliew.scaleph.dao.mapper.master.di.DiJobResourceFileMapper;
@@ -47,7 +48,7 @@ public class DiJobResourceFileServiceImpl implements DiJobResourceFileService {
     private DiJobResourceFileMapper diJobResourceFileMapper;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public int bindResource(Long jobId, List<DictVO> resources) {
         this.diJobResourceFileMapper.delete(
             new LambdaQueryWrapper<DiJobResourceFile>()

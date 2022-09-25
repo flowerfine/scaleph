@@ -33,13 +33,13 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
 public class FlinkArtifactDTO extends BaseDTO {
 
-    @NotBlank
-    @ApiModelProperty("名称")
-    private String name;
-
     @NotNull
     @ApiModelProperty("Artifact 类型。0: Jar, 1: UDF, 2: SQL")
     private FlinkArtifactType type;
+
+    @NotBlank
+    @ApiModelProperty("名称")
+    private String name;
 
     @ApiModelProperty("备注")
     private String remark;

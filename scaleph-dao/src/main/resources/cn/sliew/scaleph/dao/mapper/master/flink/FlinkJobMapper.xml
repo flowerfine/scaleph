@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.master.flink.FlinkJobMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.flink.FlinkJob">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="type" property="type"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="flink_artifact_id" property="flinkArtifactId"/>
+        <result column="job_config" property="jobConfig"/>
+        <result column="flink_cluster_config_id" property="flinkClusterConfigId"/>
+        <result column="flink_cluster_instance_id" property="flinkClusterInstanceId"/>
+        <result column="flink_config" property="flinkConfig"/>
+        <result column="version" property="version"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        creator,
+        create_time,
+        editor,
+        update_time,
+        `type`,
+        `code`,
+        `name`,
+        flink_artifact_id,
+        job_config,
+        flink_cluster_config_id,
+        flink_cluster_instance_id,
+        flink_config,
+        version,
+        remark
+    </sql>
+
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from (
+                     select *,
+                            row_number() over (partition by `code` order by version desc) as rn
+                     from flink_job
+                     ) t
+                where rn = 1
+        <if test="param.type != null">
+            AND t.`type` = #{param.type}
+        </if>
+        <if test="param.name != null and param.name != ''">
+            AND t.`name` like CONCAT('%', #{param.name}, '%')
+        </if>
+    </select>
+
+    <select id="listByCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from flink_job
+        where `code` = #{code}
+        order by version desc
+    </select>
+
+    <select id="selectLatestJob" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from flink_job
+        where `code` = #{code}
+        order by version desc
+        limit 1
+    </select>
+</mapper>

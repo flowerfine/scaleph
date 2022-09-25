@@ -30,6 +30,7 @@ import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.security.OnlineUserService;
 import cn.sliew.scaleph.api.vo.ResponseVO;
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.security.service.SecPrivilegeService;
 import cn.sliew.scaleph.security.service.SecRolePrivilegeService;
 import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;
@@ -105,7 +106,7 @@ public class SecPrivilegeController {
     @Logging
     @PostMapping
     @ApiOperation(value = "角色授权权限", notes = "角色授权权限")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
     public ResponseEntity<ResponseVO> grantPrivilege(@NotNull Long roleId,
                                                      @NotNull String privilegeIds,

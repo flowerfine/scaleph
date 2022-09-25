@@ -39,11 +39,11 @@ public class FlinkArtifact extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("`name`")
-    private String name;
-
     @TableField("`type`")
     private FlinkArtifactType type;
+
+    @TableField("`name`")
+    private String name;
 
     @TableField("remark")
     private String remark;
