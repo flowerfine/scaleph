@@ -42,6 +42,7 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({
             intl.formatMessage({ id: 'pages.admin.user' })
       }
       width={780}
+      bodyStyle={{ maxHeight: '640px', overflowY: 'scroll' }}
       destroyOnClose={true}
       onCancel={onCancel}
       onOk={() => {
@@ -92,7 +93,7 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({
           idCardType: data.idCardType?.value,
           idCardNo: data.idCardNo,
           nation: data.nation?.value,
-          birthday: data.id ? moment(data?.birthday, 'YYYY-MM-DD') : null,
+          birthday: data.birthday ? moment(data.birthday, 'YYYY-MM-DD HH:mm:ss') : null,
           qq: data.qq,
           wechat: data.wechat,
           summary: data.summary,

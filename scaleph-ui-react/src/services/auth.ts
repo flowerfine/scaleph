@@ -1,6 +1,6 @@
 import { USER_AUTH } from '@/constant';
 import { request } from 'umi';
-import { AuthCode, LoginInfo, OnlineUserInfo, ResponseBody } from '../app.d';
+import { AuthCode, LoginInfo, OnlineUserInfo, RegisterInfo, ResponseBody } from '../app.d';
 
 export const AuthService = {
   login: async (loginInfo: LoginInfo) => {
@@ -43,6 +43,13 @@ export const AuthService = {
     } else {
       return false;
     }
+  },
+
+  register: async (registerInfo: RegisterInfo) => {
+    return request<ResponseBody<any>>('/api/user/register', {
+      method: 'POST',
+      data: registerInfo,
+    });
   },
 
   logout: async () => {

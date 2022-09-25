@@ -67,6 +67,5 @@ export default {
   'app.common.validate.sameUserName': '用户名已存在',
   'app.common.validate.sameEmail': '邮箱已存在',
   'app.common.validate.samePassword': '两次输入的密码不一致',
-  'app.common.validate.patternPassword': '密码格式错误，请输入数字和字母组成的字符串',
   'app.common.validate.sameToOldPassword': '新密码不能与旧密码一致',
 };
