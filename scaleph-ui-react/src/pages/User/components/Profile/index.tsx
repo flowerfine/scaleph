@@ -40,7 +40,7 @@ const Profile: React.FC = () => {
         idCardType: resp.idCardType?.value,
         idCardNo: resp.idCardNo,
         nation: resp.nation?.value,
-        birthday: moment(resp?.birthday, 'YYYY-MM-DD HH:mm:ss'),
+        birthday: resp?.birthday ? moment(resp?.birthday, 'YYYY-MM-DD HH:mm:ss') : null,
         qq: resp.qq,
         wechat: resp.wechat,
         summary: resp.summary,
