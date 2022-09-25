@@ -29,6 +29,7 @@ import cn.sliew.scaleph.api.security.OnlineUserService;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.enums.RoleTypeEnum;
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.security.service.SecDeptRoleService;
 import cn.sliew.scaleph.security.service.SecRoleService;
 import cn.sliew.scaleph.security.service.SecUserRoleService;
@@ -129,7 +130,7 @@ public class SecRoleController {
     @Logging
     @PostMapping(path = "/grant")
     @ApiOperation(value = "用户授权角色", notes = "用户授权角色")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
     public ResponseEntity<ResponseVO> grantRole(@NotNull Long roleId, @NotNull String userIds) {
         List<Long> userList = JSONUtil.toList(userIds, Long.class);

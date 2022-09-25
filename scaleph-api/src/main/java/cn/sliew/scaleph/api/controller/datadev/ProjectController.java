@@ -26,6 +26,7 @@ import cn.sliew.scaleph.core.di.service.DiJobService;
 import cn.sliew.scaleph.core.di.service.DiProjectService;
 import cn.sliew.scaleph.core.di.service.dto.DiProjectDTO;
 import cn.sliew.scaleph.core.di.service.param.DiProjectParam;
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -104,7 +105,7 @@ public class ProjectController {
 
     @Logging
     @DeleteMapping(path = "/{id}")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "删除项目", notes = "删除项目")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_DELETE)")
     public ResponseEntity<ResponseVO> deleteProject(@PathVariable(value = "id") Long projectId) {
@@ -120,7 +121,7 @@ public class ProjectController {
 
     @Logging
     @PostMapping(path = "/batch")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "批量删除项目", notes = "批量删除项目")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_DELETE)")
     public ResponseEntity<ResponseVO> deleteProject(@RequestBody Map<Integer, Long> map) {

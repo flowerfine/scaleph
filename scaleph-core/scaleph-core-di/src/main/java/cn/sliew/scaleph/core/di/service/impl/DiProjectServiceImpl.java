@@ -32,6 +32,7 @@ import cn.sliew.scaleph.core.di.service.convert.DiProjectConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiDirectoryDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiProjectDTO;
 import cn.sliew.scaleph.core.di.service.param.DiProjectParam;
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.di.DiProject;
 import cn.sliew.scaleph.dao.mapper.master.di.DiProjectMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -63,7 +64,7 @@ public class DiProjectServiceImpl implements DiProjectService {
     private DiResourceFileService diResourceFileService;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public int insert(DiProjectDTO dto) {
         DiProject project = DiProjectConvert.INSTANCE.toDo(dto);
         int result = this.diProjectMapper.insert(project);
@@ -82,7 +83,7 @@ public class DiProjectServiceImpl implements DiProjectService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public int deleteById(Long id) {
         List<Long> list = Collections.singletonList(id);
         this.diResourceFileService.deleteByProjectId(list);
@@ -92,7 +93,7 @@ public class DiProjectServiceImpl implements DiProjectService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public int deleteBatch(Map<Integer, ? extends Serializable> map) {
         this.diResourceFileService.deleteByProjectId(map.values());
         this.diDirectoryService.deleteByProjectIds(map.values());

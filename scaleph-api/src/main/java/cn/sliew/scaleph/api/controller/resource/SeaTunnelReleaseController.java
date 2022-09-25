@@ -20,7 +20,7 @@ package cn.sliew.scaleph.api.controller.resource;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
-import cn.sliew.scaleph.common.exception.CustomException;
+import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.resource.service.SeaTunnelReleaseService;
 import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseListParam;
@@ -75,7 +75,7 @@ public class SeaTunnelReleaseController {
     @ApiOperation(value = "上传 release", notes = "上传 release")
     public ResponseEntity<ResponseVO> upload(@Valid SeaTunnelReleaseUploadParam param, @RequestPart("file") MultipartFile file) throws Exception {
         if (file.isEmpty()) {
-            throw new CustomException("缺少文件");
+            throw new ScalephException("缺少文件");
         }
         seaTunnelReleaseService.upload(param, file);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);

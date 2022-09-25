@@ -21,6 +21,7 @@ package cn.sliew.scaleph.security.service.impl;
 import java.io.Serializable;
 import java.util.List;
 
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.security.SecDept;
 import cn.sliew.scaleph.dao.mapper.master.security.SecDeptMapper;
 import cn.sliew.scaleph.security.service.SecDeptRoleService;
@@ -65,7 +66,7 @@ public class SecDeptServiceImpl implements SecDeptService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public int deleteById(Long id) {
         this.secUserDeptService.deleteBydeptId(id);
         this.secDeptRoleService.deleteByDeptId(id);
@@ -73,7 +74,7 @@ public class SecDeptServiceImpl implements SecDeptService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public int deleteBatch(List<? extends Serializable> list) {
         if (CollectionUtils.isEmpty(list)) {
             return 0;

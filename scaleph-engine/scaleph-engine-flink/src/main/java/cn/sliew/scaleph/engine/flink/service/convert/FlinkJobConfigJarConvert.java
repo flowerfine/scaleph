@@ -35,8 +35,8 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FlinkJobConfigConvert extends BaseConvert<FlinkJobConfigJar, FlinkJobConfigJarDTO> {
-    FlinkJobConfigConvert INSTANCE = Mappers.getMapper(FlinkJobConfigConvert.class);
+public interface FlinkJobConfigJarConvert extends BaseConvert<FlinkJobConfigJar, FlinkJobConfigJarDTO> {
+    FlinkJobConfigJarConvert INSTANCE = Mappers.getMapper(FlinkJobConfigJarConvert.class);
 
     @Override
     default FlinkJobConfigJar toDo(FlinkJobConfigJarDTO dto) {

@@ -25,6 +25,7 @@ import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.enums.ErrorShowTypeEnum;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.mail.service.EmailService;
 import cn.sliew.scaleph.mail.service.vo.EmailConfigVO;
 import cn.sliew.scaleph.system.service.SysConfigService;
@@ -61,7 +62,7 @@ public class SysConfigController {
     @Logging
     @PutMapping(path = "email")
     @ApiOperation(value = "设置系统邮箱", notes = "设置系统邮箱")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public ResponseEntity<ResponseVO> configEmail(
             @Validated @RequestBody EmailConfigVO emailConfig) {
         String password = emailConfig.getPassword();
@@ -97,7 +98,7 @@ public class SysConfigController {
     @Logging
     @PutMapping(path = "basic")
     @ApiOperation(value = "设置基础配置", notes = "设置基础配置")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public ResponseEntity<ResponseVO> configBasic(
             @Validated @RequestBody BasicConfigVO basicConfig) {
         String seatunnelHome = basicConfig.getSeatunnelHome().replace("\\", "/");

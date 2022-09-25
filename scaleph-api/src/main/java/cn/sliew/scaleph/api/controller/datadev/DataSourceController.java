@@ -20,7 +20,7 @@ package cn.sliew.scaleph.api.controller.datadev;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
-import cn.sliew.scaleph.common.exception.CustomException;
+import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.common.param.PropertyUtil;
 import cn.sliew.scaleph.meta.service.MetaDatasourceService;
 import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;
@@ -176,7 +176,7 @@ public class DataSourceController {
             this.metaDatasourceService.testConnection(metaDatasourceDTO);
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } catch (Exception e) {
-            throw new CustomException(e.getMessage(), e);
+            throw new ScalephException(e.getMessage(), e);
         }
     }
 }

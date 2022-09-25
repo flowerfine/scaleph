@@ -18,39 +18,36 @@
 
 package cn.sliew.scaleph.common.exception;
 
-/**
- * @author gleiyu
- */
-public class CustomException extends Exception {
+public class ScalephException extends Exception {
 
     private static final long serialVersionUID = 8895017577371254716L;
 
     private final String exceptionCode;
 
-    public CustomException() {
+    public ScalephException() {
         this("unknown exception");
     }
 
-    public CustomException(String message) {
+    public ScalephException(String message) {
         this(null, message);
     }
 
-    public CustomException(String message, Throwable cause) {
+    public ScalephException(String message, Throwable cause) {
         super(message, cause);
         this.exceptionCode = null;
     }
 
-    public CustomException(Throwable cause) {
+    public ScalephException(Throwable cause) {
         super(cause);
         this.exceptionCode = null;
     }
 
-    protected CustomException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected ScalephException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
         this.exceptionCode = null;
     }
 
-    public CustomException(String code, String message) {
+    public ScalephException(String code, String message) {
         super(message);
         this.exceptionCode = code;
     }
