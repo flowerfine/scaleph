@@ -32,6 +32,7 @@ export default {
   'pages.dev.clusterInstance.status': '状态',
   'pages.dev.clusterInstance.session': 'Session 集群',
 
+  'pages.dev.job.type': '类型',
   'pages.dev.job.name': '任务',
   'pages.dev.job.base': 'Base',
   'pages.dev.job.artifact': 'Artifact',

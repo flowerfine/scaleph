@@ -37,20 +37,24 @@ const FlinkArtifactForm: React.FC<ModalFormProps<FlinkArtifact>> = ({
           const param: FlinkArtifact = {
             id: values.id,
             name: values.name,
-            type: { value: values.type },
+            type: values.type,
             remark: values.remark,
           };
           data.id
             ? FlinkArtifactService.update(param).then((d) => {
                 if (d.success) {
                   message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
-                  onVisibleChange(false);
+                  if (onVisibleChange) {
+                    onVisibleChange(false);
+                  }
                 }
               })
             : FlinkArtifactService.add(param).then((d) => {
                 if (d.success) {
                   message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
-                  onVisibleChange(false);
+                  if (onVisibleChange) {
+                    onVisibleChange(false);
+                  }
                 }
               });
         });
