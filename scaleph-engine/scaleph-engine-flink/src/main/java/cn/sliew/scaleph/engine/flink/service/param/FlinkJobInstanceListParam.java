@@ -35,6 +35,6 @@ public class FlinkJobInstanceListParam extends PaginationParam {
     private FlinkJobType type;
 
     @NotNull
-    @ApiModelProperty("flink 任务配置 ID")
-    private Long flinkJobConfigId;
+    @ApiModelProperty("flink job code")
+    private Long flinkJobCode;
 }

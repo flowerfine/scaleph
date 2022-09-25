@@ -183,7 +183,8 @@ public class FlinkServiceImpl implements FlinkService {
         for (JobStatusMessage job : jobs) {
             FlinkJobInstanceDTO flinkJobInstanceDTO = new FlinkJobInstanceDTO();
             flinkJobInstanceDTO.setType(flinkJobForJarDTO.getType());
-            flinkJobInstanceDTO.setFlinkJobConfigId(flinkJobForJarDTO.getId());
+            flinkJobInstanceDTO.setFlinkJobCode(flinkJobForJarDTO.getCode());
+            flinkJobInstanceDTO.setFlinkJobVersion(flinkJobForJarDTO.getVersion());
             flinkJobInstanceDTO.setJobId(job.getJobId().toHexString());
             flinkJobInstanceDTO.setJobName(job.getJobName());
             flinkJobInstanceDTO.setJobState(FlinkJobState.of(job.getJobState().name()));

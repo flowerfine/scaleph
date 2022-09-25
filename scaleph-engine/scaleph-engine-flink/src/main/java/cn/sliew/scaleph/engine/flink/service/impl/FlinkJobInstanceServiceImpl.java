@@ -50,7 +50,7 @@ public class FlinkJobInstanceServiceImpl
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(FlinkJobInstance.class)
                         .eq(FlinkJobInstance::getType, param.getType())
-                        .eq(FlinkJobInstance::getFlinkJobConfigId, param.getFlinkJobConfigId()));
+                        .eq(FlinkJobInstance::getFlinkJobCode, param.getFlinkJobCode()));
         Page<FlinkJobInstanceDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         List<FlinkJobInstanceDTO> dtoList = FlinkJobInstanceConvert.INSTANCE.toDto(page.getRecords());
@@ -73,7 +73,8 @@ public class FlinkJobInstanceServiceImpl
         LambdaUpdateWrapper<FlinkJobInstance> wrapper = new UpdateWrapper<FlinkJobInstance>()
                 .lambda()
                 .eq(FlinkJobInstance::getType, dto.getType())
-                .eq(FlinkJobInstance::getFlinkJobConfigId, dto.getFlinkJobConfigId())
+                .eq(FlinkJobInstance::getFlinkJobCode, dto.getFlinkJobCode())
+                .eq(FlinkJobInstance::getFlinkJobVersion, dto.getFlinkJobVersion())
                 .eq(FlinkJobInstance::getJobId, dto.getJobId());
         return saveOrUpdate(record, wrapper);
     }

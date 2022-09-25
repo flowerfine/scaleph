@@ -33,6 +33,7 @@
         <result column="flink_cluster_config_id" property="flinkClusterConfigId"/>
         <result column="flink_cluster_instance_id" property="flinkClusterInstanceId"/>
         <result column="flink_config" property="flinkConfig"/>
+        <result column="from_version" property="fromVersion"/>
         <result column="version" property="version"/>
         <result column="remark" property="remark"/>
     </resultMap>
@@ -48,6 +49,7 @@
         <result column="name" property="name"/>
         <result column="job_config" property="jobConfig"/>
         <result column="flink_config" property="flinkConfig"/>
+        <result column="from_version" property="fromVersion"/>
         <result column="version" property="version"/>
         <result column="remark" property="remark"/>
         <association property="flinkArtifactJar"
@@ -95,7 +97,7 @@
         id, creator, create_time, editor, update_time,
         `type`,`code`,`name`,flink_artifact_id,job_config,
         flink_cluster_config_id, flink_cluster_instance_id,
-        flink_config, version, remark
+        flink_config, from_version, version, remark
     </sql>
 
     <select id="list" resultMap="BaseResultMap">
