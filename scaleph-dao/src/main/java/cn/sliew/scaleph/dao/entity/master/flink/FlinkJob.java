@@ -49,6 +49,7 @@ public class FlinkJob extends BaseDO {
     @TableField("`name`")
     private String name;
 
+    @ApiModelProperty("jar: flink_artifact_jar_id")
     @TableField("flink_artifact_id")
     private Long flinkArtifactId;
 

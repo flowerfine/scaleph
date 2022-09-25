@@ -16,25 +16,31 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobConfigJarDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobConfigJarListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
-public interface FlinkJobConfigJarService {
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class FlinkJobListByTypeParam extends PaginationParam {
 
-    Page<FlinkJobConfigJarDTO> list(FlinkJobConfigJarListParam param);
+    @NotNull
+    @ApiModelProperty("job type")
+    private FlinkJobType type;
 
-    FlinkJobConfigJarDTO selectOne(Long id);
+    @ApiModelProperty("name。支持模糊搜索")
+    private String name;
 
-    int insert(FlinkJobConfigJarDTO dto);
+    @ApiModelProperty("flink cluster config ID")
+    private Long flinkClusterConfigId;
 
-    int update(FlinkJobConfigJarDTO dto);
+    @ApiModelProperty("flink cluster instance ID")
+    private Long flinkClusterInstanceId;
 
-    int deleteById(Long id);
-
-    int deleteBatch(List<Long> ids);
 }

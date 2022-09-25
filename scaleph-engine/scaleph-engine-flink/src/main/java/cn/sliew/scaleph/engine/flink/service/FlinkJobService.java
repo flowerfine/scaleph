@@ -19,11 +19,11 @@
 package cn.sliew.scaleph.engine.flink.service;
 
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForJarDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByCodeParam;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByTypeParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
-import java.util.List;
 
 public interface FlinkJobService {
 
@@ -37,7 +37,8 @@ public interface FlinkJobService {
 
     int update(FlinkJobDTO dto);
 
-    int deleteById(Long id);
+    Page<FlinkJobForJarDTO> listJobsForJar(FlinkJobListByTypeParam param);
 
-    int deleteBatch(List<Long> ids);
+    FlinkJobForJarDTO getJobForJarById(Long id);
+
 }
