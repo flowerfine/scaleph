@@ -28,6 +28,8 @@ import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.cache.util.RedisUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.storage.service.FileSystemService;
+import cn.sliew.scaleph.system.snowflake.UidGenerator;
+import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.util.I18nUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -59,11 +61,13 @@ import java.util.UUID;
 @RequestMapping("/api")
 @Api(tags = "公共模块")
 public class CommonController {
-    @Autowired
-    private RedisUtil redisUtil;
 
     @Autowired
+    private RedisUtil redisUtil;
+    @Autowired
     private FileSystemService fileSystemService;
+    @Autowired
+    private UidGenerator defaultUidGenerator;
 
     /**
      * 生成验证码
@@ -138,5 +142,11 @@ public class CommonController {
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
+    @Logging
+    @GetMapping(path = "/uid/snowflake")
+    @ApiOperation(value = "获取 snowflake uid", notes = "获取 snowflake uid")
+    public ResponseEntity<Long> getSnowflakeUid() throws UidGenerateException {
+        return new ResponseEntity<>(defaultUidGenerator.getUID(), HttpStatus.OK);
+    }
 
 }

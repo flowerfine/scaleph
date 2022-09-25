@@ -125,7 +125,7 @@ uid:
   timeBits: 30             # 时间位, 默认:30
   workerBits: 16           # 机器位, 默认:16
   seqBits: 7               # 序列号, 默认:7
-  epochStr: "2019-02-20"   # 初始时间, 默认:"2019-02-20"
+  epochStr: "2022-09-22"   # 初始时间, 默认:"2019-02-20"
   enableBackward: true    # 是否容忍时钟回拨, 默认:true
   maxBackwardSeconds: 1    # 时钟回拨最长容忍时间（秒）, 默认:1
   CachedUidGenerator:     # CachedUidGenerator相关参数
