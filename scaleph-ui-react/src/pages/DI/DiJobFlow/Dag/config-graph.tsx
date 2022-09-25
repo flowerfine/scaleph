@@ -59,7 +59,7 @@ export const useGraphHookConfig = createHookConfig((config, proxy) => {
         handler: async (events) => {
           events.push({
             eventName: 'edge:removed',
-            callback: (e, cmds) => {},
+            callback: (e, cmds) => { },
           });
         },
       }),
