@@ -57,8 +57,7 @@ public class SeaTunnelConnectorManager {
                 .collect(Collectors.toSet());
     }
 
-    public SeaTunnelConnectorPlugin getConnector(String name) {
-        PluginInfo pluginInfo = new PluginInfo(name, null, null);
+    public SeaTunnelConnectorPlugin getConnector(PluginInfo pluginInfo) {
         final Optional<SeaTunnelConnectorPlugin> optional = pluginPluginSPILoader.getPlugin(pluginInfo);
         return optional.orElseThrow(() -> new IllegalStateException("unknown plugin info for " + pluginInfo));
     }

@@ -26,7 +26,7 @@ export const useCmdConfig = createCmdConfig((config) => {
     const list = [
       hooks.graphMeta.registerHook({
         name: 'get graph meta',
-        handler: async (args) => {},
+        handler: async (args) => { },
       }),
       hooks.saveGraphData.registerHook({
         name: 'save graph data',
@@ -55,7 +55,7 @@ export const useCmdConfig = createCmdConfig((config) => {
               width: NODE_WIDTH,
               height: NODE_HEIGHT,
               renderKey: DND_RENDER_ID,
-              ports: createPorts(args.nodeConfig.data.type),
+              ports: DagService.createPorts(args.nodeConfig.data.type),
             };
             return node;
           };
@@ -117,88 +117,9 @@ export const useCmdConfig = createCmdConfig((config) => {
   });
 });
 
-export const createPorts = (type: string) => {
-  const group = {
-    top: {
-      position: 'top',
-      attrs: {
-        circle: {
-          r: 4,
-          magnet: true,
-          stroke: '#31d0c6',
-          strokeWidth: 2,
-          fill: '#fff',
-        },
-      },
-    },
-    bottom: {
-      position: 'bottom',
-      attrs: {
-        circle: {
-          r: 4,
-          magnet: true,
-          stroke: '#31d0c6',
-          strokeWidth: 2,
-          fill: '#fff',
-        },
-      },
-    },
-  };
-  if (type === 'source') {
-    const items: NsGraph.INodeAnchor[] = [
-      {
-        id: CONNECTION_PORT_TYPE.source,
-        group: NsGraph.AnchorGroup.BOTTOM,
-        type: NsGraph.AnchorType.OUTPUT,
-        tooltip: '输出桩',
-      },
-    ];
-    return { groups: group, items: items };
-  } else if (type === 'trans') {
-    const items: NsGraph.INodeAnchor[] = [
-      {
-        id: CONNECTION_PORT_TYPE.source,
-        group: NsGraph.AnchorGroup.BOTTOM,
-        type: NsGraph.AnchorType.OUTPUT,
-        tooltip: '输出桩',
-      },
-      {
-        id: CONNECTION_PORT_TYPE.target,
-        group: NsGraph.AnchorGroup.TOP,
-        type: NsGraph.AnchorType.INPUT,
-        tooltip: '输入桩',
-      },
-    ];
-    return { groups: group, items: items };
-  } else if (type === 'sink') {
-    const items: NsGraph.INodeAnchor[] = [
-      {
-        id: CONNECTION_PORT_TYPE.target,
-        group: NsGraph.AnchorGroup.TOP,
-        type: NsGraph.AnchorType.INPUT,
-        tooltip: '输入桩',
-      },
-    ];
-    return { groups: group, items: items };
-  } else {
-    return { groups: group, items: [] };
-  }
-};
-
 /** 查询图的节点和边的数据 */
 export const initGraphCmds = (app: IApplication, job: DiJob) => {
   app.executeCommandPipeline([
-    // {
-    //   commandId: XFlowGraphCommands.LOAD_DATA.id,
-    //   getCommandOption: async () => {
-    //     return {
-    //       args: {
-    //         loadDataService: DagService.loadJobInfo(job.id as number)
-    //       }
-    //     }
-    //   },
-    // },
-    /** 4. 缩放画布 */
     {
       commandId: XFlowGraphCommands.GRAPH_ZOOM.id,
       getCommandOption: async () => {

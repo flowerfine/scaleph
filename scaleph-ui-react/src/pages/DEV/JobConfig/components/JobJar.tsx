@@ -66,7 +66,6 @@ const JobJar: React.FC<{ data: FlinkJobConfigJar }> = ({ data }) => {
           current: response.current + 1,
           total: response.total,
         });
-        console.log('response', response);
         if (response.data) {
           setFlinkArtifactData([...prevs, ...response.data]);
         }
@@ -139,7 +138,7 @@ const JobJar: React.FC<{ data: FlinkJobConfigJar }> = ({ data }) => {
     if (
       scrollHeight - scrollTop >= clientHeight &&
       (flinkArtifactJarPage.current - 1) * flinkArtifactJarPage.pageSize <
-        flinkArtifactJarPage.total
+      flinkArtifactJarPage.total
     ) {
       loadFlinkArtifactJarData(
         flinkArtifactJarData,
