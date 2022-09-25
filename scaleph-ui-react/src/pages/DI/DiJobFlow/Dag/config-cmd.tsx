@@ -3,19 +3,17 @@ import {
   DisposableCollection,
   IApplication,
   NsEdgeCmd,
-  NsGraph,
   NsNodeCmd,
   uuidv4,
   XFlowEdgeCommands,
   XFlowGraphCommands,
 } from '@antv/xflow';
-// import { MockApi } from './service'
 import { DiJob } from '@/services/project/typings';
 import { XFlowEdge } from '@antv/xflow-extension/es/canvas-dag-extension/x6-extension/edge';
 import { XFlowNode } from '@antv/xflow-extension/es/canvas-dag-extension/x6-extension/node';
 import { commandContributions } from './cmd-extensions';
 import { NsAddEdgeEvent } from './config-graph';
-import { CONNECTION_PORT_TYPE, DND_RENDER_ID, NODE_HEIGHT, NODE_WIDTH } from './constant';
+import { DND_RENDER_ID, NODE_HEIGHT, NODE_WIDTH } from './constant';
 import { DagService } from './service';
 
 export const useCmdConfig = createCmdConfig((config) => {
@@ -26,7 +24,7 @@ export const useCmdConfig = createCmdConfig((config) => {
     const list = [
       hooks.graphMeta.registerHook({
         name: 'get graph meta',
-        handler: async (args) => { },
+        handler: async (args) => {},
       }),
       hooks.saveGraphData.registerHook({
         name: 'save graph data',

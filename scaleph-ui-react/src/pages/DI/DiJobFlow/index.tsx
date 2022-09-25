@@ -46,21 +46,14 @@ import { useIntl } from 'umi';
 /** config graph */
 import { useGraphCOnfig, useGraphHookConfig } from './Dag/config-graph';
 /** config command */
-import { createPorts, initGraphCmds, useCmdConfig } from './Dag/config-cmd';
+import { initGraphCmds, useCmdConfig } from './Dag/config-cmd';
 /** config key bind */
 import { useKeybindingConfig } from './Dag/config-keybinding';
 /** 配置Model */
 /** config dnd panel */
 import '@antv/xflow/dist/index.css';
 import * as dndPanelConfig from './Dag/config-dnd-panel';
-import {
-  CONNECTION_PORT_TYPE,
-  CustomCommands,
-  DND_RENDER_ID,
-  NODE_HEIGHT,
-  NODE_WIDTH,
-  ZOOM_OPTIONS,
-} from './Dag/constant';
+import { CustomCommands, ZOOM_OPTIONS } from './Dag/constant';
 import { DagService } from './Dag/service';
 import './index.less';
 interface DiJobFlowPorps {
@@ -239,7 +232,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             id: 'main04',
             iconName: 'SendOutlined',
             tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.publish' }),
-            onClick: (args) => { },
+            onClick: (args) => {},
           },
         ],
       },
@@ -250,13 +243,13 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             id: 'main01',
             iconName: 'PlaySquareOutlined',
             tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.start' }),
-            onClick: (args) => { },
+            onClick: (args) => {},
           },
           {
             id: 'main02',
             iconName: 'StopOutlined',
             tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.stop' }),
-            onClick: (args) => { },
+            onClick: (args) => {},
           },
         ],
       },
@@ -272,7 +265,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             iconName: 'ProfileOutlined',
             text: intl.formatMessage({ id: 'pages.project.di.flow.dag.prop' }),
             tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.prop' }),
-            onClick: ({ commandService }) => { },
+            onClick: ({ commandService }) => {},
           },
         ],
       },

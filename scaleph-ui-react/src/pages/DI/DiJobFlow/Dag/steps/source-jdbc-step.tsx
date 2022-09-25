@@ -37,9 +37,15 @@ const SourceJdbcStepForm: React.FC<
       });
       refreshDataSource(stepAttrMap.get(STEP_ATTR_TYPE.dataSourceType) as string);
       form.setFieldValue(STEP_ATTR_TYPE.query, stepAttrMap.get(STEP_ATTR_TYPE.query));
-      form.setFieldValue(STEP_ATTR_TYPE.dataSourceType, stepAttrMap.get(STEP_ATTR_TYPE.dataSourceType));
+      form.setFieldValue(
+        STEP_ATTR_TYPE.dataSourceType,
+        stepAttrMap.get(STEP_ATTR_TYPE.dataSourceType),
+      );
       form.setFieldValue(STEP_ATTR_TYPE.dataSource, stepAttrMap.get(STEP_ATTR_TYPE.dataSource));
-      form.setFieldValue(STEP_ATTR_TYPE.partitionColumn, stepAttrMap.get(STEP_ATTR_TYPE.partitionColumn));
+      form.setFieldValue(
+        STEP_ATTR_TYPE.partitionColumn,
+        stepAttrMap.get(STEP_ATTR_TYPE.partitionColumn),
+      );
     });
   }, []);
 
@@ -78,7 +84,7 @@ const SourceJdbcStepForm: React.FC<
         });
       }}
     >
-      <Form form={form} layout="vertical" >
+      <Form form={form} layout="vertical">
         <Form.Item
           name={STEP_ATTR_TYPE.stepTitle}
           label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
@@ -166,7 +172,7 @@ const SourceJdbcStepForm: React.FC<
             </Form.Item>
           </Col>
           <Col span={5}>
-            <Space direction="vertical" style={{ paddingTop: '28px' }}>
+            <Space direction="vertical" style={{ paddingTop: '28px', width: '100%' }}>
               <Button
                 type="default"
                 block

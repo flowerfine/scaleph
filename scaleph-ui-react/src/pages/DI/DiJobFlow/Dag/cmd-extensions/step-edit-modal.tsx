@@ -15,9 +15,9 @@ import { ConfigProvider } from 'antd';
 import { render, unmount } from 'rc-util/lib/React/render';
 import { getLocale } from 'umi';
 import { CustomCommands } from '../constant';
+import { DagService } from '../service';
 import SinkJdbcStepForm from '../steps/sink-jdbc-step';
 import SourceJdbcStepForm from '../steps/source-jdbc-step';
-import { DagService } from '../service';
 const { inject, injectable, postConstruct } = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
 
@@ -46,14 +46,11 @@ export namespace NsEditNode {
 })
 /** 创建节点命令 */
 export class EditNodeCommand implements ICommand {
-
   /** api */
   @inject(ICommandContextProvider) contextProvider: ICommand['contextProvider'];
 
   @postConstruct()
-  init() {
-
-  }
+  init() {}
 
   /** 执行Cmd */
   execute = async () => {
@@ -144,28 +141,36 @@ export class EditNodeCommand implements ICommand {
       </ConfigProvider>,
       container,
     );
-  }
+  };
 
   onCancel = (container: DocumentFragment) => {
     unmount(container);
   };
 
   onOk = (
-    data: { node: NsGraph.INodeConfig; graphData: NsGraph.IGraphData; graphMeta: NsGraph.IGraphMeta },
+    data: {
+      node: NsGraph.INodeConfig;
+      graphData: NsGraph.IGraphData;
+      graphMeta: NsGraph.IGraphMeta;
+    },
     container: DocumentFragment,
   ) => {
     const jobId = data.node.data.data.jobId;
     const ctx = this.contextProvider();
-    DagService.loadJobInfo(jobId).then(d => {
+    DagService.loadJobInfo(jobId).then((d) => {
       ctx.getCommands().executeCommand(XFlowGraphCommands.GRAPH_RENDER.id, {
-        graphData: d
+        graphData: d,
       });
-    })
+    });
     unmount(container);
-  }
+  };
 
   switchStep = (
-    data: { node: NsGraph.INodeConfig; graphData: NsGraph.IGraphData; graphMeta: NsGraph.IGraphMeta },
+    data: {
+      node: NsGraph.INodeConfig;
+      graphData: NsGraph.IGraphData;
+      graphMeta: NsGraph.IGraphMeta;
+    },
     container: DocumentFragment,
   ) => {
     const { name, type } = data.node.data.data;
@@ -175,16 +180,24 @@ export class EditNodeCommand implements ICommand {
           visible
           data={data}
           onCancel={() => this.onCancel(container)}
-          onOK={() => { this.onOk(data, container) }}
+          onOK={() => {
+            this.onOk(data, container);
+          }}
         ></SourceJdbcStepForm>
       );
     } else if (type === 'sink' && name === 'Jdbc') {
       return (
-        <SinkJdbcStepForm visible data={data} onCancel={() => this.onCancel(container)}></SinkJdbcStepForm>
+        <SinkJdbcStepForm
+          visible
+          data={data}
+          onCancel={() => this.onCancel(container)}
+          onOK={() => {
+            this.onOk(data, container);
+          }}
+        ></SinkJdbcStepForm>
       );
     } else {
       return <></>;
     }
   };
-
 }
