@@ -20,6 +20,8 @@ package cn.sliew.scaleph.dao.mapper.master.flink;
 
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkJob;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -29,5 +31,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface FlinkJobMapper extends BaseMapper<FlinkJob> {
+
+    Page<FlinkJob> list(Page<FlinkJob> page, @Param("param") FlinkJob param);
+
+    Page<FlinkJob> listByCode(Page<FlinkJob> page, @Param("code") Long code);
+
+    FlinkJob selectLatestJob(@Param("code") Long code);
 
 }

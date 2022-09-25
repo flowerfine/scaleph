@@ -33,6 +33,7 @@ import cn.sliew.scaleph.common.enums.ErrorShowTypeEnum;
 import cn.sliew.scaleph.common.enums.RegisterChannelEnum;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
 import cn.sliew.scaleph.common.enums.UserStatusEnum;
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.mail.service.EmailService;
 import cn.sliew.scaleph.security.service.SecRoleService;
 import cn.sliew.scaleph.security.service.SecUserActiveService;
@@ -247,7 +248,7 @@ public class SecUserController {
      */
     @Logging
     @GetMapping(path = "/user/email/auth")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public ResponseEntity<ResponseVO> getEmailAuthCode(@NotNull String authCode,
                                                        @Email String email) {
         String userName = SecurityUtil.getCurrentUserName();
@@ -302,7 +303,7 @@ public class SecUserController {
     @AnonymousAccess
     @PostMapping(path = "/user/register")
     @ApiOperation(value = "用户注册", notes = "用户注册接口")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public ResponseEntity<ResponseVO> register(@Validated @RequestBody RegisterInfoVO registerInfo,
                                                HttpServletRequest httpServletRequest) {
         //校验验证码是否一致

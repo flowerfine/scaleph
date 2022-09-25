@@ -33,6 +33,7 @@ import cn.sliew.scaleph.core.di.service.dto.*;
 import cn.sliew.scaleph.core.di.service.param.DiJobParam;
 import cn.sliew.scaleph.core.di.service.vo.*;
 import cn.sliew.scaleph.core.scheduler.service.ScheduleService;
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
@@ -141,7 +142,7 @@ public class JobController {
 
     @Logging
     @DeleteMapping(path = "/{id}")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "删除作业", notes = "删除作业")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_DELETE)")
     public ResponseEntity<ResponseVO> deleteJob(@PathVariable(value = "id") Long id) {
@@ -160,7 +161,7 @@ public class JobController {
 
     @Logging
     @PostMapping(path = "/batch")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "批量删除作业", notes = "批量删除作业")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_DELETE)")
     public ResponseEntity<ResponseVO> deleteJob(@RequestBody Map<Integer, String> map) {
@@ -195,7 +196,7 @@ public class JobController {
 
     @Logging
     @PostMapping(path = "/detail")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "保存作业详情", notes = "保存作业相关流程定义，如果已经有对应版本号的数据，则提醒用户编辑最新版本。")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> saveJobDetail(@Validated @RequestBody DiJobDTO diJobDTO) {
@@ -306,7 +307,7 @@ public class JobController {
 
     @Logging
     @PostMapping(path = "/attr")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "修改作业属性", notes = "修改作业属性信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> saveJobAttr(@RequestBody DiJobAttrVO jobAttrVO) {
@@ -356,7 +357,7 @@ public class JobController {
 
     @Logging
     @GetMapping(path = "/attrType")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "查询步骤属性列表", notes = "查询步骤属性列表")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<List<DiJobStepAttrTypeDTO>> listJobStepAttrType(@NotBlank String stepType,
@@ -379,7 +380,7 @@ public class JobController {
 
     @Logging
     @PostMapping(path = "/step")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "保存步骤属性信息", notes = "保存步骤属性信息，未触发作业版本号变更")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> saveJobStepInfo(
@@ -469,7 +470,7 @@ public class JobController {
 
     @Logging
     @GetMapping(path = "/publish/{jobId}")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "发布任务", notes = "发布任务")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> publishJob(@PathVariable(value = "jobId") Long jobId) {
@@ -500,7 +501,7 @@ public class JobController {
 
     @Logging
     @PostMapping(path = "/run")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "运行任务", notes = "运行任务，提交至集群")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> runJob(@RequestBody DiJobRunVO jobRunParam) throws Exception {
@@ -510,7 +511,7 @@ public class JobController {
 
     @Logging
     @GetMapping(path = "/stop")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "停止任务", notes = "停止任务,自动创建savepoint,作业可能会正常运行完后停止。任务的日志状态通过定时任务同步")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> stopJob(@RequestParam(value = "jobId") Long jobId) throws Exception {

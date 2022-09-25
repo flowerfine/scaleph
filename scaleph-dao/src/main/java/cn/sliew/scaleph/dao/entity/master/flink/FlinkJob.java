@@ -42,6 +42,10 @@ public class FlinkJob extends BaseDO {
     @TableField("`type`")
     private FlinkJobType type;
 
+    @ApiModelProperty("job code")
+    @TableField("`code`")
+    private Long code;
+
     @TableField("`name`")
     private String name;
 

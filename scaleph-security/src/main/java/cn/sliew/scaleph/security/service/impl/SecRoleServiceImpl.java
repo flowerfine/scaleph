@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.security.SecRole;
 import cn.sliew.scaleph.dao.mapper.master.security.SecRoleMapper;
 import cn.sliew.scaleph.security.service.SecDeptRoleService;
@@ -68,7 +69,7 @@ public class SecRoleServiceImpl implements SecRoleService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public int deleteById(Long id) {
         this.secUserRoleService.deleteByRoleId(id);
         this.secRolePrivilegeService.deleteByRoleId(id);
@@ -77,7 +78,7 @@ public class SecRoleServiceImpl implements SecRoleService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public int deleteBatch(Map<Integer, ? extends Serializable> map) {
         if (CollectionUtils.isEmpty(map)) {
             return 0;

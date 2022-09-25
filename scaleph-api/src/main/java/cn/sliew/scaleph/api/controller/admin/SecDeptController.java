@@ -29,6 +29,7 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.security.service.SecDeptService;
 import cn.sliew.scaleph.security.service.SecUserDeptService;
 import cn.sliew.scaleph.security.service.dto.SecDeptDTO;
@@ -135,7 +136,7 @@ public class SecDeptController {
 
     @Logging
     @DeleteMapping(path = "/{id}")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "删除部门", notes = "删除部门")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DEPT_DELETE)")
     public ResponseEntity<ResponseVO> deleteDept(@PathVariable(value = "id") String id) {
@@ -160,7 +161,7 @@ public class SecDeptController {
     @Logging
     @PostMapping(path = "/grant")
     @ApiOperation(value = "部门分配用户", notes = "部门分配用户")
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DEPT_GRANT)")
     public ResponseEntity<ResponseVO> grantDept(@NotNull Long deptId, @NotNull String userIds) {
         List<Long> userList = JSONUtil.toList(userIds, Long.class);

@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.api.config;
 
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
@@ -27,7 +28,6 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.logging.slf4j.Slf4jImpl;
-import org.apache.ibatis.logging.stdout.StdOutImpl;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,23 +41,14 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = MasterDataSourceConfig.MASTER_MAPPER_PACKAGE, sqlSessionFactoryRef = MasterDataSourceConfig.MASTER_SQL_SESSION_FACTORY)
+@MapperScan(basePackages = DataSourceConstants.MASTER_MAPPER_PACKAGE, sqlSessionFactoryRef = DataSourceConstants.MASTER_SQL_SESSION_FACTORY)
 public class MasterDataSourceConfig {
-
-    static final String MASTER_ENTITY_PACKAGE = "cn.sliew.scaleph.dao.entity.master";
-    static final String MASTER_MAPPER_PACKAGE = "cn.sliew.scaleph.dao.mapper.master";
-    static final String MASTER_MAPPER_XML_PATH =
-            "classpath*:cn.sliew.scaleph.dao.mapper/master/**/*.xml";
-
-    static final String MASTER_SQL_SESSION_FACTORY = "masterSqlSessionFactory";
-    static final String MASTER_DATA_SOURCE_FACTORY = "masterDataSource";
-    static final String MASTER_TRANSACTION_MANAGER_FACTORY = "masterTransactionManager";
 
     @Autowired
     private MybatisPlusInterceptor mybatisPlusInterceptor;
 
     @Primary
-    @Bean(MASTER_DATA_SOURCE_FACTORY)
+    @Bean(DataSourceConstants.MASTER_DATA_SOURCE_FACTORY)
     @ConfigurationProperties(prefix = "spring.datasource.master")
     public DataSource masterDataSource() {
         return DataSourceBuilder.create().type(HikariDataSource.class)
@@ -65,20 +56,20 @@ public class MasterDataSourceConfig {
     }
 
     @Primary
-    @Bean(MASTER_TRANSACTION_MANAGER_FACTORY)
+    @Bean(DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public DataSourceTransactionManager masterTransactionManager() {
         return new DataSourceTransactionManager(masterDataSource());
     }
 
     @Primary
-    @Bean(MASTER_SQL_SESSION_FACTORY)
+    @Bean(DataSourceConstants.MASTER_SQL_SESSION_FACTORY)
     public SqlSessionFactory masterSqlSessionFactory() throws Exception {
         MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();
         GlobalConfig globalConfig = GlobalConfigUtils.defaults();
         globalConfig.setMetaObjectHandler(new MybatisConfig.MetaHandler());
 
         MybatisPlusProperties props = new MybatisPlusProperties();
-        props.setMapperLocations(new String[]{MASTER_MAPPER_XML_PATH});
+        props.setMapperLocations(new String[]{DataSourceConstants.MASTER_MAPPER_XML_PATH});
         factoryBean.setMapperLocations(props.resolveMapperLocations());
 
         MybatisConfiguration configuration = new MybatisConfiguration();
@@ -88,7 +79,7 @@ public class MasterDataSourceConfig {
         factoryBean.setConfiguration(configuration);
         factoryBean.setGlobalConfig(globalConfig);
         factoryBean.setDataSource(masterDataSource());
-        factoryBean.setTypeAliasesPackage(MASTER_ENTITY_PACKAGE);
+        factoryBean.setTypeAliasesPackage(DataSourceConstants.MASTER_ENTITY_PACKAGE);
         factoryBean.setPlugins(mybatisPlusInterceptor);
         return factoryBean.getObject();
     }

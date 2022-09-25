@@ -38,6 +38,9 @@ public class FlinkJobDTO extends BaseDTO {
     @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
     private FlinkJobType type;
 
+    @ApiModelProperty("job code")
+    private Long code;
+
     @NotBlank
     @ApiModelProperty("job name")
     private String name;

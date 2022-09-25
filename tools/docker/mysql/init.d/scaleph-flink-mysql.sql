@@ -91,7 +91,8 @@ CREATE TABLE `flink_job`
     `editor`                    VARCHAR(32),
     `update_time`               DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-    KEY `idx_name` (`name`),
+    UNIQUE KEY `idx_code` (`code`, `version`),
+    KEY `idx_name` (`type`, `name`),
     KEY `idx_flink_artifact` (`type`, `flink_artifact_id`),
     KEY `idx_flink_cluster_config` (`flink_cluster_config_id`),
     KEY `idx_flink_cluster_instance` (`flink_cluster_instance_id`)

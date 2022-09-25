@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.system.snowflake.worker;
 
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.snowflake.SnowflakeWorkerNode;
 import cn.sliew.scaleph.dao.mapper.master.snowflake.SnowflakeWorkerNodeMapper;
 import cn.sliew.scaleph.system.snowflake.utils.DockerUtils;
@@ -46,7 +47,7 @@ public class DisposableWorkerIdAssigner implements WorkerIdAssigner {
      *
      * @return assigned worker id
      */
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
     public long assignWorkerId() {
         // build worker node entity
@@ -65,7 +66,7 @@ public class DisposableWorkerIdAssigner implements WorkerIdAssigner {
         return workerNodeEntity.getId();
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
     public long assignFakeWorkerId() {
         return buildFakeWorkerNode().getId();
