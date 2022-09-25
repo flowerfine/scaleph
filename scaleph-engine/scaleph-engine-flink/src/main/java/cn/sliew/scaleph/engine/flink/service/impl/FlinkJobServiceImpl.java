@@ -21,26 +21,25 @@ package cn.sliew.scaleph.engine.flink.service.impl;
 import cn.sliew.scaleph.common.exception.Rethrower;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.DataSourceConstants;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifact;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkJob;
 import cn.sliew.scaleph.dao.mapper.master.flink.FlinkJobMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkJobService;
-import cn.sliew.scaleph.engine.flink.service.convert.FlinkArtifactConvert;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByCodeParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListParam;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
+import static cn.sliew.milky.common.check.Ensures.checkArgument;
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
 @Slf4j
@@ -65,12 +64,24 @@ public class FlinkJobServiceImpl implements FlinkJobService {
     }
 
     @Override
+    public Page<FlinkJobDTO> listByCode(FlinkJobListByCodeParam param) {
+        final Page<FlinkJob> page = new Page<>(param.getCurrent(), param.getPageSize());
+        final Page<FlinkJob> flinkJobPage = flinkJobMapper.listByCode(page, param.getCode());
+        Page<FlinkJobDTO> result =
+                new Page<>(flinkJobPage.getCurrent(), flinkJobPage.getSize(), flinkJobPage.getTotal());
+        List<FlinkJobDTO> dtoList = FlinkJobConvert.INSTANCE.toDto(flinkJobPage.getRecords());
+        result.setRecords(dtoList);
+        return result;
+    }
+
+    @Override
     public FlinkJobDTO selectOne(Long id) {
         final FlinkJob record = flinkJobMapper.selectById(id);
         checkState(record != null, () -> "flink job not exists for id: " + id);
         return FlinkJobConvert.INSTANCE.toDto(record);
     }
 
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
     public int insert(FlinkJobDTO dto) {
         try {
@@ -92,14 +103,16 @@ public class FlinkJobServiceImpl implements FlinkJobService {
         return flinkJobMapper.insert(record);
     }
 
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
     public int deleteById(Long id) {
         return flinkJobMapper.deleteById(id);
     }
 
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
     public int deleteBatch(List<Long> ids) {
-
+        checkArgument(CollectionUtils.isEmpty(ids) == false);
         return flinkJobMapper.deleteBatchIds(ids);
     }
 }

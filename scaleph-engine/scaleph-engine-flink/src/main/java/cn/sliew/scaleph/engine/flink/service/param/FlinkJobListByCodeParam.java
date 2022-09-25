@@ -16,28 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByCodeParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
-public interface FlinkJobService {
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class FlinkJobListByCodeParam extends PaginationParam {
 
-    Page<FlinkJobDTO> list(FlinkJobListParam param);
-
-    Page<FlinkJobDTO> listByCode(FlinkJobListByCodeParam param);
-
-    FlinkJobDTO selectOne(Long id);
-
-    int insert(FlinkJobDTO dto);
-
-    int update(FlinkJobDTO dto);
-
-    int deleteById(Long id);
-
-    int deleteBatch(List<Long> ids);
+    @NotNull
+    @ApiModelProperty("job code")
+    private Long code;
 }

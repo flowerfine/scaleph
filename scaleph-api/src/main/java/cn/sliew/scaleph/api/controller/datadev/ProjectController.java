@@ -105,7 +105,7 @@ public class ProjectController {
 
     @Logging
     @DeleteMapping(path = "/{id}")
-    actional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "删除项目", notes = "删除项目")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_DELETE)")
     public ResponseEntity<ResponseVO> deleteProject(@PathVariable(value = "id") Long projectId) {
