@@ -8,6 +8,7 @@ import {
 } from '@antv/xflow';
 import { message } from 'antd';
 import { getIntl, getLocale } from 'umi';
+import { NsGraphPublish } from './cmd-extensions/graph-publish';
 import { CustomCommands, ZOOM_OPTIONS } from './constant';
 import { DagService } from './service';
 
@@ -92,27 +93,32 @@ const getMainToolbarConfig = () => {
           id: 'main04',
           iconName: 'SendOutlined',
           tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.publish' }),
-          onClick: (args) => {},
+          onClick: async ({ commandService }) => {
+            commandService.executeCommand<NsGraphPublish.IArgs>(
+              CustomCommands.GRAPH_PUBLISH.id,
+              {},
+            );
+          },
         },
       ],
     },
-    {
-      name: 'main',
-      items: [
-        {
-          id: 'main01',
-          iconName: 'PlaySquareOutlined',
-          tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.start' }),
-          onClick: (args) => {},
-        },
-        {
-          id: 'main02',
-          iconName: 'StopOutlined',
-          tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.stop' }),
-          onClick: (args) => {},
-        },
-      ],
-    },
+    // {
+    //   name: 'main',
+    //   items: [
+    //     {
+    //       id: 'main01',
+    //       iconName: 'PlaySquareOutlined',
+    //       tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.start' }),
+    //       onClick: (args) => {},
+    //     },
+    //     {
+    //       id: 'main02',
+    //       iconName: 'StopOutlined',
+    //       tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.stop' }),
+    //       onClick: (args) => {},
+    //     },
+    //   ],
+    // },
   ] as IToolbarGroupOptions[];
 };
 
