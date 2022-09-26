@@ -20,7 +20,6 @@ package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
-import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -32,11 +31,11 @@ import lombok.EqualsAndHashCode;
 @ApiModel(value = "FlinkJobInstance对象", description = "flink job instance")
 public class FlinkJobInstanceDTO extends BaseDTO {
 
-    @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
-    private FlinkJobType type;
+    @ApiModelProperty("flink job code")
+    private Long flinkJobCode;
 
-    @ApiModelProperty("flink job config ID")
-    private Long flinkJobConfigId;
+    @ApiModelProperty("flink job version")
+    private Long flinkJobVersion;
 
     @ApiModelProperty("flink job ID")
     private String jobId;

@@ -25,8 +25,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
@@ -57,6 +55,9 @@ public class FlinkJobForJarDTO extends BaseDTO {
 
     @ApiModelProperty("flink 配置参数")
     private Map<String, String> flinkConfig;
+
+    @ApiModelProperty("job from version")
+    private Long fromVersion;
 
     @ApiModelProperty("job version")
     private Long version;

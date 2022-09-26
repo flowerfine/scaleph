@@ -10,64 +10,51 @@ import {
   DeleteOutlined,
   PauseOutlined, UnorderedListOutlined
 } from "@ant-design/icons";
+import {FlinkJobForJar} from "@/pages/DEV/Job/typings";
 
-const JobInfoForJarWeb: React.FC = () => {
+const JobInfoForJarWeb: React.FC<{data: FlinkJobForJar}> = ({data}) => {
 
   return (
     <ProDescriptions
-      title="任务信息"
-      request={async () => {
-        return Promise.resolve({
-          success: true,
-          data: {
-            id: 1,
-            name: 'TopSpeedWindowing',
-            resourceProvider: 'Native Kubernetes',
-            deployMode: 'Application',
-            date: '2022-09-23 12:01:35',
-          },
-        });
-      }}
+      title={data.name}
+      dataSource={data}
+      column={4}
       columns={[
         {
-          title: '名称',
-          key: 'name',
-          dataIndex: 'name',
+          title: 'File Name',
+          key: 'fileName',
+          render: (dom, entity, index, action, schema) => {
+            return entity.flinkArtifactJar?.fileName
+          }
         },
         {
           title: 'Entry Class',
           key: 'entryClass',
-          dataIndex: 'entryClass',
-        },
-        {
-          title: 'version',
-          key: 'version',
-          dataIndex: 'version',
-        },
-        {
-          title: 'File Name',
-          key: 'fileName',
-          dataIndex: 'fileName',
+          span: 3,
+          render: (dom, entity, index, action, schema) => {
+            return entity.flinkArtifactJar?.entryClass
+          }
         },
         {
           title: 'Flink 版本',
           key: 'flinkVersion',
-          dataIndex: 'flinkVersion',
+          render: (dom, entity, index, action, schema) => {
+            return entity.flinkClusterConfig?.flinkVersion?.label
+          }
         },
         {
           title: 'Flink Resource Provider',
           key: 'resourceProvider',
-          dataIndex: 'resourceProvider',
+          render: (dom, entity, index, action, schema) => {
+            return entity.flinkClusterConfig?.resourceProvider?.label
+          }
         },
         {
           title: 'Flink Deploy Mode',
           key: 'deployMode',
-          dataIndex: 'deployMode',
-        },
-        {
-          title: '时间',
-          key: 'date',
-          dataIndex: 'date'
+          render: (dom, entity, index, action, schema) => {
+            return entity.flinkClusterConfig?.deployMode?.label
+          }
         }
       ]}
       extra={(

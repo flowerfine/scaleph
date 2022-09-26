@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.engine.flink.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -31,10 +30,6 @@ import javax.validation.constraints.NotNull;
 public class FlinkJobInstanceListParam extends PaginationParam {
 
     @NotNull
-    @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
-    private FlinkJobType type;
-
-    @NotNull
-    @ApiModelProperty("flink 任务配置 ID")
-    private Long flinkJobConfigId;
+    @ApiModelProperty("flink job code")
+    private Long flinkJobCode;
 }
