@@ -14,8 +14,13 @@ import JobSavepointsWeb from "@/pages/DEV/Job/Detail/components/JobSavepointsTab
 import JobArtifactForJarWeb from "@/pages/DEV/Job/Detail/components/JobArtifactForJar";
 import JobConfigurationWeb from "@/pages/DEV/Job/Detail/components/JobConfiguration";
 import JobOverviewWeb from "@/pages/DEV/Job/Detail/components/JobOverview";
+import {useIntl, useLocation} from "@@/exports";
+import {FlinkJobForJar} from "@/pages/DEV/Job/typings";
 
 const JobDetailWeb: React.FC = () => {
+  const urlParams = useLocation();
+  const intl = useIntl();
+  const params = urlParams.state as FlinkJobForJar;
 
   return (<div>
     <Row>
@@ -27,7 +32,7 @@ const JobDetailWeb: React.FC = () => {
     </Row>
     <Row>
       <Col span={23}>
-        <JobInfoForJarWeb/>
+        <JobInfoForJarWeb data={params}/>
       </Col>
     </Row>
     <Row>
@@ -36,31 +41,34 @@ const JobDetailWeb: React.FC = () => {
           defaultActiveKey="1"
           items={[
             {
-              label: (<span><ProjectOutlined />Overview</span>),
+              label: (<span><ProjectOutlined/>Overview</span>),
               key: "1",
               disabled: false,
               children: (<JobOverviewWeb/>),
             },
             {
-              label: (<span><ToolOutlined />Configuration</span>),
-              key: "2",
-              disabled: false,
-              children: (<JobConfigurationWeb/>),
-            },
-            {
-              label: (<span><FileZipOutlined />Artifact</span>),
+              label: (<span><FileZipOutlined/>Artifact</span>),
               key: "3",
               disabled: false,
               children: (<JobArtifactForJarWeb/>),
             },
             {
+              label: (<span><ToolOutlined/>Configuration</span>),
+              key: "2",
+              disabled: false,
+              children: (<JobConfigurationWeb
+                clusterConfig={params.flinkClusterConfig ? params.flinkClusterConfig : {}}
+                clusterInstance={params.flinkClusterInstance ? params.flinkClusterInstance: {}}
+                flinkConfig={params.flinkConfig}/>),
+            },
+            {
               label: (<span><ContainerOutlined/>Jobs</span>),
               key: "4",
               disabled: false,
-              children: (<JobInstanceWeb/>),
+              children: (<JobInstanceWeb flinkJobCode={params.code ? params.code : 0}/>),
             },
             {
-              label: (<span><SaveOutlined />Savepoints</span>),
+              label: (<span><SaveOutlined/>Savepoints</span>),
               key: "5",
               disabled: false,
               children: (<JobSavepointsWeb/>),

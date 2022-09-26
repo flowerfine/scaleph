@@ -103,7 +103,6 @@ DROP TABLE IF EXISTS flink_job_instance;
 CREATE TABLE flink_job_instance
 (
     `id`                BIGINT       NOT NULL AUTO_INCREMENT,
-    `type`              VARCHAR(4)   NOT NULL COMMENT 'job type. 0: jar, 1: sql+udf, 2: seatunnel',
     `flink_job_code`    BIGINT       NOT NULL,
     `flink_job_version` BIGINT       NOT NULL,
     `job_id`            VARCHAR(64)  NOT NULL,
@@ -117,5 +116,5 @@ CREATE TABLE flink_job_instance
     `editor`            VARCHAR(32),
     `update_time`       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `uniq_job` (`type`, `flink_job_code`, `flink_job_version`, `job_id`)
+    UNIQUE KEY `uniq_job` (`flink_job_code`, `flink_job_version`, `job_id`)
 ) ENGINE = INNODB COMMENT = 'flink job instance';

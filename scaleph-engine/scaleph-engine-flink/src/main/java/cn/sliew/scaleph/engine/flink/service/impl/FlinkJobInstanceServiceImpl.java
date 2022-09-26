@@ -49,7 +49,6 @@ public class FlinkJobInstanceServiceImpl
         final Page<FlinkJobInstance> page = flinkJobInstanceMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(FlinkJobInstance.class)
-                        .eq(FlinkJobInstance::getType, param.getType())
                         .eq(FlinkJobInstance::getFlinkJobCode, param.getFlinkJobCode()));
         Page<FlinkJobInstanceDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
@@ -72,7 +71,6 @@ public class FlinkJobInstanceServiceImpl
         FlinkJobInstance record = FlinkJobInstanceConvert.INSTANCE.toDo(dto);
         LambdaUpdateWrapper<FlinkJobInstance> wrapper = new UpdateWrapper<FlinkJobInstance>()
                 .lambda()
-                .eq(FlinkJobInstance::getType, dto.getType())
                 .eq(FlinkJobInstance::getFlinkJobCode, dto.getFlinkJobCode())
                 .eq(FlinkJobInstance::getFlinkJobVersion, dto.getFlinkJobVersion())
                 .eq(FlinkJobInstance::getJobId, dto.getJobId());

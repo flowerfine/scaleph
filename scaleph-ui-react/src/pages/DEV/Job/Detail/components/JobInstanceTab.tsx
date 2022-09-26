@@ -8,7 +8,7 @@ import {EditOutlined} from "@ant-design/icons";
 import {history} from "@@/core/history";
 import {FlinkJobInstanceService} from "@/pages/DEV/Job/FlinkJobInstanceService";
 
-const JobInstanceWeb: React.FC = () => {
+const JobInstanceWeb: React.FC<{flinkJobCode: number}> = ({flinkJobCode}) => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
@@ -90,8 +90,7 @@ const JobInstanceWeb: React.FC = () => {
       request={(params, sorter, filter) => {
         const param: FlinkJobInstanceListParam = {
           ...params,
-          type: '0',
-          flinkJobCode: 11
+          flinkJobCode: flinkJobCode
         }
         return FlinkJobInstanceService.list(param);
       }}

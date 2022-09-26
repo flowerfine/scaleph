@@ -58,6 +58,7 @@ export default {
   'app.common.operate.enable.label': '启用',
   'app.common.operate.grant.label': '授权',
   'app.common.operate.grant.title': '{name}授权',
+  'app.common.operate.detail.label': '查看',
   'app.common.error.label': '错误',
   'app.common.message.system': '系统消息',
   'app.common.validate.characterWord': '只能输入字母数字、下划线',

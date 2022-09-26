@@ -65,6 +65,5 @@ export type FlinkJobInstance = {
 }
 
 export type FlinkJobInstanceListParam = QueryParam & {
-  type: string;
   flinkJobCode: number;
 }
