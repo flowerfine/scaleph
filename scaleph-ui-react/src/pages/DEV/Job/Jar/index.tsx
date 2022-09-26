@@ -126,7 +126,6 @@ const JobForJarWeb: React.FC = () => {
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) => {
-        console.log('FlinkJobService.listJobsForJar', params)
         const param: FlinkJobListByTypeParam = {
           ...params,
           type: '0'
