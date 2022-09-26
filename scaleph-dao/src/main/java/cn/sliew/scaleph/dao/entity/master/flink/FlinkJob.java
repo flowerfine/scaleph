@@ -65,6 +65,9 @@ public class FlinkJob extends BaseDO {
     @TableField("flink_config")
     private String flinkConfig;
 
+    @TableField("from_version")
+    private Long fromVersion;
+
     @TableField("version")
     private Long version;
 

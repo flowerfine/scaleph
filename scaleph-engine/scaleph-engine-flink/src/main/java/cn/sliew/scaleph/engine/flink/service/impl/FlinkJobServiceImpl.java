@@ -101,6 +101,7 @@ public class FlinkJobServiceImpl implements FlinkJobService {
     public int update(FlinkJobDTO dto) {
         final FlinkJob record = FlinkJobConvert.INSTANCE.toDo(dto);
         final FlinkJob flinkJob = flinkJobMapper.selectLatestJob(record.getCode());
+        record.setFromVersion(flinkJob.getVersion());
         record.setVersion(flinkJob.getVersion() + 1);
         return flinkJobMapper.insert(record);
     }

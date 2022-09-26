@@ -24,7 +24,10 @@ import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
 import cn.sliew.flinkful.cli.base.util.FlinkUtil;
 import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
-import cn.sliew.scaleph.common.dict.flink.*;
+import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
+import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
+import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
 import cn.sliew.scaleph.common.enums.DeployMode;
 import cn.sliew.scaleph.common.enums.ResourceProvider;
 import cn.sliew.scaleph.common.nio.TarUtil;
@@ -182,8 +185,8 @@ public class FlinkServiceImpl implements FlinkService {
         Collection<JobStatusMessage> jobs = (Collection<JobStatusMessage>) clusterClient.listJobs().get();
         for (JobStatusMessage job : jobs) {
             FlinkJobInstanceDTO flinkJobInstanceDTO = new FlinkJobInstanceDTO();
-            flinkJobInstanceDTO.setType(flinkJobForJarDTO.getType());
-            flinkJobInstanceDTO.setFlinkJobConfigId(flinkJobForJarDTO.getId());
+            flinkJobInstanceDTO.setFlinkJobCode(flinkJobForJarDTO.getCode());
+            flinkJobInstanceDTO.setFlinkJobVersion(flinkJobForJarDTO.getVersion());
             flinkJobInstanceDTO.setJobId(job.getJobId().toHexString());
             flinkJobInstanceDTO.setJobName(job.getJobName());
             flinkJobInstanceDTO.setJobState(FlinkJobState.of(job.getJobState().name()));

@@ -48,3 +48,22 @@ export type FlinkJobForJar = {
   createTime?: Date;
   updateTime?: Date;
 }
+
+export type FlinkJobInstance = {
+  id: number;
+  type: Dict;
+  flinkJobCode: number;
+  flinkJobVersion: number;
+  jobId: string;
+  jobName: string;
+  jobState: Dict;
+  clusterId: string;
+  webInterfaceUrl: string;
+  clusterStatus: Dict;
+  createTime: Date;
+  updateTime: Date;
+}
+
+export type FlinkJobInstanceListParam = QueryParam & {
+  flinkJobCode: number;
+}

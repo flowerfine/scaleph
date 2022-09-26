@@ -1,6 +1,6 @@
 import {PRIVILEGE_CODE} from '@/constant';
 import {FLinkJobInstanceJarService} from '@/services/dev/flinkJobInstanceJar.service';
-import {EditOutlined, PlaySquareOutlined} from '@ant-design/icons';
+import {EditOutlined, PlaySquareOutlined, ProfileOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {Button, message, Modal, Space, Tooltip} from 'antd';
 import {useRef, useState} from 'react';
@@ -109,6 +109,17 @@ const JobForJarWeb: React.FC = () => {
                 ></Button>
               </Tooltip>
             )}
+            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.detail.label'})}>
+                <Button
+                  shape="default"
+                  type="link"
+                  icon={<ProfileOutlined />}
+                  onClick={() => {
+                    history.push("/workspace/dev/job/jar/detail", record)
+                  }}/>
+              </Tooltip>
+            )}
           </Space>
         </>
       ),
@@ -126,7 +137,6 @@ const JobForJarWeb: React.FC = () => {
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) => {
-        console.log('FlinkJobService.listJobsForJar', params)
         const param: FlinkJobListByTypeParam = {
           ...params,
           type: '0'
