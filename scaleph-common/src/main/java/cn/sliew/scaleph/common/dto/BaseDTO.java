@@ -18,14 +18,11 @@
 
 package cn.sliew.scaleph.common.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.Data;
 
 /**
  * @author gleiyu
@@ -35,27 +32,19 @@ public class BaseDTO implements Serializable {
 
     private static final long serialVersionUID = -3170630380110141492L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @ApiModelProperty("ID")
     private Long id;
-    /**
-     * 创建人
-     */
-    @TableField(value = "creator", fill = FieldFill.INSERT)
+
+    @ApiModelProperty("creator")
     private String creator;
-    /**
-     * 创建时间
-     */
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
+
+    @ApiModelProperty("create time")
     private Date createTime;
-    /**
-     * 修改人
-     */
-    @TableField(value = "editor", fill = FieldFill.INSERT_UPDATE)
+
+    @ApiModelProperty("editor")
     private String editor;
-    /**
-     * 修改时间
-     */
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+
+    @ApiModelProperty("update time")
     private Date updateTime;
 
 }

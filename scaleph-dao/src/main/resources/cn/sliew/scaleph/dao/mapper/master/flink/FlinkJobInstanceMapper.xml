@@ -34,13 +34,17 @@
         <result column="cluster_id" property="clusterId" />
         <result column="web_interface_url" property="webInterfaceUrl" />
         <result column="cluster_status" property="clusterStatus" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="duration" property="duration" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
         flink_job_code, flink_job_version, job_id, job_name, job_state,
-        cluster_id, web_interface_url, cluster_status
+        cluster_id, web_interface_url, cluster_status,
+        start_time, end_time, duration
     </sql>
 
 </mapper>
