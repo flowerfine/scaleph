@@ -21,6 +21,7 @@ package cn.sliew.scaleph.engine.flink.service.impl;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobInstance;
 import cn.sliew.scaleph.dao.mapper.master.flink.FlinkJobInstanceMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkJobInstanceService;
+import cn.sliew.scaleph.engine.flink.service.FlinkJobLogService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobInstanceConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobInstanceDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobInstanceListParam;
@@ -43,6 +44,8 @@ public class FlinkJobInstanceServiceImpl
 
     @Autowired
     private FlinkJobInstanceMapper flinkJobInstanceMapper;
+    @Autowired
+    private FlinkJobLogService flinkJobLogService;
 
     @Override
     public Page<FlinkJobInstanceDTO> list(FlinkJobInstanceListParam param) {
@@ -87,5 +90,19 @@ public class FlinkJobInstanceServiceImpl
     public int update(FlinkJobInstanceDTO dto) {
         FlinkJobInstance record = FlinkJobInstanceConvert.INSTANCE.toDo(dto);
         return flinkJobInstanceMapper.updateById(record);
+    }
+
+    @Override
+    public FlinkJobInstanceDTO deleteById(Long id) {
+        final FlinkJobInstanceDTO dto = selectOne(id);
+        flinkJobInstanceMapper.deleteById(id);
+        return dto;
+    }
+
+    @Override
+    public int transferToLog(FlinkJobInstanceDTO dto) {
+        update(dto);
+        FlinkJobInstanceDTO flinkJobInstanceDTO = deleteById(dto.getId());
+        return flinkJobLogService.insert(flinkJobInstanceDTO);
     }
 }

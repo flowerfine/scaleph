@@ -18,27 +18,15 @@
 
 package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobInstance;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobInstanceDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobInstanceListParam;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobLogDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkJobLogListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 
-public interface FlinkJobInstanceService extends IService<FlinkJobInstance> {
+public interface FlinkJobLogService {
 
-    @Deprecated
-    Page<FlinkJobInstanceDTO> list(FlinkJobInstanceListParam param);
-
-    FlinkJobInstanceDTO selectOne(Long id);
-
-    boolean upsert(FlinkJobInstanceDTO dto);
+    Page<FlinkJobLogDTO> list(FlinkJobLogListParam param);
 
     int insert(FlinkJobInstanceDTO dto);
-
-    int update(FlinkJobInstanceDTO dto);
-
-    FlinkJobInstanceDTO deleteById(Long id);
-
-    int transferToLog(FlinkJobInstanceDTO dto);
 
 }
