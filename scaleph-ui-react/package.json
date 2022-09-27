@@ -51,7 +51,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.1.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@umijs/route-utils": "^2.0.0",
-    "antd": "^4.22.4",
+    "antd": "^4.23.2",
     "classnames": "^2.3.0",
     "lodash": "^4.17.0",
     "moment": "^2.29.0",
