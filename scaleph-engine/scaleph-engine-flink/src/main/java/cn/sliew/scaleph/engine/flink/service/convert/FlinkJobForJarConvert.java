@@ -20,11 +20,8 @@ package cn.sliew.scaleph.engine.flink.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJar;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfig;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterInstance;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobConfigJar;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobConfigJarDTO;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobForJar;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForJarDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -35,16 +32,16 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FlinkJobConfigJarConvert extends BaseConvert<FlinkJobConfigJar, FlinkJobConfigJarDTO> {
-    FlinkJobConfigJarConvert INSTANCE = Mappers.getMapper(FlinkJobConfigJarConvert.class);
+public interface FlinkJobForJarConvert extends BaseConvert<FlinkJobForJar, FlinkJobForJarDTO> {
+    FlinkJobForJarConvert INSTANCE = Mappers.getMapper(FlinkJobForJarConvert.class);
 
     @Override
-    default FlinkJobConfigJar toDo(FlinkJobConfigJarDTO dto) {
-        FlinkJobConfigJar entity = new FlinkJobConfigJar();
+    default FlinkJobForJar toDo(FlinkJobForJarDTO dto) {
+        FlinkJobForJar entity = new FlinkJobForJar();
         BeanUtils.copyProperties(dto, entity);
-        entity.setFlinkArtifactJarId(dto.getFlinkArtifactJar().getId());
-        entity.setFlinkClusterConfigId(dto.getFlinkClusterConfig().getId());
-        entity.setFlinkClusterInstanceId(dto.getFlinkClusterInstance().getId());
+        entity.setFlinkArtifactJar(FlinkArtifactJarVOConvert.INSTANCE.toDo(dto.getFlinkArtifactJar()));
+        entity.setFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDo(dto.getFlinkClusterConfig()));
+        entity.setFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDo(dto.getFlinkClusterInstance()));
         if (CollectionUtils.isEmpty(dto.getJobConfig()) == false) {
             entity.setJobConfig(JacksonUtil.toJsonString(dto.getJobConfig()));
         }
@@ -55,21 +52,12 @@ public interface FlinkJobConfigJarConvert extends BaseConvert<FlinkJobConfigJar,
     }
 
     @Override
-    default FlinkJobConfigJarDTO toDto(FlinkJobConfigJar entity) {
-        FlinkJobConfigJarDTO dto = new FlinkJobConfigJarDTO();
+    default FlinkJobForJarDTO toDto(FlinkJobForJar entity) {
+        FlinkJobForJarDTO dto = new FlinkJobForJarDTO();
         BeanUtils.copyProperties(entity, dto);
-        FlinkArtifactJar flinkArtifactJar = new FlinkArtifactJar();
-        flinkArtifactJar.setId(entity.getFlinkArtifactJarId());
-        dto.setFlinkArtifactJar(FlinkArtifactJarConvert.INSTANCE.toDto(flinkArtifactJar));
-        FlinkClusterConfig flinkClusterConfig = new FlinkClusterConfig();
-        flinkClusterConfig.setId(entity.getFlinkClusterConfigId());
-        dto.setFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDto(flinkClusterConfig));
-        if (entity.getFlinkClusterInstanceId() != null) {
-            FlinkClusterInstance flinkClusterInstance = new FlinkClusterInstance();
-            flinkClusterInstance.setId(entity.getFlinkClusterInstanceId());
-            flinkClusterInstance.setFlinkClusterConfigId(entity.getFlinkClusterConfigId());
-            dto.setFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDto(flinkClusterInstance));
-        }
+        dto.setFlinkArtifactJar(FlinkArtifactJarVOConvert.INSTANCE.toDto(entity.getFlinkArtifactJar()));
+        dto.setFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDto(entity.getFlinkClusterConfig()));
+        dto.setFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDto(entity.getFlinkClusterInstance()));
         if (StringUtils.hasText(entity.getJobConfig())) {
             dto.setJobConfig(JacksonUtil.parseJsonString(entity.getJobConfig(), Map.class));
         }

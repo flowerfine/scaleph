@@ -62,6 +62,9 @@ public class FlinkJobDTO extends BaseDTO {
     @ApiModelProperty("flink config")
     private Map<String, String> flinkConfig;
 
+    @ApiModelProperty("job from version")
+    private Long fromVersion;
+
     @ApiModelProperty("job version")
     private Long version;
 

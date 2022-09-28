@@ -18,9 +18,8 @@
 
 package cn.sliew.scaleph.dao.entity.master.flink;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -33,37 +32,41 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("flink_job_config_jar")
-@ApiModel(value = "FlinkJobConfigJar对象", description = "flink job config for jar")
-public class FlinkJobConfigJar extends BaseDO {
+@ApiModel(value = "FlinkJobForJar对象", description = "flink job for jar")
+public class FlinkJobForJar extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("名称")
-    @TableField("`name`")
+    @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
+    private FlinkJobType type;
+
+    @ApiModelProperty("job code")
+    private Long code;
+
+    @ApiModelProperty("job name")
     private String name;
 
-    @ApiModelProperty("flink artifact jar ID")
-    @TableField("flink_artifact_jar_id")
-    private Long flinkArtifactJarId;
+    @ApiModelProperty("flink artifact ID")
+    private FlinkArtifactJarVO flinkArtifactJar;
 
-    @ApiModelProperty("flink cluster config ID")
-    @TableField("flink_cluster_config_id")
-    private Long flinkClusterConfigId;
-
-    @ApiModelProperty("flink cluster config ID")
-    @TableField("flink_cluster_instance_id")
-    private Long flinkClusterInstanceId;
-
-    @ApiModelProperty("任务自身 配置参数")
-    @TableField("job_config")
+    @ApiModelProperty("job artifact config")
     private String jobConfig;
 
-    @ApiModelProperty("flink 配置参数")
-    @TableField("flink_config")
+    @ApiModelProperty("flink cluster config ID")
+    private FlinkClusterConfig flinkClusterConfig;
+
+    @ApiModelProperty("flink cluster config ID")
+    private FlinkClusterInstance flinkClusterInstance;
+
+    @ApiModelProperty("flink config")
     private String flinkConfig;
 
-    @ApiModelProperty("备注")
-    @TableField("remark")
+    @ApiModelProperty("from version")
+    private Long fromVersion;
+
+    @ApiModelProperty("version")
+    private Long version;
+
+    @ApiModelProperty("remark")
     private String remark;
 }

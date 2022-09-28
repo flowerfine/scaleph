@@ -26,22 +26,21 @@
         <result column="create_time" property="createTime" />
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
-        <result column="type" property="type" />
-        <result column="flink_job_config_id" property="flinkJobConfigId" />
+        <result column="flink_job_code" property="flinkJobCode" />
+        <result column="flink_job_version" property="flinkJobVersion" />
         <result column="job_id" property="jobId" />
         <result column="job_name" property="jobName" />
         <result column="job_state" property="jobState" />
         <result column="cluster_id" property="clusterId" />
         <result column="web_interface_url" property="webInterfaceUrl" />
         <result column="cluster_status" property="clusterStatus" />
-
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        `type`, flink_job_config_id, job_id, job_name, job_state,
-        cluster_id, web_interface_url, cluster_status,
+        flink_job_code, flink_job_version, job_id, job_name, job_state,
+        cluster_id, web_interface_url, cluster_status
     </sql>
 
 </mapper>

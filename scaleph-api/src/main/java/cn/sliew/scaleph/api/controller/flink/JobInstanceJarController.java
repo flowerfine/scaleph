@@ -21,7 +21,7 @@ package cn.sliew.scaleph.api.controller.flink;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.engine.flink.service.FlinkService;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobJarSubmitParam;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkJobForJarSubmitParam;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +45,8 @@ public class JobInstanceJarController {
     @Logging
     @PutMapping
     @ApiOperation(value = "提交 jar 任务", notes = "提交 jar 任务")
-    public ResponseEntity<ResponseVO> submit(@Valid @RequestBody FlinkJobJarSubmitParam param) throws Exception {
-        flinkService.submitJar(param.getFlinkJobConfigJarId());
+    public ResponseEntity<ResponseVO> submit(@Valid @RequestBody FlinkJobForJarSubmitParam param) throws Exception {
+        flinkService.submitJar(param.getFlinkJobId());
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 }

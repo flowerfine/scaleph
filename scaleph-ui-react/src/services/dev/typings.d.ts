@@ -83,22 +83,3 @@ export type FlinkSessionClusterNewParam = QueryParam & {
   flinkClusterConfigId?: number;
   remark?: string;
 }
-
-export type FlinkJobConfigJar = {
-  id?: number;
-  name?: string;
-  flinkArtifactJar?: FlinkArtifactJar;
-  flinkClusterConfig?: FlinkClusterConfig;
-  flinkClusterInstance?: FlinkClusterInstance;
-  jobConfig?: { [key: string]: any };
-  flinkConfig?: { [key: string]: any };
-  remark?: string;
-  createTime?: Date;
-  updateTime?: Date;
-}
-
-export type FlinkJobConfigJarParam = QueryParam & {
-  name?: string;
-  flinkClusterConfigId?: number;
-  flinkClusterInstanceId?: number;
-}
