@@ -1,6 +1,6 @@
 import { Dict, PageResponse, ResponseBody } from '@/app.d';
 import { request } from 'umi';
-import { DiJob, DiJobParam, DiJobStepAttr, DiJobStepAttrType } from './typings';
+import { DiJob, DiJobParam, DiJobStepAttr } from './typings';
 
 export const JobService = {
   url: '/api/di/job',
@@ -95,12 +95,6 @@ export const JobService = {
     });
   },
 
-  listJobAttrType: async (stepType: string, stepName: string) => {
-    return request<DiJobStepAttrType[]>(`${JobService.url}/attrType`, {
-      method: 'GET',
-      params: { stepType: stepType, stepName: stepName },
-    });
-  },
   publishJob: async (jobId: number) => {
     return request<ResponseBody<any>>(`${JobService.url}/publish/` + jobId, {
       method: 'GET',

@@ -1,7 +1,7 @@
 import { JobService } from '@/services/project/job.service';
 import { NsGraph } from '@antv/xflow';
 import { NsNodeCollapsePanel } from '@antv/xflow-extension/es';
-import { request } from 'umi';
+import { getIntl, getLocale, request } from 'umi';
 import { CONNECTION_PORT_TYPE, DND_RENDER_ID, NODE_HEIGHT, NODE_WIDTH } from './constant';
 
 export const DagService = {
@@ -57,6 +57,7 @@ export const DagService = {
   },
 
   createPorts: (type: string) => {
+    const intl = getIntl(getLocale(), true);
     const group = {
       top: {
         position: 'top',
@@ -89,7 +90,7 @@ export const DagService = {
           id: CONNECTION_PORT_TYPE.source,
           group: NsGraph.AnchorGroup.BOTTOM,
           type: NsGraph.AnchorType.OUTPUT,
-          tooltip: '输出桩',
+          tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.port.out' }),
         },
       ];
       return { groups: group, items: items };
@@ -99,13 +100,13 @@ export const DagService = {
           id: CONNECTION_PORT_TYPE.source,
           group: NsGraph.AnchorGroup.BOTTOM,
           type: NsGraph.AnchorType.OUTPUT,
-          tooltip: '输出桩',
+          tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.port.out' }),
         },
         {
           id: CONNECTION_PORT_TYPE.target,
           group: NsGraph.AnchorGroup.TOP,
           type: NsGraph.AnchorType.INPUT,
-          tooltip: '输入桩',
+          tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.port.in' }),
         },
       ];
       return { groups: group, items: items };
@@ -115,7 +116,7 @@ export const DagService = {
           id: CONNECTION_PORT_TYPE.target,
           group: NsGraph.AnchorGroup.TOP,
           type: NsGraph.AnchorType.INPUT,
-          tooltip: '输入桩',
+          tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.port.in' }),
         },
       ];
       return { groups: group, items: items };
