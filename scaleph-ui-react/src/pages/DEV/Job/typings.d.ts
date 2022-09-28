@@ -43,6 +43,7 @@ export type FlinkJobForJar = {
   flinkClusterConfig?: FlinkClusterConfig;
   flinkClusterInstance?: FlinkClusterInstance;
   flinkConfig?: { [key: string]: any };
+  flinkJobInstance?: FlinkJobInstance;
   version?: number;
   remark?: string;
   createTime?: Date;
