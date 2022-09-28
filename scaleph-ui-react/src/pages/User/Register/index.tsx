@@ -13,23 +13,6 @@ const Register: React.FC = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [authCode, setAuthCode] = useState<AuthCode>();
-  const handleSubmit = () => {
-    form.validateFields().then((values: any) => {
-      console.log('info', values);
-      const params: RegisterInfo = { ...values, uuid: authCode?.uuid };
-      AuthService.register(params).then((d) => {
-        if (d.success) {
-          const msg = intl.formatMessage({ id: 'pages.user.register.success' });
-          message.success(msg);
-          setTimeout(() => {
-            navigate('/login');
-          }, 500);
-        } else {
-          refreshAuthCode();
-        }
-      });
-    });
-  };
 
   useEffect(() => {
     refreshAuthCode();

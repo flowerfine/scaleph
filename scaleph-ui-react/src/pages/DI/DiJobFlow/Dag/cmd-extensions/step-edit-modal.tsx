@@ -155,7 +155,7 @@ export class EditNodeCommand implements ICommand {
     },
     container: DocumentFragment,
   ) => {
-    const jobId = data.node.data.data.jobId;
+    const jobId = data.graphMeta.origin.id;
     const ctx = this.contextProvider();
     DagService.loadJobInfo(jobId).then((d) => {
       ctx.getCommands().executeCommand(XFlowGraphCommands.GRAPH_RENDER.id, {
