@@ -37,7 +37,7 @@ import javax.validation.Valid;
 @Api(tags = "Flink管理-任务实例管理")
 @RestController
 @RequestMapping(path = "/api/flink/job-log")
-public class JobLogController {
+public class FlinkJobLogController {
 
     @Autowired
     private FlinkJobLogService flinkJobLogService;
