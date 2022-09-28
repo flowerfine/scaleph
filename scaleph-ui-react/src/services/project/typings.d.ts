@@ -114,13 +114,3 @@ export type DiJobStepAttr = {
   stepAttrKey: string;
   stepAttrValue: string;
 };
-
-export type DiJobStepAttrType = {
-  id?: number;
-  stepType: string;
-  stepName: string;
-  stepAttrKey: string;
-  stepAttrDefaultValue: string;
-  isRequired: string;
-  stepAttrDescribe: string;
-};

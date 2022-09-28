@@ -21,6 +21,30 @@ export namespace CustomCommands {
     label: 'edit',
     category: XFlowNodeCommands.UPDATE_NODE.category,
   };
+
+  export const GRAPH_PARAMS_SETTING: IGraphCommand = {
+    id: 'xflow:graph-params-setting',
+    label: 'graph-params',
+    category: XFlowGraphCommands.GRAPH_COPY.category,
+  };
+
+  export const GRAPH_PUBLISH: IGraphCommand = {
+    id: 'xflow:graph-publish',
+    label: 'publish',
+    category: XFlowGraphCommands.GRAPH_COPY.category,
+  };
+
+  // export const GRAPH_START: IGraphCommand = {
+  //   id: 'xflow:graph-start',
+  //   label: 'start',
+  //   category: XFlowGraphCommands.GRAPH_COPY.category,
+  // };
+
+  // export const GRAPH_STOP: IGraphCommand = {
+  //   id: 'xflow:graph-stop',
+  //   label: 'stop',
+  //   category: XFlowGraphCommands.GRAPH_COPY.category,
+  // };
 }
 
 export const STEP_ATTR_TYPE = {
