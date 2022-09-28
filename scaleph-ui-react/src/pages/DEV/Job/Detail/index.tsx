@@ -9,13 +9,13 @@ import {
 } from "@ant-design/icons";
 import {history} from "umi";
 import JobInfoForJarWeb from "@/pages/DEV/Job/Detail/components/JobInfo";
-import JobInstanceWeb from "@/pages/DEV/Job/Detail/components/JobInstanceTab";
 import JobSavepointsWeb from "@/pages/DEV/Job/Detail/components/JobSavepointsTab";
 import JobArtifactForJarWeb from "@/pages/DEV/Job/Detail/components/JobArtifactForJar";
 import JobConfigurationWeb from "@/pages/DEV/Job/Detail/components/JobConfiguration";
 import JobOverviewWeb from "@/pages/DEV/Job/Detail/components/JobOverview";
 import {useIntl, useLocation} from "@@/exports";
 import {FlinkJobForJar} from "@/pages/DEV/Job/typings";
+import JobHistoryWeb from "@/pages/DEV/Job/Detail/components/JobHistoryTab";
 
 const JobDetailWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -58,14 +58,14 @@ const JobDetailWeb: React.FC = () => {
               disabled: false,
               children: (<JobConfigurationWeb
                 clusterConfig={params.flinkClusterConfig ? params.flinkClusterConfig : {}}
-                clusterInstance={params.flinkClusterInstance ? params.flinkClusterInstance: {}}
+                clusterInstance={params.flinkClusterInstance ? params.flinkClusterInstance : {}}
                 flinkConfig={params.flinkConfig}/>),
             },
             {
               label: (<span><ContainerOutlined/>Jobs</span>),
               key: "4",
               disabled: false,
-              children: (<JobInstanceWeb flinkJobCode={params.code ? params.code : 0}/>),
+              children: (<JobHistoryWeb flinkJobCode={params.code ? params.code : 0}/>),
             },
             {
               label: (<span><SaveOutlined/>Savepoints</span>),

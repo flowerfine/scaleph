@@ -25,6 +25,7 @@ import cn.sliew.scaleph.engine.flink.service.FlinkJobLogService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobInstanceConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobInstanceDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobInstanceListParam;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -35,6 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -58,6 +60,16 @@ public class FlinkJobInstanceServiceImpl
         List<FlinkJobInstanceDTO> dtoList = FlinkJobInstanceConvert.INSTANCE.toDto(page.getRecords());
         result.setRecords(dtoList);
         return result;
+    }
+
+    @Override
+    public FlinkJobInstanceDTO selectByCode(Long flinkJobCode) {
+        final LambdaQueryWrapper<FlinkJobInstance> wrapper = Wrappers.lambdaQuery(FlinkJobInstance.class)
+                .eq(FlinkJobInstance::getFlinkJobCode, flinkJobCode);
+        final FlinkJobInstance flinkJobInstance = flinkJobInstanceMapper.selectOne(wrapper);
+        return Optional.ofNullable(flinkJobInstance)
+                .map(record -> FlinkJobInstanceConvert.INSTANCE.toDto(record))
+                .orElse(null);
     }
 
     @Override

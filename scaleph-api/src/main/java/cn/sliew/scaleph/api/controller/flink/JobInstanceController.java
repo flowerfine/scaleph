@@ -31,6 +31,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -50,5 +51,13 @@ public class JobInstanceController {
     public ResponseEntity<Page<FlinkJobInstanceDTO>> list(@Valid FlinkJobInstanceListParam param) {
         Page<FlinkJobInstanceDTO> page = flinkJobInstanceService.list(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("getByCode")
+    @ApiOperation(value = "查询任务实例", notes = "查询任务实例")
+    public ResponseEntity<FlinkJobInstanceDTO> getByCode(@RequestParam("flinkJobCode") Long flinkJobCode) {
+        FlinkJobInstanceDTO dto = flinkJobInstanceService.selectByCode(flinkJobCode);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }

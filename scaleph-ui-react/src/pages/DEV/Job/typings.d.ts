@@ -60,10 +60,21 @@ export type FlinkJobInstance = {
   clusterId: string;
   webInterfaceUrl: string;
   clusterStatus: Dict;
+  startTime?: Date;
+  endTime?: Date;
+  duration?: number;
   createTime: Date;
   updateTime: Date;
 }
 
 export type FlinkJobInstanceListParam = QueryParam & {
+  flinkJobCode: number;
+}
+
+export type FlinkJobLog = FlinkJobInstance & {
+
+}
+
+export type FlinkJobLogListParam = QueryParam & {
   flinkJobCode: number;
 }

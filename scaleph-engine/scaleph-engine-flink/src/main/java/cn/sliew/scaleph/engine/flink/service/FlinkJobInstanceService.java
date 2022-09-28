@@ -29,6 +29,8 @@ public interface FlinkJobInstanceService extends IService<FlinkJobInstance> {
     @Deprecated
     Page<FlinkJobInstanceDTO> list(FlinkJobInstanceListParam param);
 
+    FlinkJobInstanceDTO selectByCode(Long flinkJobCode);
+
     FlinkJobInstanceDTO selectOne(Long id);
 
     boolean upsert(FlinkJobInstanceDTO dto);
