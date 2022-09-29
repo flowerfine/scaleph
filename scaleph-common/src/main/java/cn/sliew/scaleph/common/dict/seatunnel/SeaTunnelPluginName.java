@@ -56,6 +56,7 @@ public enum SeaTunnelPluginName implements DictInstance {
     CLICKHOUSE("Clickhouse", "Clickhouse"),
     CLICKHOUSE_FILE("ClickhouseFile", "ClickhouseFile"),
     HUDI("Hudi", "Hudi"),
+    ICEBERG("Iceberg", "Iceberg"),
     KUDU("Kudu", "Kudu"),
     IOTDB("IoTDB", "IoTDB"),
     NEO4J("Neo4j", "Neo4j"),

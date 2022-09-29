@@ -13,6 +13,7 @@ import {
   ProFormSwitch,
   ProFormText
 } from "@ant-design/pro-components";
+import {useEffect} from "react";
 
 const SourceHudiStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -24,6 +25,15 @@ const SourceHudiStepForm: React.FC<ModalFormProps<{
   const jobGraph = data.graphData;
   const intl = getIntl(getLocale(), true);
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
+    JobService.listStepAttr(jobInfo.id + '', nodeInfo.id).then((resp) => {
+      resp.map((step) => {
+        form.setFieldValue(step.stepAttrKey, step.stepAttrValue);
+      });
+    });
+  }, []);
 
   return (<Modal
     open={visible}
@@ -56,6 +66,11 @@ const SourceHudiStepForm: React.FC<ModalFormProps<{
     }}
   >
     <ProForm form={form} grid={true} submitter={false}>
+      <ProFormText
+        name={STEP_ATTR_TYPE.stepTitle}
+        label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
+        rules={[{required: true}, {max: 120}]}
+      />
       <ProFormText
         name={HudiParams.tablePath}
         label={intl.formatMessage({id: 'pages.project.di.step.hudi.tablePath'})}

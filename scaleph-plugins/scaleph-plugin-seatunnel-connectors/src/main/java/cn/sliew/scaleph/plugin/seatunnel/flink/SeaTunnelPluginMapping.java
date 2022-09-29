@@ -71,6 +71,7 @@ public enum SeaTunnelPluginMapping {
     SINK_CLICKHOUSE(SEATUNNEL, SINK, CLICKHOUSE, "connector-clickhouse"),
     SINK_CLICKHOUSE_FILE(SEATUNNEL, SINK, CLICKHOUSE_FILE, "connector-clickhouse"),
     SOURCE_HUDI(SEATUNNEL, SOURCE, HUDI, "connector-hudi"),
+    SOURCE_ICEBERG(SEATUNNEL, SOURCE, ICEBERG, "connector-iceberg"),
     SOURCE_KUDU(SEATUNNEL, SOURCE, KUDU, "connector-kudu"),
     SINK_KUDU(SEATUNNEL, SINK, KUDU, "connector-kudu"),
     SOURCE_IOTDB(SEATUNNEL, SOURCE, IOTDB, "connector-iotdb"),
