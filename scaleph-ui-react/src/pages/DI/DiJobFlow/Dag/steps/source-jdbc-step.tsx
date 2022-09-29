@@ -37,15 +37,9 @@ const SourceJdbcStepForm: React.FC<
       });
       refreshDataSource(stepAttrMap.get(STEP_ATTR_TYPE.dataSourceType) as string);
       form.setFieldValue(STEP_ATTR_TYPE.query, stepAttrMap.get(STEP_ATTR_TYPE.query));
-      form.setFieldValue(
-        STEP_ATTR_TYPE.dataSourceType,
-        stepAttrMap.get(STEP_ATTR_TYPE.dataSourceType),
-      );
+      form.setFieldValue(STEP_ATTR_TYPE.dataSourceType, stepAttrMap.get(STEP_ATTR_TYPE.dataSourceType));
       form.setFieldValue(STEP_ATTR_TYPE.dataSource, stepAttrMap.get(STEP_ATTR_TYPE.dataSource));
-      form.setFieldValue(
-        STEP_ATTR_TYPE.partitionColumn,
-        stepAttrMap.get(STEP_ATTR_TYPE.partitionColumn),
-      );
+      form.setFieldValue(STEP_ATTR_TYPE.partitionColumn, stepAttrMap.get(STEP_ATTR_TYPE.partitionColumn));
     });
   }, []);
 
