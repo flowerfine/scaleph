@@ -36,7 +36,9 @@ public class HudiSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public HudiSourcePlugin() {
         this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
-                "Hudi Source Plugin , input records from jdbc connection.",
+                "Currently, only supports hudi cow table and Snapshot Query with Batch Mode.\n" +
+                        "\n" +
+                        "In order to use this connector, You must ensure your spark/flink cluster already integrated hive. The tested hive version is 2.3.9.",
                 HudiSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();

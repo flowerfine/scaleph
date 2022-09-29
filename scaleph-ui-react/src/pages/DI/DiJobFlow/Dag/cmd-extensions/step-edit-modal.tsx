@@ -10,15 +10,17 @@ import {
   NsGraph,
   XFlowGraphCommands,
 } from '@antv/xflow';
-import type { HookHub } from '@antv/xflow-hook';
-import { ConfigProvider } from 'antd';
-import { render, unmount } from 'rc-util/lib/React/render';
-import { getLocale } from 'umi';
-import { CustomCommands } from '../constant';
-import { DagService } from '../service';
+import type {HookHub} from '@antv/xflow-hook';
+import {ConfigProvider} from 'antd';
+import {render, unmount} from 'rc-util/lib/React/render';
+import {getLocale} from 'umi';
+import {CustomCommands} from '../constant';
+import {DagService} from '../service';
 import SinkJdbcStepForm from '../steps/sink-jdbc-step';
 import SourceJdbcStepForm from '../steps/source-jdbc-step';
-const { inject, injectable, postConstruct } = ManaSyringe;
+import SourceHudiStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-hudi-step";
+
+const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
 
 export namespace NsEditNode {
@@ -26,6 +28,7 @@ export namespace NsEditNode {
   export const command = CustomCommands.NODE_EDIT;
   /** hook name */
   export const hookKey = 'editNode';
+
   /** hook 参数类型 */
   export interface IArgs extends IArgsBase {
     nodeConfig: NsGraph.INodeConfig;
@@ -35,6 +38,7 @@ export namespace NsEditNode {
   export interface IResult {
     err: any;
   }
+
   /** hooks 类型 */
   export interface ICmdHooks extends IHooks {
     editNode: HookHub<IArgs, IResult>;
@@ -42,7 +46,7 @@ export namespace NsEditNode {
 }
 
 @injectable({
-  token: { token: ICommandHandler, named: NsEditNode.command.id },
+  token: {token: ICommandHandler, named: NsEditNode.command.id},
 })
 /** 创建节点命令 */
 export class EditNodeCommand implements ICommand {
@@ -50,14 +54,15 @@ export class EditNodeCommand implements ICommand {
   @inject(ICommandContextProvider) contextProvider: ICommand['contextProvider'];
 
   @postConstruct()
-  init() {}
+  init() {
+  }
 
   /** 执行Cmd */
   execute = async () => {
     const ctx = this.contextProvider();
     const hooks = ctx.getHooks();
-    const { args, hooks: runtimeHook } = ctx.getArgs();
-    const { nodeConfig } = args;
+    const {args, hooks: runtimeHook} = ctx.getArgs();
+    const {nodeConfig} = args;
     const result = await hooks.editNode.call(
       args,
       async () => {
@@ -85,13 +90,13 @@ export class EditNodeCommand implements ICommand {
           };
           return model;
         });
-        const graphData = { nodes, edges };
+        const graphData = {nodes, edges};
         this.showModal(nodeConfig, graphData, graphMeta);
-        return { err: null };
+        return {err: null};
       },
       runtimeHook,
     );
-    ctx.setResult(result || { err: null });
+    ctx.setResult(result || {err: null});
     return this;
   };
 
@@ -137,7 +142,7 @@ export class EditNodeCommand implements ICommand {
     const container = document.createDocumentFragment();
     return render(
       <ConfigProvider locale={this.getCurrentLocale()}>
-        {this.switchStep({ node, graphData, graphMeta }, container)}
+        {this.switchStep({node, graphData, graphMeta}, container)}
       </ConfigProvider>,
       container,
     );
@@ -173,29 +178,13 @@ export class EditNodeCommand implements ICommand {
     },
     container: DocumentFragment,
   ) => {
-    const { name, type } = data.node.data.data;
+    const {name, type} = data.node.data.data;
     if (type === 'source' && name === 'Jdbc') {
-      return (
-        <SourceJdbcStepForm
-          visible
-          data={data}
-          onCancel={() => this.onCancel(container)}
-          onOK={() => {
-            this.onOk(data, container);
-          }}
-        ></SourceJdbcStepForm>
-      );
+      return (<SourceJdbcStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if (type === 'source' && name === 'Hudi') {
+      return (<SourceHudiStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'sink' && name === 'Jdbc') {
-      return (
-        <SinkJdbcStepForm
-          visible
-          data={data}
-          onCancel={() => this.onCancel(container)}
-          onOK={() => {
-            this.onOk(data, container);
-          }}
-        ></SinkJdbcStepForm>
-      );
+      return (<SinkJdbcStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
       return <></>;
     }

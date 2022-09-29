@@ -80,4 +80,12 @@ export default {
   'pages.project.di.step.getsql': '获取SQL',
   'pages.project.di.step.preview': '预览结果',
   'pages.project.di.step.batchSize': '提交记录数量',
+
+  // hudi
+  'pages.project.di.step.hudi.tablePath': 'Table Path',
+  'pages.project.di.step.hudi.tableType': 'Table Type',
+  'pages.project.di.step.hudi.confFiles': 'Hadoop Conf Path',
+  'pages.project.di.step.hudi.useKerberos': '启用 Kerberos',
+  'pages.project.di.step.hudi.kerberosPrincipal': 'Kerberos Principal',
+  'pages.project.di.step.hudi.kerberosPrincipalFile': 'Kerberos Principal File',
 };
