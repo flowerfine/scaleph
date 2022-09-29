@@ -80,6 +80,10 @@ export default {
   'pages.project.di.step.getsql': '获取SQL',
   'pages.project.di.step.preview': '预览结果',
   'pages.project.di.step.batchSize': '提交记录数量',
+  'pages.project.di.step.schema': 'schema信息',
+
+  //fake
+  'pages.project.di.step.fake.schema.tooltip': 'json数组形式: 如 [{"field":"name","type":"string"},{"field":"age","type":"int"}]',
 
   // hudi
   'pages.project.di.step.hudi.tablePath': 'Table Path',

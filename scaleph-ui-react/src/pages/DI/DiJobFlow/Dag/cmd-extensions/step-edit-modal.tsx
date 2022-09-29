@@ -19,6 +19,8 @@ import {DagService} from '../service';
 import SinkJdbcStepForm from '../steps/sink-jdbc-step';
 import SourceJdbcStepForm from '../steps/source-jdbc-step';
 import SourceHudiStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-hudi-step";
+import SourceFakeStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-fake-step";
+
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -183,6 +185,8 @@ export class EditNodeCommand implements ICommand {
       return (<SourceJdbcStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'source' && name === 'Hudi') {
       return (<SourceHudiStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    }else if  (type === 'source' && name === 'Fake') {
+      return (<SourceFakeStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'sink' && name === 'Jdbc') {
       return (<SinkJdbcStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
