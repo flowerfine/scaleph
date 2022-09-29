@@ -81,6 +81,11 @@ export default {
   'pages.project.di.step.preview': '预览结果',
   'pages.project.di.step.batchSize': '提交记录数量',
 
+  // local file
+  'pages.project.di.step.localFile.path': 'Source Path',
+  'pages.project.di.step.localFile.type': 'File Type',
+  'pages.project.di.step.localFile.schema': 'Schema',
+
   // hudi
   'pages.project.di.step.hudi.tablePath': 'Table Path',
   'pages.project.di.step.hudi.tableType': 'Table Type',

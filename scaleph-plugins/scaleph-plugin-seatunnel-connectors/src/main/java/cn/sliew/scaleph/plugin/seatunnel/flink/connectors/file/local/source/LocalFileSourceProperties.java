@@ -37,6 +37,7 @@ public enum LocalFileSourceProperties {
             .description("We supported as the following file types:text, csv, parquet, orc, json")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .allowableValues("text", "csv", "parquet", "orc", "json")
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();

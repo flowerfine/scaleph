@@ -51,7 +51,7 @@ const SourceJdbcStepForm: React.FC<
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={nodeInfo.data.displayName}
       width={780}
       bodyStyle={{ overflowY: 'scroll', maxHeight: '640px' }}

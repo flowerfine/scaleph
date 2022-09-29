@@ -20,6 +20,7 @@ import SinkJdbcStepForm from '../steps/sink-jdbc-step';
 import SourceJdbcStepForm from '../steps/source-jdbc-step';
 import SourceHudiStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-hudi-step";
 import SourceIcebergStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-iceberg-step";
+import SourceLocalFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-local-file-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -180,11 +181,13 @@ export class EditNodeCommand implements ICommand {
     container: DocumentFragment,
   ) => {
     const {name, type} = data.node.data.data;
-    if (type === 'source' && name === 'Jdbc') {
+    if (type === 'source' && name === 'LocalFile') {
+      return (<SourceLocalFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if (type === 'source' && name === 'Jdbc') {
       return (<SourceJdbcStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'source' && name === 'Hudi') {
       return (<SourceHudiStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
-    }else if (type === 'source' && name === 'Iceberg') {
+    } else if (type === 'source' && name === 'Iceberg') {
       return (<SourceIcebergStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'sink' && name === 'Jdbc') {
       return (<SinkJdbcStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);

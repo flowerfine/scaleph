@@ -48,6 +48,7 @@ public enum LocalFileSinkProperties {
             .description("We supported as the following file types:text, csv, parquet, orc, json")
             .type(PropertyType.STRING)
             .defaultValue("text")
+            .allowableValues("text", "csv", "parquet", "orc", "json")
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
@@ -85,13 +86,20 @@ public enum LocalFileSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-
     public static final PropertyDescriptor<String> PARTITION_DIR_EXPRESSION = new PropertyDescriptor.Builder<String>()
             .name("partition_dir_expression")
             .description("If the partition_by is specified, we will generate the corresponding partition directory based on the partition information, and the final file will be placed in the partition directory.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Boolean> IS_PARTITION_FIELD_WRITE_IN_FILE = new PropertyDescriptor.Builder<Boolean>()
+            .name("is_partition_field_write_in_file")
+            .description("the partition field and the value of it will be write into data file")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> SINK_COLUMNS = new PropertyDescriptor.Builder<String>()
@@ -107,19 +115,18 @@ public enum LocalFileSinkProperties {
             .description("If is_enable_transaction is true, we will ensure that data will not be lost or duplicated when it is written to the target directory")
             .type(PropertyType.BOOLEAN)
             .allowableValues("true")
-            .defaultValue("true")
             .parser(Parsers.BOOLEAN_PARSER)
             .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Boolean> SAVE_MODE = new PropertyDescriptor.Builder<Boolean>()
+    public static final PropertyDescriptor<String> SAVE_MODE = new PropertyDescriptor.Builder<String>()
             .name("save_mode")
             .description("Storage mode, currently supports overwrite")
-            .type(PropertyType.BOOLEAN)
-            .allowableValues("true")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .allowableValues("overwrite")
             .defaultValue("overwrite")
-            .parser(Parsers.BOOLEAN_PARSER)
-            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
 }
