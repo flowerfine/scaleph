@@ -40,6 +40,7 @@ import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.primitives.Primitives;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -420,10 +421,20 @@ public class JobController {
         if (obj == null) {
             return null;
         }
-        if (obj instanceof Number) {
-            return String.valueOf(obj);
+        if (Primitives.isWrapperType(obj.getClass())) {
+            return obj.toString();
+        }
+        if (obj.getClass().isPrimitive()) {
+            return obj.toString();
         }
         return JSONUtil.toJsonStr(obj);
+    }
+
+    private boolean isPrimitive(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        return Primitives.isWrapperType(obj.getClass()) || obj.getClass().isPrimitive();
     }
 
     /**
