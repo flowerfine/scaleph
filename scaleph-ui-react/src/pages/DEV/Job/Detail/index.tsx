@@ -8,7 +8,7 @@ import {
   ToolOutlined
 } from "@ant-design/icons";
 import {history} from "umi";
-import JobInfoForJarWeb from "@/pages/DEV/Job/Detail/components/JobInfo";
+import JobInfoForJarWeb from "@/pages/DEV/Job/Detail/components/JobInfoForJar";
 import JobSavepointsWeb from "@/pages/DEV/Job/Detail/components/JobSavepointsTab";
 import JobArtifactForJarWeb from "@/pages/DEV/Job/Detail/components/JobArtifactForJar";
 import JobConfigurationWeb from "@/pages/DEV/Job/Detail/components/JobConfiguration";
@@ -44,13 +44,13 @@ const JobDetailWeb: React.FC = () => {
               label: (<span><ProjectOutlined/>Overview</span>),
               key: "1",
               disabled: false,
-              children: (<JobOverviewWeb/>),
+              children: (<JobOverviewWeb data={params.flinkJobInstance ? params.flinkJobInstance : {}}/>),
             },
             {
               label: (<span><FileZipOutlined/>Artifact</span>),
               key: "3",
               disabled: false,
-              children: (<JobArtifactForJarWeb/>),
+              children: (<JobArtifactForJarWeb data={params.flinkArtifactJar ? params.flinkArtifactJar : {}}/>),
             },
             {
               label: (<span><ToolOutlined/>Configuration</span>),
