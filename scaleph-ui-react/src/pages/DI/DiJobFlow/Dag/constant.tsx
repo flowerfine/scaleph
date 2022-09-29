@@ -96,3 +96,14 @@ export const STEP_ATTR_TYPE = {
   timestampFormat: 'timestamp_format',
   timestampMissingValue: 'timestamp_missing_value',
 };
+
+export const HudiParams = {
+  tablePath: 'table.path',
+  tableType: 'table.type',
+  confFiles: 'conf.files',
+  useKerberos: 'use.kerberos',
+  kerberosPrincipal: 'kerberos.principal',
+  kerberosPrincipalFile: 'kerberos.principal.file',
+}
+
+
