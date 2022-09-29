@@ -80,4 +80,28 @@ export default {
   'pages.project.di.step.getsql': '获取SQL',
   'pages.project.di.step.preview': '预览结果',
   'pages.project.di.step.batchSize': '提交记录数量',
+
+  // hudi
+  'pages.project.di.step.hudi.tablePath': 'Table Path',
+  'pages.project.di.step.hudi.tableType': 'Table Type',
+  'pages.project.di.step.hudi.confFiles': 'Hadoop Conf Path',
+  'pages.project.di.step.hudi.useKerberos': '启用 Kerberos',
+  'pages.project.di.step.hudi.kerberosPrincipal': 'Kerberos Principal',
+  'pages.project.di.step.hudi.kerberosPrincipalFile': 'Kerberos Principal File',
+
+  //iceberg
+  'pages.project.di.step.iceberg.catalogType': 'Catalog Type',
+  'pages.project.di.step.iceberg.catalogName': 'Catalog',
+  'pages.project.di.step.iceberg.namespace': 'Namespace',
+  'pages.project.di.step.iceberg.table': 'Table',
+  'pages.project.di.step.iceberg.uri': 'Hive Metadata thrift URI',
+  'pages.project.di.step.iceberg.warehouse': 'Warehouse',
+  'pages.project.di.step.iceberg.caseSensitive': 'Case Sensitive',
+  'pages.project.di.step.iceberg.fields': 'Fields',
+  'pages.project.di.step.iceberg.useSnapshotId': 'Use SnapshotId',
+  'pages.project.di.step.iceberg.startSnapshotId': 'Start SnapshotId',
+  'pages.project.di.step.iceberg.endSnapshotId': 'End SnapshotId',
+  'pages.project.di.step.iceberg.startSnapshotTimestamp': 'Start Snapshot Timestamp',
+  'pages.project.di.step.iceberg.useSnapshotTimestamp': 'Use Snapshot Timestamp',
+  'pages.project.di.step.iceberg.streamScanStrategy': 'Stream Scan Strategy',
 };

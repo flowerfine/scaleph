@@ -96,3 +96,31 @@ export const STEP_ATTR_TYPE = {
   timestampFormat: 'timestamp_format',
   timestampMissingValue: 'timestamp_missing_value',
 };
+
+export const HudiParams = {
+  tablePath: 'table.path',
+  tableType: 'table.type',
+  confFiles: 'conf.files',
+  useKerberos: 'use.kerberos',
+  kerberosPrincipal: 'kerberos.principal',
+  kerberosPrincipalFile: 'kerberos.principal.file',
+}
+
+export const IcebergParams = {
+  catalogType: 'catalog_type',
+  catalogName: 'catalog_name',
+  namespace: 'namespace',
+  table: 'table',
+  uri: 'uri',
+  warehouse: 'warehouse',
+  caseSensitive: 'case_sensitive',
+  fields: 'fields',
+  useSnapshotId: 'use_snapshot_id',
+  startSnapshotId: 'start_snapshot_id',
+  endSnapshotId: 'end_snapshot_id',
+  startSnapshotTimestamp: 'start_snapshot_timestamp',
+  useSnapshotTimestamp: 'use_snapshot_timestamp',
+  streamScanStrategy: 'stream_scan_strategy',
+}
+
+
