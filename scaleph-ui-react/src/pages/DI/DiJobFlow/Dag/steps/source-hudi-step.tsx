@@ -86,12 +86,12 @@ const SourceHudiStepForm: React.FC<ModalFormProps<{
               <ProFormGroup>
                 <ProFormText
                   name={HudiParams.kerberosPrincipal}
-                  label={intl.formatMessage({id: 'pages.project.di.step.hudi.confFiles'})}
+                  label={intl.formatMessage({id: 'pages.project.di.step.hudi.kerberosPrincipal'})}
                   rules={[{required: true}]}
                 />
                 <ProFormText
                   name={HudiParams.kerberosPrincipalFile}
-                  label={intl.formatMessage({id: 'pages.project.di.step.hudi.confFiles'})}
+                  label={intl.formatMessage({id: 'pages.project.di.step.hudi.kerberosPrincipalFile'})}
                   rules={[{required: true}]}
                 />
               </ProFormGroup>
