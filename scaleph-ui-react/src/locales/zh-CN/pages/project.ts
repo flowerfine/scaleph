@@ -81,6 +81,22 @@ export default {
   'pages.project.di.step.preview': '预览结果',
   'pages.project.di.step.batchSize': '提交记录数量',
 
+  // local file
+  'pages.project.di.step.localFile.path': 'Source Path',
+  'pages.project.di.step.localFile.type': 'File Type',
+  'pages.project.di.step.localFile.schema': 'Schema',
+  'pages.project.di.step.localFile.fileNameExpression': 'FileName Expression',
+  'pages.project.di.step.localFile.fileFormat': 'File Format',
+  'pages.project.di.step.localFile.filenameTimeFormat': 'FileName Time Format',
+  'pages.project.di.step.localFile.fieldDelimiter': 'Field Delimiter',
+  'pages.project.di.step.localFile.rowDelimiter': 'Row Delimiter',
+  'pages.project.di.step.localFile.partitionBy': 'Partition',
+  'pages.project.di.step.localFile.partitionDirExpression': 'Partition Dir Expression',
+  'pages.project.di.step.localFile.isPartitionFieldWriteInFile': 'Write Partition Field to File',
+  'pages.project.di.step.localFile.sinkColumns': 'Sink Columns',
+  'pages.project.di.step.localFile.isEnableTransaction': 'Enable Transaction',
+  'pages.project.di.step.localFile.saveMode': 'Save Mode',
+
   // hudi
   'pages.project.di.step.hudi.tablePath': 'Table Path',
   'pages.project.di.step.hudi.tableType': 'Table Type',

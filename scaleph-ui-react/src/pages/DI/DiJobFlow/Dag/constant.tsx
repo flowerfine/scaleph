@@ -33,18 +33,6 @@ export namespace CustomCommands {
     label: 'publish',
     category: XFlowGraphCommands.GRAPH_COPY.category,
   };
-
-  // export const GRAPH_START: IGraphCommand = {
-  //   id: 'xflow:graph-start',
-  //   label: 'start',
-  //   category: XFlowGraphCommands.GRAPH_COPY.category,
-  // };
-
-  // export const GRAPH_STOP: IGraphCommand = {
-  //   id: 'xflow:graph-stop',
-  //   label: 'stop',
-  //   category: XFlowGraphCommands.GRAPH_COPY.category,
-  // };
 }
 
 export const STEP_ATTR_TYPE = {
@@ -96,6 +84,23 @@ export const STEP_ATTR_TYPE = {
   timestampFormat: 'timestamp_format',
   timestampMissingValue: 'timestamp_missing_value',
 };
+
+export const LocalFileParams = {
+  path: 'path',
+  type: 'type',
+  schema: 'schema',
+  fileNameExpression: 'file_name_expression',
+  fileFormat: 'file_format',
+  filenameTimeFormat: 'filename_time_format',
+  fieldDelimiter: 'field_delimiter',
+  rowDelimiter: 'row_delimiter',
+  partitionBy: 'partition_by',
+  partitionDirExpression: 'partition_dir_expression',
+  isPartitionFieldWriteInFile: 'is_partition_field_write_in_file',
+  sinkColumns: 'sink_columns',
+  isEnableTransaction: 'is_enable_transaction',
+  saveMode: 'save_mode',
+}
 
 export const HudiParams = {
   tablePath: 'table.path',
