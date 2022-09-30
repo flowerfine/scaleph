@@ -84,7 +84,10 @@ export default {
 
   //fake
   'pages.project.di.step.rowNum': '生成数据行数',
-  'pages.project.di.step.fake.schema.tooltip': 'json数组形式: 如 [{"field":"name","type":"string"},{"field":"age","type":"int"}]',
+  'pages.project.di.step.fake.schema.tooltip': 'schema格式: {\n' +
+    '          name = "string"\n' +
+    '          age = "int"\n' +
+    '        }',
 
   // hudi
   'pages.project.di.step.hudi.tablePath': 'Table Path',

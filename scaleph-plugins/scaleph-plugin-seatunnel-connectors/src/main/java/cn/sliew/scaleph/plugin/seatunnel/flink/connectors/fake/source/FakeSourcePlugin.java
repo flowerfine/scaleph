@@ -26,10 +26,14 @@ import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+import com.typesafe.config.ConfigRenderOptions;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -48,6 +52,8 @@ public class FakeSourcePlugin extends SeaTunnelConnectorPlugin {
 
         props.add(SCHEMA);
         props.add(ROW_NUM);
+        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
@@ -57,19 +63,15 @@ public class FakeSourcePlugin extends SeaTunnelConnectorPlugin {
         for (PropertyDescriptor descriptor : getSupportedProperties()) {
             if (properties.contains(descriptor)) {
                 if (SCHEMA.getName().equals(descriptor.getName())) {
-                    ObjectNode fieldsNode = JacksonUtil.createObjectNode();
-                    ObjectNode node = JacksonUtil.createObjectNode();
-                    ArrayNode jsonNode = (ArrayNode) JacksonUtil
-                        .toJsonNode(properties.getValue(descriptor));
-                    Iterator<JsonNode> schemas = jsonNode.elements();
-                    while (schemas.hasNext()) {
-                        JsonNode filedSchema = schemas.next();
-                        String field = filedSchema.get("field").textValue();
-                        String type = filedSchema.get("type").textValue().toUpperCase();
-                        node.put(field, type);
-                    }
-                    fieldsNode.set("fields", node);
-                    objectNode.set(descriptor.getName(), fieldsNode);
+                    Config config = ConfigFactory.parseString(properties.getValue(descriptor));
+                    ConfigRenderOptions options = ConfigRenderOptions.concise();
+                    String schema = config.root().render(options);
+                    ObjectNode jsonNodes = (ObjectNode) JacksonUtil.toJsonNode(schema);
+                    ObjectNode filedNode = JacksonUtil.createObjectNode();
+                    JsonNode filed = filedNode.set("filed", jsonNodes);
+                    ObjectNode schemaNode = JacksonUtil.createObjectNode();
+                    schemaNode.set("schema", filed);
+                    objectNode.set(descriptor.getName(), schemaNode);
                 } else if (descriptor.getName().contains("_")) {
                     objectNode.put(descriptor.getName().replace("_", "."),
                         properties.getValue(descriptor));
