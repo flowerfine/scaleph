@@ -21,7 +21,10 @@ import SourceJdbcStepForm from '../steps/source-jdbc-step';
 import SourceHudiStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-hudi-step";
 import SourceIcebergStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-iceberg-step";
 import SourceLocalFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-local-file-step";
+import SourceHdfsFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-hdfs-file-step";
 import SinkLocalFileStepForm from '../steps/sink-local-file-step';
+import SourceFakeStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-fake-step";
+
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -184,6 +187,8 @@ export class EditNodeCommand implements ICommand {
     const {name, type} = data.node.data.data;
     if (type === 'source' && name === 'LocalFile') {
       return (<SourceLocalFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if (type === 'source' && name === 'HdfsFile') {
+      return (<SourceHdfsFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'source' && name === 'Jdbc') {
       return (<SourceJdbcStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'source' && name === 'Hudi') {
@@ -192,6 +197,8 @@ export class EditNodeCommand implements ICommand {
       return (<SourceIcebergStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'sink' && name === 'LocalFile') {
       return (<SinkLocalFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    }else if  (type === 'source' && name === 'Fake') {
+      return (<SourceFakeStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'sink' && name === 'Jdbc') {
       return (<SinkJdbcStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {

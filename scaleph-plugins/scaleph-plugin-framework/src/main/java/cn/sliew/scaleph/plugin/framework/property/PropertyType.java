@@ -20,5 +20,5 @@ package cn.sliew.scaleph.plugin.framework.property;
 
 public enum PropertyType {
 
-    INT, DOUBLE, BOOLEAN, STRING, ARRAY, OBJECT
+    INT, LONG, DOUBLE, BOOLEAN, STRING, ARRAY, OBJECT
 }

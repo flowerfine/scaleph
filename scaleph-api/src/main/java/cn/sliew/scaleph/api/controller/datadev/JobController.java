@@ -525,8 +525,13 @@ public class JobController {
     @GetMapping(path = "/cron/next")
     @ApiOperation(value = "查询最近5次运行时间", notes = "查询最近5次运行时间")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<List<Date>> listNext5FireTime(@RequestParam("crontabStr") String crontabStr) throws ParseException {
-        List<Date> dates = scheduleService.listNext5FireTime(crontabStr);
+    public ResponseEntity<List<Date>> listNext5FireTime(@RequestParam("crontabStr") String crontabStr) {
+        List<Date> dates;
+        try {
+            dates = scheduleService.listNext5FireTime(crontabStr);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
+        }
         return new ResponseEntity<>(dates, HttpStatus.OK);
     }
 
