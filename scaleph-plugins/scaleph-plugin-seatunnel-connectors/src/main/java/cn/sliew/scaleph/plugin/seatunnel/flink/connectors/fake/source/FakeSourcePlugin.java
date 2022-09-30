@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.fake.source;
 
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.fake.source.FakeProperties.ROW_NUM;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.fake.source.FakeProperties.SCHEMA;
 
 import cn.sliew.milky.common.util.JacksonUtil;
@@ -46,6 +47,7 @@ public class FakeSourcePlugin extends SeaTunnelConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
 
         props.add(SCHEMA);
+        props.add(ROW_NUM);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
@@ -68,6 +70,9 @@ public class FakeSourcePlugin extends SeaTunnelConnectorPlugin {
                     }
                     fieldsNode.set("fields", node);
                     objectNode.set(descriptor.getName(), fieldsNode);
+                } else if (descriptor.getName().contains("_")) {
+                    objectNode.put(descriptor.getName().replace("_", "."),
+                        properties.getValue(descriptor));
                 } else {
                     objectNode.put(descriptor.getName(), properties.getValue(descriptor));
                 }

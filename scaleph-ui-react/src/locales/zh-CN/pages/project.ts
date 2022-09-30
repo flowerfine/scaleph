@@ -83,6 +83,7 @@ export default {
   'pages.project.di.step.schema': 'schema信息',
 
   //fake
+  'pages.project.di.step.rowNum': '生成数据行数',
   'pages.project.di.step.fake.schema.tooltip': 'json数组形式: 如 [{"field":"name","type":"string"},{"field":"age","type":"int"}]',
 
   // hudi

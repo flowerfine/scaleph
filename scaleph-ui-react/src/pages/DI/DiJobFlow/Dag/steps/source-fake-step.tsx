@@ -2,7 +2,7 @@ import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
 import {STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
-import {Col, Form, Input, message, Modal, Row} from "antd";
+import {Col, Form, Input, InputNumber, message, Modal, Row} from "antd";
 import {DiJob} from "@/services/project/typings";
 import {getIntl, getLocale} from "umi";
 import {InfoCircleOutlined} from "@ant-design/icons";
@@ -29,6 +29,7 @@ const SourceFakeStepForm: React.FC<ModalFormProps<{
         stepAttrMap.set(step.stepAttrKey, step.stepAttrValue);
       });
       form.setFieldValue(STEP_ATTR_TYPE.schema, stepAttrMap.get(STEP_ATTR_TYPE.schema));
+      form.setFieldValue(STEP_ATTR_TYPE.rowNum, stepAttrMap.get(STEP_ATTR_TYPE.rowNum));
     });
   }, []);
 
@@ -47,6 +48,7 @@ const SourceFakeStepForm: React.FC<ModalFormProps<{
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
         map.set(STEP_ATTR_TYPE.stepTitle, values[STEP_ATTR_TYPE.stepTitle]);
         map.set(STEP_ATTR_TYPE.schema, values[STEP_ATTR_TYPE.schema]);
+        map.set(STEP_ATTR_TYPE.rowNum, values[STEP_ATTR_TYPE.rowNum]);
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -74,6 +76,15 @@ const SourceFakeStepForm: React.FC<ModalFormProps<{
         </Col>
 
     </Row>
+    </Form>
+
+    <Form form={form} layout="vertical">
+    <Form.Item
+      name={STEP_ATTR_TYPE.rowNum}
+      label={intl.formatMessage({ id: 'pages.project.di.step.rowNum' })}
+    >
+      <InputNumber defaultValue={10} step={100} style={{ width: '100%' }} />
+    </Form.Item>
     </Form>
 
   </Modal>);
