@@ -21,6 +21,7 @@ import SourceJdbcStepForm from '../steps/source-jdbc-step';
 import SourceHudiStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-hudi-step";
 import SourceIcebergStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-iceberg-step";
 import SourceLocalFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-local-file-step";
+import SourceHdfsFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-hdfs-file-step";
 import SinkLocalFileStepForm from '../steps/sink-local-file-step';
 import SourceFakeStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-fake-step";
 
@@ -186,6 +187,8 @@ export class EditNodeCommand implements ICommand {
     const {name, type} = data.node.data.data;
     if (type === 'source' && name === 'LocalFile') {
       return (<SourceLocalFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if (type === 'source' && name === 'HdfsFile') {
+      return (<SourceHdfsFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'source' && name === 'Jdbc') {
       return (<SourceJdbcStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'source' && name === 'Hudi') {

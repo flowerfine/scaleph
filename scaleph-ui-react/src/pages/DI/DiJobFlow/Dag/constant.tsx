@@ -86,6 +86,16 @@ export const STEP_ATTR_TYPE = {
   rowNum: 'row_num'
 };
 
+export const BaseFileParams = {
+  path: 'path',
+  type: 'type',
+  schema: 'schema'
+}
+
+export const HdfsFileParams = {
+  defaultFS: 'fs.defaultFS'
+}
+
 export const LocalFileParams = {
   path: 'path',
   type: 'type',
