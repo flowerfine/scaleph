@@ -59,6 +59,17 @@ const SourceFakeStepForm: React.FC<ModalFormProps<{
       });
     }}
   >
+
+    <Form form={form} layout="vertical">
+      <Form.Item
+        name={STEP_ATTR_TYPE.stepTitle}
+        label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
+        rules={[{ required: true }, { max: 120 }]}
+      >
+        <Input />
+      </Form.Item>
+    </Form>
+
     <Form form={form} layout="vertical">
     <Row gutter={[12, 12]}>
         <Col span={19}>
