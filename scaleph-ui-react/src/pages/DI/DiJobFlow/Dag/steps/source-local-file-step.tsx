@@ -1,6 +1,6 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {HudiParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {LocalFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
@@ -10,12 +10,12 @@ import {
   ProFormDependency,
   ProFormGroup,
   ProFormSelect,
-  ProFormSwitch,
-  ProFormText
+  ProFormText,
+  ProFormTextArea
 } from "@ant-design/pro-components";
 import {useEffect} from "react";
 
-const SourceHudiStepForm: React.FC<ModalFormProps<{
+const SourceLocalFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -49,12 +49,9 @@ const SourceHudiStepForm: React.FC<ModalFormProps<{
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
         map.set(STEP_ATTR_TYPE.stepTitle, values[STEP_ATTR_TYPE.stepTitle]);
-        map.set(HudiParams.tablePath, values[HudiParams.tablePath]);
-        map.set(HudiParams.tableType, values[HudiParams.tableType]);
-        map.set(HudiParams.confFiles, values[HudiParams.confFiles]);
-        map.set(HudiParams.useKerberos, values[HudiParams.useKerberos]);
-        map.set(HudiParams.kerberosPrincipal, values[HudiParams.kerberosPrincipal]);
-        map.set(HudiParams.kerberosPrincipalFile, values[HudiParams.kerberosPrincipalFile]);
+        map.set(LocalFileParams.path, values[LocalFileParams.path]);
+        map.set(LocalFileParams.type, values[LocalFileParams.type]);
+        map.set(LocalFileParams.schema, values[LocalFileParams.schema]);
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -72,41 +69,30 @@ const SourceHudiStepForm: React.FC<ModalFormProps<{
         rules={[{required: true}, {max: 120}]}
       />
       <ProFormText
-        name={HudiParams.tablePath}
-        label={intl.formatMessage({id: 'pages.project.di.step.hudi.tablePath'})}
+        name={LocalFileParams.path}
+        label={intl.formatMessage({id: 'pages.project.di.step.localFile.path'})}
         rules={[{required: true}]}
       />
       <ProFormSelect
-        name={HudiParams.tableType}
-        label={intl.formatMessage({id: 'pages.project.di.step.hudi.tableType'})}
+        name={"type"}
+        label={intl.formatMessage({id: 'pages.project.di.step.localFile.type'})}
         rules={[{required: true}]}
         valueEnum={{
-          cow: {text: "Copy On Write", disabled: false},
-          mor: {text: "Merge On Read", disabled: true}
+          json: "json",
+          parquet: "parquet",
+          orc: "orc",
+          text: "text",
+          csv: "csv"
         }}
       />
-      <ProFormText
-        name={HudiParams.confFiles}
-        label={intl.formatMessage({id: 'pages.project.di.step.hudi.confFiles'})}
-        rules={[{required: true}]}
-      />
-      <ProFormSwitch
-        name={"useKerberos"}
-        label={intl.formatMessage({id: 'pages.project.di.step.hudi.useKerberos'})}
-      />
-      <ProFormDependency name={["useKerberos"]}>
-        {({useKerberos}) => {
-          if (useKerberos) {
+      <ProFormDependency name={["type"]}>
+        {({type}) => {
+          if (type == "json") {
             return (
               <ProFormGroup>
-                <ProFormText
-                  name={HudiParams.kerberosPrincipal}
-                  label={intl.formatMessage({id: 'pages.project.di.step.hudi.kerberosPrincipal'})}
-                  rules={[{required: true}]}
-                />
-                <ProFormText
-                  name={HudiParams.kerberosPrincipalFile}
-                  label={intl.formatMessage({id: 'pages.project.di.step.hudi.kerberosPrincipalFile'})}
+                <ProFormTextArea
+                  name={LocalFileParams.schema}
+                  label={intl.formatMessage({id: 'pages.project.di.step.localFile.schema'})}
                   rules={[{required: true}]}
                 />
               </ProFormGroup>
@@ -119,4 +105,4 @@ const SourceHudiStepForm: React.FC<ModalFormProps<{
   </Modal>);
 }
 
-export default SourceHudiStepForm;
+export default SourceLocalFileStepForm;

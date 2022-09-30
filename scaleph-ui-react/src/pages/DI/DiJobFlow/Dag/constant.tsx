@@ -33,18 +33,6 @@ export namespace CustomCommands {
     label: 'publish',
     category: XFlowGraphCommands.GRAPH_COPY.category,
   };
-
-  // export const GRAPH_START: IGraphCommand = {
-  //   id: 'xflow:graph-start',
-  //   label: 'start',
-  //   category: XFlowGraphCommands.GRAPH_COPY.category,
-  // };
-
-  // export const GRAPH_STOP: IGraphCommand = {
-  //   id: 'xflow:graph-stop',
-  //   label: 'stop',
-  //   category: XFlowGraphCommands.GRAPH_COPY.category,
-  // };
 }
 
 export const STEP_ATTR_TYPE = {
@@ -98,6 +86,23 @@ export const STEP_ATTR_TYPE = {
   rowNum: 'row_num'
 };
 
+export const LocalFileParams = {
+  path: 'path',
+  type: 'type',
+  schema: 'schema',
+  fileNameExpression: 'file_name_expression',
+  fileFormat: 'file_format',
+  filenameTimeFormat: 'filename_time_format',
+  fieldDelimiter: 'field_delimiter',
+  rowDelimiter: 'row_delimiter',
+  partitionBy: 'partition_by',
+  partitionDirExpression: 'partition_dir_expression',
+  isPartitionFieldWriteInFile: 'is_partition_field_write_in_file',
+  sinkColumns: 'sink_columns',
+  isEnableTransaction: 'is_enable_transaction',
+  saveMode: 'save_mode',
+}
+
 export const HudiParams = {
   tablePath: 'table.path',
   tableType: 'table.type',
@@ -105,6 +110,23 @@ export const HudiParams = {
   useKerberos: 'use.kerberos',
   kerberosPrincipal: 'kerberos.principal',
   kerberosPrincipalFile: 'kerberos.principal.file',
+}
+
+export const IcebergParams = {
+  catalogType: 'catalog_type',
+  catalogName: 'catalog_name',
+  namespace: 'namespace',
+  table: 'table',
+  uri: 'uri',
+  warehouse: 'warehouse',
+  caseSensitive: 'case_sensitive',
+  fields: 'fields',
+  useSnapshotId: 'use_snapshot_id',
+  startSnapshotId: 'start_snapshot_id',
+  endSnapshotId: 'end_snapshot_id',
+  startSnapshotTimestamp: 'start_snapshot_timestamp',
+  useSnapshotTimestamp: 'use_snapshot_timestamp',
+  streamScanStrategy: 'stream_scan_strategy',
 }
 
 

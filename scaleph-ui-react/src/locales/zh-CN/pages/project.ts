@@ -89,6 +89,22 @@ export default {
     '          age = "int"\n' +
     '        }',
 
+  // local file
+  'pages.project.di.step.localFile.path': 'Source Path',
+  'pages.project.di.step.localFile.type': 'File Type',
+  'pages.project.di.step.localFile.schema': 'Schema',
+  'pages.project.di.step.localFile.fileNameExpression': 'FileName Expression',
+  'pages.project.di.step.localFile.fileFormat': 'File Format',
+  'pages.project.di.step.localFile.filenameTimeFormat': 'FileName Time Format',
+  'pages.project.di.step.localFile.fieldDelimiter': 'Field Delimiter',
+  'pages.project.di.step.localFile.rowDelimiter': 'Row Delimiter',
+  'pages.project.di.step.localFile.partitionBy': 'Partition',
+  'pages.project.di.step.localFile.partitionDirExpression': 'Partition Dir Expression',
+  'pages.project.di.step.localFile.isPartitionFieldWriteInFile': 'Write Partition Field to File',
+  'pages.project.di.step.localFile.sinkColumns': 'Sink Columns',
+  'pages.project.di.step.localFile.isEnableTransaction': 'Enable Transaction',
+  'pages.project.di.step.localFile.saveMode': 'Save Mode',
+
   // hudi
   'pages.project.di.step.hudi.tablePath': 'Table Path',
   'pages.project.di.step.hudi.tableType': 'Table Type',
@@ -96,4 +112,20 @@ export default {
   'pages.project.di.step.hudi.useKerberos': '启用 Kerberos',
   'pages.project.di.step.hudi.kerberosPrincipal': 'Kerberos Principal',
   'pages.project.di.step.hudi.kerberosPrincipalFile': 'Kerberos Principal File',
+
+  //iceberg
+  'pages.project.di.step.iceberg.catalogType': 'Catalog Type',
+  'pages.project.di.step.iceberg.catalogName': 'Catalog',
+  'pages.project.di.step.iceberg.namespace': 'Namespace',
+  'pages.project.di.step.iceberg.table': 'Table',
+  'pages.project.di.step.iceberg.uri': 'Hive Metadata thrift URI',
+  'pages.project.di.step.iceberg.warehouse': 'Warehouse',
+  'pages.project.di.step.iceberg.caseSensitive': 'Case Sensitive',
+  'pages.project.di.step.iceberg.fields': 'Fields',
+  'pages.project.di.step.iceberg.useSnapshotId': 'Use SnapshotId',
+  'pages.project.di.step.iceberg.startSnapshotId': 'Start SnapshotId',
+  'pages.project.di.step.iceberg.endSnapshotId': 'End SnapshotId',
+  'pages.project.di.step.iceberg.startSnapshotTimestamp': 'Start Snapshot Timestamp',
+  'pages.project.di.step.iceberg.useSnapshotTimestamp': 'Use Snapshot Timestamp',
+  'pages.project.di.step.iceberg.streamScanStrategy': 'Stream Scan Strategy',
 };
