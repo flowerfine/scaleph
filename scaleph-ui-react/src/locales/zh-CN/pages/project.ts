@@ -80,6 +80,14 @@ export default {
   'pages.project.di.step.getsql': '获取SQL',
   'pages.project.di.step.preview': '预览结果',
   'pages.project.di.step.batchSize': '提交记录数量',
+  'pages.project.di.step.schema': 'schema信息',
+
+  //fake
+  'pages.project.di.step.rowNum': '生成数据行数',
+  'pages.project.di.step.fake.schema.tooltip': 'schema格式: {\n' +
+    '          name = "string"\n' +
+    '          age = "int"\n' +
+    '        }',
 
   // local file
   'pages.project.di.step.localFile.path': 'Source Path',
