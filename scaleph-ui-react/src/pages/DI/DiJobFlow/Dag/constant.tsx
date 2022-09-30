@@ -83,7 +83,18 @@ export const STEP_ATTR_TYPE = {
   timestampColumn: 'timestamp_column',
   timestampFormat: 'timestamp_format',
   timestampMissingValue: 'timestamp_missing_value',
+  rowNum: 'row_num'
 };
+
+export const BaseFileParams = {
+  path: 'path',
+  type: 'type',
+  schema: 'schema'
+}
+
+export const HdfsFileParams = {
+  defaultFS: 'fs.defaultFS'
+}
 
 export const LocalFileParams = {
   path: 'path',

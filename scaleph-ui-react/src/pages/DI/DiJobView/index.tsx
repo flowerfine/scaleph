@@ -34,6 +34,7 @@ import {
 import React, { useEffect, useRef, useState } from 'react';
 import { useAccess, useIntl } from 'umi';
 import DiJobFlow from '../DiJobFlow';
+import CrontabSetting from './components/CrontabSetting';
 import DiJobForm from './components/DiJobForm';
 import DirectoryForm from './components/DirectoryForm';
 import styles from './index.less';
@@ -66,6 +67,10 @@ const DiJobView: React.FC = () => {
     data: {},
   });
   const [jobFormData, setJobFormData] = useState<{ visible: boolean; data: DiJob }>({
+    visible: false,
+    data: {},
+  });
+  const [crontabFormData, setCrontabFormData] = useState<{ visible: boolean; data: DiJob }>({
     visible: false,
     data: {},
   });
@@ -257,7 +262,7 @@ const DiJobView: React.FC = () => {
                   type="link"
                   icon={<SettingOutlined />}
                   onClick={() => {
-                    alert('setting crontab');
+                    setCrontabFormData({ visible: true, data: record });
                   }}
                 ></Button>
               </Tooltip>
@@ -680,13 +685,26 @@ const DiJobView: React.FC = () => {
             onCancel={() => {
               setJobFlowData({ visible: false, data: {} });
             }}
-            onVisibleChange={(visiable) => {
+            onVisibleChange={(visible) => {
               setJobFlowData({ visible: false, data: {} });
               actionRef.current?.reload();
             }}
             data={jobFlowData.data}
             meta={{ flowId: 'flow_' + jobFlowData.data.jobCode, origin: jobFlowData.data }}
           ></DiJobFlow>
+        )}
+        {crontabFormData.visible && (
+          <CrontabSetting
+            visible={crontabFormData.visible}
+            onCancel={() => {
+              setCrontabFormData({ visible: false, data: {} });
+            }}
+            onVisibleChange={(visible) => {
+              setCrontabFormData({ visible: false, data: {} });
+              actionRef.current?.reload();
+            }}
+            data={crontabFormData.data}
+          ></CrontabSetting>
         )}
       </Row>
     </>
