@@ -81,6 +81,19 @@ export default {
   'pages.project.di.step.preview': '预览结果',
   'pages.project.di.step.batchSize': '提交记录数量',
 
+  //base file
+  'pages.project.di.step.baseFile.path': 'Source Path',
+  'pages.project.di.step.baseFile.type': 'File Type',
+  'pages.project.di.step.baseFile.schema': 'Schema',
+  // hdfs file
+  'pages.project.di.step.hdfsFile.defaultFS': 'fs.defaultFS',
+  'pages.project.di.step.hdfsFile.defaultFS.tooltip': '格式:hdfs://namenode001',
+  'pages.project.di.step.hdfsFile.json.tooltip': '{\n' +
+    '        code = int\n' +
+    '        data = string\n' +
+    '        success = boolean\n' +
+    '    }',
+
   // local file
   'pages.project.di.step.localFile.path': 'Source Path',
   'pages.project.di.step.localFile.type': 'File Type',
