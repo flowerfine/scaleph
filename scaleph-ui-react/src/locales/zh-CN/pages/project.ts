@@ -113,7 +113,7 @@ export default {
     '        }',
 
   //base file
-  'pages.project.di.step.baseFile.path': 'Source Path',
+  'pages.project.di.step.baseFile.path': 'Path',
   'pages.project.di.step.baseFile.type': 'File Type',
   'pages.project.di.step.baseFile.schema': 'Schema',
   'pages.project.di.step.baseFile.fileNameExpression': 'FileName Expression',
