@@ -16,35 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.sink;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum FtpFileSourceProperties {
+public enum HdfsFileSinkProperties {
     ;
+
+    public static final PropertyDescriptor<String> FS_DEFAULT_FS = new PropertyDescriptor.Builder<String>()
+            .name("fs.defaultFS")
+            .description("Hdfs cluster address..")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> PATH = new PropertyDescriptor.Builder<String>()
             .name("path")
-            .description("The source file path")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> TYPE = new PropertyDescriptor.Builder<String>()
-            .name("type")
-            .description("The file type")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .allowableValues("text", "csv", "json")
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> SCHEMA = new PropertyDescriptor.Builder<String>()
-            .name("schema")
-            .description("The schema information of upstream data")
+            .description("The target dir path.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)

@@ -16,39 +16,46 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum FtpFileSourceProperties {
+public enum FtpFileProperties {
     ;
 
-    public static final PropertyDescriptor<String> PATH = new PropertyDescriptor.Builder<String>()
-            .name("path")
-            .description("The source file path")
+    public static final PropertyDescriptor<String> HOST = new PropertyDescriptor.Builder<String>()
+            .name("host")
+            .description("The target ftp host")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> TYPE = new PropertyDescriptor.Builder<String>()
-            .name("type")
-            .description("The file type")
+    public static final PropertyDescriptor<Integer> PORT = new PropertyDescriptor.Builder<Integer>()
+            .name("port")
+            .description("The target ftp port")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder<String>()
+            .name("username")
+            .description("The target ftp username")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .allowableValues("text", "csv", "json")
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> SCHEMA = new PropertyDescriptor.Builder<String>()
-            .name("schema")
-            .description("The schema information of upstream data")
+    public static final PropertyDescriptor<String> PASSWORD = new PropertyDescriptor.Builder<String>()
+            .name("password")
+            .description("The target ftp password")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
-
 }

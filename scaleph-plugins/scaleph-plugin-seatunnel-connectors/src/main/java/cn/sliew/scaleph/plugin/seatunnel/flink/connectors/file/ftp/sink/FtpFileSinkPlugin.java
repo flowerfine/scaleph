@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.local.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.sink;
 
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -30,15 +30,15 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.local.sink.LocalFileSinkProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.sink.FtpFileSinkProperties.PATH;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class LocalFileSinkPlugin extends SeaTunnelConnectorPlugin {
+public class FtpFileSinkPlugin extends SeaTunnelConnectorPlugin {
 
-    public LocalFileSinkPlugin() {
+    public FtpFileSinkPlugin() {
         this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
-                "Write data to local FileSystem",
-                LocalFileSinkPlugin.class.getName());
+                "Write data to ftp file server",
+                FtpFileSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(PATH);
@@ -60,6 +60,6 @@ public class LocalFileSinkPlugin extends SeaTunnelConnectorPlugin {
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_LOCAL_FILE;
+        return SeaTunnelPluginMapping.SINK_FTP_FILE;
     }
 }
