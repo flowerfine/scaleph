@@ -16,16 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.local.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.sink;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum LocalFileSinkProperties {
+public enum HdfsFileSinkProperties {
     ;
+
+    public static final PropertyDescriptor<String> FS_DEFAULT_FS = new PropertyDescriptor.Builder<String>()
+            .name("fs.defaultFS")
+            .description("Hdfs cluster address..")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> PATH = new PropertyDescriptor.Builder<String>()
             .name("path")
-            .description("The target dir path started with file://")
+            .description("The target dir path.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)

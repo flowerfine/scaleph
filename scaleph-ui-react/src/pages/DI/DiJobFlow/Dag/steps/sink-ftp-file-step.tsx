@@ -1,13 +1,13 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {BaseFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {BaseFileParams, FtpFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
 import {getIntl, getLocale} from "umi";
 import {
   ProForm,
-  ProFormDependency,
+  ProFormDependency, ProFormDigit,
   ProFormGroup,
   ProFormSelect,
   ProFormSwitch,
@@ -15,7 +15,7 @@ import {
 } from "@ant-design/pro-components";
 import {useEffect} from "react";
 
-const SinkLocalFileStepForm: React.FC<ModalFormProps<{
+const SinkFtpFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -49,6 +49,11 @@ const SinkLocalFileStepForm: React.FC<ModalFormProps<{
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
         map.set(STEP_ATTR_TYPE.stepTitle, values[STEP_ATTR_TYPE.stepTitle]);
+
+        map.set(FtpFileParams.host, values[FtpFileParams.host]);
+        map.set(FtpFileParams.port, values[FtpFileParams.port]);
+        map.set(FtpFileParams.username, values[FtpFileParams.username]);
+        map.set(FtpFileParams.password, values[FtpFileParams.password]);
         map.set(BaseFileParams.path, values[BaseFileParams.path]);
         map.set(BaseFileParams.fileNameExpression, values[BaseFileParams.fileNameExpression]);
         map.set(BaseFileParams.fileFormat, values[BaseFileParams.fileFormat]);
@@ -77,6 +82,26 @@ const SinkLocalFileStepForm: React.FC<ModalFormProps<{
         label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
         rules={[{required: true}, {max: 120}]}
         colProps={{span: 24}}
+      />
+      <ProFormText
+        name={FtpFileParams.host}
+        label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.host'})}
+        rules={[{required: true}]}
+      />
+      <ProFormDigit
+        name={FtpFileParams.port}
+        label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.port'})}
+        rules={[{required: true}]}
+      />
+      <ProFormText
+        name={FtpFileParams.username}
+        label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.username'})}
+        rules={[{required: true}]}
+      />
+      <ProFormText
+        name={FtpFileParams.password}
+        label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.password'})}
+        rules={[{required: true}]}
       />
       <ProFormText
         name={BaseFileParams.path}
@@ -174,4 +199,4 @@ const SinkLocalFileStepForm: React.FC<ModalFormProps<{
   </Modal>);
 }
 
-export default SinkLocalFileStepForm;
+export default SinkFtpFileStepForm;
