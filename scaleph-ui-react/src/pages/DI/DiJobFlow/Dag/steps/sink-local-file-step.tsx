@@ -1,6 +1,6 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {LocalFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {BaseFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
@@ -79,14 +79,14 @@ const SinkLocalFileStepForm: React.FC<ModalFormProps<{
         colProps={{span: 24}}
       />
       <ProFormText
-        name={LocalFileParams.path}
-        label={intl.formatMessage({id: 'pages.project.di.step.localFile.path'})}
+        name={BaseFileParams.path}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.path'})}
         rules={[{required: true}]}
         colProps={{span: 24}}
       />
       <ProFormSelect
         name={"file_format"}
-        label={intl.formatMessage({id: 'pages.project.di.step.localFile.fileFormat'})}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fileFormat'})}
         colProps={{span: 24}}
         valueEnum={{
           json: "json",
@@ -102,14 +102,14 @@ const SinkLocalFileStepForm: React.FC<ModalFormProps<{
             return (
               <ProFormGroup>
                 <ProFormText
-                  name={LocalFileParams.fieldDelimiter}
-                  label={intl.formatMessage({id: 'pages.project.di.step.localFile.fieldDelimiter'})}
+                  name={BaseFileParams.fieldDelimiter}
+                  label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fieldDelimiter'})}
                   rules={[{required: true}]}
                   colProps={{span: 12}}
                 />
                 <ProFormText
-                  name={LocalFileParams.rowDelimiter}
-                  label={intl.formatMessage({id: 'pages.project.di.step.localFile.rowDelimiter'})}
+                  name={BaseFileParams.rowDelimiter}
+                  label={intl.formatMessage({id: 'pages.project.di.step.baseFile.rowDelimiter'})}
                   rules={[{required: true}]}
                   colProps={{span: 12}}
                 />
@@ -120,38 +120,38 @@ const SinkLocalFileStepForm: React.FC<ModalFormProps<{
         }}
       </ProFormDependency>
       <ProFormText
-        name={LocalFileParams.fileNameExpression}
-        label={intl.formatMessage({id: 'pages.project.di.step.localFile.fileNameExpression'})}
+        name={BaseFileParams.fileNameExpression}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fileNameExpression'})}
         colProps={{span: 12}}
       />
       <ProFormText
-        name={LocalFileParams.filenameTimeFormat}
-        label={intl.formatMessage({id: 'pages.project.di.step.localFile.filenameTimeFormat'})}
+        name={BaseFileParams.filenameTimeFormat}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.filenameTimeFormat'})}
         colProps={{span: 12}}
       />
       <ProFormText
-        name={LocalFileParams.partitionBy}
-        label={intl.formatMessage({id: 'pages.project.di.step.localFile.partitionBy'})}
+        name={BaseFileParams.partitionBy}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.partitionBy'})}
         colProps={{span: 12}}
       />
       <ProFormText
-        name={LocalFileParams.partitionDirExpression}
-        label={intl.formatMessage({id: 'pages.project.di.step.localFile.partitionDirExpression'})}
+        name={BaseFileParams.partitionDirExpression}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.partitionDirExpression'})}
         colProps={{span: 12}}
       />
       <ProFormSwitch
-        name={LocalFileParams.isPartitionFieldWriteInFile}
-        label={intl.formatMessage({id: 'pages.project.di.step.localFile.isPartitionFieldWriteInFile'})}
+        name={BaseFileParams.isPartitionFieldWriteInFile}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.isPartitionFieldWriteInFile'})}
         colProps={{span: 24}}
       />
       <ProFormText
-        name={LocalFileParams.sinkColumns}
-        label={intl.formatMessage({id: 'pages.project.di.step.localFile.sinkColumns'})}
+        name={BaseFileParams.sinkColumns}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.sinkColumns'})}
         colProps={{span: 24}}
       />
       <ProFormSwitch
-        name={LocalFileParams.isEnableTransaction}
-        label={intl.formatMessage({id: 'pages.project.di.step.localFile.isEnableTransaction'})}
+        name={BaseFileParams.isEnableTransaction}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.isEnableTransaction'})}
         colProps={{span: 24}}
         fieldProps={{
           defaultChecked: true,
@@ -159,8 +159,8 @@ const SinkLocalFileStepForm: React.FC<ModalFormProps<{
         }}
       />
       <ProFormSelect
-        name={LocalFileParams.saveMode}
-        label={intl.formatMessage({id: 'pages.project.di.step.localFile.saveMode'})}
+        name={BaseFileParams.saveMode}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.saveMode'})}
         colProps={{span: 24}}
         allowClear={false}
         fieldProps={{

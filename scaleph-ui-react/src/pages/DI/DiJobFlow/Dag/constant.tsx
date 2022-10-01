@@ -89,16 +89,6 @@ export const STEP_ATTR_TYPE = {
 export const BaseFileParams = {
   path: 'path',
   type: 'type',
-  schema: 'schema'
-}
-
-export const HdfsFileParams = {
-  defaultFS: 'fs.defaultFS'
-}
-
-export const LocalFileParams = {
-  path: 'path',
-  type: 'type',
   schema: 'schema',
   fileNameExpression: 'file_name_expression',
   fileFormat: 'file_format',
@@ -111,6 +101,10 @@ export const LocalFileParams = {
   sinkColumns: 'sink_columns',
   isEnableTransaction: 'is_enable_transaction',
   saveMode: 'save_mode',
+}
+
+export const HdfsFileParams = {
+  defaultFS: 'fs.defaultFS'
 }
 
 export const FtpFileParams = {

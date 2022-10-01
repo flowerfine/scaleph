@@ -1,6 +1,6 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {LocalFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {BaseFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
@@ -49,9 +49,9 @@ const SourceLocalFileStepForm: React.FC<ModalFormProps<{
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
         map.set(STEP_ATTR_TYPE.stepTitle, values[STEP_ATTR_TYPE.stepTitle]);
-        map.set(LocalFileParams.path, values[LocalFileParams.path]);
-        map.set(LocalFileParams.type, values[LocalFileParams.type]);
-        map.set(LocalFileParams.schema, values[LocalFileParams.schema]);
+        map.set(BaseFileParams.path, values[BaseFileParams.path]);
+        map.set(BaseFileParams.type, values[BaseFileParams.type]);
+        map.set(BaseFileParams.schema, values[BaseFileParams.schema]);
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -69,13 +69,13 @@ const SourceLocalFileStepForm: React.FC<ModalFormProps<{
         rules={[{required: true}, {max: 120}]}
       />
       <ProFormText
-        name={LocalFileParams.path}
-        label={intl.formatMessage({id: 'pages.project.di.step.localFile.path'})}
+        name={BaseFileParams.path}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.path'})}
         rules={[{required: true}]}
       />
       <ProFormSelect
         name={"type"}
-        label={intl.formatMessage({id: 'pages.project.di.step.localFile.type'})}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.type'})}
         rules={[{required: true}]}
         valueEnum={{
           json: "json",
@@ -91,8 +91,8 @@ const SourceLocalFileStepForm: React.FC<ModalFormProps<{
             return (
               <ProFormGroup>
                 <ProFormTextArea
-                  name={LocalFileParams.schema}
-                  label={intl.formatMessage({id: 'pages.project.di.step.localFile.schema'})}
+                  name={BaseFileParams.schema}
+                  label={intl.formatMessage({id: 'pages.project.di.step.baseFile.schema'})}
                   rules={[{required: true}]}
                 />
               </ProFormGroup>

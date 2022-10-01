@@ -1,6 +1,6 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {BaseFileParams, FtpFileParams, LocalFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {BaseFileParams, FtpFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
@@ -116,7 +116,7 @@ const SourceFtpFileStepForm: React.FC<ModalFormProps<{
             return (
               <ProFormGroup>
                 <ProFormTextArea
-                  name={LocalFileParams.schema}
+                  name={BaseFileParams.schema}
                   label={intl.formatMessage({id: 'pages.project.di.step.baseFile.schema'})}
                   rules={[{required: true}]}
                 />
