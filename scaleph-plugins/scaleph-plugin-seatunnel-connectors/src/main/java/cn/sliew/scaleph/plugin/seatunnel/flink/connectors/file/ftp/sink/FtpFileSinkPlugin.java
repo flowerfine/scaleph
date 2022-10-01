@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.FtpFileProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.sink.FtpFileSinkProperties.PATH;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
@@ -41,6 +42,10 @@ public class FtpFileSinkPlugin extends SeaTunnelConnectorPlugin {
                 FtpFileSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(HOST);
+        props.add(PORT);
+        props.add(USERNAME);
+        props.add(PASSWORD);
         props.add(PATH);
         props.add(FILE_FORMAT);
         props.add(FILE_NAME_EXPRESSION);
