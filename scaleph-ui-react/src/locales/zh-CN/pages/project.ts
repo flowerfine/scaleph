@@ -141,6 +141,12 @@ export default {
   'pages.project.di.step.localFile.isEnableTransaction': 'Enable Transaction',
   'pages.project.di.step.localFile.saveMode': 'Save Mode',
 
+  // ftp file
+  'pages.project.di.step.ftpFile.host': 'Host',
+  'pages.project.di.step.ftpFile.port': 'Port',
+  'pages.project.di.step.ftpFile.username': 'Username',
+  'pages.project.di.step.ftpFile.password': 'Password',
+
   // hudi
   'pages.project.di.step.hudi.tablePath': 'Table Path',
   'pages.project.di.step.hudi.tableType': 'Table Type',

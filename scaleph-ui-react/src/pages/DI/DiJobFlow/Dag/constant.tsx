@@ -113,6 +113,13 @@ export const LocalFileParams = {
   saveMode: 'save_mode',
 }
 
+export const FtpFileParams = {
+  host: 'host',
+  port: 'port',
+  username: 'username',
+  password: 'password'
+}
+
 export const HudiParams = {
   tablePath: 'table.path',
   tableType: 'table.type',
