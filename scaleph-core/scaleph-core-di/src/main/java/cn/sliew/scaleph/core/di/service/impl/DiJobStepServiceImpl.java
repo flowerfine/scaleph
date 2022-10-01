@@ -18,12 +18,7 @@
 
 package cn.sliew.scaleph.core.di.service.impl;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-
 import cn.hutool.core.collection.CollectionUtil;
-import cn.sliew.scaleph.core.di.service.DiJobStepAttrService;
 import cn.sliew.scaleph.core.di.service.DiJobStepService;
 import cn.sliew.scaleph.core.di.service.convert.DiJobStepConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiJobStepDTO;
@@ -34,6 +29,10 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * @author gleiyu
  */
@@ -43,33 +42,30 @@ public class DiJobStepServiceImpl implements DiJobStepService {
     @Autowired
     private DiJobStepMapper diJobStepMapper;
 
-    @Autowired
-    private DiJobStepAttrService diJobStepAttrService;
-
     @Override
     public int update(DiJobStepDTO diJobStepDTO) {
         DiJobStep step = DiJobStepConvert.INSTANCE.toDo(diJobStepDTO);
         return this.diJobStepMapper.update(step, new LambdaUpdateWrapper<DiJobStep>()
-            .eq(DiJobStep::getJobId, step.getJobId())
-            .eq(DiJobStep::getStepCode, step.getStepCode())
+                .eq(DiJobStep::getJobId, step.getJobId())
+                .eq(DiJobStep::getStepCode, step.getStepCode())
         );
     }
 
     @Override
     public int upsert(DiJobStepDTO diJobStep) {
         DiJobStep step = this.diJobStepMapper.selectOne(
-            new LambdaQueryWrapper<DiJobStep>()
-                .eq(DiJobStep::getJobId, diJobStep.getJobId())
-                .eq(DiJobStep::getStepCode, diJobStep.getStepCode())
+                new LambdaQueryWrapper<DiJobStep>()
+                        .eq(DiJobStep::getJobId, diJobStep.getJobId())
+                        .eq(DiJobStep::getStepCode, diJobStep.getStepCode())
         );
         DiJobStep jobStep = DiJobStepConvert.INSTANCE.toDo(diJobStep);
         if (step == null) {
             return this.diJobStepMapper.insert(jobStep);
         } else {
             return this.diJobStepMapper.update(jobStep,
-                new LambdaUpdateWrapper<DiJobStep>()
-                    .eq(DiJobStep::getJobId, jobStep.getJobId())
-                    .eq(DiJobStep::getStepCode, jobStep.getStepCode())
+                    new LambdaUpdateWrapper<DiJobStep>()
+                            .eq(DiJobStep::getJobId, jobStep.getJobId())
+                            .eq(DiJobStep::getStepCode, jobStep.getStepCode())
             );
         }
     }
@@ -86,12 +82,11 @@ public class DiJobStepServiceImpl implements DiJobStepService {
 
     @Override
     public int deleteSurplusStep(Long jobId, List<String> stepCodeList) {
-        this.diJobStepAttrService.deleteSurplusStepAttr(jobId, stepCodeList);
         return this.diJobStepMapper.delete(
-            new LambdaQueryWrapper<DiJobStep>()
-                .eq(DiJobStep::getJobId, jobId)
-                .notIn(CollectionUtil.isNotEmpty(stepCodeList), DiJobStep::getStepCode,
-                    stepCodeList)
+                new LambdaQueryWrapper<DiJobStep>()
+                        .eq(DiJobStep::getJobId, jobId)
+                        .notIn(CollectionUtil.isNotEmpty(stepCodeList), DiJobStep::getStepCode,
+                                stepCodeList)
         );
     }
 
@@ -104,9 +99,9 @@ public class DiJobStepServiceImpl implements DiJobStepService {
     @Override
     public DiJobStepDTO selectOne(Long jobId, String stepCode) {
         DiJobStep step = this.diJobStepMapper.selectOne(
-            new LambdaQueryWrapper<DiJobStep>()
-                .eq(DiJobStep::getJobId, jobId)
-                .eq(DiJobStep::getStepCode, stepCode)
+                new LambdaQueryWrapper<DiJobStep>()
+                        .eq(DiJobStep::getJobId, jobId)
+                        .eq(DiJobStep::getStepCode, stepCode)
         );
         return DiJobStepConvert.INSTANCE.toDto(step);
     }

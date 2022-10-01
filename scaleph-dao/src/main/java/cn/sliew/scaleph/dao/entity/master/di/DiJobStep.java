@@ -18,8 +18,6 @@
 
 package cn.sliew.scaleph.dao.entity.master.di;
 
-import java.util.List;
-
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -27,6 +25,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
  * <p>
@@ -43,9 +43,7 @@ import lombok.EqualsAndHashCode;
 public class DiJobStep extends BaseDO {
 
     private static final long serialVersionUID = -8131332626792290363L;
-    @TableField(exist = false)
-    @ApiModelProperty(value = "步骤属性信息")
-    List<DiJobStepAttr> jobStepAttrList;
+
     @ApiModelProperty(value = "作业id")
     private Long jobId;
     @ApiModelProperty(value = "步骤编码")
@@ -60,4 +58,6 @@ public class DiJobStep extends BaseDO {
     private Integer positionX;
     @ApiModelProperty(value = "y坐标")
     private Integer positionY;
+    @ApiModelProperty(value = "作业步骤属性")
+    private String stepAttrs;
 }
