@@ -97,7 +97,8 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
       initGraphCmds(cache.app, meta.origin || { id: data.id });
     }
     refreshJobGraph();
-  }, [cache.app, meta]);
+
+  }, [meta]);
 
   const refreshJobGraph = async () => {
     DagService.loadJobInfo(meta.origin?.id as number).then((resp) => {

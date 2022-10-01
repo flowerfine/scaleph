@@ -26,7 +26,10 @@ import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.common.exception.Rethrower;
 import cn.sliew.scaleph.common.param.PropertyUtil;
-import cn.sliew.scaleph.core.di.service.dto.*;
+import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobLinkDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobStepDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.meta.service.MetaDatasourceService;
@@ -176,34 +179,34 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
 
     private Properties mergeJobAttrs(DiJobStepDTO step) {
         Properties properties = new Properties();
-        List<DiJobStepAttrDTO> stepAttrList = step.getJobStepAttrList();
+        Map<String, Object> stepAttrList = step.getStepAttrs();
         if (CollectionUtil.isNotEmpty(stepAttrList)) {
-            stepAttrList
-                    .stream().filter(attr -> attr.getStepAttrValue() != null)
-                    .forEach(attr -> {
-                        if (Constants.JOB_STEP_ATTR_DATASOURCE.equals(attr.getStepAttrKey())) {
-                            DictVO dsAttr = JSONUtil.toBean(attr.getStepAttrValue(), DictVO.class);
-                            MetaDatasourceDTO datasourceDTO =
-                                    metaDatasourceService.selectOne(Long.parseLong(dsAttr.getValue()), false);
-                            Set<PluginInfo> pluginInfoSet = this.metaDatasourceService.getAvailableDataSources();
-                            for (PluginInfo pluginInfo : pluginInfoSet) {
-                                if (pluginInfo.getName().equalsIgnoreCase(datasourceDTO.getDatasourceType().getValue())) {
-                                    try {
-                                        Class<?> clazz = Class.forName(pluginInfo.getClassname());
-                                        DatasourcePlugin<?> dsPlugin = (DatasourcePlugin<?>) clazz.newInstance();
-                                        dsPlugin.setAdditionalProperties(PropertyUtil.mapToProperties(datasourceDTO.getAdditionalProps()));
-                                        dsPlugin.configure(PropertyContext.fromMap(datasourceDTO.getProps()));
-                                        properties.putAll(dsPlugin.getProperties());
-                                    } catch (ClassNotFoundException | IllegalAccessException |
-                                             InstantiationException e) {
-                                        Rethrower.throwAs(e);
-                                    }
+            stepAttrList.forEach((k, v) -> {
+                if (v != null && !"".equals(v)) {
+                    if (Constants.JOB_STEP_ATTR_DATASOURCE.equals(k)) {
+                        DictVO dsAttr = JSONUtil.toBean(String.valueOf(v), DictVO.class);
+                        MetaDatasourceDTO datasourceDTO =
+                                metaDatasourceService.selectOne(Long.parseLong(dsAttr.getValue()), false);
+                        Set<PluginInfo> pluginInfoSet = this.metaDatasourceService.getAvailableDataSources();
+                        for (PluginInfo pluginInfo : pluginInfoSet) {
+                            if (pluginInfo.getName().equalsIgnoreCase(datasourceDTO.getDatasourceType().getValue())) {
+                                try {
+                                    Class<?> clazz = Class.forName(pluginInfo.getClassname());
+                                    DatasourcePlugin<?> dsPlugin = (DatasourcePlugin<?>) clazz.newInstance();
+                                    dsPlugin.setAdditionalProperties(PropertyUtil.mapToProperties(datasourceDTO.getAdditionalProps()));
+                                    dsPlugin.configure(PropertyContext.fromMap(datasourceDTO.getProps()));
+                                    properties.putAll(dsPlugin.getProperties());
+                                } catch (ClassNotFoundException | IllegalAccessException |
+                                         InstantiationException e) {
+                                    Rethrower.throwAs(e);
                                 }
                             }
-                        } else {
-                            properties.put(attr.getStepAttrKey(), attr.getStepAttrValue());
                         }
-                    });
+                    } else {
+                        properties.put(k, v);
+                    }
+                }
+            });
         }
         return properties;
     }

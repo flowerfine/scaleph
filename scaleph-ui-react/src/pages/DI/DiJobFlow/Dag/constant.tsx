@@ -40,6 +40,7 @@ export const STEP_ATTR_TYPE = {
   jobId: 'jobId',
   stepCode: 'stepCode',
   stepTitle: 'stepTitle',
+  stepAttrs:'stepAttrs',
   dataSourceType: 'dataSourceType',
   dataSource: 'dataSource',
   query: 'query',
