@@ -26,6 +26,7 @@ import SinkLocalFileStepForm from '../steps/sink-local-file-step';
 import SourceFakeStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-fake-step";
 import SourceFtpFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-ftp-file-step";
 import SinkFtpFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink-ftp-file-step";
+import SinkHdfsFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink-hdfs-file-step";
 
 
 const {inject, injectable, postConstruct} = ManaSyringe;
@@ -197,6 +198,8 @@ export class EditNodeCommand implements ICommand {
       return (<SinkFtpFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'source' && name === 'HdfsFile') {
       return (<SourceHdfsFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if (type === 'sink' && name === 'HdfsFile') {
+      return (<SinkHdfsFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'source' && name === 'Jdbc') {
       return (<SourceJdbcStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'sink' && name === 'Jdbc') {
