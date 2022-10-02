@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.console.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.http.sink;
 
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -26,22 +26,32 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-@AutoService(SeaTunnelConnectorPlugin.class)
-public class ConsoleSinkPlugin extends SeaTunnelConnectorPlugin {
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.http.HttpProperties.*;
 
-    public ConsoleSinkPlugin() {
+@AutoService(SeaTunnelConnectorPlugin.class)
+public class HttpSinkPlugin extends SeaTunnelConnectorPlugin {
+
+    public HttpSinkPlugin() {
         this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
-                "Console Sink Plugin, output records to the console.",
-                ConsoleSinkPlugin.class.getName());
+                "Write data to given http endpoint using POST and treat data as body",
+                HttpSinkPlugin.class.getName());
+
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(URL);
+        props.add(HEADERS);
+        props.add(PARAMS);
+        props.add(RETRY);
+        props.add(RETRY_BACKOFF_MULTIPLIER_MS);
+        props.add(RETRY_BACKOFF_MAX_MS);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
-        this.supportedProperties = props;
+        supportedProperties = Collections.unmodifiableList(props);
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_CONSOLE;
+        return SeaTunnelPluginMapping.SINK_HTTP;
     }
 }

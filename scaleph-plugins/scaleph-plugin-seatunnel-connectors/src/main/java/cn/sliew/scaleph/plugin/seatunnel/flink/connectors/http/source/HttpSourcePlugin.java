@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.console.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.http.source;
 
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -26,22 +26,39 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-@AutoService(SeaTunnelConnectorPlugin.class)
-public class ConsoleSinkPlugin extends SeaTunnelConnectorPlugin {
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.http.HttpProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.http.source.HttpSourceProperties.*;
 
-    public ConsoleSinkPlugin() {
+@AutoService(SeaTunnelConnectorPlugin.class)
+public class HttpSourcePlugin extends SeaTunnelConnectorPlugin {
+
+    public HttpSourcePlugin() {
         this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
-                "Console Sink Plugin, output records to the console.",
-                ConsoleSinkPlugin.class.getName());
+                "Read data from http endpoint",
+                HttpSourcePlugin.class.getName());
+
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(CommonProperties.SOURCE_TABLE_NAME);
-        this.supportedProperties = props;
+        props.add(URL);
+        props.add(METHOD);
+        props.add(HEADERS);
+        props.add(PARAMS);
+        props.add(BODY);
+        props.add(FORMAT);
+        props.add(SCHEMA);
+        props.add(POLL_INTERVAL_MS);
+        props.add(RETRY);
+        props.add(RETRY_BACKOFF_MULTIPLIER_MS);
+        props.add(RETRY_BACKOFF_MAX_MS);
+        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.RESULT_TABLE_NAME);
+        supportedProperties = Collections.unmodifiableList(props);
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_CONSOLE;
+        return SeaTunnelPluginMapping.SOURCE_HTTP;
     }
 }
