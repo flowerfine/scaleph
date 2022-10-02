@@ -34,7 +34,7 @@ import SinkHttpFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-http-
 import SourceHttpFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-http-step";
 import SourceSocketStepForm from '../steps/source/source-socket-step';
 import SinkSocketStepForm from '../steps/sink/sink-socket-step';
-import SinkClickHouseStepForm from '../steps/sink-clickhouse-step';
+import SinkClickHouseStepForm from '../steps/sink/sink-clickhouse-step';
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
