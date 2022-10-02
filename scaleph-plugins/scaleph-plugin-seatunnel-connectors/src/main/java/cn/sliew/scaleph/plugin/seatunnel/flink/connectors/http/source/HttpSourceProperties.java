@@ -23,37 +23,12 @@ import cn.sliew.scaleph.plugin.framework.property.*;
 public enum HttpSourceProperties {
     ;
 
-    public static final PropertyDescriptor<String> URL = new PropertyDescriptor.Builder<String>()
-            .name("url")
-            .description("http request url")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
     public static final PropertyDescriptor<String> METHOD = new PropertyDescriptor.Builder<String>()
             .name("method")
             .description("http request method")
             .type(PropertyType.STRING)
             .allowableValues("GET", "POST")
             .defaultValue("GET")
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> HEADERS = new PropertyDescriptor.Builder<String>()
-            .name("headers")
-            .description("http headers")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> PARAMS = new PropertyDescriptor.Builder<String>()
-            .name("params")
-            .description("http params")
-            .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
@@ -83,4 +58,13 @@ public enum HttpSourceProperties {
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
+
+    public static final PropertyDescriptor<Long> POLL_INTERVAL_MS = new PropertyDescriptor.Builder<Long>()
+            .name("poll_interval_ms")
+            .description("request http api interval(millis) in stream mode")
+            .type(PropertyType.INT)
+            .parser(Parsers.LONG_PARSER)
+            .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
+            .validateAndBuild();
+
 }

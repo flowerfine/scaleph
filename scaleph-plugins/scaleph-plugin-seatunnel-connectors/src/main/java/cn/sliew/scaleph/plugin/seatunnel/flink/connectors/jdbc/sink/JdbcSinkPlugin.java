@@ -36,7 +36,6 @@ public class JdbcSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(XA_DATA_SOURCE_CLASS_NAME);
         props.add(MAX_COMMIT_ATTEMPTS);
         props.add(TRANSACTION_TIMEOUT_SEC);
-        props.add(CommonProperties.FIELD_NAME);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

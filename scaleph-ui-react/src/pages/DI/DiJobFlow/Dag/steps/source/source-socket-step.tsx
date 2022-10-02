@@ -1,25 +1,23 @@
-import { ModalFormProps } from '@/app.d';
-import { JobService } from '@/services/project/job.service';
-import { DiJob } from '@/services/project/typings';
-import { NsGraph } from '@antv/xflow';
-import { Col, Form, Input, InputNumber, message, Modal, Row } from 'antd';
-import { useEffect } from 'react';
-import { getIntl, getLocale } from 'umi';
-import { STEP_ATTR_TYPE } from '../../constant';
+import {ModalFormProps} from '@/app.d';
+import {JobService} from '@/services/project/job.service';
+import {DiJob} from '@/services/project/typings';
+import {ProForm, ProFormDigit, ProFormText} from '@ant-design/pro-components';
+import {NsGraph} from '@antv/xflow';
+import {Form, message, Modal} from 'antd';
+import {useEffect} from 'react';
+import {getIntl, getLocale} from 'umi';
+import {STEP_ATTR_TYPE} from '../../constant';
 
-const SourceSocketStepForm: React.FC<
-  ModalFormProps<{
-    node: NsGraph.INodeConfig;
-    graphData: NsGraph.IGraphData;
-    graphMeta: NsGraph.IGraphMeta;
-  }>
-> = ({ data, visible, onCancel, onOK }) => {
+const SourceSocketStepForm: React.FC<ModalFormProps<{
+  node: NsGraph.INodeConfig;
+  graphData: NsGraph.IGraphData;
+  graphMeta: NsGraph.IGraphMeta;
+}>> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as DiJob;
   const jobGraph = data.graphData;
   const intl = getIntl(getLocale(), true);
   const [form] = Form.useForm();
-  const defaultFormValue = { port: 9999 };
   useEffect(() => {
     form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
   }, []);
@@ -29,7 +27,7 @@ const SourceSocketStepForm: React.FC<
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{ overflowY: 'scroll', maxHeight: '640px' }}
+      bodyStyle={{overflowY: 'scroll', maxHeight: '640px'}}
       destroyOnClose={true}
       onCancel={onCancel}
       onOk={() => {
@@ -41,7 +39,7 @@ const SourceSocketStepForm: React.FC<
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
-              message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+              message.success(intl.formatMessage({id: 'app.common.operate.success'}));
               onCancel();
               onOK ? onOK() : null;
             }
@@ -49,39 +47,30 @@ const SourceSocketStepForm: React.FC<
         });
       }}
     >
-      <Form
-        form={form}
-        layout="vertical"
-        initialValues={{ ...defaultFormValue, ...nodeInfo.data.attrs }}
-      >
-        <Form.Item
+      <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
+        <ProFormText
           name={STEP_ATTR_TYPE.stepTitle}
-          label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
-          rules={[{ required: true }, { max: 120 }]}
-        >
-          <Input />
-        </Form.Item>
-        <Row gutter={[12, 12]}>
-          <Col span={12}>
-            <Form.Item
-              name={STEP_ATTR_TYPE.host}
-              label={intl.formatMessage({ id: 'pages.project.di.step.host' })}
-              rules={[{ required: true }]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              name={STEP_ATTR_TYPE.port}
-              label={intl.formatMessage({ id: 'pages.project.di.step.port' })}
-              rules={[{ required: true }]}
-            >
-              <InputNumber style={{ width: '100%' }} />
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
+          label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
+          rules={[{required: true}, {max: 120}]}
+        />
+        <ProFormText
+          name={STEP_ATTR_TYPE.host}
+          label={intl.formatMessage({id: 'pages.project.di.step.host'})}
+          rules={[{required: true}]}
+          colProps={{span: 12}}
+        />
+        <ProFormDigit
+          name={STEP_ATTR_TYPE.port}
+          label={intl.formatMessage({id: 'pages.project.di.step.port'})}
+          rules={[{required: true}]}
+          colProps={{span: 12}}
+          fieldProps={{
+            defaultValue: 9999,
+            min: 0,
+            max: 65535
+          }}
+        />
+      </ProForm>
     </Modal>
   );
 };

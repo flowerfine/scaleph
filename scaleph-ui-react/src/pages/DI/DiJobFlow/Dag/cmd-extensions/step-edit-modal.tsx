@@ -30,10 +30,11 @@ import SinkHdfsFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-hdfs-
 import SourceOSSFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-oss-file-step";
 import SinkOSSFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-oss-file-step";
 import SinkConsoleStepForm from '../steps/sink/sink-console-step';
+import SinkHttpFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-http-step";
+import SourceHttpFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-http-step";
 import SourceSocketStepForm from '../steps/source/source-socket-step';
 import SinkSocketStepForm from '../steps/sink/sink-socket-step';
-import SinkClickHouseStepForm from '../steps/sink-clickhouse-step';
-
+import SinkClickHouseStepForm from '../steps/sink/sink-clickhouse-step';
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -220,15 +221,19 @@ export class EditNodeCommand implements ICommand {
       return (<SourceIcebergStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if  (type === 'source' && name === 'Fake') {
       return (<SourceFakeStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
-    }else if(type === 'sink' && name === 'Console'){
-      return (<SinkConsoleStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
-    }else if(type === 'source' && name === 'Socket'){
+    } else if(type==='sink' && name ==='Console'){
+      return (<SinkConsoleStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type==='source' && name ==='Http'){
+      return (<SourceHttpFileStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type==='sink' && name ==='Http'){
+      return (<SinkHttpFileStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'Socket'){
       return (<SourceSocketStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
-    }else if(type === 'sink' && name === 'Socket'){
+    } else if(type === 'sink' && name === 'Socket'){
       return (<SinkSocketStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
-    }else if(type === 'sink' && name === 'ClickHouse'){
+    } else if(type === 'sink' && name === 'ClickHouse'){
       return (<SinkClickHouseStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
-    }   else {
+    } else {
       return <></>;
     }
   };
