@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.local.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.source;
 
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -30,34 +30,31 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.FtpFileProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class LocalFileSinkPlugin extends SeaTunnelConnectorPlugin {
+public class FtpFileSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public LocalFileSinkPlugin() {
+    public FtpFileSourcePlugin() {
         this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
-                "Write data to local FileSystem",
-                LocalFileSinkPlugin.class.getName());
+                "Read data from ftp file server",
+                FtpFileSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(HOST);
+        props.add(PORT);
+        props.add(USERNAME);
+        props.add(PASSWORD);
         props.add(PATH);
-        props.add(FILE_FORMAT);
-        props.add(FILE_NAME_EXPRESSION);
-        props.add(FILENAME_TIME_FORMAT);
-        props.add(FIELD_DELIMITER);
-        props.add(ROW_DELIMITER);
-        props.add(PARTITION_BY);
-        props.add(PARTITION_DIR_EXPRESSION);
-        props.add(IS_PARTITION_FIELD_WRITE_IN_FILE);
-        props.add(SINK_COLUMNS);
-        props.add(IS_ENABLE_TRANSACTION);
-        props.add(SAVE_MODE);
-        props.add(CommonProperties.SOURCE_TABLE_NAME);
+        props.add(TYPE);
+        props.add(SCHEMA);
+        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_LOCAL_FILE;
+        return SeaTunnelPluginMapping.SOURCE_FTP_FILE;
     }
 }

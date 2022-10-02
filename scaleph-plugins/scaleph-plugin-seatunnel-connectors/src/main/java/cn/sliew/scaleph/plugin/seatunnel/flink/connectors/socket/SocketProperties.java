@@ -16,9 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.socket.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.socket;
 
-import cn.sliew.scaleph.plugin.framework.property.*;
+import cn.sliew.scaleph.plugin.framework.property.Parsers;
+import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.framework.property.PropertyType;
+import cn.sliew.scaleph.plugin.framework.property.Validators;
 
 public enum SocketProperties {
     ;
@@ -37,6 +40,14 @@ public enum SocketProperties {
             .description("socket server port")
             .type(PropertyType.INT)
             .defaultValue(9999)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+    public static final PropertyDescriptor<Integer> MAX_RETRIES = new PropertyDescriptor.Builder<Integer>()
+            .name("max_retries")
+            .description("The number of retries to send record failed")
+            .type(PropertyType.INT)
+            .defaultValue(3)
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
             .validateAndBuild();

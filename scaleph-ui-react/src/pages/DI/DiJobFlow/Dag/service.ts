@@ -39,6 +39,7 @@ export const DagService = {
             displayName: DagService.titleCase(step.stepName + ' ' + step.stepType.value),
             createTime: step.createTime,
             updateTime: step.updateTime,
+            attrs:step.stepAttrs
           },
         });
       });

@@ -1,6 +1,6 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {BaseFileParams, HdfsFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {BaseFileParams, HDFSFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
@@ -29,11 +29,6 @@ const SourceHdfsFileStepForm: React.FC<ModalFormProps<{
 
   useEffect(() => {
     form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
-    JobService.listStepAttr(jobInfo.id + '', nodeInfo.id).then((resp) => {
-      resp.map((step) => {
-        form.setFieldValue(step.stepAttrKey, step.stepAttrValue);
-      });
-    });
   }, []);
 
   return (<Modal
@@ -50,10 +45,7 @@ const SourceHdfsFileStepForm: React.FC<ModalFormProps<{
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
         map.set(STEP_ATTR_TYPE.stepTitle, values[STEP_ATTR_TYPE.stepTitle]);
-        map.set(BaseFileParams.path, values[BaseFileParams.path]);
-        map.set(BaseFileParams.type, values[BaseFileParams.type]);
-        map.set(BaseFileParams.schema, values[BaseFileParams.schema]);
-        map.set(HdfsFileParams.defaultFS, values[HdfsFileParams.defaultFS]);
+        map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -64,14 +56,14 @@ const SourceHdfsFileStepForm: React.FC<ModalFormProps<{
       });
     }}
   >
-    <ProForm form={form} grid={true} submitter={false}>
+    <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
       <ProFormText
         name={STEP_ATTR_TYPE.stepTitle}
         label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
         rules={[{required: true}, {max: 120}]}
       />
       <ProFormText
-        name={HdfsFileParams.defaultFS}
+        name={HDFSFileParams.defaultFS}
         label={intl.formatMessage({id: 'pages.project.di.step.hdfsFile.defaultFS'})}
         rules={[{required: true}]}
         tooltip={{

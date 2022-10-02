@@ -51,13 +51,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -82,8 +80,6 @@ public class JobController {
     private DiJobStepService diJobStepService;
     @Autowired
     private DiJobLinkService diJobLinkService;
-    @Autowired
-    private DiJobStepAttrService diJobStepAttrService;
     @Autowired
     private DiJobResourceFileService diJobResourceFileService;
     @Autowired
@@ -268,8 +264,8 @@ public class JobController {
                 jobStep.setJobId(jobId);
                 jobStep.setStepCode(node.getId());
                 jobStep.setStepTitle(node.getLabel());
-                jobStep.setStepType(DictVO.toVO(DictConstants.JOB_STEP_TYPE, node.getData().get("type")));
-                jobStep.setStepName(node.getData().get("name"));
+                jobStep.setStepType(DictVO.toVO(DictConstants.JOB_STEP_TYPE, String.valueOf(node.getData().get("type"))));
+                jobStep.setStepName(String.valueOf(node.getData().get("name")));
                 jobStep.setPositionX(node.getX());
                 jobStep.setPositionY(node.getY());
                 this.diJobStepService.upsert(jobStep);
@@ -352,15 +348,15 @@ public class JobController {
         }
     }
 
+    //todo remove this function
     @Logging
     @GetMapping(path = "/step")
     @ApiOperation(value = "查询步骤属性信息", notes = "查询步骤属性信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<List<DiJobStepAttrDTO>> listDiJobStepAttr(@NotBlank String jobId,
-                                                                    @NotBlank String stepCode) {
-        List<DiJobStepAttrDTO> list =
-                this.diJobStepAttrService.listJobStepAttr(Long.valueOf(jobId), stepCode);
-        return new ResponseEntity<>(list, HttpStatus.OK);
+    public ResponseEntity<DiJobStepDTO> listDiJobStepAttr(@NotBlank String jobId,
+                                                          @NotBlank String stepCode) {
+        DiJobStepDTO stepInfo = this.diJobStepService.selectOne(Long.valueOf(jobId), stepCode);
+        return new ResponseEntity<>(stepInfo, HttpStatus.OK);
     }
 
     @Logging
@@ -379,31 +375,14 @@ public class JobController {
                 String jobGraphStr = toJsonStr(stepAttrMap.get(Constants.JOB_GRAPH));
                 JobGraphVO jobGraphVO = JSONUtil.toBean(jobGraphStr, JobGraphVO.class);
                 saveJobGraph(jobGraphVO, editableJobId);
-                if (stepAttrMap.containsKey(Constants.JOB_STEP_TITLE)
-                        && StrUtil.isNotEmpty(stepAttrMap.get(Constants.JOB_STEP_TITLE).toString())) {
-                    DiJobStepDTO step = new DiJobStepDTO();
-                    step.setJobId(editableJobId);
-                    step.setStepCode(stepCode);
-                    step.setStepTitle(stepAttrMap.get(Constants.JOB_STEP_TITLE).toString());
-                    this.diJobStepService.update(step);
-                }
-                //insert step attrs
-                stepAttrMap.forEach((k, v) -> {
-                    if (!(k.equals(Constants.JOB_ID)
-                            || k.equals(Constants.JOB_GRAPH)
-                            || k.equals(Constants.JOB_STEP_CODE)
-                            || k.equals(Constants.JOB_STEP_TITLE))
-                    ) {
-                        DiJobStepAttrDTO stepAttr = new DiJobStepAttrDTO();
-                        stepAttr.setJobId(editableJobId);
-                        stepAttr.setStepCode(stepCode);
-                        stepAttr.setStepAttrKey(k);
-                        stepAttr.setStepAttrValue(toJsonStr(v));
-                        if (!StringUtils.isEmpty(v)) {
-                            this.diJobStepAttrService.upsert(stepAttr);
-                        }
-                    }
-                });
+                //update step
+                DiJobStepDTO step = new DiJobStepDTO();
+                step.setJobId(editableJobId);
+                step.setStepCode(stepCode);
+                Map<String, Object> stepAttrs = (Map<String, Object>) stepAttrMap.get(Constants.JOB_STEP_ATTRS);
+                step.setStepTitle(stepAttrs.get(Constants.JOB_STEP_TITLE).toString());
+                step.setStepAttrs(stepAttrs);
+                this.diJobStepService.update(step);
                 return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.OK);
             } catch (ScalephException e) {
                 return new ResponseEntity<>(

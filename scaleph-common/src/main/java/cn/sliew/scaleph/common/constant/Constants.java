@@ -89,6 +89,7 @@ public enum Constants {
     public static final String JOB_NAME = "job.name";
     public static final String JOB_STEP_CODE = "stepCode";
     public static final String JOB_STEP_TITLE = "stepTitle";
+    public static final String JOB_STEP_ATTRS = "stepAttrs";
     public static final String JOB_GRAPH = "jobGraph";
     public static final String JOB_STEP_ATTR_DATASOURCE = "dataSource";
     public static final String JOB_STEP_ATTR_DRIVER = "driver";

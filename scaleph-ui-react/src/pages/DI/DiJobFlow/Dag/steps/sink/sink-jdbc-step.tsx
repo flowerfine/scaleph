@@ -4,14 +4,13 @@ import { DictDataService } from '@/services/admin/dictData.service';
 import { DataSourceService } from '@/services/project/dataSource.service';
 import { JobService } from '@/services/project/job.service';
 import { DiJob } from '@/services/project/typings';
-import { InfoCircleOutlined } from '@ant-design/icons';
 import { NsGraph } from '@antv/xflow';
-import { Button, Col, Form, Input, message, Modal, Row, Select, Space } from 'antd';
+import { Button, Col, Form, Input, InputNumber, message, Modal, Row, Select, Space } from 'antd';
 import { useEffect, useState } from 'react';
 import { getIntl, getLocale } from 'umi';
-import { STEP_ATTR_TYPE } from '../constant';
+import { STEP_ATTR_TYPE } from '../../constant';
 
-const SourceJdbcStepForm: React.FC<
+const SinkJdbcStepForm: React.FC<
   ModalFormProps<{
     node: NsGraph.INodeConfig;
     graphData: NsGraph.IGraphData;
@@ -25,22 +24,16 @@ const SourceJdbcStepForm: React.FC<
   const [form] = Form.useForm();
   const [dataSourceTypeList, setDataSourceTypeList] = useState<Dict[]>([]);
   const [dataSourceList, setDataSourceList] = useState<Dict[]>([]);
+
   useEffect(() => {
+    form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
     DictDataService.listDictDataByType(DICT_TYPE.datasourceType).then((d) => {
       setDataSourceTypeList(d);
     });
-    form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
-    JobService.listStepAttr(jobInfo.id + '', nodeInfo.id).then((resp) => {
-      let stepAttrMap: Map<string, string> = new Map();
-      resp.map((step) => {
-        stepAttrMap.set(step.stepAttrKey, step.stepAttrValue);
-      });
-      refreshDataSource(stepAttrMap.get(STEP_ATTR_TYPE.dataSourceType) as string);
-      form.setFieldValue(STEP_ATTR_TYPE.query, stepAttrMap.get(STEP_ATTR_TYPE.query));
-      form.setFieldValue(STEP_ATTR_TYPE.dataSourceType, stepAttrMap.get(STEP_ATTR_TYPE.dataSourceType));
-      form.setFieldValue(STEP_ATTR_TYPE.dataSource, stepAttrMap.get(STEP_ATTR_TYPE.dataSource));
-      form.setFieldValue(STEP_ATTR_TYPE.partitionColumn, stepAttrMap.get(STEP_ATTR_TYPE.partitionColumn));
-    });
+    if (nodeInfo.data.attrs) {
+      let type = nodeInfo.data.attrs[STEP_ATTR_TYPE.dataSourceType];
+      type ? refreshDataSource(type) : null;
+    }
   }, []);
 
   const refreshDataSource = (value: string) => {
@@ -63,11 +56,7 @@ const SourceJdbcStepForm: React.FC<
           map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-          map.set(STEP_ATTR_TYPE.stepTitle, values[STEP_ATTR_TYPE.stepTitle]);
-          map.set(STEP_ATTR_TYPE.dataSourceType, values[STEP_ATTR_TYPE.dataSourceType]);
-          map.set(STEP_ATTR_TYPE.dataSource, values[STEP_ATTR_TYPE.dataSource]);
-          map.set(STEP_ATTR_TYPE.query, values[STEP_ATTR_TYPE.query]);
-          map.set(STEP_ATTR_TYPE.partitionColumn, values[STEP_ATTR_TYPE.partitionColumn]);
+          map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
               message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
@@ -78,7 +67,7 @@ const SourceJdbcStepForm: React.FC<
         });
       }}
     >
-      <Form form={form} layout="vertical">
+      <Form form={form} layout="vertical" initialValues={nodeInfo.data.attrs}>
         <Form.Item
           name={STEP_ATTR_TYPE.stepTitle}
           label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
@@ -146,14 +135,10 @@ const SourceJdbcStepForm: React.FC<
         </Row>
 
         <Form.Item
-          name={STEP_ATTR_TYPE.partitionColumn}
-          label={intl.formatMessage({ id: 'pages.project.di.step.partitionColumn' })}
-          tooltip={{
-            title: intl.formatMessage({ id: 'pages.project.di.step.partitionColumn.tooltip' }),
-            icon: <InfoCircleOutlined />,
-          }}
+          name={STEP_ATTR_TYPE.batchSize}
+          label={intl.formatMessage({ id: 'pages.project.di.step.batchSize' })}
         >
-          <Input />
+          <InputNumber defaultValue={1000} step={100} style={{ width: '100%' }} />
         </Form.Item>
         <Row gutter={[12, 12]}>
           <Col span={19}>
@@ -176,15 +161,6 @@ const SourceJdbcStepForm: React.FC<
               >
                 {intl.formatMessage({ id: 'pages.project.di.step.getsql' })}
               </Button>
-              <Button
-                type="default"
-                block
-                onClick={() => {
-                  alert('comming soon ...');
-                }}
-              >
-                {intl.formatMessage({ id: 'pages.project.di.step.preview' })}
-              </Button>
             </Space>
           </Col>
         </Row>
@@ -193,4 +169,4 @@ const SourceJdbcStepForm: React.FC<
   );
 };
 
-export default SourceJdbcStepForm;
+export default SinkJdbcStepForm;

@@ -8,7 +8,6 @@ import {getIntl, getLocale} from "umi";
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {useEffect} from "react";
 
-
 const SourceFakeStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
@@ -21,16 +20,7 @@ const SourceFakeStepForm: React.FC<ModalFormProps<{
   const [form] = Form.useForm();
 
   useEffect(() => {
-
     form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
-    JobService.listStepAttr(jobInfo.id + '', nodeInfo.id).then((resp) => {
-      let stepAttrMap: Map<string, string> = new Map();
-      resp.map((step) => {
-        stepAttrMap.set(step.stepAttrKey, step.stepAttrValue);
-      });
-      form.setFieldValue(STEP_ATTR_TYPE.schema, stepAttrMap.get(STEP_ATTR_TYPE.schema));
-      form.setFieldValue(STEP_ATTR_TYPE.rowNum, stepAttrMap.get(STEP_ATTR_TYPE.rowNum));
-    });
   }, []);
 
   return (<Modal
@@ -47,8 +37,7 @@ const SourceFakeStepForm: React.FC<ModalFormProps<{
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
         map.set(STEP_ATTR_TYPE.stepTitle, values[STEP_ATTR_TYPE.stepTitle]);
-        map.set(STEP_ATTR_TYPE.schema, values[STEP_ATTR_TYPE.schema]);
-        map.set(STEP_ATTR_TYPE.rowNum, values[STEP_ATTR_TYPE.rowNum]);
+        map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -60,7 +49,7 @@ const SourceFakeStepForm: React.FC<ModalFormProps<{
     }}
   >
 
-    <Form form={form} layout="vertical">
+    <Form form={form} layout="vertical" initialValues={nodeInfo.data.attrs}>
       <Form.Item
         name={STEP_ATTR_TYPE.stepTitle}
         label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}

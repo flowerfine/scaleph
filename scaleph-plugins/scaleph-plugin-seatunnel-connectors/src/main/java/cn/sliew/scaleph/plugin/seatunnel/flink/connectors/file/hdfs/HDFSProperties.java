@@ -16,20 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.core.di.service.convert;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs;
 
-import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.core.di.service.dto.DiJobStepAttrDTO;
-import cn.sliew.scaleph.dao.entity.master.di.DiJobStepAttr;
-import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
-import org.mapstruct.factory.Mappers;
+import cn.sliew.scaleph.plugin.framework.property.*;
 
-/**
- * @author gleiyu
- */
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface DiJobStepAttrConvert extends BaseConvert<DiJobStepAttr, DiJobStepAttrDTO> {
-    DiJobStepAttrConvert INSTANCE = Mappers.getMapper(DiJobStepAttrConvert.class);
+public enum HDFSProperties {
+    ;
+
+    public static final PropertyDescriptor<String> FS_DEFAULT_FS = new PropertyDescriptor.Builder<String>()
+            .name("fs.defaultFS")
+            .description("Hdfs cluster address..")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
 
 }

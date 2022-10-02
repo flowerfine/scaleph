@@ -16,19 +16,37 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.local.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum LocalFileSinkProperties {
+public enum FileProperties {
     ;
 
     public static final PropertyDescriptor<String> PATH = new PropertyDescriptor.Builder<String>()
             .name("path")
-            .description("The target dir path started with file://")
+            .description("The source dir path started with file://")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> TYPE = new PropertyDescriptor.Builder<String>()
+            .name("type")
+            .description("We supported as the following file types:text, csv, parquet, orc, json")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .allowableValues("text", "csv", "parquet", "orc", "json")
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> SCHEMA = new PropertyDescriptor.Builder<String>()
+            .name("schema")
+            .description("The schema information of upstream data.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
@@ -128,5 +146,4 @@ public enum LocalFileSinkProperties {
             .defaultValue("overwrite")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
-
 }

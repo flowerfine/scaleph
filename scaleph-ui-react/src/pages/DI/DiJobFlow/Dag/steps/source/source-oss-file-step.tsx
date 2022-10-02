@@ -1,6 +1,6 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {HudiParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {BaseFileParams, OSSFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
@@ -10,12 +10,12 @@ import {
   ProFormDependency,
   ProFormGroup,
   ProFormSelect,
-  ProFormSwitch,
-  ProFormText
+  ProFormText,
+  ProFormTextArea
 } from "@ant-design/pro-components";
 import {useEffect} from "react";
 
-const SourceHudiStepForm: React.FC<ModalFormProps<{
+const SourceOSSFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -28,11 +28,6 @@ const SourceHudiStepForm: React.FC<ModalFormProps<{
 
   useEffect(() => {
     form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
-    JobService.listStepAttr(jobInfo.id + '', nodeInfo.id).then((resp) => {
-      resp.map((step) => {
-        form.setFieldValue(step.stepAttrKey, step.stepAttrValue);
-      });
-    });
   }, []);
 
   return (<Modal
@@ -49,12 +44,7 @@ const SourceHudiStepForm: React.FC<ModalFormProps<{
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
         map.set(STEP_ATTR_TYPE.stepTitle, values[STEP_ATTR_TYPE.stepTitle]);
-        map.set(HudiParams.tablePath, values[HudiParams.tablePath]);
-        map.set(HudiParams.tableType, values[HudiParams.tableType]);
-        map.set(HudiParams.confFiles, values[HudiParams.confFiles]);
-        map.set(HudiParams.useKerberos, values[HudiParams.useKerberos]);
-        map.set(HudiParams.kerberosPrincipal, values[HudiParams.kerberosPrincipal]);
-        map.set(HudiParams.kerberosPrincipalFile, values[HudiParams.kerberosPrincipalFile]);
+        map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -65,48 +55,61 @@ const SourceHudiStepForm: React.FC<ModalFormProps<{
       });
     }}
   >
-    <ProForm form={form} grid={true} submitter={false}>
+    <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
       <ProFormText
         name={STEP_ATTR_TYPE.stepTitle}
         label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
         rules={[{required: true}, {max: 120}]}
       />
       <ProFormText
-        name={HudiParams.tablePath}
-        label={intl.formatMessage({id: 'pages.project.di.step.hudi.tablePath'})}
+        name={OSSFileParams.endpoint}
+        label={intl.formatMessage({id: 'pages.project.di.step.ossFile.endpoint'})}
+        rules={[{required: true}]}
+        colProps={{span: 18}}
+      />
+      <ProFormText
+        name={OSSFileParams.bucket}
+        label={intl.formatMessage({id: 'pages.project.di.step.ossFile.bucket'})}
+        rules={[{required: true}]}
+        colProps={{span: 6}}
+      />
+      <ProFormText
+        name={OSSFileParams.accessKey}
+        label={intl.formatMessage({id: 'pages.project.di.step.ossFile.accessKey'})}
+        rules={[{required: true}]}
+        colProps={{span: 12}}
+      />
+      <ProFormText
+        name={OSSFileParams.accessSecret}
+        label={intl.formatMessage({id: 'pages.project.di.step.ossFile.accessSecret'})}
+        rules={[{required: true}]}
+        colProps={{span: 12}}
+      />
+      <ProFormText
+        name={BaseFileParams.path}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.path'})}
         rules={[{required: true}]}
       />
       <ProFormSelect
-        name={HudiParams.tableType}
-        label={intl.formatMessage({id: 'pages.project.di.step.hudi.tableType'})}
+        name={"type"}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.type'})}
         rules={[{required: true}]}
         valueEnum={{
-          cow: {text: "Copy On Write", disabled: false},
-          mor: {text: "Merge On Read", disabled: true}
+          json: "json",
+          parquet: "parquet",
+          orc: "orc",
+          text: "text",
+          csv: "csv"
         }}
       />
-      <ProFormText
-        name={HudiParams.confFiles}
-        label={intl.formatMessage({id: 'pages.project.di.step.hudi.confFiles'})}
-        rules={[{required: true}]}
-      />
-      <ProFormSwitch
-        name={"useKerberos"}
-        label={intl.formatMessage({id: 'pages.project.di.step.hudi.useKerberos'})}
-      />
-      <ProFormDependency name={["useKerberos"]}>
-        {({useKerberos}) => {
-          if (useKerberos) {
+      <ProFormDependency name={["type"]}>
+        {({type}) => {
+          if (type == "json") {
             return (
               <ProFormGroup>
-                <ProFormText
-                  name={HudiParams.kerberosPrincipal}
-                  label={intl.formatMessage({id: 'pages.project.di.step.hudi.kerberosPrincipal'})}
-                  rules={[{required: true}]}
-                />
-                <ProFormText
-                  name={HudiParams.kerberosPrincipalFile}
-                  label={intl.formatMessage({id: 'pages.project.di.step.hudi.kerberosPrincipalFile'})}
+                <ProFormTextArea
+                  name={BaseFileParams.schema}
+                  label={intl.formatMessage({id: 'pages.project.di.step.baseFile.schema'})}
                   rules={[{required: true}]}
                 />
               </ProFormGroup>
@@ -119,4 +122,4 @@ const SourceHudiStepForm: React.FC<ModalFormProps<{
   </Modal>);
 }
 
-export default SourceHudiStepForm;
+export default SourceOSSFileStepForm;

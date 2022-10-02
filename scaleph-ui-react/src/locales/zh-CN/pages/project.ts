@@ -105,42 +105,52 @@ export default {
   'pages.project.di.step.batchSize': '提交记录数量',
   'pages.project.di.step.schema': 'schema信息',
   'pages.project.di.step.bulkSize': '批量提交记录数量',
+  'pages.project.di.step.host': '主机地址',
+  'pages.project.di.step.port': '端口号',
+  'pages.project.di.step.maxRetries': '重试次数',
 
   //fake
   'pages.project.di.step.rowNum': '生成数据行数',
-  'pages.project.di.step.fake.schema.tooltip': 'schema格式: {\n' +
-    '          name = "string"\n' +
-    '          age = "int"\n' +
-    '        }',
+  'pages.project.di.step.fake.schema.tooltip':
+    'schema格式: {\n' + '          name = "string"\n' + '          age = "int"\n' + '        }',
 
   //base file
-  'pages.project.di.step.baseFile.path': 'Source Path',
+  'pages.project.di.step.baseFile.path': 'Path',
   'pages.project.di.step.baseFile.type': 'File Type',
   'pages.project.di.step.baseFile.schema': 'Schema',
+  'pages.project.di.step.baseFile.fileNameExpression': 'FileName Expression',
+  'pages.project.di.step.baseFile.fileFormat': 'File Format',
+  'pages.project.di.step.baseFile.filenameTimeFormat': 'FileName Time Format',
+  'pages.project.di.step.baseFile.fieldDelimiter': 'Field Delimiter',
+  'pages.project.di.step.baseFile.rowDelimiter': 'Row Delimiter',
+  'pages.project.di.step.baseFile.partitionBy': 'Partition',
+  'pages.project.di.step.baseFile.partitionDirExpression': 'Partition Dir Expression',
+  'pages.project.di.step.baseFile.isPartitionFieldWriteInFile': 'Write Partition Field to File',
+  'pages.project.di.step.baseFile.sinkColumns': 'Sink Columns',
+  'pages.project.di.step.baseFile.isEnableTransaction': 'Enable Transaction',
+  'pages.project.di.step.baseFile.saveMode': 'Save Mode',
+
   // hdfs file
   'pages.project.di.step.hdfsFile.defaultFS': 'fs.defaultFS',
   'pages.project.di.step.hdfsFile.defaultFS.tooltip': '格式:hdfs://namenode001',
-  'pages.project.di.step.hdfsFile.json.tooltip': '{\n' +
+  'pages.project.di.step.hdfsFile.json.tooltip':
+    '{\n' +
     '        code = int\n' +
     '        data = string\n' +
     '        success = boolean\n' +
     '    }',
 
-  // local file
-  'pages.project.di.step.localFile.path': 'Source Path',
-  'pages.project.di.step.localFile.type': 'File Type',
-  'pages.project.di.step.localFile.schema': 'Schema',
-  'pages.project.di.step.localFile.fileNameExpression': 'FileName Expression',
-  'pages.project.di.step.localFile.fileFormat': 'File Format',
-  'pages.project.di.step.localFile.filenameTimeFormat': 'FileName Time Format',
-  'pages.project.di.step.localFile.fieldDelimiter': 'Field Delimiter',
-  'pages.project.di.step.localFile.rowDelimiter': 'Row Delimiter',
-  'pages.project.di.step.localFile.partitionBy': 'Partition',
-  'pages.project.di.step.localFile.partitionDirExpression': 'Partition Dir Expression',
-  'pages.project.di.step.localFile.isPartitionFieldWriteInFile': 'Write Partition Field to File',
-  'pages.project.di.step.localFile.sinkColumns': 'Sink Columns',
-  'pages.project.di.step.localFile.isEnableTransaction': 'Enable Transaction',
-  'pages.project.di.step.localFile.saveMode': 'Save Mode',
+  // ftp file
+  'pages.project.di.step.ftpFile.host': 'Host',
+  'pages.project.di.step.ftpFile.port': 'Port',
+  'pages.project.di.step.ftpFile.username': 'Username',
+  'pages.project.di.step.ftpFile.password': 'Password',
+
+  // oss file
+  'pages.project.di.step.ossFile.endpoint': 'Endpoint',
+  'pages.project.di.step.ossFile.bucket': 'Bucket',
+  'pages.project.di.step.ossFile.accessKey': 'Access Key',
+  'pages.project.di.step.ossFile.accessSecret': 'Access Secret',
 
   // hudi
   'pages.project.di.step.hudi.tablePath': 'Table Path',
