@@ -80,7 +80,7 @@ public class ClickHouseSinkPlugin extends SeaTunnelConnectorPlugin {
                         .formatPropFromStr(properties.getValue(descriptor), "\n", "=");
                     for (Map.Entry<String, Object> entry : map.entrySet()) {
                         objectNode
-                            .put("clickhouse." + entry.getKey(), String.valueOf(entry.getValue()));
+                            .put(entry.getKey(), String.valueOf(entry.getValue()));
                     }
                 } else if (FIELDS.getName().equals(descriptor.getName())) {
                     String[] splitFields = properties.getValue(descriptor).split(",");

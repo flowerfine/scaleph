@@ -1,4 +1,4 @@
-import { Dict, ModalFormProps } from '@/app.d';
+import { Dict, ModalFormProps } from '@/app';
 import { DataSourceService } from '@/services/project/dataSource.service';
 import { JobService } from '@/services/project/job.service';
 import { DiJob } from '@/services/project/typings';
@@ -6,7 +6,7 @@ import { NsGraph } from '@antv/xflow';
 import {Col, Form, Input, InputNumber, message, Modal, Row, Select} from 'antd';
 import { useEffect, useState } from 'react';
 import { getIntl, getLocale } from 'umi';
-import {STEP_ATTR_TYPE, ClickHouseParams, BaseFileParams} from '../constant';
+import {STEP_ATTR_TYPE, ClickHouseParams, BaseFileParams} from '../../constant';
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {
   ProFormDependency,
@@ -33,21 +33,9 @@ const SinkClickHouseStepForm: React.FC<
 
   useEffect(() => {
     form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
-    JobService.listStepAttr(jobInfo.id + '', nodeInfo.id).then((resp) => {
-      let stepAttrMap: Map<string, string> = new Map();
-      resp.map((step) => {
-        stepAttrMap.set(step.stepAttrKey, step.stepAttrValue);
-      });
-      refreshDataSource(ClickHouseParams.dataSourceType as string);
-      form.setFieldValue(STEP_ATTR_TYPE.dataSource, stepAttrMap.get(STEP_ATTR_TYPE.dataSource));
-      form.setFieldValue(STEP_ATTR_TYPE.table, stepAttrMap.get(STEP_ATTR_TYPE.table));
-      form.setFieldValue(STEP_ATTR_TYPE.fields, stepAttrMap.get(STEP_ATTR_TYPE.fields));
-      form.setFieldValue(STEP_ATTR_TYPE.bulkSize, stepAttrMap.get(STEP_ATTR_TYPE.bulkSize));
-      form.setFieldValue(ClickHouseParams.splitMode, stepAttrMap.get(ClickHouseParams.splitMode));
-      form.setFieldValue(ClickHouseParams.shardingKey, stepAttrMap.get(ClickHouseParams.shardingKey));
-      form.setFieldValue(ClickHouseParams.clickhouseConf, stepAttrMap.get(ClickHouseParams.clickhouseConf));
 
-    });
+    refreshDataSource(ClickHouseParams.dataSourceType as string)
+
   }, []);
 
   const refreshDataSource = (value: string) => {
@@ -70,14 +58,7 @@ const SinkClickHouseStepForm: React.FC<
           map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-          map.set(STEP_ATTR_TYPE.stepTitle, values[STEP_ATTR_TYPE.stepTitle]);
-          map.set(STEP_ATTR_TYPE.dataSource, values[STEP_ATTR_TYPE.dataSource]);
-          map.set(STEP_ATTR_TYPE.bulkSize, values[STEP_ATTR_TYPE.bulkSize]);
-          map.set(STEP_ATTR_TYPE.table, values[STEP_ATTR_TYPE.table]);
-          map.set(STEP_ATTR_TYPE.fields, values[STEP_ATTR_TYPE.fields]);
-          map.set(ClickHouseParams.splitMode, values[ClickHouseParams.splitMode]);
-          map.set(ClickHouseParams.shardingKey, values[ClickHouseParams.shardingKey]);
-          map.set(ClickHouseParams.clickhouseConf, values[ClickHouseParams.clickhouseConf]);
+          map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
               message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
@@ -88,7 +69,7 @@ const SinkClickHouseStepForm: React.FC<
         });
       }}
     >
-      <Form form={form} layout="vertical">
+      <Form form={form} layout="vertical" initialValues={nodeInfo.data.attrs}>
         <Form.Item
           name={STEP_ATTR_TYPE.stepTitle}
           label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}

@@ -32,7 +32,7 @@ import SinkOSSFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-oss-fi
 import SinkConsoleStepForm from '../steps/sink/sink-console-step';
 import SourceSocketStepForm from '../steps/source/source-socket-step';
 import SinkSocketStepForm from '../steps/sink/sink-socket-step';
-import SinkClickHouseStepForm from '../steps/sink-clickhouse-step';
+import SinkClickHouseStepForm from '../steps/sink/sink-clickhouse-step';
 
 
 const {inject, injectable, postConstruct} = ManaSyringe;
