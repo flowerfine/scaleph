@@ -40,6 +40,7 @@ export const STEP_ATTR_TYPE = {
   jobId: 'jobId',
   stepCode: 'stepCode',
   stepTitle: 'stepTitle',
+  stepAttrs:'stepAttrs',
   dataSourceType: 'dataSourceType',
   dataSource: 'dataSource',
   query: 'query',
@@ -89,16 +90,6 @@ export const STEP_ATTR_TYPE = {
 export const BaseFileParams = {
   path: 'path',
   type: 'type',
-  schema: 'schema'
-}
-
-export const HdfsFileParams = {
-  defaultFS: 'fs.defaultFS'
-}
-
-export const LocalFileParams = {
-  path: 'path',
-  type: 'type',
   schema: 'schema',
   fileNameExpression: 'file_name_expression',
   fileFormat: 'file_format',
@@ -111,6 +102,17 @@ export const LocalFileParams = {
   sinkColumns: 'sink_columns',
   isEnableTransaction: 'is_enable_transaction',
   saveMode: 'save_mode',
+}
+
+export const HdfsFileParams = {
+  defaultFS: 'fs.defaultFS'
+}
+
+export const FtpFileParams = {
+  host: 'host',
+  port: 'port',
+  username: 'username',
+  password: 'password'
 }
 
 export const HudiParams = {

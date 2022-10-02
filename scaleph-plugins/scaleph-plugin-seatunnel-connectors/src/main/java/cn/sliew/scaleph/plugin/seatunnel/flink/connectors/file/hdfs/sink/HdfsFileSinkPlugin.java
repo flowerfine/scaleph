@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.local.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.sink;
 
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -30,17 +30,19 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.local.sink.LocalFileSinkProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.sink.HdfsFileSinkProperties.FS_DEFAULT_FS;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.sink.HdfsFileSinkProperties.PATH;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class LocalFileSinkPlugin extends SeaTunnelConnectorPlugin {
+public class HdfsFileSinkPlugin extends SeaTunnelConnectorPlugin {
 
-    public LocalFileSinkPlugin() {
+    public HdfsFileSinkPlugin() {
         this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
-                "Write data to local FileSystem",
-                LocalFileSinkPlugin.class.getName());
+                "Write data to hdfs FileSystem",
+                HdfsFileSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(FS_DEFAULT_FS);
         props.add(PATH);
         props.add(FILE_FORMAT);
         props.add(FILE_NAME_EXPRESSION);
@@ -60,6 +62,6 @@ public class LocalFileSinkPlugin extends SeaTunnelConnectorPlugin {
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_LOCAL_FILE;
+        return SeaTunnelPluginMapping.SINK_HDFS_FILE;
     }
 }

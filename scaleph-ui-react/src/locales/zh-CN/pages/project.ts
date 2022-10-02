@@ -113,9 +113,21 @@ export default {
     '        }',
 
   //base file
-  'pages.project.di.step.baseFile.path': 'Source Path',
+  'pages.project.di.step.baseFile.path': 'Path',
   'pages.project.di.step.baseFile.type': 'File Type',
   'pages.project.di.step.baseFile.schema': 'Schema',
+  'pages.project.di.step.baseFile.fileNameExpression': 'FileName Expression',
+  'pages.project.di.step.baseFile.fileFormat': 'File Format',
+  'pages.project.di.step.baseFile.filenameTimeFormat': 'FileName Time Format',
+  'pages.project.di.step.baseFile.fieldDelimiter': 'Field Delimiter',
+  'pages.project.di.step.baseFile.rowDelimiter': 'Row Delimiter',
+  'pages.project.di.step.baseFile.partitionBy': 'Partition',
+  'pages.project.di.step.baseFile.partitionDirExpression': 'Partition Dir Expression',
+  'pages.project.di.step.baseFile.isPartitionFieldWriteInFile': 'Write Partition Field to File',
+  'pages.project.di.step.baseFile.sinkColumns': 'Sink Columns',
+  'pages.project.di.step.baseFile.isEnableTransaction': 'Enable Transaction',
+  'pages.project.di.step.baseFile.saveMode': 'Save Mode',
+
   // hdfs file
   'pages.project.di.step.hdfsFile.defaultFS': 'fs.defaultFS',
   'pages.project.di.step.hdfsFile.defaultFS.tooltip': '格式:hdfs://namenode001',
@@ -125,21 +137,11 @@ export default {
     '        success = boolean\n' +
     '    }',
 
-  // local file
-  'pages.project.di.step.localFile.path': 'Source Path',
-  'pages.project.di.step.localFile.type': 'File Type',
-  'pages.project.di.step.localFile.schema': 'Schema',
-  'pages.project.di.step.localFile.fileNameExpression': 'FileName Expression',
-  'pages.project.di.step.localFile.fileFormat': 'File Format',
-  'pages.project.di.step.localFile.filenameTimeFormat': 'FileName Time Format',
-  'pages.project.di.step.localFile.fieldDelimiter': 'Field Delimiter',
-  'pages.project.di.step.localFile.rowDelimiter': 'Row Delimiter',
-  'pages.project.di.step.localFile.partitionBy': 'Partition',
-  'pages.project.di.step.localFile.partitionDirExpression': 'Partition Dir Expression',
-  'pages.project.di.step.localFile.isPartitionFieldWriteInFile': 'Write Partition Field to File',
-  'pages.project.di.step.localFile.sinkColumns': 'Sink Columns',
-  'pages.project.di.step.localFile.isEnableTransaction': 'Enable Transaction',
-  'pages.project.di.step.localFile.saveMode': 'Save Mode',
+  // ftp file
+  'pages.project.di.step.ftpFile.host': 'Host',
+  'pages.project.di.step.ftpFile.port': 'Port',
+  'pages.project.di.step.ftpFile.username': 'Username',
+  'pages.project.di.step.ftpFile.password': 'Password',
 
   // hudi
   'pages.project.di.step.hudi.tablePath': 'Table Path',

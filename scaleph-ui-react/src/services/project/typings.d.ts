@@ -102,6 +102,7 @@ export type DiJobStep = {
   stepName: string;
   positionX: number;
   positionY: number;
+  stepAttrs?:any;
   createTime?: Date;
   updateTime?: Date;
   jobStepAttrList: DiJobStepAttr[];

@@ -50,6 +50,7 @@ public enum SeaTunnelPluginMapping {
 
     SOURCE_LOCAL_FILE(SEATUNNEL, SOURCE, LOCAL_FILE, "connector-file-local"),
     SINK_LOCAL_FILE(SEATUNNEL, SINK, LOCAL_FILE, "connector-file-local"),
+    SOURCE_FTP_FILE(SEATUNNEL, SOURCE, FTP_FILE, "connector-file-ftp"),
     SINK_FTP_FILE(SEATUNNEL, SINK, FTP_FILE, "connector-file-ftp"),
     SOURCE_HDFS_FILE(SEATUNNEL, SOURCE, HDFS_FILE, "connector-file-hadoop"),
     SINK_HDFS_FILE(SEATUNNEL, SINK, HDFS_FILE, "connector-file-hadoop"),

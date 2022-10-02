@@ -1,6 +1,6 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {BaseFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {BaseFileParams, HdfsFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
@@ -14,8 +14,9 @@ import {
   ProFormText
 } from "@ant-design/pro-components";
 import {useEffect} from "react";
+import {InfoCircleOutlined} from "@ant-design/icons";
 
-const SinkLocalFileStepForm: React.FC<ModalFormProps<{
+const SinkHdfsFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -49,6 +50,7 @@ const SinkLocalFileStepForm: React.FC<ModalFormProps<{
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
         map.set(STEP_ATTR_TYPE.stepTitle, values[STEP_ATTR_TYPE.stepTitle]);
+        map.set(HdfsFileParams.defaultFS, values[HdfsFileParams.defaultFS]);
         map.set(BaseFileParams.path, values[BaseFileParams.path]);
         map.set(BaseFileParams.fileNameExpression, values[BaseFileParams.fileNameExpression]);
         map.set(BaseFileParams.fileFormat, values[BaseFileParams.fileFormat]);
@@ -77,6 +79,15 @@ const SinkLocalFileStepForm: React.FC<ModalFormProps<{
         label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
         rules={[{required: true}, {max: 120}]}
         colProps={{span: 24}}
+      />
+      <ProFormText
+        name={HdfsFileParams.defaultFS}
+        label={intl.formatMessage({id: 'pages.project.di.step.hdfsFile.defaultFS'})}
+        rules={[{required: true}]}
+        tooltip={{
+          title: intl.formatMessage({ id: 'pages.project.di.step.hdfsFile.defaultFS.tooltip' }),
+          icon: <InfoCircleOutlined />,
+        }}
       />
       <ProFormText
         name={BaseFileParams.path}
@@ -174,4 +185,4 @@ const SinkLocalFileStepForm: React.FC<ModalFormProps<{
   </Modal>);
 }
 
-export default SinkLocalFileStepForm;
+export default SinkHdfsFileStepForm;

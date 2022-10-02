@@ -18,24 +18,69 @@
 
 package cn.sliew.scaleph.core.di.service.convert;
 
+import cn.hutool.core.lang.TypeReference;
+import cn.hutool.json.JSONUtil;
+import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiJobStepDTO;
 import cn.sliew.scaleph.dao.entity.master.di.DiJobStep;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
+
+import java.util.Map;
 
 /**
  * @author gleiyu
  */
-@Mapper(uses = {DictVoConvert.class,
-    DiJobStepAttrConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DiJobStepConvert extends BaseConvert<DiJobStep, DiJobStepDTO> {
     DiJobStepConvert INSTANCE = Mappers.getMapper(DiJobStepConvert.class);
 
     @Override
-    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.JOB_STEP_TYPE,entity.getStepType()))", target = "stepType")
-    DiJobStepDTO toDto(DiJobStep entity);
+    default DiJobStep toDo(DiJobStepDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        DiJobStep jobStep = new DiJobStep();
+        jobStep.setId(dto.getId());
+        jobStep.setJobId(dto.getJobId());
+        jobStep.setStepCode(dto.getStepCode());
+        jobStep.setStepTitle(dto.getStepTitle());
+        jobStep.setStepType(DictVoConvert.INSTANCE.toDo(dto.getStepType()));
+        jobStep.setStepName(dto.getStepName());
+        jobStep.setPositionX(dto.getPositionX());
+        jobStep.setPositionY(dto.getPositionY());
+        jobStep.setStepAttrs(JSONUtil.toJsonStr(dto.getStepAttrs()));
+        jobStep.setCreateTime(dto.getCreateTime());
+        jobStep.setCreator(dto.getCreator());
+        jobStep.setUpdateTime(dto.getUpdateTime());
+        jobStep.setEditor(dto.getEditor());
+        return jobStep;
+    }
+
+    @Override
+    default DiJobStepDTO toDto(DiJobStep entity) {
+        if (entity == null) {
+            return null;
+        }
+        DiJobStepDTO dto = new DiJobStepDTO();
+        dto.setId(entity.getId());
+        dto.setJobId(entity.getJobId());
+        dto.setStepCode(entity.getStepCode());
+        dto.setStepTitle(entity.getStepTitle());
+        dto.setStepType(DictVO.toVO(DictConstants.JOB_STEP_TYPE, entity.getStepType()));
+        dto.setStepName(entity.getStepName());
+        dto.setPositionX(entity.getPositionX());
+        dto.setPositionY(entity.getPositionY());
+        dto.setStepAttrs(JSONUtil.toBean(entity.getStepAttrs(), new TypeReference<Map<String, Object>>() {
+        }.getType(), false));
+        dto.setCreateTime(entity.getCreateTime());
+        dto.setCreator(entity.getCreator());
+        dto.setUpdateTime(entity.getUpdateTime());
+        dto.setEditor(entity.getEditor());
+        return dto;
+    }
 }

@@ -16,16 +16,35 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.local.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.source;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum LocalFileSinkProperties {
+public enum FtpFileSourceProperties {
     ;
 
     public static final PropertyDescriptor<String> PATH = new PropertyDescriptor.Builder<String>()
             .name("path")
-            .description("The target dir path started with file://")
+            .description("The source file path")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> TYPE = new PropertyDescriptor.Builder<String>()
+            .name("type")
+            .description("The file type")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .allowableValues("text", "csv", "json")
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> SCHEMA = new PropertyDescriptor.Builder<String>()
+            .name("schema")
+            .description("The schema information of upstream data")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)

@@ -435,7 +435,8 @@ create table sec_user
 insert into sec_user (id, user_name, nick_name, email, password, real_name, id_card_type, id_card_no, gender, nation,
                       birthday, qq, wechat, mobile_phone, user_status, summary, register_channel, register_time,
                       register_ip, creator, editor)
-values (1, 'sys_admin', '超级管理员', 'test@admin.com', '$2a$10$QX2DBrOBGLuhEmboliW66ulvQ5Hiy9GCdhsqqs1HgJVgslYhZEC6q', null,
+values (1, 'sys_admin', '超级管理员', 'test@admin.com', '$2a$10$QX2DBrOBGLuhEmboliW66ulvQ5Hiy9GCdhsqqs1HgJVgslYhZEC6q',
+        null,
         null, null, '0', null, null, null, null, null, '10', null, '01', '2021-12-25 21:51:17', '127.0.0.1', 'sys',
         'sys');
 
@@ -1313,26 +1314,26 @@ create table di_job
     unique key (project_id, job_code, job_version)
 ) engine = innodb comment '数据集成-作业信息';
 
-insert into di_job(id, project_id, job_code, job_name, directory_id, job_type, job_owner, job_status,
-                   runtime_state, job_version, cluster_id, job_crontab, remark, creator, editor)
-VALUES (1, 1, 'docker_jdbc_to_jdbc', 'docker_jdbc_to_jdbc', 2, 'b', 'sys', '2', '1', 1, NULL, NULL, NULL,
-        'sys', 'sys');
-INSERT INTO di_job(id, project_id, job_code, job_name, directory_id, job_type, job_owner, job_status, runtime_state,
-                   job_version, cluster_id, job_crontab, remark, creator, editor)
-VALUES (2, 1, 'local_jdbc_to_jdbc', 'local_jdbc_to_jdbc', 2, 'b', 'sys', '2', '1', 1, NULL, NULL, NULL,
-        'sys', 'sys');
-INSERT INTO `di_job`(id, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
-                     `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
-VALUES (3, 1, 'local_jdbc_to_elasticsearch', 'local_jdbc_to_elasticsearch', 2, 'b', 'sys', '2', '1', 1, NULL,
-        NULL, NULL, 'sys', 'sys');
-INSERT INTO `di_job` (`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
-                      `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
-VALUES (4, 1, 'local_druid_to_console', 'local_druid_to_console', 2, 'b', 'sys', '2', '1', 1, NULL, NULL, NULL,
-        'sys', 'sys');
-INSERT INTO `di_job`(`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
-                     `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
-VALUES (5, 1, 'local_jdbc_to_druid', 'local_jdbc_to_druid', 2, 'b', 'sys', '2', '1', 1, NULL, NULL, NULL,
-        'sys', 'sys');
+# insert into di_job(id, project_id, job_code, job_name, directory_id, job_type, job_owner, job_status,
+#                    runtime_state, job_version, cluster_id, job_crontab, remark, creator, editor)
+# VALUES (1, 1, 'docker_jdbc_to_jdbc', 'docker_jdbc_to_jdbc', 2, 'b', 'sys', '2', '1', 1, NULL, NULL, NULL,
+#         'sys', 'sys');
+# INSERT INTO di_job(id, project_id, job_code, job_name, directory_id, job_type, job_owner, job_status, runtime_state,
+#                    job_version, cluster_id, job_crontab, remark, creator, editor)
+# VALUES (2, 1, 'local_jdbc_to_jdbc', 'local_jdbc_to_jdbc', 2, 'b', 'sys', '2', '1', 1, NULL, NULL, NULL,
+#         'sys', 'sys');
+# INSERT INTO `di_job`(id, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
+#                      `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
+# VALUES (3, 1, 'local_jdbc_to_elasticsearch', 'local_jdbc_to_elasticsearch', 2, 'b', 'sys', '2', '1', 1, NULL,
+#         NULL, NULL, 'sys', 'sys');
+# INSERT INTO `di_job` (`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
+#                       `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
+# VALUES (4, 1, 'local_druid_to_console', 'local_druid_to_console', 2, 'b', 'sys', '2', '1', 1, NULL, NULL, NULL,
+#         'sys', 'sys');
+# INSERT INTO `di_job`(`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
+#                      `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
+# VALUES (5, 1, 'local_jdbc_to_druid', 'local_jdbc_to_druid', 2, 'b', 'sys', '2', '1', 1, NULL, NULL, NULL,
+#         'sys', 'sys');
 
 drop table if exists di_job_resource_file;
 create table di_job_resource_file
@@ -1378,6 +1379,7 @@ create table di_job_step
     step_name   varchar(128) not null comment '步骤名称',
     position_x  int          not null comment 'x坐标',
     position_y  int          not null comment 'y坐标',
+    step_attrs  mediumtext comment '作业步骤属性',
     creator     varchar(32) comment '创建人',
     create_time timestamp default current_timestamp comment '创建时间',
     editor      varchar(32) comment '修改人',
@@ -1385,157 +1387,6 @@ create table di_job_step
     primary key (id),
     unique key (job_id, step_code)
 ) engine = innodb comment '数据集成-作业步骤信息';
-
-insert into di_job_step(id, job_id, step_code, step_title, step_type, step_name, position_x, position_y,
-                        creator, editor)
-VALUES (1, 1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', '表输入', 'source', 'table', -440, -320, 'sys', 'sys');
-insert into di_job_step(id, job_id, step_code, step_title, step_type, step_name, position_x, position_y,
-                        creator, editor)
-VALUES (2, 1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', '表输出', 'sink', 'table', -240, -120, 'sys', 'sys');
-INSERT INTO `di_job_step`(`id`, `job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`,
-                          `position_y`,
-                          `creator`, `editor`)
-VALUES (3, 2, '01f16fcb-faa4-45e4-8f46-edc2dc756e8a', '表输入', 'source', 'table', -320, -280, 'sys', 'sys');
-INSERT INTO `di_job_step`(`id`, `job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`,
-                          `position_y`,
-                          `creator`, `editor`)
-VALUES (4, 2, 'ac5622d2-77dd-47e3-99e4-9090dbd790ea', '表输出', 'sink', 'table', -110, -80, 'sys', 'sys');
-INSERT INTO `di_job_step`(`id`, `job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`,
-                          `position_y`,
-                          `creator`, `editor`)
-VALUES (5, 3, '2af4c9d8-d1a7-41c9-83df-601dae708cfd', 'JDBC', 'source', 'table', -240, -280, 'sys', 'sys');
-INSERT INTO `di_job_step`(`id`, `job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`,
-                          `position_y`,
-                          `creator`, `editor`)
-VALUES (6, 3, '014742ce-8fbd-4c77-bf63-6432d348dc5f', 'Elasticsearch7.x', 'sink', 'elasticsearch', -240, -124,
-        'sys',
-        'sys');
-INSERT INTO `di_job_step` (`id`, `job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`,
-                           `position_y`, `creator`, `editor`)
-VALUES (7, 4, 'b3f8863d-2a4f-4626-ba6f-d77770c26716', 'Druid', 'source', 'druid', -200, -320, 'sys', 'sys');
-INSERT INTO `di_job_step` (`id`, `job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`,
-                           `position_y`, `creator`, `editor`)
-VALUES (8, 4, 'dfcad4bd-4bad-4c19-9f04-6d0a88dbfa0c', 'Console', 'sink', 'console', -200, -161, 'sys', 'sys');
-INSERT INTO `di_job_step`(`id`, `job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`,
-                          `position_y`, `creator`, `editor`)
-VALUES (9, 5, '78ce13cc-dd5f-4d50-8562-a9bb2c4eda6d', 'JDBC', 'source', 'table', -200, -320, 'sys', 'sys');
-INSERT INTO `di_job_step`(`id`, `job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`,
-                          `position_y`, `creator`, `editor`)
-VALUES (10, 5, 'e2c9b49f-7e1f-4f95-a75b-6451082f8ddf', 'Druid', 'sink', 'druid', -200, -161, 'sys', 'sys');
-
-
-/* 作业步骤参数 */
-drop table if exists di_job_step_attr;
-create table di_job_step_attr
-(
-    id              bigint       not null auto_increment comment '自增主键',
-    job_id          bigint       not null comment '作业id',
-    step_code       varchar(36)  not null comment '步骤编码',
-    step_attr_key   varchar(128) not null comment '步骤参数key',
-    step_attr_value text comment '步骤参数value',
-    creator         varchar(32) comment '创建人',
-    create_time     timestamp default current_timestamp comment '创建时间',
-    editor          varchar(32) comment '修改人',
-    update_time     timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    key (job_id, step_code)
-) engine = innodb comment '数据集成-作业步骤参数';
-
-insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
-VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', 'dataSource', '{\"label\":\"docker_data_service\",\"value\":\"1\"}',
-        'sys_admin', 'sys_admin');
-insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
-VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', 'dataSourceType', '{\"label\":\"Mysql\",\"value\":\"mysql\"}',
-        'sys_admin', 'sys_admin');
-insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
-VALUES (1, 'ead21aa2-a825-4827-a9ba-3833c6b83941', 'query', 'select * from sample_data_e_commerce', 'sys_admin',
-        'sys_admin');
-insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
-VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'batchSize', '1024', 'sys_admin', 'sys_admin');
-insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
-VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'dataSource', '{\"label\":\"docker_data_service\",\"value\":\"1\"}',
-        'sys_admin', 'sys_admin');
-insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
-VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'dataSourceType', '{\"label\":\"Mysql\",\"value\":\"mysql\"}',
-        'sys_admin', 'sys_admin');
-insert into di_job_step_attr(job_id, step_code, step_attr_key, step_attr_value, creator, editor)
-VALUES (1, 'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'query',
-        'insert into sample_data_e_commerce_duplicate (id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country) values (?,?,?,?,?, ?,?,?,?)',
-        'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (2, '01f16fcb-faa4-45e4-8f46-edc2dc756e8a', 'dataSource', '{\"label\":\"local_data_service\",\"value\":\"2\"}',
-        'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (2, '01f16fcb-faa4-45e4-8f46-edc2dc756e8a', 'dataSourceType', '{\"label\":\"Mysql\",\"value\":\"mysql\"}',
-        'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (2, '01f16fcb-faa4-45e4-8f46-edc2dc756e8a', 'query', 'select * from sample_data_e_commerce', 'sys_admin',
-        'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (2, 'ac5622d2-77dd-47e3-99e4-9090dbd790ea', 'batchSize', '1024', 'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (2, 'ac5622d2-77dd-47e3-99e4-9090dbd790ea', 'dataSource', '{\"label\":\"local_data_service\",\"value\":\"2\"}',
-        'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (2, 'ac5622d2-77dd-47e3-99e4-9090dbd790ea', 'dataSourceType', '{\"label\":\"Mysql\",\"value\":\"mysql\"}',
-        'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (2, 'ac5622d2-77dd-47e3-99e4-9090dbd790ea', 'query',
-        'insert into sample_data_e_commerce_duplicate (id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country) values (?,?,?,?,?, ?,?,?,?)',
-        'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (3, '2af4c9d8-d1a7-41c9-83df-601dae708cfd', 'dataSource', '{\"label\":\"local_data_service\",\"value\":\"2\"}',
-        'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (3, '2af4c9d8-d1a7-41c9-83df-601dae708cfd', 'dataSourceType', '{\"label\":\"Mysql\",\"value\":\"Mysql\"}',
-        'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (3, '2af4c9d8-d1a7-41c9-83df-601dae708cfd', 'partition_column', NULL, 'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (3, '2af4c9d8-d1a7-41c9-83df-601dae708cfd', 'query', 'select * from sample_data_e_commerce', 'sys_admin',
-        'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (3, '014742ce-8fbd-4c77-bf63-6432d348dc5f', 'dataSource', '{\"label\":\"local\",\"value\":\"3\"}', 'sys_admin',
-        'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (3, '014742ce-8fbd-4c77-bf63-6432d348dc5f', 'index', NULL, 'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (3, '014742ce-8fbd-4c77-bf63-6432d348dc5f', 'index_time_format', NULL, 'sys_admin', 'sys_admin');
-INSERT INTO `di_job_step_attr` (`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (4, 'b3f8863d-2a4f-4626-ba6f-d77770c26716', 'columns', NULL, 'sys', 'sys');
-INSERT INTO `di_job_step_attr` (`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (4, 'b3f8863d-2a4f-4626-ba6f-d77770c26716', 'dataSource', '{\"label\":\"local\",\"value\":\"4\"}', 'sys', 'sys');
-INSERT INTO `di_job_step_attr` (`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (4, 'b3f8863d-2a4f-4626-ba6f-d77770c26716', 'datasourceName', 'wikipedia', 'sys', 'sys');
-INSERT INTO `di_job_step_attr` (`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (4, 'b3f8863d-2a4f-4626-ba6f-d77770c26716', 'end_date', NULL, 'sys', 'sys');
-INSERT INTO `di_job_step_attr` (`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (4, 'b3f8863d-2a4f-4626-ba6f-d77770c26716', 'parallelism', '2', 'sys', 'sys');
-INSERT INTO `di_job_step_attr` (`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (4, 'b3f8863d-2a4f-4626-ba6f-d77770c26716', 'start_date', NULL, 'sys', 'sys');
-INSERT INTO `di_job_step_attr` (`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (4, 'dfcad4bd-4bad-4c19-9f04-6d0a88dbfa0c', 'limit', NULL, 'sys', 'sys');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (5, '78ce13cc-dd5f-4d50-8562-a9bb2c4eda6d', 'dataSource', '{"label":"local_data_service","value":"2"}', 'sys',
-        'sys');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (5, '78ce13cc-dd5f-4d50-8562-a9bb2c4eda6d', 'dataSourceType', '{"label":"Mysql","value":"Mysql"}', 'sys', 'sys');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (5, '78ce13cc-dd5f-4d50-8562-a9bb2c4eda6d', 'partition_column', NULL, 'sys', 'sys');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (5, '78ce13cc-dd5f-4d50-8562-a9bb2c4eda6d', 'query', 'select * from sample_data_e_commerce', 'sys', 'sys');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (5, 'e2c9b49f-7e1f-4f95-a75b-6451082f8ddf', 'coordinator_url', 'http://localhost:8081', 'sys', 'sys');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (5, 'e2c9b49f-7e1f-4f95-a75b-6451082f8ddf', 'datasourceName', 'wikipedia', 'sys', 'sys');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (5, 'e2c9b49f-7e1f-4f95-a75b-6451082f8ddf', 'parallelism', '1', 'sys', 'sys');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (5, 'e2c9b49f-7e1f-4f95-a75b-6451082f8ddf', 'timestamp_column', 'timestamp', 'sys', 'sys');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (5, 'e2c9b49f-7e1f-4f95-a75b-6451082f8ddf', 'timestamp_format', 'iso', 'sys', 'sys');
-INSERT INTO `di_job_step_attr`(`job_id`, `step_code`, `step_attr_key`, `step_attr_value`, `creator`, `editor`)
-VALUES (5, 'e2c9b49f-7e1f-4f95-a75b-6451082f8ddf', 'timestamp_missing_value', '2022-02-02T02:02:02.222', 'sys', 'sys');
 
 /* 作业连线信息 */
 drop table if exists di_job_link;
@@ -1553,21 +1404,6 @@ create table di_job_link
     primary key (id),
     key (job_id)
 ) engine = innodb comment '数据集成-作业连线';
-INSERT INTO di_job_link(job_id, link_code, from_step_code, to_step_code, creator, editor)
-VALUES (1, '0c23960c-e59f-480f-beef-6cd59878d0e5', 'ead21aa2-a825-4827-a9ba-3833c6b83941',
-        'aeea6c72-6b91-4aec-b6be-61a52ac718d6', 'sys', 'sys');
-INSERT INTO `di_job_link`(`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
-VALUES (2, '5cd7b126-c603-455b-93b2-5fc3ebb4fdca', '01f16fcb-faa4-45e4-8f46-edc2dc756e8a',
-        'ac5622d2-77dd-47e3-99e4-9090dbd790ea', 'sys', 'sys');
-INSERT INTO `di_job_link`(`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
-VALUES (3, '30d76f7d-5205-41bf-8a0d-807ad0dfb624', '2af4c9d8-d1a7-41c9-83df-601dae708cfd',
-        '014742ce-8fbd-4c77-bf63-6432d348dc5f', 'sys', 'sys');
-INSERT INTO `di_job_link` (`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
-VALUES (4, '383fa941-652d-4e17-9145-e10aad5610bd', 'b3f8863d-2a4f-4626-ba6f-d77770c26716',
-        'dfcad4bd-4bad-4c19-9f04-6d0a88dbfa0c', 'sys', 'sys');
-INSERT INTO `di_job_link`(`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
-VALUES (5, 'c1d1e030-5300-4934-b333-6917881f2173', '78ce13cc-dd5f-4d50-8562-a9bb2c4eda6d',
-        'e2c9b49f-7e1f-4f95-a75b-6451082f8ddf', 'sys', 'sys');
 
 /* 数据同步-运行日志 */
 drop table if exists di_job_log;
