@@ -19,9 +19,14 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.console.sink;
 
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
+import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import com.google.auto.service.AutoService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class ConsoleSinkPlugin extends SeaTunnelConnectorPlugin {
@@ -30,6 +35,10 @@ public class ConsoleSinkPlugin extends SeaTunnelConnectorPlugin {
         this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
                 "Console Sink Plugin, output records to the console.",
                 ConsoleSinkPlugin.class.getName());
+        final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(CommonProperties.SOURCE_TABLE_NAME);
+        props.add(CommonProperties.FIELD_NAME);
+        this.supportedProperties = props;
     }
 
     @Override
