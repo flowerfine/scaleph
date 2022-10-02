@@ -18,11 +18,6 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.source;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.source.HdfsFileSourceProperties.FS_DEFAULT_FS;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.source.HdfsFileSourceProperties.PATH;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.source.HdfsFileSourceProperties.SCHEMA;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.source.HdfsFileSourceProperties.TYPE;
-
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -35,22 +30,26 @@ import com.google.auto.service.AutoService;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigRenderOptions;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSProperties.FS_DEFAULT_FS;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class HdfsFileSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public HdfsFileSourcePlugin() {
         this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
-            "Read data from hdfs FileSystem",
-            HdfsFileSourcePlugin.class.getName());
+                "Read data from hdfs FileSystem",
+                HdfsFileSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(FS_DEFAULT_FS);
         props.add(PATH);
         props.add(TYPE);
-        props.add(FS_DEFAULT_FS);
         props.add(SCHEMA);
         props.add(CommonProperties.FIELD_NAME);
         props.add(CommonProperties.RESULT_TABLE_NAME);

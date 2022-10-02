@@ -30,8 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.sink.HdfsFileSinkProperties.FS_DEFAULT_FS;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.sink.HdfsFileSinkProperties.PATH;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSProperties.FS_DEFAULT_FS;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class HdfsFileSinkPlugin extends SeaTunnelConnectorPlugin {
@@ -55,8 +54,7 @@ public class HdfsFileSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(SINK_COLUMNS);
         props.add(IS_ENABLE_TRANSACTION);
         props.add(SAVE_MODE);
-        props.add(CommonProperties.FIELD_NAME);
-        props.add(CommonProperties.RESULT_TABLE_NAME);
+        props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 

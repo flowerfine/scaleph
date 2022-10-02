@@ -16,37 +16,47 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.local.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.oss;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum LocalFileSourceProperties {
+public enum OSSProperties {
     ;
 
-    public static final PropertyDescriptor<String> PATH = new PropertyDescriptor.Builder<String>()
-            .name("path")
-            .description("The source dir path started with file://")
+    public static final PropertyDescriptor<String> ENDPOINT = new PropertyDescriptor.Builder<String>()
+            .name("endpoint")
+            .description("The aliyun oss endpoint.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> TYPE = new PropertyDescriptor.Builder<String>()
-            .name("type")
-            .description("We supported as the following file types:text, csv, parquet, orc, json")
+    public static final PropertyDescriptor<String> BUCKET = new PropertyDescriptor.Builder<String>()
+            .name("bucket")
+            .description("The aliyun oss bucket address.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .allowableValues("text", "csv", "parquet", "orc", "json")
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> SCHEMA = new PropertyDescriptor.Builder<String>()
-            .name("schema")
-            .description("The schema information of upstream data.")
+    public static final PropertyDescriptor<String> ACCESS_KEY = new PropertyDescriptor.Builder<String>()
+            .name("access_key")
+            .description("The aliyun oss access key.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
+
+    public static final PropertyDescriptor<String> ACCESS_SECRET = new PropertyDescriptor.Builder<String>()
+            .name("access_secret")
+            .description("The aliyun oss access secret.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
 }
