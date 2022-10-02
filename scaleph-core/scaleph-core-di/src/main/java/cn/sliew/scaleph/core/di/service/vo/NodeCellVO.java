@@ -8,7 +8,7 @@ import java.util.Map;
 public class NodeCellVO {
     private String id;
     private String label;
-    private Map<String, String> data;
+    private Map<String, Object> data;
     private Integer x;
     private Integer y;
 }

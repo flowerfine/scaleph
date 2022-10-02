@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.local.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.oss.sink;
 
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -30,16 +30,21 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.oss.OSSProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class LocalFileSinkPlugin extends SeaTunnelConnectorPlugin {
+public class OSSSinkPlugin extends SeaTunnelConnectorPlugin {
 
-    public LocalFileSinkPlugin() {
+    public OSSSinkPlugin() {
         this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
-                "Write data to local FileSystem",
-                LocalFileSinkPlugin.class.getName());
+                "Write data to aliyun OSS service",
+                OSSSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(ENDPOINT);
+        props.add(BUCKET);
+        props.add(ACCESS_KEY);
+        props.add(ACCESS_SECRET);
         props.add(PATH);
         props.add(FILE_FORMAT);
         props.add(FILE_NAME_EXPRESSION);
@@ -58,6 +63,6 @@ public class LocalFileSinkPlugin extends SeaTunnelConnectorPlugin {
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_LOCAL_FILE;
+        return SeaTunnelPluginMapping.SINK_OSS_FILE;
     }
 }

@@ -55,6 +55,7 @@ public enum SeaTunnelPluginMapping {
     SOURCE_HDFS_FILE(SEATUNNEL, SOURCE, HDFS_FILE, "connector-file-hadoop"),
     SINK_HDFS_FILE(SEATUNNEL, SINK, HDFS_FILE, "connector-file-hadoop"),
     SOURCE_OSS_FILE(SEATUNNEL, SOURCE, OSS_FILE, "connector-file-oss"),
+    SINK_OSS_FILE(SEATUNNEL, SINK, OSS_FILE, "connector-file-oss"),
 
     SOURCE_KAFKA(SEATUNNEL, SOURCE, KAFKA, "connector-kafka"),
     SINK_KAFKA(SEATUNNEL, SINK, KAFKA, "connector-kafka"),
