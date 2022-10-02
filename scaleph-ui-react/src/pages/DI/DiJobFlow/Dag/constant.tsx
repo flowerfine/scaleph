@@ -104,7 +104,7 @@ export const BaseFileParams = {
   saveMode: 'save_mode',
 }
 
-export const HdfsFileParams = {
+export const HDFSFileParams = {
   defaultFS: 'fs.defaultFS'
 }
 
@@ -113,6 +113,13 @@ export const FtpFileParams = {
   port: 'port',
   username: 'username',
   password: 'password'
+}
+
+export const OSSFileParams = {
+  endpoint: 'endpoint',
+  bucket: 'bucket',
+  accessKey: 'access_key',
+  accessSecret: 'access_secret'
 }
 
 export const HudiParams = {

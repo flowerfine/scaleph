@@ -39,12 +39,12 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProper
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSProperties.FS_DEFAULT_FS;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class HdfsFileSourcePlugin extends SeaTunnelConnectorPlugin {
+public class HDFSFileSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public HdfsFileSourcePlugin() {
+    public HDFSFileSourcePlugin() {
         this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
-                "Read data from hdfs FileSystem",
-                HdfsFileSourcePlugin.class.getName());
+                "Read data from HDFS",
+                HDFSFileSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(FS_DEFAULT_FS);

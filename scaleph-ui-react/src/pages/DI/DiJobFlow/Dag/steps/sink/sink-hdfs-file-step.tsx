@@ -1,21 +1,22 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {BaseFileParams, FtpFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {BaseFileParams, HDFSFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
 import {getIntl, getLocale} from "umi";
 import {
   ProForm,
-  ProFormDependency, ProFormDigit,
+  ProFormDependency,
   ProFormGroup,
   ProFormSelect,
   ProFormSwitch,
   ProFormText
 } from "@ant-design/pro-components";
 import {useEffect} from "react";
+import {InfoCircleOutlined} from "@ant-design/icons";
 
-const SinkFtpFileStepForm: React.FC<ModalFormProps<{
+const SinkHdfsFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -28,11 +29,6 @@ const SinkFtpFileStepForm: React.FC<ModalFormProps<{
 
   useEffect(() => {
     form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
-    JobService.listStepAttr(jobInfo.id + '', nodeInfo.id).then((resp) => {
-      resp.map((step) => {
-        form.setFieldValue(step.stepAttrKey, step.stepAttrValue);
-      });
-    });
   }, []);
 
   return (<Modal
@@ -49,23 +45,7 @@ const SinkFtpFileStepForm: React.FC<ModalFormProps<{
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
         map.set(STEP_ATTR_TYPE.stepTitle, values[STEP_ATTR_TYPE.stepTitle]);
-
-        map.set(FtpFileParams.host, values[FtpFileParams.host]);
-        map.set(FtpFileParams.port, values[FtpFileParams.port]);
-        map.set(FtpFileParams.username, values[FtpFileParams.username]);
-        map.set(FtpFileParams.password, values[FtpFileParams.password]);
-        map.set(BaseFileParams.path, values[BaseFileParams.path]);
-        map.set(BaseFileParams.fileNameExpression, values[BaseFileParams.fileNameExpression]);
-        map.set(BaseFileParams.fileFormat, values[BaseFileParams.fileFormat]);
-        map.set(BaseFileParams.filenameTimeFormat, values[BaseFileParams.filenameTimeFormat]);
-        map.set(BaseFileParams.fieldDelimiter, values[BaseFileParams.fieldDelimiter]);
-        map.set(BaseFileParams.rowDelimiter, values[BaseFileParams.rowDelimiter]);
-        map.set(BaseFileParams.partitionBy, values[BaseFileParams.partitionBy]);
-        map.set(BaseFileParams.partitionDirExpression, values[BaseFileParams.partitionDirExpression]);
-        map.set(BaseFileParams.isPartitionFieldWriteInFile, values[BaseFileParams.isPartitionFieldWriteInFile]);
-        map.set(BaseFileParams.sinkColumns, values[BaseFileParams.sinkColumns]);
-        map.set(BaseFileParams.isEnableTransaction, values[BaseFileParams.isEnableTransaction]);
-        map.set(BaseFileParams.saveMode, values[BaseFileParams.saveMode]);
+        map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -76,7 +56,7 @@ const SinkFtpFileStepForm: React.FC<ModalFormProps<{
       });
     }}
   >
-    <ProForm form={form} grid={true} submitter={false}>
+    <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
       <ProFormText
         name={STEP_ATTR_TYPE.stepTitle}
         label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
@@ -84,24 +64,13 @@ const SinkFtpFileStepForm: React.FC<ModalFormProps<{
         colProps={{span: 24}}
       />
       <ProFormText
-        name={FtpFileParams.host}
-        label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.host'})}
+        name={HDFSFileParams.defaultFS}
+        label={intl.formatMessage({id: 'pages.project.di.step.hdfsFile.defaultFS'})}
         rules={[{required: true}]}
-      />
-      <ProFormDigit
-        name={FtpFileParams.port}
-        label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.port'})}
-        rules={[{required: true}]}
-      />
-      <ProFormText
-        name={FtpFileParams.username}
-        label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.username'})}
-        rules={[{required: true}]}
-      />
-      <ProFormText
-        name={FtpFileParams.password}
-        label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.password'})}
-        rules={[{required: true}]}
+        tooltip={{
+          title: intl.formatMessage({ id: 'pages.project.di.step.hdfsFile.defaultFS.tooltip' }),
+          icon: <InfoCircleOutlined />,
+        }}
       />
       <ProFormText
         name={BaseFileParams.path}
@@ -199,4 +168,4 @@ const SinkFtpFileStepForm: React.FC<ModalFormProps<{
   </Modal>);
 }
 
-export default SinkFtpFileStepForm;
+export default SinkHdfsFileStepForm;

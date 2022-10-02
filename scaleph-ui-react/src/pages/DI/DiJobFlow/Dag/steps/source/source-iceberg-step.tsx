@@ -29,11 +29,6 @@ const SourceIcebergStepForm: React.FC<ModalFormProps<{
 
   useEffect(() => {
     form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
-    JobService.listStepAttr(jobInfo.id + '', nodeInfo.id).then((resp) => {
-      resp.map((step) => {
-        form.setFieldValue(step.stepAttrKey, step.stepAttrValue);
-      });
-    });
   }, []);
 
   return (<Modal
@@ -50,20 +45,7 @@ const SourceIcebergStepForm: React.FC<ModalFormProps<{
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
         map.set(STEP_ATTR_TYPE.stepTitle, values[STEP_ATTR_TYPE.stepTitle]);
-        map.set(IcebergParams.catalogType, values[IcebergParams.catalogType]);
-        map.set(IcebergParams.catalogName, values[IcebergParams.catalogName]);
-        map.set(IcebergParams.namespace, values[IcebergParams.namespace]);
-        map.set(IcebergParams.table, values[IcebergParams.table]);
-        map.set(IcebergParams.uri, values[IcebergParams.uri]);
-        map.set(IcebergParams.warehouse, values[IcebergParams.warehouse]);
-        map.set(IcebergParams.caseSensitive, values[IcebergParams.caseSensitive]);
-        map.set(IcebergParams.fields, values[IcebergParams.fields]);
-        map.set(IcebergParams.useSnapshotId, values[IcebergParams.useSnapshotId]);
-        map.set(IcebergParams.startSnapshotId, values[IcebergParams.startSnapshotId]);
-        map.set(IcebergParams.endSnapshotId, values[IcebergParams.endSnapshotId]);
-        map.set(IcebergParams.startSnapshotTimestamp, values[IcebergParams.startSnapshotTimestamp]);
-        map.set(IcebergParams.useSnapshotTimestamp, values[IcebergParams.useSnapshotTimestamp]);
-        map.set(IcebergParams.streamScanStrategy, values[IcebergParams.streamScanStrategy]);
+        map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -74,7 +56,7 @@ const SourceIcebergStepForm: React.FC<ModalFormProps<{
       });
     }}
   >
-    <ProForm form={form} grid={true} submitter={false}>
+    <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
       <ProFormText
         name={STEP_ATTR_TYPE.stepTitle}
         label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}

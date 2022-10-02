@@ -33,12 +33,12 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProper
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSProperties.FS_DEFAULT_FS;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class HdfsFileSinkPlugin extends SeaTunnelConnectorPlugin {
+public class HDFSFileSinkPlugin extends SeaTunnelConnectorPlugin {
 
-    public HdfsFileSinkPlugin() {
+    public HDFSFileSinkPlugin() {
         this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
-                "Write data to hdfs FileSystem",
-                HdfsFileSinkPlugin.class.getName());
+                "Write data to HDFS",
+                HDFSFileSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(FS_DEFAULT_FS);
