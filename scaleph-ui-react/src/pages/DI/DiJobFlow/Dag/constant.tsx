@@ -40,7 +40,7 @@ export const STEP_ATTR_TYPE = {
   jobId: 'jobId',
   stepCode: 'stepCode',
   stepTitle: 'stepTitle',
-  stepAttrs:'stepAttrs',
+  stepAttrs: 'stepAttrs',
   dataSourceType: 'dataSourceType',
   dataSource: 'dataSource',
   query: 'query',
@@ -84,7 +84,9 @@ export const STEP_ATTR_TYPE = {
   timestampColumn: 'timestamp_column',
   timestampFormat: 'timestamp_format',
   timestampMissingValue: 'timestamp_missing_value',
-  rowNum: 'row_num'
+  rowNum: 'row_num',
+  host: 'host',
+  port: 'port',
 };
 
 export const BaseFileParams = {
@@ -102,25 +104,25 @@ export const BaseFileParams = {
   sinkColumns: 'sink_columns',
   isEnableTransaction: 'is_enable_transaction',
   saveMode: 'save_mode',
-}
+};
 
 export const HDFSFileParams = {
-  defaultFS: 'fs.defaultFS'
-}
+  defaultFS: 'fs.defaultFS',
+};
 
 export const FtpFileParams = {
   host: 'host',
   port: 'port',
   username: 'username',
-  password: 'password'
-}
+  password: 'password',
+};
 
 export const OSSFileParams = {
   endpoint: 'endpoint',
   bucket: 'bucket',
   accessKey: 'access_key',
-  accessSecret: 'access_secret'
-}
+  accessSecret: 'access_secret',
+};
 
 export const BaseHttpParams = {
   url: 'url',
@@ -146,7 +148,7 @@ export const HudiParams = {
   useKerberos: 'use.kerberos',
   kerberosPrincipal: 'kerberos.principal',
   kerberosPrincipalFile: 'kerberos.principal.file',
-}
+};
 
 export const IcebergParams = {
   catalogType: 'catalog_type',
@@ -163,6 +165,4 @@ export const IcebergParams = {
   startSnapshotTimestamp: 'start_snapshot_timestamp',
   useSnapshotTimestamp: 'use_snapshot_timestamp',
   streamScanStrategy: 'stream_scan_strategy',
-}
-
-
+};

@@ -104,13 +104,14 @@ export default {
   'pages.project.di.step.preview': '预览结果',
   'pages.project.di.step.batchSize': '提交记录数量',
   'pages.project.di.step.schema': 'schema信息',
+  'pages.project.di.step.host': '主机地址',
+  'pages.project.di.step.port': '端口号',
+  'pages.project.di.step.maxRetries': '重试次数',
 
   //fake
   'pages.project.di.step.rowNum': '生成数据行数',
-  'pages.project.di.step.fake.schema.tooltip': 'schema格式: {\n' +
-    '          name = "string"\n' +
-    '          age = "int"\n' +
-    '        }',
+  'pages.project.di.step.fake.schema.tooltip':
+    'schema格式: {\n' + '          name = "string"\n' + '          age = "int"\n' + '        }',
 
   //base file
   'pages.project.di.step.baseFile.path': 'Path',
@@ -131,7 +132,8 @@ export default {
   // hdfs file
   'pages.project.di.step.hdfsFile.defaultFS': 'fs.defaultFS',
   'pages.project.di.step.hdfsFile.defaultFS.tooltip': '格式:hdfs://namenode001',
-  'pages.project.di.step.hdfsFile.json.tooltip': '{\n' +
+  'pages.project.di.step.hdfsFile.json.tooltip':
+    '{\n' +
     '        code = int\n' +
     '        data = string\n' +
     '        success = boolean\n' +
