@@ -264,8 +264,8 @@ public class JobController {
                 jobStep.setJobId(jobId);
                 jobStep.setStepCode(node.getId());
                 jobStep.setStepTitle(node.getLabel());
-                jobStep.setStepType(DictVO.toVO(DictConstants.JOB_STEP_TYPE, node.getData().get("type")));
-                jobStep.setStepName(node.getData().get("name"));
+                jobStep.setStepType(DictVO.toVO(DictConstants.JOB_STEP_TYPE, String.valueOf(node.getData().get("type"))));
+                jobStep.setStepName(String.valueOf(node.getData().get("name")));
                 jobStep.setPositionX(node.getX());
                 jobStep.setPositionY(node.getY());
                 this.diJobStepService.upsert(jobStep);
