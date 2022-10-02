@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.local.source.LocalFileSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class LocalFileSourcePlugin extends SeaTunnelConnectorPlugin {

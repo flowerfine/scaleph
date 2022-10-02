@@ -143,6 +143,12 @@ export default {
   'pages.project.di.step.ftpFile.username': 'Username',
   'pages.project.di.step.ftpFile.password': 'Password',
 
+  // oss file
+  'pages.project.di.step.ossFile.endpoint': 'Endpoint',
+  'pages.project.di.step.ossFile.bucket': 'Bucket',
+  'pages.project.di.step.ossFile.accessKey': 'Access Key',
+  'pages.project.di.step.ossFile.accessSecret': 'Access Secret',
+
   // hudi
   'pages.project.di.step.hudi.tablePath': 'Table Path',
   'pages.project.di.step.hudi.tableType': 'Table Type',

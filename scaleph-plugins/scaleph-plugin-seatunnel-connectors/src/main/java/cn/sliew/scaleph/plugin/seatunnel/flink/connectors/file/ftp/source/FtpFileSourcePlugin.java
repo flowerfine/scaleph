@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.FtpFileProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.source.FtpFileSourceProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class FtpFileSourcePlugin extends SeaTunnelConnectorPlugin {

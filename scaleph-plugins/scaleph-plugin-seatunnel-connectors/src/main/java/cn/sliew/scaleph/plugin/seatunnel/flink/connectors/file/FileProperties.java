@@ -18,13 +18,37 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file;
 
-import cn.sliew.scaleph.plugin.framework.property.Parsers;
-import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.framework.property.PropertyType;
-import cn.sliew.scaleph.plugin.framework.property.Validators;
+import cn.sliew.scaleph.plugin.framework.property.*;
 
 public enum FileProperties {
     ;
+
+    public static final PropertyDescriptor<String> PATH = new PropertyDescriptor.Builder<String>()
+            .name("path")
+            .description("The source dir path started with file://")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> TYPE = new PropertyDescriptor.Builder<String>()
+            .name("type")
+            .description("We supported as the following file types:text, csv, parquet, orc, json")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .allowableValues("text", "csv", "parquet", "orc", "json")
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> SCHEMA = new PropertyDescriptor.Builder<String>()
+            .name("schema")
+            .description("The schema information of upstream data.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> FILE_NAME_EXPRESSION = new PropertyDescriptor.Builder<String>()
             .name("file_name_expression")
