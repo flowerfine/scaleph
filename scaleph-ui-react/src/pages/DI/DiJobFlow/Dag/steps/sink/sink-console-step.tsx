@@ -1,19 +1,18 @@
-import { ModalFormProps } from '@/app.d';
-import { NsGraph } from '@antv/xflow';
-import { getIntl, getLocale } from 'umi';
-import { DiJob } from '@/services/project/typings';
-import { Form, Input, message, Modal } from 'antd';
-import { useEffect } from 'react';
-import { STEP_ATTR_TYPE } from '../../constant';
-import { JobService } from '@/services/project/job.service';
+import {ModalFormProps} from '@/app.d';
+import {NsGraph} from '@antv/xflow';
+import {getIntl, getLocale} from 'umi';
+import {DiJob} from '@/services/project/typings';
+import {Form, message, Modal} from 'antd';
+import {useEffect} from 'react';
+import {STEP_ATTR_TYPE} from '../../constant';
+import {JobService} from '@/services/project/job.service';
+import {ProForm, ProFormText} from '@ant-design/pro-components';
 
-const SinkConsoleStepForm: React.FC<
-  ModalFormProps<{
-    node: NsGraph.INodeConfig;
-    graphData: NsGraph.IGraphData;
-    graphMeta: NsGraph.IGraphMeta;
-  }>
-> = ({ data, visible, onCancel, onOK }) => {
+const SinkConsoleStepForm: React.FC<ModalFormProps<{
+  node: NsGraph.INodeConfig;
+  graphData: NsGraph.IGraphData;
+  graphMeta: NsGraph.IGraphMeta;
+}>> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as DiJob;
   const jobGraph = data.graphData;
@@ -28,7 +27,7 @@ const SinkConsoleStepForm: React.FC<
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{ overflowY: 'scroll', maxHeight: '640px' }}
+      bodyStyle={{overflowY: 'scroll', maxHeight: '640px'}}
       destroyOnClose={true}
       onCancel={onCancel}
       onOk={() => {
@@ -40,7 +39,7 @@ const SinkConsoleStepForm: React.FC<
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
-              message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+              message.success(intl.formatMessage({id: 'app.common.operate.success'}));
               onCancel();
               onOK ? onOK() : null;
             }
@@ -48,15 +47,14 @@ const SinkConsoleStepForm: React.FC<
         });
       }}
     >
-      <Form form={form} layout="vertical" initialValues={nodeInfo.data.attrs}>
-        <Form.Item
+      <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
+        <ProFormText
           name={STEP_ATTR_TYPE.stepTitle}
-          label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
-          rules={[{ required: true }, { max: 120 }]}
-        >
-          <Input />
-        </Form.Item>
-      </Form>
+          label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
+          rules={[{required: true}, {max: 120}]}
+          colProps={{span: 24}}
+        />
+      </ProForm>
     </Modal>
   );
 };
