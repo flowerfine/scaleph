@@ -37,7 +37,8 @@ import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 public class ClickHouseDataSourcePlugin extends JDBCDataSourcePlugin {
 
     public ClickHouseDataSourcePlugin() {
-        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.CLICKHOUSE.getValue(), "ClickHouse Jdbc Datasource", ClickHouseDataSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.CLICKHOUSE.getValue(),
+            "ClickHouse Jdbc Datasource", ClickHouseDataSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(HOST);
@@ -55,11 +56,13 @@ public class ClickHouseDataSourcePlugin extends JDBCDataSourcePlugin {
         properties.set(DATABASE, properties.getString(DATABASE_NAME));
         properties.set(JDBC_URL_UNREQUIRED, getJdbcUrl());
         properties.set(DRIVER_CLASS_NAME_UNREQUIRED, getDriverClassName());
+        properties.set(HOST, properties.getString(HOST) + ":" + properties.get(PORT));
     }
 
     @Override
     public String getJdbcUrl() {
-        return "jdbc:clickhouse://" + properties.getString(HOST) + ":" + properties.get(PORT) + "/" + properties.getString(DATABASE_NAME) + "?" + getAdditionalProps();
+        return "jdbc:clickhouse://" + properties.getString(HOST) + ":" + properties.get(PORT) + "/"
+            + properties.getString(DATABASE_NAME) + "?" + getAdditionalProps();
     }
 
     @Override

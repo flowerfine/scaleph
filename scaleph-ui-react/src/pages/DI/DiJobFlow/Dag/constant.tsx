@@ -148,4 +148,12 @@ export const IcebergParams = {
   startSnapshotTimestamp: 'start_snapshot_timestamp',
   useSnapshotTimestamp: 'use_snapshot_timestamp',
   streamScanStrategy: 'stream_scan_strategy',
+}
+
+
+export const ClickHouseParams = {
+  dataSourceType: 'ClickHouse',
+  splitMode: 'split_mode',
+  shardingKey: 'sharding_key',
+  clickhouseConf: 'clickhouse_conf'
 };

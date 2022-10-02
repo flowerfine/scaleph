@@ -104,6 +104,7 @@ export default {
   'pages.project.di.step.preview': '预览结果',
   'pages.project.di.step.batchSize': '提交记录数量',
   'pages.project.di.step.schema': 'schema信息',
+  'pages.project.di.step.bulkSize': '批量提交记录数量',
   'pages.project.di.step.host': '主机地址',
   'pages.project.di.step.port': '端口号',
   'pages.project.di.step.maxRetries': '重试次数',
@@ -174,4 +175,14 @@ export default {
   'pages.project.di.step.iceberg.startSnapshotTimestamp': 'Start Snapshot Timestamp',
   'pages.project.di.step.iceberg.useSnapshotTimestamp': 'Use Snapshot Timestamp',
   'pages.project.di.step.iceberg.streamScanStrategy': 'Stream Scan Strategy',
+
+  //clickhouse
+  'pages.project.di.step.clickhosue.table': '导出表名',
+  'pages.project.di.step.clickhosue.fields': '导出字段信息',
+  'pages.project.di.step.clickhosue.fields.tooltip': 'For example, : id,name',
+  'pages.project.di.step.clickhosue.splitMode': '是否分片',
+  'pages.project.di.step.clickhosue.shardingKey': 'shardingKey 分片字段',
+  'pages.project.di.step.clickhosue.splitMode.tooltip': 'Split mode when table is distributed engine,This mode only support clickhouse table which engine is \'Distributed\'',
+  'pages.project.di.step.clickhosue.clickhouseConf': 'clickhouse jdbc参数',
+  'pages.project.di.step.clickhosue.clickhouseConf.tooltip': ' For example, the way to specify socket_timeout is: clickhouse.socket_timeout = 50000',
 };
