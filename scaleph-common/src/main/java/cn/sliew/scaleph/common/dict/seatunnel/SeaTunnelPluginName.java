@@ -53,8 +53,8 @@ public enum SeaTunnelPluginName implements DictInstance {
     ELASTICSEARCH("elasticsearch", "elasticsearch"),
 
     HIVE("Hive", "Hive"),
-    CLICKHOUSE("Clickhouse", "Clickhouse"),
-    CLICKHOUSE_FILE("ClickhouseFile", "ClickhouseFile"),
+    CLICKHOUSE("ClickHouse", "ClickHouse"),
+    CLICKHOUSE_FILE("ClickHouseFile", "ClickHouseFile"),
     HUDI("Hudi", "Hudi"),
     ICEBERG("Iceberg", "Iceberg"),
     KUDU("Kudu", "Kudu"),

@@ -24,7 +24,7 @@ import SourceLocalFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-local
 import SourceHdfsFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-hdfs-file-step";
 import SinkLocalFileStepForm from '../steps/sink-local-file-step';
 import SourceFakeStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source-fake-step";
-
+import SinkClickHouseStepForm from '../steps/sink-clickhouse-step';
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -201,6 +201,8 @@ export class EditNodeCommand implements ICommand {
       return (<SourceFakeStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'sink' && name === 'Jdbc') {
       return (<SinkJdbcStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if (type === 'sink' && name === 'ClickHouse') {
+      return (<SinkClickHouseStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
       return <></>;
     }
