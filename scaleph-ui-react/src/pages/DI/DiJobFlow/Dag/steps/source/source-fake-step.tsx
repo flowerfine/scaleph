@@ -2,11 +2,12 @@ import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
 import {STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
-import {Col, Form, Input, InputNumber, message, Modal, Row} from "antd";
+import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
 import {getIntl, getLocale} from "umi";
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {useEffect} from "react";
+import {ProForm, ProFormDigit, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 
 const SourceFakeStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -36,7 +37,6 @@ const SourceFakeStepForm: React.FC<ModalFormProps<{
         map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-        map.set(STEP_ATTR_TYPE.stepTitle, values[STEP_ATTR_TYPE.stepTitle]);
         map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
@@ -48,45 +48,30 @@ const SourceFakeStepForm: React.FC<ModalFormProps<{
       });
     }}
   >
-
-    <Form form={form} layout="vertical" initialValues={nodeInfo.data.attrs}>
-      <Form.Item
+    <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
+      <ProFormText
         name={STEP_ATTR_TYPE.stepTitle}
-        label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
-        rules={[{ required: true }, { max: 120 }]}
-      >
-        <Input />
-      </Form.Item>
-    </Form>
-
-    <Form form={form} layout="vertical">
-    <Row gutter={[12, 12]}>
-        <Col span={19}>
-          <Form.Item
-            name={STEP_ATTR_TYPE.schema}
-            label={intl.formatMessage({ id: 'pages.project.di.step.schema' })}
-            rules={[{ required: true }]}
-            tooltip={{
-              title: intl.formatMessage({ id: 'pages.project.di.step.fake.schema.tooltip' }),
-              icon: <InfoCircleOutlined />,
-            }}
-          >
-            <Input.TextArea rows={8}></Input.TextArea>
-          </Form.Item>
-        </Col>
-
-    </Row>
-    </Form>
-
-    <Form form={form} layout="vertical">
-    <Form.Item
-      name={STEP_ATTR_TYPE.rowNum}
-      label={intl.formatMessage({ id: 'pages.project.di.step.rowNum' })}
-    >
-      <InputNumber defaultValue={10} step={100} style={{ width: '100%' }} />
-    </Form.Item>
-    </Form>
-
+        label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
+        rules={[{required: true}, {max: 120}]}
+      />
+      <ProFormDigit
+        name={STEP_ATTR_TYPE.rowNum}
+        label={intl.formatMessage({id: 'pages.project.di.step.rowNum'})}
+        fieldProps={{
+          defaultValue: 10,
+          step: 100
+        }}
+      />
+      <ProFormTextArea
+        name={STEP_ATTR_TYPE.schema}
+        label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
+        rules={[{required: true}]}
+        tooltip={{
+          title: intl.formatMessage({id: 'pages.project.di.step.fake.schema.tooltip'}),
+          icon: <InfoCircleOutlined/>,
+        }}
+      />
+    </ProForm>
   </Modal>);
 }
 

@@ -152,6 +152,21 @@ export default {
   'pages.project.di.step.ossFile.accessKey': 'Access Key',
   'pages.project.di.step.ossFile.accessSecret': 'Access Secret',
 
+  // base http
+  'pages.project.di.step.baseHttp.url': 'URL',
+  'pages.project.di.step.baseHttp.headers': 'Headers',
+  'pages.project.di.step.baseHttp.params': 'Params',
+  'pages.project.di.step.baseHttp.retry': 'Retry',
+  'pages.project.di.step.baseHttp.retryBackoffMultiplierMs': 'Retry-Backoff times(millis) Multiplier',
+  'pages.project.di.step.baseHttp.retryBackoffMaxMs': 'Maximum Retry-Backoff times(millis)',
+
+  // http
+  'pages.project.di.step.http.method': 'Method',
+  'pages.project.di.step.http.body': 'Body',
+  'pages.project.di.step.http.format': 'Format',
+  'pages.project.di.step.http.schema': 'Schema',
+  'pages.project.di.step.http.pollIntervalMs': 'Poll Interval(millis)',
+
   // hudi
   'pages.project.di.step.hudi.tablePath': 'Table Path',
   'pages.project.di.step.hudi.tableType': 'Table Type',

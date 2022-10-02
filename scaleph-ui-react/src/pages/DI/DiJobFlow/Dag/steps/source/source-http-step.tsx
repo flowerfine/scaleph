@@ -1,6 +1,6 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {HudiParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {BaseHttpParams, HttpParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
@@ -8,14 +8,15 @@ import {getIntl, getLocale} from "umi";
 import {
   ProForm,
   ProFormDependency,
+  ProFormDigit,
   ProFormGroup,
   ProFormSelect,
-  ProFormSwitch,
-  ProFormText
+  ProFormText,
+  ProFormTextArea
 } from "@ant-design/pro-components";
 import {useEffect} from "react";
 
-const SourceHudiStepForm: React.FC<ModalFormProps<{
+const SourceHttpFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -61,41 +62,53 @@ const SourceHudiStepForm: React.FC<ModalFormProps<{
         rules={[{required: true}, {max: 120}]}
       />
       <ProFormText
-        name={HudiParams.tablePath}
-        label={intl.formatMessage({id: 'pages.project.di.step.hudi.tablePath'})}
+        name={BaseHttpParams.url}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseHttp.url'})}
         rules={[{required: true}]}
       />
       <ProFormSelect
-        name={HudiParams.tableType}
-        label={intl.formatMessage({id: 'pages.project.di.step.hudi.tableType'})}
+        name={HttpParams.method}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.method'})}
         rules={[{required: true}]}
+        allowClear={false}
         valueEnum={{
-          cow: {text: "Copy On Write", disabled: false},
-          mor: {text: "Merge On Read", disabled: true}
+          GET: "GET",
+          POST: "POST"
         }}
       />
-      <ProFormText
-        name={HudiParams.confFiles}
-        label={intl.formatMessage({id: 'pages.project.di.step.hudi.confFiles'})}
+      <ProFormTextArea
+        name={BaseHttpParams.headers}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseHttp.headers'})}
+        colProps={{span: 24}}
+      />
+      <ProFormTextArea
+        name={BaseHttpParams.params}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseHttp.params'})}
+        colProps={{span: 24}}
+      />
+      <ProFormTextArea
+        name={HttpParams.body}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.body'})}
+        colProps={{span: 24}}
+      />
+      <ProFormSelect
+        name={"format"}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.format'})}
         rules={[{required: true}]}
+        allowClear={false}
+        valueEnum={{
+          json: "json",
+          text: "text"
+        }}
       />
-      <ProFormSwitch
-        name={"useKerberos"}
-        label={intl.formatMessage({id: 'pages.project.di.step.hudi.useKerberos'})}
-      />
-      <ProFormDependency name={["useKerberos"]}>
-        {({useKerberos}) => {
-          if (useKerberos) {
+      <ProFormDependency name={["format"]}>
+        {({format}) => {
+          if (format == "json") {
             return (
               <ProFormGroup>
-                <ProFormText
-                  name={HudiParams.kerberosPrincipal}
-                  label={intl.formatMessage({id: 'pages.project.di.step.hudi.kerberosPrincipal'})}
-                  rules={[{required: true}]}
-                />
-                <ProFormText
-                  name={HudiParams.kerberosPrincipalFile}
-                  label={intl.formatMessage({id: 'pages.project.di.step.hudi.kerberosPrincipalFile'})}
+                <ProFormTextArea
+                  name={HttpParams.schema}
+                  label={intl.formatMessage({id: 'pages.project.di.step.http.schema'})}
                   rules={[{required: true}]}
                 />
               </ProFormGroup>
@@ -104,8 +117,28 @@ const SourceHudiStepForm: React.FC<ModalFormProps<{
           return <ProFormGroup/>;
         }}
       </ProFormDependency>
+      <ProFormDigit
+        name={HttpParams.pollIntervalMs}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.pollIntervalMs'})}
+        colProps={{span: 24}}
+      />
+      <ProFormDigit
+        name={BaseHttpParams.retry}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseHttp.retry'})}
+        colProps={{span: 6}}
+      />
+      <ProFormDigit
+        name={BaseHttpParams.retryBackoffMultiplierMs}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseHttp.retryBackoffMultiplierMs'})}
+        colProps={{span: 9}}
+      />
+      <ProFormDigit
+        name={BaseHttpParams.retryBackoffMaxMs}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseHttp.retryBackoffMaxMs'})}
+        colProps={{span: 9}}
+      />
     </ProForm>
   </Modal>);
 }
 
-export default SourceHudiStepForm;
+export default SourceHttpFileStepForm;
