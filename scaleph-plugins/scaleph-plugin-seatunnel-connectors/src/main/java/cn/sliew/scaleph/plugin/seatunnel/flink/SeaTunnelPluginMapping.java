@@ -41,6 +41,7 @@ public enum SeaTunnelPluginMapping {
     SOURCE_FAKE(SEATUNNEL, SOURCE, FAKESOURCE, "connector-fake"),
     SINK_ASSERT(SEATUNNEL, SINK, ASSERT, "connector-assert"),
     SOURCE_SOCKET(SEATUNNEL, SOURCE, SOCKET, "connector-socket"),
+    SINK_SOCKET(SEATUNNEL, SINK, SOCKET, "connector-socket"),
     SINK_CONSOLE(SEATUNNEL, SINK, CONSOLE, "connector-console"),
     SINK_EMAIL(SEATUNNEL, SINK, EMAIL, "connector-email"),
     SOURCE_HTTP(SEATUNNEL, SOURCE, HTTP, "connector-http-base"),
