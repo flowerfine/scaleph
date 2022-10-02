@@ -1,21 +1,14 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {BaseFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
 import {getIntl, getLocale} from "umi";
-import {
-  ProForm,
-  ProFormDependency,
-  ProFormGroup,
-  ProFormSelect,
-  ProFormText,
-  ProFormTextArea
-} from "@ant-design/pro-components";
+import {ProForm, ProFormText} from "@ant-design/pro-components";
 import {useEffect} from "react";
 
-const SourceLocalFileStepForm: React.FC<ModalFormProps<{
+const StepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -28,11 +21,6 @@ const SourceLocalFileStepForm: React.FC<ModalFormProps<{
 
   useEffect(() => {
     form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
-    JobService.listStepAttr(jobInfo.id + '', nodeInfo.id).then((resp) => {
-      resp.map((step) => {
-        form.setFieldValue(step.stepAttrKey, step.stepAttrValue);
-      });
-    });
   }, []);
 
   return (<Modal
@@ -49,9 +37,7 @@ const SourceLocalFileStepForm: React.FC<ModalFormProps<{
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
         map.set(STEP_ATTR_TYPE.stepTitle, values[STEP_ATTR_TYPE.stepTitle]);
-        map.set(BaseFileParams.path, values[BaseFileParams.path]);
-        map.set(BaseFileParams.type, values[BaseFileParams.type]);
-        map.set(BaseFileParams.schema, values[BaseFileParams.schema]);
+        map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -62,47 +48,15 @@ const SourceLocalFileStepForm: React.FC<ModalFormProps<{
       });
     }}
   >
-    <ProForm form={form} grid={true} submitter={false}>
+    <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
       <ProFormText
         name={STEP_ATTR_TYPE.stepTitle}
         label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
         rules={[{required: true}, {max: 120}]}
       />
-      <ProFormText
-        name={BaseFileParams.path}
-        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.path'})}
-        rules={[{required: true}]}
-      />
-      <ProFormSelect
-        name={"type"}
-        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.type'})}
-        rules={[{required: true}]}
-        valueEnum={{
-          json: "json",
-          parquet: "parquet",
-          orc: "orc",
-          text: "text",
-          csv: "csv"
-        }}
-      />
-      <ProFormDependency name={["type"]}>
-        {({type}) => {
-          if (type == "json") {
-            return (
-              <ProFormGroup>
-                <ProFormTextArea
-                  name={BaseFileParams.schema}
-                  label={intl.formatMessage({id: 'pages.project.di.step.baseFile.schema'})}
-                  rules={[{required: true}]}
-                />
-              </ProFormGroup>
-            );
-          }
-          return <ProFormGroup/>;
-        }}
-      </ProFormDependency>
+
     </ProForm>
   </Modal>);
 }
 
-export default SourceLocalFileStepForm;
+export default StepForm;
