@@ -30,6 +30,8 @@ import SinkHdfsFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-hdfs-
 import SourceOSSFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-oss-file-step";
 import SinkOSSFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-oss-file-step";
 import SinkConsoleStepForm from '../steps/sink/sink-console-step';
+import SinkHttpFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-http-step";
+import SourceHttpFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-http-step";
 
 
 const {inject, injectable, postConstruct} = ManaSyringe;
@@ -217,9 +219,13 @@ export class EditNodeCommand implements ICommand {
       return (<SourceIcebergStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if  (type === 'source' && name === 'Fake') {
       return (<SourceFakeStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
-    }else if(type==='sink' && name ==='Console'){
+    } else if(type==='sink' && name ==='Console'){
       return (<SinkConsoleStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
-    }  else {
+    } else if(type==='source' && name ==='Http'){
+      return (<SourceHttpFileStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type==='sink' && name ==='Http'){
+      return (<SinkHttpFileStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else {
       return <></>;
     }
   };

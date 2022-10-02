@@ -122,6 +122,23 @@ export const OSSFileParams = {
   accessSecret: 'access_secret'
 }
 
+export const BaseHttpParams = {
+  url: 'url',
+  headers: 'headers',
+  params: 'params',
+  retry: 'retry',
+  retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
+  retryBackoffMaxMs: 'retry_backoff_max_ms'
+}
+
+export const HttpParams = {
+  method: 'method',
+  body: 'body',
+  format: 'format',
+  schema: 'schema',
+  pollIntervalMs: 'poll_interval_ms'
+}
+
 export const HudiParams = {
   tablePath: 'table.path',
   tableType: 'table.type',
