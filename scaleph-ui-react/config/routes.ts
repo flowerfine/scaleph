@@ -203,6 +203,14 @@ export default [
         access: 'normalRouteFilter',
       },
       {
+        name: 'kerberos',
+        path: '/resource/kerberos',
+        exact: true,
+        component: './Resource/Kerberos',
+        pCode: PRIVILEGE_CODE.datadevResourceShow,
+        access: 'normalRouteFilter',
+      },
+      {
         name: 'clusterCredential',
         path: '/resource/cluster-credential',
         exact: true,

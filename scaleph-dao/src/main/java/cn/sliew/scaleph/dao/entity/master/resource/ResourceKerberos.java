@@ -16,33 +16,47 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.resource.service.dto;
+package cn.sliew.scaleph.dao.entity.master.resource;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotNull;
-
+/**
+ * <p>
+ * kerberos
+ * </p>
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkRelease对象", description = "flink release")
-public class FlinkReleaseDTO extends BaseDTO {
+@TableName("resource_kerberos")
+@ApiModel(value = "ResourceKerberos对象", description = "kerberos")
+public class ResourceKerberos extends BaseDO {
 
-    @NotNull
-    @ApiModelProperty("版本")
-    private FlinkVersion version;
+    private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("文件名称")
+    @ApiModelProperty("name")
+    @TableField("`name`")
+    private String name;
+
+    @ApiModelProperty("principal")
+    @TableField("principal")
+    private String principal;
+
+    @ApiModelProperty("file name")
+    @TableField("file_name")
     private String fileName;
 
-    @ApiModelProperty("存储路径")
+    @ApiModelProperty("path")
+    @TableField("path")
     private String path;
 
-    @ApiModelProperty("备注")
+    @ApiModelProperty("remark")
+    @TableField("remark")
     private String remark;
 
 }

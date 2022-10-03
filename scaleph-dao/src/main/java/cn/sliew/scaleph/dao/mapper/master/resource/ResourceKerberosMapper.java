@@ -16,32 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.resource.service.enums;
+package cn.sliew.scaleph.dao.mapper.master.resource;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.Getter;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceKerberos;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-@Getter
-public enum ResourceType {
+/**
+ * <p>
+ * kerberos Mapper 接口
+ * </p>
+ */
+@Repository
+public interface ResourceKerberosMapper extends BaseMapper<ResourceKerberos> {
 
-    SEATUNNEL_RELEASE("seatunnel_release", "SeaTunnel Release"),
-    FLINK_RELEASE("flink_release", "Flink Release"),
-    CLUSTER_CREDENTIAL("cluster_credential", "Cluster Credential"),
-    JAR("jar", "Additional Dependency Jar"),
-    KERBEROS("kerberos", "Kerberos"),
-    // todo
-    SCHEMA("schema", "Schema"),
-    DATASOURCE("datasource", "DataSource"),
-
-    ;
-    @JsonValue
-    @EnumValue
-    private String code;
-    private String value;
-
-    ResourceType(String code, String value) {
-        this.code = code;
-        this.value = value;
-    }
 }
