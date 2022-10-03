@@ -71,7 +71,6 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
         <ProFormSelect
           name={"dataSourceType"}
           label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
-          rules={[{required: true}]}
           colProps={{span: 6}}
           fieldProps={{
             defaultValue: "ClickHouse",
@@ -115,7 +114,6 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
         <ProFormDigit
           name={STEP_ATTR_TYPE.bulkSize}
           label={intl.formatMessage({id: 'pages.project.di.step.bulkSize'})}
-          rules={[{required: true}]}
           fieldProps={{
             defaultValue: 20000,
             step: 100
