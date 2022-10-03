@@ -55,7 +55,7 @@ public class MybatisPlusGenerator {
     /**
      * just add table names here and run the {@link #main(String[])} method.
      */
-    private static final String[] TABLES = {"flink_job"};
+    private static final String[] TABLES = {"resource_kerberos"};
 
     public static void main(String[] args) {
         //自动生成配置
@@ -115,7 +115,9 @@ public class MybatisPlusGenerator {
     }
 
     private static void templateConfig(TemplateConfig.Builder builder) {
-
+        builder.controller(null)
+                .service(null)
+                .serviceImpl(null);
     }
 
     /**

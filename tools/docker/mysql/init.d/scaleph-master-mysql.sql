@@ -1494,6 +1494,23 @@ CREATE TABLE `resource_jar`
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB COMMENT ='java jar';
 
+DROP TABLE IF EXISTS resource_kerberos;
+CREATE TABLE `resource_kerberos`
+(
+    `id`          bigint       NOT NULL AUTO_INCREMENT,
+    `name`        varchar(255) NOT NULL,
+    `principal`   varchar(64)  NOT NULL,
+    `file_name`   varchar(255) NOT NULL,
+    `path`        varchar(255) NOT NULL,
+    `remark`      varchar(255),
+    `creator`     varchar(32),
+    `create_time` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `editor`      varchar(32),
+    `update_time` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    KEY idx_name (`name`)
+) ENGINE = InnoDB COMMENT ='kerberos';
+
 DROP TABLE IF EXISTS snowflake_worker_node;
 CREATE TABLE snowflake_worker_node
 (

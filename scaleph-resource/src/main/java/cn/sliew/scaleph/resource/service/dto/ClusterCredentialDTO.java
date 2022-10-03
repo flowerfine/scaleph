@@ -44,4 +44,5 @@ public class ClusterCredentialDTO extends BaseDTO {
 
     @ApiModelProperty("备注")
     private String remark;
+
 }
