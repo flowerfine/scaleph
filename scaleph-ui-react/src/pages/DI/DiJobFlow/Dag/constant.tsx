@@ -141,6 +141,33 @@ export const HttpParams = {
   pollIntervalMs: 'poll_interval_ms'
 }
 
+export const WeChatParams = {
+  url: 'url',
+  mentionedList: 'mentioned_list',
+  mentionedMobileList: 'mentioned_mobile_list'
+}
+
+export const FeishuParams = {
+  url: 'url',
+  headers: 'headers'
+}
+
+export const DingTalkParams = {
+  url: 'url',
+  secret: 'secret'
+}
+
+export const EmailParams = {
+  emailHost: 'email_host',
+  emailTransportProtocol: 'email_transport_protocol',
+  emailFromAddress: 'email_from_address',
+  emailSmtpAuth: 'email_smtp_auth',
+  emailAuthorizationCode: 'email_authorization_code',
+  emailToAddress: 'email_to_address',
+  emailMessageHeadline: 'email_message_headline',
+  emailMessageContent: 'email_message_content'
+}
+
 export const HudiParams = {
   tablePath: 'table.path',
   tableType: 'table.type',

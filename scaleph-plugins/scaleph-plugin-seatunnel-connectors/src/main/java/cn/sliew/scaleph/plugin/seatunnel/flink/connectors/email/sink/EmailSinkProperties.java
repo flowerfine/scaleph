@@ -20,57 +20,12 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.email.sink;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum EmailProperties {
+public enum EmailSinkProperties {
     ;
-
-    public static final PropertyDescriptor<String> EMAIL_FROM_ADDRESS = new PropertyDescriptor.Builder<String>()
-            .name("email_from_address")
-            .description("email_from_address")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> EMAIL_TO_ADDRESS = new PropertyDescriptor.Builder<String>()
-            .name("email_to_address")
-            .description("email_to_address")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> EMAIL_AUTHORIZATION_CODE = new PropertyDescriptor.Builder<String>()
-            .name("email_authorization_code")
-            .description("email_authorization_code")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> EMAIL_MESSAGE_HEADLINE = new PropertyDescriptor.Builder<String>()
-            .name("email_message_headline")
-            .description("email_message_headline")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> EMAIL_MESSAGE_CONTENT = new PropertyDescriptor.Builder<String>()
-            .name("email_message_content")
-            .description("email_message_content")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
 
     public static final PropertyDescriptor<String> EMAIL_HOST = new PropertyDescriptor.Builder<String>()
             .name("email_host")
-            .description("email_host")
+            .description("SMTP server host")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
@@ -79,7 +34,16 @@ public enum EmailProperties {
 
     public static final PropertyDescriptor<String> EMAIL_TRANSPORT_PROTOCOL = new PropertyDescriptor.Builder<String>()
             .name("email_transport_protocol")
-            .description("email_transport_protocol")
+            .description("The protocol to load the session.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> EMAIL_FROM_ADDRESS = new PropertyDescriptor.Builder<String>()
+            .name("email_from_address")
+            .description("Sender Email Address")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
@@ -88,10 +52,42 @@ public enum EmailProperties {
 
     public static final PropertyDescriptor<String> EMAIL_SMTP_AUTH = new PropertyDescriptor.Builder<String>()
             .name("email_smtp_auth")
-            .description("email_smtp_auth")
+            .description("Whether to authenticate the customer")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> EMAIL_AUTHORIZATION_CODE = new PropertyDescriptor.Builder<String>()
+            .name("email_authorization_code")
+            .description("authorization code,You can obtain the authorization code from the mailbox Settings.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> EMAIL_TO_ADDRESS = new PropertyDescriptor.Builder<String>()
+            .name("email_to_address")
+            .description("Receiver Email Address")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> EMAIL_MESSAGE_HEADLINE = new PropertyDescriptor.Builder<String>()
+            .name("email_message_headline")
+            .description("The subject line of the entire message.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> EMAIL_MESSAGE_CONTENT = new PropertyDescriptor.Builder<String>()
+            .name("email_message_content")
+            .description("The body of the entire message.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

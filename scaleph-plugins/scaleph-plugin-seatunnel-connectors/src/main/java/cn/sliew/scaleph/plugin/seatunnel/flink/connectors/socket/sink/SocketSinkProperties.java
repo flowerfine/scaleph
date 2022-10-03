@@ -16,31 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.socket;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.socket.sink;
 
-import cn.sliew.scaleph.plugin.framework.property.*;
+import cn.sliew.scaleph.plugin.framework.property.Parsers;
+import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.framework.property.PropertyType;
+import cn.sliew.scaleph.plugin.framework.property.Validators;
 
-public enum SocketProperties {
+public enum SocketSinkProperties {
     ;
 
-    public static final PropertyDescriptor<String> HOST = new PropertyDescriptor.Builder<String>()
-            .name("host")
-            .description("socket server host")
-            .type(PropertyType.STRING)
-            .defaultValue("localhost")
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .properties(Property.Required)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<Integer> PORT = new PropertyDescriptor.Builder<Integer>()
-            .name("port")
-            .description("socket server port")
+    public static final PropertyDescriptor<Integer> MAX_RETRIES = new PropertyDescriptor.Builder<Integer>()
+            .name("max_retries")
+            .description("The number of retries to send record failed")
             .type(PropertyType.INT)
-            .defaultValue(9999)
+            .defaultValue(3)
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
-            .properties(Property.Required)
             .validateAndBuild();
-
 }
