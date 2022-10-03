@@ -167,6 +167,29 @@ export default {
   'pages.project.di.step.http.schema': 'Schema',
   'pages.project.di.step.http.pollIntervalMs': 'Poll Interval(millis)',
 
+  // wechat
+  'pages.project.di.step.wechat.url': 'WeChat Robot URL',
+  'pages.project.di.step.wechat.mentionedList': 'Mentione(@) userIds',
+  'pages.project.di.step.wechat.mentionedMobileList': 'Mentione(@) mobiles',
+
+  // feishu
+  'pages.project.di.step.feishu.url': 'Feishu Robot URL',
+  'pages.project.di.step.feishu.headers': 'Headers',
+
+  // dingtalk
+  'pages.project.di.step.dingtalk.url': 'DingTalk Robot URL',
+  'pages.project.di.step.dingtalk.secret': 'Secret',
+
+  // email
+  'pages.project.di.step.email.emailHost': 'Email Server Host',
+  'pages.project.di.step.email.emailTransportProtocol': 'Email Transport Protocol',
+  'pages.project.di.step.email.emailFromAddress': 'Sender Address',
+  'pages.project.di.step.email.emailSmtpAuth': 'Enable SMTP Auth',
+  'pages.project.di.step.email.emailAuthorizationCode': 'SMTP Authorization Code',
+  'pages.project.di.step.email.emailToAddress': 'Receiver Address',
+  'pages.project.di.step.email.emailMessageHeadline': 'Email Message Headline',
+  'pages.project.di.step.email.emailMessageContent': 'Email Message Content',
+
   // hudi
   'pages.project.di.step.hudi.tablePath': 'Table Path',
   'pages.project.di.step.hudi.tableType': 'Table Type',

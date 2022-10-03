@@ -35,6 +35,10 @@ import SourceHttpFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source
 import SourceSocketStepForm from '../steps/source/source-socket-step';
 import SinkSocketStepForm from '../steps/sink/sink-socket-step';
 import SinkClickHouseStepForm from '../steps/sink/sink-clickhouse-step';
+import SinkWeChatStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-wechat-step";
+import SinkFeishuStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-feishu-step";
+import SinkDingTalkStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-dingtalk-step";
+import SinkEmailStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-email-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -227,6 +231,14 @@ export class EditNodeCommand implements ICommand {
       return (<SourceHttpFileStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type==='sink' && name ==='Http'){
       return (<SinkHttpFileStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type==='sink' && name ==='Feishu'){
+      return (<SinkFeishuStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type==='sink' && name ==='WeChat'){
+      return (<SinkWeChatStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type==='sink' && name ==='DingTalk'){
+      return (<SinkDingTalkStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type==='sink' && name ==='Email'){
+      return (<SinkEmailStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'Socket'){
       return (<SourceSocketStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'Socket'){
