@@ -62,6 +62,7 @@ public enum ClickHouseSinkProperties {
         .description("This field is only required when permission is enabled in ClickHouse")
         .type(PropertyType.STRING)
         .parser(Parsers.STRING_PARSER)
+        .properties(Property.Required)
         .addValidator(Validators.NON_BLANK_VALIDATOR)
         .validateAndBuild();
 
@@ -70,6 +71,7 @@ public enum ClickHouseSinkProperties {
         .description("This field is only required when the permission is enabled in ClickHouse")
         .type(PropertyType.STRING)
         .parser(Parsers.STRING_PARSER)
+        .properties(Property.Required, Property.Sensitive)
         .addValidator(Validators.NON_BLANK_VALIDATOR)
         .validateAndBuild();
 
@@ -80,6 +82,7 @@ public enum ClickHouseSinkProperties {
                 + "\n")
         .type(PropertyType.STRING)
         .parser(Parsers.STRING_PARSER)
+        .properties(Property.Required)
         .addValidator(Validators.NON_BLANK_VALIDATOR)
         .validateAndBuild();
 
@@ -98,9 +101,8 @@ public enum ClickHouseSinkProperties {
         .description(
             "The number of rows written through Clickhouse-jdbc each time, the default is 20000")
         .type(PropertyType.INT)
-        .defaultValue(20000)
-        .parser(Parsers.INTEGER_PARSER)
-        .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+        .defaultValue("20000")
+        .parser(Parsers.STRING_PARSER)
         .validateAndBuild();
 
 

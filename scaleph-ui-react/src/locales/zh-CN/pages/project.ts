@@ -33,6 +33,7 @@ export default {
   'pages.project.di.dataSource.dataSourceType.bigdata': '大数据',
   'pages.project.di.dataSource.dataSourceType.mq': '消息队列',
   'pages.project.di.dataSource.dataSourceType.other': '其他',
+  'pages.project.di.dataSource.clickhosue.host.tooltip': 'ClickHouse cluster address,allowing multiple hosts to be specified. Such as "host1:8123,host2:8123"',
   // 'pages.project.di.batch':''
   'pages.project.dir': '目录',
   'pages.project.dir.directoryName': '目录名称',
@@ -223,4 +224,6 @@ export default {
   'pages.project.di.step.clickhosue.splitMode.tooltip': 'Split mode when table is distributed engine,This mode only support clickhouse table which engine is \'Distributed\'',
   'pages.project.di.step.clickhosue.clickhouseConf': 'clickhouse jdbc参数',
   'pages.project.di.step.clickhosue.clickhouseConf.tooltip': ' For example, the way to specify socket_timeout is: clickhouse.socket_timeout = 50000',
+  'pages.project.di.step.clickhosue.sql': 'SQL',
+  'pages.project.di.step.clickhosue.database': '数据库',
 };
