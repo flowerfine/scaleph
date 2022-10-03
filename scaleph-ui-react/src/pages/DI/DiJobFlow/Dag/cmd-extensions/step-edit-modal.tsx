@@ -35,7 +35,7 @@ import SourceHttpFileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source
 import SourceSocketStepForm from '../steps/source/source-socket-step';
 import SinkSocketStepForm from '../steps/sink/sink-socket-step';
 import SinkClickHouseStepForm from '../steps/sink/sink-clickhouse-step';
-
+import SourceClickHouseStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-clickhouse-step";
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
 
@@ -231,6 +231,8 @@ export class EditNodeCommand implements ICommand {
       return (<SourceSocketStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'Socket'){
       return (<SinkSocketStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'ClickHouse'){
+      return (<SourceClickHouseStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'ClickHouse'){
       return (<SinkClickHouseStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
