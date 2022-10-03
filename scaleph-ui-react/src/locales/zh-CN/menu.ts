@@ -18,6 +18,7 @@ export default {
   'menu.resource.jar': '公共 Jar',
   'menu.resource.flinkRelease': 'Flink Release',
   'menu.resource.seatunnelRelease': 'SeaTunnel Release',
+  'menu.resource.kerberos': 'Kerberos',
   'menu.resource.clusterCredential': 'Cluster Credential',
   'menu.resource.clusterCredential.file': 'Credential File',
   'menu.cluster': '集群',

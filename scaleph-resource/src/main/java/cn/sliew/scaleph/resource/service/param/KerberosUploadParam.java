@@ -30,6 +30,10 @@ public class KerberosUploadParam {
     @ApiModelProperty("name")
     private String name;
 
+    @NotBlank
+    @ApiModelProperty("principal")
+    private String principal;
+
     @ApiModelProperty("remark")
     private String remark;
 }

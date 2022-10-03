@@ -79,7 +79,7 @@ public class KerberosServiceImpl implements KerberosService {
         final Page<ResourceKerberos> page = kerberosMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(ResourceKerberos.class)
-                        .eq(StringUtils.hasText(param.getName()), ResourceKerberos::getName, param.getName())
+                        .like(StringUtils.hasText(param.getName()), ResourceKerberos::getName, param.getName())
                         .like(StringUtils.hasText(param.getFileName()), ResourceKerberos::getFileName, param.getFileName()));
         Page<KerberosDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
