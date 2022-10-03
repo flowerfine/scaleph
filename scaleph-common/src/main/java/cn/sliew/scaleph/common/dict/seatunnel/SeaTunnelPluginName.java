@@ -37,6 +37,7 @@ public enum SeaTunnelPluginName implements DictInstance {
     EMAIL("Email", "Email"),
     HTTP("Http", "Http"),
     FEISHU("Feishu", "Feishu"),
+    WECHAT("WeChat", "WeChat"),
     DINGTALK("DingTalk", "DingTalk"),
 
     LOCAL_FILE("LocalFile", "LocalFile"),
