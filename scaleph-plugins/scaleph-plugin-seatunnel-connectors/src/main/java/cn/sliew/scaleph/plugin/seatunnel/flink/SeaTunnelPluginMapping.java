@@ -47,6 +47,7 @@ public enum SeaTunnelPluginMapping {
     SOURCE_HTTP(SEATUNNEL, SOURCE, HTTP, "connector-http-base"),
     SINK_HTTP(SEATUNNEL, SINK, HTTP, "connector-http-base"),
     SINK_FEISHU(SEATUNNEL, SINK, FEISHU, "connector-http-feishu"),
+    SINK_WECHAT(SEATUNNEL, SINK, WECHAT, "connector-http-wechat"),
     SINK_DINGTALK(SEATUNNEL, SINK, DINGTALK, "connector-dingtalk"),
 
     SOURCE_LOCAL_FILE(SEATUNNEL, SOURCE, LOCAL_FILE, "connector-file-local"),

@@ -16,27 +16,28 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.feishu.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.dingtalk.sink;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum FeishuProperties {
+public enum DingTalkSinkProperties {
     ;
 
     public static final PropertyDescriptor<String> URL = new PropertyDescriptor.Builder<String>()
             .name("url")
-            .description("feishu webhook url")
+            .description("DingTalk robot url. The url format must be https://oapi.dingtalk.com/robot/send?access_token=XXXXXX（string）")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> HEADERS = new PropertyDescriptor.Builder<String>()
-            .name("headers")
-            .description("http headers")
+    public static final PropertyDescriptor<String> SECRET = new PropertyDescriptor.Builder<String>()
+            .name("secret")
+            .description("DingTalk robot secret (string)")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 }
