@@ -30,6 +30,7 @@ public enum DataSourceTypeEnum {
     MYSQL("Mysql", "Mysql"),
     ORACLE("Oracle", "Oracle"),
     POSTGRESQL("PostGreSQL", "PostGreSQL"),
+    GREENPLUM("Greenplum", "Greenplum"),
     DORIS("Doris", "Doris"),
     CLICKHOUSE("ClickHouse", "ClickHouse"),
 
