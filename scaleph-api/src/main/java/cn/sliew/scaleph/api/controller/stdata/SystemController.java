@@ -21,7 +21,7 @@ package cn.sliew.scaleph.api.controller.stdata;
 import java.util.Map;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.api.vo.ResponseVO;
+import cn.sliew.scaleph.system.vo.ResponseVO;
 import cn.sliew.scaleph.meta.service.MetaSystemService;
 import cn.sliew.scaleph.meta.service.dto.MetaSystemDTO;
 import cn.sliew.scaleph.meta.service.param.MetaSystemParam;

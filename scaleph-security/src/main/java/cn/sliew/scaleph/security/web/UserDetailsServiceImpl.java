@@ -16,15 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.api.security;
+package cn.sliew.scaleph.security.web;
 
 import cn.sliew.scaleph.common.enums.UserStatusEnum;
 import cn.sliew.scaleph.security.service.SecUserService;
-import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;
 import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
 import cn.sliew.scaleph.security.service.dto.SecUserDTO;
 import cn.sliew.scaleph.system.util.I18nUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
@@ -32,17 +30,16 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author gleiyu
  */
-@Slf4j
-@Component
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
@@ -58,40 +55,33 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         SecUserDTO secUserDTO = secUserService.selectOne(userName);
+        if (secUserDTO == null) {
+            throw new BadCredentialsException(I18nUtil.get("response.error.login.password"));
+        }
+
         boolean flag = secUserDTO.getUserStatus() != null
                 &&
                 !(secUserDTO.getUserStatus().getValue().equals(UserStatusEnum.UNBIND_EMAIL.getValue()) ||
                         secUserDTO.getUserStatus().getValue().equals(UserStatusEnum.BIND_EMAIL.getValue()));
-        if (secUserDTO == null) {
-            throw new BadCredentialsException(I18nUtil.get("response.error.login.password"));
-        } else if (flag) {
+        if (flag) {
             throw new BadCredentialsException(I18nUtil.get("response.error.login.disable"));
-        } else {
-            UserDetailInfo user = new UserDetailInfo();
-            user.setUser(secUserDTO);
-            //查询用户角色权限信息
-            List<SecRoleDTO> privileges = this.secUserService.getAllPrivilegeByUserName(userName);
-            user.setAuthorities(this.toGrantedAuthority(privileges));
-            return user;
         }
+
+        UserDetailInfo user = new UserDetailInfo();
+        user.setUser(secUserDTO);
+        //查询用户角色权限信息
+        List<SecRoleDTO> privileges = secUserService.getAllPrivilegeByUserName(userName);
+        user.setAuthorities(toGrantedAuthority(privileges));
+        return user;
     }
 
     private List<GrantedAuthority> toGrantedAuthority(List<SecRoleDTO> roles) {
         if (CollectionUtils.isEmpty(roles)) {
             return null;
-        } else {
-            List<GrantedAuthority> list = new ArrayList<>();
-            for (SecRoleDTO role : roles) {
-                if (role.getPrivileges() == null) {
-                    continue;
-                }
-                for (SecPrivilegeDTO privilege : role.getPrivileges()) {
-                    GrantedAuthority grantedAuthority =
-                            new SimpleGrantedAuthority(privilege.getPrivilegeCode());
-                    list.add(grantedAuthority);
-                }
-            }
-            return list;
         }
+        return roles.stream()
+                .flatMap(role -> role.getPrivileges().stream())
+                .map(privilege -> new SimpleGrantedAuthority(privilege.getPrivilegeCode()))
+                .collect(Collectors.toList());
     }
 }

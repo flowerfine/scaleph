@@ -22,7 +22,7 @@ import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.api.vo.ResponseVO;
+import cn.sliew.scaleph.system.vo.ResponseVO;
 import cn.sliew.scaleph.common.enums.ErrorShowTypeEnum;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
 import cn.sliew.scaleph.core.di.service.DiDirectoryService;

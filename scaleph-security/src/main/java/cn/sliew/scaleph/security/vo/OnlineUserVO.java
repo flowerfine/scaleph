@@ -16,24 +16,34 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.api.security;
+package cn.sliew.scaleph.security.vo;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
+import java.util.Date;
+import java.util.List;
+
+/**
+ * 在线用户信息
+ *
+ * @author gleiyu
+ */
 @Data
-@Configuration
-@ConfigurationProperties(prefix = "token")
-public class SecurityProperties {
-    /**
-     * 令牌过期时间，单位毫秒
-     */
-    private Long tokenValidityInSeconds;
+@ApiModel(value = "在线用户信息", description = "在线用户信息")
+public class OnlineUserVO {
+    private String userName;
+    private String email;
+    private String ipAddress;
+    private Date loginTime;
+    private String token;
+    private List<String> privileges;
+    private List<String> roles;
+    private Boolean remember;
+    private Long expireTime;
 
-    /**
-     * 长令牌过期时间，单位毫秒
-     * 记住我功能
-     */
-    private Long longTokenValidityInSeconds;
+    // fixme private boolean remember may be better?
+    public Boolean getRemember() {
+        return remember != null && remember;
+    }
 }

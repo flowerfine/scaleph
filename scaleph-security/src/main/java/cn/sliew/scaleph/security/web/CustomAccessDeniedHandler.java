@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.api.security;
+package cn.sliew.scaleph.security.web;
 
-import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.system.util.I18nUtil;
+import cn.sliew.scaleph.system.vo.ResponseVO;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -39,12 +40,12 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp,
                        AccessDeniedException accessDeniedException) throws IOException {
-        resp.setContentType("application/json;charset=utf-8");
-        PrintWriter out = resp.getWriter();
-        ResponseVO info = ResponseVO.error(String.valueOf(HttpServletResponse.SC_FORBIDDEN),
-                I18nUtil.get("response.error.no.privilege"));
-        out.write(info.toString());
-        out.flush();
-        out.close();
+        try (PrintWriter out = resp.getWriter()) {
+            resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            ResponseVO info = ResponseVO.error(String.valueOf(HttpServletResponse.SC_FORBIDDEN),
+                    I18nUtil.get("response.error.no.privilege"));
+            out.write(info.toString());
+            out.flush();
+        }
     }
 }

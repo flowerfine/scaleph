@@ -20,7 +20,7 @@ package cn.sliew.scaleph.api.exception;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.api.vo.ResponseVO;
+import cn.sliew.scaleph.system.vo.ResponseVO;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.system.util.I18nUtil;
