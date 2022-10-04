@@ -76,8 +76,7 @@ create TABLE meta_datasource
     editor           varchar(32)      DEFAULT NULL COMMENT '修改人',
     update_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (id),
-    KEY datasource_name (datasource_name),
-    KEY datasource_type (datasource_type)
+    unique key (datasource_type,datasource_name)
 ) ENGINE = InnoDB COMMENT ='元数据-数据源信息';
 insert into meta_datasource (id, datasource_name, datasource_type, props, additional_props, remark, creator, editor)
 values (1, 'docker_data_service', 'Mysql',
@@ -95,7 +94,6 @@ insert into meta_datasource (id, datasource_name, datasource_type, props, additi
                              creator, editor)
 VALUES (4, 'local', 'Druid', '{"jdbc_url":"jdbc:avatica:remote:url=http://localhost:8082/druid/v2/sql/avatica/"}',
         'null', NULL, 'sys', 'sys');
-
 /*元数据-数据表信息*/
 drop table if exists meta_table;
 create table meta_table
@@ -476,4 +474,3 @@ INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator
 VALUES (32, 41, 13, null, 'sys_admin', 'sys_admin');
 INSERT INTO meta_data_map (id, src_data_set_id, tgt_data_set_id, remark, creator, editor)
 VALUES (33, 42, 14, null, 'sys_admin', 'sys_admin');
-
