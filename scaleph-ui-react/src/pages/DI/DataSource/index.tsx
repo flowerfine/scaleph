@@ -280,7 +280,8 @@ const DataSource: React.FC = () => {
       {dataSourceFormData.visible &&
       (dataSourceFormData.data.datasourceType?.value == 'Mysql' ||
         dataSourceFormData.data.datasourceType?.value == 'Oracle' ||
-        dataSourceFormData.data.datasourceType?.value == 'PostGreSQL') ? (
+        dataSourceFormData.data.datasourceType?.value == 'PostGreSQL' ||
+        dataSourceFormData.data.datasourceType?.value == 'Greenplum') ? (
         <GenericDataSourceForm
           visible={dataSourceFormData.visible}
           onCancel={() => {
@@ -319,7 +320,8 @@ const DataSource: React.FC = () => {
           data={dataSourceFormData.data}
         ></DorisDataSourceForm>
       ) : null}
-      {dataSourceFormData.visible && dataSourceFormData.data.datasourceType?.value == 'ClickHouse' ? (
+      {dataSourceFormData.visible &&
+      dataSourceFormData.data.datasourceType?.value == 'ClickHouse' ? (
         <ClickHouseDataSourceForm
           visible={dataSourceFormData.visible}
           onCancel={() => {
