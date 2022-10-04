@@ -16,25 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.api.security;
+package cn.sliew.scaleph.security.web;
+
+import cn.sliew.scaleph.common.constant.Constants;
+import cn.sliew.scaleph.security.util.SecurityUtil;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import cn.sliew.scaleph.api.util.SecurityUtil;
-import cn.sliew.scaleph.common.constant.Constants;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-
 /**
  * @author gleiyu
  */
-@Slf4j
 @Service(value = "svs")
 public class SecurityValidateService {
+
     /**
      * 检查用户角色权限，有权限则放行。
      * 如果是SUPER ADMIN角色则直接放行
@@ -46,12 +45,12 @@ public class SecurityValidateService {
         UserDetails userDetails = SecurityUtil.getCurrentUser();
         if (userDetails == null) {
             return false;
-        } else {
-            List<String> privilegeList =
-                userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-                    .collect(Collectors.toList());
-            return privilegeList.contains(Constants.ROLE_SYS_ADMIN) ||
-                Arrays.stream(privileges).anyMatch(privilegeList::contains);
         }
+
+        List<String> privilegeList = userDetails.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.toList());
+        return privilegeList.contains(Constants.ROLE_SYS_ADMIN) ||
+                Arrays.stream(privileges).anyMatch(privilegeList::contains);
     }
 }

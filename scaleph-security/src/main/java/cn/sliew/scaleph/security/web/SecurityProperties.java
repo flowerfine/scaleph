@@ -16,25 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.api.security;
+package cn.sliew.scaleph.security.web;
 
-import java.util.UUID;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
-/**
- * 使用jwt或者uuid等规则生成用户的token
- *
- * @author gleiyu
- */
-@Slf4j
-@Component
-public class TokenProvider {
+@Data
+@Configuration
+@ConfigurationProperties(prefix = "token")
+public class SecurityProperties {
     /**
-     * 使用uuid作为token
+     * 令牌过期时间，单位毫秒
      */
-    public String createToken() {
-        return UUID.randomUUID().toString().replace("-", "");
-    }
+    private Long tokenValidityInSeconds;
+
+    /**
+     * 长令牌过期时间，单位毫秒
+     * 记住我功能
+     */
+    private Long longTokenValidityInSeconds;
 }

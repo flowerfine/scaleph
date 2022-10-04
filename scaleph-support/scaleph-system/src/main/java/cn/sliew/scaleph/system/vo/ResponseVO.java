@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.api.vo;
+package cn.sliew.scaleph.system.vo;
 
-import cn.hutool.json.JSONUtil;
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.ErrorShowTypeEnum;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
 import io.swagger.annotations.ApiModel;
@@ -110,6 +110,6 @@ public class ResponseVO {
     @SneakyThrows
     @Override
     public String toString() {
-        return JSONUtil.toJsonStr(this);
+        return JacksonUtil.toJsonString(this);
     }
 }

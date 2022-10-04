@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.api.security.OnlineUserService;
-import cn.sliew.scaleph.api.vo.ResponseVO;
+import cn.sliew.scaleph.security.web.OnlineUserService;
+import cn.sliew.scaleph.system.vo.ResponseVO;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.enums.RoleTypeEnum;
 import cn.sliew.scaleph.dao.DataSourceConstants;

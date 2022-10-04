@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.api.security;
+package cn.sliew.scaleph.security.web;
 
-import cn.sliew.scaleph.api.vo.ResponseVO;
 import cn.sliew.scaleph.system.util.I18nUtil;
+import cn.sliew.scaleph.system.vo.ResponseVO;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -39,13 +40,12 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest req, HttpServletResponse resp,
                          AuthenticationException authException) throws IOException {
-
-        resp.setContentType("application/json;charset=utf-8");
-        PrintWriter out = resp.getWriter();
-        ResponseVO info = ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
-                I18nUtil.get("response.error.unauthorized"));
-        out.write(info.toString());
-        out.flush();
-        out.close();
+        try (PrintWriter out = resp.getWriter()) {
+            resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            ResponseVO info = ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
+                    I18nUtil.get("response.error.unauthorized"));
+            out.write(info.toString());
+            out.flush();
+        }
     }
 }

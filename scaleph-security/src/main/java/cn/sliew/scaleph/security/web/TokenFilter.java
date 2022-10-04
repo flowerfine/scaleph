@@ -16,22 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.api.security;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+package cn.sliew.scaleph.security.web;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.scaleph.api.vo.OnlineUserVO;
-import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.cache.util.RedisUtil;
-import lombok.extern.slf4j.Slf4j;
+import cn.sliew.scaleph.common.constant.Constants;
+import cn.sliew.scaleph.security.vo.OnlineUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -42,25 +32,29 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * jwt token 过滤器
  *
  * @author gleiyu
  */
-@Slf4j
 @Component
 public class TokenFilter extends GenericFilterBean {
 
-    private final SecurityProperties properties;
+    @Autowired
+    private SecurityProperties properties;
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
     private OnlineUserService onlineUserService;
-
-    public TokenFilter(SecurityProperties properties) {
-        this.properties = properties;
-    }
-
 
     /**
      * 验证每个请求提交的token是否有效，并解析设置权限信息
@@ -73,19 +67,18 @@ public class TokenFilter extends GenericFilterBean {
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-        throws IOException, ServletException {
+            throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token = resolveToken(httpServletRequest);
         //用户在线且有效，获取用户的权限信息 只要在redis中存在数据则认为是有效在线用户
         OnlineUserVO onlineUser =
-            (OnlineUserVO) this.redisUtil.get(Constants.ONLINE_TOKEN_KEY + token);
+                (OnlineUserVO) redisUtil.get(Constants.ONLINE_TOKEN_KEY + token);
         if (onlineUser != null) {
             long time =
-                onlineUser.getRemember() ? properties.getLongTokenValidityInSeconds() / 1000 :
-                    properties.getTokenValidityInSeconds() / 1000;
+                    onlineUser.getRemember() ? properties.getLongTokenValidityInSeconds() / 1000 :
+                            properties.getTokenValidityInSeconds() / 1000;
             Authentication authentication = getAuthentication(onlineUser);
-            redisUtil.set(Constants.ONLINE_USER_KEY + onlineUser.getUserName(),
-                onlineUser.getToken(), time);
+            redisUtil.set(Constants.ONLINE_USER_KEY + onlineUser.getUserName(), onlineUser.getToken(), time);
             redisUtil.set(Constants.ONLINE_TOKEN_KEY + onlineUser.getToken(), onlineUser, time);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
@@ -133,7 +126,7 @@ public class TokenFilter extends GenericFilterBean {
             onlineUser.setPrivileges(privilegeList);
             User principal = new User(onlineUser.getUserName(), "", authorities);
             return new UsernamePasswordAuthenticationToken(principal, onlineUser.getToken(),
-                authorities);
+                    authorities);
         } else {
             List<GrantedAuthority> authorities = new ArrayList<>();
             List<String> privileges = onlineUser.getPrivileges();
@@ -146,7 +139,7 @@ public class TokenFilter extends GenericFilterBean {
             }
             User principal = new User(onlineUser.getUserName(), "", authorities);
             return new UsernamePasswordAuthenticationToken(principal, onlineUser.getToken(),
-                authorities);
+                    authorities);
         }
     }
 }
