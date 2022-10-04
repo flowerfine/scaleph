@@ -16,37 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.api.vo;
+package cn.sliew.scaleph.dao.mapper.master.ds;
 
-import java.util.Date;
-import java.util.List;
-
-import io.swagger.annotations.ApiModel;
-import lombok.Data;
+import cn.sliew.scaleph.dao.entity.master.ds.DsCategoryTypeRelation;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
- * 在线用户信息
- *
- * @author gleiyu
+ * <p>
+ * data source category and type relation Mapper 接口
+ * </p>
  */
-@Data
-@ApiModel(value = "在线用户信息", description = "在线用户信息")
-public class OnlineUserVO {
-    private String userName;
-    private String email;
-    private String ipAddress;
-    private Date loginTime;
-    private String token;
-    private List<String> privileges;
-    private List<String> roles;
-    private Boolean remember;
-    private Long expireTime;
+@Repository
+public interface DsCategoryTypeRelationMapper extends BaseMapper<DsCategoryTypeRelation> {
 
-    public Boolean getRemember() {
-        return remember != null && remember;
-    }
-
-    public void setRemember(Boolean remember) {
-        this.remember = remember;
-    }
 }

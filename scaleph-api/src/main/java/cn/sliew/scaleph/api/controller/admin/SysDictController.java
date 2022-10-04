@@ -25,7 +25,7 @@ import java.util.Map;
 
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.api.vo.ResponseVO;
+import cn.sliew.scaleph.system.vo.ResponseVO;
 import cn.sliew.scaleph.system.cache.DictTypeCache;
 import cn.sliew.scaleph.system.service.SysDictService;
 import cn.sliew.scaleph.system.service.SysDictTypeService;

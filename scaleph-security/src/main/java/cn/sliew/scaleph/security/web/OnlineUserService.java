@@ -16,24 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.api.security;
+package cn.sliew.scaleph.security.web;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
-import cn.sliew.scaleph.api.vo.OnlineUserVO;
+import cn.sliew.scaleph.cache.util.RedisUtil;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.security.service.SecRoleService;
 import cn.sliew.scaleph.security.service.SecUserService;
 import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;
 import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
-import cn.sliew.scaleph.cache.util.RedisUtil;
+import cn.sliew.scaleph.security.vo.OnlineUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * 用户在线信息service
@@ -42,7 +42,9 @@ import org.springframework.util.StringUtils;
  */
 @Service
 public class OnlineUserService {
-    private final SecurityProperties properties;
+
+    @Autowired
+    private SecurityProperties properties;
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
@@ -50,17 +52,12 @@ public class OnlineUserService {
     @Autowired
     private SecRoleService secRoleService;
 
-    public OnlineUserService(SecurityProperties properties) {
-        this.properties = properties;
-    }
-
     /**
      * 存储登录用户信息到redis中
      *
      * @param userInfo 登录用户
      * @param token    jwt token
      */
-
     public void insert(UserDetailInfo userInfo, String token) {
         OnlineUserVO onlineUser = new OnlineUserVO();
         onlineUser.setToken(token);
