@@ -141,6 +141,7 @@
         <druid.version>0.22.1</druid.version>
         <calcite-druid.version>1.31.0</calcite-druid.version>
         <flink.version>1.13.6</flink.version>
+        <flink-kubernetes-operator.version>1.1.0</flink-kubernetes-operator.version>
         <flinkful.version>1.13.6_2_8-SNAPSHOT</flinkful.version>
         <okhttp.version>4.9.3</okhttp.version>
         <guava.version>31.0-jre</guava.version>
@@ -400,6 +401,11 @@
             </dependency>
             <dependency>
                 <groupId>cn.sliew</groupId>
+                <artifactId>milky-dsl</artifactId>
+                <version>${milky.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.sliew</groupId>
                 <artifactId>milky-test</artifactId>
                 <version>${milky.version}</version>
             </dependency>
@@ -445,6 +451,12 @@
                 <groupId>org.apache.flink</groupId>
                 <artifactId>flink-kubernetes_${scala.binary.version}</artifactId>
                 <version>${flink.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-kubernetes-operator</artifactId>
+                <version>${flink-kubernetes-operator.version}</version>
             </dependency>
 
             <dependency>
