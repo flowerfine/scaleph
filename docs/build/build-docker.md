@@ -44,7 +44,7 @@ docker run -it --rm \
 -v /path/to/repository:/usr/share/maven/ref/repository \
 -v "$(pwd)":/usr/src/mymaven \
 -w /usr/src/mymaven \
-maven:3.8-openjdk-8 \
+maven:3.8-eclipse-temurin-11 \
 mvn -B -U -T 4 clean package -DskipTests -Dfast -am --projects scaleph-api
 ```
 
