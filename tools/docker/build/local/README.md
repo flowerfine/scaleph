@@ -45,7 +45,7 @@ docker build \
 flink 和 seatunnel 镜像制作时，会从 flink 和 seatunnel 的 release 页面下载 flink 和 seatunnel 的安装包。对于网络不好的环境，可以提前下载好 flink 和 seatunnel 的安装包，并修改对应的 Dockerfile，注释掉从远端下载的逻辑，打开使用本地安装包的部分，注意 `/path/to/$TAR_FILE` 换成本地的路径。
 
 ```dockerfile
-ARG BASE_IMAGE=adoptopenjdk/openjdk8:jre
+ARG BASE_IMAGE=adoptopenjdk/openjdk11:jre
 
 FROM $BASE_IMAGE
 

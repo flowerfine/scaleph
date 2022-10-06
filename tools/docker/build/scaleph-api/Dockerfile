@@ -1,5 +1,5 @@
 ARG BASE_RELEASE_IMAGE=ghcr.io/flowerfine/scaleph_seatunnel:2.1.2
-FROM maven:3.8-openjdk-8 as build
+FROM maven:3.8-eclipse-temurin-11 as build
 
 COPY ./ /scaleph
 RUN cd /scaleph && mvn -B -U -T 4 clean package -DskipTests -Dfast -am --projects scaleph-api
