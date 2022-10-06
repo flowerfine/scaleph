@@ -1,18 +1,18 @@
-import { FlinkArtifactService } from '@/services/dev/flinkArtifact.service';
-import { FlinkArtifactJarService } from '@/services/dev/flinkArtifactJar.service';
+import {FlinkArtifactService} from '@/services/dev/flinkArtifact.service';
+import {FlinkArtifactJarService} from '@/services/dev/flinkArtifactJar.service';
 import {
   FlinkArtifact,
   FlinkArtifactJar,
   FlinkArtifactJarListParam,
   FlinkArtifactListParam,
-  FlinkJobConfigJar,
 } from '@/services/dev/typings';
-import { ProCard, ProFormGroup, ProFormList, ProFormText } from '@ant-design/pro-components';
-import { Col, Form, Select } from 'antd';
-import { useEffect, useState } from 'react';
-import { useIntl } from 'umi';
+import {ProCard, ProFormGroup, ProFormList, ProFormText} from '@ant-design/pro-components';
+import {Col, Form, Select} from 'antd';
+import {useEffect, useState} from 'react';
+import {useIntl} from 'umi';
+import {FlinkJobForJar} from "@/pages/DEV/Job/typings";
 
-const JobJar: React.FC<{ data: FlinkJobConfigJar }> = ({ data }) => {
+const JobJar: React.FC<{ data: FlinkJobForJar }> = ({data}) => {
   const intl = useIntl();
   const form = Form.useFormInstance();
   const [flinkArtifactLoading, setFlinkArtifactLoading] = useState(false);
@@ -75,7 +75,7 @@ const JobJar: React.FC<{ data: FlinkJobConfigJar }> = ({ data }) => {
 
   const handleFlinkArtifactScroll = (e: any) => {
     e.persist();
-    const { scrollTop, scrollHeight, clientHeight } = e.target;
+    const {scrollTop, scrollHeight, clientHeight} = e.target;
     if (
       scrollHeight - scrollTop >= clientHeight &&
       (flinkArtifactPage.current - 1) * flinkArtifactPage.pageSize < flinkArtifactPage.total
@@ -134,7 +134,7 @@ const JobJar: React.FC<{ data: FlinkJobConfigJar }> = ({ data }) => {
 
   const handleFlinkArtifactJarScroll = (e: any) => {
     e.persist();
-    const { scrollTop, scrollHeight, clientHeight } = e.target;
+    const {scrollTop, scrollHeight, clientHeight} = e.target;
     if (
       scrollHeight - scrollTop >= clientHeight &&
       (flinkArtifactJarPage.current - 1) * flinkArtifactJarPage.pageSize <
@@ -155,8 +155,8 @@ const JobJar: React.FC<{ data: FlinkJobConfigJar }> = ({ data }) => {
         <Col span={8}>
           <Form.Item
             name={'flinkArtifactId'}
-            label={intl.formatMessage({ id: 'pages.dev.artifact' })}
-            rules={[{ required: true }]}
+            label={intl.formatMessage({id: 'pages.dev.artifact'})}
+            rules={[{required: true}]}
           >
             <Select
               showSearch={true}
@@ -179,7 +179,7 @@ const JobJar: React.FC<{ data: FlinkJobConfigJar }> = ({ data }) => {
           </Form.Item>
         </Col>
         <Col span={16}>
-          <Form.Item name={'flinkArtifactJarId'} rules={[{ required: true }]}>
+          <Form.Item name={'flinkArtifactJarId'} rules={[{required: true}]}>
             <Select
               showSearch={false}
               loading={flinkArtifactJarLoading}
@@ -199,28 +199,28 @@ const JobJar: React.FC<{ data: FlinkJobConfigJar }> = ({ data }) => {
       </ProFormGroup>
       <ProFormText
         name="entryClass"
-        label={intl.formatMessage({ id: 'pages.dev.artifact.jar.entryClass' })}
-        rules={[{ required: true }, { max: 128 }]}
+        label={intl.formatMessage({id: 'pages.dev.artifact.jar.entryClass'})}
+        rules={[{required: true}, {max: 128}]}
         readonly
       />
       <ProFormList
         name="args"
         copyIconProps={false}
         creatorButtonProps={{
-          creatorButtonText: intl.formatMessage({ id: 'pages.dev.job.jar.args' }),
+          creatorButtonText: intl.formatMessage({id: 'pages.dev.job.jar.args'}),
           type: 'text',
         }}
       >
         <ProFormGroup>
           <ProFormText
             name="parameter"
-            label={intl.formatMessage({ id: 'pages.dev.job.jar.args.key' })}
-            colProps={{ span: 10, offset: 1 }}
+            label={intl.formatMessage({id: 'pages.dev.job.jar.args.key'})}
+            colProps={{span: 10, offset: 1}}
           />
           <ProFormText
             name="value"
-            label={intl.formatMessage({ id: 'pages.dev.job.jar.args.value' })}
-            colProps={{ span: 10, offset: 1 }}
+            label={intl.formatMessage({id: 'pages.dev.job.jar.args.value'})}
+            colProps={{span: 10, offset: 1}}
           />
         </ProFormGroup>
       </ProFormList>

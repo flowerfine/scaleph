@@ -61,6 +61,9 @@ public class FlinkJobForJar extends BaseDO {
     @ApiModelProperty("flink config")
     private String flinkConfig;
 
+    @ApiModelProperty("flink job instance")
+    private FlinkJobInstance flinkJobInstance;
+
     @ApiModelProperty("from version")
     private Long fromVersion;
 
