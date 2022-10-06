@@ -3,7 +3,7 @@
 Build requirements:
 
 - Git
-- Java 8
+- Java 11
 - Maven
 - node >= v16.14.0
 

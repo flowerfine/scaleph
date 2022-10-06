@@ -27,6 +27,6 @@ such as:
 
 ```
 https://dlcdn.apache.org/flink/flink-1.13.6/flink-1.13.6-bin-scala_2.11.tgz
-https://dlcdn.apache.org/incubator/seatunnel/2.1.2/apache-seatunnel-incubating-2.1.2-bin.tar.gz
+https://dlcdn.apache.org/incubator/seatunnel/2.2.0-beta/apache-seatunnel-incubating-2.2.0-beta-bin.tar.gz
 ```
 
