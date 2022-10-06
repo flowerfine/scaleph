@@ -16,35 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.dto;
+package cn.sliew.scaleph.dao.entity.master.flink;
 
-import io.swagger.annotations.ApiModelProperty;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
-
-import java.io.Serializable;
-import java.util.Date;
+import lombok.EqualsAndHashCode;
 
 /**
- * @author gleiyu
+ * <p>
+ * flink job log
+ * </p>
  */
 @Data
-public class BaseDTO implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+@TableName("flink_job_log")
+@ApiModel(value = "FlinkJobLog对象", description = "flink job log")
+public class FlinkJobLog extends FlinkJobInstance {
 
-    private static final long serialVersionUID = -3170630380110141492L;
-
-    @ApiModelProperty("ID")
-    private Long id;
-
-    @ApiModelProperty("creator")
-    private String creator;
-
-    @ApiModelProperty("create time")
-    private Date createTime;
-
-    @ApiModelProperty("editor")
-    private String editor;
-
-    @ApiModelProperty("update time")
-    private Date updateTime;
+    private static final long serialVersionUID = 1L;
 
 }

@@ -1,20 +1,20 @@
 import {useAccess, useIntl} from "umi";
 import {useRef} from "react";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {FlinkJobInstance, FlinkJobInstanceListParam} from "@/pages/DEV/Job/typings";
+import {FlinkJobLog, FlinkJobLogListParam} from "@/pages/DEV/Job/typings";
 import {Button, Space, Tooltip} from "antd";
 import {PRIVILEGE_CODE} from "@/constant";
 import {EditOutlined} from "@ant-design/icons";
 import {history} from "@@/core/history";
-import {FlinkJobInstanceService} from "@/pages/DEV/Job/FlinkJobInstanceService";
+import {FlinkJobLogService} from "@/pages/DEV/Job/FlinkJobLogService";
 
-const JobInstanceWeb: React.FC<{flinkJobCode: number}> = ({flinkJobCode}) => {
+const JobLogTable: React.FC<{ flinkJobCode: number }> = ({flinkJobCode}) => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
 
-  const tableColumns: ProColumns<FlinkJobInstance>[] = [
+  const tableColumns: ProColumns<FlinkJobLog>[] = [
     {
       title: intl.formatMessage({id: 'pages.dev.job.version'}),
       dataIndex: 'flinkJobVersion',
@@ -42,14 +42,18 @@ const JobInstanceWeb: React.FC<{flinkJobCode: number}> = ({flinkJobCode}) => {
       },
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.createTime'}),
-      dataIndex: 'createTime',
+      title: intl.formatMessage({id: 'pages.dev.job.startTime'}),
+      dataIndex: 'startTime',
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.dev.updateTime'}),
-      dataIndex: 'updateTime',
+      title: intl.formatMessage({id: 'pages.dev.job.endTime'}),
+      dataIndex: 'endTime',
       width: 180,
+    },
+    {
+      title: intl.formatMessage({id: 'pages.dev.job.duration'}),
+      dataIndex: 'duration',
     },
     {
       title: intl.formatMessage({id: 'app.common.operate.label'}),
@@ -80,7 +84,7 @@ const JobInstanceWeb: React.FC<{flinkJobCode: number}> = ({flinkJobCode}) => {
   ];
 
   return (
-    <ProTable<FlinkJobInstance>
+    <ProTable<FlinkJobLog>
       rowKey="id"
       actionRef={actionRef}
       formRef={formRef}
@@ -88,11 +92,11 @@ const JobInstanceWeb: React.FC<{flinkJobCode: number}> = ({flinkJobCode}) => {
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) => {
-        const param: FlinkJobInstanceListParam = {
+        const param: FlinkJobLogListParam = {
           ...params,
           flinkJobCode: flinkJobCode
         }
-        return FlinkJobInstanceService.list(param);
+        return FlinkJobLogService.list(param);
       }}
       pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
       tableAlertRender={false}
@@ -101,4 +105,4 @@ const JobInstanceWeb: React.FC<{flinkJobCode: number}> = ({flinkJobCode}) => {
   );
 }
 
-export default JobInstanceWeb;
+export default JobLogTable;

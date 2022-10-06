@@ -26,6 +26,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Date;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "FlinkJobInstance对象", description = "flink job instance")
@@ -54,5 +56,14 @@ public class FlinkJobInstanceDTO extends BaseDTO {
 
     @ApiModelProperty("flink cluster status")
     private FlinkClusterStatus clusterStatus;
+
+    @ApiModelProperty("job start time")
+    private Date startTime;
+
+    @ApiModelProperty("job end time")
+    private Date endTime;
+
+    @ApiModelProperty("flink cluster status")
+    private Long duration;
 
 }

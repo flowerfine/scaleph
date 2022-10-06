@@ -16,35 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.dto;
+package cn.sliew.scaleph.engine.flink.service.param;
 
+import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
-import java.util.Date;
+import javax.validation.constraints.NotNull;
 
-/**
- * @author gleiyu
- */
 @Data
-public class BaseDTO implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class FlinkJobLogListParam extends PaginationParam {
 
-    private static final long serialVersionUID = -3170630380110141492L;
-
-    @ApiModelProperty("ID")
-    private Long id;
-
-    @ApiModelProperty("creator")
-    private String creator;
-
-    @ApiModelProperty("create time")
-    private Date createTime;
-
-    @ApiModelProperty("editor")
-    private String editor;
-
-    @ApiModelProperty("update time")
-    private Date updateTime;
-
+    @NotNull
+    @ApiModelProperty("flink job code")
+    private Long flinkJobCode;
 }

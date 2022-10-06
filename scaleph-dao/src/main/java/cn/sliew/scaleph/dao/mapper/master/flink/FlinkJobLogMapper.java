@@ -16,35 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.dto;
+package cn.sliew.scaleph.dao.mapper.master.flink;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
-import java.io.Serializable;
-import java.util.Date;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobLog;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
- * @author gleiyu
+ * <p>
+ * flink job log Mapper 接口
+ * </p>
  */
-@Data
-public class BaseDTO implements Serializable {
-
-    private static final long serialVersionUID = -3170630380110141492L;
-
-    @ApiModelProperty("ID")
-    private Long id;
-
-    @ApiModelProperty("creator")
-    private String creator;
-
-    @ApiModelProperty("create time")
-    private Date createTime;
-
-    @ApiModelProperty("editor")
-    private String editor;
-
-    @ApiModelProperty("update time")
-    private Date updateTime;
+@Repository
+public interface FlinkJobLogMapper extends BaseMapper<FlinkJobLog> {
 
 }
