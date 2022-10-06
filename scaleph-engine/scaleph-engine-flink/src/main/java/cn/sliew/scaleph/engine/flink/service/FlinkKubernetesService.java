@@ -22,5 +22,7 @@ import org.apache.flink.kubernetes.operator.crd.FlinkDeployment;
 
 public interface FlinkKubernetesService {
 
+    void createSession() throws Exception;
+
     FlinkDeployment build() throws Exception;
 }

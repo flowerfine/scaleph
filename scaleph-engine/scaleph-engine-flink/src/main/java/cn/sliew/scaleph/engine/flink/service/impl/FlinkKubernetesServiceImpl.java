@@ -23,9 +23,20 @@ import cn.sliew.scaleph.engine.flink.operator.FlinkDeploymentBuilder;
 import cn.sliew.scaleph.engine.flink.operator.configurer.ObjectMetaConfigurer;
 import cn.sliew.scaleph.engine.flink.operator.configurer.SpecConfigurer;
 import cn.sliew.scaleph.engine.flink.service.FlinkKubernetesService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.flink.kubernetes.operator.crd.FlinkDeployment;
+import org.springframework.stereotype.Service;
 
+@Service
 public class FlinkKubernetesServiceImpl implements FlinkKubernetesService {
+
+    @Override
+    public void createSession() throws Exception {
+        final FlinkDeployment flinkDeployment = build();
+        final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        System.out.println(mapper.writeValueAsString(flinkDeployment));
+    }
 
     @Override
     public FlinkDeployment build() throws Exception {
