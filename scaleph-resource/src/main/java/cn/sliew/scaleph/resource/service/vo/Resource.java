@@ -16,20 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.resource.service.vo;
 
-import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
+import java.io.Closeable;
 
-public interface FlinkKubernetesService {
+public interface Resource<V> extends Closeable {
 
-    boolean supportOperator();
+    V load();
 
-    void createStandalone() throws Exception;
-
-    void createSession(FlinkSessionClusterAddParam param) throws Exception;
-
-    void submitSessionJob() throws Exception;
-
-    void submitApplicationJob() throws Exception;
+    boolean isRecycled();
 
 }

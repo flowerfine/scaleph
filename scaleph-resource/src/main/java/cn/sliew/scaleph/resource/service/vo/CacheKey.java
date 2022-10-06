@@ -16,20 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.resource.service.vo;
 
-import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
+import cn.sliew.scaleph.resource.service.enums.ResourceType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-public interface FlinkKubernetesService {
+@Data
+@AllArgsConstructor
+@EqualsAndHashCode
+public class CacheKey {
 
-    boolean supportOperator();
-
-    void createStandalone() throws Exception;
-
-    void createSession(FlinkSessionClusterAddParam param) throws Exception;
-
-    void submitSessionJob() throws Exception;
-
-    void submitApplicationJob() throws Exception;
-
+    private ResourceType type;
+    private Long id;
 }

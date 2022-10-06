@@ -26,9 +26,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Path;
 import java.util.List;
 
-public interface FlinkReleaseService extends ResourceDescriptor<FlinkReleaseDTO> {
+public interface FlinkReleaseService extends ResourceDescriptor<FlinkReleaseDTO, Path> {
 
     Page<FlinkReleaseDTO> list(FlinkReleaseListParam param) throws IOException;
 

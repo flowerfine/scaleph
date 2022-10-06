@@ -87,6 +87,8 @@ public class FlinkServiceImpl implements FlinkService {
     private ClusterCredentialService clusterCredentialService;
     @Autowired
     private FlinkClusterInstanceService flinkClusterInstanceService;
+    @Autowired
+    private FlinkKubernetesService flinkKubernetesService;
 
     /**
      * requires:
@@ -104,6 +106,10 @@ public class FlinkServiceImpl implements FlinkService {
                 clusterClient = createYarnSessionCluster(flinkClusterConfigDTO);
                 break;
             case NATIVE_KUBERNETES:
+                if (flinkKubernetesService.supportOperator()) {
+                    flinkKubernetesService.createSession(param);
+                    return;
+                }
                 clusterClient = createKubernetesSessionCluster(flinkClusterConfigDTO);
                 break;
             case STANDALONE:

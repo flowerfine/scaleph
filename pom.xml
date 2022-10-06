@@ -535,6 +535,11 @@
                 <artifactId>flinkful-rest-client</artifactId>
                 <version>${flinkful.version}</version>
             </dependency>
+            <dependency>
+                <groupId>cn.sliew</groupId>
+                <artifactId>flinkful-kubernetes-operator</artifactId>
+                <version>${flinkful.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.squareup.okhttp3</groupId>

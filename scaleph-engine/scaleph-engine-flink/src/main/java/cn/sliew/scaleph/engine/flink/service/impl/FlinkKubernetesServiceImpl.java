@@ -20,67 +20,77 @@ package cn.sliew.scaleph.engine.flink.service.impl;
 
 import cn.sliew.milky.dsl.Customizer;
 import cn.sliew.scaleph.engine.flink.operator.FlinkDeploymentBuilder;
-import cn.sliew.scaleph.engine.flink.operator.configurer.ObjectMetaConfigurer;
 import cn.sliew.scaleph.engine.flink.operator.configurer.SpecConfigurer;
+import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
 import cn.sliew.scaleph.engine.flink.service.FlinkKubernetesService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import cn.sliew.scaleph.engine.flink.service.convert.FlinkVersionConvert;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
+import cn.sliew.scaleph.resource.service.ClusterCredentialService;
+import cn.sliew.scaleph.resource.service.vo.Resource;
+import io.fabric8.kubernetes.client.DefaultKubernetesClient;
+import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.utils.Serialization;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.flink.kubernetes.operator.crd.FlinkDeployment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Service
 public class FlinkKubernetesServiceImpl implements FlinkKubernetesService {
 
+    @Autowired
+    private FlinkClusterConfigService flinkClusterConfigService;
+    @Autowired
+    private ClusterCredentialService clusterCredentialService;
+
     @Override
-    public void createSession() throws Exception {
-        final FlinkDeployment flinkDeployment = build();
-        final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        System.out.println(mapper.writeValueAsString(flinkDeployment));
+    public boolean supportOperator() {
+        return true;
     }
 
     @Override
-    public FlinkDeployment build() throws Exception {
+    public void createStandalone() throws Exception {
+
+    }
+
+    @Override
+    public void createSession(FlinkSessionClusterAddParam param) throws Exception {
+        final FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(param.getFlinkClusterConfigId());
         FlinkDeploymentBuilder config = new FlinkDeploymentBuilder();
-        config
+        final SpecConfigurer specConfigurer = config
                 .apiVersion(Customizer.withDefaults())
                 .kind(Customizer.withDefaults())
-                .metadata(this::metadata)
-                .spec(this::spec);
-
-        return config.getOrBuild();
+                .metadata()
+                .name(flinkClusterConfigDTO.getName() + "-" + RandomStringUtils.randomAlphabetic(8))
+                .namespace("default")
+                .and()
+                .spec()
+                .flinkVersion(FlinkVersionConvert.INSTANCE.toDto(flinkClusterConfigDTO.getFlinkVersion()));
+        if (CollectionUtils.isEmpty(flinkClusterConfigDTO.getConfigOptions()) == false) {
+            flinkClusterConfigDTO.getConfigOptions().forEach((key, value) -> specConfigurer.flinkConfiguration(key, value));
+        }
+        final FlinkDeployment flinkDeployment = specConfigurer.and().build();
+        try (Resource<Path> clusterCredential = clusterCredentialService.obtain(flinkClusterConfigDTO.getClusterCredential().getId());
+             InputStream inputStream = Files.newInputStream(clusterCredential.load());
+             KubernetesClient client = DefaultKubernetesClient.fromConfig(inputStream)) {
+            final FlinkDeployment orReplace = client.resource(flinkDeployment).createOrReplace();
+            System.out.println(Serialization.asYaml(orReplace));
+        }
     }
 
-    private void metadata(ObjectMetaConfigurer objectMetaConfigurer) {
-        objectMetaConfigurer.name("Basic");
-    }
-
-    private void spec(SpecConfigurer specConfigurer) {
-        specConfigurer
-                .ingress(this::ingress)
-                .jobManager(this::jobManager)
-                .taskManager(this::taskManager)
-                .podTemplate(this::podTemplate)
-                .job(this::job);
-    }
-
-    private void ingress(SpecConfigurer.IngressSpecConfig config) {
-
-    }
-
-    private void jobManager(SpecConfigurer.JobManagerSpecConfig config) {
+    @Override
+    public void submitSessionJob() throws Exception {
 
     }
 
-    private void taskManager(SpecConfigurer.TaskManagerSpecConfig config) {
+    @Override
+    public void submitApplicationJob() throws Exception {
 
     }
-
-    private void podTemplate(SpecConfigurer.PodTemplateSpecConfig config) {
-
-    }
-
-    private void job(SpecConfigurer.JobSpecConfig config) {
-
-    }
-
 }

@@ -16,20 +16,35 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.resource.service.vo;
 
-import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
+import com.github.benmanes.caffeine.cache.Cache;
 
-public interface FlinkKubernetesService {
+import java.io.IOException;
 
-    boolean supportOperator();
+public class CacheResource<V> implements Resource<V> {
 
-    void createStandalone() throws Exception;
+    private final Cache<CacheKey, V> cache;
+    private final CacheKey key;
 
-    void createSession(FlinkSessionClusterAddParam param) throws Exception;
+    public CacheResource(Cache<CacheKey, V> cache, CacheKey key) {
+        this.cache = cache;
+        this.key = key;
+    }
 
-    void submitSessionJob() throws Exception;
+    @Override
+    public V load() {
+        return cache.getIfPresent(key);
+    }
 
-    void submitApplicationJob() throws Exception;
+    @Override
+    public boolean isRecycled() {
+        return cache.asMap().containsKey(key) == false;
+    }
+
+    @Override
+    public void close() throws IOException {
+        cache.invalidate(key);
+    }
 
 }
