@@ -42,6 +42,7 @@ public interface FlinkJobForJarConvert extends BaseConvert<FlinkJobForJar, Flink
         entity.setFlinkArtifactJar(FlinkArtifactJarVOConvert.INSTANCE.toDo(dto.getFlinkArtifactJar()));
         entity.setFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDo(dto.getFlinkClusterConfig()));
         entity.setFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDo(dto.getFlinkClusterInstance()));
+        entity.setFlinkJobInstance(FlinkJobInstanceConvert.INSTANCE.toDo(dto.getFlinkJobInstance()));
         if (CollectionUtils.isEmpty(dto.getJobConfig()) == false) {
             entity.setJobConfig(JacksonUtil.toJsonString(dto.getJobConfig()));
         }
@@ -58,6 +59,7 @@ public interface FlinkJobForJarConvert extends BaseConvert<FlinkJobForJar, Flink
         dto.setFlinkArtifactJar(FlinkArtifactJarVOConvert.INSTANCE.toDto(entity.getFlinkArtifactJar()));
         dto.setFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDto(entity.getFlinkClusterConfig()));
         dto.setFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDto(entity.getFlinkClusterInstance()));
+        dto.setFlinkJobInstance(FlinkJobInstanceConvert.INSTANCE.toDto(entity.getFlinkJobInstance()));
         if (StringUtils.hasText(entity.getJobConfig())) {
             dto.setJobConfig(JacksonUtil.parseJsonString(entity.getJobConfig(), Map.class));
         }

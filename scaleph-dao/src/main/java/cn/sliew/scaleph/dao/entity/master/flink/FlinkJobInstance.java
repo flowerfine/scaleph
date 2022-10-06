@@ -28,6 +28,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Date;
+
 /**
  * <p>
  * flink job instance
@@ -72,5 +74,17 @@ public class FlinkJobInstance extends BaseDO {
     @ApiModelProperty("flink cluster status")
     @TableField("cluster_status")
     private FlinkClusterStatus clusterStatus;
+
+    @ApiModelProperty("job start time")
+    @TableField("start_time")
+    private Date startTime;
+
+    @ApiModelProperty("job end time")
+    @TableField("end_time")
+    private Date endTime;
+
+    @ApiModelProperty("flink cluster status")
+    @TableField("duration")
+    private Long duration;
 
 }

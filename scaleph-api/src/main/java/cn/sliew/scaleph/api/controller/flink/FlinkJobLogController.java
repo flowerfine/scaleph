@@ -19,45 +19,34 @@
 package cn.sliew.scaleph.api.controller.flink;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.engine.flink.service.FlinkJobInstanceService;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobInstanceDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobInstanceListParam;
+import cn.sliew.scaleph.engine.flink.service.FlinkJobLogService;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobLogDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkJobLogListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@Slf4j
 @Api(tags = "Flink管理-任务实例管理")
 @RestController
-@RequestMapping(path = "/api/flink/job-instance")
-public class JobInstanceController {
+@RequestMapping(path = "/api/flink/job-log")
+public class FlinkJobLogController {
 
     @Autowired
-    private FlinkJobInstanceService flinkJobInstanceService;
+    private FlinkJobLogService flinkJobLogService;
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询任务实例列表", notes = "分页任务实例列表")
-    public ResponseEntity<Page<FlinkJobInstanceDTO>> list(@Valid FlinkJobInstanceListParam param) {
-        Page<FlinkJobInstanceDTO> page = flinkJobInstanceService.list(param);
+    @ApiOperation(value = "查询任务运行日志列表", notes = "分页任务运行日志列表")
+    public ResponseEntity<Page<FlinkJobLogDTO>> list(@Valid FlinkJobLogListParam param) {
+        Page<FlinkJobLogDTO> page = flinkJobLogService.list(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
-    }
-
-    @Logging
-    @GetMapping("getByCode")
-    @ApiOperation(value = "查询任务实例", notes = "查询任务实例")
-    public ResponseEntity<FlinkJobInstanceDTO> getByCode(@RequestParam("flinkJobCode") Long flinkJobCode) {
-        FlinkJobInstanceDTO dto = flinkJobInstanceService.selectByCode(flinkJobCode);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }
