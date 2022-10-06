@@ -33,18 +33,6 @@ export namespace CustomCommands {
     label: 'publish',
     category: XFlowGraphCommands.GRAPH_COPY.category,
   };
-
-  // export const GRAPH_START: IGraphCommand = {
-  //   id: 'xflow:graph-start',
-  //   label: 'start',
-  //   category: XFlowGraphCommands.GRAPH_COPY.category,
-  // };
-
-  // export const GRAPH_STOP: IGraphCommand = {
-  //   id: 'xflow:graph-stop',
-  //   label: 'stop',
-  //   category: XFlowGraphCommands.GRAPH_COPY.category,
-  // };
 }
 
 export const STEP_ATTR_TYPE = {
@@ -52,6 +40,7 @@ export const STEP_ATTR_TYPE = {
   jobId: 'jobId',
   stepCode: 'stepCode',
   stepTitle: 'stepTitle',
+  stepAttrs: 'stepAttrs',
   dataSourceType: 'dataSourceType',
   dataSource: 'dataSource',
   query: 'query',
@@ -95,7 +84,89 @@ export const STEP_ATTR_TYPE = {
   timestampColumn: 'timestamp_column',
   timestampFormat: 'timestamp_format',
   timestampMissingValue: 'timestamp_missing_value',
+  rowNum: 'row_num',
+  host: 'host',
+  port: 'port',
 };
+
+export const BaseFileParams = {
+  path: 'path',
+  type: 'type',
+  schema: 'schema',
+  fileNameExpression: 'file_name_expression',
+  fileFormat: 'file_format',
+  filenameTimeFormat: 'filename_time_format',
+  fieldDelimiter: 'field_delimiter',
+  rowDelimiter: 'row_delimiter',
+  partitionBy: 'partition_by',
+  partitionDirExpression: 'partition_dir_expression',
+  isPartitionFieldWriteInFile: 'is_partition_field_write_in_file',
+  sinkColumns: 'sink_columns',
+  isEnableTransaction: 'is_enable_transaction',
+  saveMode: 'save_mode',
+};
+
+export const HDFSFileParams = {
+  defaultFS: 'fs.defaultFS',
+};
+
+export const FtpFileParams = {
+  host: 'host',
+  port: 'port',
+  username: 'username',
+  password: 'password',
+};
+
+export const OSSFileParams = {
+  endpoint: 'endpoint',
+  bucket: 'bucket',
+  accessKey: 'access_key',
+  accessSecret: 'access_secret',
+};
+
+export const BaseHttpParams = {
+  url: 'url',
+  headers: 'headers',
+  params: 'params',
+  retry: 'retry',
+  retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
+  retryBackoffMaxMs: 'retry_backoff_max_ms'
+}
+
+export const HttpParams = {
+  method: 'method',
+  body: 'body',
+  format: 'format',
+  schema: 'schema',
+  pollIntervalMs: 'poll_interval_ms'
+}
+
+export const WeChatParams = {
+  url: 'url',
+  mentionedList: 'mentioned_list',
+  mentionedMobileList: 'mentioned_mobile_list'
+}
+
+export const FeishuParams = {
+  url: 'url',
+  headers: 'headers'
+}
+
+export const DingTalkParams = {
+  url: 'url',
+  secret: 'secret'
+}
+
+export const EmailParams = {
+  emailHost: 'email_host',
+  emailTransportProtocol: 'email_transport_protocol',
+  emailFromAddress: 'email_from_address',
+  emailSmtpAuth: 'email_smtp_auth',
+  emailAuthorizationCode: 'email_authorization_code',
+  emailToAddress: 'email_to_address',
+  emailMessageHeadline: 'email_message_headline',
+  emailMessageContent: 'email_message_content'
+}
 
 export const HudiParams = {
   tablePath: 'table.path',
@@ -104,7 +175,7 @@ export const HudiParams = {
   useKerberos: 'use.kerberos',
   kerberosPrincipal: 'kerberos.principal',
   kerberosPrincipalFile: 'kerberos.principal.file',
-}
+};
 
 export const IcebergParams = {
   catalogType: 'catalog_type',
@@ -124,3 +195,11 @@ export const IcebergParams = {
 }
 
 
+export const ClickHouseParams = {
+  dataSourceType: 'ClickHouse',
+  splitMode: 'split_mode',
+  shardingKey: 'sharding_key',
+  clickhouseConf: 'clickhouse_conf',
+  sql: 'sql',
+  database: 'database'
+};

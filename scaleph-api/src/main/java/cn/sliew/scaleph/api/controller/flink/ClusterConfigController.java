@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.api.controller.flink;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.api.vo.ResponseVO;
+import cn.sliew.scaleph.system.vo.ResponseVO;
 import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigListParam;

@@ -33,35 +33,25 @@
         <result column="step_name" property="stepName"/>
         <result column="position_x" property="positionX"/>
         <result column="position_y" property="positionY"/>
-        <collection property="jobStepAttrList" ofType="DiJobStepAttr">
-            <id column="step_attr_id" jdbcType="BIGINT" property="id"/>
-            <result column="step_attr_key" jdbcType="VARCHAR" property="stepAttrKey"/>
-            <result column="step_attr_value" jdbcType="VARCHAR" property="stepAttrValue"/>
-        </collection>
+        <result column="step_attrs" property="stepAttrs"/>
     </resultMap>
 
     <select id="selectByJobId" resultMap="DiJobStepMap">
         <![CDATA[
-        select
-            s.id,
-            s.job_id,
-            s.step_code,
-            s.step_title,
-            s.step_type,
-            s.step_name,
-            s.position_x,
-            s.position_y,
-            s.creator,
-            s.create_time,
-            s.editor,
-            s.update_time,
-            a.id as step_attr_id,
-            a.step_attr_key,
-            a.step_attr_value
+        select s.id,
+               s.job_id,
+               s.step_code,
+               s.step_title,
+               s.step_type,
+               s.step_name,
+               s.position_x,
+               s.position_y,
+               s.step_attrs,
+               s.creator,
+               s.create_time,
+               s.editor,
+               s.update_time
         from di_job_step s
-        left join di_job_step_attr a
-        on s.job_id = a.job_id
-        and s.step_code = a.step_code
         where s.job_id = #{jobId,jdbcType=BIGINT}
         ]]>
     </select>
@@ -90,31 +80,30 @@
 
     <insert id="clone">
         insert into di_job_step
-        (
-        job_id,
-        step_code,
-        step_title,
-        step_type,
-        step_name,
-        position_x,
-        position_y,
-        creator,
-        create_time,
-        editor,
-        update_time
-        )
-        select
-        #{targetJobId,jdbcType=BIGINT} as job_id,
-        step_code,
-        step_title,
-        step_type,
-        step_name,
-        position_x,
-        position_y,
-        'sys' as creator,
-        now() as create_time,
-        'sys' as editor,
-        now() as update_time
+        (job_id,
+         step_code,
+         step_title,
+         step_type,
+         step_name,
+         position_x,
+         position_y,
+         step_attrs,
+         creator,
+         create_time,
+         editor,
+         update_time)
+        select #{targetJobId,jdbcType=BIGINT} as job_id,
+               step_code,
+               step_title,
+               step_type,
+               step_name,
+               position_x,
+               position_y,
+               step_attrs,
+               'sys'                          as creator,
+               now()                          as create_time,
+               'sys'                          as editor,
+               now()                          as update_time
         from di_job_step
         where job_id = #{sourceJobId,jdbcType=BIGINT}
     </insert>

@@ -78,6 +78,7 @@ export const JobService = {
       data: attrs,
     });
   },
+  //todo remove this function
   listStepAttr: async (jobId: string, stepCode: string) => {
     return request<DiJobStepAttr[]>(`${JobService.url}/step`, {
       method: 'GET',

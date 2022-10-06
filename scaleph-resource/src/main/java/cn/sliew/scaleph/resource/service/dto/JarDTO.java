@@ -40,4 +40,5 @@ public class JarDTO extends BaseDTO {
 
     @ApiModelProperty("备注")
     private String remark;
+
 }

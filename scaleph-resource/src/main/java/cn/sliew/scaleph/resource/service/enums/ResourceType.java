@@ -29,6 +29,7 @@ public enum ResourceType {
     FLINK_RELEASE("flink_release", "Flink Release"),
     CLUSTER_CREDENTIAL("cluster_credential", "Cluster Credential"),
     JAR("jar", "Additional Dependency Jar"),
+    KERBEROS("kerberos", "Kerberos"),
     // todo
     SCHEMA("schema", "Schema"),
     DATASOURCE("datasource", "DataSource"),

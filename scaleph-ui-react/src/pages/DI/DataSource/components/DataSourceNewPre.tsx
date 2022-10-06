@@ -46,6 +46,9 @@ const DataSourceNewPre: React.FC<DataSourceFormProps> = ({
                     <Card.Grid style={gridStyle} onClick={() => { onSelect('PostGreSQL') }}>
                         <Typography.Text strong >PostGreSQL</Typography.Text>
                     </Card.Grid>
+                    <Card.Grid style={gridStyle} onClick={() => { onSelect('Greenplum') }}>
+                        <Typography.Text strong >Greenplum</Typography.Text>
+                    </Card.Grid>
                 </Card>
 
                 <Typography.Title level={5} type="secondary">

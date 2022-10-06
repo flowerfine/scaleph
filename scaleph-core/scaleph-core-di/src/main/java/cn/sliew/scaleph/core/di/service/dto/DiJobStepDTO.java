@@ -18,9 +18,6 @@
 
 package cn.sliew.scaleph.core.di.service.dto;
 
-import javax.validation.constraints.NotNull;
-import java.util.List;
-
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
@@ -28,6 +25,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 /**
  * <p>
@@ -43,9 +43,6 @@ import org.hibernate.validator.constraints.Length;
 public class DiJobStepDTO extends BaseDTO {
 
     private static final long serialVersionUID = -5718957095121629912L;
-
-    @ApiModelProperty(value = "步骤属性信息")
-    private List<DiJobStepAttrDTO> jobStepAttrList;
 
     @NotNull
     @ApiModelProperty(value = "作业id")
@@ -75,4 +72,7 @@ public class DiJobStepDTO extends BaseDTO {
 
     @ApiModelProperty(value = "y坐标")
     private Integer positionY;
+
+    @ApiModelProperty(value = "作业步骤属性")
+    private Map<String, Object> stepAttrs;
 }

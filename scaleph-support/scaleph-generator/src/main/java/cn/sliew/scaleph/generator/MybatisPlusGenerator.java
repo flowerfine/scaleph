@@ -114,9 +114,9 @@ public class MybatisPlusGenerator {
     }
 
     private static void templateConfig(TemplateConfig.Builder builder) {
-        builder.controller("")
-                .service("")
-                .serviceImpl("");
+        builder.controller(null)
+                .service(null)
+                .serviceImpl(null);
     }
 
     /**

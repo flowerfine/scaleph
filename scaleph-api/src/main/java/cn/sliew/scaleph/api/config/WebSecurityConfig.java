@@ -23,9 +23,9 @@ import java.util.Map;
 import java.util.Set;
 
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
-import cn.sliew.scaleph.api.security.CustomAccessDeniedHandler;
-import cn.sliew.scaleph.api.security.CustomAuthenticationEntryPoint;
-import cn.sliew.scaleph.api.security.TokenConfigurer;
+import cn.sliew.scaleph.security.web.CustomAccessDeniedHandler;
+import cn.sliew.scaleph.security.web.CustomAuthenticationEntryPoint;
+import cn.sliew.scaleph.security.web.TokenConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
