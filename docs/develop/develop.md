@@ -5,7 +5,7 @@ This doc describes how to set up development environment for Scaleph and run the
 ## requirements
 
 - Git
-- Java 8
+- Java 11
 - Maven
 - Mysql 8.0
 - redis
