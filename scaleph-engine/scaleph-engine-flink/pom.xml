@@ -57,16 +57,6 @@
 
         <dependency>
             <groupId>cn.sliew</groupId>
-            <artifactId>milky-dsl</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-kubernetes-operator</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.sliew</groupId>
             <artifactId>flinkful-cli-base</artifactId>
         </dependency>
         <dependency>
@@ -76,6 +66,10 @@
         <dependency>
             <groupId>cn.sliew</groupId>
             <artifactId>flinkful-rest-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>flinkful-kubernetes-operator</artifactId>
         </dependency>
     </dependencies>
 

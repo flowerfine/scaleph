@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
+import cn.sliew.flinkful.kubernetes.operator.FlinkDeploymentBuilder;
+import cn.sliew.flinkful.kubernetes.operator.configurer.SpecConfigurer;
 import cn.sliew.milky.dsl.Customizer;
-import cn.sliew.scaleph.engine.flink.operator.FlinkDeploymentBuilder;
-import cn.sliew.scaleph.engine.flink.operator.configurer.SpecConfigurer;
 import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
 import cn.sliew.scaleph.engine.flink.service.FlinkKubernetesService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkVersionConvert;
@@ -30,6 +30,7 @@ import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.vo.Resource;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.dsl.NamespaceVisitFromServerGetWatchDeleteRecreateWaitApplicable;
 import io.fabric8.kubernetes.client.utils.Serialization;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.flink.kubernetes.operator.crd.FlinkDeployment;
@@ -68,11 +69,12 @@ public class FlinkKubernetesServiceImpl implements FlinkKubernetesService {
                 .apiVersion(Customizer.withDefaults())
                 .kind(Customizer.withDefaults())
                 .metadata()
-                .name(flinkClusterConfigDTO.getName() + "-" + RandomStringUtils.randomAlphabetic(8))
+                .name(RandomStringUtils.randomAlphabetic(32))
                 .namespace("default")
                 .and()
                 .spec()
-                .flinkVersion(FlinkVersionConvert.INSTANCE.toDto(flinkClusterConfigDTO.getFlinkVersion()));
+                .image("flink:1.13") // fixme
+                .flinkVersion(FlinkVersionConvert.INSTANCE.toOperatorVersion(flinkClusterConfigDTO.getFlinkVersion()));
         if (CollectionUtils.isEmpty(flinkClusterConfigDTO.getConfigOptions()) == false) {
             flinkClusterConfigDTO.getConfigOptions().forEach((key, value) -> specConfigurer.flinkConfiguration(key, value));
         }
@@ -82,7 +84,8 @@ public class FlinkKubernetesServiceImpl implements FlinkKubernetesService {
             try (InputStream inputStream = Files.newInputStream(kubeconfig);
                  KubernetesClient client = DefaultKubernetesClient.fromConfig(inputStream)) {
                 System.out.println(Serialization.asYaml(flinkDeployment));
-                final FlinkDeployment orReplace = client.resource(flinkDeployment).createOrReplace();
+                NamespaceVisitFromServerGetWatchDeleteRecreateWaitApplicable<FlinkDeployment> resource = client.resource(flinkDeployment);
+                final FlinkDeployment orReplace = resource.createOrReplace();
                 System.out.println(Serialization.asYaml(orReplace));
             }
         }

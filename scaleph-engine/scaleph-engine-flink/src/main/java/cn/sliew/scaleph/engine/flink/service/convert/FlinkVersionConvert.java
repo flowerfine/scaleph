@@ -19,23 +19,13 @@
 package cn.sliew.scaleph.engine.flink.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FlinkVersionConvert extends BaseConvert<FlinkVersion, org.apache.flink.kubernetes.operator.crd.spec.FlinkVersion> {
+public interface FlinkVersionConvert {
     FlinkVersionConvert INSTANCE = Mappers.getMapper(FlinkVersionConvert.class);
 
-    @Override
-    default FlinkVersion toDo(org.apache.flink.kubernetes.operator.crd.spec.FlinkVersion dto) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    default org.apache.flink.kubernetes.operator.crd.spec.FlinkVersion toDto(FlinkVersion entity) {
+    default org.apache.flink.kubernetes.operator.crd.spec.FlinkVersion toOperatorVersion(FlinkVersion entity) {
         for (org.apache.flink.kubernetes.operator.crd.spec.FlinkVersion flinkVersion : org.apache.flink.kubernetes.operator.crd.spec.FlinkVersion.values()) {
             if (entity.name().startsWith(flinkVersion.name())) {
                 return flinkVersion;
