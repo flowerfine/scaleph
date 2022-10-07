@@ -71,6 +71,11 @@
             <groupId>cn.sliew</groupId>
             <artifactId>flinkful-kubernetes-operator</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-kubernetes-operator</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

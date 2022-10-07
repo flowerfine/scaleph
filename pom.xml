@@ -139,14 +139,14 @@
         <postgresql.version>42.3.3</postgresql.version>
         <druid.version>0.22.1</druid.version>
         <calcite-druid.version>1.31.0</calcite-druid.version>
-        <flink.version>1.15.1</flink.version>
+        <flink.version>1.15.2</flink.version>
         <flink-kubernetes-operator.version>1.1.0</flink-kubernetes-operator.version>
         <flinkful.version>1.15.1_1_17-SNAPSHOT</flinkful.version>
         <config.version>1.3.3</config.version>
         <okhttp.version>4.9.3</okhttp.version>
         <guava.version>31.0-jre</guava.version>
         <minio.version>8.3.8</minio.version>
-        <milky.version>1.0.6_8</milky.version>
+        <milky.version>1.0.7</milky.version>
         <hadoop.version>3.3.4</hadoop.version>
         <akka.version>2.6.19</akka.version>
         <sofa.ark.version>2.0.0</sofa.ark.version>
@@ -539,6 +539,12 @@
                 <groupId>cn.sliew</groupId>
                 <artifactId>flinkful-kubernetes-operator</artifactId>
                 <version>${flinkful.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.flink</groupId>
+                        <artifactId>flink-kubernetes-operator</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
