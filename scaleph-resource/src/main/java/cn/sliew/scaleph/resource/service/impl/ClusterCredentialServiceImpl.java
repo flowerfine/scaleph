@@ -102,9 +102,9 @@ public class ClusterCredentialServiceImpl implements ClusterCredentialService {
         final ClusterCredentialDTO clusterCredentialDTO = getRaw(id);
         final List<FileStatusVO> fileStatusVOS = listCredentialFile(id);
         final Path value = TempFileUtil.createTempDir(clusterCredentialDTO.getName());
+
         for (FileStatusVO fileStatusVO : fileStatusVOS) {
-            final Path deployConfigFile = value.resolve(fileStatusVO.getName());
-            Files.createFile(deployConfigFile, TempFileUtil.attributes);
+            final Path deployConfigFile = TempFileUtil.createTempFile(value, fileStatusVO.getName());
             try (final OutputStream outputStream = Files.newOutputStream(deployConfigFile, StandardOpenOption.WRITE)) {
                 downloadCredentialFile(id, fileStatusVO.getName(), outputStream);
             }
