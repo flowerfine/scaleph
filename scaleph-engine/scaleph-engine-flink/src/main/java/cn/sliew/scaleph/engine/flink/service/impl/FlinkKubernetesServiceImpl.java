@@ -40,6 +40,7 @@ import org.springframework.util.CollectionUtils;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 @Service
 public class FlinkKubernetesServiceImpl implements FlinkKubernetesService {
@@ -76,11 +77,14 @@ public class FlinkKubernetesServiceImpl implements FlinkKubernetesService {
             flinkClusterConfigDTO.getConfigOptions().forEach((key, value) -> specConfigurer.flinkConfiguration(key, value));
         }
         final FlinkDeployment flinkDeployment = specConfigurer.and().build();
-        try (Resource<Path> clusterCredential = clusterCredentialService.obtain(flinkClusterConfigDTO.getClusterCredential().getId());
-             InputStream inputStream = Files.newInputStream(clusterCredential.load());
-             KubernetesClient client = DefaultKubernetesClient.fromConfig(inputStream)) {
-            final FlinkDeployment orReplace = client.resource(flinkDeployment).createOrReplace();
-            System.out.println(Serialization.asYaml(orReplace));
+        try (Resource<Path> clusterCredential = clusterCredentialService.obtain(flinkClusterConfigDTO.getClusterCredential().getId())) {
+            Path kubeconfig = Files.list(clusterCredential.load()).collect(Collectors.toList()).get(0);
+            try (InputStream inputStream = Files.newInputStream(kubeconfig);
+                 KubernetesClient client = DefaultKubernetesClient.fromConfig(inputStream)) {
+                System.out.println(Serialization.asYaml(flinkDeployment));
+                final FlinkDeployment orReplace = client.resource(flinkDeployment).createOrReplace();
+                System.out.println(Serialization.asYaml(orReplace));
+            }
         }
     }
 
