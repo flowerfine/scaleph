@@ -23,7 +23,6 @@ import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
@@ -34,7 +33,6 @@ public class SeatunnelConfigServiceImplTest extends ApplicationTest {
     @Autowired
     private SeatunnelConfigService seatunnelConfigService;
 
-    @Test
     public void testBuildConfig() {
         DiJobDTO diJobDTO = seatunnelJobService.queryJobInfo(21L);
         String jsonConf = seatunnelConfigService.buildConfig(diJobDTO);
