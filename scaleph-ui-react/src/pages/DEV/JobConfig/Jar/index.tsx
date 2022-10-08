@@ -44,11 +44,6 @@ const JobConfigJarOptions: React.FC = () => {
           initialValues: {...data, ...flinkConfig},
           grid: true,
         }}
-        submitter={{
-          render: (props, doms) => {
-            return doms;
-          },
-        }}
         onFinish={async (values) => {
           const jobConfig = new Map<string, any>();
           values.args?.forEach(function (item: Record<string, any>) {

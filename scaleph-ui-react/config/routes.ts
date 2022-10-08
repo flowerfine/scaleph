@@ -132,6 +132,14 @@ export default [
             access: 'normalRouteFilter',
           },
           {
+            name: 'kubernetesOptions',
+            path: '/workspace/dev/clusterConfig/kubernetes',
+            exact: true,
+            component: './DEV/ClusterConfigOptions/Kubernetes',
+            pCode: PRIVILEGE_CODE.datadevDatasourceShow,
+            access: 'normalRouteFilter',
+          },
+          {
             name: 'clusterInstance',
             path: '/workspace/dev/clusterInstance',
             exact: true,
