@@ -226,4 +226,19 @@ export default {
   'pages.project.di.step.clickhosue.clickhouseConf.tooltip': ' For example, the way to specify socket_timeout is: clickhouse.socket_timeout = 50000',
   'pages.project.di.step.clickhosue.sql': 'SQL',
   'pages.project.di.step.clickhosue.database': '数据库',
+
+  //hive
+  'pages.project.di.step.hive.tableName': 'Hive Table Name',
+  'pages.project.di.step.hive.metastoreUri': 'Hive metastore uri',
+  'pages.project.di.step.hive.metastoreUri.tooltip': 'example : thrift://ctyun7:9083',
+  'pages.project.di.step.hive.schema.tooltip':
+    'schema格式: {\n' + '          name = "string"\n' + '          age = "int"\n' + '        }',
+  'pages.project.di.step.hive.partitionBy': 'Partition',
+  'pages.project.di.step.hive.partitionBy.tooltip': 'example : "test_par1", "test_par2"',
+  'pages.project.di.step.hive.sinkColumns': 'Write Columns',
+  'pages.project.di.step.hive.sinkColumns.tooltip': 'example : "test_tinyint", "test_smallint", "test_int", "test_bigint", "test_boolean", "test_float"',
+  'pages.project.di.step.hive.isEnableTransaction': 'isEnableTransaction',
+  'pages.project.di.step.hive.isEnableTransaction.tooltip': 'Only support true now',
+  'pages.project.di.step.hive.saveMode': 'saveMode',
+  'pages.project.di.step.hive.saveMode.tooltip': 'Streaming Job not support overwrite. Storage mode, we need support overwrite and append. append is now supported.',
 };
