@@ -1,6 +1,4 @@
-import {ProCard, ProFormGroup, ProFormSelect, ProFormText} from "@ant-design/pro-components";
-import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
+import {ProCard, ProFormGroup, ProFormText} from "@ant-design/pro-components";
 
 const FlinkImageOptions: React.FC = () => {
   return (
@@ -9,30 +7,26 @@ const FlinkImageOptions: React.FC = () => {
         <ProFormText
           name="registry"
           label={"registry"}
-          colProps={{span: 21, offset: 1}}
+          colProps={{span: 10, offset: 1}}
           rules={[{required: true}, {max: 128}]}/>
-
         <ProFormText
           name="repository"
           label={"repository"}
-          colProps={{span: 21, offset: 1}}
+          colProps={{span: 10, offset: 1}}
           rules={[{required: true}, {max: 128}]}/>
-
-        <ProFormText
-          name="image"
-          label={"image"}
-          colProps={{span: 21, offset: 1}}
-          rules={[{required: true}, {max: 128}]}/>
-
         <ProFormText
           name="flink.version"
           label={"flink.version"}
-          colProps={{span: 21, offset: 1}}
+          colProps={{span: 10, offset: 1}}
+          rules={[{required: true}, {max: 128}]}/>
+        <ProFormText
+          name="image"
+          label={"image"}
+          colProps={{span: 10, offset: 1}}
           rules={[{required: true}, {max: 128}]}/>
       </ProFormGroup>
     </ProCard>
   );
-
 }
 
 export default FlinkImageOptions;

@@ -1,4 +1,4 @@
-import {ProCard, ProFormGroup, ProFormText, StepsForm} from "@ant-design/pro-components";
+import {StepsForm} from "@ant-design/pro-components";
 import {useIntl} from "umi";
 import {Form} from "antd";
 import FlinkImageOptions from "@/pages/DEV/ClusterConfigOptions/components/FlinkImage";
@@ -14,7 +14,8 @@ const KubernetesStep: React.FC = () => {
     layout={'horizontal'}
     style={{
       width: 1000,
-    }}>
+    }}
+  >
     <FlinkImageOptions/>
     <K8sResourceOptions/>
   </StepsForm.StepForm>);
