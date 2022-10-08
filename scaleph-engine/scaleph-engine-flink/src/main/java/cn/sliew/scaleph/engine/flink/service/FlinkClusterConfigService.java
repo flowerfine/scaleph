@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.flink.service;
 
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigAddParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -28,7 +29,7 @@ import java.util.Map;
 
 public interface FlinkClusterConfigService {
 
-    int insert(FlinkClusterConfigDTO dto);
+    FlinkClusterConfigDTO insert(FlinkClusterConfigAddParam param);
 
     int update(FlinkClusterConfigDTO dto);
 

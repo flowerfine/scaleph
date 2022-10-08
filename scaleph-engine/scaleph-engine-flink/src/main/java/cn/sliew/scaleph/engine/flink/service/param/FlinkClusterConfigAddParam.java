@@ -16,65 +16,43 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.flink;
+package cn.sliew.scaleph.engine.flink.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * flink 集群配置
- * </p>
- */
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Data
-@EqualsAndHashCode(callSuper = true)
-@TableName("flink_cluster_config")
-@ApiModel(value = "FlinkClusterConfig对象", description = "flink 集群配置")
-public class FlinkClusterConfig extends BaseDO {
+public class FlinkClusterConfigAddParam {
 
-    private static final long serialVersionUID = 1L;
-
+    @NotBlank
     @ApiModelProperty("名称")
-    @TableField("`name`")
     private String name;
 
+    @NotNull
     @ApiModelProperty("集群版本")
-    @TableField("flink_version")
     private FlinkVersion flinkVersion;
 
+    @NotNull
     @ApiModelProperty("Resource。0: Standalone, 1: Native Kubernetes, 2: YARN")
-    @TableField("resource_provider")
     private FlinkResourceProvider resourceProvider;
 
+    @NotNull
     @ApiModelProperty("flink 部署模式。0: Application, 1: Per-Job, 2: Session")
-    @TableField("deploy_mode")
     private FlinkDeploymentMode deployMode;
 
-    @ApiModelProperty("flink release")
-    @TableField("flink_release_id")
+    @NotNull
+    @ApiModelProperty("release id")
     private Long flinkReleaseId;
 
     @ApiModelProperty("集群凭证 id。如 hadoop 的 core-site.xml，kubernetes 的 kubeconfig")
-    @TableField("cluster_credential_id")
     private Long clusterCredentialId;
 
-    @ApiModelProperty("kubernetes 配置")
-    @TableField("kubernetes_options")
-    private String kubernetesOptions;
-
-    @ApiModelProperty("flink 集群配置项")
-    @TableField("config_options")
-    private String configOptions;
-
     @ApiModelProperty("备注")
-    @TableField("remark")
     private String remark;
 }

@@ -1,5 +1,5 @@
 import { PageResponse, ResponseBody } from '@/app.d';
-import { FlinkClusterConfig, FlinkClusterConfigParam } from '@/services/dev/typings';
+import {FlinkClusterConfig, FlinkClusterConfigAddParam, FlinkClusterConfigParam} from '@/services/dev/typings';
 import { request } from '@@/exports';
 
 export const FlinkClusterConfigService = {
@@ -26,10 +26,10 @@ export const FlinkClusterConfigService = {
     });
   },
 
-  add: async (row: FlinkClusterConfig) => {
-    return request<ResponseBody<any>>(`${FlinkClusterConfigService.url}`, {
+  add: async (param: FlinkClusterConfigAddParam) => {
+    return request<ResponseBody<FlinkClusterConfig>>(`${FlinkClusterConfigService.url}`, {
       method: 'PUT',
-      data: row,
+      data: param,
     });
   },
 

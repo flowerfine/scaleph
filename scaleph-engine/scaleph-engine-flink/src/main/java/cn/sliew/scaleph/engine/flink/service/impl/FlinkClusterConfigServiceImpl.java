@@ -26,6 +26,7 @@ import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkClusterConfigConvert;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkClusterConfigVOConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigAddParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,10 @@ public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService 
     private FlinkClusterConfigMapper flinkClusterConfigMapper;
 
     @Override
-    public int insert(FlinkClusterConfigDTO dto) {
-        final FlinkClusterConfig record = FlinkClusterConfigConvert.INSTANCE.toDo(dto);
-        return flinkClusterConfigMapper.insert(record);
+    public FlinkClusterConfigDTO insert(FlinkClusterConfigAddParam param) {
+        final FlinkClusterConfig record = FlinkClusterConfigConvert.INSTANCE.toDO(param);
+        flinkClusterConfigMapper.insert(record);
+        return selectOne(record.getId());
     }
 
     @Override

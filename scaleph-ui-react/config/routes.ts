@@ -135,7 +135,7 @@ export default [
             name: 'kubernetesOptions',
             path: '/workspace/dev/kubernetes',
             exact: true,
-            component: './DEV/ClusterConfigOptions/Kubernetes',
+            component: './DEV/ClusterConfigOptions',
             pCode: PRIVILEGE_CODE.datadevDatasourceShow,
             access: 'normalRouteFilter',
           },

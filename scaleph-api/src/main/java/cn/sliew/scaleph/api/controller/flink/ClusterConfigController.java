@@ -19,10 +19,11 @@
 package cn.sliew.scaleph.api.controller.flink;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.system.vo.ResponseVO;
 import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigAddParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigListParam;
+import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -63,9 +64,9 @@ public class ClusterConfigController {
     @Logging
     @PutMapping
     @ApiOperation(value = "新增集群配置", notes = "新增集群配置")
-    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody FlinkClusterConfigDTO param) {
-        flinkClusterConfigService.insert(param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody FlinkClusterConfigAddParam param) {
+        final FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.insert(param);
+        return new ResponseEntity<>(ResponseVO.sucess(flinkClusterConfigDTO), HttpStatus.OK);
     }
 
     @Logging

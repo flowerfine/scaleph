@@ -61,6 +61,16 @@ export type FlinkClusterConfigParam = QueryParam & {
   deployMode?: string;
 }
 
+export type FlinkClusterConfigAddParam = {
+  name?: string;
+  flinkVersion?: string;
+  resourceProvider?: string;
+  deployMode?: string;
+  flinkReleaseId?: number;
+  clusterCredentialId?: number;
+  remark?: string;
+}
+
 export type FlinkClusterInstance = {
   id?: number;
   flinkClusterConfigId?: number;

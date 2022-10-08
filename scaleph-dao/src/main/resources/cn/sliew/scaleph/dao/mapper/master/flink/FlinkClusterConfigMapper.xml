@@ -31,6 +31,7 @@
         <result column="deploy_mode" property="deployMode"/>
         <result column="flink_release_id" property="flinkReleaseId"/>
         <result column="cluster_credential_id" property="clusterCredentialId"/>
+        <result column="kubernetes_options" property="kubernetesOptions"/>
         <result column="config_options" property="configOptions"/>
         <result column="remark" property="remark"/>
     </resultMap>
@@ -45,6 +46,7 @@
         <result column="flink_version" property="flinkVersion"/>
         <result column="resource_provider" property="resourceProvider"/>
         <result column="deploy_mode" property="deployMode"/>
+        <result column="kubernetes_options" property="kubernetesOptions"/>
         <result column="config_options" property="configOptions"/>
         <result column="remark" property="remark"/>
         <association property="flinkRelease"
@@ -85,6 +87,7 @@
         deploy_mode,
         flink_release_id,
         cluster_credential_id,
+        kubernetes_options,
         config_options,
         remark
     </sql>
