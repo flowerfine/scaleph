@@ -23,6 +23,7 @@ import cn.sliew.scaleph.ApplicationTest;
 import org.apache.flink.core.fs.FSDataOutputStream;
 import org.apache.flink.core.fs.FileSystem;
 import org.apache.flink.core.fs.Path;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -36,6 +37,7 @@ public class FileSystemTest extends ApplicationTest {
     @Autowired
     private FileSystem fileSystem;
 
+    @Disabled
     @Test
     public void testFileSystem() throws IOException {
         fileSystem.mkdirs(fileSystem.getWorkingDirectory());
