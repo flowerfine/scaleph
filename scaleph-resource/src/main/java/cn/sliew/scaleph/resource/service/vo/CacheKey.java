@@ -16,7 +16,18 @@
  * limitations under the License.
  */
 
-/**
- * inspired by https://spring.io/blog/2019/11/21/spring-security-lambda-dsl
- */
-package cn.sliew.scaleph.engine.flink.operator;
+package cn.sliew.scaleph.resource.service.vo;
+
+import cn.sliew.scaleph.resource.service.enums.ResourceType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@AllArgsConstructor
+@EqualsAndHashCode
+public class CacheKey {
+
+    private ResourceType type;
+    private Long id;
+}

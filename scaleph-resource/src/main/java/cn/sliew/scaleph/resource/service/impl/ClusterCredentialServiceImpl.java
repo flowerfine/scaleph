@@ -19,6 +19,8 @@
 package cn.sliew.scaleph.resource.service.impl;
 
 import cn.sliew.milky.common.exception.Rethrower;
+import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.nio.TempFileUtil;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceClusterCredential;
 import cn.sliew.scaleph.dao.mapper.master.resource.ResourceClusterCredentialMapper;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
@@ -28,10 +30,16 @@ import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.ClusterCredentialListParam;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
+import cn.sliew.scaleph.resource.service.vo.CacheKey;
+import cn.sliew.scaleph.resource.service.vo.CacheResource;
 import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
+import cn.sliew.scaleph.resource.service.vo.Resource;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.RemovalListener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.fs.FileStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +52,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.time.Duration;
 import java.util.List;
 
 import static cn.sliew.scaleph.common.exception.Rethrower.checkArgument;
@@ -51,6 +63,18 @@ import static cn.sliew.scaleph.common.exception.Rethrower.checkArgument;
 @Slf4j
 @Service
 public class ClusterCredentialServiceImpl implements ClusterCredentialService {
+
+    private Cache<CacheKey, Path> cache = Caffeine.newBuilder()
+            .expireAfterWrite(Duration.ofMinutes(5L))
+            .removalListener((RemovalListener<CacheKey, Path>) (cacheKey, path, removalCause) -> {
+                try {
+                    TempFileUtil.deleteDir(path);
+                } catch (IOException e) {
+                    log.error("clear cluster credential temp file cache error! cacheKey: {}, path: {}",
+                            JacksonUtil.toJsonString(cacheKey), path, e);
+                }
+            })
+            .build();
 
     @Autowired
     private FileSystemService fileSystemService;
@@ -71,6 +95,23 @@ public class ClusterCredentialServiceImpl implements ClusterCredentialService {
     @Override
     public ClusterCredentialDTO getRaw(Long id) {
         return selectOne(id);
+    }
+
+    @Override
+    public Resource<Path> obtain(Long id) throws Exception {
+        final ClusterCredentialDTO clusterCredentialDTO = getRaw(id);
+        final List<FileStatusVO> fileStatusVOS = listCredentialFile(id);
+        final Path value = TempFileUtil.createTempDir(clusterCredentialDTO.getName());
+
+        for (FileStatusVO fileStatusVO : fileStatusVOS) {
+            final Path deployConfigFile = TempFileUtil.createTempFile(value, fileStatusVO.getName());
+            try (final OutputStream outputStream = Files.newOutputStream(deployConfigFile, StandardOpenOption.WRITE)) {
+                downloadCredentialFile(id, fileStatusVO.getName(), outputStream);
+            }
+        }
+        final CacheKey key = new CacheKey(getResourceType(), id);
+        cache.put(key, value);
+        return new CacheResource<>(cache, key);
     }
 
     @Override

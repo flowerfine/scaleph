@@ -18,11 +18,18 @@
 
 package cn.sliew.scaleph.engine.flink.service;
 
-import org.apache.flink.kubernetes.operator.crd.FlinkDeployment;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
 
 public interface FlinkKubernetesService {
 
-    void createSession() throws Exception;
+    boolean supportOperator();
 
-    FlinkDeployment build() throws Exception;
+    void createStandalone() throws Exception;
+
+    void createSession(FlinkSessionClusterAddParam param) throws Exception;
+
+    void submitSessionJob() throws Exception;
+
+    void submitApplicationJob() throws Exception;
+
 }

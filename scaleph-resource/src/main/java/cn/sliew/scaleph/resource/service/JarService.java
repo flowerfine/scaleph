@@ -26,9 +26,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Path;
 import java.util.List;
 
-public interface JarService extends ResourceDescriptor<JarDTO> {
+public interface JarService extends ResourceDescriptor<JarDTO, Path> {
 
     Page<JarDTO> list(JarListParam param) throws IOException;
 

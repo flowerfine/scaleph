@@ -28,6 +28,7 @@ import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.KerberosListParam;
 import cn.sliew.scaleph.resource.service.param.KerberosUploadParam;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
+import cn.sliew.scaleph.resource.service.vo.Resource;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -41,6 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Path;
 import java.util.List;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
@@ -72,6 +74,11 @@ public class KerberosServiceImpl implements KerberosService {
     @Override
     public KerberosDTO getRaw(Long id) {
         return selectOne(id);
+    }
+
+    @Override
+    public Resource<Path> obtain(Long id) throws Exception {
+        return null;
     }
 
     @Override

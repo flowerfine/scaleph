@@ -16,25 +16,35 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.operator.configurer;
+package cn.sliew.scaleph.resource.service.vo;
 
-import cn.sliew.scaleph.engine.flink.operator.FlinkDeploymentBuilder;
+import com.github.benmanes.caffeine.cache.Cache;
 
-import static cn.sliew.milky.common.check.Ensures.notBlank;
+import java.io.IOException;
 
-public class KindConfigurer
-        extends AbstractFlinkDeploymentConfigurer<KindConfigurer, FlinkDeploymentBuilder> {
+public class CacheResource<V> implements Resource<V> {
 
-    private String kind = "FlinkDeployment";
+    private final Cache<CacheKey, V> cache;
+    private final CacheKey key;
 
-    public KindConfigurer kind(String kind) {
-        notBlank(kind, () -> "kind cannot be blank");
-        this.kind = kind;
-        return this;
+    public CacheResource(Cache<CacheKey, V> cache, CacheKey key) {
+        this.cache = cache;
+        this.key = key;
     }
 
     @Override
-    public void configure(FlinkDeploymentBuilder flinkDeployment) throws Exception {
-        flinkDeployment.setKind(kind);
+    public V load() {
+        return cache.getIfPresent(key);
     }
+
+    @Override
+    public boolean isRecycled() {
+        return cache.asMap().containsKey(key) == false;
+    }
+
+    @Override
+    public void close() throws IOException {
+        cache.invalidate(key);
+    }
+
 }
