@@ -16,13 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.operator.configurer;
+package cn.sliew.scaleph.resource.service.vo;
 
-import cn.sliew.milky.dsl.AbstractConfigurer;
-import cn.sliew.milky.dsl.ConfigurableBuilder;
-import org.apache.flink.kubernetes.operator.crd.FlinkDeployment;
+import java.io.Closeable;
 
-public abstract class AbstractFlinkDeploymentConfigurer<T extends AbstractFlinkDeploymentConfigurer<T, B>, B extends ConfigurableBuilder<FlinkDeployment, B>>
-        extends AbstractConfigurer<FlinkDeployment, B> {
+public interface Resource<V> extends Closeable {
+
+    V load();
+
+    boolean isRecycled();
 
 }

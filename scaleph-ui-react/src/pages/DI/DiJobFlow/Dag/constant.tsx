@@ -202,4 +202,14 @@ export const ClickHouseParams = {
   clickhouseConf: 'clickhouse_conf',
   sql: 'sql',
   database: 'database'
+}
+
+export const HiveParams = {
+  tableName: 'table_name',
+  metastoreUri: 'metastore_uri',
+  partitionBy: 'partition_by',
+  sinkColumns: 'sink_columns',
+  isEnableTransaction: 'is_enable_transaction',
+  saveMode: 'save_mode'
+
 };

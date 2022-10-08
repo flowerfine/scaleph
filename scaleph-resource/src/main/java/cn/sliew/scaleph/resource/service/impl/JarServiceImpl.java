@@ -28,6 +28,7 @@ import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.JarListParam;
 import cn.sliew.scaleph.resource.service.param.JarUploadParam;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
+import cn.sliew.scaleph.resource.service.vo.Resource;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -72,6 +73,11 @@ public class JarServiceImpl implements JarService {
     @Override
     public JarDTO getRaw(Long id) {
         return selectOne(id);
+    }
+
+    @Override
+    public Resource obtain(Long id) throws Exception {
+        return null;
     }
 
     @Override
