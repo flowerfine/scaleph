@@ -20,6 +20,7 @@ package cn.sliew.scaleph.engine.flink.service.impl;
 
 import cn.sliew.flinkful.kubernetes.operator.FlinkDeploymentBuilder;
 import cn.sliew.flinkful.kubernetes.operator.configurer.SpecConfigurer;
+import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.dsl.Customizer;
 import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
 import cn.sliew.scaleph.engine.flink.service.FlinkKubernetesService;
@@ -32,6 +33,7 @@ import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.dsl.NamespaceVisitFromServerGetWatchDeleteRecreateWaitApplicable;
 import io.fabric8.kubernetes.client.utils.Serialization;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.flink.kubernetes.operator.crd.FlinkDeployment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class FlinkKubernetesServiceImpl implements FlinkKubernetesService {
 
@@ -69,7 +72,7 @@ public class FlinkKubernetesServiceImpl implements FlinkKubernetesService {
                 .apiVersion(Customizer.withDefaults())
                 .kind(Customizer.withDefaults())
                 .metadata()
-                .name(RandomStringUtils.randomAlphabetic(32))
+                .name(RandomStringUtils.randomAlphabetic(32).toLowerCase())
                 .namespace("default")
                 .and()
                 .spec()
@@ -83,10 +86,12 @@ public class FlinkKubernetesServiceImpl implements FlinkKubernetesService {
             Path kubeconfig = Files.list(clusterCredential.load()).collect(Collectors.toList()).get(0);
             try (InputStream inputStream = Files.newInputStream(kubeconfig);
                  KubernetesClient client = DefaultKubernetesClient.fromConfig(inputStream)) {
-                System.out.println(Serialization.asYaml(flinkDeployment));
                 NamespaceVisitFromServerGetWatchDeleteRecreateWaitApplicable<FlinkDeployment> resource = client.resource(flinkDeployment);
                 final FlinkDeployment orReplace = resource.createOrReplace();
                 System.out.println(Serialization.asYaml(orReplace));
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                Rethrower.throwAs(e);
             }
         }
     }

@@ -7,7 +7,7 @@ import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.JobManagerOptions;
 import org.apache.flink.configuration.MemorySize;
 import org.apache.flink.configuration.TaskManagerOptions;
-import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
+//import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
 import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class ConfigurationBuildForKubernetesAction extends ConfigurationBuildAct
             return dynamicProperties;
         }
         final Path kubeConfigFile = childs.get(0);
-        dynamicProperties.set(KubernetesConfigOptions.KUBE_CONFIG_FILE, kubeConfigFile.toAbsolutePath().toString());
+//        dynamicProperties.set(KubernetesConfigOptions.KUBE_CONFIG_FILE, kubeConfigFile.toAbsolutePath().toString());
         if (dynamicProperties.contains(JobManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
             dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
         }

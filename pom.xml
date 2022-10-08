@@ -113,17 +113,16 @@
         <docker.build.skip>true</docker.build.skip>
         <docker.push.skip>true</docker.push.skip>
 
-        <spring.boot.version>2.4.13</spring.boot.version>
+        <spring.boot.version>2.7.4</spring.boot.version>
         <spring.plugin.core.version>2.0.0.RELEASE</spring.plugin.core.version>
         <mybatis.plus.version>3.5.1</mybatis.plus.version>
-        <jackson.version>2.13.1</jackson.version>
         <org.mapstruct.extensions.spring.version>0.1.1</org.mapstruct.extensions.spring.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <mapstruct.lombok.binding.version>0.2.0</mapstruct.lombok.binding.version>
         <org.projectlombok.version>1.18.24</org.projectlombok.version>
         <velocity.engine.version>2.2</velocity.engine.version>
-        <swagger.version>3.0.0</swagger.version>
-        <knife4j.vresion>3.0.2</knife4j.vresion>
+        <swagger-v3.version>2.2.3</swagger-v3.version>
+        <swagger.version>1.6.7</swagger.version>
         <auto-service.version>1.0.1</auto-service.version>
         <hutool.version>5.5.4</hutool.version>
         <commons.lang3.version>3.5</commons.lang3.version>
@@ -167,13 +166,6 @@
                 <groupId>com.typesafe.akka</groupId>
                 <artifactId>akka-bom_${akka.scala.binary.version}</artifactId>
                 <version>${akka.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson</groupId>
-                <artifactId>jackson-bom</artifactId>
-                <version>${jackson.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -311,19 +303,14 @@
 
             <!-- swagger-->
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-boot-starter</artifactId>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger-v3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
                 <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.plugin</groupId>
-                <artifactId>spring-plugin-core</artifactId>
-                <version>${spring.plugin.core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-spring-boot-starter</artifactId>
-                <version>${knife4j.vresion}</version>
             </dependency>
 
             <dependency>
@@ -527,6 +514,12 @@
                 <groupId>cn.sliew</groupId>
                 <artifactId>flinkful-cli-base</artifactId>
                 <version>${flinkful.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.flink</groupId>
+                        <artifactId>flink-kubernetes</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.sliew</groupId>
@@ -618,6 +611,13 @@
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protobuf-java</artifactId>
                 <version>${protobuf.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+<!--                <version>${netty.version}</version>-->
+                <version>4.1.82.Final</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

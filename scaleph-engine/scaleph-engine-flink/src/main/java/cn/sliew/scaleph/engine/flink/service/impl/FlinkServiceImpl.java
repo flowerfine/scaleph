@@ -47,7 +47,6 @@ import org.apache.flink.client.deployment.StandaloneClusterId;
 import org.apache.flink.client.program.ClusterClient;
 import org.apache.flink.client.program.rest.RestClusterClient;
 import org.apache.flink.configuration.*;
-import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
 import org.apache.flink.runtime.client.JobStatusMessage;
 import org.apache.flink.yarn.configuration.YarnConfigOptions;
 import org.apache.hadoop.yarn.api.records.ApplicationId;
@@ -170,7 +169,7 @@ public class FlinkServiceImpl implements FlinkService {
             } else if (flinkClusterConfigDTO.getDeployMode().getValue().equals(String.valueOf(DeployMode.PER_JOB.getCode()))) {
                 throw new UnsupportedOperationException("flink not supports Per-Job mode for native kubernetes");
             } else {
-                configuration.setString(KubernetesConfigOptions.CLUSTER_ID, flinkJobForJarDTO.getFlinkClusterInstance().getClusterId());
+//                configuration.setString(KubernetesConfigOptions.CLUSTER_ID, flinkJobForJarDTO.getFlinkClusterInstance().getClusterId());
                 return client.submit(DeploymentTarget.NATIVE_KUBERNETES_SESSION, flinkHomePath, configuration, packageJarJob);
             }
         } else {
@@ -302,7 +301,7 @@ public class FlinkServiceImpl implements FlinkService {
         checkState(CollectionUtils.isEmpty(childs) == false, () -> "Kubernetes kubeconfig can't be null");
 
         final Path kubeConfigFile = childs.get(0);
-        dynamicProperties.set(KubernetesConfigOptions.KUBE_CONFIG_FILE, kubeConfigFile.toAbsolutePath().toString());
+//        dynamicProperties.set(KubernetesConfigOptions.KUBE_CONFIG_FILE, kubeConfigFile.toAbsolutePath().toString());
         if (dynamicProperties.contains(JobManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
             dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
         }
@@ -338,7 +337,7 @@ public class FlinkServiceImpl implements FlinkService {
                 }
                 break;
             case NATIVE_KUBERNETES:
-                configuration.setString(KubernetesConfigOptions.CLUSTER_ID, clusterId);
+//                configuration.setString(KubernetesConfigOptions.CLUSTER_ID, clusterId);
                 switch (deployMode) {
                     case APPLICATION:
                         DeploymentTarget.NATIVE_KUBERNETES_APPLICATION.apply(configuration);
