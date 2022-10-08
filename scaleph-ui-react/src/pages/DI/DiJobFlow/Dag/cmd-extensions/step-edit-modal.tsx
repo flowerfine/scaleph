@@ -40,6 +40,9 @@ import SinkWeChatStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-wechat-
 import SinkFeishuStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-feishu-step";
 import SinkDingTalkStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-dingtalk-step";
 import SinkEmailStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-email-step";
+import SourceHiveStepForm from '../steps/source/source-hive-step';
+import SinkHiveStepForm from '../steps/sink/sink-hive-step';
+
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -248,6 +251,10 @@ export class EditNodeCommand implements ICommand {
       return (<SourceClickHouseStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'ClickHouse'){
       return (<SinkClickHouseStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'Hive'){
+      return (<SourceHiveStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'Hive'){
+      return (<SinkHiveStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
       return <></>;
     }
