@@ -1,25 +1,13 @@
 import {ModalFormProps} from '@/app.d';
-import {DataSourceService} from '@/services/project/dataSource.service';
 import {JobService} from '@/services/project/job.service';
-import {DiJob, MetaDataSourceParam} from '@/services/project/typings';
+import {DiJob} from '@/services/project/typings';
 import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {ClickHouseParams, HiveParams, STEP_ATTR_TYPE} from '../../constant';
+import {HiveParams, STEP_ATTR_TYPE} from '../../constant';
 import {InfoCircleOutlined} from "@ant-design/icons";
-import {
-  ProForm,
-  ProFormDependency,
-  ProFormDigit,
-  ProFormGroup,
-  ProFormSelect,
-  ProFormSwitch,
-  ProFormText,
-  ProFormTextArea,
-} from "@ant-design/pro-components";
-import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
+import {ProForm, ProFormSelect, ProFormSwitch, ProFormText,} from "@ant-design/pro-components";
 
 const SinkHiveStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -100,7 +88,6 @@ const SinkHiveStepForm: React.FC<ModalFormProps<{
             icon: <InfoCircleOutlined/>,
           }}
         />
-
         <ProFormSwitch
           name={HiveParams.isEnableTransaction}
           label={intl.formatMessage({id: 'pages.project.di.step.hive.isEnableTransaction'})}
@@ -109,12 +96,10 @@ const SinkHiveStepForm: React.FC<ModalFormProps<{
             icon: <InfoCircleOutlined/>,
           }}
           fieldProps={{
-            defaultValue: "true",
+            defaultChecked: true,
             disabled: true
           }}
         />
-
-
         <ProFormSelect
           name={HiveParams.saveMode}
           label={intl.formatMessage({id: 'pages.project.di.step.hive.saveMode'})}
@@ -124,14 +109,13 @@ const SinkHiveStepForm: React.FC<ModalFormProps<{
           }}
           colProps={{span: 6}}
           fieldProps={{
-            defaultValue: "append"}}
+            defaultValue: "append"
+          }}
           valueEnum={{
             append: "append",
             overwrite: "overwrite"
           }}
         />
-
-
       </ProForm>
     </Modal>
   );
