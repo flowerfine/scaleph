@@ -1,5 +1,7 @@
-import {ProCard, ProFormGroup, ProFormText} from "@ant-design/pro-components";
+import {ProCard, ProFormGroup, ProFormSelect, ProFormText} from "@ant-design/pro-components";
 import {useIntl} from "umi";
+import {DictDataService} from "@/services/admin/dictData.service";
+import {DICT_TYPE} from "@/constant";
 
 const FlinkImageOptions: React.FC = () => {
   const intl = useIntl();
@@ -18,8 +20,18 @@ const FlinkImageOptions: React.FC = () => {
         <ProFormText
           name="image"
           label={(intl.formatMessage({id: 'pages.dev.clusterConfig.image'}))}
-          colProps={{span: 21, offset: 1}}
+          colProps={{span: 10, offset: 1}}
           rules={[{required: true}]}/>
+        <ProFormSelect
+          name="imagePullPolicy"
+          label={(intl.formatMessage({id: 'pages.dev.clusterConfig.imagePullPolicy'}))}
+          colProps={{span: 10, offset: 1}}
+          rules={[{required: true}]}
+          showSearch={false}
+          allowClear={false}
+          initialValue={"IfNotPresent"}
+          request={() => DictDataService.listDictDataByType(DICT_TYPE.imagePullPolicy)}
+        />
       </ProFormGroup>
     </ProCard>
   );

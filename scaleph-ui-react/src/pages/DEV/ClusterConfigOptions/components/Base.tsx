@@ -2,14 +2,12 @@ import {ProCard, ProFormGroup, ProFormSelect, ProFormText} from "@ant-design/pro
 import {DictDataService} from "@/services/admin/dictData.service";
 import {DICT_TYPE, RESOURCE_TYPE} from "@/constant";
 import {useIntl} from "umi";
-import {Form} from "antd";
 import {ResourceListParam} from "@/services/resource/typings";
 import {ResourceService} from "@/services/resource/resource.service";
 import {Dict} from '@/app.d';
 
 const BaseOptions: React.FC = () => {
   const intl = useIntl();
-  const form = Form.useFormInstance();
 
   return (
     <ProCard>
@@ -71,17 +69,17 @@ const BaseOptions: React.FC = () => {
         />
         <ProFormSelect
           name="flinkVersion"
-          label={intl.formatMessage({ id: 'pages.dev.clusterConfig.flinkVersion' })}
-          colProps={{ span: 21, offset: 1 }}
-          rules={[{ required: true }]}
+          label={intl.formatMessage({id: 'pages.dev.clusterConfig.flinkVersion'})}
+          colProps={{span: 21, offset: 1}}
+          rules={[{required: true}]}
           showSearch={true}
           request={() => DictDataService.listDictDataByType(DICT_TYPE.flinkVersion)}
         />
         <ProFormSelect
           name="flinkReleaseId"
-          label={intl.formatMessage({ id: 'pages.dev.clusterConfig.flinkRelease' })}
-          colProps={{ span: 21, offset: 1 }}
-          rules={[{ required: true }]}
+          label={intl.formatMessage({id: 'pages.dev.clusterConfig.flinkRelease'})}
+          colProps={{span: 21, offset: 1}}
+          rules={[{required: true}]}
           showSearch={true}
           dependencies={['flinkVersion']}
           request={(params) => {
@@ -91,16 +89,16 @@ const BaseOptions: React.FC = () => {
             };
             return ResourceService.list(resourceParam).then((response) => {
               return response.records.map((item) => {
-                return { label: item.fileName, value: item.id };
+                return {label: item.fileName, value: item.id};
               });
             });
           }}
         />
         <ProFormText
           name="remark"
-          label={intl.formatMessage({ id: 'pages.dev.remark' })}
-          colProps={{ span: 21, offset: 1 }}
-          rules={[{ max: 200 }]}
+          label={intl.formatMessage({id: 'pages.dev.remark'})}
+          colProps={{span: 21, offset: 1}}
+          rules={[{max: 200}]}
         />
       </ProFormGroup>
     </ProCard>

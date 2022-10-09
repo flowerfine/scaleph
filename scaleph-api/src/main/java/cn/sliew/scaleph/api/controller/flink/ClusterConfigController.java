@@ -21,6 +21,7 @@ package cn.sliew.scaleph.api.controller.flink;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptions;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigAddParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigListParam;
 import cn.sliew.scaleph.system.vo.ResponseVO;
@@ -67,6 +68,14 @@ public class ClusterConfigController {
     public ResponseEntity<ResponseVO> insert(@Valid @RequestBody FlinkClusterConfigAddParam param) {
         final FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.insert(param);
         return new ResponseEntity<>(ResponseVO.sucess(flinkClusterConfigDTO), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("{id}/kubernetes")
+    @ApiOperation(value = "修改 kubernetes 配置", notes = "修改 kubernetes 配置")
+    public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid @RequestBody KubernetesOptions options) {
+        flinkClusterConfigService.updateKubernetesOptions(id, options);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging

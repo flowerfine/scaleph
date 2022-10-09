@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.dict.seatunnel;
+package cn.sliew.scaleph.common.dict.image;
 
 import cn.sliew.scaleph.common.dict.DictDefinition;
 import cn.sliew.scaleph.common.dict.DictInstance;
@@ -28,30 +28,32 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum SeaTunnelVersion implements DictInstance {
+public enum ImagePullPolicy implements DictInstance {
 
-    V_2_2_0_BETA("2.2.0-beta", "2.2.0-beta"),
+    IF_NOT_PRESENT("IfNotPresent", "IfNotPresent"),
+    ALWAYS("Always", "Always"),
+    NEVER("Never", "Never"),
     ;
 
     @JsonCreator
-    public static SeaTunnelVersion of(String value) {
+    public static ImagePullPolicy of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(SeaTunnelVersion.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(ImagePullPolicy.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    SeaTunnelVersion(String value, String label) {
+    ImagePullPolicy(String value, String label) {
         this.value = value;
         this.label = label;
     }
 
     @Override
     public DictDefinition getDefinition() {
-        return DictType.SEATUNNEL_VERSION;
+        return DictType.IMAGE_PULL_POLICY;
     }
 
     @Override

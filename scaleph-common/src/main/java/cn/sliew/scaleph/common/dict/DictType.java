@@ -69,6 +69,10 @@ public enum DictType implements DictDefinition {
     SEATUNNEL_ENGINE_TYPE("seatunnel_engine_type", "SeaTunnel 引擎类型"),
     SEATUNNEL_PLUGIN_TYPE("seatunnel_plugin_type", "SeaTunnel 插件类型"),
     SEATUNNEL_PLUGIN_NAME("seatunnel_plugin_name", "SeaTunnel 插件名称"),
+
+    IMAGE_PULL_POLICY("image_pull_policy", "Image Pull Policy"),
+
+
     ;
 
     @EnumValue

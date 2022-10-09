@@ -48,10 +48,27 @@ export type FlinkClusterConfig = {
   deployMode?: Dict;
   flinkRelease?: FlinkRelease;
   clusterCredential?: ClusterCredential;
+  kubernetesOptions?: KubernetesOptions;
   configOptions?: { [key: string]: any };
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
+}
+
+export type KubernetesOptions = {
+  context?: string;
+  namespace?: string;
+  serviceAccount?: string;
+  registry?: string;
+  repository?: string;
+  image?: string;
+  imagePullPolicy?: string;
+  jobManagerCPU?: number;
+  jobManagerMemory?: string;
+  jobManagerReplicas?: number;
+  taskManagerCPU?: number;
+  taskManagerMemory?: string;
+  taskManagerReplicas?: number;
 }
 
 export type FlinkClusterConfigParam = QueryParam & {

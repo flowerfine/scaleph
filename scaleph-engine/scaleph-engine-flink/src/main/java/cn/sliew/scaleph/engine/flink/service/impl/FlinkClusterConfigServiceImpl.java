@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfig;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfigVO;
@@ -26,6 +27,7 @@ import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkClusterConfigConvert;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkClusterConfigVOConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptions;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigAddParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -47,6 +49,14 @@ public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService 
         final FlinkClusterConfig record = FlinkClusterConfigConvert.INSTANCE.toDO(param);
         flinkClusterConfigMapper.insert(record);
         return selectOne(record.getId());
+    }
+
+    @Override
+    public int updateKubernetesOptions(Long id, KubernetesOptions options) {
+        FlinkClusterConfig record = new FlinkClusterConfig();
+        record.setId(id);
+        record.setKubernetesOptions(JacksonUtil.toJsonString(options));
+        return flinkClusterConfigMapper.updateById(record);
     }
 
     @Override

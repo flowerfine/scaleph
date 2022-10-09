@@ -7,20 +7,12 @@ const K8sResourceOptions: React.FC = () => {
   return (
     <ProCard title={'Kubernetes Resource'} headerBordered collapsible={true}>
       <ProFormGroup>
-        <ProFormText
-          name="namespace"
-          label={(intl.formatMessage({id: 'pages.dev.clusterConfig.namespace'}))}
-          colProps={{span: 10, offset: 1}}
-          rules={[{required: true}]}
-          fieldProps={{
-            defaultValue: "default"
-          }}
-        />
         <ProFormDigit
           name="jobManagerCPU"
           label={(intl.formatMessage({id: 'pages.dev.clusterConfig.jobManagerCPU'}))}
           colProps={{span: 10, offset: 1}}
           rules={[{required: true}]}
+          initialValue={1}
           fieldProps={{
             min: 0.1,
             precision: 1
@@ -31,6 +23,7 @@ const K8sResourceOptions: React.FC = () => {
           label={(intl.formatMessage({id: 'pages.dev.clusterConfig.taskManagerCPU'}))}
           colProps={{span: 10, offset: 1}}
           rules={[{required: true}]}
+          initialValue={1}
           fieldProps={{
             min: 0.1,
             precision: 1
@@ -40,25 +33,35 @@ const K8sResourceOptions: React.FC = () => {
           name="jobManagerMemory"
           label={(intl.formatMessage({id: 'pages.dev.clusterConfig.jobManagerMemory'}))}
           colProps={{span: 10, offset: 1}}
-          rules={[{required: true}]}/>
+          rules={[{required: true}]}
+          initialValue={'1024m'}
+        />
         <ProFormText
           name="taskManagerMemory"
           label={(intl.formatMessage({id: 'pages.dev.clusterConfig.taskManagerMemory'}))}
           colProps={{span: 10, offset: 1}}
-          rules={[{required: true}, {max: 128}]}/>
+          rules={[{required: true}]}
+          initialValue={'1024m'}
+        />
         <ProFormDigit
           name="jobManagerReplicas"
           label={(intl.formatMessage({id: 'pages.dev.clusterConfig.jobManagerReplicas'}))}
           colProps={{span: 10, offset: 1}}
           rules={[{required: true}]}
-          min={1}
+          initialValue={1}
+          fieldProps={{
+            min: 1
+          }}
         />
         <ProFormDigit
           name="taskManagerReplicas"
           label={(intl.formatMessage({id: 'pages.dev.clusterConfig.taskManagerReplicas'}))}
           colProps={{span: 10, offset: 1}}
           rules={[{required: true}]}
-          min={1}
+          initialValue={1}
+          fieldProps={{
+            min: 1
+          }}
         />
       </ProFormGroup>
     </ProCard>

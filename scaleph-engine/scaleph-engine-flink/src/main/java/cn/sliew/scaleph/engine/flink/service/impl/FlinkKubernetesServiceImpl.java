@@ -29,6 +29,7 @@ import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.vo.Resource;
+import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.dsl.NamespaceVisitFromServerGetWatchDeleteRecreateWaitApplicable;
@@ -36,10 +37,12 @@ import io.fabric8.kubernetes.client.utils.Serialization;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.flink.kubernetes.operator.crd.FlinkDeployment;
+import org.apache.flink.util.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -83,9 +86,10 @@ public class FlinkKubernetesServiceImpl implements FlinkKubernetesService {
         }
         final FlinkDeployment flinkDeployment = specConfigurer.and().build();
         try (Resource<Path> clusterCredential = clusterCredentialService.obtain(flinkClusterConfigDTO.getClusterCredential().getId())) {
-            Path kubeconfig = Files.list(clusterCredential.load()).collect(Collectors.toList()).get(0);
-            try (InputStream inputStream = Files.newInputStream(kubeconfig);
-                 KubernetesClient client = DefaultKubernetesClient.fromConfig(inputStream)) {
+            Path kubeconfigPath = Files.list(clusterCredential.load()).collect(Collectors.toList()).get(0);
+//            Config kubeconfig = Config.fromKubeconfig("context", FileUtils.readFileUtf8(kubeconfigPath.toFile()), null);
+            Config kubeconfig = Config.fromKubeconfig(FileUtils.readFileUtf8(kubeconfigPath.toFile()));
+            try (KubernetesClient client = new DefaultKubernetesClient(kubeconfig)) {
                 NamespaceVisitFromServerGetWatchDeleteRecreateWaitApplicable<FlinkDeployment> resource = client.resource(flinkDeployment);
                 final FlinkDeployment orReplace = resource.createOrReplace();
                 System.out.println(Serialization.asYaml(orReplace));

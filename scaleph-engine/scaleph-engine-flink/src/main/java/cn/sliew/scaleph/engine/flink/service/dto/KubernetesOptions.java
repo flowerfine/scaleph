@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.service.dto;
 
+import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -26,17 +27,26 @@ import lombok.Data;
 @ApiModel(value = "KubernetesOptions", description = "Kubernetes Options")
 public class KubernetesOptions {
 
-    @ApiModelProperty("镜像注册中心")
-    private String registry;
-
-    @ApiModelProperty("镜像仓库")
-    private String repository;
-
-    @ApiModelProperty("镜像")
-    private String image;
+    @ApiModelProperty("Kubeconfig context")
+    private String context;
 
     @ApiModelProperty("kubernetes namepace")
     private String namespace;
+
+    @ApiModelProperty("kubernetes service account")
+    private String serviceAccount;
+
+    @ApiModelProperty("image registry")
+    private String registry;
+
+    @ApiModelProperty("image repository")
+    private String repository;
+
+    @ApiModelProperty("image")
+    private String image;
+
+    @ApiModelProperty("image pull policy")
+    private ImagePullPolicy imagePullPolicy;
 
     @ApiModelProperty("kubernetes JobManager pod cpu")
     private Double jobManagerCPU;
