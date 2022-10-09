@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.dict.flink;
+package cn.sliew.scaleph.common.dict.image;
 
 import cn.sliew.scaleph.common.dict.DictDefinition;
 import cn.sliew.scaleph.common.dict.DictInstance;
@@ -28,46 +28,32 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum FlinkVersion implements DictInstance {
+public enum ImagePullPolicy implements DictInstance {
 
-    V_1_13_0("1.13.0", "1.13.0"),
-    V_1_13_1("1.13.1", "1.13.1"),
-    V_1_13_2("1.13.2", "1.13.2"),
-    V_1_13_3("1.13.3", "1.13.3"),
-    V_1_13_5("1.13.5", "1.13.5"),
-    V_1_13_6("1.13.6", "1.13.6"),
-
-    V_1_14_0("1.14.0", "1.14.0"),
-    V_1_14_2("1.14.2", "1.14.2"),
-    V_1_14_3("1.14.3", "1.14.3"),
-    V_1_14_4("1.14.4", "1.14.4"),
-    V_1_14_5("1.14.5", "1.14.5"),
-    V_1_14_6("1.14.6", "1.14.6"),
-
-    V_1_15_0("1.15.0", "1.15.0"),
-    V_1_15_1("1.15.1", "1.15.1"),
-    V_1_15_2("1.15.2", "1.15.2"),
+    IF_NOT_PRESENT("IfNotPresent", "IfNotPresent"),
+    ALWAYS("Always", "Always"),
+    NEVER("Never", "Never"),
     ;
 
     @JsonCreator
-    public static FlinkVersion of(String value) {
+    public static ImagePullPolicy of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(FlinkVersion.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(ImagePullPolicy.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    FlinkVersion(String value, String label) {
+    ImagePullPolicy(String value, String label) {
         this.value = value;
         this.label = label;
     }
 
     @Override
     public DictDefinition getDefinition() {
-        return DictType.FLINK_VERSION;
+        return DictType.IMAGE_PULL_POLICY;
     }
 
     @Override

@@ -92,6 +92,8 @@ INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `edi
 VALUES ('flink_artifact_type', 'Flink Artifact 类型', 'sys', 'sys');
 INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
 VALUES ('seatunnel_version', 'SeaTunnel 版本', 'sys', 'sys');
+INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+VALUES ('image_pull_policy', 'Image Pull Policy', 'sys', 'sys');
 
 
 /* 数据字典表 */
@@ -306,7 +308,13 @@ VALUES ('flink_version', '1.14.4', '1.14.4', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_version', '1.14.5', '1.14.5', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_version', '1.14.6', '1.14.6', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_version', '1.15.0', '1.15.0', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_version', '1.15.1', '1.15.1', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('flink_version', '1.15.2', '1.15.2', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_state_backend', 'HashMapStateBackend', 'HashMap', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
@@ -378,9 +386,14 @@ INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `
 VALUES ('flink_artifact_type', '1', 'UDF', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_artifact_type', '2', 'SQL', 'sys', 'sys');
-
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('seatunnel_version', '2.1.2', '2.1.2', 'sys', 'sys');
+VALUES ('seatunnel_version', '2.2.0-beta', '2.2.0-beta', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('image_pull_policy', 'IfNotPresent', 'IfNotPresent', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('image_pull_policy', 'Always', 'Always', 'sys', 'sys');
+INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+VALUES ('image_pull_policy', 'Never', 'Never', 'sys', 'sys');
 
 /*系统配置信息表 */
 drop table if exists sys_config;

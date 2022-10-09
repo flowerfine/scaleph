@@ -22,6 +22,7 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfigVO;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptions;
 import cn.sliew.scaleph.resource.service.convert.ClusterCredentialConvert;
 import cn.sliew.scaleph.resource.service.convert.FlinkReleaseConvert;
 import org.mapstruct.Mapper;
@@ -41,6 +42,9 @@ public interface FlinkClusterConfigVOConvert extends BaseConvert<FlinkClusterCon
     default FlinkClusterConfigVO toDo(FlinkClusterConfigDTO dto) {
         FlinkClusterConfigVO entity = new FlinkClusterConfigVO();
         BeanUtils.copyProperties(dto, entity);
+        if (dto.getKubernetesOptions() != null) {
+            entity.setKubernetesOptions(JacksonUtil.toJsonString(dto.getKubernetesOptions()));
+        }
         if (CollectionUtils.isEmpty(dto.getConfigOptions()) == false) {
             entity.setConfigOptions(JacksonUtil.toJsonString(dto.getConfigOptions()));
         }
@@ -53,6 +57,9 @@ public interface FlinkClusterConfigVOConvert extends BaseConvert<FlinkClusterCon
         BeanUtils.copyProperties(entity, dto);
         dto.setFlinkRelease(FlinkReleaseConvert.INSTANCE.toDto(entity.getFlinkRelease()));
         dto.setClusterCredential(ClusterCredentialConvert.INSTANCE.toDto(entity.getClusterCredential()));
+        if (StringUtils.hasText(entity.getKubernetesOptions())) {
+            dto.setKubernetesOptions(JacksonUtil.parseJsonString(entity.getKubernetesOptions(), KubernetesOptions.class));
+        }
         if (StringUtils.hasText(entity.getConfigOptions())) {
             dto.setConfigOptions(JacksonUtil.parseJsonString(entity.getConfigOptions(), Map.class));
         }

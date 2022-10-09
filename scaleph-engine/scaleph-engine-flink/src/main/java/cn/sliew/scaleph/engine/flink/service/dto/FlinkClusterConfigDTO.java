@@ -66,6 +66,9 @@ public class FlinkClusterConfigDTO extends BaseDTO {
     @ApiModelProperty("集群凭证 id。如 hadoop 的 core-site.xml，kubernetes 的 kubeconfig")
     private ClusterCredentialDTO clusterCredential;
 
+    @ApiModelProperty("kubernetes 配置")
+    private KubernetesOptions kubernetesOptions;
+
     @ApiModelProperty("flink 集群配置项")
     private Map<String, String> configOptions;
 

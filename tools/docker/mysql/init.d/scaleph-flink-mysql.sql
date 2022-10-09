@@ -11,6 +11,7 @@ CREATE TABLE `flink_cluster_config`
     `deploy_mode`           VARCHAR(4)   NOT NULL,
     `flink_release_id`      BIGINT       NOT NULL,
     `cluster_credential_id` BIGINT       NOT NULL,
+    `kubernetes_options`    TEXT,
     `config_options`        TEXT,
     `remark`                VARCHAR(255),
     `creator`               VARCHAR(32),
