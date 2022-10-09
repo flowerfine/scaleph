@@ -24,7 +24,6 @@ import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigAddParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +32,8 @@ public interface FlinkClusterConfigService {
     FlinkClusterConfigDTO insert(FlinkClusterConfigAddParam param);
 
     int updateKubernetesOptions(Long id, KubernetesOptions options);
+
+    int updateFlinkConfig(Long id, Map<String, String> options);
 
     int update(FlinkClusterConfigDTO dto);
 

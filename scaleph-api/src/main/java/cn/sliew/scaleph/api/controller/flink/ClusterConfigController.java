@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Api(tags = "Flink管理-集群配置管理")
@@ -75,6 +76,14 @@ public class ClusterConfigController {
     @ApiOperation(value = "修改 kubernetes 配置", notes = "修改 kubernetes 配置")
     public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid @RequestBody KubernetesOptions options) {
         flinkClusterConfigService.updateKubernetesOptions(id, options);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("{id}/flink")
+    @ApiOperation(value = "修改 flink 配置", notes = "修改 flink 配置")
+    public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @RequestBody Map<String, String> options) {
+        flinkClusterConfigService.updateFlinkConfig(id, options);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 

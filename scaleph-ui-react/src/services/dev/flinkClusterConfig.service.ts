@@ -45,6 +45,13 @@ export const FlinkClusterConfigService = {
     });
   },
 
+  updateConfigOptions: async (id: number | undefined, param: Map<String, any>) => {
+    return request<ResponseBody<any>>(`${FlinkClusterConfigService.url}/` + id + '/flink', {
+      method: 'POST',
+      data: param,
+    });
+  },
+
   update: async (row: FlinkClusterConfig) => {
     return request<ResponseBody<any>>(`${FlinkClusterConfigService.url}/` + row.id, {
       method: 'POST',

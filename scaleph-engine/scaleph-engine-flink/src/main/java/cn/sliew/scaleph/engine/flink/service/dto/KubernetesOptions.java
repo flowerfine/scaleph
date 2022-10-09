@@ -46,7 +46,7 @@ public class KubernetesOptions {
     private String image;
 
     @ApiModelProperty("image pull policy")
-    private ImagePullPolicy imagePullPolicy;
+    private String imagePullPolicy;
 
     @ApiModelProperty("kubernetes JobManager pod cpu")
     private Double jobManagerCPU;

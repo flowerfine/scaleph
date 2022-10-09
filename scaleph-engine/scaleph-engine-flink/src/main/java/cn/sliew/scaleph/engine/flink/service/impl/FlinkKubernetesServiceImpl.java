@@ -24,8 +24,9 @@ import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.dsl.Customizer;
 import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
 import cn.sliew.scaleph.engine.flink.service.FlinkKubernetesService;
-import cn.sliew.scaleph.engine.flink.service.convert.FlinkVersionConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptions;
+import cn.sliew.scaleph.engine.flink.service.enums.FlinkVersionMapping;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.vo.Resource;
@@ -41,9 +42,8 @@ import org.apache.flink.util.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
-import java.io.File;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Collectors;
@@ -70,25 +70,32 @@ public class FlinkKubernetesServiceImpl implements FlinkKubernetesService {
     @Override
     public void createSession(FlinkSessionClusterAddParam param) throws Exception {
         final FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(param.getFlinkClusterConfigId());
-        FlinkDeploymentBuilder config = new FlinkDeploymentBuilder();
-        final SpecConfigurer specConfigurer = config
+        final KubernetesOptions kubernetesOptions = flinkClusterConfigDTO.getKubernetesOptions();
+        FlinkDeploymentBuilder builder = new FlinkDeploymentBuilder();
+        final SpecConfigurer specConfigurer = builder
                 .apiVersion(Customizer.withDefaults())
                 .kind(Customizer.withDefaults())
                 .metadata()
                 .name(RandomStringUtils.randomAlphabetic(32).toLowerCase())
-                .namespace("default")
+                .namespace(kubernetesOptions.getNamespace())
                 .and()
                 .spec()
-                .image("flink:1.13") // fixme
-                .flinkVersion(FlinkVersionConvert.INSTANCE.toOperatorVersion(flinkClusterConfigDTO.getFlinkVersion()));
+                .image(kubernetesOptions.getImage())
+                .flinkVersion(FlinkVersionMapping.of(flinkClusterConfigDTO.getFlinkVersion()).getOperatorVersion())
+                .jobManager(config -> jobManager(config, kubernetesOptions))
+                .taskManager(config -> taskManager(config, kubernetesOptions));
         if (CollectionUtils.isEmpty(flinkClusterConfigDTO.getConfigOptions()) == false) {
             flinkClusterConfigDTO.getConfigOptions().forEach((key, value) -> specConfigurer.flinkConfiguration(key, value));
         }
-        final FlinkDeployment flinkDeployment = specConfigurer.and().build();
+        final FlinkDeployment flinkDeployment = builder.build();
         try (Resource<Path> clusterCredential = clusterCredentialService.obtain(flinkClusterConfigDTO.getClusterCredential().getId())) {
             Path kubeconfigPath = Files.list(clusterCredential.load()).collect(Collectors.toList()).get(0);
-//            Config kubeconfig = Config.fromKubeconfig("context", FileUtils.readFileUtf8(kubeconfigPath.toFile()), null);
-            Config kubeconfig = Config.fromKubeconfig(FileUtils.readFileUtf8(kubeconfigPath.toFile()));
+            Config kubeconfig;
+            if (StringUtils.hasText(kubernetesOptions.getContext())) {
+                kubeconfig = Config.fromKubeconfig(kubernetesOptions.getContext(), FileUtils.readFileUtf8(kubeconfigPath.toFile()), null);
+            } else {
+                kubeconfig = Config.fromKubeconfig(FileUtils.readFileUtf8(kubeconfigPath.toFile()));
+            }
             try (KubernetesClient client = new DefaultKubernetesClient(kubeconfig)) {
                 NamespaceVisitFromServerGetWatchDeleteRecreateWaitApplicable<FlinkDeployment> resource = client.resource(flinkDeployment);
                 final FlinkDeployment orReplace = resource.createOrReplace();
@@ -98,6 +105,20 @@ public class FlinkKubernetesServiceImpl implements FlinkKubernetesService {
                 Rethrower.throwAs(e);
             }
         }
+    }
+
+    private void jobManager(SpecConfigurer.JobManagerSpecConfig config, KubernetesOptions kubernetesOptions) {
+        org.apache.flink.kubernetes.operator.crd.spec.Resource resource =
+                new org.apache.flink.kubernetes.operator.crd.spec.Resource(kubernetesOptions.getJobManagerCPU(), kubernetesOptions.getJobManagerMemory());
+        config.resource(resource);
+        config.replicas(kubernetesOptions.getJobManagerReplicas());
+    }
+
+    private void taskManager(SpecConfigurer.TaskManagerSpecConfig config, KubernetesOptions kubernetesOptions) {
+        org.apache.flink.kubernetes.operator.crd.spec.Resource resource =
+                new org.apache.flink.kubernetes.operator.crd.spec.Resource(kubernetesOptions.getTaskManagerCPU(), kubernetesOptions.getTaskManagerMemory());
+        config.resource(resource);
+        config.replicas(kubernetesOptions.getTaskManagerReplicas());
     }
 
     @Override

@@ -33,8 +33,10 @@ import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Map;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -56,6 +58,17 @@ public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService 
         FlinkClusterConfig record = new FlinkClusterConfig();
         record.setId(id);
         record.setKubernetesOptions(JacksonUtil.toJsonString(options));
+        return flinkClusterConfigMapper.updateById(record);
+    }
+
+    @Override
+    public int updateFlinkConfig(Long id, Map<String, String> options) {
+        if (CollectionUtils.isEmpty(options)) {
+            return 0;
+        }
+        FlinkClusterConfig record = new FlinkClusterConfig();
+        record.setId(id);
+        record.setConfigOptions(JacksonUtil.toJsonString(options));
         return flinkClusterConfigMapper.updateById(record);
     }
 

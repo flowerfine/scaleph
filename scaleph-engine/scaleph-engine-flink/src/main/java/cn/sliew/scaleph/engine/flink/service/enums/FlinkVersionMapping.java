@@ -50,10 +50,10 @@ public enum FlinkVersionMapping {
     ;
 
     @JsonCreator
-    public static FlinkVersionMapping of(String value) {
+    public static FlinkVersionMapping of(FlinkVersion value) {
         return Arrays.stream(values())
-                .filter(instance -> instance.getScalephVersion().getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(FlinkVersionMapping.class, value));
+                .filter(instance -> instance.getScalephVersion() == value)
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(FlinkVersionMapping.class, value.getValue()));
     }
 
     private FlinkVersion scalephVersion;

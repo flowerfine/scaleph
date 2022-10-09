@@ -1,6 +1,6 @@
 import {FlinkClusterConfig, FlinkClusterConfigAddParam, KubernetesOptions} from '@/services/dev/typings';
 import {ProCard, ProFormInstance, StepsForm,} from '@ant-design/pro-components';
-import {useIntl, useLocation} from 'umi';
+import {history, useIntl, useLocation} from 'umi';
 import {useRef, useState} from "react";
 import FlinkImageOptions from "@/pages/DEV/ClusterConfigOptions/components/FlinkImage";
 import K8sResourceOptions from "@/pages/DEV/ClusterConfigOptions/components/K8sResource";
@@ -19,6 +19,63 @@ const ClusterConfigOptionsSteps: React.FC = () => {
   const formRef = useRef<ProFormInstance>();
   const [flinkClusterConfig, setFlinkClusterConfig] = useState<FlinkClusterConfig>({});
 
+  const params = urlParams.state as FlinkClusterConfig;
+
+  const baseData = {
+    name: params?.name,
+    resourceProvider: params?.resourceProvider?.value,
+    deployMode: params?.deployMode?.value,
+    clusterCredentialId: params?.clusterCredential?.id,
+    flinkVersion: params?.flinkVersion?.value,
+    flinkReleaseId: params?.flinkRelease?.id,
+    remark: params?.remark,
+  };
+  const kubernetesOptions = params.kubernetesOptions
+  const configOptions = FlinkClusterConfigService.setData(
+    new Map(Object.entries(params?.configOptions ? params?.configOptions : {}))
+  );
+
+  console.log('kubernetesOptions', kubernetesOptions)
+
+  const add = (values: Record<string, any>) => {
+    const param: FlinkClusterConfigAddParam = {...values}
+    return FlinkClusterConfigService.add(param).then((response) => {
+      setFlinkClusterConfig(response.data ? response.data : {})
+      return response.success
+    })
+  }
+
+  const update = (values: Record<string, any>) => {
+    const param: FlinkClusterConfig = {
+      id: params?.id,
+      name: values.name,
+      resourceProvider: values.resourceProvider,
+      deployMode: values.deployMode,
+      clusterCredential: { id: values.clusterCredentialId },
+      flinkVersion: values.flinkVersion,
+      flinkRelease: { id: values.flinkReleaseId },
+      remark: values.remark
+    };
+    return FlinkClusterConfigService.update(param).then((response) => {
+      setFlinkClusterConfig(response.data ? response.data : {})
+      return response.success
+    })
+  }
+
+  const updateKubernetesOptions = (values: Record<string, any>) => {
+    const id = params?.id ? params?.id : flinkClusterConfig.id;
+    const param: KubernetesOptions = {...values}
+    return FlinkClusterConfigService.updateKubernetesOptions(id, param)
+      .then((response) => response.success)
+  }
+
+  const updateConfigOptions = (values: Record<string, any>) => {
+    const id = params?.id ? params?.id : flinkClusterConfig.id;
+    const param = FlinkClusterConfigService.getData(values)
+    return FlinkClusterConfigService.updateConfigOptions(id, param)
+      .then((response) => response.success)
+  }
+
   return (
     <ProCard className={'step-form-submitter'}>
       <StepsForm
@@ -28,19 +85,16 @@ const ClusterConfigOptionsSteps: React.FC = () => {
           rowProps: {gutter: [16, 8]}
         }}
         onFinish={async (values) => {
-
+          history.back();
         }}>
         <StepsForm.StepForm
           name="base"
           title={(intl.formatMessage({id: 'pages.dev.clusterConfig.baseStep'}))}
           layout={'horizontal'}
           style={{width: 1000}}
+          initialValues={baseData}
           onFinish={(values) => {
-            const param: FlinkClusterConfigAddParam = {...values}
-            return FlinkClusterConfigService.add(param).then((response) => {
-              setFlinkClusterConfig(response.data ? response.data : {})
-              return response.success
-            })
+            return params?.id ? update(values) : add(values)
           }}
         >
           <BaseOptions/>
@@ -50,10 +104,8 @@ const ClusterConfigOptionsSteps: React.FC = () => {
           title={(intl.formatMessage({id: 'pages.dev.clusterConfig.kubernetesStep'}))}
           layout={'horizontal'}
           style={{width: 1000}}
-          onFinish={(values) => {
-            const param: KubernetesOptions = {...values}
-            return FlinkClusterConfigService.updateKubernetesOptions(flinkClusterConfig.id, param).then((response) => response.success)
-          }}
+          initialValues={kubernetesOptions}
+          onFinish={updateKubernetesOptions}
         >
           <K8sBaseOptions/>
           <FlinkImageOptions/>
@@ -64,16 +116,14 @@ const ClusterConfigOptionsSteps: React.FC = () => {
           title={(intl.formatMessage({id: 'pages.dev.clusterConfig.configOptionsStep'}))}
           layout={'horizontal'}
           style={{width: 1000}}
-          onFinish={(values) => {
-            const param: KubernetesOptions = {...values}
-            return FlinkClusterConfigService.updateKubernetesOptions(flinkClusterConfig.id, param).then((response) => response.success)
-          }}
+          initialValues={configOptions}
+          onFinish={updateConfigOptions}
         >
-          <State />
-          <FaultTolerance />
-          <HighAvailability />
-          <Resource />
-          <Additional />
+          <State/>
+          <FaultTolerance/>
+          <HighAvailability/>
+          <Resource/>
+          <Additional/>
         </StepsForm.StepForm>
       </StepsForm>
     </ProCard>
