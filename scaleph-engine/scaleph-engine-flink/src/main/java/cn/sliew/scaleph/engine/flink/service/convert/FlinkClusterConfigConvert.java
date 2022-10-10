@@ -24,6 +24,8 @@ import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfig;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceClusterCredential;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceFlinkRelease;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptions;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigAddParam;
 import cn.sliew.scaleph.resource.service.convert.ClusterCredentialConvert;
 import cn.sliew.scaleph.resource.service.convert.FlinkReleaseConvert;
 import org.mapstruct.Mapper;
@@ -39,12 +41,21 @@ import java.util.Map;
 public interface FlinkClusterConfigConvert extends BaseConvert<FlinkClusterConfig, FlinkClusterConfigDTO> {
     FlinkClusterConfigConvert INSTANCE = Mappers.getMapper(FlinkClusterConfigConvert.class);
 
+    default FlinkClusterConfig toDO(FlinkClusterConfigAddParam param) {
+        FlinkClusterConfig entity = new FlinkClusterConfig();
+        BeanUtils.copyProperties(param, entity);
+        return entity;
+    }
+
     @Override
     default FlinkClusterConfig toDo(FlinkClusterConfigDTO dto) {
         FlinkClusterConfig entity = new FlinkClusterConfig();
         BeanUtils.copyProperties(dto, entity);
         entity.setFlinkReleaseId(dto.getFlinkRelease().getId());
         entity.setClusterCredentialId(dto.getClusterCredential().getId());
+        if (dto.getKubernetesOptions() != null) {
+            entity.setKubernetesOptions(JacksonUtil.toJsonString(dto.getKubernetesOptions()));
+        }
         if (CollectionUtils.isEmpty(dto.getConfigOptions()) == false) {
             entity.setConfigOptions(JacksonUtil.toJsonString(dto.getConfigOptions()));
         }
@@ -61,6 +72,9 @@ public interface FlinkClusterConfigConvert extends BaseConvert<FlinkClusterConfi
         ResourceClusterCredential clusterCredential = new ResourceClusterCredential();
         clusterCredential.setId(entity.getClusterCredentialId());
         dto.setClusterCredential(ClusterCredentialConvert.INSTANCE.toDto(clusterCredential));
+        if (StringUtils.hasText(entity.getKubernetesOptions())) {
+            dto.setKubernetesOptions(JacksonUtil.parseJsonString(entity.getKubernetesOptions(), KubernetesOptions.class));
+        }
         if (StringUtils.hasText(entity.getConfigOptions())) {
             dto.setConfigOptions(JacksonUtil.parseJsonString(entity.getConfigOptions(), Map.class));
         }

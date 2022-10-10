@@ -64,6 +64,10 @@ public class FlinkClusterConfigVO extends BaseDO {
     @ApiModelProperty("集群凭证 id。如 hadoop 的 core-site.xml，kubernetes 的 kubeconfig")
     private ResourceClusterCredential clusterCredential;
 
+    @ApiModelProperty("kubernetes 配置")
+    @TableField("kubernetes_options")
+    private String kubernetesOptions;
+
     @ApiModelProperty("flink 集群配置项")
     @TableField("config_options")
     private String configOptions;

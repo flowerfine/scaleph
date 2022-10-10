@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfig;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfigVO;
@@ -26,12 +27,16 @@ import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkClusterConfigConvert;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkClusterConfigVOConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptions;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigAddParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Map;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -42,9 +47,29 @@ public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService 
     private FlinkClusterConfigMapper flinkClusterConfigMapper;
 
     @Override
-    public int insert(FlinkClusterConfigDTO dto) {
-        final FlinkClusterConfig record = FlinkClusterConfigConvert.INSTANCE.toDo(dto);
-        return flinkClusterConfigMapper.insert(record);
+    public FlinkClusterConfigDTO insert(FlinkClusterConfigAddParam param) {
+        final FlinkClusterConfig record = FlinkClusterConfigConvert.INSTANCE.toDO(param);
+        flinkClusterConfigMapper.insert(record);
+        return selectOne(record.getId());
+    }
+
+    @Override
+    public int updateKubernetesOptions(Long id, KubernetesOptions options) {
+        FlinkClusterConfig record = new FlinkClusterConfig();
+        record.setId(id);
+        record.setKubernetesOptions(JacksonUtil.toJsonString(options));
+        return flinkClusterConfigMapper.updateById(record);
+    }
+
+    @Override
+    public int updateFlinkConfig(Long id, Map<String, String> options) {
+        if (CollectionUtils.isEmpty(options)) {
+            return 0;
+        }
+        FlinkClusterConfig record = new FlinkClusterConfig();
+        record.setId(id);
+        record.setConfigOptions(JacksonUtil.toJsonString(options));
+        return flinkClusterConfigMapper.updateById(record);
     }
 
     @Override

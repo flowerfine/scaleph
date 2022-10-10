@@ -30,7 +30,7 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum SeaTunnelVersion implements DictInstance {
 
-    V_2_1_2("2.1.2", "2.1.2"),
+    V_2_2_0_BETA("2.2.0-beta", "2.2.0-beta"),
     ;
 
     @JsonCreator

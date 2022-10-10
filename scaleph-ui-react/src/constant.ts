@@ -32,6 +32,7 @@ export const DICT_TYPE = {
   flinkHA: 'flink_high_availability',
   flinkArtifactType: 'flink_artifact_type',
   seatunnelVersion: 'seatunnel_version',
+  imagePullPolicy: 'image_pull_policy',
 };
 
 export const USER_AUTH = {
