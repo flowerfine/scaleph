@@ -60,9 +60,6 @@ public class FileSystemServiceImpl implements FileSystemService, InitializingBea
 
     @Override
     public boolean exists(String fileName) throws IOException {
-        if (localExists(fileName)) {
-            return true;
-        }
         Path path = new Path(fs.getWorkingDirectory(), fileName);
         return fs.exists(path);
     }
@@ -89,17 +86,8 @@ public class FileSystemServiceImpl implements FileSystemService, InitializingBea
 
     @Override
     public InputStream get(String fileName) throws IOException {
-        final InputStream localInputStream = localGet(fileName);
-        if (localInputStream != null) {
-            return localInputStream;
-        }
         Path path = new Path(fs.getWorkingDirectory(), fileName);
-        final FSDataInputStream inputStream = fs.open(path);
-        if (isDistributedFS()) {
-            localUpload(inputStream, fileName);
-            return localGet(fileName);
-        }
-        return inputStream;
+        return fs.open(path);
     }
 
     public InputStream localGet(String fileName) throws IOException {
@@ -135,7 +123,6 @@ public class FileSystemServiceImpl implements FileSystemService, InitializingBea
 
     @Override
     public boolean delete(String fileName) throws IOException {
-        localDelete(fileName);
         Path path = new Path(fs.getWorkingDirectory(), fileName);
         return fs.delete(path, true);
     }
@@ -150,10 +137,6 @@ public class FileSystemServiceImpl implements FileSystemService, InitializingBea
 
     @Override
     public Long getFileSize(String fileName) throws IOException {
-        final Long localFileSize = localGetFileSize(fileName);
-        if (localFileSize != null) {
-            return localFileSize;
-        }
         Path path = new Path(fs.getWorkingDirectory(), fileName);
         final FileStatus fileStatus = fs.getFileStatus(path);
         return fileStatus.getLen();
