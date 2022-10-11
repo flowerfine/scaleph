@@ -77,6 +77,7 @@
             <result column="config_deploy_mode" property="deployMode"/>
             <result column="config_flink_release_id" property="flinkReleaseId"/>
             <result column="config_cluster_credential_id" property="clusterCredentialId"/>
+            <result column="config_kubernetes_options" property="kubernetesOptions"/>
             <result column="config_config_options" property="configOptions"/>
             <result column="config_remark" property="remark"/>
         </association>
@@ -180,6 +181,7 @@
                t4.deploy_mode             AS config_deploy_mode,
                t4.flink_release_id        AS config_flink_release_id,
                t4.cluster_credential_id   AS config_cluster_credential_id,
+               t4.kubernetes_options      AS config_kubernetes_options,
                t4.config_options          AS config_config_options,
                t4.remark                  AS config_remark,
                t5.id                      AS instance_id,
@@ -246,6 +248,7 @@
                t4.deploy_mode             AS config_deploy_mode,
                t4.flink_release_id        AS config_flink_release_id,
                t4.cluster_credential_id   AS config_cluster_credential_id,
+               t4.kubernetes_options      AS config_kubernetes_options,
                t4.config_options          AS config_config_options,
                t4.remark                  AS config_remark,
                t5.id                      AS instance_id,
