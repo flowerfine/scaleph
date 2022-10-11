@@ -40,6 +40,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.flink.client.program.ClusterClient;
 import org.apache.flink.configuration.*;
 import org.apache.flink.runtime.client.JobStatusMessage;
+import org.apache.flink.util.CollectionUtil;
 import org.apache.flink.yarn.configuration.YarnConfigOptions;
 import org.apache.hadoop.yarn.api.records.ApplicationId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +52,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -188,6 +186,7 @@ public class FlinkYarnServiceImpl implements FlinkYarnService {
         FlinkArtifactJarDTO flinkArtifactJar = flinkArtifactJarService.selectOne(flinkJobForJarDTO.getFlinkArtifactJar().getId());
         Path flinkArtifactJarPath = loadFlinkArtifactJar(flinkArtifactJar, workspace);
         PackageJarJob packageJarJob = buildJarJob(flinkJobForJarDTO, flinkArtifactJar, flinkArtifactJarPath);
+        ConfigUtils.encodeCollectionToConfig(configuration, PipelineOptions.JARS, Collections.singletonList(flinkArtifactJarPath), Object::toString);
 
         CliClient client = new DescriptorCliClient();
         switch (flinkClusterConfigDTO.getDeployMode()) {

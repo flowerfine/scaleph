@@ -60,7 +60,7 @@ file-system:
 #  secretKey: Aliyun access key secret
 #  type: hdfs
 #  hadoopConfPath: Hadoop conf path
-#  defaultFS: hdfs://namenode:9000
+#  defaultFS: hdfs://localhost:9000
 
 
 # log
