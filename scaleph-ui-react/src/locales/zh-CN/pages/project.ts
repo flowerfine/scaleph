@@ -241,4 +241,10 @@ export default {
   'pages.project.di.step.hive.isEnableTransaction.tooltip': 'Only support true now',
   'pages.project.di.step.hive.saveMode': 'saveMode',
   'pages.project.di.step.hive.saveMode.tooltip': 'Streaming Job not support overwrite. Storage mode, we need support overwrite and append. append is now supported.',
+
+  //kudu
+  'pages.project.di.step.kudu.master': 'Master',
+  'pages.project.di.step.kudu.table': 'Table',
+  'pages.project.di.step.kudu.savemode': '写入模式',
+  'pages.project.di.step.kudu.columnsList': '字段列表',
 };
