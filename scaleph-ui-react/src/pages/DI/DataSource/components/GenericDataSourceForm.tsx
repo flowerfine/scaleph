@@ -193,7 +193,6 @@ const GenericDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
           rules={[{ max: 2048 }]}
         >
           <Input.TextArea
-            autoSize={{ minRows: 5 }}
             placeholder={intl.formatMessage({
               id: 'pages.project.di.dataSource.additionalProps.placeholder',
             })}

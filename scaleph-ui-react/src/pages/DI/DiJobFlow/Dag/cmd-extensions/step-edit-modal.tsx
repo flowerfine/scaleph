@@ -42,6 +42,8 @@ import SinkDingTalkStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-dingt
 import SinkEmailStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-email-step";
 import SourceHiveStepForm from '../steps/source/source-hive-step';
 import SinkHiveStepForm from '../steps/sink/sink-hive-step';
+import SourceKuduStepForm from '../steps/source/source-kudu-step';
+import SinkKuduStepForm from '../steps/sink/sink-kudu-step';
 
 
 const {inject, injectable, postConstruct} = ManaSyringe;
@@ -255,6 +257,10 @@ export class EditNodeCommand implements ICommand {
       return (<SourceHiveStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'Hive'){
       return (<SinkHiveStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'Kudu'){
+      return (<SourceKuduStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'Kudu'){
+      return (<SinkKuduStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
       return <></>;
     }

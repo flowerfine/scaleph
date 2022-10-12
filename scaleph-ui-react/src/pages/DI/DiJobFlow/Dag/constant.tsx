@@ -130,32 +130,32 @@ export const BaseHttpParams = {
   params: 'params',
   retry: 'retry',
   retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
-  retryBackoffMaxMs: 'retry_backoff_max_ms'
-}
+  retryBackoffMaxMs: 'retry_backoff_max_ms',
+};
 
 export const HttpParams = {
   method: 'method',
   body: 'body',
   format: 'format',
   schema: 'schema',
-  pollIntervalMs: 'poll_interval_ms'
-}
+  pollIntervalMs: 'poll_interval_ms',
+};
 
 export const WeChatParams = {
   url: 'url',
   mentionedList: 'mentioned_list',
-  mentionedMobileList: 'mentioned_mobile_list'
-}
+  mentionedMobileList: 'mentioned_mobile_list',
+};
 
 export const FeishuParams = {
   url: 'url',
-  headers: 'headers'
-}
+  headers: 'headers',
+};
 
 export const DingTalkParams = {
   url: 'url',
-  secret: 'secret'
-}
+  secret: 'secret',
+};
 
 export const EmailParams = {
   emailHost: 'email_host',
@@ -165,8 +165,8 @@ export const EmailParams = {
   emailAuthorizationCode: 'email_authorization_code',
   emailToAddress: 'email_to_address',
   emailMessageHeadline: 'email_message_headline',
-  emailMessageContent: 'email_message_content'
-}
+  emailMessageContent: 'email_message_content',
+};
 
 export const HudiParams = {
   tablePath: 'table.path',
@@ -192,8 +192,7 @@ export const IcebergParams = {
   startSnapshotTimestamp: 'start_snapshot_timestamp',
   useSnapshotTimestamp: 'use_snapshot_timestamp',
   streamScanStrategy: 'stream_scan_strategy',
-}
-
+};
 
 export const ClickHouseParams = {
   dataSourceType: 'ClickHouse',
@@ -201,8 +200,8 @@ export const ClickHouseParams = {
   shardingKey: 'sharding_key',
   clickhouseConf: 'clickhouse_conf',
   sql: 'sql',
-  database: 'database'
-}
+  database: 'database',
+};
 
 export const HiveParams = {
   tableName: 'table_name',
@@ -210,6 +209,12 @@ export const HiveParams = {
   partitionBy: 'partition_by',
   sinkColumns: 'sink_columns',
   isEnableTransaction: 'is_enable_transaction',
-  saveMode: 'save_mode'
+  saveMode: 'save_mode',
+};
 
+export const KuduParams = {
+  kuduMaster: 'kudu_master',
+  kuduTable: 'kudu_table',
+  columnsList: 'columnsList',
+  saveMode: 'save_mode',
 };
