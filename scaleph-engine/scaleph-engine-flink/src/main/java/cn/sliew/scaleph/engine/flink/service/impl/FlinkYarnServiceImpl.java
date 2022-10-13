@@ -219,7 +219,7 @@ public class FlinkYarnServiceImpl implements FlinkYarnService {
 
     private PackageJarJob buildJarJob(FlinkJobForJarDTO flinkJobForJarDTO, FlinkArtifactJarDTO flinkArtifactJar, Path flinkArtifactJarPath) {
         PackageJarJob packageJarJob = new PackageJarJob();
-        packageJarJob.setJarFilePath(flinkArtifactJarPath.toUri().toString());
+        packageJarJob.setJarFilePath(flinkArtifactJarPath.toFile().toURI().toString());
         packageJarJob.setEntryPointClass(flinkArtifactJar.getEntryClass());
         if (CollectionUtils.isEmpty(flinkJobForJarDTO.getJobConfig()) == false) {
             List<String> args = new ArrayList<>(flinkJobForJarDTO.getJobConfig().size() * 2);
