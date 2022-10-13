@@ -133,6 +133,15 @@ public class FlinkServiceImpl implements FlinkService {
         final Path workspace = getWorkspace();
         try {
             FlinkJobForJarDTO flinkJobForJarDTO = flinkJobService.getJobForJarById(id);
+            final FlinkClusterConfigDTO flinkClusterConfig = flinkJobForJarDTO.getFlinkClusterConfig();
+            if (flinkClusterConfig.getResourceProvider() == FlinkResourceProvider.NATIVE_KUBERNETES) {
+                if (flinkClusterConfig.getDeployMode() == FlinkDeploymentMode.SESSION) {
+                    flinkKubernetesService.submitSessionJob(id);
+                } else {
+                    flinkKubernetesService.submitApplicationJob(id);
+                }
+                return;
+            }
             ClusterClient clusterClient = doSubmitJar(flinkJobForJarDTO, workspace);
             recordJobs(flinkJobForJarDTO, clusterClient);
         } finally {

@@ -514,12 +514,6 @@
                 <groupId>cn.sliew</groupId>
                 <artifactId>flinkful-cli-base</artifactId>
                 <version>${flinkful.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.flink</groupId>
-                        <artifactId>flink-kubernetes</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.sliew</groupId>

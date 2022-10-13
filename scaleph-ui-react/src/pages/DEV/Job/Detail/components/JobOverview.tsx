@@ -21,7 +21,7 @@ const JobOverviewWeb: React.FC<{
       title: 'jobState',
       key: 'jobState',
       render: (dom, entity, index, action, schema) => {
-        return entity.jobState.label
+        return entity.jobState?.label
       }
     },
     {
