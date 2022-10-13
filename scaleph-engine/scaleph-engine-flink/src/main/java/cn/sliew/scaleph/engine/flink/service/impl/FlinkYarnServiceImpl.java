@@ -48,6 +48,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -185,7 +186,7 @@ public class FlinkYarnServiceImpl implements FlinkYarnService {
         FlinkArtifactJarDTO flinkArtifactJar = flinkArtifactJarService.selectOne(flinkJobForJarDTO.getFlinkArtifactJar().getId());
         Path flinkArtifactJarPath = loadFlinkArtifactJar(flinkArtifactJar, workspace);
         PackageJarJob packageJarJob = buildJarJob(flinkJobForJarDTO, flinkArtifactJar, flinkArtifactJarPath);
-        ConfigUtils.encodeCollectionToConfig(configuration, PipelineOptions.JARS, Collections.singletonList(flinkArtifactJarPath), Object::toString);
+        ConfigUtils.encodeCollectionToConfig(configuration, PipelineOptions.JARS, Collections.singletonList(flinkArtifactJarPath.toFile().toURL()), Object::toString);
 
         CliClient client = new DescriptorCliClient();
         switch (flinkClusterConfigDTO.getDeployMode()) {
@@ -217,9 +218,9 @@ public class FlinkYarnServiceImpl implements FlinkYarnService {
         }
     }
 
-    private PackageJarJob buildJarJob(FlinkJobForJarDTO flinkJobForJarDTO, FlinkArtifactJarDTO flinkArtifactJar, Path flinkArtifactJarPath) {
+    private PackageJarJob buildJarJob(FlinkJobForJarDTO flinkJobForJarDTO, FlinkArtifactJarDTO flinkArtifactJar, Path flinkArtifactJarPath) throws MalformedURLException {
         PackageJarJob packageJarJob = new PackageJarJob();
-        packageJarJob.setJarFilePath(flinkArtifactJarPath.toFile().toURI().toString());
+        packageJarJob.setJarFilePath(flinkArtifactJarPath.toFile().toURL().toString());
         packageJarJob.setEntryPointClass(flinkArtifactJar.getEntryClass());
         if (CollectionUtils.isEmpty(flinkJobForJarDTO.getJobConfig()) == false) {
             List<String> args = new ArrayList<>(flinkJobForJarDTO.getJobConfig().size() * 2);
