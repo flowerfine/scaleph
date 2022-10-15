@@ -45,6 +45,9 @@ export default defineConfig({
   manifest: {
     basePath: '/',
   },
+  mfsu:{
+    strategy:'normal'
+  },
   // Fast Refresh 热更新
   fastRefresh: true,
   presets: ['umi-presets-pro'],
