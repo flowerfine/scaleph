@@ -30,8 +30,8 @@ import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
 import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
 import cn.sliew.scaleph.common.enums.DeployMode;
 import cn.sliew.scaleph.common.enums.ResourceProvider;
+import cn.sliew.scaleph.common.nio.FileUtil;
 import cn.sliew.scaleph.common.nio.TarUtil;
-import cn.sliew.scaleph.common.nio.TempFileUtil;
 import cn.sliew.scaleph.engine.flink.service.*;
 import cn.sliew.scaleph.engine.flink.service.dto.*;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
@@ -57,14 +57,12 @@ import org.springframework.util.CollectionUtils;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -145,7 +143,7 @@ public class FlinkServiceImpl implements FlinkService {
             ClusterClient clusterClient = doSubmitJar(flinkJobForJarDTO, workspace);
             recordJobs(flinkJobForJarDTO, clusterClient);
         } finally {
-            TempFileUtil.deleteDir(workspace);
+            FileUtil.deleteDir(workspace);
         }
     }
 
@@ -296,32 +294,32 @@ public class FlinkServiceImpl implements FlinkService {
 
     private Configuration buildYarnConfiguration(Configuration dynamicProperties, Path clusterCredentialPath) {
         dynamicProperties.set(CoreOptions.FLINK_HADOOP_CONF_DIR, clusterCredentialPath.toAbsolutePath().toString());
-        if (dynamicProperties.contains(JobManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
+        if (!dynamicProperties.contains(JobManagerOptions.TOTAL_PROCESS_MEMORY)) {
             dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
         }
-        if (dynamicProperties.contains(TaskManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
+        if (!dynamicProperties.contains(TaskManagerOptions.TOTAL_PROCESS_MEMORY)) {
             dynamicProperties.setLong(TaskManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
         }
         return dynamicProperties;
     }
 
     private Configuration buildKubernetesConfiguration(Configuration dynamicProperties, Path clusterCredentialPath) throws IOException {
-        final List<Path> childs = Files.list(clusterCredentialPath).collect(Collectors.toList());
-        checkState(CollectionUtils.isEmpty(childs) == false, () -> "Kubernetes kubeconfig can't be null");
+        final List<Path> childs = FileUtil.listFiles(clusterCredentialPath);
+        checkState(!CollectionUtils.isEmpty(childs), () -> "Kubernetes kubeconfig can't be null");
 
         final Path kubeConfigFile = childs.get(0);
 //        dynamicProperties.set(KubernetesConfigOptions.KUBE_CONFIG_FILE, kubeConfigFile.toAbsolutePath().toString());
-        if (dynamicProperties.contains(JobManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
+        if (!dynamicProperties.contains(JobManagerOptions.TOTAL_PROCESS_MEMORY)) {
             dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
         }
-        if (dynamicProperties.contains(TaskManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
+        if (!dynamicProperties.contains(TaskManagerOptions.TOTAL_PROCESS_MEMORY)) {
             dynamicProperties.setLong(TaskManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
         }
         return dynamicProperties;
     }
 
     private Configuration buildStandaloneConfiguration(Configuration dynamicProperties, Path clusterCredentialPath) throws IOException {
-        final List<Path> childs = Files.list(clusterCredentialPath).collect(Collectors.toList());
+        final List<Path> childs = FileUtil.listFiles(clusterCredentialPath);
         if (CollectionUtils.isEmpty(childs)) {
             return dynamicProperties;
         }
@@ -380,25 +378,24 @@ public class FlinkServiceImpl implements FlinkService {
 
 
     private Path getWorkspace() throws IOException {
-        return TempFileUtil.createTempDir();
+        return FileUtil.createTempDir();
     }
 
     private Path loadFlinkRelease(FlinkReleaseDTO flinkRelease, Path workspace) throws IOException {
-        final Path tempFile = TempFileUtil.createTempFile(workspace, flinkRelease.getFileName());
-        try (final OutputStream outputStream = Files.newOutputStream(tempFile, StandardOpenOption.WRITE)) {
+        final Path tempFile = FileUtil.createTempFile(workspace, flinkRelease.getFileName());
+        try (final OutputStream outputStream = FileUtil.getOutputStream(tempFile)) {
             flinkReleaseService.download(flinkRelease.getId(), outputStream);
         }
         final Path untarDir = TarUtil.untar(tempFile);
-        return Files.list(untarDir).collect(Collectors.toList()).get(0);
+        return FileUtil.listFiles(untarDir).get(0);
     }
 
     private Path loadClusterCredential(ClusterCredentialDTO clusterCredential, Path workspace) throws IOException {
         final List<FileStatusVO> fileStatusVOS = clusterCredentialService.listCredentialFile(clusterCredential.getId());
-        final Path tempDir = TempFileUtil.createTempDir(workspace, clusterCredential.getName());
+        final Path tempDir = FileUtil.createTempDir(workspace, clusterCredential.getName());
         for (FileStatusVO fileStatusVO : fileStatusVOS) {
-            final Path deployConfigFile = tempDir.resolve(fileStatusVO.getName());
-            Files.createFile(deployConfigFile, TempFileUtil.attributes);
-            try (final OutputStream outputStream = Files.newOutputStream(deployConfigFile, StandardOpenOption.WRITE)) {
+            final Path deployConfigFile = Paths.get(tempDir.toString(), fileStatusVO.getName());
+            try (final OutputStream outputStream = FileUtil.getOutputStream(deployConfigFile)) {
                 clusterCredentialService.downloadCredentialFile(clusterCredential.getId(), fileStatusVO.getName(), outputStream);
             }
         }
@@ -406,9 +403,9 @@ public class FlinkServiceImpl implements FlinkService {
     }
 
     private Path loadFlinkArtifactJar(FlinkArtifactJarDTO flinkArtifactJarDTO, Path workspace) throws IOException {
-        final Path tempDir = TempFileUtil.createTempDir(workspace, flinkArtifactJarDTO.getFlinkArtifact().getName() + "/" + flinkArtifactJarDTO.getVersion());
-        final Path jarPath = TempFileUtil.createTempFile(tempDir, flinkArtifactJarDTO.getFileName());
-        try (final OutputStream outputStream = Files.newOutputStream(jarPath, StandardOpenOption.WRITE)) {
+        final Path tempDir = FileUtil.createTempDir(workspace, flinkArtifactJarDTO.getFlinkArtifact().getName() + "/" + flinkArtifactJarDTO.getVersion());
+        final Path jarPath = FileUtil.createTempFile(tempDir, flinkArtifactJarDTO.getFileName());
+        try (final OutputStream outputStream = FileUtil.getOutputStream(jarPath)) {
             flinkArtifactJarService.download(flinkArtifactJarDTO.getId(), outputStream);
         }
         return jarPath;
