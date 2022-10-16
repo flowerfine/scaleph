@@ -18,7 +18,9 @@
 
 package cn.sliew.scaleph.system.util;
 
-import cn.sliew.scaleph.common.nio.TempFileUtil;
+import cn.hutool.core.lang.UUID;
+import cn.sliew.scaleph.common.nio.FileUtil;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -36,10 +38,10 @@ public class SystemUtil {
     }
 
     public static Path getWorkspace() throws IOException {
-        return TempFileUtil.createDir(Path.of(workspace));
+        return FileUtil.createDir(Path.of(workspace));
     }
 
-    public static Path getFlinkWorkspace(Long id) throws IOException {
-        return TempFileUtil.createDir(getWorkspace().resolve(id.toString()));
+    public static Path getRandomWorkspace() throws IOException {
+        return FileUtil.createDir(getWorkspace().resolve(UUID.randomUUID().toString(true)));
     }
 }

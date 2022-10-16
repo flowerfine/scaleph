@@ -25,8 +25,8 @@ import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
 import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
+import cn.sliew.scaleph.common.nio.FileUtil;
 import cn.sliew.scaleph.common.nio.TarUtil;
-import cn.sliew.scaleph.common.nio.TempFileUtil;
 import cn.sliew.scaleph.engine.flink.service.*;
 import cn.sliew.scaleph.engine.flink.service.dto.*;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
@@ -35,6 +35,7 @@ import cn.sliew.scaleph.resource.service.FlinkReleaseService;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
 import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
+import cn.sliew.scaleph.system.util.SystemUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.flink.client.program.ClusterClient;
@@ -99,11 +100,11 @@ public class FlinkYarnServiceImpl implements FlinkYarnService {
     }
 
     private Path getWorkspace() throws IOException {
-        return TempFileUtil.createTempDir();
+        return SystemUtil.getRandomWorkspace();
     }
 
     private Path loadFlinkRelease(FlinkReleaseDTO flinkRelease, Path workspace) throws IOException {
-        final Path tempFile = TempFileUtil.createTempFile(workspace, flinkRelease.getFileName());
+        final Path tempFile = FileUtil.createFile(workspace, flinkRelease.getFileName());
         try (final OutputStream outputStream = Files.newOutputStream(tempFile, StandardOpenOption.WRITE)) {
             flinkReleaseService.download(flinkRelease.getId(), outputStream);
         }
@@ -113,10 +114,10 @@ public class FlinkYarnServiceImpl implements FlinkYarnService {
 
     private Path loadClusterCredential(ClusterCredentialDTO clusterCredential, Path workspace) throws IOException {
         final List<FileStatusVO> fileStatusVOS = clusterCredentialService.listCredentialFile(clusterCredential.getId());
-        final Path tempDir = TempFileUtil.createTempDir(workspace, clusterCredential.getName());
+        final Path tempDir = FileUtil.createDir(workspace, clusterCredential.getName());
         for (FileStatusVO fileStatusVO : fileStatusVOS) {
             final Path deployConfigFile = tempDir.resolve(fileStatusVO.getName());
-            Files.createFile(deployConfigFile, TempFileUtil.attributes);
+            Files.createFile(deployConfigFile, FileUtil.ATTRIBUTES);
             try (final OutputStream outputStream = Files.newOutputStream(deployConfigFile, StandardOpenOption.WRITE)) {
                 clusterCredentialService.downloadCredentialFile(clusterCredential.getId(), fileStatusVO.getName(), outputStream);
             }
@@ -125,8 +126,8 @@ public class FlinkYarnServiceImpl implements FlinkYarnService {
     }
 
     private Path loadFlinkArtifactJar(FlinkArtifactJarDTO flinkArtifactJarDTO, Path workspace) throws IOException {
-        final Path tempDir = TempFileUtil.createTempDir(workspace, flinkArtifactJarDTO.getFlinkArtifact().getName() + "/" + flinkArtifactJarDTO.getVersion());
-        final Path jarPath = TempFileUtil.createTempFile(tempDir, flinkArtifactJarDTO.getFileName());
+        final Path tempDir = FileUtil.createDir(workspace, flinkArtifactJarDTO.getFlinkArtifact().getName() + "/" + flinkArtifactJarDTO.getVersion());
+        final Path jarPath = FileUtil.createFile(tempDir, flinkArtifactJarDTO.getFileName());
         try (final OutputStream outputStream = Files.newOutputStream(jarPath, StandardOpenOption.WRITE)) {
             flinkArtifactJarService.download(flinkArtifactJarDTO.getId(), outputStream);
         }
@@ -170,7 +171,7 @@ public class FlinkYarnServiceImpl implements FlinkYarnService {
             ClusterClient clusterClient = doSubmitJar(flinkJobForJarDTO, workspace);
             recordJobs(flinkJobForJarDTO, clusterClient);
         } finally {
-            TempFileUtil.deleteDir(workspace);
+            FileUtil.deleteDir(workspace);
         }
     }
 

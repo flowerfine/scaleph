@@ -3,7 +3,7 @@ package cn.sliew.scaleph.engine.flink.service.action;
 import cn.sliew.milky.common.constant.Attribute;
 import cn.sliew.milky.common.constant.AttributeKey;
 import cn.sliew.milky.common.filter.ActionListener;
-import cn.sliew.scaleph.common.nio.TempFileUtil;
+import cn.sliew.scaleph.common.nio.FileUtil;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
@@ -15,9 +15,7 @@ import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
 
@@ -63,12 +61,10 @@ public class ClusterCredentialLoadAction extends AbstractWorkFlow {
         Attribute<Long> clusterCredentialId = context.attr(CLUSTER_CREDENTIAL_ID);
         ClusterCredentialDTO clusterCredentialDTO = clusterCredentialService.selectOne(clusterCredentialId.get());
         List<FileStatusVO> fileStatusVOS = clusterCredentialService.listCredentialFile(clusterCredentialId.get());
-        Path tempDir = TempFileUtil.createTempDir(workspace, clusterCredentialDTO.getName());
-
+        Path tempDir = FileUtil.createDir(workspace, clusterCredentialDTO.getName());
         for (FileStatusVO fileStatusVO : fileStatusVOS) {
-            Path deployConfigFile = tempDir.resolve(fileStatusVO.getName());
-            Files.createFile(deployConfigFile, TempFileUtil.attributes);
-            try (OutputStream outputStream = Files.newOutputStream(deployConfigFile, StandardOpenOption.WRITE)) {
+            Path deployConfigFile = FileUtil.createTempFile(tempDir,fileStatusVO.getName());
+            try (OutputStream outputStream = FileUtil.getOutputStream(deployConfigFile)) {
                 clusterCredentialService.downloadCredentialFile(clusterCredentialDTO.getId(), fileStatusVO.getName(), outputStream);
             }
         }

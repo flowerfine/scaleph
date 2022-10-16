@@ -73,6 +73,7 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
 
     @Override
     public void upload(FlinkArtifactJarUploadParam param, MultipartFile file) throws IOException {
+        //todo Version.valueOf(param.getVersion()) will throw exception when version is not a special case
         Version version;
         if (StringUtils.hasText(param.getVersion())) {
             version = Version.valueOf(param.getVersion());

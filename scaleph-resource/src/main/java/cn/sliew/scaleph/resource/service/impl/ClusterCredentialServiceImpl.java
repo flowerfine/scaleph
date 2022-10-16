@@ -20,7 +20,7 @@ package cn.sliew.scaleph.resource.service.impl;
 
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.common.nio.TempFileUtil;
+import cn.sliew.scaleph.common.nio.FileUtil;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceClusterCredential;
 import cn.sliew.scaleph.dao.mapper.master.resource.ResourceClusterCredentialMapper;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
@@ -68,7 +68,7 @@ public class ClusterCredentialServiceImpl implements ClusterCredentialService {
             .expireAfterWrite(Duration.ofMinutes(5L))
             .removalListener((RemovalListener<CacheKey, Path>) (cacheKey, path, removalCause) -> {
                 try {
-                    TempFileUtil.deleteDir(path);
+                    FileUtil.deleteDir(path);
                 } catch (IOException e) {
                     log.error("clear cluster credential temp file cache error! cacheKey: {}, path: {}",
                             JacksonUtil.toJsonString(cacheKey), path, e);
@@ -101,10 +101,10 @@ public class ClusterCredentialServiceImpl implements ClusterCredentialService {
     public Resource<Path> obtain(Long id) throws Exception {
         final ClusterCredentialDTO clusterCredentialDTO = getRaw(id);
         final List<FileStatusVO> fileStatusVOS = listCredentialFile(id);
-        final Path value = TempFileUtil.createTempDir(clusterCredentialDTO.getName());
+        final Path value = FileUtil.createTempDir(clusterCredentialDTO.getName());
 
         for (FileStatusVO fileStatusVO : fileStatusVOS) {
-            final Path deployConfigFile = TempFileUtil.createTempFile(value, fileStatusVO.getName());
+            final Path deployConfigFile = FileUtil.createTempFile(value, fileStatusVO.getName());
             try (final OutputStream outputStream = Files.newOutputStream(deployConfigFile, StandardOpenOption.WRITE)) {
                 downloadCredentialFile(id, fileStatusVO.getName(), outputStream);
             }
