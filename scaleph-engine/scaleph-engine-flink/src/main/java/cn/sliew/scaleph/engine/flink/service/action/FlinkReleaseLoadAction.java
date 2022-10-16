@@ -3,8 +3,8 @@ package cn.sliew.scaleph.engine.flink.service.action;
 import cn.sliew.milky.common.constant.Attribute;
 import cn.sliew.milky.common.constant.AttributeKey;
 import cn.sliew.milky.common.filter.ActionListener;
+import cn.sliew.scaleph.common.nio.FileUtil;
 import cn.sliew.scaleph.common.nio.TarUtil;
-import cn.sliew.scaleph.common.nio.TempFileUtil;
 import cn.sliew.scaleph.resource.service.FlinkReleaseService;
 import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
@@ -64,7 +64,7 @@ public class FlinkReleaseLoadAction extends AbstractWorkFlow {
         Attribute<Long> flinkReleaseId = context.attr(FLINK_RELEASE_ID);
         FlinkReleaseDTO flinkReleaseDTO = flinkReleaseService.selectOne(flinkReleaseId.get());
 
-        final Path tempFile = TempFileUtil.createTempFile(workspace, flinkReleaseDTO.getFileName());
+        final Path tempFile = FileUtil.createTempFile(workspace, flinkReleaseDTO.getFileName());
         try (final OutputStream outputStream = Files.newOutputStream(tempFile, StandardOpenOption.WRITE)) {
             flinkReleaseService.download(flinkReleaseDTO.getId(), outputStream);
         }
