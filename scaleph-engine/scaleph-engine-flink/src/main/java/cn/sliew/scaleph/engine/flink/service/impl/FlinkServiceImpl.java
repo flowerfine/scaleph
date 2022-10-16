@@ -47,6 +47,7 @@ import org.apache.flink.client.deployment.StandaloneClusterId;
 import org.apache.flink.client.program.ClusterClient;
 import org.apache.flink.client.program.rest.RestClusterClient;
 import org.apache.flink.configuration.*;
+import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
 import org.apache.flink.runtime.client.JobStatusMessage;
 import org.apache.flink.yarn.configuration.YarnConfigOptions;
 import org.apache.hadoop.yarn.api.records.ApplicationId;
@@ -56,14 +57,12 @@ import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
@@ -133,15 +132,6 @@ public class FlinkServiceImpl implements FlinkService {
         final Path workspace = getWorkspace();
         try {
             FlinkJobForJarDTO flinkJobForJarDTO = flinkJobService.getJobForJarById(id);
-            final FlinkClusterConfigDTO flinkClusterConfig = flinkJobForJarDTO.getFlinkClusterConfig();
-            if (flinkClusterConfig.getResourceProvider() == FlinkResourceProvider.NATIVE_KUBERNETES) {
-                if (flinkClusterConfig.getDeployMode() == FlinkDeploymentMode.SESSION) {
-                    flinkKubernetesService.submitSessionJob(id);
-                } else {
-                    flinkKubernetesService.submitApplicationJob(id);
-                }
-                return;
-            }
             ClusterClient clusterClient = doSubmitJar(flinkJobForJarDTO, workspace);
             recordJobs(flinkJobForJarDTO, clusterClient);
         } finally {
@@ -161,6 +151,7 @@ public class FlinkServiceImpl implements FlinkService {
         FlinkArtifactJarDTO flinkArtifactJar = flinkArtifactJarService.selectOne(flinkJobForJarDTO.getFlinkArtifactJar().getId());
         Path flinkArtifactJarPath = loadFlinkArtifactJar(flinkArtifactJar, workspace);
         PackageJarJob packageJarJob = buildJarJob(flinkJobForJarDTO, flinkArtifactJar, flinkArtifactJarPath);
+        ConfigUtils.encodeCollectionToConfig(configuration, PipelineOptions.JARS, Collections.singletonList(flinkArtifactJarPath.toFile().toURL()), Object::toString);
 
         CliClient client = new DescriptorCliClient();
         if (flinkClusterConfigDTO.getResourceProvider().getValue().equals(String.valueOf(ResourceProvider.YARN.getCode()))) {
@@ -310,7 +301,7 @@ public class FlinkServiceImpl implements FlinkService {
         checkState(CollectionUtils.isEmpty(childs) == false, () -> "Kubernetes kubeconfig can't be null");
 
         final Path kubeConfigFile = childs.get(0);
-//        dynamicProperties.set(KubernetesConfigOptions.KUBE_CONFIG_FILE, kubeConfigFile.toAbsolutePath().toString());
+        dynamicProperties.set(KubernetesConfigOptions.KUBE_CONFIG_FILE, kubeConfigFile.toAbsolutePath().toString());
         if (dynamicProperties.contains(JobManagerOptions.TOTAL_PROCESS_MEMORY) == false) {
             dynamicProperties.setLong(JobManagerOptions.TOTAL_PROCESS_MEMORY.key(), MemorySize.ofMebiBytes(2048).getBytes());
         }
@@ -363,9 +354,12 @@ public class FlinkServiceImpl implements FlinkService {
         }
     }
 
-    private PackageJarJob buildJarJob(FlinkJobForJarDTO flinkJobForJarDTO, FlinkArtifactJarDTO flinkArtifactJar, Path flinkArtifactJarPath) {
+    private PackageJarJob buildJarJob(FlinkJobForJarDTO flinkJobForJarDTO,
+                                      FlinkArtifactJarDTO flinkArtifactJar,
+                                      Path flinkArtifactJarPath)
+            throws MalformedURLException {
         PackageJarJob packageJarJob = new PackageJarJob();
-        packageJarJob.setJarFilePath(flinkArtifactJarPath.toUri().toString());
+        packageJarJob.setJarFilePath(flinkArtifactJarPath.toFile().toURL().toString());
         packageJarJob.setEntryPointClass(flinkArtifactJar.getEntryClass());
         if (CollectionUtils.isEmpty(flinkJobForJarDTO.getJobConfig()) == false) {
             List<String> args = new ArrayList<>(flinkJobForJarDTO.getJobConfig().size() * 2);

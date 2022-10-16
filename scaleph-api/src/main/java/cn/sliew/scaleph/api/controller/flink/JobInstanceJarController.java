@@ -49,7 +49,7 @@ public class JobInstanceJarController {
     @PutMapping
     @ApiOperation(value = "提交 jar 任务", notes = "提交 jar 任务")
     public ResponseEntity<ResponseVO> submit(@Valid @RequestBody FlinkJobForJarSubmitParam param) throws Exception {
-        flinkYarnService.submitJar(param.getFlinkJobId());
+        flinkService.submitJar(param.getFlinkJobId());
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 }
