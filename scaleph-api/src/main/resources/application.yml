@@ -107,7 +107,7 @@ thread:
 # 系统设置相关配置
 app:
   name: ${spring.application.name}
-  workspace: /tmp/${spring.application.name}
+  workspace: /tmp/${spring.application.name}/workspace
   engine:
     flink:
       state:

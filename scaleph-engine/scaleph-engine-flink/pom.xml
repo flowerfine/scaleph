@@ -76,6 +76,11 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-kubernetes-operator</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-files</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

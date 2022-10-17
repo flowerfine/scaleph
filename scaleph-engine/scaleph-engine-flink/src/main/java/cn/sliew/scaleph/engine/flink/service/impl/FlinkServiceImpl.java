@@ -24,7 +24,6 @@ import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
 import cn.sliew.flinkful.cli.base.util.FlinkUtil;
 import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
@@ -194,9 +193,6 @@ public class FlinkServiceImpl implements FlinkService {
 
     private ClusterClient doSubmitToStandalone(FlinkJobForJarDTO flinkJobForJarDTO, FlinkClusterConfigDTO flinkClusterConfigDTO,
                                                Configuration configuration, Path flinkHomePath, PackageJarJob packageJarJob) throws Exception {
-        System.out.println(flinkHomePath.toAbsolutePath());
-        System.out.println(JacksonUtil.toJsonString(configuration.toMap()));
-        System.out.println(JacksonUtil.toJsonString(packageJarJob));
         switch (flinkClusterConfigDTO.getDeployMode()) {
             case SESSION:
                 URL url = new URL(flinkJobForJarDTO.getFlinkClusterInstance().getWebInterfaceUrl());
