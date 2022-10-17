@@ -126,7 +126,7 @@ public class FlinkServiceImpl implements FlinkService {
             ClusterClient clusterClient = doSubmitJar(flinkJobForJarDTO, workspace);
             recordJobs(flinkJobForJarDTO, clusterClient);
         } finally {
-//            FileUtil.deleteDir(workspace);
+            FileUtil.deleteDir(workspace);
         }
     }
 
