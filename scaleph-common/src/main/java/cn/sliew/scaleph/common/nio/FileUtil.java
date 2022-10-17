@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.common.nio;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileAttribute;
@@ -26,14 +26,15 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-public enum TempFileUtil {
+public enum FileUtil {
     ;
+    private static boolean SUPPORT_POSIX = supportPosix();
 
-    private static boolean supportPosix = supportPosix();
-
-    public static final FileAttribute<Set<PosixFilePermission>> attributes = PosixFilePermissions.asFileAttribute(
+    public static final FileAttribute<Set<PosixFilePermission>> ATTRIBUTES = PosixFilePermissions.asFileAttribute(
             new HashSet<>(Arrays.asList(
                     PosixFilePermission.OWNER_WRITE,
                     PosixFilePermission.OWNER_READ,
@@ -42,16 +43,13 @@ public enum TempFileUtil {
                     PosixFilePermission.GROUP_WRITE,
                     PosixFilePermission.GROUP_EXECUTE)));
 
-    /**
-     * TempFileHelper
-     */
     public static boolean supportPosix() {
         return FileSystems.getDefault().supportedFileAttributeViews().contains("posix");
     }
 
     public static Path createTempDir() throws IOException {
-        if (supportPosix) {
-            return Files.createTempDirectory(null, attributes);
+        if (SUPPORT_POSIX) {
+            return Files.createTempDirectory(null, ATTRIBUTES);
         }
         return Files.createTempDirectory(null);
     }
@@ -70,10 +68,10 @@ public enum TempFileUtil {
     }
 
     public static Path createTempDir(Path parentDir, String dirName) throws IOException {
-        Path dir = parentDir.resolve(dirName);
+        Path dir = Paths.get(parentDir.toString(), dirName);
         if (Files.notExists(dir)) {
-            if (supportPosix) {
-                return Files.createDirectories(dir, attributes);
+            if (SUPPORT_POSIX) {
+                return Files.createDirectories(dir, ATTRIBUTES);
             }
             return Files.createDirectories(dir);
         } else {
@@ -90,17 +88,23 @@ public enum TempFileUtil {
     }
 
     public static Path createTempFile(Path tempDir, String prefix, String suffix) throws IOException {
-        if (supportPosix) {
-            return Files.createTempFile(tempDir, prefix, suffix, attributes);
+        if (SUPPORT_POSIX) {
+            return Files.createTempFile(tempDir, prefix, suffix, ATTRIBUTES);
         }
         return Files.createTempFile(tempDir, prefix, suffix);
     }
 
     public static Path createFile(Path parent, String fileName) throws IOException {
-        if (supportPosix) {
-            return Files.createFile(parent.resolve(fileName), attributes);
+        Path filePath = Paths.get(parent.toString(), fileName);
+        return createFile(filePath);
+    }
+
+    public static Path createFile(Path filePath) throws IOException {
+        Files.deleteIfExists(filePath);
+        if (SUPPORT_POSIX) {
+            return Files.createFile(filePath, ATTRIBUTES);
         }
-        return Files.createFile(parent.resolve(fileName));
+        return Files.createFile(filePath);
     }
 
     public static void deleteFile(Path file) throws IOException {
@@ -124,6 +128,36 @@ public enum TempFileUtil {
             });
             Files.deleteIfExists(dir);
         }
+    }
+
+    public static OutputStream getOutputStream(File file) throws IOException {
+        if (!file.exists()) {
+            createFile(file.toPath());
+        }
+        return new FileOutputStream(file);
+    }
+
+    public static OutputStream getOutputStream(Path path) throws IOException {
+        return getOutputStream(path.toFile());
+    }
+
+    public static InputStream getInputStream(File file) throws FileNotFoundException {
+        return new FileInputStream(file);
+    }
+
+    public static InputStream getInputStream(Path filePath) throws FileNotFoundException {
+        return getInputStream(filePath.toFile());
+    }
+
+    public static List<Path> listFiles(Path path) throws IOException {
+        if (path == null) {
+            return null;
+        }
+        return Files.list(path).collect(Collectors.toList());
+    }
+
+    public static void createDir(Path path) throws IOException {
+        Files.createDirectories(path);
     }
 
 }
