@@ -218,3 +218,13 @@ export const KuduParams = {
   columnsList: 'columnsList',
   saveMode: 'save_mode',
 };
+
+export const KafkaParams = {
+  topic: 'topic',
+  pattern: 'pattern',
+  kafkaConf: 'kafkaConf',
+  consumerGroup: 'consumer.group',
+  commit_on_checkpoint: 'commit_on_checkpoint',
+  bootstrapServers: 'bootstrap.servers'
+
+};
