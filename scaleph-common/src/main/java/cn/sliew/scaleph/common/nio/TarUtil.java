@@ -33,7 +33,11 @@ public enum TarUtil {
     ;
 
     public static Path untar(Path source) throws IOException {
-        final Path target = source.getParent();
+        final String fileName = source.getFileName().toString();
+        String targetDir = fileName.substring(0, fileName.lastIndexOf("."));
+        final Path target = source.getParent().resolve(targetDir);
+        FileUtil.createDir(target);
+
         try (BufferedInputStream fi = (BufferedInputStream) FileUtil.getInputStream(source);
              GzipCompressorInputStream gzi = new GzipCompressorInputStream(fi);
              TarArchiveInputStream ti = new TarArchiveInputStream(gzi)) {
