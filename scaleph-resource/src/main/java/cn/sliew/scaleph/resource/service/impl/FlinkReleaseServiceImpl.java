@@ -20,8 +20,8 @@ package cn.sliew.scaleph.resource.service.impl;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.exception.Rethrower;
-import cn.sliew.scaleph.common.nio.FileUtil;
 import cn.sliew.scaleph.common.nio.TarUtil;
+import cn.sliew.scaleph.common.nio.TempFileUtil;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceFlinkRelease;
 import cn.sliew.scaleph.dao.mapper.master.resource.ResourceFlinkReleaseMapper;
 import cn.sliew.scaleph.resource.service.FlinkReleaseService;
@@ -69,7 +69,7 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService {
             .expireAfterWrite(Duration.ofMinutes(5L))
             .removalListener((RemovalListener<CacheKey, Path>) (cacheKey, path, removalCause) -> {
                 try {
-                    FileUtil.deleteDir(path);
+                    TempFileUtil.deleteDir(path);
                 } catch (IOException e) {
                     log.error("clear flink release temp file cache error! cacheKey: {}, path: {}",
                             JacksonUtil.toJsonString(cacheKey), path, e);
@@ -105,7 +105,7 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService {
     @Override
     public Resource obtain(Long id) throws Exception {
         final FlinkReleaseDTO flinkReleaseDTO = getRaw(id);
-        final Path tempFile = FileUtil.createTempFile(flinkReleaseDTO.getFileName());
+        final Path tempFile = TempFileUtil.createTempFile(flinkReleaseDTO.getFileName());
         try (final OutputStream outputStream = Files.newOutputStream(tempFile, StandardOpenOption.WRITE)) {
             download(id, outputStream);
         }
