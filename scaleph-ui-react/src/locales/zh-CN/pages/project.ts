@@ -247,4 +247,16 @@ export default {
   'pages.project.di.step.kudu.table': 'Table',
   'pages.project.di.step.kudu.savemode': '写入模式',
   'pages.project.di.step.kudu.columnsList': '字段列表',
+
+  //kafka
+  'pages.project.di.step.kafka.topic': 'Topic',
+  'pages.project.di.step.kafka.pattern': 'pattern',
+  'pages.project.di.step.kafka.conf': 'kafkaConf',
+  'pages.project.di.step.kafka.conf.tooltip':'The way to specify parameters is to add the prefix kafka. to the original parameter name. For example, the way to specify auto.offset.reset is: kafka.auto.offset.reset = latest',
+  'pages.project.di.step.kafka.pattern.tooltip': 'If pattern is set to true,the regular expression for a pattern of topic names to read from. All topics in clients with names that match the specified regular expression will be subscribed by the consumer.',
+  'pages.project.di.step.kafka.consumerGroup': 'consumerGroup',
+  'pages.project.di.step.kafka.consumerGroup.tooltip': 'Kafka consumer group id, used to distinguish different consumer groups',
+  'pages.project.di.step.kafka.commit_on_checkpoint': 'commit_on_checkpoint',
+  'pages.project.di.step.kafka.commit_on_checkpoint.tooltip': 'If true the consumer\'s offset will be periodically committed in the background.\n'
+
 };

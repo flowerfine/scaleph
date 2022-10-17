@@ -50,11 +50,9 @@ import org.springframework.util.CollectionUtils;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class FlinkYarnServiceImpl implements FlinkYarnService {
@@ -109,7 +107,7 @@ public class FlinkYarnServiceImpl implements FlinkYarnService {
             flinkReleaseService.download(flinkRelease.getId(), outputStream);
         }
         final Path untarDir = TarUtil.untar(tempFile);
-        return Files.list(untarDir).collect(Collectors.toList()).get(0);
+        return FileUtil.listFiles(untarDir).get(0);
     }
 
     private Path loadClusterCredential(ClusterCredentialDTO clusterCredential, Path workspace) throws IOException {
