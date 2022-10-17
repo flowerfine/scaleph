@@ -1,6 +1,24 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package cn.sliew.scaleph.common.nio;
 
-import java.io.*;
+import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileAttribute;
@@ -8,15 +26,14 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-public enum FileUtil {
+public enum TempFileUtil {
     ;
-    private static boolean SUPPORT_POSIX = supportPosix();
 
-    public static final FileAttribute<Set<PosixFilePermission>> ATTRIBUTES = PosixFilePermissions.asFileAttribute(
+    private static boolean supportPosix = supportPosix();
+
+    public static final FileAttribute<Set<PosixFilePermission>> attributes = PosixFilePermissions.asFileAttribute(
             new HashSet<>(Arrays.asList(
                     PosixFilePermission.OWNER_WRITE,
                     PosixFilePermission.OWNER_READ,
@@ -25,13 +42,16 @@ public enum FileUtil {
                     PosixFilePermission.GROUP_WRITE,
                     PosixFilePermission.GROUP_EXECUTE)));
 
+    /**
+     * TempFileHelper
+     */
     public static boolean supportPosix() {
         return FileSystems.getDefault().supportedFileAttributeViews().contains("posix");
     }
 
     public static Path createTempDir() throws IOException {
-        if (SUPPORT_POSIX) {
-            return Files.createTempDirectory(null, ATTRIBUTES);
+        if (supportPosix) {
+            return Files.createTempDirectory(null, attributes);
         }
         return Files.createTempDirectory(null);
     }
@@ -50,10 +70,10 @@ public enum FileUtil {
     }
 
     public static Path createTempDir(Path parentDir, String dirName) throws IOException {
-        Path dir = Paths.get(parentDir.toString(), dirName);
+        Path dir = parentDir.resolve(dirName);
         if (Files.notExists(dir)) {
-            if (SUPPORT_POSIX) {
-                return Files.createDirectories(dir, ATTRIBUTES);
+            if (supportPosix) {
+                return Files.createDirectories(dir, attributes);
             }
             return Files.createDirectories(dir);
         } else {
@@ -70,23 +90,17 @@ public enum FileUtil {
     }
 
     public static Path createTempFile(Path tempDir, String prefix, String suffix) throws IOException {
-        if (SUPPORT_POSIX) {
-            return Files.createTempFile(tempDir, prefix, suffix, ATTRIBUTES);
+        if (supportPosix) {
+            return Files.createTempFile(tempDir, prefix, suffix, attributes);
         }
         return Files.createTempFile(tempDir, prefix, suffix);
     }
 
     public static Path createFile(Path parent, String fileName) throws IOException {
-        Path filePath = Paths.get(parent.toString(), fileName);
-        return createFile(filePath);
-    }
-
-    public static Path createFile(Path filePath) throws IOException {
-        Files.deleteIfExists(filePath);
-        if (SUPPORT_POSIX) {
-            return Files.createFile(filePath, ATTRIBUTES);
+        if (supportPosix) {
+            return Files.createFile(parent.resolve(fileName), attributes);
         }
-        return Files.createFile(filePath);
+        return Files.createFile(parent.resolve(fileName));
     }
 
     public static void deleteFile(Path file) throws IOException {
@@ -110,36 +124,6 @@ public enum FileUtil {
             });
             Files.deleteIfExists(dir);
         }
-    }
-
-    public static OutputStream getOutputStream(File file) throws IOException {
-        if (!file.exists()) {
-            createFile(file.toPath());
-        }
-        return new FileOutputStream(file);
-    }
-
-    public static OutputStream getOutputStream(Path path) throws IOException {
-        return getOutputStream(path.toFile());
-    }
-
-    public static InputStream getInputStream(File file) throws FileNotFoundException {
-        return new FileInputStream(file);
-    }
-
-    public static InputStream getInputStream(Path filePath) throws FileNotFoundException {
-        return getInputStream(filePath.toFile());
-    }
-
-    public static List<Path> listFiles(Path path) throws IOException {
-        if (path == null) {
-            return null;
-        }
-        return Files.list(path).collect(Collectors.toList());
-    }
-
-    public static void createDir(Path path) throws IOException {
-        Files.createDirectories(path);
     }
 
 }
