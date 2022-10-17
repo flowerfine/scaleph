@@ -217,7 +217,7 @@ public class FlinkServiceImpl implements FlinkService {
             flinkJobInstanceDTO.setJobId(job.getJobId().toHexString());
             flinkJobInstanceDTO.setJobName(job.getJobName());
             flinkJobInstanceDTO.setJobState(FlinkJobState.of(job.getJobState().name()));
-            flinkJobInstanceDTO.setClusterId(clusterClient.getClusterId());
+            flinkJobInstanceDTO.setClusterId(clusterClient.getClusterId().toString());
             flinkJobInstanceDTO.setWebInterfaceUrl(clusterClient.getWebInterfaceURL());
             flinkJobInstanceDTO.setClusterStatus(FlinkClusterStatus.RUNNING);
             flinkJobInstanceService.upsert(flinkJobInstanceDTO);
@@ -359,7 +359,7 @@ public class FlinkServiceImpl implements FlinkService {
                 }
                 break;
             case NATIVE_KUBERNETES:
-//                configuration.setString(KubernetesConfigOptions.CLUSTER_ID, clusterId);
+                configuration.setString(KubernetesConfigOptions.CLUSTER_ID, clusterId);
                 switch (deployMode) {
                     case APPLICATION:
                         DeploymentTarget.NATIVE_KUBERNETES_APPLICATION.apply(configuration);

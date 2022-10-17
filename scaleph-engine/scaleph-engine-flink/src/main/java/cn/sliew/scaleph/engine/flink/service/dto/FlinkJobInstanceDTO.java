@@ -49,7 +49,7 @@ public class FlinkJobInstanceDTO extends BaseDTO {
     private FlinkJobState jobState;
 
     @ApiModelProperty("cluster ID")
-    private Object clusterId;
+    private String clusterId;
 
     @ApiModelProperty("flink web-ui url")
     private String webInterfaceUrl;

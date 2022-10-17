@@ -211,7 +211,7 @@ public class FlinkYarnServiceImpl implements FlinkYarnService {
             flinkJobInstanceDTO.setJobId(job.getJobId().toHexString());
             flinkJobInstanceDTO.setJobName(job.getJobName());
             flinkJobInstanceDTO.setJobState(FlinkJobState.of(job.getJobState().name()));
-            flinkJobInstanceDTO.setClusterId(clusterClient.getClusterId());
+            flinkJobInstanceDTO.setClusterId(clusterClient.getClusterId().toString());
             flinkJobInstanceDTO.setWebInterfaceUrl(clusterClient.getWebInterfaceURL());
             flinkJobInstanceDTO.setClusterStatus(FlinkClusterStatus.RUNNING);
             flinkJobInstanceService.upsert(flinkJobInstanceDTO);

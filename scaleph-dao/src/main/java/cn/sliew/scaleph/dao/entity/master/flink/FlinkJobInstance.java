@@ -65,7 +65,7 @@ public class FlinkJobInstance extends BaseDO {
 
     @ApiModelProperty("cluster ID")
     @TableField("cluster_id")
-    private Object clusterId;
+    private String clusterId;
 
     @ApiModelProperty("flink web-ui url")
     @TableField("web_interface_url")
