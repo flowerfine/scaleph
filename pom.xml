@@ -450,6 +450,12 @@
 
             <dependency>
                 <groupId>org.apache.flink</groupId>
+                <artifactId>flink-connector-files</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.flink</groupId>
                 <artifactId>flink-kubernetes-operator</artifactId>
                 <version>${flink-kubernetes-operator.version}</version>
                 <exclusions>

@@ -24,7 +24,6 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,11 +34,12 @@ public enum TarUtil {
 
     public static Path untar(Path source) throws IOException {
         final String fileName = source.getFileName().toString();
-        final Path target = source.getParent();
-//        FileUtil.createFile(target);
-        try (InputStream fi = FileUtil.getInputStream(source);
-             BufferedInputStream bi = new BufferedInputStream(fi);
-             GzipCompressorInputStream gzi = new GzipCompressorInputStream(bi);
+        String targetDir = fileName.substring(0, fileName.lastIndexOf("."));
+        final Path target = source.getParent().resolve(targetDir);
+        FileUtil.createDir(target);
+
+        try (BufferedInputStream fi = (BufferedInputStream) FileUtil.getInputStream(source);
+             GzipCompressorInputStream gzi = new GzipCompressorInputStream(fi);
              TarArchiveInputStream ti = new TarArchiveInputStream(gzi)) {
 
             ArchiveEntry entry;

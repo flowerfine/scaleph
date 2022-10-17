@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 
 public enum FileUtil {
     ;
+
     private static boolean SUPPORT_POSIX = supportPosix();
 
     public static final FileAttribute<Set<PosixFilePermission>> ATTRIBUTES = PosixFilePermissions.asFileAttribute(
@@ -47,7 +48,7 @@ public enum FileUtil {
         return FileSystems.getDefault().supportedFileAttributeViews().contains("posix");
     }
 
-    public static Path createTempDir() throws IOException {
+    public static Path createDir() throws IOException {
         if (SUPPORT_POSIX) {
             return Files.createTempDirectory(null, ATTRIBUTES);
         }
@@ -59,24 +60,12 @@ public enum FileUtil {
             String path = System.getProperty("java.io.tmpdir");
             return Paths.get(path);
         } catch (Exception e) {
-            return createTempDir();
+            return createDir();
         }
     }
 
     public static Path createTempDir(String dirName) throws IOException {
-        return createTempDir(getBaseTempDir(), dirName);
-    }
-
-    public static Path createTempDir(Path parentDir, String dirName) throws IOException {
-        Path dir = Paths.get(parentDir.toString(), dirName);
-        if (Files.notExists(dir)) {
-            if (SUPPORT_POSIX) {
-                return Files.createDirectories(dir, ATTRIBUTES);
-            }
-            return Files.createDirectories(dir);
-        } else {
-            return dir;
-        }
+        return createDir(getBaseTempDir(), dirName);
     }
 
     public static Path createTempFile(String fileName) throws IOException {
@@ -92,6 +81,29 @@ public enum FileUtil {
             return Files.createTempFile(tempDir, prefix, suffix, ATTRIBUTES);
         }
         return Files.createTempFile(tempDir, prefix, suffix);
+    }
+
+    public static Path createDir(Path parentDir, String dirName) throws IOException {
+        Path dir = Paths.get(parentDir.toString(), dirName);
+        if (Files.notExists(dir)) {
+            if (SUPPORT_POSIX) {
+                return Files.createDirectories(dir, ATTRIBUTES);
+            }
+            return Files.createDirectories(dir);
+        } else {
+            return dir;
+        }
+    }
+
+    public static Path createDir(Path dir) throws IOException {
+        if (Files.notExists(dir)) {
+            if (SUPPORT_POSIX) {
+                return Files.createDirectories(dir, ATTRIBUTES);
+            }
+            return Files.createDirectories(dir);
+        } else {
+            return dir;
+        }
     }
 
     public static Path createFile(Path parent, String fileName) throws IOException {
@@ -134,7 +146,7 @@ public enum FileUtil {
         if (!file.exists()) {
             createFile(file.toPath());
         }
-        return new FileOutputStream(file);
+        return new BufferedOutputStream(new FileOutputStream(file));
     }
 
     public static OutputStream getOutputStream(Path path) throws IOException {
@@ -142,7 +154,7 @@ public enum FileUtil {
     }
 
     public static InputStream getInputStream(File file) throws FileNotFoundException {
-        return new FileInputStream(file);
+        return new BufferedInputStream(new FileInputStream(file));
     }
 
     public static InputStream getInputStream(Path filePath) throws FileNotFoundException {
@@ -154,10 +166,6 @@ public enum FileUtil {
             return null;
         }
         return Files.list(path).collect(Collectors.toList());
-    }
-
-    public static void createDir(Path path) throws IOException {
-        Files.createDirectories(path);
     }
 
 }

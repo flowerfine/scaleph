@@ -18,37 +18,30 @@
 
 package cn.sliew.scaleph.system.util;
 
-import org.springframework.context.MessageSource;
-import org.springframework.context.NoSuchMessageException;
-import org.springframework.context.i18n.LocaleContextHolder;
+import cn.hutool.core.lang.UUID;
+import cn.sliew.scaleph.common.nio.FileUtil;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-/**
- * @author gleiyu
- */
+import java.io.IOException;
+import java.nio.file.Path;
+
 @Component
-public class I18nUtil {
+public class SystemUtil {
 
-    private static MessageSource messageSource;
+    private static String workspace;
 
-    public I18nUtil(MessageSource messageSource) {
-        I18nUtil.messageSource = messageSource;
+    @Value("${app.workspace}")
+    public void setWorkspace(String workspace) {
+        SystemUtil.workspace = workspace;
     }
 
-    public static String get(String msgKey) {
-        try {
-            return messageSource.getMessage(msgKey, null, LocaleContextHolder.getLocale());
-        } catch (NoSuchMessageException e) {
-            return msgKey;
-        }
+    public static Path getWorkspace() throws IOException {
+        return FileUtil.createDir(Path.of(workspace));
     }
 
-    public static String get(String msgKey, String defaultMsg) {
-        try {
-            return messageSource.getMessage(msgKey, null, defaultMsg,
-                LocaleContextHolder.getLocale());
-        } catch (NoSuchMessageException e) {
-            return defaultMsg;
-        }
+    public static Path getRandomWorkspace() throws IOException {
+        return FileUtil.createDir(getWorkspace().resolve(UUID.randomUUID().toString(true)));
     }
 }

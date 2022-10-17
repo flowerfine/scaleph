@@ -63,7 +63,7 @@ public class ClusterInstanceController {
     @PutMapping
     @ApiOperation(value = "创建 session 集群", notes = "创建 session 集群")
     public ResponseEntity<ResponseVO> createSessionCluster(@Valid @RequestBody FlinkSessionClusterAddParam param) throws Exception {
-        flinkYarnService.createSessionCluster(param);
+        flinkService.createSessionCluster(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 

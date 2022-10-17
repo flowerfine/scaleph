@@ -35,6 +35,7 @@ import cn.sliew.scaleph.resource.service.FlinkReleaseService;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
 import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
+import cn.sliew.scaleph.system.util.SystemUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.flink.client.program.ClusterClient;
@@ -49,8 +50,9 @@ import org.springframework.util.CollectionUtils;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 @Service
@@ -97,12 +99,12 @@ public class FlinkYarnServiceImpl implements FlinkYarnService {
     }
 
     private Path getWorkspace() throws IOException {
-        return FileUtil.createTempDir();
+        return SystemUtil.getRandomWorkspace();
     }
 
     private Path loadFlinkRelease(FlinkReleaseDTO flinkRelease, Path workspace) throws IOException {
-        final Path tempFile = FileUtil.createTempFile(workspace, flinkRelease.getFileName());
-        try (final OutputStream outputStream = FileUtil.getOutputStream(tempFile)) {
+        final Path tempFile = FileUtil.createFile(workspace, flinkRelease.getFileName());
+        try (final OutputStream outputStream = Files.newOutputStream(tempFile, StandardOpenOption.WRITE)) {
             flinkReleaseService.download(flinkRelease.getId(), outputStream);
         }
         final Path untarDir = TarUtil.untar(tempFile);
@@ -111,10 +113,11 @@ public class FlinkYarnServiceImpl implements FlinkYarnService {
 
     private Path loadClusterCredential(ClusterCredentialDTO clusterCredential, Path workspace) throws IOException {
         final List<FileStatusVO> fileStatusVOS = clusterCredentialService.listCredentialFile(clusterCredential.getId());
-        final Path tempDir = FileUtil.createTempDir(workspace, clusterCredential.getName());
+        final Path tempDir = FileUtil.createDir(workspace, clusterCredential.getName());
         for (FileStatusVO fileStatusVO : fileStatusVOS) {
-            final Path deployConfigFile = Paths.get(tempDir.toString(), fileStatusVO.getName());
-            try (final OutputStream outputStream = FileUtil.getOutputStream(deployConfigFile)) {
+            final Path deployConfigFile = tempDir.resolve(fileStatusVO.getName());
+            Files.createFile(deployConfigFile, FileUtil.ATTRIBUTES);
+            try (final OutputStream outputStream = Files.newOutputStream(deployConfigFile, StandardOpenOption.WRITE)) {
                 clusterCredentialService.downloadCredentialFile(clusterCredential.getId(), fileStatusVO.getName(), outputStream);
             }
         }
@@ -122,9 +125,9 @@ public class FlinkYarnServiceImpl implements FlinkYarnService {
     }
 
     private Path loadFlinkArtifactJar(FlinkArtifactJarDTO flinkArtifactJarDTO, Path workspace) throws IOException {
-        final Path tempDir = FileUtil.createTempDir(workspace, flinkArtifactJarDTO.getFlinkArtifact().getName() + "/" + flinkArtifactJarDTO.getVersion());
-        final Path jarPath = FileUtil.createTempFile(tempDir, flinkArtifactJarDTO.getFileName());
-        try (final OutputStream outputStream = FileUtil.getOutputStream(jarPath)) {
+        final Path tempDir = FileUtil.createDir(workspace, flinkArtifactJarDTO.getFlinkArtifact().getName() + "/" + flinkArtifactJarDTO.getVersion());
+        final Path jarPath = FileUtil.createFile(tempDir, flinkArtifactJarDTO.getFileName());
+        try (final OutputStream outputStream = Files.newOutputStream(jarPath, StandardOpenOption.WRITE)) {
             flinkArtifactJarService.download(flinkArtifactJarDTO.getId(), outputStream);
         }
         return jarPath;

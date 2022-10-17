@@ -13,13 +13,9 @@ import cn.sliew.scaleph.workflow.engine.action.ActionStatus;
 import cn.sliew.scaleph.workflow.engine.action.DefaultActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
 
@@ -65,7 +61,7 @@ public class ClusterCredentialLoadAction extends AbstractWorkFlow {
         Attribute<Long> clusterCredentialId = context.attr(CLUSTER_CREDENTIAL_ID);
         ClusterCredentialDTO clusterCredentialDTO = clusterCredentialService.selectOne(clusterCredentialId.get());
         List<FileStatusVO> fileStatusVOS = clusterCredentialService.listCredentialFile(clusterCredentialId.get());
-        Path tempDir = FileUtil.createTempDir(workspace, clusterCredentialDTO.getName());
+        Path tempDir = FileUtil.createDir(workspace, clusterCredentialDTO.getName());
         for (FileStatusVO fileStatusVO : fileStatusVOS) {
             Path deployConfigFile = FileUtil.createTempFile(tempDir,fileStatusVO.getName());
             try (OutputStream outputStream = FileUtil.getOutputStream(deployConfigFile)) {
