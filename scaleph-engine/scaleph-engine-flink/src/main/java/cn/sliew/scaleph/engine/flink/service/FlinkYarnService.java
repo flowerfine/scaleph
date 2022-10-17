@@ -20,16 +20,10 @@ package cn.sliew.scaleph.engine.flink.service;
 
 import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
 
-public interface FlinkKubernetesService {
+public interface FlinkYarnService {
 
-    boolean supportOperator();
+    void createSessionCluster(FlinkSessionClusterAddParam param) throws Exception;
 
-    void createStandalone() throws Exception;
-
-    void createSession(FlinkSessionClusterAddParam param) throws Exception;
-
-    void submitSessionJob(Long id) throws Exception;
-
-    void submitApplicationJob(Long id) throws Exception;
+    void submitJar(Long id) throws Exception;
 
 }
