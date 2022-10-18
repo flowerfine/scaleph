@@ -241,7 +241,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
                     savePointDir = savePointDir.substring(0, savePointDir.length() - 1);
                 }
                 String savepointPath = String.join("/", savePointDir, clusterConfig.getClusterName(), instance.getJobInstanceId());
-                StopWithSavepointRequestBody requestBody = new StopWithSavepointRequestBody(savepointPath, true, null, null);
+                StopWithSavepointRequestBody requestBody = new StopWithSavepointRequestBody(savepointPath, true);
                 CompletableFuture<TriggerResponse> future = jobClient.jobStop(instance.getJobInstanceId(), requestBody);
                 future.get();
             }

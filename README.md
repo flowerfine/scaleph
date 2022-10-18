@@ -10,10 +10,24 @@ Scaleph is driven by personal interest and evolves actively through faithful dev
 
 ## Features
 
+* Provide Flink ecosystem to every data developer easily.
+* Predefined expert Flink decisions and excellent step wizard.
+* Job management.
+  * Step job wizard
+  * Multiple versions
+  * Full job detail web
+  * Configuration, dependency and resource
+
+### data integration
+
 * Web-ui click-and-drag data integration ways backended by out-of-the-box connectors.
-* Multiple versions, different deployment mode and different resource provider flink job execution ways, where we develop [flinkful](https://github.com/flowerfine/flinkful) for solving these troubles.
-* Job version management.
-* Project configuration, dependency and resource.
+
+### data develop
+
+* Multiple deployment modes and  different resource providers.
+  * Standalone。Session
+  * YARN。Application, Per-Job, Session
+  * Kubernetes。Session
 
 ## Quick Start
 
