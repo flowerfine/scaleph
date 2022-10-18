@@ -99,18 +99,18 @@ const ClusterConfigOptionsSteps: React.FC = () => {
         >
           <BaseOptions/>
         </StepsForm.StepForm>
-        <StepsForm.StepForm
-          name="kubernetes"
-          title={(intl.formatMessage({id: 'pages.dev.clusterConfig.kubernetesStep'}))}
-          layout={'horizontal'}
-          style={{width: 1000}}
-          initialValues={kubernetesOptions}
-          onFinish={updateKubernetesOptions}
-        >
-          <K8sBaseOptions/>
-          <FlinkImageOptions/>
-          <K8sResourceOptions/>
-        </StepsForm.StepForm>
+        {/*<StepsForm.StepForm*/}
+        {/*  name="kubernetes"*/}
+        {/*  title={(intl.formatMessage({id: 'pages.dev.clusterConfig.kubernetesStep'}))}*/}
+        {/*  layout={'horizontal'}*/}
+        {/*  style={{width: 1000}}*/}
+        {/*  initialValues={kubernetesOptions}*/}
+        {/*  onFinish={updateKubernetesOptions}*/}
+        {/*>*/}
+        {/*  <K8sBaseOptions/>*/}
+        {/*  <FlinkImageOptions/>*/}
+        {/*  <K8sResourceOptions/>*/}
+        {/*</StepsForm.StepForm>*/}
         <StepsForm.StepForm
           name="configOptions"
           title={(intl.formatMessage({id: 'pages.dev.clusterConfig.configOptionsStep'}))}

@@ -63,7 +63,7 @@ export default {
   'app.common.message.system': '系统消息',
   'app.common.validate.characterWord': '只能输入字母数字、下划线',
   'app.common.validate.characterWord2': '只能输入字母数字、下划线和点号',
-  'app.common.validate.characterWord3': '只能输入字母、数字、下划线和空格',
+  'app.common.validate.characterWord3': '只能输入字母、数字、中划线、下划线、点号和空格',
   'app.common.validate.number': '只能输入数字',
   'app.common.validate.sameUserName': '用户名已存在',
   'app.common.validate.sameEmail': '邮箱已存在',
