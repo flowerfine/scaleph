@@ -18,12 +18,9 @@
 
 package cn.sliew.scaleph.core.di.service.impl;
 
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import cn.hutool.core.util.StrUtil;
+import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
+import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.core.di.service.DiDirectoryService;
 import cn.sliew.scaleph.core.di.service.DiJobService;
 import cn.sliew.scaleph.core.di.service.DiProjectService;
@@ -35,82 +32,43 @@ import cn.sliew.scaleph.core.di.service.param.DiProjectParam;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.di.DiProject;
 import cn.sliew.scaleph.dao.mapper.master.di.DiProjectMapper;
+import cn.sliew.scaleph.system.service.vo.DictVO;
+import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * <p>
- * 数据集成-项目信息 服务实现类
- * </p>
- *
- * @author liyu
- */
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
 public class DiProjectServiceImpl implements DiProjectService {
 
     @Autowired
     private DiProjectMapper diProjectMapper;
-
     @Autowired
     private DiDirectoryService diDirectoryService;
-
     @Autowired
     private DiJobService diJobService;
-
     @Autowired
     private DiResourceFileService diResourceFileService;
-
-    @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
-    public int insert(DiProjectDTO dto) {
-        DiProject project = DiProjectConvert.INSTANCE.toDo(dto);
-        int result = this.diProjectMapper.insert(project);
-        DiDirectoryDTO dir = new DiDirectoryDTO();
-        dir.setProjectId(project.getId());
-        dir.setDirectoryName(dto.getProjectCode());
-        dir.setPid(0L);
-        this.diDirectoryService.insert(dir);
-        return result;
-    }
-
-    @Override
-    public int update(DiProjectDTO dto) {
-        DiProject project = DiProjectConvert.INSTANCE.toDo(dto);
-        return this.diProjectMapper.updateById(project);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
-    public int deleteById(Long id) {
-        List<Long> list = Collections.singletonList(id);
-        this.diResourceFileService.deleteByProjectId(list);
-        this.diDirectoryService.deleteByProjectIds(list);
-        this.diJobService.deleteByProjectId(list);
-        return this.diProjectMapper.deleteById(id);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
-    public int deleteBatch(Map<Integer, ? extends Serializable> map) {
-        this.diResourceFileService.deleteByProjectId(map.values());
-        this.diDirectoryService.deleteByProjectIds(map.values());
-        this.diJobService.deleteByProjectId(map.values());
-        return this.diProjectMapper.deleteBatchIds(map.values());
-    }
 
     @Override
     public Page<DiProjectDTO> listByPage(DiProjectParam param) {
         Page<DiProjectDTO> result = new Page<>();
         Page<DiProject> list = this.diProjectMapper.selectPage(
-            new Page<>(param.getCurrent(), param.getPageSize()),
-            new LambdaQueryWrapper<DiProject>()
-                .like(StrUtil.isNotEmpty(param.getProjectCode()), DiProject::getProjectCode,
-                    param.getProjectCode())
-                .like(StrUtil.isNotEmpty(param.getProjectName()), DiProject::getProjectName,
-                    param.getProjectName())
+                new Page<>(param.getCurrent(), param.getPageSize()),
+                new LambdaQueryWrapper<DiProject>()
+                        .like(StrUtil.isNotEmpty(param.getProjectCode()), DiProject::getProjectCode,
+                                param.getProjectCode())
+                        .like(StrUtil.isNotEmpty(param.getProjectName()), DiProject::getProjectName,
+                                param.getProjectName())
         );
         List<DiProjectDTO> dtoList = DiProjectConvert.INSTANCE.toDto(list.getRecords());
         result.setCurrent(list.getCurrent());
@@ -121,19 +79,69 @@ public class DiProjectServiceImpl implements DiProjectService {
     }
 
     @Override
-    public List<DiProjectDTO> listAll() {
-        List<DiProject> list = this.diProjectMapper.selectList(null);
-        return DiProjectConvert.INSTANCE.toDto(list);
-    }
-
-    @Override
-    public Long totalCnt() {
-        return this.diProjectMapper.selectCount(null);
+    public List<DictVO> listAll() {
+        List<DiProject> list = diProjectMapper.selectList(null);
+        return list.stream()
+                .map(project -> new DictVO(String.valueOf(project.getId()), project.getProjectCode()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public DiProjectDTO selectOne(Serializable id) {
-        DiProject project = this.diProjectMapper.selectById(id);
+        DiProject project = diProjectMapper.selectById(id);
         return DiProjectConvert.INSTANCE.toDto(project);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
+    public int insert(DiProjectDTO dto) {
+        DiProject project = DiProjectConvert.INSTANCE.toDo(dto);
+        int result = diProjectMapper.insert(project);
+        DiDirectoryDTO dir = new DiDirectoryDTO();
+        dir.setProjectId(project.getId());
+        dir.setDirectoryName(dto.getProjectCode());
+        dir.setPid(0L);
+        diDirectoryService.insert(dir);
+        return result;
+    }
+
+    @Override
+    public int update(DiProjectDTO dto) {
+        DiProject project = DiProjectConvert.INSTANCE.toDo(dto);
+        return diProjectMapper.updateById(project);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
+    public int deleteById(Long id) throws ScalephException {
+        checkValidJob(Collections.singletonList(id));
+        deleteProjectRelatedData(Collections.singletonList(id));
+        return diProjectMapper.deleteById(id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
+    public int deleteBatch(Map<Integer, Long> map) throws ScalephException {
+        checkValidJob(map.values());
+        deleteProjectRelatedData(map.values());
+        return diProjectMapper.deleteBatchIds(map.values());
+    }
+
+    private void checkValidJob(Collection<Long> projectIds) throws ScalephException {
+        if (diJobService.hasValidJob(projectIds)) {
+            throw new ScalephException(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
+                    I18nUtil.get("response.error.di.notEmptyProject"));
+        }
+    }
+
+    private void deleteProjectRelatedData(Collection<Long> projectIds) {
+        diResourceFileService.deleteByProjectId(projectIds);
+        diDirectoryService.deleteByProjectIds(projectIds);
+        diJobService.deleteByProjectId(projectIds);
+    }
+
+    @Override
+    public Long totalCnt() {
+        return diProjectMapper.selectCount(null);
     }
 }
