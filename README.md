@@ -27,6 +27,7 @@ Scaleph is driven by personal interest and evolves actively through faithful dev
 * Multiple deployment modes and  different resource providers.
   * Standalone。Session
   * YARN。Application, Per-Job, Session
+  * Kubernetes。Session
 
 ## Quick Start
 
