@@ -29,18 +29,23 @@ import cn.sliew.scaleph.core.di.service.dto.DiDirectoryDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.param.DiJobAddParam;
 import cn.sliew.scaleph.core.di.service.param.DiJobParam;
+import cn.sliew.scaleph.core.di.service.param.DiJobUpdateParam;
 import cn.sliew.scaleph.dao.entity.master.di.DiJob;
 import cn.sliew.scaleph.dao.mapper.master.di.DiJobMapper;
+import cn.sliew.scaleph.security.util.SecurityUtil;
+import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static cn.sliew.milky.common.check.Ensures.checkState;
 
 /**
  * @author gleiyu
@@ -82,7 +87,7 @@ public class DiJobServiceImpl implements DiJobService {
     }
 
     @Override
-    public List<DiJobDTO> listById(Collection<? extends Serializable> ids) {
+    public List<DiJobDTO> listById(Collection<Long> ids) {
         LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>().in(DiJob::getId, ids);
         List<DiJob> jobs = diJobMapper.selectList(queryWrapper);
 
@@ -98,11 +103,12 @@ public class DiJobServiceImpl implements DiJobService {
 
     @Override
     public DiJobDTO selectOne(Long id) {
-        DiJob job = diJobMapper.selectById(id);
-        DiJobDTO dto = DiJobConvert.INSTANCE.toDto(job);
+        DiJob record = diJobMapper.selectById(id);
+        checkState(record != null, () -> "job not exists for id: " + id);
+        DiJobDTO dto = DiJobConvert.INSTANCE.toDto(record);
         Map<Long, DiDirectoryDTO> map =
-                diDirectoryService.loadFullPath(Collections.singletonList(job.getDirectoryId()));
-        DiDirectoryDTO dir = map.get(job.getDirectoryId());
+                diDirectoryService.loadFullPath(Collections.singletonList(record.getDirectoryId()));
+        DiDirectoryDTO dir = map.get(record.getDirectoryId());
         dto.setDirectory(dir);
         return dto;
     }
@@ -118,27 +124,39 @@ public class DiJobServiceImpl implements DiJobService {
     }
 
     @Override
-    public DiJobDTO insert(DiJobDTO dto) {
-        DiJob job = DiJobConvert.INSTANCE.toDo(dto);
-        diJobMapper.insert(job);
-        return selectOne(job.getId());
-    }
-
-    @Override
     public DiJobDTO insert(DiJobAddParam param) {
         DiJob record = BeanUtil.copy(param, new DiJob());
-        diJobMapper.insert(record);
         record.setJobStatus(JobStatus.DRAFT);
         record.setRuntimeState(RuntimeState.STOP);
-//        record.setJobOwner(SecurityUtil.getCurrentUserName());
+        record.setJobOwner(SecurityUtil.getCurrentUserName());
         record.setJobVersion(1);
+        diJobMapper.insert(record);
         return selectOne(record.getId());
     }
 
     @Override
-    public int update(DiJobDTO dto) {
-        DiJob job = DiJobConvert.INSTANCE.toDo(dto);
-        return diJobMapper.updateById(job);
+    public int update(DiJobUpdateParam param) {
+        DiJob record = BeanUtil.copy(param, new DiJob());
+        return diJobMapper.updateById(record);
+    }
+
+    @Override
+    public int delete(Long id) {
+        DiJobDTO job = selectOne(id);
+        checkState(job.getRuntimeState() == RuntimeState.STOP,
+                () -> I18nUtil.get("response.error.di.job.running"));
+        return deleteByCode(job.getProjectId(), job.getJobCode());
+    }
+
+    @Override
+    public int deleteBatch(List<Long> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return 0;
+        }
+        for (Long id: ids) {
+            delete(id);
+        }
+        return ids.size();
     }
 
     @Override
@@ -158,17 +176,7 @@ public class DiJobServiceImpl implements DiJobService {
     }
 
     @Override
-    public int deleteByCode(List<DiJobDTO> list) {
-        int result = 0;
-        for (DiJobDTO dto : list) {
-            result += deleteByCode(dto.getProjectId(), dto.getJobCode());
-        }
-        return result;
-    }
-
-
-    @Override
-    public int deleteByProjectId(Collection<? extends Serializable> projectIds) {
+    public int deleteByProjectId(Collection<Long> projectIds) {
         diJobAttrService.deleteByProjectId(projectIds);
         diJobLinkService.deleteByProjectId(projectIds);
         diJobStepService.deleteByProjectId(projectIds);

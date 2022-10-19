@@ -16,18 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.core.di.service;
+package cn.sliew.scaleph.core.di.service.param;
 
-import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
-public interface DiJobGraphService {
+@Data
+public class DiJobUpdateParam extends DiJobAddParam {
 
-    void saveJobGraph(Long jobId, JobGraphVO jobGraph);
-
-    void clone(Long sourceJobId, Long targetJobId);
-
-    void deleteBatch(List<Long> jobIds);
-
+    @NotNull
+    @ApiModelProperty("ID")
+    private Long id;
 }

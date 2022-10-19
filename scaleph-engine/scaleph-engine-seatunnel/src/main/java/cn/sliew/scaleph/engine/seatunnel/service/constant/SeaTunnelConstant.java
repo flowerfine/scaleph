@@ -16,18 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.core.di.service;
+package cn.sliew.scaleph.engine.seatunnel.service.constant;
 
-import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
+public enum SeaTunnelConstant {
+    ;
 
-import java.util.List;
+    public static final String ENV = "env";
+    public static final String SOURCE = "source";
+    public static final String SINK = "sink";
+    public static final String TRANSFORM = "transform";
 
-public interface DiJobGraphService {
-
-    void saveJobGraph(Long jobId, JobGraphVO jobGraph);
-
-    void clone(Long sourceJobId, Long targetJobId);
-
-    void deleteBatch(List<Long> jobIds);
-
+    public static final String PLUGIN_NAME = "plugin_name";
 }

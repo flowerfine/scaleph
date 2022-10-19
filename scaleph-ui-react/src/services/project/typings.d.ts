@@ -50,7 +50,7 @@ export type DiDirectoryTreeNode = {
 
 export type DiJob = {
   id?: number;
-  projectId?: string;
+  projectId?: number;
   jobCode?: string;
   jobName?: string;
   directory?: DiDirectory;
@@ -78,13 +78,17 @@ export type DiJobParam = QueryParam & {
 };
 
 export type DiJobAddParam = {
-  projectId: number;
-  jobCode: string;
+  projectId?: number;
   jobName: string;
   directoryId: number;
-  jobType: string;
+  jobType?: string;
   remark?: string;
 };
+
+export type DiJobUpdateParam = DiJobAddParam & {
+  id?: number;
+};
+
 
 export type DiJobAttr = {
   id?: number;

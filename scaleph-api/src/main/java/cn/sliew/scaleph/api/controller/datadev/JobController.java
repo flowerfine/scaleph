@@ -22,32 +22,28 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.common.dict.job.JobStatus;
-import cn.sliew.scaleph.common.dict.job.RuntimeState;
-import cn.sliew.scaleph.security.util.SecurityUtil;
-import cn.sliew.scaleph.system.vo.ResponseVO;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
+import cn.sliew.scaleph.common.dict.job.JobStatus;
 import cn.sliew.scaleph.common.enums.*;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.core.di.service.*;
 import cn.sliew.scaleph.core.di.service.dto.*;
+import cn.sliew.scaleph.core.di.service.param.DiJobAddParam;
 import cn.sliew.scaleph.core.di.service.param.DiJobParam;
+import cn.sliew.scaleph.core.di.service.param.DiJobUpdateParam;
 import cn.sliew.scaleph.core.di.service.vo.*;
-import cn.sliew.scaleph.core.scheduler.service.ScheduleService;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.I18nUtil;
+import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.primitives.Primitives;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.JobKey;
-import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,12 +53,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * todo split job to crud and run, stop, schedule
+ * job crud
+ * job graph
+ * job attr
+ * job resource
+ * job run, stop, schedule
  *
  * @author gleiyu
  */
@@ -75,8 +75,6 @@ public class JobController {
     @Autowired
     private DiJobService diJobService;
     @Autowired
-    private DiProjectService diProjectService;
-    @Autowired
     private DiJobAttrService diJobAttrService;
     @Autowired
     private DiJobStepService diJobStepService;
@@ -84,8 +82,6 @@ public class JobController {
     private DiJobLinkService diJobLinkService;
     @Autowired
     private DiJobResourceFileService diJobResourceFileService;
-    @Autowired
-    private ScheduleService scheduleService;
     @Autowired
     private SeatunnelJobService seatunnelJobService;
 
@@ -102,83 +98,37 @@ public class JobController {
     @PostMapping
     @ApiOperation(value = "新增作业记录", notes = "新增一条作业记录，相关流程定义不涉及")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_ADD)")
-    public ResponseEntity<ResponseVO> simpleAddJob(@Validated @RequestBody DiJobDTO diJobDTO) {
-        String currentUser = SecurityUtil.getCurrentUserName();
-        diJobDTO.setJobOwner(currentUser);
-        diJobDTO.setJobStatus(JobStatus.DRAFT);
-        diJobDTO.setRuntimeState(RuntimeState.STOP);
-        diJobDTO.setJobVersion(1);
-        diJobService.insert(diJobDTO);
+    public ResponseEntity<ResponseVO> simpleAddJob(@Validated @RequestBody DiJobAddParam param) {
+        final DiJobDTO diJobDTO = diJobService.insert(param);
         return new ResponseEntity<>(ResponseVO.sucess(diJobDTO), HttpStatus.CREATED);
     }
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "修改作业记录", notes = "只修改作业记录属性，相关流程定义不改变。如果作业在运行中，且修改了crontab表达式，则重新配置作业的调度频率")
+    @ApiOperation(value = "修改作业记录", notes = "只修改作业记录属性，相关流程定义不改变")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> simpleEditJob(@Validated @RequestBody DiJobDTO diJobDTO)
-            throws SchedulerException {
-        DiJobDTO job = this.diJobService.selectOne(diJobDTO.getId());
-        boolean flag = StrUtil.isAllEmpty(diJobDTO.getJobCrontab(), job.getJobCrontab())
-                || (StrUtil.isAllNotEmpty(diJobDTO.getJobCrontab(), job.getJobCrontab())
-                && StrUtil.equals(diJobDTO.getJobCrontab(), job.getJobCrontab()));
-        if (!flag) {
-            DiProjectDTO project = this.diProjectService.selectOne(job.getProjectId());
-            String jobName = project.getProjectCode() + '_' + job.getJobCode();
-            JobKey seatunnelJobKey = scheduleService.getJobKey(QuartzJobUtil.getFlinkBatchJobName(jobName), Constants.INTERNAL_GROUP);
-            if (scheduleService.checkExists(seatunnelJobKey)) {
-                scheduleService.deleteScheduleJob(seatunnelJobKey);
-            }
-        }
-        this.diJobService.update(diJobDTO);
+    public ResponseEntity<ResponseVO> simpleEditJob(@Validated @RequestBody DiJobUpdateParam param) {
+        diJobService.update(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
-    @DeleteMapping(path = "/{id}")
-    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
+    @DeleteMapping("/{id}")
     @ApiOperation(value = "删除作业", notes = "删除作业")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_DELETE)")
-    public ResponseEntity<ResponseVO> deleteJob(@PathVariable(value = "id") Long id) {
-        DiJobDTO job = this.diJobService.selectOne(id);
-        if (job == null) {
-            return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
-        } else if (JobRuntimeStateEnum.STOP.getValue().equals(job.getRuntimeState().getValue())) {
-            this.diJobService.deleteByCode(job.getProjectId(), job.getJobCode());
-            return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.job.running"), ErrorShowTypeEnum.NOTIFICATION),
-                    HttpStatus.OK);
-        }
+    public ResponseEntity<ResponseVO> deleteJob(@PathVariable("id") Long id) {
+        diJobService.delete(id);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
     @PostMapping(path = "/batch")
-    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "批量删除作业", notes = "批量删除作业")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_DELETE)")
-    public ResponseEntity<ResponseVO> deleteJob(@RequestBody Map<Integer, String> map) {
-        List<DiJobDTO> list = this.diJobService.listById(map.values());
-        if (CollectionUtil.isEmpty(list)) {
-            return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
-        }
-        boolean flag = true;
-        for (DiJobDTO dto : list) {
-            if (!JobRuntimeStateEnum.STOP.getValue().equals(dto.getRuntimeState().getValue())) {
-                flag = false;
-            }
-        }
-        if (flag) {
-            this.diJobService.deleteByCode(list);
-            return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.job.running"), ErrorShowTypeEnum.NOTIFICATION),
-                    HttpStatus.OK);
-        }
+    public ResponseEntity<ResponseVO> deleteJob(@RequestBody List<Long> ids) {
+        diJobService.deleteBatch(ids);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
-
 
 
     @Logging
@@ -195,16 +145,11 @@ public class JobController {
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "保存作业详情", notes = "保存作业相关流程定义，如果已经有对应版本号的数据，则提醒用户编辑最新版本。")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> saveJobDetail(@Validated @RequestBody DiJobDTO diJobDTO) {
+    public ResponseEntity<ResponseVO> saveJobDetail(@Validated @RequestBody DiJobDTO diJobDTO) throws ScalephException {
         DiJobDTO job = this.diJobService.selectOne(diJobDTO.getId());
-        try {
-            Long editableJobId = prepareJobVersion(job);
-            saveJobGraph(diJobDTO.getJobGraph(), editableJobId);
-            return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.CREATED);
-        } catch (ScalephException e) {
-            return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
-        }
+        Long editableJobId = prepareJobVersion(job);
+        saveJobGraph(diJobDTO.getJobGraph(), editableJobId);
+        return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.CREATED);
     }
 
     /**
@@ -228,9 +173,10 @@ public class JobController {
             job.setId(null);
             job.setJobVersion(jobVersion);
             job.setJobStatus(JobStatus.DRAFT);
-            DiJobDTO newJob = diJobService.insert(job);
-            diJobService.clone(oldJobId, newJob.getId());
-            return newJob.getId();
+//            DiJobDTO newJob = diJobService.insert(job);
+//            diJobService.clone(oldJobId, newJob.getId());
+//            return newJob.getId();
+            return -1L;
         }
 
         return job.getId();
@@ -350,17 +296,6 @@ public class JobController {
         }
     }
 
-    //todo remove this function
-    @Logging
-    @GetMapping(path = "/step")
-    @ApiOperation(value = "查询步骤属性信息", notes = "查询步骤属性信息")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<DiJobStepDTO> listDiJobStepAttr(@NotBlank String jobId,
-                                                          @NotBlank String stepCode) {
-        DiJobStepDTO stepInfo = this.diJobStepService.selectOne(Long.valueOf(jobId), stepCode);
-        return new ResponseEntity<>(stepInfo, HttpStatus.OK);
-    }
-
     @Logging
     @PostMapping(path = "/step")
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
@@ -457,7 +392,7 @@ public class JobController {
             DiJobDTO job = new DiJobDTO();
             job.setId(jobId);
             job.setJobStatus(JobStatus.RELEASE);
-            this.diJobService.update(job);
+//            this.diJobService.update(job);
             this.diJobService.archive(jobInfo.getProjectId(), jobInfo.getJobCode());
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
         } else {
@@ -499,20 +434,6 @@ public class JobController {
             list.add(dict);
         }
         return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
-    @Logging
-    @GetMapping(path = "/cron/next")
-    @ApiOperation(value = "查询最近5次运行时间", notes = "查询最近5次运行时间")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<List<Date>> listNext5FireTime(@RequestParam("crontabStr") String crontabStr) {
-        List<Date> dates;
-        try {
-            dates = scheduleService.listNext5FireTime(crontabStr);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(dates, HttpStatus.OK);
     }
 
     @Logging

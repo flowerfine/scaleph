@@ -1,6 +1,6 @@
 import {TreeNode} from '@/app.d';
 import {JobService} from '@/services/project/job.service';
-import {DiJob} from '@/services/project/typings';
+import {DiJob, DiJobAddParam, DiJobUpdateParam} from '@/services/project/typings';
 import {Form, Input, message, Modal, TreeSelect} from 'antd';
 import {useIntl} from 'umi';
 
@@ -21,6 +21,50 @@ const DiJobForm: React.FC<DiJobFormProps<DiJob>> = ({
                                                     }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
+
+  const submit = () => {
+    form.validateFields().then((values) => {
+      let job: DiJob = {
+        id: values.id,
+        projectId: data.projectId,
+        jobCode: values.jobCode,
+        jobName: values.jobName,
+        directory: {id: values.directory},
+        jobType: data.jobType,
+        remark: values.remark,
+      };
+
+      if (data.id) {
+        const param: DiJobUpdateParam = {
+          id: data.id,
+          projectId: data.projectId,
+          jobName: values.jobName,
+          directoryId: values.directory,
+          jobType: data.jobType?.value,
+          remark: values.remark
+        }
+        JobService.updateJob(param).then((response) => {
+          if (response.success) {
+            onVisibleChange(false, response.data);
+          }
+        });
+      } else {
+        const param: DiJobAddParam = {
+          projectId: data.projectId,
+          jobName: values.jobName,
+          directoryId: values.directory,
+          jobType: data.jobType?.value,
+          remark: values.remark
+        }
+        JobService.addJob(param).then((response) => {
+          if (response.success) {
+            onVisibleChange(false, response.data);
+          }
+        });
+      }
+    });
+  }
+
   return (
     <Modal
       open={visible}
@@ -34,31 +78,7 @@ const DiJobForm: React.FC<DiJobFormProps<DiJob>> = ({
       width={580}
       destroyOnClose={true}
       onCancel={onCancel}
-      onOk={() => {
-        form.validateFields().then((values) => {
-          let d: DiJob = {
-            id: values.id,
-            projectId: data.projectId,
-            jobCode: values.jobCode,
-            jobName: values.jobName,
-            directory: {id: values.directory},
-            jobType: data.jobType,
-            remark: values.remark,
-          };
-          data.id
-            ? JobService.updateJob({...d}).then((d) => {
-              if (d.success) {
-                message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
-                onVisibleChange(false, null);
-              }
-            })
-            : JobService.addJob({...d}).then((d) => {
-              if (d.success) {
-                onVisibleChange(false, d.data);
-              }
-            });
-        });
-      }}
+      onOk={submit}
     >
       <Form
         form={form}
@@ -76,28 +96,14 @@ const DiJobForm: React.FC<DiJobFormProps<DiJob>> = ({
         }}
       >
         <Form.Item name="id" hidden>
-          <Input></Input>
-        </Form.Item>
-        <Form.Item
-          name="jobCode"
-          label={intl.formatMessage({id: 'pages.project.di.jobCode'})}
-          rules={[
-            {required: true},
-            {max: 120},
-            {
-              pattern: /^[a-zA-Z0-9_]+$/,
-              message: intl.formatMessage({id: 'app.common.validate.characterWord'}),
-            },
-          ]}
-        >
-          <Input></Input>
+          <Input/>
         </Form.Item>
         <Form.Item
           name="jobName"
           label={intl.formatMessage({id: 'pages.project.di.jobName'})}
           rules={[{required: true}, {max: 200}]}
         >
-          <Input></Input>
+          <Input/>
         </Form.Item>
         <Form.Item
           name="directory"
@@ -119,7 +125,7 @@ const DiJobForm: React.FC<DiJobFormProps<DiJob>> = ({
           label={intl.formatMessage({id: 'pages.project.di.remark'})}
           rules={[{max: 200}]}
         >
-          <Input></Input>
+          <Input/>
         </Form.Item>
       </Form>
     </Modal>

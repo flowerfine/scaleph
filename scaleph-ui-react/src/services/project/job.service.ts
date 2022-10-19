@@ -1,16 +1,10 @@
-import { Dict, PageResponse, ResponseBody } from '@/app.d';
-import { request } from 'umi';
-import { DiJob, DiJobParam, DiJobStepAttr } from './typings';
+import {Dict, PageResponse, ResponseBody} from '@/app.d';
+import {request} from 'umi';
+import {DiJob, DiJobAddParam, DiJobParam, DiJobStepAttr, DiJobUpdateParam} from './typings';
 
 export const JobService = {
   url: '/api/di/job',
 
-  selectJobById: async (id: number) => {
-    return request<DiJob>(`${JobService.url}/detail`, {
-      method: 'GET',
-      params: { id: id },
-    });
-  },
   listJobByProject: async (queryParam: DiJobParam) => {
     return request<PageResponse<DiJob>>(`${JobService.url}`, {
       method: 'GET',
@@ -26,6 +20,20 @@ export const JobService = {
     });
   },
 
+  addJob: async (param: DiJobAddParam) => {
+    return request<ResponseBody<any>>(`${JobService.url}`, {
+      method: 'POST',
+      data: param,
+    });
+  },
+
+  updateJob: async (param: DiJobUpdateParam) => {
+    return request<ResponseBody<any>>(`${JobService.url}`, {
+      method: 'PUT',
+      data: param,
+    });
+  },
+
   deleteJobRow: async (row: DiJob) => {
     return request<ResponseBody<any>>(`${JobService.url}/` + row.id, {
       method: 'DELETE',
@@ -36,20 +44,16 @@ export const JobService = {
     const params = rows.map((row) => row.id);
     return request<ResponseBody<any>>(`${JobService.url}/` + 'batch', {
       method: 'POST',
-      data: { ...params },
+      data: {...params},
     });
   },
 
-  addJob: async (row: DiJob) => {
-    return request<ResponseBody<any>>(`${JobService.url}`, {
-      method: 'POST',
-      data: row,
-    });
-  },
-  updateJob: async (row: DiJob) => {
-    return request<ResponseBody<any>>(`${JobService.url}`, {
-      method: 'PUT',
-      data: row,
+
+
+  selectJobById: async (id: number) => {
+    return request<DiJob>(`${JobService.url}/detail`, {
+      method: 'GET',
+      params: {id: id},
     });
   },
 
@@ -78,13 +82,7 @@ export const JobService = {
       data: attrs,
     });
   },
-  //todo remove this function
-  listStepAttr: async (jobId: string, stepCode: string) => {
-    return request<DiJobStepAttr[]>(`${JobService.url}/step`, {
-      method: 'GET',
-      params: { jobId: jobId, stepCode: stepCode },
-    });
-  },
+
   saveStepAttr: async (step: Map<string, string>) => {
     let params = {};
     for (const key of step.keys()) {
@@ -111,20 +109,13 @@ export const JobService = {
   stopJob: async (jobId: number) => {
     return request<ResponseBody<any>>(`${JobService.url}/stop/`, {
       method: 'GET',
-      params: { jobId: jobId },
+      params: {jobId: jobId},
     });
   },
 
   listResource: async (jobId: string) => {
     return request<Dict[]>(`${JobService.url}/resource/` + jobId, {
       method: 'GET',
-    });
-  },
-
-  listNext5FireTime: async (crontabStr: string) => {
-    return request<Date[]>(`${JobService.url}/cron/next`, {
-      method: 'GET',
-      params: { crontabStr: crontabStr },
     });
   },
 };

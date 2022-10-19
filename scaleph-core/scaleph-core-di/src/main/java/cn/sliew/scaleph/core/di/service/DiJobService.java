@@ -18,14 +18,14 @@
 
 package cn.sliew.scaleph.core.di.service;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.param.DiJobAddParam;
 import cn.sliew.scaleph.core.di.service.param.DiJobParam;
+import cn.sliew.scaleph.core.di.service.param.DiJobUpdateParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * <p>
@@ -39,23 +39,23 @@ public interface DiJobService {
 
     Page<DiJobDTO> listByPage(DiJobParam param);
 
-    List<DiJobDTO> listById(Collection<? extends Serializable> ids);
+    List<DiJobDTO> listById(Collection<Long> ids);
 
     DiJobDTO selectOne(Long id);
 
     DiJobDTO selectOne(Long projectId, String jobCode, int jobVersion);
 
-    DiJobDTO insert(DiJobDTO dto);
-
     DiJobDTO insert(DiJobAddParam param);
 
-    int update(DiJobDTO dto);
+    int update(DiJobUpdateParam param);
+
+    int delete(Long id);
+
+    int deleteBatch(List<Long> ids);
 
     int deleteByCode(Long projectId, String jobCode);
 
-    int deleteByCode(List<DiJobDTO> list);
-
-    int deleteByProjectId(Collection<? extends Serializable> projectIds);
+    int deleteByProjectId(Collection<Long> projectIds);
 
     /**
      * 归档任务，只保留发布状态中最大版本号的那个，其余发布状态的任务均改为归档状态
