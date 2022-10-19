@@ -22,6 +22,8 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
+import cn.sliew.scaleph.common.dict.job.JobStatus;
+import cn.sliew.scaleph.common.dict.job.RuntimeState;
 import cn.sliew.scaleph.security.util.SecurityUtil;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import cn.sliew.scaleph.common.constant.Constants;
@@ -103,10 +105,8 @@ public class JobController {
     public ResponseEntity<ResponseVO> simpleAddJob(@Validated @RequestBody DiJobDTO diJobDTO) {
         String currentUser = SecurityUtil.getCurrentUserName();
         diJobDTO.setJobOwner(currentUser);
-        diJobDTO.setJobStatus(
-                new DictVO(JobStatusEnum.DRAFT.getValue(), JobStatusEnum.DRAFT.getLabel()));
-        diJobDTO.setRuntimeState(
-                new DictVO(JobRuntimeStateEnum.STOP.getValue(), JobRuntimeStateEnum.STOP.getLabel()));
+        diJobDTO.setJobStatus(JobStatus.DRAFT);
+        diJobDTO.setRuntimeState(RuntimeState.STOP);
         diJobDTO.setJobVersion(1);
         diJobService.insert(diJobDTO);
         return new ResponseEntity<>(ResponseVO.sucess(diJobDTO), HttpStatus.CREATED);
@@ -179,6 +179,8 @@ public class JobController {
         }
     }
 
+
+
     @Logging
     @GetMapping(path = "/detail")
     @ApiOperation(value = "查询作业详情", notes = "查询作业详情，包含作业流程定义信息")
@@ -225,7 +227,7 @@ public class JobController {
             }
             job.setId(null);
             job.setJobVersion(jobVersion);
-            job.setJobStatus(DictVO.toVO(DictConstants.JOB_STATUS, JobStatusEnum.DRAFT.getValue()));
+            job.setJobStatus(JobStatus.DRAFT);
             DiJobDTO newJob = diJobService.insert(job);
             diJobService.clone(oldJobId, newJob.getId());
             return newJob.getId();
@@ -454,8 +456,7 @@ public class JobController {
         if (JobRuntimeStateEnum.STOP.getValue().equals(jobInfo.getRuntimeState().getValue())) {
             DiJobDTO job = new DiJobDTO();
             job.setId(jobId);
-            job.setJobStatus(
-                    DictVO.toVO(DictConstants.JOB_STATUS, JobStatusEnum.RELEASE.getValue()));
+            job.setJobStatus(JobStatus.RELEASE);
             this.diJobService.update(job);
             this.diJobService.archive(jobInfo.getProjectId(), jobInfo.getJobCode());
             return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);

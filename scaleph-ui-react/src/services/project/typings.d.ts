@@ -77,6 +77,15 @@ export type DiJobParam = QueryParam & {
   directoryId?: string;
 };
 
+export type DiJobAddParam = {
+  projectId: number;
+  jobCode: string;
+  jobName: string;
+  directoryId: number;
+  jobType: string;
+  remark?: string;
+};
+
 export type DiJobAttr = {
   id?: number;
   jobId: number;
