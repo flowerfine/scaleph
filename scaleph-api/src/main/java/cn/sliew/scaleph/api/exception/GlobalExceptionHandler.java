@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
                                                        HandlerMethod method,
                                                        HttpServletRequest request,
                                                        HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request, response);
+        String params = RequestParamUtil.formatRequestParams(request);
         log.error("{} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params, e);
         final TypeDescriptor sourceType = e.getSourceType();
         final TypeDescriptor targetType = e.getTargetType();
@@ -78,7 +78,7 @@ public class GlobalExceptionHandler {
                                                     HandlerMethod method,
                                                     HttpServletRequest request,
                                                     HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request, response);
+        String params = RequestParamUtil.formatRequestParams(request);
         log.error("[{}] {} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params, e);
         StringBuilder sb = new StringBuilder();
         for (FieldError fieldError : e.getFieldErrors()) {
@@ -100,7 +100,7 @@ public class GlobalExceptionHandler {
                                              HandlerMethod method,
                                              HttpServletRequest request,
                                              HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request, response);
+        String params = RequestParamUtil.formatRequestParams(request);
         log.error("[{}] {} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params, e);
         ResponseVO errorInfo;
         if (StringUtils.hasText(e.getExceptionCode())) {
@@ -118,7 +118,7 @@ public class GlobalExceptionHandler {
                                                 HandlerMethod method,
                                                 HttpServletRequest request,
                                                 HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request, response);
+        String params = RequestParamUtil.formatRequestParams(request);
         log.error("[{}] {} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params, e);
         ResponseVO errorInfo = ResponseVO.error(I18nUtil.get(ResponseCodeEnum.ERROR.getValue()));
         return new ResponseEntity<>(errorInfo, HttpStatus.OK);
@@ -131,7 +131,7 @@ public class GlobalExceptionHandler {
                                                    HandlerMethod method,
                                                    HttpServletRequest request,
                                                    HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request, response);
+        String params = RequestParamUtil.formatRequestParams(request);
         log.error("[{}] {} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params, e);
         ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_NO_PRIVILEGE.getCode(),
                 I18nUtil.get(ResponseCodeEnum.ERROR_NO_PRIVILEGE.getValue()));
@@ -148,7 +148,7 @@ public class GlobalExceptionHandler {
                                                    HandlerMethod method,
                                                    HttpServletRequest request,
                                                    HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request, response);
+        String params = RequestParamUtil.formatRequestParams(request);
         log.error("[{}] {} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params, e);
         ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_DUPLICATE_DATA.getCode(),
                 I18nUtil.get(ResponseCodeEnum.ERROR_DUPLICATE_DATA.getValue()));
@@ -162,7 +162,7 @@ public class GlobalExceptionHandler {
                                            HandlerMethod method,
                                            HttpServletRequest request,
                                            HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request, response);
+        String params = RequestParamUtil.formatRequestParams(request);
         log.error("[{}] {} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params, e);
         ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_EMAIL.getCode(),
                 I18nUtil.get(ResponseCodeEnum.ERROR_EMAIL.getValue()));

@@ -39,6 +39,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -127,16 +128,22 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public static class AsyncWebLogInterceptor implements AsyncHandlerInterceptor {
 
         /**
+         * exception catched by GlobalExceptionHandler and here can't be aware of ex
+         *
          * @see cn.sliew.scaleph.api.exception.GlobalExceptionHandler
          */
         @Override
         public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-            logQuery(request, response);
+            logQuery(request);
+            ContentCachingResponseWrapper responseWrapper = WebUtils.getNativeResponse(response, ContentCachingResponseWrapper.class);
+            if (responseWrapper != null) {
+                responseWrapper.copyBodyToResponse();
+            }
         }
 
-        private void logQuery(HttpServletRequest request, HttpServletResponse response) {
+        private void logQuery(HttpServletRequest request) {
             if (!RequestParamUtil.ignorePath(request.getRequestURI()) && log.isInfoEnabled()) {
-                String params = RequestParamUtil.formatRequestParams(request, response);
+                String params = RequestParamUtil.formatRequestParams(request);
                 log.info("[{}] {} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params);
             }
         }
