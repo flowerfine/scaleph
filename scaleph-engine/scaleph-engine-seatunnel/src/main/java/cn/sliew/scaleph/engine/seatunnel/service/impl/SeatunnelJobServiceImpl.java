@@ -42,7 +42,7 @@ import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagNodeDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.util.GraphConstants;
+import cn.sliew.scaleph.engine.seatunnel.service.constant.GraphConstants;
 import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.privilege.SecurityContext;

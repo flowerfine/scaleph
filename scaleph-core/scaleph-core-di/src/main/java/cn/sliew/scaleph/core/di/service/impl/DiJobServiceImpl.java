@@ -121,7 +121,7 @@ public class DiJobServiceImpl implements DiJobService {
 
 
     @Override
-    public int deleteByProjectId(Collection<? extends Serializable> projectIds) {
+    public int deleteByProjectId(Collection<Long> projectIds) {
         diJobAttrService.deleteByProjectId(projectIds);
         diJobLinkService.deleteByProjectId(projectIds);
         diJobStepService.deleteByProjectId(projectIds);

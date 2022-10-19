@@ -22,8 +22,6 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.security.util.SecurityUtil;
-import cn.sliew.scaleph.system.vo.ResponseVO;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.enums.*;
@@ -37,8 +35,10 @@ import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
+import cn.sliew.scaleph.security.util.SecurityUtil;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.I18nUtil;
+import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.primitives.Primitives;
 import io.swagger.annotations.Api;
@@ -61,6 +61,11 @@ import java.util.stream.Collectors;
 
 /**
  * todo split job to crud and run, stop, schedule
+ * job crud
+ * job graph
+ * job attr
+ * job resource
+ * job run, stop, schedule
  *
  * @author gleiyu
  */
@@ -193,16 +198,11 @@ public class JobController {
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "保存作业详情", notes = "保存作业相关流程定义，如果已经有对应版本号的数据，则提醒用户编辑最新版本。")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> saveJobDetail(@Validated @RequestBody DiJobDTO diJobDTO) {
+    public ResponseEntity<ResponseVO> saveJobDetail(@Validated @RequestBody DiJobDTO diJobDTO) throws ScalephException {
         DiJobDTO job = this.diJobService.selectOne(diJobDTO.getId());
-        try {
-            Long editableJobId = prepareJobVersion(job);
-            saveJobGraph(diJobDTO.getJobGraph(), editableJobId);
-            return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.CREATED);
-        } catch (ScalephException e) {
-            return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
-        }
+        Long editableJobId = prepareJobVersion(job);
+        saveJobGraph(diJobDTO.getJobGraph(), editableJobId);
+        return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.CREATED);
     }
 
     /**
@@ -348,17 +348,6 @@ public class JobController {
         }
     }
 
-    //todo remove this function
-    @Logging
-    @GetMapping(path = "/step")
-    @ApiOperation(value = "查询步骤属性信息", notes = "查询步骤属性信息")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<DiJobStepDTO> listDiJobStepAttr(@NotBlank String jobId,
-                                                          @NotBlank String stepCode) {
-        DiJobStepDTO stepInfo = this.diJobStepService.selectOne(Long.valueOf(jobId), stepCode);
-        return new ResponseEntity<>(stepInfo, HttpStatus.OK);
-    }
-
     @Logging
     @PostMapping(path = "/step")
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
@@ -498,20 +487,6 @@ public class JobController {
             list.add(dict);
         }
         return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
-    @Logging
-    @GetMapping(path = "/cron/next")
-    @ApiOperation(value = "查询最近5次运行时间", notes = "查询最近5次运行时间")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<List<Date>> listNext5FireTime(@RequestParam("crontabStr") String crontabStr) {
-        List<Date> dates;
-        try {
-            dates = scheduleService.listNext5FireTime(crontabStr);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(dates, HttpStatus.OK);
     }
 
     @Logging

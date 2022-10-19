@@ -16,12 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service.util;
+package cn.sliew.scaleph.engine.seatunnel.service.constant;
 
 public enum GraphConstants {
     ;
 
-    public static final String PLUGIN_NAME = "plugin_name";
     public static final String NODE_TYPE = "_node_type";
     public static final String NODE_ID = "_node_id";
     public static final String TABLE_PREFIX = "table_";
