@@ -44,13 +44,13 @@ public class DiJobParam extends PaginationParam {
 
     public DiJob toDo() {
         DiJob job = new DiJob();
-        job.setProjectId(this.projectId);
-        job.setJobCode(this.jobCode);
-        job.setJobName(this.jobName);
-        job.setJobType(this.jobType);
-        job.setRuntimeState(this.runtimeState);
-        job.setJobStatus(this.jobStatus);
-        job.setDirectoryId(this.directoryId);
+//        job.setProjectId(this.projectId);
+//        job.setJobCode(this.jobCode);
+//        job.setJobName(this.jobName);
+//        job.setJobType(this.jobType);
+//        job.setRuntimeState(this.runtimeState);
+//        job.setJobStatus(this.jobStatus);
+//        job.setDirectoryId(this.directoryId);
         return job;
     }
 

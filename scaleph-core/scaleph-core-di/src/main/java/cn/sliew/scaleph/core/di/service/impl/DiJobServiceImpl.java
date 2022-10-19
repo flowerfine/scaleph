@@ -37,6 +37,7 @@ import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -126,6 +127,7 @@ public class DiJobServiceImpl implements DiJobService {
     @Override
     public DiJobDTO insert(DiJobAddParam param) {
         DiJob record = BeanUtil.copy(param, new DiJob());
+        record.setJobCode(RandomStringUtils.random(16, true, true));
         record.setJobStatus(JobStatus.DRAFT);
         record.setRuntimeState(RuntimeState.STOP);
         record.setJobOwner(SecurityUtil.getCurrentUserName());

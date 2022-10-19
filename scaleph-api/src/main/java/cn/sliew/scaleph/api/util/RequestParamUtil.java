@@ -22,9 +22,12 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.ContentCachingRequestWrapper;
+import org.springframework.web.util.ContentCachingResponseWrapper;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -44,6 +47,38 @@ public enum RequestParamUtil {
             "/scaleph/v3/api-docs",
             "/scaleph/favicon.ico");
     private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
+
+    public static String formatRequestParams(HttpServletRequest request, HttpServletResponse response) {
+        StringBuilder params = new StringBuilder();
+        try {
+            if (!(RequestParamUtil.ignoreContentType(request.getContentType()))) {
+                String parameters = RequestParamUtil.getRequestParams(request);
+                if (StringUtils.hasText(parameters)) {
+                    params.append("uri_params: [");
+                    params.append(parameters);
+                    params.append("]");
+                }
+                String body = RequestParamUtil.getRequestBody(request);
+                if (StringUtils.hasText(body)) {
+                    if (params.length() != 0) {
+                        params.append(", request_body: [");
+                    } else {
+                        params.append("request_body: [");
+                    }
+                    params.append(body);
+                    params.append("]");
+                }
+                ContentCachingResponseWrapper responseWrapper = WebUtils.getNativeResponse(response, ContentCachingResponseWrapper.class);
+                if (responseWrapper != null) {
+                    responseWrapper.copyBodyToResponse();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return params.toString();
+        }
+        return params.toString();
+    }
 
     /**
      * query param

@@ -1,6 +1,6 @@
 import {Dict, PageResponse, ResponseBody} from '@/app.d';
 import {request} from 'umi';
-import {DiJob, DiJobAddParam, DiJobParam, DiJobStepAttr, DiJobUpdateParam} from './typings';
+import {DiJob, DiJobAddParam, DiJobParam, DiJobUpdateParam} from './typings';
 
 export const JobService = {
   url: '/api/di/job',
@@ -44,11 +44,9 @@ export const JobService = {
     const params = rows.map((row) => row.id);
     return request<ResponseBody<any>>(`${JobService.url}/` + 'batch', {
       method: 'POST',
-      data: {...params},
+      data: params,
     });
   },
-
-
 
   selectJobById: async (id: number) => {
     return request<DiJob>(`${JobService.url}/detail`, {

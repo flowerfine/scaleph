@@ -29,6 +29,7 @@ import cn.sliew.flinkful.rest.base.RestClient;
 import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
+import cn.sliew.scaleph.common.dict.job.RuntimeState;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
 import cn.sliew.scaleph.common.enums.JobRuntimeStateEnum;
@@ -124,7 +125,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     @Override
     public void run(DiJobRunVO jobRunParam) throws Exception {
         // 1.执行任务和 flink 集群的绑定
-        diJobService.update(jobRunParam.toDto());
+//        diJobService.update(jobRunParam.toDto());
         // 2.绑定任务和资源
         diJobResourceFileService.bindResource(jobRunParam.getJobId(), jobRunParam.getResources());
         // 3.获取任务信息
@@ -158,9 +159,8 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         Optional<JobID> jobID = FlinkUtil.listJobs(clusterClient).stream().map(JobStatusMessage::getJobId).findFirst();
         //write log
         insertJobLog(diJobDTO, configuration, jobID.orElseThrow(() -> new IllegalStateException("flink job id not exists")));
-        diJobDTO.setRuntimeState(
-                DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
-        diJobService.update(diJobDTO);
+        diJobDTO.setRuntimeState(RuntimeState.RUNNING);
+//        diJobService.update(diJobDTO);
     }
 
     private void insertJobLog(DiJobDTO diJobDTO, Configuration configuration, JobID jobInstanceID) {
@@ -204,9 +204,8 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
             scheduleService.deleteScheduleJob(seatunnelJobKey);
         }
         scheduleService.addScheduleJob(seatunnelJob, seatunnelJobTri);
-        diJobDTO.setRuntimeState(
-                DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
-        diJobService.update(diJobDTO);
+        diJobDTO.setRuntimeState(RuntimeState.RUNNING);
+//        diJobService.update(diJobDTO);
     }
 
     @Override
@@ -217,8 +216,8 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         // 2.停掉所有正在运行的任务
         cancel(job);
         // 3.更新任务状态
-        job.setRuntimeState(DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.STOP.getValue()));
-        diJobService.update(job);
+        job.setRuntimeState(RuntimeState.RUNNING);
+//        diJobService.update(job);
     }
 
     @Override
@@ -289,13 +288,13 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         Path seatunnelConnectorsPath = Paths.get(seatunnelPath, "connectors", "flink");
         File seatunnelConnectorDir = seatunnelConnectorsPath.toFile();
         for (DiJobStepDTO step : jobStepList) {
-            String pluginTag = this.seatunnelConfigService.getSeatunnelPluginTag(
-                    step.getStepType().getValue(), step.getStepName());
-            FileFilter fileFilter = new RegexFileFilter(".*" + pluginTag + ".*");
-            File[] pluginJars = seatunnelConnectorDir.listFiles(fileFilter);
-            if (pluginJars != null) {
-                Collections.addAll(files, pluginJars);
-            }
+//            String pluginTag = this.seatunnelConfigService.getSeatunnelPluginTag(
+//                    step.getStepType().getValue(), step.getStepName());
+//            FileFilter fileFilter = new RegexFileFilter(".*" + pluginTag + ".*");
+//            File[] pluginJars = seatunnelConnectorDir.listFiles(fileFilter);
+//            if (pluginJars != null) {
+//                Collections.addAll(files, pluginJars);
+//            }
         }
         return files;
     }

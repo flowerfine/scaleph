@@ -25,19 +25,12 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 @Data
 public class DiJobAddParam {
 
     @ApiModelProperty("project id")
     private Long projectId;
-
-    @NotBlank
-    @Length(min = 1, max = 120)
-    @Pattern(regexp = "\\w+$")
-    @ApiModelProperty("job code")
-    private String jobCode;
 
     @NotBlank
     @Length(min = 1, max = 200)
