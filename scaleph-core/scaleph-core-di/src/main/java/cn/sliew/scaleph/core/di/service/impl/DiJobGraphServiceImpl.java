@@ -34,6 +34,7 @@ import cn.sliew.scaleph.core.di.service.vo.NodeCellVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -104,5 +105,12 @@ public class DiJobGraphServiceImpl implements DiJobGraphService {
     public void deleteBatch(List<Long> jobIds) {
         diJobStepService.deleteByJobId(jobIds);
         diJobLinkService.deleteByJobId(jobIds);
+    }
+
+    @Override
+    public int deleteByProjectId(Collection<Long> projectIds) {
+        diJobStepService.deleteByProjectId(projectIds);
+        diJobLinkService.deleteByProjectId(projectIds);
+        return projectIds.size();
     }
 }
