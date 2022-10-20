@@ -18,16 +18,23 @@
 
 package cn.sliew.scaleph.core.di.service.param;
 
-import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * @author gleiyu
- */
+import javax.validation.constraints.NotNull;
+
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class DiResourceFileParam extends PaginationParam {
-    private Long projectId;
-    private String fileName;
+@EqualsAndHashCode
+public class DiJobGraphParam {
+
+    @NotNull
+    @ApiModelProperty("job id")
+    private Long jobId;
+
+    @NotNull
+    @ApiModelProperty(value = "job graph")
+    private JobGraphVO jobGraph;
+    
 }

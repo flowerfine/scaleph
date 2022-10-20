@@ -30,10 +30,7 @@ import cn.sliew.scaleph.core.di.service.DiJobService;
 import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiResourceFileDTO;
-import cn.sliew.scaleph.core.di.service.param.DiJobAddParam;
-import cn.sliew.scaleph.core.di.service.param.DiJobParam;
-import cn.sliew.scaleph.core.di.service.param.DiJobStepParam;
-import cn.sliew.scaleph.core.di.service.param.DiJobUpdateParam;
+import cn.sliew.scaleph.core.di.service.param.*;
 import cn.sliew.scaleph.core.di.service.vo.DiJobAttrVO;
 import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.dao.DataSourceConstants;
@@ -127,7 +124,9 @@ public class JobController {
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
-
+    /**
+     * todo move to DiJobSerivce
+     */
     @Logging
     @GetMapping(path = "/detail")
     @ApiOperation(value = "查询作业详情", notes = "查询作业详情，包含作业流程定义信息")
@@ -141,11 +140,10 @@ public class JobController {
     @PostMapping(path = "/detail")
     @ApiOperation(value = "保存作业详情", notes = "保存作业相关流程定义，如果已经有对应版本号的数据，则提醒用户编辑最新版本。")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> saveJobDetail(@Validated @RequestBody DiJobDTO diJobDTO) throws ScalephException {
-        Long editableJobId = diJobService.saveJobGraph(diJobDTO);
+    public ResponseEntity<ResponseVO> saveJobDetail(@Validated @RequestBody DiJobGraphParam param) throws ScalephException {
+        Long editableJobId = diJobService.saveJobGraph(param);
         return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.CREATED);
     }
-
 
     private Long prepareJobVersion(DiJobDTO job) throws ScalephException {
         return job.getId();

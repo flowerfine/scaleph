@@ -23,7 +23,6 @@ import cn.sliew.scaleph.common.dict.job.JobType;
 import cn.sliew.scaleph.common.dict.job.RuntimeState;
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

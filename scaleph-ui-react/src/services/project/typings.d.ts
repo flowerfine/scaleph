@@ -89,6 +89,10 @@ export type DiJobUpdateParam = DiJobAddParam & {
   id?: number;
 };
 
+export type DiJobGraphParam = {
+  jobId?: number;
+  jobGraph?: any;
+};
 
 export type DiJobAttr = {
   id?: number;

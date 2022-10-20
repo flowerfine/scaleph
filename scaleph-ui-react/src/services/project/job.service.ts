@@ -1,6 +1,6 @@
 import {Dict, PageResponse, ResponseBody} from '@/app.d';
 import {request} from 'umi';
-import {DiJob, DiJobAddParam, DiJobParam, DiJobUpdateParam} from './typings';
+import {DiJob, DiJobAddParam, DiJobGraphParam, DiJobParam, DiJobUpdateParam} from './typings';
 
 export const JobService = {
   url: '/api/di/job',
@@ -55,29 +55,10 @@ export const JobService = {
     });
   },
 
-  saveJobDetail: async (job: DiJob) => {
+  saveJobDetail: async (param: DiJobGraphParam) => {
     return request<ResponseBody<any>>(`${JobService.url}/detail`, {
       method: 'POST',
-      data: job,
-    });
-  },
-  listJobAttr: async (jobId: number) => {
-    return request<{ jobId: number; jobAttr: string; jobProp: string; engineProp: string }>(
-      `${JobService.url}/attr/` + jobId,
-      {
-        method: 'GET',
-      },
-    );
-  },
-  saveJobAttr: async (attrs: {
-    jobId: number;
-    jobAttr: string;
-    jobProp: string;
-    engineProp: string;
-  }) => {
-    return request<ResponseBody<any>>(`${JobService.url}/attr`, {
-      method: 'POST',
-      data: attrs,
+      data: param,
     });
   },
 
@@ -91,6 +72,28 @@ export const JobService = {
       data: params,
     });
   },
+
+  listJobAttr: async (jobId: number) => {
+    return request<{ jobId: number; jobAttr: string; jobProp: string; engineProp: string }>(
+      `${JobService.url}/attr/` + jobId,
+      {
+        method: 'GET',
+      },
+    );
+  },
+
+  saveJobAttr: async (attrs: {
+    jobId: number;
+    jobAttr: string;
+    jobProp: string;
+    engineProp: string;
+  }) => {
+    return request<ResponseBody<any>>(`${JobService.url}/attr`, {
+      method: 'POST',
+      data: attrs,
+    });
+  },
+
 
   publishJob: async (jobId: number) => {
     return request<ResponseBody<any>>(`${JobService.url}/publish/` + jobId, {

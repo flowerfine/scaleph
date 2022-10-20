@@ -20,10 +20,7 @@ package cn.sliew.scaleph.core.di.service;
 
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
-import cn.sliew.scaleph.core.di.service.param.DiJobAddParam;
-import cn.sliew.scaleph.core.di.service.param.DiJobParam;
-import cn.sliew.scaleph.core.di.service.param.DiJobStepParam;
-import cn.sliew.scaleph.core.di.service.param.DiJobUpdateParam;
+import cn.sliew.scaleph.core.di.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.Collection;
@@ -66,7 +63,7 @@ public interface DiJobService {
 
     Long saveJobStep(DiJobStepParam param) throws ScalephException;
 
-    Long saveJobGraph(DiJobDTO job) throws ScalephException;
+    Long saveJobGraph(DiJobGraphParam param) throws ScalephException;
 
     /**
      * 归档任务，只保留发布状态中最大版本号的那个，其余发布状态的任务均改为归档状态

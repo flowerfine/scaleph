@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.core.di.service.impl;
 
+import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.dict.job.JobStepType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.common.util.BeanUtil;
@@ -89,6 +90,7 @@ public class DiJobGraphServiceImpl implements DiJobGraphService {
     @Override
     public void updateJobStep(DiJobStepParam param) {
         DiJobStepDTO dto = BeanUtil.copy(param, new DiJobStepDTO());
+        dto.setStepTitle((String) param.getStepAttrs().get(Constants.JOB_STEP_TITLE));
         diJobStepService.update(dto);
     }
 

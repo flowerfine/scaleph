@@ -29,10 +29,7 @@ import cn.sliew.scaleph.core.di.service.*;
 import cn.sliew.scaleph.core.di.service.convert.DiJobConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiDirectoryDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
-import cn.sliew.scaleph.core.di.service.param.DiJobAddParam;
-import cn.sliew.scaleph.core.di.service.param.DiJobParam;
-import cn.sliew.scaleph.core.di.service.param.DiJobStepParam;
-import cn.sliew.scaleph.core.di.service.param.DiJobUpdateParam;
+import cn.sliew.scaleph.core.di.service.param.*;
 import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
 import cn.sliew.scaleph.dao.entity.master.di.DiJob;
 import cn.sliew.scaleph.dao.mapper.master.di.DiJobMapper;
@@ -236,9 +233,9 @@ public class DiJobServiceImpl implements DiJobService {
     }
 
     @Override
-    public Long saveJobGraph(DiJobDTO job) throws ScalephException {
-        Long editableJobId = prepareJobVersion(job.getId());
-        diJobGraphService.saveJobGraph(editableJobId, job.getJobGraph());
+    public Long saveJobGraph(DiJobGraphParam param) throws ScalephException {
+        Long editableJobId = prepareJobVersion(param.getJobId());
+        diJobGraphService.saveJobGraph(editableJobId, param.getJobGraph());
         return editableJobId;
     }
 
