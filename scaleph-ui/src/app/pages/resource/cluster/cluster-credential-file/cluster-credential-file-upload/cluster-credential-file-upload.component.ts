@@ -56,7 +56,6 @@ export class ClusterCredentialFileUploadComponent implements OnInit {
   }
 
   onFileSelect(result) {
-    console.log(result)
     this.files = result
   }
 

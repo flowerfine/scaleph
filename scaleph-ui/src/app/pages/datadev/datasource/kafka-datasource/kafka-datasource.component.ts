@@ -50,7 +50,6 @@ export class KafkaDatasourceComponent implements OnInit {
   ngOnInit(): void {
     this.parent = this.elr.nativeElement.parentElement;
     if (this.data.item.item) {
-      console.log(this.data.item);
       this.formData = {
         id: this.data.item.item.id,
         datasourceName: this.data.item.item.datasourceName,

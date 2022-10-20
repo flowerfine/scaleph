@@ -39,7 +39,6 @@ const Register: React.FC = () => {
             layout="vertical"
             onFinish={() => {
               form.validateFields().then((values: any) => {
-                console.log('info', values);
                 const params: RegisterInfo = { ...values, uuid: authCode?.uuid };
                 AuthService.register(params).then((d) => {
                   if (d.success) {
@@ -128,9 +127,7 @@ const Register: React.FC = () => {
               ]}
             >
               <Input.Password
-                placeholder={intl.formatMessage({
-                  id: 'pages.user.register.confirmPassword.placeholder',
-                })}
+                placeholder={intl.formatMessage({id: 'pages.user.register.confirmPassword.placeholder'})}
               />
             </Form.Item>
             <Form.Item
@@ -142,9 +139,7 @@ const Register: React.FC = () => {
                 <Col span={15}>
                   <Form.Item noStyle>
                     <Input
-                      placeholder={intl.formatMessage({
-                        id: 'pages.user.register.authCode.placeholder',
-                      })}
+                      placeholder={intl.formatMessage({id: 'pages.user.register.authCode.placeholder'})}
                     />
                   </Form.Item>
                 </Col>

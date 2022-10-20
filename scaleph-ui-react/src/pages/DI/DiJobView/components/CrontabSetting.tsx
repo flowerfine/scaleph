@@ -870,7 +870,6 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
         items={tabItems}
         centered={true}
         onChange={(activeKey: string) => {
-          console.log(activeKey);
           setActiveTabId(activeKey);
         }}
       ></Tabs>

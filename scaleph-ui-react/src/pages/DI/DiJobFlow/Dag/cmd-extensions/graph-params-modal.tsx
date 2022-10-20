@@ -169,9 +169,7 @@ const GraphParamsSettingForm: React.FC<ModalFormProps<{ graphMeta: NsGraph.IGrap
         >
           <Input.TextArea
             rows={5}
-            placeholder={intl.formatMessage({
-              id: 'pages.project.di.flow.dag.prop.placeholder',
-            })}
+            placeholder={intl.formatMessage({id: 'pages.project.di.flow.dag.prop.placeholder'})}
           ></Input.TextArea>
         </Form.Item>
         <Form.Item
