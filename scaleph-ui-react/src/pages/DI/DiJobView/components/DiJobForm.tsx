@@ -1,7 +1,7 @@
 import {TreeNode} from '@/app.d';
 import {JobService} from '@/services/project/job.service';
 import {DiJob, DiJobAddParam, DiJobUpdateParam} from '@/services/project/typings';
-import {Form, Input, message, Modal, TreeSelect} from 'antd';
+import {Form, Input, Modal, TreeSelect} from 'antd';
 import {useIntl} from 'umi';
 
 interface DiJobFormProps<DiJob> {
@@ -24,24 +24,17 @@ const DiJobForm: React.FC<DiJobFormProps<DiJob>> = ({
 
   const submit = () => {
     form.validateFields().then((values) => {
-      let job: DiJob = {
-        id: values.id,
+      const addParam: DiJobAddParam = {
         projectId: data.projectId,
-        jobCode: values.jobCode,
         jobName: values.jobName,
-        directory: {id: values.directory},
-        jobType: data.jobType,
-        remark: values.remark,
-      };
-
+        directoryId: values.directory,
+        jobType: data.jobType?.value,
+        remark: values.remark
+      }
       if (data.id) {
         const param: DiJobUpdateParam = {
           id: data.id,
-          projectId: data.projectId,
-          jobName: values.jobName,
-          directoryId: values.directory,
-          jobType: data.jobType?.value,
-          remark: values.remark
+          ...addParam
         }
         JobService.updateJob(param).then((response) => {
           if (response.success) {
@@ -49,14 +42,7 @@ const DiJobForm: React.FC<DiJobFormProps<DiJob>> = ({
           }
         });
       } else {
-        const param: DiJobAddParam = {
-          projectId: data.projectId,
-          jobName: values.jobName,
-          directoryId: values.directory,
-          jobType: data.jobType?.value,
-          remark: values.remark
-        }
-        JobService.addJob(param).then((response) => {
+        JobService.addJob(addParam).then((response) => {
           if (response.success) {
             onVisibleChange(false, response.data);
           }
