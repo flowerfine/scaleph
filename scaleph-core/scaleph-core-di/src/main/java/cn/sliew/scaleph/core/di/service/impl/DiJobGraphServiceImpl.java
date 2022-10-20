@@ -18,7 +18,8 @@
 
 package cn.sliew.scaleph.core.di.service.impl;
 
-import cn.sliew.scaleph.common.constant.DictConstants;
+import cn.sliew.scaleph.common.dict.job.JobStepType;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.core.di.service.DiJobGraphService;
 import cn.sliew.scaleph.core.di.service.DiJobLinkService;
 import cn.sliew.scaleph.core.di.service.DiJobStepService;
@@ -27,7 +28,6 @@ import cn.sliew.scaleph.core.di.service.dto.DiJobStepDTO;
 import cn.sliew.scaleph.core.di.service.vo.EdgeCellVO;
 import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
 import cn.sliew.scaleph.core.di.service.vo.NodeCellVO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -55,8 +55,8 @@ public class DiJobGraphServiceImpl implements DiJobGraphService {
             jobStep.setJobId(jobId);
             jobStep.setStepCode(node.getId());
             jobStep.setStepTitle(node.getLabel());
-            jobStep.setStepType(DictVO.toVO(DictConstants.JOB_STEP_TYPE, String.valueOf(node.getData().get("type"))));
-            jobStep.setStepName(String.valueOf(node.getData().get("name")));
+            jobStep.setStepType(JobStepType.of(String.valueOf(node.getData().get("type"))));
+            jobStep.setStepName(SeaTunnelPluginName.of(String.valueOf(node.getData().get("name"))));
             jobStep.setPositionX(node.getX());
             jobStep.setPositionY(node.getY());
             diJobStepService.upsert(jobStep);

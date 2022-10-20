@@ -422,9 +422,7 @@ const DiJobView: React.FC = () => {
                       {node.showOpIcon && (
                         <Space size={2}>
                           {access.canAccess(PRIVILEGE_CODE.datadevDirAdd) && (
-                            <Tooltip
-                              title={intl.formatMessage({id: 'app.common.operate.new.label'})}
-                            >
+                            <Tooltip title={intl.formatMessage({id: 'app.common.operate.new.label'})}>
                               <Button
                                 shape="default"
                                 type="text"
@@ -444,11 +442,7 @@ const DiJobView: React.FC = () => {
                             </Tooltip>
                           )}
                           {access.canAccess(PRIVILEGE_CODE.datadevDirEdit) && (
-                            <Tooltip
-                              title={intl.formatMessage({
-                                id: 'app.common.operate.edit.label',
-                              })}
-                            >
+                            <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
                               <Button
                                 shape="default"
                                 type="text"
@@ -470,11 +464,7 @@ const DiJobView: React.FC = () => {
                             </Tooltip>
                           )}
                           {access.canAccess(PRIVILEGE_CODE.datadevDirDelete) && (
-                            <Tooltip
-                              title={intl.formatMessage({
-                                id: 'app.common.operate.delete.label',
-                              })}
-                            >
+                            <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
                               <Button
                                 shape="default"
                                 type="text"
@@ -482,27 +472,15 @@ const DiJobView: React.FC = () => {
                                 icon={<DeleteOutlined/>}
                                 onClick={() => {
                                   Modal.confirm({
-                                    title: intl.formatMessage({
-                                      id: 'app.common.operate.delete.confirm.title',
-                                    }),
-                                    content: intl.formatMessage({
-                                      id: 'app.common.operate.delete.confirm.content',
-                                    }),
-                                    okText: intl.formatMessage({
-                                      id: 'app.common.operate.confirm.label',
-                                    }),
+                                    title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                                    content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
+                                    okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
                                     okButtonProps: {danger: true},
-                                    cancelText: intl.formatMessage({
-                                      id: 'app.common.operate.cancel.label',
-                                    }),
+                                    cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                                     onOk() {
                                       DirectoryService.deleteDir(node.origin).then((d) => {
                                         if (d.success) {
-                                          message.success(
-                                            intl.formatMessage({
-                                              id: 'app.common.operate.delete.success',
-                                            }),
-                                          );
+                                          message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}),);
                                           refreshDirList();
                                         }
                                       });

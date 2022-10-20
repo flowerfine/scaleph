@@ -49,6 +49,11 @@ public class SeatunnelConnectorServiceImpl implements SeatunnelConnectorService 
     }
 
     @Override
+    public SeaTunnelConnectorPlugin getConnector(PluginInfo pluginInfo) {
+        return connectorManager.getConnector(pluginInfo);
+    }
+
+    @Override
     public List<PropertyDescriptor> getSupportedProperties(String type, String name) {
         List<PropertyDescriptor> result = new ArrayList<>();
         Set<PluginInfo> pluginInfos = connectorManager.getAvailableConnectors(SeaTunnelPluginType.of(type));

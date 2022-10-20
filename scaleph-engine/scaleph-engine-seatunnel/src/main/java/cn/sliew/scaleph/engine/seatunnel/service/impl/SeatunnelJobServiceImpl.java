@@ -32,26 +32,26 @@ import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.dict.job.RuntimeState;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
-import cn.sliew.scaleph.common.enums.JobRuntimeStateEnum;
 import cn.sliew.scaleph.common.enums.JobTypeEnum;
 import cn.sliew.scaleph.core.di.service.*;
 import cn.sliew.scaleph.core.di.service.dto.*;
+import cn.sliew.scaleph.core.di.service.vo.DagPanalVO;
 import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.core.scheduler.service.ScheduleService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.constant.GraphConstants;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagNodeDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.constant.GraphConstants;
 import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.privilege.SecurityContext;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.system.service.SysConfigService;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.api.common.JobStatus;
 import org.apache.flink.client.deployment.executors.RemoteExecutor;
@@ -70,7 +70,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -372,19 +371,31 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         List<DagNodeDTO> nodeList = new ArrayList<>();
         for (PluginInfo plugin : pluginInfos) {
             DagNodeDTO node = new DagNodeDTO();
-            String pluginName = StringUtils.capitalize(plugin.getName()) + " " + StringUtils.capitalize(type.getValue());
+            String displayName = StringUtils.capitalize(plugin.getName()) + " " + StringUtils.capitalize(type.getValue());
             node.setId(plugin.getName());
-            node.setLabel(pluginName);
+            node.setLabel(displayName);
             node.setDescription(plugin.getDescription());
             node.setRenderKey(GraphConstants.DND_RENDER_ID);
-            node.setData(new HashMap<String, String>() {{
-                put("type", type.getValue());
-                put("name", plugin.getName());
-                put("displayName", pluginName);
-            }});
+            node.setData(buildPluginInfo(plugin, displayName));
+//            node.setData(new HashMap<String, String>() {{
+//                put("type", type.getValue());
+//                put("name", plugin.getName());
+//                put("displayName", displayName);
+//            }});
+
             nodeList.add(node);
         }
         panel.setChildren(nodeList);
         return panel;
+    }
+
+    private DagPanalVO buildPluginInfo(PluginInfo pluginInfo, String displayName) {
+        final SeaTunnelConnectorPlugin connector = seatunnelConnectorService.getConnector(pluginInfo);
+        final DagPanalVO dagPanalVO = new DagPanalVO();
+        dagPanalVO.setName(connector.getPluginName().getValue());
+        dagPanalVO.setType(connector.getPluginType().getValue());
+        dagPanalVO.setEngine(connector.getEngineType().getValue());
+        dagPanalVO.setDisplayName(displayName);
+        return dagPanalVO;
     }
 }

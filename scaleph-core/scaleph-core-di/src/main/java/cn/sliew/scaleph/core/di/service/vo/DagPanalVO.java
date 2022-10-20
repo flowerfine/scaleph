@@ -16,26 +16,34 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service.dto;
+package cn.sliew.scaleph.core.di.service.vo;
 
-import cn.sliew.scaleph.core.di.service.vo.DagPanalVO;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * keep same with xflow dag panal properties
- */
 @Data
 @EqualsAndHashCode
-public class DagNodeDTO {
+public class DagPanalVO {
 
-    private String id;
+    /**
+     * @see cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName
+     */
+    @ApiModelProperty("connector name")
+    private String name;
 
-    private String label;
+    /**
+     * @see cn.sliew.scaleph.common.dict.job.JobStepType
+     */
+    @ApiModelProperty("connector type")
+    private String type;
 
-    private String renderKey;
+    /**
+     * @see cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType
+     */
+    @ApiModelProperty("engine type")
+    private String engine;
 
-    private String description;
-
-    private DagPanalVO data;
+    @ApiModelProperty("connector display name")
+    private String displayName;
 }
