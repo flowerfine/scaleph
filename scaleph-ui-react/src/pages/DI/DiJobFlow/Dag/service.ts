@@ -3,17 +3,23 @@ import { NsGraph } from '@antv/xflow';
 import { NsNodeCollapsePanel } from '@antv/xflow-extension/es';
 import { getIntl, getLocale, request } from 'umi';
 import { CONNECTION_PORT_TYPE, DND_RENDER_ID, NODE_HEIGHT, NODE_WIDTH } from './constant';
+import {DiJobGraphParam} from "@/services/project/typings";
 
 export const DagService = {
   url: '/api/di/job',
+
   loadNodeMeta: async () => {
     return request<NsNodeCollapsePanel.ICollapsePanel[]>(`${DagService.url}/node/meta`, {
       method: 'GET',
     });
   },
+
   saveGraphData: async (meta: NsGraph.IGraphMeta, graphData: NsGraph.IGraphData) => {
-    meta.origin.jobGraph = graphData;
-    return JobService.saveJobDetail(meta.origin);
+    let param: DiJobGraphParam = {
+      jobId: meta.origin.id,
+      jobGraph: graphData
+    }
+    return JobService.saveJobDetail(param);
   },
 
   loadJobInfo: async (id: number) => {
@@ -34,9 +40,9 @@ export const DagService = {
           ports: DagService.createPorts(step.stepType.value as string),
           data: {
             jobId: step.jobId,
-            name: step.stepName,
-            type: step.stepType.value as string,
-            displayName: DagService.titleCase(step.stepName + ' ' + step.stepType.value),
+            name: step.stepName.value,
+            type: step.stepType.value,
+            displayName: DagService.titleCase(step.stepName.label + ' ' + step.stepType.value),
             createTime: step.createTime,
             updateTime: step.updateTime,
             attrs:step.stepAttrs

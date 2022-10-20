@@ -51,5 +51,4 @@ public class DiJobLinkDTO extends BaseDTO {
     @ApiModelProperty(value = "目标步骤编码")
     private String toStepCode;
 
-
 }

@@ -25,8 +25,8 @@ import lombok.EqualsAndHashCode;
 /**
  * @author gleiyu
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class DiResourceFileParam extends PaginationParam {
     private Long projectId;
     private String fileName;

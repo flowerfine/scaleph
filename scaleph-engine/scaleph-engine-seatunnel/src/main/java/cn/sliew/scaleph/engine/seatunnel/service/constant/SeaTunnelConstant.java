@@ -16,11 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.engine.seatunnel.service.constant;
 
-import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
+public enum SeaTunnelConstant {
+    ;
 
-public interface SeatunnelConfigService {
+    public static final String ENV = "env";
+    public static final String SOURCE = "source";
+    public static final String SINK = "sink";
+    public static final String TRANSFORM = "transform";
 
-    String buildConfig(DiJobDTO diJobDTO);
+    public static final String PLUGIN_NAME = "plugin_name";
 }

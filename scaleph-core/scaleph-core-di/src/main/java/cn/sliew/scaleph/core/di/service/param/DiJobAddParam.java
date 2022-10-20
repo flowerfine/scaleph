@@ -16,11 +16,36 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.core.di.service.param;
 
-import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
+import cn.sliew.scaleph.common.dict.job.JobType;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
-public interface SeatunnelConfigService {
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-    String buildConfig(DiJobDTO diJobDTO);
+@Data
+public class DiJobAddParam {
+
+    @ApiModelProperty("project id")
+    private Long projectId;
+
+    @NotBlank
+    @Length(min = 1, max = 200)
+    @ApiModelProperty("job name")
+    private String jobName;
+
+    @NotNull
+    @ApiModelProperty("job directory id")
+    private Long directoryId;
+
+    @ApiModelProperty("job type")
+    private JobType jobType;
+
+    @Length(max = 200)
+    @ApiModelProperty("remark")
+    private String remark;
+
 }

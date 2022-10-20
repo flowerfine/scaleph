@@ -87,7 +87,6 @@ export class SinkDruidStepComponent implements OnInit {
       stepAttrMap.set(STEP_ATTR_TYPE.timestampFormat, this.formGroup.get(STEP_ATTR_TYPE.timestampFormat).value);
       stepAttrMap.set(STEP_ATTR_TYPE.timestampMissingValue, this.formGroup.get(STEP_ATTR_TYPE.timestampMissingValue).value);
       stepAttrMap.set(STEP_ATTR_TYPE.parallelism, this.formGroup.get(STEP_ATTR_TYPE.parallelism).value);
-      console.log(stepAttrMap)
       this.onSave.emit(stepAttrMap);
     }
   }

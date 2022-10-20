@@ -43,62 +43,14 @@ public class DiJobStepServiceImpl implements DiJobStepService {
     private DiJobStepMapper diJobStepMapper;
 
     @Override
-    public int update(DiJobStepDTO diJobStepDTO) {
-        DiJobStep step = DiJobStepConvert.INSTANCE.toDo(diJobStepDTO);
-        return this.diJobStepMapper.update(step, new LambdaUpdateWrapper<DiJobStep>()
-                .eq(DiJobStep::getJobId, step.getJobId())
-                .eq(DiJobStep::getStepCode, step.getStepCode())
-        );
-    }
-
-    @Override
-    public int upsert(DiJobStepDTO diJobStep) {
-        DiJobStep step = this.diJobStepMapper.selectOne(
-                new LambdaQueryWrapper<DiJobStep>()
-                        .eq(DiJobStep::getJobId, diJobStep.getJobId())
-                        .eq(DiJobStep::getStepCode, diJobStep.getStepCode())
-        );
-        DiJobStep jobStep = DiJobStepConvert.INSTANCE.toDo(diJobStep);
-        if (step == null) {
-            return this.diJobStepMapper.insert(jobStep);
-        } else {
-            return this.diJobStepMapper.update(jobStep,
-                    new LambdaUpdateWrapper<DiJobStep>()
-                            .eq(DiJobStep::getJobId, jobStep.getJobId())
-                            .eq(DiJobStep::getStepCode, jobStep.getStepCode())
-            );
-        }
-    }
-
-    @Override
-    public int deleteByProjectId(Collection<? extends Serializable> projectIds) {
-        return this.diJobStepMapper.deleteByProjectId(projectIds);
-    }
-
-    @Override
-    public int deleteByJobId(Collection<? extends Serializable> jobIds) {
-        return this.diJobStepMapper.deleteByJobId(jobIds);
-    }
-
-    @Override
-    public int deleteSurplusStep(Long jobId, List<String> stepCodeList) {
-        return this.diJobStepMapper.delete(
-                new LambdaQueryWrapper<DiJobStep>()
-                        .eq(DiJobStep::getJobId, jobId)
-                        .notIn(CollectionUtil.isNotEmpty(stepCodeList), DiJobStep::getStepCode,
-                                stepCodeList)
-        );
-    }
-
-    @Override
     public List<DiJobStepDTO> listJobStep(Long jobId) {
-        List<DiJobStep> list = this.diJobStepMapper.selectByJobId(jobId);
+        List<DiJobStep> list = diJobStepMapper.selectByJobId(jobId);
         return DiJobStepConvert.INSTANCE.toDto(list);
     }
 
     @Override
     public DiJobStepDTO selectOne(Long jobId, String stepCode) {
-        DiJobStep step = this.diJobStepMapper.selectOne(
+        DiJobStep step = diJobStepMapper.selectOne(
                 new LambdaQueryWrapper<DiJobStep>()
                         .eq(DiJobStep::getJobId, jobId)
                         .eq(DiJobStep::getStepCode, stepCode)
@@ -107,7 +59,53 @@ public class DiJobStepServiceImpl implements DiJobStepService {
     }
 
     @Override
+    public int update(DiJobStepDTO diJobStepDTO) {
+        DiJobStep step = DiJobStepConvert.INSTANCE.toDo(diJobStepDTO);
+        LambdaUpdateWrapper<DiJobStep> updateWrapper = new LambdaUpdateWrapper<DiJobStep>()
+                .eq(DiJobStep::getJobId, step.getJobId())
+                .eq(DiJobStep::getStepCode, step.getStepCode());
+        return diJobStepMapper.update(step, updateWrapper);
+    }
+
+    @Override
+    public int upsert(DiJobStepDTO diJobStep) {
+        LambdaQueryWrapper<DiJobStep> queryWrapper = new LambdaQueryWrapper<DiJobStep>()
+                .eq(DiJobStep::getJobId, diJobStep.getJobId())
+                .eq(DiJobStep::getStepCode, diJobStep.getStepCode());
+        DiJobStep step = diJobStepMapper.selectOne(queryWrapper);
+        DiJobStep jobStep = DiJobStepConvert.INSTANCE.toDo(diJobStep);
+        if (step == null) {
+            return diJobStepMapper.insert(jobStep);
+        }
+        return diJobStepMapper.update(jobStep,
+                new LambdaUpdateWrapper<DiJobStep>()
+                        .eq(DiJobStep::getJobId, jobStep.getJobId())
+                        .eq(DiJobStep::getStepCode, jobStep.getStepCode())
+        );
+    }
+
+    @Override
+    public int deleteByProjectId(Collection<Long> projectIds) {
+        return diJobStepMapper.deleteByProjectId(projectIds);
+    }
+
+    @Override
+    public int deleteByJobId(Collection<Long> jobIds) {
+        return diJobStepMapper.deleteByJobId(jobIds);
+    }
+
+    @Override
+    public int deleteSurplusStep(Long jobId, List<String> stepCodeList) {
+        return diJobStepMapper.delete(
+                new LambdaQueryWrapper<DiJobStep>()
+                        .eq(DiJobStep::getJobId, jobId)
+                        .notIn(CollectionUtil.isNotEmpty(stepCodeList), DiJobStep::getStepCode,
+                                stepCodeList)
+        );
+    }
+
+    @Override
     public int clone(Long sourceJobId, Long targetJobId) {
-        return this.diJobStepMapper.clone(sourceJobId, targetJobId);
+        return diJobStepMapper.clone(sourceJobId, targetJobId);
     }
 }

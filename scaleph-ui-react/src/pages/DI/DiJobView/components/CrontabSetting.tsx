@@ -18,6 +18,7 @@ import {
 import { useIntl } from 'umi';
 import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
+import {SchedulerService} from "@/services/scheduler/scheduler.service";
 type CrontabDataType = {
   type?: number;
   value?: string;
@@ -829,7 +830,7 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
     } else {
       str = crontabStrRef.current;
     }
-    JobService.listNext5FireTime(str).then((d: any) => {
+    SchedulerService.listNext5FireTime(str).then((d: any) => {
       if (d?.success == false) {
         null;
       } else {
@@ -840,7 +841,7 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={intl.formatMessage({ id: 'pages.project.di.setting' })}
       width={580}
       bodyStyle={{ padding: '6px 24px 24px 24px' }}
@@ -869,7 +870,6 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
         items={tabItems}
         centered={true}
         onChange={(activeKey: string) => {
-          console.log(activeKey);
           setActiveTabId(activeKey);
         }}
       ></Tabs>

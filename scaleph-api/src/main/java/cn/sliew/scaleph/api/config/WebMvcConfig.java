@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.api.config;
 
 import cn.sliew.scaleph.api.util.RequestParamUtil;
+import cn.sliew.scaleph.security.util.SecurityUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +55,6 @@ import java.util.Set;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    private static final String IGNORE_CONTENT_TYPE = "multipart/form-data";
-
     @Autowired
     private ObjectMapper mapper;
 
@@ -67,7 +66,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         WebMvcConfigurer.super.addFormatters(registry);
         registry.addConverter(new JacksonEnumConverter());
     }
-
 
     /**
      * 通用拦截器排除swagger设置，所有拦截器都会自动加swagger相关的资源排除信息
@@ -129,24 +127,24 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Slf4j
     public static class AsyncWebLogInterceptor implements AsyncHandlerInterceptor {
 
+        /**
+         * exception catched by GlobalExceptionHandler and here can't be aware of ex
+         *
+         * @see cn.sliew.scaleph.api.exception.GlobalExceptionHandler
+         */
         @Override
         public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-            logQuery(request, response);
+            logQuery(request);
+            ContentCachingResponseWrapper responseWrapper = WebUtils.getNativeResponse(response, ContentCachingResponseWrapper.class);
+            if (responseWrapper != null) {
+                responseWrapper.copyBodyToResponse();
+            }
         }
 
-        private void logQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {
-            if (!RequestParamUtil.ignorePath(request.getRequestURI())
-                    && !RequestParamUtil.ignoreContentType(request.getContentType())
-                    && log.isInfoEnabled()) {
-                String method = request.getMethod();
-                String uri = request.getRequestURI();
-                String parameters = RequestParamUtil.getRequestParams(request);
-                String body = RequestParamUtil.getRequestBody(request);
-                log.info("{} {} 请求参数 parameters: [{}], body: [{}]", method, uri, parameters, body);
-                ContentCachingResponseWrapper responseWrapper = WebUtils.getNativeResponse(response, ContentCachingResponseWrapper.class);
-                if (responseWrapper != null) {
-                    responseWrapper.copyBodyToResponse();
-                }
+        private void logQuery(HttpServletRequest request) {
+            if (!RequestParamUtil.ignorePath(request.getRequestURI()) && log.isInfoEnabled()) {
+                String params = RequestParamUtil.formatRequestParams(request);
+                log.info("[{}] {} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params);
             }
         }
     }

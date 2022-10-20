@@ -16,11 +16,34 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.core.di.service.vo;
 
-import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-public interface SeatunnelConfigService {
+@Data
+@EqualsAndHashCode
+public class DagPanalVO {
 
-    String buildConfig(DiJobDTO diJobDTO);
+    /**
+     * @see cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName
+     */
+    @ApiModelProperty("connector name")
+    private String name;
+
+    /**
+     * @see cn.sliew.scaleph.common.dict.job.JobStepType
+     */
+    @ApiModelProperty("connector type")
+    private String type;
+
+    /**
+     * @see cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType
+     */
+    @ApiModelProperty("engine type")
+    private String engine;
+
+    @ApiModelProperty("connector display name")
+    private String displayName;
 }

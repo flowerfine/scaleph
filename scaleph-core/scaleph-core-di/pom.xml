@@ -33,6 +33,11 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-system</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-security</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 </project>

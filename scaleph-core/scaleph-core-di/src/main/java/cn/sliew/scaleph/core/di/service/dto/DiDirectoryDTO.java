@@ -56,5 +56,4 @@ public class DiDirectoryDTO extends BaseDTO {
     @ApiModelProperty(value = "路径")
     private String fullPath;
 
-
 }

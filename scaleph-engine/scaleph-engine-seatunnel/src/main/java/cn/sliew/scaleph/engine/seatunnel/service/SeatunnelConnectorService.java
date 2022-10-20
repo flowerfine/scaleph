@@ -36,7 +36,9 @@ public interface SeatunnelConnectorService {
 
     Set<PluginInfo> getAvailableConnectors(SeaTunnelPluginType stepType);
 
-    List<PropertyDescriptor> getSupportedProperties(String type,String name);
+    SeaTunnelConnectorPlugin getConnector(PluginInfo pluginInfo);
+
+    List<PropertyDescriptor> getSupportedProperties(String type, String name);
 
     SeaTunnelConnectorPlugin newConnector(String name, Properties properties);
 

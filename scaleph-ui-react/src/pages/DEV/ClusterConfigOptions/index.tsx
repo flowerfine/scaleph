@@ -35,8 +35,6 @@ const ClusterConfigOptionsSteps: React.FC = () => {
     new Map(Object.entries(params?.configOptions ? params?.configOptions : {}))
   );
 
-  console.log('kubernetesOptions', kubernetesOptions)
-
   const add = (values: Record<string, any>) => {
     const param: FlinkClusterConfigAddParam = {...values}
     return FlinkClusterConfigService.add(param).then((response) => {

@@ -18,9 +18,11 @@
 
 package cn.sliew.scaleph.core.di.service.dto;
 
+import cn.sliew.scaleph.common.dict.job.JobStatus;
+import cn.sliew.scaleph.common.dict.job.JobType;
+import cn.sliew.scaleph.common.dict.job.RuntimeState;
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -67,17 +69,17 @@ public class DiJobDTO extends BaseDTO {
     private DiDirectoryDTO directory;
 
     @ApiModelProperty(value = "作业类型 实时、离线")
-    private DictVO jobType;
+    private JobType jobType;
 
     @Length(max = 32)
     @ApiModelProperty(value = "负责人")
     private String jobOwner;
 
     @ApiModelProperty(value = "作业状态 草稿、发布、归档")
-    private DictVO jobStatus;
+    private JobStatus jobStatus;
 
     @ApiModelProperty(value = "运行状态 停止、运行中、等待运行")
-    private DictVO runtimeState;
+    private RuntimeState runtimeState;
 
     @ApiModelProperty(value = "作业版本号")
     private Integer jobVersion;

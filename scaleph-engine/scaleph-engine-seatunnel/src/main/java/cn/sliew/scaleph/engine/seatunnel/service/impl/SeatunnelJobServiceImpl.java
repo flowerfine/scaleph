@@ -29,28 +29,29 @@ import cn.sliew.flinkful.rest.base.RestClient;
 import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
+import cn.sliew.scaleph.common.dict.job.RuntimeState;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
-import cn.sliew.scaleph.common.enums.JobRuntimeStateEnum;
 import cn.sliew.scaleph.common.enums.JobTypeEnum;
 import cn.sliew.scaleph.core.di.service.*;
 import cn.sliew.scaleph.core.di.service.dto.*;
+import cn.sliew.scaleph.core.di.service.vo.DagPanalVO;
 import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.core.scheduler.service.ScheduleService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.constant.GraphConstants;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagNodeDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.util.GraphConstants;
 import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.privilege.SecurityContext;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.system.service.SysConfigService;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.api.common.JobStatus;
 import org.apache.flink.client.deployment.executors.RemoteExecutor;
@@ -69,7 +70,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -124,7 +124,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     @Override
     public void run(DiJobRunVO jobRunParam) throws Exception {
         // 1.执行任务和 flink 集群的绑定
-        diJobService.update(jobRunParam.toDto());
+//        diJobService.update(jobRunParam.toDto());
         // 2.绑定任务和资源
         diJobResourceFileService.bindResource(jobRunParam.getJobId(), jobRunParam.getResources());
         // 3.获取任务信息
@@ -158,9 +158,8 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         Optional<JobID> jobID = FlinkUtil.listJobs(clusterClient).stream().map(JobStatusMessage::getJobId).findFirst();
         //write log
         insertJobLog(diJobDTO, configuration, jobID.orElseThrow(() -> new IllegalStateException("flink job id not exists")));
-        diJobDTO.setRuntimeState(
-                DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
-        diJobService.update(diJobDTO);
+        diJobDTO.setRuntimeState(RuntimeState.RUNNING);
+//        diJobService.update(diJobDTO);
     }
 
     private void insertJobLog(DiJobDTO diJobDTO, Configuration configuration, JobID jobInstanceID) {
@@ -204,9 +203,8 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
             scheduleService.deleteScheduleJob(seatunnelJobKey);
         }
         scheduleService.addScheduleJob(seatunnelJob, seatunnelJobTri);
-        diJobDTO.setRuntimeState(
-                DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.RUNNING.getValue()));
-        diJobService.update(diJobDTO);
+        diJobDTO.setRuntimeState(RuntimeState.RUNNING);
+//        diJobService.update(diJobDTO);
     }
 
     @Override
@@ -217,8 +215,8 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         // 2.停掉所有正在运行的任务
         cancel(job);
         // 3.更新任务状态
-        job.setRuntimeState(DictVO.toVO(DictConstants.RUNTIME_STATE, JobRuntimeStateEnum.STOP.getValue()));
-        diJobService.update(job);
+        job.setRuntimeState(RuntimeState.RUNNING);
+//        diJobService.update(job);
     }
 
     @Override
@@ -289,13 +287,13 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         Path seatunnelConnectorsPath = Paths.get(seatunnelPath, "connectors", "flink");
         File seatunnelConnectorDir = seatunnelConnectorsPath.toFile();
         for (DiJobStepDTO step : jobStepList) {
-            String pluginTag = this.seatunnelConfigService.getSeatunnelPluginTag(
-                    step.getStepType().getValue(), step.getStepName());
-            FileFilter fileFilter = new RegexFileFilter(".*" + pluginTag + ".*");
-            File[] pluginJars = seatunnelConnectorDir.listFiles(fileFilter);
-            if (pluginJars != null) {
-                Collections.addAll(files, pluginJars);
-            }
+//            String pluginTag = this.seatunnelConfigService.getSeatunnelPluginTag(
+//                    step.getStepType().getValue(), step.getStepName());
+//            FileFilter fileFilter = new RegexFileFilter(".*" + pluginTag + ".*");
+//            File[] pluginJars = seatunnelConnectorDir.listFiles(fileFilter);
+//            if (pluginJars != null) {
+//                Collections.addAll(files, pluginJars);
+//            }
         }
         return files;
     }
@@ -373,19 +371,31 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         List<DagNodeDTO> nodeList = new ArrayList<>();
         for (PluginInfo plugin : pluginInfos) {
             DagNodeDTO node = new DagNodeDTO();
-            String pluginName = StringUtils.capitalize(plugin.getName()) + " " + StringUtils.capitalize(type.getValue());
+            String displayName = StringUtils.capitalize(plugin.getName()) + " " + StringUtils.capitalize(type.getValue());
             node.setId(plugin.getName());
-            node.setLabel(pluginName);
+            node.setLabel(displayName);
             node.setDescription(plugin.getDescription());
             node.setRenderKey(GraphConstants.DND_RENDER_ID);
-            node.setData(new HashMap<String, String>() {{
-                put("type", type.getValue());
-                put("name", plugin.getName());
-                put("displayName", pluginName);
-            }});
+            node.setData(buildPluginInfo(plugin, displayName));
+//            node.setData(new HashMap<String, String>() {{
+//                put("type", type.getValue());
+//                put("name", plugin.getName());
+//                put("displayName", displayName);
+//            }});
+
             nodeList.add(node);
         }
         panel.setChildren(nodeList);
         return panel;
+    }
+
+    private DagPanalVO buildPluginInfo(PluginInfo pluginInfo, String displayName) {
+        final SeaTunnelConnectorPlugin connector = seatunnelConnectorService.getConnector(pluginInfo);
+        final DagPanalVO dagPanalVO = new DagPanalVO();
+        dagPanalVO.setName(connector.getPluginName().getValue());
+        dagPanalVO.setType(connector.getPluginType().getValue());
+        dagPanalVO.setEngine(connector.getEngineType().getValue());
+        dagPanalVO.setDisplayName(displayName);
+        return dagPanalVO;
     }
 }

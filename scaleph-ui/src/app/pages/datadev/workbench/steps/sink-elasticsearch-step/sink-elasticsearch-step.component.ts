@@ -79,7 +79,6 @@ export class SinkElasticsearchStepComponent implements OnInit {
       stepAttrMap.set(STEP_ATTR_TYPE.dataSource, this.formGroup.get(STEP_ATTR_TYPE.dataSource).value);
       stepAttrMap.set(STEP_ATTR_TYPE.index, this.formGroup.get(STEP_ATTR_TYPE.index).value);
       stepAttrMap.set(STEP_ATTR_TYPE.indexTimeFormat, this.formGroup.get(STEP_ATTR_TYPE.indexTimeFormat).value);
-      console.log(stepAttrMap)
       this.onSave.emit(stepAttrMap);
     }
   }
