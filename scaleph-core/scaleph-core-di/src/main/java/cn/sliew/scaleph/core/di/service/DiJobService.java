@@ -18,9 +18,11 @@
 
 package cn.sliew.scaleph.core.di.service;
 
+import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.param.DiJobAddParam;
 import cn.sliew.scaleph.core.di.service.param.DiJobParam;
+import cn.sliew.scaleph.core.di.service.param.DiJobStepParam;
 import cn.sliew.scaleph.core.di.service.param.DiJobUpdateParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -56,6 +58,15 @@ public interface DiJobService {
     int deleteByCode(Long projectId, String jobCode);
 
     int deleteByProjectId(Collection<Long> projectIds);
+
+    /**
+     * 编辑前检查作业的版本，确认是否需要生成新的可编辑版本
+     */
+    Long prepareJobVersion(Long id) throws ScalephException;
+
+    Long saveJobStep(DiJobStepParam param) throws ScalephException;
+
+    Long saveJobGraph(DiJobDTO job) throws ScalephException;
 
     /**
      * 归档任务，只保留发布状态中最大版本号的那个，其余发布状态的任务均改为归档状态

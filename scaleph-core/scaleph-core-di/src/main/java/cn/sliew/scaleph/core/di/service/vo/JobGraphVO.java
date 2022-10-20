@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.core.di.service.vo;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -31,6 +32,10 @@ import java.util.List;
 @Data
 @ApiModel(value = "作业图对象", description = "作业图信息")
 public class JobGraphVO {
-    List<NodeCellVO> nodes;
-    List<EdgeCellVO> edges;
+
+    @ApiModelProperty("nodes")
+    private List<NodeCellVO> nodes;
+
+    @ApiModelProperty("edges")
+    private List<EdgeCellVO> edges;
 }

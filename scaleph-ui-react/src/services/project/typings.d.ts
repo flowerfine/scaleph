@@ -112,19 +112,10 @@ export type DiJobStep = {
   stepCode: string;
   stepTitle: string;
   stepType: Dict;
-  stepName: string;
+  stepName: Dict;
   positionX: number;
   positionY: number;
   stepAttrs?:any;
   createTime?: Date;
   updateTime?: Date;
-  jobStepAttrList: DiJobStepAttr[];
-};
-
-export type DiJobStepAttr = {
-  id?: number;
-  jobId: number;
-  stepCode: string;
-  stepAttrKey: string;
-  stepAttrValue: string;
 };

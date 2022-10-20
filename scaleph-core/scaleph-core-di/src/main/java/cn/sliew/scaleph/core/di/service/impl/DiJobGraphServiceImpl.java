@@ -20,19 +20,23 @@ package cn.sliew.scaleph.core.di.service.impl;
 
 import cn.sliew.scaleph.common.dict.job.JobStepType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.core.di.service.DiJobGraphService;
 import cn.sliew.scaleph.core.di.service.DiJobLinkService;
 import cn.sliew.scaleph.core.di.service.DiJobStepService;
 import cn.sliew.scaleph.core.di.service.dto.DiJobLinkDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobStepDTO;
+import cn.sliew.scaleph.core.di.service.param.DiJobStepParam;
 import cn.sliew.scaleph.core.di.service.vo.EdgeCellVO;
 import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
 import cn.sliew.scaleph.core.di.service.vo.NodeCellVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class DiJobGraphServiceImpl implements DiJobGraphService {
 
     @Autowired
@@ -46,6 +50,10 @@ public class DiJobGraphServiceImpl implements DiJobGraphService {
         saveJobLinks(jobId, jobGraph.getEdges());
     }
 
+    /**
+     * 在新建 job step 时, {@link NodeCellVO#data} 是 {@link cn.sliew.scaleph.core.di.service.vo.DagPanalVO}
+     * 在更新 job step 时, {@link NodeCellVO#data} 是 服务端返回的 job step 数据组装的
+     */
     private void saveJobSteps(Long jobId, List<NodeCellVO> nodes) {
         List<String> stopCodes = nodes.stream().map(NodeCellVO::getId)
                 .collect(Collectors.toList());
@@ -76,6 +84,12 @@ public class DiJobGraphServiceImpl implements DiJobGraphService {
             jobLink.setToStepCode(edge.getTarget());
             diJobLinkService.upsert(jobLink);
         }
+    }
+
+    @Override
+    public void updateJobStep(DiJobStepParam param) {
+        DiJobStepDTO dto = BeanUtil.copy(param, new DiJobStepDTO());
+        diJobStepService.update(dto);
     }
 
     @Override

@@ -34,9 +34,9 @@ export const DagService = {
           ports: DagService.createPorts(step.stepType.value as string),
           data: {
             jobId: step.jobId,
-            name: step.stepName,
-            type: step.stepType.value as string,
-            displayName: DagService.titleCase(step.stepName + ' ' + step.stepType.value),
+            name: step.stepName.value,
+            type: step.stepType.value,
+            displayName: DagService.titleCase(step.stepName.value + ' ' + step.stepType.value),
             createTime: step.createTime,
             updateTime: step.updateTime,
             attrs:step.stepAttrs

@@ -18,24 +18,24 @@
 
 package cn.sliew.scaleph.api.controller.datadev;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONUtil;
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.dict.job.JobStatus;
-import cn.sliew.scaleph.common.dict.job.JobStepType;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.common.enums.*;
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.core.di.service.*;
-import cn.sliew.scaleph.core.di.service.dto.*;
+import cn.sliew.scaleph.core.di.service.DiJobAttrService;
+import cn.sliew.scaleph.core.di.service.DiJobResourceFileService;
+import cn.sliew.scaleph.core.di.service.DiJobService;
+import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiResourceFileDTO;
 import cn.sliew.scaleph.core.di.service.param.DiJobAddParam;
 import cn.sliew.scaleph.core.di.service.param.DiJobParam;
+import cn.sliew.scaleph.core.di.service.param.DiJobStepParam;
 import cn.sliew.scaleph.core.di.service.param.DiJobUpdateParam;
-import cn.sliew.scaleph.core.di.service.vo.*;
+import cn.sliew.scaleph.core.di.service.vo.DiJobAttrVO;
+import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
@@ -43,7 +43,6 @@ import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.I18nUtil;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.common.primitives.Primitives;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +56,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * todo split job to crud and run, stop, schedule
@@ -80,10 +78,6 @@ public class JobController {
     @Autowired
     private DiJobAttrService diJobAttrService;
     @Autowired
-    private DiJobStepService diJobStepService;
-    @Autowired
-    private DiJobLinkService diJobLinkService;
-    @Autowired
     private DiJobResourceFileService diJobResourceFileService;
     @Autowired
     private SeatunnelJobService seatunnelJobService;
@@ -102,7 +96,7 @@ public class JobController {
     @ApiOperation(value = "新增作业记录", notes = "新增一条作业记录，相关流程定义不涉及")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_ADD)")
     public ResponseEntity<ResponseVO> simpleAddJob(@Validated @RequestBody DiJobAddParam param) {
-        final DiJobDTO diJobDTO = diJobService.insert(param);
+        DiJobDTO diJobDTO = diJobService.insert(param);
         return new ResponseEntity<>(ResponseVO.sucess(diJobDTO), HttpStatus.CREATED);
     }
 
@@ -145,84 +139,16 @@ public class JobController {
 
     @Logging
     @PostMapping(path = "/detail")
-    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "保存作业详情", notes = "保存作业相关流程定义，如果已经有对应版本号的数据，则提醒用户编辑最新版本。")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> saveJobDetail(@Validated @RequestBody DiJobDTO diJobDTO) throws ScalephException {
-        DiJobDTO job = this.diJobService.selectOne(diJobDTO.getId());
-        Long editableJobId = prepareJobVersion(job);
-        saveJobGraph(diJobDTO.getJobGraph(), editableJobId);
+        Long editableJobId = diJobService.saveJobGraph(diJobDTO);
         return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.CREATED);
     }
 
-    /**
-     * 编辑前检查作业的版本，确认是否需要生成新的可编辑版本
-     *
-     * @param job job info
-     * @return job id
-     */
+
     private Long prepareJobVersion(DiJobDTO job) throws ScalephException {
-        if (JobStatusEnum.ARCHIVE.getValue().equals(job.getJobStatus().getValue())) {
-            throw new ScalephException(I18nUtil.get("response.error.di.job.lowVersion"));
-        }
-
-        if (JobStatusEnum.RELEASE.getValue().equals(job.getJobStatus().getValue())) {
-            Long oldJobId = job.getId();
-            int jobVersion = job.getJobVersion() + 1;
-            DiJobDTO newVersionJob = diJobService.selectOne(job.getProjectId(), job.getJobCode(), jobVersion);
-            if (newVersionJob != null) {
-                throw new ScalephException(I18nUtil.get("response.error.di.job.lowVersion"));
-            }
-            job.setId(null);
-            job.setJobVersion(jobVersion);
-            job.setJobStatus(JobStatus.DRAFT);
-//            DiJobDTO newJob = diJobService.insert(job);
-//            diJobService.clone(oldJobId, newJob.getId());
-//            return newJob.getId();
-            return -1L;
-        }
-
         return job.getId();
-    }
-
-
-    private void saveJobGraph(JobGraphVO jobGraph, Long jobId) {
-        if (jobGraph != null) {
-            List<NodeCellVO> nodes = jobGraph.getNodes();
-            List<EdgeCellVO> edges = jobGraph.getEdges();
-            //清除图中已删除的连线信息
-            this.diJobLinkService.deleteSurplusLink(jobId,
-                    edges.stream()
-                            .map(EdgeCellVO::getId)
-                            .collect(Collectors.toList()));
-            //插入新的
-            for (EdgeCellVO edge : edges) {
-                DiJobLinkDTO jobLink = new DiJobLinkDTO();
-                jobLink.setLinkCode(edge.getId());
-                jobLink.setJobId(jobId);
-                jobLink.setFromStepCode(edge.getSource());
-                jobLink.setToStepCode(edge.getTarget());
-                this.diJobLinkService.upsert(jobLink);
-            }
-            //清除图中已删除的节点信息及节点属性
-            this.diJobStepService.deleteSurplusStep(jobId,
-                    nodes.stream()
-                            .map(NodeCellVO::getId)
-                            .collect(Collectors.toList()));
-            //插入新的，更新已有的 这里不处理节点属性信息
-            for (NodeCellVO node : nodes) {
-                DiJobStepDTO jobStep = new DiJobStepDTO();
-                jobStep.setJobId(jobId);
-                jobStep.setStepCode(node.getId());
-                jobStep.setStepTitle(node.getLabel());
-                DagPanalVO dagPanalVO = JacksonUtil.parseJsonString(JacksonUtil.toJsonString(node.getData()), DagPanalVO.class);
-                jobStep.setStepType(JobStepType.of(dagPanalVO.getType()));
-                jobStep.setStepName(SeaTunnelPluginName.of(dagPanalVO.getName()));
-                jobStep.setPositionX(node.getX());
-                jobStep.setPositionY(node.getY());
-                this.diJobStepService.upsert(jobStep);
-            }
-        }
     }
 
     @Logging
@@ -305,75 +231,9 @@ public class JobController {
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "保存步骤属性信息", notes = "保存步骤属性信息，未触发作业版本号变更")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> saveJobStepInfo(
-            @RequestBody Map<String, Object> stepAttrMap) {
-        if (isStepAttrMapValid(stepAttrMap)) {
-            Long jobId = Long.valueOf(stepAttrMap.get(Constants.JOB_ID).toString());
-            DiJobDTO jobInfo = this.diJobService.selectOne(jobId);
-            try {
-                Long editableJobId = prepareJobVersion(jobInfo);
-                String stepCode = stepAttrMap.get(Constants.JOB_STEP_CODE).toString();
-                String jobGraphStr = toJsonStr(stepAttrMap.get(Constants.JOB_GRAPH));
-                JobGraphVO jobGraphVO = JSONUtil.toBean(jobGraphStr, JobGraphVO.class);
-                saveJobGraph(jobGraphVO, editableJobId);
-                //update step
-                DiJobStepDTO step = new DiJobStepDTO();
-                step.setJobId(editableJobId);
-                step.setStepCode(stepCode);
-                Map<String, Object> stepAttrs = (Map<String, Object>) stepAttrMap.get(Constants.JOB_STEP_ATTRS);
-                step.setStepTitle(stepAttrs.get(Constants.JOB_STEP_TITLE).toString());
-                step.setStepAttrs(stepAttrs);
-                this.diJobStepService.update(step);
-                return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.OK);
-            } catch (ScalephException e) {
-                return new ResponseEntity<>(
-                        ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                                e.getMessage(), ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
-            }
-        } else {
-            return new ResponseEntity<>(ResponseVO.error(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.job.step.attr.illegal"),
-                    ErrorShowTypeEnum.NOTIFICATION), HttpStatus.OK);
-        }
-    }
-
-    private String toJsonStr(Object obj) {
-        if (obj == null) {
-            return null;
-        }
-        if (Primitives.isWrapperType(obj.getClass())) {
-            return obj.toString();
-        }
-        if (obj.getClass().isPrimitive()) {
-            return obj.toString();
-        }
-        return JSONUtil.toJsonStr(obj);
-    }
-
-    private boolean isPrimitive(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        return Primitives.isWrapperType(obj.getClass()) || obj.getClass().isPrimitive();
-    }
-
-    /**
-     * 判断作业属性信息是否有效，必须要包含JOB_ID JOB_STEP_CODE JOB_GRAPH
-     *
-     * @param stepAttrMap map
-     * @return boolean
-     */
-    private boolean isStepAttrMapValid(Map<String, Object> stepAttrMap) {
-        if (CollectionUtil.isEmpty(stepAttrMap)) {
-            return false;
-        }
-        return stepAttrMap.containsKey(Constants.JOB_ID)
-                && StrUtil.isNotEmpty(toJsonStr(stepAttrMap.get(Constants.JOB_ID)))
-                && stepAttrMap.containsKey(Constants.JOB_STEP_CODE)
-                && StrUtil.isNotEmpty(toJsonStr(stepAttrMap.get(Constants.JOB_STEP_CODE)))
-                && stepAttrMap.containsKey(Constants.JOB_GRAPH)
-                && StrUtil.isNotEmpty(toJsonStr(stepAttrMap.get(Constants.JOB_GRAPH)))
-                ;
+    public ResponseEntity<ResponseVO> saveJobStepInfo(@Valid @RequestBody DiJobStepParam param) throws ScalephException {
+        Long editableJobId = diJobService.saveJobStep(param);
+        return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.OK);
     }
 
     @Logging

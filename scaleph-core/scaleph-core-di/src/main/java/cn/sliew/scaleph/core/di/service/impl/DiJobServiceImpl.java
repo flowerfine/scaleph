@@ -19,9 +19,11 @@
 package cn.sliew.scaleph.core.di.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.job.JobStatus;
 import cn.sliew.scaleph.common.dict.job.RuntimeState;
 import cn.sliew.scaleph.common.enums.JobStatusEnum;
+import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.core.di.service.*;
 import cn.sliew.scaleph.core.di.service.convert.DiJobConvert;
@@ -29,7 +31,9 @@ import cn.sliew.scaleph.core.di.service.dto.DiDirectoryDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.param.DiJobAddParam;
 import cn.sliew.scaleph.core.di.service.param.DiJobParam;
+import cn.sliew.scaleph.core.di.service.param.DiJobStepParam;
 import cn.sliew.scaleph.core.di.service.param.DiJobUpdateParam;
+import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
 import cn.sliew.scaleph.dao.entity.master.di.DiJob;
 import cn.sliew.scaleph.dao.mapper.master.di.DiJobMapper;
 import cn.sliew.scaleph.security.util.SecurityUtil;
@@ -62,6 +66,8 @@ public class DiJobServiceImpl implements DiJobService {
     private DiJobLinkService diJobLinkService;
     @Autowired
     private DiJobStepService diJobStepService;
+    @Autowired
+    private DiJobGraphService diJobGraphService;
     @Autowired
     private DiJobResourceFileService diJobResourceFileService;
     @Autowired
@@ -155,7 +161,7 @@ public class DiJobServiceImpl implements DiJobService {
         if (CollectionUtils.isEmpty(ids)) {
             return 0;
         }
-        for (Long id: ids) {
+        for (Long id : ids) {
             delete(id);
         }
         return ids.size();
@@ -184,6 +190,56 @@ public class DiJobServiceImpl implements DiJobService {
         diJobStepService.deleteByProjectId(projectIds);
         return diJobMapper.delete(new LambdaQueryWrapper<DiJob>()
                 .in(DiJob::getProjectId, projectIds));
+    }
+
+    @Override
+    public Long prepareJobVersion(Long id) throws ScalephException {
+        DiJobDTO job = selectOne(id);
+        switch (job.getJobStatus()) {
+            case DRAFT:
+                return id;
+            case RELEASE:
+                return riseJobVersion(job);
+            case ARCHIVE:
+                throw new ScalephException(I18nUtil.get("response.error.di.job.lowVersion"));
+            default:
+                throw new ScalephException("unknown job status for " + job.getJobStatus());
+        }
+    }
+
+    private Long riseJobVersion(DiJobDTO job) {
+        int jobVersion = job.getJobVersion() + 1;
+        DiJobDTO newVersionJob = selectOne(job.getProjectId(), job.getJobCode(), jobVersion);
+        checkState(newVersionJob == null, () -> I18nUtil.get("response.error.di.job.lowVersion"));
+
+        DiJob record = DiJobConvert.INSTANCE.toDo(job);
+        record.setId(null);
+        job.setJobVersion(jobVersion);
+        job.setJobStatus(JobStatus.DRAFT);
+        diJobMapper.insert(record);
+        clone(job.getId(), record.getId());
+        return record.getId();
+    }
+
+    @Override
+    public Long saveJobStep(DiJobStepParam param) throws ScalephException {
+        Long editableJobId = prepareJobVersion(param.getJobId());
+
+        JobGraphVO jobGraphVO = JacksonUtil.parseJsonString(param.getJobGraph(), JobGraphVO.class);
+        diJobGraphService.saveJobGraph(editableJobId, jobGraphVO);
+
+        DiJobStepParam copiedParam = BeanUtil.copy(param, new DiJobStepParam());
+        copiedParam.setJobId(editableJobId);
+        diJobGraphService.updateJobStep(copiedParam);
+
+        return editableJobId;
+    }
+
+    @Override
+    public Long saveJobGraph(DiJobDTO job) throws ScalephException {
+        Long editableJobId = prepareJobVersion(job.getId());
+        diJobGraphService.saveJobGraph(editableJobId, job.getJobGraph());
+        return editableJobId;
     }
 
     @Override
