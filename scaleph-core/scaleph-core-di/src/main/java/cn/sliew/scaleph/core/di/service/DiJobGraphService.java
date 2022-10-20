@@ -21,6 +21,8 @@ package cn.sliew.scaleph.core.di.service;
 import cn.sliew.scaleph.core.di.service.param.DiJobStepParam;
 import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 public interface DiJobGraphService {
@@ -32,5 +34,7 @@ public interface DiJobGraphService {
     void clone(Long sourceJobId, Long targetJobId);
 
     void deleteBatch(List<Long> jobIds);
+
+    int deleteByProjectId(Collection<Long> projectIds);
 
 }

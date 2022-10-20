@@ -34,37 +34,13 @@ import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
  */
 public interface DiJobAttrService {
 
-    /**
-     * 按项目id删除
-     *
-     * @param projectIds project id
-     * @return int
-     */
-    int deleteByProjectId(Collection<? extends Serializable> projectIds);
-
-    /**
-     * 按job id 删除
-     *
-     * @param jobIds job id
-     * @return int
-     */
-    int deleteByJobId(Collection<? extends Serializable> jobIds);
-
-    /**
-     * 查询作业参数
-     *
-     * @param jobId job id
-     * @return job attr list
-     */
     List<DiJobAttrDTO> listJobAttr(Long jobId);
 
-    /**
-     * 插入更新
-     *
-     * @param jobAttrDTO 参数
-     * @return int
-     */
     int upsert(DiJobAttrDTO jobAttrDTO);
+
+    int deleteByProjectId(Collection<? extends Serializable> projectIds);
+
+    int deleteByJobId(Collection<? extends Serializable> jobIds);
 
     int clone(Long sourceJobId, Long targetJobId);
 }

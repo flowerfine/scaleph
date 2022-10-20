@@ -21,6 +21,7 @@ package cn.sliew.scaleph.core.di.service;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.param.*;
+import cn.sliew.scaleph.core.di.service.vo.DiJobAttrVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.Collection;
@@ -56,19 +57,15 @@ public interface DiJobService {
 
     int deleteByProjectId(Collection<Long> projectIds);
 
-    /**
-     * 编辑前检查作业的版本，确认是否需要生成新的可编辑版本
-     */
-    Long prepareJobVersion(Long id) throws ScalephException;
-
     Long saveJobStep(DiJobStepParam param) throws ScalephException;
 
     Long saveJobGraph(DiJobGraphParam param) throws ScalephException;
 
-    /**
-     * 归档任务，只保留发布状态中最大版本号的那个，其余发布状态的任务均改为归档状态
-     */
-    int archive(Long projectId, String jobCode);
+    DiJobAttrVO listJobAttrs(Long id);
+
+    Long saveJobAttrs(DiJobAttrVO vo) throws ScalephException;
+
+    void publish(Long id) throws ScalephException;
 
     boolean hasValidJob(Collection<Long> projectIds);
 
