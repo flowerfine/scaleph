@@ -100,6 +100,12 @@ export const JobService = {
     });
   },
 
+  previewJob: async (jobId: number) => {
+    return request<ResponseBody<string>>(`${JobService.url}/preview/` + jobId, {
+      method: 'GET'
+    });
+  },
+
   runJob: async (info: any) => {
     return request<ResponseBody<any>>(`${JobService.url}/run/`, {
       method: 'POST',

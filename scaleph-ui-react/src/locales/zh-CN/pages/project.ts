@@ -80,6 +80,7 @@ export default {
   'pages.project.di.flow.dag.stop': '停止',
   'pages.project.di.flow.dag.save': '保存',
   'pages.project.di.flow.dag.publish': '发布',
+  'pages.project.di.flow.dag.preview': '预览',
   'pages.project.di.flow.dag.port.in': '输入桩',
   'pages.project.di.flow.dag.port.out': '输出桩',
   'pages.project.di.flow.dag.prop': '参数设置',

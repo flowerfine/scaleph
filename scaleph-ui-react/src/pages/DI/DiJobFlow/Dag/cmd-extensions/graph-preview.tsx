@@ -11,12 +11,13 @@ import {
   NsGraph,
 } from '@antv/xflow';
 import type {HookHub} from '@antv/xflow-hook';
-import {ConfigProvider, Form, Modal} from 'antd';
+import {ConfigProvider, Modal} from 'antd';
 import {render, unmount} from 'rc-util/lib/React/render';
-import React from 'react';
-import {getIntl, getLocale} from 'umi';
+import React, {useEffect, useState} from 'react';
+import {getLocale} from 'umi';
 import {CustomCommands} from '../constant';
 import MonacoEditor from "react-monaco-editor";
+import {JobService} from "@/services/project/job.service";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 
@@ -26,7 +27,7 @@ type ICommand = ICommandHandler<NsGraphPreview.IArgs,
 
 export namespace NsGraphPreview {
   /** Command: 用于注册named factory */
-  export const command = CustomCommands.GRAPH_PARAMS_SETTING;
+  export const command = CustomCommands.GRAPH_PREVIEW;
   /** hook name */
   export const hookKey = 'graphPreview';
 
@@ -135,31 +136,37 @@ const GraphPreviewForm: React.FC<ModalFormProps<{ graphMeta: NsGraph.IGraphMeta;
                                                                                                                       onCancel
                                                                                                                     }) => {
   const jobId = data.graphMeta.origin.id;
-  const [form] = Form.useForm();
-  const intl = getIntl(getLocale(), true);
+  const [conf, setConf] = useState<string>();
+
+  useEffect(() => {
+    JobService.previewJob(jobId).then((reponse) => {
+      setConf(reponse.data)
+    })
+  }, []);
 
   const editorDidMount = (editor, monaco) => {
-    console.log('editorDidMount', editor);
     editor.focus();
   }
 
   return (
     <Modal
       open={visible}
-      title={intl.formatMessage({id: 'pages.project.di.flow.dag.prop'})}
+      title={false}
       width={780}
       bodyStyle={{overflowY: 'scroll', maxHeight: '640px'}}
       destroyOnClose={true}
       onCancel={onCancel}
+      footer={false}
     >
       <MonacoEditor
-        width="800"
+        width="750"
         height="600"
         language="json"
         theme="vs-dark"
-        value={"[{}, {}, {}]"}
+        value={conf}
         options={{
-          selectOnLineNumbers: true
+          selectOnLineNumbers: true,
+          readOnly: true
         }}
         editorDidMount={editorDidMount}
       />

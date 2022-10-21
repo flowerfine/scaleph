@@ -20,6 +20,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.impl;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.job.JobStepType;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobLinkDTO;
@@ -37,7 +38,6 @@ import com.google.common.graph.MutableGraph;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -64,6 +64,8 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         buildNodes(conf, graph.nodes());
         // append source_table_name and result_table_name
         buildEdges(graph.edges());
+        // remove utilty fields
+        clearUtiltyField(graph.nodes());
         return conf.toPrettyString();
     }
 
@@ -90,22 +92,20 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
 
 
     private MutableGraph<ObjectNode> buildGraph(DiJobDTO diJobDTO) {
+        MutableGraph<ObjectNode> graph = GraphBuilder.directed().build();
         List<DiJobStepDTO> jobStepList = diJobDTO.getJobStepList();
         List<DiJobLinkDTO> jobLinkList = diJobDTO.getJobLinkList();
-        Assert.notEmpty(jobStepList, () -> "SeaTunnel job steps can't be empty");
-        Assert.notEmpty(jobLinkList, () -> "SeaTunnel job links can't be empty");
-
-        MutableGraph<ObjectNode> graph = GraphBuilder.directed().build();
-
+        if (CollectionUtils.isEmpty(jobStepList) || CollectionUtils.isEmpty(jobLinkList)) {
+            return graph;
+        }
         Map<String, ObjectNode> stepMap = new HashMap<>();
         for (DiJobStepDTO step : jobStepList) {
-            // step_name + step_title
             Properties properties = mergeJobAttrs(step);
-            JobStepType stepType = step.getStepType();
-            SeaTunnelConnectorPlugin connector = seatunnelConnectorService.newConnector(stepType.getLabel(), properties);
+            SeaTunnelPluginName stepName = step.getStepName();
+            SeaTunnelConnectorPlugin connector = seatunnelConnectorService.newConnector(stepName.getLabel(), properties);
             ObjectNode stepConf = connector.createConf();
-            stepConf.put(SeaTunnelConstant.PLUGIN_NAME, step.getStepName().getValue());
-            stepConf.put(NODE_TYPE, stepType.getValue());
+            stepConf.put(SeaTunnelConstant.PLUGIN_NAME, stepName.getValue());
+            stepConf.put(NODE_TYPE, step.getStepType().getValue());
             stepConf.put(NODE_ID, step.getId());
             stepMap.put(step.getStepCode(), stepConf);
             graph.addNode(stepConf);
@@ -170,9 +170,17 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         edges.forEach(edge -> {
             ObjectNode source = edge.source();
             ObjectNode target = edge.target();
+            String pluginName = source.get(SeaTunnelConstant.PLUGIN_NAME).asText().toLowerCase();
             String nodeId = source.get(NODE_ID).asText();
-            source.put(RESULT_TABLE_NAME.getName(), TABLE_PREFIX + nodeId);
-            target.put(SOURCE_TABLE_NAME.getName(), TABLE_PREFIX + nodeId);
+            source.put(RESULT_TABLE_NAME.getName(), TABLE_PREFIX + pluginName + "_" + nodeId);
+            target.put(SOURCE_TABLE_NAME.getName(), TABLE_PREFIX + pluginName + "_" + nodeId);
+        });
+    }
+
+    private void clearUtiltyField(Set<ObjectNode> nodes) {
+        nodes.forEach(node -> {
+            node.remove(NODE_TYPE);
+            node.remove(NODE_ID);
         });
     }
 
