@@ -25,6 +25,7 @@ import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.core.di.service.DiJobGraphService;
 import cn.sliew.scaleph.core.di.service.DiJobLinkService;
 import cn.sliew.scaleph.core.di.service.DiJobStepService;
+import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobLinkDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobStepDTO;
 import cn.sliew.scaleph.core.di.service.param.DiJobStepParam;
@@ -45,6 +46,12 @@ public class DiJobGraphServiceImpl implements DiJobGraphService {
     private DiJobStepService diJobStepService;
     @Autowired
     private DiJobLinkService diJobLinkService;
+
+    @Override
+    public void queryJobGraph(DiJobDTO job) {
+        job.setJobStepList(diJobStepService.listJobStep(job.getId()));
+        job.setJobLinkList(diJobLinkService.listJobLink(job.getId()));
+    }
 
     @Override
     public void saveJobGraph(Long jobId, JobGraphVO jobGraph) {

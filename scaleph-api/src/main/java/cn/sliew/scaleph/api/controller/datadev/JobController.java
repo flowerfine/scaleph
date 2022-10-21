@@ -27,7 +27,6 @@ import cn.sliew.scaleph.core.di.service.dto.DiResourceFileDTO;
 import cn.sliew.scaleph.core.di.service.param.*;
 import cn.sliew.scaleph.core.di.service.vo.DiJobAttrVO;
 import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
-import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
@@ -40,7 +39,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -116,16 +114,23 @@ public class JobController {
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
-    /**
-     * todo move to DiJobSerivce
-     */
+
     @Logging
     @GetMapping(path = "/detail")
     @ApiOperation(value = "查询作业详情", notes = "查询作业详情，包含作业流程定义信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_SELECT)")
     public ResponseEntity<DiJobDTO> getJobDetail(@RequestParam(value = "id") Long id) {
-        DiJobDTO job = seatunnelJobService.queryJobInfo(id);
+        DiJobDTO job = diJobService.queryJobGraph(id);
         return new ResponseEntity<>(job, HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping(path = "/step")
+    @ApiOperation(value = "保存步骤属性信息", notes = "保存步骤属性信息，未触发作业版本号变更")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
+    public ResponseEntity<ResponseVO> saveJobStepInfo(@Valid @RequestBody DiJobStepParam param) throws ScalephException {
+        Long editableJobId = diJobService.saveJobStep(param);
+        return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.OK);
     }
 
     @Logging
@@ -156,15 +161,6 @@ public class JobController {
     }
 
     @Logging
-    @PostMapping(path = "/step")
-    @ApiOperation(value = "保存步骤属性信息", notes = "保存步骤属性信息，未触发作业版本号变更")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> saveJobStepInfo(@Valid @RequestBody DiJobStepParam param) throws ScalephException {
-        Long editableJobId = diJobService.saveJobStep(param);
-        return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.OK);
-    }
-
-    @Logging
     @GetMapping(path = "/publish/{jobId}")
     @ApiOperation(value = "发布任务", notes = "发布任务")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
@@ -174,8 +170,15 @@ public class JobController {
     }
 
     @Logging
+    @GetMapping(path = "/preview/{jobId}")
+    @ApiOperation(value = "任务预览", notes = "任务预览")
+    public ResponseEntity<ResponseVO> previewJob(@PathVariable(value = "jobId") Long jobId) {
+        String conf = seatunnelJobService.preview(jobId);
+        return new ResponseEntity<>(ResponseVO.sucess(conf), HttpStatus.OK);
+    }
+
+    @Logging
     @PostMapping(path = "/run")
-    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "运行任务", notes = "运行任务，提交至集群")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> runJob(@RequestBody DiJobRunVO jobRunParam) throws Exception {
@@ -185,7 +188,6 @@ public class JobController {
 
     @Logging
     @GetMapping(path = "/stop")
-    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "停止任务", notes = "停止任务,自动创建savepoint,作业可能会正常运行完后停止。任务的日志状态通过定时任务同步")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> stopJob(@RequestParam(value = "jobId") Long jobId) throws Exception {
@@ -212,7 +214,7 @@ public class JobController {
     @ApiOperation(value = "查询DAG节点元信息", notes = "后端统一返回节点信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_SELECT)")
     public ResponseEntity<List<DagPanelDTO>> loadNodeMeta() {
-        List<DagPanelDTO> list = this.seatunnelJobService.loadDndPanelInfo();
+        List<DagPanelDTO> list = seatunnelJobService.loadDndPanelInfo();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

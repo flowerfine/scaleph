@@ -18,14 +18,9 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.json.JSONUtil;
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
-import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
-import cn.sliew.scaleph.common.exception.Rethrower;
-import cn.sliew.scaleph.common.param.PropertyUtil;
+import cn.sliew.scaleph.common.dict.job.JobStepType;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobLinkDTO;
@@ -33,14 +28,8 @@ import cn.sliew.scaleph.core.di.service.dto.DiJobStepDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.engine.seatunnel.service.constant.SeaTunnelConstant;
-import cn.sliew.scaleph.meta.service.MetaDatasourceService;
-import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;
-import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
-import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
-import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.JobNameProperties;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.graph.EndpointPair;
@@ -49,8 +38,8 @@ import com.google.common.graph.MutableGraph;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -62,8 +51,6 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties.SOURC
 @Service
 public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
 
-    @Autowired
-    private MetaDatasourceService metaDatasourceService;
     @Autowired
     private SeatunnelConnectorService seatunnelConnectorService;
 
@@ -77,6 +64,8 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         buildNodes(conf, graph.nodes());
         // append source_table_name and result_table_name
         buildEdges(graph.edges());
+        // remove utilty fields
+        clearUtiltyField(graph.nodes());
         return conf.toPrettyString();
     }
 
@@ -87,8 +76,15 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
             return env;
         }
         for (DiJobAttrDTO attr : jobAttrs) {
-            if (JobAttrTypeEnum.JOB_PROP.getValue().equals(attr.getJobAttrType().getValue())) {
-                env.put(attr.getJobAttrKey(), attr.getJobAttrValue());
+            switch (attr.getJobAttrType()) {
+                case ENV:
+                    break;
+                case VARIABLE:
+                    env.put(attr.getJobAttrKey(), attr.getJobAttrValue());
+                    break;
+                case PROPERTIES:
+                    break;
+                default:
             }
         }
         return env;
@@ -96,26 +92,24 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
 
 
     private MutableGraph<ObjectNode> buildGraph(DiJobDTO diJobDTO) {
+        MutableGraph<ObjectNode> graph = GraphBuilder.directed().build();
         List<DiJobStepDTO> jobStepList = diJobDTO.getJobStepList();
         List<DiJobLinkDTO> jobLinkList = diJobDTO.getJobLinkList();
-        Assert.notEmpty(jobStepList, () -> "SeaTunnel job steps can't be empty");
-        Assert.notEmpty(jobLinkList, () -> "SeaTunnel job links can't be empty");
-
-        MutableGraph<ObjectNode> graph = GraphBuilder.directed().build();
-
+        if (CollectionUtils.isEmpty(jobStepList) || CollectionUtils.isEmpty(jobLinkList)) {
+            return graph;
+        }
         Map<String, ObjectNode> stepMap = new HashMap<>();
-//        for (DiJobStepDTO step : jobStepList) {
-//            // step_name + step_title
-//            String name = JOB_STEP_MAP.get(step.getStepType().getValue() + "-" + step.getStepName());
-//            Properties properties = mergeJobAttrs(step);
-//            SeaTunnelConnectorPlugin connector = seatunnelConnectorService.newConnector(name, properties);
-//            ObjectNode stepConf = connector.createConf();
-//            stepConf.put(SeaTunnelConstant.PLUGIN_NAME, name);
-//            stepConf.put(NODE_TYPE, step.getStepType().getValue());
-//            stepConf.put(NODE_ID, step.getId());
-//            stepMap.put(step.getStepCode(), stepConf);
-//            graph.addNode(stepConf);
-//        }
+        for (DiJobStepDTO step : jobStepList) {
+            Properties properties = mergeJobAttrs(step);
+            SeaTunnelPluginName stepName = step.getStepName();
+            SeaTunnelConnectorPlugin connector = seatunnelConnectorService.newConnector(stepName.getLabel(), properties);
+            ObjectNode stepConf = connector.createConf();
+            stepConf.put(SeaTunnelConstant.PLUGIN_NAME, stepName.getValue());
+            stepConf.put(NODE_TYPE, step.getStepType().getValue());
+            stepConf.put(NODE_ID, step.getId());
+            stepMap.put(step.getStepCode(), stepConf);
+            graph.addNode(stepConf);
+        }
         jobLinkList.forEach(link -> {
             String from = link.getFromStepCode();
             String to = link.getToStepCode();
@@ -127,31 +121,14 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
     private Properties mergeJobAttrs(DiJobStepDTO step) {
         Properties properties = new Properties();
         Map<String, Object> stepAttrList = step.getStepAttrs();
-        if (CollectionUtil.isNotEmpty(stepAttrList)) {
-            stepAttrList.forEach((k, v) -> {
-                if (v != null && !"".equals(v)) {
-                    if (Constants.JOB_STEP_ATTR_DATASOURCE.equals(k)) {
-                        DictVO dsAttr = JSONUtil.toBean(String.valueOf(v), DictVO.class);
-                        MetaDatasourceDTO datasourceDTO =
-                                metaDatasourceService.selectOne(Long.parseLong(dsAttr.getValue()), false);
-                        Set<PluginInfo> pluginInfoSet = this.metaDatasourceService.getAvailableDataSources();
-                        for (PluginInfo pluginInfo : pluginInfoSet) {
-                            if (pluginInfo.getName().equalsIgnoreCase(datasourceDTO.getDatasourceType().getValue())) {
-                                try {
-                                    Class<?> clazz = Class.forName(pluginInfo.getClassname());
-                                    DatasourcePlugin<?> dsPlugin = (DatasourcePlugin<?>) clazz.newInstance();
-                                    dsPlugin.setAdditionalProperties(PropertyUtil.mapToProperties(datasourceDTO.getAdditionalProps()));
-                                    dsPlugin.configure(PropertyContext.fromMap(datasourceDTO.getProps()));
-                                    properties.putAll(dsPlugin.getProperties());
-                                } catch (ClassNotFoundException | IllegalAccessException |
-                                         InstantiationException e) {
-                                    Rethrower.throwAs(e);
-                                }
-                            }
-                        }
-                    } else {
-                        properties.put(k, v);
+        if (CollectionUtils.isEmpty(stepAttrList) == false) {
+            stepAttrList.forEach((key, value) -> {
+                if (value instanceof String) {
+                    if (StringUtils.hasText(String.valueOf(value))) {
+                        properties.put(key, value);
                     }
+                } else {
+                    properties.put(key, value);
                 }
             });
         }
@@ -169,12 +146,18 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
 
         nodes.forEach(node -> {
             String nodeType = node.get(NODE_TYPE).asText();
-            if (JobStepTypeEnum.SOURCE.getValue().equals(nodeType)) {
-                sourceConf.add(node);
-            } else if (JobStepTypeEnum.TRANSFORM.getValue().equals(nodeType)) {
-                transformConf.add(node);
-            } else if (JobStepTypeEnum.SINK.getValue().equals(nodeType)) {
-                sinkConf.add(node);
+            JobStepType stepType = JobStepType.of(nodeType);
+            switch (stepType) {
+                case SOURCE:
+                    sourceConf.add(node);
+                    break;
+                case SINK:
+                    sinkConf.add(node);
+                    break;
+                case TRANSFORM:
+                    transformConf.add(node);
+                    break;
+                default:
             }
         });
 
@@ -187,9 +170,17 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         edges.forEach(edge -> {
             ObjectNode source = edge.source();
             ObjectNode target = edge.target();
+            String pluginName = source.get(SeaTunnelConstant.PLUGIN_NAME).asText().toLowerCase();
             String nodeId = source.get(NODE_ID).asText();
-            source.put(RESULT_TABLE_NAME.getName(), TABLE_PREFIX + nodeId);
-            target.put(SOURCE_TABLE_NAME.getName(), TABLE_PREFIX + nodeId);
+            source.put(RESULT_TABLE_NAME.getName(), TABLE_PREFIX + pluginName + "_" + nodeId);
+            target.put(SOURCE_TABLE_NAME.getName(), TABLE_PREFIX + pluginName + "_" + nodeId);
+        });
+    }
+
+    private void clearUtiltyField(Set<ObjectNode> nodes) {
+        nodes.forEach(node -> {
+            node.remove(NODE_TYPE);
+            node.remove(NODE_ID);
         });
     }
 

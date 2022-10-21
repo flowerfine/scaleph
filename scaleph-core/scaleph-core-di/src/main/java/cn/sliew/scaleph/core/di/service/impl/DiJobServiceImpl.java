@@ -224,6 +224,14 @@ public class DiJobServiceImpl implements DiJobService {
         return record.getId();
     }
 
+    @Override
+    public DiJobDTO queryJobGraph(Long id) {
+        DiJobDTO job = selectOne(id);
+        diJobGraphService.queryJobGraph(job);
+        job.setJobAttrList(diJobAttrService.listJobAttr(id));
+        return job;
+    }
+
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
     public Long saveJobStep(DiJobStepParam param) throws ScalephException {
