@@ -11,6 +11,8 @@ import { getIntl, getLocale } from 'umi';
 import { NsGraphPublish } from './cmd-extensions/graph-publish';
 import { CustomCommands, ZOOM_OPTIONS } from './constant';
 import { DagService } from './service';
+import {NsGraphPreview} from "@/pages/DI/DiJobFlow/Dag/cmd-extensions/graph-preview";
+import {GRAPH_PREVIEW} from "@/pages/DI/DiJobFlow/Dag/constant";
 
 export const useToolbarConfig = createToolbarConfig((toolbarConfig) => {
   /** toolbar item */
@@ -86,6 +88,17 @@ const getMainToolbarConfig = () => {
                     }
                   }),
               },
+            );
+          },
+        },
+        {
+          id: 'preview',
+          iconName: 'SendOutlined',
+          tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.publish' }),
+          onClick: async ({ commandService }) => {
+            commandService.executeCommand<NsGraphPreview.IArgs>(
+              CustomCommands.GRAPH_PREVIEW.id,
+              {},
             );
           },
         },

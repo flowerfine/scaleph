@@ -94,12 +94,12 @@ export const JobService = {
     });
   },
 
-
   publishJob: async (jobId: number) => {
     return request<ResponseBody<any>>(`${JobService.url}/publish/` + jobId, {
       method: 'GET',
     });
   },
+
   runJob: async (info: any) => {
     return request<ResponseBody<any>>(`${JobService.url}/run/`, {
       method: 'POST',

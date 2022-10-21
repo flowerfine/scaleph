@@ -170,9 +170,9 @@ public class JobController {
     }
 
     @Logging
-    @GetMapping(path = "/publish/{jobId}")
+    @GetMapping(path = "/preview/{jobId}")
     @ApiOperation(value = "任务预览", notes = "任务预览")
-    public ResponseEntity<ResponseVO> preview(@PathVariable(value = "jobId") Long jobId) {
+    public ResponseEntity<ResponseVO> previewJob(@PathVariable(value = "jobId") Long jobId) {
         String conf = seatunnelJobService.preview(jobId);
         return new ResponseEntity<>(ResponseVO.sucess(conf), HttpStatus.OK);
     }
