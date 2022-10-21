@@ -57,6 +57,8 @@ public interface DiJobService {
 
     int deleteByProjectId(Collection<Long> projectIds);
 
+    DiJobDTO queryJobGraph(Long id);
+
     Long saveJobStep(DiJobStepParam param) throws ScalephException;
 
     Long saveJobGraph(DiJobGraphParam param) throws ScalephException;

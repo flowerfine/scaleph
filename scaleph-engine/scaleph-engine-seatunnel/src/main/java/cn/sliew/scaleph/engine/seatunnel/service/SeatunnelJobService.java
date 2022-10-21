@@ -34,7 +34,7 @@ import java.util.Map;
  */
 public interface SeatunnelJobService {
 
-    DiJobDTO queryJobInfo(Long jobId);
+    String preview(Long jobId);
 
     void run(DiJobRunVO jobRunParam) throws Exception;
 

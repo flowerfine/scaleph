@@ -88,12 +88,6 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     @Autowired
     private DiJobService diJobService;
     @Autowired
-    private DiJobAttrService diJobAttrService;
-    @Autowired
-    private DiJobLinkService diJobLinkService;
-    @Autowired
-    private DiJobStepService diJobStepService;
-    @Autowired
     private DiJobResourceFileService diJobResourceFileService;
     @Autowired
     private DiJobLogService diJobLogService;
@@ -113,12 +107,9 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     private String savePointDir;
 
     @Override
-    public DiJobDTO queryJobInfo(Long jobId) {
-        DiJobDTO job = diJobService.selectOne(jobId);
-        job.setJobAttrList(diJobAttrService.listJobAttr(jobId));
-        job.setJobLinkList(diJobLinkService.listJobLink(jobId));
-        job.setJobStepList(diJobStepService.listJobStep(jobId));
-        return job;
+    public String preview(Long jobId) {
+        DiJobDTO job = diJobService.queryJobGraph(jobId);
+        return seatunnelConfigService.buildConfig(job);
     }
 
     @Override
@@ -128,7 +119,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         // 2.绑定任务和资源
         diJobResourceFileService.bindResource(jobRunParam.getJobId(), jobRunParam.getResources());
         // 3.获取任务信息
-        DiJobDTO diJobDTO = queryJobInfo(jobRunParam.getJobId());
+        DiJobDTO diJobDTO = diJobService.queryJobGraph(jobRunParam.getJobId());
         // 4.调度或者运行
         if (JobTypeEnum.BATCH.getValue().equals(diJobDTO.getJobType().getValue())
                 && StringUtils.hasText(diJobDTO.getJobCrontab())) {
@@ -209,7 +200,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
 
     @Override
     public void stop(Long jobId) throws Exception {
-        DiJobDTO job = queryJobInfo(jobId);
+        DiJobDTO job = diJobService.queryJobGraph(jobId);
         // 1.取消调度任务
         unschedule(job);
         // 2.停掉所有正在运行的任务
