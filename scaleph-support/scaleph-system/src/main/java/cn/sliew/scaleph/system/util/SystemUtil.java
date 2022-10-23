@@ -53,10 +53,6 @@ public class SystemUtil implements InitializingBean, DisposableBean {
         return FileUtil.createDir(Path.of(workspace));
     }
 
-    public static Path getLocalFileSystemWorkspace() throws IOException {
-        return FileUtil.createDir(getWorkspace().resolve("_FileSystem_"));
-    }
-
     public static Path getRandomWorkspace() throws IOException {
         return FileUtil.createDir(getWorkspace().resolve(UUID.randomUUID().toString(true)));
     }

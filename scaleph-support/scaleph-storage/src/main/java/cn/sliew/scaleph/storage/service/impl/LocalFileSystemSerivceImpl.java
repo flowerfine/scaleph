@@ -21,7 +21,6 @@ package cn.sliew.scaleph.storage.service.impl;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.storage.utils.HadoopUtil;
-import cn.sliew.scaleph.system.util.SystemUtil;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
@@ -31,7 +30,6 @@ import org.apache.hadoop.fs.*;
 import org.apache.hadoop.io.IOUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -57,14 +55,9 @@ public class LocalFileSystemSerivceImpl implements FileSystemService, Initializi
 
     private FileSystem fs;
 
-    @Autowired
-    private SystemUtil systemUtil;
-
     @Override
     public void afterPropertiesSet() throws Exception {
         Configuration conf = HadoopUtil.getHadoopConfiguration(null);
-        final java.nio.file.Path workspace = systemUtil.getLocalFileSystemWorkspace();
-        conf.set(FileSystem.FS_DEFAULT_NAME_KEY, workspace.toUri().toString());
         fs = LocalFileSystem.getLocal(conf);
     }
 

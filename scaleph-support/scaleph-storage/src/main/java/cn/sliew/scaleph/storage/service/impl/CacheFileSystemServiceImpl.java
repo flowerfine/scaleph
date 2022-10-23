@@ -84,13 +84,6 @@ public class CacheFileSystemServiceImpl implements FileSystemService {
             fileSystemService.delete(fileName);
         }
         fileSystemService.upload(inputStream, fileName);
-        if (fileSystemService.isDistributedFS() == false) {
-            return;
-        }
-        if (localFileSystemSerivce.exists(fileName)) {
-            localFileSystemSerivce.delete(fileName);
-        }
-        localFileSystemSerivce.upload(inputStream, fileName);
     }
 
     @Override
