@@ -27,9 +27,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-/**
- * todo connector crud
- */
 public interface SeatunnelConnectorService {
 
     List<PropertyDescriptor> getSupportedEnvProperties();
