@@ -29,6 +29,8 @@ public interface FileSystemService {
 
     FileSystem getFileSystem();
 
+    boolean isDistributedFS();
+
     boolean exists(String fileName) throws IOException;
 
     List<String> list(String directory) throws IOException;
