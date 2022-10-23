@@ -18,28 +18,60 @@
 
 package cn.sliew.scaleph.storage.service.impl;
 
-import cn.sliew.scaleph.storage.configuration.FileSystemType;
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.storage.service.FileSystemService;
-import org.apache.hadoop.fs.FSDataOutputStream;
-import org.apache.hadoop.fs.FileStatus;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
+import cn.sliew.scaleph.storage.utils.HadoopUtil;
+import cn.sliew.scaleph.system.util.SystemUtil;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.RemovalListener;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.*;
 import org.apache.hadoop.io.IOUtils;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Collections;
+import java.time.Duration;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Service
-public class FileSystemServiceImpl implements FileSystemService {
+public class LocalFileSystemSerivceImpl implements FileSystemService, InitializingBean, DisposableBean {
 
-    @Resource
+    private Cache<String, Path> cache = Caffeine.newBuilder()
+            .expireAfterWrite(Duration.ofHours(1L))
+            .removalListener((RemovalListener<String, Path>) (cacheKey, path, removalCause) -> {
+                try {
+                    delete(cacheKey);
+                } catch (IOException e) {
+                    log.error("clear local file system cache error! cacheKey: {}, path: {}",
+                            JacksonUtil.toJsonString(cacheKey), path, e);
+                }
+            })
+            .build();
+
     private FileSystem fs;
+
+    @Autowired
+    private SystemUtil systemUtil;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        Configuration conf = HadoopUtil.getHadoopConfiguration(null);
+        final java.nio.file.Path workspace = systemUtil.getLocalFileSystemWorkspace();
+        conf.set(FileSystem.FS_DEFAULT_NAME_KEY, workspace.toUri().toString());
+        fs = LocalFileSystem.getLocal(conf);
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        fs.close();
+    }
 
     @Override
     public FileSystem getFileSystem() {
@@ -48,7 +80,7 @@ public class FileSystemServiceImpl implements FileSystemService {
 
     @Override
     public boolean isDistributedFS() {
-        return fs.getScheme().equals(FileSystemType.LOCAL.getSchema()) == false;
+        return false;
     }
 
     @Override
@@ -59,14 +91,7 @@ public class FileSystemServiceImpl implements FileSystemService {
 
     @Override
     public List<String> list(String directory) throws IOException {
-        Path path = new Path(fs.getWorkingDirectory(), directory);
-        if (fs.exists(path) == false) {
-            return Collections.emptyList();
-        }
-        final FileStatus[] fileStatuses = fs.listStatus(path);
-        return Arrays.stream(fileStatuses)
-                .map(fileStatus -> fileStatus.getPath().getName())
-                .collect(Collectors.toList());
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -84,10 +109,13 @@ public class FileSystemServiceImpl implements FileSystemService {
         try (final FSDataOutputStream outputStream = fs.create(path, false)) {
             IOUtils.copyBytes(inputStream, outputStream, 1024);
         }
+        // enable cache and will be evicted automatically in the later hour
+        cache.put(fileName, path);
     }
 
     @Override
     public boolean delete(String fileName) throws IOException {
+        cache.invalidate(fileName);
         Path path = new Path(fs.getWorkingDirectory(), fileName);
         return fs.delete(path, true);
     }
@@ -101,10 +129,6 @@ public class FileSystemServiceImpl implements FileSystemService {
 
     @Override
     public List<FileStatus> listStatus(String directory) throws IOException {
-        Path path = new Path(fs.getWorkingDirectory(), directory);
-        if (fs.exists(path)) {
-            return Arrays.asList(fs.listStatus(path));
-        }
-        return Collections.emptyList();
+        throw new UnsupportedOperationException();
     }
 }

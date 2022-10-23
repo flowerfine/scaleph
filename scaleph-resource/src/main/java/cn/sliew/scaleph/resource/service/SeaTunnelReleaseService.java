@@ -26,10 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.Path;
 import java.util.List;
 
-public interface SeaTunnelReleaseService extends ResourceDescriptor<SeaTunnelReleaseDTO, Path> {
+public interface SeaTunnelReleaseService extends ResourceDescriptor<SeaTunnelReleaseDTO> {
 
     Page<SeaTunnelReleaseDTO> list(SeaTunnelReleaseListParam param) throws IOException;
 
