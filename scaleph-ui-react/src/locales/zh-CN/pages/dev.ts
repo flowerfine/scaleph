@@ -65,5 +65,10 @@ export default {
   'pages.dev.job.jar.args.key': 'Parameter',
   'pages.dev.job.jar.args.value': 'Value',
   'pages.dev.job.config.cluster': '集群信息',
+  'pages.dev.job.seatunnel': 'SeaTunnel',
+  'pages.dev.job.seatunnel.env': 'Env',
+  'pages.dev.job.seatunnel.env.new': 'Add',
+  'pages.dev.job.seatunnel.env.key': 'Key',
+  'pages.dev.job.seatunnel.env.value': 'Value',
 
 }
