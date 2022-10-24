@@ -85,6 +85,7 @@ CREATE TABLE `flink_job`
     `flink_cluster_config_id`   BIGINT       NOT NULL,
     `flink_cluster_instance_id` BIGINT,
     `flink_config`              TEXT,
+    `jars`              TEXT,
     `from_version`              BIGINT,
     `version`                   BIGINT       NOT NULL DEFAULT 0,
     `remark`                    VARCHAR(255),

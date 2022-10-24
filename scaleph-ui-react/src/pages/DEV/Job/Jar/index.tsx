@@ -89,9 +89,7 @@ const JobForJarWeb: React.FC = () => {
                   onClick={() => {
                     Modal.confirm({
                       title: intl.formatMessage({id: 'app.common.operate.submit.confirm.title'}),
-                      content: intl.formatMessage({
-                        id: 'app.common.operate.submit.confirm.content',
-                      }),
+                      content: intl.formatMessage({id: 'app.common.operate.submit.confirm.content'}),
                       okText: intl.formatMessage({id: 'app.common.operate.submit.label'}),
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {

@@ -46,6 +46,7 @@ export const USER_AUTH = {
 export const RESOURCE_TYPE = {
   flinkRelease: 'flink_release',
   clusterCredential: 'cluster_credential',
+  jar: 'jar',
 };
 
 export const WORKSPACE_CONF = {

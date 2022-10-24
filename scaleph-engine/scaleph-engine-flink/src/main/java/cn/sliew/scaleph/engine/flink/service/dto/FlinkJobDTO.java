@@ -27,6 +27,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -61,6 +62,9 @@ public class FlinkJobDTO extends BaseDTO {
 
     @ApiModelProperty("flink config")
     private Map<String, String> flinkConfig;
+
+    @ApiModelProperty("jars")
+    private List<Long> jars;
 
     @ApiModelProperty("job from version")
     private Long fromVersion;

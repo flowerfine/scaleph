@@ -3,6 +3,7 @@ import {GraphParamsSettingCommand, NsGraphParamsSetting} from './graph-params-mo
 import {GraphPublishCommand, NsGraphPublish} from './graph-publish';
 import {EditNodeCommand, NsEditNode} from './step-edit-modal';
 import {GraphPreviewCommand, NsGraphPreview} from './graph-preview';
+import {GraphSubmitCommand, NsGraphSubmit} from "./graph-submit";
 
 /** 注册成为可以执行的命令 */
 export const commandContributions = [
@@ -25,5 +26,9 @@ export const commandContributions = [
   {
     ...NsGraphPublish,
     CommandHandler: GraphPublishCommand,
+  },
+  {
+    ...NsGraphSubmit,
+    CommandHandler: GraphSubmitCommand,
   },
 ];

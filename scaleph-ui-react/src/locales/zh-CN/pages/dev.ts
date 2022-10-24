@@ -61,6 +61,7 @@ export default {
   'pages.dev.job.base': 'Base',
   'pages.dev.job.artifact': 'Artifact',
   'pages.dev.job.configOptions': 'Config Options',
+  'pages.dev.job.jar': 'Jar',
   'pages.dev.job.jar.args': 'Main Args',
   'pages.dev.job.jar.args.key': 'Parameter',
   'pages.dev.job.jar.args.value': 'Value',

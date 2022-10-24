@@ -33,6 +33,7 @@
         <result column="flink_cluster_config_id" property="flinkClusterConfigId"/>
         <result column="flink_cluster_instance_id" property="flinkClusterInstanceId"/>
         <result column="flink_config" property="flinkConfig"/>
+        <result column="jars" property="jars"/>
         <result column="from_version" property="fromVersion"/>
         <result column="version" property="version"/>
         <result column="remark" property="remark"/>
@@ -49,6 +50,7 @@
         <result column="name" property="name"/>
         <result column="job_config" property="jobConfig"/>
         <result column="flink_config" property="flinkConfig"/>
+        <result column="jars" property="jars"/>
         <result column="from_version" property="fromVersion"/>
         <result column="version" property="version"/>
         <result column="remark" property="remark"/>
@@ -123,6 +125,7 @@
         flink_cluster_config_id,
         flink_cluster_instance_id,
         flink_config,
+        jars,
         from_version,
         version,
         remark
