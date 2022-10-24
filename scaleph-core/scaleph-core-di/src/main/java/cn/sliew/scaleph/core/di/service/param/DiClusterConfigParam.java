@@ -19,17 +19,20 @@
 package cn.sliew.scaleph.core.di.service.param;
 
 import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
  * @author gleiyu
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class DiClusterConfigParam extends PaginationParam {
 
+    @ApiModelProperty("cluster name")
     private String clusterName;
 
+    @ApiModelProperty("cluster type")
     private String clusterType;
 }
