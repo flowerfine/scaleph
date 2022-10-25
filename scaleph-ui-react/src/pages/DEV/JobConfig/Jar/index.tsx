@@ -17,10 +17,8 @@ const JobConfigJarOptions: React.FC = () => {
   const params = urlParams.state as FlinkJobForJar;
 
   const jobConfig = new Map(Object.entries(params?.jobConfig ? params?.jobConfig : {}));
-  const args: Array<any> = [];
-  jobConfig.forEach((value: any, key: string) => {
-    args.push({parameter: key, value: value});
-  });
+  const args = FlinkClusterConfigService.parseArgs(jobConfig)
+  const jars = FlinkClusterConfigService.parseJars(params?.jars ? params?.jars : [])
   const data = {
     name: params?.name,
     flinkArtifactId: params?.flinkArtifactJar?.flinkArtifact?.id,
@@ -30,7 +28,7 @@ const JobConfigJarOptions: React.FC = () => {
     deployMode: params?.flinkClusterConfig?.deployMode?.value,
     flinkClusterInstance: params?.flinkClusterInstance?.id,
     flinkClusterConfig: params?.flinkClusterConfig?.id,
-    jars: params?.jars,
+    jars: jars,
     remark: params?.remark,
   };
   const flinkConfig = FlinkClusterConfigService.setData(
@@ -46,11 +44,8 @@ const JobConfigJarOptions: React.FC = () => {
           grid: true,
         }}
         onFinish={async (values) => {
-          const jobConfig = new Map<string, any>();
-          values.args?.forEach(function (item: Record<string, any>) {
-            jobConfig[item.parameter] = item.value;
-          });
-          const jars = values.jars.map((data: Record<string, any>) => data.jar)
+          const jobConfig = FlinkClusterConfigService.formatArgs(values)
+          const jars = FlinkClusterConfigService.formatJars(values)
           const param: FlinkJob = {
             type: '0',
             code: params?.code,
