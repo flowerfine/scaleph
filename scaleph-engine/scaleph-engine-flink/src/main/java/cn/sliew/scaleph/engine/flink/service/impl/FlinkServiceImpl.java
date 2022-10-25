@@ -35,8 +35,10 @@ import cn.sliew.scaleph.engine.flink.service.dto.*;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.FlinkReleaseService;
+import cn.sliew.scaleph.resource.service.JarService;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
+import cn.sliew.scaleph.resource.service.dto.JarDTO;
 import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
 import cn.sliew.scaleph.system.util.SystemUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -82,6 +84,8 @@ public class FlinkServiceImpl implements FlinkService {
     private ClusterCredentialService clusterCredentialService;
     @Autowired
     private FlinkClusterInstanceService flinkClusterInstanceService;
+    @Autowired
+    private JarService jarService;
 
     /**
      * requires:
@@ -135,8 +139,10 @@ public class FlinkServiceImpl implements FlinkService {
 
         Path flinkHomePath = loadFlinkRelease(flinkClusterConfigDTO.getFlinkRelease(), workspace);
 
+        List<URL> jars = loadJarResources(flinkJobForJarDTO.getJars(), workspace);
         FlinkArtifactJarDTO flinkArtifactJar = flinkArtifactJarService.selectOne(flinkJobForJarDTO.getFlinkArtifactJar().getId());
         Path flinkArtifactJarPath = loadFlinkArtifactJar(flinkArtifactJar, workspace);
+        jars.add(flinkArtifactJarPath.toFile().toURL());
         PackageJarJob packageJarJob = buildJarJob(flinkJobForJarDTO, flinkArtifactJar, flinkArtifactJarPath);
 
         final Path clusterCredentialPath = loadClusterCredential(flinkClusterConfigDTO.getClusterCredential(), workspace);
@@ -144,7 +150,7 @@ public class FlinkServiceImpl implements FlinkService {
         if (CollectionUtils.isEmpty(flinkJobForJarDTO.getFlinkConfig()) == false) {
             configuration.addAll(Configuration.fromMap(flinkJobForJarDTO.getFlinkConfig()));
         }
-        ConfigUtils.encodeCollectionToConfig(configuration, PipelineOptions.JARS, Collections.singletonList(flinkArtifactJarPath.toFile().toURL()), Object::toString);
+        ConfigUtils.encodeCollectionToConfig(configuration, PipelineOptions.JARS, jars, Object::toString);
 
         switch (flinkClusterConfigDTO.getResourceProvider()) {
             case YARN:
@@ -418,6 +424,22 @@ public class FlinkServiceImpl implements FlinkService {
             }
         }
         return tempDir;
+    }
+
+    private List<URL> loadJarResources(List<Long> jarIds, Path workspace) throws IOException {
+        if (CollectionUtils.isEmpty(jarIds)) {
+            return Collections.emptyList();
+        }
+        List<URL> result = new ArrayList<>();
+        for (Long jarId : jarIds) {
+            JarDTO jarDTO = jarService.selectOne(jarId);
+            Path path = FileUtil.createFile(workspace, jarDTO.getFileName());
+            try (OutputStream output = FileUtil.getOutputStream(path)) {
+                jarService.download(jarId, output);
+                result.add(path.toFile().toURL());
+            }
+        }
+        return result;
     }
 
     private Path loadFlinkArtifactJar(FlinkArtifactJarDTO flinkArtifactJarDTO, Path workspace) throws IOException {
