@@ -93,7 +93,7 @@ const getMainToolbarConfig = () => {
         },
         {
           id: 'preview',
-          iconName: 'SendOutlined',
+          iconName: 'EyeOutlined',
           tooltip: intl.formatMessage({id: 'pages.project.di.flow.dag.preview'}),
           onClick: async ({commandService}) => {
             commandService.executeCommand<NsGraphPreview.IArgs>(
@@ -115,7 +115,7 @@ const getMainToolbarConfig = () => {
         },
         {
           id: 'submit',
-          iconName: 'SendOutlined',
+          iconName: 'FundProjectionScreenOutlined',
           tooltip: intl.formatMessage({id: 'pages.project.di.flow.dag.submit'}),
           onClick: async ({commandService}) => {
             commandService.executeCommand<NsGraphSubmit.IArgs>(
