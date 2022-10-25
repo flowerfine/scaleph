@@ -64,8 +64,8 @@ const SourceSocketStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.port'})}
           rules={[{required: true}]}
           colProps={{span: 12}}
+          initialValue={9999}
           fieldProps={{
-            defaultValue: 9999,
             min: 0,
             max: 65535
           }}
