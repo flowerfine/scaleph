@@ -12,19 +12,19 @@ const SeaTunnelArtifactOptions: React.FC<{ data: DiJob }> = ({data}) => {
       style={{width: 1000}}>
       <ProFormGroup>
         <ProFormText
-          name="directory"
-          label={intl.formatMessage({id: 'pages.project.di.directory'})}
-          colProps={{span: 21, offset: 1}}
-          readonly={true}
-          initialValue={data.directory?.fullPath}
-          rules={[{required: true}, {max: 128}]}/>
-        <ProFormText
-          name="jobName"
+          name="name"
           label={intl.formatMessage({id: 'pages.project.di.jobName'})}
           colProps={{span: 21, offset: 1}}
           readonly={true}
           initialValue={data.jobName}
           rules={[{required: true}, {max: 128}]}/>
+        <ProFormText
+          name="remark"
+          label={intl.formatMessage({id: 'pages.project.di.remark'})}
+          colProps={{span: 21, offset: 1}}
+          readonly={true}
+          initialValue={data.remark}
+          rules={[{max: 200}]}/>
       </ProFormGroup>
 
     </ProCard>);

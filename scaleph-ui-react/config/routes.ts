@@ -162,7 +162,6 @@ export default [
             access: 'normalRouteFilter',
           },
           {
-            name: 'jobForSeaTunnel',
             path: '/workspace/dev/job/seatunnel/options',
             exact: true,
             component: './DEV/JobConfig/SeaTunnel',

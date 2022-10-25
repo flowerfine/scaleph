@@ -4,6 +4,8 @@ import {useRef} from 'react';
 import {useIntl, useLocation} from 'umi';
 import SeaTunnelJob from "@/pages/DEV/JobConfig/components/SeaTunnelJob";
 import {DiJob} from "@/services/project/typings";
+import {FlinkClusterConfigService} from "@/services/dev/flinkClusterConfig.service";
+import {FlinkJob} from "@/pages/DEV/Job/typings";
 
 const JobConfigSeaTunnelOptions: React.FC = () => {
   const urlParams = useLocation();
@@ -20,6 +22,20 @@ const JobConfigSeaTunnelOptions: React.FC = () => {
           grid: true
         }}
         onFinish={async (values) => {
+          const jobConfig = FlinkClusterConfigService.formatArgs(values)
+          const jars = FlinkClusterConfigService.formatJars(values)
+          const param: FlinkJob = {
+            type: '0',
+            name: values['name'],
+            flinkArtifactId: values['flinkArtifactJarId'],
+            jobConfig: jobConfig,
+            flinkClusterConfigId: values['flinkClusterConfig'],
+            flinkClusterInstanceId: values['flinkClusterInstance'],
+            flinkConfig: FlinkClusterConfigService.getData(values),
+            jars: jars,
+            remark: values['remark'],
+          };
+
           console.log('JobConfigSeaTunnelOptions', values)
         }}
       >

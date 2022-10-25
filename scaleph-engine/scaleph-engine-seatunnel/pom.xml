@@ -45,11 +45,6 @@
 
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-core-di</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-core-scheduler</artifactId>
         </dependency>
 
