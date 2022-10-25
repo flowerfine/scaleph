@@ -52,9 +52,7 @@ public class PropertyContext implements java.io.Serializable {
 
     public static PropertyContext fromProperties(Properties props) {
         final PropertyContext context = new PropertyContext();
-        for (String property : props.stringPropertyNames()) {
-            context.setString(property, props.getProperty(property));
-        }
+        props.forEach((property, value) -> context.setString((String) property, value));
         return context;
     }
 

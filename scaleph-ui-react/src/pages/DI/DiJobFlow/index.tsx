@@ -10,6 +10,8 @@ import {
   ProfileOutlined,
   SaveOutlined,
   SendOutlined,
+  EyeOutlined,
+  FundProjectionScreenOutlined,
   StopOutlined,
   ZoomInOutlined,
   ZoomOutOutlined,
@@ -73,6 +75,8 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
   IconStore.set('StopOutlined', StopOutlined);
   IconStore.set('SaveOutlined', SaveOutlined);
   IconStore.set('SendOutlined', SendOutlined);
+  IconStore.set('EyeOutlined', EyeOutlined);
+  IconStore.set('FundProjectionScreenOutlined', FundProjectionScreenOutlined);
   IconStore.set('ProfileOutlined', ProfileOutlined);
   IconStore.set('FullscreenOutlined', FullscreenOutlined);
   IconStore.set('FullscreenExitOutlined', FullscreenExitOutlined);
