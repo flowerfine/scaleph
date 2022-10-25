@@ -24,7 +24,6 @@ import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorManager;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,7 +31,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-@Slf4j
 @Service
 public class SeatunnelConnectorServiceImpl implements SeatunnelConnectorService {
 

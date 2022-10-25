@@ -1,6 +1,5 @@
 import JobClusterConfigOptions from '@/pages/DEV/JobConfig/components/ClusterConfigOptions';
 import JobBase from '@/pages/DEV/JobConfig/components/JobBase';
-import JobJar from '@/pages/DEV/JobConfig/components/JobJar';
 import {FlinkClusterConfigService} from '@/services/dev/flinkClusterConfig.service';
 import {FlinkJobService} from "@/pages/DEV/Job/FlinkJobService";
 import {ProCard, ProFormInstance, StepsForm} from '@ant-design/pro-components';
@@ -8,6 +7,7 @@ import {message} from 'antd';
 import {useRef} from 'react';
 import {history, useIntl, useLocation} from 'umi';
 import {FlinkJob, FlinkJobForJar} from "@/pages/DEV/Job/typings";
+import JarJob from "@/pages/DEV/JobConfig/components/JarJob";
 
 const JobConfigJarOptions: React.FC = () => {
   const urlParams = useLocation();
@@ -17,10 +17,8 @@ const JobConfigJarOptions: React.FC = () => {
   const params = urlParams.state as FlinkJobForJar;
 
   const jobConfig = new Map(Object.entries(params?.jobConfig ? params?.jobConfig : {}));
-  const args: Array<any> = [];
-  jobConfig.forEach((value: any, key: string) => {
-    args.push({parameter: key, value: value});
-  });
+  const args = FlinkClusterConfigService.parseArgs(jobConfig)
+  const jars = FlinkClusterConfigService.parseJars(params?.jars ? params?.jars : [])
   const data = {
     name: params?.name,
     flinkArtifactId: params?.flinkArtifactJar?.flinkArtifact?.id,
@@ -30,6 +28,7 @@ const JobConfigJarOptions: React.FC = () => {
     deployMode: params?.flinkClusterConfig?.deployMode?.value,
     flinkClusterInstance: params?.flinkClusterInstance?.id,
     flinkClusterConfig: params?.flinkClusterConfig?.id,
+    jars: jars,
     remark: params?.remark,
   };
   const flinkConfig = FlinkClusterConfigService.setData(
@@ -45,10 +44,8 @@ const JobConfigJarOptions: React.FC = () => {
           grid: true,
         }}
         onFinish={async (values) => {
-          const jobConfig = new Map<string, any>();
-          values.args?.forEach(function (item: Record<string, any>) {
-            jobConfig[item.parameter] = item.value;
-          });
+          const jobConfig = FlinkClusterConfigService.formatArgs(values)
+          const jars = FlinkClusterConfigService.formatJars(values)
           const param: FlinkJob = {
             type: '0',
             code: params?.code,
@@ -58,6 +55,7 @@ const JobConfigJarOptions: React.FC = () => {
             flinkClusterConfigId: values['flinkClusterConfig'],
             flinkClusterInstanceId: values['flinkClusterInstance'],
             flinkConfig: FlinkClusterConfigService.getData(values),
+            jars: jars,
             remark: values['remark'],
           };
           return params?.code
@@ -95,7 +93,7 @@ const JobConfigJarOptions: React.FC = () => {
             width: 1000,
           }}
         >
-          <JobJar data={params}/>
+          <JarJob data={params}/>
         </StepsForm.StepForm>
         <StepsForm.StepForm
           name="configOptions"

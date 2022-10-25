@@ -61,9 +61,15 @@ export default {
   'pages.dev.job.base': 'Base',
   'pages.dev.job.artifact': 'Artifact',
   'pages.dev.job.configOptions': 'Config Options',
+  'pages.dev.job.jar': 'Jar',
   'pages.dev.job.jar.args': 'Main Args',
   'pages.dev.job.jar.args.key': 'Parameter',
   'pages.dev.job.jar.args.value': 'Value',
   'pages.dev.job.config.cluster': '集群信息',
+  'pages.dev.job.seatunnel': 'SeaTunnel',
+  'pages.dev.job.seatunnel.env': 'Env',
+  'pages.dev.job.seatunnel.env.new': 'Add',
+  'pages.dev.job.seatunnel.env.key': 'Key',
+  'pages.dev.job.seatunnel.env.value': 'Value',
 
 }

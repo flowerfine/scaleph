@@ -22,25 +22,36 @@ import java.util.Date;
 
 import cn.sliew.scaleph.common.param.PaginationParam;
 import cn.sliew.scaleph.dao.entity.master.di.DiJobLog;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class DiJobLogParam extends PaginationParam {
 
+    @ApiModelProperty("project id")
     private Long projectId;
 
+    @ApiModelProperty("cluster id")
     private Long clusterId;
 
+    @ApiModelProperty("job code")
     private String jobCode;
 
+    @ApiModelProperty("start time")
     private Long startTime;
 
+    @ApiModelProperty("end time")
     private Long endTime;
 
+    @ApiModelProperty("job instance state")
     private String jobInstanceState;
 
+    @ApiModelProperty("job instance id")
     private String jobInstanceId;
 
+    @ApiModelProperty("job type")
     private String jobType;
 
     public DiJobLog toDo() {

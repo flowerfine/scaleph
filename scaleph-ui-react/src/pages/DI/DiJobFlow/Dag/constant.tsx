@@ -39,6 +39,12 @@ export namespace CustomCommands {
     label: 'publish',
     category: XFlowGraphCommands.GRAPH_COPY.category,
   };
+
+  export const GRAPH_SUBMIT: IGraphCommand = {
+    id: 'xflow:graph-submit',
+    label: 'graph-submit',
+    category: XFlowGraphCommands.GRAPH_COPY.category,
+  };
 }
 
 export const STEP_ATTR_TYPE = {

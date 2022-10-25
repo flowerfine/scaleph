@@ -21,12 +21,14 @@ package cn.sliew.scaleph.core.di.service.param;
 import cn.sliew.scaleph.common.dict.job.JobType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
+@EqualsAndHashCode
 public class DiJobAddParam {
 
     @ApiModelProperty("project id")

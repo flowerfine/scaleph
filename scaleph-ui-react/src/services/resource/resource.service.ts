@@ -4,6 +4,7 @@ import { ResourceListParam } from './typings';
 
 export const ResourceService = {
   url: '/api/resource',
+
   supportedResourceTypes: async () => {
     return request<ResponseBody<Array<string>>>(`${ResourceService.url}`, {
       method: 'GET',

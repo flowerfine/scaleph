@@ -1,3 +1,5 @@
+import {extend} from "lodash";
+
 export type AuthCode = {
   uuid: string;
   img: string;
@@ -69,13 +71,6 @@ export type Dict = {
   value?: string;
 };
 
-export type TablePageResponse<T> = {
-  pageSize: number;
-  current: number;
-  total: number;
-  data: T[];
-};
-
 export type ModalFormProps<T> = {
   data: T;
   visible: boolean;
@@ -90,4 +85,12 @@ export type TreeNode = {
   children?: TreeNode[];
   origin?: any;
   showOpIcon?: boolean;
+};
+
+export type CascaderOption = {
+  value: string | number;
+  label?: React.ReactNode;
+  disabled?: boolean;
+  children?: Option[];
+  isLeaf?: boolean;
 };
