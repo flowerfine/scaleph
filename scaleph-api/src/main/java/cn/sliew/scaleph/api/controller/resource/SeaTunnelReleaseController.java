@@ -19,13 +19,13 @@
 package cn.sliew.scaleph.api.controller.resource;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
-import cn.sliew.scaleph.system.vo.ResponseVO;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.resource.service.SeaTunnelReleaseService;
 import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseListParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseUploadParam;
+import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
+import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -96,6 +96,18 @@ public class SeaTunnelReleaseController {
     public ResponseEntity<ResponseVO> download(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
         try (ServletOutputStream outputStream = response.getOutputStream()) {
             final String name = seaTunnelReleaseService.download(id, outputStream);
+            response.setCharacterEncoding("utf-8");// 设置字符编码
+            response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(name, "UTF-8")); // 设置响应头
+        }
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("download/{id}/connectors/{connector}")
+    @ApiOperation("下载 release connector")
+    public ResponseEntity<ResponseVO> downloadConnector(@PathVariable("id") Long id, @PathVariable("connector") String connector, HttpServletResponse response) throws IOException {
+        try (ServletOutputStream outputStream = response.getOutputStream()) {
+            String name = seaTunnelReleaseService.downloadConnector(id, connector, outputStream);
             response.setCharacterEncoding("utf-8");// 设置字符编码
             response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(name, "UTF-8")); // 设置响应头
         }

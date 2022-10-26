@@ -1,5 +1,4 @@
 import {PRIVILEGE_CODE} from '@/constant';
-import {ClusterCredentialService} from '@/services/resource/clusterCredential.service';
 import {SeaTunnelConnectorFile} from '@/services/resource/typings';
 import {history} from '@@/core/history';
 import {DownloadOutlined} from '@ant-design/icons';
@@ -37,6 +36,11 @@ const SeaTunnelConnectorResource: React.FC = () => {
       hideInSearch: true,
     },
     {
+      title: intl.formatMessage({ id: 'pages.resource.credentialFile.blockSize' }),
+      dataIndex: 'blockSize',
+      hideInSearch: true,
+    },
+    {
       title: intl.formatMessage({id: 'pages.resource.credentialFile.accessTime'}),
       dataIndex: 'accessTime',
       hideInSearch: true,
@@ -66,10 +70,8 @@ const SeaTunnelConnectorResource: React.FC = () => {
                   shape="default"
                   type="link"
                   icon={<DownloadOutlined/>}
-                  onClick={() => {
-                    ClusterCredentialService.downloadFile(seatunnelReleaseId, record);
-                  }}
-                ></Button>
+                  onClick={() => SeatunnelReleaseService.downloadConnector(seatunnelReleaseId, record.name)}
+                />
               </Tooltip>
             )}
           </Space>

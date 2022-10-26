@@ -41,6 +41,8 @@ public interface SeaTunnelReleaseService extends ResourceDescriptor<SeaTunnelRel
 
     String download(Long id, OutputStream outputStream) throws IOException;
 
+    String downloadConnector(Long id, String connector, OutputStream outputStream) throws IOException;
+
     int deleteBatch(List<Long> ids) throws IOException;
 
     void delete(Long id) throws IOException;

@@ -170,6 +170,16 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
     }
 
     @Override
+    public String downloadConnector(Long id, String connector, OutputStream outputStream) throws IOException {
+        final SeaTunnelReleaseDTO dto = selectOne(id);
+        final String fileName = String.format("%s/%s", getConnectorsPath(dto.getVersion().getValue()), connector);
+        try (InputStream inputStream = fileSystemService.get(fileName)) {
+            FileCopyUtils.copy(inputStream, outputStream);
+        }
+        return connector;
+    }
+
+    @Override
     public int deleteBatch(List<Long> ids) throws IOException {
         for (Serializable id : ids) {
             delete((Long) id);
