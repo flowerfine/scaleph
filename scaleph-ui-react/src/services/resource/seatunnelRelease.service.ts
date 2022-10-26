@@ -1,11 +1,12 @@
-import { PageResponse, ResponseBody } from '@/app.d';
-import { USER_AUTH } from '@/constant';
+import {PageResponse, ResponseBody} from '@/app.d';
+import {USER_AUTH} from '@/constant';
 import {
+  SeaTunnelConnectorFile,
   SeaTunnelRelease,
   SeaTunnelReleaseListParam,
   SeaTunnelReleaseUploadParam,
 } from '@/services/resource/typings';
-import { request } from '@@/exports';
+import {request} from '@@/exports';
 
 export const SeatunnelReleaseService = {
   url: '/api/resource/seatunnel-release',
@@ -31,6 +32,14 @@ export const SeatunnelReleaseService = {
     });
   },
 
+  listConnectors: async (id: number) => {
+    return request<Array<SeaTunnelConnectorFile>>(`${SeatunnelReleaseService.url}/` + id + '/connectors', {
+      method: 'GET',
+    }).then((res) => {
+      return {data: res};
+    });
+  },
+
   upload: async (uploadParam: SeaTunnelReleaseUploadParam) => {
     const formData = new FormData();
     formData.append('version', uploadParam.version);
@@ -43,6 +52,7 @@ export const SeatunnelReleaseService = {
       data: formData,
     });
   },
+
   download: async (row: SeaTunnelRelease) => {
     const a = document.createElement('a');
     a.href =
@@ -56,6 +66,7 @@ export const SeatunnelReleaseService = {
     a.click();
     window.URL.revokeObjectURL(SeatunnelReleaseService.url);
   },
+
   deleteOne: async (row: SeaTunnelRelease) => {
     return request<ResponseBody<any>>(`${SeatunnelReleaseService.url}/` + row.id, {
       method: 'DELETE',

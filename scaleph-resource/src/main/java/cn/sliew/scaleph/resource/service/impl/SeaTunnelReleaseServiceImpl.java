@@ -25,17 +25,20 @@ import cn.sliew.scaleph.common.util.SeaTunnelReleaseUtil;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceSeaTunnelRelease;
 import cn.sliew.scaleph.dao.mapper.master.resource.ResourceSeaTunnelReleaseMapper;
 import cn.sliew.scaleph.resource.service.SeaTunnelReleaseService;
+import cn.sliew.scaleph.resource.service.convert.FileStatusVOConvert;
 import cn.sliew.scaleph.resource.service.convert.SeaTunnelReleaseConvert;
 import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
 import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseListParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseUploadParam;
+import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.storage.service.RemoteService;
 import cn.sliew.scaleph.system.util.SystemUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.hadoop.fs.FileStatus;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.PathResource;
@@ -108,9 +111,16 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
     }
 
     @Override
+    public List<FileStatusVO> listConnectors(Long id) throws IOException {
+        SeaTunnelReleaseDTO dto = selectOne(id);
+        List<FileStatus> fileStatuses = fileSystemService.listStatus(getConnectorsPath(dto.getVersion().getValue()));
+        return FileStatusVOConvert.INSTANCE.toVO(fileStatuses);
+    }
+
+    @Override
     public void upload(SeaTunnelReleaseUploadParam param, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        String filePath = getReleaseSeaTunnelPath(param.getVersion().getValue(), fileName);
+        String filePath = getReleasePath(param.getVersion().getValue(), fileName);
         try (final InputStream inputStream = file.getInputStream()) {
             fileSystemService.upload(inputStream, filePath);
         }
@@ -140,7 +150,7 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
         pluginMappingProperties.forEach((plugin, connector) -> {
             if (SeaTunnelReleaseUtil.isV2Connectors((String) plugin)) {
                 String connectorUrl = SeaTunnelReleaseUtil.seatunnelConnectorUrl(SeaTunnelReleaseUtil.STARTER_REPO_URL, version, (String) connector);
-                String connectorFile = getReleaseSeaTunnelConnectorsPath(version, (String) connector);
+                String connectorFile = getSeaTunnelConnectorPath(version, (String) connector);
                 try {
                     remoteService.fetch(connectorUrl, connectorFile);
                 } catch (IOException e) {
@@ -170,20 +180,29 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
     @Override
     public void delete(Long id) throws IOException {
         final SeaTunnelReleaseDTO dto = selectOne(id);
-        fileSystemService.delete(dto.getPath());
+        String releaseVersionPath = getVersionPath(dto.getVersion().getValue());
+        fileSystemService.delete(releaseVersionPath);
         releaseSeaTunnelMapper.deleteById(id);
     }
 
-    private String getReleaseSeaTunnelPath(String version, String fileName) {
-        return String.format("%s/%s/%s", getReleaseSeaTunnelRootPath(), version, fileName);
+    private String getVersionPath(String version) {
+        return String.format("%s/%s", getRootPath(), version);
     }
 
-    private String getReleaseSeaTunnelConnectorsPath(String version, String connector) {
+    private String getReleasePath(String version, String fileName) {
+        return String.format("%s/%s", getVersionPath(version), fileName);
+    }
+
+    private String getConnectorsPath(String version) {
+        return String.format("%s/connectors/seatunnel", getVersionPath(version));
+    }
+
+    private String getSeaTunnelConnectorPath(String version, String connector) {
         String connectorJar = SeaTunnelReleaseUtil.convertToJar(version, connector);
-        return String.format("%s/%s/connectors/seatunnel/%s", getReleaseSeaTunnelRootPath(), version, connectorJar);
+        return String.format("%s/%s", getConnectorsPath(version), connectorJar);
     }
 
-    private String getReleaseSeaTunnelRootPath() {
+    private String getRootPath() {
         return "release/seatunnel";
     }
 }

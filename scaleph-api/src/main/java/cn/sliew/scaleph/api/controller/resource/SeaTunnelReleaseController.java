@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.api.controller.resource;
 
 import cn.sliew.scaleph.api.annotation.Logging;
+import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.resource.service.SeaTunnelReleaseService;
@@ -64,6 +65,14 @@ public class SeaTunnelReleaseController {
     @ApiOperation(value = "查询 release 详情", notes = "查询 release 详情")
     public ResponseEntity<SeaTunnelReleaseDTO> get(@PathVariable("id") Long id) throws IOException {
         final SeaTunnelReleaseDTO result = seaTunnelReleaseService.selectOne(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("/{id}/connectors")
+    @ApiOperation(value = "查询 release connectors", notes = "查询 release connectors")
+    public ResponseEntity<List<FileStatusVO>> listConnectors(@PathVariable("id") Long id) throws IOException {
+        final List<FileStatusVO> result = seaTunnelReleaseService.listConnectors(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

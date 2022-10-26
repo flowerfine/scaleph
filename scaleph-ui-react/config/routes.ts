@@ -210,6 +210,13 @@ export default [
         access: 'normalRouteFilter',
       },
       {
+        path: '/resource/seatunnel-release/connectors',
+        exact: true,
+        component: './Resource/SeaTunnelConnector',
+        pCode: PRIVILEGE_CODE.datadevDatasourceShow,
+        access: 'normalRouteFilter',
+      },
+      {
         name: 'kerberos',
         path: '/resource/kerberos',
         exact: true,
