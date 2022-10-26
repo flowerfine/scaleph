@@ -16,10 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service.util;
+package cn.sliew.scaleph.common.util;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.StrSubstitutor;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 /**
  * https://github.com/apache/incubator-seatunnel/blob/dev/seatunnel-common/src/main/java/org/apache/seatunnel/common/config/Common.java
@@ -27,9 +31,12 @@ import java.nio.file.Paths;
 public enum SeaTunnelReleaseUtil {
     ;
 
-    public static final String STARTER_JAR_NAME = "seatunnel-flink-starter.jar";
+    public static final String STARTER_REPO_URL = "https://repo1.maven.org/maven2/org/apache/seatunnel";
 
+    public static final String STARTER_JAR_NAME = "seatunnel-flink-starter.jar";
     public static final String SEATUNNEL_MAIN_CLASS = "org.apache.seatunnel.core.starter.flink.SeatunnelFlink";
+
+    public static final String SEATUNNEL_PLUGIN_MAPPING = "plugin-mapping.properties";
 
 
     public static Path getLibDir(Path rootDir) {
@@ -47,6 +54,10 @@ public enum SeaTunnelReleaseUtil {
         return Paths.get(rootDir.toString(), "connectors");
     }
 
+    public static Path getPluginMapping(Path rootDir) {
+        return connectorsRootDir(rootDir).resolve(SEATUNNEL_PLUGIN_MAPPING);
+    }
+
     /**
      * Engine Connector Root Dir
      */
@@ -54,9 +65,33 @@ public enum SeaTunnelReleaseUtil {
         return connectorsRootDir(rootDir).resolve(engine.toLowerCase());
     }
 
-    public static Path flinkConnectorsRootDir(Path rootDir) {
+    public static Path seatunnelConnectorsRootDir(Path rootDir) {
         return engineConnectorsRootDir(rootDir, "seatunnel");
     }
 
+    public static Path seatunnelConnector(Path rootDir, String connector) {
+        return seatunnelConnectorsRootDir(rootDir).resolve(connector);
+    }
+
+    public static String seatunnelConnectorUrl(String repoUrl, String version, String connector) {
+        if (StringUtils.endsWithIgnoreCase(repoUrl, "/")) {
+            repoUrl = StringUtils.removeEndIgnoreCase(repoUrl, "/");
+        }
+        Map<String, String> variables = Map.of("repoUrl", repoUrl, "version", version, "jar", convertToJar(version, connector));
+        StrSubstitutor substitutor = new StrSubstitutor(variables);
+        String template = "${repoUrl}/${connector}/${version}/${jar}";
+        return substitutor.replace(template);
+    }
+
+    public static String convertToJar(String version, String connector) {
+        Map<String, String> variables = Map.of("version", version, "connector", connector);
+        StrSubstitutor substitutor = new StrSubstitutor(variables);
+        String template = "${connector}-${version}.jar";
+        return substitutor.replace(template);
+    }
+
+    public static boolean isV2Connectors(String plugin) {
+        return StringUtils.startsWithIgnoreCase(plugin, "seatunnel");
+    }
 
 }

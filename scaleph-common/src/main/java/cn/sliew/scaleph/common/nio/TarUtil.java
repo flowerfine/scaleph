@@ -21,6 +21,8 @@ package cn.sliew.scaleph.common.nio;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipParameters;
+import org.springframework.util.StringUtils;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -33,14 +35,12 @@ public enum TarUtil {
     ;
 
     public static Path untar(Path source) throws IOException {
-        final String fileName = source.getFileName().toString();
-        String targetDir = fileName.substring(0, fileName.lastIndexOf("."));
-        final Path target = source.getParent().resolve(targetDir);
-        FileUtil.createDir(target);
-
         try (BufferedInputStream fi = (BufferedInputStream) FileUtil.getInputStream(source);
              GzipCompressorInputStream gzi = new GzipCompressorInputStream(fi);
              TarArchiveInputStream ti = new TarArchiveInputStream(gzi)) {
+            String targetDir = getTaregtDir(gzi.getMetaData(), source.getFileName().toString());
+            Path target = source.getParent().resolve(targetDir);
+            FileUtil.createDir(target);
 
             ArchiveEntry entry;
             while ((entry = ti.getNextEntry()) != null) {
@@ -57,8 +57,16 @@ public enum TarUtil {
                     Files.copy(ti, newPath, StandardCopyOption.REPLACE_EXISTING);
                 }
             }
+            return target;
         }
-        return target;
+    }
+
+    private static String getTaregtDir(GzipParameters parameters, String fileName) {
+        String filename = parameters.getFilename();
+        if (StringUtils.hasText(filename)) {
+            return filename;
+        }
+        return fileName.substring(0, fileName.lastIndexOf("."));
     }
 
     private static Path zipSlipProtect(ArchiveEntry entry, Path targetDir) throws IOException {
