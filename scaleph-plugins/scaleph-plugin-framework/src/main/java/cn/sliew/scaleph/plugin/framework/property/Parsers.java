@@ -18,11 +18,9 @@
 
 package cn.sliew.scaleph.plugin.framework.property;
 
-import cn.sliew.milky.common.primitives.Booleans;
-import cn.sliew.milky.common.primitives.Doubles;
-import cn.sliew.milky.common.primitives.Floats;
-import cn.sliew.milky.common.primitives.Integers;
-import cn.sliew.milky.common.primitives.Longs;
+import cn.sliew.milky.common.primitives.*;
+import cn.sliew.milky.common.util.JacksonUtil;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,4 +41,6 @@ public enum Parsers {
     public static final Parser<String> STRING_PARSER = value -> value;
 
     public static final Parser<List<String>> STRING_ARRAY_PARSER = value -> Arrays.asList(value.split(","));
+
+    public static final Parser<JsonNode> JSON_PARSER = value -> JacksonUtil.toJsonNode(value);
 }
