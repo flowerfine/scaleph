@@ -885,7 +885,7 @@ create table di_job
 ) engine = innodb comment '数据集成-作业信息';
 INSERT INTO `di_job` (`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
                       `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
-VALUES (1, 1, 'mNVdYcrOyK89O3rP', 'e_commerce', 2, 'b', 'sys_admin', '1', '1', 1, NULL, NULL, NULL, 'sys', 'sys');
+VALUES (1, 1, 'mNVdYcrOyK89O3rP', 'e_commerce', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys', 'sys');
 
 drop table if exists di_job_resource_file;
 create table di_job_resource_file
