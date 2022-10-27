@@ -19,20 +19,30 @@
 package cn.sliew.scaleph.resource.service.impl;
 
 import cn.sliew.scaleph.common.exception.Rethrower;
+import cn.sliew.scaleph.common.nio.FileUtil;
+import cn.sliew.scaleph.common.nio.TarUtil;
+import cn.sliew.scaleph.common.util.SeaTunnelReleaseUtil;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceSeaTunnelRelease;
 import cn.sliew.scaleph.dao.mapper.master.resource.ResourceSeaTunnelReleaseMapper;
 import cn.sliew.scaleph.resource.service.SeaTunnelReleaseService;
+import cn.sliew.scaleph.resource.service.convert.FileStatusVOConvert;
 import cn.sliew.scaleph.resource.service.convert.SeaTunnelReleaseConvert;
 import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
 import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseListParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseUploadParam;
+import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
 import cn.sliew.scaleph.storage.service.FileSystemService;
+import cn.sliew.scaleph.storage.service.RemoteService;
+import cn.sliew.scaleph.system.util.SystemUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.hadoop.fs.FileStatus;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.PathResource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
@@ -42,7 +52,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -51,6 +65,8 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
 
     @Autowired
     private FileSystemService fileSystemService;
+    @Autowired
+    private RemoteService remoteService;
     @Autowired
     private ResourceSeaTunnelReleaseMapper releaseSeaTunnelMapper;
 
@@ -97,9 +113,16 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
     }
 
     @Override
+    public List<FileStatusVO> listConnectors(Long id) throws IOException {
+        SeaTunnelReleaseDTO dto = selectOne(id);
+        List<FileStatus> fileStatuses = fileSystemService.listStatus(getConnectorsPath(dto.getVersion().getValue()));
+        return FileStatusVOConvert.INSTANCE.toVO(fileStatuses);
+    }
+
+    @Override
     public void upload(SeaTunnelReleaseUploadParam param, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        String filePath = getReleaseSeaTunnelPath(param.getVersion().getValue(), fileName);
+        String filePath = getReleasePath(param.getVersion().getValue(), fileName);
         try (final InputStream inputStream = file.getInputStream()) {
             fileSystemService.upload(inputStream, filePath);
         }
@@ -108,6 +131,47 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
         record.setFileName(fileName);
         record.setPath(filePath);
         releaseSeaTunnelMapper.insert(record);
+
+        // fetch connectors
+        // seatunnel release not contains connectors since 2.2.0-beta
+        // instead provides a connector jar install shell script
+        fetchConnectors(record.getId(), param.getVersion().getValue(), fileName);
+    }
+
+    private void fetchConnectors(Long id, String version, String fileName) throws IOException {
+        Path workspace = SystemUtil.getRandomWorkspace();
+        try {
+            Path file = FileUtil.createFile(workspace, fileName);
+            try (OutputStream outputStream = FileUtil.getOutputStream(file)) {
+                download(id, outputStream);
+            }
+
+            Path seatunnelPath = FileUtil.listFiles(TarUtil.untar(file)).get(0);
+            Path pluginMapping = SeaTunnelReleaseUtil.getPluginMapping(seatunnelPath);
+            Properties pluginMappingProperties = PropertiesLoaderUtils.loadProperties(new PathResource(pluginMapping));
+
+            Set<String> connectors = new HashSet<>();
+            pluginMappingProperties.forEach((plugin, connector) -> {
+                if (SeaTunnelReleaseUtil.isV2Connectors((String) plugin)) {
+                    connectors.add((String) connector);
+                }
+            });
+            doFetch(version, connectors);
+        } finally {
+            FileUtil.deleteDir(workspace);
+        }
+    }
+
+    private void doFetch(String version, Set<String> connectors) {
+        connectors.forEach(connector -> {
+            String connectorUrl = SeaTunnelReleaseUtil.seatunnelConnectorUrl(SeaTunnelReleaseUtil.STARTER_REPO_URL, version, connector);
+            String connectorFile = getSeaTunnelConnectorPath(version, connector);
+            try {
+                remoteService.fetch(connectorUrl, connectorFile);
+            } catch (IOException e) {
+                Rethrower.throwAs(e);
+            }
+        });
     }
 
     @Override
@@ -117,6 +181,16 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
             FileCopyUtils.copy(inputStream, outputStream);
         }
         return dto.getFileName();
+    }
+
+    @Override
+    public String downloadConnector(Long id, String connector, OutputStream outputStream) throws IOException {
+        final SeaTunnelReleaseDTO dto = selectOne(id);
+        final String fileName = String.format("%s/%s", getConnectorsPath(dto.getVersion().getValue()), connector);
+        try (InputStream inputStream = fileSystemService.get(fileName)) {
+            FileCopyUtils.copy(inputStream, outputStream);
+        }
+        return connector;
     }
 
     @Override
@@ -130,15 +204,29 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
     @Override
     public void delete(Long id) throws IOException {
         final SeaTunnelReleaseDTO dto = selectOne(id);
-        fileSystemService.delete(dto.getPath());
+        String releaseVersionPath = getVersionPath(dto.getVersion().getValue());
+        fileSystemService.delete(releaseVersionPath);
         releaseSeaTunnelMapper.deleteById(id);
     }
 
-    private String getReleaseSeaTunnelPath(String version, String fileName) {
-        return String.format("%s/%s/%s", getReleaseSeaTunnelRootPath(), version, fileName);
+    private String getVersionPath(String version) {
+        return String.format("%s/%s", getRootPath(), version);
     }
 
-    private String getReleaseSeaTunnelRootPath() {
+    private String getReleasePath(String version, String fileName) {
+        return String.format("%s/%s", getVersionPath(version), fileName);
+    }
+
+    private String getConnectorsPath(String version) {
+        return String.format("%s/connectors/seatunnel", getVersionPath(version));
+    }
+
+    private String getSeaTunnelConnectorPath(String version, String connector) {
+        String connectorJar = SeaTunnelReleaseUtil.convertToJar(version, connector);
+        return String.format("%s/%s", getConnectorsPath(version), connectorJar);
+    }
+
+    private String getRootPath() {
         return "release/seatunnel";
     }
 }

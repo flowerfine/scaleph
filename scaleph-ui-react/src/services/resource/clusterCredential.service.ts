@@ -30,6 +30,7 @@ export const ClusterCredentialService = {
       method: 'GET',
     });
   },
+
   add: async (row: ClusterCredential) => {
     return request<ResponseBody<any>>(`${ClusterCredentialService.url}`, {
       method: 'PUT',
@@ -95,6 +96,7 @@ export const ClusterCredentialService = {
     a.click();
     window.URL.revokeObjectURL(ClusterCredentialService.url);
   },
+
   deleteFiles: async (id: number, files: CredentialFile[]) => {
     const params = files.map((row) => row.name);
     return request<ResponseBody<any>>(`${ClusterCredentialService.url}/` + id + '/file', {

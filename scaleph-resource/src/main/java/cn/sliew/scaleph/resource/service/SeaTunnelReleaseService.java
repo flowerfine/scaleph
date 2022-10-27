@@ -21,6 +21,7 @@ package cn.sliew.scaleph.resource.service;
 import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseListParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseUploadParam;
+import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,9 +35,13 @@ public interface SeaTunnelReleaseService extends ResourceDescriptor<SeaTunnelRel
 
     SeaTunnelReleaseDTO selectOne(Long id);
 
+    List<FileStatusVO> listConnectors(Long id) throws IOException;
+
     void upload(SeaTunnelReleaseUploadParam param, MultipartFile file) throws IOException;
 
     String download(Long id, OutputStream outputStream) throws IOException;
+
+    String downloadConnector(Long id, String connector, OutputStream outputStream) throws IOException;
 
     int deleteBatch(List<Long> ids) throws IOException;
 

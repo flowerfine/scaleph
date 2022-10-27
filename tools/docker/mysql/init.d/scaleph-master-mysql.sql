@@ -286,35 +286,7 @@ VALUES ('flink_deployment_mode', '1', 'Per-Job', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_deployment_mode', '2', 'Session', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.13.0', '1.13.0', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.13.1', '1.13.1', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.13.2', '1.13.2', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.13.3', '1.13.3', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.13.5', '1.13.5', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_version', '1.13.6', '1.13.6', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.14.0', '1.14.0', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.14.2', '1.14.2', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.14.3', '1.14.3', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.14.4', '1.14.4', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.14.5', '1.14.5', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.14.6', '1.14.6', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.15.0', '1.15.0', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.15.1', '1.15.1', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.15.2', '1.15.2', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_state_backend', 'HashMapStateBackend', 'HashMap', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
