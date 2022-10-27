@@ -29,9 +29,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
-/**
- * todo only need query, run(submit, schedule), stop(cancel, unschedule)
- */
+@Deprecated
 public interface SeatunnelJobService {
 
     String preview(Long jobId);

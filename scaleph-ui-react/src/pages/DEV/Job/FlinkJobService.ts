@@ -2,7 +2,7 @@ import {PageResponse, ResponseBody} from '@/app.d';
 import {request} from "@@/exports";
 import {
   FlinkJob,
-  FlinkJobForJar,
+  FlinkJobForJar, FlinkJobForSeaTunnel,
   FlinkJobListByCodeParam,
   FlinkJobListByTypeParam,
   FlinkJobListParam
@@ -57,6 +57,21 @@ export const FlinkJobService = {
 
   listJobsForJar: async (queryParam: FlinkJobListByTypeParam) => {
     return request<PageResponse<FlinkJobForJar>>(`${FlinkJobService.url}/jar`, {
+      method: 'GET',
+      params: queryParam,
+    }).then((res) => {
+      const result = {
+        data: res.records,
+        total: res.total,
+        pageSize: res.size,
+        current: res.current,
+      };
+      return result;
+    });
+  },
+
+  listJobsForSeaTunnel: async (queryParam: FlinkJobListByTypeParam) => {
+    return request<PageResponse<FlinkJobForSeaTunnel>>(`${FlinkJobService.url}/seatunnel`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {

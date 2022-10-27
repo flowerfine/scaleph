@@ -101,6 +101,23 @@ export const STEP_ATTR_TYPE = {
   port: 'port',
 };
 
+export const JdbcParams = {
+  dataSourceType: 'dataSourceType',
+  dataSource: 'dataSource',
+  connectionCheckTimeoutSec: 'connection_check_timeout_sec',
+  query: 'query',
+  partitionColumn: 'partition_column',
+  partitionLowerBound: 'partition_lower_bound',
+  partitionUpperBound: 'partition_upper_bound',
+  batchSize: 'batch_size',
+  batchIntervalMs: 'batch_interval_ms',
+  maxRetries: 'max_retries',
+  isExactlyOnce: 'is_exactly_once',
+  xaDataSourceClassName: 'xa_data_source_class_name',
+  maxCommitAttempts: 'max_commit_attempts',
+  transactionTimeoutSec: 'transaction_timeout_sec'
+}
+
 export const BaseFileParams = {
   path: 'path',
   type: 'type',

@@ -1,5 +1,6 @@
 import {Dict, QueryParam} from "@/app.d";
 import {FlinkArtifactJar, FlinkClusterConfig, FlinkClusterInstance} from "@/services/dev/typings";
+import {DiJob} from "@/services/project/typings";
 
 export type FlinkJob = {
   id?: number;
@@ -40,6 +41,24 @@ export type FlinkJobForJar = {
   code?: number;
   name?: string;
   flinkArtifactJar?: FlinkArtifactJar;
+  jobConfig?: { [key: string]: any };
+  flinkClusterConfig?: FlinkClusterConfig;
+  flinkClusterInstance?: FlinkClusterInstance;
+  flinkConfig?: { [key: string]: any };
+  flinkJobInstance?: FlinkJobInstance;
+  jars?: Array<number>;
+  version?: number;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+}
+
+export type FlinkJobForSeaTunnel = {
+  id?: number;
+  type: Dict;
+  code?: number;
+  name?: string;
+  flinkArtifactSeaTunnel?: DiJob;
   jobConfig?: { [key: string]: any };
   flinkClusterConfig?: FlinkClusterConfig;
   flinkClusterInstance?: FlinkClusterInstance;

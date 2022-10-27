@@ -20,6 +20,7 @@ package cn.sliew.scaleph.engine.flink.service;
 
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForJarDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForSeaTunnelDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByCodeParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByTypeParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListParam;
@@ -40,5 +41,9 @@ public interface FlinkJobService {
     Page<FlinkJobForJarDTO> listJobsForJar(FlinkJobListByTypeParam param);
 
     FlinkJobForJarDTO getJobForJarById(Long id);
+
+    Page<FlinkJobForSeaTunnelDTO> listJobsForSeaTunnel(FlinkJobListByTypeParam param);
+
+    FlinkJobForSeaTunnelDTO getJobForSeaTunnelById(Long id);
 
 }

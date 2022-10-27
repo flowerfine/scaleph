@@ -100,24 +100,42 @@ export default {
   'pages.project.di.step.y': 'y坐标',
   'pages.project.di.step.dataSourceType': '数据源类型',
   'pages.project.di.step.dataSource': '数据源',
-  'pages.project.di.step.partitionColumn': '分区字段',
-  'pages.project.di.step.partitionColumn.tooltip': '只支持数值类型字段作为分区字段',
-  'pages.project.di.step.query': 'SQL',
-  'pages.project.di.step.getsql': '获取SQL',
-  'pages.project.di.step.preview': '预览结果',
-  'pages.project.di.step.batchSize': '提交记录数量',
   'pages.project.di.step.schema': 'schema信息',
   'pages.project.di.step.bulkSize': '批量提交记录数量',
   'pages.project.di.step.host': '主机地址',
   'pages.project.di.step.port': '端口号',
   'pages.project.di.step.maxRetries': '重试次数',
 
-  //fake
+  // jdbc
+  'pages.project.di.step.jdbc.dataSourceType': '数据源类型',
+  'pages.project.di.step.jdbc.dataSource': '数据源',
+  'pages.project.di.step.jdbc.connectionCheckTimeoutSec': '数据源连接超时（秒）',
+  'pages.project.di.step.jdbc.partitionColumn': '分区字段',
+  'pages.project.di.step.jdbc.partitionColumn.tooltip': '只支持数值类型字段作为分区字段',
+  'pages.project.di.step.jdbc.partitionLowerBound': '分区最小值',
+  'pages.project.di.step.jdbc.partitionLowerBound.tooltip': 'SeaTunnel 可查询数据库获取最小值',
+  'pages.project.di.step.jdbc.partitionUpperBound': '分区最大值',
+  'pages.project.di.step.jdbc.partitionUpperBound.tooltip': 'SeaTunnel 可查询数据库获取最小值',
+  'pages.project.di.step.jdbc.query': 'SQL',
+  'pages.project.di.step.jdbc.getsql': '获取SQL',
+  'pages.project.di.step.jdbc.preview': '预览结果',
+  'pages.project.di.step.jdbc.batchSize': '批次数量',
+  'pages.project.di.step.jdbc.batchIntervalMs': '批次间隔（毫秒）',
+  'pages.project.di.step.jdbc.batch.tooltip': 'record buffer 到达批次数量或时间到批次间隔（毫秒）时，会提交 record buffer',
+  'pages.project.di.step.jdbc.maxRetries': '批次重试次数',
+  'pages.project.di.step.jdbc.isExactlyOnce': '启用 Exactly once 语义',
+  'pages.project.di.step.jdbc.isExactlyOnce.tooltip': '使用 XA 事务保证 Exactly once 语义',
+  'pages.project.di.step.jdbc.xaDataSourceClassName': 'XA DataSource 类名',
+  'pages.project.di.step.jdbc.maxCommitAttempts': '事务重试次数',
+  'pages.project.di.step.jdbc.transactionTimeoutSec': '事务超时时间（秒）',
+  'pages.project.di.step.jdbc.transactionTimeoutSec.tooltip': '-1 表示从不超时',
+
+  // fake
   'pages.project.di.step.rowNum': '生成数据行数',
   'pages.project.di.step.fake.schema.tooltip':
     'schema格式: {\n' + '          name = "string"\n' + '          age = "int"\n' + '        }',
 
-  //base file
+  // base file
   'pages.project.di.step.baseFile.path': 'Path',
   'pages.project.di.step.baseFile.type': 'File Type',
   'pages.project.di.step.baseFile.schema': 'Schema',
@@ -201,7 +219,7 @@ export default {
   'pages.project.di.step.hudi.kerberosPrincipal': 'Kerberos Principal',
   'pages.project.di.step.hudi.kerberosPrincipalFile': 'Kerberos Principal File',
 
-  //iceberg
+  // iceberg
   'pages.project.di.step.iceberg.catalogType': 'Catalog Type',
   'pages.project.di.step.iceberg.catalogName': 'Catalog',
   'pages.project.di.step.iceberg.namespace': 'Namespace',
@@ -217,7 +235,7 @@ export default {
   'pages.project.di.step.iceberg.useSnapshotTimestamp': 'Use Snapshot Timestamp',
   'pages.project.di.step.iceberg.streamScanStrategy': 'Stream Scan Strategy',
 
-  //clickhouse
+  // clickhouse
   'pages.project.di.step.clickhosue.table': '导出表名',
   'pages.project.di.step.clickhosue.fields': '导出字段信息',
   'pages.project.di.step.clickhosue.fields.tooltip': 'For example, : id,name',
@@ -229,7 +247,7 @@ export default {
   'pages.project.di.step.clickhosue.sql': 'SQL',
   'pages.project.di.step.clickhosue.database': '数据库',
 
-  //hive
+  // hive
   'pages.project.di.step.hive.tableName': 'Hive Table Name',
   'pages.project.di.step.hive.metastoreUri': 'Hive metastore uri',
   'pages.project.di.step.hive.metastoreUri.tooltip': 'example : thrift://ctyun7:9083',
@@ -244,13 +262,13 @@ export default {
   'pages.project.di.step.hive.saveMode': 'saveMode',
   'pages.project.di.step.hive.saveMode.tooltip': 'Streaming Job not support overwrite. Storage mode, we need support overwrite and append. append is now supported.',
 
-  //kudu
+  // kudu
   'pages.project.di.step.kudu.master': 'Master',
   'pages.project.di.step.kudu.table': 'Table',
   'pages.project.di.step.kudu.savemode': '写入模式',
   'pages.project.di.step.kudu.columnsList': '字段列表',
 
-  //kafka
+  // kafka
   'pages.project.di.step.kafka.topic': 'Topic',
   'pages.project.di.step.kafka.pattern': 'pattern',
   'pages.project.di.step.kafka.conf': 'kafkaConf',

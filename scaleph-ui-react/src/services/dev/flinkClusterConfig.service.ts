@@ -90,7 +90,7 @@ export const FlinkClusterConfigService = {
   },
 
   formatJars: (values: Record<string, any>) => {
-    return values.jars.map((data: Record<string, any>) => data.jar)
+    return values.jars?.map((data: Record<string, any>) => data.jar)
   },
 
   parseJars: (jars: Array<number>) => {

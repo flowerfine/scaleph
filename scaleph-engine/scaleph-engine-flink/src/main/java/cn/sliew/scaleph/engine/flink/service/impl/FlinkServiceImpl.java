@@ -134,6 +134,14 @@ public class FlinkServiceImpl implements FlinkService {
         }
     }
 
+    /**
+     *
+     */
+    @Override
+    public void submitSeaTunnel(Long id) throws Exception {
+
+    }
+
     public ClusterClient doSubmitJar(FlinkJobForJarDTO flinkJobForJarDTO, Path workspace) throws Exception {
         FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(flinkJobForJarDTO.getFlinkClusterConfig().getId());
 
