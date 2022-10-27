@@ -19,7 +19,7 @@ public class JdbcSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public JdbcSourcePlugin() {
         this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
-                "Jdbc Source Plugin , input records from jdbc connection.",
+                "Jdbc Source Plugin, input records from jdbc connection.",
                 JdbcSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();

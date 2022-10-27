@@ -19,17 +19,17 @@
 package cn.sliew.scaleph.api.controller.flink;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.system.vo.ResponseVO;
 import cn.sliew.scaleph.engine.flink.service.FlinkJobService;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForJarDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForSeaTunnelDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByCodeParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByTypeParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListParam;
+import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +37,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Slf4j
 @Api(tags = "Flink管理-任务管理")
 @RestController
 @RequestMapping(path = "/api/flink/job")
@@ -84,6 +83,14 @@ public class FlinkJobController {
     @ApiOperation(value = "查询 Jar 任务列表", notes = "分页查询 Jar 任务列表")
     public ResponseEntity<Page<FlinkJobForJarDTO>> listJobsForJar(@Valid FlinkJobListByTypeParam param) {
         Page<FlinkJobForJarDTO> page = flinkJobService.listJobsForJar(param);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("seatunnel")
+    @ApiOperation(value = "查询 SeaTunnel 任务列表", notes = "分页查询 SeaTunnel 任务列表")
+    public ResponseEntity<Page<FlinkJobForSeaTunnelDTO>> listJobsForSeaTunnel(@Valid FlinkJobListByTypeParam param) {
+        Page<FlinkJobForSeaTunnelDTO> page = flinkJobService.listJobsForSeaTunnel(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
