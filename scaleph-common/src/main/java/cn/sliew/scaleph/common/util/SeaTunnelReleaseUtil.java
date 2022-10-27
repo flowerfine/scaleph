@@ -77,7 +77,11 @@ public enum SeaTunnelReleaseUtil {
         if (StringUtils.endsWithIgnoreCase(repoUrl, "/")) {
             repoUrl = StringUtils.removeEndIgnoreCase(repoUrl, "/");
         }
-        Map<String, String> variables = Map.of("repoUrl", repoUrl, "version", version, "jar", convertToJar(version, connector));
+        Map<String, String> variables = Map.of(
+                "repoUrl", repoUrl,
+                "version", version,
+                "connector", connector,
+                "jar", convertToJar(version, connector));
         StrSubstitutor substitutor = new StrSubstitutor(variables);
         String template = "${repoUrl}/${connector}/${version}/${jar}";
         return substitutor.replace(template);

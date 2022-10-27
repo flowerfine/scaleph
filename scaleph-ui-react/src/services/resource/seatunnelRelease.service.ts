@@ -70,7 +70,7 @@ export const SeatunnelReleaseService = {
   downloadConnector: async (id: number, name: string) => {
     const a = document.createElement('a');
     a.href =
-      `${SeatunnelReleaseService.url}/download/` + id + `/connectors` + name +
+      `${SeatunnelReleaseService.url}/download/` + id + `/connectors/` + name +
       '?' + USER_AUTH.token + '=' + localStorage.getItem(USER_AUTH.token);
     a.download = name;
     a.click();

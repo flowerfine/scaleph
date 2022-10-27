@@ -53,8 +53,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -147,15 +149,23 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
         Path pluginMapping = SeaTunnelReleaseUtil.getPluginMapping(seatunnelPath);
         Properties pluginMappingProperties = PropertiesLoaderUtils.loadProperties(new PathResource(pluginMapping));
 
+        Set<String> connectors = new HashSet<>();
         pluginMappingProperties.forEach((plugin, connector) -> {
             if (SeaTunnelReleaseUtil.isV2Connectors((String) plugin)) {
-                String connectorUrl = SeaTunnelReleaseUtil.seatunnelConnectorUrl(SeaTunnelReleaseUtil.STARTER_REPO_URL, version, (String) connector);
-                String connectorFile = getSeaTunnelConnectorPath(version, (String) connector);
-                try {
-                    remoteService.fetch(connectorUrl, connectorFile);
-                } catch (IOException e) {
-                    Rethrower.throwAs(e);
-                }
+                connectors.add((String) connector);
+            }
+        });
+        doFetch(version, connectors);
+    }
+
+    private void doFetch(String version, Set<String> connectors) {
+        connectors.forEach(connector -> {
+            String connectorUrl = SeaTunnelReleaseUtil.seatunnelConnectorUrl(SeaTunnelReleaseUtil.STARTER_REPO_URL, version, connector);
+            String connectorFile = getSeaTunnelConnectorPath(version, connector);
+            try {
+                remoteService.fetch(connectorUrl, connectorFile);
+            } catch (IOException e) {
+                Rethrower.throwAs(e);
             }
         });
     }
