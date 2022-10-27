@@ -328,10 +328,9 @@
         t2.job_version AS di_job_job_version,
         t2.remark AS di_job_remark,
         <include refid="Flink_Job_Column_List"/>
-        FROM (
-        select *,
-        row_number() over(partition by job_code,directory_id order by job_version desc) as rn
-        from di_job
+        FROM (select *,
+        row_number() over (partition by `code` order by version desc) as rn
+        from flink_job
         ) t1
         JOIN di_job t2 ON t1.flink_artifact_id = t2.id
         JOIN flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id

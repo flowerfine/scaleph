@@ -42,7 +42,7 @@ const JobConfigSeaTunnelOptions: React.FC = () => {
             .then((d) => {
               if (d.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
-                history.push("/workspace/di/job")
+                history.push("/workspace/dev/job/seatunnel")
               }
             })
         }}
