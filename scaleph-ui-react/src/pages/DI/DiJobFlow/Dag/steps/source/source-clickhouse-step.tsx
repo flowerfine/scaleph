@@ -1,21 +1,21 @@
-import { ModalFormProps } from '@/app.d';
-import { DICT_TYPE } from '@/constant';
-import { DictDataService } from '@/services/admin/dictData.service';
+import {ModalFormProps} from '@/app.d';
+import {DICT_TYPE} from '@/constant';
+import {DictDataService} from '@/services/admin/dictData.service';
 import {DataSourceService} from '@/services/project/dataSource.service';
-import { JobService } from '@/services/project/job.service';
+import {JobService} from '@/services/project/job.service';
 import {DiJob, MetaDataSourceParam} from '@/services/project/typings';
-import { NsGraph } from '@antv/xflow';
-import { Form, message, Modal} from 'antd';
-import { useEffect, useState } from 'react';
-import { getIntl, getLocale } from 'umi';
+import {NsGraph} from '@antv/xflow';
+import {Form, message, Modal} from 'antd';
+import {useEffect} from 'react';
+import {getIntl, getLocale} from 'umi';
 import {ClickHouseParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {ProForm, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 
 const SourceClickHouseStepForm: React.FC<ModalFormProps<{
-    node: NsGraph.INodeConfig;
-    graphData: NsGraph.IGraphData;
-    graphMeta: NsGraph.IGraphMeta;
-}>> = ({ data, visible, onCancel, onOK }) => {
+  node: NsGraph.INodeConfig;
+  graphData: NsGraph.IGraphData;
+  graphMeta: NsGraph.IGraphMeta;
+}>> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as DiJob;
   const jobGraph = data.graphData;
@@ -31,7 +31,7 @@ const SourceClickHouseStepForm: React.FC<ModalFormProps<{
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{ overflowY: 'scroll', maxHeight: '640px' }}
+      bodyStyle={{overflowY: 'scroll', maxHeight: '640px'}}
       destroyOnClose={true}
       onCancel={onCancel}
       onOk={() => {
@@ -43,7 +43,7 @@ const SourceClickHouseStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
-              message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+              message.success(intl.formatMessage({id: 'app.common.operate.success'}));
               onCancel();
               onOK ? onOK() : null;
             }
