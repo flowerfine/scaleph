@@ -140,22 +140,26 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
 
     private void fetchConnectors(Long id, String version, String fileName) throws IOException {
         Path workspace = SystemUtil.getRandomWorkspace();
-        Path file = FileUtil.createFile(workspace, fileName);
-        try (OutputStream outputStream = FileUtil.getOutputStream(file)) {
-            download(id, outputStream);
-        }
-
-        Path seatunnelPath = FileUtil.listFiles(TarUtil.untar(file)).get(0);
-        Path pluginMapping = SeaTunnelReleaseUtil.getPluginMapping(seatunnelPath);
-        Properties pluginMappingProperties = PropertiesLoaderUtils.loadProperties(new PathResource(pluginMapping));
-
-        Set<String> connectors = new HashSet<>();
-        pluginMappingProperties.forEach((plugin, connector) -> {
-            if (SeaTunnelReleaseUtil.isV2Connectors((String) plugin)) {
-                connectors.add((String) connector);
+        try {
+            Path file = FileUtil.createFile(workspace, fileName);
+            try (OutputStream outputStream = FileUtil.getOutputStream(file)) {
+                download(id, outputStream);
             }
-        });
-        doFetch(version, connectors);
+
+            Path seatunnelPath = FileUtil.listFiles(TarUtil.untar(file)).get(0);
+            Path pluginMapping = SeaTunnelReleaseUtil.getPluginMapping(seatunnelPath);
+            Properties pluginMappingProperties = PropertiesLoaderUtils.loadProperties(new PathResource(pluginMapping));
+
+            Set<String> connectors = new HashSet<>();
+            pluginMappingProperties.forEach((plugin, connector) -> {
+                if (SeaTunnelReleaseUtil.isV2Connectors((String) plugin)) {
+                    connectors.add((String) connector);
+                }
+            });
+            doFetch(version, connectors);
+        } finally {
+            FileUtil.deleteDir(workspace);
+        }
     }
 
     private void doFetch(String version, Set<String> connectors) {
