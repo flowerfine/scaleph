@@ -20,6 +20,7 @@ package cn.sliew.scaleph.dao.mapper.master.flink;
 
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkJob;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobForJar;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobForSeaTunnel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
@@ -43,5 +44,10 @@ public interface FlinkJobMapper extends BaseMapper<FlinkJob> {
                                         @Param("param") FlinkJob param);
 
     FlinkJobForJar getJobForJarById(@Param("id") Long id);
+
+    Page<FlinkJobForSeaTunnel> listJobsForSeaTunnel(Page<FlinkJob> page,
+                                        @Param("param") FlinkJob param);
+
+    FlinkJobForSeaTunnel getJobForSeaTunnelById(@Param("id") Long id);
 
 }

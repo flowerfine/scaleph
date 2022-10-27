@@ -20,6 +20,7 @@ package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -30,8 +31,8 @@ import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkJobForJar对象", description = "flink job for jar")
-public class FlinkJobForJarDTO extends BaseDTO {
+@ApiModel(value = "FlinkJobForSeaTunnel对象", description = "flink job for seatunnel")
+public class FlinkJobForSeaTunnelDTO extends BaseDTO {
 
     @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
     private FlinkJobType type;
@@ -42,8 +43,8 @@ public class FlinkJobForJarDTO extends BaseDTO {
     @ApiModelProperty("名称")
     private String name;
 
-    @ApiModelProperty("flink artifact jar")
-    private FlinkArtifactJarDTO flinkArtifactJar;
+    @ApiModelProperty("flink artifact seatunnel")
+    private DiJobDTO flinkArtifactSeaTunnel;
 
     @ApiModelProperty("任务自身 配置参数")
     private Map<String, String> jobConfig;

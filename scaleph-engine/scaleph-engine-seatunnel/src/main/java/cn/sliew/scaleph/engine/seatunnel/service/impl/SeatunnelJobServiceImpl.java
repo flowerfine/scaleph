@@ -79,6 +79,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
+@Deprecated
 @Slf4j
 @Service
 public class SeatunnelJobServiceImpl implements SeatunnelJobService {

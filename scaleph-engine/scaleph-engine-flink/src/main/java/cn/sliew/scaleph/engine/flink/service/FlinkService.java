@@ -28,6 +28,8 @@ public interface FlinkService {
 
     void submitJar(Long id) throws Exception;
 
+    void submitSeaTunnel(Long id) throws Exception;
+
     void shutdown(Long id) throws Exception;
 
     void shutdownBatch(List<Long> ids) throws Exception;

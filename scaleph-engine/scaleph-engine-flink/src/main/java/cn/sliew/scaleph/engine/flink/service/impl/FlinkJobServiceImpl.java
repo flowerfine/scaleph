@@ -23,19 +23,21 @@ import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkJob;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobForJar;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobForSeaTunnel;
 import cn.sliew.scaleph.dao.mapper.master.flink.FlinkJobMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkJobService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobConvert;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobForJarConvert;
+import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobForSeaTunnelConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForJarDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForSeaTunnelDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByCodeParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByTypeParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListParam;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +46,6 @@ import java.util.List;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
-@Slf4j
 @Service
 public class FlinkJobServiceImpl implements FlinkJobService {
 
@@ -126,5 +127,27 @@ public class FlinkJobServiceImpl implements FlinkJobService {
             throw new IllegalStateException("flink job for jar not exists for id: " + id);
         }
         return FlinkJobForJarConvert.INSTANCE.toDto(record);
+    }
+
+    @Override
+    public Page<FlinkJobForSeaTunnelDTO> listJobsForSeaTunnel(FlinkJobListByTypeParam param) {
+        final Page<FlinkJob> page = new Page<>(param.getCurrent(), param.getPageSize());
+        FlinkJob flinkJob = BeanUtil.copy(param, new FlinkJob());
+
+        final Page<FlinkJobForSeaTunnel> flinkJobForSeaTunnelPage = flinkJobMapper.listJobsForSeaTunnel(page, flinkJob);
+        Page<FlinkJobForSeaTunnelDTO> result =
+                new Page<>(flinkJobForSeaTunnelPage.getCurrent(), flinkJobForSeaTunnelPage.getSize(), flinkJobForSeaTunnelPage.getTotal());
+        List<FlinkJobForSeaTunnelDTO> dtoList = FlinkJobForSeaTunnelConvert.INSTANCE.toDto(flinkJobForSeaTunnelPage.getRecords());
+        result.setRecords(dtoList);
+        return result;
+    }
+
+    @Override
+    public FlinkJobForSeaTunnelDTO getJobForSeaTunnelById(Long id) {
+        final FlinkJobForSeaTunnel record = flinkJobMapper.getJobForSeaTunnelById(id);
+        if (record == null) {
+            throw new IllegalStateException("flink job for seatunnel not exists for id: " + id);
+        }
+        return FlinkJobForSeaTunnelConvert.INSTANCE.toDto(record);
     }
 }

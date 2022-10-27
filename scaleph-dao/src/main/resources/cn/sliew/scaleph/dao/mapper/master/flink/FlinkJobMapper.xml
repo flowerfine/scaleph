@@ -110,36 +110,124 @@
         </association>
     </resultMap>
 
+    <resultMap id="FLinkJobForSeaTunnelMap" type="cn.sliew.scaleph.dao.entity.master.flink.FlinkJobForSeaTunnel">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="type" property="type"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="job_config" property="jobConfig"/>
+        <result column="flink_config" property="flinkConfig"/>
+        <result column="jars" property="jars"/>
+        <result column="from_version" property="fromVersion"/>
+        <result column="version" property="version"/>
+        <result column="remark" property="remark"/>
+        <association property="flinkArtifactSeaTunnel"
+                     javaType="cn.sliew.scaleph.dao.entity.master.di.DiJob">
+            <result column="di_job_id" property="id"/>
+            <result column="di_job_project_id" property="projectId"/>
+            <result column="di_job_job_code" property="jobCode"/>
+            <result column="di_job_job_name" property="jobName"/>
+            <result column="di_job_directory_id" property="directoryId"/>
+            <result column="di_job_job_type" property="jobType"/>
+            <result column="di_job_job_owner" property="jobOwner"/>
+            <result column="di_job_job_status" property="jobStatus"/>
+            <result column="di_job_job_version" property="jobVersion"/>
+            <result column="di_job_remark" property="remark"/>
+        </association>
+        <association property="flinkClusterConfig"
+                     javaType="cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfig">
+            <result column="config_id" property="id"/>
+            <result column="config_name" property="name"/>
+            <result column="config_flink_version" property="flinkVersion"/>
+            <result column="config_resource_provider" property="resourceProvider"/>
+            <result column="config_deploy_mode" property="deployMode"/>
+            <result column="config_flink_release_id" property="flinkReleaseId"/>
+            <result column="config_cluster_credential_id" property="clusterCredentialId"/>
+            <result column="config_kubernetes_options" property="kubernetesOptions"/>
+            <result column="config_config_options" property="configOptions"/>
+            <result column="config_remark" property="remark"/>
+        </association>
+        <association property="flinkClusterInstance"
+                     javaType="cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterInstance">
+            <result column="instance_id" property="id"/>
+            <result column="instance_flink_cluster_config_id" property="flinkClusterConfigId"/>
+            <result column="instance_name" property="name"/>
+            <result column="instance_cluster_id" property="clusterId"/>
+            <result column="instance_web_interface_url" property="webInterfaceUrl"/>
+            <result column="instance_status" property="status"/>
+            <result column="instance_remark" property="remark"/>
+        </association>
+        <association property="flinkJobInstance"
+                     javaType="cn.sliew.scaleph.dao.entity.master.flink.FlinkJobInstance">
+            <result column="job_instance_id" property="id"/>
+            <result column="job_instance_flink_job_code" property="flinkJobCode"/>
+            <result column="job_instance_flink_job_version" property="flinkJobVersion"/>
+            <result column="job_instance_job_id" property="jobId"/>
+            <result column="job_instance_job_name" property="jobName"/>
+            <result column="job_instance_job_state" property="jobState"/>
+            <result column="job_instance_cluster_id" property="clusterId"/>
+            <result column="job_instance_web_interface_url" property="webInterfaceUrl"/>
+            <result column="job_instance_cluster_status" property="clusterStatus"/>
+            <result column="job_instance_start_time" property="startTime"/>
+            <result column="job_instance_end_time" property="endTime"/>
+            <result column="job_instance_duration" property="duration"/>
+        </association>
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,
-        creator,
-        create_time,
-        editor,
-        update_time,
-        `type`,
-        `code`,
-        `name`,
-        flink_artifact_id,
-        job_config,
-        flink_cluster_config_id,
-        flink_cluster_instance_id,
-        flink_config,
-        jars,
-        from_version,
-        version,
-        remark
+        id, creator, create_time, editor, update_time,
+        `type`, `code`, `name`, flink_artifact_id, job_config,
+        flink_cluster_config_id, flink_cluster_instance_id,
+        flink_config, jars, from_version, version, remark
+    </sql>
+
+    <sql id="Flink_Job_Column_List">
+        t1.*,
+        t4.id                      AS config_id,
+        t4.`name`                  AS config_name,
+        t4.flink_version           AS config_flink_version,
+        t4.resource_provider       AS config_resource_provider,
+        t4.deploy_mode             AS config_deploy_mode,
+        t4.flink_release_id        AS config_flink_release_id,
+        t4.cluster_credential_id   AS config_cluster_credential_id,
+        t4.kubernetes_options      AS config_kubernetes_options,
+        t4.config_options          AS config_config_options,
+        t4.remark                  AS config_remark,
+        t5.id                      AS instance_id,
+        t5.flink_cluster_config_id AS instance_flink_cluster_config_id,
+        t5.`name`                  AS instance_name,
+        t5.cluster_id              AS instance_cluster_id,
+        t5.web_interface_url       AS instance_web_interface_url,
+        t5.`status`                AS instance_status,
+        t5.remark                  AS instance_remark,
+        t6.id                      AS job_instance_id,
+        t6.flink_job_code          AS job_instance_flink_job_code,
+        t6.flink_job_version       AS job_instance_flink_job_version,
+        t6.job_id                  AS job_instance_job_id,
+        t6.job_name                AS job_instance_job_name,
+        t6.job_state               AS job_instance_job_state,
+        t6.cluster_id              AS job_instance_cluster_id,
+        t6.web_interface_url       AS job_instance_web_interface_url,
+        t6.cluster_status          AS job_instance_cluster_status,
+        t6.start_time              AS job_instance_start_time,
+        t6.end_time                AS job_instance_end_time,
+        t6.duration                AS job_instance_duration
     </sql>
 
     <select id="list" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from (
-                     select *,
-                            row_number() over (partition by `code` order by version desc) as rn
-                     from flink_job
-                     ) t
-                where rn = 1
+        select *,
+        row_number() over (partition by `code` order by version desc) as rn
+        from flink_job
+        ) t
+        where rn = 1
         <if test="param.type != null">
             AND t.`type` = #{param.type}
         </if>
@@ -166,60 +254,32 @@
     </select>
 
     <select id="listJobsForJar" resultMap="FLinkJobForJarMap">
-        SELECT t1.*,
-               t2.id                      AS artifact_jar_id,
-               t2.version                 AS artifact_jar_version,
-               t2.flink_version           AS artifact_jar_flink_version,
-               t2.entry_class             AS artifact_jar_entry_class,
-               t2.file_name               AS artifact_jar_file_name,
-               t2.path                    AS artifact_jar_path,
-               t3.id                      AS artifact_id,
-               t3.`name`                  AS artifact_name,
-               t3.type                    AS artifact_type,
-               t3.remark                  AS artifact_remark,
-               t4.id                      AS config_id,
-               t4.`name`                  AS config_name,
-               t4.flink_version           AS config_flink_version,
-               t4.resource_provider       AS config_resource_provider,
-               t4.deploy_mode             AS config_deploy_mode,
-               t4.flink_release_id        AS config_flink_release_id,
-               t4.cluster_credential_id   AS config_cluster_credential_id,
-               t4.kubernetes_options      AS config_kubernetes_options,
-               t4.config_options          AS config_config_options,
-               t4.remark                  AS config_remark,
-               t5.id                      AS instance_id,
-               t5.flink_cluster_config_id AS instance_flink_cluster_config_id,
-               t5.`name`                  AS instance_name,
-               t5.cluster_id              AS instance_cluster_id,
-               t5.web_interface_url       AS instance_web_interface_url,
-               t5.`status`                AS instance_status,
-               t5.remark                  AS instance_remark,
-               t6.id                      AS job_instance_id,
-               t6.flink_job_code          AS job_instance_flink_job_code,
-               t6.flink_job_version       AS job_instance_flink_job_version,
-               t6.job_id                  AS job_instance_job_id,
-               t6.job_name                AS job_instance_job_name,
-               t6.job_state               AS job_instance_job_state,
-               t6.cluster_id              AS job_instance_cluster_id,
-               t6.web_interface_url       AS job_instance_web_interface_url,
-               t6.cluster_status          AS job_instance_cluster_status,
-               t6.start_time              AS job_instance_start_time,
-               t6.end_time                AS job_instance_end_time,
-               t6.duration                AS job_instance_duration
+        SELECT
+        t2.id AS artifact_jar_id,
+        t2.version AS artifact_jar_version,
+        t2.flink_version AS artifact_jar_flink_version,
+        t2.entry_class AS artifact_jar_entry_class,
+        t2.file_name AS artifact_jar_file_name,
+        t2.path AS artifact_jar_path,
+        t3.id AS artifact_id,
+        t3.`name` AS artifact_name,
+        t3.type AS artifact_type,
+        t3.remark AS artifact_remark,
+        <include refid="Flink_Job_Column_List"/>
         FROM (
-                     select *,
-                            row_number() over (partition by `code` order by version desc) as rn
-                     from flink_job
-                     ) t1
-                     JOIN flink_artifact_jar t2 ON t1.flink_artifact_id = t2.id
-                     JOIN flink_artifact t3 ON t2.flink_artifact_id = t3.id
-                     JOIN flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
-                     LEFT JOIN flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
-                     LEFT JOIN flink_job_instance t6
-                on t1.`code` = t6.flink_job_code and t1.version = t6.flink_job_version
+        select *,
+        row_number() over (partition by `code` order by version desc) as rn
+        from flink_job
+        ) t1
+        JOIN flink_artifact_jar t2 ON t1.flink_artifact_id = t2.id
+        JOIN flink_artifact t3 ON t2.flink_artifact_id = t3.id
+        JOIN flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
+        LEFT JOIN flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
+        LEFT JOIN flink_job_instance t6
+        ON t1.`code` = t6.flink_job_code AND t1.version = t6.flink_job_version
         <where>
             t1.rn = 1
-                    AND t1.`type` = #{param.type}
+            AND t1.`type` = #{param.type}
             <if test="param.name != null and param.name != ''">
                 AND t1.`name` like CONCAT('%', #{param.name}, '%')
             </if>
@@ -233,53 +293,85 @@
     </select>
 
     <select id="getJobForJarById" resultMap="FLinkJobForJarMap">
-        SELECT t1.*,
-               t2.id                      AS artifact_jar_id,
-               t2.version                 AS artifact_jar_version,
-               t2.flink_version           AS artifact_jar_flink_version,
-               t2.entry_class             AS artifact_jar_entry_class,
-               t2.file_name               AS artifact_jar_file_name,
-               t2.path                    AS artifact_jar_path,
-               t3.id                      AS artifact_id,
-               t3.`name`                  AS artifact_name,
-               t3.type                    AS artifact_type,
-               t3.remark                  AS artifact_remark,
-               t4.id                      AS config_id,
-               t4.`name`                  AS config_name,
-               t4.flink_version           AS config_flink_version,
-               t4.resource_provider       AS config_resource_provider,
-               t4.deploy_mode             AS config_deploy_mode,
-               t4.flink_release_id        AS config_flink_release_id,
-               t4.cluster_credential_id   AS config_cluster_credential_id,
-               t4.kubernetes_options      AS config_kubernetes_options,
-               t4.config_options          AS config_config_options,
-               t4.remark                  AS config_remark,
-               t5.id                      AS instance_id,
-               t5.flink_cluster_config_id AS instance_flink_cluster_config_id,
-               t5.`name`                  AS instance_name,
-               t5.cluster_id              AS instance_cluster_id,
-               t5.web_interface_url       AS instance_web_interface_url,
-               t5.`status`                AS instance_status,
-               t5.remark                  AS instance_remark,
-               t6.id                      AS job_instance_id,
-               t6.flink_job_code          AS job_instance_flink_job_code,
-               t6.flink_job_version       AS job_instance_flink_job_version,
-               t6.job_id                  AS job_instance_job_id,
-               t6.job_name                AS job_instance_job_name,
-               t6.job_state               AS job_instance_job_state,
-               t6.cluster_id              AS job_instance_cluster_id,
-               t6.web_interface_url       AS job_instance_web_interface_url,
-               t6.cluster_status          AS job_instance_cluster_status,
-               t6.start_time              AS job_instance_start_time,
-               t6.end_time                AS job_instance_end_time,
-               t6.duration                AS job_instance_duration
+        SELECT
+        t2.id AS artifact_jar_id,
+        t2.version AS artifact_jar_version,
+        t2.flink_version AS artifact_jar_flink_version,
+        t2.entry_class AS artifact_jar_entry_class,
+        t2.file_name AS artifact_jar_file_name,
+        t2.path AS artifact_jar_path,
+        t3.id AS artifact_id,
+        t3.`name` AS artifact_name,
+        t3.type AS artifact_type,
+        t3.remark AS artifact_remark,
+        <include refid="Flink_Job_Column_List"/>
         FROM flink_job t1
-                     JOIN flink_artifact_jar t2 ON t1.flink_artifact_id = t2.id
-                     JOIN flink_artifact t3 ON t2.flink_artifact_id = t3.id
-                     JOIN flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
-                     LEFT JOIN flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
-                     LEFT JOIN flink_job_instance t6
-                on t1.`code` = t6.flink_job_code and t1.version = t6.flink_job_version
+        JOIN flink_artifact_jar t2 ON t1.flink_artifact_id = t2.id
+        JOIN flink_artifact t3 ON t2.flink_artifact_id = t3.id
+        JOIN flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
+        LEFT JOIN flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
+        LEFT JOIN flink_job_instance t6
+        ON t1.`code` = t6.flink_job_code AND t1.version = t6.flink_job_version
+        WHERE t1.id = #{id}
+    </select>
+
+    <select id="listJobsForSeaTunnel" resultMap="FLinkJobForSeaTunnelMap">
+        SELECT
+        t2.id AS di_job_id,
+        t2.project_id AS di_job_project_id,
+        t2.job_code AS di_job_job_code,
+        t2.job_name AS di_job_job_name,
+        t2.directory_id AS di_job_directory_id,
+        t2.job_type AS di_job_job_type,
+        t2.job_owner AS di_job_job_owner,
+        t2.job_status AS di_job_job_status,
+        t2.job_version AS di_job_job_version,
+        t2.remark AS di_job_remark,
+        <include refid="Flink_Job_Column_List"/>
+        FROM (
+        select *,
+        row_number() over(partition by job_code,directory_id order by job_version desc) as rn
+        from di_job
+        ) t1
+        JOIN di_job t2 ON t1.flink_artifact_id = t2.id
+        JOIN flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
+        LEFT JOIN flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
+        LEFT JOIN flink_job_instance t6
+        ON t1.`code` = t6.flink_job_code AND t1.version = t6.flink_job_version
+        <where>
+            t1.rn = 1
+            AND t1.`type` = #{param.type}
+            <if test="param.name != null and param.name != ''">
+                AND t1.`name` like CONCAT('%', #{param.name}, '%')
+            </if>
+            <if test="param.flinkClusterConfigId != null">
+                AND t1.flink_cluster_config_id = #{param.flinkClusterConfigId}
+            </if>
+            <if test="param.flinkClusterInstanceId != null">
+                AND t1.flink_cluster_instance_id = #{param.flinkClusterInstanceId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getJobForSeaTunnelById" resultMap="FLinkJobForSeaTunnelMap">
+        SELECT
+        t2.id AS di_job_id,
+        t2.project_id AS di_job_project_id,
+        t2.job_code AS di_job_job_code,
+        t2.job_name AS di_job_job_name,
+        t2.directory_id AS di_job_directory_id,
+        t2.job_type AS di_job_job_type,
+        t2.job_owner AS di_job_job_owner,
+        t2.job_status AS di_job_job_status,
+        t2.job_version AS di_job_job_version,
+        t2.remark AS di_job_remark,
+        <include refid="Flink_Job_Column_List"/>
+        FROM flink_job t1
+        JOIN di_job t2 ON t1.flink_artifact_id = t2.id
+        JOIN flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
+        LEFT JOIN flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
+        LEFT JOIN flink_job_instance t6
+        ON t1.`code` = t6.flink_job_code AND t1.version = t6.flink_job_version
         WHERE t1.id = #{id}
     </select>
 </mapper>
