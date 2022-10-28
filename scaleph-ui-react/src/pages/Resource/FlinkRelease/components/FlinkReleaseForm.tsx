@@ -43,7 +43,7 @@ const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
@@ -74,9 +74,6 @@ const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
                 setFileList([]);
                 message.success(intl.formatMessage({ id: 'app.common.operate.upload.success' }));
               }
-            })
-            .catch(() => {
-              message.error(intl.formatMessage({ id: 'app.common.operate.upload.failure' }));
             })
             .finally(() => {
               setUploading(false);

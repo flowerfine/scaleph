@@ -16,20 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink;
+package cn.sliew.scaleph.common.dict.seatunnel;
 
-import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+
+import java.util.Arrays;
 
 import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType.SEATUNNEL;
 import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName.*;
 import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType.SINK;
 import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType.SOURCE;
-
 
 /**
  * https://github.com/apache/incubator-seatunnel/blob/dev/plugin-mapping.properties
@@ -106,7 +103,9 @@ public enum SeaTunnelPluginMapping {
         this.pluginJarPrefix = pluginJarPrefix;
     }
 
-    public static void main(String[] args) {
-        System.out.println(JacksonUtil.toJsonString(SOURCE_FAKE));
+    public static SeaTunnelPluginMapping of(SeaTunnelPluginName pluginName) {
+        return Arrays.stream(values())
+                .filter(mapping -> mapping.getPluginName() == pluginName)
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(SeaTunnelPluginMapping.class, pluginName.getValue()));
     }
 }

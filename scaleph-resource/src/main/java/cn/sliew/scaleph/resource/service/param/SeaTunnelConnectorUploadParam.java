@@ -16,19 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.dict;
+package cn.sliew.scaleph.resource.service.param;
 
-public interface DictInstance {
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
-    String getValue();
+import javax.validation.constraints.NotNull;
 
-    String getLabel();
+@Data
+public class SeaTunnelConnectorUploadParam {
 
-    default boolean isValid() {
-        return true;
-    }
+    @NotNull
+    @ApiModelProperty("seatunnel release id")
+    private Long id;
 
-    default String getRemark() {
-        return null;
-    }
+    @NotNull
+    @ApiModelProperty("seatunnel plugin name")
+    private SeaTunnelPluginName pluginName;
+
 }

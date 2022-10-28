@@ -32,6 +32,7 @@ export const DICT_TYPE = {
   flinkHA: 'flink_high_availability',
   flinkArtifactType: 'flink_artifact_type',
   seatunnelVersion: 'seatunnel_version',
+  seatunnelPluginName: 'seatunnel_plugin_name',
   imagePullPolicy: 'image_pull_policy',
 };
 

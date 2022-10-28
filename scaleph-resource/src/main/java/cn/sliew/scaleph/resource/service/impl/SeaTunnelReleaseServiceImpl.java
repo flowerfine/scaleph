@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.resource.service.impl;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.common.exception.Rethrower;
 import cn.sliew.scaleph.common.nio.FileUtil;
 import cn.sliew.scaleph.common.nio.TarUtil;
@@ -30,6 +31,7 @@ import cn.sliew.scaleph.resource.service.convert.SeaTunnelReleaseConvert;
 import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
 import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
+import cn.sliew.scaleph.resource.service.param.SeaTunnelConnectorUploadParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseListParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseUploadParam;
 import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
@@ -123,7 +125,7 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
     public void upload(SeaTunnelReleaseUploadParam param, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
         String filePath = getReleasePath(param.getVersion().getValue(), fileName);
-        try (final InputStream inputStream = file.getInputStream()) {
+        try (InputStream inputStream = file.getInputStream()) {
             fileSystemService.upload(inputStream, filePath);
         }
         ResourceSeaTunnelRelease record = new ResourceSeaTunnelRelease();
@@ -131,17 +133,25 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
         record.setFileName(fileName);
         record.setPath(filePath);
         releaseSeaTunnelMapper.insert(record);
-
-        // fetch connectors
-        // seatunnel release not contains connectors since 2.2.0-beta
-        // instead provides a connector jar install shell script
-        fetchConnectors(record.getId(), param.getVersion().getValue(), fileName);
     }
 
-    private void fetchConnectors(Long id, String version, String fileName) throws IOException {
+    @Override
+    public void uploadConnector(SeaTunnelConnectorUploadParam param, MultipartFile file) throws IOException {
+        SeaTunnelReleaseDTO dto = selectOne(param.getId());
+        String version = dto.getVersion().getValue();
+        String connector = SeaTunnelPluginMapping.of(param.getPluginName()).getPluginJarPrefix();
+        String connectorPath = getSeaTunnelConnectorPath(version, connector);
+        try (InputStream inputStream = file.getInputStream()) {
+            fileSystemService.upload(inputStream, connectorPath);
+        }
+    }
+
+    @Override
+    public void fetchConnectors(Long id) throws IOException {
+        SeaTunnelReleaseDTO dto = selectOne(id);
         Path workspace = SystemUtil.getRandomWorkspace();
         try {
-            Path file = FileUtil.createFile(workspace, fileName);
+            Path file = FileUtil.createFile(workspace, dto.getFileName());
             try (OutputStream outputStream = FileUtil.getOutputStream(file)) {
                 download(id, outputStream);
             }
@@ -156,7 +166,7 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
                     connectors.add((String) connector);
                 }
             });
-            doFetch(version, connectors);
+            doFetch(dto.getVersion().getValue(), connectors);
         } finally {
             FileUtil.deleteDir(workspace);
         }

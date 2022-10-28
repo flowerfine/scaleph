@@ -1,7 +1,7 @@
 import {PageResponse, ResponseBody} from '@/app.d';
 import {USER_AUTH} from '@/constant';
 import {
-  SeaTunnelConnectorFile,
+  SeaTunnelConnectorFile, SeaTunnelConnectorUploadParam,
   SeaTunnelRelease,
   SeaTunnelReleaseListParam,
   SeaTunnelReleaseUploadParam,
@@ -50,6 +50,24 @@ export const SeatunnelReleaseService = {
     return request<ResponseBody<any>>(`${SeatunnelReleaseService.url}/upload`, {
       method: 'POST',
       data: formData,
+    });
+  },
+
+  uploadConnector: async (uploadParam: SeaTunnelConnectorUploadParam) => {
+    const formData = new FormData();
+    formData.append('id', uploadParam.id);
+    formData.append('pluginName', uploadParam.pluginName);
+    formData.append('file', uploadParam.file);
+    return request<ResponseBody<any>>(`${SeatunnelReleaseService.url}/uploadConnector`, {
+      method: 'POST',
+      data: formData,
+    });
+  },
+
+  fetch: async (id: number) => {
+    return request<ResponseBody<any>>(`${SeatunnelReleaseService.url}/fetch`, {
+      method: 'GET',
+      params: {id: id}
     });
   },
 

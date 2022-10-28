@@ -69,6 +69,12 @@ export type SeaTunnelReleaseUploadParam = QueryParam & {
   remark?: String;
 }
 
+export type SeaTunnelConnectorUploadParam = QueryParam & {
+  id: string;
+  pluginName: string;
+  file: File;
+}
+
 export type SeaTunnelConnectorFile = {
   name: string;
   len: number;
