@@ -217,8 +217,8 @@ public class DiJobServiceImpl implements DiJobService {
 
         DiJob record = DiJobConvert.INSTANCE.toDo(job);
         record.setId(null);
-        job.setJobVersion(jobVersion);
-        job.setJobStatus(JobStatus.DRAFT);
+        record.setJobVersion(jobVersion);
+        record.setJobStatus(JobStatus.DRAFT);
         diJobMapper.insert(record);
         clone(job.getId(), record.getId());
         return record.getId();
