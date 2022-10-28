@@ -51,6 +51,7 @@ export default {
   'app.common.operate.return.label': '返回',
   'app.common.operate.more.label': '查看更多',
   'app.common.operate.download.label': '下载',
+  'app.common.operate.fetch.label': '加载',
   'app.common.operate.forbid.label': '注销',
   'app.common.operate.forbid.success': '注销成功',
   'app.common.operate.forbid.confirm.title': '确认注销?',

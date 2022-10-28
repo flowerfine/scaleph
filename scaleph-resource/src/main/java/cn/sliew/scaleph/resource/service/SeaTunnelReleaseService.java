@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.resource.service;
 
 import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
+import cn.sliew.scaleph.resource.service.param.SeaTunnelConnectorUploadParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseListParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseUploadParam;
 import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
@@ -38,6 +39,14 @@ public interface SeaTunnelReleaseService extends ResourceDescriptor<SeaTunnelRel
     List<FileStatusVO> listConnectors(Long id) throws IOException;
 
     void upload(SeaTunnelReleaseUploadParam param, MultipartFile file) throws IOException;
+
+    void uploadConnector(SeaTunnelConnectorUploadParam param, MultipartFile file) throws IOException;
+
+    /**
+     * seatunnel release not contains connectors since 2.2.0-beta
+     * instead provides a connector jar install shell script
+     */
+    void fetchConnectors(Long id) throws IOException;
 
     String download(Long id, OutputStream outputStream) throws IOException;
 

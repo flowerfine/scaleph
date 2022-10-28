@@ -1,14 +1,14 @@
 import {ModalFormProps} from '@/app.d';
-import {ClusterCredentialService} from '@/services/resource/clusterCredential.service';
-import {CredentialFileUploadParam} from '@/services/resource/typings';
-import {InboxOutlined} from '@ant-design/icons';
-import {Form, message, Modal, Upload, UploadFile, UploadProps} from 'antd';
+import {SeaTunnelConnectorUploadParam} from '@/services/resource/typings';
+import {Form, message, Modal, UploadFile, UploadProps} from 'antd';
 import {useState} from 'react';
 import {useIntl} from 'umi';
+import {ProForm, ProFormSelect, ProFormUploadButton} from "@ant-design/pro-components";
+import {DictDataService} from "@/services/admin/dictData.service";
+import {DICT_TYPE} from "@/constant";
+import {SeatunnelReleaseService} from "@/services/resource/seatunnelRelease.service";
 
-const {Dragger} = Upload;
-
-const CredentialFileForm: React.FC<ModalFormProps<{ id: number }>> =
+const ConnectorFileForm: React.FC<ModalFormProps<{ id: number }>> =
   ({data, visible, onVisibleChange, onCancel}) => {
     const intl = useIntl();
     const [form] = Form.useForm();
@@ -17,8 +17,8 @@ const CredentialFileForm: React.FC<ModalFormProps<{ id: number }>> =
 
     const props: UploadProps = {
       name: 'files',
-      multiple: true,
-      maxCount: 10,
+      multiple: false,
+      maxCount: 1,
       onRemove: (file) => {
         const index = fileList.indexOf(file);
         const newFileList = fileList.slice();
@@ -36,7 +36,7 @@ const CredentialFileForm: React.FC<ModalFormProps<{ id: number }>> =
       <Modal
         title={
           intl.formatMessage({id: 'app.common.operate.upload.label'}) +
-          intl.formatMessage({id: 'pages.resource.credentialFile'})
+          intl.formatMessage({id: 'pages.resource.seatunnelRelease.connector'})
         }
         open={visible}
         width={580}
@@ -50,18 +50,16 @@ const CredentialFileForm: React.FC<ModalFormProps<{ id: number }>> =
         }
         onOk={() => {
           form.validateFields().then((values) => {
-            const uploadParam: CredentialFileUploadParam = {
+            const uploadParam: SeaTunnelConnectorUploadParam = {
               id: data.id,
-              files: fileList,
+              pluginName: values.pluginName,
+              file: fileList[0]
             };
             setUploading(true);
-            ClusterCredentialService.uploadFiles(uploadParam)
+            SeatunnelReleaseService.uploadConnector(uploadParam)
               .then(() => {
                 setFileList([]);
                 message.success(intl.formatMessage({id: 'app.common.operate.upload.success'}));
-              })
-              .catch(() => {
-                message.error(intl.formatMessage({id: 'app.common.operate.upload.failure'}));
               })
               .finally(() => {
                 setUploading(false);
@@ -70,23 +68,24 @@ const CredentialFileForm: React.FC<ModalFormProps<{ id: number }>> =
           });
         }}
       >
-        <Form form={form} layout="horizontal">
-          <Form.Item>
-            <Dragger {...props}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined/>
-              </p>
-              <p className="ant-upload-text">
-                {intl.formatMessage({id: 'pages.resource.files.upload.tooltip'})}
-              </p>
-              <p className="ant-upload-hint">
-                {intl.formatMessage({id: 'pages.resource.files.upload.hint'})}
-              </p>
-            </Dragger>
-          </Form.Item>
-        </Form>
+        <ProForm form={form} layout={"horizontal"} submitter={false} labelCol={{span: 6}} wrapperCol={{span: 16}}>
+          <ProFormSelect
+            name={"pluginName"}
+            label={intl.formatMessage({id: 'pages.resource.seatunnelRelease.pluginName'})}
+            rules={[{required: true}]}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.seatunnelPluginName)}
+          />
+          <ProFormUploadButton
+            name={"file"}
+            label={intl.formatMessage({id: 'pages.resource.file'})}
+            title={intl.formatMessage({id: 'pages.resource.seatunnelRelease.connector'})}
+            max={1}
+            fieldProps={props}
+            rules={[{required: true}]}
+          />
+        </ProForm>
       </Modal>
     );
   };
 
-export default CredentialFileForm;
+export default ConnectorFileForm;

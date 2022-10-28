@@ -22,6 +22,7 @@ import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.resource.service.SeaTunnelReleaseService;
 import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
+import cn.sliew.scaleph.resource.service.param.SeaTunnelConnectorUploadParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseListParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseUploadParam;
 import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
@@ -29,7 +30,6 @@ import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +43,6 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 
-@Slf4j
 @Api(tags = "资源管理-seatunnel-release")
 @RestController
 @RequestMapping(path = "/api/resource/seatunnel-release")
@@ -87,6 +86,25 @@ public class SeaTunnelReleaseController {
             throw new ScalephException("缺少文件");
         }
         seaTunnelReleaseService.upload(param, file);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("uploadConnector")
+    @ApiOperation(value = "上传 connector", notes = "上传 connector")
+    public ResponseEntity<ResponseVO> uploadConnector(@Valid SeaTunnelConnectorUploadParam param, @RequestPart("file") MultipartFile file) throws Exception {
+        if (file.isEmpty()) {
+            throw new ScalephException("缺少文件");
+        }
+        seaTunnelReleaseService.uploadConnector(param, file);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("fetch")
+    @ApiOperation(value = "自动获取 connector", notes = "自动获取 connector")
+    public ResponseEntity<ResponseVO> fetchConnectors(@RequestParam("id") Long id) throws Exception {
+        seaTunnelReleaseService.fetchConnectors(id);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 

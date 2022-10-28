@@ -28,7 +28,7 @@ import javax.validation.constraints.NotNull;
 public class SeaTunnelReleaseUploadParam {
 
     @NotNull
-    @ApiModelProperty("flink 版本")
+    @ApiModelProperty("seatunnel 版本")
     private SeaTunnelVersion version;
 
     @ApiModelProperty("备注")

@@ -18,70 +18,81 @@
 
 package cn.sliew.scaleph.common.dict;
 
+import cn.sliew.scaleph.common.dict.common.*;
+import cn.sliew.scaleph.common.dict.flink.*;
+import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
+import cn.sliew.scaleph.common.dict.job.*;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
+import cn.sliew.scaleph.common.dict.security.*;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum DictType implements DictDefinition {
 
-    YES_OR_NO("yes_or_no", "是否"),
-    IS_DELETED("is_delete", "是否删除"),
+    YES_OR_NO("yes_or_no", "是否", YesOrNo.class),
+    IS_DELETED("is_delete", "是否删除", IsDeleted.class),
 
-    GENDER("gender", "性别"),
-    ID_CARD_TYPE("id_card_type", "证件类型"),
-    NATION("nation", "国家"),
-    MESSAGE_TYPE("message_type", "消息类型"),
-    REGISTER_CHANNEL("register_channel", "注册渠道"),
-    LOGIN_TYPE("login_type", "登录类型"),
-    USER_STATUS("user_status", "用户状态"),
-    ROLE_TYPE("role_type", "角色类型"),
-    ROLE_STATUS("role_status", "角色状态"),
-    DEPT_STATUS("dept_status", "部门状态"),
-    RESOURCE_TYPE("resource_type", "权限资源类型"),
+    GENDER("gender", "性别", Gender.class),
+    ID_CARD_TYPE("id_card_type", "证件类型", IdCardType.class),
+    NATION("nation", "国家", Nation.class),
+    MESSAGE_TYPE("message_type", "消息类型", MessageType.class),
+    REGISTER_CHANNEL("register_channel", "注册渠道", RegisterChannel.class),
+    LOGIN_TYPE("login_type", "登录类型", LoginType.class),
+    USER_STATUS("user_status", "用户状态", UserStatus.class),
+    ROLE_TYPE("role_type", "角色类型", RoleType.class),
+    ROLE_STATUS("role_status", "角色状态", RoleStatus.class),
+    DEPT_STATUS("dept_status", "部门状态", DeptStatus.class),
+    RESOURCE_TYPE("resource_type", "权限资源类型", ResourceType.class),
 
-    TASK_RESULT("task_result", "任务运行结果"),
-    DATASOURCE_TYPE("datasource_type", "数据源类型"),
+    TASK_RESULT("task_result", "任务运行结果", TaskResult.class),
+    DATASOURCE_TYPE("datasource_type", "数据源类型", DataSourceType.class),
 
-    JOB_TYPE("job_type", "作业类型"),
-    JOB_STATUS("job_status", "作业状态"),
-    JOB_INSTANCE_TYPE("job_instance_state", "作业实例状态"),
-    RUNTIME_STATE("runtime_state", "运行状态"),
-    JOB_ATTR_TYPE("job_attr_type", "作业属性类型"),
-    JOB_STEP_TYPE("job_step_type", "步骤类型"),
+    JOB_TYPE("job_type", "作业类型", JobType.class),
+    JOB_STATUS("job_status", "作业状态", JobStatus.class),
+    JOB_INSTANCE_TYPE("job_instance_state", "作业实例状态", JobInstanceType.class),
+    RUNTIME_STATE("runtime_state", "运行状态", RuntimeState.class),
+    JOB_ATTR_TYPE("job_attr_type", "作业属性类型", JobAttrType.class),
+    JOB_STEP_TYPE("job_step_type", "步骤类型", JobStepType.class),
 
-    CLUSTER_TYPE("cluster_type", "集群类型"),
-    DATA_TYPE("data_type", "数据类型"),
+    CLUSTER_TYPE("cluster_type", "集群类型", ClusterType.class),
+    DATA_TYPE("data_type", "数据类型", DataType.class),
 
-    FLINK_VERSION("flink_version", "Flink 版本"),
-    FLINK_RESOURCE_PROVIDER("flink_resource_provider", "Flink 资源类型"),
-    FLINK_DEPLOYMENT_MODE("flink_deployment_mode", "Flink 部署模式"),
-    FLINK_HIGH_AVAILABILITY("flink_high_availability", "Flink HA"),
-    FLINK_RESTART_STRATEGY("flink_restart_strategy", "Flink 重启策略"),
-    FLINK_STATE_BACKEND("flink_state_backend", "Flink State Backend"),
-    FLINK_CHECKPOINT_RETAIN("flink_checkpoint_retain", "Flink 外部 checkpoint 保留模式"),
-    FLINK_SEMANTIC("flink_semantic", "Flink 时间语义"),
-    FLINK_CLUSTER_STATUS("flink_cluster_status", "Flink 集群状态"),
-    FLINK_JOB_STATUS("flink_job_status", "Flink 任务状态"),
-    FLINK_JOB_TYPE("flink_job_type", "Flink 任务类型"),
-    FLINK_ARTIFACT_TYPE("flink_artifact_type", "Flink Artifact 类型"),
+    FLINK_VERSION("flink_version", "Flink 版本", FlinkVersion.class),
+    FLINK_RESOURCE_PROVIDER("flink_resource_provider", "Flink 资源类型", FlinkResourceProvider.class),
+    FLINK_DEPLOYMENT_MODE("flink_deployment_mode", "Flink 部署模式", FlinkDeploymentMode.class),
+    FLINK_HIGH_AVAILABILITY("flink_high_availability", "Flink HA", FlinkHighAvailability.class),
+    FLINK_RESTART_STRATEGY("flink_restart_strategy", "Flink 重启策略", FlinkRestartStrategy.class),
+    FLINK_STATE_BACKEND("flink_state_backend", "Flink State Backend", FlinkStateBackend.class),
+    FLINK_CHECKPOINT_RETAIN("flink_checkpoint_retain", "Flink 外部 checkpoint 保留模式", FlinkCheckpointRetain.class),
+    FLINK_SEMANTIC("flink_semantic", "Flink 时间语义", FlinkSemantic.class),
+    FLINK_CLUSTER_STATUS("flink_cluster_status", "Flink 集群状态", FlinkClusterStatus.class),
+    FLINK_JOB_STATUS("flink_job_status", "Flink 任务状态", FlinkJobState.class),
+    FLINK_JOB_TYPE("flink_job_type", "Flink 任务类型", FlinkJobType.class),
+    FLINK_ARTIFACT_TYPE("flink_artifact_type", "Flink Artifact 类型", FlinkArtifactType.class),
 
-    SEATUNNEL_VERSION("seatunnel_version", "SeaTunnel 版本"),
-    SEATUNNEL_ENGINE_TYPE("seatunnel_engine_type", "SeaTunnel 引擎类型"),
-    SEATUNNEL_PLUGIN_TYPE("seatunnel_plugin_type", "SeaTunnel 插件类型"),
-    SEATUNNEL_PLUGIN_NAME("seatunnel_plugin_name", "SeaTunnel 插件名称"),
+    SEATUNNEL_VERSION("seatunnel_version", "SeaTunnel 版本", SeaTunnelVersion.class),
+    SEATUNNEL_ENGINE_TYPE("seatunnel_engine_type", "SeaTunnel 引擎类型", SeaTunnelEngineType.class),
+    SEATUNNEL_PLUGIN_TYPE("seatunnel_plugin_type", "SeaTunnel 插件类型", SeaTunnelPluginType.class),
+    SEATUNNEL_PLUGIN_NAME("seatunnel_plugin_name", "SeaTunnel 插件名称", SeaTunnelPluginName.class),
 
-    IMAGE_PULL_POLICY("image_pull_policy", "Image Pull Policy"),
-
-
+    IMAGE_PULL_POLICY("image_pull_policy", "Image Pull Policy", ImagePullPolicy.class),
     ;
 
+    @JsonValue
     @EnumValue
     private String code;
     private String name;
+    private Class instanceClass;
 
-    DictType(String code, String name) {
+    DictType(String code, String name, Class instanceClass) {
         this.code = code;
         this.name = name;
+        this.instanceClass = instanceClass;
     }
 
     @Override
@@ -92,5 +103,9 @@ public enum DictType implements DictDefinition {
     @Override
     public String getName() {
         return name;
+    }
+
+    public Class getInstanceClass() {
+        return instanceClass;
     }
 }

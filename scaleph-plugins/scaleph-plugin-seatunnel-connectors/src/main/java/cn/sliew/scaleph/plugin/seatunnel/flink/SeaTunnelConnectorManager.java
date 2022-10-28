@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.core.PluginSPILoader;

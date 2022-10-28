@@ -18,9 +18,7 @@
 
 package cn.sliew.scaleph.common.dict.seatunnel;
 
-import cn.sliew.scaleph.common.dict.DictDefinition;
 import cn.sliew.scaleph.common.dict.DictInstance;
-import cn.sliew.scaleph.common.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -49,11 +47,6 @@ public enum SeaTunnelPluginType implements DictInstance {
     SeaTunnelPluginType(String value, String label) {
         this.value = value;
         this.label = label;
-    }
-
-    @Override
-    public DictDefinition getDefinition() {
-        return DictType.SEATUNNEL_PLUGIN_TYPE;
     }
 
     @Override
