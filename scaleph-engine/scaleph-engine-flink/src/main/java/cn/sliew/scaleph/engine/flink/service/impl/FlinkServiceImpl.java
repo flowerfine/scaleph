@@ -28,19 +28,26 @@ import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
 import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
 import cn.sliew.scaleph.common.nio.FileUtil;
 import cn.sliew.scaleph.common.nio.TarUtil;
+import cn.sliew.scaleph.common.util.SeaTunnelReleaseUtil;
 import cn.sliew.scaleph.core.di.service.DiJobService;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobStepDTO;
 import cn.sliew.scaleph.engine.flink.service.*;
 import cn.sliew.scaleph.engine.flink.service.dto.*;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
+import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.FlinkReleaseService;
 import cn.sliew.scaleph.resource.service.JarService;
+import cn.sliew.scaleph.resource.service.SeaTunnelReleaseService;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
 import cn.sliew.scaleph.resource.service.dto.JarDTO;
+import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
 import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
 import cn.sliew.scaleph.system.util.SystemUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -57,14 +64,20 @@ import org.apache.hadoop.yarn.api.records.ApplicationId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -73,23 +86,27 @@ import static cn.sliew.milky.common.check.Ensures.checkState;
 public class FlinkServiceImpl implements FlinkService {
 
     @Autowired
-    private FlinkClusterConfigService flinkClusterConfigService;
-    @Autowired
     private FlinkJobService flinkJobService;
     @Autowired
     private FlinkJobInstanceService flinkJobInstanceService;
     @Autowired
-    private FlinkArtifactJarService flinkArtifactJarService;
-    @Autowired
-    private FlinkReleaseService flinkReleaseService;
-    @Autowired
-    private ClusterCredentialService clusterCredentialService;
+    private FlinkClusterConfigService flinkClusterConfigService;
     @Autowired
     private FlinkClusterInstanceService flinkClusterInstanceService;
     @Autowired
+    private FlinkReleaseService flinkReleaseService;
+    @Autowired
+    private SeaTunnelReleaseService seaTunnelReleaseService;
+    @Autowired
+    private ClusterCredentialService clusterCredentialService;
+    @Autowired
     private JarService jarService;
     @Autowired
+    private FlinkArtifactJarService flinkArtifactJarService;
+    @Autowired
     private DiJobService diJobService;
+    @Autowired
+    private SeatunnelConfigService seatunnelConfigService;
 
     /**
      * requires:
@@ -183,13 +200,18 @@ public class FlinkServiceImpl implements FlinkService {
 
     private ClusterClient doSubmitSeaTunnel(FlinkJobForSeaTunnelDTO flinkJobForSeaTunnelDTO, Path workspace) throws Exception {
         FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(flinkJobForSeaTunnelDTO.getFlinkClusterConfig().getId());
+        SeaTunnelReleaseDTO seaTunnelRelease = seaTunnelReleaseService.selectByVersion(SeaTunnelVersion.V_2_2_0_BETA);
 
         Path flinkHomePath = loadFlinkRelease(flinkClusterConfigDTO.getFlinkRelease(), workspace);
+        Path seatunnelHomePath = loadSeaTunnelRelease(seaTunnelRelease, workspace);
 
         List<URL> jars = loadJarResources(flinkJobForSeaTunnelDTO.getJars(), workspace);
         DiJobDTO diJobDTO = diJobService.queryJobGraph(flinkJobForSeaTunnelDTO.getFlinkArtifactSeaTunnel().getId());
-        PackageJarJob packageJarJob = null;
 
+        Path seatunnelConfPath = buildSeaTunnelConf(diJobDTO, workspace);
+        PackageJarJob packageJarJob = buildSeaTunnelJob(seatunnelHomePath, seatunnelConfPath);
+        jars.add(SeaTunnelReleaseUtil.getStarterJarPath(seatunnelHomePath).toFile().toURL());
+        jars.addAll(loadSeaTunnelConnectors(seaTunnelRelease, diJobDTO, workspace));
 
         final Path clusterCredentialPath = loadClusterCredential(flinkClusterConfigDTO.getClusterCredential(), workspace);
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, clusterCredentialPath);
@@ -473,10 +495,10 @@ public class FlinkServiceImpl implements FlinkService {
     }
 
     private List<URL> loadJarResources(List<Long> jarIds, Path workspace) throws IOException {
-        if (CollectionUtils.isEmpty(jarIds)) {
-            return Collections.emptyList();
-        }
         List<URL> result = new ArrayList<>();
+        if (CollectionUtils.isEmpty(jarIds)) {
+            return result;
+        }
         for (Long jarId : jarIds) {
             JarDTO jarDTO = jarService.selectOne(jarId);
             Path path = FileUtil.createFile(workspace, jarDTO.getFileName());
@@ -495,6 +517,54 @@ public class FlinkServiceImpl implements FlinkService {
             flinkArtifactJarService.download(flinkArtifactJarDTO.getId(), outputStream);
         }
         return jarPath;
+    }
+
+    private Path loadSeaTunnelRelease(SeaTunnelReleaseDTO seaTunnelRelease, Path workspace) throws IOException {
+        final Path tempFile = FileUtil.createFile(workspace, seaTunnelRelease.getFileName());
+        try (final OutputStream outputStream = FileUtil.getOutputStream(tempFile)) {
+            seaTunnelReleaseService.download(seaTunnelRelease.getId(), outputStream);
+        }
+        final Path untarDir = TarUtil.untar(tempFile);
+        return FileUtil.listFiles(untarDir).get(0);
+    }
+
+    private List<URL> loadSeaTunnelConnectors(SeaTunnelReleaseDTO seaTunnelRelease, DiJobDTO job, Path workspace) throws IOException {
+        List<String> connectors = job.getJobStepList().stream()
+                .map(DiJobStepDTO::getStepName)
+                .map(SeaTunnelPluginMapping::of)
+                .map(SeaTunnelPluginMapping::getPluginJarPrefix)
+                .distinct()
+                .collect(Collectors.toList());
+        List<URL> result = new ArrayList<>(connectors.size());
+        Path connectorsPath = FileUtil.createDir(workspace, "connectors");
+        for (String connector : connectors) {
+            String connectorFile = SeaTunnelReleaseUtil.convertToJar(seaTunnelRelease.getVersion().getValue(), connector);
+            Path connectorPath = FileUtil.createFile(connectorsPath, connector);
+            try (OutputStream outputStream = FileUtil.getOutputStream(connectorPath)) {
+                seaTunnelReleaseService.downloadConnector(seaTunnelRelease.getId(), connectorFile, outputStream);
+            }
+            result.add(connectorPath.toFile().toURL());
+        }
+        return result;
+    }
+
+    private Path buildSeaTunnelConf(DiJobDTO job, Path workspace) throws IOException {
+        Path file = FileUtil.createFile(workspace, job.getJobName() + ".json");
+        String configJson = seatunnelConfigService.buildConfig(job);
+        try (Writer writer = FileUtil.getWriter(file)) {
+            FileCopyUtils.copy(configJson, writer);
+        }
+        return file;
+    }
+
+    private PackageJarJob buildSeaTunnelJob(Path seatunnelHomePath, Path seatunnelConfPath) throws IOException {
+        PackageJarJob packageJarJob = new PackageJarJob();
+        Path starterJarPath = SeaTunnelReleaseUtil.getStarterJarPath(seatunnelHomePath);
+        packageJarJob.setJarFilePath(starterJarPath.toFile().toURL().toString());
+        packageJarJob.setEntryPointClass(SeaTunnelReleaseUtil.SEATUNNEL_MAIN_CLASS);
+        String[] args = new String[]{"--config", seatunnelConfPath.toString()};
+        packageJarJob.setProgramArgs(args);
+        return packageJarJob;
     }
 
 }

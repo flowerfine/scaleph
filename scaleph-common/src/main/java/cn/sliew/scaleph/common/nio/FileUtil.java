@@ -153,6 +153,17 @@ public enum FileUtil {
         return getOutputStream(path.toFile());
     }
 
+    public static Writer getWriter(File file) throws IOException {
+        if (!file.exists()) {
+            createFile(file.toPath());
+        }
+        return new FileWriter(file);
+    }
+
+    public static Writer getWriter(Path path) throws IOException {
+        return getWriter(path.toFile());
+    }
+
     public static InputStream getInputStream(File file) throws FileNotFoundException {
         return new BufferedInputStream(new FileInputStream(file));
     }

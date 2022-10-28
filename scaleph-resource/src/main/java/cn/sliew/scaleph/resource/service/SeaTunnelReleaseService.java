@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.resource.service;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
 import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelConnectorUploadParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseListParam;
@@ -35,6 +36,8 @@ public interface SeaTunnelReleaseService extends ResourceDescriptor<SeaTunnelRel
     Page<SeaTunnelReleaseDTO> list(SeaTunnelReleaseListParam param) throws IOException;
 
     SeaTunnelReleaseDTO selectOne(Long id);
+
+    SeaTunnelReleaseDTO selectByVersion(SeaTunnelVersion version);
 
     List<FileStatusVO> listConnectors(Long id) throws IOException;
 
