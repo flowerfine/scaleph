@@ -100,11 +100,18 @@ export default {
   'pages.project.di.step.y': 'y坐标',
   'pages.project.di.step.dataSourceType': '数据源类型',
   'pages.project.di.step.dataSource': '数据源',
-  'pages.project.di.step.schema': 'schema信息',
+
   'pages.project.di.step.bulkSize': '批量提交记录数量',
   'pages.project.di.step.host': '主机地址',
   'pages.project.di.step.port': '端口号',
   'pages.project.di.step.maxRetries': '重试次数',
+
+  // schema
+  'pages.project.di.step.schema': 'Schema',
+  'pages.project.di.step.schema.tooltip': 'Schema 结构体',
+  'pages.project.di.step.schema.fields': 'Field',
+  'pages.project.di.step.schema.fields.key': 'key',
+  'pages.project.di.step.schema.fields.value': 'value',
 
   // jdbc
   'pages.project.di.step.jdbc.dataSourceType': '数据源类型',
@@ -131,9 +138,8 @@ export default {
   'pages.project.di.step.jdbc.transactionTimeoutSec.tooltip': '-1 表示从不超时',
 
   // fake
-  'pages.project.di.step.rowNum': '生成数据行数',
-  'pages.project.di.step.fake.schema.tooltip':
-    'schema格式: {\n' + '          name = "string"\n' + '          age = "int"\n' + '        }',
+  'pages.project.di.step.fake.rowNum': '生成数据行数',
+
 
   // base file
   'pages.project.di.step.baseFile.path': 'Path',

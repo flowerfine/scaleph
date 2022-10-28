@@ -886,6 +886,9 @@ create table di_job
 INSERT INTO `di_job` (`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
                       `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
 VALUES (1, 1, 'mNVdYcrOyK89O3rP', 'e_commerce', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `di_job`(`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
+                     `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
+VALUES (2, 1, 'k52fCXieapQDAxT6', 'fake', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys', 'sys');
 
 drop table if exists di_job_resource_file;
 create table di_job_resource_file
@@ -949,6 +952,15 @@ INSERT INTO `di_job_step` (`job_id`, `step_code`, `step_title`, `step_type`, `st
 VALUES (1, '68834928-2a32-427a-a864-83b6b5848e04', 'Jdbc Sink', 'sink', 'Jdbc', -310, -120,
         '{\"stepTitle\":\"Jdbc Sink\",\"dataSourceType\":\"Mysql\",\"dataSource\":2,\"batch_size\":300,\"batch_interval_ms\":1000,\"max_retries\":3,\"is_exactly_once\":false,\"query\":\"insert into sample_data_e_commerce_duplicate ( id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country )\\nvalues (?,?,?,?,?,?,?,?,?)\"}',
         'sys', 'sys');
+INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
+                          `step_attrs`, `creator`, `editor`)
+VALUES (2, '6223c6c3-b552-4c69-adab-5300b7514fad', 'Fake Source', 'source', 'FakeSource', -400, -320,
+        '{\"stepTitle\":\"Fake Source\",\"row_num\":100,\"fields\":[{\"key\":\"c_string\",\"value\":\"string\"},{\"key\":\"c_boolean\",\"value\":\"boolean\"},{\"key\":\"c_tinyint\",\"value\":\"tinyint\"},{\"key\":\"c_smallint\",\"value\":\"smallint\"},{\"key\":\"c_int\",\"value\":\"int\"},{\"key\":\"c_bigint\",\"value\":\"bigint\"},{\"key\":\"c_float\",\"value\":\"float\"},{\"key\":\"c_double\",\"value\":\"double\"},{\"key\":\"c_decimal\",\"value\":\"decimal(30, 8)\"},{\"key\":\"c_bytes\",\"value\":\"bytes\"},{\"key\":\"c_map\",\"value\":\"map<string, string>\"},{\"key\":\"c_date\",\"value\":\"date\"},{\"key\":\"c_time\",\"value\":\"time\"},{\"key\":\"c_timestamp\",\"value\":\"timestamp\"}],\"schema\":\"{\\\"fields\\\":{\\\"c_string\\\":\\\"string\\\",\\\"c_boolean\\\":\\\"boolean\\\",\\\"c_tinyint\\\":\\\"tinyint\\\",\\\"c_smallint\\\":\\\"smallint\\\",\\\"c_int\\\":\\\"int\\\",\\\"c_bigint\\\":\\\"bigint\\\",\\\"c_float\\\":\\\"float\\\",\\\"c_double\\\":\\\"double\\\",\\\"c_decimal\\\":\\\"decimal(30, 8)\\\",\\\"c_bytes\\\":\\\"bytes\\\",\\\"c_map\\\":\\\"map<string, string>\\\",\\\"c_date\\\":\\\"date\\\",\\\"c_time\\\":\\\"time\\\",\\\"c_timestamp\\\":\\\"timestamp\\\"}}\"}',
+        'sys', 'sys');
+INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
+                          `step_attrs`, `creator`, `editor`)
+VALUES (2, 'f08143b4-34dc-4190-8723-e8d8ce49738f', 'Console Sink', 'sink', 'Console', -320, -120,
+        '{\"stepTitle\":\"Console Sink\"}', 'sys', 'sys');
 
 /* 作业连线信息 */
 drop table if exists di_job_link;
@@ -969,6 +981,9 @@ create table di_job_link
 INSERT INTO `di_job_link` (`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
 VALUES (1, 'fabfda41-aacb-4a19-b5ef-9e84a75ed4e9', 'f3e02087-91fa-494d-86f4-694970a49ebd',
         '68834928-2a32-427a-a864-83b6b5848e04', 'sys', 'sys');
+INSERT INTO `di_job_link`(`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
+VALUES (2, 'd57021a1-65c7-4dfe-ae89-3b73d00fcf72', '6223c6c3-b552-4c69-adab-5300b7514fad',
+        'f08143b4-34dc-4190-8723-e8d8ce49738f', 'sys', 'sys');
 
 /* 数据同步-运行日志 */
 drop table if exists di_job_log;
@@ -1006,9 +1021,9 @@ CREATE TABLE `resource_seatunnel_release`
     `path`        VARCHAR(255) NOT NULL COMMENT '存储路径',
     `remark`      VARCHAR(255) COMMENT '备注',
     `creator`     VARCHAR(32) COMMENT '创建人',
-    `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `create_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `editor`      VARCHAR(32) COMMENT '修改人',
-    `update_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    `update_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB COMMENT = 'seatunnel release';
 
@@ -1022,9 +1037,9 @@ CREATE TABLE `resource_flink_release`
     `path`        VARCHAR(255) NOT NULL COMMENT '存储路径',
     `remark`      VARCHAR(255) COMMENT '备注',
     `creator`     VARCHAR(32) COMMENT '创建人',
-    `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `create_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `editor`      VARCHAR(32) COMMENT '修改人',
-    `update_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    `update_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB COMMENT = 'flink release';
 
@@ -1051,11 +1066,11 @@ CREATE TABLE `resource_jar`
     `group`       varchar(255) NOT NULL COMMENT 'jar group',
     `file_name`   varchar(255) NOT NULL COMMENT '文件名称',
     `path`        varchar(255) NOT NULL COMMENT '存储路径',
-    `remark`      varchar(255) DEFAULT NULL COMMENT '备注',
-    `creator`     varchar(32)  DEFAULT NULL COMMENT '创建人',
-    `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `editor`      varchar(32)  DEFAULT NULL COMMENT '修改人',
-    `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    `remark`      varchar(255)      DEFAULT NULL COMMENT '备注',
+    `creator`     varchar(32)       DEFAULT NULL COMMENT '创建人',
+    `create_time` timestamp    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `editor`      varchar(32)       DEFAULT NULL COMMENT '修改人',
+    `update_time` timestamp    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB COMMENT ='java jar';
 
@@ -1073,7 +1088,7 @@ CREATE TABLE `resource_kerberos`
     `editor`      varchar(32),
     `update_time` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-    KEY           idx_name (`name`)
+    KEY idx_name (`name`)
 ) ENGINE = InnoDB COMMENT ='kerberos';
 
 DROP TABLE IF EXISTS snowflake_worker_node;

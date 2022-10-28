@@ -96,10 +96,20 @@ export const STEP_ATTR_TYPE = {
   timestampColumn: 'timestamp_column',
   timestampFormat: 'timestamp_format',
   timestampMissingValue: 'timestamp_missing_value',
-  rowNum: 'row_num',
   host: 'host',
   port: 'port',
 };
+
+export const SchemaParams = {
+  schema: 'schema',
+  fields: 'fields',
+  key: 'key',
+  value: 'value',
+}
+
+export const FakeParams = {
+  rowNum: 'row_num',
+}
 
 export const JdbcParams = {
   dataSourceType: 'dataSourceType',

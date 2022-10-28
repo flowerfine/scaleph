@@ -34,7 +34,6 @@ import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,17 +45,6 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * todo split job to crud and run, stop, schedule
- * job crud
- * job graph
- * job attr
- * job resource
- * job run, stop, schedule
- *
- * @author gleiyu
- */
-@Slf4j
 @Api(tags = "数据开发-作业管理")
 @RestController
 @RequestMapping(path = {"/api/datadev/job", "/api/di/job"})

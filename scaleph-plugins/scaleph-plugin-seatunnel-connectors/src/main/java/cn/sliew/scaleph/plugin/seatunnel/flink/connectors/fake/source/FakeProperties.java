@@ -19,16 +19,17 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.fake.source;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum FakeProperties {
     ;
 
-    public static final PropertyDescriptor<String> SCHEMA = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder<JsonNode>()
         .name("schema")
         .description(
             "Table structure description ,you should assign schema option to tell connector how to parse data to the row you want.")
-        .type(PropertyType.STRING)
-        .parser(Parsers.STRING_PARSER)
+        .type(PropertyType.OBJECT)
+        .parser(Parsers.JSON_PARSER)
         .properties(Property.Required)
         .addValidator(Validators.NON_BLANK_VALIDATOR)
         .validateAndBuild();
