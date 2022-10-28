@@ -82,7 +82,7 @@
 
         <dependency>
             <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-actor-typed_${akka.scala.binary.version}</artifactId>
+            <artifactId>akka-actor-typed_${scala.binary.version}</artifactId>
             <scope>provided</scope>
         </dependency>
 

@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.resource.service.impl;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
 import cn.sliew.scaleph.common.exception.Rethrower;
 import cn.sliew.scaleph.common.nio.FileUtil;
 import cn.sliew.scaleph.common.nio.TarUtil;
@@ -38,6 +39,7 @@ import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.storage.service.RemoteService;
 import cn.sliew.scaleph.system.util.SystemUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.hadoop.fs.FileStatus;
@@ -111,6 +113,15 @@ public class SeaTunnelReleaseServiceImpl implements SeaTunnelReleaseService {
     public SeaTunnelReleaseDTO selectOne(Long id) {
         final ResourceSeaTunnelRelease record = releaseSeaTunnelMapper.selectById(id);
         checkState(record != null, () -> "release seatunnel not exists for id: " + id);
+        return SeaTunnelReleaseConvert.INSTANCE.toDto(record);
+    }
+
+    @Override
+    public SeaTunnelReleaseDTO selectByVersion(SeaTunnelVersion version) {
+        LambdaQueryWrapper<ResourceSeaTunnelRelease> queryWrapper = Wrappers.lambdaQuery(ResourceSeaTunnelRelease.class)
+                .eq(ResourceSeaTunnelRelease::getVersion, version);
+        ResourceSeaTunnelRelease record = releaseSeaTunnelMapper.selectOne(queryWrapper);
+        checkState(record != null, () -> "release seatunnel not exists for version: " + version.getValue());
         return SeaTunnelReleaseConvert.INSTANCE.toDto(record);
     }
 

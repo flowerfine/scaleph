@@ -80,11 +80,9 @@ const JobForSeaTunnelWeb: React.FC = () => {
                       okText: intl.formatMessage({id: 'app.common.operate.submit.label'}),
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        FLinkJobInstanceJarService.submit(record).then((d) => {
+                        FLinkJobInstanceJarService.submitSeaTunnel(record).then((d) => {
                           if (d.success) {
-                            message.success(
-                              intl.formatMessage({id: 'app.common.operate.submit.success'}),
-                            );
+                            message.success(intl.formatMessage({id: 'app.common.operate.submit.success'}));
                             actionRef.current?.reload();
                           }
                         });
