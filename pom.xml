@@ -599,7 +599,7 @@
                 <artifactId>clickhouse-jdbc</artifactId>
                 <version>${clickhouse-jdbc.version}</version>
             </dependency>
-            <dependency>
+            <!--<dependency>
                 <groupId>org.apache.druid</groupId>
                 <artifactId>druid-indexing-service</artifactId>
                 <version>${druid.version}</version>
@@ -622,7 +622,7 @@
                 <groupId>org.apache.calcite</groupId>
                 <artifactId>calcite-druid</artifactId>
                 <version>${calcite-druid.version}</version>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
