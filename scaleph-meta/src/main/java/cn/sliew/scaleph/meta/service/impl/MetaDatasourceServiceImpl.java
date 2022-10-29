@@ -34,6 +34,8 @@ import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.Property;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.resource.service.enums.ResourceType;
+import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,22 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
 
     @Autowired
     private MetaDatasourceMapper metaDatasourceMapper;
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.DATASOURCE;
+    }
+
+    @Override
+    public Page<MetaDatasourceDTO> list(ResourceListParam param) {
+        MetaDatasourceParam metaDatasourceParam = MetaDataSourceConvert.INSTANCE.convert(param);
+        return selectPage(metaDatasourceParam);
+    }
+
+    @Override
+    public MetaDatasourceDTO getRaw(Long id) {
+        return selectOne(id, false);
+    }
 
     @Override
     public Set<PluginInfo> getAvailableDataSources() {
@@ -78,7 +96,7 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
         if (validateProps(metaDatasourceDTO)) {
             this.encryptProps(metaDatasourceDTO, true);
             final MetaDatasource metaDatasource =
-                MetaDataSourceConvert.INSTANCE.toDo(metaDatasourceDTO);
+                    MetaDataSourceConvert.INSTANCE.toDo(metaDatasourceDTO);
             return metaDatasourceMapper.insert(metaDatasource);
         }
         return 0;
@@ -89,7 +107,7 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
         if (validateProps(metaDatasourceDTO)) {
             this.encryptProps(metaDatasourceDTO, true);
             final MetaDatasource metaDatasource =
-                MetaDataSourceConvert.INSTANCE.toDo(metaDatasourceDTO);
+                    MetaDataSourceConvert.INSTANCE.toDo(metaDatasourceDTO);
             return metaDatasourceMapper.updateById(metaDatasource);
         }
         return 0;
@@ -98,7 +116,6 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
     /**
      * todo check is datasource is used
      */
-
     @Override
     public int deleteById(Long id) {
         return metaDatasourceMapper.deleteById(id);
@@ -123,17 +140,17 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
     @Override
     public Page<MetaDatasourceDTO> selectPage(MetaDatasourceParam param) {
         Page<MetaDatasource> list = metaDatasourceMapper.selectPage(
-            new Page<>(param.getCurrent(), param.getPageSize()),
-            Wrappers.lambdaQuery(MetaDatasource.class)
-                .like(StringUtils.hasText(param.getDatasourceName()),
-                    MetaDatasource::getDatasourceName,
-                    param.getDatasourceName())
-                .eq(StringUtils.hasText(param.getDatasourceType()),
-                    MetaDatasource::getDatasourceType,
-                    param.getDatasourceType())
+                new Page<>(param.getCurrent(), param.getPageSize()),
+                Wrappers.lambdaQuery(MetaDatasource.class)
+                        .like(StringUtils.hasText(param.getDatasourceName()),
+                                MetaDatasource::getDatasourceName,
+                                param.getDatasourceName())
+                        .eq(StringUtils.hasText(param.getDatasourceType()),
+                                MetaDatasource::getDatasourceType,
+                                param.getDatasourceType())
         );
         Page<MetaDatasourceDTO> result =
-            new Page<>(list.getCurrent(), list.getSize(), list.getTotal());
+                new Page<>(list.getCurrent(), list.getSize(), list.getTotal());
         List<MetaDatasourceDTO> dtoList = MetaDataSourceConvert.INSTANCE.toDto(list.getRecords());
 //        dtoList.forEach(this::cleanSensitiveParam);
         result.setRecords(dtoList);
@@ -143,8 +160,8 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
     @Override
     public List<MetaDatasourceDTO> listByType(String type) {
         List<MetaDatasource> list = this.metaDatasourceMapper.selectList(
-            Wrappers.lambdaQuery(MetaDatasource.class)
-                .eq(MetaDatasource::getDatasourceType, type)
+                Wrappers.lambdaQuery(MetaDatasource.class)
+                        .eq(MetaDatasource::getDatasourceType, type)
         );
         return MetaDataSourceConvert.INSTANCE.toDto(list);
     }
@@ -154,20 +171,20 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
         Map<String, Object> propMap = metaDatasourceDTO.getProps();
         List<PropertyDescriptor> propDescList = getSupportedProperties(pluginName);
         for (PropertyDescriptor prop : propDescList) {
-            if (propMap.containsKey(prop.getName()) == false
-                || StringUtils.isEmpty(propMap.get(prop.getName()))) {
+            String value = (String) propMap.get(prop.getName());
+            if (StringUtils.hasText(value) == false) {
                 continue;
             }
+
             EnumSet<Property> propEnumSet = prop.getProperties();
             if (propEnumSet.contains(Property.Sensitive)) {
-                String value = (String) propMap.get(prop.getName());
                 if (encrypt && !isEncryptedStr(value)) {
                     String encodeValue =
-                        Constants.CODEC_STR_PREFIX + CodecUtil.encodeToBase64(value);
+                            Constants.CODEC_STR_PREFIX + CodecUtil.encodeToBase64(value);
                     propMap.put(prop.getName(), encodeValue);
                 } else if (!encrypt && isEncryptedStr(value)) {
                     String decodeValue = CodecUtil
-                        .decodeFromBase64(value.substring(Constants.CODEC_STR_PREFIX.length()));
+                            .decodeFromBase64(value.substring(Constants.CODEC_STR_PREFIX.length()));
                     propMap.put(prop.getName(), decodeValue);
                 }
             }
@@ -182,11 +199,11 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
         try {
             for (PluginInfo pluginInfo : pluginInfoSet) {
                 if (pluginInfo.getName()
-                    .equalsIgnoreCase(metaDatasourceDTO.getDatasourceType().getValue())) {
+                        .equalsIgnoreCase(metaDatasourceDTO.getDatasourceType().getValue())) {
                     Class clazz = Class.forName(pluginInfo.getClassname());
                     DatasourcePlugin datasource = (DatasourcePlugin) clazz.newInstance();
                     datasource.setAdditionalProperties(
-                        PropertyUtil.mapToProperties(metaDatasourceDTO.getAdditionalProps()));
+                            PropertyUtil.mapToProperties(metaDatasourceDTO.getAdditionalProps()));
                     datasource.configure(PropertyContext.fromMap(metaDatasourceDTO.getProps()));
                     datasource.start();
                     result = datasource.testConnection();
@@ -220,22 +237,9 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
                 }
             }
         } catch (IllegalAccessException | ClassNotFoundException | InstantiationException |
-            IllegalArgumentException e) {
+                 IllegalArgumentException e) {
             Rethrower.throwAs(e);
         }
         return false;
-    }
-
-    private void cleanSensitiveParam(MetaDatasourceDTO metaDatasourceDTO) {
-        String pluginName = metaDatasourceDTO.getDatasourceType().getValue();
-        Map<String, Object> propMap = metaDatasourceDTO.getProps();
-        List<PropertyDescriptor> propDescList = getSupportedProperties(pluginName);
-        for (PropertyDescriptor prop : propDescList) {
-            EnumSet<Property> propEnumSet = prop.getProperties();
-            if (propEnumSet.contains(Property.Sensitive)) {
-                propMap.remove(prop.getName());
-            }
-        }
-        metaDatasourceDTO.setPropsStr(propMap);
     }
 }

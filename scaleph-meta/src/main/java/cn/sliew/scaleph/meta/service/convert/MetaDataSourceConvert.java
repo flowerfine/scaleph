@@ -21,14 +21,20 @@ package cn.sliew.scaleph.meta.service.convert;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDatasource;
 import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;
+import cn.sliew.scaleph.meta.service.param.MetaDatasourceParam;
+import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
+import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.Map;
 
@@ -42,16 +48,14 @@ public interface MetaDataSourceConvert extends BaseConvert<MetaDatasource, MetaD
             return null;
         }
         MetaDatasource metaDatasource = new MetaDatasource();
-        metaDatasource.setId(dto.getId());
-        metaDatasource.setDatasourceName(dto.getDatasourceName());
+        BeanUtils.copyProperties(dto, metaDatasource);
         metaDatasource.setDatasourceType(DictVoConvert.INSTANCE.toDo(dto.getDatasourceType()));
-        metaDatasource.setProps(JacksonUtil.toJsonString(dto.getProps()));
-        metaDatasource.setAdditionalProps(JacksonUtil.toJsonString(dto.getAdditionalProps()));
-        metaDatasource.setRemark(dto.getRemark());
-        metaDatasource.setCreateTime(dto.getCreateTime());
-        metaDatasource.setCreator(dto.getCreator());
-        metaDatasource.setUpdateTime(dto.getUpdateTime());
-        metaDatasource.setEditor(dto.getEditor());
+        if (CollectionUtils.isEmpty(dto.getProps()) == false) {
+            metaDatasource.setProps(JacksonUtil.toJsonString(dto.getProps()));
+        }
+        if (CollectionUtils.isEmpty(dto.getAdditionalProps()) == false) {
+            metaDatasource.setAdditionalProps(JacksonUtil.toJsonString(dto.getAdditionalProps()));
+        }
         return metaDatasource;
     }
 
@@ -61,23 +65,25 @@ public interface MetaDataSourceConvert extends BaseConvert<MetaDatasource, MetaD
             return null;
         }
         MetaDatasourceDTO metaDatasourceDTO = new MetaDatasourceDTO();
-        metaDatasourceDTO.setId(entity.getId());
-        metaDatasourceDTO.setDatasourceName(entity.getDatasourceName());
+        BeanUtils.copyProperties(entity, metaDatasourceDTO);
         metaDatasourceDTO.setDatasourceType(DictVO.toVO(DictConstants.DATASOURCE_TYPE, entity.getDatasourceType()));
-        metaDatasourceDTO.setProps(JacksonUtil.parseJsonString(entity.getProps(),
-                new TypeReference<Map<String, Object>>() {
-                }));
-        metaDatasourceDTO.setPropsStr(metaDatasourceDTO.getProps());
-        metaDatasourceDTO.setAdditionalProps(
-                JacksonUtil.parseJsonString(entity.getAdditionalProps(),
-                        new TypeReference<Map<String, Object>>() {
-                        }));
-        metaDatasourceDTO.setAdditionalPropsStr(metaDatasourceDTO.getAdditionalProps());
-        metaDatasourceDTO.setRemark(entity.getRemark());
-        metaDatasourceDTO.setCreateTime(entity.getCreateTime());
-        metaDatasourceDTO.setCreator(entity.getCreator());
-        metaDatasourceDTO.setUpdateTime(entity.getUpdateTime());
-        metaDatasourceDTO.setEditor(entity.getEditor());
+        if (StringUtils.hasText(entity.getProps())) {
+            metaDatasourceDTO.setProps(JacksonUtil.parseJsonString(entity.getProps(),
+                    new TypeReference<Map<String, Object>>() {}));
+            metaDatasourceDTO.setPropsStr(metaDatasourceDTO.getProps());
+        }
+        if (StringUtils.hasText(entity.getAdditionalProps())) {
+            metaDatasourceDTO.setAdditionalProps(JacksonUtil.parseJsonString(entity.getAdditionalProps(),
+                    new TypeReference<Map<String, Object>>() {}));
+            metaDatasourceDTO.setAdditionalPropsStr(metaDatasourceDTO.getAdditionalProps());
+        }
         return metaDatasourceDTO;
+    }
+
+    default MetaDatasourceParam convert(ResourceListParam param) {
+        MetaDatasourceParam target = BeanUtil.copy(param, new MetaDatasourceParam());
+        target.setDatasourceType(param.getLabel());
+        target.setDatasourceName(param.getName());
+        return target;
     }
 }

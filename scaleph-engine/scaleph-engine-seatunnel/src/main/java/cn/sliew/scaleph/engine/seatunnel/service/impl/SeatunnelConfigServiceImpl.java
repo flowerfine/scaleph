@@ -21,6 +21,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.impl;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.job.JobStepType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobLinkDTO;
@@ -28,8 +29,11 @@ import cn.sliew.scaleph.core.di.service.dto.DiJobStepDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.engine.seatunnel.service.constant.SeaTunnelConstant;
+import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.JobNameProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
+import cn.sliew.scaleph.resource.service.ResourceService;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.graph.EndpointPair;
@@ -53,9 +57,11 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
 
     @Autowired
     private SeatunnelConnectorService seatunnelConnectorService;
+    @Autowired
+    private ResourceService resourceService;
 
     @Override
-    public String buildConfig(DiJobDTO job) {
+    public String buildConfig(DiJobDTO job) throws Exception {
         ObjectNode conf = JacksonUtil.createObjectNode();
         // env
         buildEnvs(conf, job.getJobName(), job.getJobAttrList());
@@ -90,8 +96,7 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         return env;
     }
 
-
-    private MutableGraph<ObjectNode> buildGraph(DiJobDTO diJobDTO) {
+    private MutableGraph<ObjectNode> buildGraph(DiJobDTO diJobDTO) throws PluginException {
         MutableGraph<ObjectNode> graph = GraphBuilder.directed().build();
         List<DiJobStepDTO> jobStepList = diJobDTO.getJobStepList();
         List<DiJobLinkDTO> jobLinkList = diJobDTO.getJobLinkList();
@@ -118,20 +123,36 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         return graph;
     }
 
-    private Properties mergeJobAttrs(DiJobStepDTO step) {
+    private Properties mergeJobAttrs(DiJobStepDTO step) throws PluginException {
+        Properties properties = convertToProperties(step.getStepAttrs());
+        SeaTunnelPluginType pluginType = SeaTunnelPluginType.of(step.getStepType().getValue());
+        SeaTunnelConnectorPlugin connector = seatunnelConnectorService.getConnector(pluginType, step.getStepName());
+        for (ResourceProperty resource : connector.getRequiredResources()) {
+            String name = resource.getProperty().getName();
+            if (properties.containsKey(name)) {
+                Object property = properties.get(name);
+                // fixme force conform property to resource id
+                Object value = resourceService.getRaw(resource.getType(), Long.valueOf(property.toString()));
+                properties.put(name, JacksonUtil.toJsonString(value));
+            }
+        }
+        return properties;
+    }
+
+    private Properties convertToProperties(Map<String, Object> stepAttrList) {
         Properties properties = new Properties();
-        Map<String, Object> stepAttrList = step.getStepAttrs();
-        if (CollectionUtils.isEmpty(stepAttrList) == false) {
-            stepAttrList.forEach((key, value) -> {
-                if (value instanceof String) {
-                    if (StringUtils.hasText(String.valueOf(value))) {
-                        properties.put(key, value);
-                    }
-                } else {
+        if (CollectionUtils.isEmpty(stepAttrList)) {
+            return properties;
+        }
+        stepAttrList.forEach((key, value) -> {
+            if (value instanceof String) {
+                if (StringUtils.hasText(String.valueOf(value))) {
                     properties.put(key, value);
                 }
-            });
-        }
+            } else {
+                properties.put(key, value);
+            }
+        });
         return properties;
     }
 

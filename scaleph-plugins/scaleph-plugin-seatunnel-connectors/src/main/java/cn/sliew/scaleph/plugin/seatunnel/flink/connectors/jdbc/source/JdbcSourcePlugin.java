@@ -23,6 +23,8 @@ import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
@@ -41,10 +43,7 @@ public class JdbcSourcePlugin extends SeaTunnelConnectorPlugin {
                 JdbcSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(URL);
-        props.add(DRIVER);
-        props.add(USER);
-        props.add(PASSWORD);
+        props.add(DATASOURCE);
         props.add(CONNECTION_CHECK_TIMEOUT_SEC);
         props.add(QUERY);
         props.add(PARTITION_COLUMN);
@@ -53,6 +52,21 @@ public class JdbcSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(CommonProperties.FIELD_NAME);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
+    }
+
+    @Override
+    public List<ResourceProperty> getRequiredResources() {
+        return Collections.singletonList(DATASOURCE_RESOURCE);
+    }
+
+    @Override
+    public ObjectNode createConf() {
+        ObjectNode conf = super.createConf();
+
+
+
+
+        return conf;
     }
 
     @Override

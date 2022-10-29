@@ -23,6 +23,7 @@ import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
@@ -41,12 +42,9 @@ public class JdbcSinkPlugin extends SeaTunnelConnectorPlugin {
                 JdbcSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(URL);
-        props.add(DRIVER);
-        props.add(USER);
-        props.add(PASSWORD);
-        props.add(QUERY);
+        props.add(DATASOURCE);
         props.add(CONNECTION_CHECK_TIMEOUT_SEC);
+        props.add(QUERY);
         props.add(MAX_RETRIES);
         props.add(BATCH_SIZE);
         props.add(BATCH_INTERVAL_MS);
@@ -56,6 +54,11 @@ public class JdbcSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(TRANSACTION_TIMEOUT_SEC);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
+    }
+
+    @Override
+    public List<ResourceProperty> getRequiredResources() {
+        return Collections.singletonList(DATASOURCE_RESOURCE);
     }
 
     @Override
