@@ -29,6 +29,7 @@ import cn.sliew.scaleph.core.di.service.vo.DiJobAttrVO;
 import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
+import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -160,7 +161,7 @@ public class JobController {
     @Logging
     @GetMapping(path = "/preview/{jobId}")
     @ApiOperation(value = "任务预览", notes = "任务预览")
-    public ResponseEntity<ResponseVO> previewJob(@PathVariable(value = "jobId") Long jobId) {
+    public ResponseEntity<ResponseVO> previewJob(@PathVariable(value = "jobId") Long jobId) throws Exception {
         String conf = seatunnelJobService.preview(jobId);
         return new ResponseEntity<>(ResponseVO.sucess(conf), HttpStatus.OK);
     }
@@ -201,7 +202,7 @@ public class JobController {
     @GetMapping(path = "/node/meta")
     @ApiOperation(value = "查询DAG节点元信息", notes = "后端统一返回节点信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_SELECT)")
-    public ResponseEntity<List<DagPanelDTO>> loadNodeMeta() {
+    public ResponseEntity<List<DagPanelDTO>> loadNodeMeta() throws PluginException {
         List<DagPanelDTO> list = seatunnelJobService.loadDndPanelInfo();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }

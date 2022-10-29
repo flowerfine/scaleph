@@ -46,6 +46,7 @@ import cn.sliew.scaleph.engine.seatunnel.service.dto.DagNodeDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
+import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.privilege.SecurityContext;
 import cn.sliew.scaleph.storage.service.FileSystemService;
@@ -108,7 +109,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     private String savePointDir;
 
     @Override
-    public String preview(Long jobId) {
+    public String preview(Long jobId) throws Exception {
         DiJobDTO job = diJobService.queryJobGraph(jobId);
         return seatunnelConfigService.buildConfig(job);
     }
@@ -253,7 +254,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public Path buildConfFile(DiJobDTO diJobDTO, Path projectPath) {
+    public Path buildConfFile(DiJobDTO diJobDTO, Path projectPath) throws Exception {
         String jobJson = seatunnelConfigService.buildConfig(diJobDTO);
         final File tempFile = FileUtil.file(projectPath.toFile(), diJobDTO.getJobCode() + ".json");
         FileUtil.writeUtf8String(jobJson, tempFile);
@@ -341,7 +342,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public List<DagPanelDTO> loadDndPanelInfo() {
+    public List<DagPanelDTO> loadDndPanelInfo() throws PluginException {
         List<DagPanelDTO> list = new ArrayList<>();
         for (SeaTunnelPluginType type : SeaTunnelPluginType.values()) {
             Set<PluginInfo> plugins = seatunnelConnectorService.getAvailableConnectors(type);
@@ -353,7 +354,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         return list;
     }
 
-    private DagPanelDTO toDagPanel(SeaTunnelPluginType type, Set<PluginInfo> pluginInfos) {
+    private DagPanelDTO toDagPanel(SeaTunnelPluginType type, Set<PluginInfo> pluginInfos) throws PluginException {
         if (CollectionUtils.isEmpty(pluginInfos)) {
             return null;
         }
@@ -369,19 +370,13 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
             node.setDescription(plugin.getDescription());
             node.setRenderKey(GraphConstants.DND_RENDER_ID);
             node.setData(buildPluginInfo(plugin, displayName));
-//            node.setData(new HashMap<String, String>() {{
-//                put("type", type.getValue());
-//                put("name", plugin.getName());
-//                put("displayName", displayName);
-//            }});
-
             nodeList.add(node);
         }
         panel.setChildren(nodeList);
         return panel;
     }
 
-    private DagPanalVO buildPluginInfo(PluginInfo pluginInfo, String displayName) {
+    private DagPanalVO buildPluginInfo(PluginInfo pluginInfo, String displayName) throws PluginException {
         final SeaTunnelConnectorPlugin connector = seatunnelConnectorService.getConnector(pluginInfo);
         final DagPanalVO dagPanalVO = new DagPanalVO();
         dagPanalVO.setName(connector.getPluginName().getValue());

@@ -40,6 +40,7 @@ import cn.sliew.scaleph.engine.flink.service.*;
 import cn.sliew.scaleph.engine.flink.service.dto.*;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
+import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.FlinkReleaseService;
 import cn.sliew.scaleph.resource.service.JarService;
@@ -229,7 +230,7 @@ public class FlinkServiceImpl implements FlinkService {
                 return doSubmitToStandalone(flinkJobForSeaTunnelDTO.getFlinkClusterInstance(), flinkClusterConfigDTO, configuration, flinkHomePath, packageJarJob);
             default:
                 throw new UnsupportedOperationException(
-                        String.format("scaleph not supports %s for flink jar job submission", flinkClusterConfigDTO.getResourceProvider().getValue()));
+                        String.format("scaleph not supports %s for flink seatunnel job submission", flinkClusterConfigDTO.getResourceProvider().getValue()));
         }
     }
 
@@ -548,7 +549,7 @@ public class FlinkServiceImpl implements FlinkService {
         return result;
     }
 
-    private Path buildSeaTunnelConf(DiJobDTO job, Path workspace) throws IOException {
+    private Path buildSeaTunnelConf(DiJobDTO job, Path workspace) throws Exception {
         Path file = FileUtil.createFile(workspace, job.getJobName() + ".json");
         String configJson = seatunnelConfigService.buildConfig(job);
         try (Writer writer = FileUtil.getWriter(file)) {

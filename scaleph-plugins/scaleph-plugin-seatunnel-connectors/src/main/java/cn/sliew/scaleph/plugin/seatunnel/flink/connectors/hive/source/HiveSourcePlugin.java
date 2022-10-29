@@ -18,14 +18,11 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.source;
 
-
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.*;
-
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -33,18 +30,20 @@ import com.google.auto.service.AutoService;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigRenderOptions;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class HiveSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public HiveSourcePlugin() {
         this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
-            "Hive Source Plugin.",
-            HiveSourcePlugin.class.getName());
+                "Hive Source Plugin.",
+                HiveSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(TABLE_NAME);
@@ -82,6 +81,5 @@ public class HiveSourcePlugin extends SeaTunnelConnectorPlugin {
     protected SeaTunnelPluginMapping getPluginMapping() {
         return SeaTunnelPluginMapping.SOURCE_HIVE;
     }
-
 
 }
