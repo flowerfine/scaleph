@@ -36,6 +36,8 @@ RUN mkdir -p $SEATUNNEL_HOME ; cd $SEATUNNEL_HOME ; \
 #    tar -zxf $TAR_FILE --strip 1 -C . ; \
 #    rm $TAR_FILE
 
+RUN ls $SEATUNNEL_HOME
+
 RUN cd $SEATUNNEL_HOME ; \
-    chmod +x bin/install_plugin.sh; \
+    chmod +x bin/install_plugin.sh ; \
     sh bin/install_plugin.sh ${SEATUNNEL_VERSION}
