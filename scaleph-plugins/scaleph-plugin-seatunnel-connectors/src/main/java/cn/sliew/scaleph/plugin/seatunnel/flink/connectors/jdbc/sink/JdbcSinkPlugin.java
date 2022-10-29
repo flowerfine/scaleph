@@ -49,7 +49,6 @@ public class JdbcSinkPlugin extends SeaTunnelConnectorPlugin {
                 JdbcSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(DATASOURCE);
         props.add(CONNECTION_CHECK_TIMEOUT_SEC);
         props.add(QUERY);
         props.add(MAX_RETRIES);
@@ -71,8 +70,6 @@ public class JdbcSinkPlugin extends SeaTunnelConnectorPlugin {
     @Override
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
-        conf.remove(DATASOURCE.getName());
-
         MetaDatasourceDTO metaDatasourceDTO = JacksonUtil.toObject(properties.get(DATASOURCE), MetaDatasourceDTO.class);
         DataSourceType dataSourceType = DataSourceType.of(metaDatasourceDTO.getDatasourceType().getValue());
         Map<String, Object> props = metaDatasourceDTO.getProps();

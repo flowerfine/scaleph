@@ -39,7 +39,7 @@ public enum JdbcUtil {
     public static String formatUrl(DataSourceType dataSourceType, Map<String, Object> properties, Map<String, Object> additionalProperties) {
         switch (dataSourceType) {
             case MYSQL:
-                return formatMySQLUrl(properties.get(HOST.getName()).toString(), (Integer) properties.get(PORT.getName()), properties.get(DATABASE_NAME.getName()).toString(), formatAdditionalProps(additionalProperties));
+                return formatMySQLUrl(properties.get(HOST.getName()).toString(), Integer.parseInt(properties.get(PORT.getName()).toString()), properties.get(DATABASE_NAME.getName()).toString(), formatAdditionalProps(additionalProperties));
             default:
                 throw new UnsupportedOperationException("unsupport dataSource type for " + dataSourceType);
         }
