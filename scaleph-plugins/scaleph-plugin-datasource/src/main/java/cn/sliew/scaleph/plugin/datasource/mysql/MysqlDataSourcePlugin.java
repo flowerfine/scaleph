@@ -38,7 +38,7 @@ import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 public class MysqlDataSourcePlugin extends JDBCDataSourcePlugin {
 
     public MysqlDataSourcePlugin() {
-        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.MYSQL.getValue(), "Mysql Jdbc Datasource",  MysqlDataSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.MYSQL.getValue(), "Mysql Jdbc Datasource", MysqlDataSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(HOST);
@@ -60,7 +60,7 @@ public class MysqlDataSourcePlugin extends JDBCDataSourcePlugin {
 
     @Override
     public String getJdbcUrl() {
-        return "jdbc:mysql://" + properties.getString(HOST) + ":" + properties.get(PORT) + "/" + properties.getString(DATABASE_NAME) + "?" + getAdditionalProps();
+        return JdbcUtil.formatMySQLUrl(properties.getString(HOST), properties.get(PORT), properties.getString(DATABASE_NAME), getAdditionalProps());
     }
 
     @Override
