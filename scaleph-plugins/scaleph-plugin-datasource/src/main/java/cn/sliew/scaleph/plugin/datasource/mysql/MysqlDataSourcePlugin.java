@@ -18,9 +18,11 @@
 
 package cn.sliew.scaleph.plugin.datasource.mysql;
 
+import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
 import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
 import cn.sliew.scaleph.plugin.datasource.jdbc.JDBCDataSourcePlugin;
+import cn.sliew.scaleph.plugin.datasource.util.JdbcUtil;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -63,7 +65,7 @@ public class MysqlDataSourcePlugin extends JDBCDataSourcePlugin {
 
     @Override
     public String getDriverClassName() {
-        return "com.mysql.cj.jdbc.Driver";
+        return JdbcUtil.getDriverClassName(DataSourceType.MYSQL);
     }
 
 }

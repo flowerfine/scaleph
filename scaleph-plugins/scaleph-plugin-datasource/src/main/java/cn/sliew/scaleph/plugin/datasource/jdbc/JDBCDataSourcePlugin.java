@@ -21,10 +21,12 @@ package cn.sliew.scaleph.plugin.datasource.jdbc;
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
 import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
+import cn.sliew.scaleph.plugin.datasource.util.JdbcUtil;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import com.google.auto.service.AutoService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.PropertiesUtil;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -107,15 +109,7 @@ public class JDBCDataSourcePlugin extends DatasourcePlugin<Connection> {
     }
 
     protected String getAdditionalProps() {
-        if (this.additionalProperties == null || this.additionalProperties.isEmpty()) {
-            return "";
-        }
-        StringBuffer buffer = new StringBuffer();
-        Set<Object> keySet = this.additionalProperties.keySet();
-        for (Object key : keySet) {
-            buffer.append(key.toString()).append("=").append(this.additionalProperties.get(key)).append("&");
-        }
-        return buffer.substring(0, buffer.length() - 1);
+        return JdbcUtil.formatAdditionalProps(additionalProperties);
     }
 
 }
