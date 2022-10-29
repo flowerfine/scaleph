@@ -18,35 +18,29 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.sink;
 
-
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.IS_ENABLE_TRANSACTION;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.METASTORE_URI;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.PARTITION_BY;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.SAVE_MODE;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.SINK_COLUMNS;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.TABLE_NAME;
-
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class HiveSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public HiveSinkPlugin() {
         this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
-            "Hive Source Plugin.",
-            HiveSinkPlugin.class.getName());
+                "Hive Source Plugin.",
+                HiveSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(TABLE_NAME);
@@ -67,7 +61,7 @@ public class HiveSinkPlugin extends SeaTunnelConnectorPlugin {
         for (PropertyDescriptor descriptor : getSupportedProperties()) {
             if (properties.contains(descriptor)) {
                 if (PARTITION_BY.getName().equals(descriptor.getName()) ||
-                    SINK_COLUMNS.getName().equals(descriptor.getName())) {
+                        SINK_COLUMNS.getName().equals(descriptor.getName())) {
                     String[] splitFields = properties.getValue(descriptor).split(",");
                     ArrayNode jsonNodes = objectNode.putArray(descriptor.getName());
                     for (String field : splitFields) {
@@ -85,6 +79,5 @@ public class HiveSinkPlugin extends SeaTunnelConnectorPlugin {
     protected SeaTunnelPluginMapping getPluginMapping() {
         return SeaTunnelPluginMapping.SINK_HIVE;
     }
-
 
 }

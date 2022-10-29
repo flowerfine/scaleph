@@ -229,7 +229,7 @@ public class FlinkServiceImpl implements FlinkService {
                 return doSubmitToStandalone(flinkJobForSeaTunnelDTO.getFlinkClusterInstance(), flinkClusterConfigDTO, configuration, flinkHomePath, packageJarJob);
             default:
                 throw new UnsupportedOperationException(
-                        String.format("scaleph not supports %s for flink jar job submission", flinkClusterConfigDTO.getResourceProvider().getValue()));
+                        String.format("scaleph not supports %s for flink seatunnel job submission", flinkClusterConfigDTO.getResourceProvider().getValue()));
         }
     }
 
