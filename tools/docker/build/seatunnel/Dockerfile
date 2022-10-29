@@ -27,7 +27,7 @@ ENV SEATUNNEL_HOME /opt/seatunnel
 RUN mkdir -p $SEATUNNEL_HOME ; cd $SEATUNNEL_HOME ; \
     curl -LSO https://archive.apache.org/dist/incubator/seatunnel/${SEATUNNEL_VERSION}/$TAR_FILE ; \
     tar -zxf $TAR_FILE --strip 1 -C . ; \
-    rm $TAR_FILE \
+    rm $TAR_FILE
 
 # copy pre-downloaded seatunnel release
 #RUN mkdir -p $SEATUNNEL_HOME
