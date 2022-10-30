@@ -299,3 +299,10 @@ export const IoTDBParams = {
   enableRpcCompression: 'enable_rpc_compression',
   connectionTimeoutInMs: 'connection_timeout_in_ms',
 };
+
+export const MondoDBParams = {
+  uri: 'uri',
+  database: 'database',
+  collection: 'collection'
+};
+

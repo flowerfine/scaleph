@@ -46,11 +46,11 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<{
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          let map: Map<string, string> = new Map();
+          let map: Map<string, any> = new Map();
           map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-          map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
+          map.set(STEP_ATTR_TYPE.stepAttrs, values);
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.success'}));

@@ -304,4 +304,9 @@ export default {
   'pages.project.di.step.iotdb.zoneId': 'Time Zone ID',
   'pages.project.di.step.iotdb.enableRpcCompression': 'Enable RPC Compression',
   'pages.project.di.step.iotdb.connectionTimeoutInMs': 'Connection Timeout(millseconds)',
+
+  // mongodb
+  'pages.project.di.step.mongodb.uri': 'URI',
+  'pages.project.di.step.mongodb.database': 'Database',
+  'pages.project.di.step.mongodb.collection': 'Collection',
 };
