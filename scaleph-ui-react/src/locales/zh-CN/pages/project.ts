@@ -281,6 +281,27 @@ export default {
   'pages.project.di.step.kafka.consumerGroup': 'consumerGroup',
   'pages.project.di.step.kafka.consumerGroup.tooltip': 'Kafka consumer group id, used to distinguish different consumer groups',
   'pages.project.di.step.kafka.commit_on_checkpoint': 'commit_on_checkpoint',
-  'pages.project.di.step.kafka.commit_on_checkpoint.tooltip': 'If true the consumer\'s offset will be periodically committed in the background.\n'
+  'pages.project.di.step.kafka.commit_on_checkpoint.tooltip': 'If true the consumer\'s offset will be periodically committed in the background.\n',
 
+  // iotdb
+  'pages.project.di.step.iotdb.nodeUrls': 'Node URLs',
+  'pages.project.di.step.iotdb.username': 'Username',
+  'pages.project.di.step.iotdb.password': 'Password',
+  'pages.project.di.step.iotdb.sql': 'SQL',
+  'pages.project.di.step.iotdb.fetchSize': 'Fetch Size',
+  'pages.project.di.step.iotdb.thriftDefaultBufferSize': 'Default Thrift Buffer Size',
+  'pages.project.di.step.iotdb.thriftMaxFrameSize': 'Max Thrift Max Size',
+  'pages.project.di.step.iotdb.enableCacheLeader': 'Enable Cache Leader',
+  'pages.project.di.step.iotdb.version': 'Version',
+  'pages.project.di.step.iotdb.numPartitions': 'Partition Num',
+  'pages.project.di.step.iotdb.lowerBound': 'Partition Lower Bound',
+  'pages.project.di.step.iotdb.upperBound': 'Partition Upper Bound',
+  'pages.project.di.step.iotdb.batchSize': 'Batch Size',
+  'pages.project.di.step.iotdb.batchIntervalMs': 'Batch Interval(millseconds)',
+  'pages.project.di.step.iotdb.maxRetries': 'Retry Num',
+  'pages.project.di.step.iotdb.retryBackoffMultiplierMs': 'Retry Backoff Multiplier(millseconds)',
+  'pages.project.di.step.iotdb.maxRetryBackoffMs': 'Retry Max Backoff(millseconds)',
+  'pages.project.di.step.iotdb.zoneId': 'Time Zone ID',
+  'pages.project.di.step.iotdb.enableRpcCompression': 'Enable RPC Compression',
+  'pages.project.di.step.iotdb.connectionTimeoutInMs': 'Connection Timeout(millseconds)',
 };

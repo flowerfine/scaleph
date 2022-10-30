@@ -273,5 +273,29 @@ export const KafkaParams = {
   consumerGroup: 'consumer.group',
   commit_on_checkpoint: 'commit_on_checkpoint',
   bootstrapServers: 'bootstrap.servers'
+};
 
+export const IoTDBParams = {
+  nodeUrls: 'node_urls',
+  username: 'username',
+  password: 'password',
+  sql: 'sql',
+  fetchSize: 'fetch_size',
+  thriftDefaultBufferSize: 'thrift_default_buffer_size',
+  thriftMaxFrameSize: 'thrift_max_frame_size',
+  enableCacheLeader: 'enable_cache_leader',
+  version: 'version',
+  numPartitions: 'num_partitions',
+  lowerBound: 'lower_bound',
+  upperBound: 'upper_bound',
+  batchSize: 'batch_size',
+  batchIntervalMs: 'batch_interval_ms',
+  maxRetries: 'max_retries',
+  retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
+  maxRetryBackoffMs: 'max_retry_backoff_ms',
+  defaultThriftBufferSize: 'default_thrift_buffer_size',
+  maxThriftFrameSize: 'max_thrift_frame_size',
+  zoneId: 'zone_id',
+  enableRpcCompression: 'enable_rpc_compression',
+  connectionTimeoutInMs: 'connection_timeout_in_ms',
 };

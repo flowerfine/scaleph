@@ -38,7 +38,8 @@ const SourceFakeStepForm: React.FC<ModalFormProps<{
         map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-        map.set(STEP_ATTR_TYPE.stepAttrs, StepSchemaService.formatSchema(form.getFieldsValue()));
+        StepSchemaService.formatSchema(values)
+        map.set(STEP_ATTR_TYPE.stepAttrs, values);
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
