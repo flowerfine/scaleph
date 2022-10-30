@@ -18,7 +18,10 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.iotdb.sink;
 
-import cn.sliew.scaleph.plugin.framework.property.*;
+import cn.sliew.scaleph.plugin.framework.property.Parsers;
+import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.plugin.framework.property.PropertyType;
+import cn.sliew.scaleph.plugin.framework.property.Validators;
 
 public enum IoTDBSinkProperties {
     ;

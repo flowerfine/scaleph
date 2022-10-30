@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.iotdb.source;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
-import com.fasterxml.jackson.databind.JsonNode;
 
 public enum IoTDBSourceProperties {
     ;

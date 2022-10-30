@@ -45,6 +45,8 @@ import SinkHiveStepForm from '../steps/sink/sink-hive-step';
 import SourceKuduStepForm from '../steps/source/source-kudu-step';
 import SinkKuduStepForm from '../steps/sink/sink-kudu-step';
 import SourceKafkaStepForm from '../steps/source/source-kafka-step';
+import SourceIoTDBStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-iotdb-step";
+import SinkIoTDBStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-iotdb-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -263,7 +265,11 @@ export class EditNodeCommand implements ICommand {
       return (<SinkKuduStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'Kafka'){
       return (<SourceKafkaStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
-    }else {
+    } else if(type === 'source' && name === 'IoTDB'){
+      return (<SourceIoTDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'IoTDB'){
+      return (<SinkIoTDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else {
       return <></>;
     }
   };
