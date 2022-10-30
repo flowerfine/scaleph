@@ -19,8 +19,8 @@
 package cn.sliew.scaleph.core.di.service.impl;
 
 import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.common.dict.job.JobStepType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.core.di.service.DiJobGraphService;
 import cn.sliew.scaleph.core.di.service.DiJobLinkService;
@@ -72,7 +72,7 @@ public class DiJobGraphServiceImpl implements DiJobGraphService {
             jobStep.setJobId(jobId);
             jobStep.setStepCode(node.getId());
             jobStep.setStepTitle(node.getLabel());
-            jobStep.setStepType(JobStepType.of(String.valueOf(node.getData().get("type"))));
+            jobStep.setStepType(SeaTunnelPluginType.of(String.valueOf(node.getData().get("type"))));
             jobStep.setStepName(SeaTunnelPluginName.of(String.valueOf(node.getData().get("name"))));
             jobStep.setPositionX(node.getX());
             jobStep.setPositionY(node.getY());

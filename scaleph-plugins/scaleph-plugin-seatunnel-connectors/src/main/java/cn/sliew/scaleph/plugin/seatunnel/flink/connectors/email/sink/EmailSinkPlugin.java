@@ -35,7 +35,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.email.sink.Emai
 public class EmailSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public EmailSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Send the data as a file to email.",
                 EmailSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();

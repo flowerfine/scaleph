@@ -36,7 +36,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.FtpFil
 public class FtpFileSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public FtpFileSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Write data to ftp file server",
                 FtpFileSinkPlugin.class.getName());
 

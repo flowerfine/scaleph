@@ -35,7 +35,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.iceberg.source.
 public class IcebergSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public IcebergSourcePlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Apache Iceberg is an open table format for huge analytic datasets",
                 IcebergSourcePlugin.class.getName());
 

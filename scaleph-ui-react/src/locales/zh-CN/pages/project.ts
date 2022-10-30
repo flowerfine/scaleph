@@ -110,8 +110,8 @@ export default {
   'pages.project.di.step.schema': 'Schema',
   'pages.project.di.step.schema.tooltip': 'Schema 结构体',
   'pages.project.di.step.schema.fields': 'Field',
-  'pages.project.di.step.schema.fields.key': 'key',
-  'pages.project.di.step.schema.fields.value': 'value',
+  'pages.project.di.step.schema.fields.field': 'field',
+  'pages.project.di.step.schema.fields.type': 'type',
 
   // jdbc
   'pages.project.di.step.jdbc.dataSourceType': '数据源类型',
@@ -139,7 +139,6 @@ export default {
 
   // fake
   'pages.project.di.step.fake.rowNum': '生成数据行数',
-
 
   // base file
   'pages.project.di.step.baseFile.path': 'Path',
@@ -179,20 +178,21 @@ export default {
   'pages.project.di.step.ossFile.accessKey': 'Access Key',
   'pages.project.di.step.ossFile.accessSecret': 'Access Secret',
 
-  // base http
-  'pages.project.di.step.baseHttp.url': 'URL',
-  'pages.project.di.step.baseHttp.headers': 'Headers',
-  'pages.project.di.step.baseHttp.params': 'Params',
-  'pages.project.di.step.baseHttp.retry': 'Retry',
-  'pages.project.di.step.baseHttp.retryBackoffMultiplierMs': 'Retry-Backoff times(millis) Multiplier',
-  'pages.project.di.step.baseHttp.retryBackoffMaxMs': 'Maximum Retry-Backoff times(millis)',
-
   // http
   'pages.project.di.step.http.method': 'Method',
+  'pages.project.di.step.http.url': 'URL',
+  'pages.project.di.step.http.headers': 'Header',
+  'pages.project.di.step.http.header': 'header',
+  'pages.project.di.step.http.params': 'Param',
+  'pages.project.di.step.http.param': 'param',
   'pages.project.di.step.http.body': 'Body',
+  'pages.project.di.step.http.value': 'value',
   'pages.project.di.step.http.format': 'Format',
   'pages.project.di.step.http.schema': 'Schema',
   'pages.project.di.step.http.pollIntervalMs': 'Poll Interval(millis)',
+  'pages.project.di.step.http.retry': 'Retry',
+  'pages.project.di.step.http.retryBackoffMultiplierMs': 'Retry-Backoff times(millis) Multiplier',
+  'pages.project.di.step.http.retryBackoffMaxMs': 'Maximum Retry-Backoff times(millis)',
 
   // wechat
   'pages.project.di.step.wechat.url': 'WeChat Robot URL',

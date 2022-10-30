@@ -1,6 +1,7 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.http;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum HttpProperties {
     ;
@@ -14,19 +15,19 @@ public enum HttpProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> HEADERS = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<JsonNode> HEADERS = new PropertyDescriptor.Builder()
             .name("headers")
             .description("http headers")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> PARAMS = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<JsonNode> PARAMS = new PropertyDescriptor.Builder()
             .name("params")
             .description("http params")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

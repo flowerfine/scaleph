@@ -36,7 +36,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.feishu.sink.Fei
 public class FeishuSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public FeishuSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "A sink plugin which use Feishu robot send message",
                 FeishuSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();

@@ -35,7 +35,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProper
 public class LocalFileSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public LocalFileSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Write data to local FileSystem",
                 LocalFileSinkPlugin.class.getName());
 

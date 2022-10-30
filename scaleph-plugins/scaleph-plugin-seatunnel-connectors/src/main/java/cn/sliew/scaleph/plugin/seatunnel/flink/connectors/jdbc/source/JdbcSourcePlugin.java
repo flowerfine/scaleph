@@ -44,7 +44,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.jdbc.source.Jdb
 public class JdbcSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public JdbcSourcePlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Jdbc Source Plugin, input records from jdbc connection.",
                 JdbcSourcePlugin.class.getName());
 

@@ -33,6 +33,7 @@ import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.JobNameProperties;
 import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
+import cn.sliew.scaleph.plugin.seatunnel.flink.util.SeaTunnelPluginUtil;
 import cn.sliew.scaleph.resource.service.ResourceService;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -106,12 +107,13 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         Map<String, ObjectNode> stepMap = new HashMap<>();
         for (DiJobStepDTO step : jobStepList) {
             Properties properties = mergeJobAttrs(step);
+            SeaTunnelPluginType stepType = step.getStepType();
             SeaTunnelPluginName stepName = step.getStepName();
-            SeaTunnelConnectorPlugin connector = seatunnelConnectorService.newConnector(stepName.getLabel(), properties);
+            SeaTunnelConnectorPlugin connector = seatunnelConnectorService.newConnector(SeaTunnelPluginUtil.getIdentity(stepType, stepName), properties);
             ObjectNode stepConf = connector.createConf();
-            stepConf.put(SeaTunnelConstant.PLUGIN_NAME, stepName.getValue());
-            stepConf.put(NODE_TYPE, step.getStepType().getValue());
             stepConf.put(NODE_ID, step.getId());
+            stepConf.put(NODE_TYPE, stepType.getValue());
+            stepConf.put(SeaTunnelConstant.PLUGIN_NAME, stepName.getValue());
             stepMap.put(step.getStepCode(), stepConf);
             graph.addNode(stepConf);
         }

@@ -16,29 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.plugin.seatunnel.flink.util;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
-import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
-import cn.sliew.scaleph.plugin.framework.exception.PluginException;
-import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+public enum SeaTunnelPluginUtil {
+    ;
 
-public interface SeatunnelConnectorService {
-
-    List<PropertyDescriptor> getSupportedEnvProperties();
-
-    Set<SeaTunnelConnectorPlugin> getAvailableConnectors(SeaTunnelPluginType stepType);
-
-    SeaTunnelConnectorPlugin getConnector(PluginInfo pluginInfo) throws PluginException;
-
-    SeaTunnelConnectorPlugin getConnector(SeaTunnelPluginType type, SeaTunnelPluginName name) throws PluginException;
-
-    SeaTunnelConnectorPlugin newConnector(String name, Properties properties);
+    public static String getIdentity(SeaTunnelPluginType pluginType, SeaTunnelPluginName pluginName) {
+        return pluginType.getValue() + "-" + pluginName.getValue();
+    }
 
 }

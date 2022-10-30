@@ -36,7 +36,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSP
 public class HDFSFileSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public HDFSFileSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Write data to HDFS",
                 HDFSFileSinkPlugin.class.getName());
 

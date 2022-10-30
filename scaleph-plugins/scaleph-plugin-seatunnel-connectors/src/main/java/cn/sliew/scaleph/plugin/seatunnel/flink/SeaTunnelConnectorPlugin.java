@@ -26,12 +26,17 @@ import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
+import cn.sliew.scaleph.plugin.seatunnel.flink.util.SeaTunnelPluginUtil;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.Collections;
 import java.util.List;
 
 public abstract class SeaTunnelConnectorPlugin extends AbstractPlugin {
+
+    public final String getIdentity() {
+        return SeaTunnelPluginUtil.getIdentity(getPluginType(), getPluginName());
+    }
 
     public final SeaTunnelEngineType getEngineType() {
         return getPluginMapping().getEngineType();

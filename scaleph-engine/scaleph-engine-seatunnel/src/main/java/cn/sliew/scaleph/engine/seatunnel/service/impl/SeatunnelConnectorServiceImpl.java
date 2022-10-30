@@ -43,7 +43,7 @@ public class SeatunnelConnectorServiceImpl implements SeatunnelConnectorService 
     }
 
     @Override
-    public Set<PluginInfo> getAvailableConnectors(SeaTunnelPluginType stepType) {
+    public Set<SeaTunnelConnectorPlugin> getAvailableConnectors(SeaTunnelPluginType stepType) {
         return connectorManager.getAvailableConnectors(stepType);
     }
 

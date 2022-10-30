@@ -345,7 +345,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     public List<DagPanelDTO> loadDndPanelInfo() throws PluginException {
         List<DagPanelDTO> list = new ArrayList<>();
         for (SeaTunnelPluginType type : SeaTunnelPluginType.values()) {
-            Set<PluginInfo> plugins = seatunnelConnectorService.getAvailableConnectors(type);
+            Set<SeaTunnelConnectorPlugin> plugins = seatunnelConnectorService.getAvailableConnectors(type);
             DagPanelDTO panel = toDagPanel(type, plugins);
             if (panel != null) {
                 list.add(panel);
@@ -354,22 +354,23 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         return list;
     }
 
-    private DagPanelDTO toDagPanel(SeaTunnelPluginType type, Set<PluginInfo> pluginInfos) throws PluginException {
-        if (CollectionUtils.isEmpty(pluginInfos)) {
+    private DagPanelDTO toDagPanel(SeaTunnelPluginType pluginType, Set<SeaTunnelConnectorPlugin> plugins) throws PluginException {
+        if (CollectionUtils.isEmpty(plugins)) {
             return null;
         }
         DagPanelDTO panel = new DagPanelDTO();
-        panel.setId(type.getLabel());
-        panel.setHeader(type.getLabel());
+        panel.setId(pluginType.getLabel());
+        panel.setHeader(pluginType.getLabel());
         List<DagNodeDTO> nodeList = new ArrayList<>();
-        for (PluginInfo plugin : pluginInfos) {
+        for (SeaTunnelConnectorPlugin plugin : plugins) {
+            String displayName = StringUtils.capitalize(plugin.getPluginName().getLabel()) + " " + StringUtils.capitalize(pluginType.getValue());
+            PluginInfo pluginInfo = plugin.getPluginInfo();
             DagNodeDTO node = new DagNodeDTO();
-            String displayName = StringUtils.capitalize(plugin.getName()) + " " + StringUtils.capitalize(type.getValue());
-            node.setId(plugin.getName());
+            node.setId(pluginInfo.getName());
             node.setLabel(displayName);
-            node.setDescription(plugin.getDescription());
+            node.setDescription(pluginInfo.getDescription());
             node.setRenderKey(GraphConstants.DND_RENDER_ID);
-            node.setData(buildPluginInfo(plugin, displayName));
+            node.setData(buildPluginInfo(pluginInfo, displayName));
             nodeList.add(node);
         }
         panel.setChildren(nodeList);

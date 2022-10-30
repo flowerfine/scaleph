@@ -48,7 +48,7 @@ import java.util.Map;
 public class ClickHouseSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public ClickHouseSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
             "sink clickhouse",
             ClickHouseSinkPlugin.class.getName());
 

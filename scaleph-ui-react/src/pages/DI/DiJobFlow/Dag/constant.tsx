@@ -103,8 +103,8 @@ export const STEP_ATTR_TYPE = {
 export const SchemaParams = {
   schema: 'schema',
   fields: 'fields',
-  key: 'key',
-  value: 'value',
+  field: 'field',
+  type: 'type',
 }
 
 export const FakeParams = {
@@ -166,18 +166,27 @@ export const OSSFileParams = {
 export const BaseHttpParams = {
   url: 'url',
   headers: 'headers',
+  header: 'header',
   params: 'params',
-  retry: 'retry',
-  retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
-  retryBackoffMaxMs: 'retry_backoff_max_ms',
+  param: 'param',
+
 };
 
 export const HttpParams = {
   method: 'method',
+  url: 'url',
+  headerArray: 'headerArray',
+  header: 'header',
+  paramArray: 'paramArray',
+  param: 'param',
   body: 'body',
+  value: 'value',
   format: 'format',
   schema: 'schema',
   pollIntervalMs: 'poll_interval_ms',
+  retry: 'retry',
+  retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
+  retryBackoffMaxMs: 'retry_backoff_max_ms',
 };
 
 export const WeChatParams = {

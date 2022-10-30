@@ -79,13 +79,13 @@ const SourceFakeStepForm: React.FC<ModalFormProps<{
           }}>
           <ProFormGroup>
             <ProFormText
-              name={SchemaParams.key}
-              label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.key'})}
+              name={SchemaParams.field}
+              label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
               colProps={{span: 10, offset: 1}}
             />
             <ProFormText
-              name={SchemaParams.value}
-              label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.value'})}
+              name={SchemaParams.type}
+              label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
               colProps={{span: 10, offset: 1}}
             />
           </ProFormGroup>
