@@ -17,7 +17,7 @@ import {
 } from "@ant-design/pro-components";
 import {useEffect} from "react";
 import {InfoCircleOutlined} from "@ant-design/icons";
-import {StepSchemaService} from "@/pages/DI/DiJobFlow/Dag/steps/schema";
+import {StepSchemaService} from "../schema";
 
 const SourceHttpFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -67,152 +67,132 @@ const SourceHttpFileStepForm: React.FC<ModalFormProps<{
         label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
         rules={[{required: true}, {max: 120}]}
       />
-
-      <ProFormGroup label={"Endpoint"} collapsible>
-        <ProFormSelect
-          name={HttpParams.method}
-          label={intl.formatMessage({id: 'pages.project.di.step.http.method'})}
-          colProps={{span: 4}}
-          rules={[{required: true}]}
-          allowClear={false}
-          initialValue={"GET"}
-          valueEnum={{
-            GET: "GET",
-            POST: "POST"
-          }}
-        />
-        <ProFormText
-          name={HttpParams.url}
-          label={intl.formatMessage({id: 'pages.project.di.step.http.url'})}
-          colProps={{span: 20}}
-          rules={[{required: true}]}
-        />
-      </ProFormGroup>
-
-      <ProFormGroup label={"Request"} defaultCollapsed collapsible>
-        <ProFormGroup label={intl.formatMessage({id: 'pages.project.di.step.http.headers'})}>
-          <ProFormList
-            name={HttpParams.headerArray}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.http.headers'}),
-              type: 'text',
-            }}>
-            <ProFormGroup>
-              <ProFormText
-                name={HttpParams.header}
-                label={intl.formatMessage({id: 'pages.project.di.step.http.header'})}
-                colProps={{span: 10, offset: 1}}
-              />
-              <ProFormText
-                name={HttpParams.value}
-                label={intl.formatMessage({id: 'pages.project.di.step.http.value'})}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
+      <ProFormSelect
+        name={HttpParams.method}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.method'})}
+        colProps={{span: 4}}
+        rules={[{required: true}]}
+        allowClear={false}
+        initialValue={"GET"}
+        valueEnum={{GET: "GET", POST: "POST"}}
+      />
+      <ProFormText
+        name={HttpParams.url}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.url'})}
+        colProps={{span: 20}}
+        rules={[{required: true}]}
+      />
+      <ProFormList
+        name={HttpParams.headerArray}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.headers'})}
+        copyIconProps={false}
+        creatorButtonProps={{
+          creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.http.headers'}),
+          type: 'text',
+        }}>
+        <ProFormGroup>
+          <ProFormText
+            name={HttpParams.header}
+            label={intl.formatMessage({id: 'pages.project.di.step.http.header'})}
+            colProps={{span: 10, offset: 1}}
+          />
+          <ProFormText
+            name={HttpParams.headerValue}
+            label={intl.formatMessage({id: 'pages.project.di.step.http.value'})}
+            colProps={{span: 10, offset: 1}}
+          />
         </ProFormGroup>
-        <ProFormGroup label={intl.formatMessage({id: 'pages.project.di.step.http.params'})}>
-          <ProFormList
-            name={HttpParams.paramArray}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.http.params'}),
-              type: 'text',
-            }}>
-            <ProFormGroup>
-              <ProFormText
-                name={HttpParams.param}
-                label={intl.formatMessage({id: 'pages.project.di.step.http.param'})}
-                colProps={{span: 10, offset: 1}}
-              />
-              <ProFormText
-                name={HttpParams.value}
-                label={intl.formatMessage({id: 'pages.project.di.step.http.value'})}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
+      </ProFormList>
+      <ProFormList
+        name={HttpParams.paramArray}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.params'})}
+        copyIconProps={false}
+        creatorButtonProps={{
+          creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.http.params'}),
+          type: 'text',
+        }}>
+        <ProFormGroup>
+          <ProFormText
+            name={HttpParams.param}
+            label={intl.formatMessage({id: 'pages.project.di.step.http.param'})}
+            colProps={{span: 10, offset: 1}}
+          />
+          <ProFormText
+            name={HttpParams.paramValue}
+            label={intl.formatMessage({id: 'pages.project.di.step.http.value'})}
+            colProps={{span: 10, offset: 1}}
+          />
         </ProFormGroup>
-        <ProFormTextArea
-          name={HttpParams.body}
-          label={intl.formatMessage({id: 'pages.project.di.step.http.body'})}
-        />
-      </ProFormGroup>
-
-      <ProFormGroup label={"Response"} defaultCollapsed collapsible>
-        <ProFormSelect
-          name={"format"}
-          label={intl.formatMessage({id: 'pages.project.di.step.http.format'})}
-          rules={[{required: true}]}
-          allowClear={false}
-          initialValue={"json"}
-          valueEnum={{
-            json: "json",
-            text: "text"
-          }}
-        />
-        <ProFormDependency name={["format"]}>
-          {({format}) => {
-            if (format == "json") {
-              return (
-                <ProFormGroup
-                  label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
-                  tooltip={{
-                    title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
-                    icon: <InfoCircleOutlined/>,
-                  }}
-                >
-                  <ProFormList
-                    name={SchemaParams.fields}
-                    copyIconProps={false}
-                    creatorButtonProps={{
-                      creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
-                      type: 'text',
-                    }}>
-                    <ProFormGroup>
-                      <ProFormText
-                        name={SchemaParams.field}
-                        label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
-                        colProps={{span: 10, offset: 1}}
-                      />
-                      <ProFormText
-                        name={SchemaParams.type}
-                        label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
-                        colProps={{span: 10, offset: 1}}
-                      />
-                    </ProFormGroup>
-                  </ProFormList>
+      </ProFormList>
+      <ProFormTextArea
+        name={HttpParams.body}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.body'})}
+      />
+      <ProFormSelect
+        name={"format"}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.format'})}
+        rules={[{required: true}]}
+        allowClear={false}
+        initialValue={"json"}
+        valueEnum={{
+          json: "json",
+          text: "text"
+        }}
+      />
+      <ProFormDependency name={["format"]}>
+        {({format}) => {
+          if (format == "json") {
+            return (
+              <ProFormList
+                name={SchemaParams.fields}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
+                tooltip={{
+                  title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
+                  icon: <InfoCircleOutlined/>,
+                }}
+                copyIconProps={false}
+                creatorButtonProps={{
+                  creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
+                  type: 'text',
+                }}>
+                <ProFormGroup>
+                  <ProFormText
+                    name={SchemaParams.field}
+                    label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
+                    colProps={{span: 10, offset: 1}}
+                  />
+                  <ProFormText
+                    name={SchemaParams.type}
+                    label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
+                    colProps={{span: 10, offset: 1}}
+                  />
                 </ProFormGroup>
-              );
-            }
-            return <ProFormGroup/>;
-          }}
-        </ProFormDependency>
-      </ProFormGroup>
-
-      <ProFormGroup label={"Retry"} defaultCollapsed collapsible>
-        <ProFormDigit
-          name={HttpParams.pollIntervalMs}
-          label={intl.formatMessage({id: 'pages.project.di.step.http.pollIntervalMs'})}
-          colProps={{span: 24}}
-        />
-        <ProFormDigit
-          name={HttpParams.retry}
-          label={intl.formatMessage({id: 'pages.project.di.step.http.retry'})}
-          colProps={{span: 6}}
-        />
-        <ProFormDigit
-          name={HttpParams.retryBackoffMultiplierMs}
-          label={intl.formatMessage({id: 'pages.project.di.step.http.retryBackoffMultiplierMs'})}
-          colProps={{span: 9}}
-        />
-        <ProFormDigit
-          name={HttpParams.retryBackoffMaxMs}
-          label={intl.formatMessage({id: 'pages.project.di.step.http.retryBackoffMaxMs'})}
-          colProps={{span: 9}}
-        />
-      </ProFormGroup>
+              </ProFormList>
+            );
+          }
+          return <ProFormGroup/>;
+        }}
+      </ProFormDependency>
+      <ProFormDigit
+        name={HttpParams.pollIntervalMs}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.pollIntervalMs'})}
+        colProps={{span: 24}}
+      />
+      <ProFormDigit
+        name={HttpParams.retry}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.retry'})}
+        colProps={{span: 6}}
+      />
+      <ProFormDigit
+        name={HttpParams.retryBackoffMultiplierMs}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.retryBackoffMultiplierMs'})}
+        colProps={{span: 9}}
+      />
+      <ProFormDigit
+        name={HttpParams.retryBackoffMaxMs}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.retryBackoffMaxMs'})}
+        colProps={{span: 9}}
+      />
     </ProForm>
   </Modal>);
 }

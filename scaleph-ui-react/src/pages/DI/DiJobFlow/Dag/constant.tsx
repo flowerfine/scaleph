@@ -177,10 +177,11 @@ export const HttpParams = {
   url: 'url',
   headerArray: 'headerArray',
   header: 'header',
+  headerValue: 'headerValue',
   paramArray: 'paramArray',
   param: 'param',
+  paramValue: 'paramValue',
   body: 'body',
-  value: 'value',
   format: 'format',
   schema: 'schema',
   pollIntervalMs: 'poll_interval_ms',
@@ -191,8 +192,12 @@ export const HttpParams = {
 
 export const WeChatParams = {
   url: 'url',
+  mentionedArray: 'mentionedArray',
   mentionedList: 'mentioned_list',
+  userId: 'userId',
+  mentionedMobileArray: 'mentionedMobileArray',
   mentionedMobileList: 'mentioned_mobile_list',
+  mobile: 'mobile',
 };
 
 export const FeishuParams = {

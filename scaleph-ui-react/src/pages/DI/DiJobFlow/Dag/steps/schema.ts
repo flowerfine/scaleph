@@ -12,7 +12,7 @@ export const StepSchemaService = {
   formatHeader: (values: Record<string, any>) => {
     const headers: Record<string, any> = {}
     values.headerArray?.forEach(function (item: Record<string, any>) {
-      headers[item.header] = item.value;
+      headers[item.header] = item.headerValue;
     });
     values.headers = JSON.stringify(headers)
     return values
@@ -21,9 +21,28 @@ export const StepSchemaService = {
   formatParam: (values: Record<string, any>) => {
     const params: Record<string, any> = {}
     values.paramArray?.forEach(function (item: Record<string, any>) {
-      params[item.param] = item.value;
+      params[item.param] = item.paramValue;
     });
     values.params = JSON.stringify(params)
     return values
   },
+
+  formatUserIds: (values: Record<string, any>) => {
+    const userIds: Array<any> = []
+    values.mentionedArray?.forEach(function (item: any) {
+      userIds.push(item.userId)
+    });
+    values.mentioned_list = JSON.stringify(userIds)
+    return values
+  },
+
+  formatMobiles: (values: Record<string, any>) => {
+    const mobiles: Array<any> = []
+    values.mentionedMobileArray?.forEach(function (item: any) {
+      mobiles.push(item.mobile)
+    });
+    values.mentioned_mobile_list = JSON.stringify(mobiles)
+    return values
+  },
+
 };

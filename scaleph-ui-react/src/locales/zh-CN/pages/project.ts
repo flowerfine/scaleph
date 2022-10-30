@@ -197,7 +197,11 @@ export default {
   // wechat
   'pages.project.di.step.wechat.url': 'WeChat Robot URL',
   'pages.project.di.step.wechat.mentionedList': 'Mentione(@) userIds',
+  'pages.project.di.step.wechat.mentionedList.tooltip': 'Mentione everybody by "@all"',
+  'pages.project.di.step.wechat.userId': 'UserId',
   'pages.project.di.step.wechat.mentionedMobileList': 'Mentione(@) mobiles',
+  'pages.project.di.step.wechat.mentionedMobileList.tooltip': 'Mentione everybody by "@all"',
+  'pages.project.di.step.wechat.mobile': 'Mobile',
 
   // feishu
   'pages.project.di.step.feishu.url': 'Feishu Robot URL',
