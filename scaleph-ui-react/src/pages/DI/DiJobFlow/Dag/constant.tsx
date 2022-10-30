@@ -163,15 +163,6 @@ export const OSSFileParams = {
   accessSecret: 'access_secret',
 };
 
-export const BaseHttpParams = {
-  url: 'url',
-  headers: 'headers',
-  header: 'header',
-  params: 'params',
-  param: 'param',
-
-};
-
 export const HttpParams = {
   method: 'method',
   url: 'url',
@@ -202,7 +193,10 @@ export const WeChatParams = {
 
 export const FeishuParams = {
   url: 'url',
+  headerArray: 'headerArray',
   headers: 'headers',
+  header: 'header',
+  headerValue: 'headerValue'
 };
 
 export const DingTalkParams = {

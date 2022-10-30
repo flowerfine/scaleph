@@ -205,7 +205,9 @@ export default {
 
   // feishu
   'pages.project.di.step.feishu.url': 'Feishu Robot URL',
-  'pages.project.di.step.feishu.headers': 'Headers',
+  'pages.project.di.step.feishu.headers': 'Header',
+  'pages.project.di.step.feishu.header': 'header',
+  'pages.project.di.step.feishu.value': 'value',
 
   // dingtalk
   'pages.project.di.step.dingtalk.url': 'DingTalk Robot URL',
