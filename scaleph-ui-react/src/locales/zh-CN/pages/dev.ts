@@ -65,5 +65,21 @@ export default {
   'pages.dev.job.jar.args.key': 'Parameter',
   'pages.dev.job.jar.args.value': 'Value',
   'pages.dev.job.config.cluster': '集群信息',
-
-}
+  'pages.dev.job.detail.jobId': '作业ID',
+  'pages.dev.job.detail.jobState': '运行状态',
+  'pages.dev.job.detail.startTime': '启动时间',
+  'pages.dev.job.detail.duration': '运行时长',
+  'pages.dev.job.detail.backToList': '返回作业列表',
+  'pages.dev.job.detail.start': '启动',
+  'pages.dev.job.detail.suspend': '中止',
+  'pages.dev.job.detail.cancel': '取消',
+  'pages.dev.job.detail.savepoint': 'Savepoint',
+  'pages.dev.job.detail.delete': '删除',
+  'pages.dev.job.detail.config': '配置',
+  'pages.dev.job.detail.flinkui': 'Flink UI',
+  'pages.dev.job.detail.metrics': '度量',
+  'pages.dev.job.detail.logs': '日志',
+  'pages.dev.job.detail.overview': '概览',
+  'pages.dev.job.detail.jobHistory': '作业历史',
+  'pages.dev.job.detail.jobGraph': 'Job Graph',
+};
