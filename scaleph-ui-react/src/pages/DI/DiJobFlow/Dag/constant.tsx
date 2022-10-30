@@ -306,3 +306,14 @@ export const MondoDBParams = {
   collection: 'collection'
 };
 
+export const RedisParams = {
+  host: 'host',
+  port: 'port',
+  auth: 'auth',
+  keys: 'keys',
+  dataType: 'data_type',
+  format: 'format',
+  schema: 'schema',
+  key: 'key'
+};
+

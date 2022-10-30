@@ -49,6 +49,8 @@ import SourceIoTDBStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-io
 import SinkIoTDBStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-iotdb-step";
 import SourceMongoDBStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-mongodb-step";
 import SinkMongoDBStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-mongodb-step";
+import SourceRedisStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-redis-step";
+import SinkRedisStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-redis-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -275,6 +277,10 @@ export class EditNodeCommand implements ICommand {
       return (<SourceMongoDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'MongoDB'){
       return (<SinkMongoDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'Redis'){
+      return (<SourceRedisStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'Redis'){
+      return (<SinkRedisStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
       return <></>;
     }
