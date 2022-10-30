@@ -1,13 +1,13 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {STEP_ATTR_TYPE,HiveParams} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {HiveParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
 import {getIntl, getLocale} from "umi";
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {useEffect} from "react";
-import {ProForm, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
+import {ProForm, ProFormText} from "@ant-design/pro-components";
 
 const SourceHiveStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -33,11 +33,11 @@ const SourceHiveStepForm: React.FC<ModalFormProps<{
     onCancel={onCancel}
     onOk={() => {
       form.validateFields().then((values) => {
-        let map: Map<string, string> = new Map();
+        let map: Map<string, any> = new Map();
         map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-        map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
+        map.set(STEP_ATTR_TYPE.stepAttrs, values);
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -65,14 +65,6 @@ const SourceHiveStepForm: React.FC<ModalFormProps<{
         rules={[{required: true}]}
         tooltip={{
           title: intl.formatMessage({id: 'pages.project.di.step.hive.metastoreUri.tooltip'}),
-          icon: <InfoCircleOutlined/>,
-        }}
-      />
-      <ProFormTextArea
-        name={STEP_ATTR_TYPE.schema}
-        label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
-        tooltip={{
-          title: intl.formatMessage({id: 'pages.project.di.step.hive.schema.tooltip'}),
           icon: <InfoCircleOutlined/>,
         }}
       />

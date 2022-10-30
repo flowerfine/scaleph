@@ -39,11 +39,11 @@ const SinkFtpFileStepForm: React.FC<ModalFormProps<{
     onCancel={onCancel}
     onOk={() => {
       form.validateFields().then((values) => {
-        let map: Map<string, string> = new Map();
+        let map: Map<string, any> = new Map();
         map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-        map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
+        map.set(STEP_ATTR_TYPE.stepAttrs, values);
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -65,21 +65,27 @@ const SinkFtpFileStepForm: React.FC<ModalFormProps<{
         name={FtpFileParams.host}
         label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.host'})}
         rules={[{required: true}]}
+        colProps={{span: 12}}
       />
       <ProFormDigit
         name={FtpFileParams.port}
         label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.port'})}
         rules={[{required: true}]}
+        colProps={{span: 12}}
+        min={0}
+        max={65535}
       />
       <ProFormText
         name={FtpFileParams.username}
         label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.username'})}
         rules={[{required: true}]}
+        colProps={{span: 12}}
       />
       <ProFormText
         name={FtpFileParams.password}
         label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.password'})}
         rules={[{required: true}]}
+        colProps={{span: 12}}
       />
       <ProFormText
         name={BaseFileParams.path}
@@ -156,8 +162,8 @@ const SinkFtpFileStepForm: React.FC<ModalFormProps<{
         name={BaseFileParams.isEnableTransaction}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.isEnableTransaction'})}
         colProps={{span: 24}}
+        initialValue={true}
         fieldProps={{
-          defaultChecked: true,
           disabled: true
         }}
       />
@@ -166,9 +172,7 @@ const SinkFtpFileStepForm: React.FC<ModalFormProps<{
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.saveMode'})}
         colProps={{span: 24}}
         allowClear={false}
-        fieldProps={{
-          defaultValue: "overwrite"
-        }}
+        initialValue={"overwrite"}
         valueEnum={{
           overwrite: "overwrite"
         }}

@@ -159,12 +159,6 @@ export default {
   // hdfs file
   'pages.project.di.step.hdfsFile.defaultFS': 'fs.defaultFS',
   'pages.project.di.step.hdfsFile.defaultFS.tooltip': '格式:hdfs://namenode001',
-  'pages.project.di.step.hdfsFile.json.tooltip':
-    '{\n' +
-    '        code = int\n' +
-    '        data = string\n' +
-    '        success = boolean\n' +
-    '    }',
 
   // ftp file
   'pages.project.di.step.ftpFile.host': 'Host',
@@ -261,10 +255,8 @@ export default {
 
   // hive
   'pages.project.di.step.hive.tableName': 'Hive Table Name',
-  'pages.project.di.step.hive.metastoreUri': 'Hive metastore uri',
+  'pages.project.di.step.hive.metastoreUri': 'Hive Metastore URI',
   'pages.project.di.step.hive.metastoreUri.tooltip': 'example : thrift://ctyun7:9083',
-  'pages.project.di.step.hive.schema.tooltip':
-    'schema格式: {\n' + '          name = "string"\n' + '          age = "int"\n' + '        }',
   'pages.project.di.step.hive.partitionBy': 'Partition',
   'pages.project.di.step.hive.partitionBy.tooltip': 'example : "test_par1", "test_par2"',
   'pages.project.di.step.hive.sinkColumns': 'Write Columns',

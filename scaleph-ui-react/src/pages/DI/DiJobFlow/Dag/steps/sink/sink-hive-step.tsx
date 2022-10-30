@@ -34,11 +34,11 @@ const SinkHiveStepForm: React.FC<ModalFormProps<{
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          let map: Map<string, string> = new Map();
-          map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
+          let map: Map<string, any> = new Map();
+          map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-          map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
+          map.set(STEP_ATTR_TYPE.stepAttrs, values);
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -95,8 +95,8 @@ const SinkHiveStepForm: React.FC<ModalFormProps<{
             title: intl.formatMessage({id: 'pages.project.di.step.hive.isEnableTransaction.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
+          initialValue={true}
           fieldProps={{
-            defaultChecked: true,
             disabled: true
           }}
         />
@@ -107,10 +107,7 @@ const SinkHiveStepForm: React.FC<ModalFormProps<{
             title: intl.formatMessage({id: 'pages.project.di.step.hive.saveMode.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
-          colProps={{span: 6}}
-          fieldProps={{
-            defaultValue: "append"
-          }}
+          initialValue={"append"}
           valueEnum={{
             append: "append",
             overwrite: "overwrite"
