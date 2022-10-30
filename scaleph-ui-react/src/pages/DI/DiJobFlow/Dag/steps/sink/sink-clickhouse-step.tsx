@@ -46,11 +46,11 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          let map: Map<string, string> = new Map();
+          let map: Map<string, any> = new Map();
           map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-          map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
+          map.set(STEP_ATTR_TYPE.stepAttrs, values);
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -66,19 +66,16 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
           name={STEP_ATTR_TYPE.stepTitle}
           label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
           rules={[{required: true}, {max: 120}]}
-          colProps={{span: 24}}
         />
         <ProFormSelect
           name={"dataSourceType"}
           label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
           colProps={{span: 6}}
+          initialValue={"ClickHouse"}
           fieldProps={{
-            defaultValue: "ClickHouse",
             disabled: true
           }}
-          request={(() => {
-            return DictDataService.listDictDataByType(DICT_TYPE.datasourceType);
-          })}
+          request={(() => DictDataService.listDictDataByType(DICT_TYPE.datasourceType))}
         />
         <ProFormSelect
           name={STEP_ATTR_TYPE.dataSource}
@@ -89,7 +86,7 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
           request={((params, props) => {
             const param: MetaDataSourceParam = {
               datasourceName: params.keyWords,
-              datasourceType: "ClickHouse",
+              datasourceType: params.dataSourceType
             };
             return DataSourceService.listDataSourceByPage(param).then((response) => {
               return response.data.map((item) => {
@@ -114,8 +111,9 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
         <ProFormDigit
           name={STEP_ATTR_TYPE.bulkSize}
           label={intl.formatMessage({id: 'pages.project.di.step.bulkSize'})}
+          initialValue={20000}
           fieldProps={{
-            defaultValue: 20000,
+            min: 1,
             step: 100
           }}
         />

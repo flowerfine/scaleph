@@ -40,7 +40,7 @@ const SinkHdfsFileStepForm: React.FC<ModalFormProps<{
     onCancel={onCancel}
     onOk={() => {
       form.validateFields().then((values) => {
-        let map: Map<string, string> = new Map();
+        let map: Map<string, any> = new Map();
         map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
@@ -60,7 +60,6 @@ const SinkHdfsFileStepForm: React.FC<ModalFormProps<{
         name={STEP_ATTR_TYPE.stepTitle}
         label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
         rules={[{required: true}, {max: 120}]}
-        colProps={{span: 24}}
       />
       <ProFormText
         name={HDFSFileParams.defaultFS}
@@ -75,12 +74,10 @@ const SinkHdfsFileStepForm: React.FC<ModalFormProps<{
         name={BaseFileParams.path}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.path'})}
         rules={[{required: true}]}
-        colProps={{span: 24}}
       />
       <ProFormSelect
         name={"file_format"}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fileFormat'})}
-        colProps={{span: 24}}
         valueEnum={{
           json: "json",
           parquet: "parquet",
@@ -145,9 +142,8 @@ const SinkHdfsFileStepForm: React.FC<ModalFormProps<{
       <ProFormSwitch
         name={BaseFileParams.isEnableTransaction}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.isEnableTransaction'})}
-        colProps={{span: 24}}
+        initialValue={true}
         fieldProps={{
-          defaultChecked: true,
           disabled: true
         }}
       />
@@ -156,9 +152,7 @@ const SinkHdfsFileStepForm: React.FC<ModalFormProps<{
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.saveMode'})}
         colProps={{span: 24}}
         allowClear={false}
-        fieldProps={{
-          defaultValue: "overwrite"
-        }}
+        initialValue={"overwrite"}
         valueEnum={{
           overwrite: "overwrite"
         }}

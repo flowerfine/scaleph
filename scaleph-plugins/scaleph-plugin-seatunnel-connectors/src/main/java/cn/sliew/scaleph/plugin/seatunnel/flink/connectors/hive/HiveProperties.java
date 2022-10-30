@@ -19,6 +19,9 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
+import com.fasterxml.jackson.databind.JsonNode;
+
+import java.util.List;
 
 public enum HiveProperties {
     ;
@@ -41,34 +44,22 @@ public enum HiveProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-
-    public static final PropertyDescriptor<String> SCHEMA = new PropertyDescriptor.Builder<String>()
-            .name("schema")
-            .description("the schema fields of upstream data")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-
-    public static final PropertyDescriptor<String> PARTITION_BY = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<List<String>> PARTITION_BY = new PropertyDescriptor.Builder()
             .name("partition_by")
             .description(
                     "required if hive sink table have partitions,Partition data based on selected fields")
             .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
+            .parser(Parsers.STRING_ARRAY_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-
-    public static final PropertyDescriptor<String> SINK_COLUMNS = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<List<String>> SINK_COLUMNS = new PropertyDescriptor.Builder()
             .name("sink_columns")
             .description(
                     "Which columns need be write to hive, default value is all of the columns get from Transform or Source. "
                             + "The order of the fields determines the order in which the file is actually written.")
             .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
+            .parser(Parsers.STRING_ARRAY_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

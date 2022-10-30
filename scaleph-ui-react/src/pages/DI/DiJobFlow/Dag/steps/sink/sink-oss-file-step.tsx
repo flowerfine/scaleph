@@ -39,11 +39,11 @@ const SinkOSSFileStepForm: React.FC<ModalFormProps<{
     onCancel={onCancel}
     onOk={() => {
       form.validateFields().then((values) => {
-        let map: Map<string, string> = new Map();
+        let map: Map<string, any> = new Map();
         map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-        map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
+        map.set(STEP_ATTR_TYPE.stepAttrs, values);
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -144,35 +144,28 @@ const SinkOSSFileStepForm: React.FC<ModalFormProps<{
       <ProFormText
         name={BaseFileParams.partitionDirExpression}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.partitionDirExpression'})}
-        colProps={{span: 12}}
       />
       <ProFormSwitch
         name={BaseFileParams.isPartitionFieldWriteInFile}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.isPartitionFieldWriteInFile'})}
-        colProps={{span: 24}}
       />
       <ProFormText
         name={BaseFileParams.sinkColumns}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.sinkColumns'})}
-        colProps={{span: 24}}
       />
       <ProFormSwitch
         name={BaseFileParams.isEnableTransaction}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.isEnableTransaction'})}
-        colProps={{span: 24}}
+        initialValue={true}
         fieldProps={{
-          defaultChecked: true,
           disabled: true
         }}
       />
       <ProFormSelect
         name={BaseFileParams.saveMode}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.saveMode'})}
-        colProps={{span: 24}}
         allowClear={false}
-        fieldProps={{
-          defaultValue: "overwrite"
-        }}
+        initialValue={"overwrite"}
         valueEnum={{
           overwrite: "overwrite"
         }}

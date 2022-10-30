@@ -136,8 +136,8 @@ const SinkLocalFileStepForm: React.FC<ModalFormProps<{
         name={BaseFileParams.isEnableTransaction}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.isEnableTransaction'})}
         colProps={{span: 24}}
+        initialValue={true}
         fieldProps={{
-          defaultChecked: true,
           disabled: true
         }}
       />
@@ -146,9 +146,7 @@ const SinkLocalFileStepForm: React.FC<ModalFormProps<{
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.saveMode'})}
         colProps={{span: 24}}
         allowClear={false}
-        fieldProps={{
-          defaultValue: "overwrite"
-        }}
+        initialValue={"overwrite"}
         valueEnum={{
           overwrite: "overwrite"
         }}
