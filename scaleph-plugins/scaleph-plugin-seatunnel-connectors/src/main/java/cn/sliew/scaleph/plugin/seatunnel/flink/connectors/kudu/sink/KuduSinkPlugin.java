@@ -35,7 +35,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kudu.KuduProper
 public class KuduSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public KuduSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Write data to Kudu.",
                 KuduSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();

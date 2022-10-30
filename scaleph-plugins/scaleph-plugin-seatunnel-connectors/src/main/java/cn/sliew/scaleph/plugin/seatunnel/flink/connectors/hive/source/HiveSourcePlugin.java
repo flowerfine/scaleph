@@ -41,8 +41,8 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProper
 public class HiveSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public HiveSourcePlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
-                "Hive Source Plugin.",
+        this.pluginInfo = new PluginInfo(getIdentity(),
+                "Hive Sink Plugin.",
                 HiveSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();

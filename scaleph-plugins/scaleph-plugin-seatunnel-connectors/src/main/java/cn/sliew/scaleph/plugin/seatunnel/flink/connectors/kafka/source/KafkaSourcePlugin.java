@@ -48,7 +48,7 @@ import java.util.Map;
 public class KafkaSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public KafkaSourcePlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
             "Kafka Source Plugin",
             KafkaSourcePlugin.class.getName());
 

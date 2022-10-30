@@ -103,8 +103,8 @@ export const STEP_ATTR_TYPE = {
 export const SchemaParams = {
   schema: 'schema',
   fields: 'fields',
-  key: 'key',
-  value: 'value',
+  field: 'field',
+  type: 'type',
 }
 
 export const FakeParams = {
@@ -163,32 +163,40 @@ export const OSSFileParams = {
   accessSecret: 'access_secret',
 };
 
-export const BaseHttpParams = {
+export const HttpParams = {
+  method: 'method',
   url: 'url',
-  headers: 'headers',
-  params: 'params',
+  headerArray: 'headerArray',
+  header: 'header',
+  headerValue: 'headerValue',
+  paramArray: 'paramArray',
+  param: 'param',
+  paramValue: 'paramValue',
+  body: 'body',
+  format: 'format',
+  schema: 'schema',
+  pollIntervalMs: 'poll_interval_ms',
   retry: 'retry',
   retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
   retryBackoffMaxMs: 'retry_backoff_max_ms',
 };
 
-export const HttpParams = {
-  method: 'method',
-  body: 'body',
-  format: 'format',
-  schema: 'schema',
-  pollIntervalMs: 'poll_interval_ms',
-};
-
 export const WeChatParams = {
   url: 'url',
+  mentionedArray: 'mentionedArray',
   mentionedList: 'mentioned_list',
+  userId: 'userId',
+  mentionedMobileArray: 'mentionedMobileArray',
   mentionedMobileList: 'mentioned_mobile_list',
+  mobile: 'mobile',
 };
 
 export const FeishuParams = {
   url: 'url',
+  headerArray: 'headerArray',
   headers: 'headers',
+  header: 'header',
+  headerValue: 'headerValue'
 };
 
 export const DingTalkParams = {

@@ -1,6 +1,6 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {BaseHttpParams, HttpParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {HttpParams, SchemaParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
@@ -10,11 +10,14 @@ import {
   ProFormDependency,
   ProFormDigit,
   ProFormGroup,
+  ProFormList,
   ProFormSelect,
   ProFormText,
   ProFormTextArea
 } from "@ant-design/pro-components";
 import {useEffect} from "react";
+import {InfoCircleOutlined} from "@ant-design/icons";
+import {StepSchemaService} from "../schema";
 
 const SourceHttpFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -40,11 +43,14 @@ const SourceHttpFileStepForm: React.FC<ModalFormProps<{
     onCancel={onCancel}
     onOk={() => {
       form.validateFields().then((values) => {
-        let map: Map<string, string> = new Map();
-        map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
+        let map: Map<string, any> = new Map();
+        map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-        map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
+        StepSchemaService.formatSchema(values)
+        StepSchemaService.formatHeader(values)
+        StepSchemaService.formatParam(values)
+        map.set(STEP_ATTR_TYPE.stepAttrs, values);
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -61,41 +67,73 @@ const SourceHttpFileStepForm: React.FC<ModalFormProps<{
         label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
         rules={[{required: true}, {max: 120}]}
       />
-      <ProFormText
-        name={BaseHttpParams.url}
-        label={intl.formatMessage({id: 'pages.project.di.step.baseHttp.url'})}
-        rules={[{required: true}]}
-      />
       <ProFormSelect
         name={HttpParams.method}
         label={intl.formatMessage({id: 'pages.project.di.step.http.method'})}
+        colProps={{span: 4}}
         rules={[{required: true}]}
         allowClear={false}
-        valueEnum={{
-          GET: "GET",
-          POST: "POST"
-        }}
+        initialValue={"GET"}
+        valueEnum={{GET: "GET", POST: "POST"}}
       />
-      <ProFormTextArea
-        name={BaseHttpParams.headers}
-        label={intl.formatMessage({id: 'pages.project.di.step.baseHttp.headers'})}
-        colProps={{span: 24}}
+      <ProFormText
+        name={HttpParams.url}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.url'})}
+        colProps={{span: 20}}
+        rules={[{required: true}]}
       />
-      <ProFormTextArea
-        name={BaseHttpParams.params}
-        label={intl.formatMessage({id: 'pages.project.di.step.baseHttp.params'})}
-        colProps={{span: 24}}
-      />
+      <ProFormList
+        name={HttpParams.headerArray}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.headers'})}
+        copyIconProps={false}
+        creatorButtonProps={{
+          creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.http.headers'}),
+          type: 'text',
+        }}>
+        <ProFormGroup>
+          <ProFormText
+            name={HttpParams.header}
+            label={intl.formatMessage({id: 'pages.project.di.step.http.header'})}
+            colProps={{span: 10, offset: 1}}
+          />
+          <ProFormText
+            name={HttpParams.headerValue}
+            label={intl.formatMessage({id: 'pages.project.di.step.http.value'})}
+            colProps={{span: 10, offset: 1}}
+          />
+        </ProFormGroup>
+      </ProFormList>
+      <ProFormList
+        name={HttpParams.paramArray}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.params'})}
+        copyIconProps={false}
+        creatorButtonProps={{
+          creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.http.params'}),
+          type: 'text',
+        }}>
+        <ProFormGroup>
+          <ProFormText
+            name={HttpParams.param}
+            label={intl.formatMessage({id: 'pages.project.di.step.http.param'})}
+            colProps={{span: 10, offset: 1}}
+          />
+          <ProFormText
+            name={HttpParams.paramValue}
+            label={intl.formatMessage({id: 'pages.project.di.step.http.value'})}
+            colProps={{span: 10, offset: 1}}
+          />
+        </ProFormGroup>
+      </ProFormList>
       <ProFormTextArea
         name={HttpParams.body}
         label={intl.formatMessage({id: 'pages.project.di.step.http.body'})}
-        colProps={{span: 24}}
       />
       <ProFormSelect
         name={"format"}
         label={intl.formatMessage({id: 'pages.project.di.step.http.format'})}
         rules={[{required: true}]}
         allowClear={false}
+        initialValue={"json"}
         valueEnum={{
           json: "json",
           text: "text"
@@ -105,13 +143,31 @@ const SourceHttpFileStepForm: React.FC<ModalFormProps<{
         {({format}) => {
           if (format == "json") {
             return (
-              <ProFormGroup>
-                <ProFormTextArea
-                  name={HttpParams.schema}
-                  label={intl.formatMessage({id: 'pages.project.di.step.http.schema'})}
-                  rules={[{required: true}]}
-                />
-              </ProFormGroup>
+              <ProFormList
+                name={SchemaParams.fields}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
+                tooltip={{
+                  title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
+                  icon: <InfoCircleOutlined/>,
+                }}
+                copyIconProps={false}
+                creatorButtonProps={{
+                  creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
+                  type: 'text',
+                }}>
+                <ProFormGroup>
+                  <ProFormText
+                    name={SchemaParams.field}
+                    label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
+                    colProps={{span: 10, offset: 1}}
+                  />
+                  <ProFormText
+                    name={SchemaParams.type}
+                    label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
+                    colProps={{span: 10, offset: 1}}
+                  />
+                </ProFormGroup>
+              </ProFormList>
             );
           }
           return <ProFormGroup/>;
@@ -123,18 +179,18 @@ const SourceHttpFileStepForm: React.FC<ModalFormProps<{
         colProps={{span: 24}}
       />
       <ProFormDigit
-        name={BaseHttpParams.retry}
-        label={intl.formatMessage({id: 'pages.project.di.step.baseHttp.retry'})}
+        name={HttpParams.retry}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.retry'})}
         colProps={{span: 6}}
       />
       <ProFormDigit
-        name={BaseHttpParams.retryBackoffMultiplierMs}
-        label={intl.formatMessage({id: 'pages.project.di.step.baseHttp.retryBackoffMultiplierMs'})}
+        name={HttpParams.retryBackoffMultiplierMs}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.retryBackoffMultiplierMs'})}
         colProps={{span: 9}}
       />
       <ProFormDigit
-        name={BaseHttpParams.retryBackoffMaxMs}
-        label={intl.formatMessage({id: 'pages.project.di.step.baseHttp.retryBackoffMaxMs'})}
+        name={HttpParams.retryBackoffMaxMs}
+        label={intl.formatMessage({id: 'pages.project.di.step.http.retryBackoffMaxMs'})}
         colProps={{span: 9}}
       />
     </ProForm>

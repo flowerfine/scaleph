@@ -44,7 +44,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.jdbc.sink.JdbcS
 public class JdbcSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public JdbcSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Jdbc Sink Plugin, output records from jdbc connection.",
                 JdbcSinkPlugin.class.getName());
 

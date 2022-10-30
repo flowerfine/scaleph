@@ -36,7 +36,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.oss.OSSPro
 public class OSSSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public OSSSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Write data to aliyun OSS service",
                 OSSSinkPlugin.class.getName());
 

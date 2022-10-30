@@ -34,7 +34,7 @@ import java.util.List;
 public class SocketSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public SocketSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Socket Sink Plugin,Used to send data to Socket Server. Both support streaming and batch mode.",
                 SocketSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();

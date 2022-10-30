@@ -42,7 +42,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSP
 public class HDFSFileSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public HDFSFileSourcePlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Read data from HDFS",
                 HDFSFileSourcePlugin.class.getName());
 

@@ -18,8 +18,8 @@
 
 package cn.sliew.scaleph.dao.entity.master.di;
 
-import cn.sliew.scaleph.common.dict.job.JobStepType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -53,7 +53,7 @@ public class DiJobStep extends BaseDO {
     private String stepTitle;
 
     @ApiModelProperty(value = "步骤类型")
-    private JobStepType stepType;
+    private SeaTunnelPluginType stepType;
 
     @ApiModelProperty(value = "步骤名称")
     private SeaTunnelPluginName stepName;

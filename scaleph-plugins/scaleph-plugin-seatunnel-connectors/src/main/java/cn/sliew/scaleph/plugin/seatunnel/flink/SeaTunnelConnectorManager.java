@@ -50,10 +50,9 @@ public class SeaTunnelConnectorManager {
         return envProperties;
     }
 
-    public Set<PluginInfo> getAvailableConnectors(SeaTunnelPluginType pluginType) {
+    public Set<SeaTunnelConnectorPlugin> getAvailableConnectors(SeaTunnelPluginType pluginType) {
         return pluginPluginSPILoader.getServices().values().stream()
                 .filter(connector -> connector.getPluginType() == pluginType)
-                .map(SeaTunnelConnectorPlugin::getPluginInfo)
                 .collect(Collectors.toSet());
     }
 

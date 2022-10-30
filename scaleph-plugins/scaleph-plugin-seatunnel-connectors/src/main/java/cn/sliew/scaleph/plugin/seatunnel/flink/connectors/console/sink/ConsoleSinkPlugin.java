@@ -32,7 +32,7 @@ import java.util.List;
 public class ConsoleSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public ConsoleSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Console Sink Plugin, output records to the console.",
                 ConsoleSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();

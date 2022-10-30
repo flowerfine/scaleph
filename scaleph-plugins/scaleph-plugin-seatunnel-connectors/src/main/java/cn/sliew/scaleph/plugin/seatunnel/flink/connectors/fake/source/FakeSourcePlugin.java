@@ -36,7 +36,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.fake.source.Fak
 public class FakeSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public FakeSourcePlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Fake Source Plugin, output random records.",
                 FakeSourcePlugin.class.getName());
 

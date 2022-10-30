@@ -34,7 +34,7 @@ import java.util.List;
 public class SocketSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public SocketSourcePlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Socket Source Plugin,Used to read data from Socket",
                 SocketSourcePlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();

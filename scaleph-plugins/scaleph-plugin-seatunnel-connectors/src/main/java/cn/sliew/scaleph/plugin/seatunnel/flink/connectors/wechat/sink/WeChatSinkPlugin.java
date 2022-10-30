@@ -35,7 +35,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.wechat.sink.Wec
 public class WeChatSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public WeChatSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "A sink plugin which use Enterprise WeChat robot send message",
                 WeChatSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
