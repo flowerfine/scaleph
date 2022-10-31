@@ -16,14 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service.util;
+package cn.sliew.scaleph.resource.service.param;
 
-public enum GraphConstants {
-    ;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
-    public static final String PLUGIN_NAME = "plugin_name";
-    public static final String NODE_TYPE = "_node_type";
-    public static final String NODE_ID = "_node_id";
-    public static final String TABLE_PREFIX = "table_";
-    public static String DND_RENDER_ID = "DND_NODE";
+import javax.validation.constraints.NotNull;
+
+@Data
+public class SeaTunnelConnectorUploadParam {
+
+    @NotNull
+    @ApiModelProperty("seatunnel release id")
+    private Long id;
+
+    @NotNull
+    @ApiModelProperty("seatunnel plugin name")
+    private SeaTunnelPluginName pluginName;
+
 }

@@ -28,9 +28,21 @@ export namespace CustomCommands {
     category: XFlowGraphCommands.GRAPH_COPY.category,
   };
 
+  export const GRAPH_PREVIEW: IGraphCommand = {
+    id: 'xflow:graph-preview',
+    label: 'graph-preview',
+    category: XFlowGraphCommands.GRAPH_COPY.category,
+  };
+
   export const GRAPH_PUBLISH: IGraphCommand = {
     id: 'xflow:graph-publish',
     label: 'publish',
+    category: XFlowGraphCommands.GRAPH_COPY.category,
+  };
+
+  export const GRAPH_SUBMIT: IGraphCommand = {
+    id: 'xflow:graph-submit',
+    label: 'graph-submit',
     category: XFlowGraphCommands.GRAPH_COPY.category,
   };
 }
@@ -84,10 +96,37 @@ export const STEP_ATTR_TYPE = {
   timestampColumn: 'timestamp_column',
   timestampFormat: 'timestamp_format',
   timestampMissingValue: 'timestamp_missing_value',
-  rowNum: 'row_num',
   host: 'host',
   port: 'port',
 };
+
+export const SchemaParams = {
+  schema: 'schema',
+  fields: 'fields',
+  field: 'field',
+  type: 'type',
+}
+
+export const FakeParams = {
+  rowNum: 'row_num',
+}
+
+export const JdbcParams = {
+  dataSourceType: 'dataSourceType',
+  dataSource: 'dataSource',
+  connectionCheckTimeoutSec: 'connection_check_timeout_sec',
+  query: 'query',
+  partitionColumn: 'partition_column',
+  partitionLowerBound: 'partition_lower_bound',
+  partitionUpperBound: 'partition_upper_bound',
+  batchSize: 'batch_size',
+  batchIntervalMs: 'batch_interval_ms',
+  maxRetries: 'max_retries',
+  isExactlyOnce: 'is_exactly_once',
+  xaDataSourceClassName: 'xa_data_source_class_name',
+  maxCommitAttempts: 'max_commit_attempts',
+  transactionTimeoutSec: 'transaction_timeout_sec'
+}
 
 export const BaseFileParams = {
   path: 'path',
@@ -124,32 +163,40 @@ export const OSSFileParams = {
   accessSecret: 'access_secret',
 };
 
-export const BaseHttpParams = {
+export const HttpParams = {
+  method: 'method',
   url: 'url',
-  headers: 'headers',
-  params: 'params',
+  headerArray: 'headerArray',
+  header: 'header',
+  headerValue: 'headerValue',
+  paramArray: 'paramArray',
+  param: 'param',
+  paramValue: 'paramValue',
+  body: 'body',
+  format: 'format',
+  schema: 'schema',
+  pollIntervalMs: 'poll_interval_ms',
   retry: 'retry',
   retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
   retryBackoffMaxMs: 'retry_backoff_max_ms',
 };
 
-export const HttpParams = {
-  method: 'method',
-  body: 'body',
-  format: 'format',
-  schema: 'schema',
-  pollIntervalMs: 'poll_interval_ms',
-};
-
 export const WeChatParams = {
   url: 'url',
+  mentionedArray: 'mentionedArray',
   mentionedList: 'mentioned_list',
+  userId: 'userId',
+  mentionedMobileArray: 'mentionedMobileArray',
   mentionedMobileList: 'mentioned_mobile_list',
+  mobile: 'mobile',
 };
 
 export const FeishuParams = {
   url: 'url',
+  headerArray: 'headerArray',
   headers: 'headers',
+  header: 'header',
+  headerValue: 'headerValue'
 };
 
 export const DingTalkParams = {
@@ -226,5 +273,47 @@ export const KafkaParams = {
   consumerGroup: 'consumer.group',
   commit_on_checkpoint: 'commit_on_checkpoint',
   bootstrapServers: 'bootstrap.servers'
-
 };
+
+export const IoTDBParams = {
+  nodeUrls: 'node_urls',
+  username: 'username',
+  password: 'password',
+  sql: 'sql',
+  fetchSize: 'fetch_size',
+  thriftDefaultBufferSize: 'thrift_default_buffer_size',
+  thriftMaxFrameSize: 'thrift_max_frame_size',
+  enableCacheLeader: 'enable_cache_leader',
+  version: 'version',
+  numPartitions: 'num_partitions',
+  lowerBound: 'lower_bound',
+  upperBound: 'upper_bound',
+  batchSize: 'batch_size',
+  batchIntervalMs: 'batch_interval_ms',
+  maxRetries: 'max_retries',
+  retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
+  maxRetryBackoffMs: 'max_retry_backoff_ms',
+  defaultThriftBufferSize: 'default_thrift_buffer_size',
+  maxThriftFrameSize: 'max_thrift_frame_size',
+  zoneId: 'zone_id',
+  enableRpcCompression: 'enable_rpc_compression',
+  connectionTimeoutInMs: 'connection_timeout_in_ms',
+};
+
+export const MondoDBParams = {
+  uri: 'uri',
+  database: 'database',
+  collection: 'collection'
+};
+
+export const RedisParams = {
+  host: 'host',
+  port: 'port',
+  auth: 'auth',
+  keys: 'keys',
+  dataType: 'data_type',
+  format: 'format',
+  schema: 'schema',
+  key: 'key'
+};
+

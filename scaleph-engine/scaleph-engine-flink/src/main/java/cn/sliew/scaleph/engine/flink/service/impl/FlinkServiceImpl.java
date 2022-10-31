@@ -28,15 +28,27 @@ import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
 import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
 import cn.sliew.scaleph.common.nio.FileUtil;
 import cn.sliew.scaleph.common.nio.TarUtil;
+import cn.sliew.scaleph.common.util.SeaTunnelReleaseUtil;
+import cn.sliew.scaleph.core.di.service.DiJobService;
+import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobStepDTO;
 import cn.sliew.scaleph.engine.flink.service.*;
 import cn.sliew.scaleph.engine.flink.service.dto.*;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
+import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
+import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.FlinkReleaseService;
+import cn.sliew.scaleph.resource.service.JarService;
+import cn.sliew.scaleph.resource.service.SeaTunnelReleaseService;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
+import cn.sliew.scaleph.resource.service.dto.JarDTO;
+import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
 import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
 import cn.sliew.scaleph.system.util.SystemUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -53,14 +65,20 @@ import org.apache.hadoop.yarn.api.records.ApplicationId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -69,19 +87,27 @@ import static cn.sliew.milky.common.check.Ensures.checkState;
 public class FlinkServiceImpl implements FlinkService {
 
     @Autowired
-    private FlinkClusterConfigService flinkClusterConfigService;
-    @Autowired
     private FlinkJobService flinkJobService;
     @Autowired
     private FlinkJobInstanceService flinkJobInstanceService;
     @Autowired
-    private FlinkArtifactJarService flinkArtifactJarService;
+    private FlinkClusterConfigService flinkClusterConfigService;
+    @Autowired
+    private FlinkClusterInstanceService flinkClusterInstanceService;
     @Autowired
     private FlinkReleaseService flinkReleaseService;
     @Autowired
+    private SeaTunnelReleaseService seaTunnelReleaseService;
+    @Autowired
     private ClusterCredentialService clusterCredentialService;
     @Autowired
-    private FlinkClusterInstanceService flinkClusterInstanceService;
+    private JarService jarService;
+    @Autowired
+    private FlinkArtifactJarService flinkArtifactJarService;
+    @Autowired
+    private DiJobService diJobService;
+    @Autowired
+    private SeatunnelConfigService seatunnelConfigService;
 
     /**
      * requires:
@@ -124,19 +150,21 @@ public class FlinkServiceImpl implements FlinkService {
         try {
             FlinkJobForJarDTO flinkJobForJarDTO = flinkJobService.getJobForJarById(id);
             ClusterClient clusterClient = doSubmitJar(flinkJobForJarDTO, workspace);
-            recordJobs(flinkJobForJarDTO, clusterClient);
+            recordJobs(flinkJobForJarDTO.getCode(), flinkJobForJarDTO.getVersion(), clusterClient);
         } finally {
             FileUtil.deleteDir(workspace);
         }
     }
 
-    public ClusterClient doSubmitJar(FlinkJobForJarDTO flinkJobForJarDTO, Path workspace) throws Exception {
+    private ClusterClient doSubmitJar(FlinkJobForJarDTO flinkJobForJarDTO, Path workspace) throws Exception {
         FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(flinkJobForJarDTO.getFlinkClusterConfig().getId());
 
         Path flinkHomePath = loadFlinkRelease(flinkClusterConfigDTO.getFlinkRelease(), workspace);
 
+        List<URL> jars = loadJarResources(flinkJobForJarDTO.getJars(), workspace);
         FlinkArtifactJarDTO flinkArtifactJar = flinkArtifactJarService.selectOne(flinkJobForJarDTO.getFlinkArtifactJar().getId());
         Path flinkArtifactJarPath = loadFlinkArtifactJar(flinkArtifactJar, workspace);
+        jars.add(flinkArtifactJarPath.toFile().toURL());
         PackageJarJob packageJarJob = buildJarJob(flinkJobForJarDTO, flinkArtifactJar, flinkArtifactJarPath);
 
         final Path clusterCredentialPath = loadClusterCredential(flinkClusterConfigDTO.getClusterCredential(), workspace);
@@ -144,27 +172,74 @@ public class FlinkServiceImpl implements FlinkService {
         if (CollectionUtils.isEmpty(flinkJobForJarDTO.getFlinkConfig()) == false) {
             configuration.addAll(Configuration.fromMap(flinkJobForJarDTO.getFlinkConfig()));
         }
-        ConfigUtils.encodeCollectionToConfig(configuration, PipelineOptions.JARS, Collections.singletonList(flinkArtifactJarPath.toFile().toURL()), Object::toString);
+        ConfigUtils.encodeCollectionToConfig(configuration, PipelineOptions.JARS, jars, Object::toString);
 
         switch (flinkClusterConfigDTO.getResourceProvider()) {
             case YARN:
-                return doSubmitToYARN(flinkJobForJarDTO, flinkClusterConfigDTO, configuration, flinkHomePath, packageJarJob);
+                return doSubmitToYARN(flinkJobForJarDTO.getFlinkClusterInstance(), flinkClusterConfigDTO, configuration, flinkHomePath, packageJarJob);
             case NATIVE_KUBERNETES:
-                return doSubmitToKubernetes(flinkJobForJarDTO, flinkClusterConfigDTO, configuration, flinkHomePath, packageJarJob);
+                return doSubmitToKubernetes(flinkJobForJarDTO.getFlinkClusterInstance(), flinkClusterConfigDTO, configuration, flinkHomePath, packageJarJob);
             case STANDALONE:
-                return doSubmitToStandalone(flinkJobForJarDTO, flinkClusterConfigDTO, configuration, flinkHomePath, packageJarJob);
+                return doSubmitToStandalone(flinkJobForJarDTO.getFlinkClusterInstance(), flinkClusterConfigDTO, configuration, flinkHomePath, packageJarJob);
             default:
                 throw new UnsupportedOperationException(
                         String.format("scaleph not supports %s for flink jar job submission", flinkClusterConfigDTO.getResourceProvider().getValue()));
         }
     }
 
-    private ClusterClient doSubmitToKubernetes(FlinkJobForJarDTO flinkJobForJarDTO, FlinkClusterConfigDTO flinkClusterConfigDTO,
+    @Override
+    public void submitSeaTunnel(Long id) throws Exception {
+        final Path workspace = getWorkspace();
+        try {
+            FlinkJobForSeaTunnelDTO flinkJobForSeaTunnelDTO = flinkJobService.getJobForSeaTunnelById(id);
+            ClusterClient clusterClient = doSubmitSeaTunnel(flinkJobForSeaTunnelDTO, workspace);
+            recordJobs(flinkJobForSeaTunnelDTO.getCode(), flinkJobForSeaTunnelDTO.getVersion(), clusterClient);
+        } finally {
+            FileUtil.deleteDir(workspace);
+        }
+    }
+
+    private ClusterClient doSubmitSeaTunnel(FlinkJobForSeaTunnelDTO flinkJobForSeaTunnelDTO, Path workspace) throws Exception {
+        FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(flinkJobForSeaTunnelDTO.getFlinkClusterConfig().getId());
+        SeaTunnelReleaseDTO seaTunnelRelease = seaTunnelReleaseService.selectByVersion(SeaTunnelVersion.V_2_2_0_BETA);
+
+        Path flinkHomePath = loadFlinkRelease(flinkClusterConfigDTO.getFlinkRelease(), workspace);
+        Path seatunnelHomePath = loadSeaTunnelRelease(seaTunnelRelease, workspace);
+
+        List<URL> jars = loadJarResources(flinkJobForSeaTunnelDTO.getJars(), workspace);
+        DiJobDTO diJobDTO = diJobService.queryJobGraph(flinkJobForSeaTunnelDTO.getFlinkArtifactSeaTunnel().getId());
+
+        Path seatunnelConfPath = buildSeaTunnelConf(diJobDTO, workspace);
+        PackageJarJob packageJarJob = buildSeaTunnelJob(seatunnelHomePath, seatunnelConfPath);
+        jars.add(SeaTunnelReleaseUtil.getStarterJarPath(seatunnelHomePath).toFile().toURL());
+        jars.addAll(loadSeaTunnelConnectors(seaTunnelRelease, diJobDTO, workspace));
+
+        final Path clusterCredentialPath = loadClusterCredential(flinkClusterConfigDTO.getClusterCredential(), workspace);
+        final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, clusterCredentialPath);
+        if (CollectionUtils.isEmpty(flinkJobForSeaTunnelDTO.getFlinkConfig()) == false) {
+            configuration.addAll(Configuration.fromMap(flinkJobForSeaTunnelDTO.getFlinkConfig()));
+        }
+        ConfigUtils.encodeCollectionToConfig(configuration, PipelineOptions.JARS, jars, Object::toString);
+
+        switch (flinkClusterConfigDTO.getResourceProvider()) {
+            case YARN:
+                return doSubmitToYARN(flinkJobForSeaTunnelDTO.getFlinkClusterInstance(), flinkClusterConfigDTO, configuration, flinkHomePath, packageJarJob);
+            case NATIVE_KUBERNETES:
+                return doSubmitToKubernetes(flinkJobForSeaTunnelDTO.getFlinkClusterInstance(), flinkClusterConfigDTO, configuration, flinkHomePath, packageJarJob);
+            case STANDALONE:
+                return doSubmitToStandalone(flinkJobForSeaTunnelDTO.getFlinkClusterInstance(), flinkClusterConfigDTO, configuration, flinkHomePath, packageJarJob);
+            default:
+                throw new UnsupportedOperationException(
+                        String.format("scaleph not supports %s for flink seatunnel job submission", flinkClusterConfigDTO.getResourceProvider().getValue()));
+        }
+    }
+
+    private ClusterClient doSubmitToKubernetes(FlinkClusterInstanceDTO flinkClusterInstanceDTO, FlinkClusterConfigDTO flinkClusterConfigDTO,
                                                Configuration configuration, Path flinkHomePath, PackageJarJob packageJarJob) throws Exception {
         switch (flinkClusterConfigDTO.getDeployMode()) {
             case SESSION:
                 CliClient client = new DescriptorCliClient();
-                configuration.setString(KubernetesConfigOptions.CLUSTER_ID, flinkJobForJarDTO.getFlinkClusterInstance().getClusterId());
+                configuration.setString(KubernetesConfigOptions.CLUSTER_ID, flinkClusterInstanceDTO.getClusterId());
                 return client.submit(DeploymentTarget.NATIVE_KUBERNETES_SESSION, flinkHomePath, configuration, packageJarJob);
             case PER_JOB:
             case APPLICATION:
@@ -174,12 +249,12 @@ public class FlinkServiceImpl implements FlinkService {
         }
     }
 
-    private ClusterClient doSubmitToYARN(FlinkJobForJarDTO flinkJobForJarDTO, FlinkClusterConfigDTO flinkClusterConfigDTO,
+    private ClusterClient doSubmitToYARN(FlinkClusterInstanceDTO flinkClusterInstanceDTO, FlinkClusterConfigDTO flinkClusterConfigDTO,
                                          Configuration configuration, Path flinkHomePath, PackageJarJob packageJarJob) throws Exception {
         CliClient client = new DescriptorCliClient();
         switch (flinkClusterConfigDTO.getDeployMode()) {
             case SESSION:
-                configuration.setString(YarnConfigOptions.APPLICATION_ID, flinkJobForJarDTO.getFlinkClusterInstance().getClusterId());
+                configuration.setString(YarnConfigOptions.APPLICATION_ID, flinkClusterInstanceDTO.getClusterId());
                 return client.submit(DeploymentTarget.YARN_SESSION, flinkHomePath, configuration, packageJarJob);
             case PER_JOB:
                 return client.submit(DeploymentTarget.YARN_PER_JOB, flinkHomePath, configuration, packageJarJob);
@@ -191,11 +266,11 @@ public class FlinkServiceImpl implements FlinkService {
         }
     }
 
-    private ClusterClient doSubmitToStandalone(FlinkJobForJarDTO flinkJobForJarDTO, FlinkClusterConfigDTO flinkClusterConfigDTO,
+    private ClusterClient doSubmitToStandalone(FlinkClusterInstanceDTO flinkClusterInstanceDTO, FlinkClusterConfigDTO flinkClusterConfigDTO,
                                                Configuration configuration, Path flinkHomePath, PackageJarJob packageJarJob) throws Exception {
         switch (flinkClusterConfigDTO.getDeployMode()) {
             case SESSION:
-                URL url = new URL(flinkJobForJarDTO.getFlinkClusterInstance().getWebInterfaceUrl());
+                URL url = new URL(flinkClusterInstanceDTO.getWebInterfaceUrl());
                 configuration.setString(RestOptions.ADDRESS, url.getHost());
                 configuration.setInteger(RestOptions.PORT, url.getPort());
                 CliClient client = new DescriptorCliClient();
@@ -208,12 +283,12 @@ public class FlinkServiceImpl implements FlinkService {
         }
     }
 
-    private void recordJobs(FlinkJobForJarDTO flinkJobForJarDTO, ClusterClient clusterClient) throws Exception {
+    private void recordJobs(Long jobCode, Long jobVersion, ClusterClient clusterClient) throws Exception {
         Collection<JobStatusMessage> jobs = (Collection<JobStatusMessage>) clusterClient.listJobs().get();
         for (JobStatusMessage job : jobs) {
             FlinkJobInstanceDTO flinkJobInstanceDTO = new FlinkJobInstanceDTO();
-            flinkJobInstanceDTO.setFlinkJobCode(flinkJobForJarDTO.getCode());
-            flinkJobInstanceDTO.setFlinkJobVersion(flinkJobForJarDTO.getVersion());
+            flinkJobInstanceDTO.setFlinkJobCode(jobCode);
+            flinkJobInstanceDTO.setFlinkJobVersion(jobVersion);
             flinkJobInstanceDTO.setJobId(job.getJobId().toHexString());
             flinkJobInstanceDTO.setJobName(job.getJobName());
             flinkJobInstanceDTO.setJobState(FlinkJobState.of(job.getJobState().name()));
@@ -420,6 +495,22 @@ public class FlinkServiceImpl implements FlinkService {
         return tempDir;
     }
 
+    private List<URL> loadJarResources(List<Long> jarIds, Path workspace) throws IOException {
+        List<URL> result = new ArrayList<>();
+        if (CollectionUtils.isEmpty(jarIds)) {
+            return result;
+        }
+        for (Long jarId : jarIds) {
+            JarDTO jarDTO = jarService.selectOne(jarId);
+            Path path = FileUtil.createFile(workspace, jarDTO.getFileName());
+            try (OutputStream output = FileUtil.getOutputStream(path)) {
+                jarService.download(jarId, output);
+                result.add(path.toFile().toURL());
+            }
+        }
+        return result;
+    }
+
     private Path loadFlinkArtifactJar(FlinkArtifactJarDTO flinkArtifactJarDTO, Path workspace) throws IOException {
         final Path tempDir = FileUtil.createDir(workspace, flinkArtifactJarDTO.getFlinkArtifact().getName() + "/" + flinkArtifactJarDTO.getVersion());
         final Path jarPath = FileUtil.createFile(tempDir, flinkArtifactJarDTO.getFileName());
@@ -427,6 +518,54 @@ public class FlinkServiceImpl implements FlinkService {
             flinkArtifactJarService.download(flinkArtifactJarDTO.getId(), outputStream);
         }
         return jarPath;
+    }
+
+    private Path loadSeaTunnelRelease(SeaTunnelReleaseDTO seaTunnelRelease, Path workspace) throws IOException {
+        final Path tempFile = FileUtil.createFile(workspace, seaTunnelRelease.getFileName());
+        try (final OutputStream outputStream = FileUtil.getOutputStream(tempFile)) {
+            seaTunnelReleaseService.download(seaTunnelRelease.getId(), outputStream);
+        }
+        final Path untarDir = TarUtil.untar(tempFile);
+        return FileUtil.listFiles(untarDir).get(0);
+    }
+
+    private List<URL> loadSeaTunnelConnectors(SeaTunnelReleaseDTO seaTunnelRelease, DiJobDTO job, Path workspace) throws IOException {
+        List<String> connectors = job.getJobStepList().stream()
+                .map(DiJobStepDTO::getStepName)
+                .map(SeaTunnelPluginMapping::of)
+                .map(SeaTunnelPluginMapping::getPluginJarPrefix)
+                .distinct()
+                .collect(Collectors.toList());
+        List<URL> result = new ArrayList<>(connectors.size());
+        Path connectorsPath = FileUtil.createDir(workspace, "connectors");
+        for (String connector : connectors) {
+            String connectorFile = SeaTunnelReleaseUtil.convertToJar(seaTunnelRelease.getVersion().getValue(), connector);
+            Path connectorPath = FileUtil.createFile(connectorsPath, connector);
+            try (OutputStream outputStream = FileUtil.getOutputStream(connectorPath)) {
+                seaTunnelReleaseService.downloadConnector(seaTunnelRelease.getId(), connectorFile, outputStream);
+            }
+            result.add(connectorPath.toFile().toURL());
+        }
+        return result;
+    }
+
+    private Path buildSeaTunnelConf(DiJobDTO job, Path workspace) throws Exception {
+        Path file = FileUtil.createFile(workspace, job.getJobName() + ".json");
+        String configJson = seatunnelConfigService.buildConfig(job);
+        try (Writer writer = FileUtil.getWriter(file)) {
+            FileCopyUtils.copy(configJson, writer);
+        }
+        return file;
+    }
+
+    private PackageJarJob buildSeaTunnelJob(Path seatunnelHomePath, Path seatunnelConfPath) throws IOException {
+        PackageJarJob packageJarJob = new PackageJarJob();
+        Path starterJarPath = SeaTunnelReleaseUtil.getStarterJarPath(seatunnelHomePath);
+        packageJarJob.setJarFilePath(starterJarPath.toFile().toURL().toString());
+        packageJarJob.setEntryPointClass(SeaTunnelReleaseUtil.SEATUNNEL_MAIN_CLASS);
+        String[] args = new String[]{"--config", seatunnelConfPath.toString()};
+        packageJarJob.setProgramArgs(args);
+        return packageJarJob;
     }
 
 }

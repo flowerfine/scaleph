@@ -32,6 +32,7 @@ export const DICT_TYPE = {
   flinkHA: 'flink_high_availability',
   flinkArtifactType: 'flink_artifact_type',
   seatunnelVersion: 'seatunnel_version',
+  seatunnelPluginName: 'seatunnel_plugin_name',
   imagePullPolicy: 'image_pull_policy',
 };
 
@@ -46,6 +47,7 @@ export const USER_AUTH = {
 export const RESOURCE_TYPE = {
   flinkRelease: 'flink_release',
   clusterCredential: 'cluster_credential',
+  jar: 'jar',
 };
 
 export const WORKSPACE_CONF = {

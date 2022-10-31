@@ -51,4 +51,10 @@ export const DictDataService = {
       method: 'GET',
     });
   },
+
+  listDictDataByType2: async (dictTypeCode: string) => {
+    return request<Dict[]>(`${DictDataService.url}/v2/` + dictTypeCode, {
+      method: 'GET',
+    });
+  },
 };

@@ -18,9 +18,11 @@
 
 package cn.sliew.scaleph.plugin.datasource.mysql;
 
+import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.enums.DataSourceTypeEnum;
 import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
 import cn.sliew.scaleph.plugin.datasource.jdbc.JDBCDataSourcePlugin;
+import cn.sliew.scaleph.plugin.datasource.util.JdbcUtil;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -36,7 +38,7 @@ import static cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties.*;
 public class MysqlDataSourcePlugin extends JDBCDataSourcePlugin {
 
     public MysqlDataSourcePlugin() {
-        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.MYSQL.getValue(), "Mysql Jdbc Datasource",  MysqlDataSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(DataSourceTypeEnum.MYSQL.getValue(), "Mysql Jdbc Datasource", MysqlDataSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(HOST);
@@ -58,12 +60,12 @@ public class MysqlDataSourcePlugin extends JDBCDataSourcePlugin {
 
     @Override
     public String getJdbcUrl() {
-        return "jdbc:mysql://" + properties.getString(HOST) + ":" + properties.get(PORT) + "/" + properties.getString(DATABASE_NAME) + "?" + getAdditionalProps();
+        return JdbcUtil.formatMySQLUrl(properties.getString(HOST), properties.get(PORT), properties.getString(DATABASE_NAME), getAdditionalProps());
     }
 
     @Override
     public String getDriverClassName() {
-        return "com.mysql.cj.jdbc.Driver";
+        return JdbcUtil.getDriverClassName(DataSourceType.MYSQL);
     }
 
 }

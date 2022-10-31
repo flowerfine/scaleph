@@ -11,9 +11,7 @@ export const BaseNode = (props: any) => {
         <Descriptions style={{ maxWidth: '240px' }} size="small" column={1}>
           {props.data.data.jobId ? (
             <>
-              <Descriptions.Item
-                label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
-              >
+              <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}>
                 {props.data.label}
               </Descriptions.Item>
               <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.di.step.x' })}>

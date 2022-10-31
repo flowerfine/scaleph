@@ -30,6 +30,8 @@ export default {
   'pages.resource.seatunnelRelease': 'SeaTunnel Release',
   'pages.resource.seatunnelRelease.version': 'SeaTunnel 版本',
   'pages.resource.seatunnelRelease.file': 'SeaTunnel Release',
+  'pages.resource.seatunnelRelease.connector': 'Connector',
+  'pages.resource.seatunnelRelease.pluginName': '插件',
   'pages.resource.kerberos.name': '名称',
   'pages.resource.kerberos.principal': 'Principal',
   'pages.resource.kerberos.file': 'xxx.keytab',

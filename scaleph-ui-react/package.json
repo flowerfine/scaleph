@@ -61,7 +61,8 @@
     "react": "^17.0.0",
     "react-dev-inspector": "^1.7.0",
     "react-dom": "^17.0.0",
-    "react-helmet-async": "^1.2.0"
+    "react-helmet-async": "^1.2.0",
+    "react-monaco-editor": "^0.50.1"
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^2.1.0",

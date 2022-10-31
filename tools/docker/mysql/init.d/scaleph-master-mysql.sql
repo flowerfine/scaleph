@@ -1,5 +1,4 @@
-create
-    database if not exists scaleph default character set utf8mb4 collate utf8mb4_unicode_ci;
+create database if not exists scaleph default character set utf8mb4 collate utf8mb4_unicode_ci;
 use scaleph;
 /* 数据字典类型表 */
 drop table if exists sys_dict_type;
@@ -286,35 +285,7 @@ VALUES ('flink_deployment_mode', '1', 'Per-Job', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_deployment_mode', '2', 'Session', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.13.0', '1.13.0', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.13.1', '1.13.1', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.13.2', '1.13.2', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.13.3', '1.13.3', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.13.5', '1.13.5', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_version', '1.13.6', '1.13.6', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.14.0', '1.14.0', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.14.2', '1.14.2', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.14.3', '1.14.3', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.14.4', '1.14.4', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.14.5', '1.14.5', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.14.6', '1.14.6', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.15.0', '1.15.0', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.15.1', '1.15.1', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('flink_version', '1.15.2', '1.15.2', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_state_backend', 'HashMapStateBackend', 'HashMap', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
@@ -912,27 +883,12 @@ create table di_job
     primary key (id),
     unique key (project_id, job_code, job_version)
 ) engine = innodb comment '数据集成-作业信息';
-
-# insert into di_job(id, project_id, job_code, job_name, directory_id, job_type, job_owner, job_status,
-#                    runtime_state, job_version, cluster_id, job_crontab, remark, creator, editor)
-# VALUES (1, 1, 'docker_jdbc_to_jdbc', 'docker_jdbc_to_jdbc', 2, 'b', 'sys', '2', '1', 1, NULL, NULL, NULL,
-#         'sys', 'sys');
-# INSERT INTO di_job(id, project_id, job_code, job_name, directory_id, job_type, job_owner, job_status, runtime_state,
-#                    job_version, cluster_id, job_crontab, remark, creator, editor)
-# VALUES (2, 1, 'local_jdbc_to_jdbc', 'local_jdbc_to_jdbc', 2, 'b', 'sys', '2', '1', 1, NULL, NULL, NULL,
-#         'sys', 'sys');
-# INSERT INTO `di_job`(id, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
-#                      `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
-# VALUES (3, 1, 'local_jdbc_to_elasticsearch', 'local_jdbc_to_elasticsearch', 2, 'b', 'sys', '2', '1', 1, NULL,
-#         NULL, NULL, 'sys', 'sys');
-# INSERT INTO `di_job` (`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
-#                       `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
-# VALUES (4, 1, 'local_druid_to_console', 'local_druid_to_console', 2, 'b', 'sys', '2', '1', 1, NULL, NULL, NULL,
-#         'sys', 'sys');
-# INSERT INTO `di_job`(`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
-#                      `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
-# VALUES (5, 1, 'local_jdbc_to_druid', 'local_jdbc_to_druid', 2, 'b', 'sys', '2', '1', 1, NULL, NULL, NULL,
-#         'sys', 'sys');
+INSERT INTO `di_job` (`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
+                      `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
+VALUES (1, 1, 'mNVdYcrOyK89O3rP', 'e_commerce', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `di_job`(`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
+                     `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
+VALUES (2, 1, 'k52fCXieapQDAxT6', 'fake', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys', 'sys');
 
 drop table if exists di_job_resource_file;
 create table di_job_resource_file
@@ -986,6 +942,25 @@ create table di_job_step
     primary key (id),
     unique key (job_id, step_code)
 ) engine = innodb comment '数据集成-作业步骤信息';
+INSERT INTO `di_job_step` (`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
+                           `step_attrs`, `creator`, `editor`)
+VALUES (1, 'f3e02087-91fa-494d-86f4-694970a49ebd', 'Jdbc Source', 'source', 'Jdbc', -400, -320,
+        '{\"stepTitle\":\"Jdbc Source\",\"dataSourceType\":\"Mysql\",\"dataSource\":2,\"query\":\"select * from sample_data_e_commerce\"}',
+        'sys', 'sys');
+INSERT INTO `di_job_step` (`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
+                           `step_attrs`, `creator`, `editor`)
+VALUES (1, '68834928-2a32-427a-a864-83b6b5848e04', 'Jdbc Sink', 'sink', 'Jdbc', -310, -120,
+        '{\"stepTitle\":\"Jdbc Sink\",\"dataSourceType\":\"Mysql\",\"dataSource\":2,\"batch_size\":300,\"batch_interval_ms\":1000,\"max_retries\":3,\"is_exactly_once\":false,\"query\":\"insert into sample_data_e_commerce_duplicate ( id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country )\\nvalues (?,?,?,?,?,?,?,?,?)\"}',
+        'sys', 'sys');
+INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
+                          `step_attrs`, `creator`, `editor`)
+VALUES (2, '6223c6c3-b552-4c69-adab-5300b7514fad', 'Fake Source', 'source', 'FakeSource', -400, -320,
+        '{\"stepTitle\":\"Fake Source\",\"fields\":[{\"field\":\"c_string\",\"type\":\"string\"},{\"field\":\"c_boolean\",\"type\":\"boolean\"},{\"field\":\"c_tinyint\",\"type\":\"tinyint\"},{\"field\":\"c_smallint\",\"type\":\"smallint\"},{\"field\":\"c_int\",\"type\":\"int\"},{\"field\":\"c_bigint\",\"type\":\"bigint\"},{\"field\":\"c_float\",\"type\":\"float\"},{\"field\":\"c_double\",\"type\":\"double\"},{\"field\":\"c_decimal\",\"type\":\"decimal(30, 8)\"},{\"field\":\"c_bytes\",\"type\":\"bytes\"},{\"field\":\"c_map\",\"type\":\"map<string, string>\"},{\"field\":\"c_date\",\"type\":\"date\"},{\"field\":\"c_time\",\"type\":\"time\"},{\"field\":\"c_timestamp\",\"type\":\"timestamp\"}],\"schema\":\"{\\\"fields\\\":{\\\"c_string\\\":\\\"string\\\",\\\"c_boolean\\\":\\\"boolean\\\",\\\"c_tinyint\\\":\\\"tinyint\\\",\\\"c_smallint\\\":\\\"smallint\\\",\\\"c_int\\\":\\\"int\\\",\\\"c_bigint\\\":\\\"bigint\\\",\\\"c_float\\\":\\\"float\\\",\\\"c_double\\\":\\\"double\\\",\\\"c_decimal\\\":\\\"decimal(30, 8)\\\",\\\"c_bytes\\\":\\\"bytes\\\",\\\"c_map\\\":\\\"map<string, string>\\\",\\\"c_date\\\":\\\"date\\\",\\\"c_time\\\":\\\"time\\\",\\\"c_timestamp\\\":\\\"timestamp\\\"}}\"}',
+        'sys', 'sys');
+INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
+                          `step_attrs`, `creator`, `editor`)
+VALUES (2, 'f08143b4-34dc-4190-8723-e8d8ce49738f', 'Console Sink', 'sink', 'Console', -320, -120,
+        '{\"stepTitle\":\"Console Sink\"}', 'sys', 'sys');
 
 /* 作业连线信息 */
 drop table if exists di_job_link;
@@ -1003,6 +978,12 @@ create table di_job_link
     primary key (id),
     key (job_id)
 ) engine = innodb comment '数据集成-作业连线';
+INSERT INTO `di_job_link` (`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
+VALUES (1, 'fabfda41-aacb-4a19-b5ef-9e84a75ed4e9', 'f3e02087-91fa-494d-86f4-694970a49ebd',
+        '68834928-2a32-427a-a864-83b6b5848e04', 'sys', 'sys');
+INSERT INTO `di_job_link`(`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
+VALUES (2, 'd57021a1-65c7-4dfe-ae89-3b73d00fcf72', '6223c6c3-b552-4c69-adab-5300b7514fad',
+        'f08143b4-34dc-4190-8723-e8d8ce49738f', 'sys', 'sys');
 
 /* 数据同步-运行日志 */
 drop table if exists di_job_log;

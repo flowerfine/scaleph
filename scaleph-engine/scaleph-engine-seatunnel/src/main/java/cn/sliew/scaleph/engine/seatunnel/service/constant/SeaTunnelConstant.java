@@ -16,14 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.resource.service.vo;
+package cn.sliew.scaleph.engine.seatunnel.service.constant;
 
-import java.io.Closeable;
+public enum SeaTunnelConstant {
+    ;
 
-public interface Resource<V> extends Closeable {
+    public static final String ENV = "env";
+    public static final String SOURCE = "source";
+    public static final String SINK = "sink";
+    public static final String TRANSFORM = "transform";
 
-    V load();
-
-    boolean isRecycled();
-
+    public static final String PLUGIN_NAME = "plugin_name";
 }

@@ -61,7 +61,7 @@
             <optional>true</optional>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>org.apache.druid</groupId>
             <artifactId>druid-indexing-service</artifactId>
             <optional>true</optional>
@@ -69,7 +69,7 @@
         <dependency>
             <groupId>org.apache.calcite</groupId>
             <artifactId>calcite-druid</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>

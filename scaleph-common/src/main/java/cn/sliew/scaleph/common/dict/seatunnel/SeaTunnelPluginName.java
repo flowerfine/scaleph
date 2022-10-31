@@ -18,9 +18,7 @@
 
 package cn.sliew.scaleph.common.dict.seatunnel;
 
-import cn.sliew.scaleph.common.dict.DictDefinition;
 import cn.sliew.scaleph.common.dict.DictInstance;
-import cn.sliew.scaleph.common.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -42,7 +40,9 @@ public enum SeaTunnelPluginName implements DictInstance {
 
     LOCAL_FILE("LocalFile", "LocalFile"),
     FTP_FILE("FtpFile", "FtpFile"),
+    SFTP_FILE("SftpFile", "SftpFile"),
     HDFS_FILE("HdfsFile", "HdfsFile"),
+    S3_FILE("S3File", "S3File"),
     OSS_FILE("OssFile", "OssFile"),
 
     KAFKA("Kafka", "Kafka"),
@@ -52,6 +52,7 @@ public enum SeaTunnelPluginName implements DictInstance {
     JDBC("Jdbc", "Jdbc"),
     REDIS("Redis", "Redis"),
     ELASTICSEARCH("elasticsearch", "elasticsearch"),
+    MONGODB("MongoDB", "MongoDB"),
 
     HIVE("Hive", "Hive"),
     CLICKHOUSE("ClickHouse", "ClickHouse"),
@@ -61,6 +62,9 @@ public enum SeaTunnelPluginName implements DictInstance {
     KUDU("Kudu", "Kudu"),
     IOTDB("IoTDB", "IoTDB"),
     NEO4J("Neo4j", "Neo4j"),
+    INFLUXDB("InfluxDB", "InfluxDB"),
+
+    SENTRY("Sentry", "Sentry"),
     ;
 
     @JsonCreator
@@ -77,11 +81,6 @@ public enum SeaTunnelPluginName implements DictInstance {
     SeaTunnelPluginName(String value, String label) {
         this.value = value;
         this.label = label;
-    }
-
-    @Override
-    public DictDefinition getDefinition() {
-        return DictType.SEATUNNEL_PLUGIN_NAME;
     }
 
     @Override

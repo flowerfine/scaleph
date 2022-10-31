@@ -37,7 +37,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     try {
       let info: ResponseBody<any> = JSON.parse(body);
       if (info.success != null && info.success != undefined && !info.success) {
-        console.log(event);
         if (info.errorCode == '401') {
           this.notificationService.error(info.errorMessage, info.showType);
           route.navigate(['/login']);

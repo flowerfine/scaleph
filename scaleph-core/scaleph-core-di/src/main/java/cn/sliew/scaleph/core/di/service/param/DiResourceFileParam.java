@@ -19,15 +19,20 @@
 package cn.sliew.scaleph.core.di.service.param;
 
 import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
  * @author gleiyu
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class DiResourceFileParam extends PaginationParam {
+
+    @ApiModelProperty("project id")
     private Long projectId;
+
+    @ApiModelProperty("file name")
     private String fileName;
 }

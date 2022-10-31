@@ -122,7 +122,7 @@ export const initGraphCmds = (app: IApplication, job: DiJob) => {
       commandId: XFlowGraphCommands.GRAPH_ZOOM.id,
       getCommandOption: async () => {
         return {
-          args: { factor: 'fit', zoomOptions: { maxScale: 0.9 } },
+          args: { factor: 'fit', zoomOptions:{ maxScale: 0.9 }},
         };
       },
     },

@@ -20,8 +20,6 @@ package cn.sliew.scaleph.common.dict;
 
 public interface DictInstance {
 
-    DictDefinition getDefinition();
-
     String getValue();
 
     String getLabel();

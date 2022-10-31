@@ -80,6 +80,8 @@ export default {
   'pages.project.di.flow.dag.stop': '停止',
   'pages.project.di.flow.dag.save': '保存',
   'pages.project.di.flow.dag.publish': '发布',
+  'pages.project.di.flow.dag.preview': '预览',
+  'pages.project.di.flow.dag.submit': '提交',
   'pages.project.di.flow.dag.port.in': '输入桩',
   'pages.project.di.flow.dag.port.out': '输出桩',
   'pages.project.di.flow.dag.prop': '参数设置',
@@ -98,24 +100,47 @@ export default {
   'pages.project.di.step.y': 'y坐标',
   'pages.project.di.step.dataSourceType': '数据源类型',
   'pages.project.di.step.dataSource': '数据源',
-  'pages.project.di.step.partitionColumn': '分区字段',
-  'pages.project.di.step.partitionColumn.tooltip': '只支持数值类型字段作为分区字段',
-  'pages.project.di.step.query': 'SQL',
-  'pages.project.di.step.getsql': '获取SQL',
-  'pages.project.di.step.preview': '预览结果',
-  'pages.project.di.step.batchSize': '提交记录数量',
-  'pages.project.di.step.schema': 'schema信息',
+
   'pages.project.di.step.bulkSize': '批量提交记录数量',
   'pages.project.di.step.host': '主机地址',
   'pages.project.di.step.port': '端口号',
   'pages.project.di.step.maxRetries': '重试次数',
 
-  //fake
-  'pages.project.di.step.rowNum': '生成数据行数',
-  'pages.project.di.step.fake.schema.tooltip':
-    'schema格式: {\n' + '          name = "string"\n' + '          age = "int"\n' + '        }',
+  // schema
+  'pages.project.di.step.schema': 'Schema',
+  'pages.project.di.step.schema.tooltip': 'Schema 结构体',
+  'pages.project.di.step.schema.fields': 'Field',
+  'pages.project.di.step.schema.fields.field': 'field',
+  'pages.project.di.step.schema.fields.type': 'type',
 
-  //base file
+  // jdbc
+  'pages.project.di.step.jdbc.dataSourceType': '数据源类型',
+  'pages.project.di.step.jdbc.dataSource': '数据源',
+  'pages.project.di.step.jdbc.connectionCheckTimeoutSec': '数据源连接超时（秒）',
+  'pages.project.di.step.jdbc.partitionColumn': '分区字段',
+  'pages.project.di.step.jdbc.partitionColumn.tooltip': '只支持数值类型字段作为分区字段',
+  'pages.project.di.step.jdbc.partitionLowerBound': '分区最小值',
+  'pages.project.di.step.jdbc.partitionLowerBound.tooltip': 'SeaTunnel 可查询数据库获取最小值',
+  'pages.project.di.step.jdbc.partitionUpperBound': '分区最大值',
+  'pages.project.di.step.jdbc.partitionUpperBound.tooltip': 'SeaTunnel 可查询数据库获取最小值',
+  'pages.project.di.step.jdbc.query': 'SQL',
+  'pages.project.di.step.jdbc.getsql': '获取SQL',
+  'pages.project.di.step.jdbc.preview': '预览结果',
+  'pages.project.di.step.jdbc.batchSize': '批次数量',
+  'pages.project.di.step.jdbc.batchIntervalMs': '批次间隔（毫秒）',
+  'pages.project.di.step.jdbc.batch.tooltip': 'record buffer 到达批次数量或时间到批次间隔（毫秒）时，会提交 record buffer',
+  'pages.project.di.step.jdbc.maxRetries': '批次重试次数',
+  'pages.project.di.step.jdbc.isExactlyOnce': '启用 Exactly once 语义',
+  'pages.project.di.step.jdbc.isExactlyOnce.tooltip': '使用 XA 事务保证 Exactly once 语义',
+  'pages.project.di.step.jdbc.xaDataSourceClassName': 'XA DataSource 类名',
+  'pages.project.di.step.jdbc.maxCommitAttempts': '事务重试次数',
+  'pages.project.di.step.jdbc.transactionTimeoutSec': '事务超时时间（秒）',
+  'pages.project.di.step.jdbc.transactionTimeoutSec.tooltip': '-1 表示从不超时',
+
+  // fake
+  'pages.project.di.step.fake.rowNum': '生成数据行数',
+
+  // base file
   'pages.project.di.step.baseFile.path': 'Path',
   'pages.project.di.step.baseFile.type': 'File Type',
   'pages.project.di.step.baseFile.schema': 'Schema',
@@ -134,12 +159,6 @@ export default {
   // hdfs file
   'pages.project.di.step.hdfsFile.defaultFS': 'fs.defaultFS',
   'pages.project.di.step.hdfsFile.defaultFS.tooltip': '格式:hdfs://namenode001',
-  'pages.project.di.step.hdfsFile.json.tooltip':
-    '{\n' +
-    '        code = int\n' +
-    '        data = string\n' +
-    '        success = boolean\n' +
-    '    }',
 
   // ftp file
   'pages.project.di.step.ftpFile.host': 'Host',
@@ -153,29 +172,36 @@ export default {
   'pages.project.di.step.ossFile.accessKey': 'Access Key',
   'pages.project.di.step.ossFile.accessSecret': 'Access Secret',
 
-  // base http
-  'pages.project.di.step.baseHttp.url': 'URL',
-  'pages.project.di.step.baseHttp.headers': 'Headers',
-  'pages.project.di.step.baseHttp.params': 'Params',
-  'pages.project.di.step.baseHttp.retry': 'Retry',
-  'pages.project.di.step.baseHttp.retryBackoffMultiplierMs': 'Retry-Backoff times(millis) Multiplier',
-  'pages.project.di.step.baseHttp.retryBackoffMaxMs': 'Maximum Retry-Backoff times(millis)',
-
   // http
   'pages.project.di.step.http.method': 'Method',
+  'pages.project.di.step.http.url': 'URL',
+  'pages.project.di.step.http.headers': 'Header',
+  'pages.project.di.step.http.header': 'header',
+  'pages.project.di.step.http.params': 'Param',
+  'pages.project.di.step.http.param': 'param',
   'pages.project.di.step.http.body': 'Body',
+  'pages.project.di.step.http.value': 'value',
   'pages.project.di.step.http.format': 'Format',
   'pages.project.di.step.http.schema': 'Schema',
   'pages.project.di.step.http.pollIntervalMs': 'Poll Interval(millis)',
+  'pages.project.di.step.http.retry': 'Retry',
+  'pages.project.di.step.http.retryBackoffMultiplierMs': 'Retry-Backoff times(millis) Multiplier',
+  'pages.project.di.step.http.retryBackoffMaxMs': 'Maximum Retry-Backoff times(millis)',
 
   // wechat
   'pages.project.di.step.wechat.url': 'WeChat Robot URL',
   'pages.project.di.step.wechat.mentionedList': 'Mentione(@) userIds',
+  'pages.project.di.step.wechat.mentionedList.tooltip': 'Mentione everybody by "@all"',
+  'pages.project.di.step.wechat.userId': 'UserId',
   'pages.project.di.step.wechat.mentionedMobileList': 'Mentione(@) mobiles',
+  'pages.project.di.step.wechat.mentionedMobileList.tooltip': 'Mentione everybody by "@all"',
+  'pages.project.di.step.wechat.mobile': 'Mobile',
 
   // feishu
   'pages.project.di.step.feishu.url': 'Feishu Robot URL',
-  'pages.project.di.step.feishu.headers': 'Headers',
+  'pages.project.di.step.feishu.headers': 'Header',
+  'pages.project.di.step.feishu.header': 'header',
+  'pages.project.di.step.feishu.value': 'value',
 
   // dingtalk
   'pages.project.di.step.dingtalk.url': 'DingTalk Robot URL',
@@ -199,7 +225,7 @@ export default {
   'pages.project.di.step.hudi.kerberosPrincipal': 'Kerberos Principal',
   'pages.project.di.step.hudi.kerberosPrincipalFile': 'Kerberos Principal File',
 
-  //iceberg
+  // iceberg
   'pages.project.di.step.iceberg.catalogType': 'Catalog Type',
   'pages.project.di.step.iceberg.catalogName': 'Catalog',
   'pages.project.di.step.iceberg.namespace': 'Namespace',
@@ -215,7 +241,7 @@ export default {
   'pages.project.di.step.iceberg.useSnapshotTimestamp': 'Use Snapshot Timestamp',
   'pages.project.di.step.iceberg.streamScanStrategy': 'Stream Scan Strategy',
 
-  //clickhouse
+  // clickhouse
   'pages.project.di.step.clickhosue.table': '导出表名',
   'pages.project.di.step.clickhosue.fields': '导出字段信息',
   'pages.project.di.step.clickhosue.fields.tooltip': 'For example, : id,name',
@@ -227,12 +253,10 @@ export default {
   'pages.project.di.step.clickhosue.sql': 'SQL',
   'pages.project.di.step.clickhosue.database': '数据库',
 
-  //hive
+  // hive
   'pages.project.di.step.hive.tableName': 'Hive Table Name',
-  'pages.project.di.step.hive.metastoreUri': 'Hive metastore uri',
+  'pages.project.di.step.hive.metastoreUri': 'Hive Metastore URI',
   'pages.project.di.step.hive.metastoreUri.tooltip': 'example : thrift://ctyun7:9083',
-  'pages.project.di.step.hive.schema.tooltip':
-    'schema格式: {\n' + '          name = "string"\n' + '          age = "int"\n' + '        }',
   'pages.project.di.step.hive.partitionBy': 'Partition',
   'pages.project.di.step.hive.partitionBy.tooltip': 'example : "test_par1", "test_par2"',
   'pages.project.di.step.hive.sinkColumns': 'Write Columns',
@@ -242,13 +266,13 @@ export default {
   'pages.project.di.step.hive.saveMode': 'saveMode',
   'pages.project.di.step.hive.saveMode.tooltip': 'Streaming Job not support overwrite. Storage mode, we need support overwrite and append. append is now supported.',
 
-  //kudu
+  // kudu
   'pages.project.di.step.kudu.master': 'Master',
   'pages.project.di.step.kudu.table': 'Table',
   'pages.project.di.step.kudu.savemode': '写入模式',
   'pages.project.di.step.kudu.columnsList': '字段列表',
 
-  //kafka
+  // kafka
   'pages.project.di.step.kafka.topic': 'Topic',
   'pages.project.di.step.kafka.pattern': 'pattern',
   'pages.project.di.step.kafka.conf': 'kafkaConf',
@@ -257,6 +281,41 @@ export default {
   'pages.project.di.step.kafka.consumerGroup': 'consumerGroup',
   'pages.project.di.step.kafka.consumerGroup.tooltip': 'Kafka consumer group id, used to distinguish different consumer groups',
   'pages.project.di.step.kafka.commit_on_checkpoint': 'commit_on_checkpoint',
-  'pages.project.di.step.kafka.commit_on_checkpoint.tooltip': 'If true the consumer\'s offset will be periodically committed in the background.\n'
+  'pages.project.di.step.kafka.commit_on_checkpoint.tooltip': 'If true the consumer\'s offset will be periodically committed in the background.\n',
 
+  // iotdb
+  'pages.project.di.step.iotdb.nodeUrls': 'Node URLs',
+  'pages.project.di.step.iotdb.username': 'Username',
+  'pages.project.di.step.iotdb.password': 'Password',
+  'pages.project.di.step.iotdb.sql': 'SQL',
+  'pages.project.di.step.iotdb.fetchSize': 'Fetch Size',
+  'pages.project.di.step.iotdb.thriftDefaultBufferSize': 'Default Thrift Buffer Size',
+  'pages.project.di.step.iotdb.thriftMaxFrameSize': 'Max Thrift Max Size',
+  'pages.project.di.step.iotdb.enableCacheLeader': 'Enable Cache Leader',
+  'pages.project.di.step.iotdb.version': 'Version',
+  'pages.project.di.step.iotdb.numPartitions': 'Partition Num',
+  'pages.project.di.step.iotdb.lowerBound': 'Partition Lower Bound',
+  'pages.project.di.step.iotdb.upperBound': 'Partition Upper Bound',
+  'pages.project.di.step.iotdb.batchSize': 'Batch Size',
+  'pages.project.di.step.iotdb.batchIntervalMs': 'Batch Interval(millseconds)',
+  'pages.project.di.step.iotdb.maxRetries': 'Retry Num',
+  'pages.project.di.step.iotdb.retryBackoffMultiplierMs': 'Retry Backoff Multiplier(millseconds)',
+  'pages.project.di.step.iotdb.maxRetryBackoffMs': 'Retry Max Backoff(millseconds)',
+  'pages.project.di.step.iotdb.zoneId': 'Time Zone ID',
+  'pages.project.di.step.iotdb.enableRpcCompression': 'Enable RPC Compression',
+  'pages.project.di.step.iotdb.connectionTimeoutInMs': 'Connection Timeout(millseconds)',
+
+  // mongodb
+  'pages.project.di.step.mongodb.uri': 'URI',
+  'pages.project.di.step.mongodb.database': 'Database',
+  'pages.project.di.step.mongodb.collection': 'Collection',
+
+  // redis
+  'pages.project.di.step.redis.host': 'Host',
+  'pages.project.di.step.redis.port': 'Port',
+  'pages.project.di.step.redis.auth': 'Authentication Password',
+  'pages.project.di.step.redis.keys': 'Keys Pattern',
+  'pages.project.di.step.redis.dataType': 'Data Type',
+  'pages.project.di.step.redis.format': 'Format',
+  'pages.project.di.step.redis.key': 'Key',
 };

@@ -24,17 +24,22 @@ import java.util.List;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
 @ApiModel(value = "作业启动参数", description = "作业启动参数")
 public class DiJobRunVO {
+
     @NotNull
+    @ApiModelProperty("job id")
     private Long jobId;
 
     @NotNull
+    @ApiModelProperty("cluster id")
     private Long clusterId;
 
+    @ApiModelProperty("resources")
     private List<DictVO> resources;
 
     public DiJobDTO toDto() {

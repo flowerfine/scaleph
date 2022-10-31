@@ -27,7 +27,6 @@ import cn.sliew.scaleph.plugin.framework.property.Validators;
 public enum ClickHouseSinkProperties {
     ;
 
-
     public static final PropertyDescriptor<String> HOST = new PropertyDescriptor.Builder<String>()
         .name("host")
         .description(
@@ -126,6 +125,5 @@ public enum ClickHouseSinkProperties {
         .parser(Parsers.STRING_PARSER)
         .addValidator(Validators.NON_BLANK_VALIDATOR)
         .validateAndBuild();
-
 
 }

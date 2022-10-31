@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dao.entity.master.di;
 
+import cn.sliew.scaleph.common.dict.job.JobAttrType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -45,13 +46,12 @@ public class DiJobAttr extends BaseDO {
     private Long jobId;
 
     @ApiModelProperty(value = "作业参数类型")
-    private String jobAttrType;
+    private JobAttrType jobAttrType;
 
     @ApiModelProperty(value = "作业参数key")
     private String jobAttrKey;
 
     @ApiModelProperty(value = "作业参数value")
     private String jobAttrValue;
-
-
+    
 }

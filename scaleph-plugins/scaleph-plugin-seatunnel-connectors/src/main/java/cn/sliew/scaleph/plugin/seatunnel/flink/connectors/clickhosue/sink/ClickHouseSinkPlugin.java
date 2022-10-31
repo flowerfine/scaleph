@@ -34,7 +34,7 @@ import cn.sliew.scaleph.common.param.PropertyUtil;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -48,7 +48,7 @@ import java.util.Map;
 public class ClickHouseSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public ClickHouseSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
             "sink clickhouse",
             ClickHouseSinkPlugin.class.getName());
 

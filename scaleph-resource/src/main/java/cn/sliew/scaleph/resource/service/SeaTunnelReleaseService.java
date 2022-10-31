@@ -18,26 +18,42 @@
 
 package cn.sliew.scaleph.resource.service;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
 import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
+import cn.sliew.scaleph.resource.service.param.SeaTunnelConnectorUploadParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseListParam;
 import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseUploadParam;
+import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.Path;
 import java.util.List;
 
-public interface SeaTunnelReleaseService extends ResourceDescriptor<SeaTunnelReleaseDTO, Path> {
+public interface SeaTunnelReleaseService extends ResourceDescriptor<SeaTunnelReleaseDTO> {
 
     Page<SeaTunnelReleaseDTO> list(SeaTunnelReleaseListParam param) throws IOException;
 
     SeaTunnelReleaseDTO selectOne(Long id);
 
+    SeaTunnelReleaseDTO selectByVersion(SeaTunnelVersion version);
+
+    List<FileStatusVO> listConnectors(Long id) throws IOException;
+
     void upload(SeaTunnelReleaseUploadParam param, MultipartFile file) throws IOException;
 
+    void uploadConnector(SeaTunnelConnectorUploadParam param, MultipartFile file) throws IOException;
+
+    /**
+     * seatunnel release not contains connectors since 2.2.0-beta
+     * instead provides a connector jar install shell script
+     */
+    void fetchConnectors(Long id) throws IOException;
+
     String download(Long id, OutputStream outputStream) throws IOException;
+
+    String downloadConnector(Long id, String connector, OutputStream outputStream) throws IOException;
 
     int deleteBatch(List<Long> ids) throws IOException;
 

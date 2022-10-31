@@ -33,26 +33,18 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-storage</artifactId>
         </dependency>
-
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-privilege</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-engine-flink</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-core-di</artifactId>
         </dependency>
-
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-core-scheduler</artifactId>
         </dependency>
-
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-plugin-seatunnel-connectors</artifactId>

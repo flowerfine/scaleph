@@ -23,6 +23,7 @@ import cn.sliew.flinkful.rest.base.RestClient;
 import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.constant.DictConstants;
+import cn.sliew.scaleph.common.dict.job.RuntimeState;
 import cn.sliew.scaleph.common.enums.JobRuntimeStateEnum;
 import cn.sliew.scaleph.core.di.service.DiClusterConfigService;
 import cn.sliew.scaleph.core.di.service.DiJobLogService;
@@ -104,13 +105,11 @@ public class FlinkJobStatusSyncJob extends QuartzJobBean {
                         String jobName = diProject.getProjectCode() + '_' + diJob.getJobCode();
                         JobKey seatunnelJobKey = scheduleService.getJobKey(QuartzJobUtil.getFlinkBatchJobName(jobName), Constants.INTERNAL_GROUP);
                         if (scheduleService.checkExists(seatunnelJobKey)) {
-                            diJob.setRuntimeState(DictVO.toVO(DictConstants.RUNTIME_STATE,
-                                    JobRuntimeStateEnum.WAIT.getValue()));
+                            diJob.setRuntimeState(RuntimeState.WAITING);
                         } else {
-                            diJob.setRuntimeState(DictVO.toVO(DictConstants.RUNTIME_STATE,
-                                    JobRuntimeStateEnum.STOP.getValue()));
+                            diJob.setRuntimeState(RuntimeState.STOP);
                         }
-                        this.diJobService.update(diJob);
+//                        this.diJobService.update(diJob);
                     }
                     this.diJobLogService.update(jobLog);
                     logDTO.appendLog(String.format("success synchronizing job status of job %s",

@@ -37,6 +37,14 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-workflow-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-core-di</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-engine-seatunnel</artifactId>
+        </dependency>
 
         <!-- fix https://github.com/flowerfine/scaleph/issues/120 -->
         <dependency>

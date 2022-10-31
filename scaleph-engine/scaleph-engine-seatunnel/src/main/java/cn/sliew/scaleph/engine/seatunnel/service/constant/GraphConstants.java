@@ -16,18 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.resource.service.vo;
+package cn.sliew.scaleph.engine.seatunnel.service.constant;
 
-import cn.sliew.scaleph.resource.service.enums.ResourceType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+public enum GraphConstants {
+    ;
 
-@Data
-@AllArgsConstructor
-@EqualsAndHashCode
-public class CacheKey {
-
-    private ResourceType type;
-    private Long id;
+    public static final String NODE_TYPE = "_node_type";
+    public static final String NODE_ID = "_node_id";
+    public static final String TABLE_PREFIX = "table_";
+    public static String DND_RENDER_ID = "DND_NODE";
 }

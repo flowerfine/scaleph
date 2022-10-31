@@ -18,6 +18,9 @@
 
 package cn.sliew.scaleph.dao.entity.master.di;
 
+import cn.sliew.scaleph.common.dict.job.JobStatus;
+import cn.sliew.scaleph.common.dict.job.JobType;
+import cn.sliew.scaleph.common.dict.job.RuntimeState;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -54,28 +57,30 @@ public class DiJob extends BaseDO {
     private Long directoryId;
 
     @ApiModelProperty(value = "作业类型 实时、离线")
-    private String jobType;
+    private JobType jobType;
 
     @ApiModelProperty(value = "负责人")
     private String jobOwner;
 
     @ApiModelProperty(value = "作业状态 草稿、发布、归档")
-    private String jobStatus;
+    private JobStatus jobStatus;
 
+    @Deprecated
     @ApiModelProperty(value = "运行状态 停止、运行中、等待运行")
-    private String runtimeState;
+    private RuntimeState runtimeState;
 
     @ApiModelProperty(value = "作业版本号")
     private Integer jobVersion;
 
+    @Deprecated
     @ApiModelProperty(value = "集群id")
     private Long clusterId;
 
+    @Deprecated
     @ApiModelProperty(value = "作业调度crontab表达式")
     private String jobCrontab;
 
     @ApiModelProperty(value = "备注")
     private String remark;
-
 
 }

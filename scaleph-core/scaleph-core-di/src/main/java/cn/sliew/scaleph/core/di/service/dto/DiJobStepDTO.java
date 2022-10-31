@@ -18,8 +18,9 @@
 
 package cn.sliew.scaleph.core.di.service.dto;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -60,12 +61,12 @@ public class DiJobStepDTO extends BaseDTO {
 
     @NotNull
     @ApiModelProperty(value = "步骤类型")
-    private DictVO stepType;
+    private SeaTunnelPluginType stepType;
 
     @NotNull
     @Length(min = 1, max = 120)
     @ApiModelProperty(value = "步骤名称")
-    private String stepName;
+    private SeaTunnelPluginName stepName;
 
     @ApiModelProperty(value = "x坐标")
     private Integer positionX;

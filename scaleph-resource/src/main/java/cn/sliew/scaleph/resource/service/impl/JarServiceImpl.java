@@ -19,6 +19,9 @@
 package cn.sliew.scaleph.resource.service.impl;
 
 import cn.sliew.scaleph.common.exception.Rethrower;
+import cn.sliew.scaleph.common.nio.FileUtil;
+import cn.sliew.scaleph.common.nio.TarUtil;
+import cn.sliew.scaleph.common.util.SeaTunnelReleaseUtil;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceJar;
 import cn.sliew.scaleph.dao.mapper.master.resource.ResourceJarMapper;
 import cn.sliew.scaleph.resource.service.JarService;
@@ -28,12 +31,14 @@ import cn.sliew.scaleph.resource.service.enums.ResourceType;
 import cn.sliew.scaleph.resource.service.param.JarListParam;
 import cn.sliew.scaleph.resource.service.param.JarUploadParam;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;
-import cn.sliew.scaleph.resource.service.vo.Resource;
 import cn.sliew.scaleph.storage.service.FileSystemService;
+import cn.sliew.scaleph.system.util.SystemUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.PathResource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
@@ -42,7 +47,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Properties;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -73,11 +80,6 @@ public class JarServiceImpl implements JarService {
     @Override
     public JarDTO getRaw(Long id) {
         return selectOne(id);
-    }
-
-    @Override
-    public Resource obtain(Long id) throws Exception {
-        return null;
     }
 
     @Override
@@ -115,6 +117,8 @@ public class JarServiceImpl implements JarService {
         jarMapper.insert(record);
     }
 
+
+
     @Override
     public String download(Long id, OutputStream outputStream) throws IOException {
         final JarDTO dto = selectOne(id);
@@ -142,6 +146,8 @@ public class JarServiceImpl implements JarService {
     private String getJarPath(String group, String fileName) {
         return String.format("%s/%s/%s", getJarRootPath(), group, fileName);
     }
+
+
 
     private String getJarRootPath() {
         return "jar";

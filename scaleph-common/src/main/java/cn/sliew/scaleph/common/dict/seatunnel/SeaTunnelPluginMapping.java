@@ -16,20 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink;
+package cn.sliew.scaleph.common.dict.seatunnel;
 
-import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+
+import java.util.Arrays;
 
 import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType.SEATUNNEL;
 import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName.*;
 import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType.SINK;
 import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType.SOURCE;
-
 
 /**
  * https://github.com/apache/incubator-seatunnel/blob/dev/plugin-mapping.properties
@@ -54,8 +51,12 @@ public enum SeaTunnelPluginMapping {
     SINK_LOCAL_FILE(SEATUNNEL, SINK, LOCAL_FILE, "connector-file-local"),
     SOURCE_FTP_FILE(SEATUNNEL, SOURCE, FTP_FILE, "connector-file-ftp"),
     SINK_FTP_FILE(SEATUNNEL, SINK, FTP_FILE, "connector-file-ftp"),
+    SOURCE_SFTP_FILE(SEATUNNEL, SOURCE, SFTP_FILE, "connector-file-sftp"),
+    SINK_SFTP_FILE(SEATUNNEL, SINK, SFTP_FILE, "connector-file-sftp"),
     SOURCE_HDFS_FILE(SEATUNNEL, SOURCE, HDFS_FILE, "connector-file-hadoop"),
     SINK_HDFS_FILE(SEATUNNEL, SINK, HDFS_FILE, "connector-file-hadoop"),
+    SOURCE_S3_FILE(SEATUNNEL, SOURCE, S3_FILE, "connector-file-s3"),
+    SINK_S3_FILE(SEATUNNEL, SINK, S3_FILE, "connector-file-s3"),
     SOURCE_OSS_FILE(SEATUNNEL, SOURCE, OSS_FILE, "connector-file-oss"),
     SINK_OSS_FILE(SEATUNNEL, SINK, OSS_FILE, "connector-file-oss"),
 
@@ -67,7 +68,10 @@ public enum SeaTunnelPluginMapping {
     SOURCE_JDBC(SEATUNNEL, SOURCE, JDBC, "connector-jdbc"),
     SINK_JDBC(SEATUNNEL, SINK, JDBC, "connector-jdbc"),
     SOURCE_REDIS(SEATUNNEL, SOURCE, REDIS, "connector-redis"),
+    SINK_REDIS(SEATUNNEL, SINK, REDIS, "connector-redis"),
     SINK_ELASTICSEARCH(SEATUNNEL, SINK, ELASTICSEARCH, "connector-elasticsearch"),
+    SOURCE_MONGODB(SEATUNNEL, SOURCE, MONGODB, "connector-mongodb"),
+    SINK_MONGODB(SEATUNNEL, SINK, MONGODB, "connector-mongodb"),
 
     SOURCE_HIVE(SEATUNNEL, SOURCE, HIVE, "connector-hive"),
     SINK_HIVE(SEATUNNEL, SINK, HIVE, "connector-hive"),
@@ -80,7 +84,11 @@ public enum SeaTunnelPluginMapping {
     SINK_KUDU(SEATUNNEL, SINK, KUDU, "connector-kudu"),
     SOURCE_IOTDB(SEATUNNEL, SOURCE, IOTDB, "connector-iotdb"),
     SINK_IOTDB(SEATUNNEL, SINK, IOTDB, "connector-iotdb"),
+    SOURCE_NEO4J(SEATUNNEL, SOURCE, NEO4J, "connector-neo4j"),
     SINK_NEO4J(SEATUNNEL, SINK, NEO4J, "connector-neo4j"),
+    SOURCE_INFLUXDB(SEATUNNEL, SOURCE, INFLUXDB, "connector-influxdb"),
+
+    SINK_SENTRY(SEATUNNEL, SINK, SENTRY, "connector-sentry"),
     ;
 
     private SeaTunnelEngineType engineType;
@@ -95,7 +103,9 @@ public enum SeaTunnelPluginMapping {
         this.pluginJarPrefix = pluginJarPrefix;
     }
 
-    public static void main(String[] args) {
-        System.out.println(JacksonUtil.toJsonString(SOURCE_FAKE));
+    public static SeaTunnelPluginMapping of(SeaTunnelPluginName pluginName) {
+        return Arrays.stream(values())
+                .filter(mapping -> mapping.getPluginName() == pluginName)
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(SeaTunnelPluginMapping.class, pluginName.getValue()));
     }
 }

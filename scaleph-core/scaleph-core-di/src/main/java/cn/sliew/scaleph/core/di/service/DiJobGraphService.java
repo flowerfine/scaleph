@@ -18,6 +18,26 @@
 
 package cn.sliew.scaleph.core.di.service;
 
+import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
+import cn.sliew.scaleph.core.di.service.param.DiJobStepParam;
+import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+
 public interface DiJobGraphService {
+
+    void queryJobGraph(DiJobDTO job);
+
+    void saveJobGraph(Long jobId, JobGraphVO jobGraph);
+
+    void updateJobStep(DiJobStepParam param);
+
+    void clone(Long sourceJobId, Long targetJobId);
+
+    void deleteBatch(List<Long> jobIds);
+
+    int deleteByProjectId(Collection<Long> projectIds);
 
 }

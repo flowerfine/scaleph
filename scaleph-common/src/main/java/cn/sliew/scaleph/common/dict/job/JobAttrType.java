@@ -52,11 +52,6 @@ public enum JobAttrType implements DictInstance {
     }
 
     @Override
-    public DictDefinition getDefinition() {
-        return DictType.JOB_ATTR_TYPE;
-    }
-
-    @Override
     public String getValue() {
         return value;
     }

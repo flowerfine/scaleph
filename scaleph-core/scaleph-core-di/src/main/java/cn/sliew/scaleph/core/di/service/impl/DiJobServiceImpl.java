@@ -19,24 +19,39 @@
 package cn.sliew.scaleph.core.di.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.sliew.scaleph.common.enums.JobStatusEnum;
+import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.dict.job.JobAttrType;
+import cn.sliew.scaleph.common.dict.job.JobStatus;
+import cn.sliew.scaleph.common.dict.job.RuntimeState;
+import cn.sliew.scaleph.common.exception.ScalephException;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.core.di.service.*;
 import cn.sliew.scaleph.core.di.service.convert.DiJobConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiDirectoryDTO;
+import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
-import cn.sliew.scaleph.core.di.service.param.DiJobParam;
+import cn.sliew.scaleph.core.di.service.param.*;
+import cn.sliew.scaleph.core.di.service.vo.DiJobAttrVO;
+import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.di.DiJob;
 import cn.sliew.scaleph.dao.mapper.master.di.DiJobMapper;
+import cn.sliew.scaleph.security.util.SecurityUtil;
+import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static cn.sliew.milky.common.check.Ensures.checkState;
 
 /**
  * @author gleiyu
@@ -47,88 +62,13 @@ public class DiJobServiceImpl implements DiJobService {
     @Autowired
     private DiJobMapper diJobMapper;
     @Autowired
+    private DiDirectoryService diDirectoryService;
+    @Autowired
+    private DiJobGraphService diJobGraphService;
+    @Autowired
     private DiJobAttrService diJobAttrService;
     @Autowired
-    private DiJobLinkService diJobLinkService;
-    @Autowired
-    private DiJobStepService diJobStepService;
-    @Autowired
     private DiJobResourceFileService diJobResourceFileService;
-    @Autowired
-    private DiDirectoryService diDirectoryService;
-
-    @Override
-    public DiJobDTO insert(DiJobDTO dto) {
-        DiJob job = DiJobConvert.INSTANCE.toDo(dto);
-        diJobMapper.insert(job);
-        return selectOne(job.getId());
-    }
-
-    @Override
-    public int archive(Long projectId, String jobCode) {
-        LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>()
-                .eq(DiJob::getJobCode, jobCode)
-                .eq(DiJob::getProjectId, projectId)
-                .eq(DiJob::getJobStatus, JobStatusEnum.RELEASE.getValue())
-                .orderByAsc(DiJob::getJobVersion);
-        List<DiJob> jobs = this.diJobMapper.selectList(queryWrapper);
-        if (CollectionUtil.isEmpty(jobs)) {
-            return 0;
-        }
-        int result = 0;
-        for (int i = 0; i < jobs.size() - 1; i++) {
-            DiJob job = new DiJob();
-            job.setId(jobs.get(i).getId());
-            job.setJobStatus(JobStatusEnum.ARCHIVE.getValue());
-            result += diJobMapper.update(job,
-                    new LambdaUpdateWrapper<DiJob>()
-                            .eq(DiJob::getId, job.getId())
-            );
-        }
-        return result;
-    }
-
-    @Override
-    public int update(DiJobDTO dto) {
-        DiJob job = DiJobConvert.INSTANCE.toDo(dto);
-        return diJobMapper.updateById(job);
-    }
-
-    @Override
-    public int deleteByCode(Long projectId, String jobCode) {
-        List<DiJob> jobList = diJobMapper.selectList(new LambdaQueryWrapper<DiJob>()
-                .eq(DiJob::getJobCode, jobCode)
-                .eq(DiJob::getProjectId, projectId)
-        );
-        List<Long> ids = jobList.stream().map(DiJob::getId).collect(Collectors.toList());
-        diJobAttrService.deleteByJobId(ids);
-        diJobLinkService.deleteByJobId(ids);
-        diJobStepService.deleteByJobId(ids);
-        return diJobMapper.delete(new LambdaQueryWrapper<DiJob>()
-                .eq(DiJob::getJobCode, jobCode)
-                .eq(DiJob::getProjectId, projectId)
-        );
-    }
-
-    @Override
-    public int deleteByCode(List<DiJobDTO> list) {
-        int result = 0;
-        for (DiJobDTO dto : list) {
-            result += deleteByCode(dto.getProjectId(), dto.getJobCode());
-        }
-        return result;
-    }
-
-
-    @Override
-    public int deleteByProjectId(Collection<? extends Serializable> projectIds) {
-        diJobAttrService.deleteByProjectId(projectIds);
-        diJobLinkService.deleteByProjectId(projectIds);
-        diJobStepService.deleteByProjectId(projectIds);
-        return diJobMapper.delete(new LambdaQueryWrapper<DiJob>()
-                .in(DiJob::getProjectId, projectIds));
-    }
-
 
     @Override
     public Page<DiJobDTO> listByPage(DiJobParam param) {
@@ -151,7 +91,7 @@ public class DiJobServiceImpl implements DiJobService {
     }
 
     @Override
-    public List<DiJobDTO> listById(Collection<? extends Serializable> ids) {
+    public List<DiJobDTO> listById(Collection<Long> ids) {
         LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>().in(DiJob::getId, ids);
         List<DiJob> jobs = diJobMapper.selectList(queryWrapper);
 
@@ -167,11 +107,12 @@ public class DiJobServiceImpl implements DiJobService {
 
     @Override
     public DiJobDTO selectOne(Long id) {
-        DiJob job = diJobMapper.selectById(id);
-        DiJobDTO dto = DiJobConvert.INSTANCE.toDto(job);
+        DiJob record = diJobMapper.selectById(id);
+        checkState(record != null, () -> "job not exists for id: " + id);
+        DiJobDTO dto = DiJobConvert.INSTANCE.toDto(record);
         Map<Long, DiDirectoryDTO> map =
-                diDirectoryService.loadFullPath(Collections.singletonList(job.getDirectoryId()));
-        DiDirectoryDTO dir = map.get(job.getDirectoryId());
+                diDirectoryService.loadFullPath(Collections.singletonList(record.getDirectoryId()));
+        DiDirectoryDTO dir = map.get(record.getDirectoryId());
         dto.setDirectory(dir);
         return dto;
     }
@@ -186,6 +127,245 @@ public class DiJobServiceImpl implements DiJobService {
         return DiJobConvert.INSTANCE.toDto(job);
     }
 
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
+    @Override
+    public DiJobDTO insert(DiJobAddParam param) {
+        DiJob record = BeanUtil.copy(param, new DiJob());
+        record.setJobCode(RandomStringUtils.random(16, true, true));
+        record.setJobStatus(JobStatus.DRAFT);
+        record.setRuntimeState(RuntimeState.STOP);
+        record.setJobOwner(SecurityUtil.getCurrentUserName());
+        record.setJobVersion(1);
+        diJobMapper.insert(record);
+        return selectOne(record.getId());
+    }
+
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
+    @Override
+    public int update(DiJobUpdateParam param) {
+        DiJob record = BeanUtil.copy(param, new DiJob());
+        return diJobMapper.updateById(record);
+    }
+
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
+    @Override
+    public int delete(Long id) {
+        DiJobDTO job = selectOne(id);
+        checkState(job.getRuntimeState() == RuntimeState.STOP,
+                () -> I18nUtil.get("response.error.di.job.running"));
+        return deleteByCode(job.getProjectId(), job.getJobCode());
+    }
+
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
+    @Override
+    public int deleteBatch(List<Long> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return 0;
+        }
+        for (Long id : ids) {
+            delete(id);
+        }
+        return ids.size();
+    }
+
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
+    @Override
+    public int deleteByCode(Long projectId, String jobCode) {
+        List<DiJob> jobList = diJobMapper.selectList(new LambdaQueryWrapper<DiJob>()
+                .eq(DiJob::getJobCode, jobCode)
+                .eq(DiJob::getProjectId, projectId)
+        );
+        List<Long> ids = jobList.stream().map(DiJob::getId).collect(Collectors.toList());
+        diJobGraphService.deleteBatch(ids);
+        diJobAttrService.deleteByJobId(ids);
+        return diJobMapper.delete(new LambdaQueryWrapper<DiJob>()
+                .eq(DiJob::getJobCode, jobCode)
+                .eq(DiJob::getProjectId, projectId)
+        );
+    }
+
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
+    @Override
+    public int deleteByProjectId(Collection<Long> projectIds) {
+        diJobGraphService.deleteByProjectId(projectIds);
+        diJobAttrService.deleteByProjectId(projectIds);
+        return diJobMapper.delete(new LambdaQueryWrapper<DiJob>()
+                .in(DiJob::getProjectId, projectIds));
+    }
+
+    /**
+     * 编辑前检查作业的版本，确认是否需要生成新的可编辑版本
+     */
+    private Long prepareJobVersion(Long id) throws ScalephException {
+        DiJobDTO job = selectOne(id);
+        switch (job.getJobStatus()) {
+            case DRAFT:
+                return id;
+            case RELEASE:
+                return riseJobVersion(job);
+            case ARCHIVE:
+                throw new ScalephException(I18nUtil.get("response.error.di.job.lowVersion"));
+            default:
+                throw new ScalephException("unknown job status for " + job.getJobStatus());
+        }
+    }
+
+    private Long riseJobVersion(DiJobDTO job) {
+        int jobVersion = job.getJobVersion() + 1;
+        DiJobDTO newVersionJob = selectOne(job.getProjectId(), job.getJobCode(), jobVersion);
+        checkState(newVersionJob == null, () -> I18nUtil.get("response.error.di.job.lowVersion"));
+
+        DiJob record = DiJobConvert.INSTANCE.toDo(job);
+        record.setId(null);
+        record.setJobVersion(jobVersion);
+        record.setJobStatus(JobStatus.DRAFT);
+        diJobMapper.insert(record);
+        clone(job.getId(), record.getId());
+        return record.getId();
+    }
+
+    @Override
+    public DiJobDTO queryJobGraph(Long id) {
+        DiJobDTO job = selectOne(id);
+        diJobGraphService.queryJobGraph(job);
+        job.setJobAttrList(diJobAttrService.listJobAttr(id));
+        return job;
+    }
+
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
+    @Override
+    public Long saveJobStep(DiJobStepParam param) throws ScalephException {
+        Long editableJobId = prepareJobVersion(param.getJobId());
+
+        JobGraphVO jobGraphVO = JacksonUtil.parseJsonString(param.getJobGraph(), JobGraphVO.class);
+        diJobGraphService.saveJobGraph(editableJobId, jobGraphVO);
+
+        DiJobStepParam copiedParam = BeanUtil.copy(param, new DiJobStepParam());
+        copiedParam.setJobId(editableJobId);
+        diJobGraphService.updateJobStep(copiedParam);
+
+        return editableJobId;
+    }
+
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
+    @Override
+    public Long saveJobGraph(DiJobGraphParam param) throws ScalephException {
+        Long editableJobId = prepareJobVersion(param.getJobId());
+        diJobGraphService.saveJobGraph(editableJobId, param.getJobGraph());
+        return editableJobId;
+    }
+
+    @Override
+    public DiJobAttrVO listJobAttrs(Long id) {
+        DiJobAttrVO vo = new DiJobAttrVO();
+        vo.setJobId(id);
+        List<DiJobAttrDTO> list = diJobAttrService.listJobAttr(id);
+        for (DiJobAttrDTO jobAttr : list) {
+            String str = jobAttr.getJobAttrKey().concat("=").concat(jobAttr.getJobAttrValue());
+            String tempStr = null;
+            switch (jobAttr.getJobAttrType()) {
+                case VARIABLE:
+                    tempStr = StringUtils.hasText(vo.getJobAttr()) ? vo.getJobAttr() : "";
+                    vo.setJobAttr(tempStr + str + "\n");
+                    break;
+                case ENV:
+                    tempStr = StringUtils.hasText(vo.getJobProp()) ? vo.getJobProp() : "";
+                    vo.setJobProp(tempStr + str + "\n");
+                    break;
+                case PROPERTIES:
+                    tempStr = StringUtils.hasText(vo.getEngineProp()) ? vo.getEngineProp() : "";
+                    vo.setEngineProp(tempStr + str + "\n");
+                    break;
+                default:
+            }
+        }
+        return vo;
+    }
+
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
+    @Override
+    public Long saveJobAttrs(DiJobAttrVO vo) throws ScalephException {
+        Long editableJobId = prepareJobVersion(vo.getJobId());
+        Map<String, DiJobAttrDTO> map = new HashMap<>();
+        parseJobAttr(map, vo.getJobAttr(), JobAttrType.VARIABLE, editableJobId);
+        parseJobAttr(map, vo.getJobProp(), JobAttrType.ENV, editableJobId);
+        parseJobAttr(map, vo.getEngineProp(), JobAttrType.PROPERTIES, editableJobId);
+        diJobAttrService.deleteByJobId(Collections.singletonList(editableJobId));
+        for (Map.Entry<String, DiJobAttrDTO> entry : map.entrySet()) {
+            diJobAttrService.upsert(entry.getValue());
+        }
+        return editableJobId;
+    }
+
+    private void parseJobAttr(Map<String, DiJobAttrDTO> map, String str, JobAttrType jobAttrType, Long jobId) {
+        if (StringUtils.hasText(str)) {
+            String[] lines = str.split("\n");
+            for (String line : lines) {
+                String[] kv = line.split("=");
+                if (kv.length == 2 && StringUtils.hasText(kv[0]) && StringUtils.hasText(kv[1])) {
+                    DiJobAttrDTO dto = new DiJobAttrDTO();
+                    dto.setJobId(jobId);
+                    dto.setJobAttrType(jobAttrType);
+                    dto.setJobAttrKey(kv[0]);
+                    dto.setJobAttrValue(kv[1]);
+                    map.put(jobId + jobAttrType.getValue() + kv[0], dto);
+                }
+            }
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
+    @Override
+    public void publish(Long id) throws ScalephException {
+        DiJobDTO job = selectOne(id);
+        switch (job.getJobStatus()) {
+            case ARCHIVE:
+                throw new ScalephException(I18nUtil.get("response.error.di.job.lowVersion"));
+            case RELEASE:
+                throw new ScalephException(I18nUtil.get("response.error.di.job.published"));
+            case DRAFT:
+            default:
+        }
+
+        switch (job.getRuntimeState()) {
+            case STOP:
+                DiJob record = new DiJob();
+                record.setId(id);
+                record.setJobStatus(JobStatus.RELEASE);
+                diJobMapper.updateById(record);
+                archive(job.getProjectId(), job.getJobCode());
+                return;
+            case RUNNING:
+            case WAITING:
+                throw new ScalephException(I18nUtil.get("response.error.di.job.publish"));
+            default:
+        }
+    }
+
+    /**
+     * 归档任务，只保留发布状态中最大版本号的那个，其余发布状态的任务均改为归档状态
+     */
+    private int archive(Long projectId, String jobCode) {
+        LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>()
+                .eq(DiJob::getJobCode, jobCode)
+                .eq(DiJob::getProjectId, projectId)
+                .eq(DiJob::getJobStatus, JobStatus.RELEASE)
+                .orderByAsc(DiJob::getJobVersion);
+        List<DiJob> jobs = diJobMapper.selectList(queryWrapper);
+        if (CollectionUtil.isEmpty(jobs)) {
+            return 0;
+        }
+        int result = 0;
+        for (int i = 0; i < jobs.size() - 1; i++) {
+            DiJob job = new DiJob();
+            job.setId(jobs.get(i).getId());
+            job.setJobStatus(JobStatus.ARCHIVE);
+            result += diJobMapper.update(job,
+                    new LambdaUpdateWrapper<DiJob>().eq(DiJob::getId, job.getId())
+            );
+        }
+        return result;
+    }
 
     @Override
     public boolean hasValidJob(Collection<Long> projectIds) {
@@ -225,9 +405,8 @@ public class DiJobServiceImpl implements DiJobService {
     @Override
     public int clone(Long sourceJobId, Long targetJobId) {
         int result = 0;
-        result += diJobStepService.clone(sourceJobId, targetJobId);
+        diJobGraphService.clone(sourceJobId, targetJobId);
         result += diJobAttrService.clone(sourceJobId, targetJobId);
-        result += diJobLinkService.clone(sourceJobId, targetJobId);
         result += diJobResourceFileService.clone(sourceJobId, targetJobId);
         return result;
     }

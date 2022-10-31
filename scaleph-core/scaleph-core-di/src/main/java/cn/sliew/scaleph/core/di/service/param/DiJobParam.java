@@ -18,39 +18,52 @@
 
 package cn.sliew.scaleph.core.di.service.param;
 
+import cn.sliew.scaleph.common.dict.job.JobStatus;
+import cn.sliew.scaleph.common.dict.job.JobType;
+import cn.sliew.scaleph.common.dict.job.RuntimeState;
 import cn.sliew.scaleph.common.param.PaginationParam;
 import cn.sliew.scaleph.dao.entity.master.di.DiJob;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author gleiyu
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class DiJobParam extends PaginationParam {
 
+    @ApiModelProperty("project id")
     private Long projectId;
 
+    @ApiModelProperty("job code")
     private String jobCode;
 
+    @ApiModelProperty("job name")
     private String jobName;
 
-    private String jobType;
+    @ApiModelProperty("job type")
+    private JobType jobType;
 
-    private String runtimeState;
+    @ApiModelProperty("job runtime state")
+    private RuntimeState runtimeState;
 
-    private String jobStatus;
+    @ApiModelProperty("job status")
+    private JobStatus jobStatus;
 
+    @ApiModelProperty("directory id")
     private Long directoryId;
 
     public DiJob toDo() {
         DiJob job = new DiJob();
-        job.setProjectId(this.projectId);
-        job.setJobCode(this.jobCode);
-        job.setJobName(this.jobName);
-        job.setJobType(this.jobType);
-        job.setRuntimeState(this.runtimeState);
-        job.setJobStatus(this.jobStatus);
-        job.setDirectoryId(this.directoryId);
+        job.setProjectId(projectId);
+        job.setJobCode(jobCode);
+        job.setJobName(jobName);
+        job.setJobType(jobType);
+        job.setRuntimeState(runtimeState);
+        job.setJobStatus(jobStatus);
+        job.setDirectoryId(directoryId);
         return job;
     }
 

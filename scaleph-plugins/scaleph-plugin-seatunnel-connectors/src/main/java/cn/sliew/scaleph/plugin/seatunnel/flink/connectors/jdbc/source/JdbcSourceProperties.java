@@ -40,7 +40,7 @@ public enum JdbcSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Long> PARTITION_UPPER_BOUND = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<Long> PARTITION_UPPER_BOUND = new PropertyDescriptor.Builder<Long>()
             .name("partition_upper_bound")
             .description(
                     "The partition_column max value for scan, if not set SeaTunnel will query database get max value.")
@@ -49,11 +49,11 @@ public enum JdbcSourceProperties {
             .addValidator(Validators.LONG_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Long> PARTITION_LOWER_BOUND = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<Long> PARTITION_LOWER_BOUND = new PropertyDescriptor.Builder<Long>()
             .name("partition_lower_bound")
             .description(
                     "The partition_column min value for scan, if not set SeaTunnel will query database get min value.")
-            .type(PropertyType.STRING)
+            .type(PropertyType.INT)
             .parser(Parsers.LONG_PARSER)
             .addValidator(Validators.LONG_VALIDATOR)
             .validateAndBuild();

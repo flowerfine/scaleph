@@ -18,14 +18,14 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.core.PluginSPILoader;
+import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.*;
 
-import java.net.URL;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -50,24 +50,26 @@ public class SeaTunnelConnectorManager {
         return envProperties;
     }
 
-    public Set<PluginInfo> getAvailableConnectors(SeaTunnelPluginType pluginType) {
+    public Set<SeaTunnelConnectorPlugin> getAvailableConnectors(SeaTunnelPluginType pluginType) {
         return pluginPluginSPILoader.getServices().values().stream()
                 .filter(connector -> connector.getPluginType() == pluginType)
-                .map(SeaTunnelConnectorPlugin::getPluginInfo)
                 .collect(Collectors.toSet());
     }
 
-    public SeaTunnelConnectorPlugin getConnector(PluginInfo pluginInfo) {
+    public SeaTunnelConnectorPlugin getConnector(SeaTunnelPluginType pluginType, SeaTunnelPluginName pluginName) throws PluginException {
+        return pluginPluginSPILoader.getServices().values().stream()
+                .filter(connector -> connector.getPluginType() == pluginType)
+                .filter(connector -> connector.getPluginName() == pluginName)
+                .findAny().orElseThrow(() -> new PluginException("SeaTunnelConnectorPlugin"));
+    }
+
+    public SeaTunnelConnectorPlugin getConnector(PluginInfo pluginInfo) throws PluginException {
         final Optional<SeaTunnelConnectorPlugin> optional = pluginPluginSPILoader.getPlugin(pluginInfo);
-        return optional.orElseThrow(() -> new IllegalStateException("unknown plugin info for " + pluginInfo));
+        return optional.orElseThrow(() -> new PluginException("SeaTunnelConnectorPlugin", "unknown plugin info for " + pluginInfo));
     }
 
     public SeaTunnelConnectorPlugin newConnector(String name, Properties props) {
         return pluginPluginSPILoader.newInstance(name, props);
-    }
-
-    public URL findConnectorJarPath(Path connectorsRootDir, SeaTunnelPluginMapping mapping) {
-        return null;
     }
 
 }

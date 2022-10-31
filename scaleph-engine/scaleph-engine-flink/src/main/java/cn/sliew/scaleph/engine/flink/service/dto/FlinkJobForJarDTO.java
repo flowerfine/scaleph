@@ -25,11 +25,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
 import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkJobConfigJar对象", description = "flink job config for jar")
+@ApiModel(value = "FlinkJobForJar对象", description = "flink job for jar")
 public class FlinkJobForJarDTO extends BaseDTO {
 
     @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
@@ -58,6 +59,9 @@ public class FlinkJobForJarDTO extends BaseDTO {
 
     @ApiModelProperty("flink job instance")
     private FlinkJobInstanceDTO flinkJobInstance;
+
+    @ApiModelProperty("jars")
+    private List<Long> jars;
 
     @ApiModelProperty("job from version")
     private Long fromVersion;

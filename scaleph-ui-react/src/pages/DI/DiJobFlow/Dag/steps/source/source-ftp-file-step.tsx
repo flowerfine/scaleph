@@ -1,6 +1,6 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {BaseFileParams, FtpFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {BaseFileParams, FtpFileParams, SchemaParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
@@ -10,11 +10,13 @@ import {
   ProFormDependency,
   ProFormDigit,
   ProFormGroup,
+  ProFormList,
   ProFormSelect,
-  ProFormText,
-  ProFormTextArea
+  ProFormText
 } from "@ant-design/pro-components";
 import {useEffect} from "react";
+import {InfoCircleOutlined} from "@ant-design/icons";
+import {StepSchemaService} from "@/pages/DI/DiJobFlow/Dag/steps/schema";
 
 const SourceFtpFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -40,11 +42,12 @@ const SourceFtpFileStepForm: React.FC<ModalFormProps<{
     onCancel={onCancel}
     onOk={() => {
       form.validateFields().then((values) => {
-        let map: Map<string, string> = new Map();
+        let map: Map<string, any> = new Map();
         map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-        map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
+        StepSchemaService.formatSchema(values)
+        map.set(STEP_ATTR_TYPE.stepAttrs, values);
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -65,21 +68,27 @@ const SourceFtpFileStepForm: React.FC<ModalFormProps<{
         name={FtpFileParams.host}
         label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.host'})}
         rules={[{required: true}]}
+        colProps={{span: 12}}
       />
       <ProFormDigit
         name={FtpFileParams.port}
         label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.port'})}
         rules={[{required: true}]}
+        colProps={{span: 12}}
+        min={0}
+        max={65535}
       />
       <ProFormText
         name={FtpFileParams.username}
         label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.username'})}
         rules={[{required: true}]}
+        colProps={{span: 12}}
       />
       <ProFormText
         name={FtpFileParams.password}
         label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.password'})}
         rules={[{required: true}]}
+        colProps={{span: 12}}
       />
       <ProFormText
         name={BaseFileParams.path}
@@ -102,12 +111,33 @@ const SourceFtpFileStepForm: React.FC<ModalFormProps<{
         {({type}) => {
           if (type == "json") {
             return (
-              <ProFormGroup>
-                <ProFormTextArea
-                  name={BaseFileParams.schema}
-                  label={intl.formatMessage({id: 'pages.project.di.step.baseFile.schema'})}
-                  rules={[{required: true}]}
-                />
+              <ProFormGroup
+                label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
+                tooltip={{
+                  title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
+                  icon: <InfoCircleOutlined/>,
+                }}
+              >
+                <ProFormList
+                  name={SchemaParams.fields}
+                  copyIconProps={false}
+                  creatorButtonProps={{
+                    creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
+                    type: 'text',
+                  }}>
+                  <ProFormGroup>
+                    <ProFormText
+                      name={SchemaParams.field}
+                      label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
+                      colProps={{span: 10, offset: 1}}
+                    />
+                    <ProFormText
+                      name={SchemaParams.type}
+                      label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
+                      colProps={{span: 10, offset: 1}}
+                    />
+                  </ProFormGroup>
+                </ProFormList>
               </ProFormGroup>
             );
           }

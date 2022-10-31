@@ -16,35 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.resource.service.vo;
+package cn.sliew.scaleph.plugin.seatunnel.flink.util;
 
-import com.github.benmanes.caffeine.cache.Cache;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 
-import java.io.IOException;
+public enum SeaTunnelPluginUtil {
+    ;
 
-public class CacheResource<V> implements Resource<V> {
-
-    private final Cache<CacheKey, V> cache;
-    private final CacheKey key;
-
-    public CacheResource(Cache<CacheKey, V> cache, CacheKey key) {
-        this.cache = cache;
-        this.key = key;
-    }
-
-    @Override
-    public V load() {
-        return cache.getIfPresent(key);
-    }
-
-    @Override
-    public boolean isRecycled() {
-        return cache.asMap().containsKey(key) == false;
-    }
-
-    @Override
-    public void close() throws IOException {
-        cache.invalidate(key);
+    public static String getIdentity(SeaTunnelPluginType pluginType, SeaTunnelPluginName pluginName) {
+        return pluginType.getValue() + "-" + pluginName.getValue();
     }
 
 }

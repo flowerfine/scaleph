@@ -20,11 +20,11 @@ package cn.sliew.scaleph.storage.service.impl;
 
 import cn.sliew.scaleph.storage.configuration.FileSystemType;
 import cn.sliew.scaleph.storage.service.FileSystemService;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.*;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,26 +35,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
-public class FileSystemServiceImpl implements FileSystemService, InitializingBean {
+public class FileSystemServiceImpl implements FileSystemService {
 
-    private FileSystem localFs;
     @Resource
     private FileSystem fs;
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        Configuration conf = new Configuration();
-        this.localFs = FileSystem.getLocal(conf);
-    }
 
     @Override
     public FileSystem getFileSystem() {
         return fs;
     }
 
-    private boolean isDistributedFS() {
+    @Override
+    public boolean isDistributedFS() {
         return fs.getScheme().equals(FileSystemType.LOCAL.getSchema()) == false;
     }
 
@@ -62,14 +55,6 @@ public class FileSystemServiceImpl implements FileSystemService, InitializingBea
     public boolean exists(String fileName) throws IOException {
         Path path = new Path(fs.getWorkingDirectory(), fileName);
         return fs.exists(path);
-    }
-
-    private boolean localExists(String fileName) throws IOException {
-        if (isDistributedFS()) {
-            Path path = new Path(localFs.getWorkingDirectory(), fileName);
-            return localFs.exists(path);
-        }
-        return false;
     }
 
     @Override
@@ -90,14 +75,6 @@ public class FileSystemServiceImpl implements FileSystemService, InitializingBea
         return fs.open(path);
     }
 
-    public InputStream localGet(String fileName) throws IOException {
-        if (isDistributedFS() && localExists(fileName)) {
-            Path path = new Path(localFs.getWorkingDirectory(), fileName);
-            return localFs.open(path);
-        }
-        return null;
-    }
-
     @Override
     public void upload(InputStream inputStream, String fileName) throws IOException {
         Path path = new Path(fs.getWorkingDirectory(), fileName);
@@ -109,30 +86,10 @@ public class FileSystemServiceImpl implements FileSystemService, InitializingBea
         }
     }
 
-    private void localUpload(InputStream inputStream, String fileName) throws IOException{
-        if (isDistributedFS()) {
-            Path localPath = new Path(localFs.getWorkingDirectory(), fileName);
-            if (localFs.exists(localPath.getParent()) == false) {
-                localFs.mkdirs(localPath.getParent());
-            }
-            try (final FSDataOutputStream outputStream = localFs.create(localPath, false)) {
-                IOUtils.copyBytes(inputStream, outputStream, 1024);
-            }
-        }
-    }
-
     @Override
     public boolean delete(String fileName) throws IOException {
         Path path = new Path(fs.getWorkingDirectory(), fileName);
         return fs.delete(path, true);
-    }
-
-    private boolean localDelete(String fileName) throws IOException {
-        if (localExists(fileName)) {
-            Path path = new Path(localFs.getWorkingDirectory(), fileName);
-            return localFs.delete(path, true);
-        }
-        return false;
     }
 
     @Override
@@ -140,15 +97,6 @@ public class FileSystemServiceImpl implements FileSystemService, InitializingBea
         Path path = new Path(fs.getWorkingDirectory(), fileName);
         final FileStatus fileStatus = fs.getFileStatus(path);
         return fileStatus.getLen();
-    }
-
-    private Long localGetFileSize(String fileName) throws IOException {
-        if (localExists(fileName)) {
-            Path path = new Path(localFs.getWorkingDirectory(), fileName);
-            final FileStatus fileStatus = localFs.getFileStatus(path);
-            return fileStatus.getBlockSize();
-        }
-        return null;
     }
 
     @Override

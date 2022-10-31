@@ -21,7 +21,7 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.email.sink;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import com.google.auto.service.AutoService;
 
@@ -35,7 +35,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.email.sink.Emai
 public class EmailSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public EmailSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Send the data as a file to email.",
                 EmailSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();

@@ -21,6 +21,7 @@ package cn.sliew.scaleph.engine.seatunnel.service;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
+import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import org.apache.flink.configuration.Configuration;
 
 import java.io.File;
@@ -29,12 +30,10 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
-/**
- * todo only need query, run(submit, schedule), stop(cancel, unschedule)
- */
+@Deprecated
 public interface SeatunnelJobService {
 
-    DiJobDTO queryJobInfo(Long jobId);
+    String preview(Long jobId) throws Exception;
 
     void run(DiJobRunVO jobRunParam) throws Exception;
 
@@ -49,7 +48,7 @@ public interface SeatunnelJobService {
     void unschedule(DiJobDTO diJobDTO) throws Exception;
 
     // todo remove
-    Path buildConfFile(DiJobDTO diJobDTO, Path projectPath) throws IOException;
+    Path buildConfFile(DiJobDTO diJobDTO, Path projectPath) throws Exception;
 
     Path getSeatunnelJar() throws IOException;
 
@@ -57,5 +56,5 @@ public interface SeatunnelJobService {
                                      Map<String, String> clusterConf,
                                      File projectPath) throws IOException;
 
-    List<DagPanelDTO> loadDndPanelInfo();
+    List<DagPanelDTO> loadDndPanelInfo() throws PluginException;
 }

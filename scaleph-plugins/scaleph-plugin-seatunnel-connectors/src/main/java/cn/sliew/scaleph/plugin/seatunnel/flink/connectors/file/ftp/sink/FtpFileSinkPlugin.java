@@ -21,7 +21,7 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.sink;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import com.google.auto.service.AutoService;
 
@@ -36,7 +36,7 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.FtpFil
 public class FtpFileSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public FtpFileSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Write data to ftp file server",
                 FtpFileSinkPlugin.class.getName());
 

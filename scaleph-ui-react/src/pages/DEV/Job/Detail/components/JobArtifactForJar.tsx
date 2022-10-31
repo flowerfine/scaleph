@@ -1,11 +1,9 @@
-import {ProForm, ProFormGroup, ProFormList, ProFormSelect, ProFormText} from "@ant-design/pro-components";
+import {ProForm, ProFormGroup, ProFormList, ProFormText} from "@ant-design/pro-components";
 import {useIntl} from "umi";
 import {FlinkArtifactJar} from "@/services/dev/typings";
 
 const JobArtifactForJarWeb: React.FC<{ data: FlinkArtifactJar }> = ({data}) => {
   const intl = useIntl();
-
-  console.log('JobArtifactForJarWeb', data)
 
   return (<ProForm<FlinkArtifactJar>
     initialValues={data}

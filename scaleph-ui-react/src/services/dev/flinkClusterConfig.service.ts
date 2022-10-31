@@ -1,11 +1,11 @@
-import { PageResponse, ResponseBody } from '@/app.d';
+import {PageResponse, ResponseBody} from '@/app.d';
 import {
   FlinkClusterConfig,
   FlinkClusterConfigAddParam,
   FlinkClusterConfigParam,
   KubernetesOptions
 } from '@/services/dev/typings';
-import { request } from '@@/exports';
+import {request} from '@@/exports';
 
 export const FlinkClusterConfigService = {
   url: '/api/flink/cluster-config',
@@ -71,6 +71,34 @@ export const FlinkClusterConfigService = {
       method: 'DELETE',
       data: params,
     });
+  },
+
+  formatArgs: (values: Record<string, any>) => {
+    const jobConfig = new Map<string, any>();
+    values.args?.forEach(function (item: Record<string, any>) {
+      jobConfig[item.parameter] = item.value;
+    });
+    return jobConfig
+  },
+
+  parseArgs: (jobConfig: { [key: string]: any }) => {
+    const args: Array<any> = [];
+    jobConfig.forEach((value: any, key: string) => {
+      args.push({parameter: key, value: value});
+    });
+    return args;
+  },
+
+  formatJars: (values: Record<string, any>) => {
+    return values.jars?.map((data: Record<string, any>) => data.jar)
+  },
+
+  parseJars: (jars: Array<number>) => {
+    const result: Array<any> = []
+    jars.forEach((jarId) => {
+      result.push({jar: jarId})
+    })
+    return result
   },
 
   getData: (value: Record<string, any>) => {
@@ -211,7 +239,7 @@ export const FlinkClusterConfigService = {
 
     const options: Array<any> = [];
     configOptions.forEach((value: any, key: string) => {
-      options.push({ key: key, value: value });
+      options.push({key: key, value: value});
     });
     data['options'] = options;
 

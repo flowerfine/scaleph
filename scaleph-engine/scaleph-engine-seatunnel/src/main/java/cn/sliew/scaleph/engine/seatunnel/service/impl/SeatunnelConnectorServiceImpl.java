@@ -18,21 +18,20 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.impl;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
+import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorManager;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-@Slf4j
 @Service
 public class SeatunnelConnectorServiceImpl implements SeatunnelConnectorService {
 
@@ -44,20 +43,18 @@ public class SeatunnelConnectorServiceImpl implements SeatunnelConnectorService 
     }
 
     @Override
-    public Set<PluginInfo> getAvailableConnectors(SeaTunnelPluginType stepType) {
+    public Set<SeaTunnelConnectorPlugin> getAvailableConnectors(SeaTunnelPluginType stepType) {
         return connectorManager.getAvailableConnectors(stepType);
     }
 
     @Override
-    public List<PropertyDescriptor> getSupportedProperties(String type, String name) {
-        List<PropertyDescriptor> result = new ArrayList<>();
-        Set<PluginInfo> pluginInfos = connectorManager.getAvailableConnectors(SeaTunnelPluginType.of(type));
-        for (PluginInfo pluginInfo : pluginInfos) {
-            if (pluginInfo.getName().equals(name)) {
-                result = connectorManager.getConnector(pluginInfo).getSupportedProperties();
-            }
-        }
-        return result;
+    public SeaTunnelConnectorPlugin getConnector(PluginInfo pluginInfo) throws PluginException {
+        return connectorManager.getConnector(pluginInfo);
+    }
+
+    @Override
+    public SeaTunnelConnectorPlugin getConnector(SeaTunnelPluginType type, SeaTunnelPluginName name) throws PluginException {
+        return connectorManager.getConnector(type, name);
     }
 
     @Override

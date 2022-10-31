@@ -25,6 +25,7 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -44,6 +45,30 @@ public enum RequestParamUtil {
             "/scaleph/v3/api-docs",
             "/scaleph/favicon.ico");
     private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
+
+    public static String formatRequestParams(HttpServletRequest request) {
+        StringBuilder params = new StringBuilder();
+        if (!(RequestParamUtil.ignoreContentType(request.getContentType()))) {
+            String parameters = RequestParamUtil.getRequestParams(request);
+            if (StringUtils.hasText(parameters)) {
+                params.append("uri_params: [");
+                params.append(parameters);
+                params.append("]");
+            }
+            String body = RequestParamUtil.getRequestBody(request);
+            if (StringUtils.hasText(body)) {
+                if (params.length() != 0) {
+                    params.append(", request_body: [");
+                } else {
+                    params.append("request_body: [");
+                }
+                params.append(body);
+                params.append("]");
+            }
+        }
+
+        return params.toString();
+    }
 
     /**
      * query param

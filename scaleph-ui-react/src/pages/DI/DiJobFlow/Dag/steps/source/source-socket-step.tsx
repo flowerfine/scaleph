@@ -32,7 +32,7 @@ const SourceSocketStepForm: React.FC<ModalFormProps<{
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          let map: Map<string, string> = new Map();
+          let map: Map<string, any> = new Map();
           map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
@@ -57,6 +57,7 @@ const SourceSocketStepForm: React.FC<ModalFormProps<{
           name={STEP_ATTR_TYPE.host}
           label={intl.formatMessage({id: 'pages.project.di.step.host'})}
           rules={[{required: true}]}
+          initialValue={"127.0.0.1"}
           colProps={{span: 12}}
         />
         <ProFormDigit
@@ -64,8 +65,8 @@ const SourceSocketStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.port'})}
           rules={[{required: true}]}
           colProps={{span: 12}}
+          initialValue={9999}
           fieldProps={{
-            defaultValue: 9999,
             min: 0,
             max: 65535
           }}

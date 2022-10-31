@@ -5,8 +5,9 @@ import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
 import {getIntl, getLocale} from "umi";
-import {ProForm, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
+import {ProForm, ProFormGroup, ProFormList, ProFormText} from "@ant-design/pro-components";
 import {useEffect} from "react";
+import {StepSchemaService} from "@/pages/DI/DiJobFlow/Dag/steps/schema";
 
 const SinkFeishuStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -32,11 +33,12 @@ const SinkFeishuStepForm: React.FC<ModalFormProps<{
     onCancel={onCancel}
     onOk={() => {
       form.validateFields().then((values) => {
-        let map: Map<string, string> = new Map();
+        let map: Map<string, any> = new Map();
         map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-        map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
+        StepSchemaService.formatHeader(values)
+        map.set(STEP_ATTR_TYPE.stepAttrs, values);
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -59,10 +61,27 @@ const SinkFeishuStepForm: React.FC<ModalFormProps<{
         label={intl.formatMessage({id: 'pages.project.di.step.feishu.url'})}
         rules={[{required: true}]}
       />
-      <ProFormTextArea
-        name={FeishuParams.headers}
+      <ProFormList
+        name={FeishuParams.headerArray}
         label={intl.formatMessage({id: 'pages.project.di.step.feishu.headers'})}
-      />
+        copyIconProps={false}
+        creatorButtonProps={{
+          creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.feishu.header'}),
+          type: 'text',
+        }}>
+        <ProFormGroup>
+          <ProFormText
+            name={FeishuParams.header}
+            label={intl.formatMessage({id: 'pages.project.di.step.feishu.header'})}
+            colProps={{span: 10, offset: 1}}
+          />
+          <ProFormText
+            name={FeishuParams.headerValue}
+            label={intl.formatMessage({id: 'pages.project.di.step.feishu.value'})}
+            colProps={{span: 10, offset: 1}}
+          />
+        </ProFormGroup>
+      </ProFormList>
     </ProForm>
   </Modal>);
 }

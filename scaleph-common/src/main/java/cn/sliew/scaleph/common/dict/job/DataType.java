@@ -18,9 +18,7 @@
 
 package cn.sliew.scaleph.common.dict.job;
 
-import cn.sliew.scaleph.common.dict.DictDefinition;
 import cn.sliew.scaleph.common.dict.DictInstance;
-import cn.sliew.scaleph.common.dict.DictType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -30,12 +28,22 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum DataType implements DictInstance {
 
+    STRING("string", "STRING"),
+    BOOLEAN("boolean", "BOOLEAN"),
+    TINYINT("tinyint", "TINYINT"),
+    SMALLINT("smallint", "SMALLINT"),
     INT("int", "INT"),
     BIGINT("bigint", "BIGINT"),
     FLOAT("float", "FLOAT"),
     DOUBLE("double", "DOUBLE"),
-    STRING("string", "STRING"),
+    NULL("null", "NULL"),
+    DECIMAL("decimal", "DECIMAL(PRECISION, SCALE)"),
+    BYTES("bytes", "BYTES"),
+    ARRAY("array", "ARRAY<TYPE>"),
+    MAP("map", "MAP<TYPE, TYPE>"),
+    ROW("row", "ROW"),
     DATE("date", "DATE"),
+    TIME("time", "TIME"),
     TIMESTAMP("timestamp", "TIMESTAMP"),
     ;
 
@@ -53,11 +61,6 @@ public enum DataType implements DictInstance {
     DataType(String value, String label) {
         this.value = value;
         this.label = label;
-    }
-
-    @Override
-    public DictDefinition getDefinition() {
-        return DictType.DATA_TYPE;
     }
 
     @Override

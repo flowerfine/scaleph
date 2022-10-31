@@ -12,7 +12,7 @@ import {useEffect, useState} from 'react';
 import {useIntl} from 'umi';
 import {FlinkJobForJar} from "@/pages/DEV/Job/typings";
 
-const JobJar: React.FC<{ data: FlinkJobForJar }> = ({data}) => {
+const JarArtifactOptions: React.FC<{ data: FlinkJobForJar }> = ({data}) => {
   const intl = useIntl();
   const form = Form.useFormInstance();
   const [flinkArtifactLoading, setFlinkArtifactLoading] = useState(false);
@@ -150,7 +150,11 @@ const JobJar: React.FC<{ data: FlinkJobForJar }> = ({data}) => {
   };
 
   return (
-    <ProCard>
+    <ProCard
+      title={intl.formatMessage({id: 'pages.dev.job.jar'})}
+      headerBordered={true}
+      collapsible={true}
+      style={{width: 1000}}>
       <ProFormGroup>
         <Col span={8}>
           <Form.Item
@@ -228,4 +232,4 @@ const JobJar: React.FC<{ data: FlinkJobForJar }> = ({data}) => {
   );
 };
 
-export default JobJar;
+export default JarArtifactOptions;

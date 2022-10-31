@@ -6,11 +6,13 @@ import {
   NsGraphCmd,
   XFlowGraphCommands,
 } from '@antv/xflow';
-import { message } from 'antd';
-import { getIntl, getLocale } from 'umi';
-import { NsGraphPublish } from './cmd-extensions/graph-publish';
-import { CustomCommands, ZOOM_OPTIONS } from './constant';
-import { DagService } from './service';
+import {message} from 'antd';
+import {getIntl, getLocale} from 'umi';
+import {NsGraphPublish} from './cmd-extensions/graph-publish';
+import {CustomCommands, ZOOM_OPTIONS} from './constant';
+import {DagService} from './service';
+import {NsGraphPreview} from './cmd-extensions/graph-preview';
+import {NsGraphSubmit} from "@/pages/DI/DiJobFlow/Dag/cmd-extensions/graph-submit";
 
 export const useToolbarConfig = createToolbarConfig((toolbarConfig) => {
   /** toolbar item */
@@ -47,10 +49,10 @@ export const useScaleToolbarConfig = createToolbarConfig((toolbarConfig) => {
     });
     // graph scale
     const graphScaleModel = await MODELS.GRAPH_SCALE.getModel(modelService);
-    graphScaleModel.watch(async ({ zoomFactor }) => {
+    graphScaleModel.watch(async ({zoomFactor}) => {
       const fullScreen = await MODELS.GRAPH_FULLSCREEN.useValue(modelService);
       toolbarModel.setValue((toolbar) => {
-        toolbar.mainGroups = getScaleToolbarConfig({ zoomFactor: zoomFactor, fullScreen });
+        toolbar.mainGroups = getScaleToolbarConfig({zoomFactor: zoomFactor, fullScreen});
       });
     });
   });
@@ -67,17 +69,17 @@ const getMainToolbarConfig = () => {
       name: 'main',
       items: [
         {
-          id: 'main03',
+          id: 'save',
           iconName: 'SaveOutlined',
-          tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.save' }),
-          onClick: async ({ commandService, modelService }) => {
+          tooltip: intl.formatMessage({id: 'pages.project.di.flow.dag.save'}),
+          onClick: async ({commandService, modelService}) => {
             commandService.executeCommand<NsGraphCmd.SaveGraphData.IArgs>(
               XFlowGraphCommands.SAVE_GRAPH_DATA.id,
               {
                 saveGraphDataService: (meta, graphData) =>
                   DagService.saveGraphData(meta, graphData).then((resp) => {
                     if (resp.success) {
-                      message.info(intl.formatMessage({ id: 'app.common.operate.success' }));
+                      message.info(intl.formatMessage({id: 'app.common.operate.success'}));
                       DagService.loadJobInfo(meta.origin.id).then((d) => {
                         commandService.executeCommand(XFlowGraphCommands.GRAPH_RENDER.id, {
                           graphData: d,
@@ -90,35 +92,40 @@ const getMainToolbarConfig = () => {
           },
         },
         {
-          id: 'main04',
+          id: 'preview',
+          iconName: 'EyeOutlined',
+          tooltip: intl.formatMessage({id: 'pages.project.di.flow.dag.preview'}),
+          onClick: async ({commandService}) => {
+            commandService.executeCommand<NsGraphPreview.IArgs>(
+              CustomCommands.GRAPH_PREVIEW.id,
+              {},
+            );
+          },
+        },
+        {
+          id: 'publish',
           iconName: 'SendOutlined',
-          tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.publish' }),
-          onClick: async ({ commandService }) => {
+          tooltip: intl.formatMessage({id: 'pages.project.di.flow.dag.publish'}),
+          onClick: async ({commandService}) => {
             commandService.executeCommand<NsGraphPublish.IArgs>(
               CustomCommands.GRAPH_PUBLISH.id,
               {},
             );
           },
         },
+        {
+          id: 'submit',
+          iconName: 'FundProjectionScreenOutlined',
+          tooltip: intl.formatMessage({id: 'pages.project.di.flow.dag.submit'}),
+          onClick: async ({commandService}) => {
+            commandService.executeCommand<NsGraphSubmit.IArgs>(
+              CustomCommands.GRAPH_SUBMIT.id,
+              {},
+            );
+          },
+        },
       ],
     },
-    // {
-    //   name: 'main',
-    //   items: [
-    //     {
-    //       id: 'main01',
-    //       iconName: 'PlaySquareOutlined',
-    //       tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.start' }),
-    //       onClick: (args) => {},
-    //     },
-    //     {
-    //       id: 'main02',
-    //       iconName: 'StopOutlined',
-    //       tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.stop' }),
-    //       onClick: (args) => {},
-    //     },
-    //   ],
-    // },
   ] as IToolbarGroupOptions[];
 };
 
@@ -129,11 +136,11 @@ const getExtraToolbarConfig = () => {
       name: 'extra',
       items: [
         {
-          id: 'extra01',
+          id: 'prop',
           iconName: 'ProfileOutlined',
-          text: intl.formatMessage({ id: 'pages.project.di.flow.dag.prop' }),
-          tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.prop' }),
-          onClick: ({ commandService }) => {
+          text: intl.formatMessage({id: 'pages.project.di.flow.dag.prop'}),
+          tooltip: intl.formatMessage({id: 'pages.project.di.flow.dag.prop'}),
+          onClick: ({commandService}) => {
             commandService.executeCommand(CustomCommands.GRAPH_PARAMS_SETTING.id, {});
           },
         },
@@ -142,9 +149,9 @@ const getExtraToolbarConfig = () => {
   ] as IToolbarGroupOptions[];
 };
 const getScaleToolbarConfig = ({
-  zoomFactor,
-  fullScreen,
-}: {
+                                 zoomFactor,
+                                 fullScreen,
+                               }: {
   zoomFactor?: Number;
   fullScreen?: boolean;
 }) => {
@@ -154,13 +161,13 @@ const getScaleToolbarConfig = ({
       name: 'scale',
       items: [
         {
-          id: 'scale01',
-          tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.zoomIn' }),
+          id: 'zoomIn',
+          tooltip: intl.formatMessage({id: 'pages.project.di.flow.dag.zoomIn'}),
           iconName: 'ZoomInOutlined',
-          onClick: ({ commandService, modelService }) => {
+          onClick: ({commandService, modelService}) => {
             commandService
               .executeCommand<NsGraphCmd.GraphZoom.IArgs>(XFlowGraphCommands.GRAPH_ZOOM.id, {
-                factor: 0.5,
+                factor: 0.25,
                 zoomOptions: ZOOM_OPTIONS,
               })
               .then(() => {
@@ -169,13 +176,13 @@ const getScaleToolbarConfig = ({
           },
         },
         {
-          id: 'scale02',
-          tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.zoomOut' }),
+          id: 'zoomOut',
+          tooltip: intl.formatMessage({id: 'pages.project.di.flow.dag.zoomOut'}),
           iconName: 'ZoomOutOutlined',
-          onClick: ({ commandService, modelService }) => {
+          onClick: ({commandService, modelService}) => {
             commandService
               .executeCommand<NsGraphCmd.GraphZoom.IArgs>(XFlowGraphCommands.GRAPH_ZOOM.id, {
-                factor: -0.5,
+                factor: -0.25,
                 zoomOptions: ZOOM_OPTIONS,
               })
               .then(() => {
@@ -184,10 +191,10 @@ const getScaleToolbarConfig = ({
           },
         },
         {
-          id: 'scale03',
-          tooltip: intl.formatMessage({ id: 'pages.project.di.flow.dag.zoomFit' }),
+          id: 'zoomFit',
+          tooltip: intl.formatMessage({id: 'pages.project.di.flow.dag.zoomFit'}),
           iconName: 'CompressOutlined',
-          onClick: ({ commandService, modelService }) => {
+          onClick: ({commandService, modelService}) => {
             commandService
               .executeCommand<NsGraphCmd.GraphZoom.IArgs>(XFlowGraphCommands.GRAPH_ZOOM.id, {
                 factor: 'fit',
@@ -199,12 +206,12 @@ const getScaleToolbarConfig = ({
           },
         },
         {
-          id: 'scale04',
+          id: 'fullScreen',
           iconName: !fullScreen ? 'FullscreenOutlined' : 'FullscreenExitOutlined',
           tooltip: !fullScreen
-            ? intl.formatMessage({ id: 'pages.project.di.flow.dag.fullScreen' })
-            : intl.formatMessage({ id: 'pages.project.di.flow.dag.fullScreenExit' }),
-          onClick: ({ commandService }) => {
+            ? intl.formatMessage({id: 'pages.project.di.flow.dag.fullScreen'})
+            : intl.formatMessage({id: 'pages.project.di.flow.dag.fullScreenExit'}),
+          onClick: ({commandService}) => {
             commandService.executeCommand<NsGraphCmd.GraphFullscreen.IArgs>(
               XFlowGraphCommands.GRAPH_FULLSCREEN.id,
               {},
@@ -221,8 +228,8 @@ const scaleMessage = async (modelService: IModelService) => {
   const graphScale = await MODELS.GRAPH_SCALE.useValue(modelService);
   message.info(
     intl.formatMessage(
-      { id: 'pages.project.di.flow.dag.zoomTo' },
-      { factor: graphScale.zoomFactor },
+      {id: 'pages.project.di.flow.dag.zoomTo'},
+      {factor: graphScale.zoomFactor},
     ),
   );
 };

@@ -18,15 +18,14 @@
 
 package cn.sliew.scaleph.dao.entity.master.di;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.List;
 
 /**
  * <p>
@@ -46,18 +45,25 @@ public class DiJobStep extends BaseDO {
 
     @ApiModelProperty(value = "作业id")
     private Long jobId;
+
     @ApiModelProperty(value = "步骤编码")
     private String stepCode;
+
     @ApiModelProperty(value = "步骤标题")
     private String stepTitle;
+
     @ApiModelProperty(value = "步骤类型")
-    private String stepType;
+    private SeaTunnelPluginType stepType;
+
     @ApiModelProperty(value = "步骤名称")
-    private String stepName;
+    private SeaTunnelPluginName stepName;
+
     @ApiModelProperty(value = "x坐标")
     private Integer positionX;
+
     @ApiModelProperty(value = "y坐标")
     private Integer positionY;
+
     @ApiModelProperty(value = "作业步骤属性")
     private String stepAttrs;
 }

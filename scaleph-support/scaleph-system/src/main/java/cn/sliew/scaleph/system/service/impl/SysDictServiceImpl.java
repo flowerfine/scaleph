@@ -19,6 +19,8 @@
 package cn.sliew.scaleph.system.service.impl;
 
 import cn.sliew.scaleph.cache.CachingConfig;
+import cn.sliew.scaleph.common.dict.DictInstance;
+import cn.sliew.scaleph.common.dict.DictType;
 import cn.sliew.scaleph.dao.entity.master.system.SysDict;
 import cn.sliew.scaleph.dao.mapper.master.system.SysDictMapper;
 import cn.sliew.scaleph.system.cache.DictCache;
@@ -29,6 +31,7 @@ import cn.sliew.scaleph.system.service.param.SysDictParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
@@ -112,6 +115,11 @@ public class SysDictServiceImpl implements SysDictService {
         List<SysDictDTO> dtoList = SysDictConvert.INSTANCE.toDto(list);
         DictCache.updateCache(dtoList);
         return dtoList;
+    }
+
+    @Override
+    public List<DictInstance> selectByType2(DictType type) {
+        return EnumUtils.getEnumList(type.getInstanceClass());
     }
 
     @Override

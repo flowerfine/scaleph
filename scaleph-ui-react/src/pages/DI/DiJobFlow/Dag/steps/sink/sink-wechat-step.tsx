@@ -5,8 +5,10 @@ import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
 import {getIntl, getLocale} from "umi";
-import {ProForm, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
+import {ProForm, ProFormGroup, ProFormList, ProFormText} from "@ant-design/pro-components";
 import {useEffect} from "react";
+import {InfoCircleOutlined} from "@ant-design/icons";
+import {StepSchemaService} from "@/pages/DI/DiJobFlow/Dag/steps/schema";
 
 const SinkWeChatStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -32,11 +34,13 @@ const SinkWeChatStepForm: React.FC<ModalFormProps<{
     onCancel={onCancel}
     onOk={() => {
       form.validateFields().then((values) => {
-        let map: Map<string, string> = new Map();
+        let map: Map<string, any> = new Map();
         map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-        map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
+        StepSchemaService.formatUserIds(values)
+        StepSchemaService.formatMobiles(values)
+        map.set(STEP_ATTR_TYPE.stepAttrs, values);
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -59,14 +63,45 @@ const SinkWeChatStepForm: React.FC<ModalFormProps<{
         label={intl.formatMessage({id: 'pages.project.di.step.wechat.url'})}
         rules={[{required: true}]}
       />
-      <ProFormTextArea
-        name={WeChatParams.mentionedList}
+      <ProFormList
+        name={WeChatParams.mentionedArray}
         label={intl.formatMessage({id: 'pages.project.di.step.wechat.mentionedList'})}
-      />
-      <ProFormTextArea
-        name={WeChatParams.mentionedMobileList}
+        tooltip={{
+          title: intl.formatMessage({id: 'pages.project.di.step.wechat.mentionedList.tooltip'}),
+          icon: <InfoCircleOutlined/>,
+        }}
+        copyIconProps={false}
+        creatorButtonProps={{
+          creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.wechat.userId'}),
+          type: 'text',
+        }}>
+        <ProFormGroup>
+          <ProFormText
+            name={WeChatParams.userId}
+            colProps={{span: 20, offset: 1}}
+          />
+        </ProFormGroup>
+      </ProFormList>
+
+      <ProFormList
+        name={WeChatParams.mentionedMobileArray}
         label={intl.formatMessage({id: 'pages.project.di.step.wechat.mentionedMobileList'})}
-      />
+        tooltip={{
+          title: intl.formatMessage({id: 'pages.project.di.step.wechat.mentionedMobileList.tooltip'}),
+          icon: <InfoCircleOutlined/>,
+        }}
+        copyIconProps={false}
+        creatorButtonProps={{
+          creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.wechat.mobile'}),
+          type: 'text',
+        }}>
+        <ProFormGroup>
+          <ProFormText
+            name={WeChatParams.mobile}
+            colProps={{span: 20, offset: 1}}
+          />
+        </ProFormGroup>
+      </ProFormList>
     </ProForm>
   </Modal>);
 }

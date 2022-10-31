@@ -19,16 +19,20 @@
 package cn.sliew.scaleph.core.di.service.param;
 
 import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
  * @author gleiyu
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class DiProjectParam extends PaginationParam {
+
+    @ApiModelProperty("project code")
     private String projectCode;
 
+    @ApiModelProperty("project name")
     private String projectName;
 }

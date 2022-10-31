@@ -49,6 +49,9 @@ public interface FlinkJobForJarConvert extends BaseConvert<FlinkJobForJar, Flink
         if (CollectionUtils.isEmpty(dto.getFlinkConfig()) == false) {
             entity.setFlinkConfig(JacksonUtil.toJsonString(dto.getFlinkConfig()));
         }
+        if (CollectionUtils.isEmpty(dto.getJars()) == false) {
+            entity.setJars(JacksonUtil.toJsonString(dto.getJars()));
+        }
         return entity;
     }
 
@@ -65,6 +68,9 @@ public interface FlinkJobForJarConvert extends BaseConvert<FlinkJobForJar, Flink
         }
         if (StringUtils.hasText(entity.getFlinkConfig())) {
             dto.setFlinkConfig(JacksonUtil.parseJsonString(entity.getFlinkConfig(), Map.class));
+        }
+        if (StringUtils.hasText(entity.getJars())) {
+            dto.setJars(JacksonUtil.parseJsonArray(entity.getJars(), Long.TYPE));
         }
         return dto;
     }

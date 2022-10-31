@@ -18,8 +18,10 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
+import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 
@@ -27,16 +29,15 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-/**
- * todo connector crud
- */
 public interface SeatunnelConnectorService {
 
     List<PropertyDescriptor> getSupportedEnvProperties();
 
-    Set<PluginInfo> getAvailableConnectors(SeaTunnelPluginType stepType);
+    Set<SeaTunnelConnectorPlugin> getAvailableConnectors(SeaTunnelPluginType stepType);
 
-    List<PropertyDescriptor> getSupportedProperties(String type,String name);
+    SeaTunnelConnectorPlugin getConnector(PluginInfo pluginInfo) throws PluginException;
+
+    SeaTunnelConnectorPlugin getConnector(SeaTunnelPluginType type, SeaTunnelPluginName name) throws PluginException;
 
     SeaTunnelConnectorPlugin newConnector(String name, Properties properties);
 

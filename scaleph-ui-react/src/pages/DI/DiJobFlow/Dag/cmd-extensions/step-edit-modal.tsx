@@ -45,6 +45,12 @@ import SinkHiveStepForm from '../steps/sink/sink-hive-step';
 import SourceKuduStepForm from '../steps/source/source-kudu-step';
 import SinkKuduStepForm from '../steps/sink/sink-kudu-step';
 import SourceKafkaStepForm from '../steps/source/source-kafka-step';
+import SourceIoTDBStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-iotdb-step";
+import SinkIoTDBStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-iotdb-step";
+import SourceMongoDBStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-mongodb-step";
+import SinkMongoDBStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-mongodb-step";
+import SourceRedisStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-redis-step";
+import SinkRedisStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-redis-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -229,7 +235,7 @@ export class EditNodeCommand implements ICommand {
       return (<SourceHudiStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'source' && name === 'Iceberg') {
       return (<SourceIcebergStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
-    } else if  (type === 'source' && name === 'Fake') {
+    } else if  (type === 'source' && name === 'FakeSource') {
       return (<SourceFakeStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type==='sink' && name ==='Console'){
       return (<SinkConsoleStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
@@ -263,7 +269,19 @@ export class EditNodeCommand implements ICommand {
       return (<SinkKuduStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'Kafka'){
       return (<SourceKafkaStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
-    }else {
+    } else if(type === 'source' && name === 'IoTDB'){
+      return (<SourceIoTDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'IoTDB'){
+      return (<SinkIoTDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'MongoDB'){
+      return (<SourceMongoDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'MongoDB'){
+      return (<SinkMongoDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'Redis'){
+      return (<SourceRedisStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'Redis'){
+      return (<SinkRedisStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else {
       return <></>;
     }
   };

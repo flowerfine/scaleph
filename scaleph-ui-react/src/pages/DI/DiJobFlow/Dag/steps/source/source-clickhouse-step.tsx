@@ -1,21 +1,21 @@
-import { ModalFormProps } from '@/app.d';
-import { DICT_TYPE } from '@/constant';
-import { DictDataService } from '@/services/admin/dictData.service';
+import {ModalFormProps} from '@/app.d';
+import {DICT_TYPE} from '@/constant';
+import {DictDataService} from '@/services/admin/dictData.service';
 import {DataSourceService} from '@/services/project/dataSource.service';
-import { JobService } from '@/services/project/job.service';
+import {JobService} from '@/services/project/job.service';
 import {DiJob, MetaDataSourceParam} from '@/services/project/typings';
-import { NsGraph } from '@antv/xflow';
-import { Form, message, Modal} from 'antd';
-import { useEffect, useState } from 'react';
-import { getIntl, getLocale } from 'umi';
+import {NsGraph} from '@antv/xflow';
+import {Form, message, Modal} from 'antd';
+import {useEffect} from 'react';
+import {getIntl, getLocale} from 'umi';
 import {ClickHouseParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {ProForm, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 
 const SourceClickHouseStepForm: React.FC<ModalFormProps<{
-    node: NsGraph.INodeConfig;
-    graphData: NsGraph.IGraphData;
-    graphMeta: NsGraph.IGraphMeta;
-}>> = ({ data, visible, onCancel, onOK }) => {
+  node: NsGraph.INodeConfig;
+  graphData: NsGraph.IGraphData;
+  graphMeta: NsGraph.IGraphMeta;
+}>> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as DiJob;
   const jobGraph = data.graphData;
@@ -31,19 +31,19 @@ const SourceClickHouseStepForm: React.FC<ModalFormProps<{
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{ overflowY: 'scroll', maxHeight: '640px' }}
+      bodyStyle={{overflowY: 'scroll', maxHeight: '640px'}}
       destroyOnClose={true}
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          let map: Map<string, string> = new Map();
+          let map: Map<string, any> = new Map();
           map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-          map.set(STEP_ATTR_TYPE.stepAttrs, form.getFieldsValue());
+          map.set(STEP_ATTR_TYPE.stepAttrs, values);
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
-              message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+              message.success(intl.formatMessage({id: 'app.common.operate.success'}));
               onCancel();
               onOK ? onOK() : null;
             }
@@ -61,13 +61,11 @@ const SourceClickHouseStepForm: React.FC<ModalFormProps<{
           name={"dataSourceType"}
           label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
           colProps={{span: 6}}
+          initialValue={"ClickHouse"}
           fieldProps={{
-            defaultValue: "ClickHouse",
             disabled: true
           }}
-          request={(() => {
-            return DictDataService.listDictDataByType(DICT_TYPE.datasourceType);
-          })}
+          request={(() => DictDataService.listDictDataByType(DICT_TYPE.datasourceType))}
         />
         <ProFormSelect
           name={STEP_ATTR_TYPE.dataSource}
@@ -78,7 +76,7 @@ const SourceClickHouseStepForm: React.FC<ModalFormProps<{
           request={((params, props) => {
             const param: MetaDataSourceParam = {
               datasourceName: params.keyWords,
-              datasourceType: "ClickHouse",
+              datasourceType: params.dataSourceType,
             };
             return DataSourceService.listDataSourceByPage(param).then((response) => {
               return response.data.map((item) => {
@@ -87,17 +85,14 @@ const SourceClickHouseStepForm: React.FC<ModalFormProps<{
             });
           })}
         />
-
         <ProFormText
           name={ClickHouseParams.database}
           label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.database'})}
         />
-
         <ProFormTextArea
           name={ClickHouseParams.sql}
           label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.sql'})}
         />
-
       </ProForm>
     </Modal>
   );

@@ -20,6 +20,8 @@ package cn.sliew.scaleph.storage.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.CommonConfigurationKeys;
+import org.apache.hadoop.fs.CommonConfigurationKeysPublic;
 
 import java.io.File;
 import java.util.Arrays;
@@ -40,6 +42,10 @@ public enum HadoopUtil {
     public static Configuration getHadoopConfiguration(String hadoopConfPath) {
 
         Configuration retConf = new Configuration();
+        retConf.setBoolean(CommonConfigurationKeys.IPC_CLIENT_PING_KEY, false);
+        retConf.setInt(CommonConfigurationKeys.IPC_CLIENT_RPC_TIMEOUT_KEY, 1000 * 10);
+        retConf.setBoolean(CommonConfigurationKeys.IPC_SERVER_LOG_SLOW_RPC, true);
+        retConf.setBoolean(CommonConfigurationKeysPublic.IPC_SERVER_LOG_SLOW_RPC, true);
 
         // We need to load both core-site.xml and hdfs-site.xml to determine the default fs path and
         // the hdfs configuration

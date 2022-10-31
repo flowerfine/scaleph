@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum FileProperties {
     ;
@@ -42,11 +43,11 @@ public enum FileProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> SCHEMA = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder()
             .name("schema")
             .description("The schema information of upstream data.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

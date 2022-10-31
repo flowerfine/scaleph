@@ -2,11 +2,8 @@ import {FlinkClusterConfig, FlinkClusterConfigAddParam, KubernetesOptions} from 
 import {ProCard, ProFormInstance, StepsForm,} from '@ant-design/pro-components';
 import {history, useIntl, useLocation} from 'umi';
 import {useRef, useState} from "react";
-import FlinkImageOptions from "@/pages/DEV/ClusterConfigOptions/components/FlinkImage";
-import K8sResourceOptions from "@/pages/DEV/ClusterConfigOptions/components/K8sResource";
 import BaseOptions from "@/pages/DEV/ClusterConfigOptions/components/Base";
 import {FlinkClusterConfigService} from "@/services/dev/flinkClusterConfig.service";
-import K8sBaseOptions from "@/pages/DEV/ClusterConfigOptions/components/K8sBase";
 import State from "@/pages/DEV/ClusterConfigOptions/components/State";
 import FaultTolerance from "@/pages/DEV/ClusterConfigOptions/components/FaultTolerance";
 import HighAvailability from "@/pages/DEV/ClusterConfigOptions/components/HA";
@@ -35,8 +32,6 @@ const ClusterConfigOptionsSteps: React.FC = () => {
     new Map(Object.entries(params?.configOptions ? params?.configOptions : {}))
   );
 
-  console.log('kubernetesOptions', kubernetesOptions)
-
   const add = (values: Record<string, any>) => {
     const param: FlinkClusterConfigAddParam = {...values}
     return FlinkClusterConfigService.add(param).then((response) => {
@@ -51,9 +46,9 @@ const ClusterConfigOptionsSteps: React.FC = () => {
       name: values.name,
       resourceProvider: values.resourceProvider,
       deployMode: values.deployMode,
-      clusterCredential: { id: values.clusterCredentialId },
+      clusterCredential: {id: values.clusterCredentialId},
       flinkVersion: values.flinkVersion,
-      flinkRelease: { id: values.flinkReleaseId },
+      flinkRelease: {id: values.flinkReleaseId},
       remark: values.remark
     };
     return FlinkClusterConfigService.update(param).then((response) => {
