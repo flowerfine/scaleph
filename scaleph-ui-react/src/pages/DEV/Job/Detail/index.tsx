@@ -9,25 +9,19 @@ import {
   DeleteOutlined,
   DeploymentUnitOutlined,
   EditOutlined,
-  FileZipOutlined,
   OrderedListOutlined,
   PauseOutlined,
   ProfileOutlined,
-  ProjectOutlined,
   RollbackOutlined,
   SaveOutlined,
   ToolOutlined,
 } from '@ant-design/icons';
-import { history } from 'umi';
-import JobInfoForJarWeb from '@/pages/DEV/Job/Detail/components/JobInfoForJar';
 import JobSavepointsWeb from '@/pages/DEV/Job/Detail/components/JobSavepointsTab';
-import JobArtifactForJarWeb from '@/pages/DEV/Job/Detail/components/JobArtifactForJar';
 import JobConfigurationWeb from '@/pages/DEV/Job/Detail/components/JobConfiguration';
 import JobOverviewWeb from '@/pages/DEV/Job/Detail/components/JobOverview';
 import { useIntl, useLocation } from '@@/exports';
 import { FlinkJobForJar } from '@/pages/DEV/Job/typings';
 import JobHistoryWeb from '@/pages/DEV/Job/Detail/components/JobHistoryTab';
-import { PageContainer } from '@ant-design/pro-components';
 import styles from './index.less';
 
 const JobDetailWeb: React.FC = () => {
@@ -102,10 +96,18 @@ const JobDetailWeb: React.FC = () => {
             </div>
           </Space>
         }
-        column={4}
+        column={3}
       >
         <Descriptions.Item label={intl.formatMessage({ id: 'pages.dev.job.detail.jobId' })}>
-          <Typography.Text copyable={true}>{params.flinkJobInstance?.jobId}</Typography.Text>
+          <Typography.Paragraph
+            copyable={true}
+            ellipsis={{ rows: 1, expandable: true, symbol: 'more' }}
+          >
+            {params.flinkJobInstance?.jobId}
+          </Typography.Paragraph>
+        </Descriptions.Item>
+        <Descriptions.Item label={intl.formatMessage({ id: 'pages.dev.job.detail.jobName' })}>
+          <Typography.Text copyable={true}>{params.flinkJobInstance?.jobName}</Typography.Text>
         </Descriptions.Item>
         <Descriptions.Item label={intl.formatMessage({ id: 'pages.dev.job.detail.jobState' })}>
           {params.flinkJobInstance?.jobState.label}
@@ -136,10 +138,7 @@ const JobDetailWeb: React.FC = () => {
                 key: 'overview',
                 children: (
                   <>
-                    <JobOverviewWeb data={params.flinkJobInstance ? params.flinkJobInstance : {}} />
-                    {/* <JobArtifactForJarWeb
-                      data={params.flinkArtifactJar ? params.flinkArtifactJar : {}}
-                    /> */}
+                    <JobOverviewWeb data={params} />
                   </>
                 ),
               },

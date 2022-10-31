@@ -73,6 +73,7 @@ export default {
   'pages.dev.job.seatunnel.env.value': 'Value',
 
   'pages.dev.job.detail.jobId': '作业ID',
+  'pages.dev.job.detail.jobName': '作业名称',
   'pages.dev.job.detail.jobState': '运行状态',
   'pages.dev.job.detail.startTime': '启动时间',
   'pages.dev.job.detail.duration': '运行时长',
@@ -89,4 +90,19 @@ export default {
   'pages.dev.job.detail.overview': '概览',
   'pages.dev.job.detail.jobHistory': '作业历史',
   'pages.dev.job.detail.jobGraph': 'Job Graph',
+  'pages.dev.job.detail.overview.basic': '作业基础信息',
+  'pages.dev.job.detail.overview.basic.artifactType': 'Artifact 类型',
+  'pages.dev.job.detail.overview.basic.jar': 'Jar',
+  'pages.dev.job.detail.overview.basic.jarPath': 'Jar 路径',
+  'pages.dev.job.detail.overview.basic.jarVersion': 'Jar 版本',
+  'pages.dev.job.detail.overview.basic.mainClass': '主类',
+  'pages.dev.job.detail.overview.basic.flinkVersion': 'Flink 版本',
+  'pages.dev.job.detail.overview.basic.creator': '创建人',
+  'pages.dev.job.detail.overview.basic.editor': '修改人',
+  'pages.dev.job.detail.overview.cluster': '集群信息',
+  'pages.dev.job.detail.overview.cluster.id': '集群ID',
+  'pages.dev.job.detail.overview.cluster.name': '集群名称',
+  'pages.dev.job.detail.overview.cluster.status': '集群状态',
+  'pages.dev.job.detail.overview.cluster.webui': '集群地址',
+  
 };
