@@ -1,14 +1,14 @@
 import {ModalFormProps} from '@/app.d';
 import {JobService} from '@/services/project/job.service';
 import {DiJob} from '@/services/project/typings';
-import {ProForm, ProFormDigit, ProFormText} from '@ant-design/pro-components';
+import {ProForm, ProFormDigit, ProFormSwitch, ProFormText} from '@ant-design/pro-components';
 import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {ElasticsearchParams, STEP_ATTR_TYPE} from '../../constant';
+import {SentryParams, STEP_ATTR_TYPE} from '../../constant';
 
-const SinkElasticsearchStepForm: React.FC<ModalFormProps<{
+const SinkSentryStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -32,6 +32,7 @@ const SinkElasticsearchStepForm: React.FC<ModalFormProps<{
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
+          console.log("values", values)
           let map: Map<string, any> = new Map();
           map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
@@ -54,39 +55,51 @@ const SinkElasticsearchStepForm: React.FC<ModalFormProps<{
           rules={[{required: true}, {max: 120}]}
         />
         <ProFormText
-          name={ElasticsearchParams.hosts}
-          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.hosts'})}
+          name={SentryParams.dsn}
+          label={intl.formatMessage({id: 'pages.project.di.step.sentry.dsn'})}
           rules={[{required: true}]}
         />
         <ProFormText
-          name={ElasticsearchParams.username}
-          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.username'})}
+          name={SentryParams.env}
+          label={intl.formatMessage({id: 'pages.project.di.step.sentry.env'})}
           colProps={{span: 12}}
         />
         <ProFormText
-          name={ElasticsearchParams.password}
-          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.password'})}
+          name={SentryParams.release}
+          label={intl.formatMessage({id: 'pages.project.di.step.sentry.release'})}
           colProps={{span: 12}}
         />
+        <ProFormSwitch
+          name={SentryParams.enableExternalConfiguration}
+          label={intl.formatMessage({id: 'pages.project.di.step.sentry.enableExternalConfiguration'})}
+        />
         <ProFormText
-          name={ElasticsearchParams.index}
-          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.index'})}
-          rules={[{required: true}]}
+          name={SentryParams.cacheDirPath}
+          label={intl.formatMessage({id: 'pages.project.di.step.sentry.cacheDirPath'})}
         />
         <ProFormDigit
-          name={ElasticsearchParams.maxRetrySize}
-          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.maxRetrySize'})}
-          initialValue={0}
+          name={SentryParams.maxCacheItems}
+          label={intl.formatMessage({id: 'pages.project.di.step.sentry.maxCacheItems'})}
+          initialValue={30}
           fieldProps={{
+            step: 5,
             min: 0
           }}
         />
         <ProFormDigit
-          name={ElasticsearchParams.maxBatchSize}
-          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.maxBatchSize'})}
-          initialValue={1000}
+          name={SentryParams.flushTimeoutMillis}
+          label={intl.formatMessage({id: 'pages.project.di.step.sentry.flushTimeoutMillis'})}
+          initialValue={15000}
           fieldProps={{
             step: 1000,
+            min: 0
+          }}
+        />
+        <ProFormDigit
+          name={SentryParams.maxQueueSize}
+          label={intl.formatMessage({id: 'pages.project.di.step.sentry.maxQueueSize'})}
+          fieldProps={{
+            step: 100,
             min: 0
           }}
         />
@@ -95,4 +108,4 @@ const SinkElasticsearchStepForm: React.FC<ModalFormProps<{
   );
 };
 
-export default SinkElasticsearchStepForm;
+export default SinkSentryStepForm;

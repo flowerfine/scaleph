@@ -45,4 +45,13 @@ export const StepSchemaService = {
     return values
   },
 
+  formatPositionMapping: (values: Record<string, any>) => {
+    const mappings: Record<string, any> = {}
+    values.queryParamPositionArray?.forEach(function (item: Record<string, any>) {
+      mappings[item.field] = item.position;
+    });
+    values.queryParamPosition = JSON.stringify(mappings)
+    return values
+  },
+
 };

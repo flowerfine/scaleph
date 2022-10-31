@@ -23,7 +23,7 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<{
   const intl = getIntl(getLocale(), true);
   const [form] = Form.useForm();
   useEffect(() => {
-    form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
+    form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.data.displayName);
   }, []);
 
   return (
