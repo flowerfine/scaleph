@@ -158,6 +158,7 @@ const JobDetailWeb: React.FC = () => {
                         params.flinkClusterInstance ? params.flinkClusterInstance : {}
                       }
                       flinkConfig={params.flinkConfig}
+                      data={params}
                     />
                   </>
                 ),

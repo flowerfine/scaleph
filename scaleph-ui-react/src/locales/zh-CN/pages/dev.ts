@@ -104,5 +104,6 @@ export default {
   'pages.dev.job.detail.overview.cluster.name': '集群名称',
   'pages.dev.job.detail.overview.cluster.status': '集群状态',
   'pages.dev.job.detail.overview.cluster.webui': '集群地址',
-  
+  'pages.dev.job.detail.overview.cluster.deployMode': '部署模式',
+  'pages.dev.job.detail.overview.cluster.resourceProvider': 'Resource Providers',
 };
