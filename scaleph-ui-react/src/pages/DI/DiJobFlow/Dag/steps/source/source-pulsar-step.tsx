@@ -1,12 +1,20 @@
 import {ModalFormProps} from '@/app.d';
 import {JobService} from '@/services/project/job.service';
 import {DiJob} from '@/services/project/typings';
-import {ProForm, ProFormDigit, ProFormText} from '@ant-design/pro-components';
+import {
+  ProForm,
+  ProFormDependency,
+  ProFormDigit,
+  ProFormGroup,
+  ProFormSelect,
+  ProFormText
+} from '@ant-design/pro-components';
 import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {STEP_ATTR_TYPE} from '../../constant';
+import {PulsarParams, STEP_ATTR_TYPE} from '../../constant';
+import {InfoCircleOutlined} from "@ant-design/icons";
 
 const SourcePulsarStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -36,6 +44,8 @@ const SourcePulsarStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
+          values[PulsarParams.cursorStartupMode] = values.startMode
+          values[PulsarParams.cursorStopMode] = values.stopMode
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
@@ -54,23 +64,151 @@ const SourcePulsarStepForm: React.FC<ModalFormProps<{
           rules={[{required: true}, {max: 120}]}
         />
         <ProFormText
-          name={STEP_ATTR_TYPE.host}
-          label={intl.formatMessage({id: 'pages.project.di.step.host'})}
+          name={PulsarParams.clientServiceUrl}
+          label={intl.formatMessage({id: 'pages.project.di.step.pulsar.clientServiceUrl'})}
           rules={[{required: true}]}
-          initialValue={"127.0.0.1"}
-          colProps={{span: 12}}
         />
-        <ProFormDigit
-          name={STEP_ATTR_TYPE.port}
-          label={intl.formatMessage({id: 'pages.project.di.step.port'})}
+        <ProFormText
+          name={PulsarParams.adminServiceUrl}
+          label={intl.formatMessage({id: 'pages.project.di.step.pulsar.adminServiceUrl'})}
           rules={[{required: true}]}
-          colProps={{span: 12}}
-          initialValue={9999}
-          fieldProps={{
-            min: 0,
-            max: 65535
+        />
+        <ProFormText
+          name={PulsarParams.authPluginClass}
+          label={intl.formatMessage({id: 'pages.project.di.step.pulsar.authPluginClass'})}
+        />
+        <ProFormText
+          name={PulsarParams.authParams}
+          label={intl.formatMessage({id: 'pages.project.di.step.pulsar.authParams'})}
+        />
+        <ProFormText
+          name={PulsarParams.subscriptionName}
+          label={intl.formatMessage({id: 'pages.project.di.step.pulsar.subscriptionName'})}
+          rules={[{required: true}]}
+        />
+
+        <ProFormText
+          name={PulsarParams.topic}
+          label={intl.formatMessage({id: 'pages.project.di.step.pulsar.topic'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.pulsar.topic.tooltip'}),
+            icon: <InfoCircleOutlined/>,
           }}
         />
+        <ProFormText
+          name={PulsarParams.topicPattern}
+          label={intl.formatMessage({id: 'pages.project.di.step.pulsar.topicPattern'})}
+        />
+        <ProFormDigit
+          name={PulsarParams.topicDiscoveryInterval}
+          label={intl.formatMessage({id: 'pages.project.di.step.pulsar.topicDiscoveryInterval'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.pulsar.topicDiscoveryInterval.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+        />
+        <ProFormDigit
+          name={PulsarParams.pollTimeout}
+          label={intl.formatMessage({id: 'pages.project.di.step.pulsar.pollTimeout'})}
+          colProps={{span: 8}}
+          fieldProps={{
+            step: 1000,
+            min: 0
+          }}
+        />
+        <ProFormDigit
+          name={PulsarParams.pollInterval}
+          label={intl.formatMessage({id: 'pages.project.di.step.pulsar.pollInterval'})}
+          colProps={{span: 8}}
+          fieldProps={{
+            step: 1000,
+            min: 0
+          }}
+        />
+        <ProFormDigit
+          name={PulsarParams.pollBatchSize}
+          label={intl.formatMessage({id: 'pages.project.di.step.pulsar.pollBatchSize'})}
+          colProps={{span: 8}}
+          fieldProps={{
+            step: 100,
+            min: 0
+          }}
+        />
+        <ProFormSelect
+          name={"startMode"}
+          label={intl.formatMessage({id: 'pages.project.di.step.pulsar.cursorStartupMode'})}
+          allowClear={false}
+          initialValue={"LATEST"}
+          valueEnum={{
+            LATEST: "LATEST",
+            EARLIEST: "EARLIEST",
+            SUBSCRIPTION: "SUBSCRIPTION",
+            TIMESTAMP: "TIMESTAMP"
+          }}
+        />
+        <ProFormDependency name={["startMode"]}>
+          {({startMode}) => {
+            if (startMode == "TIMESTAMP") {
+              return (
+                <ProFormGroup>
+                  <ProFormText
+                    name={PulsarParams.cursorStartupTimestamp}
+                    label={intl.formatMessage({id: 'pages.project.di.step.pulsar.cursorStartupTimestamp'})}
+                    rules={[{required: true}]}
+                  />
+                </ProFormGroup>
+              );
+            } else if (startMode == "SUBSCRIPTION") {
+              return (
+                <ProFormGroup>
+                  <ProFormSelect
+                    name={PulsarParams.cursorResetMode}
+                    label={intl.formatMessage({id: 'pages.project.di.step.pulsar.cursorResetMode'})}
+                    allowClear={false}
+                    initialValue={"LATEST"}
+                    valueEnum={{
+                      LATEST: "LATEST",
+                      EARLIEST: "EARLIEST"
+                    }}
+                  />
+                </ProFormGroup>
+              );
+            }
+            return <ProFormGroup/>;
+          }}
+        </ProFormDependency>
+        <ProFormSelect
+          name={"stopMode"}
+          label={intl.formatMessage({id: 'pages.project.di.step.pulsar.cursorStopMode'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.pulsar.cursorStopMode.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          allowClear={false}
+          initialValue={"NEVER"}
+          valueEnum={{
+            NEVER: "NEVER",
+            LATEST: "LATEST",
+            TIMESTAMP: "TIMESTAMP"
+          }}
+        />
+        <ProFormDependency name={["stopMode"]}>
+          {({stopMode}) => {
+            if (stopMode == "TIMESTAMP") {
+              return (
+                <ProFormGroup>
+                  <ProFormText
+                    name={PulsarParams.cursorStopTimestamp}
+                    label={intl.formatMessage({id: 'pages.project.di.step.pulsar.cursorStopTimestamp'})}
+                    rules={[{required: true}]}
+                  />
+                </ProFormGroup>
+              );
+            }
+            return <ProFormGroup/>;
+          }}
+        </ProFormDependency>
+
       </ProForm>
     </Modal>
   );

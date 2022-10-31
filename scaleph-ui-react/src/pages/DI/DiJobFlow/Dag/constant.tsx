@@ -336,3 +336,22 @@ export const PulsarParams = {
   cursorStopTimestamp: 'cursor.stop.timestamp'
 };
 
+export const DatahubParams = {
+  endpoint: 'endpoint',
+  accessId: 'accessId',
+  accessKey: 'accessKey',
+  project: 'project',
+  topic: 'topic',
+  timeout: 'timeout',
+  retryTimes: 'retryTimes'
+};
+
+export const ElasticsearchParams = {
+  hosts: 'hosts',
+  username: 'username',
+  password: 'password',
+  index: 'index',
+  maxRetrySize: 'max_retry_size',
+  maxBatchSize: 'max_batch_size'
+};
+
