@@ -54,6 +54,8 @@ import SinkRedisStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-redis-st
 import SourcePulsarStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-pulsar-step";
 import SinkDatahubStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-datahub-step";
 import SinkElasticsearchStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-elasticsearch-step";
+import SinkNeo4jStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-neo4j-step";
+import SinkSentryStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-sentry-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -290,6 +292,10 @@ export class EditNodeCommand implements ICommand {
       return (<SinkDatahubStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'elasticsearch'){
       return (<SinkElasticsearchStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'Neo4j'){
+      return (<SinkNeo4jStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'Sentry'){
+      return (<SinkSentryStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
       return <></>;
     }

@@ -355,3 +355,29 @@ export const ElasticsearchParams = {
   maxBatchSize: 'max_batch_size'
 };
 
+export const Neo4jParams = {
+  uri: 'uri',
+  username: 'username',
+  password: 'password',
+  bearerToken: 'bearer_token',
+  kerberosTicket: 'kerberos_ticket',
+  database: 'database',
+  query: 'query',
+  queryParamPosition: 'queryParamPosition',
+  maxTransactionRetryTime: 'max_transaction_retry_time',
+  maxConnectionTimeout: 'max_connection_timeout',
+  queryParamPositionArray: 'queryParamPositionArray',
+  field: 'field',
+  position: 'position',
+};
+
+export const SentryParams = {
+  dsn: 'dsn',
+  env: 'env',
+  release: 'release',
+  enableExternalConfiguration: 'enableExternalConfiguration',
+  cacheDirPath: 'cacheDirPath',
+  maxCacheItems: 'maxCacheItems',
+  flushTimeoutMillis: 'flushTimeoutMillis',
+  maxQueueSize: 'maxQueueSize'
+};

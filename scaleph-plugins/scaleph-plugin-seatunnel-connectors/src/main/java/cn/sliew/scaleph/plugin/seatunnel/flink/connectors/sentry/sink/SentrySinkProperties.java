@@ -48,20 +48,20 @@ public enum SentrySinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> CACHE_DIR_PATH = new PropertyDescriptor.Builder()
-            .name("cacheDirPath")
-            .description("the cache dir path for caching offline events")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
     public static final PropertyDescriptor<Boolean> ENABLE_EXTERNAL_CONFIGURATION = new PropertyDescriptor.Builder()
             .name("enableExternalConfiguration")
             .description("if loading properties from external sources is enabled.")
             .type(PropertyType.BOOLEAN)
             .parser(Parsers.BOOLEAN_PARSER)
             .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> CACHE_DIR_PATH = new PropertyDescriptor.Builder()
+            .name("cacheDirPath")
+            .description("the cache dir path for caching offline events")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> MAX_CACHE_ITEMS = new PropertyDescriptor.Builder()
