@@ -318,4 +318,43 @@ export default {
   'pages.project.di.step.redis.dataType': 'Data Type',
   'pages.project.di.step.redis.format': 'Format',
   'pages.project.di.step.redis.key': 'Key',
+
+  // pulsar
+  'pages.project.di.step.pulsar.clientServiceUrl': 'Client Service URL',
+  'pages.project.di.step.pulsar.adminServiceUrl': 'Admin Service URL',
+  'pages.project.di.step.pulsar.authPluginClass': 'Auth Plugin Class',
+  'pages.project.di.step.pulsar.authParams': 'Auth Params',
+  'pages.project.di.step.pulsar.subscriptionName': 'Subscription Name',
+  'pages.project.di.step.pulsar.topic': 'Topic',
+  'pages.project.di.step.pulsar.topic.tooltip': 'Multiple Topics separated by semicolon like: topic-1;topic-2',
+  'pages.project.di.step.pulsar.topicPattern': 'Topic Pattern',
+  'pages.project.di.step.pulsar.topicDiscoveryInterval': 'Topic Discovery Interval(millseconds)',
+  'pages.project.di.step.pulsar.topicDiscoveryInterval.tooltip': 'Non-Positive value means disable',
+  'pages.project.di.step.pulsar.pollTimeout': 'Poll Timeout(millseconds)',
+  'pages.project.di.step.pulsar.pollInterval': 'Poll Interval(millseconds)',
+  'pages.project.di.step.pulsar.pollBatchSize': 'Poll Batch Size',
+  'pages.project.di.step.pulsar.cursorStartupMode': 'Cursor Startup Mode',
+  'pages.project.di.step.pulsar.cursorStartupTimestamp': 'Cursor Startup Timestamp',
+  'pages.project.di.step.pulsar.cursorResetMode': 'Cursor Reset Mode',
+  'pages.project.di.step.pulsar.cursorStopMode': 'Cursor Stop Mode',
+  'pages.project.di.step.pulsar.cursorStopMode.tooltip': 'Never means stream and others mean batch',
+  'pages.project.di.step.pulsar.cursorStopTimestamp': 'Cursor Stop Timestamp',
+
+  // datahub
+  'pages.project.di.step.datahub.endpoint': 'Endpoint',
+  'pages.project.di.step.datahub.accessId': 'Access Id',
+  'pages.project.di.step.datahub.accessKey': 'Access Key',
+  'pages.project.di.step.datahub.project': 'Project',
+  'pages.project.di.step.datahub.topic': 'Topic',
+  'pages.project.di.step.datahub.timeout': 'Connection Timeout(millseconds)',
+  'pages.project.di.step.datahub.retryTimes': 'Retry Times',
+  'pages.project.di.step.datahub.retryTimes.tooltip': '0 means disable retry',
+
+  // elasticsearch
+  'pages.project.di.step.elasticsearch.hosts': 'Hosts',
+  'pages.project.di.step.elasticsearch.username': 'Username',
+  'pages.project.di.step.elasticsearch.password': 'Password',
+  'pages.project.di.step.elasticsearch.index': 'Index',
+  'pages.project.di.step.elasticsearch.maxRetrySize': 'Max Retry Size',
+  'pages.project.di.step.elasticsearch.maxBatchSize': 'Max Batch Size',
 };

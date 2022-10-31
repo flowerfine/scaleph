@@ -317,3 +317,41 @@ export const RedisParams = {
   key: 'key'
 };
 
+export const PulsarParams = {
+  clientServiceUrl: 'client.service-url',
+  adminServiceUrl: 'admin.service-url',
+  authPluginClass: 'auth.plugin-class',
+  authParams: 'auth.params',
+  subscriptionName: 'subscription.name',
+  topic: 'topic',
+  topicPattern: 'topicPattern',
+  topicDiscoveryInterval: 'topic-discovery.interval',
+  pollTimeout: 'poll.timeout',
+  pollInterval: 'poll.interval',
+  pollBatchSize: 'poll.batch.size',
+  cursorStartupMode: 'cursor.startup.mode',
+  cursorStartupTimestamp: 'cursor.startup.timestamp',
+  cursorResetMode: 'cursor.reset.mode',
+  cursorStopMode: 'cursor.stop.mode',
+  cursorStopTimestamp: 'cursor.stop.timestamp'
+};
+
+export const DatahubParams = {
+  endpoint: 'endpoint',
+  accessId: 'accessId',
+  accessKey: 'accessKey',
+  project: 'project',
+  topic: 'topic',
+  timeout: 'timeout',
+  retryTimes: 'retryTimes'
+};
+
+export const ElasticsearchParams = {
+  hosts: 'hosts',
+  username: 'username',
+  password: 'password',
+  index: 'index',
+  maxRetrySize: 'max_retry_size',
+  maxBatchSize: 'max_batch_size'
+};
+
