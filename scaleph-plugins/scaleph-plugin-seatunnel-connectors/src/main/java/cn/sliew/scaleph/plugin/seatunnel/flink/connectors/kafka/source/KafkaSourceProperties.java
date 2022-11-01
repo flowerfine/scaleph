@@ -30,6 +30,7 @@ import cn.sliew.scaleph.plugin.framework.property.Validators;
  */
 public enum KafkaSourceProperties {
     ;
+
     public static final PropertyDescriptor<String> TOPIC = new cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor.Builder<String>()
         .name("topic")
         .description(
@@ -39,7 +40,6 @@ public enum KafkaSourceProperties {
         .properties(Property.Required)
         .addValidator(Validators.NON_BLANK_VALIDATOR)
         .validateAndBuild();
-
 
     public static final PropertyDescriptor<String> BOOTSTRAP_SERVERS = new cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor.Builder<String>()
         .name("bootstrap.servers")
@@ -60,7 +60,6 @@ public enum KafkaSourceProperties {
         .addValidator(Validators.NON_BLANK_VALIDATOR)
         .validateAndBuild();
 
-
     public static final PropertyDescriptor<String> CONSUMER_GROUP = new cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor.Builder<String>()
         .name("consumer.group")
         .description("Kafka consumer group id, used to distinguish different consumer groups.")
@@ -69,7 +68,6 @@ public enum KafkaSourceProperties {
         .defaultValue("SeaTunnel-Consumer-Group")
         .addValidator(Validators.NON_BLANK_VALIDATOR)
         .validateAndBuild();
-
 
     public static final PropertyDescriptor<String> COMMIT_ON_CHECKPOINT = new cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor.Builder<String>()
         .name("commit_on_checkpoint")
@@ -81,7 +79,6 @@ public enum KafkaSourceProperties {
         .addValidator(Validators.NON_BLANK_VALIDATOR)
         .validateAndBuild();
 
-
     public static final PropertyDescriptor<String> KAFKA_CONF = new PropertyDescriptor.Builder<String>()
         .name("KAFKA_CONF")
         .description(
@@ -90,6 +87,5 @@ public enum KafkaSourceProperties {
         .parser(Parsers.STRING_PARSER)
         .addValidator(Validators.NON_BLANK_VALIDATOR)
         .validateAndBuild();
-
 
 }

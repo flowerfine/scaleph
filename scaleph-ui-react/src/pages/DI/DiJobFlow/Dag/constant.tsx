@@ -317,3 +317,67 @@ export const RedisParams = {
   key: 'key'
 };
 
+export const PulsarParams = {
+  clientServiceUrl: 'client.service-url',
+  adminServiceUrl: 'admin.service-url',
+  authPluginClass: 'auth.plugin-class',
+  authParams: 'auth.params',
+  subscriptionName: 'subscription.name',
+  topic: 'topic',
+  topicPattern: 'topicPattern',
+  topicDiscoveryInterval: 'topic-discovery.interval',
+  pollTimeout: 'poll.timeout',
+  pollInterval: 'poll.interval',
+  pollBatchSize: 'poll.batch.size',
+  cursorStartupMode: 'cursor.startup.mode',
+  cursorStartupTimestamp: 'cursor.startup.timestamp',
+  cursorResetMode: 'cursor.reset.mode',
+  cursorStopMode: 'cursor.stop.mode',
+  cursorStopTimestamp: 'cursor.stop.timestamp'
+};
+
+export const DatahubParams = {
+  endpoint: 'endpoint',
+  accessId: 'accessId',
+  accessKey: 'accessKey',
+  project: 'project',
+  topic: 'topic',
+  timeout: 'timeout',
+  retryTimes: 'retryTimes'
+};
+
+export const ElasticsearchParams = {
+  hosts: 'hosts',
+  username: 'username',
+  password: 'password',
+  index: 'index',
+  maxRetrySize: 'max_retry_size',
+  maxBatchSize: 'max_batch_size'
+};
+
+export const Neo4jParams = {
+  uri: 'uri',
+  username: 'username',
+  password: 'password',
+  bearerToken: 'bearer_token',
+  kerberosTicket: 'kerberos_ticket',
+  database: 'database',
+  query: 'query',
+  queryParamPosition: 'queryParamPosition',
+  maxTransactionRetryTime: 'max_transaction_retry_time',
+  maxConnectionTimeout: 'max_connection_timeout',
+  queryParamPositionArray: 'queryParamPositionArray',
+  field: 'field',
+  position: 'position',
+};
+
+export const SentryParams = {
+  dsn: 'dsn',
+  env: 'env',
+  release: 'release',
+  enableExternalConfiguration: 'enableExternalConfiguration',
+  cacheDirPath: 'cacheDirPath',
+  maxCacheItems: 'maxCacheItems',
+  flushTimeoutMillis: 'flushTimeoutMillis',
+  maxQueueSize: 'maxQueueSize'
+};
