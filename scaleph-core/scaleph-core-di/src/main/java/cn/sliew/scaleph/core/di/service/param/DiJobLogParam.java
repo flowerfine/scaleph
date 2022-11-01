@@ -37,7 +37,7 @@ public class DiJobLogParam extends PaginationParam {
     private Long clusterId;
 
     @ApiModelProperty("job code")
-    private String jobCode;
+    private Long jobCode;
 
     @ApiModelProperty("start time")
     private Long startTime;

@@ -31,7 +31,6 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.util.List;
 
 /**
@@ -53,11 +52,8 @@ public class DiJobDTO extends BaseDTO {
     @ApiModelProperty(value = "项目id")
     private Long projectId;
 
-    @NotBlank
-    @Length(min = 1, max = 120)
-    @Pattern(regexp = "\\w+$")
     @ApiModelProperty(value = "作业编码")
-    private String jobCode;
+    private Long jobCode;
 
     @NotBlank
     @Length(min = 1, max = 200)

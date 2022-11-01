@@ -5,7 +5,7 @@ import {DataSourceService} from '@/services/project/dataSource.service';
 import {JobService} from '@/services/project/job.service';
 import {DiJob, MetaDataSourceParam} from '@/services/project/typings';
 import {NsGraph} from '@antv/xflow';
-import {Button, Col, Form, message, Modal, Space} from 'antd';
+import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
 import {JdbcParams, STEP_ATTR_TYPE} from '../../constant';
@@ -192,29 +192,7 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<{
           name={JdbcParams.query}
           label={intl.formatMessage({id: 'pages.project.di.step.jdbc.query'})}
           rules={[{required: true}]}
-          colProps={{span: 20}}
-          fieldProps={{
-            rows: 8
-          }}
         />
-        <Col span={4}>
-          <Space direction="vertical" style={{paddingTop: '28px', width: '100%'}}>
-            <Button
-              type="default"
-              block
-              onClick={() => alert('comming soon ...')}
-            >
-              {intl.formatMessage({id: 'pages.project.di.step.jdbc.getsql'})}
-            </Button>
-            <Button
-              type="default"
-              block
-              onClick={() => alert('comming soon ...')}
-            >
-              {intl.formatMessage({id: 'pages.project.di.step.jdbc.preview'})}
-            </Button>
-          </Space>
-        </Col>
       </ProForm>
     </Modal>
   );

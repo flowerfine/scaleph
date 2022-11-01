@@ -44,7 +44,7 @@ public interface DiJobLogService {
 
     DiJobLogDTO selectByJobInstanceId(String jobInstanceId);
 
-    List<DiJobLogDTO> listRunningJobInstance(String jobCode);
+    List<DiJobLogDTO> listRunningJobInstance(Long jobCode);
 
     List<DiJobLogDTO> listTop100BatchJob(Date startTime);
 

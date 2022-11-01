@@ -95,7 +95,7 @@
                 and t.cluster_id = #{job.clusterId,jdbcType=BIGINT}
             </if>
         </where>
-        order by t.id
+        order by t.job_code
     </select>
 
 </mapper>
