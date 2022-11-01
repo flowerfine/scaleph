@@ -19,4 +19,11 @@ export const DataboardService = {
       ...(options || {}),
     });
   },
+  /** 查询项目数量 GET /api/studio/databoard/project */
+  project: async (options?: { [key: string]: any }) => {
+    return request<number>(`${DataboardService.url}/project`, {
+      method: 'GET',
+      ...(options || {}),
+    });
+  },
 };
