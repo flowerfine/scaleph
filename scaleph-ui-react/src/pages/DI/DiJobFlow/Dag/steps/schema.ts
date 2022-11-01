@@ -9,6 +9,15 @@ export const StepSchemaService = {
     return values
   },
 
+  formatFields: (values: Record<string, any>) => {
+    const fields: Record<string, any> = {}
+    values.fieldArray?.forEach(function (item: Record<string, any>) {
+      fields[item.field] = item.type;
+    });
+    values.fields = JSON.stringify(fields)
+    return values
+  },
+
   formatHeader: (values: Record<string, any>) => {
     const headers: Record<string, any> = {}
     values.headerArray?.forEach(function (item: Record<string, any>) {

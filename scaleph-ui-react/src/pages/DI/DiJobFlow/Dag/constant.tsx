@@ -132,6 +132,11 @@ export const BaseFileParams = {
   path: 'path',
   type: 'type',
   schema: 'schema',
+  delimiter: 'delimiter',
+  parsePartitionFromPath: 'parse_partition_from_path',
+  dateFormat: 'date_format',
+  timeFormat: 'time_format',
+  datetimeFormat: 'datetime_format',
   fileNameExpression: 'file_name_expression',
   fileFormat: 'file_format',
   filenameTimeFormat: 'filename_time_format',
@@ -141,8 +146,7 @@ export const BaseFileParams = {
   partitionDirExpression: 'partition_dir_expression',
   isPartitionFieldWriteInFile: 'is_partition_field_write_in_file',
   sinkColumns: 'sink_columns',
-  isEnableTransaction: 'is_enable_transaction',
-  saveMode: 'save_mode',
+  isEnableTransaction: 'is_enable_transaction'
 };
 
 export const HDFSFileParams = {
@@ -158,6 +162,12 @@ export const FtpFileParams = {
 
 export const OSSFileParams = {
   endpoint: 'endpoint',
+  bucket: 'bucket',
+  accessKey: 'access_key',
+  accessSecret: 'access_secret',
+};
+
+export const S3FileParams = {
   bucket: 'bucket',
   accessKey: 'access_key',
   accessSecret: 'access_secret',
@@ -280,6 +290,8 @@ export const IoTDBParams = {
   username: 'username',
   password: 'password',
   sql: 'sql',
+  fields: 'fields',
+  fieldArray: 'fieldArray',
   fetchSize: 'fetch_size',
   thriftDefaultBufferSize: 'thrift_default_buffer_size',
   thriftMaxFrameSize: 'thrift_max_frame_size',

@@ -56,6 +56,7 @@ public class PulsarSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(CURSOR_RESET_MODE);
         props.add(CURSOR_STOP_MODE);
         props.add(CURSOR_STOP_TIMESTAMP);
+        props.add(SCHEMA);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

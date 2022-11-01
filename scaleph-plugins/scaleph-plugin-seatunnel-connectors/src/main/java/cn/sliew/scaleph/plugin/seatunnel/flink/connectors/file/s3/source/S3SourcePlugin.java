@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.iotdb.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.s3.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
@@ -29,31 +29,30 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.iotdb.IoTDBProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.iotdb.source.IoTDBSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.s3.S3Properties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class IoTDBSourcePlugin extends SeaTunnelConnectorPlugin {
+public class S3SourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public IoTDBSourcePlugin() {
+    public S3SourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Read external data through IoTDB.",
-                IoTDBSourcePlugin.class.getName());
+                "Read data from AWS S3 service",
+                S3SourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(NODE_URLS);
-        props.add(USERNAME);
-        props.add(PASSWORD);
-        props.add(SQL);
-        props.add(FIELDS);
-        props.add(FETCH_SIZE);
-        props.add(THRIFT_DEFAULT_BUFFER_SIZE);
-        props.add(THRIFT_MAX_FRAME_SIZE);
-        props.add(ENABLE_CACHE_LOADER);
-        props.add(VERSION);
-        props.add(NUM_PARTITIONS);
-        props.add(LOWER_BOUND);
-        props.add(UPPER_BOUND);
+        props.add(BUCKET);
+        props.add(ACCESS_KEY);
+        props.add(ACCESS_SECRET);
+        props.add(PATH);
+        props.add(TYPE);
+        props.add(SCHEMA);
+        props.add(DELIMITER);
+        props.add(PARSE_PARTITION_FROM_PATH);
+        props.add(DATE_FORMAT);
+        props.add(TIME_FORMAT);
+        props.add(DATETIME_FORMAT);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
@@ -61,6 +60,6 @@ public class IoTDBSourcePlugin extends SeaTunnelConnectorPlugin {
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SOURCE_IOTDB;
+        return SeaTunnelPluginMapping.SOURCE_S3_FILE;
     }
 }

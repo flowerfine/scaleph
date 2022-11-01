@@ -1,6 +1,6 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {IoTDBParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {IoTDBParams, SchemaParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
@@ -8,12 +8,14 @@ import {getIntl, getLocale} from "umi";
 import {useEffect} from "react";
 import {
   ProForm,
-  ProFormDigit,
+  ProFormDigit, ProFormGroup, ProFormList,
   ProFormSelect,
   ProFormSwitch,
   ProFormText,
   ProFormTextArea
 } from "@ant-design/pro-components";
+import {InfoCircleOutlined} from "@ant-design/icons";
+import {StepSchemaService} from "@/pages/DI/DiJobFlow/Dag/steps/schema";
 
 const SourceIoTDBStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -40,9 +42,10 @@ const SourceIoTDBStepForm: React.FC<ModalFormProps<{
     onOk={() => {
       form.validateFields().then((values) => {
         let map: Map<string, any> = new Map();
-        map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
+        map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
+        StepSchemaService.formatFields(values)
         map.set(STEP_ATTR_TYPE.stepAttrs, values);
         JobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
@@ -80,6 +83,34 @@ const SourceIoTDBStepForm: React.FC<ModalFormProps<{
         label={intl.formatMessage({id: 'pages.project.di.step.iotdb.sql'})}
         rules={[{required: true}]}
       />
+      <ProFormGroup
+        label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
+        tooltip={{
+          title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
+          icon: <InfoCircleOutlined/>,
+        }}
+      >
+        <ProFormList
+          name={IoTDBParams.fieldArray}
+          copyIconProps={false}
+          creatorButtonProps={{
+            creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
+            type: 'text',
+          }}>
+          <ProFormGroup>
+            <ProFormText
+              name={SchemaParams.field}
+              label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
+              colProps={{span: 10, offset: 1}}
+            />
+            <ProFormText
+              name={SchemaParams.type}
+              label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
+              colProps={{span: 10, offset: 1}}
+            />
+          </ProFormGroup>
+        </ProFormList>
+      </ProFormGroup>
       <ProFormDigit
         name={IoTDBParams.fetchSize}
         label={intl.formatMessage({id: 'pages.project.di.step.iotdb.fetchSize'})}

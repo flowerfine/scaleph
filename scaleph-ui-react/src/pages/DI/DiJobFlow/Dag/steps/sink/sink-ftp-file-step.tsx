@@ -40,7 +40,7 @@ const SinkFtpFileStepForm: React.FC<ModalFormProps<{
     onOk={() => {
       form.validateFields().then((values) => {
         let map: Map<string, any> = new Map();
-        map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
+        map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
         map.set(STEP_ATTR_TYPE.stepAttrs, values);
@@ -165,16 +165,6 @@ const SinkFtpFileStepForm: React.FC<ModalFormProps<{
         initialValue={true}
         fieldProps={{
           disabled: true
-        }}
-      />
-      <ProFormSelect
-        name={BaseFileParams.saveMode}
-        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.saveMode'})}
-        colProps={{span: 24}}
-        allowClear={false}
-        initialValue={"overwrite"}
-        valueEnum={{
-          overwrite: "overwrite"
         }}
       />
     </ProForm>

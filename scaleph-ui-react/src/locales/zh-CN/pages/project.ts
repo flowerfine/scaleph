@@ -144,6 +144,11 @@ export default {
   'pages.project.di.step.baseFile.path': 'Path',
   'pages.project.di.step.baseFile.type': 'File Type',
   'pages.project.di.step.baseFile.schema': 'Schema',
+  'pages.project.di.step.baseFile.delimiter': 'Field Delimiter',
+  'pages.project.di.step.baseFile.parsePartitionFromPath': 'Enable Parse Partition From Path',
+  'pages.project.di.step.baseFile.dateFormat': 'Date Format',
+  'pages.project.di.step.baseFile.timeFormat': 'Time Format',
+  'pages.project.di.step.baseFile.datetimeFormat': 'Datetime Format',
   'pages.project.di.step.baseFile.fileNameExpression': 'FileName Expression',
   'pages.project.di.step.baseFile.fileFormat': 'File Format',
   'pages.project.di.step.baseFile.filenameTimeFormat': 'FileName Time Format',
@@ -154,7 +159,6 @@ export default {
   'pages.project.di.step.baseFile.isPartitionFieldWriteInFile': 'Write Partition Field to File',
   'pages.project.di.step.baseFile.sinkColumns': 'Sink Columns',
   'pages.project.di.step.baseFile.isEnableTransaction': 'Enable Transaction',
-  'pages.project.di.step.baseFile.saveMode': 'Save Mode',
 
   // hdfs file
   'pages.project.di.step.hdfsFile.defaultFS': 'fs.defaultFS',
@@ -171,6 +175,11 @@ export default {
   'pages.project.di.step.ossFile.bucket': 'Bucket',
   'pages.project.di.step.ossFile.accessKey': 'Access Key',
   'pages.project.di.step.ossFile.accessSecret': 'Access Secret',
+
+  // s3
+  'pages.project.di.step.s3.bucket': 'Bucket',
+  'pages.project.di.step.s3.accessKey': 'Access Key',
+  'pages.project.di.step.s3.accessSecret': 'Access Secret',
 
   // http
   'pages.project.di.step.http.method': 'Method',
@@ -261,7 +270,7 @@ export default {
   'pages.project.di.step.hive.partitionBy.tooltip': 'example : "test_par1", "test_par2"',
   'pages.project.di.step.hive.sinkColumns': 'Write Columns',
   'pages.project.di.step.hive.sinkColumns.tooltip': 'example : "test_tinyint", "test_smallint", "test_int", "test_bigint", "test_boolean", "test_float"',
-  'pages.project.di.step.hive.isEnableTransaction': 'isEnableTransaction',
+  'pages.project.di.step.hive.isEnableTransaction': 'Enable Transaction',
   'pages.project.di.step.hive.isEnableTransaction.tooltip': 'Only support true now',
   'pages.project.di.step.hive.saveMode': 'saveMode',
   'pages.project.di.step.hive.saveMode.tooltip': 'Streaming Job not support overwrite. Storage mode, we need support overwrite and append. append is now supported.',
@@ -288,6 +297,7 @@ export default {
   'pages.project.di.step.iotdb.username': 'Username',
   'pages.project.di.step.iotdb.password': 'Password',
   'pages.project.di.step.iotdb.sql': 'SQL',
+  'pages.project.di.step.iotdb.fields': 'Fields',
   'pages.project.di.step.iotdb.fetchSize': 'Fetch Size',
   'pages.project.di.step.iotdb.thriftDefaultBufferSize': 'Default Thrift Buffer Size',
   'pages.project.di.step.iotdb.thriftMaxFrameSize': 'Max Thrift Max Size',

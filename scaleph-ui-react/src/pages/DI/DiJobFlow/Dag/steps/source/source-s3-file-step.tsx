@@ -1,23 +1,24 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {RedisParams, SchemaParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {BaseFileParams, S3FileParams, SchemaParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
 import {getIntl, getLocale} from "umi";
-import {InfoCircleOutlined} from "@ant-design/icons";
-import {useEffect} from "react";
 import {
   ProForm,
   ProFormDependency,
   ProFormGroup,
   ProFormList,
   ProFormSelect,
+  ProFormSwitch,
   ProFormText
 } from "@ant-design/pro-components";
+import {useEffect} from "react";
+import {InfoCircleOutlined} from "@ant-design/icons";
 import {StepSchemaService} from "@/pages/DI/DiJobFlow/Dag/steps/schema";
 
-const SourceRedisStepForm: React.FC<ModalFormProps<{
+const SourceS3FileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -64,49 +65,42 @@ const SourceRedisStepForm: React.FC<ModalFormProps<{
         rules={[{required: true}, {max: 120}]}
       />
       <ProFormText
-        name={RedisParams.host}
-        label={intl.formatMessage({id: 'pages.project.di.step.redis.host'})}
+        name={S3FileParams.bucket}
+        label={intl.formatMessage({id: 'pages.project.di.step.s3.bucket'})}
         rules={[{required: true}]}
       />
       <ProFormText
-        name={RedisParams.port}
-        label={intl.formatMessage({id: 'pages.project.di.step.redis.port'})}
+        name={S3FileParams.accessKey}
+        label={intl.formatMessage({id: 'pages.project.di.step.s3.accessKey'})}
         rules={[{required: true}]}
+        colProps={{span: 12}}
       />
       <ProFormText
-        name={RedisParams.auth}
-        label={intl.formatMessage({id: 'pages.project.di.step.redis.auth'})}
+        name={S3FileParams.accessSecret}
+        label={intl.formatMessage({id: 'pages.project.di.step.s3.accessSecret'})}
+        rules={[{required: true}]}
+        colProps={{span: 12}}
       />
       <ProFormText
-        name={RedisParams.keys}
-        label={intl.formatMessage({id: 'pages.project.di.step.redis.keys'})}
+        name={BaseFileParams.path}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.path'})}
         rules={[{required: true}]}
       />
       <ProFormSelect
-        name={RedisParams.dataType}
-        label={intl.formatMessage({id: 'pages.project.di.step.redis.dataType'})}
+        name={"type"}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.type'})}
         rules={[{required: true}]}
-        valueEnum={{
-          key: "key",
-          hash: "hash",
-          list: "list",
-          set: "set",
-          zset: "zset"
-        }}
-      />
-      <ProFormSelect
-        name={"format"}
-        label={intl.formatMessage({id: 'pages.project.di.step.redis.format'})}
-        allowClear={false}
-        initialValue={"json"}
         valueEnum={{
           json: "json",
-          text: "text"
+          parquet: "parquet",
+          orc: "orc",
+          text: "text",
+          csv: "csv"
         }}
       />
-      <ProFormDependency name={["format"]}>
-        {({format}) => {
-          if (format == "json") {
+      <ProFormDependency name={["type"]}>
+        {({type}) => {
+          if (type == "json") {
             return (
               <ProFormGroup
                 label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
@@ -141,8 +135,36 @@ const SourceRedisStepForm: React.FC<ModalFormProps<{
           return <ProFormGroup/>;
         }}
       </ProFormDependency>
+      <ProFormText
+        name={BaseFileParams.delimiter}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.delimiter'})}
+        initialValue={"\\001"}
+      />
+      <ProFormSwitch
+        name={BaseFileParams.parsePartitionFromPath}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.parsePartitionFromPath'})}
+        initialValue={true}
+      />
+      <ProFormSelect
+        name={BaseFileParams.dateFormat}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.dateFormat'})}
+        initialValue={"yyyy-MM-dd"}
+        options={["yyyy-MM-dd", "yyyy.MM.dd", "yyyy/MM/dd"]}
+      />
+      <ProFormSelect
+        name={BaseFileParams.timeFormat}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.timeFormat'})}
+        initialValue={"HH:mm:ss"}
+        options={["HH:mm:ss", "HH:mm:ss.SSS"]}
+      />
+      <ProFormSelect
+        name={BaseFileParams.datetimeFormat}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.datetimeFormat'})}
+        initialValue={"yyyy-MM-dd HH:mm:ss"}
+        options={["yyyy-MM-dd HH:mm:ss", "yyyy.MM.dd HH:mm:ss", "yyyy/MM/dd HH:mm:ss", "yyyyMMddHHmmss"]}
+      />
     </ProForm>
   </Modal>);
 }
 
-export default SourceRedisStepForm;
+export default SourceS3FileStepForm;

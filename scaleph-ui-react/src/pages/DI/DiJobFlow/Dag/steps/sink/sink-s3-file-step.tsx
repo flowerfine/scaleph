@@ -1,6 +1,6 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {BaseFileParams, OSSFileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {BaseFileParams, S3FileParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
@@ -15,7 +15,7 @@ import {
 } from "@ant-design/pro-components";
 import {useEffect} from "react";
 
-const SinkOSSFileStepForm: React.FC<ModalFormProps<{
+const SinkS3FileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -62,26 +62,19 @@ const SinkOSSFileStepForm: React.FC<ModalFormProps<{
         colProps={{span: 24}}
       />
       <ProFormText
-        name={OSSFileParams.endpoint}
-        label={intl.formatMessage({id: 'pages.project.di.step.ossFile.endpoint'})}
+        name={S3FileParams.bucket}
+        label={intl.formatMessage({id: 'pages.project.di.step.s3.bucket'})}
         rules={[{required: true}]}
-        colProps={{span: 18}}
       />
       <ProFormText
-        name={OSSFileParams.bucket}
-        label={intl.formatMessage({id: 'pages.project.di.step.ossFile.bucket'})}
-        rules={[{required: true}]}
-        colProps={{span: 6}}
-      />
-      <ProFormText
-        name={OSSFileParams.accessKey}
-        label={intl.formatMessage({id: 'pages.project.di.step.ossFile.accessKey'})}
+        name={S3FileParams.accessKey}
+        label={intl.formatMessage({id: 'pages.project.di.step.s3.accessKey'})}
         rules={[{required: true}]}
         colProps={{span: 12}}
       />
       <ProFormText
-        name={OSSFileParams.accessSecret}
-        label={intl.formatMessage({id: 'pages.project.di.step.ossFile.accessSecret'})}
+        name={S3FileParams.accessSecret}
+        label={intl.formatMessage({id: 'pages.project.di.step.s3.accessSecret'})}
         rules={[{required: true}]}
         colProps={{span: 12}}
       />
@@ -165,4 +158,4 @@ const SinkOSSFileStepForm: React.FC<ModalFormProps<{
   </Modal>);
 }
 
-export default SinkOSSFileStepForm;
+export default SinkS3FileStepForm;
