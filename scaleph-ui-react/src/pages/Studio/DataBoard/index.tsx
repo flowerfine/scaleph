@@ -8,10 +8,13 @@ const DataBoard: React.FC = () => {
   const [clusterCnt, setClusterCnt] = useState(0);
   const [batchJobCnt, setBatchJobCnt] = useState(0);
   const [realtimeJobCnt, setRealtimeJobCnt] = useState(0);
+  const [projectCnt, setProjectCnt] = useState(0);
+
   useEffect(() => {
     fetchCluster();
     fetchJob({ jobType: 'b' }).then((d) => setBatchJobCnt(d));
     fetchJob({ jobType: 'r' }).then((d) => setRealtimeJobCnt(d));
+    fetchProject();
   }, []);
   // 集群数量
   const fetchCluster = useCallback(async () => {
@@ -20,14 +23,28 @@ const DataBoard: React.FC = () => {
   }, []);
   // 任务数量
   const fetchJob = useCallback(async (params: { jobType: string }) => {
-    const clusterCnt = await DataboardService.job(params);
-    return clusterCnt;
+    const jobCnt = await DataboardService.job(params);
+    return jobCnt;
+  }, []);
+  // 项目数量
+  const fetchProject = useCallback(async () => {
+    const projectCnt = await DataboardService.project();
+    setProjectCnt(projectCnt);
   }, []);
 
   return (
     <>
       <Row gutter={4}>
-        <Col span="8">
+      <Col span="6">
+          <Card>
+            <Statistic
+              title={intl.formatMessage({ id: 'pages.studio.databoard.projectCnt' })}
+              value={projectCnt}
+              valueStyle={{ color: '#3f8600' }}
+            />
+          </Card>
+        </Col>
+        <Col span="6">
           <Card>
             <Statistic
               title={intl.formatMessage({ id: 'pages.studio.databoard.clusterCnt' })}
@@ -36,7 +53,7 @@ const DataBoard: React.FC = () => {
             />
           </Card>
         </Col>
-        <Col span="8">
+        <Col span="6">
           <Card>
             <Statistic
               title={intl.formatMessage({ id: 'pages.studio.databoard.batchJobCnt' })}
@@ -45,7 +62,7 @@ const DataBoard: React.FC = () => {
             />
           </Card>
         </Col>
-        <Col span="8">
+        <Col span="6">
           <Card>
             <Statistic
               title={intl.formatMessage({ id: 'pages.studio.databoard.realtimeJobCnt' })}
