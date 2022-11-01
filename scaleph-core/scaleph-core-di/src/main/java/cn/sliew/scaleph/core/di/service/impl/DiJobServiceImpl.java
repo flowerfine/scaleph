@@ -37,6 +37,8 @@ import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.di.DiJob;
 import cn.sliew.scaleph.dao.mapper.master.di.DiJobMapper;
 import cn.sliew.scaleph.security.util.SecurityUtil;
+import cn.sliew.scaleph.system.snowflake.UidGenerator;
+import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -59,6 +61,8 @@ import static cn.sliew.milky.common.check.Ensures.checkState;
 @Service
 public class DiJobServiceImpl implements DiJobService {
 
+    @Autowired
+    private UidGenerator defaultUidGenerator;
     @Autowired
     private DiJobMapper diJobMapper;
     @Autowired
@@ -118,7 +122,7 @@ public class DiJobServiceImpl implements DiJobService {
     }
 
     @Override
-    public DiJobDTO selectOne(Long projectId, String jobCode, int jobVersion) {
+    public DiJobDTO selectOne(Long projectId, Long jobCode, int jobVersion) {
         LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>()
                 .eq(DiJob::getProjectId, projectId)
                 .eq(DiJob::getJobCode, jobCode)
@@ -129,9 +133,9 @@ public class DiJobServiceImpl implements DiJobService {
 
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
-    public DiJobDTO insert(DiJobAddParam param) {
+    public DiJobDTO insert(DiJobAddParam param) throws UidGenerateException {
         DiJob record = BeanUtil.copy(param, new DiJob());
-        record.setJobCode(RandomStringUtils.random(16, true, true));
+        record.setJobCode(defaultUidGenerator.getUID());
         record.setJobStatus(JobStatus.DRAFT);
         record.setRuntimeState(RuntimeState.STOP);
         record.setJobOwner(SecurityUtil.getCurrentUserName());
@@ -170,7 +174,7 @@ public class DiJobServiceImpl implements DiJobService {
 
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
-    public int deleteByCode(Long projectId, String jobCode) {
+    public int deleteByCode(Long projectId, Long jobCode) {
         List<DiJob> jobList = diJobMapper.selectList(new LambdaQueryWrapper<DiJob>()
                 .eq(DiJob::getJobCode, jobCode)
                 .eq(DiJob::getProjectId, projectId)
@@ -345,7 +349,7 @@ public class DiJobServiceImpl implements DiJobService {
     /**
      * 归档任务，只保留发布状态中最大版本号的那个，其余发布状态的任务均改为归档状态
      */
-    private int archive(Long projectId, String jobCode) {
+    private int archive(Long projectId, Long jobCode) {
         LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>()
                 .eq(DiJob::getJobCode, jobCode)
                 .eq(DiJob::getProjectId, projectId)

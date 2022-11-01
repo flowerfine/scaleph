@@ -579,21 +579,15 @@ const DiJobView: React.FC = () => {
                     disabled={selectedRows.length < 1}
                     onClick={() => {
                       Modal.confirm({
-                        title: intl.formatMessage({
-                          id: 'app.common.operate.delete.confirm.title',
-                        }),
-                        content: intl.formatMessage({
-                          id: 'app.common.operate.delete.confirm.content',
-                        }),
+                        title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                        content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content',}),
                         okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
                         okButtonProps: {danger: true},
                         cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                         onOk() {
                           JobService.deleteJobBatch(selectedRows).then((d) => {
                             if (d.success) {
-                              message.success(
-                                intl.formatMessage({id: 'app.common.operate.delete.success'}),
-                              );
+                              message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                               actionRef.current?.reload();
                             }
                           });

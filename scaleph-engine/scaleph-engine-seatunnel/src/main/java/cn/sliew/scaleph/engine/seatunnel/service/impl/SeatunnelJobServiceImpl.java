@@ -296,7 +296,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
                                             Map<String, String> clusterConf,
                                             File projectPath) throws IOException {
         Configuration configuration = new Configuration();
-        configuration.setString(PipelineOptions.NAME, job.getJobCode());
+        configuration.setString(PipelineOptions.NAME, job.getJobName());
         configuration.setString(JobManagerOptions.ADDRESS, clusterConf.get(JobManagerOptions.ADDRESS.key()));
         configuration.setInteger(JobManagerOptions.PORT, Integer.parseInt(clusterConf.get(JobManagerOptions.PORT.key())));
         configuration.setInteger(RestOptions.PORT, Integer.parseInt(clusterConf.get(RestOptions.PORT.key())));

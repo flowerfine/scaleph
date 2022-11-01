@@ -52,7 +52,7 @@ public class DiJobLogDTO extends BaseDTO {
     private Long jobId;
 
     @ApiModelProperty(value = "作业编码")
-    private String jobCode;
+    private Long jobCode;
 
     @ApiModelProperty(value = "执行集群id")
     private Long clusterId;
