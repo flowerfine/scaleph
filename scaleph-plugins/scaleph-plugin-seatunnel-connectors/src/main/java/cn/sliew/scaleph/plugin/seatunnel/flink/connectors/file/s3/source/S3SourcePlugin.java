@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.wechat.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.s3.source;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import com.google.auto.service.AutoService;
 
@@ -29,26 +29,37 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.wechat.sink.WechatSinkProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.s3.S3Properties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class WeChatSinkPlugin extends SeaTunnelConnectorPlugin {
+public class S3SourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public WeChatSinkPlugin() {
+    public S3SourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "A sink plugin which use Enterprise WeChat robot send message",
-                WeChatSinkPlugin.class.getName());
+                "Read data from AWS S3 service",
+                S3SourcePlugin.class.getName());
+
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(URL);
-        props.add(MENTIONED_LIST);
-        props.add(MENTIONED_MOBILE_LIST);
+        props.add(BUCKET);
+        props.add(ACCESS_KEY);
+        props.add(ACCESS_SECRET);
+        props.add(PATH);
+        props.add(TYPE);
+        props.add(SCHEMA);
+        props.add(DELIMITER);
+        props.add(PARSE_PARTITION_FROM_PATH);
+        props.add(DATE_FORMAT);
+        props.add(TIME_FORMAT);
+        props.add(DATETIME_FORMAT);
         props.add(CommonProperties.PARALLELISM);
-        props.add(CommonProperties.SOURCE_TABLE_NAME);
-        this.supportedProperties = Collections.unmodifiableList(props);
+        props.add(CommonProperties.RESULT_TABLE_NAME);
+        supportedProperties = Collections.unmodifiableList(props);
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_WECHAT;
+        return SeaTunnelPluginMapping.SOURCE_S3_FILE;
     }
 }

@@ -41,6 +41,7 @@ public class SocketSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(SocketProperties.HOST);
         props.add(SocketProperties.PORT);
         props.add(SocketSinkProperties.MAX_RETRIES);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = Collections.unmodifiableList(props);
     }

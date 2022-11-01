@@ -47,6 +47,7 @@ public class EmailSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(EMAIL_TO_ADDRESS);
         props.add(EMAIL_MESSAGE_HEADLINE);
         props.add(EMAIL_MESSAGE_CONTENT);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = Collections.unmodifiableList(props);
     }

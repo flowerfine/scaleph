@@ -47,6 +47,7 @@ public class RedisSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(KEY);
         props.add(DATA_TYPE);
         props.add(FORMAT);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

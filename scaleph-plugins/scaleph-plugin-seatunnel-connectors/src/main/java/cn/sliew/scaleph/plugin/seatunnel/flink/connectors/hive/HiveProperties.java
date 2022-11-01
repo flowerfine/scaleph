@@ -44,6 +44,14 @@ public enum HiveProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder()
+            .name("schema")
+            .description("The schema information of upstream data.")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<List<String>> PARTITION_BY = new PropertyDescriptor.Builder()
             .name("partition_by")
             .description(
@@ -63,7 +71,7 @@ public enum HiveProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> IS_ENABLE_TRANSACTION = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<Boolean> IS_ENABLE_TRANSACTION = new PropertyDescriptor.Builder()
             .name("is_enable_transaction")
             .description(
                     "If is_enable_transaction is true, we will ensure that data will not be lost or duplicated when it is written to the target directory.\n"

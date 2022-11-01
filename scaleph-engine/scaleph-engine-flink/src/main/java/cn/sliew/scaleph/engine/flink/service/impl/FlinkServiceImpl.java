@@ -201,7 +201,7 @@ public class FlinkServiceImpl implements FlinkService {
 
     private ClusterClient doSubmitSeaTunnel(FlinkJobForSeaTunnelDTO flinkJobForSeaTunnelDTO, Path workspace) throws Exception {
         FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(flinkJobForSeaTunnelDTO.getFlinkClusterConfig().getId());
-        SeaTunnelReleaseDTO seaTunnelRelease = seaTunnelReleaseService.selectByVersion(SeaTunnelVersion.V_2_2_0_BETA);
+        SeaTunnelReleaseDTO seaTunnelRelease = seaTunnelReleaseService.selectByVersion(SeaTunnelVersion.V_2_3_0_BETA);
 
         Path flinkHomePath = loadFlinkRelease(flinkClusterConfigDTO.getFlinkRelease(), workspace);
         Path seatunnelHomePath = loadSeaTunnelRelease(seaTunnelRelease, workspace);

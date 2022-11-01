@@ -107,10 +107,11 @@ const SinkHiveStepForm: React.FC<ModalFormProps<{
             title: intl.formatMessage({id: 'pages.project.di.step.hive.saveMode.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
+          allowClear={false}
           initialValue={"append"}
           valueEnum={{
-            append: "append",
-            overwrite: "overwrite"
+            append: {text: "append", disabled: false},
+            overwrite: {text: "overwrite", disabled: true}
           }}
         />
       </ProForm>

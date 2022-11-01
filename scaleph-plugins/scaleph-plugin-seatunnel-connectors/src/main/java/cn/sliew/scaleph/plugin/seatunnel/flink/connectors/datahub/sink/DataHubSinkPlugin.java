@@ -45,6 +45,7 @@ public class DataHubSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(TOPIC);
         props.add(TIMEOUT);
         props.add(RETRY_TIMES);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;
     }

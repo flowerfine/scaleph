@@ -45,6 +45,7 @@ public class IoTDBSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(USERNAME);
         props.add(PASSWORD);
         props.add(SQL);
+        props.add(FIELDS);
         props.add(FETCH_SIZE);
         props.add(THRIFT_DEFAULT_BUFFER_SIZE);
         props.add(THRIFT_MAX_FRAME_SIZE);
@@ -53,7 +54,7 @@ public class IoTDBSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(NUM_PARTITIONS);
         props.add(LOWER_BOUND);
         props.add(UPPER_BOUND);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

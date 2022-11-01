@@ -46,6 +46,7 @@ public class HttpSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(RETRY);
         props.add(RETRY_BACKOFF_MULTIPLIER_MS);
         props.add(RETRY_BACKOFF_MAX_MS);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

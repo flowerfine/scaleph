@@ -358,7 +358,7 @@ VALUES ('flink_artifact_type', '1', 'UDF', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_artifact_type', '2', 'SQL', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('seatunnel_version', '2.2.0-beta', '2.2.0-beta', 'sys', 'sys');
+VALUES ('seatunnel_version', '2.3.0-beta', '2.3.0-beta', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('image_pull_policy', 'IfNotPresent', 'IfNotPresent', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)

@@ -44,7 +44,7 @@ public class FakeSourcePlugin extends SeaTunnelConnectorPlugin {
 
         props.add(SCHEMA);
         props.add(ROW_NUM);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

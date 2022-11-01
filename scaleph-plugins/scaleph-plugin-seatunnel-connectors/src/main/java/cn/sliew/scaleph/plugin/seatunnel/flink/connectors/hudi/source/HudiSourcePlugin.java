@@ -48,7 +48,7 @@ public class HudiSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(USE_KERBEROS);
         props.add(KERBEROS_PRINCIPAL);
         props.add(KERBEROS_PRINCIPAL_FILE);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

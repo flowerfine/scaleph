@@ -33,7 +33,7 @@ const SinkKuduStepForm: React.FC<ModalFormProps<{
       onOk={() => {
         form.validateFields().then((values) => {
           let map: Map<string, any> = new Map();
-          map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
+          map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
           map.set(STEP_ATTR_TYPE.stepAttrs, values);

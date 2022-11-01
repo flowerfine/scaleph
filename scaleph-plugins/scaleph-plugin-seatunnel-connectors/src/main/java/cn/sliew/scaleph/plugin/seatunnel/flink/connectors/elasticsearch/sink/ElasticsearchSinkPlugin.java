@@ -44,6 +44,7 @@ public class ElasticsearchSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(INDEX);
         props.add(MAX_RETRY_SIZE);
         props.add(MAX_BATCH_SIZE);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;
     }

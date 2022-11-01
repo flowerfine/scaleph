@@ -10,7 +10,7 @@ import {
   ProFormDependency,
   ProFormGroup,
   ProFormList,
-  ProFormSelect,
+  ProFormSelect, ProFormSwitch,
   ProFormText
 } from "@ant-design/pro-components";
 import {useEffect} from "react";
@@ -42,7 +42,7 @@ const SourceOSSFileStepForm: React.FC<ModalFormProps<{
     onOk={() => {
       form.validateFields().then((values) => {
         let map: Map<string, any> = new Map();
-        map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
+        map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
         StepSchemaService.formatSchema(values)
@@ -141,6 +141,34 @@ const SourceOSSFileStepForm: React.FC<ModalFormProps<{
           return <ProFormGroup/>;
         }}
       </ProFormDependency>
+      <ProFormText
+        name={BaseFileParams.delimiter}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.delimiter'})}
+        initialValue={"\\001"}
+      />
+      <ProFormSwitch
+        name={BaseFileParams.parsePartitionFromPath}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.parsePartitionFromPath'})}
+        initialValue={true}
+      />
+      <ProFormSelect
+        name={BaseFileParams.dateFormat}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.dateFormat'})}
+        initialValue={"yyyy-MM-dd"}
+        options={["yyyy-MM-dd", "yyyy.MM.dd", "yyyy/MM/dd"]}
+      />
+      <ProFormSelect
+        name={BaseFileParams.timeFormat}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.timeFormat'})}
+        initialValue={"HH:mm:ss"}
+        options={["HH:mm:ss", "HH:mm:ss.SSS"]}
+      />
+      <ProFormSelect
+        name={BaseFileParams.datetimeFormat}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.datetimeFormat'})}
+        initialValue={"yyyy-MM-dd HH:mm:ss"}
+        options={["yyyy-MM-dd HH:mm:ss", "yyyy.MM.dd HH:mm:ss", "yyyy/MM/dd HH:mm:ss", "yyyyMMddHHmmss"]}
+      />
     </ProForm>
   </Modal>);
 }
