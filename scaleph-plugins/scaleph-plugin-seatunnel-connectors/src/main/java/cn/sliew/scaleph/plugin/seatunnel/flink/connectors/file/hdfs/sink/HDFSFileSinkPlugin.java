@@ -54,6 +54,7 @@ public class HDFSFileSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(SINK_COLUMNS);
         props.add(IS_ENABLE_TRANSACTION);
         props.add(SAVE_MODE);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

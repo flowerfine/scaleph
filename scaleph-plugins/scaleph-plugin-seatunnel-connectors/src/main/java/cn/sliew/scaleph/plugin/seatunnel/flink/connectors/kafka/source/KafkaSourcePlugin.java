@@ -60,7 +60,7 @@ public class KafkaSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(COMMIT_ON_CHECKPOINT);
         props.add(KAFKA_CONF);
 
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

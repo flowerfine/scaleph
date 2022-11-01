@@ -45,7 +45,7 @@ public class ClickHouseSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(SQL);
         props.add(USERNAME);
         props.add(PASSWORD);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

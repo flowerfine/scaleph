@@ -43,7 +43,7 @@ public class LocalFileSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(PATH);
         props.add(TYPE);
         props.add(SCHEMA);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

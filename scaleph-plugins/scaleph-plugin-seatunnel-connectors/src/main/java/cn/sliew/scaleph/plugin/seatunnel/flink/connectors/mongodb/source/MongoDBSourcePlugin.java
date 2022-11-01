@@ -45,7 +45,7 @@ public class MongoDBSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(DATABASE);
         props.add(COLLECTION);
         props.add(SCHEMA);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

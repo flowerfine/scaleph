@@ -40,7 +40,7 @@ public class SocketSourcePlugin extends SeaTunnelConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(SocketProperties.HOST);
         props.add(SocketProperties.PORT);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         this.supportedProperties = Collections.unmodifiableList(props);
     }

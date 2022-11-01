@@ -48,6 +48,7 @@ public class Neo4jSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(QUERY_PARAM_POSITION);
         props.add(MAX_TRANSACTION_RETRY_SIZE);
         props.add(MAX_CONNECTION_TIMEOUT);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;
     }

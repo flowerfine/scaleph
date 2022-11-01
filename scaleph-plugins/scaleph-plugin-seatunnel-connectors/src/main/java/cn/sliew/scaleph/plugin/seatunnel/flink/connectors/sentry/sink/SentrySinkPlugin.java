@@ -46,6 +46,7 @@ public class SentrySinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(MAX_CACHE_ITEMS);
         props.add(FLUSH_TIMEOUT_MILLIS);
         props.add(MAX_QUEUE_SIZE);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;
     }
