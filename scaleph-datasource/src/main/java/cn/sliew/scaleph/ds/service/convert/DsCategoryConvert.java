@@ -16,23 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.ds;
+package cn.sliew.scaleph.ds.service.convert;
 
-import cn.sliew.scaleph.dao.entity.master.ds.DsType;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.master.ds.DsCategory;
+import cn.sliew.scaleph.ds.service.dto.DsCategoryDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
-import java.util.List;
-
-/**
- * <p>
- * data source type Mapper 接口
- * </p>
- */
-@Repository
-public interface DsTypeMapper extends BaseMapper<DsType> {
-
-    List<DsType> listTypes(@Param("categoryId") Long categoryId);
+@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface DsCategoryConvert extends BaseConvert<DsCategory, DsCategoryDTO> {
+    DsCategoryConvert INSTANCE = Mappers.getMapper(DsCategoryConvert.class);
 
 }
