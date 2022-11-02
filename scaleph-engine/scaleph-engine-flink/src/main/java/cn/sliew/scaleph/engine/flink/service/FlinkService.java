@@ -34,4 +34,10 @@ public interface FlinkService {
 
     void shutdownBatch(List<Long> ids) throws Exception;
 
+    void stop(Long id) throws Exception;
+
+    void cancel(Long id) throws Exception;
+
+    void triggerSavepoint(Long id) throws Exception;
+
 }
