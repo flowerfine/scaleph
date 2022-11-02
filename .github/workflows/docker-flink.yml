@@ -22,13 +22,13 @@ on:
       flinkVersion:
         description: 'flink version'
         required: true
-        default: '1.15.1'
+        default: '1.16.0'
         type: choice
         options:
           - 1.13.6
           - 1.14.4
-          - 1.15.0
-          - 1.15.1
+          - 1.15.2
+          - 1.16.0
       scalaVersion:
         description: 'scala version'
         required: true
