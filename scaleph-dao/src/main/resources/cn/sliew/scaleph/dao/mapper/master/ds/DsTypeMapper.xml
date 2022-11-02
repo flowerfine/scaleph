@@ -38,6 +38,8 @@
     </sql>
 
     <select id="listTypes" resultMap="BaseResultMap">
+        SELECT t.*
+        FROM (
         SELECT
         t1.*
         FROM
@@ -50,9 +52,7 @@
             </if>
         </where>
         GROUP BY
-        t1.id,
-        t1.`order`
-        ORDER BY
-        t1.`order`
+        t1.id ) t
+        ORDER BY t.`order`
     </select>
 </mapper>
