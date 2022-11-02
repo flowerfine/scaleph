@@ -26,7 +26,6 @@ const DataSourceTypeWeb: React.FC<{ categoryId?: number }> = ({categoryId}) => {
   return (
     <ProList
       toolbar={{
-        menu: {},
         search: {
           onSearch: (value: string) => {
             alert(value);

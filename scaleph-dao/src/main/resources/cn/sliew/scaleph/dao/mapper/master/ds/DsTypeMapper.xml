@@ -49,8 +49,10 @@
                 t3.id = #{categoryId}
             </if>
         </where>
+        GROUP BY
+        t1.id,
+        t1.`order`
         ORDER BY
-        t3.`order`,
         t1.`order`
     </select>
 </mapper>

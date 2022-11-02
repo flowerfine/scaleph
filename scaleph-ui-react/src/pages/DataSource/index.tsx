@@ -12,7 +12,7 @@ const DataSourceCategoryAndTypeWeb: React.FC = () => {
         <Col span={4}>
           <DataSourceCategoryWeb onCategoryChange={(categoryId) => setCategoryId(categoryId)}/>
         </Col>
-        <Col>
+        <Col span={20}>
           <DataSourceTypeWeb categoryId={categoryId}/>
         </Col>
       </Row>¬
