@@ -1,38 +1,31 @@
-import {ActionType, ProFormInstance, ProList, ProListMetas} from "@ant-design/pro-components";
-import {DsCategory} from "@/services/datasource/typings";
 import {DsCategoryService} from "@/services/datasource/category.service";
-import {useIntl} from "umi";
-import {useRef} from "react";
+import {useEffect, useState} from "react";
+import {Menu} from "antd";
+import {ItemType} from "antd/lib/menu/hooks/useItems";
 
 const DataSourceCategoryMenu: React.FC<{ onCategoryChange: (id: number) => void }> = ({onCategoryChange}) => {
-  const intl = useIntl();
-  const actionRef = useRef<ActionType>();
-  const formRef = useRef<ProFormInstance>();
+  const [categoryMenus, setCategoryMenus] = useState<ItemType[]>([])
 
-  const metas: ProListMetas<DsCategory> = {
-    title: {
-      dataIndex: "name"
-    },
-    description: {
-      dataIndex: "remark"
-    }
-  }
+  useEffect(() => {
+    DsCategoryService.list().then((response) => {
+      if (response.data) {
+        const cateories = response.data.map((category) => {
+          return {
+            key: category.id,
+            label: category.name,
+            title: category.remark
+          }
+        });
+        setCategoryMenus(cateories)
+      }
+    })
+  }, []);
 
   return (
-    <ProList<DsCategory>
-      search={false}
-      rowKey="id"
-      actionRef={actionRef}
-      formRef={formRef}
-      options={false}
-      metas={metas}
-      request={(params, sorter, filter) => DsCategoryService.list()}
-      toolbar={[]}
-      pagination={false}
-      onRow={(record) => {
-        return {
-          onClick: () => onCategoryChange(record.id)
-        };
+    <Menu
+      items={categoryMenus}
+      onSelect={({item, key, keyPath, selectedKeys, domEvent}) => {
+        onCategoryChange(parseInt(key))
       }}
     />
   );

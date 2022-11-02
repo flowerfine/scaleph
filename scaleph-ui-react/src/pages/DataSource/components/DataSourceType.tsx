@@ -1,12 +1,10 @@
 import {ActionType, ProFormInstance, ProList, ProListMetas} from "@ant-design/pro-components";
 import {DsType} from "@/services/datasource/typings";
-import {useIntl} from "umi";
 import {useEffect, useRef} from "react";
 import {DsCategoryService} from "@/services/datasource/category.service";
-import {Button, Image} from "antd";
+import {Image} from "antd";
 
 const DataSourceTypeWeb: React.FC<{ categoryId?: number }> = ({categoryId}) => {
-  const intl = useIntl();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
 
