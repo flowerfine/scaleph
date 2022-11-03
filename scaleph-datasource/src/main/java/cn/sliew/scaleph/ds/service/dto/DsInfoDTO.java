@@ -16,19 +16,44 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.service.param;
+package cn.sliew.scaleph.ds.service.dto;
 
+import cn.sliew.scaleph.common.dto.BaseDTO;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Map;
+
+/**
+ * <p>
+ * data source info
+ * </p>
+ */
 @Data
 @EqualsAndHashCode
-public class DsTypeListParam {
+@ApiModel(value = "DsInfo对象", description = "data source info")
+public class DsInfoDTO extends BaseDTO {
 
-    @ApiModelProperty("ds category id")
-    private Long categoryId;
+    private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("ds type")
-    private String type;
+    @ApiModelProperty("data source type id")
+    private Long dsTypeId;
+
+    @ApiModelProperty("version")
+    private String version;
+
+    @ApiModelProperty("name")
+    private String name;
+
+    @ApiModelProperty("props")
+    private Map<String, Object> props;
+
+    @ApiModelProperty("additional props")
+    private Map<String, Object> additionalProps;
+
+    @ApiModelProperty("remark")
+    private String remark;
+
 }

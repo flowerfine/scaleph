@@ -1,6 +1,6 @@
 import {ActionType, ProFormInstance, ProList, ProListMetas} from "@ant-design/pro-components";
 import {DsType} from "@/services/datasource/typings";
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import {DsCategoryService} from "@/services/datasource/category.service";
 import {Image} from "antd";
 
@@ -8,9 +8,11 @@ const DataSourceTypeWeb: React.FC<{ categoryId?: number }> = ({categoryId}) => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
 
+  const [searchValue, setSearchValue] = useState<string | undefined>()
+
   useEffect(() => {
     actionRef.current?.reload(true)
-  }, [categoryId])
+  }, [categoryId, searchValue])
 
   const metas: ProListMetas<DsType> = {
     content: {
@@ -26,7 +28,7 @@ const DataSourceTypeWeb: React.FC<{ categoryId?: number }> = ({categoryId}) => {
       toolbar={{
         search: {
           onSearch: (value: string) => {
-            alert(value);
+            setSearchValue(value)
           }
         }
       }}
@@ -36,7 +38,7 @@ const DataSourceTypeWeb: React.FC<{ categoryId?: number }> = ({categoryId}) => {
       options={false}
       metas={metas}
       request={(params, sort, filter) => {
-        return DsCategoryService.listTypes({...params, categoryId: categoryId})
+        return DsCategoryService.listTypes({...params, categoryId: categoryId, type: searchValue})
       }}
       pagination={false}
       grid={{gutter: 8, column: 6}}

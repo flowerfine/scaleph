@@ -33,6 +33,6 @@ import java.util.List;
 @Repository
 public interface DsTypeMapper extends BaseMapper<DsType> {
 
-    List<DsType> listTypes(@Param("categoryId") Long categoryId);
+    List<DsType> listTypes(@Param("categoryId") Long categoryId, @Param("type") String type);
 
 }
