@@ -56,4 +56,8 @@ public class SystemUtil implements InitializingBean, DisposableBean {
     public static Path getRandomWorkspace() throws IOException {
         return FileUtil.createDir(getWorkspace().resolve(UUID.randomUUID().toString(true)));
     }
+
+    public static Path getSavepointDir(String path) throws IOException{
+        return FileUtil.createDir(getWorkspace().resolve(path));
+    }
 }
