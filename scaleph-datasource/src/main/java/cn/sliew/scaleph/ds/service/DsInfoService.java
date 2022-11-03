@@ -19,12 +19,25 @@
 package cn.sliew.scaleph.ds.service;
 
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
+import cn.sliew.scaleph.ds.service.param.DsInfoAddParam;
 import cn.sliew.scaleph.ds.service.param.DsInfoListParam;
+import cn.sliew.scaleph.ds.service.param.DsInfoUpdateParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import java.util.List;
 
 public interface DsInfoService {
 
     Page<DsInfoDTO> list(DsInfoListParam param);
 
     DsInfoDTO selectOne(Long id);
+
+    int insert(DsInfoAddParam param);
+
+    int update(DsInfoUpdateParam param);
+
+    int deleteById(Long id);
+
+    int deleteBatch(List<Long> ids);
+
 }

@@ -1,4 +1,4 @@
-import {useAccess, useIntl} from "umi";
+import {useIntl} from "umi";
 import {useEffect, useRef, useState} from "react";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {DsInfo, DsType} from "@/services/datasource/typings";
@@ -30,7 +30,7 @@ const DataSourceCategoryAndTypeWeb: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.dataSource.info.type'}),
       dataIndex: 'dsTypeId',
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
         return (
           <Select
             showSearch={true}
@@ -62,13 +62,13 @@ const DataSourceCategoryAndTypeWeb: React.FC = () => {
       hideInSearch: true
     },
     {
-      title: intl.formatMessage({ id: 'pages.dataSource.createTime' }),
+      title: intl.formatMessage({id: 'pages.dataSource.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.dataSource.updateTime' }),
+      title: intl.formatMessage({id: 'pages.dataSource.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
@@ -89,7 +89,7 @@ const DataSourceCategoryAndTypeWeb: React.FC = () => {
       request={(params, sorter, filter) => {
         return DsInfoService.list(params);
       }}
-      pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
+      pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
       rowSelection={{
         fixed: true,
         onChange(selectedRowKeys, selectedRows, info) {

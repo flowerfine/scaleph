@@ -16,37 +16,31 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.service.dto;
+package cn.sliew.scaleph.ds.service.param;
 
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
-/**
- * <p>
- * data source info
- * </p>
- */
 @Data
-@EqualsAndHashCode
-@ApiModel(value = "DsInfo对象", description = "data source info")
-public class DsInfoDTO extends BaseDTO {
+public class DsInfoAddParam {
 
-    private static final long serialVersionUID = 1L;
-
+    @NotNull
     @ApiModelProperty("data source type id")
     private Long dsTypeId;
 
-    @ApiModelProperty("version")
+    @ApiModelProperty("版本")
     private String version;
 
+    @NotBlank
     @ApiModelProperty("name")
     private String name;
 
+    @NotEmpty
     @ApiModelProperty("props")
     private Map<String, Object> props;
 
@@ -55,5 +49,4 @@ public class DsInfoDTO extends BaseDTO {
 
     @ApiModelProperty("remark")
     private String remark;
-
 }
