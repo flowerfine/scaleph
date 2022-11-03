@@ -48,7 +48,10 @@
         JOIN ds_category t3 ON t2.ds_category_id = t3.id
         <where>
             <if test="categoryId != null">
-                t3.id = #{categoryId}
+                AND t3.id = #{categoryId}
+            </if>
+            <if test="type != null and type != ''">
+                AND t1.`type` like CONCAT('%', #{type}, '%')
             </if>
         </where>
         GROUP BY

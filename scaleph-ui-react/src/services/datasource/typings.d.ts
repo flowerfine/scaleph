@@ -21,4 +21,5 @@ export type DsType = {
 
 export type DsTypeParam = QueryParam & {
   categoryId?: number;
+  type?: string;
 }

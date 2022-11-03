@@ -28,4 +28,7 @@ public class DsTypeListParam {
 
     @ApiModelProperty("ds category id")
     private Long categoryId;
+
+    @ApiModelProperty("ds type")
+    private String type;
 }
