@@ -71,7 +71,7 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<{
           name={"dataSourceType"}
           label={intl.formatMessage({id: 'pages.project.di.step.jdbc.dataSourceType'})}
           colProps={{span: 6}}
-          initialValue={"Mysql"}
+          initialValue={"MySQL"}
           allowClear={false}
           request={(() => {
             return DictDataService.listDictDataByType(DICT_TYPE.datasourceType);

@@ -15,6 +15,19 @@ CREATE TABLE `ds_category`
     PRIMARY KEY (id)
 ) ENGINE = InnoDB COMMENT ='data source category';
 
+INSERT INTO `ds_category`(`id`, `name`, `order`, `remark`, `creator`, `editor`)
+VALUES (1, '常用', 0, NULL, 'sys', 'sys');
+INSERT INTO `ds_category`(`id`, `name`, `order`, `remark`, `creator`, `editor`)
+VALUES (2, '关系型', 1, NULL, 'sys', 'sys');
+INSERT INTO `ds_category`(`id`, `name`, `order`, `remark`, `creator`, `editor`)
+VALUES (3, 'NoSQL', 2, NULL, 'sys', 'sys');
+INSERT INTO `ds_category`(`id`, `name`, `order`, `remark`, `creator`, `editor`)
+VALUES (4, '消息队列', 3, NULL, 'sys', 'sys');
+INSERT INTO `ds_category`(`id`, `name`, `order`, `remark`, `creator`, `editor`)
+VALUES (5, '大数据', 4, NULL, 'sys', 'sys');
+INSERT INTO `ds_category`(`id`, `name`, `order`, `remark`, `creator`, `editor`)
+VALUES (6, '其他', 5, NULL, 'sys', 'sys');
+
 DROP TABLE IF EXISTS ds_type;
 CREATE TABLE `ds_type`
 (
@@ -30,6 +43,53 @@ CREATE TABLE `ds_type`
     PRIMARY KEY (id)
 ) ENGINE = InnoDB COMMENT ='data source type';
 
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (1, 'MySQL', 'images/MySQL.png', 10, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (2, 'Oracle', 'images/Oracle.png', 11, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (3, 'PostgreSQL', 'images/PostgreSQL.png', 12, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (4, 'SQLServer', 'images/SQLServer.png', 13, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (5, 'Greenplum', 'images/Greenplum.png', 14, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (6, 'Redis', 'images/Redis.png', 15, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (7, 'Elasticsearch', 'images/Elasticsearch.png', 16, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (8, 'Solr', 'images/Solr.png', 17, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (9, 'MongoDB', 'images/MongoDB.png', 18, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (10, 'TiDB', 'images/TiDB.png', 19, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (11, 'Kafka', 'images/Kafka.png', 20, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (12, 'HDFS', 'images/HDFS.png', 21, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (13, 'Hive', 'images/Hive.png', 22, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (14, 'HBase', 'images/HBase.png', 23, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (15, 'Phoenix', 'images/Phoenix.png', 24, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (16, 'Impala', 'images/Impala.png', 25, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (17, 'Doris', 'images/Doris.png', 26, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (18, 'ClickHouse', 'images/ClickHouse.png', 27, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (19, 'Kudu', 'images/Kudu.png', 28, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (20, 'Kylin', 'images/Kylin.png', 29, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (21, 'Druid', 'images/Druid.png', 30, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (22, 'InfluxDB', 'images/InfluxDB.png', 31, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (23, 'Socket', 'images/Socket.png', 32, NULL, 'sys', 'sys');
+
 DROP TABLE IF EXISTS ds_category_type_relation;
 CREATE TABLE `ds_category_type_relation`
 (
@@ -42,6 +102,62 @@ CREATE TABLE `ds_category_type_relation`
     update_time    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB COMMENT ='data source category and type relation';
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (1, 1, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (1, 7, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (1, 11, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (1, 17, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (1, 18, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (2, 1, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (2, 2, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (2, 3, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (2, 4, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (2, 5, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (3, 6, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (3, 7, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (3, 8, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (3, 9, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (3, 10, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (4, 11, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (5, 12, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (5, 13, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (5, 14, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (5, 15, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (5, 16, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (5, 17, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (5, 18, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (5, 19, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (5, 20, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (5, 21, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (6, 22, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (6, 23, 'sys', 'sys');
 
 DROP TABLE IF EXISTS ds_info;
 CREATE TABLE `ds_info`
@@ -76,15 +192,15 @@ create TABLE meta_datasource
     editor           varchar(32)      DEFAULT NULL COMMENT '修改人',
     update_time      timestamp   NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (id),
-    unique key (datasource_type,datasource_name)
+    unique key (datasource_type, datasource_name)
 ) ENGINE = InnoDB COMMENT ='元数据-数据源信息';
 insert into meta_datasource (id, datasource_name, datasource_type, props, additional_props, remark, creator, editor)
-values (1, 'docker_data_service', 'Mysql',
+values (1, 'docker_data_service', 'MySQL',
         '{"host":"mysql","port":"3306","databaseName":"data_service","username":"root","password":"Encrypted:MTIzNDU2"}',
         '{"serverTimezone":"Asia/Shanghai","zeroDateTimeBehavior":"convertToNull","characterEncoding":"utf8"}', null,
         'sys', 'sys');
 insert into meta_datasource (id, datasource_name, datasource_type, props, additional_props, remark, creator, editor)
-values (2, 'local_data_service', 'Mysql',
+values (2, 'local_data_service', 'MySQL',
         '{"host":"localhost","port":"3306","databaseName":"data_service","username":"root","password":"Encrypted:MTIzNDU2"}',
         '{"serverTimezone":"Asia/Shanghai","zeroDateTimeBehavior":"convertToNull","characterEncoding":"utf8"}', null,
         'sys', 'sys');

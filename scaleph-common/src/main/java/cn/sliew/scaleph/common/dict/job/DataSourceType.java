@@ -28,15 +28,33 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum DataSourceType implements DictInstance {
 
-    JDBC("JDBC", "JDBC"),
-    MYSQL("Mysql", "Mysql"),
+    MYSQL("MySQL", "MySQL"),
     ORACLE("Oracle", "Oracle"),
-    POSTGRESQL("PostGreSQL", "PostGreSQL"),
+    POSTGRESQL("PostgreSQL", "PostgreSQL"),
+    SQLSERVER("SQLServer", "SQLServer"),
+    GREENPLUM("Greenplum", "Greenplum"),
+
+    REDIS("Redis", "Redis"),
+    ELASTICSEARCH("Elasticsearch", "Elasticsearch"),
+    SOLR("Solr", "Solr"),
+    MONGODB("MongoDB", "MongoDB"),
+    TIDB("TiDB", "TiDB"),
+
     KAFKA("Kafka", "Kafka"),
+
+    HDFS("HDFS", "HDFS"),
+    HIVE("Hive", "Hive"),
+    HBASE("HBase", "HBase"),
+    PHOENIX("Phoenix", "Phoenix"),
+    IMPALA("Impala", "Impala"),
     DORIS("Doris", "Doris"),
     CLICKHOUSE("ClickHouse", "ClickHouse"),
-    ELASTICSEARCH("Elasticsearch", "Elasticsearch"),
+    KUDU("Kudu", "Kudu"),
+    KYLIN("Kylin", "Kylin"),
     DRUID("Druid", "Druid"),
+
+    INFLUXDB("InfluxDB", "InfluxDB"),
+    SOCKET("Socket", "Socket"),
     ;
 
     @JsonCreator

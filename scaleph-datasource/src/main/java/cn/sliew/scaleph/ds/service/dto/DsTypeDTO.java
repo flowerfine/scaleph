@@ -16,23 +16,32 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.ds;
+package cn.sliew.scaleph.ds.service.dto;
 
-import cn.sliew.scaleph.dao.entity.master.ds.DsType;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import cn.sliew.scaleph.common.dict.job.DataSourceType;
+import cn.sliew.scaleph.common.dto.BaseDTO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+@Data
+@EqualsAndHashCode
+@ApiModel(value = "DsType对象", description = "data source type")
+public class DsTypeDTO extends BaseDTO {
 
-/**
- * <p>
- * data source type Mapper 接口
- * </p>
- */
-@Repository
-public interface DsTypeMapper extends BaseMapper<DsType> {
+    private static final long serialVersionUID = 1L;
 
-    List<DsType> listTypes(@Param("categoryId") Long categoryId);
+    @ApiModelProperty("name")
+    private DataSourceType type;
+
+    @ApiModelProperty("logo")
+    private String logo;
+
+    @ApiModelProperty("order")
+    private Integer order;
+
+    @ApiModelProperty("remark")
+    private String remark;
 
 }
