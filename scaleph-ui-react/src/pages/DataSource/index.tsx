@@ -1,13 +1,15 @@
-import {useIntl} from "umi";
+import {history, useAccess, useIntl} from "umi";
 import {useEffect, useRef, useState} from "react";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {DsInfo, DsType} from "@/services/datasource/typings";
 import {DsCategoryService} from "@/services/datasource/category.service";
 import {DsInfoService} from "@/services/datasource/info.service";
-import {Select} from "antd";
+import {Button, message, Modal, Select} from "antd";
+import {PRIVILEGE_CODE} from "@/constant";
 
-const DataSourceCategoryAndTypeWeb: React.FC = () => {
+const DataSourceListWeb: React.FC = () => {
   const intl = useIntl();
+  const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<DsInfo[]>([]);
@@ -89,6 +91,45 @@ const DataSourceCategoryAndTypeWeb: React.FC = () => {
       request={(params, sorter, filter) => {
         return DsInfoService.list(params);
       }}
+      toolbar={{
+        actions: [
+          access.canAccess(PRIVILEGE_CODE.datadevClusterAdd) && (
+            <Button
+              key="new"
+              type="primary"
+              onClick={() => history.push("/dataSource/stepForms")}
+            >
+              {intl.formatMessage({id: 'app.common.operate.new.label'})}
+            </Button>
+          ),
+          access.canAccess(PRIVILEGE_CODE.datadevClusterDelete) && (
+            <Button
+              key="del"
+              type="default"
+              disabled={selectedRows.length < 1}
+              onClick={() => {
+                Modal.confirm({
+                  title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                  content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
+                  okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                  okButtonProps: {danger: true},
+                  cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                  onOk() {
+                    DsInfoService.deleteBatch(selectedRows).then((d) => {
+                      if (d.success) {
+                        message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
+                        actionRef.current?.reload();
+                      }
+                    });
+                  },
+                });
+              }}
+            >
+              {intl.formatMessage({id: 'app.common.operate.delete.label'})}
+            </Button>
+          ),
+        ],
+      }}
       pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
       rowSelection={{
         fixed: true,
@@ -102,4 +143,4 @@ const DataSourceCategoryAndTypeWeb: React.FC = () => {
   );
 }
 
-export default DataSourceCategoryAndTypeWeb;
+export default DataSourceListWeb;

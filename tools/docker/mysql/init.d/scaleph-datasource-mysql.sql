@@ -44,51 +44,51 @@ CREATE TABLE `ds_type`
 ) ENGINE = InnoDB COMMENT ='data source type';
 
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (1, 'MySQL', 'images/MySQL.png', 10, NULL, 'sys', 'sys');
+VALUES (1, 'MySQL', '/images/MySQL.png', 10, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (2, 'Oracle', 'images/Oracle.png', 11, NULL, 'sys', 'sys');
+VALUES (2, 'Oracle', '/images/Oracle.png', 11, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (3, 'PostgreSQL', 'images/PostgreSQL.png', 12, NULL, 'sys', 'sys');
+VALUES (3, 'PostgreSQL', '/images/PostgreSQL.png', 12, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (4, 'SQLServer', 'images/SQLServer.png', 13, NULL, 'sys', 'sys');
+VALUES (4, 'SQLServer', '/images/SQLServer.png', 13, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (5, 'Greenplum', 'images/Greenplum.png', 14, NULL, 'sys', 'sys');
+VALUES (5, 'Greenplum', '/images/Greenplum.png', 14, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (6, 'Redis', 'images/Redis.png', 15, NULL, 'sys', 'sys');
+VALUES (6, 'Redis', '/images/Redis.png', 15, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (7, 'Elasticsearch', 'images/Elasticsearch.png', 16, NULL, 'sys', 'sys');
+VALUES (7, 'Elasticsearch', '/images/Elasticsearch.png', 16, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (8, 'Solr', 'images/Solr.png', 17, NULL, 'sys', 'sys');
+VALUES (8, 'Solr', '/images/Solr.png', 17, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (9, 'MongoDB', 'images/MongoDB.png', 18, NULL, 'sys', 'sys');
+VALUES (9, 'MongoDB', '/images/MongoDB.png', 18, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (10, 'TiDB', 'images/TiDB.png', 19, NULL, 'sys', 'sys');
+VALUES (10, 'TiDB', '/images/TiDB.png', 19, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (11, 'Kafka', 'images/Kafka.png', 20, NULL, 'sys', 'sys');
+VALUES (11, 'Kafka', '/images/Kafka.png', 20, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (12, 'HDFS', 'images/HDFS.png', 21, NULL, 'sys', 'sys');
+VALUES (12, 'HDFS', '/images/HDFS.png', 21, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (13, 'Hive', 'images/Hive.png', 22, NULL, 'sys', 'sys');
+VALUES (13, 'Hive', '/images/Hive.png', 22, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (14, 'HBase', 'images/HBase.png', 23, NULL, 'sys', 'sys');
+VALUES (14, 'HBase', '/images/HBase.png', 23, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (15, 'Phoenix', 'images/Phoenix.png', 24, NULL, 'sys', 'sys');
+VALUES (15, 'Phoenix', '/images/Phoenix.png', 24, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (16, 'Impala', 'images/Impala.png', 25, NULL, 'sys', 'sys');
+VALUES (16, 'Impala', '/images/Impala.png', 25, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (17, 'Doris', 'images/Doris.png', 26, NULL, 'sys', 'sys');
+VALUES (17, 'Doris', '/images/Doris.png', 26, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (18, 'ClickHouse', 'images/ClickHouse.png', 27, NULL, 'sys', 'sys');
+VALUES (18, 'ClickHouse', '/images/ClickHouse.png', 27, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (19, 'Kudu', 'images/Kudu.png', 28, NULL, 'sys', 'sys');
+VALUES (19, 'Kudu', '/images/Kudu.png', 28, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (20, 'Kylin', 'images/Kylin.png', 29, NULL, 'sys', 'sys');
+VALUES (20, 'Kylin', '/images/Kylin.png', 29, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (21, 'Druid', 'images/Druid.png', 30, NULL, 'sys', 'sys');
+VALUES (21, 'Druid', '/images/Druid.png', 30, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (22, 'InfluxDB', 'images/InfluxDB.png', 31, NULL, 'sys', 'sys');
+VALUES (22, 'InfluxDB', '/images/InfluxDB.png', 31, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
-VALUES (23, 'Socket', 'images/Socket.png', 32, NULL, 'sys', 'sys');
+VALUES (23, 'Socket', '/images/Socket.png', 32, NULL, 'sys', 'sys');
 
 DROP TABLE IF EXISTS ds_category_type_relation;
 CREATE TABLE `ds_category_type_relation`

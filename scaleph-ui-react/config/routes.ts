@@ -263,6 +263,13 @@ export default [
         pCode: PRIVILEGE_CODE.datadevClusterShow,
         access: 'normalRouteFilter',
       },
+      {
+        path: '/dataSource/stepForms',
+        exact: true,
+        component: './DataSource/StepForms',
+        pCode: PRIVILEGE_CODE.datadevClusterShow,
+        access: 'normalRouteFilter',
+      },
     ],
   },
   {
