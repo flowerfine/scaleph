@@ -20,15 +20,33 @@ package cn.sliew.scaleph.ds.service.param;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 @Data
-@EqualsAndHashCode
-public class DsTypeListParam {
+public class DsInfoAddParam {
 
-    @ApiModelProperty("ds category id")
-    private Long categoryId;
+    @NotNull
+    @ApiModelProperty("data source type id")
+    private Long dsTypeId;
 
-    @ApiModelProperty("ds type")
-    private String type;
+    @ApiModelProperty("版本")
+    private String version;
+
+    @NotBlank
+    @ApiModelProperty("name")
+    private String name;
+
+    @NotEmpty
+    @ApiModelProperty("props")
+    private Map<String, Object> props;
+
+    @ApiModelProperty("additional props")
+    private Map<String, Object> additionalProps;
+
+    @ApiModelProperty("remark")
+    private String remark;
 }

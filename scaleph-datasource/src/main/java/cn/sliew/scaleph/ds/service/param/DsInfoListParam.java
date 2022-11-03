@@ -18,17 +18,18 @@
 
 package cn.sliew.scaleph.ds.service.param;
 
+import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode
-public class DsTypeListParam {
+public class DsInfoListParam extends PaginationParam {
 
-    @ApiModelProperty("ds category id")
-    private Long categoryId;
+    @ApiModelProperty("data source type id")
+    private Long dsTypeId;
 
-    @ApiModelProperty("ds type")
-    private String type;
+    @ApiModelProperty("name")
+    private String name;
 }

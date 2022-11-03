@@ -52,7 +52,7 @@ public class DsCategoryServiceImpl implements DsCategoryService {
 
     @Override
     public List<DsTypeDTO> listTypes(DsTypeListParam param) {
-        List<DsType> dsTypes = dsTypeMapper.listTypes(param.getCategoryId());
+        List<DsType> dsTypes = dsTypeMapper.listTypes(param.getCategoryId(), param.getType());
         return DsTypeConvert.INSTANCE.toDto(dsTypes);
     }
 }

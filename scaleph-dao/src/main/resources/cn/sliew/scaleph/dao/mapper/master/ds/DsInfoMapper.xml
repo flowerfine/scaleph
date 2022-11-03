@@ -27,8 +27,8 @@
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
         <result column="ds_type_id" property="dsTypeId" />
-        <result column="name" property="name" />
         <result column="version" property="version" />
+        <result column="name" property="name" />
         <result column="props" property="props" />
         <result column="additional_props" property="additionalProps" />
         <result column="remark" property="remark" />
@@ -37,7 +37,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        ds_type_id, `name`, version, props, additional_props, remark
+        ds_type_id, version, `name`, props, additional_props, remark
     </sql>
 
 </mapper>

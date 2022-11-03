@@ -164,8 +164,8 @@ CREATE TABLE `ds_info`
 (
     id               BIGINT      NOT NULL AUTO_INCREMENT,
     ds_type_id       BIGINT      NOT NULL,
-    `name`           VARCHAR(64) NOT NULL,
     version          VARCHAR(64),
+    `name`           VARCHAR(64) NOT NULL,
     props            TEXT,
     additional_props TEXT,
     remark           VARCHAR(256),
