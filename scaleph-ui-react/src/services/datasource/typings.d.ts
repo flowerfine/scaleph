@@ -23,3 +23,20 @@ export type DsTypeParam = QueryParam & {
   categoryId?: number;
   type?: string;
 }
+
+export type DsInfo = {
+  id: number;
+  dsTypeId: number;
+  name: string;
+  version?: string;
+  props?: any;
+  additionalProps?: any;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+}
+
+export type DsInfoParam = QueryParam & {
+  dsTypeId?: number;
+  name?: string;
+}
