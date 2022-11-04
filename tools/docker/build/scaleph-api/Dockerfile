@@ -1,4 +1,4 @@
-ARG BASE_RELEASE_IMAGE=ghcr.io/flowerfine/scaleph_seatunnel:2.2.0-beta
+ARG BASE_RELEASE_IMAGE=ghcr.io/flowerfine/scaleph_seatunnel:2.3.0-beta
 FROM maven:3.8-eclipse-temurin-11 as build
 
 COPY ./ /scaleph
