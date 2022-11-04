@@ -1,6 +1,6 @@
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import {history, useIntl} from "umi";
-import {useRef, useState} from "react";
+import {useRef} from "react";
 import {Button} from "antd";
 import DataSourceCategoryAndTypeWeb from "@/pages/DataSource/StepForms/CategoryAndType";
 import MySQLForm from "@/pages/DataSource/StepForms/Props/MySQL";
@@ -9,10 +9,7 @@ const DataSourceStepForms: React.FC = () => {
   const intl = useIntl();
   const formRef = useRef<ProFormInstance>();
 
-  const [dsTypeId, setDsTypeId] = useState<number>(0)
-
-  const onTypeSelect = (dsTypeId: number) => {
-    setDsTypeId(dsTypeId)
+  const onTypeSelect = () => {
     formRef.current?.submit()
   }
 
@@ -55,7 +52,7 @@ const DataSourceStepForms: React.FC = () => {
           wrapperCol={{span: 21}}
           layout={'horizontal'}
           style={{width: 1000}}>
-          <MySQLForm dsTypeId={dsTypeId}/>
+          <MySQLForm/>
         </StepsForm.StepForm>
       </StepsForm>
     </ProCard>

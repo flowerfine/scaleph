@@ -6,13 +6,22 @@ import {
   ProFormText,
   ProFormTextArea
 } from "@ant-design/pro-components";
-import {useIntl} from "umi";
-import {Form} from "antd";
+import {useIntl, useModel} from "umi";
 import {DsCategoryService} from "@/services/datasource/category.service";
+import {useEffect} from "react";
+import {Form} from "antd";
 
-const MySQLForm: React.FC<{ dsTypeId: number }> = ({dsTypeId}) => {
+const MySQLForm: React.FC = () => {
   const intl = useIntl();
-  const form = Form.useFormInstance();
+  const form = Form.useFormInstance()
+
+  const {dsTypeId} = useModel('dataSourceType', (model) => ({
+    dsTypeId: model.dsTypeId
+  }));
+
+  useEffect(() => {
+    form.setFieldValue("dsTypeId", dsTypeId)
+  }, [dsTypeId])
 
   return (
     <div>
@@ -24,7 +33,6 @@ const MySQLForm: React.FC<{ dsTypeId: number }> = ({dsTypeId}) => {
           label={intl.formatMessage({id: 'pages.dataSource.step.props.type'})}
           colProps={{span: 21, offset: 1}}
           disabled
-          initialValue={dsTypeId}
           showSearch={false}
           request={() => {
             return DsCategoryService.listTypes({}).then((response) => {
@@ -91,8 +99,12 @@ const MySQLForm: React.FC<{ dsTypeId: number }> = ({dsTypeId}) => {
           }}
         >
           <ProFormGroup>
-            <ProFormText name="property" label={intl.formatMessage({id: 'pages.dataSource.step.props.jdbc.additionalProps.property'})} colProps={{span: 10, offset: 1}}/>
-            <ProFormText name="value" label={intl.formatMessage({id: 'pages.dataSource.step.props.jdbc.additionalProps.value'})} colProps={{span: 10, offset: 1}}/>
+            <ProFormText name="property"
+                         label={intl.formatMessage({id: 'pages.dataSource.step.props.jdbc.additionalProps.property'})}
+                         colProps={{span: 10, offset: 1}}/>
+            <ProFormText name="value"
+                         label={intl.formatMessage({id: 'pages.dataSource.step.props.jdbc.additionalProps.value'})}
+                         colProps={{span: 10, offset: 1}}/>
           </ProFormGroup>
         </ProFormList>
       </ProCard>
