@@ -19,11 +19,16 @@
 package cn.sliew.scaleph.ds.modal;
 
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
-import cn.sliew.scaleph.dao.entity.master.ds.DsInfo;
+import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 @Data
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
@@ -33,21 +38,28 @@ import lombok.Data;
 })
 public abstract class AbstractDataSource {
 
-    @ApiModelProperty("data source type id")
-    private Long dsTypeId;
-
+    @NotNull
     @ApiModelProperty("data source type")
     private DataSourceType type;
+
+    @NotNull
+    @ApiModelProperty("data source type id")
+    private Long dsTypeId;
 
     @ApiModelProperty("version")
     private String version;
 
+    @NotBlank
     @ApiModelProperty("name")
     private String name;
 
     @ApiModelProperty("remark")
     private String remark;
 
-    protected abstract DsInfo toRecord();
+    @NotEmpty
+    @ApiModelProperty("additional props")
+    private Map<String, Object> additionalProps;
+
+    public abstract DsInfoDTO toDsInfo();
 
 }

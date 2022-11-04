@@ -18,15 +18,13 @@
 
 package cn.sliew.scaleph.ds.service.impl;
 
-import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.ds.DsInfo;
 import cn.sliew.scaleph.dao.mapper.master.ds.DsInfoMapper;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.DsInfoService;
 import cn.sliew.scaleph.ds.service.convert.DsInfoConvert;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
-import cn.sliew.scaleph.ds.service.param.DsInfoAddParam;
 import cn.sliew.scaleph.ds.service.param.DsInfoListParam;
-import cn.sliew.scaleph.ds.service.param.DsInfoUpdateParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -65,14 +63,15 @@ public class DsInfoServiceImpl implements DsInfoService {
     }
 
     @Override
-    public int insert(DsInfoAddParam param) {
-        DsInfo record = BeanUtil.copy(param, new DsInfo());
+    public int insert(AbstractDataSource dataSource) {
+        DsInfo record = DsInfoConvert.INSTANCE.toDo(dataSource.toDsInfo());
         return dsInfoMapper.insert(record);
     }
 
     @Override
-    public int update(DsInfoUpdateParam param) {
-        DsInfo record = BeanUtil.copy(param, new DsInfo());
+    public int update(Long id, AbstractDataSource dataSource) {
+        DsInfo record = DsInfoConvert.INSTANCE.toDo(dataSource.toDsInfo());
+        record.setId(id);
         return dsInfoMapper.updateById(record);
     }
 

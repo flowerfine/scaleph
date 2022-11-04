@@ -18,10 +18,9 @@
 
 package cn.sliew.scaleph.ds.service;
 
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
-import cn.sliew.scaleph.ds.service.param.DsInfoAddParam;
 import cn.sliew.scaleph.ds.service.param.DsInfoListParam;
-import cn.sliew.scaleph.ds.service.param.DsInfoUpdateParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
@@ -32,9 +31,9 @@ public interface DsInfoService {
 
     DsInfoDTO selectOne(Long id);
 
-    int insert(DsInfoAddParam param);
+    int insert(AbstractDataSource dataSource);
 
-    int update(DsInfoUpdateParam param);
+    int update(Long id, AbstractDataSource dataSource);
 
     int deleteById(Long id);
 

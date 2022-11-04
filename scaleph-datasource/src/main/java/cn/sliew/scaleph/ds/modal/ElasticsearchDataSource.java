@@ -18,24 +18,36 @@
 
 package cn.sliew.scaleph.ds.modal;
 
-import cn.sliew.scaleph.dao.entity.master.ds.DsInfo;
+import cn.sliew.scaleph.common.dict.job.DataSourceType;
+import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.util.List;
+import java.util.Map;
 
 @Data
 public class ElasticsearchDataSource extends AbstractDataSource {
 
+    public ElasticsearchDataSource() {
+        setType(DataSourceType.ELASTICSEARCH);
+    }
+
     @ApiModelProperty("hosts")
-    private String hosts;
+    private List<String> hosts;
 
     @ApiModelProperty("username")
     private String username;
 
-    @ApiModelProperty("user")
+    @ApiModelProperty("password")
     private String password;
 
     @Override
-    protected DsInfo toRecord() {
-        return null;
+    public DsInfoDTO toDsInfo() {
+        DsInfoDTO dto = BeanUtil.copy(this, new DsInfoDTO());
+        Map<String, Object> props = Map.of("hosts", hosts, "username", username, "password", password);
+        dto.setProps(props);
+        return dto;
     }
 }
