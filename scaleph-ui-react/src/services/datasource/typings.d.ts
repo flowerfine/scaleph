@@ -10,7 +10,7 @@ export type DsCategory = {
 }
 
 export type DsType = {
-  id?: number;
+  id: number;
   type: Dict;
   logo: string;
   order: number;
@@ -36,7 +36,7 @@ export type DsInfo = {
   updateTime?: Date;
 }
 
-export type DsInfoParam = {
+export type DsInfoParam = QueryParam & {
   dsTypeId?: number;
   name?: string;
 }

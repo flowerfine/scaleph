@@ -4,7 +4,7 @@ import {useEffect, useRef, useState} from "react";
 import {DsCategoryService} from "@/services/datasource/category.service";
 import {Image} from "antd";
 
-const DataSourceTypeWeb: React.FC<{ categoryId?: number }> = ({categoryId}) => {
+const DataSourceTypeWeb: React.FC<{ categoryId?: number, onTypeSelect: (id: number) => void }> = ({categoryId, onTypeSelect}) => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
 
@@ -42,6 +42,13 @@ const DataSourceTypeWeb: React.FC<{ categoryId?: number }> = ({categoryId}) => {
       }}
       pagination={false}
       grid={{gutter: 8, column: 6}}
+      onItem={(record) => {
+        return {
+          onClick: () => {
+            onTypeSelect(record.id)
+          }
+        };
+      }}
     />);
 }
 

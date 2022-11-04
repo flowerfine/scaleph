@@ -8,5 +8,6 @@ export default {
   'pages.dataSource.info.name': '数据源',
   'pages.dataSource.info.type': '类型',
   'pages.dataSource.info.version': '版本',
+  'pages.dataSource.step.props': '属性',
 
 }
