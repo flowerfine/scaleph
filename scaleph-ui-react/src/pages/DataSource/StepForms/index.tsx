@@ -35,7 +35,12 @@ const DataSourceStepForms: React.FC = () => {
             }
             return dom;
           }
-        }}>
+        }}
+        onFinish={(values) => {
+          console.log('values', values)
+          return Promise.resolve(true);
+        }}
+      >
         <StepsForm.StepForm
           name="type"
           title={(intl.formatMessage({id: 'pages.dataSource.step.type'}))}

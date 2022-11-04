@@ -23,11 +23,8 @@ const MySQLForm: React.FC<{ dsTypeId: number }> = ({dsTypeId}) => {
           name="dsTypeId"
           label={intl.formatMessage({id: 'pages.dataSource.step.props.type'})}
           colProps={{span: 21, offset: 1}}
-          rules={[{required: true}]}
           disabled
-          fieldProps={{
-            value: dsTypeId
-          }}
+          initialValue={dsTypeId}
           showSearch={false}
           request={() => {
             return DsCategoryService.listTypes({}).then((response) => {
@@ -44,7 +41,6 @@ const MySQLForm: React.FC<{ dsTypeId: number }> = ({dsTypeId}) => {
           name="version"
           label={intl.formatMessage({id: 'pages.dataSource.step.props.version'})}
           colProps={{span: 21, offset: 1}}
-          rules={[{required: true}]}
         />
         <ProFormText
           name="name"
