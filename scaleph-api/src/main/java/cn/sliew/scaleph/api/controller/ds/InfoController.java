@@ -19,11 +19,10 @@
 package cn.sliew.scaleph.api.controller.ds;
 
 import cn.sliew.scaleph.api.annotation.Logging;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.DsInfoService;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
-import cn.sliew.scaleph.ds.service.param.DsInfoAddParam;
 import cn.sliew.scaleph.ds.service.param.DsInfoListParam;
-import cn.sliew.scaleph.ds.service.param.DsInfoUpdateParam;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -63,16 +62,16 @@ public class InfoController {
     @Logging
     @PutMapping
     @ApiOperation(value = "新增数据源", notes = "新增数据源")
-    public ResponseEntity<ResponseVO> insert(@Valid DsInfoAddParam param) {
-        dsInfoService.insert(param);
+    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody AbstractDataSource dataSource) {
+        dsInfoService.insert(dataSource);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
     @PostMapping("{id}")
     @ApiOperation(value = "修改数据源", notes = "修改数据源")
-    public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid DsInfoUpdateParam param) {
-        dsInfoService.update(param);
+    public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid @RequestBody AbstractDataSource dataSource) {
+        dsInfoService.update(id, dataSource);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 

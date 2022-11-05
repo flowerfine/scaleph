@@ -16,36 +16,46 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.service.param;
+package cn.sliew.scaleph.dao.entity.master.ds;
 
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
-import java.util.Map;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class DsInfoUpdateParam {
+@EqualsAndHashCode
+@TableName("ds_info")
+@ApiModel(value = "DsInfo对象", description = "data source info")
+public class DsInfoVO extends BaseDO {
 
-    @NotNull
-    @ApiModelProperty("id")
-    private Long id;
+    private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("data source type id")
-    private Long dsTypeId;
+    @ApiModelProperty("data source type")
+    @TableField(value = "ds_type_id", exist = false)
+    private DsType dsType;
 
-    @ApiModelProperty("版本")
+    @ApiModelProperty("version")
+    @TableField("version")
     private String version;
 
     @ApiModelProperty("name")
+    @TableField("`name`")
     private String name;
 
     @ApiModelProperty("props")
-    private Map<String, Object> props;
+    @TableField("props")
+    private String props;
 
     @ApiModelProperty("additional props")
-    private Map<String, Object> additionalProps;
+    @TableField("additional_props")
+    private String additionalProps;
 
     @ApiModelProperty("remark")
+    @TableField("remark")
     private String remark;
+
 }

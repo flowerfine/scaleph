@@ -16,8 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.service.param;
+package cn.sliew.scaleph.ds.modal;
 
+import cn.sliew.scaleph.common.dict.job.DataSourceType;
+import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -27,26 +31,35 @@ import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
-public class DsInfoAddParam {
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes(value = {
+        @JsonSubTypes.Type(name = "MySQL", value = MySQLDataSource.class),
+        @JsonSubTypes.Type(name = "Elasticsearch", value = ElasticsearchDataSource.class),
+})
+public abstract class AbstractDataSource {
+
+    @NotNull
+    @ApiModelProperty("data source type")
+    private DataSourceType type;
 
     @NotNull
     @ApiModelProperty("data source type id")
     private Long dsTypeId;
 
-    @ApiModelProperty("版本")
+    @ApiModelProperty("version")
     private String version;
 
     @NotBlank
     @ApiModelProperty("name")
     private String name;
 
-    @NotEmpty
-    @ApiModelProperty("props")
-    private Map<String, Object> props;
-
-    @ApiModelProperty("additional props")
-    private Map<String, Object> additionalProps;
-
     @ApiModelProperty("remark")
     private String remark;
+
+//    @NotEmpty
+//    @ApiModelProperty("additional props")
+//    private Map<String, Object> additionalProps;
+
+    public abstract DsInfoDTO toDsInfo();
+
 }

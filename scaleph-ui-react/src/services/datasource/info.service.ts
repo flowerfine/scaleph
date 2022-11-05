@@ -1,6 +1,6 @@
 import {PageResponse, ResponseBody} from '@/app.d';
 import {request} from 'umi';
-import {DsInfo, DsInfoAddParam, DsInfoParam, DsInfoUpdateParam} from './typings';
+import {DsInfo, DsInfoParam} from './typings';
 
 export const DsInfoService = {
   url: '/api/ds/info',
@@ -20,14 +20,14 @@ export const DsInfoService = {
     });
   },
 
-  add: async (param: DsInfoAddParam) => {
+  add: async (param: any) => {
     return request<ResponseBody<any>>(`${DsInfoService.url}`, {
       method: 'PUT',
       data: param,
     });
   },
 
-  update: async (id: number, param: DsInfoUpdateParam) => {
+  update: async (id: number, param: any) => {
     return request<ResponseBody<any>>(`${DsInfoService.url}/` + id, {
       method: 'POST',
       data: param,

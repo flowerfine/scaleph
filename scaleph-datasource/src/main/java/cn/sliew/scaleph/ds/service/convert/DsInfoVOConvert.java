@@ -21,9 +21,8 @@ package cn.sliew.scaleph.ds.service.convert;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.ds.DsInfo;
+import cn.sliew.scaleph.dao.entity.master.ds.DsInfoVO;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
-import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -35,16 +34,13 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface DsInfoConvert extends BaseConvert<DsInfo, DsInfoDTO> {
-    DsInfoConvert INSTANCE = Mappers.getMapper(DsInfoConvert.class);
+public interface DsInfoVOConvert extends BaseConvert<DsInfoVO, DsInfoDTO> {
+    DsInfoVOConvert INSTANCE = Mappers.getMapper(DsInfoVOConvert.class);
 
     @Override
-    default DsInfoDTO toDto(DsInfo entity) {
+    default DsInfoDTO toDto(DsInfoVO entity) {
         DsInfoDTO dto = new DsInfoDTO();
         BeanUtils.copyProperties(entity, dto);
-        DsTypeDTO dsType = new DsTypeDTO();
-        dsType.setId(entity.getDsTypeId());
-        dto.setDsType(dsType);
         if (StringUtils.hasText(entity.getProps())) {
             String jsonProps = CodecUtil.decodeFromBase64(entity.getProps());
             dto.setProps(JacksonUtil.parseJsonString(jsonProps, new TypeReference<Map<String, Object>>() {}));
@@ -53,14 +49,14 @@ public interface DsInfoConvert extends BaseConvert<DsInfo, DsInfoDTO> {
             String jsonAdditionalProps = CodecUtil.decodeFromBase64(entity.getAdditionalProps());
             dto.setAdditionalProps(JacksonUtil.parseJsonString(jsonAdditionalProps, new TypeReference<Map<String, Object>>() {}));
         }
+        dto.setDsType(DsTypeConvert.INSTANCE.toDto(entity.getDsType()));
         return dto;
     }
 
     @Override
-    default DsInfo toDo(DsInfoDTO dto) {
-        DsInfo record = new DsInfo();
+    default DsInfoVO toDo(DsInfoDTO dto) {
+        DsInfoVO record = new DsInfoVO();
         BeanUtils.copyProperties(dto, record);
-        record.setDsTypeId(dto.getDsType().getId());
         if (CollectionUtils.isEmpty(dto.getProps()) == false) {
             String jsonProps = JacksonUtil.toJsonString(dto.getProps());
             record.setProps(CodecUtil.encodeToBase64(jsonProps));
@@ -69,6 +65,7 @@ public interface DsInfoConvert extends BaseConvert<DsInfo, DsInfoDTO> {
             String jsonAdditionalProps = JacksonUtil.toJsonString(dto.getAdditionalProps());
             record.setProps(CodecUtil.encodeToBase64(jsonAdditionalProps));
         }
+        record.setDsType(DsTypeConvert.INSTANCE.toDo(dto.getDsType()));
         return record;
     }
 }

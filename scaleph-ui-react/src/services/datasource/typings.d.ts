@@ -26,7 +26,7 @@ export type DsTypeParam = QueryParam & {
 
 export type DsInfo = {
   id: number;
-  dsTypeId: number;
+  dsType: DsType;
   version?: string;
   name: string;
   props?: any;
@@ -39,22 +39,4 @@ export type DsInfo = {
 export type DsInfoParam = QueryParam & {
   dsTypeId?: number;
   name?: string;
-}
-
-export type DsInfoAddParam = {
-  dsTypeId: number;
-  version?: string;
-  name: string;
-  props?: any;
-  additionalProps?: any;
-  remark?: string;
-}
-
-export type DsInfoUpdateParam = {
-  dsTypeId: number;
-  version?: string;
-  name: string;
-  props?: any;
-  additionalProps?: any;
-  remark?: string;
 }

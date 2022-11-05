@@ -3,10 +3,18 @@ import {DsType} from "@/services/datasource/typings";
 import {useEffect, useRef, useState} from "react";
 import {DsCategoryService} from "@/services/datasource/category.service";
 import {Image} from "antd";
+import {useModel} from "umi";
 
-const DataSourceTypeWeb: React.FC<{ categoryId?: number, onTypeSelect: (id: number) => void }> = ({categoryId, onTypeSelect}) => {
+const DataSourceTypeWeb: React.FC<{ categoryId?: number, onTypeSelect: () => void }> = ({
+                                                                                                    categoryId,
+                                                                                                    onTypeSelect
+                                                                                                  }) => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
+
+  const {setDsType} = useModel('dataSourceType', (model) => ({
+    setDsType: model.setDsType
+  }));
 
   const [searchValue, setSearchValue] = useState<string | undefined>()
 
@@ -45,7 +53,8 @@ const DataSourceTypeWeb: React.FC<{ categoryId?: number, onTypeSelect: (id: numb
       onItem={(record) => {
         return {
           onClick: () => {
-            onTypeSelect(record.id)
+            setDsType(record)
+            onTypeSelect()
           }
         };
       }}
