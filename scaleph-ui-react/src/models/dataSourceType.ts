@@ -1,10 +1,11 @@
 import {useState} from 'react';
+import {DsType} from "@/services/datasource/typings";
 
 export default () => {
-  const [dsTypeId, setDsTypeId] = useState<number>(0);
+  const [dsType, setDsType] = useState<DsType>()
 
   return {
-    dsTypeId,
-    setDsTypeId
+    dsType,
+    setDsType
   };
 };

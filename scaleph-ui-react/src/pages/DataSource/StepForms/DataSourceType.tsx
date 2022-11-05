@@ -12,8 +12,8 @@ const DataSourceTypeWeb: React.FC<{ categoryId?: number, onTypeSelect: () => voi
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
 
-  const {setDsTypeId} = useModel('dataSourceType', (model) => ({
-    setDsTypeId: model.setDsTypeId
+  const {setDsType} = useModel('dataSourceType', (model) => ({
+    setDsType: model.setDsType
   }));
 
   const [searchValue, setSearchValue] = useState<string | undefined>()
@@ -53,7 +53,7 @@ const DataSourceTypeWeb: React.FC<{ categoryId?: number, onTypeSelect: () => voi
       onItem={(record) => {
         return {
           onClick: () => {
-            setDsTypeId(record.id)
+            setDsType(record)
             onTypeSelect()
           }
         };

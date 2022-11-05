@@ -15,13 +15,13 @@ const MySQLForm: React.FC = () => {
   const intl = useIntl();
   const form = Form.useFormInstance()
 
-  const {dsTypeId} = useModel('dataSourceType', (model) => ({
-    dsTypeId: model.dsTypeId
+  const {dsType} = useModel('dataSourceType', (model) => ({
+    dsType: model.dsType
   }));
 
   useEffect(() => {
-    form.setFieldValue("dsTypeId", dsTypeId)
-  }, [dsTypeId])
+    form.setFieldValue("dsTypeId", dsType?.id)
+  }, [dsType])
 
   return (
     <div>
