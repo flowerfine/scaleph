@@ -1,5 +1,5 @@
 import {useModel} from "umi";
-import MySQLForm from "@/pages/DataSource/StepForms/Props/MySQL";
+import JdbcForm from "@/pages/DataSource/StepForms/Props/Jdbc";
 import {DsType} from "@/services/datasource/typings";
 
 const DataSourceForm: React.FC = () => {
@@ -12,7 +12,14 @@ const DataSourceForm: React.FC = () => {
     if (type?.type.value) {
       switch (type?.type.value) {
         case 'MySQL':
-          return <MySQLForm/>
+        case 'Oracle':
+        case 'PostgreSQL':
+        case 'SQLServer':
+        case 'DmDB':
+        case 'GBase8a':
+        case 'Greenplum':
+        case 'Phoenix':
+          return <JdbcForm/>
         default:
           return <div>开发中</div>
       }
