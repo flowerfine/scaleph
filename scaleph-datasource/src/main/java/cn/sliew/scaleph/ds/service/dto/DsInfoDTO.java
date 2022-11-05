@@ -39,7 +39,7 @@ public class DsInfoDTO extends BaseDTO {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("data source type id")
-    private Long dsTypeId;
+    private DsTypeDTO dsType;
 
     @ApiModelProperty("version")
     private String version;

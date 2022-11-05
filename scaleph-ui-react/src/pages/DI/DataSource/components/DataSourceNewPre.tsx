@@ -26,7 +26,7 @@ const DataSourceNewPre: React.FC<DataSourceFormProps> = ({
     return (
         <div>
             <Modal
-                visible={visible}
+                open={visible}
                 destroyOnClose={true}
                 title={intl.formatMessage({ id: 'pages.project.di.dataSource.dataSourceType.chose' })}
                 width={860}

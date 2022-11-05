@@ -4,8 +4,9 @@ import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro
 import {DsInfo, DsType} from "@/services/datasource/typings";
 import {DsCategoryService} from "@/services/datasource/category.service";
 import {DsInfoService} from "@/services/datasource/info.service";
-import {Button, message, Modal, Select} from "antd";
+import {Button, message, Modal, Select, Space, Tooltip} from "antd";
 import {PRIVILEGE_CODE} from "@/constant";
+import {DeleteOutlined} from "@ant-design/icons";
 
 const DataSourceListWeb: React.FC = () => {
   const intl = useIntl();
@@ -26,12 +27,15 @@ const DataSourceListWeb: React.FC = () => {
   const tableColumns: ProColumns<DsInfo>[] = [
     {
       title: intl.formatMessage({id: 'pages.dataSource.info.name'}),
-      dataIndex: 'name',
-      width: 160,
+      dataIndex: 'name'
     },
     {
       title: intl.formatMessage({id: 'pages.dataSource.info.type'}),
       dataIndex: 'dsTypeId',
+      width: 160,
+      render: (dom, entity, index, action, schema) => {
+        return entity.dsType.type.label
+      },
       renderFormItem: (item, {defaultRender, ...rest}, form) => {
         return (
           <Select
@@ -56,6 +60,7 @@ const DataSourceListWeb: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.dataSource.info.version'}),
       dataIndex: 'version',
+      width: 160,
       hideInSearch: true
     },
     {
@@ -74,6 +79,46 @@ const DataSourceListWeb: React.FC = () => {
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
+    },
+    {
+      title: intl.formatMessage({id: 'app.common.operate.label'}),
+      dataIndex: 'actions',
+      align: 'center',
+      width: 120,
+      fixed: 'right',
+      valueType: 'option',
+      render: (_, record) => (
+        <>
+          <Space>
+            {access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
+                <Button
+                  shape="default"
+                  type="link"
+                  icon={<DeleteOutlined/>}
+                  onClick={() => {
+                    Modal.confirm({
+                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                      content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
+                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                      okButtonProps: {danger: true},
+                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                      onOk() {
+                        DsInfoService.deleteOne(record).then((d) => {
+                          if (d.success) {
+                            message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
+                            actionRef.current?.reload();
+                          }
+                        });
+                      },
+                    });
+                  }}
+                ></Button>
+              </Tooltip>
+            )}
+          </Space>
+        </>
+      ),
     },
   ]
 

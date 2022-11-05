@@ -18,15 +18,15 @@
 
 package cn.sliew.scaleph.ds.service.impl;
 
-import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.ds.DsInfo;
+import cn.sliew.scaleph.dao.entity.master.ds.DsInfoVO;
 import cn.sliew.scaleph.dao.mapper.master.ds.DsInfoMapper;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.DsInfoService;
 import cn.sliew.scaleph.ds.service.convert.DsInfoConvert;
+import cn.sliew.scaleph.ds.service.convert.DsInfoVOConvert;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
-import cn.sliew.scaleph.ds.service.param.DsInfoAddParam;
 import cn.sliew.scaleph.ds.service.param.DsInfoListParam;
-import cn.sliew.scaleph.ds.service.param.DsInfoUpdateParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -46,33 +46,31 @@ public class DsInfoServiceImpl implements DsInfoService {
 
     @Override
     public Page<DsInfoDTO> list(DsInfoListParam param) {
-        LambdaQueryWrapper<DsInfo> queryWrapper = Wrappers.lambdaQuery(DsInfo.class)
-                .eq(param.getDsTypeId() != null, DsInfo::getDsTypeId, param.getDsTypeId())
-                .like(StringUtils.hasText(param.getName()), DsInfo::getName, param.getName());
         Page<DsInfo> page = new Page<>(param.getCurrent(), param.getPageSize());
-        Page<DsInfo> dsInfoPage = dsInfoMapper.selectPage(page, queryWrapper);
+        Page<DsInfoVO> dsInfoPage = dsInfoMapper.list(page, param.getDsTypeId(), param.getName());
         Page<DsInfoDTO> result = new Page<>(dsInfoPage.getCurrent(), dsInfoPage.getSize(), dsInfoPage.getTotal());
-        List<DsInfoDTO> dsInfoDTOS = DsInfoConvert.INSTANCE.toDto(dsInfoPage.getRecords());
+        List<DsInfoDTO> dsInfoDTOS = DsInfoVOConvert.INSTANCE.toDto(dsInfoPage.getRecords());
         result.setRecords(dsInfoDTOS);
         return result;
     }
 
     @Override
     public DsInfoDTO selectOne(Long id) {
-        DsInfo record = dsInfoMapper.selectById(id);
-        checkState(record != null, () -> "data source info not exists for id: " + id);
-        return DsInfoConvert.INSTANCE.toDto(record);
+        DsInfoVO vo = dsInfoMapper.getById(id);
+        checkState(vo != null, () -> "data source info not exists for id: " + id);
+        return DsInfoVOConvert.INSTANCE.toDto(vo);
     }
 
     @Override
-    public int insert(DsInfoAddParam param) {
-        DsInfo record = BeanUtil.copy(param, new DsInfo());
+    public int insert(AbstractDataSource dataSource) {
+        DsInfo record = DsInfoConvert.INSTANCE.toDo(dataSource.toDsInfo());
         return dsInfoMapper.insert(record);
     }
 
     @Override
-    public int update(DsInfoUpdateParam param) {
-        DsInfo record = BeanUtil.copy(param, new DsInfo());
+    public int update(Long id, AbstractDataSource dataSource) {
+        DsInfo record = DsInfoConvert.INSTANCE.toDo(dataSource.toDsInfo());
+        record.setId(id);
         return dsInfoMapper.updateById(record);
     }
 

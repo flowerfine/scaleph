@@ -1,17 +1,20 @@
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
-import {history, useIntl} from "umi";
-import {useRef, useState} from "react";
+import {history, useIntl, useModel} from "umi";
+import {useRef} from "react";
 import {Button} from "antd";
 import DataSourceCategoryAndTypeWeb from "@/pages/DataSource/StepForms/CategoryAndType";
+import DataSourceForm from "@/pages/DataSource/StepForms/Props/DataSourceForm";
+import {DsInfoService} from "@/services/datasource/info.service";
 
 const DataSourceStepForms: React.FC = () => {
   const intl = useIntl();
   const formRef = useRef<ProFormInstance>();
 
-  const [dsTypeId, setDsTypeId] = useState<number>()
+  const {dsType} = useModel('dataSourceType', (model) => ({
+    dsType: model.dsType
+  }));
 
-  const onTypeSelect = (dsTypeId: number) => {
-    setDsTypeId(dsTypeId)
+  const onTypeSelect = () => {
     formRef.current?.submit()
   }
 
@@ -34,10 +37,19 @@ const DataSourceStepForms: React.FC = () => {
             }
             return dom;
           }
-        }}>
+        }}
+        onFinish={(values) => {
+          const dsInfo = {...values, type: dsType?.type.value}
+          return DsInfoService.add(dsInfo).then((response) => {
+            if (response.success) {
+              history.back()
+            }
+          })
+        }}
+      >
         <StepsForm.StepForm
           name="type"
-          title={(intl.formatMessage({id: 'pages.dataSource'}))}
+          title={(intl.formatMessage({id: 'pages.dataSource.step.type'}))}
           layout={'horizontal'}
           style={{width: 1500}}>
           <DataSourceCategoryAndTypeWeb onTypeSelect={onTypeSelect}/>
@@ -45,9 +57,11 @@ const DataSourceStepForms: React.FC = () => {
         <StepsForm.StepForm
           name="props"
           title={(intl.formatMessage({id: 'pages.dataSource.step.props'}))}
+          labelCol={{span: 3}}
+          wrapperCol={{span: 21}}
           layout={'horizontal'}
-          style={{width: 1500}}>
-          <div>数据源表单，开发中</div>
+          style={{width: 1000}}>
+          <DataSourceForm/>
         </StepsForm.StepForm>
       </StepsForm>
     </ProCard>

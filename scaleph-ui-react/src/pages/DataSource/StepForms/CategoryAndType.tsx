@@ -4,7 +4,7 @@ import {ProCard} from "@ant-design/pro-components";
 import {useState} from "react";
 import DataSourceCategoryMenu from "@/pages/DataSource/StepForms/CategoryMenu";
 
-const DataSourceCategoryAndTypeWeb: React.FC<{onTypeSelect: (dsTypeId: number) => void}> = ({onTypeSelect}) => {
+const DataSourceCategoryAndTypeWeb: React.FC<{onTypeSelect: () => void}> = ({onTypeSelect}) => {
   const [categoryId, setCategoryId] = useState<number | undefined>()
   return (
     <ProCard>
@@ -13,7 +13,7 @@ const DataSourceCategoryAndTypeWeb: React.FC<{onTypeSelect: (dsTypeId: number) =
           <DataSourceCategoryMenu onCategoryChange={(categoryId) => setCategoryId(categoryId)}/>
         </Col>
         <Col span={20}>
-          <DataSourceTypeWeb categoryId={categoryId} onTypeSelect={(dsTypeId) => onTypeSelect(dsTypeId)}/>
+          <DataSourceTypeWeb categoryId={categoryId} onTypeSelect={() => onTypeSelect()}/>
         </Col>
       </Row>
     </ProCard>
