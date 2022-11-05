@@ -31,7 +31,7 @@ const DataSourceListWeb: React.FC = () => {
     },
     {
       title: intl.formatMessage({id: 'pages.dataSource.info.type'}),
-      dataIndex: 'dsType',
+      dataIndex: 'dsTypeId',
       width: 160,
       render: (dom, entity, index, action, schema) => {
         return entity.dsType.type.label

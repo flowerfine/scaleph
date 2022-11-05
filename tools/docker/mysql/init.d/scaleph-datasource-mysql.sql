@@ -177,6 +177,15 @@ CREATE TABLE `ds_info`
     KEY idx_datasource (`name`)
 ) ENGINE = InnoDB COMMENT ='data source info';
 
+INSERT INTO `ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
+VALUES (1, 1, NULL, 'docker_data_service',
+        'eyJkcml2ZXJDbGFzc05hbWUiOiJjb20ubXlzcWwuY2ouamRiYy5Ecml2ZXIiLCJ1c2VyIjoicm9vdCIsInBhc3N3b3JkIjoiMTIzNDU2IiwidXJsIjoiamRiYzpteXNxbDovL215c3FsOjMzMDYvZGF0YV9zZXJ2aWNlIn0=',
+        NULL, NULL, 'sys', 'sys');
+INSERT INTO `ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
+VALUES (2, 1, NULL, 'local_data_service',
+        'eyJkcml2ZXJDbGFzc05hbWUiOiJjb20ubXlzcWwuY2ouamRiYy5Ecml2ZXIiLCJ1c2VyIjoicm9vdCIsInBhc3N3b3JkIjoiMTIzNDU2IiwidXJsIjoiamRiYzpteXNxbDovL2xvY2FsaG9zdDozMzA2L2RhdGFfc2VydmljZSJ9',
+        NULL, NULL, 'sys', 'sys');
+
 /* 元数据-数据源连接信息 */
 drop table if exists meta_datasource;
 create TABLE meta_datasource
