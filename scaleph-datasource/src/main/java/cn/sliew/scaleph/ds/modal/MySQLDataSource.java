@@ -21,6 +21,7 @@ package cn.sliew.scaleph.ds.modal;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
+import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -48,6 +49,10 @@ public class MySQLDataSource extends AbstractDataSource {
     @Override
     public DsInfoDTO toDsInfo() {
         DsInfoDTO dto = BeanUtil.copy(this, new DsInfoDTO());
+        DsTypeDTO dsType = new DsTypeDTO();
+        dsType.setId(getDsTypeId());
+        dsType.setType(getType());
+        dto.setDsType(dsType);
         Map<String, Object> props = Map.of("driverClassName", driverClassName, "url", url, "user", user, "password", password);
         dto.setProps(props);
         return dto;

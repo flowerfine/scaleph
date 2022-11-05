@@ -3,7 +3,8 @@ import {history, useIntl, useModel} from "umi";
 import {useRef} from "react";
 import {Button} from "antd";
 import DataSourceCategoryAndTypeWeb from "@/pages/DataSource/StepForms/CategoryAndType";
-import MySQLForm from "@/pages/DataSource/StepForms/Props/MySQL";
+import DataSourceForm from "@/pages/DataSource/StepForms/Props/DataSourceForm";
+import {DsInfoService} from "@/services/datasource/info.service";
 
 const DataSourceStepForms: React.FC = () => {
   const intl = useIntl();
@@ -39,9 +40,11 @@ const DataSourceStepForms: React.FC = () => {
         }}
         onFinish={(values) => {
           const dsInfo = {...values, type: dsType?.type.value}
-          console.log('values', dsInfo)
-          history.back()
-          return Promise.resolve(true);
+          return DsInfoService.add(dsInfo).then((response) => {
+            if (response.success) {
+              history.back()
+            }
+          })
         }}
       >
         <StepsForm.StepForm
@@ -58,7 +61,7 @@ const DataSourceStepForms: React.FC = () => {
           wrapperCol={{span: 21}}
           layout={'horizontal'}
           style={{width: 1000}}>
-          <MySQLForm/>
+          <DataSourceForm/>
         </StepsForm.StepForm>
       </StepsForm>
     </ProCard>

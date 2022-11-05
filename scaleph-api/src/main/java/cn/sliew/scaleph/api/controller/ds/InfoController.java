@@ -62,7 +62,7 @@ public class InfoController {
     @Logging
     @PutMapping
     @ApiOperation(value = "新增数据源", notes = "新增数据源")
-    public ResponseEntity<ResponseVO> insert(@Valid AbstractDataSource dataSource) {
+    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody AbstractDataSource dataSource) {
         dsInfoService.insert(dataSource);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -70,7 +70,7 @@ public class InfoController {
     @Logging
     @PostMapping("{id}")
     @ApiOperation(value = "修改数据源", notes = "修改数据源")
-    public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid AbstractDataSource dataSource) {
+    public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid @RequestBody AbstractDataSource dataSource) {
         dsInfoService.update(id, dataSource);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }

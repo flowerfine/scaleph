@@ -56,9 +56,9 @@ public abstract class AbstractDataSource {
     @ApiModelProperty("remark")
     private String remark;
 
-    @NotEmpty
-    @ApiModelProperty("additional props")
-    private Map<String, Object> additionalProps;
+//    @NotEmpty
+//    @ApiModelProperty("additional props")
+//    private Map<String, Object> additionalProps;
 
     public abstract DsInfoDTO toDsInfo();
 
