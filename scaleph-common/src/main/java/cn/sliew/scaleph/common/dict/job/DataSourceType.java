@@ -32,7 +32,10 @@ public enum DataSourceType implements DictInstance {
     ORACLE("Oracle", "Oracle"),
     POSTGRESQL("PostgreSQL", "PostgreSQL"),
     SQLSERVER("SQLServer", "SQLServer"),
+    DMDB("DmDB", "DmDB"),
+    GBASE8A("GBase8a", "GBase8a"),
     GREENPLUM("Greenplum", "Greenplum"),
+    PHOENIX("Phoenix", "Phoenix"),
 
     REDIS("Redis", "Redis"),
     ELASTICSEARCH("Elasticsearch", "Elasticsearch"),
@@ -41,11 +44,17 @@ public enum DataSourceType implements DictInstance {
     TIDB("TiDB", "TiDB"),
 
     KAFKA("Kafka", "Kafka"),
+    PULSAR("Pulsar", "Pulsar"),
+    DATAHUB("DataHub", "DataHub"),
 
+    FTP("Ftp", "Ftp"),
+    SFTP("Sftp", "Sftp"),
+    OSS("OSS", "OSS"),
+    S3("S3", "S3"),
     HDFS("HDFS", "HDFS"),
     HIVE("Hive", "Hive"),
     HBASE("HBase", "HBase"),
-    PHOENIX("Phoenix", "Phoenix"),
+
     IMPALA("Impala", "Impala"),
     DORIS("Doris", "Doris"),
     CLICKHOUSE("ClickHouse", "ClickHouse"),
@@ -53,7 +62,14 @@ public enum DataSourceType implements DictInstance {
     KYLIN("Kylin", "Kylin"),
     DRUID("Druid", "Druid"),
 
+    IOTDB("IoTDB", "IoTDB"),
+    NEO4J("Neo4j", "Neo4j"),
+
+    HUDI("Hudi", "Hudi"),
+    ICEBERG("Iceberg", "Iceberg"),
+
     INFLUXDB("InfluxDB", "InfluxDB"),
+    EMAIL("Email", "Email"),
     SOCKET("Socket", "Socket"),
     ;
 

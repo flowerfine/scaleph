@@ -26,7 +26,7 @@ const DataSourceTypeWeb: React.FC<{ categoryId?: number, onTypeSelect: () => voi
     content: {
       dataIndex: "logo",
       render: (dom, entity, index, action, schema) => {
-        return <Image preview={false} src={entity.logo}></Image>
+        return <Image alt={entity.type.label} preview={false} src={entity.logo}></Image>
       }
     }
   }
