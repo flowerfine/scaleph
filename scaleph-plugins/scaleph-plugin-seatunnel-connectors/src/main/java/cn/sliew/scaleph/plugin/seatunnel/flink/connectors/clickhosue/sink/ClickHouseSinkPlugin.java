@@ -65,8 +65,8 @@ public class ClickHouseSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(SPLIT_MODE);
         props.add(SHARDING_KEY);
 
-        props.add(CommonProperties.FIELD_NAME);
-        props.add(CommonProperties.RESULT_TABLE_NAME);
+        props.add(CommonProperties.PARALLELISM);
+        props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 

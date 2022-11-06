@@ -20,7 +20,10 @@ package cn.sliew.scaleph.dao.mapper.master.ds;
 
 import cn.sliew.scaleph.dao.entity.master.ds.DsType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -29,5 +32,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface DsTypeMapper extends BaseMapper<DsType> {
+
+    List<DsType> listTypes(@Param("categoryId") Long categoryId, @Param("type") String type);
 
 }

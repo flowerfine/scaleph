@@ -29,8 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.METASTORE_URI;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.TABLE_NAME;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class HiveSourcePlugin extends SeaTunnelConnectorPlugin {
@@ -43,7 +42,8 @@ public class HiveSourcePlugin extends SeaTunnelConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(TABLE_NAME);
         props.add(METASTORE_URI);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(SCHEMA);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

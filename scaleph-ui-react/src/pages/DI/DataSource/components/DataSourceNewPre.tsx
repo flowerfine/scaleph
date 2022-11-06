@@ -26,7 +26,7 @@ const DataSourceNewPre: React.FC<DataSourceFormProps> = ({
     return (
         <div>
             <Modal
-                visible={visible}
+                open={visible}
                 destroyOnClose={true}
                 title={intl.formatMessage({ id: 'pages.project.di.dataSource.dataSourceType.chose' })}
                 width={860}
@@ -37,7 +37,7 @@ const DataSourceNewPre: React.FC<DataSourceFormProps> = ({
                     {intl.formatMessage({ id: 'pages.project.di.dataSource.dataSourceType.rdbms' })}
                 </Typography.Title>
                 <Card bordered={false}>
-                    <Card.Grid style={gridStyle} onClick={() => { onSelect('Mysql') }}>
+                    <Card.Grid style={gridStyle} onClick={() => { onSelect('MySQL') }}>
                         <Typography.Text strong >Mysql</Typography.Text>
                     </Card.Grid>
                     <Card.Grid style={gridStyle} onClick={() => { onSelect('Oracle') }}>

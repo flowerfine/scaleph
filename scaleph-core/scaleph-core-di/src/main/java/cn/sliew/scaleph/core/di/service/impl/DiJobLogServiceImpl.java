@@ -86,10 +86,10 @@ public class DiJobLogServiceImpl implements DiJobLogService {
     }
 
     @Override
-    public List<DiJobLogDTO> listRunningJobInstance(String jobCode) {
+    public List<DiJobLogDTO> listRunningJobInstance(Long jobCode) {
         List<DiJobLog> list = this.diJobLogMapper.selectList(
             new LambdaQueryWrapper<DiJobLog>()
-                .eq(StrUtil.isNotBlank(jobCode), DiJobLog::getJobCode, jobCode)
+                .eq(jobCode != null, DiJobLog::getJobCode, jobCode)
                 .notIn(DiJobLog::getJobInstanceState, "FAILED", "CANCELED", "FINISHED")
         );
         return DiJobLogConvert.INSTANCE.toDto(list);

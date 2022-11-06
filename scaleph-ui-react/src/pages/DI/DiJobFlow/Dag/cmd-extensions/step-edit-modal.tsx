@@ -51,6 +51,13 @@ import SourceMongoDBStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-
 import SinkMongoDBStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-mongodb-step";
 import SourceRedisStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-redis-step";
 import SinkRedisStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-redis-step";
+import SourcePulsarStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-pulsar-step";
+import SinkDatahubStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-datahub-step";
+import SinkElasticsearchStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-elasticsearch-step";
+import SinkNeo4jStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-neo4j-step";
+import SinkSentryStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-sentry-step";
+import SourceS3FileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/source/source-s3-file-step";
+import SinkS3FileStepForm from "@/pages/DI/DiJobFlow/Dag/steps/sink/sink-s3-file-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -227,6 +234,10 @@ export class EditNodeCommand implements ICommand {
       return (<SourceOSSFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'sink' && name === 'OssFile') {
       return (<SinkOSSFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if (type === 'source' && name === 'S3File') {
+      return (<SourceS3FileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if (type === 'sink' && name === 'S3File') {
+      return (<SinkS3FileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'source' && name === 'Jdbc') {
       return (<SourceJdbcStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'sink' && name === 'Jdbc') {
@@ -281,6 +292,16 @@ export class EditNodeCommand implements ICommand {
       return (<SourceRedisStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'Redis'){
       return (<SinkRedisStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'Pulsar'){
+      return (<SourcePulsarStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'DataHub'){
+      return (<SinkDatahubStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'elasticsearch'){
+      return (<SinkElasticsearchStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'Neo4j'){
+      return (<SinkNeo4jStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'Sentry'){
+      return (<SinkSentryStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
       return <></>;
     }

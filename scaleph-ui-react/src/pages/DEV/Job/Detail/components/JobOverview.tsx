@@ -7,7 +7,6 @@ const JobOverviewWeb: React.FC<{
 }> = ({ data }) => {
   const intl = useIntl();
 
-  // return <ProDescriptions column={1} dataSource={data} columns={columns}></ProDescriptions>;
   return (
     <>
       <Row gutter={[12, 12]}>
@@ -123,6 +122,22 @@ const JobOverviewWeb: React.FC<{
                     {data.flinkClusterInstance?.webInterfaceUrl}
                   </a>
                 </div>
+              </List.Item>
+              <List.Item>
+                <List.Item.Meta
+                  title={intl.formatMessage({
+                    id: 'pages.dev.job.detail.overview.cluster.deployMode',
+                  })}
+                ></List.Item.Meta>
+                <div>{data.flinkClusterConfig?.deployMode?.label}</div>
+              </List.Item>
+              <List.Item>
+                <List.Item.Meta
+                  title={intl.formatMessage({
+                    id: 'pages.dev.job.detail.overview.cluster.resourceProvider',
+                  })}
+                ></List.Item.Meta>
+                <div>{data.flinkClusterConfig?.resourceProvider?.label}</div>
               </List.Item>
             </List>
           </Card>

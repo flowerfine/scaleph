@@ -144,6 +144,11 @@ export default {
   'pages.project.di.step.baseFile.path': 'Path',
   'pages.project.di.step.baseFile.type': 'File Type',
   'pages.project.di.step.baseFile.schema': 'Schema',
+  'pages.project.di.step.baseFile.delimiter': 'Field Delimiter',
+  'pages.project.di.step.baseFile.parsePartitionFromPath': 'Enable Parse Partition From Path',
+  'pages.project.di.step.baseFile.dateFormat': 'Date Format',
+  'pages.project.di.step.baseFile.timeFormat': 'Time Format',
+  'pages.project.di.step.baseFile.datetimeFormat': 'Datetime Format',
   'pages.project.di.step.baseFile.fileNameExpression': 'FileName Expression',
   'pages.project.di.step.baseFile.fileFormat': 'File Format',
   'pages.project.di.step.baseFile.filenameTimeFormat': 'FileName Time Format',
@@ -154,7 +159,6 @@ export default {
   'pages.project.di.step.baseFile.isPartitionFieldWriteInFile': 'Write Partition Field to File',
   'pages.project.di.step.baseFile.sinkColumns': 'Sink Columns',
   'pages.project.di.step.baseFile.isEnableTransaction': 'Enable Transaction',
-  'pages.project.di.step.baseFile.saveMode': 'Save Mode',
 
   // hdfs file
   'pages.project.di.step.hdfsFile.defaultFS': 'fs.defaultFS',
@@ -172,6 +176,11 @@ export default {
   'pages.project.di.step.ossFile.accessKey': 'Access Key',
   'pages.project.di.step.ossFile.accessSecret': 'Access Secret',
 
+  // s3
+  'pages.project.di.step.s3.bucket': 'Bucket',
+  'pages.project.di.step.s3.accessKey': 'Access Key',
+  'pages.project.di.step.s3.accessSecret': 'Access Secret',
+
   // http
   'pages.project.di.step.http.method': 'Method',
   'pages.project.di.step.http.url': 'URL',
@@ -183,10 +192,10 @@ export default {
   'pages.project.di.step.http.value': 'value',
   'pages.project.di.step.http.format': 'Format',
   'pages.project.di.step.http.schema': 'Schema',
-  'pages.project.di.step.http.pollIntervalMs': 'Poll Interval(millis)',
+  'pages.project.di.step.http.pollIntervalMs': 'Poll Interval(milliseconds)',
   'pages.project.di.step.http.retry': 'Retry',
-  'pages.project.di.step.http.retryBackoffMultiplierMs': 'Retry-Backoff times(millis) Multiplier',
-  'pages.project.di.step.http.retryBackoffMaxMs': 'Maximum Retry-Backoff times(millis)',
+  'pages.project.di.step.http.retryBackoffMultiplierMs': 'Retry-Backoff times(milliseconds) Multiplier',
+  'pages.project.di.step.http.retryBackoffMaxMs': 'Maximum Retry-Backoff times(milliseconds)',
 
   // wechat
   'pages.project.di.step.wechat.url': 'WeChat Robot URL',
@@ -261,7 +270,7 @@ export default {
   'pages.project.di.step.hive.partitionBy.tooltip': 'example : "test_par1", "test_par2"',
   'pages.project.di.step.hive.sinkColumns': 'Write Columns',
   'pages.project.di.step.hive.sinkColumns.tooltip': 'example : "test_tinyint", "test_smallint", "test_int", "test_bigint", "test_boolean", "test_float"',
-  'pages.project.di.step.hive.isEnableTransaction': 'isEnableTransaction',
+  'pages.project.di.step.hive.isEnableTransaction': 'Enable Transaction',
   'pages.project.di.step.hive.isEnableTransaction.tooltip': 'Only support true now',
   'pages.project.di.step.hive.saveMode': 'saveMode',
   'pages.project.di.step.hive.saveMode.tooltip': 'Streaming Job not support overwrite. Storage mode, we need support overwrite and append. append is now supported.',
@@ -288,6 +297,7 @@ export default {
   'pages.project.di.step.iotdb.username': 'Username',
   'pages.project.di.step.iotdb.password': 'Password',
   'pages.project.di.step.iotdb.sql': 'SQL',
+  'pages.project.di.step.iotdb.fields': 'Fields',
   'pages.project.di.step.iotdb.fetchSize': 'Fetch Size',
   'pages.project.di.step.iotdb.thriftDefaultBufferSize': 'Default Thrift Buffer Size',
   'pages.project.di.step.iotdb.thriftMaxFrameSize': 'Max Thrift Max Size',
@@ -297,13 +307,13 @@ export default {
   'pages.project.di.step.iotdb.lowerBound': 'Partition Lower Bound',
   'pages.project.di.step.iotdb.upperBound': 'Partition Upper Bound',
   'pages.project.di.step.iotdb.batchSize': 'Batch Size',
-  'pages.project.di.step.iotdb.batchIntervalMs': 'Batch Interval(millseconds)',
+  'pages.project.di.step.iotdb.batchIntervalMs': 'Batch Interval(milliseconds)',
   'pages.project.di.step.iotdb.maxRetries': 'Retry Num',
-  'pages.project.di.step.iotdb.retryBackoffMultiplierMs': 'Retry Backoff Multiplier(millseconds)',
-  'pages.project.di.step.iotdb.maxRetryBackoffMs': 'Retry Max Backoff(millseconds)',
+  'pages.project.di.step.iotdb.retryBackoffMultiplierMs': 'Retry Backoff Multiplier(milliseconds)',
+  'pages.project.di.step.iotdb.maxRetryBackoffMs': 'Retry Max Backoff(milliseconds)',
   'pages.project.di.step.iotdb.zoneId': 'Time Zone ID',
   'pages.project.di.step.iotdb.enableRpcCompression': 'Enable RPC Compression',
-  'pages.project.di.step.iotdb.connectionTimeoutInMs': 'Connection Timeout(millseconds)',
+  'pages.project.di.step.iotdb.connectionTimeoutInMs': 'Connection Timeout(milliseconds)',
 
   // mongodb
   'pages.project.di.step.mongodb.uri': 'URI',
@@ -318,4 +328,69 @@ export default {
   'pages.project.di.step.redis.dataType': 'Data Type',
   'pages.project.di.step.redis.format': 'Format',
   'pages.project.di.step.redis.key': 'Key',
+
+  // pulsar
+  'pages.project.di.step.pulsar.clientServiceUrl': 'Client Service URL',
+  'pages.project.di.step.pulsar.adminServiceUrl': 'Admin Service URL',
+  'pages.project.di.step.pulsar.authPluginClass': 'Auth Plugin Class',
+  'pages.project.di.step.pulsar.authParams': 'Auth Params',
+  'pages.project.di.step.pulsar.subscriptionName': 'Subscription Name',
+  'pages.project.di.step.pulsar.topic': 'Topic',
+  'pages.project.di.step.pulsar.topic.tooltip': 'Multiple Topics separated by semicolon like: topic-1;topic-2',
+  'pages.project.di.step.pulsar.topicPattern': 'Topic Pattern',
+  'pages.project.di.step.pulsar.topicDiscoveryInterval': 'Topic Discovery Interval(milliseconds)',
+  'pages.project.di.step.pulsar.topicDiscoveryInterval.tooltip': 'Non-Positive value means disable',
+  'pages.project.di.step.pulsar.pollTimeout': 'Poll Timeout(milliseconds)',
+  'pages.project.di.step.pulsar.pollInterval': 'Poll Interval(milliseconds)',
+  'pages.project.di.step.pulsar.pollBatchSize': 'Poll Batch Size',
+  'pages.project.di.step.pulsar.cursorStartupMode': 'Cursor Startup Mode',
+  'pages.project.di.step.pulsar.cursorStartupTimestamp': 'Cursor Startup Timestamp',
+  'pages.project.di.step.pulsar.cursorResetMode': 'Cursor Reset Mode',
+  'pages.project.di.step.pulsar.cursorStopMode': 'Cursor Stop Mode',
+  'pages.project.di.step.pulsar.cursorStopMode.tooltip': 'Never means stream and others mean batch',
+  'pages.project.di.step.pulsar.cursorStopTimestamp': 'Cursor Stop Timestamp',
+
+  // datahub
+  'pages.project.di.step.datahub.endpoint': 'Endpoint',
+  'pages.project.di.step.datahub.accessId': 'Access Id',
+  'pages.project.di.step.datahub.accessKey': 'Access Key',
+  'pages.project.di.step.datahub.project': 'Project',
+  'pages.project.di.step.datahub.topic': 'Topic',
+  'pages.project.di.step.datahub.timeout': 'Connection Timeout(milliseconds)',
+  'pages.project.di.step.datahub.retryTimes': 'Retry Times',
+  'pages.project.di.step.datahub.retryTimes.tooltip': '0 means disable retry',
+
+  // elasticsearch
+  'pages.project.di.step.elasticsearch.hosts': 'Hosts',
+  'pages.project.di.step.elasticsearch.username': 'Username',
+  'pages.project.di.step.elasticsearch.password': 'Password',
+  'pages.project.di.step.elasticsearch.index': 'Index',
+  'pages.project.di.step.elasticsearch.maxRetrySize': 'Max Retry Size',
+  'pages.project.di.step.elasticsearch.maxBatchSize': 'Max Batch Size',
+
+  // neo4j
+  'pages.project.di.step.neo4j.uri': 'URI',
+  'pages.project.di.step.neo4j.username': 'Username',
+  'pages.project.di.step.neo4j.password': 'Password',
+  'pages.project.di.step.neo4j.bearerToken': 'Bearer Token Header',
+  'pages.project.di.step.neo4j.kerberosTicket': 'Kerberos Ticket',
+  'pages.project.di.step.neo4j.database': 'Database',
+  'pages.project.di.step.neo4j.query': 'Query',
+  'pages.project.di.step.neo4j.queryParamPosition': 'Query Param Position',
+  'pages.project.di.step.neo4j.queryParamPosition.tooltip': 'Query Param Position Mapping',
+  'pages.project.di.step.neo4j.queryParamPosition.list': 'Mapping',
+  'pages.project.di.step.neo4j.field': 'Field',
+  'pages.project.di.step.neo4j.position': 'Position',
+  'pages.project.di.step.neo4j.maxConnectionTimeout': 'Max Connection Timeout(seconds)',
+  'pages.project.di.step.neo4j.maxTransactionRetryTime': 'Max Transaction Retry Time(seconds)',
+
+  // sentry
+  'pages.project.di.step.sentry.dsn': 'DSN',
+  'pages.project.di.step.sentry.env': 'Env',
+  'pages.project.di.step.sentry.release': 'Release',
+  'pages.project.di.step.sentry.enableExternalConfiguration': 'Enable External Configuration',
+  'pages.project.di.step.sentry.cacheDirPath': 'Cache Dir Path',
+  'pages.project.di.step.sentry.maxCacheItems': 'Max Cache Items',
+  'pages.project.di.step.sentry.flushTimeoutMillis': 'Flush Timeout(milliseconds)',
+  'pages.project.di.step.sentry.maxQueueSize': 'Max Queue Size'
 };

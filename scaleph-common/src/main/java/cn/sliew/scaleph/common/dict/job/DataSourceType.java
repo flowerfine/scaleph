@@ -28,15 +28,49 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum DataSourceType implements DictInstance {
 
-    JDBC("JDBC", "JDBC"),
-    MYSQL("Mysql", "Mysql"),
+    MYSQL("MySQL", "MySQL"),
     ORACLE("Oracle", "Oracle"),
-    POSTGRESQL("PostGreSQL", "PostGreSQL"),
+    POSTGRESQL("PostgreSQL", "PostgreSQL"),
+    SQLSERVER("SQLServer", "SQLServer"),
+    DMDB("DmDB", "DmDB"),
+    GBASE8A("GBase8a", "GBase8a"),
+    GREENPLUM("Greenplum", "Greenplum"),
+    PHOENIX("Phoenix", "Phoenix"),
+
+    REDIS("Redis", "Redis"),
+    ELASTICSEARCH("Elasticsearch", "Elasticsearch"),
+    SOLR("Solr", "Solr"),
+    MONGODB("MongoDB", "MongoDB"),
+    TIDB("TiDB", "TiDB"),
+
     KAFKA("Kafka", "Kafka"),
+    PULSAR("Pulsar", "Pulsar"),
+    DATAHUB("DataHub", "DataHub"),
+
+    FTP("Ftp", "Ftp"),
+    SFTP("Sftp", "Sftp"),
+    OSS("OSS", "OSS"),
+    S3("S3", "S3"),
+    HDFS("HDFS", "HDFS"),
+    HIVE("Hive", "Hive"),
+    HBASE("HBase", "HBase"),
+
+    IMPALA("Impala", "Impala"),
     DORIS("Doris", "Doris"),
     CLICKHOUSE("ClickHouse", "ClickHouse"),
-    ELASTICSEARCH("Elasticsearch", "Elasticsearch"),
+    KUDU("Kudu", "Kudu"),
+    KYLIN("Kylin", "Kylin"),
     DRUID("Druid", "Druid"),
+
+    IOTDB("IoTDB", "IoTDB"),
+    NEO4J("Neo4j", "Neo4j"),
+
+    HUDI("Hudi", "Hudi"),
+    ICEBERG("Iceberg", "Iceberg"),
+
+    INFLUXDB("InfluxDB", "InfluxDB"),
+    EMAIL("Email", "Email"),
+    SOCKET("Socket", "Socket"),
     ;
 
     @JsonCreator

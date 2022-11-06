@@ -22,6 +22,7 @@ import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.param.*;
 import cn.sliew.scaleph.core.di.service.vo.DiJobAttrVO;
+import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.Collection;
@@ -43,9 +44,9 @@ public interface DiJobService {
 
     DiJobDTO selectOne(Long id);
 
-    DiJobDTO selectOne(Long projectId, String jobCode, int jobVersion);
+    DiJobDTO selectOne(Long projectId, Long jobCode, int jobVersion);
 
-    DiJobDTO insert(DiJobAddParam param);
+    DiJobDTO insert(DiJobAddParam param) throws UidGenerateException;
 
     int update(DiJobUpdateParam param);
 
@@ -53,7 +54,7 @@ public interface DiJobService {
 
     int deleteBatch(List<Long> ids);
 
-    int deleteByCode(Long projectId, String jobCode);
+    int deleteByCode(Long projectId, Long jobCode);
 
     int deleteByProjectId(Collection<Long> projectIds);
 

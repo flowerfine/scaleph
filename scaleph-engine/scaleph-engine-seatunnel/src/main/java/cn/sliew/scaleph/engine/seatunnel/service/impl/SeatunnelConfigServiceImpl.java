@@ -76,6 +76,10 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         return conf.toPrettyString();
     }
 
+    private void buildEnvs(ObjectNode conf, String jobName, List<DiJobAttrDTO> jobAttrList) {
+        conf.set(SeaTunnelConstant.ENV, buildEnv(jobName, jobAttrList));
+    }
+
     private ObjectNode buildEnv(String jobName, List<DiJobAttrDTO> jobAttrs) {
         ObjectNode env = JacksonUtil.createObjectNode();
         env.put(JobNameProperties.JOB_NAME.getName(), jobName);
@@ -156,10 +160,6 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
             }
         });
         return properties;
-    }
-
-    private void buildEnvs(ObjectNode conf, String jobName, List<DiJobAttrDTO> jobAttrList) {
-        conf.set(SeaTunnelConstant.ENV, buildEnv(jobName, jobAttrList));
     }
 
     private void buildNodes(ObjectNode conf, Set<ObjectNode> nodes) {

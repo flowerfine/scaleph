@@ -99,4 +99,6 @@ export default {
   'pages.dev.job.detail.config.resource':'Resource Configuration',
   'pages.dev.job.detail.config.fault':'Fault Tolerance',
   'pages.dev.job.detail.config.ha':'High Availability',
+  'pages.dev.job.detail.overview.cluster.deployMode': '部署模式',
+  'pages.dev.job.detail.overview.cluster.resourceProvider': 'Resource Providers',
 };

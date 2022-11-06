@@ -43,6 +43,7 @@ public class MongoDBSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(URI);
         props.add(DATABASE);
         props.add(COLLECTION);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

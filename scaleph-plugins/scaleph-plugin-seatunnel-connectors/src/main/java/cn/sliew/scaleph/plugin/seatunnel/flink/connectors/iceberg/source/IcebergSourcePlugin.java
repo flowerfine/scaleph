@@ -54,7 +54,7 @@ public class IcebergSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(START_SNAPSHOT_TIMESTAMP);
         props.add(USE_SNAPSHOT_TIMESTAMP);
         props.add(STREAM_SCAN_STRATEGY);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

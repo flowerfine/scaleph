@@ -358,7 +358,7 @@ VALUES ('flink_artifact_type', '1', 'UDF', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('flink_artifact_type', '2', 'SQL', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
-VALUES ('seatunnel_version', '2.2.0-beta', '2.2.0-beta', 'sys', 'sys');
+VALUES ('seatunnel_version', '2.3.0-beta', '2.3.0-beta', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
 VALUES ('image_pull_policy', 'IfNotPresent', 'IfNotPresent', 'sys', 'sys');
 INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
@@ -865,7 +865,7 @@ create table di_job
 (
     id            bigint       not null auto_increment comment '自增主键',
     project_id    bigint       not null comment '项目id',
-    job_code      varchar(128) not null comment '作业编码',
+    job_code      bigint       not null comment '作业编码',
     job_name      varchar(256) not null comment '作业名称',
     directory_id  bigint       not null comment '作业目录',
     job_type      varchar(4) comment '作业类型',
@@ -885,10 +885,10 @@ create table di_job
 ) engine = innodb comment '数据集成-作业信息';
 INSERT INTO `di_job` (`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
                       `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
-VALUES (1, 1, 'mNVdYcrOyK89O3rP', 'e_commerce', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys', 'sys');
+VALUES (1, 1, 1, 'e_commerce', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys', 'sys');
 INSERT INTO `di_job`(`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
                      `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
-VALUES (2, 1, 'k52fCXieapQDAxT6', 'fake', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys', 'sys');
+VALUES (2, 1, 2, 'fake', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys', 'sys');
 
 drop table if exists di_job_resource_file;
 create table di_job_resource_file
@@ -992,7 +992,7 @@ create table di_job_log
     id                 bigint       not null auto_increment comment '自增主键',
     project_id         bigint       not null comment '项目id',
     job_id             bigint       not null comment '作业id',
-    job_code           varchar(128) not null comment '作业编码',
+    job_code           bigint       not null comment '作业编码',
     cluster_id         bigint       not null comment '执行集群id',
     job_instance_id    varchar(128) not null comment '作业实例id',
     job_log_url        varchar(512) comment '作业日志URL',

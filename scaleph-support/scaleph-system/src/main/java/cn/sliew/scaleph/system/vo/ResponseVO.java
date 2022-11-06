@@ -30,7 +30,7 @@ import lombok.SneakyThrows;
  */
 @Data
 @ApiModel(value = "通用响应体", description = "通用响应体")
-public class ResponseVO {
+public class ResponseVO<T> {
     /**
      * operate result
      */
@@ -39,7 +39,7 @@ public class ResponseVO {
     /**
      * result data
      */
-    private Object data;
+    private T data;
     /**
      * error code
      */

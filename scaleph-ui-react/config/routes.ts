@@ -250,6 +250,29 @@ export default [
     ],
   },
   {
+    name: 'dataSource',
+    path: '/dataSource',
+    icon: 'compass',
+    pCode: PRIVILEGE_CODE.datadevClusterShow,
+    access: 'normalRouteFilter',
+    routes: [
+      {
+        path: '/dataSource',
+        exact: true,
+        component: './DataSource',
+        pCode: PRIVILEGE_CODE.datadevClusterShow,
+        access: 'normalRouteFilter',
+      },
+      {
+        path: '/dataSource/stepForms',
+        exact: true,
+        component: './DataSource/StepForms',
+        pCode: PRIVILEGE_CODE.datadevClusterShow,
+        access: 'normalRouteFilter',
+      },
+    ],
+  },
+  {
     name: 'cluster',
     path: '/cluster',
     icon: 'cluster',

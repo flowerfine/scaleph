@@ -296,7 +296,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
                                             Map<String, String> clusterConf,
                                             File projectPath) throws IOException {
         Configuration configuration = new Configuration();
-        configuration.setString(PipelineOptions.NAME, job.getJobCode());
+        configuration.setString(PipelineOptions.NAME, job.getJobName());
         configuration.setString(JobManagerOptions.ADDRESS, clusterConf.get(JobManagerOptions.ADDRESS.key()));
         configuration.setInteger(JobManagerOptions.PORT, Integer.parseInt(clusterConf.get(JobManagerOptions.PORT.key())));
         configuration.setInteger(RestOptions.PORT, Integer.parseInt(clusterConf.get(RestOptions.PORT.key())));
@@ -363,27 +363,26 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         panel.setHeader(pluginType.getLabel());
         List<DagNodeDTO> nodeList = new ArrayList<>();
         for (SeaTunnelConnectorPlugin plugin : plugins) {
-            String displayName = StringUtils.capitalize(plugin.getPluginName().getLabel()) + " " + StringUtils.capitalize(pluginType.getValue());
             PluginInfo pluginInfo = plugin.getPluginInfo();
             DagNodeDTO node = new DagNodeDTO();
             node.setId(pluginInfo.getName());
-            node.setLabel(displayName);
+            node.setLabel(plugin.getPluginName().getLabel());
             node.setDescription(pluginInfo.getDescription());
             node.setRenderKey(GraphConstants.DND_RENDER_ID);
-            node.setData(buildPluginInfo(pluginInfo, displayName));
+            node.setData(buildPluginInfo(pluginInfo));
             nodeList.add(node);
         }
         panel.setChildren(nodeList);
         return panel;
     }
 
-    private DagPanalVO buildPluginInfo(PluginInfo pluginInfo, String displayName) throws PluginException {
+    private DagPanalVO buildPluginInfo(PluginInfo pluginInfo) throws PluginException {
         final SeaTunnelConnectorPlugin connector = seatunnelConnectorService.getConnector(pluginInfo);
         final DagPanalVO dagPanalVO = new DagPanalVO();
+        dagPanalVO.setDisplayName(connector.getPluginName().getLabel() + " " + connector.getPluginType().getLabel());
         dagPanalVO.setName(connector.getPluginName().getValue());
         dagPanalVO.setType(connector.getPluginType().getValue());
         dagPanalVO.setEngine(connector.getEngineType().getValue());
-        dagPanalVO.setDisplayName(displayName);
         return dagPanalVO;
     }
 }

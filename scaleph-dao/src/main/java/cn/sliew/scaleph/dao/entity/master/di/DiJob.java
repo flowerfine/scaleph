@@ -48,7 +48,7 @@ public class DiJob extends BaseDO {
     private Long projectId;
 
     @ApiModelProperty(value = "作业编码")
-    private String jobCode;
+    private Long jobCode;
 
     @ApiModelProperty(value = "作业名称")
     private String jobName;

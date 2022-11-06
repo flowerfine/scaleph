@@ -31,6 +31,7 @@ import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.system.service.vo.DictVO;
+import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -71,7 +72,7 @@ public class JobController {
     @PostMapping
     @ApiOperation(value = "新增作业记录", notes = "新增一条作业记录，相关流程定义不涉及")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_ADD)")
-    public ResponseEntity<ResponseVO> simpleAddJob(@Validated @RequestBody DiJobAddParam param) {
+    public ResponseEntity<ResponseVO> simpleAddJob(@Validated @RequestBody DiJobAddParam param) throws UidGenerateException {
         DiJobDTO diJobDTO = diJobService.insert(param);
         return new ResponseEntity<>(ResponseVO.sucess(diJobDTO), HttpStatus.CREATED);
     }

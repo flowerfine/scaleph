@@ -5,6 +5,7 @@ import cluster from './cluster';
 import project from './project';
 import resource from './resource';
 import dev from './dev';
+import dataSource from "./dataSource";
 export default {
   ...user,
   ...admin,
@@ -13,4 +14,5 @@ export default {
   ...project,
   ...resource,
   ...dev,
+  ...dataSource,
 };

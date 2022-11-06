@@ -48,7 +48,7 @@ public class RedisSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(DATA_TYPE);
         props.add(FORMAT);
         props.add(SCHEMA);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

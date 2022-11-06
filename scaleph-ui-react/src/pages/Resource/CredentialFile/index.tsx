@@ -1,12 +1,11 @@
 import {PRIVILEGE_CODE} from '@/constant';
 import {ClusterCredentialService} from '@/services/resource/clusterCredential.service';
 import {CredentialFile} from '@/services/resource/typings';
-import {history} from '@@/core/history';
 import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {Button, message, Modal, Space, Tooltip} from 'antd';
 import {useEffect, useRef, useState} from 'react';
-import {useAccess, useIntl, useLocation} from 'umi';
+import {history, useAccess, useIntl, useLocation} from 'umi';
 import CredentialFileForm from './components/CredentialFileForm';
 
 const CredentialFileResource: React.FC = () => {
