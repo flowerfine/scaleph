@@ -23,6 +23,7 @@ import cn.sliew.scaleph.plugin.framework.property.Property;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.PropertyType;
 import cn.sliew.scaleph.plugin.framework.property.Validators;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum ClickHouseSourceProperties {
     ;
@@ -74,4 +75,12 @@ public enum ClickHouseSourceProperties {
         .properties(Property.Required, Property.Sensitive)
         .addValidator(Validators.NON_BLANK_VALIDATOR)
         .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder()
+            .name("schema")
+            .description("The schema information of upstream data.")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
 }

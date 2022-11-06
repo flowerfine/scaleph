@@ -42,6 +42,7 @@ public class KuduSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(KUDU_MASTER);
         props.add(KUDU_TABLE);
         props.add(COLUMNS_LIST);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

@@ -22,6 +22,7 @@ export default {
   'menu.resource.kerberos': 'Kerberos',
   'menu.resource.clusterCredential': 'Cluster Credential',
   'menu.resource.clusterCredential.file': 'Credential File',
+  'menu.dataSource': '数据源',
   'menu.cluster': '集群',
   'menu.user.center': '个人中心',
   'menu.user.logout': '退出登录',

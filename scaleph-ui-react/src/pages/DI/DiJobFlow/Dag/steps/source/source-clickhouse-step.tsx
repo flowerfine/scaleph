@@ -8,8 +8,17 @@ import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {ClickHouseParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
-import {ProForm, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
+import {ClickHouseParams, SchemaParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
+import {
+  ProForm,
+  ProFormGroup,
+  ProFormList,
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea
+} from "@ant-design/pro-components";
+import {InfoCircleOutlined} from "@ant-design/icons";
+import {StepSchemaService} from "@/pages/DI/DiJobFlow/Dag/steps/schema";
 
 const SourceClickHouseStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -23,7 +32,7 @@ const SourceClickHouseStepForm: React.FC<ModalFormProps<{
   const [form] = Form.useForm();
 
   useEffect(() => {
-    form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
+    form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.data.displayName);
   }, []);
 
   return (
@@ -37,9 +46,10 @@ const SourceClickHouseStepForm: React.FC<ModalFormProps<{
       onOk={() => {
         form.validateFields().then((values) => {
           let map: Map<string, any> = new Map();
-          map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
+          map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
+          StepSchemaService.formatSchema(values)
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
@@ -88,11 +98,41 @@ const SourceClickHouseStepForm: React.FC<ModalFormProps<{
         <ProFormText
           name={ClickHouseParams.database}
           label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.database'})}
+          rules={[{required: true}]}
         />
         <ProFormTextArea
           name={ClickHouseParams.sql}
           label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.sql'})}
+          rules={[{required: true}]}
         />
+        <ProFormGroup
+          label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+        >
+          <ProFormList
+            name={SchemaParams.fields}
+            copyIconProps={false}
+            creatorButtonProps={{
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
+              type: 'text',
+            }}>
+            <ProFormGroup>
+              <ProFormText
+                name={SchemaParams.field}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
+                colProps={{span: 10, offset: 1}}
+              />
+              <ProFormText
+                name={SchemaParams.type}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
+                colProps={{span: 10, offset: 1}}
+              />
+            </ProFormGroup>
+          </ProFormList>
+        </ProFormGroup>
       </ProForm>
     </Modal>
   );

@@ -9,6 +9,15 @@ export const StepSchemaService = {
     return values
   },
 
+  formatFields: (values: Record<string, any>) => {
+    const fields: Record<string, any> = {}
+    values.fieldArray?.forEach(function (item: Record<string, any>) {
+      fields[item.field] = item.type;
+    });
+    values.fields = JSON.stringify(fields)
+    return values
+  },
+
   formatHeader: (values: Record<string, any>) => {
     const headers: Record<string, any> = {}
     values.headerArray?.forEach(function (item: Record<string, any>) {
@@ -42,6 +51,15 @@ export const StepSchemaService = {
       mobiles.push(item.mobile)
     });
     values.mentioned_mobile_list = JSON.stringify(mobiles)
+    return values
+  },
+
+  formatPositionMapping: (values: Record<string, any>) => {
+    const mappings: Record<string, any> = {}
+    values.queryParamPositionArray?.forEach(function (item: Record<string, any>) {
+      mappings[item.field] = item.position;
+    });
+    values.queryParamPosition = JSON.stringify(mappings)
     return values
   },
 

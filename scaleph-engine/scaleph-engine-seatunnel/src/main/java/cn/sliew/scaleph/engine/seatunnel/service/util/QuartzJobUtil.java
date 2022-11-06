@@ -21,7 +21,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.util;
 public enum QuartzJobUtil {
     ;
 
-    public static String getJobName(String projectCode, String jobCode) {
+    public static String getJobName(String projectCode, Long jobCode) {
         return String.format("%s_%s", projectCode, jobCode);
     }
 

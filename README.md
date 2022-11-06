@@ -110,7 +110,7 @@ Thanks for all people who already contributed to Scaleph!
 
 * Chinese user:
 
-   ![wechat](docs/image/1281666711380_.pic.jpg)
+   ![wechat](docs/image/1291667263675_.pic.jpg)
 
 ## Sponsor
 

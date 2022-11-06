@@ -18,10 +18,10 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.local.source;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import com.google.auto.service.AutoService;
 
@@ -29,7 +29,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSourceProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class LocalFileSourcePlugin extends SeaTunnelConnectorPlugin {
@@ -43,7 +44,12 @@ public class LocalFileSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(PATH);
         props.add(TYPE);
         props.add(SCHEMA);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(DELIMITER);
+        props.add(PARSE_PARTITION_FROM_PATH);
+        props.add(DATE_FORMAT);
+        props.add(TIME_FORMAT);
+        props.add(DATETIME_FORMAT);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

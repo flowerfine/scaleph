@@ -42,6 +42,7 @@ public class DingTalkSinkPlugin extends SeaTunnelConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(URL);
         props.add(SECRET);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = Collections.unmodifiableList(props);
     }

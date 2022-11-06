@@ -24,6 +24,9 @@ import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
 import cn.sliew.flinkful.cli.base.util.FlinkUtil;
 import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
 import cn.sliew.flinkful.common.enums.DeploymentTarget;
+import cn.sliew.flinkful.rest.base.JobClient;
+import cn.sliew.flinkful.rest.base.RestClient;
+import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
@@ -60,6 +63,9 @@ import org.apache.flink.client.program.rest.RestClusterClient;
 import org.apache.flink.configuration.*;
 import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
 import org.apache.flink.runtime.client.JobStatusMessage;
+import org.apache.flink.runtime.rest.handler.async.TriggerResponse;
+import org.apache.flink.runtime.rest.messages.job.savepoints.SavepointTriggerRequestBody;
+import org.apache.flink.runtime.rest.messages.job.savepoints.stop.StopWithSavepointRequestBody;
 import org.apache.flink.yarn.configuration.YarnConfigOptions;
 import org.apache.hadoop.yarn.api.records.ApplicationId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,10 +80,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
@@ -108,6 +112,8 @@ public class FlinkServiceImpl implements FlinkService {
     private DiJobService diJobService;
     @Autowired
     private SeatunnelConfigService seatunnelConfigService;
+    @Autowired
+    private FlinkJobLogService flinkJobLogService;
 
     /**
      * requires:
@@ -201,7 +207,7 @@ public class FlinkServiceImpl implements FlinkService {
 
     private ClusterClient doSubmitSeaTunnel(FlinkJobForSeaTunnelDTO flinkJobForSeaTunnelDTO, Path workspace) throws Exception {
         FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(flinkJobForSeaTunnelDTO.getFlinkClusterConfig().getId());
-        SeaTunnelReleaseDTO seaTunnelRelease = seaTunnelReleaseService.selectByVersion(SeaTunnelVersion.V_2_2_0_BETA);
+        SeaTunnelReleaseDTO seaTunnelRelease = seaTunnelReleaseService.selectByVersion(SeaTunnelVersion.V_2_3_0_BETA);
 
         Path flinkHomePath = loadFlinkRelease(flinkClusterConfigDTO.getFlinkRelease(), workspace);
         Path seatunnelHomePath = loadSeaTunnelRelease(seaTunnelRelease, workspace);
@@ -298,6 +304,89 @@ public class FlinkServiceImpl implements FlinkService {
             flinkJobInstanceService.upsert(flinkJobInstanceDTO);
         }
     }
+
+    @Override
+    public void stop(Long id) throws Exception{
+        final FlinkJobInstanceDTO flinkJobInstanceDTO = flinkJobInstanceService.selectOne(id);
+        final URL url = new URL(flinkJobInstanceDTO.getWebInterfaceUrl());
+        final String jobId = flinkJobInstanceDTO.getJobId();
+
+        RestClient client = new FlinkRestClient(url.getHost(),url.getPort(), new Configuration());
+        final JobClient jobClient = client.job();
+
+        String savePointPath = String.join("/",String.valueOf(flinkJobInstanceDTO.getFlinkJobCode()),String.valueOf(flinkJobInstanceDTO.getId()));
+        Path targetDirectory = SystemUtil.getSavepointDir(savePointPath);
+        StopWithSavepointRequestBody requestBody = new StopWithSavepointRequestBody(targetDirectory.toString(), true);
+        jobClient.jobStop(jobId,requestBody);
+
+        flinkJobInstanceDTO.setEndTime(new Date());
+        flinkJobInstanceDTO.setJobState(FlinkJobState.SUSPENDED);
+        flinkJobInstanceDTO.setDuration((flinkJobInstanceDTO.getEndTime().getTime()-flinkJobInstanceDTO.getStartTime().getTime())/1000);
+
+        final FlinkJobLogDTO flinkJobLogDTO = new FlinkJobLogDTO();
+        flinkJobLogDTO.setFlinkJobCode(flinkJobInstanceDTO.getFlinkJobCode());
+        flinkJobLogDTO.setFlinkJobVersion(flinkJobInstanceDTO.getFlinkJobVersion());
+        flinkJobLogDTO.setJobId(flinkJobInstanceDTO.getJobId());
+        flinkJobLogDTO.setJobName(flinkJobInstanceDTO.getJobName());
+        flinkJobLogDTO.setJobState(flinkJobInstanceDTO.getJobState());
+        flinkJobLogDTO.setClusterId(flinkJobInstanceDTO.getClusterId());
+        flinkJobLogDTO.setWebInterfaceUrl(flinkJobInstanceDTO.getWebInterfaceUrl());
+        flinkJobLogDTO.setClusterStatus(flinkJobInstanceDTO.getClusterStatus());
+        flinkJobLogDTO.setStartTime(flinkJobInstanceDTO.getStartTime());
+        flinkJobLogDTO.setEndTime(flinkJobInstanceDTO.getEndTime());
+        flinkJobLogDTO.setDuration(flinkJobInstanceDTO.getDuration());
+        flinkJobLogDTO.setCreator(flinkJobInstanceDTO.getCreator());
+        flinkJobLogDTO.setEditor(flinkJobInstanceDTO.getEditor());
+        flinkJobLogService.insert(flinkJobLogDTO);
+        flinkJobInstanceService.deleteById(id);
+    }
+
+    @Override
+    public void cancel(Long id) throws Exception{
+        final FlinkJobInstanceDTO flinkJobInstanceDTO = flinkJobInstanceService.selectOne(id);
+        final URL url = new URL(flinkJobInstanceDTO.getWebInterfaceUrl());
+        final String jobId = flinkJobInstanceDTO.getJobId();
+
+        RestClient client = new FlinkRestClient(url.getHost(),url.getPort(), new Configuration());
+        final JobClient jobClient = client.job();
+        jobClient.jobTerminate(jobId,"cancel");
+        flinkJobInstanceDTO.setEndTime(new Date());
+        flinkJobInstanceDTO.setJobState(FlinkJobState.CANCELED);
+        flinkJobInstanceDTO.setDuration((flinkJobInstanceDTO.getEndTime().getTime()-flinkJobInstanceDTO.getStartTime().getTime())/1000);
+
+
+        final FlinkJobLogDTO flinkJobLogDTO = new FlinkJobLogDTO();
+        flinkJobLogDTO.setFlinkJobCode(flinkJobInstanceDTO.getFlinkJobCode());
+        flinkJobLogDTO.setFlinkJobVersion(flinkJobInstanceDTO.getFlinkJobVersion());
+        flinkJobLogDTO.setJobId(flinkJobInstanceDTO.getJobId());
+        flinkJobLogDTO.setJobName(flinkJobInstanceDTO.getJobName());
+        flinkJobLogDTO.setJobState(flinkJobInstanceDTO.getJobState());
+        flinkJobLogDTO.setClusterId(flinkJobInstanceDTO.getClusterId());
+        flinkJobLogDTO.setWebInterfaceUrl(flinkJobInstanceDTO.getWebInterfaceUrl());
+        flinkJobLogDTO.setClusterStatus(flinkJobInstanceDTO.getClusterStatus());
+        flinkJobLogDTO.setStartTime(flinkJobInstanceDTO.getStartTime());
+        flinkJobLogDTO.setEndTime(flinkJobInstanceDTO.getEndTime());
+        flinkJobLogDTO.setDuration(flinkJobInstanceDTO.getDuration());
+        flinkJobLogDTO.setCreator(flinkJobInstanceDTO.getCreator());
+        flinkJobLogDTO.setEditor(flinkJobInstanceDTO.getEditor());
+        flinkJobLogService.insert(flinkJobLogDTO);
+        flinkJobInstanceService.deleteById(id);
+    }
+
+    @Override
+    public void triggerSavepoint(Long id) throws Exception{
+        final FlinkJobInstanceDTO flinkJobInstanceDTO = flinkJobInstanceService.selectOne(id);
+        final URL url = new URL(flinkJobInstanceDTO.getWebInterfaceUrl());
+        final String jobId = flinkJobInstanceDTO.getJobId();
+        String savePointPath = String.join("/",String.valueOf(flinkJobInstanceDTO.getFlinkJobCode()),String.valueOf(flinkJobInstanceDTO.getId()));
+        Path targetDirectory = SystemUtil.getSavepointDir(savePointPath);
+        RestClient client = new FlinkRestClient(url.getHost(),url.getPort(), new Configuration());
+        final JobClient jobClient = client.job();
+        SavepointTriggerRequestBody requestBody = new SavepointTriggerRequestBody(targetDirectory.toString(), true);
+        final CompletableFuture<TriggerResponse> triggerResponseCompletableFuture = jobClient.jobSavepoint(jobId,requestBody);
+        triggerResponseCompletableFuture.get();
+    }
+
 
     @Override
     public void shutdown(Long id) throws Exception {

@@ -18,10 +18,10 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.local.sink;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
 import com.google.auto.service.AutoService;
 
@@ -29,7 +29,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSinkProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class LocalFileSinkPlugin extends SeaTunnelConnectorPlugin {
@@ -51,7 +52,7 @@ public class LocalFileSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(IS_PARTITION_FIELD_WRITE_IN_FILE);
         props.add(SINK_COLUMNS);
         props.add(IS_ENABLE_TRANSACTION);
-        props.add(SAVE_MODE);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

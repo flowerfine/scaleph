@@ -38,7 +38,7 @@ public class DiJobParam extends PaginationParam {
     private Long projectId;
 
     @ApiModelProperty("job code")
-    private String jobCode;
+    private Long jobCode;
 
     @ApiModelProperty("job name")
     private String jobName;

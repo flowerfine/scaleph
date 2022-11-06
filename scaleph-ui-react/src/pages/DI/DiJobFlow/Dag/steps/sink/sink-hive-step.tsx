@@ -21,7 +21,7 @@ const SinkHiveStepForm: React.FC<ModalFormProps<{
   const [form] = Form.useForm();
 
   useEffect(() => {
-    form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
+    form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.data.displayName);
   }, []);
 
   return (
@@ -107,10 +107,11 @@ const SinkHiveStepForm: React.FC<ModalFormProps<{
             title: intl.formatMessage({id: 'pages.project.di.step.hive.saveMode.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
+          allowClear={false}
           initialValue={"append"}
           valueEnum={{
-            append: "append",
-            overwrite: "overwrite"
+            append: {text: "append", disabled: false},
+            overwrite: {text: "overwrite", disabled: true}
           }}
         />
       </ProForm>

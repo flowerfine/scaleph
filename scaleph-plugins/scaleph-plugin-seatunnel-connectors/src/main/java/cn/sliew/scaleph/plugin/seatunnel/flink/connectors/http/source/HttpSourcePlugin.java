@@ -52,7 +52,7 @@ public class HttpSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(RETRY);
         props.add(RETRY_BACKOFF_MULTIPLIER_MS);
         props.add(RETRY_BACKOFF_MAX_MS);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }

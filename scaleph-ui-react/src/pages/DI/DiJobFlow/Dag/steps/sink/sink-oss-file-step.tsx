@@ -27,7 +27,7 @@ const SinkOSSFileStepForm: React.FC<ModalFormProps<{
   const [form] = Form.useForm();
 
   useEffect(() => {
-    form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.label);
+    form.setFieldValue(STEP_ATTR_TYPE.stepTitle, nodeInfo.data.displayName);
   }, []);
 
   return (<Modal
@@ -40,7 +40,7 @@ const SinkOSSFileStepForm: React.FC<ModalFormProps<{
     onOk={() => {
       form.validateFields().then((values) => {
         let map: Map<string, any> = new Map();
-        map.set(STEP_ATTR_TYPE.jobId, jobInfo.id + '');
+        map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
         map.set(STEP_ATTR_TYPE.stepAttrs, values);
@@ -159,15 +159,6 @@ const SinkOSSFileStepForm: React.FC<ModalFormProps<{
         initialValue={true}
         fieldProps={{
           disabled: true
-        }}
-      />
-      <ProFormSelect
-        name={BaseFileParams.saveMode}
-        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.saveMode'})}
-        allowClear={false}
-        initialValue={"overwrite"}
-        valueEnum={{
-          overwrite: "overwrite"
         }}
       />
     </ProForm>

@@ -54,6 +54,7 @@ public class IoTDBSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(ZONE_ID);
         props.add(ENABLE_RPC_COMPRESSION);
         props.add(CONNECTION_TIMEOUT_IN_MS);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
