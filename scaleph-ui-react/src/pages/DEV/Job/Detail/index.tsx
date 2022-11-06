@@ -7,7 +7,6 @@ import {
   ContainerOutlined,
   DashboardOutlined,
   DeleteOutlined,
-  DeploymentUnitOutlined,
   EditOutlined,
   OrderedListOutlined,
   PauseOutlined,
@@ -16,13 +15,13 @@ import {
   SaveOutlined,
   ToolOutlined,
 } from '@ant-design/icons';
-import JobSavepointsWeb from '@/pages/DEV/Job/Detail/components/JobSavepointsTab';
 import JobConfigurationWeb from '@/pages/DEV/Job/Detail/components/JobConfiguration';
 import JobOverviewWeb from '@/pages/DEV/Job/Detail/components/JobOverview';
 import { useIntl, useLocation } from '@@/exports';
 import { FlinkJobForJar } from '@/pages/DEV/Job/typings';
-import JobHistoryWeb from '@/pages/DEV/Job/Detail/components/JobHistoryTab';
 import styles from './index.less';
+import JobSavepointsWeb from './components/JobSavepoints';
+import JobLogTable from './components/JobLogTable';
 
 const JobDetailWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -124,9 +123,7 @@ const JobDetailWeb: React.FC = () => {
           <Tabs
             defaultActiveKey="overview"
             type="line"
-            onChange={() => {
-              console.log('122');
-            }}
+            onChange={() => {}}
             items={[
               {
                 label: (
@@ -165,16 +162,6 @@ const JobDetailWeb: React.FC = () => {
               {
                 label: (
                   <>
-                    <OrderedListOutlined />
-                    {intl.formatMessage({ id: 'pages.dev.job.detail.logs' })}
-                  </>
-                ),
-                key: 'logs',
-                children: <>logs</>,
-              },
-              {
-                label: (
-                  <>
                     <SaveOutlined />
                     {intl.formatMessage({ id: 'pages.dev.job.detail.savepoint' })}
                   </>
@@ -182,19 +169,9 @@ const JobDetailWeb: React.FC = () => {
                 key: 'Savepoint',
                 children: (
                   <>
-                    <JobSavepointsWeb />,
+                    <JobSavepointsWeb />
                   </>
                 ),
-              },
-              {
-                label: (
-                  <>
-                    <DeploymentUnitOutlined />
-                    {intl.formatMessage({ id: 'pages.dev.job.detail.jobGraph' })}
-                  </>
-                ),
-                key: 'jobGraph',
-                children: <>123123</>,
               },
               {
                 label: (
@@ -206,7 +183,7 @@ const JobDetailWeb: React.FC = () => {
                 key: 'jobHistory',
                 children: (
                   <>
-                    <JobHistoryWeb flinkJobCode={params.code ? params.code : 0} />
+                    <JobLogTable flinkJobCode={params.code ? params.code : 0} />
                   </>
                 ),
               },
