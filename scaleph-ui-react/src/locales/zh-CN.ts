@@ -70,4 +70,7 @@ export default {
   'app.common.validate.sameEmail': '邮箱已存在',
   'app.common.validate.samePassword': '两次输入的密码不一致',
   'app.common.validate.sameToOldPassword': '新密码不能与旧密码一致',
+  'app.common.pagination.from':'第',
+  'app.common.pagination.to':'条/总共',
+  'app.common.pagination.total':'条'
 };
