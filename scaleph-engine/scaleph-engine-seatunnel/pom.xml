@@ -51,6 +51,29 @@
         </dependency>
 
         <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>flinkful-cli-base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>flinkful-cli-descriptor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>flinkful-rest-client</artifactId>
+        </dependency>
+
+        <!-- seatunnel additional dependency -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-planner_${scala.binary.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-planner-blink_${scala.binary.version}</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>

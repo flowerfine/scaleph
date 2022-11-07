@@ -18,6 +18,8 @@
 
 package cn.sliew.scaleph.common.codec;
 
+import cn.sliew.scaleph.common.constant.Constants;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
@@ -33,5 +35,17 @@ public enum CodecUtil {
 
     public static String decodeFromBase64(String text) {
         return new String(decoder.decode(text), StandardCharsets.UTF_8);
+    }
+
+    public static String encrypt(String str) {
+        return Constants.CODEC_STR_PREFIX + encodeToBase64(str);
+    }
+
+    public static String decrypt(String str) {
+        return decodeFromBase64(str.substring(Constants.CODEC_STR_PREFIX.length()));
+    }
+
+    public static boolean isEncryptedStr(String str) {
+        return str.startsWith(Constants.CODEC_STR_PREFIX);
     }
 }

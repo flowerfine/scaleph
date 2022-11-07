@@ -21,11 +21,8 @@ package cn.sliew.scaleph.meta.service.convert;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.constant.DictConstants;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDatasource;
 import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;
-import cn.sliew.scaleph.meta.service.param.MetaDatasourceParam;
-import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -78,12 +75,5 @@ public interface MetaDataSourceConvert extends BaseConvert<MetaDatasource, MetaD
             metaDatasourceDTO.setAdditionalPropsStr(metaDatasourceDTO.getAdditionalProps());
         }
         return metaDatasourceDTO;
-    }
-
-    default MetaDatasourceParam convert(ResourceListParam param) {
-        MetaDatasourceParam target = BeanUtil.copy(param, new MetaDatasourceParam());
-        target.setDatasourceType(param.getLabel());
-        target.setDatasourceName(param.getName());
-        return target;
     }
 }
