@@ -10,7 +10,7 @@ Flink SQL Gateway 提供了可插拔的 endpoint，对于 Flink SQL，使用 RES
 
 ### Session
 
-在 gateway 中，session 表示一个用户。每个用户在提交，关闭，获取 sql 任务结果时，都必须先创建一个 session，在创建 session 时，可以提供配置，作为 session 的上下文，仅限 session 内生效。
+在 gateway 中，session 表示一个用户。每个用户在提交，关闭，获取 SQL 任务结果时，都必须先创建一个 session，在创建 session 时，可以提供配置，作为 session 的上下文，仅限 session 内生效。
 
 ### SessionManager
 
@@ -22,9 +22,9 @@ SessionManager 负责管理 session，用户需负责创建，关闭 session，s
 
 创建 session 后，用户在 session 内的操作即为 operation。
 
-目前的 operation 只支持提交 Flink sql，提交 sql 任务后，即可获取 sql 任务结果，查看任务状态，删除任务。
+目前的 operation 只支持提交 Flink SQL，提交 SQL 任务后，即可获取 SQL 任务结果，查看任务状态，删除任务。
 
-每个 session 内部，可反复提交多个 Flink sql 任务。
+每个 session 内部，可反复提交多个 Flink SQL 任务。
 
 ## 使用方式
 
@@ -32,9 +32,26 @@ gateway 需要提前配置好 `FLINK_CONF_DIR` 环境变量。在 `FLINK_CONF_DI
 
 而 gateway 目前只支持 `session` 和 `per-job` 模式，不支持 `application` 模式，`application` 模式仍需要使用通用 jar。
 
+启动 gateway 最简单的方式是使用 `Standalone` 模式的 Flink cluster：
 
+```shell
+./bin/start-cluster.sh
+```
 
+对于其他模式，需要在 `conf/flink-conf.yaml` 文件中配置 `execution.target`：
 
+```yaml
+# yarn per-job
+execution.target: yarn-per-job
+
+# yarn session
+execution.target: yarn-session
+yarn.application.id: xxx
+
+# kubernetes session
+execution.target: kubernetes-session
+kubernetes.cluster-id: xxx
+```
 
 启动 gateway 实例：
 
@@ -42,7 +59,9 @@ gateway 需要提前配置好 `FLINK_CONF_DIR` 环境变量。在 `FLINK_CONF_DI
 ./bin/sql-gateway.sh start -Dsql-gateway.endpoint.rest.address=localhost
 ```
 
+之后即可创建 session，提交 sql 任务。
 
+flinkful 提供了相应的 REST 方法封装，用户可以使用 swagger 提交 http 请求
 
 ## 缺陷
 
