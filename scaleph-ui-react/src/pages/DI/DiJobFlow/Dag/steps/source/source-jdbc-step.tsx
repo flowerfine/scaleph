@@ -1,9 +1,8 @@
 import {ModalFormProps} from '@/app.d';
 import {DICT_TYPE} from '@/constant';
 import {DictDataService} from '@/services/admin/dictData.service';
-import {DataSourceService} from '@/services/project/dataSource.service';
 import {JobService} from '@/services/project/job.service';
-import {DiJob, MetaDataSourceParam} from '@/services/project/typings';
+import {DiJob} from '@/services/project/typings';
 import {InfoCircleOutlined} from '@ant-design/icons';
 import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
@@ -11,6 +10,8 @@ import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
 import {JdbcParams, STEP_ATTR_TYPE} from '../../constant';
 import {ProForm, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
+import {DsInfoService} from "@/services/datasource/info.service";
+import {DsInfoParam} from "@/services/datasource/typings";
 
 const SourceJdbcStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -65,7 +66,7 @@ const SourceJdbcStepForm: React.FC<ModalFormProps<{
           initialValue={"MySQL"}
           allowClear={false}
           request={(() => {
-            return DictDataService.listDictDataByType(DICT_TYPE.datasourceType);
+            return DictDataService.listDictDataByType2(DICT_TYPE.datasourceType);
           })}
         />
         <ProFormSelect
@@ -75,13 +76,13 @@ const SourceJdbcStepForm: React.FC<ModalFormProps<{
           colProps={{span: 18}}
           dependencies={["dataSourceType"]}
           request={((params, props) => {
-            const param: MetaDataSourceParam = {
-              datasourceName: params.keyWords,
-              datasourceType: params.dataSourceType
+            const param: DsInfoParam = {
+              name: params.keyWords,
+              dsType: params.dataSourceType
             };
-            return DataSourceService.listDataSourceByPage(param).then((response) => {
+            return DsInfoService.list(param).then((response) => {
               return response.data.map((item) => {
-                return {label: item.datasourceName, value: item.id, item: item};
+                return {label: item.name, value: item.id, item: item};
               });
             });
           })}

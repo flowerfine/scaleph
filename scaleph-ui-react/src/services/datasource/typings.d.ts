@@ -37,6 +37,6 @@ export type DsInfo = {
 }
 
 export type DsInfoParam = QueryParam & {
-  dsTypeId?: number;
+  dsType?: string;
   name?: string;
 }

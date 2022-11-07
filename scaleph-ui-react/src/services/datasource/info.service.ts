@@ -20,6 +20,12 @@ export const DsInfoService = {
     });
   },
 
+  listByType: async (type: string) => {
+    return request<ResponseBody<Array<DsInfo>>>(`${DsInfoService.url}/` + type, {
+      method: 'GET'
+    });
+  },
+
   add: async (param: any) => {
     return request<ResponseBody<any>>(`${DsInfoService.url}`, {
       method: 'PUT',
