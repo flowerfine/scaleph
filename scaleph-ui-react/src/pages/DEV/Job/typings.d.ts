@@ -49,7 +49,9 @@ export type FlinkJobForJar = {
   jars?: Array<number>;
   version?: number;
   remark?: string;
+  creator?:string;
   createTime?: Date;
+  editor?:string;
   updateTime?: Date;
 }
 
