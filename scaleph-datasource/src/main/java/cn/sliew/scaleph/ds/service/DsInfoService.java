@@ -18,18 +18,22 @@
 
 package cn.sliew.scaleph.ds.service;
 
+import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.param.DsInfoListParam;
+import cn.sliew.scaleph.resource.service.ResourceDescriptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
 
-public interface DsInfoService {
+public interface DsInfoService extends ResourceDescriptor<DsInfoDTO> {
 
     Page<DsInfoDTO> list(DsInfoListParam param);
 
-    DsInfoDTO selectOne(Long id);
+    List<DsInfoDTO> listByType(DataSourceType type);
+
+    DsInfoDTO selectOne(Long id, boolean decrypt);
 
     int insert(AbstractDataSource dataSource);
 

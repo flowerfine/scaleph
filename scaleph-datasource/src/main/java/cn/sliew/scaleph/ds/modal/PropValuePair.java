@@ -18,14 +18,15 @@
 
 package cn.sliew.scaleph.ds.modal;
 
-import cn.sliew.scaleph.common.dict.job.DataSourceType;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-public class MySQLDataSource extends JdbcDataSource {
+public class PropValuePair {
 
-    @Override
-    public DataSourceType getType() {
-        return DataSourceType.MYSQL;
-    }
+    @ApiModelProperty("property")
+    private String property;
+
+    @ApiModelProperty("value")
+    private String value;
 }

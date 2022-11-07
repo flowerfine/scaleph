@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.api.controller.ds;
 
 import cn.sliew.scaleph.api.annotation.Logging;
+import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.DsInfoService;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
@@ -52,10 +53,18 @@ public class InfoController {
     }
 
     @Logging
+    @GetMapping("{type}")
+    @ApiOperation(value = "查询指定数据源列表", notes = "查询指定数据源列表")
+    public ResponseEntity<ResponseVO<List<DsInfoDTO>>> listByType(@PathVariable("type") DataSourceType type) {
+        final List<DsInfoDTO> result = dsInfoService.listByType(type);
+        return new ResponseEntity<>(ResponseVO.sucess(result), HttpStatus.OK);
+    }
+
+    @Logging
     @GetMapping("/{id}")
     @ApiOperation(value = "获取数据源详情", notes = "获取数据源详情")
     public ResponseEntity<ResponseVO<DsInfoDTO>> get(@PathVariable("id") Long id) {
-        final DsInfoDTO result = dsInfoService.selectOne(id);
+        final DsInfoDTO result = dsInfoService.selectOne(id, false);
         return new ResponseEntity<>(ResponseVO.sucess(result), HttpStatus.OK);
     }
 

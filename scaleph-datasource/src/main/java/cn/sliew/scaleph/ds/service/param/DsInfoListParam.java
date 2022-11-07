@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.ds.service.param;
 
+import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -27,8 +28,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class DsInfoListParam extends PaginationParam {
 
-    @ApiModelProperty("data source type id")
-    private Long dsTypeId;
+    @ApiModelProperty("data source type")
+    private DataSourceType dsType;
 
     @ApiModelProperty("name")
     private String name;

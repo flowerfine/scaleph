@@ -62,19 +62,6 @@
             <artifactId>bcprov-ext-jdk15on</artifactId>
             <version>1.69</version>
         </dependency>
-
-        <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>flinkful-cli-base</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>flinkful-cli-descriptor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>flinkful-rest-client</artifactId>
-        </dependency>
     </dependencies>
 
 </project>

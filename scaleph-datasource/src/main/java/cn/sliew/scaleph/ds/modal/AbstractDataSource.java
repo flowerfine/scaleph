@@ -18,29 +18,36 @@
 
 package cn.sliew.scaleph.ds.modal;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Map;
+import java.util.Iterator;
+import java.util.List;
 
 @Data
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes(value = {
         @JsonSubTypes.Type(name = "MySQL", value = MySQLDataSource.class),
+        @JsonSubTypes.Type(name = "Oracle", value = OracleDataSource.class),
+        @JsonSubTypes.Type(name = "PostgreSQL", value = PostgreSQLDataSource.class),
+        @JsonSubTypes.Type(name = "SQLServer", value = SQLServerDataSource.class),
+        @JsonSubTypes.Type(name = "DmDB", value = DmDBDataSource.class),
+        @JsonSubTypes.Type(name = "GBase8a", value = GBase8aDataSource.class),
+        @JsonSubTypes.Type(name = "Greenplum", value = GreenplumDataSource.class),
+        @JsonSubTypes.Type(name = "Phoenix", value = PhoenixDataSource.class),
         @JsonSubTypes.Type(name = "Elasticsearch", value = ElasticsearchDataSource.class),
 })
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractDataSource {
-
-    @NotNull
-    @ApiModelProperty("data source type")
-    private DataSourceType type;
 
     @NotNull
     @ApiModelProperty("data source type id")
@@ -56,10 +63,24 @@ public abstract class AbstractDataSource {
     @ApiModelProperty("remark")
     private String remark;
 
-//    @NotEmpty
-//    @ApiModelProperty("additional props")
-//    private Map<String, Object> additionalProps;
+    @ApiModelProperty("additional props")
+    private List<PropValuePair> additionalProps;
+
+    public abstract DataSourceType getType();
 
     public abstract DsInfoDTO toDsInfo();
+
+    public static AbstractDataSource fromDsInfo(ObjectNode jsonNode) {
+        jsonNode.putPOJO("type", jsonNode.path("dsType").path("type").path("value"));
+        if (jsonNode.has("props")) {
+            ObjectNode props = (ObjectNode) jsonNode.get("props");
+            Iterator<String> fieldNames = props.fieldNames();
+            while (fieldNames.hasNext()) {
+                String name = fieldNames.next();
+                jsonNode.putPOJO(name, props.get(name));
+            }
+        }
+        return JacksonUtil.toObject(jsonNode, AbstractDataSource.class);
+    }
 
 }

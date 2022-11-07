@@ -187,11 +187,11 @@ values ('task_result', 'failure', '失败', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('datasource_type', 'JDBC', 'JDBC', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-values ('datasource_type', 'Mysql', 'Mysql', 'sys', 'sys');
+values ('datasource_type', 'MySQL', 'MySQL', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('datasource_type', 'Oracle', 'Oracle', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-values ('datasource_type', 'PostGreSQL', 'PostGreSQL', 'sys', 'sys');
+values ('datasource_type', 'PostgreSQL', 'PostgreSQL', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('datasource_type', 'Greenplum', 'Greenplum', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
@@ -945,12 +945,12 @@ create table di_job_step
 INSERT INTO `di_job_step` (`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
                            `step_attrs`, `creator`, `editor`)
 VALUES (1, 'f3e02087-91fa-494d-86f4-694970a49ebd', 'Jdbc Source', 'source', 'Jdbc', -400, -320,
-        '{\"stepTitle\":\"Jdbc Source\",\"dataSourceType\":\"Mysql\",\"dataSource\":2,\"query\":\"select * from sample_data_e_commerce\"}',
+        '{\"stepTitle\":\"Jdbc Source\",\"dataSourceType\":\"MySQL\",\"dataSource\":2,\"query\":\"select * from sample_data_e_commerce\"}',
         'sys', 'sys');
 INSERT INTO `di_job_step` (`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
                            `step_attrs`, `creator`, `editor`)
 VALUES (1, '68834928-2a32-427a-a864-83b6b5848e04', 'Jdbc Sink', 'sink', 'Jdbc', -310, -120,
-        '{\"stepTitle\":\"Jdbc Sink\",\"dataSourceType\":\"Mysql\",\"dataSource\":2,\"batch_size\":300,\"batch_interval_ms\":1000,\"max_retries\":3,\"is_exactly_once\":false,\"query\":\"insert into sample_data_e_commerce_duplicate ( id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country )\\nvalues (?,?,?,?,?,?,?,?,?)\"}',
+        '{\"stepTitle\":\"Jdbc Sink\",\"dataSourceType\":\"MySQL\",\"dataSource\":2,\"batch_size\":300,\"batch_interval_ms\":1000,\"max_retries\":3,\"is_exactly_once\":false,\"query\":\"insert into sample_data_e_commerce_duplicate ( id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country )\\nvalues (?,?,?,?,?,?,?,?,?)\"}',
         'sys', 'sys');
 INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
                           `step_attrs`, `creator`, `editor`)

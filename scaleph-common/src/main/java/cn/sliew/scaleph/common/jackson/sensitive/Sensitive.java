@@ -16,16 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal;
+package cn.sliew.scaleph.common.jackson.sensitive;
 
-import cn.sliew.scaleph.common.dict.job.DataSourceType;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-@Data
-public class MySQLDataSource extends JdbcDataSource {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-    @Override
-    public DataSourceType getType() {
-        return DataSourceType.MYSQL;
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+@JacksonAnnotationsInside
+@JsonSerialize(using = SensitiveJsonSerializer.class)
+public @interface Sensitive {
+
+    SensitiveType type();
+
+    String strategy() default "";
+
+    String param() default "";
+
 }

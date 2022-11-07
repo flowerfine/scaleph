@@ -31,7 +31,7 @@ const DataSourceListWeb: React.FC = () => {
     },
     {
       title: intl.formatMessage({id: 'pages.dataSource.info.type'}),
-      dataIndex: 'dsTypeId',
+      dataIndex: 'dsType',
       width: 160,
       render: (dom, entity, index, action, schema) => {
         return entity.dsType.type.label
@@ -48,7 +48,7 @@ const DataSourceListWeb: React.FC = () => {
           >
             {dsTypes.map((item) => {
               return (
-                <Select.Option key={item.id} value={item.id}>
+                <Select.Option key={item.type.value} value={item.type.value}>
                   {item.type.label}
                 </Select.Option>
               );

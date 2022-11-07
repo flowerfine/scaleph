@@ -18,6 +18,8 @@
 
 package cn.sliew.scaleph.ds.service.impl;
 
+import cn.sliew.scaleph.common.codec.CodecUtil;
+import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.dao.entity.master.ds.DsInfo;
 import cn.sliew.scaleph.dao.entity.master.ds.DsInfoVO;
 import cn.sliew.scaleph.dao.mapper.master.ds.DsInfoMapper;
@@ -27,14 +29,16 @@ import cn.sliew.scaleph.ds.service.convert.DsInfoConvert;
 import cn.sliew.scaleph.ds.service.convert.DsInfoVOConvert;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.param.DsInfoListParam;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import cn.sliew.scaleph.resource.service.enums.ResourceType;
+import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -45,9 +49,25 @@ public class DsInfoServiceImpl implements DsInfoService {
     private DsInfoMapper dsInfoMapper;
 
     @Override
+    public ResourceType getResourceType() {
+        return ResourceType.DATASOURCE;
+    }
+
+    @Override
+    public Page<DsInfoDTO> list(ResourceListParam param) {
+        DsInfoListParam dsInfoListParam = DsInfoConvert.INSTANCE.convert(param);
+        return list(dsInfoListParam);
+    }
+
+    @Override
+    public DsInfoDTO getRaw(Long id) {
+        return selectOne(id, true);
+    }
+
+    @Override
     public Page<DsInfoDTO> list(DsInfoListParam param) {
         Page<DsInfo> page = new Page<>(param.getCurrent(), param.getPageSize());
-        Page<DsInfoVO> dsInfoPage = dsInfoMapper.list(page, param.getDsTypeId(), param.getName());
+        Page<DsInfoVO> dsInfoPage = dsInfoMapper.list(page, param.getDsType(), param.getName());
         Page<DsInfoDTO> result = new Page<>(dsInfoPage.getCurrent(), dsInfoPage.getSize(), dsInfoPage.getTotal());
         List<DsInfoDTO> dsInfoDTOS = DsInfoVOConvert.INSTANCE.toDto(dsInfoPage.getRecords());
         result.setRecords(dsInfoDTOS);
@@ -55,10 +75,32 @@ public class DsInfoServiceImpl implements DsInfoService {
     }
 
     @Override
-    public DsInfoDTO selectOne(Long id) {
+    public List<DsInfoDTO> listByType(DataSourceType type) {
+        List<DsInfoVO> dsInfoVOS = dsInfoMapper.listByTypes(type);
+        return DsInfoVOConvert.INSTANCE.toDto(dsInfoVOS);
+    }
+
+    @Override
+    public DsInfoDTO selectOne(Long id, boolean decrypt) {
         DsInfoVO vo = dsInfoMapper.getById(id);
         checkState(vo != null, () -> "data source info not exists for id: " + id);
-        return DsInfoVOConvert.INSTANCE.toDto(vo);
+        DsInfoDTO dsInfoDTO = DsInfoVOConvert.INSTANCE.toDto(vo);
+        if (decrypt) {
+            Map<String, Object> props = new HashMap<>();
+            for (Map.Entry<String, Object> entry : dsInfoDTO.getProps().entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                if (Objects.nonNull(value)
+                        && value instanceof String
+                        && CodecUtil.isEncryptedStr((String) value)) {
+                    props.put(key, CodecUtil.decrypt((String) value));
+                } else {
+                    props.put(key, value);
+                }
+            }
+            dsInfoDTO.setProps(props);
+        }
+        return dsInfoDTO;
     }
 
     @Override
