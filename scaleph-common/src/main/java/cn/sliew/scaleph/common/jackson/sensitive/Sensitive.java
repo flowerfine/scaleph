@@ -16,31 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.service;
+package cn.sliew.scaleph.common.jackson.sensitive;
 
-import cn.sliew.scaleph.common.dict.job.DataSourceType;
-import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
-import cn.sliew.scaleph.ds.service.param.DsInfoListParam;
-import cn.sliew.scaleph.resource.service.ResourceDescriptor;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import java.util.List;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public interface DsInfoService extends ResourceDescriptor<DsInfoDTO> {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+@JacksonAnnotationsInside
+@JsonSerialize(using = SensitiveJsonSerializer.class)
+public @interface Sensitive {
 
-    Page<DsInfoDTO> list(DsInfoListParam param);
+    SensitiveType type();
 
-    List<DsInfoDTO> listByType(DataSourceType type);
+    String strategy() default "";
 
-    DsInfoDTO selectOne(Long id, boolean decrypt);
-
-    int insert(AbstractDataSource dataSource);
-
-    int update(Long id, AbstractDataSource dataSource);
-
-    int deleteById(Long id);
-
-    int deleteBatch(List<Long> ids);
+    String param() default "";
 
 }

@@ -64,7 +64,7 @@ public interface DsInfoVOConvert extends BaseConvert<DsInfoVO, DsInfoDTO> {
         }
         if (CollectionUtils.isEmpty(dto.getAdditionalProps()) == false) {
             String jsonAdditionalProps = JacksonUtil.toJsonString(dto.getAdditionalProps());
-            record.setProps(CodecUtil.encodeToBase64(jsonAdditionalProps));
+            record.setAdditionalProps(CodecUtil.encodeToBase64(jsonAdditionalProps));
         }
         record.setDsType(DsTypeConvert.INSTANCE.toDo(dto.getDsType()));
         return record;

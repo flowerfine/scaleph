@@ -18,6 +18,8 @@
 
 package cn.sliew.scaleph.ds.modal;
 
+import cn.sliew.scaleph.common.codec.CodecUtil;
+import cn.sliew.scaleph.common.jackson.sensitive.Sensitive;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
@@ -38,6 +40,11 @@ public abstract class JdbcDataSource extends AbstractDataSource {
     @ApiModelProperty("user")
     private String user;
 
+    /**
+     * {@link Sensitive} not affect Map<String, Object> props
+     *
+     * @see Sensitive
+     */
     @ApiModelProperty("password")
     private String password;
 
@@ -48,7 +55,8 @@ public abstract class JdbcDataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = Map.of("driverClassName", driverClassName, "url", url, "user", user, "password", password);
+        String encryptedPass = CodecUtil.encrypt(password);
+        Map<String, Object> props = Map.of("driverClassName", driverClassName, "url", url, "user", user, "password", encryptedPass);
         dto.setProps(props);
         return dto;
     }

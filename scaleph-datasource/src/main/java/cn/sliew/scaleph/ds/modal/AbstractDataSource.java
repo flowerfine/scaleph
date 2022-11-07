@@ -26,15 +26,20 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes(value = {
         @JsonSubTypes.Type(name = "MySQL", value = MySQLDataSource.class),
+        @JsonSubTypes.Type(name = "Oracle", value = OracleDataSource.class),
+        @JsonSubTypes.Type(name = "PostgreSQL", value = PostgreSQLDataSource.class),
+        @JsonSubTypes.Type(name = "SQLServer", value = SQLServerDataSource.class),
+        @JsonSubTypes.Type(name = "DmDB", value = DmDBDataSource.class),
+        @JsonSubTypes.Type(name = "GBase8a", value = GBase8aDataSource.class),
+        @JsonSubTypes.Type(name = "Greenplum", value = GreenplumDataSource.class),
+        @JsonSubTypes.Type(name = "Phoenix", value = PhoenixDataSource.class),
         @JsonSubTypes.Type(name = "Elasticsearch", value = ElasticsearchDataSource.class),
 })
 public abstract class AbstractDataSource {
@@ -53,7 +58,6 @@ public abstract class AbstractDataSource {
     @ApiModelProperty("remark")
     private String remark;
 
-    @NotEmpty
     @ApiModelProperty("additional props")
     private List<PropValuePair> additionalProps;
 

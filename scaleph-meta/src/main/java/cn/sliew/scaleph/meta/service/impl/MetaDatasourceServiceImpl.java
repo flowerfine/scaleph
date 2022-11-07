@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.meta.service.impl;
 
 import cn.sliew.scaleph.common.codec.CodecUtil;
-import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.exception.Rethrower;
 import cn.sliew.scaleph.common.param.PropertyUtil;
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDatasource;
@@ -178,14 +177,10 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
 
             EnumSet<Property> propEnumSet = prop.getProperties();
             if (propEnumSet.contains(Property.Sensitive)) {
-                if (encrypt && !isEncryptedStr(value)) {
-                    String encodeValue =
-                            Constants.CODEC_STR_PREFIX + CodecUtil.encodeToBase64(value);
-                    propMap.put(prop.getName(), encodeValue);
-                } else if (!encrypt && isEncryptedStr(value)) {
-                    String decodeValue = CodecUtil
-                            .decodeFromBase64(value.substring(Constants.CODEC_STR_PREFIX.length()));
-                    propMap.put(prop.getName(), decodeValue);
+                if (encrypt && !CodecUtil.isEncryptedStr(value)) {
+                    propMap.put(prop.getName(), CodecUtil.encrypt(value));
+                } else if (!encrypt && CodecUtil.isEncryptedStr(value)) {
+                    propMap.put(prop.getName(), CodecUtil.decrypt(value));
                 }
             }
         }
@@ -214,14 +209,6 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
             Rethrower.throwAs(e);
         }
         return result;
-    }
-
-    /**
-     * @param str str
-     * @return true/false
-     */
-    private boolean isEncryptedStr(String str) {
-        return str.startsWith(Constants.CODEC_STR_PREFIX);
     }
 
     private boolean validateProps(MetaDatasourceDTO metaDatasourceDTO) {

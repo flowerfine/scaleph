@@ -21,10 +21,14 @@ package cn.sliew.scaleph.ds.service.convert;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.common.dict.job.DataSourceType;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.ds.DsInfo;
 import cn.sliew.scaleph.ds.modal.PropValuePair;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
+import cn.sliew.scaleph.ds.service.param.DsInfoListParam;
+import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -68,8 +72,14 @@ public interface DsInfoConvert extends BaseConvert<DsInfo, DsInfoDTO> {
         }
         if (CollectionUtils.isEmpty(dto.getAdditionalProps()) == false) {
             String jsonAdditionalProps = JacksonUtil.toJsonString(dto.getAdditionalProps());
-            record.setProps(CodecUtil.encodeToBase64(jsonAdditionalProps));
+            record.setAdditionalProps(CodecUtil.encodeToBase64(jsonAdditionalProps));
         }
         return record;
+    }
+
+    default DsInfoListParam convert(ResourceListParam param) {
+        DsInfoListParam target = BeanUtil.copy(param, new DsInfoListParam());
+        target.setDsType(DataSourceType.of(param.getLabel()));
+        return target;
     }
 }

@@ -18,12 +18,15 @@
 
 package cn.sliew.scaleph.dao.mapper.master.ds;
 
+import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.dao.entity.master.ds.DsInfo;
 import cn.sliew.scaleph.dao.entity.master.ds.DsInfoVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -33,7 +36,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DsInfoMapper extends BaseMapper<DsInfo> {
 
-    Page<DsInfoVO> list(Page<DsInfo> page, @Param("dsTypeId") Long dsTypeId, @Param("name") String name);
+    Page<DsInfoVO> list(Page<DsInfo> page, @Param("dsType") DataSourceType dsType, @Param("name") String name);
+
+    List<DsInfoVO> listByTypes(@Param("type") DataSourceType type);
 
     DsInfoVO getById(@Param("id") Long id);
 
