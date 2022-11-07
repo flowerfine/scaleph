@@ -11,7 +11,7 @@ import {DsCategoryService} from "@/services/datasource/category.service";
 import {useEffect} from "react";
 import {Form} from "antd";
 
-const MySQLForm: React.FC = () => {
+const JdbcForm: React.FC = () => {
   const intl = useIntl();
   const form = Form.useFormInstance()
 
@@ -112,4 +112,4 @@ const MySQLForm: React.FC = () => {
   );
 }
 
-export default MySQLForm;
+export default JdbcForm;

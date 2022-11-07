@@ -1,6 +1,5 @@
 const JobSavepointsWeb: React.FC = () => {
-
-  return (<div>Job Savepoints List Web</div>);
-}
+  return <>todo job savepoint  </>;
+};
 
 export default JobSavepointsWeb;
