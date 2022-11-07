@@ -18,29 +18,25 @@
 
 package cn.sliew.scaleph.ds.modal;
 
-import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.List;
 import java.util.Map;
 
 @Data
-public class ElasticsearchDataSource extends AbstractDataSource {
+public abstract class JdbcDataSource extends AbstractDataSource {
 
-    @Override
-    public DataSourceType getType() {
-        return DataSourceType.ELASTICSEARCH;
-    }
+    @ApiModelProperty("driver class name")
+    private String driverClassName;
 
-    @ApiModelProperty("hosts")
-    private List<String> hosts;
+    @ApiModelProperty("jdbc url")
+    private String url;
 
-    @ApiModelProperty("username")
-    private String username;
+    @ApiModelProperty("user")
+    private String user;
 
     @ApiModelProperty("password")
     private String password;
@@ -52,7 +48,7 @@ public class ElasticsearchDataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = Map.of("hosts", hosts, "username", username, "password", password);
+        Map<String, Object> props = Map.of("driverClassName", driverClassName, "url", url, "user", user, "password", password);
         dto.setProps(props);
         return dto;
     }

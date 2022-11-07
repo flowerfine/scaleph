@@ -28,6 +28,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -37,10 +38,6 @@ import java.util.Map;
         @JsonSubTypes.Type(name = "Elasticsearch", value = ElasticsearchDataSource.class),
 })
 public abstract class AbstractDataSource {
-
-    @NotNull
-    @ApiModelProperty("data source type")
-    private DataSourceType type;
 
     @NotNull
     @ApiModelProperty("data source type id")
@@ -56,9 +53,11 @@ public abstract class AbstractDataSource {
     @ApiModelProperty("remark")
     private String remark;
 
-//    @NotEmpty
-//    @ApiModelProperty("additional props")
-//    private Map<String, Object> additionalProps;
+    @NotEmpty
+    @ApiModelProperty("additional props")
+    private List<PropValuePair> additionalProps;
+
+    public abstract DataSourceType getType();
 
     public abstract DsInfoDTO toDsInfo();
 

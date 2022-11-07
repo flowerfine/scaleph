@@ -22,6 +22,7 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.ds.DsInfoVO;
+import cn.sliew.scaleph.ds.modal.PropValuePair;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.mapstruct.Mapper;
@@ -47,7 +48,7 @@ public interface DsInfoVOConvert extends BaseConvert<DsInfoVO, DsInfoDTO> {
         }
         if (StringUtils.hasText(entity.getAdditionalProps())) {
             String jsonAdditionalProps = CodecUtil.decodeFromBase64(entity.getAdditionalProps());
-            dto.setAdditionalProps(JacksonUtil.parseJsonString(jsonAdditionalProps, new TypeReference<Map<String, Object>>() {}));
+            dto.setAdditionalProps(JacksonUtil.parseJsonArray(jsonAdditionalProps, PropValuePair.class));
         }
         dto.setDsType(DsTypeConvert.INSTANCE.toDto(entity.getDsType()));
         return dto;
