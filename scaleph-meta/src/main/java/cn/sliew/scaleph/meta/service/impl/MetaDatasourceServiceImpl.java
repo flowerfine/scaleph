@@ -33,8 +33,6 @@ import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.Property;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.resource.service.enums.ResourceType;
-import cn.sliew.scaleph.resource.service.param.ResourceListParam;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,22 +52,6 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
 
     @Autowired
     private MetaDatasourceMapper metaDatasourceMapper;
-
-    @Override
-    public ResourceType getResourceType() {
-        return ResourceType.DATASOURCE;
-    }
-
-    @Override
-    public Page<MetaDatasourceDTO> list(ResourceListParam param) {
-        MetaDatasourceParam metaDatasourceParam = MetaDataSourceConvert.INSTANCE.convert(param);
-        return selectPage(metaDatasourceParam);
-    }
-
-    @Override
-    public MetaDatasourceDTO getRaw(Long id) {
-        return selectOne(id, false);
-    }
 
     @Override
     public Set<PluginInfo> getAvailableDataSources() {

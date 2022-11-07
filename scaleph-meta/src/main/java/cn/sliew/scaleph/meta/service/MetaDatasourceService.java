@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public interface MetaDatasourceService extends ResourceDescriptor<MetaDatasourceDTO> {
+public interface MetaDatasourceService {
 
     Set<PluginInfo> getAvailableDataSources();
 

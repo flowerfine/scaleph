@@ -18,15 +18,19 @@
 
 package cn.sliew.scaleph.ds.modal;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Iterator;
 import java.util.List;
 
 @Data
@@ -42,6 +46,7 @@ import java.util.List;
         @JsonSubTypes.Type(name = "Phoenix", value = PhoenixDataSource.class),
         @JsonSubTypes.Type(name = "Elasticsearch", value = ElasticsearchDataSource.class),
 })
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractDataSource {
 
     @NotNull
@@ -64,5 +69,18 @@ public abstract class AbstractDataSource {
     public abstract DataSourceType getType();
 
     public abstract DsInfoDTO toDsInfo();
+
+    public static AbstractDataSource fromDsInfo(ObjectNode jsonNode) {
+        jsonNode.putPOJO("type", jsonNode.path("dsType").path("type").path("value"));
+        if (jsonNode.has("props")) {
+            ObjectNode props = (ObjectNode) jsonNode.get("props");
+            Iterator<String> fieldNames = props.fieldNames();
+            while (fieldNames.hasNext()) {
+                String name = fieldNames.next();
+                jsonNode.putPOJO(name, props.get(name));
+            }
+        }
+        return JacksonUtil.toObject(jsonNode, AbstractDataSource.class);
+    }
 
 }
