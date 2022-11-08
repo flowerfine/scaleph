@@ -258,108 +258,108 @@ const DiJobView: React.FC = () => {
       hideInSearch: true,
       width: 180,
     },
-    {
-      title: intl.formatMessage({id: 'app.common.operate.label'}),
-      dataIndex: 'actions',
-      align: 'center',
-      width: 120,
-      fixed: 'right',
-      valueType: 'option',
-      render: (_, record) => (
-        <>
-          <Space>
-            {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-              <Tooltip title={intl.formatMessage({id: 'pages.project.di.run'})}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<PlayCircleOutlined/>}
-                  onClick={() => {
-                    alert('run');
-                  }}
-                />
-              </Tooltip>
-            )}
-            {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-              <Tooltip title={intl.formatMessage({id: 'pages.project.di.stop'})}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<StopOutlined/>}
-                  onClick={() => {
-                    alert('stop');
-                  }}
-                />
-              </Tooltip>
-            )}
-            {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-              <Tooltip title={intl.formatMessage({id: 'pages.project.di.define'})}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<NodeIndexOutlined/>}
-                  onClick={() => {
-                    setJobFlowData({visible: true, data: record});
-                  }}
-                ></Button>
-              </Tooltip>
-            )}
-          </Space>
-          <Space>
-            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<EditOutlined/>}
-                  onClick={() => {
-                    setJobFormData({visible: true, data: record});
-                  }}
-                ></Button>
-              </Tooltip>
-            )}
-            {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-              <Tooltip title={intl.formatMessage({id: 'pages.project.di.setting'})}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<SettingOutlined/>}
-                  onClick={() => {
-                    setCrontabFormData({visible: true, data: record});
-                  }}
-                ></Button>
-              </Tooltip>
-            )}
-            {access.canAccess(PRIVILEGE_CODE.datadevDatasourceDelete) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<DeleteOutlined/>}
-                  onClick={() => {
-                    Modal.confirm({
-                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
-                      content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
-                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                      okButtonProps: {danger: true},
-                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
-                      onOk() {
-                        JobService.deleteJobRow(record).then((d) => {
-                          if (d.success) {
-                            message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
-                            actionRef.current?.reload();
-                          }
-                        });
-                      },
-                    });
-                  }}
-                ></Button>
-              </Tooltip>
-            )}
-          </Space>
-        </>
-      ),
-    },
+    // {
+    //   title: intl.formatMessage({id: 'app.common.operate.label'}),
+    //   dataIndex: 'actions',
+    //   align: 'center',
+    //   width: 120,
+    //   fixed: 'right',
+    //   valueType: 'option',
+    //   render: (_, record) => (
+    //     <>
+    //       <Space>
+    //         {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
+    //           <Tooltip title={intl.formatMessage({id: 'pages.project.di.run'})}>
+    //             <Button
+    //               shape="default"
+    //               type="link"
+    //               icon={<PlayCircleOutlined/>}
+    //               onClick={() => {
+    //                 alert('run');
+    //               }}
+    //             />
+    //           </Tooltip>
+    //         )}
+    //         {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
+    //           <Tooltip title={intl.formatMessage({id: 'pages.project.di.stop'})}>
+    //             <Button
+    //               shape="default"
+    //               type="link"
+    //               icon={<StopOutlined/>}
+    //               onClick={() => {
+    //                 alert('stop');
+    //               }}
+    //             />
+    //           </Tooltip>
+    //         )}
+    //         {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
+    //           <Tooltip title={intl.formatMessage({id: 'pages.project.di.define'})}>
+    //             <Button
+    //               shape="default"
+    //               type="link"
+    //               icon={<NodeIndexOutlined/>}
+    //               onClick={() => {
+    //                 setJobFlowData({visible: true, data: record});
+    //               }}
+    //             ></Button>
+    //           </Tooltip>
+    //         )}
+    //       </Space>
+    //       <Space>
+    //         {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
+    //           <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
+    //             <Button
+    //               shape="default"
+    //               type="link"
+    //               icon={<EditOutlined/>}
+    //               onClick={() => {
+    //                 setJobFormData({visible: true, data: record});
+    //               }}
+    //             ></Button>
+    //           </Tooltip>
+    //         )}
+    //         {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
+    //           <Tooltip title={intl.formatMessage({id: 'pages.project.di.setting'})}>
+    //             <Button
+    //               shape="default"
+    //               type="link"
+    //               icon={<SettingOutlined/>}
+    //               onClick={() => {
+    //                 setCrontabFormData({visible: true, data: record});
+    //               }}
+    //             ></Button>
+    //           </Tooltip>
+    //         )}
+    //         {access.canAccess(PRIVILEGE_CODE.datadevDatasourceDelete) && (
+    //           <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
+    //             <Button
+    //               shape="default"
+    //               type="link"
+    //               icon={<DeleteOutlined/>}
+    //               onClick={() => {
+    //                 Modal.confirm({
+    //                   title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+    //                   content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
+    //                   okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+    //                   okButtonProps: {danger: true},
+    //                   cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+    //                   onOk() {
+    //                     JobService.deleteJobRow(record).then((d) => {
+    //                       if (d.success) {
+    //                         message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
+    //                         actionRef.current?.reload();
+    //                       }
+    //                     });
+    //                   },
+    //                 });
+    //               }}
+    //             ></Button>
+    //           </Tooltip>
+    //         )}
+    //       </Space>
+    //     </>
+    //   ),
+    // },
   ];
 
   return (
@@ -572,41 +572,41 @@ const DiJobView: React.FC = () => {
                     </Button>
                   </Dropdown>
                 ),
-                access.canAccess(PRIVILEGE_CODE.datadevJobDelete) && (
-                  <Button
-                    key="del"
-                    type="default"
-                    disabled={selectedRows.length < 1}
-                    onClick={() => {
-                      Modal.confirm({
-                        title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
-                        content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content',}),
-                        okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                        okButtonProps: {danger: true},
-                        cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
-                        onOk() {
-                          JobService.deleteJobBatch(selectedRows).then((d) => {
-                            if (d.success) {
-                              message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
-                              actionRef.current?.reload();
-                            }
-                          });
-                        },
-                      });
-                    }}
-                  >
-                    {intl.formatMessage({id: 'app.common.operate.delete.label'})}
-                  </Button>
-                ),
+                // access.canAccess(PRIVILEGE_CODE.datadevJobDelete) && (
+                //   <Button
+                //     key="del"
+                //     type="default"
+                //     disabled={selectedRows.length < 1}
+                //     onClick={() => {
+                //       Modal.confirm({
+                //         title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                //         content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content',}),
+                //         okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                //         okButtonProps: {danger: true},
+                //         cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                //         onOk() {
+                //           JobService.deleteJobBatch(selectedRows).then((d) => {
+                //             if (d.success) {
+                //               message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
+                //               actionRef.current?.reload();
+                //             }
+                //           });
+                //         },
+                //       });
+                //     }}
+                //   >
+                //     {intl.formatMessage({id: 'app.common.operate.delete.label'})}
+                //   </Button>
+                // ),
               ],
             }}
             pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
-            rowSelection={{
-              fixed: true,
-              onChange(selectedRowKeys, selectedRows, info) {
-                setSelectedRows(selectedRows);
-              },
-            }}
+            // rowSelection={{
+            //   fixed: true,
+            //   onChange(selectedRowKeys, selectedRows, info) {
+            //     setSelectedRows(selectedRows);
+            //   },
+            // }}
             tableAlertRender={false}
             tableAlertOptionRender={false}
           ></ProTable>
