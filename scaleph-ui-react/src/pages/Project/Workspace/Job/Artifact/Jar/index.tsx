@@ -1,6 +1,5 @@
 import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
-import FlinkArtifactJarForm from '@/pages/DEV/Artifact/Jar/components/FlinkArtifactJarForm';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { FlinkArtifactJarService } from '@/services/dev/flinkArtifactJar.service';
 import { FlinkArtifactJar } from '@/services/dev/typings';
@@ -10,6 +9,7 @@ import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/p
 import { Button, Select, Space, Tooltip } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { useAccess, useIntl, useLocation } from 'umi';
+import FlinkArtifactJarForm from './components/FlinkArtifactJarForm';
 
 const FlinkArtifactJarWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -133,7 +133,7 @@ const FlinkArtifactJarWeb: React.FC = () => {
             {intl.formatMessage({ id: 'app.common.operate.return.label' })}
           </Button>
         }
-        rowKey="name"
+        rowKey="id"
         actionRef={actionRef}
         formRef={formRef}
         options={false}

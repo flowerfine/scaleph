@@ -77,6 +77,12 @@ export default [
         access: 'normalRouteFilter',
         routes: [
           {
+            path: '/workspace/job',
+            redirect: '/workspace/job/list',
+            pCode: PRIVILEGE_CODE.datadevJobShow,
+            access: 'normalRouteFilter',
+          },
+          {
             name: 'list',
             path: '/workspace/job/list',
             exact: true,
@@ -92,7 +98,13 @@ export default [
             pCode: PRIVILEGE_CODE.datadevJobShow,
             access: 'normalRouteFilter',
           },
-          
+          {
+            path: '/workspace/job/artifact/jar',
+            exact: true,
+            component: './Project/Workspace/Job/Artifact/Jar',
+            pCode: PRIVILEGE_CODE.datadevJobShow,
+            access: 'normalRouteFilter',
+          },
         ],
       },
       {
@@ -106,7 +118,7 @@ export default [
             name: 'config',
             path: '/workspace/cluster/config',
             exact: true,
-            component: './Project/Workspace/Cluster',
+            component: './Project/Workspace/Cluster/Config',
             pCode: PRIVILEGE_CODE.datadevJobShow,
             access: 'normalRouteFilter',
           },
