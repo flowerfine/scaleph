@@ -27,7 +27,6 @@ import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.core.di.service.*;
 import cn.sliew.scaleph.core.di.service.convert.DiJobConvert;
-import cn.sliew.scaleph.core.di.service.dto.DiDirectoryDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.param.*;
@@ -66,13 +65,9 @@ public class DiJobServiceImpl implements DiJobService {
     @Autowired
     private DiJobMapper diJobMapper;
     @Autowired
-    private DiDirectoryService diDirectoryService;
-    @Autowired
     private DiJobGraphService diJobGraphService;
     @Autowired
     private DiJobAttrService diJobAttrService;
-    @Autowired
-    private DiJobResourceFileService diJobResourceFileService;
 
     @Override
     public Page<DiJobDTO> listByPage(DiJobParam param) {
@@ -80,15 +75,7 @@ public class DiJobServiceImpl implements DiJobService {
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 param.toDo()
         );
-
-        List<Long> directoryIds = jobs.getRecords().stream().map(DiJob::getDirectoryId).collect(Collectors.toList());
-        Map<Long, DiDirectoryDTO> directoryMap = diDirectoryService.loadFullPath(directoryIds);
-
         List<DiJobDTO> dtoList = DiJobConvert.INSTANCE.toDto(jobs.getRecords());
-        for (DiJobDTO job : dtoList) {
-            DiDirectoryDTO dir = directoryMap.get(job.getDirectory().getId());
-            job.setDirectory(dir);
-        }
         Page<DiJobDTO> result = new Page<>(jobs.getCurrent(), jobs.getSize(), jobs.getTotal());
         result.setRecords(dtoList);
         return result;
@@ -98,14 +85,7 @@ public class DiJobServiceImpl implements DiJobService {
     public List<DiJobDTO> listById(Collection<Long> ids) {
         LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>().in(DiJob::getId, ids);
         List<DiJob> jobs = diJobMapper.selectList(queryWrapper);
-
-        List<Long> directoryIds = jobs.stream().map(DiJob::getDirectoryId).collect(Collectors.toList());
-        Map<Long, DiDirectoryDTO> directoryMap = diDirectoryService.loadFullPath(directoryIds);
         List<DiJobDTO> dtoList = DiJobConvert.INSTANCE.toDto(jobs);
-        for (DiJobDTO job : dtoList) {
-            DiDirectoryDTO dir = directoryMap.get(job.getDirectory().getId());
-            job.setDirectory(dir);
-        }
         return dtoList;
     }
 
@@ -114,10 +94,6 @@ public class DiJobServiceImpl implements DiJobService {
         DiJob record = diJobMapper.selectById(id);
         checkState(record != null, () -> "job not exists for id: " + id);
         DiJobDTO dto = DiJobConvert.INSTANCE.toDto(record);
-        Map<Long, DiDirectoryDTO> map =
-                diDirectoryService.loadFullPath(Collections.singletonList(record.getDirectoryId()));
-        DiDirectoryDTO dir = map.get(record.getDirectoryId());
-        dto.setDirectory(dir);
         return dto;
     }
 
@@ -384,7 +360,6 @@ public class DiJobServiceImpl implements DiJobService {
     public boolean hasValidJob(Long projectId, Long dirId) {
         LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>()
                 .eq(DiJob::getProjectId, projectId)
-                .eq(DiJob::getDirectoryId, dirId)
                 .last("limit 1");
         DiJob job = diJobMapper.selectOne(queryWrapper);
         return Optional.ofNullable(job).isPresent();
@@ -411,7 +386,6 @@ public class DiJobServiceImpl implements DiJobService {
         int result = 0;
         diJobGraphService.clone(sourceJobId, targetJobId);
         result += diJobAttrService.clone(sourceJobId, targetJobId);
-        result += diJobResourceFileService.clone(sourceJobId, targetJobId);
         return result;
     }
 }

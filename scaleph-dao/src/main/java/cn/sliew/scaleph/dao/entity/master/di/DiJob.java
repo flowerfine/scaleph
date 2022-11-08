@@ -53,9 +53,6 @@ public class DiJob extends BaseDO {
     @ApiModelProperty(value = "作业名称")
     private String jobName;
 
-    @ApiModelProperty(value = "作业目录")
-    private Long directoryId;
-
     @ApiModelProperty(value = "作业类型 实时、离线")
     private JobType jobType;
 

@@ -63,7 +63,6 @@ public class DiJobParam extends PaginationParam {
         job.setJobType(jobType);
         job.setRuntimeState(runtimeState);
         job.setJobStatus(jobStatus);
-        job.setDirectoryId(directoryId);
         return job;
     }
 

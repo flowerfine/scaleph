@@ -29,7 +29,6 @@
         <result column="project_id" property="projectId"/>
         <result column="job_code" property="jobCode"/>
         <result column="job_name" property="jobName"/>
-        <result column="directory_id" property="directoryId"/>
         <result column="job_type" property="jobType"/>
         <result column="job_owner" property="jobOwner"/>
         <result column="job_status" property="jobStatus"/>
@@ -47,7 +46,6 @@
             project_id,
             job_code,
             job_name,
-            directory_id,
             job_type,
             job_owner,
             job_status,
@@ -64,7 +62,7 @@
         (
             select
                 *,
-                row_number() over(partition by job_code,directory_id order by job_version desc) as rn
+                row_number() over(partition by project_id,job_code order by job_version desc) as rn
             from di_job
         ) t
         ]]>
@@ -87,9 +85,6 @@
             </if>
             <if test="job.runtimeState != null and job.runtimeState != '' ">
                 and t.runtime_state = #{job.runtimeState,jdbcType=VARCHAR}
-            </if>
-            <if test="job.directoryId != null ">
-                and t.directory_id = #{job.directoryId,jdbcType=BIGINT}
             </if>
             <if test="job.clusterId != null ">
                 and t.cluster_id = #{job.clusterId,jdbcType=BIGINT}

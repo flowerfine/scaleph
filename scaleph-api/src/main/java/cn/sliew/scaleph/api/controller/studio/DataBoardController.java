@@ -18,19 +18,15 @@
 
 package cn.sliew.scaleph.api.controller.studio;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import cn.hutool.core.date.DateUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.TransferVO;
-import cn.sliew.scaleph.core.di.service.DiClusterConfigService;
-import cn.sliew.scaleph.core.di.service.DiJobLogService;
 import cn.sliew.scaleph.core.di.service.DiJobService;
 import cn.sliew.scaleph.core.di.service.DiProjectService;
-import cn.sliew.scaleph.core.di.service.dto.DiJobLogDTO;
+import cn.sliew.scaleph.engine.flink.service.FlinkClusterInstanceService;
+import cn.sliew.scaleph.engine.flink.service.FlinkJobLogService;
+import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobLogDTO;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkJobLogListParam;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +39,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 @Slf4j
 @Api(tags = "工作台-数据看板")
 @RestController
@@ -52,11 +53,11 @@ public class DataBoardController {
     @Autowired
     private DiProjectService diProjectService;
     @Autowired
-    private DiClusterConfigService diClusterConfigService;
+    private FlinkClusterInstanceService flinkClusterInstanceService;
     @Autowired
     private DiJobService diJobService;
     @Autowired
-    private DiJobLogService diJobLogService;
+    private FlinkJobLogService flinkJobLogService;
 
     @Logging
     @GetMapping(path = "/project")
@@ -72,7 +73,7 @@ public class DataBoardController {
     @ApiOperation(value = "查询集群数量", notes = "查询集群数量")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
     public ResponseEntity<Long> countCluster() {
-        Long result = this.diClusterConfigService.totalCnt();
+        Long result = this.flinkClusterInstanceService.totalCnt();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -89,10 +90,11 @@ public class DataBoardController {
     @GetMapping(path = "/topBatch100")
     @ApiOperation(value = "查询近7日周期任务运行时长TOP100", notes = "查询近7日周期任务运行时长TOP100")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
-    public ResponseEntity<List<DiJobLogDTO>> batchTop100In7d() {
+    public ResponseEntity<List<FlinkJobLogDTO>> batchTop100In7d() {
+        //todo 查询近7日周期任务运行时长TOP100
         Date currentDate = DateUtil.beginOfDay(new Date());
-        List<DiJobLogDTO> list =
-            this.diJobLogService.listTop100BatchJob(DateUtil.offsetDay(currentDate, -7));
+        List<FlinkJobLogDTO> list =
+                this.flinkJobLogService.list(new FlinkJobLogListParam(0L)).getRecords();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -101,11 +103,12 @@ public class DataBoardController {
     @ApiOperation(value = "统计实时任务运行状态分布", notes = "统计实时任务运行状态分布")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
     public ResponseEntity<List<TransferVO>> realtimeJobRuntimeStatus() {
+        //todo
         List<TransferVO> list = new ArrayList<>();
-        Map<String, String> map = this.diJobLogService.groupRealtimeJobRuntimeStatus();
-        map.forEach((key, value) -> {
-            list.add(new TransferVO(value, key));
-        });
+//        Map<String, String> map = this.diJobLogService.groupRealtimeJobRuntimeStatus();
+//        map.forEach((key, value) -> {
+//            list.add(new TransferVO(value, key));
+//        });
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

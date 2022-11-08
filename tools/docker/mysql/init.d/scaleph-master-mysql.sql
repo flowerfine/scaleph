@@ -790,75 +790,6 @@ create table di_project
 insert into di_project(project_code, project_name, remark, creator, editor)
 VALUES ('seatunnel', 'seatunnel-examples', NULL, 'sys_admin', 'sys_admin');
 
-/* 资源信息表 */
-drop table if exists di_resource_file;
-create table di_resource_file
-(
-    id          bigint       not null auto_increment comment '自增主键',
-    project_id  bigint       not null comment '项目id',
-    file_name   varchar(128) not null comment '资源名称',
-    file_type   varchar(4)   not null comment '资源类型',
-    file_path   varchar(512) not null comment '资源路径',
-    file_size   bigint       not null default 0 comment '资源路径',
-    creator     varchar(32) comment '创建人',
-    create_time timestamp             default current_timestamp comment '创建时间',
-    editor      varchar(32) comment '修改人',
-    update_time timestamp             default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    unique (project_id, file_name)
-) engine = innodb comment '数据集成-资源';
-
-/* 数据同步-集群配置 */
-drop table if exists di_cluster_config;
-create table di_cluster_config
-(
-    id              bigint       not null auto_increment comment '自增主键',
-    cluster_name    varchar(128) not null comment '集群名称',
-    cluster_type    varchar(16)  not null comment '集群类型',
-    cluster_home    varchar(256) comment '集群home文件目录地址',
-    cluster_version varchar(64) comment '集群版本',
-    cluster_conf    text         not null comment '配置信息json格式',
-    remark          varchar(256) comment '备注',
-    creator         varchar(32) comment '创建人',
-    create_time     timestamp default current_timestamp comment '创建时间',
-    editor          varchar(32) comment '修改人',
-    update_time     timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    unique (cluster_name)
-) engine = innodb comment '数据集成-集群配置';
-
-insert into di_cluster_config(cluster_name, cluster_type, cluster_home, cluster_version, cluster_conf,
-                              remark, creator, editor)
-VALUES ('docker_standalone', 'flink', '/opt/flink', '1.13.6',
-        'rest.port=8081\njobmanager.rpc.address=jobmanager\njobmanager.rpc.port=6123\n', 'docker environment',
-        'sys', 'sys');
-INSERT INTO di_cluster_config(cluster_name, cluster_type, cluster_home, cluster_version, cluster_conf, remark, creator,
-                              editor)
-VALUES ('local_standalone', 'flink', '/opt/flink', '1.13.6',
-        'rest.port=8081\njobmanager.rpc.address=localhost\njobmanager.rpc.port=6123\n', 'local environment',
-        'sys', 'sys');
-
-/* 数据集成-项目目录*/
-drop table if exists di_directory;
-create table di_directory
-(
-    id             bigint not null auto_increment comment '自增主键',
-    project_id     bigint not null comment '项目id',
-    directory_name varchar(32) comment '目录名称',
-    pid            bigint not null default 0 comment '上级目录id',
-    creator        varchar(32) comment '创建人',
-    create_time    timestamp       default current_timestamp comment '创建时间',
-    editor         varchar(32) comment '修改人',
-    update_time    timestamp       default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id, project_id),
-    key (pid)
-) engine = innodb comment '数据集成-项目目录';
-
-insert into di_directory(project_id, directory_name, pid, creator, editor)
-VALUES (1, 'seatunnel', 0, 'sys', 'sys');
-insert into di_directory(project_id, directory_name, pid, creator, editor)
-VALUES (1, 'example', 1, 'sys', 'sys');
-
 /* 数据集成-作业信息*/
 drop table if exists di_job;
 create table di_job
@@ -867,7 +798,6 @@ create table di_job
     project_id    bigint       not null comment '项目id',
     job_code      bigint       not null comment '作业编码',
     job_name      varchar(256) not null comment '作业名称',
-    directory_id  bigint       not null comment '作业目录',
     job_type      varchar(4) comment '作业类型',
     job_owner     varchar(32) comment '负责人',
     job_status    varchar(4) default '1' comment '作业状态 草稿、发布、归档',
@@ -883,26 +813,12 @@ create table di_job
     primary key (id),
     unique key (project_id, job_code, job_version)
 ) engine = innodb comment '数据集成-作业信息';
-INSERT INTO `di_job` (`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
+INSERT INTO `di_job` (`id`, `project_id`, `job_code`, `job_name`, `job_type`, `job_owner`, `job_status`,
                       `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
-VALUES (1, 1, 1, 'e_commerce', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys', 'sys');
-INSERT INTO `di_job`(`id`, `project_id`, `job_code`, `job_name`, `directory_id`, `job_type`, `job_owner`, `job_status`,
+VALUES (1, 1, 1, 'e_commerce', 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO `di_job`(`id`, `project_id`, `job_code`, `job_name`, `job_type`, `job_owner`, `job_status`,
                      `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
-VALUES (2, 1, 2, 'fake', 2, 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys', 'sys');
-
-drop table if exists di_job_resource_file;
-create table di_job_resource_file
-(
-    id               bigint not null auto_increment comment '自增主键',
-    job_id           bigint not null comment '作业id',
-    resource_file_id bigint not null comment '资源id',
-    creator          varchar(32) comment '创建人',
-    create_time      timestamp default current_timestamp comment '创建时间',
-    editor           varchar(32) comment '修改人',
-    update_time      timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    unique key (job_id, resource_file_id)
-) engine = innodb comment '数据集成-作业资源';
+VALUES (2, 1, 2, 'fake', 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys', 'sys');
 
 
 /* 作业参数信息 包含变量和config配置信息*/
@@ -984,32 +900,6 @@ VALUES (1, 'fabfda41-aacb-4a19-b5ef-9e84a75ed4e9', 'f3e02087-91fa-494d-86f4-6949
 INSERT INTO `di_job_link`(`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
 VALUES (2, 'd57021a1-65c7-4dfe-ae89-3b73d00fcf72', '6223c6c3-b552-4c69-adab-5300b7514fad',
         'f08143b4-34dc-4190-8723-e8d8ce49738f', 'sys', 'sys');
-
-/* 数据同步-运行日志 */
-drop table if exists di_job_log;
-create table di_job_log
-(
-    id                 bigint       not null auto_increment comment '自增主键',
-    project_id         bigint       not null comment '项目id',
-    job_id             bigint       not null comment '作业id',
-    job_code           bigint       not null comment '作业编码',
-    cluster_id         bigint       not null comment '执行集群id',
-    job_instance_id    varchar(128) not null comment '作业实例id',
-    job_log_url        varchar(512) comment '作业日志URL',
-    start_time         datetime comment '开始时间',
-    end_time           datetime comment '结束时间',
-    duration           bigint comment '消耗时长-毫秒',
-    job_instance_state varchar(12) comment '作业实例状态',
-    creator            varchar(32) comment '创建人',
-    create_time        timestamp default current_timestamp comment '创建时间',
-    editor             varchar(32) comment '修改人',
-    update_time        timestamp default current_timestamp on update current_timestamp comment '修改时间',
-    primary key (id),
-    key (project_id),
-    key (job_id),
-    unique key (job_instance_id)
-) engine = innodb comment '数据集成-作业运行日志';
-
 
 /* seatunnel release */
 DROP TABLE IF EXISTS resource_seatunnel_release;
