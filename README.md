@@ -55,7 +55,7 @@ please refer [wiki](https://github.com/flowerfine/scaleph/wiki)
 
 * [develop](docs/develop/develop.md). This doc describes how to set up local development environment of Scaleph project.
 * checkstyle. Scaleph project requires clean and robust code, which can help Scaleph go further and develop better.
-* build. This doc describes how to compile `scaleph-api` or `scaleph-ui` from source and build corresponding docker image. For more information about build from source, refer [workflows](https://github.com/flowerfine/scaleph/tree/dev/.github/workflows) and [actions](https://github.com/flowerfine/scaleph/actions).
+* build. This doc describes how to compile `scaleph-api` or `scaleph-ui-react` from source and build corresponding docker image. For more information about build from source, refer [workflows](https://github.com/flowerfine/scaleph/tree/dev/.github/workflows) and [actions](https://github.com/flowerfine/scaleph/actions).
     * compile.  Scaleph adopts `maven` as its build system, .
         * [local](docs/build/build-local.md)。People has to install jdk, maven, node, use `mvn clean package` or `npm` command to compile project.
         * [docker](docs/build/build-docker.md)。Recommend way. Just need git and docker, after clone the source code, use docker as the build tools to compile project, which is slower than local.
