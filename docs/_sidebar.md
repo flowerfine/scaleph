@@ -1,1 +1,1 @@
-* [About Scaleph](/#About Scaleph)
+* [About Scaleph](/#About)
