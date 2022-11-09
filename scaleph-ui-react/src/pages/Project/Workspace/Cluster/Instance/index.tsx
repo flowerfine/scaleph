@@ -31,14 +31,21 @@ const ClusterInstanceWeb: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'pages.dev.clusterInstance.flinkClusterConfigId' }),
       dataIndex: 'flinkClusterConfigId',
+      width: 120,
+      hideInTable: true,
+      hideInSearch: true,
+      fixed: 'left',
     },
     {
       title: intl.formatMessage({ id: 'pages.dev.clusterInstance.name' }),
       dataIndex: 'name',
+      width: 180,
+      fixed: 'left',
     },
     {
       title: intl.formatMessage({ id: 'pages.dev.clusterInstance.status' }),
       dataIndex: 'status',
+      width: 120,
       render: (text, record, index) => {
         return record.status?.label;
       },
@@ -66,17 +73,20 @@ const ClusterInstanceWeb: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'pages.dev.clusterInstance.clusterId' }),
       dataIndex: 'clusterId',
+      width: 280,
       hideInSearch: true,
     },
     {
       title: intl.formatMessage({ id: 'pages.dev.clusterInstance.webInterfaceUrl' }),
       dataIndex: 'webInterfaceUrl',
+      width: 240,
       hideInSearch: true,
     },
     {
       title: intl.formatMessage({ id: 'pages.dev.remark' }),
       dataIndex: 'remark',
       hideInSearch: true,
+      width: 180,
     },
     {
       title: intl.formatMessage({ id: 'pages.dev.createTime' }),
@@ -144,6 +154,7 @@ const ClusterInstanceWeb: React.FC = () => {
           span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
         }}
         rowKey="id"
+        scroll={{ x: 1200, y: 480 }}
         actionRef={actionRef}
         formRef={formRef}
         options={false}

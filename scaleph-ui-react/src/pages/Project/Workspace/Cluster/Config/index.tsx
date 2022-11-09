@@ -229,7 +229,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                history.push('/workspace/dev/clusterConfigOptions', {});
+                history.push('/workspace/cluster/config/options', {});
               }}
             >
               {intl.formatMessage({ id: 'app.common.operate.new.label' })}

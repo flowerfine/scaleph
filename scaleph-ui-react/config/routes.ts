@@ -123,6 +123,13 @@ export default [
             access: 'normalRouteFilter',
           },
           {
+            path: '/workspace/cluster/config/options',
+            exact: true,
+            component: './Project/Workspace/Cluster/Config/Options',
+            pCode: PRIVILEGE_CODE.datadevJobShow,
+            access: 'normalRouteFilter',
+          },
+          {
             name: 'instance',
             path: '/workspace/cluster/instance',
             exact: true,
