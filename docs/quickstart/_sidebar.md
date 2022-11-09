@@ -1,3 +1,3 @@
-* [Preface](/#Preface)
-* [Deploy](/deploy.md)
-* [QuickStart](/quickstart.md)
+* [Preface](#Preface)
+* [Deploy](deploy.md)
+* [QuickStart](quickstart.md)
