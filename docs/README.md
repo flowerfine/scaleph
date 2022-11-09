@@ -1,6 +1,6 @@
 
 
-## About Scaleph
+## About
 > scaleph ['skəlef] is an open one-stop data develop and manage platform, which based on the awesome Flink, aims to mostly decrease data develop complexity and difficulty.
 
 ## Feature
