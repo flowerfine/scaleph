@@ -16,19 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal;
+package cn.sliew.scaleph.ds.modal.jdbc;
 
 import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.jackson.sensitive.Sensitive;
 import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Map;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public abstract class JdbcDataSource extends AbstractDataSource {
 
     @ApiModelProperty("driver class name")

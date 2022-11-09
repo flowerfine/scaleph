@@ -19,10 +19,16 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.s3.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
+import cn.sliew.scaleph.ds.modal.file.S3DataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
@@ -42,9 +48,6 @@ public class S3SourcePlugin extends SeaTunnelConnectorPlugin {
                 S3SourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(BUCKET);
-        props.add(ACCESS_KEY);
-        props.add(ACCESS_SECRET);
         props.add(PATH);
         props.add(TYPE);
         props.add(SCHEMA);
@@ -56,6 +59,22 @@ public class S3SourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
+    }
+
+    @Override
+    public List<ResourceProperty> getRequiredResources() {
+        return Collections.singletonList(ResourceProperties.DATASOURCE_RESOURCE);
+    }
+
+    @Override
+    public ObjectNode createConf() {
+        ObjectNode conf = super.createConf();
+        JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
+        S3DataSource dataSource = (S3DataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(BUCKET.getName(), dataSource.getBucket());
+        conf.putPOJO(ACCESS_KEY.getName(), dataSource.getAccessKey());
+        conf.putPOJO(ACCESS_SECRET.getName(), dataSource.getAccessSecret());
+        return conf;
     }
 
     @Override

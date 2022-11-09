@@ -27,20 +27,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 public enum JdbcProperties {
     ;
 
-    public static final PropertyDescriptor<JsonNode> DATASOURCE = new PropertyDescriptor.Builder()
-            .name("dataSource")
-            .description("jdbc dataSource")
-            .type(PropertyType.OBJECT)
-            .parser(Parsers.JSON_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final ResourceProperty<JsonNode> DATASOURCE_RESOURCE = new ResourceProperty.Builder()
-            .type(ResourceType.DATASOURCE)
-            .property(DATASOURCE)
-            .validateAndBuild();
-
     public static final PropertyDescriptor<String> URL = new PropertyDescriptor.Builder()
             .name("url")
             .description("jdbc url")

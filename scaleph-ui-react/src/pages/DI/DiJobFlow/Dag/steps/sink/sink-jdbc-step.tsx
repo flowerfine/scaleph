@@ -70,7 +70,7 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<{
         />
         <ProFormSelect
           name={"dataSourceType"}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.dataSourceType'})}
+          label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
           colProps={{span: 6}}
           initialValue={"MySQL"}
           allowClear={false}
@@ -79,8 +79,8 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<{
           })}
         />
         <ProFormSelect
-          name={JdbcParams.dataSource}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.dataSource'})}
+          name={STEP_ATTR_TYPE.dataSource}
+          label={intl.formatMessage({id: 'pages.project.di.step.dataSource'})}
           rules={[{required: true}]}
           colProps={{span: 18}}
           dependencies={["dataSourceType"]}

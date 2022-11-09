@@ -16,16 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal;
+package cn.sliew.scaleph.ds.modal.jdbc;
 
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class GBase8aDataSource extends JdbcDataSource {
+@EqualsAndHashCode(callSuper = true)
+public class GreenplumDataSource extends JdbcDataSource {
 
     @Override
     public DataSourceType getType() {
-        return DataSourceType.GBASE8A;
+        return DataSourceType.GREENPLUM;
     }
 }

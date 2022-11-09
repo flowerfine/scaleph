@@ -16,16 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal;
+package cn.sliew.scaleph.ds.modal.jdbc;
 
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class PostgreSQLDataSource extends JdbcDataSource {
+@EqualsAndHashCode(callSuper = true)
+public class GBase8aDataSource extends JdbcDataSource {
 
     @Override
     public DataSourceType getType() {
-        return DataSourceType.POSTGRESQL;
+        return DataSourceType.GBASE8A;
     }
 }
