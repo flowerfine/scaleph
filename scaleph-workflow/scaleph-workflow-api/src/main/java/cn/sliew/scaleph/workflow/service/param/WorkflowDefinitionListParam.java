@@ -16,8 +16,28 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.api;
+package cn.sliew.scaleph.workflow.service.param;
 
-public interface WorkflowDefinitionProvider {
+import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.scaleph.common.dict.workflow.WorkflowType;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class WorkflowDefinitionListParam extends PaginationParam {
+
+    @NotNull
+    @ApiModelProperty("workflow type")
+    private WorkflowType type;
+
+    @ApiModelProperty("workflow name")
+    private String name;
+
+    @ApiModelProperty("workflow instance state")
+    private WorkflowInstanceState state;
 }

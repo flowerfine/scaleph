@@ -16,7 +16,33 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.api.dto;
+package cn.sliew.scaleph.workflow.service.dto;
 
-public class WorkflowTask {
+import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.scaleph.common.dto.BaseDTO;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.util.Date;
+
+@Data
+@EqualsAndHashCode
+public class WorkflowInstanceDTO extends BaseDTO {
+
+    @ApiModelProperty("workflow definition")
+    private WorkflowDefinitionDTO workflowDefinition;
+
+    @ApiModelProperty("workflow instance state")
+    private WorkflowInstanceState state;
+
+    @ApiModelProperty("workflow instance start time")
+    private Date startTime;
+
+    @ApiModelProperty("workflow instance end time")
+    private Date endTime;
+
+    @ApiModelProperty("workflow instance message")
+    private String message;
+
 }

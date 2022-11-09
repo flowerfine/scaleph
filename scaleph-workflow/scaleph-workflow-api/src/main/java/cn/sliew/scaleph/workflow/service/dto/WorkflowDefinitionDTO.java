@@ -16,43 +16,31 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.api.dto;
+package cn.sliew.scaleph.workflow.service.dto;
 
+import cn.sliew.scaleph.common.dict.workflow.WorkflowExecuteType;
+import cn.sliew.scaleph.common.dict.workflow.WorkflowType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+import java.util.Map;
+
+@Data
+@EqualsAndHashCode
 public class WorkflowDefinitionDTO extends BaseDTO {
 
-    /**
-     * 名称
-     */
+    @ApiModelProperty("workflow type")
+    private WorkflowType type;
+
+    @ApiModelProperty("workflow name")
     private String name;
 
-    /**
-     * 状态。启动，暂停，运行中
-     */
-    private Integer status;
+    @ApiModelProperty("workflow execute type")
+    private WorkflowExecuteType executeType;
 
-    /**
-     * 类型。java（pipeline，DAG，job），http，shell 等
-     */
-    private Integer type;
-
-    /**
-     * 参数
-     */
-    private String param;
-
-    /**
-     * 版本
-     */
-    private Integer version;
-
-
-
-
-
-
-
-
+    @ApiModelProperty("workflow param")
+    private Map<String, Object> param;
 
 }
