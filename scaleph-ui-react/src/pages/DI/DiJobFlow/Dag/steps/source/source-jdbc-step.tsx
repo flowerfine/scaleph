@@ -61,17 +61,15 @@ const SourceJdbcStepForm: React.FC<ModalFormProps<{
         />
         <ProFormSelect
           name={"dataSourceType"}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.dataSourceType'})}
+          label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
           colProps={{span: 6}}
           initialValue={"MySQL"}
           allowClear={false}
-          request={(() => {
-            return DictDataService.listDictDataByType2(DICT_TYPE.datasourceType);
-          })}
+          request={() => DictDataService.listDictDataByType2(DICT_TYPE.datasourceType)}
         />
         <ProFormSelect
-          name={JdbcParams.dataSource}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.dataSource'})}
+          name={STEP_ATTR_TYPE.dataSource}
+          label={intl.formatMessage({id: 'pages.project.di.step.dataSource'})}
           rules={[{required: true}]}
           colProps={{span: 18}}
           dependencies={["dataSourceType"]}

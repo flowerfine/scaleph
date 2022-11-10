@@ -74,17 +74,17 @@ CREATE TABLE `workflow_task_definition`
 DROP TABLE IF EXISTS `workflow_task_instance`;
 CREATE TABLE `workflow_task_instance`
 (
-    `id`                           BIGINT     NOT NULL AUTO_INCREMENT,
-    `workflow_task_definition__id` BIGINT     NOT NULL,
-    `state`                        VARCHAR(4) NOT NULL,
-    `stage`                        VARCHAR(4) NOT NULL,
-    `start_time`                   DATETIME,
-    `end_time`                     DATETIME,
-    `message`                      VARCHAR(255),
-    `creator`                      VARCHAR(32),
-    `create_time`                  DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `editor`                       VARCHAR(32),
-    `update_time`                  DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `id`                          BIGINT     NOT NULL AUTO_INCREMENT,
+    `workflow_task_definition_id` BIGINT     NOT NULL,
+    `state`                       VARCHAR(4) NOT NULL,
+    `stage`                       VARCHAR(4) NOT NULL,
+    `start_time`                  DATETIME,
+    `end_time`                    DATETIME,
+    `message`                     VARCHAR(255),
+    `creator`                     VARCHAR(32),
+    `create_time`                 DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `editor`                      VARCHAR(32),
+    `update_time`                 DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-    KEY `idx_workflow_task_definition` (`workflow_task_definition__id`)
+    KEY `idx_workflow_task_definition` (`workflow_task_definition_id`)
 ) ENGINE = InnoDB COMMENT ='workflow task instance';

@@ -16,16 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal;
+package cn.sliew.scaleph.dao.mapper.master.workflow;
 
-import cn.sliew.scaleph.common.dict.job.DataSourceType;
-import lombok.Data;
+import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowSchedule;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-@Data
-public class GreenplumDataSource extends JdbcDataSource {
+/**
+ * <p>
+ * workflow schedule Mapper 接口
+ * </p>
+ */
+@Repository
+public interface WorkflowScheduleMapper extends BaseMapper<WorkflowSchedule> {
 
-    @Override
-    public DataSourceType getType() {
-        return DataSourceType.GREENPLUM;
-    }
 }

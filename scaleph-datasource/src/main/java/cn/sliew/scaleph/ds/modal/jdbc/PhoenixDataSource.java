@@ -16,12 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal;
+package cn.sliew.scaleph.ds.modal.jdbc;
 
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class PhoenixDataSource extends JdbcDataSource {
 
     @Override

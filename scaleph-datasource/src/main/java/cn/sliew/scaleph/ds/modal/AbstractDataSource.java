@@ -20,6 +20,10 @@ package cn.sliew.scaleph.ds.modal;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
+import cn.sliew.scaleph.ds.modal.file.FtpDataSource;
+import cn.sliew.scaleph.ds.modal.file.OSSDataSource;
+import cn.sliew.scaleph.ds.modal.file.S3DataSource;
+import cn.sliew.scaleph.ds.modal.jdbc.*;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -44,7 +48,12 @@ import java.util.List;
         @JsonSubTypes.Type(name = "GBase8a", value = GBase8aDataSource.class),
         @JsonSubTypes.Type(name = "Greenplum", value = GreenplumDataSource.class),
         @JsonSubTypes.Type(name = "Phoenix", value = PhoenixDataSource.class),
+
         @JsonSubTypes.Type(name = "Elasticsearch", value = ElasticsearchDataSource.class),
+
+        @JsonSubTypes.Type(name = "Ftp", value = FtpDataSource.class),
+        @JsonSubTypes.Type(name = "OSS", value = OSSDataSource.class),
+        @JsonSubTypes.Type(name = "S3", value = S3DataSource.class),
 })
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractDataSource {

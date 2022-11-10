@@ -20,11 +20,12 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.jdbc.sink;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.JdbcDataSource;
+import cn.sliew.scaleph.ds.modal.jdbc.JdbcDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperties;
 import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -62,13 +63,13 @@ public class JdbcSinkPlugin extends SeaTunnelConnectorPlugin {
 
     @Override
     public List<ResourceProperty> getRequiredResources() {
-        return Collections.singletonList(DATASOURCE_RESOURCE);
+        return Collections.singletonList(ResourceProperties.DATASOURCE_RESOURCE);
     }
 
     @Override
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
-        JsonNode jsonNode = properties.get(DATASOURCE);
+        JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
         JdbcDataSource dataSource = (JdbcDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
         conf.put(URL.getName(), dataSource.getUrl());
         conf.putPOJO(DRIVER.getName(), dataSource.getDriverClassName());

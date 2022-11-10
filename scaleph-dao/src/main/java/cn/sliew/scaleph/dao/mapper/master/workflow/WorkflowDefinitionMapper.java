@@ -16,16 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal;
+package cn.sliew.scaleph.dao.mapper.master.workflow;
 
-import cn.sliew.scaleph.common.dict.job.DataSourceType;
-import lombok.Data;
+import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinition;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-@Data
-public class GBase8aDataSource extends JdbcDataSource {
+/**
+ * <p>
+ * workflow definition Mapper 接口
+ * </p>
+ */
+@Repository
+public interface WorkflowDefinitionMapper extends BaseMapper<WorkflowDefinition> {
 
-    @Override
-    public DataSourceType getType() {
-        return DataSourceType.GBASE8A;
-    }
 }

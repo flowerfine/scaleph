@@ -16,46 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal;
+package cn.sliew.scaleph.ds.modal.jdbc;
 
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
-import cn.sliew.scaleph.common.util.BeanUtil;
-import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
-import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.List;
-import java.util.Map;
-
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ElasticsearchDataSource extends AbstractDataSource {
+public class PostgreSQLDataSource extends JdbcDataSource {
 
     @Override
     public DataSourceType getType() {
-        return DataSourceType.ELASTICSEARCH;
-    }
-
-    @ApiModelProperty("hosts")
-    private List<String> hosts;
-
-    @ApiModelProperty("username")
-    private String username;
-
-    @ApiModelProperty("password")
-    private String password;
-
-    @Override
-    public DsInfoDTO toDsInfo() {
-        DsInfoDTO dto = BeanUtil.copy(this, new DsInfoDTO());
-        DsTypeDTO dsType = new DsTypeDTO();
-        dsType.setId(getDsTypeId());
-        dsType.setType(getType());
-        dto.setDsType(dsType);
-        Map<String, Object> props = Map.of("hosts", hosts, "username", username, "password", password);
-        dto.setProps(props);
-        return dto;
+        return DataSourceType.POSTGRESQL;
     }
 }

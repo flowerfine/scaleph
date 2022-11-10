@@ -16,36 +16,40 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal;
+package cn.sliew.scaleph.ds.modal.file;
 
+import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.List;
 import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ElasticsearchDataSource extends AbstractDataSource {
+public class OSSDataSource extends AbstractDataSource {
+
+    @ApiModelProperty("endpoint")
+    private String endpoint;
+
+    @ApiModelProperty("bucket")
+    private String bucket;
+
+    @ApiModelProperty("access key")
+    private String accessKey;
+
+    @ApiModelProperty("access secret")
+    private String accessSecret;
 
     @Override
     public DataSourceType getType() {
-        return DataSourceType.ELASTICSEARCH;
+        return DataSourceType.OSS;
     }
-
-    @ApiModelProperty("hosts")
-    private List<String> hosts;
-
-    @ApiModelProperty("username")
-    private String username;
-
-    @ApiModelProperty("password")
-    private String password;
 
     @Override
     public DsInfoDTO toDsInfo() {
@@ -54,7 +58,7 @@ public class ElasticsearchDataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = Map.of("hosts", hosts, "username", username, "password", password);
+        Map<String, Object> props = Map.of("endpoint", endpoint, "bucket", bucket, "accessKey", CodecUtil.encrypt(accessKey), "accessSecret", CodecUtil.encrypt(accessSecret));
         dto.setProps(props);
         return dto;
     }

@@ -21,7 +21,20 @@ export default {
   'pages.dataSource.step.props.jdbc.additionalProps': 'Props',
   'pages.dataSource.step.props.jdbc.additionalProps.name': '自定义属性',
   'pages.dataSource.step.props.jdbc.additionalProps.property': 'property',
-  'pages.dataSource.step.props.jdbc.additionalProps.value': 'value'
+  'pages.dataSource.step.props.jdbc.additionalProps.value': 'value',
 
+  'pages.dataSource.step.props.ftp.host': 'Host',
+  'pages.dataSource.step.props.ftp.port': 'Port',
+  'pages.dataSource.step.props.ftp.username': 'Username',
+  'pages.dataSource.step.props.ftp.password': 'Password',
+
+  'pages.dataSource.step.props.oss.endpoint': 'Endpoint',
+  'pages.dataSource.step.props.oss.bucket': 'Bucket',
+  'pages.dataSource.step.props.oss.accessKey': 'Access Key',
+  'pages.dataSource.step.props.oss.accessSecret': 'Access Secret',
+
+  'pages.dataSource.step.props.s3.bucket': 'Bucket',
+  'pages.dataSource.step.props.s3.accessKey': 'Access Key',
+  'pages.dataSource.step.props.s3.accessSecret': 'Access Secret',
 
 }
