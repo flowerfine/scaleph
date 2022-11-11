@@ -30,6 +30,7 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,7 +69,9 @@ public class RedisSourcePlugin extends SeaTunnelConnectorPlugin {
         RedisDataSource dataSource = (RedisDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
         conf.put(HOST.getName(), dataSource.getHost());
         conf.putPOJO(PORT.getName(), dataSource.getPort());
-        conf.putPOJO(AUTH.getName(), dataSource.getPassword());
+        if (StringUtils.hasText(dataSource.getPassword())) {
+            conf.putPOJO(AUTH.getName(), dataSource.getPassword());
+        }
         return conf;
     }
 

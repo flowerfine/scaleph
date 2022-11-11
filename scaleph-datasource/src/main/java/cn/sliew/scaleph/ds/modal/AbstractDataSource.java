@@ -24,6 +24,7 @@ import cn.sliew.scaleph.ds.modal.file.FtpDataSource;
 import cn.sliew.scaleph.ds.modal.file.OSSDataSource;
 import cn.sliew.scaleph.ds.modal.file.S3DataSource;
 import cn.sliew.scaleph.ds.modal.jdbc.*;
+import cn.sliew.scaleph.ds.modal.nosql.ElasticsearchDataSource;
 import cn.sliew.scaleph.ds.modal.nosql.RedisDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

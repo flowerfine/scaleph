@@ -27,6 +27,7 @@ import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -59,7 +60,10 @@ public class RedisDataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = Map.of("host", host, "port", port, "password", CodecUtil.encrypt(password));
+        Map<String, Object> props = Map.of("host", host, "port", port);
+        if (StringUtils.hasText(password)) {
+            props.put("password", CodecUtil.encrypt(password));
+        }
         dto.setProps(props);
         return dto;
     }
