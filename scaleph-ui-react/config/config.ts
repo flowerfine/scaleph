@@ -1,10 +1,12 @@
 // https://umijs.org/config/
-import { defineConfig } from '@umijs/max';
+import {defineConfig} from '@umijs/max';
+import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 
-const { REACT_APP_ENV } = process.env;
+
+const {REACT_APP_ENV} = process.env;
 
 export default defineConfig({
   hash: true,
@@ -45,8 +47,8 @@ export default defineConfig({
   manifest: {
     basePath: '/',
   },
-  mfsu:{
-    strategy:'normal'
+  mfsu: {
+    strategy: 'normal'
   },
   // Fast Refresh 热更新
   fastRefresh: true,
@@ -58,4 +60,9 @@ export default defineConfig({
   //     projectName: 'swagger',
   //   },
   // ],
+  chainWebpack(memo, {env, webpack}) {
+    memo.plugin('monaco-editor-webpack-plugin').use(new MonacoWebpackPlugin({languages: ["json"]}))
+  },
 });
+
+

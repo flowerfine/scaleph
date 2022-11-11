@@ -24,7 +24,7 @@ const ClusterForm: React.FC<ModalFormProps<DiClusterConfig>> = ({
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +

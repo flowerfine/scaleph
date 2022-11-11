@@ -22,7 +22,7 @@ const DirectoryForm: React.FC<DirectoryFormProps<DiDirectory>> = ({
   const [form] = Form.useForm();
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={
         isUpdate
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +

@@ -119,7 +119,7 @@ export class GraphPreviewCommand implements ICommand {
           visible
           data={data}
           onCancel={() => this.onCancel(container)}
-        ></GraphPreviewForm>
+        />
       </ConfigProvider>,
       container,
     );
