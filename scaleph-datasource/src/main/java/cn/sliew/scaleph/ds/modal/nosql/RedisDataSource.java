@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal.file;
+package cn.sliew.scaleph.ds.modal.nosql;
 
 import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
@@ -29,27 +29,27 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class S3DataSource extends AbstractDataSource {
+public class RedisDataSource extends AbstractDataSource {
 
     @NotBlank
-    @ApiModelProperty("bucket")
-    private String bucket;
+    @ApiModelProperty("host")
+    private String host;
 
-    @NotBlank
-    @ApiModelProperty("access key")
-    private String accessKey;
+    @NotNull
+    @ApiModelProperty("port")
+    private Integer port;
 
-    @NotBlank
-    @ApiModelProperty("access secret")
-    private String accessSecret;
+    @ApiModelProperty("password")
+    private String password;
 
     @Override
     public DataSourceType getType() {
-        return DataSourceType.S3;
+        return DataSourceType.REDIS;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class S3DataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = Map.of("bucket", bucket, "accessKey", CodecUtil.encrypt(accessKey), "accessSecret", CodecUtil.encrypt(accessSecret));
+        Map<String, Object> props = Map.of("host", host, "port", port, "password", CodecUtil.encrypt(password));
         dto.setProps(props);
         return dto;
     }

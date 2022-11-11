@@ -28,15 +28,18 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 public abstract class JdbcDataSource extends AbstractDataSource {
 
+    @NotBlank
     @ApiModelProperty("driver class name")
     private String driverClassName;
 
+    @NotBlank
     @ApiModelProperty("jdbc url")
     private String url;
 

@@ -4,6 +4,7 @@ import {DsType} from "@/services/datasource/typings";
 import FtpForm from "@/pages/DataSource/StepForms/Props/Ftp";
 import OSSForm from "@/pages/DataSource/StepForms/Props/OSS";
 import S3Form from "@/pages/DataSource/StepForms/Props/S3";
+import RedisForm from "@/pages/DataSource/StepForms/Props/Redis";
 
 const DataSourceForm: React.FC = () => {
 
@@ -29,6 +30,8 @@ const DataSourceForm: React.FC = () => {
           return <OSSForm/>
         case 'S3':
           return <S3Form/>
+        case 'Redis':
+          return <RedisForm/>
         default:
           return <div>开发中</div>
       }

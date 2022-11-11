@@ -28,21 +28,27 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class FtpDataSource extends AbstractDataSource {
 
+    @NotBlank
     @ApiModelProperty("host")
     private String host;
 
+    @NotNull
     @ApiModelProperty("port")
     private Integer port;
 
+    @NotBlank
     @ApiModelProperty("username")
     private String username;
 
+    @NotBlank
     @ApiModelProperty("password")
     private String password;
 
