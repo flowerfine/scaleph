@@ -1,6 +1,5 @@
 // https://umijs.org/config/
 import {defineConfig} from '@umijs/max';
-import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
@@ -60,9 +59,10 @@ export default defineConfig({
   //     projectName: 'swagger',
   //   },
   // ],
-  chainWebpack(memo, {env, webpack}) {
-    memo.plugin('monaco-editor-webpack-plugin').use(new MonacoWebpackPlugin({languages: ["json"]}))
-  },
+
+  // chainWebpack(memo, {env, webpack}) {
+  //   memo.plugin('monaco-editor-webpack-plugin').use(new MonacoWebpackPlugin({languages: ["json"]}))
+  // },
 });
 
 
