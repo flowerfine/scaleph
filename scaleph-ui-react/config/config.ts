@@ -4,7 +4,6 @@ import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 
-
 const {REACT_APP_ENV} = process.env;
 
 export default defineConfig({
@@ -59,10 +58,6 @@ export default defineConfig({
   //     projectName: 'swagger',
   //   },
   // ],
-
-  // chainWebpack(memo, {env, webpack}) {
-  //   memo.plugin('monaco-editor-webpack-plugin').use(new MonacoWebpackPlugin({languages: ["json"]}))
-  // },
 });
 
 

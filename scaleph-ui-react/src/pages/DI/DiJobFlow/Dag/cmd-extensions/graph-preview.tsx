@@ -13,11 +13,11 @@ import {
 import type {HookHub} from '@antv/xflow-hook';
 import {ConfigProvider, Modal} from 'antd';
 import {render, unmount} from 'rc-util/lib/React/render';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {getLocale} from 'umi';
 import {CustomCommands} from '../constant';
-import MonacoEditor from "react-monaco-editor";
 import {JobService} from "@/services/project/job.service";
+import Editor, {useMonaco} from "@monaco-editor/react";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 
@@ -138,14 +138,26 @@ const GraphPreviewForm: React.FC<ModalFormProps<{ graphMeta: NsGraph.IGraphMeta;
   const jobId = data.graphMeta.origin.id;
   const [conf, setConf] = useState<string>();
 
+  const editorRef = useRef(null);
+  const monaco = useMonaco();
+
+  useEffect(() => {
+    // do conditional chaining
+    monaco?.languages.typescript.javascriptDefaults.setEagerModelSync(true);
+    // or make sure that it exists by other ways
+    if (monaco) {
+      console.log("here is the monaco instance:", monaco);
+    }
+  }, [monaco]);
+
   useEffect(() => {
     JobService.previewJob(jobId).then((reponse) => {
       setConf(reponse.data)
     })
   }, []);
 
-  const editorDidMount = (editor, monaco) => {
-    editor.focus();
+  const handleEditorDidMount = (editor, monaco) => {
+    editorRef.current = editor;
   }
 
   return (
@@ -158,9 +170,9 @@ const GraphPreviewForm: React.FC<ModalFormProps<{ graphMeta: NsGraph.IGraphMeta;
       onCancel={onCancel}
       footer={false}
     >
-      <MonacoEditor
-        width="750"
-        height="600"
+      <Editor
+        width="730"
+        height="600px"
         language="json"
         theme="vs-dark"
         value={conf}
@@ -168,7 +180,7 @@ const GraphPreviewForm: React.FC<ModalFormProps<{ graphMeta: NsGraph.IGraphMeta;
           selectOnLineNumbers: true,
           readOnly: true
         }}
-        editorDidMount={editorDidMount}
+        onMount={handleEditorDidMount}
       />
     </Modal>
   );
