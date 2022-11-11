@@ -16,36 +16,42 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal;
+package cn.sliew.scaleph.ds.modal.nosql;
 
+import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.util.StringUtils;
 
-import java.util.List;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ElasticsearchDataSource extends AbstractDataSource {
+public class RedisDataSource extends AbstractDataSource {
 
-    @Override
-    public DataSourceType getType() {
-        return DataSourceType.ELASTICSEARCH;
-    }
+    @NotBlank
+    @ApiModelProperty("host")
+    private String host;
 
-    @ApiModelProperty("hosts")
-    private List<String> hosts;
-
-    @ApiModelProperty("username")
-    private String username;
+    @NotNull
+    @ApiModelProperty("port")
+    private Integer port;
 
     @ApiModelProperty("password")
     private String password;
+
+    @Override
+    public DataSourceType getType() {
+        return DataSourceType.REDIS;
+    }
 
     @Override
     public DsInfoDTO toDsInfo() {
@@ -54,7 +60,10 @@ public class ElasticsearchDataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = Map.of("hosts", hosts, "username", username, "password", password);
+        Map<String, Object> props = Map.of("host", host, "port", port);
+        if (StringUtils.hasText(password)) {
+            props.put("password", CodecUtil.encrypt(password));
+        }
         dto.setProps(props);
         return dto;
     }

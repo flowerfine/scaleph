@@ -14,7 +14,7 @@ const ProjectForm: React.FC<ModalFormProps<DiProject>> = ({
   const [form] = Form.useForm();
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +

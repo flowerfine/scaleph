@@ -21,7 +21,7 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={
         intl.formatMessage({ id: 'app.common.operate.new.label' }) +
         ' ' +

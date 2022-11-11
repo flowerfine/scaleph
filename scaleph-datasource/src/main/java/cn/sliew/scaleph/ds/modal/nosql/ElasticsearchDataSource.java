@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal.file;
+package cn.sliew.scaleph.ds.modal.nosql;
 
-import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
@@ -28,29 +27,26 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class S3DataSource extends AbstractDataSource {
-
-    @NotBlank
-    @ApiModelProperty("bucket")
-    private String bucket;
-
-    @NotBlank
-    @ApiModelProperty("access key")
-    private String accessKey;
-
-    @NotBlank
-    @ApiModelProperty("access secret")
-    private String accessSecret;
+public class ElasticsearchDataSource extends AbstractDataSource {
 
     @Override
     public DataSourceType getType() {
-        return DataSourceType.S3;
+        return DataSourceType.ELASTICSEARCH;
     }
+
+    @ApiModelProperty("hosts")
+    private List<String> hosts;
+
+    @ApiModelProperty("username")
+    private String username;
+
+    @ApiModelProperty("password")
+    private String password;
 
     @Override
     public DsInfoDTO toDsInfo() {
@@ -59,7 +55,7 @@ public class S3DataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = Map.of("bucket", bucket, "accessKey", CodecUtil.encrypt(accessKey), "accessSecret", CodecUtil.encrypt(accessSecret));
+        Map<String, Object> props = Map.of("hosts", hosts, "username", username, "password", password);
         dto.setProps(props);
         return dto;
     }

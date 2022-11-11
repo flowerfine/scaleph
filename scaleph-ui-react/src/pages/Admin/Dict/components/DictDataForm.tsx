@@ -26,7 +26,7 @@ const DictDataForm: React.FC<ModalFormProps<SysDictData>> = ({
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +

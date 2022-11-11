@@ -26,7 +26,7 @@ const DeptForm: React.FC<DeptFormProps<SecDept>> = ({
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={
         isUpdate
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +

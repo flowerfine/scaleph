@@ -20,7 +20,7 @@ const EmailBindForm: React.FC<ModalFormProps<any>> = ({
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={intl.formatMessage({ id: 'pages.admin.usercenter.security.email' })}
       width={580}
       destroyOnClose={true}
