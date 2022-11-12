@@ -46,4 +46,7 @@ export default {
   'pages.dataSource.step.props.iotdb.username': 'Username',
   'pages.dataSource.step.props.iotdb.password': 'Password',
 
+  'pages.dataSource.step.props.kudu.masters': 'Masters',
+  'pages.dataSource.step.props.kudu.masters.placeholder': '127.0.0.1:7051',
+
 }

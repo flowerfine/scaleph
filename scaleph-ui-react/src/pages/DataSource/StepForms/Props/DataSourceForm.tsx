@@ -6,6 +6,7 @@ import OSSForm from "@/pages/DataSource/StepForms/Props/OSS";
 import S3Form from "@/pages/DataSource/StepForms/Props/S3";
 import RedisForm from "@/pages/DataSource/StepForms/Props/Redis";
 import IoTDBForm from "@/pages/DataSource/StepForms/Props/IoTDB";
+import KuduForm from "@/pages/DataSource/StepForms/Props/Kudu";
 
 const DataSourceForm: React.FC = () => {
 
@@ -33,6 +34,8 @@ const DataSourceForm: React.FC = () => {
           return <S3Form/>
         case 'Redis':
           return <RedisForm/>
+        case 'Kudu':
+          return <KuduForm/>
         case 'IoTDB':
           return <IoTDBForm/>
         default:
