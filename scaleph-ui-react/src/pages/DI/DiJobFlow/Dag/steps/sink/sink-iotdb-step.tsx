@@ -6,7 +6,11 @@ import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
 import {getIntl, getLocale} from "umi";
 import {useEffect} from "react";
-import {ProForm, ProFormDigit, ProFormSwitch, ProFormText} from "@ant-design/pro-components";
+import {ProForm, ProFormDigit, ProFormSelect, ProFormSwitch, ProFormText} from "@ant-design/pro-components";
+import {DictDataService} from "@/services/admin/dictData.service";
+import {DICT_TYPE} from "@/constant";
+import {DsInfoParam} from "@/services/datasource/typings";
+import {DsInfoService} from "@/services/datasource/info.service";
 
 const SinkIoTDBStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -53,20 +57,33 @@ const SinkIoTDBStepForm: React.FC<ModalFormProps<{
         label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
         rules={[{required: true}, {max: 120}]}
       />
-      <ProFormText
-        name={IoTDBParams.nodeUrls}
-        label={intl.formatMessage({id: 'pages.project.di.step.iotdb.nodeUrls'})}
-        rules={[{required: true}]}
+      <ProFormSelect
+        name={"dataSourceType"}
+        label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
+        colProps={{span: 6}}
+        initialValue={"IoTDB"}
+        fieldProps={{
+          disabled: true
+        }}
+        request={() => DictDataService.listDictDataByType2(DICT_TYPE.datasourceType)}
       />
-      <ProFormText
-        name={IoTDBParams.username}
-        label={intl.formatMessage({id: 'pages.project.di.step.iotdb.username'})}
+      <ProFormSelect
+        name={STEP_ATTR_TYPE.dataSource}
+        label={intl.formatMessage({id: 'pages.project.di.step.dataSource'})}
         rules={[{required: true}]}
-      />
-      <ProFormText
-        name={IoTDBParams.password}
-        label={intl.formatMessage({id: 'pages.project.di.step.iotdb.password'})}
-        rules={[{required: true}]}
+        colProps={{span: 18}}
+        dependencies={["dataSourceType"]}
+        request={((params, props) => {
+          const param: DsInfoParam = {
+            name: params.keyWords,
+            dsType: params.dataSourceType
+          };
+          return DsInfoService.list(param).then((response) => {
+            return response.data.map((item) => {
+              return {label: item.name, value: item.id, item: item};
+            });
+          });
+        })}
       />
       <ProFormDigit
         name={IoTDBParams.batchSize}

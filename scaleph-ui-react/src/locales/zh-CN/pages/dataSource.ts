@@ -41,4 +41,9 @@ export default {
   'pages.dataSource.step.props.redis.port': 'Port',
   'pages.dataSource.step.props.redis.password': 'Password',
 
+  'pages.dataSource.step.props.iotdb.nodeUrls': 'Node URLs',
+  'pages.dataSource.step.props.iotdb.nodeUrls.placeholder': '127.0.0.1:8080,127.0.0.2:8080',
+  'pages.dataSource.step.props.iotdb.username': 'Username',
+  'pages.dataSource.step.props.iotdb.password': 'Password',
+
 }

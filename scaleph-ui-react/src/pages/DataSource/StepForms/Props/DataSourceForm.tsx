@@ -5,6 +5,7 @@ import FtpForm from "@/pages/DataSource/StepForms/Props/Ftp";
 import OSSForm from "@/pages/DataSource/StepForms/Props/OSS";
 import S3Form from "@/pages/DataSource/StepForms/Props/S3";
 import RedisForm from "@/pages/DataSource/StepForms/Props/Redis";
+import IoTDBForm from "@/pages/DataSource/StepForms/Props/IoTDB";
 
 const DataSourceForm: React.FC = () => {
 
@@ -32,6 +33,8 @@ const DataSourceForm: React.FC = () => {
           return <S3Form/>
         case 'Redis':
           return <RedisForm/>
+        case 'IoTDB':
+          return <IoTDBForm/>
         default:
           return <div>开发中</div>
       }

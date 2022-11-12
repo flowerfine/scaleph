@@ -57,6 +57,8 @@ import java.util.List;
         @JsonSubTypes.Type(name = "Ftp", value = FtpDataSource.class),
         @JsonSubTypes.Type(name = "OSS", value = OSSDataSource.class),
         @JsonSubTypes.Type(name = "S3", value = S3DataSource.class),
+
+        @JsonSubTypes.Type(name = "IoTDB", value = IoTDBDataSource.class),
 })
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractDataSource {
