@@ -62,6 +62,7 @@ import java.util.List;
         @JsonSubTypes.Type(name = "Kudu", value = KuduDataSource.class),
 
         @JsonSubTypes.Type(name = "IoTDB", value = IoTDBDataSource.class),
+        @JsonSubTypes.Type(name = "Neo4j", value = Neo4jDataSource.class),
 })
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractDataSource {
