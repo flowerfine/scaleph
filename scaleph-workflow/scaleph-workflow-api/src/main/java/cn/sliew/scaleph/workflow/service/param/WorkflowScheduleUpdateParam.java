@@ -16,10 +16,8 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service.dto;
+package cn.sliew.scaleph.workflow.service.param;
 
-import cn.sliew.scaleph.common.dict.workflow.ScheduleStatus;
-import cn.sliew.scaleph.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,10 +26,7 @@ import java.util.Date;
 
 @Data
 @EqualsAndHashCode
-public class WorkflowScheduleDTO extends BaseDTO {
-
-    @ApiModelProperty("workflow definition id")
-    private Long workflowDefinitionId;
+public class WorkflowScheduleUpdateParam {
 
     @ApiModelProperty("schedule cron timezone")
     private String timezone;
@@ -44,9 +39,6 @@ public class WorkflowScheduleDTO extends BaseDTO {
 
     @ApiModelProperty("schedule end time")
     private Date endTime;
-
-    @ApiModelProperty("status")
-    private ScheduleStatus status;
 
     @ApiModelProperty("remark")
     private String remark;

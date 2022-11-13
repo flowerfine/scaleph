@@ -16,37 +16,38 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service.dto;
+package cn.sliew.scaleph.workflow.service.param;
 
-import cn.sliew.scaleph.common.dict.workflow.ScheduleStatus;
-import cn.sliew.scaleph.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
 @EqualsAndHashCode
-public class WorkflowScheduleDTO extends BaseDTO {
+public class WorkflowScheduleAddParam {
 
+    @NotNull
     @ApiModelProperty("workflow definition id")
     private Long workflowDefinitionId;
 
     @ApiModelProperty("schedule cron timezone")
     private String timezone;
 
+    @NotBlank
     @ApiModelProperty("schedule crontab expression")
     private String crontab;
 
+    @NotNull
     @ApiModelProperty("schedule start time")
     private Date startTime;
 
+    @NotNull
     @ApiModelProperty("schedule end time")
     private Date endTime;
-
-    @ApiModelProperty("status")
-    private ScheduleStatus status;
 
     @ApiModelProperty("remark")
     private String remark;
