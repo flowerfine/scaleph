@@ -43,7 +43,7 @@ CREATE TABLE `workflow_instance`
     `id`                     BIGINT     NOT NULL AUTO_INCREMENT,
     `workflow_definition_id` BIGINT     NOT NULL,
     `state`                  VARCHAR(4) NOT NULL,
-    `start_time`             DATETIME,
+    `start_time`             DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `end_time`               DATETIME,
     `message`                VARCHAR(255),
     `creator`                VARCHAR(32),

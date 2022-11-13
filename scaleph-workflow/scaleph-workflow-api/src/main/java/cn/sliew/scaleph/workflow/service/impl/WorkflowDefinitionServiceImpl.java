@@ -29,6 +29,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
         Page<WorkflowDefinition> page = new Page<>(param.getCurrent(), param.getPageSize());
         LambdaQueryWrapper<WorkflowDefinition> queryWrapper = Wrappers.lambdaQuery(WorkflowDefinition.class)
                 .eq(WorkflowDefinition::getType, param.getType())
+                .like(StringUtils.hasText(param.getName()), WorkflowDefinition::getName, param.getName())
                 .orderByAsc(WorkflowDefinition::getId);
         Page<WorkflowDefinition> workflowDefinitionPage = workflowDefinitionMapper.selectPage(page, queryWrapper);
         Page<WorkflowDefinitionDTO> result = new Page<>(workflowDefinitionPage.getCurrent(), workflowDefinitionPage.getSize(), workflowDefinitionPage.getTotal());
