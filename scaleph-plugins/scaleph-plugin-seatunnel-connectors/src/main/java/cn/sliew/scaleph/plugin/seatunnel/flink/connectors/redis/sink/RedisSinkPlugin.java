@@ -66,7 +66,7 @@ public class RedisSinkPlugin extends SeaTunnelConnectorPlugin {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
         RedisDataSource dataSource = (RedisDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.put(HOST.getName(), dataSource.getHost());
+        conf.putPOJO(HOST.getName(), dataSource.getHost());
         conf.putPOJO(PORT.getName(), dataSource.getPort());
         if (StringUtils.hasText(dataSource.getPassword())) {
             conf.putPOJO(AUTH.getName(), dataSource.getPassword());

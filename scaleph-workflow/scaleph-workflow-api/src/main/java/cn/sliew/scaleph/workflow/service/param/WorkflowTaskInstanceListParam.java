@@ -16,22 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service;
+package cn.sliew.scaleph.workflow.service.param;
 
-import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
-import cn.sliew.scaleph.workflow.service.param.WorkflowDefinitionListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-/**
- * workflow 组成：definition
- * instance: workflow 每一次运行记做 instance，运行结束，则转为 log
- *
- * run terminate, schedule, unschedule
- */
-public interface WorkflowDefinitionService {
+import javax.validation.constraints.NotNull;
 
-    Page<WorkflowDefinitionDTO> list(WorkflowDefinitionListParam param);
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class WorkflowTaskInstanceListParam extends PaginationParam {
 
-    WorkflowDefinitionDTO get(Long id);
+    @NotNull
+    @ApiModelProperty("workflow task definition id")
+    private Long workflowTaskDefinitionId;
 
 }

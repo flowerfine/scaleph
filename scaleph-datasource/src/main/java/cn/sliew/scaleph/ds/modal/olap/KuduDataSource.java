@@ -16,38 +16,40 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service.dto;
+package cn.sliew.scaleph.ds.modal.olap;
 
-import cn.sliew.scaleph.common.dict.workflow.ScheduleStatus;
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.common.dict.job.DataSourceType;
+import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
+import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
+import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Date;
+import java.util.Map;
 
 @Data
 @EqualsAndHashCode
-public class WorkflowScheduleDTO extends BaseDTO {
+public class KuduDataSource extends AbstractDataSource {
 
-    @ApiModelProperty("workflow definition id")
-    private Long workflowDefinitionId;
+    @ApiModelProperty("kudu masters")
+    private String masters;
 
-    @ApiModelProperty("schedule cron timezone")
-    private String timezone;
+    @Override
+    public DataSourceType getType() {
+        return DataSourceType.KUDU;
+    }
 
-    @ApiModelProperty("schedule crontab expression")
-    private String crontab;
-
-    @ApiModelProperty("schedule start time")
-    private Date startTime;
-
-    @ApiModelProperty("schedule end time")
-    private Date endTime;
-
-    @ApiModelProperty("status")
-    private ScheduleStatus status;
-
-    @ApiModelProperty("remark")
-    private String remark;
+    @Override
+    public DsInfoDTO toDsInfo() {
+        DsInfoDTO dto = BeanUtil.copy(this, new DsInfoDTO());
+        DsTypeDTO dsType = new DsTypeDTO();
+        dsType.setId(getDsTypeId());
+        dsType.setType(getType());
+        dto.setDsType(dsType);
+        Map<String, Object> props = Map.of("masters", masters);
+        dto.setProps(props);
+        return dto;
+    }
 }

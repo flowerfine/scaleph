@@ -19,10 +19,16 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.iotdb.sink;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
+import cn.sliew.scaleph.ds.modal.IoTDBDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
@@ -41,9 +47,6 @@ public class IoTDBSinkPlugin extends SeaTunnelConnectorPlugin {
                 IoTDBSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(NODE_URLS);
-        props.add(USERNAME);
-        props.add(PASSWORD);
         props.add(BATCH_SIZE);
         props.add(BATCH_INTERVAL_MS);
         props.add(MAX_RETRIES);
@@ -57,6 +60,22 @@ public class IoTDBSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
+    }
+
+    @Override
+    public List<ResourceProperty> getRequiredResources() {
+        return Collections.singletonList(ResourceProperties.DATASOURCE_RESOURCE);
+    }
+
+    @Override
+    public ObjectNode createConf() {
+        ObjectNode conf = super.createConf();
+        JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
+        IoTDBDataSource dataSource = (IoTDBDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(NODE_URLS.getName(), dataSource.getNodeUrls());
+        conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
+        conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        return conf;
     }
 
     @Override

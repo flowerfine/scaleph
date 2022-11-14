@@ -19,13 +19,21 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.sink;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
+import cn.sliew.scaleph.ds.modal.Neo4jDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.sink.Neo4jSinkProperties.*;
@@ -38,11 +46,6 @@ public class Neo4jSinkPlugin extends SeaTunnelConnectorPlugin {
                 "Write data to Neo4j.",
                 Neo4jSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(URI);
-        props.add(USERNAME);
-        props.add(PASSWORD);
-        props.add(BEARER_TOKEN);
-        props.add(KERBEROS_TICKET);
         props.add(DATABASE);
         props.add(QUERY);
         props.add(QUERY_PARAM_POSITION);
@@ -51,6 +54,30 @@ public class Neo4jSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;
+    }
+
+    @Override
+    public List<ResourceProperty> getRequiredResources() {
+        return Collections.singletonList(ResourceProperties.DATASOURCE_RESOURCE);
+    }
+
+    @Override
+    public ObjectNode createConf() {
+        ObjectNode conf = super.createConf();
+        JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
+        Neo4jDataSource dataSource = (Neo4jDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(URI.getName(), dataSource.getUri());
+        if (StringUtils.hasText(dataSource.getUsername())) {
+            conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
+            conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        }
+        if (StringUtils.hasText(dataSource.getBearerToken())) {
+            conf.putPOJO(BEARER_TOKEN.getName(), dataSource.getBearerToken());
+        }
+        if (StringUtils.hasText(dataSource.getKerberosTicket())) {
+            conf.putPOJO(KERBEROS_TICKET.getName(), dataSource.getKerberosTicket());
+        }
+        return conf;
     }
 
     @Override

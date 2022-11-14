@@ -16,22 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service;
+package cn.sliew.scaleph.workflow.service.param;
 
-import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
-import cn.sliew.scaleph.workflow.service.param.WorkflowDefinitionListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-/**
- * workflow 组成：definition
- * instance: workflow 每一次运行记做 instance，运行结束，则转为 log
- *
- * run terminate, schedule, unschedule
- */
-public interface WorkflowDefinitionService {
+import java.util.Date;
 
-    Page<WorkflowDefinitionDTO> list(WorkflowDefinitionListParam param);
+@Data
+@EqualsAndHashCode
+public class WorkflowScheduleUpdateParam {
 
-    WorkflowDefinitionDTO get(Long id);
+    @ApiModelProperty("schedule cron timezone")
+    private String timezone;
 
+    @ApiModelProperty("schedule crontab expression")
+    private String crontab;
+
+    @ApiModelProperty("schedule start time")
+    private Date startTime;
+
+    @ApiModelProperty("schedule end time")
+    private Date endTime;
+
+    @ApiModelProperty("remark")
+    private String remark;
 }

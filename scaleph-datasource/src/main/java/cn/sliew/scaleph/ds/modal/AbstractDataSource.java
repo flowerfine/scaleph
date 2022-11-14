@@ -26,6 +26,7 @@ import cn.sliew.scaleph.ds.modal.file.S3DataSource;
 import cn.sliew.scaleph.ds.modal.jdbc.*;
 import cn.sliew.scaleph.ds.modal.nosql.ElasticsearchDataSource;
 import cn.sliew.scaleph.ds.modal.nosql.RedisDataSource;
+import cn.sliew.scaleph.ds.modal.olap.KuduDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -57,6 +58,11 @@ import java.util.List;
         @JsonSubTypes.Type(name = "Ftp", value = FtpDataSource.class),
         @JsonSubTypes.Type(name = "OSS", value = OSSDataSource.class),
         @JsonSubTypes.Type(name = "S3", value = S3DataSource.class),
+
+        @JsonSubTypes.Type(name = "Kudu", value = KuduDataSource.class),
+
+        @JsonSubTypes.Type(name = "IoTDB", value = IoTDBDataSource.class),
+        @JsonSubTypes.Type(name = "Neo4j", value = Neo4jDataSource.class),
 })
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractDataSource {
