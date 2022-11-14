@@ -115,7 +115,7 @@ const JobListView: React.FC = () => {
                 bordered={false}
                 style={{ marginTop: 12 }}
                 onClick={() => {
-                  history.push('/workspace/job/detail');
+                  history.push('/workspace/job/detail', { item });
                 }}
               >
                 <Typography.Title level={5}>

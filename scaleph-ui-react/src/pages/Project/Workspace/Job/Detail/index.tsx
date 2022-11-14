@@ -16,17 +16,41 @@ import {
   ToolOutlined,
 } from '@ant-design/icons';
 import { useIntl, useLocation } from 'umi';
-import { FlinkJobForJar } from '@/pages/DEV/Job/typings';
+import { FlinkJob, FlinkJobForJar, FlinkJobInstance } from '@/pages/DEV/Job/typings';
 import styles from './index.less';
 import JobSavepointsWeb from './components/JobSavepoints';
 import JobLogTable from './components/JobLogTable';
 import JobOverviewWeb from './components/JobOverview';
 import JobConfigurationWeb from './components/JobConfiguration';
+import { useEffect, useState } from 'react';
+import { FlinkClusterConfig, FlinkClusterInstance } from '@/services/dev/typings';
+import { FlinkJobInstanceService } from '@/pages/DEV/Job/FlinkJobInstanceService';
+import { FlinkClusterConfigService } from '@/services/dev/flinkClusterConfig.service';
+import { FlinkCLusterInstanceService } from '@/services/dev/flinkClusterInstance.service';
 
 const JobDetailWeb: React.FC = () => {
   const urlParams = useLocation();
   const intl = useIntl();
-  const params = urlParams.state as FlinkJobForJar;
+  const params = urlParams.state as FlinkJob;
+  const [flinkJobInstance, setFlinkJobInstance] = useState<FlinkJobInstance>();
+  const [flinkClusterConfig, setFlinkClusterConfig] = useState<FlinkClusterConfig>();
+  const [flinkClusterInstance, setFlinkClusterInstance] = useState<FlinkClusterInstance>();
+
+  useEffect(() => {
+    FlinkJobInstanceService.getByCode(params.code ? params.code : 0).then((d) => {
+      setFlinkJobInstance(d);
+    });
+    FlinkClusterConfigService.selectOne(
+      params.flinkClusterConfigId ? params.flinkClusterConfigId : 0,
+    ).then((d) => {
+      setFlinkClusterConfig(d);
+    });
+    FlinkCLusterInstanceService.selectOne(
+      params.flinkClusterInstanceId ? params.flinkClusterInstanceId : 0,
+    ).then((d) => {
+      setFlinkClusterInstance(d);
+    });
+  }, []);
 
   return (
     <div className={styles.mainContainer}>
@@ -46,7 +70,7 @@ const JobDetailWeb: React.FC = () => {
                 icon={<RollbackOutlined />}
                 size="small"
                 onClick={() => {
-                  // console.log(params);
+                  window.history.back();
                 }}
               >
                 {intl.formatMessage({ id: 'pages.dev.job.detail.backToList' })}
@@ -102,20 +126,20 @@ const JobDetailWeb: React.FC = () => {
             copyable={true}
             ellipsis={{ rows: 1, expandable: true, symbol: 'more' }}
           >
-            {params.flinkJobInstance?.jobId}
+            {flinkJobInstance?.jobId}
           </Typography.Paragraph>
         </Descriptions.Item>
         <Descriptions.Item label={intl.formatMessage({ id: 'pages.dev.job.detail.jobName' })}>
-          <Typography.Text copyable={true}>{params.flinkJobInstance?.jobName}</Typography.Text>
+          <Typography.Text copyable={true}>{flinkJobInstance?.jobName}</Typography.Text>
         </Descriptions.Item>
         <Descriptions.Item label={intl.formatMessage({ id: 'pages.dev.job.detail.jobState' })}>
-          {params.flinkJobInstance?.jobState.label}
+          {flinkJobInstance?.jobState?.label}
         </Descriptions.Item>
         <Descriptions.Item label={intl.formatMessage({ id: 'pages.dev.job.detail.startTime' })}>
-          {params.flinkJobInstance?.startTime}
+          {flinkJobInstance?.startTime}
         </Descriptions.Item>
         <Descriptions.Item label={intl.formatMessage({ id: 'pages.dev.job.detail.duration' })}>
-          {params.flinkJobInstance?.duration}
+          {flinkJobInstance?.duration}
         </Descriptions.Item>
       </Descriptions>
       <Row>
@@ -133,11 +157,7 @@ const JobDetailWeb: React.FC = () => {
                   </>
                 ),
                 key: 'overview',
-                children: (
-                  <>
-                    <JobOverviewWeb data={params} />
-                  </>
-                ),
+                children: <>{/* <JobOverviewWeb data={params} /> */}</>,
               },
               {
                 label: (
@@ -150,12 +170,9 @@ const JobDetailWeb: React.FC = () => {
                 children: (
                   <>
                     <JobConfigurationWeb
-                      clusterConfig={params.flinkClusterConfig ? params.flinkClusterConfig : {}}
-                      clusterInstance={
-                        params.flinkClusterInstance ? params.flinkClusterInstance : {}
-                      }
+                      clusterConfig={flinkClusterConfig ? flinkClusterConfig : {}}
+                      clusterInstance={flinkClusterInstance ? flinkClusterInstance : {}}
                       flinkConfig={params.flinkConfig}
-                      data={params}
                     />
                   </>
                 ),

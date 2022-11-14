@@ -60,6 +60,14 @@ public class ClusterInstanceController {
     }
 
     @Logging
+    @GetMapping({"{id}"})
+    @ApiOperation(value = "查询集群实例", notes = "查询集群实例Ï")
+    public ResponseEntity<FlinkClusterInstanceDTO> selectOne(@PathVariable("id") Long id) {
+        final FlinkClusterInstanceDTO result = flinkClusterInstanceService.selectOne(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
     @PutMapping
     @ApiOperation(value = "创建 session 集群", notes = "创建 session 集群")
     public ResponseEntity<ResponseVO> createSessionCluster(@Valid @RequestBody FlinkSessionClusterAddParam param) throws Exception {

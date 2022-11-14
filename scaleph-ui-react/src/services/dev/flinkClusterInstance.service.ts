@@ -24,6 +24,12 @@ export const FlinkCLusterInstanceService = {
     });
   },
 
+  selectOne: async (id: number) => {
+    return request<FlinkClusterInstance>(`${FlinkCLusterInstanceService.url}/` + id, {
+      method: 'GET',
+    });
+  },
+
   newSession: async (row: FlinkSessionClusterNewParam) => {
     return request<ResponseBody<any>>(`${FlinkCLusterInstanceService.url}`, {
       method: 'PUT',
