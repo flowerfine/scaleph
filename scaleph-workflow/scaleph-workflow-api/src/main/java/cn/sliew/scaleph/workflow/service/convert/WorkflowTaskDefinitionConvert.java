@@ -18,15 +18,41 @@
 
 package cn.sliew.scaleph.workflow.service.convert;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskDefinition;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
+import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+
+import java.util.Map;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WorkflowTaskDefinitionConvert extends BaseConvert<WorkflowTaskDefinition, WorkflowTaskDefinitionDTO> {
     WorkflowTaskDefinitionConvert INSTANCE = Mappers.getMapper(WorkflowTaskDefinitionConvert.class);
 
+    @Override
+    default WorkflowTaskDefinition toDo(WorkflowTaskDefinitionDTO dto) {
+        WorkflowTaskDefinition entity = new WorkflowTaskDefinition();
+        BeanUtils.copyProperties(dto, entity);
+        if (CollectionUtils.isEmpty(dto.getParam()) == false) {
+            entity.setParam(JacksonUtil.toJsonString(dto.getParam()));
+        }
+        return entity;
+    }
+
+    @Override
+    default WorkflowTaskDefinitionDTO toDto(WorkflowTaskDefinition entity) {
+        WorkflowTaskDefinitionDTO dto = new WorkflowTaskDefinitionDTO();
+        BeanUtils.copyProperties(entity, dto);
+        if (StringUtils.hasText(entity.getParam())) {
+            dto.setParam(JacksonUtil.parseJsonString(entity.getParam(), new TypeReference<Map<String, Object>>() {}));
+        }
+        return dto;
+    }
 }
