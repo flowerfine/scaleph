@@ -1,6 +1,6 @@
-import {Dict, QueryParam} from "@/app.d";
-import {FlinkArtifactJar, FlinkClusterConfig, FlinkClusterInstance} from "@/services/dev/typings";
-import {DiJob} from "@/services/project/typings";
+import { Dict, QueryParam } from '@/app.d';
+import { FlinkArtifactJar, FlinkClusterConfig, FlinkClusterInstance } from '@/services/dev/typings';
+import { DiJob } from '@/services/project/typings';
 
 export type FlinkJob = {
   id?: number;
@@ -15,25 +15,26 @@ export type FlinkJob = {
   jars?: Array<number>;
   version?: number;
   remark?: string;
+  creator: string;
   createTime?: Date;
   updateTime?: Date;
-}
+};
 
 export type FlinkJobListParam = QueryParam & {
-  type: string;
+  type?: string;
   name?: string;
-}
+};
 
 export type FlinkJobListByCodeParam = QueryParam & {
   code: number;
-}
+};
 
 export type FlinkJobListByTypeParam = QueryParam & {
   type: string;
   name?: string;
   flinkClusterConfigId?: number;
   flinkClusterInstanceId?: number;
-}
+};
 
 export type FlinkJobForJar = {
   id?: number;
@@ -49,11 +50,11 @@ export type FlinkJobForJar = {
   jars?: Array<number>;
   version?: number;
   remark?: string;
-  creator?:string;
+  creator?: string;
   createTime?: Date;
-  editor?:string;
+  editor?: string;
   updateTime?: Date;
-}
+};
 
 export type FlinkJobForSeaTunnel = {
   id?: number;
@@ -71,7 +72,7 @@ export type FlinkJobForSeaTunnel = {
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
-}
+};
 
 export type FlinkJobInstance = {
   id: number;
@@ -89,16 +90,14 @@ export type FlinkJobInstance = {
   duration?: number;
   createTime: Date;
   updateTime: Date;
-}
+};
 
 export type FlinkJobInstanceListParam = QueryParam & {
   flinkJobCode: number;
-}
+};
 
-export type FlinkJobLog = FlinkJobInstance & {
-
-}
+export type FlinkJobLog = FlinkJobInstance & {};
 
 export type FlinkJobLogListParam = QueryParam & {
   flinkJobCode: number;
-}
+};

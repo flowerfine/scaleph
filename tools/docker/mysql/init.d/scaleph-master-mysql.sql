@@ -303,9 +303,11 @@ VALUES ('flink_semantic', 'at_least_once', '至少一次', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_semantic', 'none', '无', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('flink_job_type', '0', 'artifact', 'sys', 'sys');
+VALUES ('flink_job_type', '0', 'Jar', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('flink_job_type', '1', 'sql+udf', 'sys', 'sys');
+VALUES ('flink_job_type', '1', 'SQL', 'sys', 'sys');
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
+VALUES ('flink_job_type', '2', 'SeaTunnel', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_status', '0', 'SUBMITED', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)

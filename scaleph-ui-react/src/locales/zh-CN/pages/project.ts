@@ -8,7 +8,7 @@ export default {
   'pages.project.createTime': '创建时间',
   'pages.project.updateTime': '更新时间',
   'pages.project.open': '进入项目',
-  'pages.project.projectCode.placeholder':'请输入项目编码',
+  'pages.project.projectCode.placeholder': '请输入项目编码',
   'pages.project.di.dataSource': '数据源',
   'pages.project.di.dataSource.dataSourceName': '数据源名称',
   'pages.project.di.dataSource.dataSourceType': '数据源类型',
@@ -36,7 +36,8 @@ export default {
   'pages.project.di.dataSource.dataSourceType.bigdata': '大数据',
   'pages.project.di.dataSource.dataSourceType.mq': '消息队列',
   'pages.project.di.dataSource.dataSourceType.other': '其他',
-  'pages.project.di.dataSource.clickhosue.host.tooltip': 'ClickHouse cluster address,allowing multiple hosts to be specified. Such as "host1:8123,host2:8123"',
+  'pages.project.di.dataSource.clickhosue.host.tooltip':
+    'ClickHouse cluster address,allowing multiple hosts to be specified. Such as "host1:8123,host2:8123"',
   // 'pages.project.di.batch':''
   'pages.project.dir': '目录',
   'pages.project.dir.directoryName': '目录名称',
@@ -131,7 +132,8 @@ export default {
   'pages.project.di.step.jdbc.preview': '预览结果',
   'pages.project.di.step.jdbc.batchSize': '批次数量',
   'pages.project.di.step.jdbc.batchIntervalMs': '批次间隔（毫秒）',
-  'pages.project.di.step.jdbc.batch.tooltip': 'record buffer 到达批次数量或时间到批次间隔（毫秒）时，会提交 record buffer',
+  'pages.project.di.step.jdbc.batch.tooltip':
+    'record buffer 到达批次数量或时间到批次间隔（毫秒）时，会提交 record buffer',
   'pages.project.di.step.jdbc.maxRetries': '批次重试次数',
   'pages.project.di.step.jdbc.isExactlyOnce': '启用 Exactly once 语义',
   'pages.project.di.step.jdbc.isExactlyOnce.tooltip': '使用 XA 事务保证 Exactly once 语义',
@@ -197,7 +199,8 @@ export default {
   'pages.project.di.step.http.schema': 'Schema',
   'pages.project.di.step.http.pollIntervalMs': 'Poll Interval(milliseconds)',
   'pages.project.di.step.http.retry': 'Retry',
-  'pages.project.di.step.http.retryBackoffMultiplierMs': 'Retry-Backoff times(milliseconds) Multiplier',
+  'pages.project.di.step.http.retryBackoffMultiplierMs':
+    'Retry-Backoff times(milliseconds) Multiplier',
   'pages.project.di.step.http.retryBackoffMaxMs': 'Maximum Retry-Backoff times(milliseconds)',
 
   // wechat
@@ -259,9 +262,11 @@ export default {
   'pages.project.di.step.clickhosue.fields.tooltip': 'For example, : id,name',
   'pages.project.di.step.clickhosue.splitMode': '是否分片',
   'pages.project.di.step.clickhosue.shardingKey': 'shardingKey 分片字段',
-  'pages.project.di.step.clickhosue.splitMode.tooltip': 'Split mode when table is distributed engine,This mode only support clickhouse table which engine is \'Distributed\'',
+  'pages.project.di.step.clickhosue.splitMode.tooltip':
+    "Split mode when table is distributed engine,This mode only support clickhouse table which engine is 'Distributed'",
   'pages.project.di.step.clickhosue.clickhouseConf': 'clickhouse jdbc参数',
-  'pages.project.di.step.clickhosue.clickhouseConf.tooltip': ' For example, the way to specify socket_timeout is: clickhouse.socket_timeout = 50000',
+  'pages.project.di.step.clickhosue.clickhouseConf.tooltip':
+    ' For example, the way to specify socket_timeout is: clickhouse.socket_timeout = 50000',
   'pages.project.di.step.clickhosue.sql': 'SQL',
   'pages.project.di.step.clickhosue.database': '数据库',
 
@@ -272,11 +277,13 @@ export default {
   'pages.project.di.step.hive.partitionBy': 'Partition',
   'pages.project.di.step.hive.partitionBy.tooltip': 'example : "test_par1", "test_par2"',
   'pages.project.di.step.hive.sinkColumns': 'Write Columns',
-  'pages.project.di.step.hive.sinkColumns.tooltip': 'example : "test_tinyint", "test_smallint", "test_int", "test_bigint", "test_boolean", "test_float"',
+  'pages.project.di.step.hive.sinkColumns.tooltip':
+    'example : "test_tinyint", "test_smallint", "test_int", "test_bigint", "test_boolean", "test_float"',
   'pages.project.di.step.hive.isEnableTransaction': 'Enable Transaction',
   'pages.project.di.step.hive.isEnableTransaction.tooltip': 'Only support true now',
   'pages.project.di.step.hive.saveMode': 'saveMode',
-  'pages.project.di.step.hive.saveMode.tooltip': 'Streaming Job not support overwrite. Storage mode, we need support overwrite and append. append is now supported.',
+  'pages.project.di.step.hive.saveMode.tooltip':
+    'Streaming Job not support overwrite. Storage mode, we need support overwrite and append. append is now supported.',
 
   // kudu
   'pages.project.di.step.kudu.master': 'Master',
@@ -288,12 +295,16 @@ export default {
   'pages.project.di.step.kafka.topic': 'Topic',
   'pages.project.di.step.kafka.pattern': 'pattern',
   'pages.project.di.step.kafka.conf': 'kafkaConf',
-  'pages.project.di.step.kafka.conf.tooltip':'The way to specify parameters is to add the prefix kafka. to the original parameter name. For example, the way to specify auto.offset.reset is: kafka.auto.offset.reset = latest',
-  'pages.project.di.step.kafka.pattern.tooltip': 'If pattern is set to true,the regular expression for a pattern of topic names to read from. All topics in clients with names that match the specified regular expression will be subscribed by the consumer.',
+  'pages.project.di.step.kafka.conf.tooltip':
+    'The way to specify parameters is to add the prefix kafka. to the original parameter name. For example, the way to specify auto.offset.reset is: kafka.auto.offset.reset = latest',
+  'pages.project.di.step.kafka.pattern.tooltip':
+    'If pattern is set to true,the regular expression for a pattern of topic names to read from. All topics in clients with names that match the specified regular expression will be subscribed by the consumer.',
   'pages.project.di.step.kafka.consumerGroup': 'consumerGroup',
-  'pages.project.di.step.kafka.consumerGroup.tooltip': 'Kafka consumer group id, used to distinguish different consumer groups',
+  'pages.project.di.step.kafka.consumerGroup.tooltip':
+    'Kafka consumer group id, used to distinguish different consumer groups',
   'pages.project.di.step.kafka.commit_on_checkpoint': 'commit_on_checkpoint',
-  'pages.project.di.step.kafka.commit_on_checkpoint.tooltip': 'If true the consumer\'s offset will be periodically committed in the background.\n',
+  'pages.project.di.step.kafka.commit_on_checkpoint.tooltip':
+    "If true the consumer's offset will be periodically committed in the background.\n",
 
   // iotdb
   'pages.project.di.step.iotdb.nodeUrls': 'Node URLs',
@@ -339,7 +350,8 @@ export default {
   'pages.project.di.step.pulsar.authParams': 'Auth Params',
   'pages.project.di.step.pulsar.subscriptionName': 'Subscription Name',
   'pages.project.di.step.pulsar.topic': 'Topic',
-  'pages.project.di.step.pulsar.topic.tooltip': 'Multiple Topics separated by semicolon like: topic-1;topic-2',
+  'pages.project.di.step.pulsar.topic.tooltip':
+    'Multiple Topics separated by semicolon like: topic-1;topic-2',
   'pages.project.di.step.pulsar.topicPattern': 'Topic Pattern',
   'pages.project.di.step.pulsar.topicDiscoveryInterval': 'Topic Discovery Interval(milliseconds)',
   'pages.project.di.step.pulsar.topicDiscoveryInterval.tooltip': 'Non-Positive value means disable',
@@ -397,6 +409,11 @@ export default {
   'pages.project.di.step.sentry.flushTimeoutMillis': 'Flush Timeout(milliseconds)',
   'pages.project.di.step.sentry.maxQueueSize': 'Max Queue Size',
 
-  'pages.project.job.create':'创建作业',
-  'pages.project.job.list':'作业列表',
+  'pages.project.job.create': '创建作业',
+  'pages.project.job.createTime': '创建时间',
+  'pages.project.job.name': '作业名称',
+  'pages.project.job.type': '作业类型',
+  'pages.project.job.creator': '创建人',
+  'pages.project.job.remark': '备注',
+  'pages.project.job.list': '作业列表',
 };
