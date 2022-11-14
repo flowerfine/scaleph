@@ -16,25 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.workflow;
+package cn.sliew.scaleph.workflow.service.param;
 
-import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstance;
-import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstanceVO;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * workflow task instance Mapper 接口
- * </p>
- */
-@Repository
-public interface WorkflowTaskInstanceMapper extends BaseMapper<WorkflowTaskInstance> {
+import javax.validation.constraints.NotNull;
 
-    Page<WorkflowTaskInstanceVO> list(Page<WorkflowTaskInstance> page, @Param("workflowTaskDefinitionId") Long workflowTaskDefinitionId);
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class WorkflowTaskInstanceListParam extends PaginationParam {
 
-    WorkflowTaskInstanceVO get(@Param("id") Long id);
+    @NotNull
+    @ApiModelProperty("workflow task definition id")
+    private Long workflowTaskDefinitionId;
 
 }

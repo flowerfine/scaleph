@@ -16,25 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.workflow;
+package cn.sliew.scaleph.workflow.service;
 
-import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstance;
-import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstanceVO;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskInstanceDTO;
+import cn.sliew.scaleph.workflow.service.param.WorkflowTaskInstanceListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-/**
- * <p>
- * workflow task instance Mapper 接口
- * </p>
- */
-@Repository
-public interface WorkflowTaskInstanceMapper extends BaseMapper<WorkflowTaskInstance> {
+public interface WorkflowTaskInstanceService {
 
-    Page<WorkflowTaskInstanceVO> list(Page<WorkflowTaskInstance> page, @Param("workflowTaskDefinitionId") Long workflowTaskDefinitionId);
+    Page<WorkflowTaskInstanceDTO> list(WorkflowTaskInstanceListParam param);
 
-    WorkflowTaskInstanceVO get(@Param("id") Long id);
-
+    WorkflowTaskInstanceDTO get(Long id);
 }
