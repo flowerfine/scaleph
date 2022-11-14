@@ -33,8 +33,7 @@ public enum WorkflowInstanceState implements DictInstance {
     SUSPEND("2", "SUSPEND"),
     SUCCESS("3", "SUCCESS"),
     FAILURE("4", "FAILURE"),
-    EXCEPTION("5", "EXCEPTION"),
-    TERMINATED("6", "TERMINATED"),
+    TERMINATED("5", "TERMINATED"),
     ;
 
     @JsonCreator

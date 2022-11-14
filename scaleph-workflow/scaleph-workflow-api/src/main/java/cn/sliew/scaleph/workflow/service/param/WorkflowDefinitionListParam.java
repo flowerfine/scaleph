@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.workflow.service.param;
 
-import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowType;
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
@@ -37,7 +36,4 @@ public class WorkflowDefinitionListParam extends PaginationParam {
 
     @ApiModelProperty("workflow name")
     private String name;
-
-    @ApiModelProperty("workflow instance state")
-    private WorkflowInstanceState state;
 }

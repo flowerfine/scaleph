@@ -16,38 +16,41 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service.dto;
+package cn.sliew.scaleph.dao.entity.master.workflow;
 
-import cn.sliew.scaleph.common.dict.workflow.ScheduleStatus;
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
 @Data
-@EqualsAndHashCode
-public class WorkflowScheduleDTO extends BaseDTO {
+@ApiModel(value = "WorkflowInstance对象", description = "workflow instance")
+public class WorkflowInstanceVO extends BaseDO {
 
-    @ApiModelProperty("workflow definition id")
-    private Long workflowDefinitionId;
+    private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("schedule cron timezone")
-    private String timezone;
+    @ApiModelProperty("workflow definition")
+    @TableField(value = "workflow_definition_id", exist = false)
+    private WorkflowDefinition workflowDefinition;
 
-    @ApiModelProperty("schedule crontab expression")
-    private String crontab;
+    @ApiModelProperty("workflow instance state")
+    @TableField("state")
+    private WorkflowInstanceState state;
 
-    @ApiModelProperty("schedule start time")
+    @ApiModelProperty("start time")
+    @TableField("start_time")
     private Date startTime;
 
-    @ApiModelProperty("schedule end time")
+    @ApiModelProperty("end time")
+    @TableField("end_time")
     private Date endTime;
 
-    @ApiModelProperty("status")
-    private ScheduleStatus status;
+    @ApiModelProperty("message")
+    @TableField("message")
+    private String message;
 
-    @ApiModelProperty("remark")
-    private String remark;
 }

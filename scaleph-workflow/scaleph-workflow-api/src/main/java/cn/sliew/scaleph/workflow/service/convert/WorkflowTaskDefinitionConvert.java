@@ -16,22 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service;
+package cn.sliew.scaleph.workflow.service.convert;
 
-import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
-import cn.sliew.scaleph.workflow.service.param.WorkflowDefinitionListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskDefinition;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
-/**
- * workflow 组成：definition
- * instance: workflow 每一次运行记做 instance，运行结束，则转为 log
- *
- * run terminate, schedule, unschedule
- */
-public interface WorkflowDefinitionService {
-
-    Page<WorkflowDefinitionDTO> list(WorkflowDefinitionListParam param);
-
-    WorkflowDefinitionDTO get(Long id);
+@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface WorkflowTaskDefinitionConvert extends BaseConvert<WorkflowTaskDefinition, WorkflowTaskDefinitionDTO> {
+    WorkflowTaskDefinitionConvert INSTANCE = Mappers.getMapper(WorkflowTaskDefinitionConvert.class);
 
 }
