@@ -33,10 +33,14 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-system</artifactId>
         </dependency>
-
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-plugin-framework</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
         </dependency>
 
         <dependency>
