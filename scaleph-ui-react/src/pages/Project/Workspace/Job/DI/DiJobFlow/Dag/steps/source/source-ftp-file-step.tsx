@@ -1,6 +1,5 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {BaseFileParams, FtpFileParams, SchemaParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
@@ -16,7 +15,8 @@ import {
 } from "@ant-design/pro-components";
 import {useEffect} from "react";
 import {InfoCircleOutlined} from "@ant-design/icons";
-import {StepSchemaService} from "@/pages/DI/DiJobFlow/Dag/steps/schema";
+import { BaseFileParams, FtpFileParams, SchemaParams, STEP_ATTR_TYPE } from "../../constant";
+import { StepSchemaService } from "../schema";
 
 const SourceFtpFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;

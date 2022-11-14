@@ -8,7 +8,6 @@ import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {ClickHouseParams, SchemaParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {
   ProForm,
   ProFormGroup,
@@ -18,7 +17,8 @@ import {
   ProFormTextArea
 } from "@ant-design/pro-components";
 import {InfoCircleOutlined} from "@ant-design/icons";
-import {StepSchemaService} from "@/pages/DI/DiJobFlow/Dag/steps/schema";
+import { ClickHouseParams, SchemaParams, STEP_ATTR_TYPE } from '../../constant';
+import { StepSchemaService } from '../schema';
 
 const SourceClickHouseStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
