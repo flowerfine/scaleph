@@ -72,4 +72,9 @@ public class FlinkClusterInstanceServiceImpl implements FlinkClusterInstanceServ
         final FlinkClusterInstance record = flinkClusterInstanceMapper.selectById(id);
         return FlinkClusterInstanceConvert.INSTANCE.toDto(record);
     }
+
+    @Override
+    public Long totalCnt() {
+        return flinkClusterInstanceMapper.selectCount(null);
+    }
 }

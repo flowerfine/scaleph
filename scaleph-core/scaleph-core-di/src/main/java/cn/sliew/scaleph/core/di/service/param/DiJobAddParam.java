@@ -39,10 +39,6 @@ public class DiJobAddParam {
     @ApiModelProperty("job name")
     private String jobName;
 
-    @NotNull
-    @ApiModelProperty("job directory id")
-    private Long directoryId;
-
     @ApiModelProperty("job type")
     private JobType jobType;
 

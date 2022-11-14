@@ -131,7 +131,6 @@
             <result column="di_job_project_id" property="projectId"/>
             <result column="di_job_job_code" property="jobCode"/>
             <result column="di_job_job_name" property="jobName"/>
-            <result column="di_job_directory_id" property="directoryId"/>
             <result column="di_job_job_type" property="jobType"/>
             <result column="di_job_job_owner" property="jobOwner"/>
             <result column="di_job_job_status" property="jobStatus"/>

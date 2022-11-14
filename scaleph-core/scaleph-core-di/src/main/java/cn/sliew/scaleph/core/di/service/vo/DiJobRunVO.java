@@ -45,7 +45,6 @@ public class DiJobRunVO {
     public DiJobDTO toDto() {
         DiJobDTO dto = new DiJobDTO();
         dto.setId(this.jobId);
-        dto.setClusterId(this.clusterId);
         return dto;
     }
 }

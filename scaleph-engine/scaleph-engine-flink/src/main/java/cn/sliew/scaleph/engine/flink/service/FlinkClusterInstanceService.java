@@ -31,4 +31,6 @@ public interface FlinkClusterInstanceService {
     int update(FlinkClusterInstanceDTO dto);
 
     FlinkClusterInstanceDTO selectOne(Long id);
+
+    Long totalCnt();
 }

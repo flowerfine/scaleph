@@ -60,31 +60,14 @@ public class DiJobDTO extends BaseDTO {
     @ApiModelProperty(value = "作业名称")
     private String jobName;
 
-    @NotNull
-    @ApiModelProperty(value = "作业目录")
-    private DiDirectoryDTO directory;
-
     @ApiModelProperty(value = "作业类型 实时、离线")
     private JobType jobType;
-
-    @Length(max = 32)
-    @ApiModelProperty(value = "负责人")
-    private String jobOwner;
 
     @ApiModelProperty(value = "作业状态 草稿、发布、归档")
     private JobStatus jobStatus;
 
-    @ApiModelProperty(value = "运行状态 停止、运行中、等待运行")
-    private RuntimeState runtimeState;
-
     @ApiModelProperty(value = "作业版本号")
     private Integer jobVersion;
-
-    @ApiModelProperty(value = "集群id")
-    private Long clusterId;
-
-    @ApiModelProperty(value = "作业调度crontab表达式")
-    private String jobCrontab;
 
     @Length(max = 200)
     @ApiModelProperty(value = "备注")

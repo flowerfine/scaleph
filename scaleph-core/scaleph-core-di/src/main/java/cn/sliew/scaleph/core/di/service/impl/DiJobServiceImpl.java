@@ -22,12 +22,12 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.job.JobAttrType;
 import cn.sliew.scaleph.common.dict.job.JobStatus;
-import cn.sliew.scaleph.common.dict.job.RuntimeState;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.common.util.BeanUtil;
-import cn.sliew.scaleph.core.di.service.*;
+import cn.sliew.scaleph.core.di.service.DiJobAttrService;
+import cn.sliew.scaleph.core.di.service.DiJobGraphService;
+import cn.sliew.scaleph.core.di.service.DiJobService;
 import cn.sliew.scaleph.core.di.service.convert.DiJobConvert;
-import cn.sliew.scaleph.core.di.service.dto.DiDirectoryDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
 import cn.sliew.scaleph.core.di.service.param.*;
@@ -36,14 +36,12 @@ import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.di.DiJob;
 import cn.sliew.scaleph.dao.mapper.master.di.DiJobMapper;
-import cn.sliew.scaleph.security.util.SecurityUtil;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,13 +64,9 @@ public class DiJobServiceImpl implements DiJobService {
     @Autowired
     private DiJobMapper diJobMapper;
     @Autowired
-    private DiDirectoryService diDirectoryService;
-    @Autowired
     private DiJobGraphService diJobGraphService;
     @Autowired
     private DiJobAttrService diJobAttrService;
-    @Autowired
-    private DiJobResourceFileService diJobResourceFileService;
 
     @Override
     public Page<DiJobDTO> listByPage(DiJobParam param) {
@@ -80,15 +74,7 @@ public class DiJobServiceImpl implements DiJobService {
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 param.toDo()
         );
-
-        List<Long> directoryIds = jobs.getRecords().stream().map(DiJob::getDirectoryId).collect(Collectors.toList());
-        Map<Long, DiDirectoryDTO> directoryMap = diDirectoryService.loadFullPath(directoryIds);
-
         List<DiJobDTO> dtoList = DiJobConvert.INSTANCE.toDto(jobs.getRecords());
-        for (DiJobDTO job : dtoList) {
-            DiDirectoryDTO dir = directoryMap.get(job.getDirectory().getId());
-            job.setDirectory(dir);
-        }
         Page<DiJobDTO> result = new Page<>(jobs.getCurrent(), jobs.getSize(), jobs.getTotal());
         result.setRecords(dtoList);
         return result;
@@ -98,14 +84,7 @@ public class DiJobServiceImpl implements DiJobService {
     public List<DiJobDTO> listById(Collection<Long> ids) {
         LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>().in(DiJob::getId, ids);
         List<DiJob> jobs = diJobMapper.selectList(queryWrapper);
-
-        List<Long> directoryIds = jobs.stream().map(DiJob::getDirectoryId).collect(Collectors.toList());
-        Map<Long, DiDirectoryDTO> directoryMap = diDirectoryService.loadFullPath(directoryIds);
         List<DiJobDTO> dtoList = DiJobConvert.INSTANCE.toDto(jobs);
-        for (DiJobDTO job : dtoList) {
-            DiDirectoryDTO dir = directoryMap.get(job.getDirectory().getId());
-            job.setDirectory(dir);
-        }
         return dtoList;
     }
 
@@ -114,10 +93,6 @@ public class DiJobServiceImpl implements DiJobService {
         DiJob record = diJobMapper.selectById(id);
         checkState(record != null, () -> "job not exists for id: " + id);
         DiJobDTO dto = DiJobConvert.INSTANCE.toDto(record);
-        Map<Long, DiDirectoryDTO> map =
-                diDirectoryService.loadFullPath(Collections.singletonList(record.getDirectoryId()));
-        DiDirectoryDTO dir = map.get(record.getDirectoryId());
-        dto.setDirectory(dir);
         return dto;
     }
 
@@ -137,8 +112,6 @@ public class DiJobServiceImpl implements DiJobService {
         DiJob record = BeanUtil.copy(param, new DiJob());
         record.setJobCode(defaultUidGenerator.getUID());
         record.setJobStatus(JobStatus.DRAFT);
-        record.setRuntimeState(RuntimeState.STOP);
-        record.setJobOwner(SecurityUtil.getCurrentUserName());
         record.setJobVersion(1);
         diJobMapper.insert(record);
         return selectOne(record.getId());
@@ -155,8 +128,7 @@ public class DiJobServiceImpl implements DiJobService {
     @Override
     public int delete(Long id) {
         DiJobDTO job = selectOne(id);
-        checkState(job.getRuntimeState() == RuntimeState.STOP,
-                () -> I18nUtil.get("response.error.di.job.running"));
+        //todo check if there is running job instance
         return deleteByCode(job.getProjectId(), job.getJobCode());
     }
 
@@ -331,19 +303,19 @@ public class DiJobServiceImpl implements DiJobService {
             default:
         }
 
-        switch (job.getRuntimeState()) {
-            case STOP:
-                DiJob record = new DiJob();
-                record.setId(id);
-                record.setJobStatus(JobStatus.RELEASE);
-                diJobMapper.updateById(record);
-                archive(job.getProjectId(), job.getJobCode());
-                return;
-            case RUNNING:
-            case WAITING:
-                throw new ScalephException(I18nUtil.get("response.error.di.job.publish"));
-            default:
-        }
+//        switch (job.getRuntimeState()) {
+//            case STOP:
+//                DiJob record = new DiJob();
+//                record.setId(id);
+//                record.setJobStatus(JobStatus.RELEASE);
+//                diJobMapper.updateById(record);
+//                archive(job.getProjectId(), job.getJobCode());
+//                return;
+//            case RUNNING:
+//            case WAITING:
+//                throw new ScalephException(I18nUtil.get("response.error.di.job.publish"));
+//            default:
+//        }
     }
 
     /**
@@ -384,7 +356,6 @@ public class DiJobServiceImpl implements DiJobService {
     public boolean hasValidJob(Long projectId, Long dirId) {
         LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>()
                 .eq(DiJob::getProjectId, projectId)
-                .eq(DiJob::getDirectoryId, dirId)
                 .last("limit 1");
         DiJob job = diJobMapper.selectOne(queryWrapper);
         return Optional.ofNullable(job).isPresent();
@@ -392,8 +363,8 @@ public class DiJobServiceImpl implements DiJobService {
 
     @Override
     public boolean hasRunningJob(Collection<Long> clusterIds) {
+        //todo check if there is running job instances
         LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>()
-                .in(DiJob::getClusterId, clusterIds)
                 .last("limit 1");
         DiJob job = diJobMapper.selectOne(queryWrapper);
         return Optional.ofNullable(job).isPresent();
@@ -411,7 +382,6 @@ public class DiJobServiceImpl implements DiJobService {
         int result = 0;
         diJobGraphService.clone(sourceJobId, targetJobId);
         result += diJobAttrService.clone(sourceJobId, targetJobId);
-        result += diJobResourceFileService.clone(sourceJobId, targetJobId);
         return result;
     }
 }

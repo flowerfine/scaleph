@@ -20,17 +20,14 @@ package cn.sliew.scaleph.api.controller.datadev;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.core.di.service.DiJobResourceFileService;
 import cn.sliew.scaleph.core.di.service.DiJobService;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
-import cn.sliew.scaleph.core.di.service.dto.DiResourceFileDTO;
 import cn.sliew.scaleph.core.di.service.param.*;
 import cn.sliew.scaleph.core.di.service.vo.DiJobAttrVO;
 import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.plugin.framework.exception.PluginException;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -44,7 +41,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @Api(tags = "数据开发-作业管理")
@@ -54,8 +50,6 @@ public class JobController {
 
     @Autowired
     private DiJobService diJobService;
-    @Autowired
-    private DiJobResourceFileService diJobResourceFileService;
     @Autowired
     private SeatunnelJobService seatunnelJobService;
 
@@ -183,20 +177,6 @@ public class JobController {
     public ResponseEntity<ResponseVO> stopJob(@RequestParam(value = "jobId") Long jobId) throws Exception {
         seatunnelJobService.stop(jobId);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
-    }
-
-    @Logging
-    @GetMapping(path = "/resource/{jobId}")
-    @ApiOperation(value = "查询作业资源", notes = "查询作业资源列表")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<List<DictVO>> listJobResourceFile(@PathVariable("jobId") Long jobId) {
-        List<DictVO> list = new ArrayList<>();
-        List<DiResourceFileDTO> resourceList = diJobResourceFileService.listJobResources(jobId);
-        for (DiResourceFileDTO dto : resourceList) {
-            DictVO dict = new DictVO(String.valueOf(dto.getId()), dto.getFileName());
-            list.add(dict);
-        }
-        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @Logging

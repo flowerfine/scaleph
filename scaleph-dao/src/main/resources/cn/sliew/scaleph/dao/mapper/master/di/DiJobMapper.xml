@@ -29,15 +29,10 @@
         <result column="project_id" property="projectId"/>
         <result column="job_code" property="jobCode"/>
         <result column="job_name" property="jobName"/>
-        <result column="directory_id" property="directoryId"/>
         <result column="job_type" property="jobType"/>
-        <result column="job_owner" property="jobOwner"/>
         <result column="job_status" property="jobStatus"/>
-        <result column="runtime_state" property="runtimeState"/>
         <result column="job_version" property="jobVersion"/>
         <result column="remark" property="remark"/>
-        <result column="cluster_id" property="clusterId"/>
-        <result column="job_crontab" property="jobCrontab"/>
     </resultMap>
 
     <select id="selectPage" resultMap="DiJobMap">
@@ -47,14 +42,9 @@
             project_id,
             job_code,
             job_name,
-            directory_id,
             job_type,
-            job_owner,
             job_status,
-            runtime_state,
             job_version,
-            cluster_id,
-            job_crontab,
             remark,
             creator,
             create_time,
@@ -64,7 +54,7 @@
         (
             select
                 *,
-                row_number() over(partition by job_code,directory_id order by job_version desc) as rn
+                row_number() over(partition by project_id,job_code order by job_version desc) as rn
             from di_job
         ) t
         ]]>
@@ -84,15 +74,6 @@
             </if>
             <if test="job.jobType != null and job.jobType != '' ">
                 and t.job_type = #{job.jobType,jdbcType=VARCHAR}
-            </if>
-            <if test="job.runtimeState != null and job.runtimeState != '' ">
-                and t.runtime_state = #{job.runtimeState,jdbcType=VARCHAR}
-            </if>
-            <if test="job.directoryId != null ">
-                and t.directory_id = #{job.directoryId,jdbcType=BIGINT}
-            </if>
-            <if test="job.clusterId != null ">
-                and t.cluster_id = #{job.clusterId,jdbcType=BIGINT}
             </if>
         </where>
         order by t.job_code

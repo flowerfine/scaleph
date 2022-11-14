@@ -1,9 +1,9 @@
 import { PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
 import { ProjectService } from '@/services/project/project.service';
-import { DiProject } from '@/services/project/typings';
+import { DiProject, DiProjectParam } from '@/services/project/typings';
 import { DeleteOutlined, EditOutlined, FolderOpenOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
-import { Button, message, Modal, Space, Tooltip } from 'antd';
+import { Button, Input, message, Modal, PageHeader, Space, Tooltip } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { history, useAccess, useIntl } from 'umi';
 import ProjectForm from './components/ProjectForm';
@@ -13,7 +13,7 @@ const Project: React.FC = () => {
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<DiProject[]>([]);
+  const [queryParams, setQueryParams] = useState<DiProjectParam>();
   const [projectFormData, setProjectFormData] = useState<{
     visible: boolean;
     data: DiProject;
@@ -122,24 +122,12 @@ const Project: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <ProTable<DiProject>
-        headerTitle={intl.formatMessage({ id: 'pages.project' })}
-        search={{
-          labelWidth: 'auto',
-          span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
-        }}
-        rowKey="id"
-        actionRef={actionRef}
-        formRef={formRef}
-        options={false}
-        columns={tableColumns}
-        request={(params, sorter, filter) => {
-          return ProjectService.listProjectByPage(params);
-        }}
-        toolbar={{
-          actions: [
-            access.canAccess(PRIVILEGE_CODE.datadevProjectAdd) && (
+    <div style={{ backgroundColor: '#ffffff' }}>
+      <PageHeader
+        title={intl.formatMessage({ id: 'pages.project.list' })}
+        extra={
+          <>
+            {access.canAccess(PRIVILEGE_CODE.datadevProjectAdd) && (
               <Button
                 key="new"
                 type="primary"
@@ -147,48 +135,38 @@ const Project: React.FC = () => {
                   setProjectFormData({ visible: true, data: {} });
                 }}
               >
-                {intl.formatMessage({ id: 'app.common.operate.new.label' })}
+                {intl.formatMessage({ id: 'pages.project.create' })}
               </Button>
-            ),
-            access.canAccess(PRIVILEGE_CODE.datadevProjectDelete) && (
-              <Button
-                key="del"
-                type="default"
-                disabled={selectedRows.length < 1}
-                onClick={() => {
-                  Modal.confirm({
-                    title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                    content: intl.formatMessage({
-                      id: 'app.common.operate.delete.confirm.content',
-                    }),
-                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                    okButtonProps: { danger: true },
-                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
-                    onOk() {
-                      ProjectService.deleteProjectBatch(selectedRows).then((d) => {
-                        if (d.success) {
-                          message.success(
-                            intl.formatMessage({ id: 'app.common.operate.delete.success' }),
-                          );
-                          actionRef.current?.reload();
-                        }
-                      });
-                    },
-                  });
+            )}
+          </>
+        }
+      />
+      <ProTable<DiProject>
+        headerTitle={
+          <>
+            <Space>
+              <Input.Search
+                placeholder={intl.formatMessage({ id: 'pages.project.projectCode.placeholder' })}
+                style={{ width: 240 }}
+                allowClear
+                onSearch={(value) => {
+                  setQueryParams({ projectCode: value });
+                  actionRef.current?.reload();
                 }}
-              >
-                {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
-              </Button>
-            ),
-          ],
+              />
+            </Space>
+          </>
+        }
+        search={false}
+        rowKey="id"
+        actionRef={actionRef}
+        formRef={formRef}
+        options={{ reload: true, setting: false, density: false }}
+        columns={tableColumns}
+        request={(params, sorter, filter) => {
+          return ProjectService.listProjectByPage({ ...params, ...queryParams });
         }}
         pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
-        rowSelection={{
-          fixed: true,
-          onChange(selectedRowKeys, selectedRows, info) {
-            setSelectedRows(selectedRows);
-          },
-        }}
         tableAlertRender={false}
         tableAlertOptionRender={false}
       ></ProTable>
