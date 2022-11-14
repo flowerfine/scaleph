@@ -123,22 +123,28 @@ const Project: React.FC = () => {
 
   return (
     <div style={{ backgroundColor: '#ffffff' }}>
-      <PageHeader title={intl.formatMessage({ id: 'pages.project.list' })} />
+      <PageHeader
+        title={intl.formatMessage({ id: 'pages.project.list' })}
+        extra={
+          <>
+            {access.canAccess(PRIVILEGE_CODE.datadevProjectAdd) && (
+              <Button
+                key="new"
+                type="primary"
+                onClick={() => {
+                  setProjectFormData({ visible: true, data: {} });
+                }}
+              >
+                {intl.formatMessage({ id: 'pages.project.create' })}
+              </Button>
+            )}
+          </>
+        }
+      />
       <ProTable<DiProject>
         headerTitle={
           <>
             <Space>
-              {access.canAccess(PRIVILEGE_CODE.datadevProjectAdd) && (
-                <Button
-                  key="new"
-                  type="primary"
-                  onClick={() => {
-                    setProjectFormData({ visible: true, data: {} });
-                  }}
-                >
-                  {intl.formatMessage({ id: 'pages.project.create' })}
-                </Button>
-              )}
               <Input.Search
                 placeholder={intl.formatMessage({ id: 'pages.project.projectCode.placeholder' })}
                 style={{ width: 240 }}

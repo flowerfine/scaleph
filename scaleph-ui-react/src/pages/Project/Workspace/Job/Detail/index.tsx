@@ -15,13 +15,13 @@ import {
   SaveOutlined,
   ToolOutlined,
 } from '@ant-design/icons';
-import JobConfigurationWeb from '@/pages/DEV/Job/Detail/components/JobConfiguration';
-import JobOverviewWeb from '@/pages/DEV/Job/Detail/components/JobOverview';
-import { useIntl, useLocation } from '@@/exports';
+import { useIntl, useLocation } from 'umi';
 import { FlinkJobForJar } from '@/pages/DEV/Job/typings';
 import styles from './index.less';
 import JobSavepointsWeb from './components/JobSavepoints';
 import JobLogTable from './components/JobLogTable';
+import JobOverviewWeb from './components/JobOverview';
+import JobConfigurationWeb from './components/JobConfiguration';
 
 const JobDetailWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -46,7 +46,7 @@ const JobDetailWeb: React.FC = () => {
                 icon={<RollbackOutlined />}
                 size="small"
                 onClick={() => {
-                  console.log(params);
+                  // console.log(params);
                 }}
               >
                 {intl.formatMessage({ id: 'pages.dev.job.detail.backToList' })}

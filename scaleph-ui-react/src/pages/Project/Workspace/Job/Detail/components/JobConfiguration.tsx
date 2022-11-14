@@ -1,11 +1,5 @@
-import { ProForm } from '@ant-design/pro-components';
 import { useIntl } from 'umi';
 import { Button, Card, Col, Form, List, Row } from 'antd';
-import State from '@/pages/DEV/ClusterConfigOptions/components/State';
-import FaultTolerance from '@/pages/DEV/ClusterConfigOptions/components/FaultTolerance';
-import HighAvailability from '@/pages/DEV/ClusterConfigOptions/components/HA';
-import Resource from '@/pages/DEV/ClusterConfigOptions/components/Resource';
-import Additional from '@/pages/DEV/ClusterConfigOptions/components/Additional';
 import { FlinkClusterConfig, FlinkClusterInstance } from '@/services/dev/typings';
 import { FlinkClusterConfigService } from '@/services/dev/flinkClusterConfig.service';
 

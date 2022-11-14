@@ -7,6 +7,8 @@ export default {
   'menu.project.job': '作业管理',
   'menu.project.job.list': '作业列表',
   'menu.project.job.artifact': 'Artifact',
+  'menu.project.job.sql': 'SQL',
+  'menu.project.job.seatunnel': 'SeaTunnel',
   'menu.project.cluster': '集群管理',
   'menu.project.cluster.config': '集群配置',
   'menu.project.cluster.instance': '集群实例',

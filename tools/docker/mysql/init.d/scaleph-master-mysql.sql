@@ -65,33 +65,33 @@ insert into sys_dict_type(dict_type_code, dict_type_name, creator, editor)
 values ('data_type', '数据类型', 'sys', 'sys');
 insert into sys_dict_type(dict_type_code, dict_type_name, creator, editor)
 values ('job_instance_state', '作业实例状态', 'sys', 'sys');
-INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+INSERT INTO sys_dict_type (dict_type_code, dict_type_name, creator, editor)
 VALUES ('flink_resource_provider', 'Flink 资源类型', 'sys', 'sys');
-INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+INSERT INTO sys_dict_type (dict_type_code, dict_type_name, creator, editor)
 VALUES ('flink_deployment_mode', 'Flink 部署模式', 'sys', 'sys');
-INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+INSERT INTO sys_dict_type (dict_type_code, dict_type_name, creator, editor)
 VALUES ('flink_version', 'Flink 版本', 'sys', 'sys');
-INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+INSERT INTO sys_dict_type(dict_type_code, dict_type_name, creator, editor)
 VALUES ('flink_state_backend', 'Flink State Backend', 'sys', 'sys');
-INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+INSERT INTO sys_dict_type(dict_type_code, dict_type_name, creator, editor)
 VALUES ('flink_cluster_status', 'Flink 集群状态', 'sys', 'sys');
-INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+INSERT INTO sys_dict_type(dict_type_code, dict_type_name, creator, editor)
 VALUES ('flink_semantic', 'Flink 时间语义', 'sys', 'sys');
-INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+INSERT INTO sys_dict_type(dict_type_code, dict_type_name, creator, editor)
 VALUES ('flink_job_type', 'Flink 任务类型', 'sys', 'sys');
-INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+INSERT INTO sys_dict_type(dict_type_code, dict_type_name, creator, editor)
 VALUES ('flink_job_status', 'Flink 任务状态', 'sys', 'sys');
-INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+INSERT INTO sys_dict_type(dict_type_code, dict_type_name, creator, editor)
 VALUES ('flink_checkpoint_retain', 'Flink 外部 checkpoint 保留模式', 'sys', 'sys');
-INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+INSERT INTO sys_dict_type(dict_type_code, dict_type_name, creator, editor)
 VALUES ('flink_restart_strategy', 'Flink 重启策略', 'sys', 'sys');
-INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+INSERT INTO sys_dict_type (dict_type_code, dict_type_name, creator, editor)
 VALUES ('flink_high_availability', 'Flink HA', 'sys', 'sys');
-INSERT INTO `sys_dict_type` (`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+INSERT INTO sys_dict_type (dict_type_code, dict_type_name, creator, editor)
 VALUES ('flink_artifact_type', 'Flink Artifact 类型', 'sys', 'sys');
-INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+INSERT INTO sys_dict_type(dict_type_code, dict_type_name, creator, editor)
 VALUES ('seatunnel_version', 'SeaTunnel 版本', 'sys', 'sys');
-INSERT INTO `sys_dict_type`(`dict_type_code`, `dict_type_name`, `creator`, `editor`)
+INSERT INTO sys_dict_type(dict_type_code, dict_type_name, creator, editor)
 VALUES ('image_pull_policy', 'Image Pull Policy', 'sys', 'sys');
 
 
@@ -200,9 +200,9 @@ insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('datasource_type', 'Doris', 'Doris', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('datasource_type', 'ClickHouse', 'ClickHouse', 'sys', 'sys');
-insert into `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('datasource_type', 'Elasticsearch', 'Elasticsearch', 'sys', 'sys');
-insert into `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('datasource_type', 'Druid', 'Druid', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('job_type', 'b', '周期作业', 'sys', 'sys');
@@ -272,98 +272,98 @@ insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('job_instance_state', 'SUSPENDED', '已暂停', 'sys', 'sys');
 insert into sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 values ('job_instance_state', 'RECONCILING', '调节中', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_resource_provider', '0', 'Standalone', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_resource_provider', '1', 'Native Kubernetes', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_resource_provider', '2', 'YARN', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_deployment_mode', '0', 'Application', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_deployment_mode', '1', 'Per-Job', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_deployment_mode', '2', 'Session', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_version', '1.13.6', '1.13.6', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_state_backend', 'HashMapStateBackend', 'HashMap', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_state_backend', 'EmbeddedRocksDBStateBackend', 'RocksDB', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_cluster_status', '0', '已创建', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_cluster_status', '1', '运行中', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_cluster_status', '2', '停止', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_semantic', 'exactly_once', '精确一次', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_semantic', 'at_least_once', '至少一次', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_semantic', 'none', '无', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_type', '0', 'artifact', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_type', '1', 'sql+udf', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_status', '0', 'SUBMITED', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_status', '1', 'SUBMIT FAILED', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_status', '2', 'INITIALIZING', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_status', '3', 'CREATED', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_status', '4', 'RUNNING', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_status', '5', 'FAILING', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_status', '6', 'FAILED', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_status', '7', 'CANCELLING', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_status', '8', 'CANCELED', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_status', '9', 'FINISHED', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_status', '10', 'RESTARTING', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_status', '11', 'SUSPENDED', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_status', '12', 'RECONCILING', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_checkpoint_retain', 'DELETE_ON_CANCELLATION', 'DELETE_ON_CANCELLATION', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_checkpoint_retain', 'RETAIN_ON_CANCELLATION', 'RETAIN_ON_CANCELLATION', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_checkpoint_retain', 'NO_EXTERNALIZED_CHECKPOINTS', 'NO_EXTERNALIZED_CHECKPOINTS', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_restart_strategy', 'none', 'none', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_restart_strategy', 'fixeddelay', 'fixed-delay', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_restart_strategy', 'failurerate', 'failure-rate', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_restart_strategy', 'exponentialdelay', 'exponential-delay', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_high_availability', 'org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory',
         'Kubernetes', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_high_availability', 'zookeeper', 'ZooKeeper', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_artifact_type', '0', 'Jar', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_artifact_type', '1', 'UDF', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_artifact_type', '2', 'SQL', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('seatunnel_version', '2.3.0-beta', '2.3.0-beta', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('image_pull_policy', 'IfNotPresent', 'IfNotPresent', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('image_pull_policy', 'Always', 'Always', 'sys', 'sys');
-INSERT INTO `sys_dict`(`dict_type_code`, `dict_code`, `dict_value`, `creator`, `editor`)
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('image_pull_policy', 'Never', 'Never', 'sys', 'sys');
 
 /*系统配置信息表 */
@@ -799,12 +799,8 @@ create table di_job
     job_code      bigint       not null comment '作业编码',
     job_name      varchar(256) not null comment '作业名称',
     job_type      varchar(4) comment '作业类型',
-    job_owner     varchar(32) comment '负责人',
     job_status    varchar(4) default '1' comment '作业状态 草稿、发布、归档',
-    runtime_state varchar(4) default '1' comment '运行状态',
     job_version   int        default 1 comment '作业版本号',
-    cluster_id    int comment '集群id',
-    job_crontab   varchar(32) comment '作业调度crontab表达式',
     remark        varchar(256) comment '备注',
     creator       varchar(32) comment '创建人',
     create_time   timestamp  default current_timestamp comment '创建时间',
@@ -813,15 +809,15 @@ create table di_job
     primary key (id),
     unique key (project_id, job_code, job_version)
 ) engine = innodb comment '数据集成-作业信息';
-INSERT INTO `di_job` (`id`, `project_id`, `job_code`, `job_name`, `job_type`, `job_owner`, `job_status`,
-                      `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
-VALUES (1, 1, 1, 'e_commerce', 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys', 'sys');
-INSERT INTO `di_job`(`id`, `project_id`, `job_code`, `job_name`, `job_type`, `job_owner`, `job_status`,
-                     `runtime_state`, `job_version`, `cluster_id`, `job_crontab`, `remark`, `creator`, `editor`)
-VALUES (2, 1, 2, 'fake', 'b', 'sys_admin', '2', '1', 1, NULL, NULL, NULL, 'sys', 'sys');
+INSERT INTO di_job (id, project_id, job_code, job_name, job_type, job_status,
+                     job_version, remark, creator, editor)
+VALUES (1, 1, 1, 'e_commerce', 'b',  '2',  1, NULL, 'sys', 'sys');
+INSERT INTO di_job(id, project_id, job_code, job_name, job_type,  job_status,
+                   job_version, remark, creator, editor)
+VALUES (2, 1, 2, 'fake', 'b',  '2',  1, NULL, 'sys', 'sys');Ï
 
 
-/* 作业参数信息 包含变量和config配置信息*/
+/* 作业参数信息 作业参数*/
 drop table if exists di_job_attr;
 create table di_job_attr
 (
@@ -858,23 +854,23 @@ create table di_job_step
     primary key (id),
     unique key (job_id, step_code)
 ) engine = innodb comment '数据集成-作业步骤信息';
-INSERT INTO `di_job_step` (`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
-                           `step_attrs`, `creator`, `editor`)
+INSERT INTO di_job_step (job_id, step_code, step_title, step_type, step_name, position_x, position_y,
+                         step_attrs, creator, editor)
 VALUES (1, 'f3e02087-91fa-494d-86f4-694970a49ebd', 'Jdbc Source', 'source', 'Jdbc', -400, -320,
         '{\"stepTitle\":\"Jdbc Source\",\"dataSourceType\":\"Mysql\",\"dataSource\":2,\"query\":\"select * from sample_data_e_commerce\"}',
         'sys', 'sys');
-INSERT INTO `di_job_step` (`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
-                           `step_attrs`, `creator`, `editor`)
+INSERT INTO di_job_step (job_id, step_code, step_title, step_type, step_name, position_x, position_y,
+                         step_attrs, creator, editor)
 VALUES (1, '68834928-2a32-427a-a864-83b6b5848e04', 'Jdbc Sink', 'sink', 'Jdbc', -310, -120,
         '{\"stepTitle\":\"Jdbc Sink\",\"dataSourceType\":\"Mysql\",\"dataSource\":2,\"batch_size\":300,\"batch_interval_ms\":1000,\"max_retries\":3,\"is_exactly_once\":false,\"query\":\"insert into sample_data_e_commerce_duplicate ( id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country )\\nvalues (?,?,?,?,?,?,?,?,?)\"}',
         'sys', 'sys');
-INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
-                          `step_attrs`, `creator`, `editor`)
+INSERT INTO di_job_step(job_id, step_code, step_title, step_type, step_name, position_x, position_y,
+                        step_attrs, creator, editor)
 VALUES (2, '6223c6c3-b552-4c69-adab-5300b7514fad', 'Fake Source', 'source', 'FakeSource', -400, -320,
         '{\"stepTitle\":\"Fake Source\",\"fields\":[{\"field\":\"c_string\",\"type\":\"string\"},{\"field\":\"c_boolean\",\"type\":\"boolean\"},{\"field\":\"c_tinyint\",\"type\":\"tinyint\"},{\"field\":\"c_smallint\",\"type\":\"smallint\"},{\"field\":\"c_int\",\"type\":\"int\"},{\"field\":\"c_bigint\",\"type\":\"bigint\"},{\"field\":\"c_float\",\"type\":\"float\"},{\"field\":\"c_double\",\"type\":\"double\"},{\"field\":\"c_decimal\",\"type\":\"decimal(30, 8)\"},{\"field\":\"c_bytes\",\"type\":\"bytes\"},{\"field\":\"c_map\",\"type\":\"map<string, string>\"},{\"field\":\"c_date\",\"type\":\"date\"},{\"field\":\"c_time\",\"type\":\"time\"},{\"field\":\"c_timestamp\",\"type\":\"timestamp\"}],\"schema\":\"{\\\"fields\\\":{\\\"c_string\\\":\\\"string\\\",\\\"c_boolean\\\":\\\"boolean\\\",\\\"c_tinyint\\\":\\\"tinyint\\\",\\\"c_smallint\\\":\\\"smallint\\\",\\\"c_int\\\":\\\"int\\\",\\\"c_bigint\\\":\\\"bigint\\\",\\\"c_float\\\":\\\"float\\\",\\\"c_double\\\":\\\"double\\\",\\\"c_decimal\\\":\\\"decimal(30, 8)\\\",\\\"c_bytes\\\":\\\"bytes\\\",\\\"c_map\\\":\\\"map<string, string>\\\",\\\"c_date\\\":\\\"date\\\",\\\"c_time\\\":\\\"time\\\",\\\"c_timestamp\\\":\\\"timestamp\\\"}}\"}',
         'sys', 'sys');
-INSERT INTO `di_job_step`(`job_id`, `step_code`, `step_title`, `step_type`, `step_name`, `position_x`, `position_y`,
-                          `step_attrs`, `creator`, `editor`)
+INSERT INTO di_job_step(job_id, step_code, step_title, step_type, step_name, position_x, position_y,
+                        step_attrs, creator, editor)
 VALUES (2, 'f08143b4-34dc-4190-8723-e8d8ce49738f', 'Console Sink', 'sink', 'Console', -320, -120,
         '{\"stepTitle\":\"Console Sink\"}', 'sys', 'sys');
 
@@ -894,43 +890,43 @@ create table di_job_link
     primary key (id),
     key (job_id)
 ) engine = innodb comment '数据集成-作业连线';
-INSERT INTO `di_job_link` (`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
+INSERT INTO di_job_link (job_id, link_code, from_step_code, to_step_code, creator, editor)
 VALUES (1, 'fabfda41-aacb-4a19-b5ef-9e84a75ed4e9', 'f3e02087-91fa-494d-86f4-694970a49ebd',
         '68834928-2a32-427a-a864-83b6b5848e04', 'sys', 'sys');
-INSERT INTO `di_job_link`(`job_id`, `link_code`, `from_step_code`, `to_step_code`, `creator`, `editor`)
+INSERT INTO di_job_link(job_id, link_code, from_step_code, to_step_code, creator, editor)
 VALUES (2, 'd57021a1-65c7-4dfe-ae89-3b73d00fcf72', '6223c6c3-b552-4c69-adab-5300b7514fad',
         'f08143b4-34dc-4190-8723-e8d8ce49738f', 'sys', 'sys');
 
 /* seatunnel release */
 DROP TABLE IF EXISTS resource_seatunnel_release;
-CREATE TABLE `resource_seatunnel_release`
+CREATE TABLE resource_seatunnel_release
 (
-    `id`          BIGINT       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-    `version`     VARCHAR(255) NOT NULL COMMENT '版本',
-    `file_name`   VARCHAR(255) NOT NULL COMMENT '文件名称',
-    `path`        VARCHAR(255) NOT NULL COMMENT '存储路径',
-    `remark`      VARCHAR(255) COMMENT '备注',
-    `creator`     VARCHAR(32) COMMENT '创建人',
-    `create_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `editor`      VARCHAR(32) COMMENT '修改人',
-    `update_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-    PRIMARY KEY (`id`)
+    id          BIGINT       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    version     VARCHAR(255) NOT NULL COMMENT '版本',
+    file_name   VARCHAR(255) NOT NULL COMMENT '文件名称',
+    path        VARCHAR(255) NOT NULL COMMENT '存储路径',
+    remark      VARCHAR(255) COMMENT '备注',
+    creator     VARCHAR(32) COMMENT '创建人',
+    create_time TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    editor      VARCHAR(32) COMMENT '修改人',
+    update_time TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (id)
 ) ENGINE = INNODB COMMENT = 'seatunnel release';
 
 /* flink release */
 DROP TABLE IF EXISTS resource_flink_release;
-CREATE TABLE `resource_flink_release`
+CREATE TABLE resource_flink_release
 (
-    `id`          BIGINT       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-    `version`     VARCHAR(255) NOT NULL COMMENT '版本',
-    `file_name`   VARCHAR(255) NOT NULL COMMENT '文件名称',
-    `path`        VARCHAR(255) NOT NULL COMMENT '存储路径',
-    `remark`      VARCHAR(255) COMMENT '备注',
-    `creator`     VARCHAR(32) COMMENT '创建人',
-    `create_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `editor`      VARCHAR(32) COMMENT '修改人',
-    `update_time` TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-    PRIMARY KEY (`id`)
+    id          BIGINT       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    version     VARCHAR(255) NOT NULL COMMENT '版本',
+    file_name   VARCHAR(255) NOT NULL COMMENT '文件名称',
+    path        VARCHAR(255) NOT NULL COMMENT '存储路径',
+    remark      VARCHAR(255) COMMENT '备注',
+    creator     VARCHAR(32) COMMENT '创建人',
+    create_time TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    editor      VARCHAR(32) COMMENT '修改人',
+    update_time TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (id)
 ) ENGINE = INNODB COMMENT = 'flink release';
 
 /* hadoop 或 kubernetes 部署配置文件 */
@@ -939,7 +935,7 @@ CREATE TABLE resource_cluster_credential
 (
     id          BIGINT      NOT NULL AUTO_INCREMENT COMMENT '自增主键',
     config_type VARCHAR(4)  NOT NULL COMMENT '配置文件类型。0: Hadoop, 1: Kubernetes',
-    `name`      VARCHAR(64) NOT NULL COMMENT '配置名称',
+    name        VARCHAR(64) NOT NULL COMMENT '配置名称',
     remark      VARCHAR(256) COMMENT '备注',
     creator     VARCHAR(32) COMMENT '创建人',
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -950,48 +946,48 @@ CREATE TABLE resource_cluster_credential
 
 /* 公共 java jar */
 DROP TABLE IF EXISTS resource_jar;
-CREATE TABLE `resource_jar`
+CREATE TABLE resource_jar
 (
-    `id`          bigint       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-    `group`       varchar(255) NOT NULL COMMENT 'jar group',
-    `file_name`   varchar(255) NOT NULL COMMENT '文件名称',
-    `path`        varchar(255) NOT NULL COMMENT '存储路径',
-    `remark`      varchar(255)      DEFAULT NULL COMMENT '备注',
-    `creator`     varchar(32)       DEFAULT NULL COMMENT '创建人',
-    `create_time` timestamp    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `editor`      varchar(32)       DEFAULT NULL COMMENT '修改人',
-    `update_time` timestamp    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-    PRIMARY KEY (`id`)
+    id          bigint       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    group       varchar(255) NOT NULL COMMENT 'jar group',
+    file_name   varchar(255) NOT NULL COMMENT '文件名称',
+    path        varchar(255) NOT NULL COMMENT '存储路径',
+    remark      varchar(255)      DEFAULT NULL COMMENT '备注',
+    creator     varchar(32)       DEFAULT NULL COMMENT '创建人',
+    create_time timestamp    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    editor      varchar(32)       DEFAULT NULL COMMENT '修改人',
+    update_time timestamp    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (id)
 ) ENGINE = InnoDB COMMENT ='java jar';
 
 DROP TABLE IF EXISTS resource_kerberos;
-CREATE TABLE `resource_kerberos`
+CREATE TABLE resource_kerberos
 (
-    `id`          bigint       NOT NULL AUTO_INCREMENT,
-    `name`        varchar(255) NOT NULL,
-    `principal`   varchar(64)  NOT NULL,
-    `file_name`   varchar(255) NOT NULL,
-    `path`        varchar(255) NOT NULL,
-    `remark`      varchar(255),
-    `creator`     varchar(32),
-    `create_time` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `editor`      varchar(32),
-    `update_time` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    KEY idx_name (`name`)
+    id          bigint       NOT NULL AUTO_INCREMENT,
+    name        varchar(255) NOT NULL,
+    principal   varchar(64)  NOT NULL,
+    file_name   varchar(255) NOT NULL,
+    path        varchar(255) NOT NULL,
+    remark      varchar(255),
+    creator     varchar(32),
+    create_time datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    editor      varchar(32),
+    update_time datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    KEY idx_name (name)
 ) ENGINE = InnoDB COMMENT ='kerberos';
 
 DROP TABLE IF EXISTS snowflake_worker_node;
 CREATE TABLE snowflake_worker_node
 (
-    `id`          bigint      NOT NULL AUTO_INCREMENT,
-    `host_name`   varchar(64) NOT NULL COMMENT 'host name',
-    `port`        varchar(64) NOT NULL COMMENT 'port',
-    `type`        int         NOT NULL COMMENT 'node type: CONTAINER(1), ACTUAL(2), FAKE(3)',
-    `launch_date` DATE        NOT NULL COMMENT 'launch date',
-    `creator`     varchar(32),
-    `create_time` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `editor`      varchar(32),
-    `update_time` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    id          bigint      NOT NULL AUTO_INCREMENT,
+    host_name   varchar(64) NOT NULL COMMENT 'host name',
+    port        varchar(64) NOT NULL COMMENT 'port',
+    type        int         NOT NULL COMMENT 'node type: CONTAINER(1), ACTUAL(2), FAKE(3)',
+    launch_date DATE        NOT NULL COMMENT 'launch date',
+    creator     varchar(32),
+    create_time datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    editor      varchar(32),
+    update_time datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (ID)
 ) ENGINE = INNODB COMMENT ='DB WorkerID Assigner for UID Generator';

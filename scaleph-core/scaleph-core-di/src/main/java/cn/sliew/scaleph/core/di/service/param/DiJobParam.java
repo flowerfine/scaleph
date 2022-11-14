@@ -46,14 +46,8 @@ public class DiJobParam extends PaginationParam {
     @ApiModelProperty("job type")
     private JobType jobType;
 
-    @ApiModelProperty("job runtime state")
-    private RuntimeState runtimeState;
-
     @ApiModelProperty("job status")
     private JobStatus jobStatus;
-
-    @ApiModelProperty("directory id")
-    private Long directoryId;
 
     public DiJob toDo() {
         DiJob job = new DiJob();
@@ -61,7 +55,6 @@ public class DiJobParam extends PaginationParam {
         job.setJobCode(jobCode);
         job.setJobName(jobName);
         job.setJobType(jobType);
-        job.setRuntimeState(runtimeState);
         job.setJobStatus(jobStatus);
         return job;
     }

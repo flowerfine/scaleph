@@ -113,14 +113,14 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         // 1.执行任务和 flink 集群的绑定
 //        diJobService.update(jobRunParam.toDto());
         // 3.获取任务信息
-        DiJobDTO diJobDTO = diJobService.queryJobGraph(jobRunParam.getJobId());
-        // 4.调度或者运行
-        if (JobTypeEnum.BATCH.getValue().equals(diJobDTO.getJobType().getValue())
-                && StringUtils.hasText(diJobDTO.getJobCrontab())) {
-            schedule(diJobDTO);
-        } else {
-            submit(diJobDTO);
-        }
+//        DiJobDTO diJobDTO = diJobService.queryJobGraph(jobRunParam.getJobId());
+//        // 4.调度或者运行
+//        if (JobTypeEnum.BATCH.getValue().equals(diJobDTO.getJobType().getValue())
+//                && StringUtils.hasText(diJobDTO.getJobCrontab())) {
+//            schedule(diJobDTO);
+//        } else {
+//            submit(diJobDTO);
+//        }
     }
 
     @Override
@@ -149,40 +149,40 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
 
     @Override
     public void schedule(DiJobDTO diJobDTO) throws Exception {
-        DiProjectDTO project = diProjectService.selectOne(diJobDTO.getProjectId());
-        String jobName = QuartzJobUtil.getJobName(project.getProjectCode(), diJobDTO.getJobCode());
-        JobKey seatunnelJobKey =
-                scheduleService.getJobKey(QuartzJobUtil.getFlinkBatchJobName(jobName), Constants.INTERNAL_GROUP);
-        JobDetail seatunnelJob = JobBuilder.newJob(SeatunnelFlinkJob.class)
-                .withIdentity(seatunnelJobKey)
-                .storeDurably()
-                .build();
-        seatunnelJob.getJobDataMap().put(Constants.JOB_PARAM_JOB_INFO, diJobDTO);
-        seatunnelJob.getJobDataMap().put(Constants.JOB_PARAM_PROJECT_INFO, project);
-        TriggerKey seatunnelJobTriKey =
-                scheduleService.getTriggerKey(QuartzJobUtil.getFlinkBatchTriggerKey(jobName), Constants.INTERNAL_GROUP);
-        Trigger seatunnelJobTri = TriggerBuilder.newTrigger()
-                .withIdentity(seatunnelJobTriKey)
-                .withSchedule(CronScheduleBuilder.cronSchedule(diJobDTO.getJobCrontab()))
-                .build();
-        if (scheduleService.checkExists(seatunnelJobKey)) {
-            scheduleService.deleteScheduleJob(seatunnelJobKey);
-        }
-        scheduleService.addScheduleJob(seatunnelJob, seatunnelJobTri);
-        diJobDTO.setRuntimeState(RuntimeState.RUNNING);
+//        DiProjectDTO project = diProjectService.selectOne(diJobDTO.getProjectId());
+//        String jobName = QuartzJobUtil.getJobName(project.getProjectCode(), diJobDTO.getJobCode());
+//        JobKey seatunnelJobKey =
+//                scheduleService.getJobKey(QuartzJobUtil.getFlinkBatchJobName(jobName), Constants.INTERNAL_GROUP);
+//        JobDetail seatunnelJob = JobBuilder.newJob(SeatunnelFlinkJob.class)
+//                .withIdentity(seatunnelJobKey)
+//                .storeDurably()
+//                .build();
+//        seatunnelJob.getJobDataMap().put(Constants.JOB_PARAM_JOB_INFO, diJobDTO);
+//        seatunnelJob.getJobDataMap().put(Constants.JOB_PARAM_PROJECT_INFO, project);
+//        TriggerKey seatunnelJobTriKey =
+//                scheduleService.getTriggerKey(QuartzJobUtil.getFlinkBatchTriggerKey(jobName), Constants.INTERNAL_GROUP);
+//        Trigger seatunnelJobTri = TriggerBuilder.newTrigger()
+//                .withIdentity(seatunnelJobTriKey)
+//                .withSchedule(CronScheduleBuilder.cronSchedule(diJobDTO.getJobCrontab()))
+//                .build();
+//        if (scheduleService.checkExists(seatunnelJobKey)) {
+//            scheduleService.deleteScheduleJob(seatunnelJobKey);
+//        }
+//        scheduleService.addScheduleJob(seatunnelJob, seatunnelJobTri);
+//        diJobDTO.setRuntimeState(RuntimeState.RUNNING);
 //        diJobService.update(diJobDTO);
     }
 
     @Override
     public void stop(Long jobId) throws Exception {
-        DiJobDTO job = diJobService.queryJobGraph(jobId);
-        // 1.取消调度任务
-        unschedule(job);
-        // 2.停掉所有正在运行的任务
-        cancel(job);
-        // 3.更新任务状态
-        job.setRuntimeState(RuntimeState.RUNNING);
-//        diJobService.update(job);
+//        DiJobDTO job = diJobService.queryJobGraph(jobId);
+//        // 1.取消调度任务
+//        unschedule(job);
+//        // 2.停掉所有正在运行的任务
+//        cancel(job);
+//        // 3.更新任务状态
+//        job.setRuntimeState(RuntimeState.RUNNING);
+////        diJobService.update(job);
     }
 
     @Override

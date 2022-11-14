@@ -56,26 +56,11 @@ public class DiJob extends BaseDO {
     @ApiModelProperty(value = "作业类型 实时、离线")
     private JobType jobType;
 
-    @ApiModelProperty(value = "负责人")
-    private String jobOwner;
-
     @ApiModelProperty(value = "作业状态 草稿、发布、归档")
     private JobStatus jobStatus;
 
-    @Deprecated
-    @ApiModelProperty(value = "运行状态 停止、运行中、等待运行")
-    private RuntimeState runtimeState;
-
     @ApiModelProperty(value = "作业版本号")
     private Integer jobVersion;
-
-    @Deprecated
-    @ApiModelProperty(value = "集群id")
-    private Long clusterId;
-
-    @Deprecated
-    @ApiModelProperty(value = "作业调度crontab表达式")
-    private String jobCrontab;
 
     @ApiModelProperty(value = "备注")
     private String remark;

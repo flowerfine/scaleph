@@ -40,7 +40,7 @@ export default {
   // 'pages.project.di.batch':''
   'pages.project.dir': '目录',
   'pages.project.dir.directoryName': '目录名称',
-  'pages.project.di.job': '集成作业',
+  'pages.project.di.job': 'SeaTunnel',
   'pages.project.di.jobCode': '作业编码',
   'pages.project.di.jobName': '作业名称',
   'pages.project.di.jobType': '作业类型',
@@ -395,5 +395,8 @@ export default {
   'pages.project.di.step.sentry.cacheDirPath': 'Cache Dir Path',
   'pages.project.di.step.sentry.maxCacheItems': 'Max Cache Items',
   'pages.project.di.step.sentry.flushTimeoutMillis': 'Flush Timeout(milliseconds)',
-  'pages.project.di.step.sentry.maxQueueSize': 'Max Queue Size'
+  'pages.project.di.step.sentry.maxQueueSize': 'Max Queue Size',
+
+  'pages.project.job.create':'创建作业',
+  'pages.project.job.list':'作业列表',
 };
