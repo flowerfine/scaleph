@@ -14,6 +14,10 @@ import {
   ProFormText
 } from "@ant-design/pro-components";
 import {useEffect} from "react";
+import {DictDataService} from "@/services/admin/dictData.service";
+import {DICT_TYPE} from "@/constant";
+import {DsInfoParam} from "@/services/datasource/typings";
+import {DsInfoService} from "@/services/datasource/info.service";
 
 const SinkOSSFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -61,29 +65,33 @@ const SinkOSSFileStepForm: React.FC<ModalFormProps<{
         rules={[{required: true}, {max: 120}]}
         colProps={{span: 24}}
       />
-      <ProFormText
-        name={OSSFileParams.endpoint}
-        label={intl.formatMessage({id: 'pages.project.di.step.ossFile.endpoint'})}
+      <ProFormSelect
+        name={"dataSourceType"}
+        label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
+        colProps={{span: 6}}
+        initialValue={"OSS"}
+        fieldProps={{
+          disabled: true
+        }}
+        request={() => DictDataService.listDictDataByType2(DICT_TYPE.datasourceType)}
+      />
+      <ProFormSelect
+        name={STEP_ATTR_TYPE.dataSource}
+        label={intl.formatMessage({id: 'pages.project.di.step.dataSource'})}
         rules={[{required: true}]}
         colProps={{span: 18}}
-      />
-      <ProFormText
-        name={OSSFileParams.bucket}
-        label={intl.formatMessage({id: 'pages.project.di.step.ossFile.bucket'})}
-        rules={[{required: true}]}
-        colProps={{span: 6}}
-      />
-      <ProFormText
-        name={OSSFileParams.accessKey}
-        label={intl.formatMessage({id: 'pages.project.di.step.ossFile.accessKey'})}
-        rules={[{required: true}]}
-        colProps={{span: 12}}
-      />
-      <ProFormText
-        name={OSSFileParams.accessSecret}
-        label={intl.formatMessage({id: 'pages.project.di.step.ossFile.accessSecret'})}
-        rules={[{required: true}]}
-        colProps={{span: 12}}
+        dependencies={["dataSourceType"]}
+        request={((params, props) => {
+          const param: DsInfoParam = {
+            name: params.keyWords,
+            dsType: params.dataSourceType
+          };
+          return DsInfoService.list(param).then((response) => {
+            return response.data.map((item) => {
+              return {label: item.name, value: item.id, item: item};
+            });
+          });
+        })}
       />
       <ProFormText
         name={BaseFileParams.path}

@@ -19,11 +19,13 @@
 package cn.sliew.scaleph.ds.service.dto;
 
 import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.ds.modal.PropValuePair;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,7 +53,7 @@ public class DsInfoDTO extends BaseDTO {
     private Map<String, Object> props;
 
     @ApiModelProperty("additional props")
-    private Map<String, Object> additionalProps;
+    private List<PropValuePair> additionalProps;
 
     @ApiModelProperty("remark")
     private String remark;

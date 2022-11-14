@@ -38,7 +38,7 @@ const RoleGrant: React.FC<ModalFormProps<SecRole>> = ({
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       destroyOnClose={true}
       title={
         intl.formatMessage(

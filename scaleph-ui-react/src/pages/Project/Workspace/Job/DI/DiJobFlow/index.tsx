@@ -171,7 +171,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
             ></Button>
           </Space>
         }
-        visible={visible}
+        open={visible}
       >
         <XFlow
           className="dag-user-custom-clz"

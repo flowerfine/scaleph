@@ -24,7 +24,7 @@ const FlinkArtifactForm: React.FC<ModalFormProps<FlinkArtifact>> = ({
   }, []);
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={
         intl.formatMessage({ id: 'app.common.operate.new.label' }) +
         intl.formatMessage({ id: 'pages.dev.artifact' })

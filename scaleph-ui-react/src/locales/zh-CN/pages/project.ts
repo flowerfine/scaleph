@@ -102,6 +102,7 @@ export default {
   'pages.project.di.step.stepTitle': '步骤标题',
   'pages.project.di.step.x': 'x坐标',
   'pages.project.di.step.y': 'y坐标',
+
   'pages.project.di.step.dataSourceType': '数据源类型',
   'pages.project.di.step.dataSource': '数据源',
 
@@ -118,8 +119,6 @@ export default {
   'pages.project.di.step.schema.fields.type': 'type',
 
   // jdbc
-  'pages.project.di.step.jdbc.dataSourceType': '数据源类型',
-  'pages.project.di.step.jdbc.dataSource': '数据源',
   'pages.project.di.step.jdbc.connectionCheckTimeoutSec': '数据源连接超时（秒）',
   'pages.project.di.step.jdbc.partitionColumn': '分区字段',
   'pages.project.di.step.jdbc.partitionColumn.tooltip': '只支持数值类型字段作为分区字段',

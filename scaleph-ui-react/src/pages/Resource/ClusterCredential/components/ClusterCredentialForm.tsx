@@ -24,7 +24,7 @@ const ClusterCredentialForm: React.FC<ModalFormProps<ClusterCredential>> = ({
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +

@@ -1,5 +1,6 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
+import {BaseFileParams, FtpFileParams, SchemaParams, STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
@@ -17,6 +18,11 @@ import {useEffect} from "react";
 import {InfoCircleOutlined} from "@ant-design/icons";
 import { BaseFileParams, FtpFileParams, SchemaParams, STEP_ATTR_TYPE } from "../../constant";
 import { StepSchemaService } from "../schema";
+import {StepSchemaService} from "@/pages/DI/DiJobFlow/Dag/steps/schema";
+import {DictDataService} from "@/services/admin/dictData.service";
+import {DICT_TYPE} from "@/constant";
+import {DsInfoParam} from "@/services/datasource/typings";
+import {DsInfoService} from "@/services/datasource/info.service";
 
 const SourceFtpFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -64,31 +70,33 @@ const SourceFtpFileStepForm: React.FC<ModalFormProps<{
         label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
         rules={[{required: true}, {max: 120}]}
       />
-      <ProFormText
-        name={FtpFileParams.host}
-        label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.host'})}
-        rules={[{required: true}]}
-        colProps={{span: 12}}
+      <ProFormSelect
+        name={"dataSourceType"}
+        label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
+        colProps={{span: 6}}
+        initialValue={"Ftp"}
+        fieldProps={{
+          disabled: true
+        }}
+        request={() => DictDataService.listDictDataByType2(DICT_TYPE.datasourceType)}
       />
-      <ProFormDigit
-        name={FtpFileParams.port}
-        label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.port'})}
+      <ProFormSelect
+        name={STEP_ATTR_TYPE.dataSource}
+        label={intl.formatMessage({id: 'pages.project.di.step.dataSource'})}
         rules={[{required: true}]}
-        colProps={{span: 12}}
-        min={0}
-        max={65535}
-      />
-      <ProFormText
-        name={FtpFileParams.username}
-        label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.username'})}
-        rules={[{required: true}]}
-        colProps={{span: 12}}
-      />
-      <ProFormText
-        name={FtpFileParams.password}
-        label={intl.formatMessage({id: 'pages.project.di.step.ftpFile.password'})}
-        rules={[{required: true}]}
-        colProps={{span: 12}}
+        colProps={{span: 18}}
+        dependencies={["dataSourceType"]}
+        request={((params, props) => {
+          const param: DsInfoParam = {
+            name: params.keyWords,
+            dsType: params.dataSourceType
+          };
+          return DsInfoService.list(param).then((response) => {
+            return response.data.map((item) => {
+              return {label: item.name, value: item.id, item: item};
+            });
+          });
+        })}
       />
       <ProFormText
         name={BaseFileParams.path}

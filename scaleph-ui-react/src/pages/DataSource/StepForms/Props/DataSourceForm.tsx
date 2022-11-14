@@ -1,6 +1,12 @@
 import {useModel} from "umi";
 import JdbcForm from "@/pages/DataSource/StepForms/Props/Jdbc";
 import {DsType} from "@/services/datasource/typings";
+import FtpForm from "@/pages/DataSource/StepForms/Props/Ftp";
+import OSSForm from "@/pages/DataSource/StepForms/Props/OSS";
+import S3Form from "@/pages/DataSource/StepForms/Props/S3";
+import RedisForm from "@/pages/DataSource/StepForms/Props/Redis";
+import IoTDBForm from "@/pages/DataSource/StepForms/Props/IoTDB";
+import KuduForm from "@/pages/DataSource/StepForms/Props/Kudu";
 
 const DataSourceForm: React.FC = () => {
 
@@ -20,6 +26,18 @@ const DataSourceForm: React.FC = () => {
         case 'Greenplum':
         case 'Phoenix':
           return <JdbcForm/>
+        case 'Ftp':
+          return <FtpForm/>
+        case 'OSS':
+          return <OSSForm/>
+        case 'S3':
+          return <S3Form/>
+        case 'Redis':
+          return <RedisForm/>
+        case 'Kudu':
+          return <KuduForm/>
+        case 'IoTDB':
+          return <IoTDBForm/>
         default:
           return <div>开发中</div>
       }

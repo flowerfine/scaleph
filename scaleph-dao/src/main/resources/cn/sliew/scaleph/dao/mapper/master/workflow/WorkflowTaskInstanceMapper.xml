@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowTaskInstanceMapper">
+    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstance">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="workflow_task_definition_id" property="workflowTaskDefinitionId"/>
+        <result column="state" property="state"/>
+        <result column="stage" property="stage"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="message" property="message"/>
+    </resultMap>
+
+    <resultMap id="WorkflowTaskInstanceVOMap" type="cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskInstanceVO">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="state" property="state"/>
+        <result column="stage" property="stage"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="message" property="message"/>
+        <association property="workflowTaskDefinition"
+                     javaType="cn.sliew.scaleph.dao.entity.master.workflow.WorkflowTaskDefinition">
+            <result column="definition_id" property="id"/>
+            <result column="definition_workflow_definition_id" property="workflowDefinitionId"/>
+            <result column="definition_type" property="type"/>
+            <result column="definition_name" property="name"/>
+            <result column="definition_param" property="param"/>
+            <result column="definition_remark" property="remark"/>
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, creator, create_time, editor, update_time,
+        workflow_task_definition_id, state, stage, start_time, end_time, message
+    </sql>
+
+    <select id="list" resultMap="WorkflowTaskInstanceVOMap">
+        SELECT t1.*,
+               t2.id                     AS definition_id,
+               t2.workflow_definition_id AS definition_workflow_definition_id,
+               t2.type                   AS definition_type,
+               t2.`name`                 AS definition_name,
+               t2.param                  AS definition_param,
+               t2.remark                 AS definition_remark
+        FROM workflow_task_instance t1
+                     JOIN workflow_task_definition t2 ON t1.workflow_task_definition_id = t2.id
+        WHERE t1.workflow_task_definition_id = #{workflowTaskDefinitionId}
+    </select>
+
+    <select id="get" resultMap="WorkflowTaskInstanceVOMap">
+        SELECT t1.*,
+               t2.id                     AS definition_id,
+               t2.workflow_definition_id AS definition_workflow_definition_id,
+               t2.type                   AS definition_type,
+               t2.`name`                 AS definition_name,
+               t2.param                  AS definition_param,
+               t2.remark                 AS definition_remark
+        FROM workflow_task_instance t1
+                     JOIN workflow_task_definition t2 ON t1.workflow_task_definition_id = t2.id
+        WHERE t1.id = #{id}
+    </select>
+</mapper>
