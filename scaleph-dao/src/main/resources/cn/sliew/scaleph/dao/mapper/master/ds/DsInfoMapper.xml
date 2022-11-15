@@ -27,17 +27,88 @@
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
         <result column="ds_type_id" property="dsTypeId" />
-        <result column="name" property="name" />
         <result column="version" property="version" />
+        <result column="name" property="name" />
         <result column="props" property="props" />
         <result column="additional_props" property="additionalProps" />
         <result column="remark" property="remark" />
     </resultMap>
 
+    <resultMap id="DsInfoVOMap" type="cn.sliew.scaleph.dao.entity.master.ds.DsInfoVO">
+        <result column="id" property="id" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="editor" property="editor" />
+        <result column="update_time" property="updateTime" />
+        <result column="version" property="version" />
+        <result column="name" property="name" />
+        <result column="props" property="props" />
+        <result column="additional_props" property="additionalProps" />
+        <result column="remark" property="remark" />
+        <association property="dsType"
+                     javaType="cn.sliew.scaleph.dao.entity.master.ds.DsType">
+            <result column="type_id" property="id"/>
+            <result column="type_type" property="type"/>
+            <result column="type_logo" property="logo"/>
+            <result column="type_order" property="order"/>
+            <result column="type_remark" property="remark"/>
+        </association>
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        ds_type_id, `name`, version, props, additional_props, remark
+        ds_type_id, version, `name`, props, additional_props, remark
     </sql>
+
+    <select id="list" resultMap="DsInfoVOMap">
+        SELECT
+                t1.*,
+                t2.id AS type_id,
+                t2.type AS type_type,
+                t2.logo AS type_logo,
+                t2.`order` AS type_order,
+                t2.remark AS type_remark
+        FROM
+                ds_info t1
+                        JOIN ds_type t2 ON t1.ds_type_id = t2.id
+        <where>
+            <if test="dsType != null">
+                AND t2.type = #{dsType}
+            </if>
+            <if test="name != null and name != ''">
+                AND t1.`name` like CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="listByTypes" resultMap="DsInfoVOMap">
+        SELECT
+        t1.*,
+        t2.id AS type_id,
+        t2.type AS type_type,
+        t2.logo AS type_logo,
+        t2.`order` AS type_order,
+        t2.remark AS type_remark
+        FROM
+        ds_info t1
+        JOIN ds_type t2 ON t1.ds_type_id = t2.id
+        WHERE t2.type = #{type}
+    </select>
+
+    <select id="getById" resultMap="DsInfoVOMap">
+        SELECT
+        t1.*,
+        t2.id AS type_id,
+        t2.type AS type_type,
+        t2.logo AS type_logo,
+        t2.`order` AS type_order,
+        t2.remark AS type_remark
+        FROM
+        ds_info t1
+        JOIN ds_type t2 ON t1.ds_type_id = t2.id
+        WHERE
+            t1.id = #{id}
+    </select>
 
 </mapper>

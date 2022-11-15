@@ -1,11 +1,11 @@
-ARG BASE_RELEASE_IMAGE=ghcr.io/flowerfine/scaleph_seatunnel:2.2.0-beta
+ARG BASE_RELEASE_IMAGE=ghcr.io/flowerfine/scaleph_seatunnel:2.3.0-beta
 FROM maven:3.8-eclipse-temurin-11 as build
 
 COPY ./ /scaleph
 RUN cd /scaleph && mvn -B -U -T 4 clean package -DskipTests -Dfast -am --projects scaleph-api
 
 # BASE_RELEASE_IMAGE argument must be defined twice
-ARG BASE_RELEASE_IMAGE=ghcr.io/flowerfine/scaleph_seatunnel:2.2.0-beta
+ARG BASE_RELEASE_IMAGE=ghcr.io/flowerfine/scaleph_seatunnel:2.3.0-beta
 FROM $BASE_RELEASE_IMAGE as release
 
 ENV MYSQL_URL="jdbc:mysql://mysql:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai"

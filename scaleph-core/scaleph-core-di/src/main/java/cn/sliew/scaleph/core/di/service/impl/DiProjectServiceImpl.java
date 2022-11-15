@@ -21,12 +21,9 @@ package cn.sliew.scaleph.core.di.service.impl;
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.core.di.service.DiDirectoryService;
 import cn.sliew.scaleph.core.di.service.DiJobService;
 import cn.sliew.scaleph.core.di.service.DiProjectService;
-import cn.sliew.scaleph.core.di.service.DiResourceFileService;
 import cn.sliew.scaleph.core.di.service.convert.DiProjectConvert;
-import cn.sliew.scaleph.core.di.service.dto.DiDirectoryDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiProjectDTO;
 import cn.sliew.scaleph.core.di.service.param.DiProjectParam;
 import cn.sliew.scaleph.dao.DataSourceConstants;
@@ -53,11 +50,7 @@ public class DiProjectServiceImpl implements DiProjectService {
     @Autowired
     private DiProjectMapper diProjectMapper;
     @Autowired
-    private DiDirectoryService diDirectoryService;
-    @Autowired
     private DiJobService diJobService;
-    @Autowired
-    private DiResourceFileService diResourceFileService;
 
     @Override
     public Page<DiProjectDTO> listByPage(DiProjectParam param) {
@@ -97,11 +90,6 @@ public class DiProjectServiceImpl implements DiProjectService {
     public int insert(DiProjectDTO dto) {
         DiProject project = DiProjectConvert.INSTANCE.toDo(dto);
         int result = diProjectMapper.insert(project);
-        DiDirectoryDTO dir = new DiDirectoryDTO();
-        dir.setProjectId(project.getId());
-        dir.setDirectoryName(dto.getProjectCode());
-        dir.setPid(0L);
-        diDirectoryService.insert(dir);
         return result;
     }
 
@@ -135,8 +123,6 @@ public class DiProjectServiceImpl implements DiProjectService {
     }
 
     private void deleteProjectRelatedData(Collection<Long> projectIds) {
-        diResourceFileService.deleteByProjectId(projectIds);
-        diDirectoryService.deleteByProjectIds(projectIds);
         diJobService.deleteByProjectId(projectIds);
     }
 

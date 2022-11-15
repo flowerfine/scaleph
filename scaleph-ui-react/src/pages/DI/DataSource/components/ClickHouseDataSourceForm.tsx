@@ -23,7 +23,7 @@ const ClickHouseDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
@@ -58,9 +58,7 @@ const ClickHouseDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
               };
               DataSourceService.testConnection(ds).then((resp) => {
                 if (resp.success) {
-                  message.success(
-                    intl.formatMessage({ id: 'pages.project.di.dataSource.testConnect.success' }),
-                  );
+                  message.success(intl.formatMessage({ id: 'pages.project.di.dataSource.testConnect.success' }));
                 }
               });
             });
@@ -93,9 +91,7 @@ const ClickHouseDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
               data.id
                 ? DataSourceService.updateDataSource({ ...ds }).then((d) => {
                   if (d.success) {
-                    message.success(
-                      intl.formatMessage({ id: 'app.common.operate.edit.success' }),
-                    );
+                    message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
                     onVisibleChange(false);
                   }
                 })
@@ -191,9 +187,7 @@ const ClickHouseDataSourceForm: React.FC<ModalFormProps<MetaDataSource>> = ({
           rules={[{ max: 2048 }]}
         >
           <Input.TextArea
-            placeholder={intl.formatMessage({
-              id: 'pages.project.di.dataSource.additionalProps.placeholder',
-            })}
+            placeholder={intl.formatMessage({id: 'pages.project.di.dataSource.additionalProps.placeholder'})}
           ></Input.TextArea>
         </Form.Item>
       </Form>

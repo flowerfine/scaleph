@@ -18,18 +18,17 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.sliew.scaleph.dao.mapper.master.ds.DsTypeMapper">
-
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.ds.DsType">
-        <result column="id" property="id" />
-        <result column="creator" property="creator" />
-        <result column="create_time" property="createTime" />
-        <result column="editor" property="editor" />
-        <result column="update_time" property="updateTime" />
-        <result column="type" property="type" />
-        <result column="logo" property="logo" />
-        <result column="order" property="order" />
-        <result column="remark" property="remark" />
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="type" property="type"/>
+        <result column="logo" property="logo"/>
+        <result column="order" property="order"/>
+        <result column="remark" property="remark"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -38,4 +37,25 @@
         `type`, logo, `order`, remark
     </sql>
 
+    <select id="listTypes" resultMap="BaseResultMap">
+        SELECT t.*
+        FROM (
+        SELECT
+        t1.*
+        FROM
+        ds_type t1
+        JOIN ds_category_type_relation t2 ON t1.id = t2.ds_type_id
+        JOIN ds_category t3 ON t2.ds_category_id = t3.id
+        <where>
+            <if test="categoryId != null">
+                AND t3.id = #{categoryId}
+            </if>
+            <if test="type != null and type != ''">
+                AND t1.`type` like CONCAT('%', #{type}, '%')
+            </if>
+        </where>
+        GROUP BY
+        t1.id ) t
+        ORDER BY t.`order`
+    </select>
 </mapper>

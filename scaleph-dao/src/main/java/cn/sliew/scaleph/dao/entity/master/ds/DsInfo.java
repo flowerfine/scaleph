@@ -43,13 +43,13 @@ public class DsInfo extends BaseDO {
     @TableField("ds_type_id")
     private Long dsTypeId;
 
-    @ApiModelProperty("name")
-    @TableField("`name`")
-    private String name;
-
     @ApiModelProperty("version")
     @TableField("version")
     private String version;
+
+    @ApiModelProperty("name")
+    @TableField("`name`")
+    private String name;
 
     @ApiModelProperty("props")
     @TableField("props")

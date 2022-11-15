@@ -95,6 +95,7 @@
         <module>scaleph-engine</module>
         <module>scaleph-plugins</module>
         <module>scaleph-workflow</module>
+        <module>scaleph-datasource</module>
     </modules>
 
     <properties>
@@ -192,6 +193,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-resource</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-datasource</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -650,7 +656,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-<!--                <version>${netty.version}</version>-->
+                <!--                <version>${netty.version}</version>-->
                 <version>4.1.82.Final</version>
             </dependency>
         </dependencies>

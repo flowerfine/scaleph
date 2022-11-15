@@ -20,12 +20,14 @@ package cn.sliew.scaleph.engine.flink.service.param;
 
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotNull;
 
 @Data
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class FlinkJobLogListParam extends PaginationParam {
 
