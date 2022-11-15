@@ -796,27 +796,27 @@ VALUES ('seatunnel', 'seatunnel-examples', NULL, 'sys_admin', 'sys_admin');
 drop table if exists di_job;
 create table di_job
 (
-    id            bigint       not null auto_increment comment '自增主键',
-    project_id    bigint       not null comment '项目id',
-    job_code      bigint       not null comment '作业编码',
-    job_name      varchar(256) not null comment '作业名称',
-    job_type      varchar(4) comment '作业类型',
-    job_status    varchar(4) default '1' comment '作业状态 草稿、发布、归档',
-    job_version   int        default 1 comment '作业版本号',
-    remark        varchar(256) comment '备注',
-    creator       varchar(32) comment '创建人',
-    create_time   timestamp  default current_timestamp comment '创建时间',
-    editor        varchar(32) comment '修改人',
-    update_time   timestamp  default current_timestamp on update current_timestamp comment '修改时间',
+    id          bigint       not null auto_increment comment '自增主键',
+    project_id  bigint       not null comment '项目id',
+    job_code    bigint       not null comment '作业编码',
+    job_name    varchar(256) not null comment '作业名称',
+    job_type    varchar(4) comment '作业类型',
+    job_status  varchar(4) default '1' comment '作业状态 草稿、发布、归档',
+    job_version int        default 1 comment '作业版本号',
+    remark      varchar(256) comment '备注',
+    creator     varchar(32) comment '创建人',
+    create_time timestamp  default current_timestamp comment '创建时间',
+    editor      varchar(32) comment '修改人',
+    update_time timestamp  default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key (project_id, job_code, job_version)
 ) engine = innodb comment '数据集成-作业信息';
 INSERT INTO di_job (id, project_id, job_code, job_name, job_type, job_status,
-                     job_version, remark, creator, editor)
-VALUES (1, 1, 1, 'e_commerce', 'b',  '2',  1, NULL, 'sys', 'sys');
-INSERT INTO di_job(id, project_id, job_code, job_name, job_type,  job_status,
+                    job_version, remark, creator, editor)
+VALUES (1, 1, 1, 'e_commerce', 'b', '2', 1, NULL, 'sys', 'sys');
+INSERT INTO di_job(id, project_id, job_code, job_name, job_type, job_status,
                    job_version, remark, creator, editor)
-VALUES (2, 1, 2, 'fake', 'b',  '2',  1, NULL, 'sys', 'sys');
+VALUES (2, 1, 2, 'fake', 'b', '2', 1, NULL, 'sys', 'sys');
 
 
 /* 作业参数信息 作业参数*/
@@ -951,7 +951,7 @@ DROP TABLE IF EXISTS resource_jar;
 CREATE TABLE resource_jar
 (
     id          bigint       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-    group       varchar(255) NOT NULL COMMENT 'jar group',
+    `group`     varchar(255) NOT NULL COMMENT 'jar group',
     file_name   varchar(255) NOT NULL COMMENT '文件名称',
     path        varchar(255) NOT NULL COMMENT '存储路径',
     remark      varchar(255)      DEFAULT NULL COMMENT '备注',
