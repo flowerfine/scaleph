@@ -22,7 +22,6 @@ import cn.sliew.scaleph.common.dict.workflow.ScheduleStatus;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowSchedule;
 import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowScheduleMapper;
-import cn.sliew.scaleph.workflow.scheduler.SchedulerService;
 import cn.sliew.scaleph.workflow.service.WorkflowScheduleService;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowScheduleConvert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowScheduleDTO;
@@ -38,8 +37,6 @@ public class WorkflowScheduleServiceImpl implements WorkflowScheduleService {
 
     @Autowired
     private WorkflowScheduleMapper workflowScheduleMapper;
-    @Autowired
-    private SchedulerService scheduler;
 
     @Override
     public WorkflowScheduleDTO get(Long id) {
@@ -69,11 +66,9 @@ public class WorkflowScheduleServiceImpl implements WorkflowScheduleService {
 
     @Override
     public void schedule(Long id) {
-        scheduler.schedule(id);
     }
 
     @Override
     public void unschedule(Long id) {
-        scheduler.unschedule(id);
     }
 }
