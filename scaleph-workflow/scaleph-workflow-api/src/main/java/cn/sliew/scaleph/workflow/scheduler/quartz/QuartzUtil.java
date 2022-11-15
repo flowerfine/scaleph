@@ -20,6 +20,7 @@ package cn.sliew.scaleph.workflow.scheduler.quartz;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.constant.Constants;
+import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinition;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowSchedule;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowScheduleDTO;
 import org.quartz.JobKey;
@@ -31,8 +32,9 @@ public enum QuartzUtil {
     ;
 
     public static final String WORKFLOW_SCHEDULE = "workflowSchedule";
+    public static final String WORKFLOW_HANDLER = "workflowHandler";
 
-    public static Map<String, Object> buildDataMap(WorkflowSchedule schedule) {
+    public static Map<String, Object> buildDataMap(String workflowHandler, WorkflowSchedule schedule) {
         return Map.of(WORKFLOW_SCHEDULE, JacksonUtil.toJsonString(schedule));
     }
 
