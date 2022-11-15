@@ -16,13 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.engine.action;
+package cn.sliew.scaleph.engine.sql;
 
-public interface ActionResult {
+public class FlinkSqlMain {
 
-    ActionStatus getStatus();
-
-    Throwable getCause();
-
-    ActionContext getContext();
+    public static void main(String[] args) {
+        System.out.println("Hello, Flink SQL!");
+    }
 }

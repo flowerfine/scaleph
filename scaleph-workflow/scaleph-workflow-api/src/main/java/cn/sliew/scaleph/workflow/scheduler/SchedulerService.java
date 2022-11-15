@@ -16,13 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.engine.action;
+package cn.sliew.scaleph.workflow.scheduler;
 
-public interface ActionResult {
+public interface SchedulerService {
 
-    ActionStatus getStatus();
+    boolean exists(Long id);
+    
+    void schedule(Long id);
 
-    Throwable getCause();
+    void unschedule(Long id);
 
-    ActionContext getContext();
+    void suspend(Long id);
+
+    void resume(Long id);
+
+    void terminate(Long id);
 }

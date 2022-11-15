@@ -66,11 +66,9 @@ public class WorkflowScheduleServiceImpl implements WorkflowScheduleService {
 
     @Override
     public void schedule(Long id) {
-
     }
 
     @Override
     public void unschedule(Long id) {
-
     }
 }

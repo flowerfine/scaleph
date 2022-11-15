@@ -32,6 +32,7 @@
     <modules>
         <module>scaleph-engine-seatunnel</module>
         <module>scaleph-engine-flink</module>
+        <module>scaleph-engine-sql</module>
     </modules>
 
 </project>

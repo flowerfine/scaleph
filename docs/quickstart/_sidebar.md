@@ -3,4 +3,4 @@
 * [QuickStart](/quickstart/quickstart.md)
 * [Build on Docker](/quickstart/build-docker.md)
 * [Build on Local](/quickstart/build-local.md)
-* [Develop][/quickstart/develop.md]
+* [Develop](/quickstart/develop.md)

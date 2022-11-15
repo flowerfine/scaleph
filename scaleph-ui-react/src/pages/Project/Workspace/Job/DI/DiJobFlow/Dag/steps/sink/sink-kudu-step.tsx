@@ -62,9 +62,7 @@ const SinkKuduStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
           colProps={{span: 6}}
           initialValue={"Kudu"}
-          fieldProps={{
-            disabled: true
-          }}
+          disabled
           request={() => DictDataService.listDictDataByType2(DICT_TYPE.datasourceType)}
         />
         <ProFormSelect

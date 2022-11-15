@@ -23,17 +23,43 @@ import cn.sliew.milky.common.constant.AttributeKey;
 import cn.sliew.milky.common.constant.AttributeMap;
 import cn.sliew.milky.common.constant.DefaultAttributeMap;
 import cn.sliew.scaleph.common.container.pool.ContainerPool;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.Map;
 
+@Data
 public class ActionContext implements AttributeMap {
 
-    private ContainerPool containerPool;
-    private DefaultAttributeMap attributeMap;
+    private Long workflowDefinitionId;
 
-    public ContainerPool getContainerPool() {
-        return containerPool;
-    }
+    private Long workflowTaskDefinitionId;
+
+    private Long workflowInstanceId;
+
+    private Long workflowTaskInstanceId;
+
+    private Map<String, Object> params;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date previousFireTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date nextFireTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date scheduledFireTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date fireTime;
+
+    private ContainerPool containerPool;
+
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    private final DefaultAttributeMap attributeMap = new DefaultAttributeMap();
 
     @Override
     public <T> Collection<Attribute<T>> attrs() {
