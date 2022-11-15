@@ -31,6 +31,7 @@ import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 import java.util.Map;
 
 @Data
@@ -60,7 +61,9 @@ public class RedisDataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = Map.of("host", host, "port", port);
+        Map<String, Object> props = new HashMap<>();
+        props.put("host", host);
+        props.put("port", port);
         if (StringUtils.hasText(password)) {
             props.put("password", CodecUtil.encrypt(password));
         }
