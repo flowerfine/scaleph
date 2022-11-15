@@ -816,7 +816,7 @@ INSERT INTO di_job (id, project_id, job_code, job_name, job_type, job_status,
 VALUES (1, 1, 1, 'e_commerce', 'b',  '2',  1, NULL, 'sys', 'sys');
 INSERT INTO di_job(id, project_id, job_code, job_name, job_type,  job_status,
                    job_version, remark, creator, editor)
-VALUES (2, 1, 2, 'fake', 'b',  '2',  1, NULL, 'sys', 'sys');Ï
+VALUES (2, 1, 2, 'fake', 'b',  '2',  1, NULL, 'sys', 'sys');
 
 
 /* 作业参数信息 作业参数*/
