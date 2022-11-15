@@ -90,12 +90,6 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     @Autowired
     private DiJobService diJobService;
     @Autowired
-    private DiJobResourceFileService diJobResourceFileService;
-    @Autowired
-    private DiJobLogService diJobLogService;
-    @Autowired
-    private DiClusterConfigService diClusterConfigService;
-    @Autowired
     private FileSystemService fileSystemService;
     @Autowired
     private SysConfigService sysConfigService;
@@ -118,125 +112,104 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     public void run(DiJobRunVO jobRunParam) throws Exception {
         // 1.执行任务和 flink 集群的绑定
 //        diJobService.update(jobRunParam.toDto());
-        // 2.绑定任务和资源
-        diJobResourceFileService.bindResource(jobRunParam.getJobId(), jobRunParam.getResources());
         // 3.获取任务信息
-        DiJobDTO diJobDTO = diJobService.queryJobGraph(jobRunParam.getJobId());
-        // 4.调度或者运行
-        if (JobTypeEnum.BATCH.getValue().equals(diJobDTO.getJobType().getValue())
-                && StringUtils.hasText(diJobDTO.getJobCrontab())) {
-            schedule(diJobDTO);
-        } else {
-            submit(diJobDTO);
-        }
+//        DiJobDTO diJobDTO = diJobService.queryJobGraph(jobRunParam.getJobId());
+//        // 4.调度或者运行
+//        if (JobTypeEnum.BATCH.getValue().equals(diJobDTO.getJobType().getValue())
+//                && StringUtils.hasText(diJobDTO.getJobCrontab())) {
+//            schedule(diJobDTO);
+//        } else {
+//            submit(diJobDTO);
+//        }
     }
 
     @Override
     public void submit(DiJobDTO diJobDTO) throws Exception {
-        Path projectPath = getProjectBasePath(diJobDTO.getProjectId());
-        Path jobConfFile = buildConfFile(diJobDTO, projectPath);
-        Path seatunnelJarPath = getSeatunnelJar();
-
-        //build configuration
-        DiClusterConfigDTO clusterConfig = diClusterConfigService.selectOne(diJobDTO.getClusterId());
-        Configuration configuration = buildConfiguration(diJobDTO, seatunnelJarPath, clusterConfig.getConfig(), projectPath.toFile());
-        //build job
-        PackageJarJob jarJob = buildJob(seatunnelJarPath.toUri().toString(), jobConfFile, diJobDTO.getJobAttrList());
-
-        //prevent System.exit() invocation when seatunnel job config check result is false
-        CliClient client = new DescriptorCliClient();
-        ClusterClient clusterClient = SecurityContext.call(() ->
-                client.submit(DeploymentTarget.STANDALONE_SESSION, null, configuration, jarJob));
-
-        Optional<JobID> jobID = FlinkUtil.listJobs(clusterClient).stream().map(JobStatusMessage::getJobId).findFirst();
-        //write log
-        insertJobLog(diJobDTO, configuration, jobID.orElseThrow(() -> new IllegalStateException("flink job id not exists")));
-        diJobDTO.setRuntimeState(RuntimeState.RUNNING);
-//        diJobService.update(diJobDTO);
-    }
-
-    private void insertJobLog(DiJobDTO diJobDTO, Configuration configuration, JobID jobInstanceID) {
-        DiJobLogDTO jobLogInfo = new DiJobLogDTO();
-        jobLogInfo.setProjectId(diJobDTO.getProjectId());
-        jobLogInfo.setJobId(diJobDTO.getId());
-        jobLogInfo.setJobCode(diJobDTO.getJobCode());
-        jobLogInfo.setClusterId(diJobDTO.getClusterId());
-        jobLogInfo.setJobInstanceId(jobInstanceID.toString());
-        String clusterHost = configuration.getString(JobManagerOptions.ADDRESS);
-        int clusterPort = configuration.getInteger(RestOptions.PORT);
-        String jobLogUrl =
-                "http://" + clusterHost + ":" + clusterPort + "/#/job/" + jobInstanceID +
-                        "/overview";
-        jobLogInfo.setJobLogUrl(jobLogUrl);
-        jobLogInfo.setJobInstanceState(
-                DictVO.toVO(DictConstants.JOB_INSTANCE_STATE, JobStatus.INITIALIZING.toString()));
-        jobLogInfo.setStartTime(new Date());
-        diJobLogService.insert(jobLogInfo);
+//        Path projectPath = getProjectBasePath(diJobDTO.getProjectId());
+//        Path jobConfFile = buildConfFile(diJobDTO, projectPath);
+//        Path seatunnelJarPath = getSeatunnelJar();
+//
+//        //build configuration
+//        DiClusterConfigDTO clusterConfig = diClusterConfigService.selectOne(diJobDTO.getClusterId());
+//        Configuration configuration = buildConfiguration(diJobDTO, seatunnelJarPath, clusterConfig.getConfig(), projectPath.toFile());
+//        //build job
+//        PackageJarJob jarJob = buildJob(seatunnelJarPath.toUri().toString(), jobConfFile, diJobDTO.getJobAttrList());
+//
+//        //prevent System.exit() invocation when seatunnel job config check result is false
+//        CliClient client = new DescriptorCliClient();
+//        ClusterClient clusterClient = SecurityContext.call(() ->
+//                client.submit(DeploymentTarget.STANDALONE_SESSION, null, configuration, jarJob));
+//
+//        Optional<JobID> jobID = FlinkUtil.listJobs(clusterClient).stream().map(JobStatusMessage::getJobId).findFirst();
+//        //write log
+//        insertJobLog(diJobDTO, configuration, jobID.orElseThrow(() -> new IllegalStateException("flink job id not exists")));
+//        diJobDTO.setRuntimeState(RuntimeState.RUNNING);
+////        diJobService.update(diJobDTO);
     }
 
     @Override
     public void schedule(DiJobDTO diJobDTO) throws Exception {
-        DiProjectDTO project = diProjectService.selectOne(diJobDTO.getProjectId());
-        String jobName = QuartzJobUtil.getJobName(project.getProjectCode(), diJobDTO.getJobCode());
-        JobKey seatunnelJobKey =
-                scheduleService.getJobKey(QuartzJobUtil.getFlinkBatchJobName(jobName), Constants.INTERNAL_GROUP);
-        JobDetail seatunnelJob = JobBuilder.newJob(SeatunnelFlinkJob.class)
-                .withIdentity(seatunnelJobKey)
-                .storeDurably()
-                .build();
-        seatunnelJob.getJobDataMap().put(Constants.JOB_PARAM_JOB_INFO, diJobDTO);
-        seatunnelJob.getJobDataMap().put(Constants.JOB_PARAM_PROJECT_INFO, project);
-        TriggerKey seatunnelJobTriKey =
-                scheduleService.getTriggerKey(QuartzJobUtil.getFlinkBatchTriggerKey(jobName), Constants.INTERNAL_GROUP);
-        Trigger seatunnelJobTri = TriggerBuilder.newTrigger()
-                .withIdentity(seatunnelJobTriKey)
-                .withSchedule(CronScheduleBuilder.cronSchedule(diJobDTO.getJobCrontab()))
-                .build();
-        if (scheduleService.checkExists(seatunnelJobKey)) {
-            scheduleService.deleteScheduleJob(seatunnelJobKey);
-        }
-        scheduleService.addScheduleJob(seatunnelJob, seatunnelJobTri);
-        diJobDTO.setRuntimeState(RuntimeState.RUNNING);
+//        DiProjectDTO project = diProjectService.selectOne(diJobDTO.getProjectId());
+//        String jobName = QuartzJobUtil.getJobName(project.getProjectCode(), diJobDTO.getJobCode());
+//        JobKey seatunnelJobKey =
+//                scheduleService.getJobKey(QuartzJobUtil.getFlinkBatchJobName(jobName), Constants.INTERNAL_GROUP);
+//        JobDetail seatunnelJob = JobBuilder.newJob(SeatunnelFlinkJob.class)
+//                .withIdentity(seatunnelJobKey)
+//                .storeDurably()
+//                .build();
+//        seatunnelJob.getJobDataMap().put(Constants.JOB_PARAM_JOB_INFO, diJobDTO);
+//        seatunnelJob.getJobDataMap().put(Constants.JOB_PARAM_PROJECT_INFO, project);
+//        TriggerKey seatunnelJobTriKey =
+//                scheduleService.getTriggerKey(QuartzJobUtil.getFlinkBatchTriggerKey(jobName), Constants.INTERNAL_GROUP);
+//        Trigger seatunnelJobTri = TriggerBuilder.newTrigger()
+//                .withIdentity(seatunnelJobTriKey)
+//                .withSchedule(CronScheduleBuilder.cronSchedule(diJobDTO.getJobCrontab()))
+//                .build();
+//        if (scheduleService.checkExists(seatunnelJobKey)) {
+//            scheduleService.deleteScheduleJob(seatunnelJobKey);
+//        }
+//        scheduleService.addScheduleJob(seatunnelJob, seatunnelJobTri);
+//        diJobDTO.setRuntimeState(RuntimeState.RUNNING);
 //        diJobService.update(diJobDTO);
     }
 
     @Override
     public void stop(Long jobId) throws Exception {
-        DiJobDTO job = diJobService.queryJobGraph(jobId);
-        // 1.取消调度任务
-        unschedule(job);
-        // 2.停掉所有正在运行的任务
-        cancel(job);
-        // 3.更新任务状态
-        job.setRuntimeState(RuntimeState.RUNNING);
-//        diJobService.update(job);
+//        DiJobDTO job = diJobService.queryJobGraph(jobId);
+//        // 1.取消调度任务
+//        unschedule(job);
+//        // 2.停掉所有正在运行的任务
+//        cancel(job);
+//        // 3.更新任务状态
+//        job.setRuntimeState(RuntimeState.RUNNING);
+////        diJobService.update(job);
     }
 
     @Override
     public void cancel(DiJobDTO diJobDTO) throws Exception {
-        List<DiJobLogDTO> list = diJobLogService.listRunningJobInstance(diJobDTO.getJobCode());
-        Configuration configuration = GlobalConfiguration.loadConfiguration();
-        for (DiJobLogDTO instance : list) {
-            DiClusterConfigDTO clusterConfig = diClusterConfigService.selectOne(instance.getClusterId());
-            String host = clusterConfig.getConfig().get(JobManagerOptions.ADDRESS.key());
-            int restPort = Integer.parseInt(clusterConfig.getConfig().get(RestOptions.PORT.key()));
-            RestClient client = new FlinkRestClient(host, restPort, configuration);
-            JobClient jobClient = client.job();
-            if (StringUtils.isEmpty(savePointDir)) {
-                // 取消任务时，不做 savepoint
-                CompletableFuture<EmptyResponseBody> future = jobClient.jobTerminate(instance.getJobInstanceId(), "cancel");
-                future.get();
-            } else {
-                // 取消任务时，进行 savepoint
-                if (savePointDir.endsWith("/")) {
-                    savePointDir = savePointDir.substring(0, savePointDir.length() - 1);
-                }
-                String savepointPath = String.join("/", savePointDir, clusterConfig.getClusterName(), instance.getJobInstanceId());
-                StopWithSavepointRequestBody requestBody = new StopWithSavepointRequestBody(savepointPath, true);
-                CompletableFuture<TriggerResponse> future = jobClient.jobStop(instance.getJobInstanceId(), requestBody);
-                future.get();
-            }
-        }
+//        List<DiJobLogDTO> list = diJobLogService.listRunningJobInstance(diJobDTO.getJobCode());
+//        Configuration configuration = GlobalConfiguration.loadConfiguration();
+//        for (DiJobLogDTO instance : list) {
+//            DiClusterConfigDTO clusterConfig = diClusterConfigService.selectOne(instance.getClusterId());
+//            String host = clusterConfig.getConfig().get(JobManagerOptions.ADDRESS.key());
+//            int restPort = Integer.parseInt(clusterConfig.getConfig().get(RestOptions.PORT.key()));
+//            RestClient client = new FlinkRestClient(host, restPort, configuration);
+//            JobClient jobClient = client.job();
+//            if (StringUtils.isEmpty(savePointDir)) {
+//                // 取消任务时，不做 savepoint
+//                CompletableFuture<EmptyResponseBody> future = jobClient.jobTerminate(instance.getJobInstanceId(), "cancel");
+//                future.get();
+//            } else {
+//                // 取消任务时，进行 savepoint
+//                if (savePointDir.endsWith("/")) {
+//                    savePointDir = savePointDir.substring(0, savePointDir.length() - 1);
+//                }
+//                String savepointPath = String.join("/", savePointDir, clusterConfig.getClusterName(), instance.getJobInstanceId());
+//                StopWithSavepointRequestBody requestBody = new StopWithSavepointRequestBody(savepointPath, true);
+//                CompletableFuture<TriggerResponse> future = jobClient.jobStop(instance.getJobInstanceId(), requestBody);
+//                future.get();
+//            }
+//        }
     }
 
     @Override
@@ -296,30 +269,23 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
                                             Map<String, String> clusterConf,
                                             File projectPath) throws IOException {
         Configuration configuration = new Configuration();
-        configuration.setString(PipelineOptions.NAME, job.getJobName());
-        configuration.setString(JobManagerOptions.ADDRESS, clusterConf.get(JobManagerOptions.ADDRESS.key()));
-        configuration.setInteger(JobManagerOptions.PORT, Integer.parseInt(clusterConf.get(JobManagerOptions.PORT.key())));
-        configuration.setInteger(RestOptions.PORT, Integer.parseInt(clusterConf.get(RestOptions.PORT.key())));
-
-        List<DiResourceFileDTO> resourceList = diJobResourceFileService.listJobResources(job.getId());
-        Set<String> jars = new TreeSet<>();
-        Set<File> pluginJars = getSeatunnelPluginJarFile(job.getJobStepList());
-        if (!CollectionUtils.isEmpty(pluginJars)) {
-            for (File jar : pluginJars) {
-                jars.add(jar.toURI().toString());
-            }
-        }
-        jars.add(seatunnelJarPath.toUri().toString());
-
-        for (DiResourceFileDTO file : resourceList) {
-            try (final InputStream inputStream = fileSystemService.get(file.getFilePath() + "/" + file.getFileName())) {
-                File localFile = FileUtil.file(projectPath, file.getFileName());
-                FileUtil.writeFromStream(inputStream, localFile);
-                jars.add(localFile.toURI().toString());
-            }
-        }
-        ConfigUtils.encodeCollectionToConfig(configuration, PipelineOptions.JARS, jars, Object::toString);
-        configuration.setString(DeploymentOptions.TARGET, RemoteExecutor.NAME);
+//        configuration.setString(PipelineOptions.NAME, job.getJobName());
+//        configuration.setString(JobManagerOptions.ADDRESS, clusterConf.get(JobManagerOptions.ADDRESS.key()));
+//        configuration.setInteger(JobManagerOptions.PORT, Integer.parseInt(clusterConf.get(JobManagerOptions.PORT.key())));
+//        configuration.setInteger(RestOptions.PORT, Integer.parseInt(clusterConf.get(RestOptions.PORT.key())));
+//
+//        Set<String> jars = new TreeSet<>();
+//        Set<File> pluginJars = getSeatunnelPluginJarFile(job.getJobStepList());
+//        if (!CollectionUtils.isEmpty(pluginJars)) {
+//            for (File jar : pluginJars) {
+//                jars.add(jar.toURI().toString());
+//            }
+//        }
+//        jars.add(seatunnelJarPath.toUri().toString());
+//
+//
+//        ConfigUtils.encodeCollectionToConfig(configuration, PipelineOptions.JARS, jars, Object::toString);
+//        configuration.setString(DeploymentOptions.TARGET, RemoteExecutor.NAME);
         return configuration;
     }
 

@@ -29,15 +29,13 @@ import org.mapstruct.factory.Mappers;
 /**
  * @author gleiyu
  */
-@Mapper(uses = {DiDirectoryConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper( unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DiJobConvert extends BaseConvert<DiJob, DiJobDTO> {
     DiJobConvert INSTANCE = Mappers.getMapper(DiJobConvert.class);
 
     @Override
-    @Mapping(source = "directory.id", target = "directoryId")
     DiJob toDo(DiJobDTO dto);
 
     @Override
-    @Mapping(source = "directoryId", target = "directory.id")
     DiJobDTO toDto(DiJob entity);
 }
