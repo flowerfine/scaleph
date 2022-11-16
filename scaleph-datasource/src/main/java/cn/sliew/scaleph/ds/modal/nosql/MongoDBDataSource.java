@@ -27,30 +27,22 @@ import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.util.StringUtils;
 
-import java.util.HashMap;
+import javax.validation.constraints.NotBlank;
 import java.util.Map;
-
-import static cn.sliew.milky.common.check.Ensures.checkState;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ElasticsearchDataSource extends AbstractDataSource {
+public class MongoDBDataSource extends AbstractDataSource {
+
+    @NotBlank
+    @ApiModelProperty("uri")
+    private String uri;
 
     @Override
     public DataSourceType getType() {
-        return DataSourceType.ELASTICSEARCH;
+        return DataSourceType.MONGODB;
     }
-
-    @ApiModelProperty("hosts")
-    private String hosts;
-
-    @ApiModelProperty("username")
-    private String username;
-
-    @ApiModelProperty("password")
-    private String password;
 
     @Override
     public DsInfoDTO toDsInfo() {
@@ -59,13 +51,7 @@ public class ElasticsearchDataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = new HashMap<>();
-        props.put("hosts", hosts);
-        if (StringUtils.hasText(username)) {
-            checkState(StringUtils.hasText(password), () -> "password must provide where username specified");
-            props.put("username", username);
-            props.put("password", CodecUtil.encrypt(password));
-        }
+        Map<String, Object> props = Map.of("uri", CodecUtil.encrypt(uri));
         dto.setProps(props);
         return dto;
     }

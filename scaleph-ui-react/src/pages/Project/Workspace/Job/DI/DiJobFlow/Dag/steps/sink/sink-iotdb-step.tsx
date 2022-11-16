@@ -62,9 +62,7 @@ const SinkIoTDBStepForm: React.FC<ModalFormProps<{
         label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
         colProps={{span: 6}}
         initialValue={"IoTDB"}
-        fieldProps={{
-          disabled: true
-        }}
+        disabled
         request={() => DictDataService.listDictDataByType2(DICT_TYPE.datasourceType)}
       />
       <ProFormSelect
