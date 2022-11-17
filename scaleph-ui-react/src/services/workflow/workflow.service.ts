@@ -9,6 +9,14 @@ export const WorkflowService = {
     return request<PageResponse<WorkflowDefinition>>(`${WorkflowService.url}`, {
       method: 'GET',
       params: param,
+    }).then((res) => {
+      const result = {
+        data: res.records,
+        total: res.total,
+        pageSize: res.size,
+        current: res.current,
+      };
+      return result;
     });
   },
 

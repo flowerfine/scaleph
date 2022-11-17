@@ -451,9 +451,17 @@ export default [
       {
         name: 'quartz',
         path: '/admin/workflow/quartz',
+        icon: 'fieldTime',
+        exact: true,
+        component: './Workflow/Definition/Quartz',
+        pCode: PRIVILEGE_CODE.privilegeShow,
+        access: 'normalRouteFilter',
+      },
+      {
+        path: '/admin/workflow/quartz/task',
         icon: 'team',
         exact: true,
-        component: './Workflow/Quartz',
+        component: './Workflow/Definition/Quartz/Task',
         pCode: PRIVILEGE_CODE.privilegeShow,
         access: 'normalRouteFilter',
       },

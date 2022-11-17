@@ -22,7 +22,6 @@ export type WorkflowTaskDefinition = {
   type?: Dict;
   name?: string;
   handler?: string;
-  handler?: string;
   param?: any;
   remark?: string;
   createTime?: Date;

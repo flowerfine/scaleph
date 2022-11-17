@@ -37,6 +37,11 @@ CREATE TABLE `workflow_definition`
     KEY `idx_name` (`name`)
 ) ENGINE = InnoDB COMMENT ='workflow definition';
 
+INSERT INTO `workflow_definition`(`id`, `type`, `name`, `execute_type`, `param`, `remark`, `creator`, `editor`)
+VALUES (1, '0', 'Flink 状态', '1', NULL, NULL, 'sys', 'sys');
+INSERT INTO `workflow_definition`(`id`, `type`, `name`, `execute_type`, `param`, `remark`, `creator`, `editor`)
+VALUES (2, '0', 'Flink savepoints', '1', NULL, NULL, 'sys', 'sys');
+
 DROP TABLE IF EXISTS `workflow_instance`;
 CREATE TABLE `workflow_instance`
 (
@@ -71,6 +76,10 @@ CREATE TABLE `workflow_task_definition`
     PRIMARY KEY (`id`),
     KEY `idx_workflow_definition` (`workflow_definition_id`)
 ) ENGINE = InnoDB COMMENT ='workflow task definition';
+
+INSERT INTO `workflow_task_definition`(`id`, `workflow_definition_id`, `type`, `name`, `handler`, `param`, `remark`,
+                                       `creator`, `editor`)
+VALUES (1, 1, '1', 'FlinkJobStatus', 'cn.sliew.scaleph.FlinkJobStatusAction', NULL, NULL, 'sys', 'sys');
 
 DROP TABLE IF EXISTS `workflow_task_instance`;
 CREATE TABLE `workflow_task_instance`
