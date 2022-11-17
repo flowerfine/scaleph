@@ -7,6 +7,9 @@ import S3Form from "@/pages/DataSource/StepForms/Props/S3";
 import RedisForm from "@/pages/DataSource/StepForms/Props/Redis";
 import IoTDBForm from "@/pages/DataSource/StepForms/Props/IoTDB";
 import KuduForm from "@/pages/DataSource/StepForms/Props/Kudu";
+import ElasticsearchForm from "@/pages/DataSource/StepForms/Props/Elasticsearch";
+import MongoDBForm from "@/pages/DataSource/StepForms/Props/MongoDB";
+import DataHubForm from "@/pages/DataSource/StepForms/Props/DataHub";
 
 const DataSourceForm: React.FC = () => {
 
@@ -34,6 +37,13 @@ const DataSourceForm: React.FC = () => {
           return <S3Form/>
         case 'Redis':
           return <RedisForm/>
+        case 'Elasticsearch':
+          return <ElasticsearchForm/>
+        case 'MongoDB':
+          return <MongoDBForm/>
+
+        case 'DataHub':
+          return <DataHubForm/>
         case 'Kudu':
           return <KuduForm/>
         case 'IoTDB':
