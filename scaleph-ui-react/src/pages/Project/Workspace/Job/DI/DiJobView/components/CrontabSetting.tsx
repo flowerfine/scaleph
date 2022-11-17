@@ -18,7 +18,7 @@ import {
 import { useIntl } from 'umi';
 import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
-import {SchedulerService} from "@/services/scheduler/scheduler.service";
+import {SchedulerService} from "@/services/workflow/scheduler.service";
 type CrontabDataType = {
   type?: number;
   value?: string;

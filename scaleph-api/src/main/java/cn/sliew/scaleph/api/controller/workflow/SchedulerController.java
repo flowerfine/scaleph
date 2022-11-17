@@ -16,13 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.api.controller.scheduler;
+package cn.sliew.scaleph.api.controller.workflow;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.core.scheduler.service.ScheduleService;
+import cn.sliew.scaleph.workflow.scheduler.SchedulerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,21 +35,20 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-@Slf4j
-@Api(tags = "调度管理-调度服务")
+@Api(tags = "workflow管理-调度管理")
 @RestController
 @RequestMapping(path = {"/api/scheduler"})
 public class SchedulerController {
 
     @Autowired
-    private ScheduleService scheduleService;
+    private SchedulerService schedulerService;
 
     @Logging
     @GetMapping(path = "/cron/next")
     @ApiOperation(value = "查询最近5次运行时间", notes = "查询最近5次运行时间")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<List<Date>> listNext5FireTime(@RequestParam("crontabStr") String crontabStr) throws ParseException {
-        List<Date> dates = scheduleService.listNext5FireTime(crontabStr);
+        List<Date> dates = schedulerService.listNext5FireTime(crontabStr);
         return new ResponseEntity<>(dates, HttpStatus.OK);
     }
 }

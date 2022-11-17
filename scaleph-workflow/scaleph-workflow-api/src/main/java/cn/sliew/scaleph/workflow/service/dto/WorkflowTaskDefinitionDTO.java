@@ -45,4 +45,7 @@ public class WorkflowTaskDefinitionDTO extends BaseDTO {
     @ApiModelProperty("workflow task param")
     private Map<String, Object> param;
 
+    @ApiModelProperty("备注")
+    private String remark;
+
 }

@@ -449,6 +449,15 @@ export default [
         access: 'normalRouteFilter',
       },
       {
+        name: 'quartz',
+        path: '/admin/workflow/quartz',
+        icon: 'team',
+        exact: true,
+        component: './Workflow/Quartz',
+        pCode: PRIVILEGE_CODE.privilegeShow,
+        access: 'normalRouteFilter',
+      },
+      {
         name: 'dict',
         path: '/admin/dict',
         icon: 'table',

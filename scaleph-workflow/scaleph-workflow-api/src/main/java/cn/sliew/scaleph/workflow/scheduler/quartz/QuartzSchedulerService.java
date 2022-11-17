@@ -25,8 +25,14 @@ import cn.sliew.scaleph.workflow.service.dto.WorkflowScheduleDTO;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.quartz.TriggerUtils;
+import org.quartz.impl.triggers.CronTriggerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
 
 @Component
 public class QuartzSchedulerService implements SchedulerService {
@@ -71,6 +77,13 @@ public class QuartzSchedulerService implements SchedulerService {
     @Override
     public void terminate(Long id) {
 
+    }
+
+    @Override
+    public List<Date> listNext5FireTime(String crontabStr) throws ParseException {
+        CronTriggerImpl cronTrigger = new CronTriggerImpl();
+        cronTrigger.setCronExpression(crontabStr);
+        return TriggerUtils.computeFireTimes(cronTrigger, null, 5);
     }
 
     private WorkflowScheduleDTO getSchedule(Long id) {
