@@ -61,6 +61,7 @@ CREATE TABLE `workflow_task_definition`
     `workflow_definition_id` BIGINT       NOT NULL,
     `type`                   VARCHAR(4)   NOT NULL,
     `name`                   VARCHAR(255) NOT NULL,
+    `handler`                VARCHAR(255) NOT NULL,
     `param`                  TEXT,
     `remark`                 VARCHAR(255),
     `creator`                VARCHAR(32),
