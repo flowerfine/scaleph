@@ -33,10 +33,10 @@ import cn.sliew.scaleph.workflow.engine.workflow.WorkFlow;
 import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
 import cn.sliew.scaleph.workflow.service.WorkflowInstanceService;
 import cn.sliew.scaleph.workflow.service.WorkflowTaskDefinitionService;
-import cn.sliew.scaleph.workflow.service.WorkflowTaskInstanceService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowInstanceDTO;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowTaskDefinitionDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -46,6 +46,7 @@ import org.springframework.util.ClassUtils;
 
 import java.util.List;
 
+@Slf4j
 public class QuartzJobHandler extends QuartzJobBean {
 
     private Engine engine = EngineBuilder.newInstance().build();
@@ -89,12 +90,12 @@ public class QuartzJobHandler extends QuartzJobBean {
         engine.run(workFlow, actionContext, new ActionListener<ActionResult>() {
             @Override
             public void onResponse(ActionResult result) {
-
+                log.info("workflow {} run success!", workflowDefinitionDTO.getName());
             }
 
             @Override
             public void onFailure(Exception e) {
-
+                log.error("workflow {} run failure!", workflowDefinitionDTO.getName(), e);
             }
         });
     }
