@@ -27,6 +27,7 @@
         <result column="update_time" property="updateTime" />
         <result column="workflow_definition_id" property="workflowDefinitionId" />
         <result column="type" property="type" />
+        <result column="handler" property="handler" />
         <result column="name" property="name" />
         <result column="param" property="param" />
         <result column="remark" property="remark" />
@@ -34,7 +35,7 @@
 
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        workflow_definition_id, `type`, `name`, param, remark
+        workflow_definition_id, `type`, `name`, handler, param, remark
     </sql>
 
 </mapper>

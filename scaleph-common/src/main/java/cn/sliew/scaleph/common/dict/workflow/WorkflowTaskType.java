@@ -29,6 +29,7 @@ import java.util.Arrays;
 public enum WorkflowTaskType implements DictInstance {
 
     SUB_WORKFLOW("0", "SUB_WORKFLOW"),
+    JAVA("1", "JAVA"),
     ;
 
     @JsonCreator

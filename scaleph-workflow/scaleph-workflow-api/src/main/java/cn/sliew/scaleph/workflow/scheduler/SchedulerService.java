@@ -16,33 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service.dto;
+package cn.sliew.scaleph.workflow.scheduler;
 
-import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskType;
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+public interface SchedulerService {
 
-import java.util.Map;
+    boolean exists(Long id);
+    
+    void schedule(Long id);
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class WorkflowTaskDefinitionDTO extends BaseDTO {
+    void unschedule(Long id);
 
-    @ApiModelProperty("workflow definition id")
-    private Long workflowDefinitionId;
+    void suspend(Long id);
 
-    @ApiModelProperty("workflow task type")
-    private WorkflowTaskType type;
+    void resume(Long id);
 
-    @ApiModelProperty("workflow task name")
-    private String name;
-
-    @ApiModelProperty("workflow task handler")
-    private String handler;
-
-    @ApiModelProperty("workflow task param")
-    private Map<String, Object> param;
-
+    void terminate(Long id);
 }

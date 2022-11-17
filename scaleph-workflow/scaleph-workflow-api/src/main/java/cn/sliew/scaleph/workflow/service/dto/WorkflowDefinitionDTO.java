@@ -37,6 +37,10 @@ public class WorkflowDefinitionDTO extends BaseDTO {
     @ApiModelProperty("workflow name")
     private String name;
 
+    /**
+     * task relations determinate execute type, not workflow
+     */
+    @Deprecated
     @ApiModelProperty("workflow execute type")
     private WorkflowExecuteType executeType;
 

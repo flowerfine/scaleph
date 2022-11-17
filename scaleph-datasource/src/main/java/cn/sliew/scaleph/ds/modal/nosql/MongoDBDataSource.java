@@ -27,31 +27,21 @@ import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.HashMap;
 import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class RedisDataSource extends AbstractDataSource {
+public class MongoDBDataSource extends AbstractDataSource {
 
     @NotBlank
-    @ApiModelProperty("host")
-    private String host;
-
-    @NotNull
-    @ApiModelProperty("port")
-    private Integer port;
-
-    @ApiModelProperty("password")
-    private String password;
+    @ApiModelProperty("uri")
+    private String uri;
 
     @Override
     public DataSourceType getType() {
-        return DataSourceType.REDIS;
+        return DataSourceType.MONGODB;
     }
 
     @Override
@@ -61,12 +51,7 @@ public class RedisDataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = new HashMap<>();
-        props.put("host", host);
-        props.put("port", port);
-        if (StringUtils.hasText(password)) {
-            props.put("password", CodecUtil.encrypt(password));
-        }
+        Map<String, Object> props = Map.of("uri", CodecUtil.encrypt(uri));
         dto.setProps(props);
         return dto;
     }

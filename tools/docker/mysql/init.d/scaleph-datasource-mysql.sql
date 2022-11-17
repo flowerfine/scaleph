@@ -250,6 +250,21 @@ INSERT INTO `ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additiona
 VALUES (2, 1, NULL, 'local_data_service',
         'eyJkcml2ZXJDbGFzc05hbWUiOiJjb20ubXlzcWwuY2ouamRiYy5Ecml2ZXIiLCJ1c2VyIjoicm9vdCIsInBhc3N3b3JkIjoiMTIzNDU2IiwidXJsIjoiamRiYzpteXNxbDovL2xvY2FsaG9zdDozMzA2L2RhdGFfc2VydmljZSJ9',
         NULL, NULL, 'sys', 'sys');
+INSERT INTO `ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
+VALUES (3, 9, NULL, 'docker_redis', 'eyJwYXNzd29yZCI6IkVuY3J5cHRlZDpNVEl6TkRVMiIsInBvcnQiOjYzNzksImhvc3QiOiJyZWRpcyJ9',
+        NULL, NULL, 'sys', 'sys');
+INSERT INTO `ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
+VALUES (4, 9, NULL, 'local_redis',
+        'eyJwYXNzd29yZCI6IkVuY3J5cHRlZDpNVEl6TkRVMiIsInBvcnQiOjYzNzksImhvc3QiOiJsb2NhbGhvc3QifQ==', NULL, NULL, 'sys',
+        'sys');
+INSERT INTO `ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
+VALUES (5, 20, NULL, 'docker_minio',
+        'eyJhY2Nlc3NTZWNyZXQiOiJFbmNyeXB0ZWQ6Y0dGemMzZHZjbVE9IiwiYnVja2V0IjoiczNuOi8vbWluaW86OTAwMC9zY2FsZXBoIiwiYWNjZXNzS2V5IjoiRW5jcnlwdGVkOllXUnRhVzQ9In0=',
+        NULL, NULL, 'sys', 'sys');
+INSERT INTO `ds_info`(`id`, `ds_type_id`, `version`, `name`, `props`, `additional_props`, `remark`, `creator`, `editor`)
+VALUES (6, 20, NULL, 'local_minio',
+        'eyJhY2Nlc3NTZWNyZXQiOiJFbmNyeXB0ZWQ6Y0dGemMzZHZjbVE9IiwiYnVja2V0IjoiczNuOi8vbG9jYWxob3N0OjkwMDAvc2NhbGVwaCIsImFjY2Vzc0tleSI6IkVuY3J5cHRlZDpZV1J0YVc0PSJ9',
+        NULL, NULL, 'sys', 'sys');
 
 /* 元数据-数据源连接信息 */
 drop table if exists meta_datasource;

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal.nosql;
+package cn.sliew.scaleph.ds.modal.mq;
 
 import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
@@ -27,31 +27,29 @@ import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.HashMap;
 import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class RedisDataSource extends AbstractDataSource {
+public class DataHubDataSource extends AbstractDataSource {
 
     @NotBlank
-    @ApiModelProperty("host")
-    private String host;
+    @ApiModelProperty("endpoint")
+    private String endpoint;
 
-    @NotNull
-    @ApiModelProperty("port")
-    private Integer port;
+    @NotBlank
+    @ApiModelProperty("access id")
+    private String accessId;
 
-    @ApiModelProperty("password")
-    private String password;
+    @NotBlank
+    @ApiModelProperty("access key")
+    private String accessKey;
 
     @Override
     public DataSourceType getType() {
-        return DataSourceType.REDIS;
+        return DataSourceType.DATAHUB;
     }
 
     @Override
@@ -61,12 +59,7 @@ public class RedisDataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = new HashMap<>();
-        props.put("host", host);
-        props.put("port", port);
-        if (StringUtils.hasText(password)) {
-            props.put("password", CodecUtil.encrypt(password));
-        }
+        Map<String, Object> props = Map.of("endpoint", endpoint, "accessId", CodecUtil.encrypt(accessId), "accessKey", CodecUtil.encrypt(accessKey));
         dto.setProps(props);
         return dto;
     }

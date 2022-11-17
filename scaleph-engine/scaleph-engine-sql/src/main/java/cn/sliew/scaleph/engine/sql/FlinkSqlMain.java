@@ -16,33 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service.dto;
+package cn.sliew.scaleph.engine.sql;
 
-import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskType;
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+public class FlinkSqlMain {
 
-import java.util.Map;
-
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class WorkflowTaskDefinitionDTO extends BaseDTO {
-
-    @ApiModelProperty("workflow definition id")
-    private Long workflowDefinitionId;
-
-    @ApiModelProperty("workflow task type")
-    private WorkflowTaskType type;
-
-    @ApiModelProperty("workflow task name")
-    private String name;
-
-    @ApiModelProperty("workflow task handler")
-    private String handler;
-
-    @ApiModelProperty("workflow task param")
-    private Map<String, Object> param;
-
+    public static void main(String[] args) {
+        System.out.println("Hello, Flink SQL!");
+    }
 }

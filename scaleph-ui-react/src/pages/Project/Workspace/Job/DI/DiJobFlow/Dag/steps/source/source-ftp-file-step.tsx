@@ -76,9 +76,7 @@ const SourceFtpFileStepForm: React.FC<
           label={intl.formatMessage({ id: 'pages.project.di.step.dataSourceType' })}
           colProps={{ span: 6 }}
           initialValue={'Ftp'}
-          fieldProps={{
-            disabled: true,
-          }}
+          disabled
           request={() => DictDataService.listDictDataByType2(DICT_TYPE.datasourceType)}
         />
         <ProFormSelect

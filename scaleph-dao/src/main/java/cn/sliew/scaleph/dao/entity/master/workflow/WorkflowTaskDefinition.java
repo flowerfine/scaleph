@@ -50,6 +50,10 @@ public class WorkflowTaskDefinition extends BaseDO {
     @TableField("`name`")
     private String name;
 
+    @ApiModelProperty("handler")
+    @TableField("`handler`")
+    private String handler;
+
     @ApiModelProperty("param")
     @TableField("param")
     private String param;
