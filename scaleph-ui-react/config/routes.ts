@@ -459,9 +459,15 @@ export default [
       },
       {
         path: '/admin/workflow/quartz/task',
-        icon: 'team',
         exact: true,
         component: './Workflow/Definition/Quartz/Task',
+        pCode: PRIVILEGE_CODE.privilegeShow,
+        access: 'normalRouteFilter',
+      },
+      {
+        path: '/admin/workflow/schedule',
+        exact: true,
+        component: './Workflow/Schedule',
         pCode: PRIVILEGE_CODE.privilegeShow,
         access: 'normalRouteFilter',
       },

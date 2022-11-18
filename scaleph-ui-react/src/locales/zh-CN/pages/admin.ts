@@ -70,6 +70,13 @@ export default {
   'pages.admin.workflow.quartz.task.name': '名称',
   'pages.admin.workflow.quartz.task.handler': '处理器',
 
+  'pages.admin.workflow.schedule.setting': '定时设置',
+  'pages.admin.workflow.schedule.status': '状态',
+  'pages.admin.workflow.schedule.timezone': '时区',
+  'pages.admin.workflow.schedule.startTime': '开始时间',
+  'pages.admin.workflow.schedule.endTime': '结束时间',
+  'pages.admin.workflow.schedule.crontab': 'Cron 表达式',
+
   'pages.admin.setting.basic.seatunnelHome': 'seatunnel Home',
   'pages.admin.setting.email.host': '邮件服务器',
   'pages.admin.setting.email.email': '发件地址',

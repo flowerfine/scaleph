@@ -1,7 +1,7 @@
 import {history, useAccess, useIntl} from "umi";
-import {useRef} from "react";
+import React, {useRef} from "react";
 import {Button, Space, Tooltip} from "antd";
-import {FolderOpenOutlined} from "@ant-design/icons";
+import {FolderOpenOutlined, SettingOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {WorkflowDefinition} from "@/services/workflow/typings";
 import {WorkflowService} from "@/services/workflow/workflow.service";
@@ -74,29 +74,44 @@ const QuartzWorkflowDefinition: React.FC = () => {
               />
             </Tooltip>
           )}
+          {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
+            <Tooltip title={intl.formatMessage({id: 'pages.admin.workflow.schedule.setting'})}>
+              <Button
+                shape="default"
+                type="link"
+                icon={<SettingOutlined/>}
+                onClick={() => {
+                  history.push('/admin/workflow/schedule', record);
+                }}
+              ></Button>
+            </Tooltip>
+          )}
         </Space>
       ),
     },
   ]
 
   return (
-    <ProTable<WorkflowDefinition>
-      search={{
-        labelWidth: 'auto',
-        span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
-      }}
-      rowKey="id"
-      actionRef={actionRef}
-      formRef={formRef}
-      options={false}
-      columns={tableColumns}
-      request={(params, sorter, filter) => {
-        return WorkflowService.listWorkflowDefinitions({...params, type: "0"});
-      }}
-      pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
-      tableAlertRender={false}
-      tableAlertOptionRender={false}
-    />
+    <div>
+      <ProTable<WorkflowDefinition>
+        search={{
+          labelWidth: 'auto',
+          span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
+        }}
+        rowKey="id"
+        actionRef={actionRef}
+        formRef={formRef}
+        options={false}
+        columns={tableColumns}
+        request={(params, sorter, filter) => {
+          return WorkflowService.listWorkflowDefinitions({...params, type: "0"});
+        }}
+        pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
+        tableAlertRender={false}
+        tableAlertOptionRender={false}
+      />
+
+    </div>
   );
 }
 

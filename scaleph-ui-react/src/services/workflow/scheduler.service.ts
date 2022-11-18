@@ -6,7 +6,7 @@ export const SchedulerService = {
   url: '/api/scheduler',
 
   list: async (workflowDefinitionId: number) => {
-    return request<ResponseBody<WorkflowSchedule>>(`${SchedulerService.url}`, {
+    return request<ResponseBody<Array<WorkflowSchedule>>>(`${SchedulerService.url}`, {
       method: 'GET',
       params: {workflowDefinitionId: workflowDefinitionId},
     });
