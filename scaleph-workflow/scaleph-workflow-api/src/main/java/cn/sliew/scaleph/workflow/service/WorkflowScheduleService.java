@@ -22,7 +22,11 @@ import cn.sliew.scaleph.workflow.service.dto.WorkflowScheduleDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleAddParam;
 import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleUpdateParam;
 
+import java.util.List;
+
 public interface WorkflowScheduleService {
+
+    List<WorkflowScheduleDTO> list(Long workflowDefinitionId);
 
     WorkflowScheduleDTO get(Long id);
 
@@ -31,6 +35,8 @@ public interface WorkflowScheduleService {
     void update(Long id, WorkflowScheduleUpdateParam param);
 
     void delete(Long id);
+
+    void deleteBatch(List<Long> ids);
 
     void schedule(Long id);
 

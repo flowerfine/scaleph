@@ -19,18 +19,21 @@
 package cn.sliew.scaleph.api.controller.workflow;
 
 import cn.sliew.scaleph.api.annotation.Logging;
+import cn.sliew.scaleph.system.vo.ResponseVO;
 import cn.sliew.scaleph.workflow.scheduler.SchedulerService;
+import cn.sliew.scaleph.workflow.service.WorkflowScheduleService;
+import cn.sliew.scaleph.workflow.service.dto.WorkflowScheduleDTO;
+import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleAddParam;
+import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleUpdateParam;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +45,48 @@ public class SchedulerController {
 
     @Autowired
     private SchedulerService schedulerService;
+    @Autowired
+    private WorkflowScheduleService workflowScheduleService;
+
+    @Logging
+    @GetMapping
+    @ApiOperation(value = "查询 workflow 调度列表", notes = "查询 workflow 调度列表")
+    public ResponseEntity<ResponseVO<List<WorkflowScheduleDTO>>> get(@RequestParam("workflowDefinitionId") Long workflowDefinitionId) throws ParseException {
+        List<WorkflowScheduleDTO> result = workflowScheduleService.list(workflowDefinitionId);
+        return new ResponseEntity<>(ResponseVO.sucess(result), HttpStatus.OK);
+    }
+
+    @Logging
+    @PutMapping
+    @ApiOperation(value = "新增 workflow 调度", notes = "新增 workflow 调度")
+    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WorkflowScheduleAddParam param) throws ParseException {
+        workflowScheduleService.insert(param);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("{id}")
+    @ApiOperation(value = "修改 workflow 调度", notes = "修改 workflow 调度")
+    public ResponseEntity<ResponseVO> update(@RequestParam("id") Long id, @Valid @RequestBody WorkflowScheduleUpdateParam param) throws ParseException {
+        workflowScheduleService.update(id, param);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping("{id}")
+    @ApiOperation(value = "删除 workflow 调度", notes = "删除 workflow 调度")
+    public ResponseEntity<ResponseVO> deleteById(@PathVariable("id") Long id) {
+        workflowScheduleService.delete(id);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping(path = "/batch")
+    @ApiOperation(value = "批量删除 workflow 调度", notes = "批量删除 workflow 调度")
+    public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) {
+        workflowScheduleService.deleteBatch(ids);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
 
     @Logging
     @GetMapping(path = "/cron/next")
@@ -51,4 +96,5 @@ public class SchedulerController {
         List<Date> dates = schedulerService.listNext5FireTime(crontabStr);
         return new ResponseEntity<>(dates, HttpStatus.OK);
     }
+
 }

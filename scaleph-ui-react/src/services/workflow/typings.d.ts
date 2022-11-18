@@ -7,8 +7,8 @@ export type WorkflowDefinition = {
   executeType: Dict;
   param?: any;
   remark?: string;
-  createTime?: Date;
-  updateTime?: Date;
+  createTime: Date;
+  updateTime: Date;
 }
 
 export type WorkflowDefinitionListParam = QueryParam & {
@@ -26,4 +26,34 @@ export type WorkflowTaskDefinition = {
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
+}
+
+export type WorkflowSchedule = {
+  id: number;
+  workflowDefinitionId: number;
+  timezone: string;
+  crontab: string;
+  startTime: Date;
+  endTime: Date;
+  status: Dict;
+  remark: string;
+  createTime: Date;
+  updateTime: Date;
+}
+
+export type WorkflowScheduleAddParam = {
+  workflowDefinitionId: number;
+  timezone: string;
+  crontab: string;
+  startTime: Date;
+  endTime: Date;
+  remark: string;
+}
+
+export type WorkflowScheduleUpdateParam = {
+  timezone: string;
+  crontab: string;
+  startTime: Date;
+  endTime: Date;
+  remark: string;
 }

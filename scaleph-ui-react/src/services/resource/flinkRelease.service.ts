@@ -5,7 +5,7 @@ import {
   FlinkReleaseListParam,
   FlinkReleaseUploadParam,
 } from '@/services/resource/typings';
-import { request } from '@@/exports';
+import { request } from 'umi';
 
 export const FlinkReleaseService = {
   url: '/api/resource/flink-release',

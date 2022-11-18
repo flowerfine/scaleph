@@ -5,7 +5,7 @@ import {
   FlinkArtifactJarListParam,
   FlinkArtifactJarUploadParam,
 } from '@/services/dev/typings';
-import { request } from '@@/exports';
+import { request } from 'umi';
 
 export const FlinkArtifactJarService = {
   url: '/api/flink/artifact/jar',

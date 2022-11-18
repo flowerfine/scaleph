@@ -6,7 +6,7 @@ import {
   SeaTunnelReleaseListParam,
   SeaTunnelReleaseUploadParam,
 } from '@/services/resource/typings';
-import {request} from '@@/exports';
+import {request} from 'umi';
 
 export const SeatunnelReleaseService = {
   url: '/api/resource/seatunnel-release',
