@@ -18,6 +18,10 @@
 
 package cn.sliew.scaleph.workflow.scheduler;
 
+import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
+
 public interface SchedulerService {
 
     boolean exists(Long id);
@@ -31,4 +35,7 @@ public interface SchedulerService {
     void resume(Long id);
 
     void terminate(Long id);
+
+    List<Date> listNext5FireTime(String crontabStr) throws ParseException;
+
 }

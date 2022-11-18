@@ -27,8 +27,13 @@ import cn.sliew.scaleph.workflow.service.convert.WorkflowScheduleConvert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowScheduleDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleAddParam;
 import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleUpdateParam;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import scala.collection.mutable.WrappedArray;
+
+import java.util.List;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -37,6 +42,14 @@ public class WorkflowScheduleServiceImpl implements WorkflowScheduleService {
 
     @Autowired
     private WorkflowScheduleMapper workflowScheduleMapper;
+
+    @Override
+    public List<WorkflowScheduleDTO> list(Long workflowDefinitionId) {
+        LambdaQueryWrapper<WorkflowSchedule> queryWrapper = Wrappers.lambdaQuery(WorkflowSchedule.class)
+                .eq(WorkflowSchedule::getWorkflowDefinitionId, workflowDefinitionId);
+        List<WorkflowSchedule> workflowSchedules = workflowScheduleMapper.selectList(queryWrapper);
+        return WorkflowScheduleConvert.INSTANCE.toDto(workflowSchedules);
+    }
 
     @Override
     public WorkflowScheduleDTO get(Long id) {
@@ -62,6 +75,11 @@ public class WorkflowScheduleServiceImpl implements WorkflowScheduleService {
     @Override
     public void delete(Long id) {
         workflowScheduleMapper.deleteById(id);
+    }
+
+    @Override
+    public void deleteBatch(List<Long> ids) {
+        workflowScheduleMapper.deleteBatchIds(ids);
     }
 
     @Override

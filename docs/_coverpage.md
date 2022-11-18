@@ -11,3 +11,7 @@
 
 [GitHub](https://github.com/flowerfine/scaleph)
 [Get Started](#关于Scaleph)
+
+<!-- 背景图片 -->
+
+![](image/coverpage.jpg)

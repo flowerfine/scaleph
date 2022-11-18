@@ -1,4 +1,4 @@
-import { Dict, TreeNode } from '@/app.d';
+import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { JobService } from '@/services/project/job.service';
