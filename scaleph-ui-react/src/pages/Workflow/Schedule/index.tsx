@@ -128,7 +128,7 @@ const WorkflowScheduleWeb: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setClusterCredentialData({ visiable: true, data: {} });
+                  // setClusterCredentialData({ visiable: true, data: {} });
                 }}
               >
                 {intl.formatMessage({ id: 'app.common.operate.new.label' })}
