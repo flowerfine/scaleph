@@ -47,7 +47,7 @@ export const SeatunnelReleaseService = {
     if (uploadParam.remark) {
       formData.append('remark', uploadParam.remark);
     }
-    return request<ResponseBody<any>>(`${SeatunnelReleaseService.url}/upload`, {
+    return request<ResponseBody<SeaTunnelRelease>>(`${SeatunnelReleaseService.url}/upload`, {
       method: 'POST',
       data: formData,
     });

@@ -41,7 +41,7 @@ public interface SeaTunnelReleaseService extends ResourceDescriptor<SeaTunnelRel
 
     List<FileStatusVO> listConnectors(Long id) throws IOException;
 
-    void upload(SeaTunnelReleaseUploadParam param, MultipartFile file) throws IOException;
+    SeaTunnelReleaseDTO upload(SeaTunnelReleaseUploadParam param, MultipartFile file) throws IOException;
 
     void uploadConnector(SeaTunnelConnectorUploadParam param, MultipartFile file) throws IOException;
 

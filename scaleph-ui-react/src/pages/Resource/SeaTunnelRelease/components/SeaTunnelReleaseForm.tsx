@@ -6,7 +6,7 @@ import {SeaTunnelRelease, SeaTunnelReleaseUploadParam} from '@/services/resource
 import {UploadOutlined} from '@ant-design/icons';
 import {Button, Form, Input, message, Modal, Select, Upload, UploadFile, UploadProps} from 'antd';
 import {useEffect, useState} from 'react';
-import {useIntl} from 'umi';
+import {useIntl, history} from 'umi';
 
 const SeaTunnelReleaseForm: React.FC<ModalFormProps<SeaTunnelRelease>> = ({
                                                                             data,
@@ -72,7 +72,7 @@ const SeaTunnelReleaseForm: React.FC<ModalFormProps<SeaTunnelRelease>> = ({
             .then((response) => {
               if (response.success) {
                 setFileList([]);
-                message.success(intl.formatMessage({id: 'app.common.operate.upload.success'}));
+                history.push("/resource/seatunnel-release/connectors", response.data)
               }
             })
             .finally(() => {
