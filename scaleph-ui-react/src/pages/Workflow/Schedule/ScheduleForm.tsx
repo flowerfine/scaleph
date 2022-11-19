@@ -3,12 +3,11 @@ import {Form, message, Modal} from "antd";
 import {ProForm, ProFormDateTimeRangePicker, ProFormSelect, ProFormText} from "@ant-design/pro-components";
 import {useIntl} from "umi";
 import {ModalFormProps} from '@/app.d';
-import {DICT_TYPE} from "@/constant";
-import {DictDataService} from "@/services/admin/dictData.service";
 import {WorkflowDefinition, WorkflowSchedule} from "@/services/workflow/typings";
 import CrontabSetting from "@/pages/Workflow/Schedule/CrontabSetting";
 import {SchedulerService} from "@/services/workflow/scheduler.service";
 import moment from 'moment';
+import {TimeZoneOptions} from "@/pages/Workflow/Schedule/TimeZone";
 
 const WorkflowScheduleForm: React.FC<ModalFormProps<{ workflow: WorkflowDefinition, schedule?: WorkflowSchedule }>> = ({
                                                                                                                          data,
@@ -85,9 +84,10 @@ const WorkflowScheduleForm: React.FC<ModalFormProps<{ workflow: WorkflowDefiniti
             name={"timezone"}
             label={intl.formatMessage({id: 'pages.admin.workflow.schedule.timezone'})}
             rules={[{required: true}]}
-            request={() => {
-              return DictDataService.listDictDataByType2(DICT_TYPE.seatunnelPluginName)
-            }}
+            showSearch={true}
+            allowClear={false}
+            initialValue={"Asia/Shanghai"}
+            options={TimeZoneOptions}
           />
           <ProFormDateTimeRangePicker
             name="timeRange"
