@@ -16,35 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service;
+package cn.sliew.scaleph.workflow.service.param;
 
-import cn.sliew.scaleph.workflow.service.dto.WorkflowScheduleDTO;
-import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleAddParam;
-import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleListParam;
-import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleUpdateParam;
+import cn.sliew.scaleph.common.dict.workflow.ScheduleStatus;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
-public interface WorkflowScheduleService {
+@Data
+@EqualsAndHashCode
+public class WorkflowScheduleListParam {
 
-    List<WorkflowScheduleDTO> list(WorkflowScheduleListParam param);
+    @NotNull
+    @ApiModelProperty("workflow definition id")
+    private Long workflowDefinitionId;
 
-    WorkflowScheduleDTO get(Long id);
-
-    void insert(WorkflowScheduleAddParam param);
-
-    void update(Long id, WorkflowScheduleUpdateParam param);
-
-    void delete(Long id);
-
-    void deleteBatch(List<Long> ids);
-
-    void enable(Long id);
-
-    void disable(Long id);
-
-    void schedule(Long id);
-
-    void unschedule(Long id);
-
+    @ApiModelProperty("workflow schedule status")
+    private ScheduleStatus status;
 }

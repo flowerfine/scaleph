@@ -1,10 +1,9 @@
-import {ModalFormProps} from '@/app';
-import {Alert, Col, Input, InputNumber, message, Modal, Radio, Row, Select, Space, Tabs, Typography,} from 'antd';
+import {ModalFormProps} from '@/app.d';
+import {Alert, Col, Input, InputNumber, Modal, Radio, Row, Select, Space, Tabs, Typography,} from 'antd';
 import {useIntl} from 'umi';
 import React, {useEffect, useRef, useState} from 'react';
 import moment from 'moment';
 import {SchedulerService} from "@/services/workflow/scheduler.service";
-import {WorkflowDefinition, WorkflowSchedule} from '@/services/workflow/typings';
 
 type CrontabDataType = {
   type?: number;
@@ -18,12 +17,13 @@ type CrontabDataType = {
   custom?: number[];
 };
 
-const CrontabSetting: React.FC<ModalFormProps<WorkflowSchedule>> = ({
-                                                                        data,
-                                                                        visible,
-                                                                        onVisibleChange,
-                                                                        onCancel,
-                                                                      }) => {
+const CrontabSetting: React.FC<ModalFormProps<string>> = ({
+                                                            data,
+                                                            visible,
+                                                            onVisibleChange,
+                                                            onCancel,
+                                                            onOK
+                                                          }) => {
   const intl = useIntl();
   const [crontabStr, setCrontabStr] = useState<string>('');
   const [minutes, setMinutes] = useState<number[]>([]);
@@ -725,8 +725,8 @@ const CrontabSetting: React.FC<ModalFormProps<WorkflowSchedule>> = ({
     setDays(buildNums(1, 31));
     setMonths(buildNums(1, 12));
     setWeeks(buildNums(1, 7));
-    setCrontabStr(data?.crontab ? (data?.crontab as string) : '0 * * * * ?');
-    crontabStrRef.current = data?.crontab ? (data?.crontab as string) : '0 * * * * ?';
+    setCrontabStr(data ? data : '0 * * * * ?');
+    crontabStrRef.current = data ? data : '0 * * * * ?';
     buildCrontab();
   }, []);
 
@@ -836,20 +836,9 @@ const CrontabSetting: React.FC<ModalFormProps<WorkflowSchedule>> = ({
       onCancel={onCancel}
       onOk={() => {
         if (crontabStr != '' && crontabStr != undefined && crontabStr != null) {
-          // let d: DiJob = {
-          //   id: data.id,
-          //   jobCrontab: crontabStr,
-          //   projectId: data.projectId,
-          //   jobCode: data.jobCode,
-          //   jobName: data.jobName,
-          //   directory: data.directory,
-          // };
-          // JobService.updateJob(d).then((resp) => {
-          //   if (resp.success) {
-          //     message.success(intl.formatMessage({id: 'app.common.operate.success'}));
-          //     onVisibleChange ? onVisibleChange(false) : null;
-          //   }
-          // });
+          if (onOK) {
+            onOK(crontabStr)
+          }
         }
       }}
     >

@@ -1,13 +1,12 @@
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tooltip} from "antd";
+import {Button, message, Modal, Space, Switch, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import {useAccess, useIntl, useLocation} from "umi";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {history, useAccess, useIntl, useLocation} from "umi";
 import {WorkflowDefinition, WorkflowSchedule} from "@/services/workflow/typings";
 import {PRIVILEGE_CODE} from "@/constant";
 import {SchedulerService} from "@/services/workflow/scheduler.service";
-import CrontabSetting from "@/pages/Workflow/Schedule/CrontabSetting";
-import {ClusterCredentialService} from "@/services/resource/clusterCredential.service";
+import ScheduleForm from "@/pages/Workflow/Schedule/ScheduleForm";
 
 const WorkflowScheduleWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -16,34 +15,55 @@ const WorkflowScheduleWeb: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<WorkflowSchedule[]>([]);
-  const [crontabFormData, setCrontabFormData] = useState<{ visible: boolean; data?: WorkflowSchedule }>({visible: false});
+  const [scheduleFormData, setScheduleFormData] = useState<{ visible: boolean; data: { workflow: WorkflowDefinition, schedule?: WorkflowSchedule } }>({
+    visible: false,
+    data: {}
+  });
 
   const workflowDefinition = urlParams.state as WorkflowDefinition;
+
+  const workflowScheduleEnable = (checked: boolean, entity: WorkflowSchedule) => {
+    checked
+      ? SchedulerService.enable(entity).then((response) => {
+        if (response.success) {
+          actionRef.current?.reload();
+        }
+      })
+      : SchedulerService.disable(entity).then((response) => {
+        if (response.success) {
+          actionRef.current?.reload();
+        }
+      })
+  }
 
   const tableColumns: ProColumns<WorkflowSchedule>[] = [
     {
       title: intl.formatMessage({id: 'pages.admin.workflow.schedule.status'}),
       dataIndex: 'status',
       render: (dom, entity, index, action, schema) => {
-        return entity.status.label
+        return (<Switch checked={entity.status.value == '1'} onChange={(checked, event) => workflowScheduleEnable(checked, entity)} />)
       },
-      width: 100
+      width: 70
     },
     {
       title: intl.formatMessage({id: 'pages.admin.workflow.schedule.timezone'}),
-      dataIndex: 'timezone'
+      dataIndex: 'timezone',
+      width: 85
     },
     {
       title: intl.formatMessage({id: 'pages.admin.workflow.schedule.startTime'}),
-      dataIndex: 'startTime'
+      dataIndex: 'startTime',
+      width: 180
     },
     {
       title: intl.formatMessage({id: 'pages.admin.workflow.schedule.endTime'}),
-      dataIndex: 'endTime'
+      dataIndex: 'endTime',
+      width: 180
     },
     {
       title: intl.formatMessage({id: 'pages.admin.workflow.schedule.crontab'}),
-      dataIndex: 'crontab'
+      dataIndex: 'crontab',
+      width: 120
     },
     {
       title: intl.formatMessage({id: 'pages.dataSource.remark'}),
@@ -74,7 +94,10 @@ const WorkflowScheduleWeb: React.FC = () => {
                 shape="default"
                 type="link"
                 icon={<EditOutlined/>}
-                onClick={() => setCrontabFormData({visible: true, data: record})}
+                onClick={() => setScheduleFormData({
+                  visible: true,
+                  data: {workflow: workflowDefinition, schedule: record}
+                })}
               ></Button>
             </Tooltip>
           )}
@@ -112,6 +135,11 @@ const WorkflowScheduleWeb: React.FC = () => {
   return (
     <div>
       <ProTable<WorkflowSchedule>
+        headerTitle={
+          <Button key="return" type="default" onClick={() => history.back()}>
+            {intl.formatMessage({id: 'app.common.operate.return.label'})}
+          </Button>
+        }
         search={false}
         rowKey="id"
         actionRef={actionRef}
@@ -119,7 +147,7 @@ const WorkflowScheduleWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return SchedulerService.list(workflowDefinition.id);
+          return SchedulerService.list({workflowDefinitionId: workflowDefinition.id});
         }}
         toolbar={{
           actions: [
@@ -127,11 +155,9 @@ const WorkflowScheduleWeb: React.FC = () => {
               <Button
                 key="new"
                 type="primary"
-                onClick={() => {
-                  // setClusterCredentialData({ visiable: true, data: {} });
-                }}
+                onClick={() => setScheduleFormData({visible: true, data: {workflow: workflowDefinition}})}
               >
-                {intl.formatMessage({ id: 'app.common.operate.new.label' })}
+                {intl.formatMessage({id: 'app.common.operate.new.label'})}
               </Button>
             ),
             access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
@@ -141,15 +167,15 @@ const WorkflowScheduleWeb: React.FC = () => {
                 disabled={selectedRows.length < 1}
                 onClick={() => {
                   Modal.confirm({
-                    title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
+                    title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
                     content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
-                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                    okButtonProps: { danger: true },
-                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                    okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                    okButtonProps: {danger: true},
+                    cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
                       SchedulerService.deleteBatch(selectedRows).then((response) => {
                         if (response.success) {
-                          message.success(intl.formatMessage({ id: 'app.common.operate.delete.success' }));
+                          message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();
                         }
                       });
@@ -157,7 +183,7 @@ const WorkflowScheduleWeb: React.FC = () => {
                   });
                 }}
               >
-                {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
+                {intl.formatMessage({id: 'app.common.operate.delete.label'})}
               </Button>
             ),
           ],
@@ -172,17 +198,17 @@ const WorkflowScheduleWeb: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       />
-      {crontabFormData.visible && (
-        <CrontabSetting
-          visible={crontabFormData.visible}
+      {scheduleFormData.visible && (
+        <ScheduleForm
+          visible={scheduleFormData.visible}
           onCancel={() => {
-            setCrontabFormData({visible: false, data: undefined});
+            setScheduleFormData({visible: false, data: {}});
           }}
           onVisibleChange={(visible) => {
-            setCrontabFormData({visible: false, data: undefined});
+            setScheduleFormData({visible: false, data: {}});
             actionRef.current?.reload();
           }}
-          data={crontabFormData.data}
+          data={scheduleFormData.data}
         />
       )}
     </div>

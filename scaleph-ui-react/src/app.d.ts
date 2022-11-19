@@ -76,7 +76,7 @@ export type ModalFormProps<T> = {
   visible: boolean;
   onVisibleChange?: (visible: boolean) => void;
   onCancel: () => void;
-  onOK?: () => void;
+  onOK?: (values: any) => void;
 };
 
 export type TreeNode = {

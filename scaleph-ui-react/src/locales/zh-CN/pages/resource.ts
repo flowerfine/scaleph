@@ -17,7 +17,9 @@ export default {
   'pages.resource.createTime': '创建时间',
   'pages.resource.updateTime': '更新时间',
   'pages.resource.files.upload.tooltip': '点击或者拖动文件到此区域上传',
-  'pages.resource.files.upload.hint': '不要一次性选择多个超大文件，影响上传速度',
+  'pages.resource.files.upload.hint': 'Standalone 上传 flink-conf.yaml, ' +
+    'YARN 上传 core-site.xml 和 hdfs-site.xml, ' +
+    'Kubernetes 上传 kubeconfig 文件',
   'pages.resource.jar': '公共 Jar',
   'pages.resource.jar.group': 'Group',
   'pages.resource.jar.file': 'Jar',

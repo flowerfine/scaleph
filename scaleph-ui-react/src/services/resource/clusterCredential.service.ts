@@ -32,7 +32,7 @@ export const ClusterCredentialService = {
   },
 
   add: async (row: ClusterCredential) => {
-    return request<ResponseBody<any>>(`${ClusterCredentialService.url}`, {
+    return request<ResponseBody<ClusterCredential>>(`${ClusterCredentialService.url}`, {
       method: 'PUT',
       data: row,
     });

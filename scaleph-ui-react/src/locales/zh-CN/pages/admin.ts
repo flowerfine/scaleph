@@ -73,6 +73,7 @@ export default {
   'pages.admin.workflow.schedule.setting': '定时设置',
   'pages.admin.workflow.schedule.status': '状态',
   'pages.admin.workflow.schedule.timezone': '时区',
+  'pages.admin.workflow.schedule.timeRange': '开始-结束时间',
   'pages.admin.workflow.schedule.startTime': '开始时间',
   'pages.admin.workflow.schedule.endTime': '结束时间',
   'pages.admin.workflow.schedule.crontab': 'Cron 表达式',
