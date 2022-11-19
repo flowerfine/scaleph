@@ -1,8 +1,8 @@
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tooltip} from "antd";
+import {Button, message, Modal, Space, Switch, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {useAccess, useIntl, useLocation} from "umi";
+import {history, useAccess, useIntl, useLocation} from "umi";
 import {WorkflowDefinition, WorkflowSchedule} from "@/services/workflow/typings";
 import {PRIVILEGE_CODE} from "@/constant";
 import {SchedulerService} from "@/services/workflow/scheduler.service";
@@ -22,30 +22,48 @@ const WorkflowScheduleWeb: React.FC = () => {
 
   const workflowDefinition = urlParams.state as WorkflowDefinition;
 
+  const workflowScheduleEnable = (checked: boolean, entity: WorkflowSchedule) => {
+    checked
+      ? SchedulerService.enable(entity).then((response) => {
+        if (response.success) {
+          actionRef.current?.reload();
+        }
+      })
+      : SchedulerService.disable(entity).then((response) => {
+        if (response.success) {
+          actionRef.current?.reload();
+        }
+      })
+  }
+
   const tableColumns: ProColumns<WorkflowSchedule>[] = [
     {
       title: intl.formatMessage({id: 'pages.admin.workflow.schedule.status'}),
       dataIndex: 'status',
       render: (dom, entity, index, action, schema) => {
-        return entity.status.label
+        return (<Switch checked={entity.status.value == '1'} onChange={(checked, event) => workflowScheduleEnable(checked, entity)} />)
       },
-      width: 100
+      width: 70
     },
     {
       title: intl.formatMessage({id: 'pages.admin.workflow.schedule.timezone'}),
-      dataIndex: 'timezone'
+      dataIndex: 'timezone',
+      width: 85
     },
     {
       title: intl.formatMessage({id: 'pages.admin.workflow.schedule.startTime'}),
-      dataIndex: 'startTime'
+      dataIndex: 'startTime',
+      width: 180
     },
     {
       title: intl.formatMessage({id: 'pages.admin.workflow.schedule.endTime'}),
-      dataIndex: 'endTime'
+      dataIndex: 'endTime',
+      width: 180
     },
     {
       title: intl.formatMessage({id: 'pages.admin.workflow.schedule.crontab'}),
-      dataIndex: 'crontab'
+      dataIndex: 'crontab',
+      width: 120
     },
     {
       title: intl.formatMessage({id: 'pages.dataSource.remark'}),
@@ -117,6 +135,11 @@ const WorkflowScheduleWeb: React.FC = () => {
   return (
     <div>
       <ProTable<WorkflowSchedule>
+        headerTitle={
+          <Button key="return" type="default" onClick={() => history.back()}>
+            {intl.formatMessage({id: 'app.common.operate.return.label'})}
+          </Button>
+        }
         search={false}
         rowKey="id"
         actionRef={actionRef}

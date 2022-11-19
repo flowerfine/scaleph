@@ -55,7 +55,7 @@ public class WorkflowSchedule extends BaseDO {
     @TableField("end_time")
     private Date endTime;
 
-    @ApiModelProperty("0: stop, 1: running")
+    @ApiModelProperty("0: disabled, 1: enabled")
     @TableField("`status`")
     private ScheduleStatus status;
 

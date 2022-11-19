@@ -40,6 +40,18 @@ export const SchedulerService = {
     });
   },
 
+  enable: async (row: WorkflowSchedule) => {
+    return request<ResponseBody<any>>(`${SchedulerService.url}/${row.id}/enable`, {
+      method: 'POST',
+    });
+  },
+
+  disable: async (row: WorkflowSchedule) => {
+    return request<ResponseBody<any>>(`${SchedulerService.url}/${row.id}/disable`, {
+      method: 'POST',
+    });
+  },
+
   listNext5FireTime: async (crontabStr: string) => {
     return request<Date[]>(`${SchedulerService.url}/cron/next`, {
       method: 'GET',

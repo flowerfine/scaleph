@@ -89,6 +89,22 @@ public class SchedulerController {
     }
 
     @Logging
+    @PostMapping("{id}/enable")
+    @ApiOperation(value = "启用 workflow 调度", notes = "启用 workflow 调度")
+    public ResponseEntity<ResponseVO> enable(@PathVariable("id") Long id) throws ParseException {
+        workflowScheduleService.enable(id);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("{id}/disable")
+    @ApiOperation(value = "启用 workflow 调度", notes = "启用 workflow 调度")
+    public ResponseEntity<ResponseVO> disable(@PathVariable("id") Long id) throws ParseException {
+        workflowScheduleService.disable(id);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
     @GetMapping(path = "/cron/next")
     @ApiOperation(value = "查询最近5次运行时间", notes = "查询最近5次运行时间")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")

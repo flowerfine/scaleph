@@ -38,6 +38,10 @@ public interface WorkflowScheduleService {
 
     void deleteBatch(List<Long> ids);
 
+    void enable(Long id);
+
+    void disable(Long id);
+
     void schedule(Long id);
 
     void unschedule(Long id);
