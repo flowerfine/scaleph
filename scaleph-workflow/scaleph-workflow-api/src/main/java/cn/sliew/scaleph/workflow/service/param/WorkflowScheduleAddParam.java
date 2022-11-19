@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.workflow.service.param;
 
+import cn.sliew.scaleph.common.dict.workflow.ScheduleStatus;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -51,4 +52,7 @@ public class WorkflowScheduleAddParam {
 
     @ApiModelProperty("remark")
     private String remark;
+
+    @ApiModelProperty("schedule status")
+    private ScheduleStatus status;
 }

@@ -26,6 +26,7 @@ import cn.sliew.scaleph.workflow.service.WorkflowScheduleService;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowScheduleConvert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowScheduleDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleAddParam;
+import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleListParam;
 import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleUpdateParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -43,9 +44,10 @@ public class WorkflowScheduleServiceImpl implements WorkflowScheduleService {
     private WorkflowScheduleMapper workflowScheduleMapper;
 
     @Override
-    public List<WorkflowScheduleDTO> list(Long workflowDefinitionId) {
+    public List<WorkflowScheduleDTO> list(WorkflowScheduleListParam param) {
         LambdaQueryWrapper<WorkflowSchedule> queryWrapper = Wrappers.lambdaQuery(WorkflowSchedule.class)
-                .eq(WorkflowSchedule::getWorkflowDefinitionId, workflowDefinitionId);
+                .eq(WorkflowSchedule::getWorkflowDefinitionId, param.getWorkflowDefinitionId())
+                .eq(param.getStatus() != null, WorkflowSchedule::getStatus, param.getStatus());
         List<WorkflowSchedule> workflowSchedules = workflowScheduleMapper.selectList(queryWrapper);
         return WorkflowScheduleConvert.INSTANCE.toDto(workflowSchedules);
     }

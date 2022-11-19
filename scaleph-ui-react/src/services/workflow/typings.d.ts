@@ -41,6 +41,11 @@ export type WorkflowSchedule = {
   updateTime: Date;
 }
 
+export type WorkflowScheduleListParam = {
+  workflowDefinitionId: number;
+  status?: string;
+}
+
 export type WorkflowScheduleAddParam = {
   workflowDefinitionId: number;
   timezone: string;

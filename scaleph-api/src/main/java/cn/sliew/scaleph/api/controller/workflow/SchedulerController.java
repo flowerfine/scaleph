@@ -24,6 +24,7 @@ import cn.sliew.scaleph.workflow.scheduler.SchedulerService;
 import cn.sliew.scaleph.workflow.service.WorkflowScheduleService;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowScheduleDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleAddParam;
+import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleListParam;
 import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleUpdateParam;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -51,8 +52,8 @@ public class SchedulerController {
     @Logging
     @GetMapping
     @ApiOperation(value = "查询 workflow 调度列表", notes = "查询 workflow 调度列表")
-    public ResponseEntity<ResponseVO<List<WorkflowScheduleDTO>>> get(@RequestParam("workflowDefinitionId") Long workflowDefinitionId) throws ParseException {
-        List<WorkflowScheduleDTO> result = workflowScheduleService.list(workflowDefinitionId);
+    public ResponseEntity<ResponseVO<List<WorkflowScheduleDTO>>> get(@Valid WorkflowScheduleListParam param) throws ParseException {
+        List<WorkflowScheduleDTO> result = workflowScheduleService.list(param);
         return new ResponseEntity<>(ResponseVO.sucess(result), HttpStatus.OK);
     }
 

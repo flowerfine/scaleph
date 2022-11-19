@@ -147,7 +147,7 @@ const WorkflowScheduleWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return SchedulerService.list(workflowDefinition.id);
+          return SchedulerService.list({workflowDefinitionId: workflowDefinition.id});
         }}
         toolbar={{
           actions: [
