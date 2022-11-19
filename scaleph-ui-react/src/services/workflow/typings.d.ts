@@ -45,15 +45,15 @@ export type WorkflowScheduleAddParam = {
   workflowDefinitionId: number;
   timezone: string;
   crontab: string;
-  startTime: Date;
-  endTime: Date;
+  startTime: string;
+  endTime: string;
   remark: string;
 }
 
 export type WorkflowScheduleUpdateParam = {
   timezone: string;
   crontab: string;
-  startTime: Date;
-  endTime: Date;
+  startTime: string;
+  endTime: string;
   remark: string;
 }

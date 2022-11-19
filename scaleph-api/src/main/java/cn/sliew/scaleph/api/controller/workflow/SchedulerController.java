@@ -67,7 +67,7 @@ public class SchedulerController {
     @Logging
     @PostMapping("{id}")
     @ApiOperation(value = "修改 workflow 调度", notes = "修改 workflow 调度")
-    public ResponseEntity<ResponseVO> update(@RequestParam("id") Long id, @Valid @RequestBody WorkflowScheduleUpdateParam param) throws ParseException {
+    public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid @RequestBody WorkflowScheduleUpdateParam param) throws ParseException {
         workflowScheduleService.update(id, param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }

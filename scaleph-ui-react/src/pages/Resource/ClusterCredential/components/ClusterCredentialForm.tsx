@@ -44,16 +44,20 @@ const ClusterCredentialForm: React.FC<ModalFormProps<ClusterCredential>> = ({
             remark: values.remark,
           };
           data.id
-            ? ClusterCredentialService.update(param).then((d) => {
-                if (d.success) {
+            ? ClusterCredentialService.update(param).then((response) => {
+                if (response.success) {
                   message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
-                  onVisibleChange(false);
+                  if (onVisibleChange) {
+                    onVisibleChange(false);
+                  }
                 }
               })
             : ClusterCredentialService.add(param).then((response) => {
                 if (response.success) {
                   message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
-                  onVisibleChange(false);
+                  if (onVisibleChange) {
+                    onVisibleChange(false);
+                  }
                   history.push('/resource/cluster-credential/file', { id: response.data?.id });
                 }
               });
