@@ -5,7 +5,7 @@ import { ClusterCredentialService } from '@/services/resource/clusterCredential.
 import { ClusterCredential } from '@/services/resource/typings';
 import { Form, Input, message, Modal, Select } from 'antd';
 import { useEffect, useState } from 'react';
-import { useIntl } from 'umi';
+import { useIntl, history } from 'umi';
 
 const ClusterCredentialForm: React.FC<ModalFormProps<ClusterCredential>> = ({
   data,
@@ -50,10 +50,11 @@ const ClusterCredentialForm: React.FC<ModalFormProps<ClusterCredential>> = ({
                   onVisibleChange(false);
                 }
               })
-            : ClusterCredentialService.add(param).then((d) => {
-                if (d.success) {
+            : ClusterCredentialService.add(param).then((response) => {
+                if (response.success) {
                   message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
                   onVisibleChange(false);
+                  history.push('/resource/cluster-credential/file', { id: response.data?.id });
                 }
               });
         });

@@ -33,13 +33,13 @@ public interface ClusterCredentialService extends ResourceDescriptor<ClusterCred
 
     Page<ClusterCredentialDTO> list(ClusterCredentialListParam param);
 
-    ClusterCredentialDTO selectOne(Serializable id);
+    ClusterCredentialDTO selectOne(Long id);
 
-    void insert(ClusterCredentialDTO dto);
+    ClusterCredentialDTO insert(ClusterCredentialDTO dto);
 
     int update(ClusterCredentialDTO dto);
 
-    int deleteById(Serializable id);
+    int deleteById(Long id);
 
     int deleteBatch(List<Long> ids);
 
