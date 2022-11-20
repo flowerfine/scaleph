@@ -28,13 +28,14 @@
         <result column="type" property="type" />
         <result column="name" property="name" />
         <result column="execute_type" property="executeType" />
+        <result column="status" property="status" />
         <result column="param" property="param" />
         <result column="remark" property="remark" />
     </resultMap>
 
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        `type`, `name`, execute_type, param, remark
+        `type`, `name`, execute_type, `status`, param, remark
     </sql>
 
 </mapper>
