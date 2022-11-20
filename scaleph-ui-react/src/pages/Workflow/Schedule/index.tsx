@@ -38,14 +38,6 @@ const WorkflowScheduleWeb: React.FC = () => {
 
   const tableColumns: ProColumns<WorkflowSchedule>[] = [
     {
-      title: intl.formatMessage({id: 'pages.admin.workflow.schedule.status'}),
-      dataIndex: 'status',
-      render: (dom, entity, index, action, schema) => {
-        return (<Switch checked={entity.status.value == '1'} onChange={(checked, event) => workflowScheduleEnable(checked, entity)} />)
-      },
-      width: 70
-    },
-    {
       title: intl.formatMessage({id: 'pages.admin.workflow.schedule.timezone'}),
       dataIndex: 'timezone',
       width: 85
@@ -78,6 +70,14 @@ const WorkflowScheduleWeb: React.FC = () => {
       title: intl.formatMessage({id: 'pages.dataSource.updateTime'}),
       dataIndex: 'updateTime',
       width: 180,
+    },
+    {
+      title: intl.formatMessage({id: 'pages.admin.workflow.schedule.status'}),
+      dataIndex: 'status',
+      render: (dom, entity, index, action, schema) => {
+        return (<Switch checked={entity.status.value == '1'} onChange={(checked, event) => workflowScheduleEnable(checked, entity)} />)
+      },
+      width: 50
     },
     {
       title: intl.formatMessage({id: 'app.common.operate.label'}),

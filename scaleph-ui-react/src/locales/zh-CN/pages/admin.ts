@@ -65,6 +65,7 @@ export default {
   'pages.admin.workflow.quartz.type': '类型',
   'pages.admin.workflow.quartz.name': '名称',
   'pages.admin.workflow.quartz.executeType': '执行类型',
+  'pages.admin.workflow.quartz.status': '状态',
   'pages.admin.workflow.quartz.task.open': '进入任务',
   'pages.admin.workflow.quartz.task.type': '类型',
   'pages.admin.workflow.quartz.task.name': '名称',
