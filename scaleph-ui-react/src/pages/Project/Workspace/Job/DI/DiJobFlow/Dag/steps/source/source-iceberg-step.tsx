@@ -52,7 +52,7 @@ const SourceIcebergStepForm: React.FC<
             if (resp.success) {
               message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
               onCancel();
-              onOK ? onOK() : null;
+              onOK ? onOK(values) : null;
             }
           });
         });

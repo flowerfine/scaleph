@@ -80,15 +80,12 @@ const WorkflowScheduleWeb: React.FC = () => {
                 shape="default"
                 type="link"
                 icon={<EditOutlined/>}
+                disabled={record.status.value == '1'}
                 onClick={() => {
-                  if (record.status.value == '0') {
-                    setScheduleFormData({
-                      visible: true,
-                      data: {workflow: workflowDefinition, schedule: record}
-                    })
-                  } else {
-                    message.error(intl.formatMessage({id: 'app.common.operate.edit.disabled'}), 1)
-                  }
+                  setScheduleFormData({
+                    visible: true,
+                    data: {workflow: workflowDefinition, schedule: record}
+                  })
                 }}
               ></Button>
             </Tooltip>
@@ -99,26 +96,23 @@ const WorkflowScheduleWeb: React.FC = () => {
                 shape="default"
                 type="link"
                 icon={<DeleteOutlined/>}
+                disabled={record.status.value == '1'}
                 onClick={() => {
-                  if (record.status.value == '0') {
-                    Modal.confirm({
-                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
-                      content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
-                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                      okButtonProps: {danger: true},
-                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
-                      onOk() {
-                        SchedulerService.deleteOne(record).then((response) => {
-                          if (response.success) {
-                            message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
-                            actionRef.current?.reload();
-                          }
-                        });
-                      },
-                    });
-                  } else {
-                    message.error(intl.formatMessage({id: 'app.common.operate.delete.disabled'}), 1)
-                  }
+                  Modal.confirm({
+                    title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                    content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
+                    okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                    okButtonProps: {danger: true},
+                    cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                    onOk() {
+                      SchedulerService.deleteOne(record).then((response) => {
+                        if (response.success) {
+                          message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
+                          actionRef.current?.reload();
+                        }
+                      });
+                    },
+                  });
                 }}
               ></Button>
             </Tooltip>
@@ -162,6 +156,10 @@ const WorkflowScheduleWeb: React.FC = () => {
                 type="default"
                 disabled={selectedRows.length < 1}
                 onClick={() => {
+                  if (selectedRows.filter((row) => row.status.value = '1').length > 0) {
+                    message.error(intl.formatMessage({id: 'app.common.operate.delete.disabled'}));
+                    return;
+                  }
                   Modal.confirm({
                     title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
                     content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),

@@ -1,6 +1,6 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {BaseFileParams, OSSFileParams, STEP_ATTR_TYPE} from "../../constant";
+import {BaseFileParams, STEP_ATTR_TYPE} from "../../constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
@@ -52,7 +52,7 @@ const SinkOSSFileStepForm: React.FC<ModalFormProps<{
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
             onCancel();
-            onOK ? onOK() : null;
+            onOK ? onOK(values) : null;
           }
         });
       });
