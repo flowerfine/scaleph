@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.workflow.service.dto;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowExecuteType;
-import cn.sliew.scaleph.common.dict.workflow.WorkflowStatus;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModelProperty;
@@ -44,9 +43,6 @@ public class WorkflowDefinitionDTO extends BaseDTO {
     @Deprecated
     @ApiModelProperty("workflow execute type")
     private WorkflowExecuteType executeType;
-
-    @ApiModelProperty("workflow status")
-    private WorkflowStatus status;
 
     @ApiModelProperty("workflow param")
     private Map<String, Object> param;

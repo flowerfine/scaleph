@@ -37,15 +37,6 @@ const QuartzWorkflowDefinition: React.FC = () => {
       width: 120
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.workflow.quartz.status'}),
-      dataIndex: 'status',
-      render: (dom, entity, index, action, schema) => {
-        return entity.status.label
-      },
-      hideInSearch: true,
-      width: 120
-    },
-    {
       title: intl.formatMessage({id: 'pages.dataSource.remark'}),
       dataIndex: 'remark',
       hideInSearch: true

@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.dao.entity.master.workflow;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowExecuteType;
-import cn.sliew.scaleph.common.dict.workflow.WorkflowStatus;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -46,10 +45,6 @@ public class WorkflowDefinition extends BaseDO {
     @ApiModelProperty("0: sequential, 1: parallel, 2: dependent, 3: if, 4: switch, 5: while")
     @TableField("execute_type")
     private WorkflowExecuteType executeType;
-
-    @ApiModelProperty("0: disabled, 1: enabled")
-    @TableField("`status`")
-    private WorkflowStatus status;
 
     @ApiModelProperty("param")
     @TableField("param")
