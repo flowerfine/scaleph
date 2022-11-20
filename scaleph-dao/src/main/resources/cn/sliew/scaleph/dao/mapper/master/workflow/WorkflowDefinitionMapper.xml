@@ -18,18 +18,40 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowDefinitionMapper">
-
     <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinition">
-        <result column="id" property="id" />
-        <result column="creator" property="creator" />
-        <result column="create_time" property="createTime" />
-        <result column="editor" property="editor" />
-        <result column="update_time" property="updateTime" />
-        <result column="type" property="type" />
-        <result column="name" property="name" />
-        <result column="execute_type" property="executeType" />
-        <result column="param" property="param" />
-        <result column="remark" property="remark" />
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="type" property="type"/>
+        <result column="name" property="name"/>
+        <result column="execute_type" property="executeType"/>
+        <result column="param" property="param"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <resultMap id="WorkflowDefinitionVOMap" type="cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinitionVO">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="type" property="type"/>
+        <result column="name" property="name"/>
+        <result column="execute_type" property="executeType"/>
+        <result column="param" property="param"/>
+        <result column="remark" property="remark"/>
+        <association property="schedule"
+                     javaType="cn.sliew.scaleph.dao.entity.master.workflow.WorkflowSchedule">
+            <result column="schedule_id" property="id"/>
+            <result column="schedule_timezone" property="timezone"/>
+            <result column="schedule_crontab" property="crontab"/>
+            <result column="schedule_start_time" property="startTime"/>
+            <result column="schedule_end_time" property="endTime"/>
+            <result column="schedule_status" property="status"/>
+            <result column="schedule_remark" property="remark"/>
+        </association>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -37,4 +59,38 @@
         `type`, `name`, execute_type, param, remark
     </sql>
 
+    <select id="list" resultMap="WorkflowDefinitionVOMap">
+        SELECT t1.*,
+               t2.id AS schedule_id,
+               t2.timezone AS schedule_timezone,
+               t2.crontab AS schedule_crontab,
+               t2.start_time AS schedule_start_time,
+               t2.end_time AS schedule_end_time,
+               t2.`status` AS schedule_status,
+               t2.remark AS schedule_remark
+        FROM workflow_definition t1
+                     LEFT JOIN workflow_schedule t2 ON t1.id = t2.workflow_definition_id AND t2.`status` = '1'
+        <where>
+            <if test="type != null">
+                AND t1.`type` = #{type}
+            </if>
+            <if test="name != null and name != ''">
+                AND t1.`name` like CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+        ORDER BY t1.id
+    </select>
+
+    <select id="get" resultMap="WorkflowDefinitionVOMap">
+        SELECT t1.*,
+               t2.timezone,
+               t2.crontab,
+               t2.start_time,
+               t2.end_time,
+               t2.`status`,
+               t2.remark
+        FROM workflow_definition t1
+                     LEFT JOIN workflow_schedule t2 ON t1.id = t2.workflow_definition_id AND t2.`status` = '1'
+        WHERE t1.id = #{id}
+    </select>
 </mapper>

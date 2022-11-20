@@ -7,6 +7,7 @@ export type WorkflowDefinition = {
   executeType: Dict;
   param?: any;
   remark?: string;
+  schedule?: WorkflowSchedule;
   createTime: Date;
   updateTime: Date;
 }

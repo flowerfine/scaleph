@@ -1,17 +1,35 @@
 import {history, useAccess, useIntl} from "umi";
-import React, {useRef} from "react";
-import {Button, Space, Tooltip} from "antd";
+import React, {useRef, useState} from "react";
+import {Button, Space, Switch, Tooltip} from "antd";
 import {FolderOpenOutlined, SettingOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {WorkflowDefinition} from "@/services/workflow/typings";
 import {WorkflowService} from "@/services/workflow/workflow.service";
 import {PRIVILEGE_CODE} from "@/constant";
+import ScheduleEnableForm from "@/pages/Workflow/Schedule/ScheduleEnableForm";
+import {SchedulerService} from "@/services/workflow/scheduler.service";
 
 const QuartzWorkflowDefinition: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
+
+  const [scheduleEnableFormData, setScheduleEnableFormData] = useState<{ visible: boolean; data: WorkflowDefinition }>({
+    visible: false,
+    data: {}
+  });
+
+  const scheduleChange = (checked: boolean, record: WorkflowDefinition) => {
+    if (checked) {
+      setScheduleEnableFormData({visible: true, data: record})
+    } else {
+      if (record.schedule?.id) {
+        SchedulerService.disable(record.schedule?.id)
+      }
+    }
+    actionRef.current?.reload()
+  }
 
   const tableColumns: ProColumns<WorkflowDefinition>[] = [
     {
@@ -37,6 +55,15 @@ const QuartzWorkflowDefinition: React.FC = () => {
       width: 120
     },
     {
+      title: intl.formatMessage({id: 'pages.admin.workflow.schedule.crontab'}),
+      dataIndex: 'schedule',
+      render: (dom, entity, index, action, schema) => {
+        return entity.schedule?.crontab
+      },
+      hideInSearch: true,
+      width: 120
+    },
+    {
       title: intl.formatMessage({id: 'pages.dataSource.remark'}),
       dataIndex: 'remark',
       hideInSearch: true
@@ -52,6 +79,17 @@ const QuartzWorkflowDefinition: React.FC = () => {
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
+    },
+    {
+      title: intl.formatMessage({id: 'pages.admin.workflow.quartz.schedule'}),
+      dataIndex: 'scheduleOptions',
+      align: 'center',
+      width: 120,
+      fixed: 'right',
+      valueType: 'option',
+      render: (_, record) => (
+        <Switch checkedChildren={"启动"} unCheckedChildren={"禁止"} checked={record.schedule != null} onChange={(checked) => scheduleChange(checked, record)}/>
+      ),
     },
     {
       title: intl.formatMessage({id: 'app.common.operate.label'}),
@@ -110,7 +148,19 @@ const QuartzWorkflowDefinition: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       />
-
+      {scheduleEnableFormData.visible && (
+        <ScheduleEnableForm
+          visible={scheduleEnableFormData.visible}
+          onCancel={() => {
+            setScheduleEnableFormData({visible: false, data: {}});
+          }}
+          onVisibleChange={(visible) => {
+            setScheduleEnableFormData({visible: false, data: {}});
+            actionRef.current?.reload();
+          }}
+          data={scheduleEnableFormData.data}
+        />
+      )}
     </div>
   );
 }

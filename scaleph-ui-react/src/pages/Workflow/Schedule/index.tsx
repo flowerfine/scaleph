@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Switch, Tooltip} from "antd";
+import {Button, message, Modal, Space, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {history, useAccess, useIntl, useLocation} from "umi";
@@ -22,28 +22,14 @@ const WorkflowScheduleWeb: React.FC = () => {
 
   const workflowDefinition = urlParams.state as WorkflowDefinition;
 
-  const workflowScheduleEnable = (checked: boolean, entity: WorkflowSchedule) => {
-    checked
-      ? SchedulerService.enable(entity).then((response) => {
-        if (response.success) {
-          actionRef.current?.reload();
-        }
-      })
-      : SchedulerService.disable(entity).then((response) => {
-        if (response.success) {
-          actionRef.current?.reload();
-        }
-      })
-  }
-
   const tableColumns: ProColumns<WorkflowSchedule>[] = [
     {
       title: intl.formatMessage({id: 'pages.admin.workflow.schedule.status'}),
       dataIndex: 'status',
       render: (dom, entity, index, action, schema) => {
-        return (<Switch checked={entity.status.value == '1'} onChange={(checked, event) => workflowScheduleEnable(checked, entity)} />)
+        return entity.status.label
       },
-      width: 70
+      width: 80
     },
     {
       title: intl.formatMessage({id: 'pages.admin.workflow.schedule.timezone'}),
@@ -94,10 +80,13 @@ const WorkflowScheduleWeb: React.FC = () => {
                 shape="default"
                 type="link"
                 icon={<EditOutlined/>}
-                onClick={() => setScheduleFormData({
-                  visible: true,
-                  data: {workflow: workflowDefinition, schedule: record}
-                })}
+                disabled={record.status.value == '1'}
+                onClick={() => {
+                  setScheduleFormData({
+                    visible: true,
+                    data: {workflow: workflowDefinition, schedule: record}
+                  })
+                }}
               ></Button>
             </Tooltip>
           )}
@@ -107,6 +96,7 @@ const WorkflowScheduleWeb: React.FC = () => {
                 shape="default"
                 type="link"
                 icon={<DeleteOutlined/>}
+                disabled={record.status.value == '1'}
                 onClick={() => {
                   Modal.confirm({
                     title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
@@ -166,6 +156,10 @@ const WorkflowScheduleWeb: React.FC = () => {
                 type="default"
                 disabled={selectedRows.length < 1}
                 onClick={() => {
+                  if (selectedRows.filter((row) => row.status.value = '1').length > 0) {
+                    message.error(intl.formatMessage({id: 'app.common.operate.delete.disabled'}));
+                    return;
+                  }
                   Modal.confirm({
                     title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
                     content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),

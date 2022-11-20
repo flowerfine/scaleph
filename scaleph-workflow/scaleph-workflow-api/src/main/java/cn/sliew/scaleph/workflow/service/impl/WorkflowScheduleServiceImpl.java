@@ -62,7 +62,6 @@ public class WorkflowScheduleServiceImpl implements WorkflowScheduleService {
     @Override
     public void insert(WorkflowScheduleAddParam param) {
         WorkflowSchedule record = BeanUtil.copy(param, new WorkflowSchedule());
-        record.setStatus(ScheduleStatus.ENABLED);
         workflowScheduleMapper.insert(record);
     }
 
@@ -87,7 +86,7 @@ public class WorkflowScheduleServiceImpl implements WorkflowScheduleService {
     public void enable(Long id) {
         WorkflowSchedule record = new WorkflowSchedule();
         record.setId(id);
-        record.setStatus(ScheduleStatus.ENABLED);
+        record.setStatus(ScheduleStatus.RUNNING);
         workflowScheduleMapper.updateById(record);
     }
 
@@ -95,15 +94,8 @@ public class WorkflowScheduleServiceImpl implements WorkflowScheduleService {
     public void disable(Long id) {
         WorkflowSchedule record = new WorkflowSchedule();
         record.setId(id);
-        record.setStatus(ScheduleStatus.DISABLED);
+        record.setStatus(ScheduleStatus.STOP);
         workflowScheduleMapper.updateById(record);
     }
 
-    @Override
-    public void schedule(Long id) {
-    }
-
-    @Override
-    public void unschedule(Long id) {
-    }
 }

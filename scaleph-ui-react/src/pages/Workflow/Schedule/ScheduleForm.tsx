@@ -29,8 +29,7 @@ const WorkflowScheduleForm: React.FC<ModalFormProps<{ workflow: WorkflowDefiniti
         timezone: data.schedule.timezone,
         timeRange: [moment(data.schedule.startTime), moment(data.schedule.endTime)],
         crontab: data.schedule.crontab,
-        remark: data.schedule.remark,
-        status: data.schedule.status
+        remark: data.schedule.remark
       }
       form.setFieldsValue(formData)
     }
@@ -57,8 +56,7 @@ const WorkflowScheduleForm: React.FC<ModalFormProps<{ workflow: WorkflowDefiniti
               startTime: values.timeRange[0].format('YYYY-MM-DD HH:mm:ss'),
               endTime: values.timeRange[1].format('YYYY-MM-DD HH:mm:ss'),
               crontab: values.crontab,
-              remark: values.remark,
-              status: values.status
+              remark: values.remark
             }
             data.schedule
               ? SchedulerService.update(data.schedule.id, {...params}).then((response) => {
@@ -108,16 +106,6 @@ const WorkflowScheduleForm: React.FC<ModalFormProps<{ workflow: WorkflowDefiniti
           <ProFormText
             name="remark"
             label={intl.formatMessage({id: 'pages.dataSource.remark'})}
-          />
-          <ProFormSelect
-            name="status"
-            label={intl.formatMessage({id: 'pages.admin.workflow.schedule.status'})}
-            initialValue={"0"}
-            allowClear={false}
-            valueEnum={{
-              "0": "Disabled",
-              "1": "Enabled"
-            }}
           />
         </ProForm>
       </Modal>

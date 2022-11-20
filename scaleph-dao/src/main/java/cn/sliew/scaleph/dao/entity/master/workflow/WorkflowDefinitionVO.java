@@ -16,41 +16,46 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.service.dto;
+package cn.sliew.scaleph.dao.entity.master.workflow;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowExecuteType;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowType;
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import java.util.Map;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class WorkflowDefinitionDTO extends BaseDTO {
+@TableName("workflow_definition")
+@ApiModel(value = "WorkflowDefinitionVO对象", description = "workflow definition vo")
+public class WorkflowDefinitionVO extends BaseDO {
 
-    @ApiModelProperty("workflow type")
+    private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty("0: system, 1: user")
+    @TableField("`type`")
     private WorkflowType type;
 
-    @ApiModelProperty("workflow name")
+    @ApiModelProperty("name")
+    @TableField("`name`")
     private String name;
 
-    /**
-     * task relations determinate execute type, not workflow
-     */
-    @Deprecated
-    @ApiModelProperty("workflow execute type")
+    @ApiModelProperty("0: sequential, 1: parallel, 2: dependent, 3: if, 4: switch, 5: while")
+    @TableField("execute_type")
     private WorkflowExecuteType executeType;
 
-    @ApiModelProperty("workflow param")
-    private Map<String, Object> param;
+    @ApiModelProperty("param")
+    @TableField("param")
+    private String param;
 
-    @ApiModelProperty("备注")
+    @ApiModelProperty("remark")
+    @TableField("remark")
     private String remark;
 
     @ApiModelProperty("schedule")
-    private WorkflowScheduleDTO schedule;
+    @TableField("schedule")
+    private WorkflowSchedule schedule;
 
 }
