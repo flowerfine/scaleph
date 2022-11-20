@@ -45,14 +45,14 @@ export const SchedulerService = {
     });
   },
 
-  enable: async (row: WorkflowSchedule) => {
-    return request<ResponseBody<any>>(`${SchedulerService.url}/${row.id}/enable`, {
+  enable: async (id: number) => {
+    return request<ResponseBody<any>>(`${SchedulerService.url}/${id}/enable`, {
       method: 'POST',
     });
   },
 
-  disable: async (row: WorkflowSchedule) => {
-    return request<ResponseBody<any>>(`${SchedulerService.url}/${row.id}/disable`, {
+  disable: async (id: number) => {
+    return request<ResponseBody<any>>(`${SchedulerService.url}/${id}/disable`, {
       method: 'POST',
     });
   },

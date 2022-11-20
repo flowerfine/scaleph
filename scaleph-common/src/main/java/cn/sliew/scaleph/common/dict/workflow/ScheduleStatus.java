@@ -29,8 +29,8 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ScheduleStatus implements DictInstance {
 
-    DISABLED(YesOrNo.NO.getValue(), "DISABLED"),
-    ENABLED(YesOrNo.YES.getValue(), "ENABLED"),
+    STOP(YesOrNo.NO.getValue(), "STOP"),
+    RUNNING(YesOrNo.YES.getValue(), "RUNNING"),
     ;
 
     @JsonCreator

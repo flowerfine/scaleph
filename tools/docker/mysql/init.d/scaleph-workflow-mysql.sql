@@ -10,7 +10,7 @@ CREATE TABLE `workflow_schedule`
     `crontab`                VARCHAR(255) NOT NULL,
     `start_time`             DATETIME,
     `end_time`               DATETIME,
-    `status`                 VARCHAR(4)   NOT NULL DEFAULT '0' COMMENT '0: disabled, 1: enabled',
+    `status`                 VARCHAR(4)   NOT NULL DEFAULT '0' COMMENT '0: stop, 1: running',
     `remark`                 VARCHAR(255),
     `creator`                VARCHAR(32),
     `create_time`            DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -28,7 +28,7 @@ DROP TABLE IF EXISTS `workflow_definition`;
 CREATE TABLE `workflow_definition`
 (
     `id`           BIGINT       NOT NULL AUTO_INCREMENT,
-    `type`         VARCHAR(4) COMMENT '0: system, 1: user',
+    `type`         VARCHAR(4)   NOT NULL DEFAULT '1' COMMENT '0: system, 1: user',
     `name`         VARCHAR(255) NOT NULL,
     `execute_type` VARCHAR(255) NOT NULL COMMENT '0: sequential, 1: parallel, 2: dependent, 3: if, 4: switch, 5: while',
     `status`       VARCHAR(4)   NOT NULL DEFAULT '0' COMMENT '0: disabled, 1: enabled',

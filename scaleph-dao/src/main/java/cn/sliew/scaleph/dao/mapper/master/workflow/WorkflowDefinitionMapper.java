@@ -18,8 +18,12 @@
 
 package cn.sliew.scaleph.dao.mapper.master.workflow;
 
+import cn.sliew.scaleph.common.dict.workflow.WorkflowType;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinition;
+import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinitionVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -29,5 +33,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface WorkflowDefinitionMapper extends BaseMapper<WorkflowDefinition> {
+
+    Page<WorkflowDefinitionVO> list(Page page, @Param("type") WorkflowType type, @Param("name") String name);
+
+    WorkflowDefinitionVO get(@Param("id") Long id);
 
 }

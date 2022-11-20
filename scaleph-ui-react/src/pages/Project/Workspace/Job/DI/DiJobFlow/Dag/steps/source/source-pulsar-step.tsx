@@ -108,9 +108,7 @@ const SourcePulsarStepForm: React.FC<
           name={PulsarParams.topicDiscoveryInterval}
           label={intl.formatMessage({ id: 'pages.project.di.step.pulsar.topicDiscoveryInterval' })}
           tooltip={{
-            title: intl.formatMessage({
-              id: 'pages.project.di.step.pulsar.topicDiscoveryInterval.tooltip',
-            }),
+            title: intl.formatMessage({id: 'pages.project.di.step.pulsar.topicDiscoveryInterval.tooltip'}),
             icon: <InfoCircleOutlined />,
           }}
         />

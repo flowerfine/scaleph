@@ -84,7 +84,6 @@ public enum DictType implements DictDefinition {
     IMAGE_PULL_POLICY("image_pull_policy", "Image Pull Policy", ImagePullPolicy.class),
 
     WORKFLOW_TYPE("workflow_type", "Workflow Type", WorkflowType.class),
-    WORKFLOW_STATUS("workflow_status", "Workflow Status", WorkflowStatus.class),
     WORKFLOW_EXECUTE_TYPE("workflow_execute_type", "Workflow Execute Type", WorkflowExecuteType.class),
     WORKFLOW_INSTANCE_STATE("workflow_instance_state", "Workflow Instance State", WorkflowInstanceState.class),
     WORKFLOW_TASK_TYPE("workflow_task_type", "Workflow Task Type", WorkflowTaskType.class),

@@ -43,7 +43,7 @@ const SinkHiveStepForm: React.FC<ModalFormProps<{
             if (resp.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.success'}));
               onCancel();
-              onOK ? onOK() : null;
+              onOK ? onOK(values) : null;
             }
           });
         });
@@ -96,9 +96,7 @@ const SinkHiveStepForm: React.FC<ModalFormProps<{
             icon: <InfoCircleOutlined/>,
           }}
           initialValue={true}
-          fieldProps={{
-            disabled: true
-          }}
+          disabled
         />
         <ProFormSelect
           name={HiveParams.saveMode}
