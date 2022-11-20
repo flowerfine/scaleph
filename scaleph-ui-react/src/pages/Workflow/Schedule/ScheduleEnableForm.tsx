@@ -1,7 +1,7 @@
 import React from "react";
-import {Form, message, Modal} from "antd";
+import {Button, Form, message, Modal} from "antd";
 import {ProForm, ProFormSelect} from "@ant-design/pro-components";
-import {useIntl} from "umi";
+import {history, useIntl} from "umi";
 import {ModalFormProps} from '@/app.d';
 import {WorkflowDefinition} from "@/services/workflow/typings";
 import {SchedulerService} from "@/services/workflow/scheduler.service";
@@ -41,6 +41,10 @@ const ScheduleEnableForm: React.FC<ModalFormProps<WorkflowDefinition>> = ({
           name={"schedule"}
           label={intl.formatMessage({id: 'pages.admin.workflow.schedule.setting'})}
           rules={[{required: true}]}
+          addonAfter={
+            <Button type={"link"} onClick={() => history.push("/admin/workflow/schedule", data)}>
+              {intl.formatMessage({id: 'app.common.operate.new.directive'})}
+            </Button>}
           showSearch={true}
           allowClear={false}
           request={(params, props) => {

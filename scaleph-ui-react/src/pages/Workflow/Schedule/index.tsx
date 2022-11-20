@@ -80,10 +80,16 @@ const WorkflowScheduleWeb: React.FC = () => {
                 shape="default"
                 type="link"
                 icon={<EditOutlined/>}
-                onClick={() => setScheduleFormData({
-                  visible: true,
-                  data: {workflow: workflowDefinition, schedule: record}
-                })}
+                onClick={() => {
+                  if (record.status.value == '0') {
+                    setScheduleFormData({
+                      visible: true,
+                      data: {workflow: workflowDefinition, schedule: record}
+                    })
+                  } else {
+                    message.error(intl.formatMessage({id: 'app.common.operate.edit.disabled'}), 1)
+                  }
+                }}
               ></Button>
             </Tooltip>
           )}
@@ -94,21 +100,25 @@ const WorkflowScheduleWeb: React.FC = () => {
                 type="link"
                 icon={<DeleteOutlined/>}
                 onClick={() => {
-                  Modal.confirm({
-                    title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
-                    content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
-                    okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                    okButtonProps: {danger: true},
-                    cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
-                    onOk() {
-                      SchedulerService.deleteOne(record).then((response) => {
-                        if (response.success) {
-                          message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
-                          actionRef.current?.reload();
-                        }
-                      });
-                    },
-                  });
+                  if (record.status.value == '0') {
+                    Modal.confirm({
+                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                      content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
+                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                      okButtonProps: {danger: true},
+                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                      onOk() {
+                        SchedulerService.deleteOne(record).then((response) => {
+                          if (response.success) {
+                            message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
+                            actionRef.current?.reload();
+                          }
+                        });
+                      },
+                    });
+                  } else {
+                    message.error(intl.formatMessage({id: 'app.common.operate.delete.disabled'}), 1)
+                  }
                 }}
               ></Button>
             </Tooltip>
