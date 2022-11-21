@@ -25,10 +25,11 @@ const QuartzWorkflowDefinition: React.FC = () => {
       setScheduleEnableFormData({visible: true, data: record})
     } else {
       if (record.schedule?.id) {
-        SchedulerService.disable(record.schedule?.id)
+        SchedulerService.disable(record.schedule?.id).then((response) => {
+          actionRef.current?.reload()
+        })
       }
     }
-    actionRef.current?.reload()
   }
 
   const tableColumns: ProColumns<WorkflowDefinition>[] = [
