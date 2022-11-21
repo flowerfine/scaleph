@@ -16,26 +16,31 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.scheduler;
+package cn.sliew.scaleph.common.container.pool.thread;
 
-import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
+import cn.sliew.scaleph.common.container.Container;
+import cn.sliew.scaleph.common.container.ThreadContainer;
+import cn.sliew.scaleph.common.container.pool.ContainerSource;
 
-public interface SchedulerService {
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-    boolean exists(Long id);
+public class ThreadContainerSource implements ContainerSource {
 
-    void schedule(Long id);
+    private ExecutorService executor = Executors.newFixedThreadPool(4);
 
-    void unschedule(Long id);
+    @Override
+    public Container newInstance() {
+        return new ThreadContainer(executor);
+    }
 
-    void suspend(Long id);
+    @Override
+    public void recycle(Container value) {
 
-    void resume(Long id);
+    }
 
-    void terminate(Long id);
-
-    List<Date> listNext5FireTime(String crontabStr) throws ParseException;
-
+    @Override
+    public void destroy(Container value) {
+        executor.shutdown();
+    }
 }

@@ -20,22 +20,22 @@ package cn.sliew.scaleph.workflow.scheduler.quartz;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinition;
-import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowSchedule;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowScheduleDTO;
-import org.quartz.JobKey;
-import org.quartz.TriggerKey;
+import org.quartz.*;
 
 import java.util.Map;
+import java.util.TimeZone;
 
 public enum QuartzUtil {
     ;
 
     public static final String WORKFLOW_SCHEDULE = "workflowSchedule";
-    public static final String WORKFLOW_HANDLER = "workflowHandler";
 
-    public static Map<String, Object> buildDataMap(String workflowHandler, WorkflowSchedule schedule) {
-        return Map.of(WORKFLOW_SCHEDULE, JacksonUtil.toJsonString(schedule));
+    public static JobDataMap buildDataMap(WorkflowScheduleDTO schedule) {
+        WorkflowScheduleDTO copy = BeanUtil.copy(schedule, new WorkflowScheduleDTO());
+        copy.setStatus(null);
+        return new JobDataMap(Map.of(WORKFLOW_SCHEDULE, JacksonUtil.toJsonString(copy)));
     }
 
     public static JobKey getJobKey(Long projectId, WorkflowScheduleDTO schedule) {
@@ -44,13 +44,25 @@ public enum QuartzUtil {
         return new JobKey(jobName, jobGroup);
     }
 
-    /**
-     * fixme trigger name?
-     */
-    public TriggerKey getTriggerKey(Long projectId, WorkflowScheduleDTO schedule) {
+    public static TriggerKey getTriggerKey(Long projectId, WorkflowScheduleDTO schedule) {
         String triggerGroup = String.format("%s_%s", Constants.TRIGGER_GROUP_PREFIX, projectId);
         String triggerName = String.format("%s_%s", Constants.TRIGGER_PREFIX, schedule.getId());
         return TriggerKey.triggerKey(triggerName, triggerGroup);
+    }
+
+    private static ScheduleBuilder buildSchedule( WorkflowScheduleDTO schedule) {
+        return CronScheduleBuilder
+                .cronSchedule(schedule.getCrontab())
+                .inTimeZone(TimeZone.getTimeZone(schedule.getTimezone()));
+    }
+
+    public static Trigger getTrigger(Long projectId, WorkflowScheduleDTO schedule) {
+        return TriggerBuilder.newTrigger()
+                .withIdentity(getTriggerKey(projectId, schedule))
+                .startAt(schedule.getStartTime())
+                .endAt(schedule.getEndTime())
+                .withSchedule(buildSchedule(schedule))
+                .build();
     }
 
 }

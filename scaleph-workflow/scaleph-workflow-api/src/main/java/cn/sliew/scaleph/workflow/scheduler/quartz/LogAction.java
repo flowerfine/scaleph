@@ -16,26 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.workflow.scheduler;
+package cn.sliew.scaleph.workflow.scheduler.quartz;
 
-import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
+import cn.sliew.milky.common.filter.ActionListener;
+import cn.sliew.scaleph.workflow.engine.action.ActionContext;
+import cn.sliew.scaleph.workflow.engine.action.ActionResult;
+import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
-public interface SchedulerService {
+@Slf4j
+@Component
+public class LogAction extends AbstractWorkFlow {
 
-    boolean exists(Long id);
+    public LogAction() {
+        super("LogAction");
+    }
 
-    void schedule(Long id);
-
-    void unschedule(Long id);
-
-    void suspend(Long id);
-
-    void resume(Long id);
-
-    void terminate(Long id);
-
-    List<Date> listNext5FireTime(String crontabStr) throws ParseException;
-
+    @Override
+    protected Runnable doExecute(ActionContext context, ActionListener<ActionResult> listener) {
+        return () -> log.info("Log Action execute!");
+    }
 }

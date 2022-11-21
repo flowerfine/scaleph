@@ -22,7 +22,7 @@ CREATE TABLE `workflow_schedule`
 
 INSERT INTO `workflow_schedule`(`id`, `workflow_definition_id`, `timezone`, `crontab`, `start_time`, `end_time`,
                                 `status`, `remark`, `creator`, `editor`)
-VALUES (1, 1, 'UTC', '0 * * * * ?', '2022-01-01 00:00:00', '2099-01-01 00:00:00', '0', NULL, 'sys', 'sys');
+VALUES (1, 1, 'UTC', '0/3 * * * * ? ', '2022-01-01 00:00:00', '2099-01-01 00:00:00', '0', NULL, 'sys', 'sys');
 
 DROP TABLE IF EXISTS `workflow_definition`;
 CREATE TABLE `workflow_definition`
@@ -86,7 +86,7 @@ CREATE TABLE `workflow_task_definition`
 
 INSERT INTO `workflow_task_definition`(`id`, `workflow_definition_id`, `type`, `name`, `handler`, `param`, `remark`,
                                        `creator`, `editor`)
-VALUES (1, 1, '1', 'FlinkJobStatus', 'cn.sliew.scaleph.FlinkJobStatusAction', NULL, NULL, 'sys', 'sys');
+VALUES (1, 1, '1', 'FlinkJobStatus', 'cn.sliew.scaleph.workflow.scheduler.quartz.LogAction', NULL, NULL, 'sys', 'sys');
 
 DROP TABLE IF EXISTS `workflow_task_instance`;
 CREATE TABLE `workflow_task_instance`
