@@ -816,7 +816,7 @@ INSERT INTO di_job (id, project_id, job_code, job_name, job_type, job_status,
 VALUES (1, 1, 1, 'e_commerce', 'b',  '2',  1, NULL, 'sys', 'sys');
 INSERT INTO di_job(id, project_id, job_code, job_name, job_type,  job_status,
                    job_version, remark, creator, editor)
-VALUES (2, 1, 2, 'fake', 'b',  '2',  1, NULL, 'sys', 'sys');Ï
+VALUES (2, 1, 2, 'fake', 'b',  '2',  1, NULL, 'sys', 'sys');
 
 
 /* 作业参数信息 作业参数*/
@@ -951,9 +951,9 @@ DROP TABLE IF EXISTS resource_jar;
 CREATE TABLE resource_jar
 (
     id          bigint       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-    group       varchar(255) NOT NULL COMMENT 'jar group',
+    `group`       varchar(255) NOT NULL COMMENT 'jar group',
     file_name   varchar(255) NOT NULL COMMENT '文件名称',
-    path        varchar(255) NOT NULL COMMENT '存储路径',
+    `path`        varchar(255) NOT NULL COMMENT '存储路径',
     remark      varchar(255)      DEFAULT NULL COMMENT '备注',
     creator     varchar(32)       DEFAULT NULL COMMENT '创建人',
     create_time timestamp    NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -969,7 +969,7 @@ CREATE TABLE resource_kerberos
     name        varchar(255) NOT NULL,
     principal   varchar(64)  NOT NULL,
     file_name   varchar(255) NOT NULL,
-    path        varchar(255) NOT NULL,
+    `path`        varchar(255) NOT NULL,
     remark      varchar(255),
     creator     varchar(32),
     create_time datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
