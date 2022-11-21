@@ -49,7 +49,7 @@ const SinkHdfsFileStepForm: React.FC<ModalFormProps<{
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
             onCancel();
-            onOK ? onOK() : null;
+            onOK ? onOK(values) : null;
           }
         });
       });
@@ -143,9 +143,7 @@ const SinkHdfsFileStepForm: React.FC<ModalFormProps<{
         name={BaseFileParams.isEnableTransaction}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.isEnableTransaction'})}
         initialValue={true}
-        fieldProps={{
-          disabled: true
-        }}
+        disabled
       />
     </ProForm>
   </Modal>);

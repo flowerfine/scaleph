@@ -109,7 +109,3 @@ export type CredentialFileUploadParam = QueryParam & {
   id?: number;
   files?: File[];
 }
-
-
-
-

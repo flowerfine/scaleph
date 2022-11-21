@@ -19,13 +19,20 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.datahub.sink;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
+import cn.sliew.scaleph.ds.modal.mq.DataHubDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.datahub.sink.DataHubSinkProperties.*;
@@ -38,9 +45,6 @@ public class DataHubSinkPlugin extends SeaTunnelConnectorPlugin {
                 "A sink plugin which use send message to AliCloud DataHub",
                 DataHubSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(ENDPOINT);
-        props.add(ACCESS_ID);
-        props.add(ACCESS_KEY);
         props.add(PROJECT);
         props.add(TOPIC);
         props.add(TIMEOUT);
@@ -48,6 +52,22 @@ public class DataHubSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;
+    }
+
+    @Override
+    public List<ResourceProperty> getRequiredResources() {
+        return Collections.singletonList(ResourceProperties.DATASOURCE_RESOURCE);
+    }
+
+    @Override
+    public ObjectNode createConf() {
+        ObjectNode conf = super.createConf();
+        JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
+        DataHubDataSource dataSource = (DataHubDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(ENDPOINT.getName(), dataSource.getEndpoint());
+        conf.putPOJO(ACCESS_ID.getName(), dataSource.getAccessId());
+        conf.putPOJO(ACCESS_KEY.getName(), dataSource.getAccessKey());
+        return conf;
     }
 
     @Override

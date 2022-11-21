@@ -27,7 +27,7 @@ import lombok.EqualsAndHashCode;
 import java.util.Map;
 
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class WorkflowTaskDefinitionDTO extends BaseDTO {
 
     @ApiModelProperty("workflow definition id")
@@ -36,10 +36,16 @@ public class WorkflowTaskDefinitionDTO extends BaseDTO {
     @ApiModelProperty("workflow task type")
     private WorkflowTaskType type;
 
-    @ApiModelProperty("workflow name")
+    @ApiModelProperty("workflow task name")
     private String name;
 
-    @ApiModelProperty("workflow param")
+    @ApiModelProperty("workflow task handler")
+    private String handler;
+
+    @ApiModelProperty("workflow task param")
     private Map<String, Object> param;
+
+    @ApiModelProperty("备注")
+    private String remark;
 
 }

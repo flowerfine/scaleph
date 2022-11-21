@@ -45,7 +45,7 @@ const SinkIoTDBStepForm: React.FC<ModalFormProps<{
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
             onCancel();
-            onOK ? onOK() : null;
+            onOK ? onOK(values) : null;
           }
         });
       });
@@ -62,9 +62,7 @@ const SinkIoTDBStepForm: React.FC<ModalFormProps<{
         label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
         colProps={{span: 6}}
         initialValue={"IoTDB"}
-        fieldProps={{
-          disabled: true
-        }}
+        disabled
         request={() => DictDataService.listDictDataByType2(DICT_TYPE.datasourceType)}
       />
       <ProFormSelect

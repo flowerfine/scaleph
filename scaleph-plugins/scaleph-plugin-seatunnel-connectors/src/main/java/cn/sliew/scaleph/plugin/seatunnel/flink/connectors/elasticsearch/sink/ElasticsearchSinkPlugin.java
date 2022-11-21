@@ -19,13 +19,21 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.elasticsearch.sink;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
+import cn.sliew.scaleph.ds.modal.nosql.ElasticsearchDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.elasticsearch.sink.ElasticsearchSinkProperties.*;
@@ -38,9 +46,6 @@ public class ElasticsearchSinkPlugin extends SeaTunnelConnectorPlugin {
                 "Output data to Elasticsearch7 or above",
                 ElasticsearchSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(HOSTS);
-        props.add(USERNAME);
-        props.add(PASSWORD);
         props.add(INDEX);
         props.add(MAX_RETRY_SIZE);
         props.add(MAX_BATCH_SIZE);
@@ -48,6 +53,25 @@ public class ElasticsearchSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;
     }
+
+    @Override
+    public List<ResourceProperty> getRequiredResources() {
+        return Collections.singletonList(ResourceProperties.DATASOURCE_RESOURCE);
+    }
+
+    @Override
+    public ObjectNode createConf() {
+        ObjectNode conf = super.createConf();
+        JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
+        ElasticsearchDataSource dataSource = (ElasticsearchDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(HOSTS.getName(), StringUtils.split(dataSource.getHosts(), ","));
+        if (StringUtils.hasText(dataSource.getUsername())) {
+            conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
+            conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        }
+        return conf;
+    }
+
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {

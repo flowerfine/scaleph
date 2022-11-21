@@ -1,11 +1,11 @@
-import { NsGraph } from '@antv/xflow';
-import { ModalFormProps } from '@/app.d';
-import { IoTDBParams, SchemaParams, STEP_ATTR_TYPE } from '../../constant';
-import { JobService } from '@/services/project/job.service';
-import { Form, message, Modal } from 'antd';
-import { DiJob } from '@/services/project/typings';
-import { getIntl, getLocale } from 'umi';
-import { useEffect } from 'react';
+import {NsGraph} from '@antv/xflow';
+import {ModalFormProps} from '@/app.d';
+import {IoTDBParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
+import {JobService} from '@/services/project/job.service';
+import {Form, message, Modal} from 'antd';
+import {DiJob} from '@/services/project/typings';
+import {getIntl, getLocale} from 'umi';
+import {useEffect} from 'react';
 import {
   ProForm,
   ProFormDigit,
@@ -16,16 +16,18 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { StepSchemaService } from '../schema';
+import {InfoCircleOutlined} from '@ant-design/icons';
+import {StepSchemaService} from '../schema';
+import {DictDataService} from "@/services/admin/dictData.service";
+import {DICT_TYPE} from "@/constant";
+import {DsInfoParam} from "@/services/datasource/typings";
+import {DsInfoService} from "@/services/datasource/info.service";
 
-const SourceIoTDBStepForm: React.FC<
-  ModalFormProps<{
-    node: NsGraph.INodeConfig;
-    graphData: NsGraph.IGraphData;
-    graphMeta: NsGraph.IGraphMeta;
-  }>
-> = ({ data, visible, onCancel, onOK }) => {
+const SourceIoTDBStepForm: React.FC<ModalFormProps<{
+  node: NsGraph.INodeConfig;
+  graphData: NsGraph.IGraphData;
+  graphMeta: NsGraph.IGraphMeta;
+}>> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as DiJob;
   const jobGraph = data.graphData;
@@ -41,7 +43,7 @@ const SourceIoTDBStepForm: React.FC<
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{ overflowY: 'scroll', maxHeight: '640px' }}
+      bodyStyle={{overflowY: 'scroll', maxHeight: '640px'}}
       destroyOnClose={true}
       onCancel={onCancel}
       onOk={() => {
@@ -54,9 +56,9 @@ const SourceIoTDBStepForm: React.FC<
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
-              message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+              message.success(intl.formatMessage({id: 'app.common.operate.success'}));
               onCancel();
-              onOK ? onOK() : null;
+              onOK ? onOK(values) : null;
             }
           });
         });
@@ -65,66 +67,77 @@ const SourceIoTDBStepForm: React.FC<
       <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
         <ProFormText
           name={STEP_ATTR_TYPE.stepTitle}
-          label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
-          rules={[{ required: true }, { max: 120 }]}
+          label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
+          rules={[{required: true}, {max: 120}]}
         />
-        <ProFormText
-          name={IoTDBParams.nodeUrls}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.nodeUrls' })}
-          rules={[{ required: true }]}
+        <ProFormSelect
+          name={'dataSourceType'}
+          label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
+          colProps={{span: 6}}
+          initialValue={'IoTDB'}
+          disabled
+          request={() => DictDataService.listDictDataByType2(DICT_TYPE.datasourceType)}
         />
-        <ProFormText
-          name={IoTDBParams.username}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.username' })}
-          rules={[{ required: true }]}
-        />
-        <ProFormText
-          name={IoTDBParams.password}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.password' })}
-          rules={[{ required: true }]}
+        <ProFormSelect
+          name={STEP_ATTR_TYPE.dataSource}
+          label={intl.formatMessage({id: 'pages.project.di.step.dataSource'})}
+          rules={[{required: true}]}
+          colProps={{span: 18}}
+          dependencies={['dataSourceType']}
+          request={(params, props) => {
+            const param: DsInfoParam = {
+              name: params.keyWords,
+              dsType: params.dataSourceType,
+            };
+            return DsInfoService.list(param).then((response) => {
+              return response.data.map((item) => {
+                return {label: item.name, value: item.id, item: item};
+              });
+            });
+          }}
         />
         <ProFormTextArea
           name={IoTDBParams.sql}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.sql' })}
-          rules={[{ required: true }]}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.sql'})}
+          rules={[{required: true}]}
         />
         <ProFormGroup
-          label={intl.formatMessage({ id: 'pages.project.di.step.schema' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
           tooltip={{
-            title: intl.formatMessage({ id: 'pages.project.di.step.schema.tooltip' }),
-            icon: <InfoCircleOutlined />,
+            title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
+            icon: <InfoCircleOutlined/>,
           }}
         >
           <ProFormList
             name={IoTDBParams.fieldArray}
             copyIconProps={false}
             creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({ id: 'pages.project.di.step.schema.fields' }),
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
               type: 'text',
             }}
           >
             <ProFormGroup>
               <ProFormText
                 name={SchemaParams.field}
-                label={intl.formatMessage({ id: 'pages.project.di.step.schema.fields.field' })}
-                colProps={{ span: 10, offset: 1 }}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
+                colProps={{span: 10, offset: 1}}
               />
               <ProFormText
                 name={SchemaParams.type}
-                label={intl.formatMessage({ id: 'pages.project.di.step.schema.fields.type' })}
-                colProps={{ span: 10, offset: 1 }}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
+                colProps={{span: 10, offset: 1}}
               />
             </ProFormGroup>
           </ProFormList>
         </ProFormGroup>
         <ProFormDigit
           name={IoTDBParams.fetchSize}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.fetchSize' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.fetchSize'})}
           min={1}
         />
         <ProFormDigit
           name={IoTDBParams.thriftDefaultBufferSize}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.thriftDefaultBufferSize' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.thriftDefaultBufferSize'})}
           fieldProps={{
             step: 1000,
             min: 1,
@@ -132,7 +145,7 @@ const SourceIoTDBStepForm: React.FC<
         />
         <ProFormDigit
           name={IoTDBParams.thriftMaxFrameSize}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.thriftMaxFrameSize' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.thriftMaxFrameSize'})}
           fieldProps={{
             step: 1000,
             min: 1,
@@ -140,25 +153,25 @@ const SourceIoTDBStepForm: React.FC<
         />
         <ProFormSwitch
           name={IoTDBParams.enableCacheLeader}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.enableCacheLeader' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.enableCacheLeader'})}
         />
         <ProFormSelect
           name={IoTDBParams.version}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.version' })}
-          valueEnum={{ V_0_12: 'V_0_12', V_0_13: 'V_0_13' }}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.version'})}
+          valueEnum={{V_0_12: 'V_0_12', V_0_13: 'V_0_13'}}
         />
         <ProFormDigit
           name={IoTDBParams.numPartitions}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.numPartitions' })}
-          colProps={{ span: 8 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.numPartitions'})}
+          colProps={{span: 8}}
           fieldProps={{
             min: 1,
           }}
         />
         <ProFormDigit
           name={IoTDBParams.lowerBound}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.lowerBound' })}
-          colProps={{ span: 8 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.lowerBound'})}
+          colProps={{span: 8}}
           fieldProps={{
             step: 100000,
             min: 0,
@@ -166,8 +179,8 @@ const SourceIoTDBStepForm: React.FC<
         />
         <ProFormDigit
           name={IoTDBParams.upperBound}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.upperBound' })}
-          colProps={{ span: 8 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.upperBound'})}
+          colProps={{span: 8}}
           fieldProps={{
             step: 100000,
             min: 1,

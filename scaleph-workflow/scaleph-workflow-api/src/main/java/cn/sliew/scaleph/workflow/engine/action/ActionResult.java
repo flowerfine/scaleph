@@ -18,8 +18,6 @@
 
 package cn.sliew.scaleph.workflow.engine.action;
 
-import cn.sliew.milky.common.chain.ContextMap;
-
 public interface ActionResult {
 
     ActionStatus getStatus();

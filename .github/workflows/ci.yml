@@ -6,7 +6,7 @@ on:
   push:
     paths-ignore: ['docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
   schedule:
-    - cron: '0 17 * * *' # automatic test while every day on 03:00 am at UTC+10
+    - cron: '0 20 * * *' # automatic test while every day on 04:00 am at UTC+10
   workflow_dispatch:
 
 jobs:

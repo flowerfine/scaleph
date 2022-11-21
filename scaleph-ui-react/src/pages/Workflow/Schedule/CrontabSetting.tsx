@@ -1,24 +1,10 @@
-import { ModalFormProps } from '@/app.d';
-import { JobService } from '@/services/project/job.service';
-import { DiJob } from '@/services/project/typings';
-import {
-  Alert,
-  Col,
-  Input,
-  InputNumber,
-  message,
-  Modal,
-  Radio,
-  Row,
-  Select,
-  Space,
-  Tabs,
-  Typography,
-} from 'antd';
-import { useIntl } from 'umi';
-import React, { useEffect, useRef, useState } from 'react';
+import {ModalFormProps} from '@/app.d';
+import {Alert, Col, Input, InputNumber, Modal, Radio, Row, Select, Space, Tabs, Typography,} from 'antd';
+import {useIntl} from 'umi';
+import React, {useEffect, useRef, useState} from 'react';
 import moment from 'moment';
-import {SchedulerService} from "@/services/scheduler/scheduler.service";
+import {SchedulerService} from "@/services/workflow/scheduler.service";
+
 type CrontabDataType = {
   type?: number;
   value?: string;
@@ -31,12 +17,13 @@ type CrontabDataType = {
   custom?: number[];
 };
 
-const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
-  data,
-  visible,
-  onVisibleChange,
-  onCancel,
-}) => {
+const CrontabSetting: React.FC<ModalFormProps<string>> = ({
+                                                            data,
+                                                            visible,
+                                                            onVisibleChange,
+                                                            onCancel,
+                                                            onOK
+                                                          }) => {
   const intl = useIntl();
   const [crontabStr, setCrontabStr] = useState<string>('');
   const [minutes, setMinutes] = useState<number[]>([]);
@@ -107,11 +94,11 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
   const crontabStrRef = useRef(crontabStr);
   const tabItems = [
     {
-      label: intl.formatMessage({ id: 'pages.project.di.job.crontab.custom' }),
+      label: intl.formatMessage({id: 'pages.project.di.job.crontab.custom'}),
       key: 'custom',
       children: (
         <Space>
-          {intl.formatMessage({ id: 'pages.project.di.job.crontab.custom' })}:
+          {intl.formatMessage({id: 'pages.project.di.job.crontab.custom'})}:
           <Input
             onChange={(e) => {
               setCrontabStr(e.target.value);
@@ -124,26 +111,26 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
       ),
     },
     {
-      label: intl.formatMessage({ id: 'pages.project.di.job.crontab.minute' }),
+      label: intl.formatMessage({id: 'pages.project.di.job.crontab.minute'}),
       key: 'minute',
       children: (
         <div>
           <Radio.Group
             onChange={(e) => {
-              setCronMinute({ ...cronMinute, type: e.target.value });
-              cronMinuteRef.current = { ...cronMinute, type: e.target.value };
+              setCronMinute({...cronMinute, type: e.target.value});
+              cronMinuteRef.current = {...cronMinute, type: e.target.value};
               buildCrontab();
             }}
           >
             <Space direction="vertical">
               <Radio value={1}>
-                {intl.formatMessage({ id: 'pages.project.di.job.crontab.every' }) +
-                  intl.formatMessage({ id: 'pages.project.di.job.crontab.minute' })}
+                {intl.formatMessage({id: 'pages.project.di.job.crontab.every'}) +
+                  intl.formatMessage({id: 'pages.project.di.job.crontab.minute'})}
               </Radio>
               <Radio value={2}>
                 <Space>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.range' })}:
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.range.from' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.range'})}:
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.range.from'})}
                   <InputNumber
                     defaultValue={0}
                     min={cronMinute.min}
@@ -161,7 +148,7 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.range.to' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.range.to'})}
                   <InputNumber
                     defaultValue={0}
                     min={cronMinute.min}
@@ -179,13 +166,13 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.minute' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.minute'})}
                 </Space>
               </Radio>
               <Radio value={3}>
                 <Space>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.loop' })}:
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.loop.from' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.loop'})}:
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.loop.from'})}
                   <InputNumber
                     defaultValue={0}
                     min={cronMinute.min}
@@ -203,14 +190,14 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.loop.to' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.loop.to'})}
                   <InputNumber
                     defaultValue={0}
                     min={cronMinute.min}
                     max={cronMinute.max}
                     disabled={cronMinute.type != 3}
                     onChange={(e) => {
-                      setCronMinute({ ...cronMinute, loopTo: e as number });
+                      setCronMinute({...cronMinute, loopTo: e as number});
                       cronMinuteRef.current = {
                         ...cronMinute,
                         loopTo: e as number,
@@ -218,26 +205,26 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.minute' }) +
-                    intl.formatMessage({ id: 'pages.project.di.job.crontab.loop.times' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.minute'}) +
+                    intl.formatMessage({id: 'pages.project.di.job.crontab.loop.times'})}
                 </Space>
               </Radio>
               <Row gutter={[0, 0]} align="middle">
                 <Col>
                   <Radio value={4}>
-                    {intl.formatMessage({ id: 'pages.project.di.job.crontab.designated' }) + ' :'}
+                    {intl.formatMessage({id: 'pages.project.di.job.crontab.designated'}) + ' :'}
                   </Radio>
                 </Col>
                 <Col>
                   <Select
-                    style={{ width: '260px' }}
+                    style={{width: '260px'}}
                     allowClear={true}
                     mode="multiple"
                     maxTagCount="responsive"
                     disabled={cronMinute.type != 4}
                     onChange={(e) => {
-                      setCronMinute({ ...cronMinute, custom: e as number[] });
-                      cronMinuteRef.current = { ...cronMinute, custom: e as number[] };
+                      setCronMinute({...cronMinute, custom: e as number[]});
+                      cronMinuteRef.current = {...cronMinute, custom: e as number[]};
                       buildCrontab();
                     }}
                   >
@@ -257,26 +244,26 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
       ),
     },
     {
-      label: intl.formatMessage({ id: 'pages.project.di.job.crontab.hour' }),
+      label: intl.formatMessage({id: 'pages.project.di.job.crontab.hour'}),
       key: 'hour',
       children: (
         <>
           <Radio.Group
             onChange={(e) => {
-              setCronHour({ ...cronHour, type: e.target.value });
-              cronHourRef.current = { ...cronHour, type: e.target.value };
+              setCronHour({...cronHour, type: e.target.value});
+              cronHourRef.current = {...cronHour, type: e.target.value};
               buildCrontab();
             }}
           >
             <Space direction="vertical">
               <Radio value={1}>
-                {intl.formatMessage({ id: 'pages.project.di.job.crontab.every' }) +
-                  intl.formatMessage({ id: 'pages.project.di.job.crontab.hour' })}
+                {intl.formatMessage({id: 'pages.project.di.job.crontab.every'}) +
+                  intl.formatMessage({id: 'pages.project.di.job.crontab.hour'})}
               </Radio>
               <Radio value={2}>
                 <Space>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.range' })}:
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.range.from' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.range'})}:
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.range.from'})}
                   <InputNumber
                     defaultValue={0}
                     min={cronHour.min}
@@ -294,7 +281,7 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.range.to' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.range.to'})}
                   <InputNumber
                     defaultValue={0}
                     min={cronHour.min}
@@ -312,13 +299,13 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.hour' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.hour'})}
                 </Space>
               </Radio>
               <Radio value={3}>
                 <Space>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.loop' })}:
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.loop.from' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.loop'})}:
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.loop.from'})}
                   <InputNumber
                     defaultValue={0}
                     min={cronHour.min}
@@ -336,7 +323,7 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.loop.to' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.loop.to'})}
                   <InputNumber
                     defaultValue={0}
                     min={cronHour.min}
@@ -354,26 +341,26 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.hour' }) +
-                    intl.formatMessage({ id: 'pages.project.di.job.crontab.loop.times' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.hour'}) +
+                    intl.formatMessage({id: 'pages.project.di.job.crontab.loop.times'})}
                 </Space>
               </Radio>
               <Row gutter={[0, 0]} align="middle">
                 <Col>
                   <Radio value={4}>
-                    {intl.formatMessage({ id: 'pages.project.di.job.crontab.designated' }) + ' :'}
+                    {intl.formatMessage({id: 'pages.project.di.job.crontab.designated'}) + ' :'}
                   </Radio>
                 </Col>
                 <Col>
                   <Select
-                    style={{ width: '260px' }}
+                    style={{width: '260px'}}
                     allowClear={true}
                     mode="multiple"
                     maxTagCount="responsive"
                     disabled={cronHour.type != 4}
                     onChange={(e) => {
-                      setCronHour({ ...cronHour, custom: e as number[] });
-                      cronHourRef.current = { ...cronHour, custom: e as number[] };
+                      setCronHour({...cronHour, custom: e as number[]});
+                      cronHourRef.current = {...cronHour, custom: e as number[]};
                       buildCrontab();
                     }}
                   >
@@ -393,32 +380,32 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
       ),
     },
     {
-      label: intl.formatMessage({ id: 'pages.project.di.job.crontab.day' }),
+      label: intl.formatMessage({id: 'pages.project.di.job.crontab.day'}),
       key: 'day',
       children: (
         <>
           <Radio.Group
             onChange={(e) => {
-              setCronDay({ ...cronDay, type: e.target.value });
-              cronDayRef.current = { ...cronDay, type: e.target.value };
+              setCronDay({...cronDay, type: e.target.value});
+              cronDayRef.current = {...cronDay, type: e.target.value};
               buildCrontab();
             }}
           >
             <Space direction="vertical">
               <Radio value={0}>
-                {intl.formatMessage({ id: 'pages.project.di.job.crontab.undesignated.day' })}
+                {intl.formatMessage({id: 'pages.project.di.job.crontab.undesignated.day'})}
               </Radio>
               <Radio value={1}>
-                {intl.formatMessage({ id: 'pages.project.di.job.crontab.every' }) +
-                  intl.formatMessage({ id: 'pages.project.di.job.crontab.day' })}
+                {intl.formatMessage({id: 'pages.project.di.job.crontab.every'}) +
+                  intl.formatMessage({id: 'pages.project.di.job.crontab.day'})}
               </Radio>
               <Radio value={2}>
-                {intl.formatMessage({ id: 'pages.project.di.job.crontab.lastday' })}
+                {intl.formatMessage({id: 'pages.project.di.job.crontab.lastday'})}
               </Radio>
               <Radio value={3}>
                 <Space>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.range' })}:
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.range.from' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.range'})}:
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.range.from'})}
                   <InputNumber
                     defaultValue={cronDay.min}
                     min={cronDay.min}
@@ -436,7 +423,7 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.range.to' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.range.to'})}
                   <InputNumber
                     defaultValue={cronDay.min}
                     min={cronDay.min}
@@ -454,13 +441,13 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.day' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.day'})}
                 </Space>
               </Radio>
               <Radio value={4}>
                 <Space>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.loop' })}:
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.loop.from' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.loop'})}:
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.loop.from'})}
                   <InputNumber
                     defaultValue={cronDay.min}
                     min={cronDay.min}
@@ -478,7 +465,7 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.loop.to' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.loop.to'})}
                   <InputNumber
                     defaultValue={cronDay.min}
                     min={cronDay.min}
@@ -496,26 +483,26 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.day' }) +
-                    intl.formatMessage({ id: 'pages.project.di.job.crontab.loop.times' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.day'}) +
+                    intl.formatMessage({id: 'pages.project.di.job.crontab.loop.times'})}
                 </Space>
               </Radio>
               <Row gutter={[0, 0]} align="middle">
                 <Col>
                   <Radio value={5}>
-                    {intl.formatMessage({ id: 'pages.project.di.job.crontab.designated' }) + ' :'}
+                    {intl.formatMessage({id: 'pages.project.di.job.crontab.designated'}) + ' :'}
                   </Radio>
                 </Col>
                 <Col>
                   <Select
-                    style={{ width: '260px' }}
+                    style={{width: '260px'}}
                     allowClear={true}
                     mode="multiple"
                     maxTagCount="responsive"
                     disabled={cronDay.type != 5}
                     onChange={(e) => {
-                      setCronDay({ ...cronDay, custom: e as number[] });
-                      cronDayRef.current = { ...cronDay, custom: e as number[] };
+                      setCronDay({...cronDay, custom: e as number[]});
+                      cronDayRef.current = {...cronDay, custom: e as number[]};
                       buildCrontab();
                     }}
                   >
@@ -535,99 +522,99 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
       ),
     },
     {
-      label: intl.formatMessage({ id: 'pages.project.di.job.crontab.month' }),
+      label: intl.formatMessage({id: 'pages.project.di.job.crontab.month'}),
       key: 'month',
       children: (
         <>
           <Radio.Group
             onChange={(e) => {
-              setCronMonth({ ...cronMonth, type: e.target.value });
-              cronMonthRef.current = { ...cronMonth, type: e.target.value };
+              setCronMonth({...cronMonth, type: e.target.value});
+              cronMonthRef.current = {...cronMonth, type: e.target.value};
               buildCrontab();
             }}
           >
             <Space direction="vertical">
               <Radio value={1}>
-                {intl.formatMessage({ id: 'pages.project.di.job.crontab.every' }) +
-                  intl.formatMessage({ id: 'pages.project.di.job.crontab.month' })}
+                {intl.formatMessage({id: 'pages.project.di.job.crontab.every'}) +
+                  intl.formatMessage({id: 'pages.project.di.job.crontab.month'})}
               </Radio>
               <Radio value={2}>
                 <Space>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.range' })}:
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.range.from' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.range'})}:
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.range.from'})}
                   <InputNumber
                     defaultValue={cronMonth.min}
                     min={cronMonth.min}
                     max={cronMonth.max}
                     disabled={cronMonth.type != 2}
                     onChange={(e) => {
-                      setCronMonth({ ...cronMonth, intervalFrom: e as number });
-                      cronMonthRef.current = { ...cronMonth, intervalFrom: e as number };
+                      setCronMonth({...cronMonth, intervalFrom: e as number});
+                      cronMonthRef.current = {...cronMonth, intervalFrom: e as number};
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.range.to' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.range.to'})}
                   <InputNumber
                     defaultValue={cronMonth.min}
                     min={cronMonth.min}
                     max={cronMonth.max}
                     disabled={cronMonth.type != 2}
                     onChange={(e) => {
-                      setCronMonth({ ...cronMonth, intervalTo: e as number });
-                      cronMonthRef.current = { ...cronMonth, intervalTo: e as number };
+                      setCronMonth({...cronMonth, intervalTo: e as number});
+                      cronMonthRef.current = {...cronMonth, intervalTo: e as number};
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.month' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.month'})}
                 </Space>
               </Radio>
               <Radio value={3}>
                 <Space>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.loop' })}:
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.loop.from' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.loop'})}:
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.loop.from'})}
                   <InputNumber
                     defaultValue={cronMonth.min}
                     min={cronMonth.min}
                     max={cronMonth.max}
                     disabled={cronMonth.type != 3}
                     onChange={(e) => {
-                      setCronMonth({ ...cronMonth, loopFrom: e as number });
-                      cronMonthRef.current = { ...cronMonth, loopFrom: e as number };
+                      setCronMonth({...cronMonth, loopFrom: e as number});
+                      cronMonthRef.current = {...cronMonth, loopFrom: e as number};
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.loop.to' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.loop.to'})}
                   <InputNumber
                     defaultValue={cronMonth.min}
                     min={cronMonth.min}
                     max={cronMonth.max}
                     disabled={cronMonth.type != 3}
                     onChange={(e) => {
-                      setCronMonth({ ...cronMonth, loopTo: e as number });
-                      cronMonthRef.current = { ...cronMonth, loopTo: e as number };
+                      setCronMonth({...cronMonth, loopTo: e as number});
+                      cronMonthRef.current = {...cronMonth, loopTo: e as number};
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.month' }) +
-                    intl.formatMessage({ id: 'pages.project.di.job.crontab.loop.times' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.month'}) +
+                    intl.formatMessage({id: 'pages.project.di.job.crontab.loop.times'})}
                 </Space>
               </Radio>
               <Row gutter={[0, 0]} align="middle">
                 <Col>
                   <Radio value={4}>
-                    {intl.formatMessage({ id: 'pages.project.di.job.crontab.designated' }) + ' :'}
+                    {intl.formatMessage({id: 'pages.project.di.job.crontab.designated'}) + ' :'}
                   </Radio>
                 </Col>
                 <Col>
                   <Select
-                    style={{ width: '260px' }}
+                    style={{width: '260px'}}
                     allowClear={true}
                     mode="multiple"
                     maxTagCount="responsive"
                     disabled={cronMonth.type != 4}
                     onChange={(e) => {
-                      setCronMonth({ ...cronMonth, custom: e as number[] });
-                      cronMonthRef.current = { ...cronMonth, custom: e as number[] };
+                      setCronMonth({...cronMonth, custom: e as number[]});
+                      cronMonthRef.current = {...cronMonth, custom: e as number[]};
                       buildCrontab();
                     }}
                   >
@@ -647,50 +634,50 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
       ),
     },
     {
-      label: intl.formatMessage({ id: 'pages.project.di.job.crontab.week' }),
+      label: intl.formatMessage({id: 'pages.project.di.job.crontab.week'}),
       key: 'week',
       children: (
         <>
           <Radio.Group
             onChange={(e) => {
-              setCronWeek({ ...cronWeek, type: e.target.value });
-              cronWeekRef.current = { ...cronWeek, type: e.target.value };
+              setCronWeek({...cronWeek, type: e.target.value});
+              cronWeekRef.current = {...cronWeek, type: e.target.value};
               buildCrontab();
             }}
           >
             <Space direction="vertical">
               <Radio value={0}>
-                {intl.formatMessage({ id: 'pages.project.di.job.crontab.undesignated.week' })}
+                {intl.formatMessage({id: 'pages.project.di.job.crontab.undesignated.week'})}
               </Radio>
               <Radio value={1}>
-                {intl.formatMessage({ id: 'pages.project.di.job.crontab.every' }) +
-                  intl.formatMessage({ id: 'pages.project.di.job.crontab.week' })}
+                {intl.formatMessage({id: 'pages.project.di.job.crontab.every'}) +
+                  intl.formatMessage({id: 'pages.project.di.job.crontab.week'})}
               </Radio>
               <Radio value={2}>
                 <Space>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.range' })}:
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.range.from' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.range'})}:
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.range.from'})}
                   <InputNumber
                     defaultValue={cronWeek.min}
                     min={cronWeek.min}
                     max={cronWeek.max}
                     disabled={cronWeek.type != 2}
                     onChange={(e) => {
-                      setCronWeek({ ...cronWeek, intervalFrom: e as number });
-                      cronWeekRef.current = { ...cronWeek, intervalFrom: e as number };
+                      setCronWeek({...cronWeek, intervalFrom: e as number});
+                      cronWeekRef.current = {...cronWeek, intervalFrom: e as number};
                       buildCrontab();
                     }}
                   ></InputNumber>
-                  {intl.formatMessage({ id: 'pages.project.di.job.crontab.range.to' }) +
-                    intl.formatMessage({ id: 'pages.project.di.job.crontab.week' })}
+                  {intl.formatMessage({id: 'pages.project.di.job.crontab.range.to'}) +
+                    intl.formatMessage({id: 'pages.project.di.job.crontab.week'})}
                   <InputNumber
                     defaultValue={cronWeek.min}
                     min={cronWeek.min}
                     max={cronWeek.max}
                     disabled={cronWeek.type != 2}
                     onChange={(e) => {
-                      setCronWeek({ ...cronWeek, intervalTo: e as number });
-                      cronWeekRef.current = { ...cronWeek, intervalTo: e as number };
+                      setCronWeek({...cronWeek, intervalTo: e as number});
+                      cronWeekRef.current = {...cronWeek, intervalTo: e as number};
                       buildCrontab();
                     }}
                   ></InputNumber>
@@ -699,19 +686,19 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
               <Row gutter={[0, 0]} align="middle">
                 <Col>
                   <Radio value={3}>
-                    {intl.formatMessage({ id: 'pages.project.di.job.crontab.designated' }) + ' :'}
+                    {intl.formatMessage({id: 'pages.project.di.job.crontab.designated'}) + ' :'}
                   </Radio>
                 </Col>
                 <Col>
                   <Select
-                    style={{ width: '260px' }}
+                    style={{width: '260px'}}
                     allowClear={true}
                     mode="multiple"
                     maxTagCount="responsive"
                     disabled={cronWeek.type != 3}
                     onChange={(e) => {
-                      setCronWeek({ ...cronWeek, custom: e as number[] });
-                      cronWeekRef.current = { ...cronWeek, custom: e as number[] };
+                      setCronWeek({...cronWeek, custom: e as number[]});
+                      cronWeekRef.current = {...cronWeek, custom: e as number[]};
                       buildCrontab();
                     }}
                   >
@@ -738,8 +725,8 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
     setDays(buildNums(1, 31));
     setMonths(buildNums(1, 12));
     setWeeks(buildNums(1, 7));
-    setCrontabStr(data?.jobCrontab ? (data?.jobCrontab as string) : '0 * * * * ?');
-    crontabStrRef.current = data?.jobCrontab ? (data?.jobCrontab as string) : '0 * * * * ?';
+    setCrontabStr(data ? data : '0 * * * * ?');
+    crontabStrRef.current = data ? data : '0 * * * * ?';
     buildCrontab();
   }, []);
 
@@ -842,27 +829,16 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
   return (
     <Modal
       open={visible}
-      title={intl.formatMessage({ id: 'pages.project.di.setting' })}
+      title={intl.formatMessage({id: 'pages.project.di.setting'})}
       width={580}
-      bodyStyle={{ padding: '6px 24px 24px 24px' }}
+      bodyStyle={{padding: '6px 24px 24px 24px'}}
       destroyOnClose={true}
       onCancel={onCancel}
       onOk={() => {
         if (crontabStr != '' && crontabStr != undefined && crontabStr != null) {
-          let d: DiJob = {
-            id: data.id,
-            jobCrontab: crontabStr,
-            projectId: data.projectId,
-            jobCode: data.jobCode,
-            jobName: data.jobName,
-            directory: data.directory,
-          };
-          JobService.updateJob(d).then((resp) => {
-            if (resp.success) {
-              message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
-              onVisibleChange ? onVisibleChange(false) : null;
-            }
-          });
+          if (onOK) {
+            onOK(crontabStr)
+          }
         }
       }}
     >
@@ -877,7 +853,7 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
         message={
           <>
             <Typography.Text>
-              {intl.formatMessage({ id: 'pages.project.di.job.crontab.title' }) + ' : '}
+              {intl.formatMessage({id: 'pages.project.di.job.crontab.title'}) + ' : '}
             </Typography.Text>
             <Typography.Text strong>{crontabStr}</Typography.Text>
           </>
@@ -894,13 +870,13 @@ const CrontabSetting: React.FC<ModalFormProps<DiJob>> = ({
         message={
           <>
             <Typography.Text>
-              {intl.formatMessage({ id: 'pages.project.di.job.crontab.next5' })}
+              {intl.formatMessage({id: 'pages.project.di.job.crontab.next5'})}
             </Typography.Text>
             {fireTimeList &&
               fireTimeList.map((item, index) => {
                 return (
                   <Typography.Text key={index}>
-                    <br />
+                    <br/>
                     {moment(item).format('YYYY-MM-DD HH:mm:ss')}
                   </Typography.Text>
                 );

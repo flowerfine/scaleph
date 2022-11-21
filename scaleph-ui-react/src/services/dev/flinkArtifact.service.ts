@@ -1,6 +1,6 @@
 import { PageResponse, ResponseBody } from '@/app.d';
 import { FlinkArtifact, FlinkArtifactListParam } from '@/services/dev/typings';
-import { request } from '@@/exports';
+import { request } from 'umi';
 
 export const FlinkArtifactService = {
   url: '/api/flink/artifact',

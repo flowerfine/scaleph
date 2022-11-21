@@ -42,4 +42,5 @@ public class WorkflowScheduleUpdateParam {
 
     @ApiModelProperty("remark")
     private String remark;
+
 }

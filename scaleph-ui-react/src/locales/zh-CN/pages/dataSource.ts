@@ -49,4 +49,15 @@ export default {
   'pages.dataSource.step.props.kudu.masters': 'Masters',
   'pages.dataSource.step.props.kudu.masters.placeholder': '127.0.0.1:7051',
 
+  'pages.dataSource.step.props.elasticsearch.hosts': 'Hosts',
+  'pages.dataSource.step.props.elasticsearch.hosts.placeholder': 'localhost:9200,localhost:9201',
+  'pages.dataSource.step.props.elasticsearch.username': 'Username',
+  'pages.dataSource.step.props.elasticsearch.password': 'Password',
+
+  'pages.dataSource.step.props.mongodb.uri': 'URI',
+  'pages.dataSource.step.props.mongodb.uri.placeholder': 'mongodb://username:password@127.0.0.1:27017/mypost?retryWrites=true&writeConcern=majority',
+
+  'pages.dataSource.step.props.datahub.endpoint': 'Endpoint',
+  'pages.dataSource.step.props.datahub.accessId': 'Access ID',
+  'pages.dataSource.step.props.datahub.accessKey': 'Access Key',
 }

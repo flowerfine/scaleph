@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.common.dict.workflow;
 
 import cn.sliew.scaleph.common.dict.DictInstance;
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -28,8 +29,8 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ScheduleStatus implements DictInstance {
 
-    STOP("0", "STOP"),
-    RUNNING("1", "RUNNING"),
+    STOP(YesOrNo.NO.getValue(), "STOP"),
+    RUNNING(YesOrNo.YES.getValue(), "RUNNING"),
     ;
 
     @JsonCreator
