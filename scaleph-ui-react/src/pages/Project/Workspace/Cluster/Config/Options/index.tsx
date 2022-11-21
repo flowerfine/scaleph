@@ -1,14 +1,14 @@
-import {FlinkClusterConfig, FlinkClusterConfigAddParam, KubernetesOptions} from '@/services/dev/typings';
 import {ProCard, ProFormInstance, StepsForm,} from '@ant-design/pro-components';
 import {history, useIntl, useLocation} from 'umi';
 import {useRef, useState} from "react";
-import {FlinkClusterConfigService} from "@/services/dev/flinkClusterConfig.service";
 import BaseOptions from './components/Base';
 import State from './components/State';
 import FaultTolerance from './components/FaultTolerance';
 import HighAvailability from './components/HA';
 import Resource from './components/Resource';
 import Additional from './components/Additional';
+import { FlinkClusterConfig, FlinkClusterConfigAddParam, KubernetesOptions } from '@/services/project/typings';
+import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
 
 const ClusterConfigOptionsSteps: React.FC = () => {
   const urlParams = useLocation();

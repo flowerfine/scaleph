@@ -1,8 +1,8 @@
 import { Dict, ModalFormProps } from '@/app.d';
 import { DICT_TYPE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { FlinkArtifactService } from '@/services/dev/flinkArtifact.service';
-import { FlinkArtifact } from '@/services/dev/typings';
+import { FlinkArtifactService } from '@/services/project/flinkArtifact.service';
+import { FlinkArtifact } from '@/services/project/typings';
 import { Form, Input, message, Modal, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'umi';

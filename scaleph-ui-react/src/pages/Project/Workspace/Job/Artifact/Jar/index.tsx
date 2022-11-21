@@ -1,8 +1,8 @@
 import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { FlinkArtifactJarService } from '@/services/dev/flinkArtifactJar.service';
-import { FlinkArtifactJar } from '@/services/dev/typings';
+import { FlinkArtifactJarService } from '@/services/project/flinkArtifactJar.service';
+import { FlinkArtifactJar } from '@/services/project/typings';
 import { history } from '@@/core/history';
 import { DownloadOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';

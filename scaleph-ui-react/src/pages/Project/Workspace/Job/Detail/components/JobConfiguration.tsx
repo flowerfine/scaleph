@@ -1,7 +1,7 @@
 import { useIntl } from 'umi';
 import { Button, Card, Col, Form, List, Row } from 'antd';
-import { FlinkClusterConfig, FlinkClusterInstance } from '@/services/dev/typings';
-import { FlinkClusterConfigService } from '@/services/dev/flinkClusterConfig.service';
+import { FlinkClusterConfig, FlinkClusterInstance } from '@/services/project/typings';
+import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
 
 const JobConfigurationWeb: React.FC<{
   clusterConfig: FlinkClusterConfig;
