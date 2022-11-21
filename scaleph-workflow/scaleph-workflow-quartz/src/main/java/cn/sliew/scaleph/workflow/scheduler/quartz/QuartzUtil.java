@@ -50,7 +50,7 @@ public enum QuartzUtil {
         return TriggerKey.triggerKey(triggerName, triggerGroup);
     }
 
-    private static ScheduleBuilder buildSchedule( WorkflowScheduleDTO schedule) {
+    private static ScheduleBuilder buildSchedule(WorkflowScheduleDTO schedule) {
         return CronScheduleBuilder
                 .cronSchedule(schedule.getCrontab())
                 .inTimeZone(TimeZone.getTimeZone(schedule.getTimezone()));
