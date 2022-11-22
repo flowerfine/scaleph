@@ -1,5 +1,5 @@
-import {FlinkJobInstance} from "@/pages/DEV/Job/typings";
 import {request} from "@@/exports";
+import { FlinkJobInstance } from "./typings";
 
 export const FlinkJobInstanceService = {
   url: '/api/flink/job-instance',

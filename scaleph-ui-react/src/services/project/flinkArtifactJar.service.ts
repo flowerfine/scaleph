@@ -1,10 +1,10 @@
-import { PageResponse } from '@/app.d';
+import { PageResponse, ResponseBody } from '@/app.d';
 import { USER_AUTH } from '@/constant';
 import {
   FlinkArtifactJar,
   FlinkArtifactJarListParam,
   FlinkArtifactJarUploadParam,
-} from '@/services/dev/typings';
+} from './typings';
 import { request } from 'umi';
 
 export const FlinkArtifactJarService = {
