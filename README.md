@@ -20,7 +20,9 @@ Scaleph is driven by personal interest and evolves actively through faithful dev
 
 ### data integration
 
-* Web-ui click-and-drag data integration ways backended by out-of-the-box connectors.
+* Web-ui click-and-drag data integration ways backended by Apache SeaTunnel(incubating)
+*  Support 2.3.0-beta V2 out-of-the-box connectors
+* DataSource management
 
 ### data develop
 
@@ -49,7 +51,7 @@ Once all containers have started, the UI is ready to go at [http://localhost](ht
 
 ## Documentation
 
-please refer [wiki](https://github.com/flowerfine/scaleph/wiki)
+please refer [website](https://flowerfine.github.io/scaleph/#/)
 
 ## Build and Deployment
 
@@ -110,7 +112,7 @@ Thanks for all people who already contributed to Scaleph!
 
 * Chinese user:
 
-   ![wechat](docs/image/1301667952451_.pic.jpg)
+   ![wechat](docs/image/1341668688855_.pic.jpg)
 
 ## Sponsor
 

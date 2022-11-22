@@ -23,6 +23,8 @@ import cn.sliew.milky.common.constant.AttributeKey;
 import cn.sliew.milky.common.constant.AttributeMap;
 import cn.sliew.milky.common.constant.DefaultAttributeMap;
 import cn.sliew.scaleph.common.container.pool.ContainerPool;
+import cn.sliew.scaleph.common.container.pool.ContainerValue;
+import cn.sliew.scaleph.common.container.pool.thread.ThreadContainerPool;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
@@ -55,7 +57,7 @@ public class ActionContext implements AttributeMap {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date fireTime;
 
-    private ContainerPool containerPool;
+    private ContainerPool containerPool = new ThreadContainerPool();
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)

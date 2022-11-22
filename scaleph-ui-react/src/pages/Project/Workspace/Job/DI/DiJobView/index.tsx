@@ -1,15 +1,14 @@
-import { Dict, TreeNode } from '@/app.d';
-import { DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
-import { DictDataService } from '@/services/admin/dictData.service';
-import { JobService } from '@/services/project/job.service';
-import { DiJob } from '@/services/project/typings';
-import { DeleteOutlined, DownOutlined, EditOutlined, NodeIndexOutlined } from '@ant-design/icons';
-import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
-import { Button, Col, Dropdown, Menu, message, Modal, Row, Select, Space, Tooltip } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
-import { useAccess, useIntl } from 'umi';
+import {Dict} from '@/app.d';
+import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from '@/constant';
+import {DictDataService} from '@/services/admin/dictData.service';
+import {JobService} from '@/services/project/job.service';
+import {DiJob} from '@/services/project/typings';
+import {DeleteOutlined, DownOutlined, EditOutlined, NodeIndexOutlined} from '@ant-design/icons';
+import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
+import {Button, Col, Dropdown, Menu, message, Modal, Row, Select, Space, Tooltip} from 'antd';
+import React, {useEffect, useRef, useState} from 'react';
+import {useAccess, useIntl} from 'umi';
 import DiJobFlow from '../DiJobFlow';
-import CrontabSetting from './components/CrontabSetting';
 import DiJobForm from './components/DiJobForm';
 
 const DiJobView: React.FC = () => {
@@ -28,10 +27,6 @@ const DiJobView: React.FC = () => {
     visible: false,
     data: {},
   });
-  const [crontabFormData, setCrontabFormData] = useState<{ visible: boolean; data: DiJob }>({
-    visible: false,
-    data: {},
-  });
 
   useEffect(() => {
     DictDataService.listDictDataByType(DICT_TYPE.jobType).then((d) => {
@@ -41,19 +36,19 @@ const DiJobView: React.FC = () => {
 
   const tableColumns: ProColumns<DiJob>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.project.di.jobName' }),
+      title: intl.formatMessage({id: 'pages.project.di.jobName'}),
       dataIndex: 'jobName',
       width: 200,
     },
     {
-      title: intl.formatMessage({ id: 'pages.project.di.jobType' }),
+      title: intl.formatMessage({id: 'pages.project.di.jobType'}),
       dataIndex: 'jobType',
       align: 'center',
       width: 100,
       render: (_, record) => {
         return record.jobType?.label;
       },
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
         return (
           <Select
             showSearch={true}
@@ -75,7 +70,7 @@ const DiJobView: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.project.di.jobStatus' }),
+      title: intl.formatMessage({id: 'pages.project.di.jobStatus'}),
       dataIndex: 'jobStatus',
       align: 'center',
       hideInSearch: true,
@@ -85,32 +80,32 @@ const DiJobView: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.project.di.jobVersion' }),
+      title: intl.formatMessage({id: 'pages.project.di.jobVersion'}),
       dataIndex: 'jobVersion',
       width: 80,
       hideInSearch: true,
       align: 'center',
     },
     {
-      title: intl.formatMessage({ id: 'pages.project.di.remark' }),
+      title: intl.formatMessage({id: 'pages.project.di.remark'}),
       dataIndex: 'remark',
       hideInSearch: true,
       width: 150,
     },
     {
-      title: intl.formatMessage({ id: 'pages.project.di.createTime' }),
+      title: intl.formatMessage({id: 'pages.project.di.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.project.di.updateTime' }),
+      title: intl.formatMessage({id: 'pages.project.di.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'app.common.operate.label' }),
+      title: intl.formatMessage({id: 'app.common.operate.label'}),
       dataIndex: 'actions',
       align: 'center',
       width: 120,
@@ -120,49 +115,49 @@ const DiJobView: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<EditOutlined />}
+                  icon={<EditOutlined/>}
                   onClick={() => {
-                    setJobFormData({ visible: true, data: record });
+                    setJobFormData({visible: true, data: record});
                   }}
                 ></Button>
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-              <Tooltip title={intl.formatMessage({ id: 'pages.project.di.define' })}>
+              <Tooltip title={intl.formatMessage({id: 'pages.project.di.define'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<NodeIndexOutlined />}
+                  icon={<NodeIndexOutlined/>}
                   onClick={() => {
-                    setJobFlowData({ visible: true, data: record });
+                    setJobFlowData({visible: true, data: record});
                   }}
                 ></Button>
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevDatasourceDelete) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DeleteOutlined />}
+                  icon={<DeleteOutlined/>}
                   onClick={() => {
                     Modal.confirm({
-                      title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
+                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
                       content: intl.formatMessage({
                         id: 'app.common.operate.delete.confirm.content',
                       }),
-                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                      okButtonProps: { danger: true },
-                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                      okButtonProps: {danger: true},
+                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
                         JobService.deleteJobRow(record).then((d) => {
                           if (d.success) {
                             message.success(
-                              intl.formatMessage({ id: 'app.common.operate.delete.success' }),
+                              intl.formatMessage({id: 'app.common.operate.delete.success'}),
                             );
                             actionRef.current?.reload();
                           }
@@ -184,12 +179,12 @@ const DiJobView: React.FC = () => {
       <Row gutter={[12, 12]}>
         <Col span={24}>
           <ProTable<DiJob>
-            headerTitle={intl.formatMessage({ id: 'pages.project.di.job' })}
+            headerTitle={intl.formatMessage({id: 'pages.project.di.job'})}
             search={{
               labelWidth: 'auto',
-              span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
+              span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
             }}
-            scroll={{ x: 1200, y: 480 }}
+            scroll={{x: 1200, y: 480}}
             rowKey="id"
             actionRef={actionRef}
             formRef={formRef}
@@ -218,11 +213,11 @@ const DiJobView: React.FC = () => {
                                 onClick={() => {
                                   setJobFormData({
                                     visible: true,
-                                    data: { projectId: projectId, jobType: { value: 'r' } },
+                                    data: {projectId: projectId, jobType: {value: 'r'}},
                                   });
                                 }}
                               >
-                                {intl.formatMessage({ id: 'pages.project.di.job.realtime' })}
+                                {intl.formatMessage({id: 'pages.project.di.job.realtime'})}
                               </Button>
                             ),
                           },
@@ -234,11 +229,11 @@ const DiJobView: React.FC = () => {
                                 onClick={() => {
                                   setJobFormData({
                                     visible: true,
-                                    data: { projectId: projectId, jobType: { value: 'b' } },
+                                    data: {projectId: projectId, jobType: {value: 'b'}},
                                   });
                                 }}
                               >
-                                {intl.formatMessage({ id: 'pages.project.di.job.batch' })}
+                                {intl.formatMessage({id: 'pages.project.di.job.batch'})}
                               </Button>
                             ),
                           },
@@ -248,15 +243,15 @@ const DiJobView: React.FC = () => {
                   >
                     <Button key="new" type="primary">
                       <Space>
-                        {intl.formatMessage({ id: 'app.common.operate.new.label' })}
-                        <DownOutlined />
+                        {intl.formatMessage({id: 'app.common.operate.new.label'})}
+                        <DownOutlined/>
                       </Space>
                     </Button>
                   </Dropdown>
                 ),
               ],
             }}
-            pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
+            pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
             tableAlertRender={false}
             tableAlertOptionRender={false}
           ></ProTable>
@@ -265,12 +260,12 @@ const DiJobView: React.FC = () => {
           <DiJobForm
             visible={jobFormData.visible}
             onCancel={() => {
-              setJobFormData({ visible: false, data: {} });
+              setJobFormData({visible: false, data: {}});
             }}
             onVisibleChange={(visible, data) => {
-              setJobFormData({ visible: visible, data: {} });
+              setJobFormData({visible: visible, data: {}});
               if (data?.id) {
-                setJobFlowData({ visible: true, data: data });
+                setJobFlowData({visible: true, data: data});
               }
               actionRef.current?.reload();
             }}
@@ -281,28 +276,15 @@ const DiJobView: React.FC = () => {
           <DiJobFlow
             visible={jobFlowData.visible}
             onCancel={() => {
-              setJobFlowData({ visible: false, data: {} });
+              setJobFlowData({visible: false, data: {}});
             }}
             onVisibleChange={(visible) => {
-              setJobFlowData({ visible: false, data: {} });
+              setJobFlowData({visible: false, data: {}});
               actionRef.current?.reload();
             }}
             data={jobFlowData.data}
-            meta={{ flowId: 'flow_' + jobFlowData.data.jobCode, origin: jobFlowData.data }}
+            meta={{flowId: 'flow_' + jobFlowData.data.jobCode, origin: jobFlowData.data}}
           ></DiJobFlow>
-        )}
-        {crontabFormData.visible && (
-          <CrontabSetting
-            visible={crontabFormData.visible}
-            onCancel={() => {
-              setCrontabFormData({ visible: false, data: {} });
-            }}
-            onVisibleChange={(visible) => {
-              setCrontabFormData({ visible: false, data: {} });
-              actionRef.current?.reload();
-            }}
-            data={crontabFormData.data}
-          ></CrontabSetting>
         )}
       </Row>
     </>

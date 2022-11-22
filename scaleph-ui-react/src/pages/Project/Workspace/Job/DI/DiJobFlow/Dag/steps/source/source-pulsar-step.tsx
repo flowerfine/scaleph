@@ -56,7 +56,7 @@ const SourcePulsarStepForm: React.FC<
             if (resp.success) {
               message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
               onCancel();
-              onOK ? onOK() : null;
+              onOK ? onOK(values) : null;
             }
           });
         });
@@ -108,9 +108,7 @@ const SourcePulsarStepForm: React.FC<
           name={PulsarParams.topicDiscoveryInterval}
           label={intl.formatMessage({ id: 'pages.project.di.step.pulsar.topicDiscoveryInterval' })}
           tooltip={{
-            title: intl.formatMessage({
-              id: 'pages.project.di.step.pulsar.topicDiscoveryInterval.tooltip',
-            }),
+            title: intl.formatMessage({id: 'pages.project.di.step.pulsar.topicDiscoveryInterval.tooltip'}),
             icon: <InfoCircleOutlined />,
           }}
         />

@@ -18,17 +18,22 @@
 
 package cn.sliew.scaleph.workflow.service.impl;
 
-import cn.sliew.scaleph.common.dict.workflow.ScheduleStatus;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowSchedule;
 import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowScheduleMapper;
+import cn.sliew.scaleph.workflow.scheduler.SchedulerService;
 import cn.sliew.scaleph.workflow.service.WorkflowScheduleService;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowScheduleConvert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowScheduleDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleAddParam;
+import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleListParam;
 import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleUpdateParam;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -37,6 +42,17 @@ public class WorkflowScheduleServiceImpl implements WorkflowScheduleService {
 
     @Autowired
     private WorkflowScheduleMapper workflowScheduleMapper;
+    @Autowired
+    private SchedulerService schedulerService;
+
+    @Override
+    public List<WorkflowScheduleDTO> list(WorkflowScheduleListParam param) {
+        LambdaQueryWrapper<WorkflowSchedule> queryWrapper = Wrappers.lambdaQuery(WorkflowSchedule.class)
+                .eq(WorkflowSchedule::getWorkflowDefinitionId, param.getWorkflowDefinitionId())
+                .eq(param.getStatus() != null, WorkflowSchedule::getStatus, param.getStatus());
+        List<WorkflowSchedule> workflowSchedules = workflowScheduleMapper.selectList(queryWrapper);
+        return WorkflowScheduleConvert.INSTANCE.toDto(workflowSchedules);
+    }
 
     @Override
     public WorkflowScheduleDTO get(Long id) {
@@ -48,7 +64,6 @@ public class WorkflowScheduleServiceImpl implements WorkflowScheduleService {
     @Override
     public void insert(WorkflowScheduleAddParam param) {
         WorkflowSchedule record = BeanUtil.copy(param, new WorkflowSchedule());
-        record.setStatus(ScheduleStatus.STOP);
         workflowScheduleMapper.insert(record);
     }
 
@@ -65,10 +80,18 @@ public class WorkflowScheduleServiceImpl implements WorkflowScheduleService {
     }
 
     @Override
-    public void schedule(Long id) {
+    public void deleteBatch(List<Long> ids) {
+        workflowScheduleMapper.deleteBatchIds(ids);
     }
 
     @Override
-    public void unschedule(Long id) {
+    public void enable(Long id) {
+        schedulerService.schedule(id);
     }
+
+    @Override
+    public void disable(Long id) {
+        schedulerService.unschedule(id);
+    }
+
 }

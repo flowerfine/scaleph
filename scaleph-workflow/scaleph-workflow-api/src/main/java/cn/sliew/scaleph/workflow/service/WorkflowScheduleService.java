@@ -20,9 +20,14 @@ package cn.sliew.scaleph.workflow.service;
 
 import cn.sliew.scaleph.workflow.service.dto.WorkflowScheduleDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleAddParam;
+import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleListParam;
 import cn.sliew.scaleph.workflow.service.param.WorkflowScheduleUpdateParam;
 
+import java.util.List;
+
 public interface WorkflowScheduleService {
+
+    List<WorkflowScheduleDTO> list(WorkflowScheduleListParam param);
 
     WorkflowScheduleDTO get(Long id);
 
@@ -32,8 +37,10 @@ public interface WorkflowScheduleService {
 
     void delete(Long id);
 
-    void schedule(Long id);
+    void deleteBatch(List<Long> ids);
 
-    void unschedule(Long id);
+    void enable(Long id);
+
+    void disable(Long id);
 
 }

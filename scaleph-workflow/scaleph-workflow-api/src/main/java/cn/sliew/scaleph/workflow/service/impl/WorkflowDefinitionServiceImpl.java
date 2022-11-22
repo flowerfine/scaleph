@@ -19,17 +19,15 @@
 package cn.sliew.scaleph.workflow.service.impl;
 
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinition;
+import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowDefinitionVO;
 import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowDefinitionMapper;
 import cn.sliew.scaleph.workflow.service.WorkflowDefinitionService;
-import cn.sliew.scaleph.workflow.service.convert.WorkflowDefinitionConvert;
+import cn.sliew.scaleph.workflow.service.convert.WorkflowDefinitionVOConvert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowDefinitionDTO;
 import cn.sliew.scaleph.workflow.service.param.WorkflowDefinitionListParam;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -44,21 +42,17 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
     @Override
     public Page<WorkflowDefinitionDTO> list(WorkflowDefinitionListParam param) {
         Page<WorkflowDefinition> page = new Page<>(param.getCurrent(), param.getPageSize());
-        LambdaQueryWrapper<WorkflowDefinition> queryWrapper = Wrappers.lambdaQuery(WorkflowDefinition.class)
-                .eq(WorkflowDefinition::getType, param.getType())
-                .like(StringUtils.hasText(param.getName()), WorkflowDefinition::getName, param.getName())
-                .orderByAsc(WorkflowDefinition::getId);
-        Page<WorkflowDefinition> workflowDefinitionPage = workflowDefinitionMapper.selectPage(page, queryWrapper);
+        Page<WorkflowDefinitionVO> workflowDefinitionPage = workflowDefinitionMapper.list(page, param.getType(), param.getName());
         Page<WorkflowDefinitionDTO> result = new Page<>(workflowDefinitionPage.getCurrent(), workflowDefinitionPage.getSize(), workflowDefinitionPage.getTotal());
-        List<WorkflowDefinitionDTO> workflowDefinitionDTOS = WorkflowDefinitionConvert.INSTANCE.toDto(workflowDefinitionPage.getRecords());
+        List<WorkflowDefinitionDTO> workflowDefinitionDTOS = WorkflowDefinitionVOConvert.INSTANCE.toDto(workflowDefinitionPage.getRecords());
         result.setRecords(workflowDefinitionDTOS);
         return result;
     }
 
     @Override
     public WorkflowDefinitionDTO get(Long id) {
-        WorkflowDefinition record = workflowDefinitionMapper.selectById(id);
+        WorkflowDefinitionVO record = workflowDefinitionMapper.get(id);
         checkState(record != null, () -> "workflow definition not exists for id: " + id);
-        return WorkflowDefinitionConvert.INSTANCE.toDto(record);
+        return WorkflowDefinitionVOConvert.INSTANCE.toDto(record);
     }
 }

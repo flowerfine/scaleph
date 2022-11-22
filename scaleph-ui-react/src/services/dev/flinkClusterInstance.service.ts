@@ -4,7 +4,7 @@ import {
   FlinkClusterInstanceParam,
   FlinkSessionClusterNewParam,
 } from '@/services/dev/typings';
-import { request } from '@@/exports';
+import { request } from 'umi';
 
 export const FlinkCLusterInstanceService = {
   url: '/api/flink/cluster-instance',

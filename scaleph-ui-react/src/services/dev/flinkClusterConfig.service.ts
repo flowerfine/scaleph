@@ -5,7 +5,7 @@ import {
   FlinkClusterConfigParam,
   KubernetesOptions
 } from '@/services/dev/typings';
-import {request} from '@@/exports';
+import {request} from 'umi';
 
 export const FlinkClusterConfigService = {
   url: '/api/flink/cluster-config',
