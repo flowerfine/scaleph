@@ -38,18 +38,6 @@
             <artifactId>scaleph-plugin-framework</artifactId>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.aliyun.schedulerx/schedulerx2-worker -->
-        <dependency>
-            <groupId>com.aliyun.schedulerx</groupId>
-            <artifactId>schedulerx2-worker</artifactId>
-            <version>1.8.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-quartz</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>com.typesafe.akka</groupId>
             <artifactId>akka-actor-typed_${scala.binary.version}</artifactId>

@@ -280,7 +280,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-workflow-api</artifactId>
+                <artifactId>scaleph-workflow-quartz</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
