@@ -18,10 +18,10 @@
 
 package cn.sliew.scaleph.workflow.service.impl;
 
-import cn.sliew.scaleph.common.dict.workflow.ScheduleStatus;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowSchedule;
 import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowScheduleMapper;
+import cn.sliew.scaleph.workflow.scheduler.SchedulerService;
 import cn.sliew.scaleph.workflow.service.WorkflowScheduleService;
 import cn.sliew.scaleph.workflow.service.convert.WorkflowScheduleConvert;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowScheduleDTO;
@@ -42,6 +42,8 @@ public class WorkflowScheduleServiceImpl implements WorkflowScheduleService {
 
     @Autowired
     private WorkflowScheduleMapper workflowScheduleMapper;
+    @Autowired
+    private SchedulerService schedulerService;
 
     @Override
     public List<WorkflowScheduleDTO> list(WorkflowScheduleListParam param) {
@@ -84,18 +86,12 @@ public class WorkflowScheduleServiceImpl implements WorkflowScheduleService {
 
     @Override
     public void enable(Long id) {
-        WorkflowSchedule record = new WorkflowSchedule();
-        record.setId(id);
-        record.setStatus(ScheduleStatus.RUNNING);
-        workflowScheduleMapper.updateById(record);
+        schedulerService.schedule(id);
     }
 
     @Override
     public void disable(Long id) {
-        WorkflowSchedule record = new WorkflowSchedule();
-        record.setId(id);
-        record.setStatus(ScheduleStatus.STOP);
-        workflowScheduleMapper.updateById(record);
+        schedulerService.unschedule(id);
     }
 
 }
