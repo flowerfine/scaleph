@@ -167,7 +167,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
                   type="link"
                   icon={<EditOutlined />}
                   onClick={() => {
-                    history.push('/workspace/dev/clusterConfigOptions', record);
+                    history.push('/workspace/cluster/config/options', record);
                   }}
                 ></Button>
               </Tooltip>

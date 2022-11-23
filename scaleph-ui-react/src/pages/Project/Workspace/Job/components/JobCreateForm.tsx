@@ -7,9 +7,14 @@ import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInst
 import { JobService } from '@/services/project/job.service';
 import { ResourceJarService } from '@/services/resource/jar.service';
 import { ProFormInstance, StepsForm } from '@ant-design/pro-components';
-import { AutoComplete, Form, Input, Modal, Radio, Select } from 'antd';
+import { Col, Collapse, Divider, Form, Input, Modal, Radio, Row, Select, Tabs } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { useAccess, useIntl } from 'umi';
+import Additional from '../../Cluster/Config/Options/components/Additional';
+import FaultTolerance from '../../Cluster/Config/Options/components/FaultTolerance';
+import HighAvailability from '../../Cluster/Config/Options/components/HA';
+import Resource from '../../Cluster/Config/Options/components/Resource';
+import State from '../../Cluster/Config/Options/components/State';
 
 const JobCreateForm: React.FC<ModalFormProps<any>> = ({
   data,
@@ -48,10 +53,17 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
   const refreshResources = (name?: string) => {
     ResourceJarService.list({ fileName: name, pageSize: 10, current: 1 }).then((d) => {
       const list: Dict[] = [];
+      let tmpList: Map<string, string> = new Map<string, string>();
       d.data?.map((item) => {
-        list.push({ value: item.id, label: item.fileName });
+        tmpList.set(item.id + '', item.fileName + '');
       });
-      setResources(list.concat(resources));
+      resources.map((item) => {
+        tmpList.set(item.value + '', item.label + '');
+      });
+      tmpList.forEach((k, v) => {
+        list.push({ value: v, label: k });
+      });
+      setResources(list);
     });
   };
 
@@ -212,15 +224,16 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
       </StepsForm.StepForm>
       <StepsForm.StepForm
         name="step2"
-        title="集群&资源"
+        title="集群 & 资源"
         layout="horizontal"
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 19 }}
       >
-        <Form.Item name="jars" label="资源">
+        <Form.Item name="jars" label="资源" rules={[{ required: true }]}>
           <Select
             showSearch
             allowClear
+            mode="multiple"
             options={resources}
             notFoundContent={null}
             defaultActiveFirstOption={false}
@@ -230,11 +243,10 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
             }}
           ></Select>
         </Form.Item>
-        <Form.Item name="clusterInstanceId" label="集群">
+        <Form.Item name="clusterInstanceId" label="集群" rules={[{ required: true }]}>
           <Select
             showSearch
             allowClear
-            mode="multiple"
             options={clusters}
             notFoundContent={null}
             defaultActiveFirstOption={false}
@@ -245,16 +257,12 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
           ></Select>
         </Form.Item>
       </StepsForm.StepForm>
-      <StepsForm.StepForm
-        name="step3"
-        title="参数设置"
-        layout="horizontal"
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 19 }}
-      >
-        <Form.Item name="jobType" label="任务类型">
-          <Input></Input>
-        </Form.Item>
+      <StepsForm.StepForm name="step3" title="参数设置" layout="vertical">
+        <State />
+        <FaultTolerance />
+        <HighAvailability />
+        <Resource />
+        <Additional />
       </StepsForm.StepForm>
     </StepsForm>
   );
