@@ -24,6 +24,11 @@ export const FlinkArtifactJarService = {
       return result;
     });
   },
+  listByArtifact: async(id:string|number)=>{
+    return request<FlinkArtifactJar[]>(`${FlinkArtifactJarService.url}/artifact/`+id,{
+      method:'GET'
+    })
+  },
   selectOne: async (id: number) => {
     return request<FlinkArtifactJar>(`${FlinkArtifactJarService.url}/` + id, {
       method: 'GET',

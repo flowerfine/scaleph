@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.List;
 
 @Slf4j
 @Api(tags = "Flink管理-artifact-jar")
@@ -37,6 +38,14 @@ public class ArtifactJarController {
     public ResponseEntity<Page<FlinkArtifactJarDTO>> list(@Valid FlinkArtifactJarListParam param) {
         final Page<FlinkArtifactJarDTO> result = flinkArtifactJarService.list(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("/artifact/{id}")
+    @ApiOperation(value = "根据artifact id查询jar列表",notes = "根据artifact id查询jar列表")
+    public ResponseEntity<List<FlinkArtifactJarDTO>> listByArtifactId(@PathVariable("id") Long id) {
+        final List<FlinkArtifactJarDTO> list = flinkArtifactJarService.listByArtifactId(id);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @Logging

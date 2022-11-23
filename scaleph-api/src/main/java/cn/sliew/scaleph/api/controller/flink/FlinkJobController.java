@@ -26,6 +26,7 @@ import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForSeaTunnelDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByCodeParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByTypeParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListParam;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -93,7 +94,5 @@ public class FlinkJobController {
         Page<FlinkJobForSeaTunnelDTO> page = flinkJobService.listJobsForSeaTunnel(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
-
-
 
 }

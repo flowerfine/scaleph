@@ -1,4 +1,4 @@
-import {extend} from "lodash";
+import { extend } from 'lodash';
 
 export type AuthCode = {
   uuid: string;
@@ -68,7 +68,7 @@ export type QueryParam = {
  */
 export type Dict = {
   label?: string;
-  value?: string;
+  value?: string | number;
 };
 
 export type ModalFormProps<T> = {

@@ -23,11 +23,13 @@ import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJar;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJarVO;
 import cn.sliew.scaleph.dao.mapper.master.flink.FlinkArtifactJarMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkArtifactJarService;
+import cn.sliew.scaleph.engine.flink.service.convert.FlinkArtifactJarConvert;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkArtifactJarVOConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactJarDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarListParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarUploadParam;
 import cn.sliew.scaleph.storage.service.FileSystemService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.zafarkhaja.semver.Version;
 import org.springframework.beans.BeanUtils;
@@ -62,6 +64,17 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
         List<FlinkArtifactJarDTO> dtoList = FlinkArtifactJarVOConvert.INSTANCE.toDto(flinkArtifactJarVOPage.getRecords());
         result.setRecords(dtoList);
         return result;
+    }
+
+    @Override
+    public List<FlinkArtifactJarDTO> listByArtifactId(Long artifactId) {
+        List<FlinkArtifactJar> list = this.flinkArtifactJarMapper.selectList(
+                new LambdaQueryWrapper<FlinkArtifactJar>()
+                        .eq(FlinkArtifactJar::getFlinkArtifactId, artifactId)
+                        .orderBy(true, false, FlinkArtifactJar::getFlinkVersion)
+        );
+        List<FlinkArtifactJarDTO> dtoList = FlinkArtifactJarConvert.INSTANCE.toDto(list);
+        return dtoList;
     }
 
     @Override
