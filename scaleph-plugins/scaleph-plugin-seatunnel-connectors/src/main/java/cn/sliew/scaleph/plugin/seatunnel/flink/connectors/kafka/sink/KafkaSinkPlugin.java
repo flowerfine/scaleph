@@ -81,6 +81,6 @@ public class KafkaSinkPlugin extends SeaTunnelConnectorPlugin {
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SOURCE_KAFKA;
+        return SeaTunnelPluginMapping.SINK_KAFKA;
     }
 }

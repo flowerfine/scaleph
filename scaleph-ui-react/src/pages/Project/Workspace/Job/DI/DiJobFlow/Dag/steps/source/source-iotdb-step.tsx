@@ -17,7 +17,7 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import {InfoCircleOutlined} from '@ant-design/icons';
-import {StepSchemaService} from '../schema';
+import {StepSchemaService} from '../helper';
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
 const SourceIoTDBStepForm: React.FC<ModalFormProps<{

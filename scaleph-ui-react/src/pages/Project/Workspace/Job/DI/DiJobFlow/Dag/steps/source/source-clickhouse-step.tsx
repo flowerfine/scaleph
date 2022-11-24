@@ -18,7 +18,7 @@ import {
 } from "@ant-design/pro-components";
 import {InfoCircleOutlined} from "@ant-design/icons";
 import { ClickHouseParams, SchemaParams, STEP_ATTR_TYPE } from '../../constant';
-import { StepSchemaService } from '../schema';
+import { StepSchemaService } from '../helper';
 
 const SourceClickHouseStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;

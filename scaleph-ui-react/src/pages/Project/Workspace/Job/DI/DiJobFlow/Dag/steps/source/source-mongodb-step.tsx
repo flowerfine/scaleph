@@ -8,7 +8,7 @@ import {getIntl, getLocale} from 'umi';
 import {InfoCircleOutlined} from '@ant-design/icons';
 import {useEffect} from 'react';
 import {ProForm, ProFormGroup, ProFormList, ProFormText} from '@ant-design/pro-components';
-import {StepSchemaService} from '../schema';
+import {StepSchemaService} from '../helper';
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
 const SourceMongoDBStepForm: React.FC<ModalFormProps<{

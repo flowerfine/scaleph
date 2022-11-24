@@ -12,6 +12,7 @@ import MongoDBForm from "@/pages/DataSource/StepForms/Props/MongoDB";
 import DataHubForm from "@/pages/DataSource/StepForms/Props/DataHub";
 import HDFSForm from "@/pages/DataSource/StepForms/Props/HDFS";
 import SocketForm from "@/pages/DataSource/StepForms/Props/Socket";
+import KafkaForm from "@/pages/DataSource/StepForms/Props/Kafka";
 
 const DataSourceForm: React.FC = () => {
 
@@ -45,7 +46,8 @@ const DataSourceForm: React.FC = () => {
           return <ElasticsearchForm/>
         case 'MongoDB':
           return <MongoDBForm/>
-
+        case 'Kafka':
+          return <KafkaForm/>
         case 'DataHub':
           return <DataHubForm/>
         case 'Kudu':

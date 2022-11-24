@@ -60,6 +60,9 @@ export default {
   'pages.dataSource.step.props.mongodb.uri': 'URI',
   'pages.dataSource.step.props.mongodb.uri.placeholder': 'mongodb://username:password@127.0.0.1:27017/mypost?retryWrites=true&writeConcern=majority',
 
+  'pages.dataSource.step.props.kafka.bootstrapServers': 'bootstrap.servers',
+  'pages.dataSource.step.props.kafka.bootstrapServers.placeholder': 'localhost:9092,localhost:9093',
+
   'pages.dataSource.step.props.datahub.endpoint': 'Endpoint',
   'pages.dataSource.step.props.datahub.accessId': 'Access ID',
   'pages.dataSource.step.props.datahub.accessKey': 'Access Key',

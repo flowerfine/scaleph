@@ -15,7 +15,7 @@ import {
   ProFormSelect,
   ProFormText,
 } from '@ant-design/pro-components';
-import {StepSchemaService} from '../schema';
+import {StepSchemaService} from '../helper';
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
 const SourceRedisStepForm: React.FC<ModalFormProps<{
