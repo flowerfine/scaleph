@@ -58,6 +58,7 @@ import SinkNeo4jStepForm from "../steps/sink/sink-neo4j-step";
 import SinkSentryStepForm from "../steps/sink/sink-sentry-step";
 import SourceS3FileStepForm from "../steps/source/source-s3-file-step";
 import SinkS3FileStepForm from "../steps/sink/sink-s3-file-step";
+import SinkKafkaStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-kafka-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -280,6 +281,8 @@ export class EditNodeCommand implements ICommand {
       return (<SinkKuduStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'Kafka'){
       return (<SourceKafkaStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'Kafka'){
+      return (<SinkKafkaStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'IoTDB'){
       return (<SourceIoTDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'IoTDB'){

@@ -17,7 +17,7 @@ import {
 } from '@ant-design/pro-components';
 import { useEffect } from 'react';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { StepSchemaService } from '../schema';
+import { StepSchemaService } from '../helper';
 
 const SourceHttpFileStepForm: React.FC<
   ModalFormProps<{

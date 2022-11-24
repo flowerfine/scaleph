@@ -10,6 +10,9 @@ import KuduForm from "@/pages/DataSource/StepForms/Props/Kudu";
 import ElasticsearchForm from "@/pages/DataSource/StepForms/Props/Elasticsearch";
 import MongoDBForm from "@/pages/DataSource/StepForms/Props/MongoDB";
 import DataHubForm from "@/pages/DataSource/StepForms/Props/DataHub";
+import HDFSForm from "@/pages/DataSource/StepForms/Props/HDFS";
+import SocketForm from "@/pages/DataSource/StepForms/Props/Socket";
+import KafkaForm from "@/pages/DataSource/StepForms/Props/Kafka";
 
 const DataSourceForm: React.FC = () => {
 
@@ -35,19 +38,24 @@ const DataSourceForm: React.FC = () => {
           return <OSSForm/>
         case 'S3':
           return <S3Form/>
+        case 'HDFS':
+          return <HDFSForm/>
         case 'Redis':
           return <RedisForm/>
         case 'Elasticsearch':
           return <ElasticsearchForm/>
         case 'MongoDB':
           return <MongoDBForm/>
-
+        case 'Kafka':
+          return <KafkaForm/>
         case 'DataHub':
           return <DataHubForm/>
         case 'Kudu':
           return <KuduForm/>
         case 'IoTDB':
           return <IoTDBForm/>
+        case 'Socket':
+          return <SocketForm/>
         default:
           return <div>开发中</div>
       }

@@ -15,7 +15,7 @@ import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
 import {Neo4jParams, STEP_ATTR_TYPE} from '../../constant';
 import {InfoCircleOutlined} from "@ant-design/icons";
-import { StepSchemaService } from '../schema';
+import { StepSchemaService } from '../helper';
 
 const SinkNeo4jStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;

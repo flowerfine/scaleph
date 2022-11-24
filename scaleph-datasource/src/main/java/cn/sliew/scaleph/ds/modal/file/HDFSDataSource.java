@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal.nosql;
+package cn.sliew.scaleph.ds.modal.file;
 
-import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
@@ -27,32 +26,22 @@ import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
-import java.util.HashMap;
 import java.util.Map;
-
-import static cn.sliew.milky.common.check.Ensures.checkState;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ElasticsearchDataSource extends AbstractDataSource {
+public class HDFSDataSource extends AbstractDataSource {
+
+    @NotBlank
+    @ApiModelProperty("hdfs fs.defaultFS property")
+    private String fsDefaultFS;
 
     @Override
     public DataSourceType getType() {
-        return DataSourceType.ELASTICSEARCH;
+        return DataSourceType.HDFS;
     }
-
-    @NotBlank
-    @ApiModelProperty("hosts")
-    private String hosts;
-
-    @ApiModelProperty("username")
-    private String username;
-
-    @ApiModelProperty("password")
-    private String password;
 
     @Override
     public DsInfoDTO toDsInfo() {
@@ -61,13 +50,7 @@ public class ElasticsearchDataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = new HashMap<>();
-        props.put("hosts", hosts);
-        if (StringUtils.hasText(username)) {
-            checkState(StringUtils.hasText(password), () -> "password must provide where username specified");
-            props.put("username", username);
-            props.put("password", CodecUtil.encrypt(password));
-        }
+        Map<String, Object> props = Map.of("fsDefaultFS", fsDefaultFS);
         dto.setProps(props);
         return dto;
     }

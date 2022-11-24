@@ -30,7 +30,7 @@ import lombok.EqualsAndHashCode;
 import java.util.Map;
 
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class KuduDataSource extends AbstractDataSource {
 
     @ApiModelProperty("kudu masters")

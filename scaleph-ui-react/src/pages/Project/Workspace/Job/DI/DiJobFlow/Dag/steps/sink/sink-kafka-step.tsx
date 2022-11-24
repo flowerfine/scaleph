@@ -4,22 +4,22 @@ import {DiJob} from '@/services/project/typings';
 import {
   ProForm,
   ProFormDependency,
+  ProFormDigit,
   ProFormGroup,
   ProFormList,
   ProFormSelect,
-  ProFormSwitch,
   ProFormText
 } from '@ant-design/pro-components';
 import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {KafkaParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
+import {KafkaParams, STEP_ATTR_TYPE} from '../../constant';
 import {InfoCircleOutlined} from "@ant-design/icons";
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 import {StepSchemaService} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper";
 
-const SourceKafkaStepForm: React.FC<ModalFormProps<{
+const SinkKafkaStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -49,6 +49,7 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
           StepSchemaService.formatSchema(values)
           StepSchemaService.formatKafkaConf(values)
+          StepSchemaService.formatAssginPartitions(values)
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
@@ -70,93 +71,51 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<{
         <ProFormText
           name={KafkaParams.topic}
           label={intl.formatMessage({id: 'pages.project.di.step.kafka.topic'})}
-          placeholder={intl.formatMessage({id: 'pages.project.di.step.kafka.topic.placeholder'})}
           rules={[{required: true}]}
         />
-        <ProFormSwitch
-          name={KafkaParams.pattern}
-          label={intl.formatMessage({id: 'pages.project.di.step.kafka.pattern'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.kafka.pattern.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-          initialValue={false}
-        />
-        <ProFormText
-          name={KafkaParams.consumerGroup}
-          label={intl.formatMessage({id: 'pages.project.di.step.kafka.consumerGroup'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.kafka.consumerGroup.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-          initialValue={"SeaTunnel-Consumer-Group"}
-        />
-        <ProFormSwitch
-          name={KafkaParams.commit_on_checkpoint}
-          label={intl.formatMessage({id: 'pages.project.di.step.kafka.commit_on_checkpoint'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.kafka.commit_on_checkpoint.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-          initialValue={true}
-        />
-
         <ProFormSelect
-          name={'format'}
-          label={intl.formatMessage({id: 'pages.project.di.step.kafka.format'})}
-          rules={[{required: true}]}
-          initialValue={"json"}
-          valueEnum={{
-            json: 'json',
-            text: 'text'
-          }}
+          name={"semantic"}
+          label={intl.formatMessage({id: 'pages.project.di.step.kafka.semantic'})}
+          allowClear={false}
+          initialValue={"AT_LEAST_ONCE"}
+          options={["EXACTLY_ONCE", "AT_LEAST_ONCE", "NON"]}
         />
-        <ProFormDependency name={['format']}>
-          {({format}) => {
-            if (format == 'json') {
+        <ProFormDependency name={['semantic']}>
+          {({semantic}) => {
+            if (semantic == 'EXACTLY_ONCE') {
               return (
-                <ProFormGroup
-                  label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
-                  tooltip={{
-                    title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
-                    icon: <InfoCircleOutlined/>,
-                  }}
-                >
-                  <ProFormList
-                    name={SchemaParams.fields}
-                    copyIconProps={false}
-                    creatorButtonProps={{
-                      creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
-                      type: 'text',
-                    }}
-                  >
-                    <ProFormGroup>
-                      <ProFormText
-                        name={SchemaParams.field}
-                        label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
-                        colProps={{span: 10, offset: 1}}
-                      />
-                      <ProFormText
-                        name={SchemaParams.type}
-                        label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
-                        colProps={{span: 10, offset: 1}}
-                      />
-                    </ProFormGroup>
-                  </ProFormList>
+                <ProFormGroup>
+                  <ProFormText
+                    name={KafkaParams.transactionPrefix}
+                    label={intl.formatMessage({id: 'pages.project.di.step.kafka.transactionPrefix'})}
+                  />
                 </ProFormGroup>
-              );
-            } else if (format == 'text') {
-              return (
-                <ProFormText
-                  name={KafkaParams.fieldDelimiter}
-                  label={intl.formatMessage({id: 'pages.project.di.step.kafka.fieldDelimiter'})}
-                />
               );
             }
             return <ProFormGroup/>;
           }}
         </ProFormDependency>
-
+        <ProFormText
+          name={KafkaParams.partitionKey}
+          label={intl.formatMessage({id: 'pages.project.di.step.kafka.partitionKey'})}
+        />
+        <ProFormDigit
+          name={KafkaParams.partition}
+          label={intl.formatMessage({id: 'pages.project.di.step.kafka.partition'})}
+          min={0}
+        />
+        <ProFormGroup label={intl.formatMessage({id: 'pages.project.di.step.kafka.assignPartitions'})}>
+          <ProFormList
+            name={KafkaParams.assignPartitionArray}
+            copyIconProps={false}
+            creatorButtonProps={{
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.kafka.assignPartition'}),
+              type: 'text',
+            }}
+          >
+            <ProFormText name={KafkaParams.assignPartition}/>
+          </ProFormList>
+        </ProFormGroup>
         <ProFormGroup
           label={intl.formatMessage({id: 'pages.project.di.step.kafka.conf'})}
           tooltip={{
@@ -194,4 +153,4 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<{
   );
 };
 
-export default SourceKafkaStepForm;
+export default SinkKafkaStepForm;

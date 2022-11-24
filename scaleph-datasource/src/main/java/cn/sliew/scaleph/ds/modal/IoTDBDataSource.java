@@ -31,7 +31,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.Map;
 
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class IoTDBDataSource extends AbstractDataSource {
 
     @NotBlank

@@ -7,7 +7,7 @@ import { DiJob } from '@/services/project/typings';
 import { getIntl, getLocale } from 'umi';
 import { ProForm, ProFormGroup, ProFormList, ProFormText } from '@ant-design/pro-components';
 import { useEffect } from 'react';
-import { StepSchemaService } from '../schema';
+import { StepSchemaService } from '../helper';
 
 const SinkFeishuStepForm: React.FC<
   ModalFormProps<{

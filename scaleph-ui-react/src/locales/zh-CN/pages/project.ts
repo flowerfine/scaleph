@@ -117,6 +117,7 @@ export default {
   'pages.project.di.step.schema.fields': 'Field',
   'pages.project.di.step.schema.fields.field': 'field',
   'pages.project.di.step.schema.fields.type': 'type',
+  'pages.project.di.step.schema.delimiter': 'Field Delimiter',
 
   // jdbc
   'pages.project.di.step.jdbc.connectionCheckTimeoutSec': '数据源连接超时（秒）',
@@ -292,10 +293,16 @@ export default {
 
   // kafka
   'pages.project.di.step.kafka.topic': 'Topic',
+  'pages.project.di.step.kafka.topic.placeholder': 'topic1,topic2',
   'pages.project.di.step.kafka.pattern': 'pattern',
-  'pages.project.di.step.kafka.conf': 'kafkaConf',
+  'pages.project.di.step.kafka.conf': 'Kafka Configuration',
   'pages.project.di.step.kafka.conf.tooltip':
     'The way to specify parameters is to add the prefix kafka. to the original parameter name. For example, the way to specify auto.offset.reset is: kafka.auto.offset.reset = latest',
+  'pages.project.di.step.kafka.conf.list': 'Configuration',
+  'pages.project.di.step.kafka.conf.key': 'Configuration',
+  'pages.project.di.step.kafka.conf.key.placeholder': 'auto.offset.reset',
+  'pages.project.di.step.kafka.conf.value': 'Value',
+  'pages.project.di.step.kafka.conf.value.placeholder': 'latest',
   'pages.project.di.step.kafka.pattern.tooltip':
     'If pattern is set to true,the regular expression for a pattern of topic names to read from. All topics in clients with names that match the specified regular expression will be subscribed by the consumer.',
   'pages.project.di.step.kafka.consumerGroup': 'consumerGroup',
@@ -304,6 +311,14 @@ export default {
   'pages.project.di.step.kafka.commit_on_checkpoint': 'commit_on_checkpoint',
   'pages.project.di.step.kafka.commit_on_checkpoint.tooltip':
     "If true the consumer's offset will be periodically committed in the background.\n",
+  'pages.project.di.step.kafka.format': 'Format',
+  'pages.project.di.step.kafka.fieldDelimiter': 'Field Delimiter',
+  'pages.project.di.step.kafka.semantic': 'Semantic',
+  'pages.project.di.step.kafka.partitionKey': 'Partition Key',
+  'pages.project.di.step.kafka.partition': 'Partition',
+  'pages.project.di.step.kafka.assignPartitions': 'Assign Partitions',
+  'pages.project.di.step.kafka.assignPartition': 'Partition',
+  'pages.project.di.step.kafka.transactionPrefix': 'Transaction Prefix',
 
   // iotdb
   'pages.project.di.step.iotdb.nodeUrls': 'Node URLs',

@@ -1,3 +1,5 @@
+import {KafkaParams} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
+
 export const StepSchemaService = {
 
   formatSchema: (values: Record<string, any>) => {
@@ -60,6 +62,22 @@ export const StepSchemaService = {
       mappings[item.field] = item.position;
     });
     values.queryParamPosition = JSON.stringify(mappings)
+    return values
+  },
+
+  formatKafkaConf: (values: Record<string, any>) => {
+    values.kafkaConf?.forEach(function (item: Record<string, any>) {
+      values['kafka.' + item.key] = item.value;
+    });
+    return values
+  },
+
+  formatAssginPartitions: (values: Record<string, any>) => {
+    const assignPartitions: Array<string> = []
+    values.assignPartitionArray?.forEach(function (item: Record<string, any>) {
+      assignPartitions.push(item.assignPartition)
+    });
+    values[KafkaParams.assignPartitions] = JSON.stringify(assignPartitions)
     return values
   },
 

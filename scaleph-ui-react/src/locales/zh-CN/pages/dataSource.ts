@@ -37,6 +37,9 @@ export default {
   'pages.dataSource.step.props.s3.accessKey': 'Access Key',
   'pages.dataSource.step.props.s3.accessSecret': 'Access Secret',
 
+  'pages.dataSource.step.props.hdfs.fsDefaultFs': 'fs.defaultFS',
+  'pages.dataSource.step.props.hdfs.fsDefaultFs.placeholder': 'hdfs://localhost:9000',
+
   'pages.dataSource.step.props.redis.host': 'Host',
   'pages.dataSource.step.props.redis.port': 'Port',
   'pages.dataSource.step.props.redis.password': 'Password',
@@ -57,7 +60,13 @@ export default {
   'pages.dataSource.step.props.mongodb.uri': 'URI',
   'pages.dataSource.step.props.mongodb.uri.placeholder': 'mongodb://username:password@127.0.0.1:27017/mypost?retryWrites=true&writeConcern=majority',
 
+  'pages.dataSource.step.props.kafka.bootstrapServers': 'bootstrap.servers',
+  'pages.dataSource.step.props.kafka.bootstrapServers.placeholder': 'localhost:9092,localhost:9093',
+
   'pages.dataSource.step.props.datahub.endpoint': 'Endpoint',
   'pages.dataSource.step.props.datahub.accessId': 'Access ID',
   'pages.dataSource.step.props.datahub.accessKey': 'Access Key',
+
+  'pages.dataSource.step.props.socket.host': 'Host',
+  'pages.dataSource.step.props.socket.port': 'Port',
 }

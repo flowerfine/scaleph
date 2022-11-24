@@ -69,6 +69,7 @@ export const SchemaParams = {
   fields: 'fields',
   field: 'field',
   type: 'type',
+  delimiter: 'delimiter',
 }
 
 export const FakeParams = {
@@ -242,9 +243,20 @@ export const KafkaParams = {
   topic: 'topic',
   pattern: 'pattern',
   kafkaConf: 'kafkaConf',
+  key: 'key',
+  value: 'value',
   consumerGroup: 'consumer.group',
   commit_on_checkpoint: 'commit_on_checkpoint',
-  bootstrapServers: 'bootstrap.servers'
+  format: 'format',
+  schema: 'schema',
+  fieldDelimiter: 'field_delimiter',
+  semantic: 'semantic',
+  partitionKey: 'partition_key',
+  partition: 'partition',
+  assignPartitions: 'assign_partitions',
+  assignPartitionArray: 'assignPartitionArray',
+  assignPartition: 'assignPartition',
+  transactionPrefix: 'transaction_prefix',
 };
 
 export const IoTDBParams = {
