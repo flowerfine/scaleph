@@ -3,11 +3,15 @@ import { DICT_TYPE, WORKSPACE_CONF } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { FlinkArtifactService } from '@/services/project/flinkArtifact.service';
 import { FlinkArtifactJarService } from '@/services/project/flinkArtifactJar.service';
+import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
 import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInstance.service';
+import { FlinkJobService } from '@/services/project/FlinkJobService';
 import { JobService } from '@/services/project/job.service';
+import { FlinkJob } from '@/services/project/typings';
 import { ResourceJarService } from '@/services/resource/jar.service';
 import { ProFormInstance, StepsForm } from '@ant-design/pro-components';
-import { Col, Collapse, Divider, Form, Input, Modal, Radio, Row, Select, Tabs } from 'antd';
+import { Form, message, Modal, Radio, Select } from 'antd';
+import { stringify } from 'rc-field-form/es/useWatch';
 import { useEffect, useRef, useState } from 'react';
 import { useAccess, useIntl } from 'umi';
 import Additional from '../../Cluster/Config/Options/components/Additional';
@@ -102,7 +106,19 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
   return (
     <StepsForm
       onFinish={async (values) => {
-        console.log(values);
+        let params: FlinkJob = {
+          type: values.type,
+          flinkArtifactId: values.flinkArtifactId,
+          flinkClusterInstanceId: values.clusterInstanceId,
+          jars: values.jars,
+          flinkConfig: FlinkClusterConfigService.getData(values),
+        };
+        FlinkJobService.add(params).then((d) => {
+          if (d.success) {
+            message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
+            onVisibleChange ? onVisibleChange(false) : null;
+          }
+        });
       }}
       stepsProps={{ size: 'small', labelPlacement: 'vertical' }}
       stepsFormRender={(dom, submitter) => {
@@ -229,20 +245,6 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 19 }}
       >
-        <Form.Item name="jars" label="资源" rules={[{ required: true }]}>
-          <Select
-            showSearch
-            allowClear
-            mode="multiple"
-            options={resources}
-            notFoundContent={null}
-            defaultActiveFirstOption={false}
-            filterOption={false}
-            onSearch={(value: string) => {
-              refreshResources(value);
-            }}
-          ></Select>
-        </Form.Item>
         <Form.Item name="clusterInstanceId" label="集群" rules={[{ required: true }]}>
           <Select
             showSearch
@@ -253,6 +255,20 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
             filterOption={false}
             onSearch={(value: string) => {
               refreshClusterInstance(value);
+            }}
+          ></Select>
+        </Form.Item>
+        <Form.Item name="jars" label="资源">
+          <Select
+            showSearch
+            allowClear
+            mode="multiple"
+            options={resources}
+            notFoundContent={null}
+            defaultActiveFirstOption={false}
+            filterOption={false}
+            onSearch={(value: string) => {
+              refreshResources(value);
             }}
           ></Select>
         </Form.Item>

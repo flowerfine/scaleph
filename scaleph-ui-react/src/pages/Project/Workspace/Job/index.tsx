@@ -173,10 +173,10 @@ const JobListView: React.FC = () => {
           data={jobCreateFormData.data}
           onCancel={() => {
             setJobCreateFormData({ visible: false, data: {} });
-            refreshJobList({ ...queryParams });
           }}
           onVisibleChange={(visible) => {
             setJobCreateFormData({ visible: visible, data: {} });
+            refreshJobList({ ...queryParams });
           }}
           visible={jobCreateFormData.visible}
         ></JobCreateForm>
