@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.sink;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
@@ -37,27 +37,23 @@ import java.util.List;
 import java.util.Map;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.KafkaProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.source.KafkaSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.sink.KafkaSinkProperties.*;
 
-/**
- * @author lizu
- */
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class KafkaSourcePlugin extends SeaTunnelConnectorPlugin {
+public class KafkaSinkPlugin extends SeaTunnelConnectorPlugin {
 
-    public KafkaSourcePlugin() {
+    public KafkaSinkPlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Kafka Source Plugin",
-                KafkaSourcePlugin.class.getName());
+                "Kafka Sink Plugin",
+                KafkaSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(TOPIC);
-        props.add(PATTERN);
-        props.add(CONSUMER_GROUP);
-        props.add(COMMIT_ON_CHECKPOINT);
-        props.add(SCHEMA);
-        props.add(FORMAT);
-        props.add(FIELD_DELIMITER);
+        props.add(SEMANTIC);
+        props.add(PARTITION_KEY);
+        props.add(PARTITION);
+        props.add(ASSIGN_PARTITIONS);
+        props.add(TRANSACTION_PREFIX);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
