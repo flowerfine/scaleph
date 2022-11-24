@@ -1,8 +1,8 @@
-import { Dict } from '@/app';
+import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
-import { FlinkJobService } from '@/pages/DEV/Job/FlinkJobService';
-import { FlinkJob, FlinkJobListParam } from '@/pages/DEV/Job/typings';
 import { DictDataService } from '@/services/admin/dictData.service';
+import { FlinkJobService } from '@/services/project/FlinkJobService';
+import { FlinkJob, FlinkJobListParam } from '@/services/project/typings';
 import {
   Button,
   Card,
@@ -21,6 +21,7 @@ import {
 } from 'antd';
 import { useLayoutEffect, useState } from 'react';
 import { useIntl, useAccess, history } from 'umi';
+import JobCreateForm from './components/JobCreateForm';
 
 const JobListView: React.FC = () => {
   const intl = useIntl();
@@ -29,6 +30,10 @@ const JobListView: React.FC = () => {
   const [queryParams, setQueryParams] = useState<FlinkJobListParam>({});
   const [total, setTotal] = useState<number>();
   const [jobTypeList, setJobTypeList] = useState<Dict[]>([]);
+  const [jobCreateFormData, setJobCreateFormData] = useState<{ visible: boolean; data: any }>({
+    visible: false,
+    data: {},
+  });
   useLayoutEffect(() => {
     refreshJobList({ pageSize: 5 });
   }, []);
@@ -55,7 +60,7 @@ const JobListView: React.FC = () => {
                   key="new"
                   type="primary"
                   onClick={() => {
-                    // setProjectFormData({ visible: true, data: {} });
+                    setJobCreateFormData({ data: {}, visible: true });
                   }}
                 >
                   {intl.formatMessage({ id: 'pages.project.job.create' })}
@@ -162,6 +167,19 @@ const JobListView: React.FC = () => {
         <Card bordered={false} style={{ marginTop: 12 }}>
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         </Card>
+      )}
+      {jobCreateFormData.visible && (
+        <JobCreateForm
+          data={jobCreateFormData.data}
+          onCancel={() => {
+            setJobCreateFormData({ visible: false, data: {} });
+          }}
+          onVisibleChange={(visible) => {
+            setJobCreateFormData({ visible: visible, data: {} });
+            refreshJobList({ ...queryParams });
+          }}
+          visible={jobCreateFormData.visible}
+        ></JobCreateForm>
       )}
     </>
   );

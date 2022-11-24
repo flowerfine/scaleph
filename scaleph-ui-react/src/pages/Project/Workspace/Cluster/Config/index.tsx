@@ -1,8 +1,8 @@
 import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { FlinkClusterConfigService } from '@/services/dev/flinkClusterConfig.service';
-import { FlinkClusterConfig } from '@/services/dev/typings';
+import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
+import { FlinkClusterConfig } from '@/services/project/typings';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { Button, message, Modal, Select, Space, Tooltip } from 'antd';
@@ -167,7 +167,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
                   type="link"
                   icon={<EditOutlined />}
                   onClick={() => {
-                    history.push('/workspace/dev/clusterConfigOptions', record);
+                    history.push('/workspace/cluster/config/options', record);
                   }}
                 ></Button>
               </Tooltip>

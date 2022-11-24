@@ -1,8 +1,8 @@
 import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { FlinkCLusterInstanceService } from '@/services/dev/flinkClusterInstance.service';
-import { FlinkClusterInstance } from '@/services/dev/typings';
+import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInstance.service';
+import { FlinkClusterInstance } from '@/services/project/typings';
 import { CloseOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { Button, message, Modal, Select, Space, Tooltip } from 'antd';

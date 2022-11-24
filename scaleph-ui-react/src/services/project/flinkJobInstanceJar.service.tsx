@@ -1,6 +1,6 @@
 import {ResponseBody} from '@/app.d';
 import {request} from 'umi';
-import {FlinkJobForJar, FlinkJobForSeaTunnel} from "@/pages/DEV/Job/typings";
+import { FlinkJobForJar, FlinkJobForSeaTunnel } from './typings';
 
 export const FLinkJobInstanceJarService = {
   url: '/api/flink/job-instance/jar',

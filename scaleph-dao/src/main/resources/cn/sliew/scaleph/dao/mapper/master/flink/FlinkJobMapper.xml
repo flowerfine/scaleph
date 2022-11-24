@@ -179,14 +179,18 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, creator, create_time, editor, update_time,
+        id
+        , creator, create_time, editor, update_time,
         `type`, `code`, `name`, flink_artifact_id, job_config,
         flink_cluster_config_id, flink_cluster_instance_id,
         flink_config, jars, from_version, version, remark
     </sql>
 
     <sql id="Flink_Job_Column_List">
-        t1.*,
+        t1
+        .
+        *
+        ,
         t4.id                      AS config_id,
         t4.`name`                  AS config_name,
         t4.flink_version           AS config_flink_version,
@@ -320,7 +324,6 @@
         t2.project_id AS di_job_project_id,
         t2.job_code AS di_job_job_code,
         t2.job_name AS di_job_job_name,
-        t2.directory_id AS di_job_directory_id,
         t2.job_type AS di_job_job_type,
         t2.job_owner AS di_job_job_owner,
         t2.job_status AS di_job_job_status,
@@ -357,7 +360,6 @@
         t2.project_id AS di_job_project_id,
         t2.job_code AS di_job_job_code,
         t2.job_name AS di_job_job_name,
-        t2.directory_id AS di_job_directory_id,
         t2.job_type AS di_job_job_type,
         t2.job_owner AS di_job_job_owner,
         t2.job_status AS di_job_job_status,

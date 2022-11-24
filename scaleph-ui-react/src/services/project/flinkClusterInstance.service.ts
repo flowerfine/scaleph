@@ -3,7 +3,7 @@ import {
   FlinkClusterInstance,
   FlinkClusterInstanceParam,
   FlinkSessionClusterNewParam,
-} from '@/services/dev/typings';
+} from './typings';
 import { request } from 'umi';
 
 export const FlinkCLusterInstanceService = {

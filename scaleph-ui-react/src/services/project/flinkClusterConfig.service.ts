@@ -4,7 +4,7 @@ import {
   FlinkClusterConfigAddParam,
   FlinkClusterConfigParam,
   KubernetesOptions
-} from '@/services/dev/typings';
+} from './typings';
 import {request} from 'umi';
 
 export const FlinkClusterConfigService = {

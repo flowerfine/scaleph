@@ -1,11 +1,11 @@
 import { useAccess, useIntl } from 'umi';
 import { useEffect, useState } from 'react';
-import { FlinkJobLog, FlinkJobLogListParam } from '@/pages/DEV/Job/typings';
 import { Button, Space, Table, Tooltip } from 'antd';
 import { PRIVILEGE_CODE } from '@/constant';
 import { ProfileOutlined } from '@ant-design/icons';
-import { FlinkJobLogService } from '@/pages/DEV/Job/FlinkJobLogService';
 import { ColumnsType } from 'antd/lib/table';
+import { FlinkJobLog, FlinkJobLogListParam } from '@/services/project/typings';
+import { FlinkJobLogService } from '@/services/project/FlinkJobLogService';
 
 const JobLogTable: React.FC<{ flinkJobCode: number }> = ({ flinkJobCode }) => {
   const intl = useIntl();

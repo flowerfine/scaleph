@@ -42,7 +42,6 @@ public class FlinkJobDTO extends BaseDTO {
     @ApiModelProperty("job code")
     private Long code;
 
-    @NotBlank
     @ApiModelProperty("job name")
     private String name;
 
@@ -53,10 +52,10 @@ public class FlinkJobDTO extends BaseDTO {
     @ApiModelProperty("job config")
     private Map<String, String> jobConfig;
 
-    @NotNull
     @ApiModelProperty("flink cluster config id")
     private Long flinkClusterConfigId;
 
+    @NotNull
     @ApiModelProperty("flink cluster instance id")
     private Long flinkClusterInstanceId;
 

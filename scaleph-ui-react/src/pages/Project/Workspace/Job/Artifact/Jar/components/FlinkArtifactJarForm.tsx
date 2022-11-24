@@ -1,8 +1,8 @@
 import { Dict, ModalFormProps } from '@/app.d';
 import { DICT_TYPE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { FlinkArtifactJarService } from '@/services/dev/flinkArtifactJar.service';
-import { FlinkArtifactJarUploadParam } from '@/services/dev/typings';
+import { FlinkArtifactJarService } from '@/services/project/flinkArtifactJar.service';
+import { FlinkArtifactJarUploadParam } from '@/services/project/typings';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message, Modal, Select, Upload, UploadFile, UploadProps } from 'antd';
 import { useEffect, useState } from 'react';

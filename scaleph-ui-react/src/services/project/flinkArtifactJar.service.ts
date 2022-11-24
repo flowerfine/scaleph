@@ -1,10 +1,10 @@
-import { PageResponse } from '@/app.d';
+import { PageResponse, ResponseBody } from '@/app.d';
 import { USER_AUTH } from '@/constant';
 import {
   FlinkArtifactJar,
   FlinkArtifactJarListParam,
   FlinkArtifactJarUploadParam,
-} from '@/services/dev/typings';
+} from './typings';
 import { request } from 'umi';
 
 export const FlinkArtifactJarService = {
@@ -23,6 +23,11 @@ export const FlinkArtifactJarService = {
       };
       return result;
     });
+  },
+  listByArtifact: async(id:string|number)=>{
+    return request<FlinkArtifactJar[]>(`${FlinkArtifactJarService.url}/artifact/`+id,{
+      method:'GET'
+    })
   },
   selectOne: async (id: number) => {
     return request<FlinkArtifactJar>(`${FlinkArtifactJarService.url}/` + id, {

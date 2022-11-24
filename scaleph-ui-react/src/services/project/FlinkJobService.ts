@@ -1,12 +1,6 @@
 import {PageResponse, ResponseBody} from '@/app.d';
 import {request} from "@@/exports";
-import {
-  FlinkJob,
-  FlinkJobForJar, FlinkJobForSeaTunnel,
-  FlinkJobListByCodeParam,
-  FlinkJobListByTypeParam,
-  FlinkJobListParam
-} from "@/pages/DEV/Job/typings";
+import { FlinkJob, FlinkJobForJar, FlinkJobForSeaTunnel, FlinkJobListByCodeParam, FlinkJobListByTypeParam, FlinkJobListParam } from './typings';
 
 export const FlinkJobService = {
   url: '/api/flink/job',
