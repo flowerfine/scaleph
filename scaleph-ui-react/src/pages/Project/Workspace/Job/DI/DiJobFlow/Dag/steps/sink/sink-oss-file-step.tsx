@@ -14,10 +14,7 @@ import {
   ProFormText
 } from "@ant-design/pro-components";
 import {useEffect} from "react";
-import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
-import {DsInfoParam} from "@/services/datasource/typings";
-import {DsInfoService} from "@/services/datasource/info.service";
+import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
 const SinkOSSFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -65,34 +62,7 @@ const SinkOSSFileStepForm: React.FC<ModalFormProps<{
         rules={[{required: true}, {max: 120}]}
         colProps={{span: 24}}
       />
-      <ProFormSelect
-        name={"dataSourceType"}
-        label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
-        colProps={{span: 6}}
-        initialValue={"OSS"}
-        fieldProps={{
-          disabled: true
-        }}
-        request={() => DictDataService.listDictDataByType2(DICT_TYPE.datasourceType)}
-      />
-      <ProFormSelect
-        name={STEP_ATTR_TYPE.dataSource}
-        label={intl.formatMessage({id: 'pages.project.di.step.dataSource'})}
-        rules={[{required: true}]}
-        colProps={{span: 18}}
-        dependencies={["dataSourceType"]}
-        request={((params, props) => {
-          const param: DsInfoParam = {
-            name: params.keyWords,
-            dsType: params.dataSourceType
-          };
-          return DsInfoService.list(param).then((response) => {
-            return response.data.map((item) => {
-              return {label: item.name, value: item.id, item: item};
-            });
-          });
-        })}
-      />
+      <DataSourceItem dataSource={"OSS"}/>
       <ProFormText
         name={BaseFileParams.path}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.path'})}

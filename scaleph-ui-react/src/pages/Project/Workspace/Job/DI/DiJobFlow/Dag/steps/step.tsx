@@ -1,12 +1,12 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {STEP_ATTR_TYPE} from "@/pages/DI/DiJobFlow/Dag/constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
 import {getIntl, getLocale} from "umi";
 import {ProForm, ProFormText} from "@ant-design/pro-components";
 import {useEffect} from "react";
+import {STEP_ATTR_TYPE} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
 
 const StepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -42,7 +42,7 @@ const StepForm: React.FC<ModalFormProps<{
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
             onCancel();
-            onOK ? onOK() : null;
+            onOK ? onOK(values) : null;
           }
         });
       });

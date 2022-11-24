@@ -10,6 +10,7 @@ import KuduForm from "@/pages/DataSource/StepForms/Props/Kudu";
 import ElasticsearchForm from "@/pages/DataSource/StepForms/Props/Elasticsearch";
 import MongoDBForm from "@/pages/DataSource/StepForms/Props/MongoDB";
 import DataHubForm from "@/pages/DataSource/StepForms/Props/DataHub";
+import HDFSForm from "@/pages/DataSource/StepForms/Props/HDFS";
 
 const DataSourceForm: React.FC = () => {
 
@@ -35,6 +36,8 @@ const DataSourceForm: React.FC = () => {
           return <OSSForm/>
         case 'S3':
           return <S3Form/>
+        case 'HDFS':
+          return <HDFSForm/>
         case 'Redis':
           return <RedisForm/>
         case 'Elasticsearch':
