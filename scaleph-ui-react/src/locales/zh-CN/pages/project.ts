@@ -313,6 +313,12 @@ export default {
     "If true the consumer's offset will be periodically committed in the background.\n",
   'pages.project.di.step.kafka.format': 'Format',
   'pages.project.di.step.kafka.fieldDelimiter': 'Field Delimiter',
+  'pages.project.di.step.kafka.semantic': 'Semantic',
+  'pages.project.di.step.kafka.partitionKey': 'Partition Key',
+  'pages.project.di.step.kafka.partition': 'Partition',
+  'pages.project.di.step.kafka.assignPartitions': 'Assign Partitions',
+  'pages.project.di.step.kafka.assignPartition': 'Partition',
+  'pages.project.di.step.kafka.transactionPrefix': 'Transaction Prefix',
 
   // iotdb
   'pages.project.di.step.iotdb.nodeUrls': 'Node URLs',

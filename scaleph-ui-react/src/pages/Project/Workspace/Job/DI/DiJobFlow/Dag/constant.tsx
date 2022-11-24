@@ -250,6 +250,13 @@ export const KafkaParams = {
   format: 'format',
   schema: 'schema',
   fieldDelimiter: 'field_delimiter',
+  semantic: 'semantic',
+  partitionKey: 'partition_key',
+  partition: 'partition',
+  assignPartitions: 'assign_partitions',
+  assignPartitionArray: 'assignPartitionArray',
+  assignPartition: 'assignPartition',
+  transactionPrefix: 'transaction_prefix',
 };
 
 export const IoTDBParams = {
