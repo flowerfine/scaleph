@@ -63,4 +63,7 @@ export default {
   'pages.dataSource.step.props.datahub.endpoint': 'Endpoint',
   'pages.dataSource.step.props.datahub.accessId': 'Access ID',
   'pages.dataSource.step.props.datahub.accessKey': 'Access Key',
+
+  'pages.dataSource.step.props.socket.host': 'Host',
+  'pages.dataSource.step.props.socket.port': 'Port',
 }

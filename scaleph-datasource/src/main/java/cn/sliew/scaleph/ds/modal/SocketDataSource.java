@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.ds.modal;
 
-import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
@@ -26,36 +25,26 @@ import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
-
-import static cn.sliew.milky.common.check.Ensures.checkState;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Neo4jDataSource extends AbstractDataSource {
+public class SocketDataSource extends AbstractDataSource {
 
     @NotBlank
-    @ApiModelProperty("uri")
-    private String uri;
+    @ApiModelProperty("host")
+    private String host;
 
-    @ApiModelProperty("username")
-    private String username;
-
-    @ApiModelProperty("password")
-    private String password;
-
-    @ApiModelProperty("Bearer Token")
-    private String bearerToken;
-
-    @ApiModelProperty("Kerberos Ticket")
-    private String kerberosTicket;
+    @NotNull
+    @ApiModelProperty("port")
+    private Integer port;
 
     @Override
     public DataSourceType getType() {
-        return DataSourceType.NEO4J;
+        return DataSourceType.SOCKET;
     }
 
     @Override
@@ -65,18 +54,7 @@ public class Neo4jDataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = Map.of("uri", uri);
-        if (StringUtils.hasText(username)) {
-            checkState(StringUtils.hasText(password), () -> "password must provide where username specified");
-            props.put("username", username);
-            props.put("password", CodecUtil.encrypt(password));
-        }
-        if (StringUtils.hasText(bearerToken)) {
-            props.put("bearerToken", bearerToken);
-        }
-        if (StringUtils.hasText(kerberosTicket)) {
-            props.put("kerberosTicket", kerberosTicket);
-        }
+        Map<String, Object> props = Map.of("host", host, "port", port);
         dto.setProps(props);
         return dto;
     }

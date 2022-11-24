@@ -11,6 +11,7 @@ import ElasticsearchForm from "@/pages/DataSource/StepForms/Props/Elasticsearch"
 import MongoDBForm from "@/pages/DataSource/StepForms/Props/MongoDB";
 import DataHubForm from "@/pages/DataSource/StepForms/Props/DataHub";
 import HDFSForm from "@/pages/DataSource/StepForms/Props/HDFS";
+import SocketForm from "@/pages/DataSource/StepForms/Props/Socket";
 
 const DataSourceForm: React.FC = () => {
 
@@ -51,6 +52,8 @@ const DataSourceForm: React.FC = () => {
           return <KuduForm/>
         case 'IoTDB':
           return <IoTDBForm/>
+        case 'Socket':
+          return <SocketForm/>
         default:
           return <div>开发中</div>
       }
