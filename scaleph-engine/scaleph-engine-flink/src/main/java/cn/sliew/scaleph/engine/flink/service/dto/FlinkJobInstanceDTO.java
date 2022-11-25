@@ -36,9 +36,6 @@ public class FlinkJobInstanceDTO extends BaseDTO {
     @ApiModelProperty("flink job code")
     private Long flinkJobCode;
 
-    @ApiModelProperty("flink job version")
-    private Long flinkJobVersion;
-
     @ApiModelProperty("flink job ID")
     private String jobId;
 

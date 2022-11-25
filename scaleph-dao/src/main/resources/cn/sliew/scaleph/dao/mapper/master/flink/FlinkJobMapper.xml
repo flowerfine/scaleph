@@ -91,7 +91,6 @@
                      javaType="cn.sliew.scaleph.dao.entity.master.flink.FlinkJobInstance">
             <result column="job_instance_id" property="id"/>
             <result column="job_instance_flink_job_code" property="flinkJobCode"/>
-            <result column="job_instance_flink_job_version" property="flinkJobVersion"/>
             <result column="job_instance_job_id" property="jobId"/>
             <result column="job_instance_job_name" property="jobName"/>
             <result column="job_instance_job_state" property="jobState"/>
@@ -154,7 +153,6 @@
                      javaType="cn.sliew.scaleph.dao.entity.master.flink.FlinkJobInstance">
             <result column="job_instance_id" property="id"/>
             <result column="job_instance_flink_job_code" property="flinkJobCode"/>
-            <result column="job_instance_flink_job_version" property="flinkJobVersion"/>
             <result column="job_instance_job_id" property="jobId"/>
             <result column="job_instance_job_name" property="jobName"/>
             <result column="job_instance_job_state" property="jobState"/>
@@ -196,7 +194,6 @@
         t5.remark                  AS instance_remark,
         t6.id                      AS job_instance_id,
         t6.flink_job_code          AS job_instance_flink_job_code,
-        t6.flink_job_version       AS job_instance_flink_job_version,
         t6.job_id                  AS job_instance_job_id,
         t6.job_name                AS job_instance_job_name,
         t6.job_state               AS job_instance_job_state,

@@ -43,11 +43,6 @@ const JobLogTable: React.FC<{ flinkJobCode: number }> = ({ flinkJobCode }) => {
       key: 'jobName',
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.job.detail.version' }),
-      dataIndex: 'flinkJobVersion',
-      key: 'flinkJobVersion',
-    },
-    {
       title: intl.formatMessage({ id: 'pages.dev.job.detail.jobState' }),
       dataIndex: 'jobState',
       key: 'jobState',

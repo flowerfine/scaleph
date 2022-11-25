@@ -182,7 +182,6 @@ export type FlinkJobInstance = {
   id: number;
   type: Dict;
   flinkJobCode: number;
-  flinkJobVersion: number;
   jobId: string;
   jobName: string;
   jobState: Dict;

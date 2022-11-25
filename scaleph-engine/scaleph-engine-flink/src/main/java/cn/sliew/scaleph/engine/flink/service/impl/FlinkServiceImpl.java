@@ -294,7 +294,6 @@ public class FlinkServiceImpl implements FlinkService {
         for (JobStatusMessage job : jobs) {
             FlinkJobInstanceDTO flinkJobInstanceDTO = new FlinkJobInstanceDTO();
             flinkJobInstanceDTO.setFlinkJobCode(jobCode);
-            flinkJobInstanceDTO.setFlinkJobVersion(jobVersion);
             flinkJobInstanceDTO.setJobId(job.getJobId().toHexString());
             flinkJobInstanceDTO.setJobName(job.getJobName());
             flinkJobInstanceDTO.setJobState(FlinkJobState.of(job.getJobState().name()));
@@ -325,7 +324,6 @@ public class FlinkServiceImpl implements FlinkService {
 
         final FlinkJobLogDTO flinkJobLogDTO = new FlinkJobLogDTO();
         flinkJobLogDTO.setFlinkJobCode(flinkJobInstanceDTO.getFlinkJobCode());
-        flinkJobLogDTO.setFlinkJobVersion(flinkJobInstanceDTO.getFlinkJobVersion());
         flinkJobLogDTO.setJobId(flinkJobInstanceDTO.getJobId());
         flinkJobLogDTO.setJobName(flinkJobInstanceDTO.getJobName());
         flinkJobLogDTO.setJobState(flinkJobInstanceDTO.getJobState());
@@ -357,7 +355,6 @@ public class FlinkServiceImpl implements FlinkService {
 
         final FlinkJobLogDTO flinkJobLogDTO = new FlinkJobLogDTO();
         flinkJobLogDTO.setFlinkJobCode(flinkJobInstanceDTO.getFlinkJobCode());
-        flinkJobLogDTO.setFlinkJobVersion(flinkJobInstanceDTO.getFlinkJobVersion());
         flinkJobLogDTO.setJobId(flinkJobInstanceDTO.getJobId());
         flinkJobLogDTO.setJobName(flinkJobInstanceDTO.getJobName());
         flinkJobLogDTO.setJobState(flinkJobInstanceDTO.getJobState());

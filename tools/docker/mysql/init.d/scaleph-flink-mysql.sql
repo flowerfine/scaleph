@@ -99,48 +99,46 @@ create table flink_job
     key idx_flink_cluster_instance (flink_cluster_instance_id)
 ) engine = innodb comment ='flink作业信息';
 
-DROP TABLE IF EXISTS flink_job_instance;
-CREATE TABLE flink_job_instance
+drop table if exists flink_job_instance;
+create table flink_job_instance
 (
-    id                BIGINT       NOT NULL AUTO_INCREMENT,
-    flink_job_code    BIGINT       NOT NULL,
-    flink_job_version BIGINT       NOT NULL,
-    job_id            VARCHAR(64)  NOT NULL,
-    job_name          VARCHAR(64)  NOT NULL,
-    job_state         VARCHAR(16)  NOT NULL,
-    cluster_id        VARCHAR(64)  NOT NULL,
-    web_interface_url VARCHAR(255) NOT NULL,
-    cluster_status    VARCHAR(16)  NOT NULL,
-    start_time        DATETIME,
-    end_time          DATETIME,
-    duration          BIGINT,
-    creator           VARCHAR(32),
-    create_time       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    editor            VARCHAR(32),
-    update_time       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    UNIQUE KEY uniq_job (flink_job_code, flink_job_version, job_id)
-) ENGINE = INNODB COMMENT = 'flink job instance';
+    id                bigint       not null auto_increment comment '自增主键',
+    flink_job_code    bigint       not null comment 'flink作业编码',
+    job_id            varchar(64)  not null comment 'flink作业id',
+    job_name          varchar(64)  not null comment '作业名称',
+    job_state         varchar(16)  not null comment '作业状态',
+    cluster_id        varchar(64)  not null comment '集群id',
+    cluster_status    varchar(16)  not null comment '集群状态',
+    web_interface_url varchar(255) not null comment 'WEB UI',
+    start_time        datetime comment '开始时间',
+    end_time          datetime comment '结束时间',
+    duration          bigint comment '耗时',
+    creator           varchar(32) comment '创建人',
+    create_time       timestamp default current_timestamp comment '创建时间',
+    editor            varchar(32) comment '修改人',
+    update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    primary key (id),
+    unique key uniq_job (flink_job_code, job_id)
+) engine = innodb comment = 'flink作业实例';
 
 DROP TABLE IF EXISTS flink_job_log;
 CREATE TABLE flink_job_log
 (
-    id                BIGINT       NOT NULL AUTO_INCREMENT,
-    flink_job_code    BIGINT       NOT NULL,
-    flink_job_version BIGINT       NOT NULL,
-    job_id            VARCHAR(64)  NOT NULL,
-    job_name          VARCHAR(64)  NOT NULL,
-    job_state         VARCHAR(16)  NOT NULL,
-    cluster_id        VARCHAR(64)  NOT NULL,
-    web_interface_url VARCHAR(255) NOT NULL,
-    cluster_status    VARCHAR(16)  NOT NULL,
-    start_time        DATETIME,
-    end_time          DATETIME,
-    duration          BIGINT,
-    creator           VARCHAR(32),
-    create_time       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    editor            VARCHAR(32),
-    update_time       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    id                bigint       not null auto_increment comment '自增主键',
+    flink_job_code    bigint       not null comment 'flink作业编码',
+    job_id            varchar(64)  not null comment 'flink作业id',
+    job_name          varchar(64)  not null comment '作业名称',
+    job_state         varchar(16)  not null comment '作业状态',
+    cluster_id        varchar(64)  not null comment '集群id',
+    cluster_status    varchar(16)  not null comment '集群状态',
+    web_interface_url varchar(255) not null comment 'WEB UI',
+    start_time        datetime comment '开始时间',
+    end_time          datetime comment '结束时间',
+    duration          bigint comment '耗时',
+    creator           varchar(32) comment '创建人',
+    create_time       timestamp default current_timestamp comment '创建时间',
+    editor            varchar(32) comment '修改人',
+    update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     PRIMARY KEY (id),
-    UNIQUE KEY uniq_job (flink_job_code, flink_job_version, job_id)
-) ENGINE = INNODB COMMENT = 'flink job log';
+    UNIQUE KEY uniq_job (flink_job_code, job_id)
+) ENGINE = INNODB COMMENT = 'flink作业日志';
