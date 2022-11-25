@@ -27,6 +27,7 @@ import cn.sliew.scaleph.ds.modal.file.S3DataSource;
 import cn.sliew.scaleph.ds.modal.jdbc.*;
 import cn.sliew.scaleph.ds.modal.mq.DataHubDataSource;
 import cn.sliew.scaleph.ds.modal.mq.KafkaDataSource;
+import cn.sliew.scaleph.ds.modal.mq.PulsarDataSource;
 import cn.sliew.scaleph.ds.modal.nosql.ElasticsearchDataSource;
 import cn.sliew.scaleph.ds.modal.nosql.MongoDBDataSource;
 import cn.sliew.scaleph.ds.modal.nosql.RedisDataSource;
@@ -61,6 +62,7 @@ import java.util.List;
         @JsonSubTypes.Type(name = "MongoDB", value = MongoDBDataSource.class),
 
         @JsonSubTypes.Type(name = "Kafka", value = KafkaDataSource.class),
+        @JsonSubTypes.Type(name = "Pulsar", value = PulsarDataSource.class),
         @JsonSubTypes.Type(name = "DataHub", value = DataHubDataSource.class),
 
         @JsonSubTypes.Type(name = "Ftp", value = FtpDataSource.class),

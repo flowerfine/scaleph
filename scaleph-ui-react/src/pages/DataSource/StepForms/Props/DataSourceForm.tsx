@@ -14,6 +14,7 @@ import HDFSForm from "@/pages/DataSource/StepForms/Props/HDFS";
 import SocketForm from "@/pages/DataSource/StepForms/Props/Socket";
 import KafkaForm from "@/pages/DataSource/StepForms/Props/Kafka";
 import HttpForm from "@/pages/DataSource/StepForms/Props/Http";
+import PulsarForm from "@/pages/DataSource/StepForms/Props/Pulsar";
 
 const DataSourceForm: React.FC = () => {
 
@@ -49,6 +50,8 @@ const DataSourceForm: React.FC = () => {
           return <MongoDBForm/>
         case 'Kafka':
           return <KafkaForm/>
+        case 'Pulsar':
+          return <PulsarForm/>
         case 'DataHub':
           return <DataHubForm/>
         case 'Kudu':

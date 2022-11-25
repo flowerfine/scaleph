@@ -63,6 +63,14 @@ export default {
   'pages.dataSource.step.props.kafka.bootstrapServers': 'bootstrap.servers',
   'pages.dataSource.step.props.kafka.bootstrapServers.placeholder': 'localhost:9092,localhost:9093',
 
+  'pages.dataSource.step.props.pulsar.webServiceUrl': 'Admin Service URL',
+  'pages.dataSource.step.props.pulsar.webServiceUrl.placeholder': 'http://localhost:8080',
+  'pages.dataSource.step.props.pulsar.clientServiceUrl': 'Client Service URL',
+  'pages.dataSource.step.props.pulsar.clientServiceUrl.placeholder': 'pulsar://localhost:6650,localhost:6651,localhost:6652',
+  'pages.dataSource.step.props.pulsar.authPlugin': 'Authentication Plugin',
+  'pages.dataSource.step.props.pulsar.authParams': 'Authentication Plugin Parameters',
+  'pages.dataSource.step.props.pulsar.authParams.placeholder': 'key1:val1,key2:val2',
+
   'pages.dataSource.step.props.datahub.endpoint': 'Endpoint',
   'pages.dataSource.step.props.datahub.accessId': 'Access ID',
   'pages.dataSource.step.props.datahub.accessKey': 'Access Key',
