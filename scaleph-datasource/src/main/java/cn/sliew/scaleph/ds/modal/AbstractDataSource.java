@@ -31,6 +31,7 @@ import cn.sliew.scaleph.ds.modal.mq.PulsarDataSource;
 import cn.sliew.scaleph.ds.modal.nosql.ElasticsearchDataSource;
 import cn.sliew.scaleph.ds.modal.nosql.MongoDBDataSource;
 import cn.sliew.scaleph.ds.modal.nosql.RedisDataSource;
+import cn.sliew.scaleph.ds.modal.olap.HiveDataSource;
 import cn.sliew.scaleph.ds.modal.olap.KuduDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -69,6 +70,7 @@ import java.util.List;
         @JsonSubTypes.Type(name = "OSS", value = OSSDataSource.class),
         @JsonSubTypes.Type(name = "S3", value = S3DataSource.class),
         @JsonSubTypes.Type(name = "HDFS", value = HDFSDataSource.class),
+        @JsonSubTypes.Type(name = "Hive", value = HiveDataSource.class),
 
         @JsonSubTypes.Type(name = "Kudu", value = KuduDataSource.class),
 

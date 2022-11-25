@@ -15,6 +15,7 @@ import SocketForm from "@/pages/DataSource/StepForms/Props/Socket";
 import KafkaForm from "@/pages/DataSource/StepForms/Props/Kafka";
 import HttpForm from "@/pages/DataSource/StepForms/Props/Http";
 import PulsarForm from "@/pages/DataSource/StepForms/Props/Pulsar";
+import HiveForm from "@/pages/DataSource/StepForms/Props/Hive";
 
 const DataSourceForm: React.FC = () => {
 
@@ -42,6 +43,8 @@ const DataSourceForm: React.FC = () => {
           return <S3Form/>
         case 'HDFS':
           return <HDFSForm/>
+        case 'Hive':
+          return <HiveForm/>
         case 'Redis':
           return <RedisForm/>
         case 'Elasticsearch':

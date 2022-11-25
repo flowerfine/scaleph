@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal.mq;
+package cn.sliew.scaleph.ds.modal.olap;
 
-import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
@@ -27,33 +26,21 @@ import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
-import java.util.HashMap;
 import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PulsarDataSource extends AbstractDataSource {
+public class HiveDataSource extends AbstractDataSource {
 
     @NotBlank
-    @ApiModelProperty("admin web service url")
-    private String webServiceUrl;
-
-    @NotBlank
-    @ApiModelProperty("client service url")
-    private String clientServiceUrl;
-
-    @ApiModelProperty("authentication plugin")
-    private String authPlugin;
-
-    @ApiModelProperty("authentication plugin parameters")
-    private String authParams;
+    @ApiModelProperty("hive metastore uri")
+    private String metastoreUri;
 
     @Override
     public DataSourceType getType() {
-        return DataSourceType.PULSAR;
+        return DataSourceType.HIVE;
     }
 
     @Override
@@ -63,15 +50,7 @@ public class PulsarDataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = new HashMap<>();
-        props.put("webServiceUrl", webServiceUrl);
-        props.put("clientServiceUrl", clientServiceUrl);
-        if (StringUtils.hasText(authPlugin)) {
-            props.put("authPlugin", authPlugin);
-        }
-        if (StringUtils.hasText(authParams)) {
-            props.put("authParams", CodecUtil.encrypt(authParams));
-        }
+        Map<String, Object> props = Map.of("metastoreUri", metastoreUri);
         dto.setProps(props);
         return dto;
     }

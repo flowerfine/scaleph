@@ -40,6 +40,9 @@ export default {
   'pages.dataSource.step.props.hdfs.fsDefaultFs': 'fs.defaultFS',
   'pages.dataSource.step.props.hdfs.fsDefaultFs.placeholder': 'hdfs://localhost:9000',
 
+  'pages.dataSource.step.props.hive.metastoreUri': 'Metastore URI',
+  'pages.dataSource.step.props.hive.metastoreUri.placeholder': 'thrift://namenode001:9083',
+
   'pages.dataSource.step.props.redis.host': 'Host',
   'pages.dataSource.step.props.redis.port': 'Port',
   'pages.dataSource.step.props.redis.password': 'Password',
