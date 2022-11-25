@@ -75,32 +75,29 @@ CREATE TABLE flink_artifact_jar
 ) ENGINE = INNODB COMMENT = 'flink artifact jar';
 
 drop table if exists flink_job;
-CREATE TABLE flink_job
+create table flink_job
 (
-    id                        BIGINT       NOT NULL AUTO_INCREMENT,
-    type                      VARCHAR(4)   NOT NULL COMMENT 'job type. 0: jar, 1: sql+udf, 2: seatunnel',
-    code                      BIGINT       NOT NULL,
-    name                      VARCHAR(255) NOT NULL,
-    flink_artifact_id         BIGINT       NOT NULL,
-    job_config                TEXT,
-    flink_cluster_config_id   BIGINT       NOT NULL,
-    flink_cluster_instance_id BIGINT,
-    flink_config              TEXT,
-    jars              TEXT,
-    from_version              BIGINT,
-    version                   BIGINT       NOT NULL DEFAULT 0,
-    remark                    VARCHAR(255),
-    creator                   VARCHAR(32),
-    create_time               DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    editor                    VARCHAR(32),
-    update_time               DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    UNIQUE KEY idx_code (code, version),
-    KEY idx_name (type, name),
-    KEY idx_flink_artifact (type, flink_artifact_id),
-    KEY idx_flink_cluster_config (flink_cluster_config_id),
-    KEY idx_flink_cluster_instance (flink_cluster_instance_id)
-) ENGINE = InnoDB COMMENT ='flink job';
+    id                        bigint       not null auto_increment comment '自增主键',
+    type                      varchar(4)   not null comment '作业类型 0: jar, 1: sql, 2: seatunnel',
+    code                      bigint       not null comment '作业编码',
+    name                      varchar(255) not null comment '作业名称',
+    flink_artifact_id         bigint       not null comment '作业artifact id',
+    flink_cluster_config_id   bigint       not null comment '集群配置id',
+    flink_cluster_instance_id bigint       not null comment '集群实例id',
+    job_config                text comment '作业配置，对应作业变量',
+    flink_config              text comment '作业级别集群配置',
+    jars                      text comment '作业依赖资源',
+    creator                   varchar(32) comment '创建人',
+    create_time               timestamp default current_timestamp comment '创建时间',
+    editor                    varchar(32) comment '修改人',
+    update_time               timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    primary key (id),
+    unique key idx_code (code),
+    key idx_name (type, name),
+    key idx_flink_artifact (type, flink_artifact_id),
+    key idx_flink_cluster_config (flink_cluster_config_id),
+    key idx_flink_cluster_instance (flink_cluster_instance_id)
+) engine = innodb comment ='flink作业信息';
 
 DROP TABLE IF EXISTS flink_job_instance;
 CREATE TABLE flink_job_instance

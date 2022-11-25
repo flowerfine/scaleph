@@ -32,7 +32,6 @@ import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobForSeaTunnelConvert
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForJarDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForSeaTunnelDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByCodeParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByTypeParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListParam;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
@@ -67,17 +66,6 @@ public class FlinkJobServiceImpl implements FlinkJobService {
     }
 
     @Override
-    public Page<FlinkJobDTO> listByCode(FlinkJobListByCodeParam param) {
-        final Page<FlinkJob> page = new Page<>(param.getCurrent(), param.getPageSize());
-        final Page<FlinkJob> flinkJobPage = flinkJobMapper.listByCode(page, param.getCode());
-        Page<FlinkJobDTO> result =
-                new Page<>(flinkJobPage.getCurrent(), flinkJobPage.getSize(), flinkJobPage.getTotal());
-        List<FlinkJobDTO> dtoList = FlinkJobConvert.INSTANCE.toDto(flinkJobPage.getRecords());
-        result.setRecords(dtoList);
-        return result;
-    }
-
-    @Override
     public FlinkJobDTO selectOne(Long id) {
         final FlinkJob record = flinkJobMapper.selectById(id);
         checkState(record != null, () -> "flink job not exists for id: " + id);
@@ -101,10 +89,7 @@ public class FlinkJobServiceImpl implements FlinkJobService {
     @Override
     public int update(FlinkJobDTO dto) {
         final FlinkJob record = FlinkJobConvert.INSTANCE.toDo(dto);
-        final FlinkJob flinkJob = flinkJobMapper.selectLatestJob(record.getCode());
-        record.setFromVersion(flinkJob.getVersion());
-        record.setVersion(flinkJob.getVersion() + 1);
-        return flinkJobMapper.insert(record);
+        return flinkJobMapper.updateById(record);
     }
 
     @Override

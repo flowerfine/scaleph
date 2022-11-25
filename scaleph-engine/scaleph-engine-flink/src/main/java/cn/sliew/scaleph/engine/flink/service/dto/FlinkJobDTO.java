@@ -64,13 +64,4 @@ public class FlinkJobDTO extends BaseDTO {
 
     @ApiModelProperty("jars")
     private List<Long> jars;
-
-    @ApiModelProperty("job from version")
-    private Long fromVersion;
-
-    @ApiModelProperty("job version")
-    private Long version;
-
-    @ApiModelProperty("job remark")
-    private String remark;
 }

@@ -34,9 +34,6 @@
         <result column="flink_cluster_instance_id" property="flinkClusterInstanceId"/>
         <result column="flink_config" property="flinkConfig"/>
         <result column="jars" property="jars"/>
-        <result column="from_version" property="fromVersion"/>
-        <result column="version" property="version"/>
-        <result column="remark" property="remark"/>
     </resultMap>
 
     <resultMap id="FLinkJobForJarMap" type="cn.sliew.scaleph.dao.entity.master.flink.FlinkJobForJar">
@@ -51,9 +48,6 @@
         <result column="job_config" property="jobConfig"/>
         <result column="flink_config" property="flinkConfig"/>
         <result column="jars" property="jars"/>
-        <result column="from_version" property="fromVersion"/>
-        <result column="version" property="version"/>
-        <result column="remark" property="remark"/>
         <association property="flinkArtifactJar"
                      javaType="cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJarVO">
             <result column="artifact_jar_id" property="id"/>
@@ -122,9 +116,6 @@
         <result column="job_config" property="jobConfig"/>
         <result column="flink_config" property="flinkConfig"/>
         <result column="jars" property="jars"/>
-        <result column="from_version" property="fromVersion"/>
-        <result column="version" property="version"/>
-        <result column="remark" property="remark"/>
         <association property="flinkArtifactSeaTunnel"
                      javaType="cn.sliew.scaleph.dao.entity.master.di.DiJob">
             <result column="di_job_id" property="id"/>
@@ -132,7 +123,6 @@
             <result column="di_job_job_code" property="jobCode"/>
             <result column="di_job_job_name" property="jobName"/>
             <result column="di_job_job_type" property="jobType"/>
-            <result column="di_job_job_owner" property="jobOwner"/>
             <result column="di_job_job_status" property="jobStatus"/>
             <result column="di_job_job_version" property="jobVersion"/>
             <result column="di_job_remark" property="remark"/>
@@ -179,18 +169,14 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        , creator, create_time, editor, update_time,
+        id, creator, create_time, editor, update_time,
         `type`, `code`, `name`, flink_artifact_id, job_config,
         flink_cluster_config_id, flink_cluster_instance_id,
-        flink_config, jars, from_version, version, remark
+        flink_config, jars
     </sql>
 
     <sql id="Flink_Job_Column_List">
-        t1
-        .
-        *
-        ,
+        t1.*,
         t4.id                      AS config_id,
         t4.`name`                  AS config_name,
         t4.flink_version           AS config_flink_version,
@@ -225,35 +211,18 @@
     <select id="list" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from (
-        select *,
-        row_number() over (partition by `code` order by version desc) as rn
-        from flink_job
-        ) t
-        where rn = 1
-        <if test="param.type != null">
-            AND t.`type` = #{param.type}
-        </if>
-        <if test="param.name != null and param.name != ''">
-            AND t.`name` like CONCAT('%', #{param.name}, '%')
-        </if>
-    </select>
-
-    <select id="listByCode" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from flink_job
-        where `code` = #{code}
-        order by version desc
-    </select>
-
-    <select id="selectLatestJob" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from flink_job
-        where `code` = #{code}
-        order by version desc
-        limit 1
+        from flink_job t
+        <where>
+            <if test="param.type != null">
+                t.`type` = #{param.type}
+            </if>
+            <if test="param.code !=null and param.code != ''">
+                and t.`code` = #{param.code}
+            </if>
+            <if test="param.name != null and param.name != ''">
+                AND t.`name` like CONCAT('%', #{param.name}, '%')
+            </if>
+        </where>
     </select>
 
     <select id="listJobsForJar" resultMap="FLinkJobForJarMap">
@@ -269,20 +238,15 @@
         t3.type AS artifact_type,
         t3.remark AS artifact_remark,
         <include refid="Flink_Job_Column_List"/>
-        FROM (
-        select *,
-        row_number() over (partition by `code` order by version desc) as rn
-        from flink_job
-        ) t1
+        FROM flink_job t1
         JOIN flink_artifact_jar t2 ON t1.flink_artifact_id = t2.id
         JOIN flink_artifact t3 ON t2.flink_artifact_id = t3.id
         JOIN flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
         LEFT JOIN flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
         LEFT JOIN flink_job_instance t6
-        ON t1.`code` = t6.flink_job_code AND t1.version = t6.flink_job_version
+        ON t1.`code` = t6.flink_job_code
         <where>
-            t1.rn = 1
-            AND t1.`type` = #{param.type}
+            t1.`type` = #{param.type}
             <if test="param.name != null and param.name != ''">
                 AND t1.`name` like CONCAT('%', #{param.name}, '%')
             </if>
@@ -314,7 +278,7 @@
         JOIN flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
         LEFT JOIN flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
         LEFT JOIN flink_job_instance t6
-        ON t1.`code` = t6.flink_job_code AND t1.version = t6.flink_job_version
+        ON t1.`code` = t6.flink_job_code
         WHERE t1.id = #{id}
     </select>
 
@@ -330,18 +294,14 @@
         t2.job_version AS di_job_job_version,
         t2.remark AS di_job_remark,
         <include refid="Flink_Job_Column_List"/>
-        FROM (select *,
-        row_number() over (partition by `code` order by version desc) as rn
-        from flink_job
-        ) t1
+        FROM flink_job t1
         JOIN di_job t2 ON t1.flink_artifact_id = t2.id
         JOIN flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
         LEFT JOIN flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
         LEFT JOIN flink_job_instance t6
-        ON t1.`code` = t6.flink_job_code AND t1.version = t6.flink_job_version
+        ON t1.`code` = t6.flink_job_code
         <where>
-            t1.rn = 1
-            AND t1.`type` = #{param.type}
+            t1.`type` = #{param.type}
             <if test="param.name != null and param.name != ''">
                 AND t1.`name` like CONCAT('%', #{param.name}, '%')
             </if>
@@ -371,7 +331,7 @@
         JOIN flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
         LEFT JOIN flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
         LEFT JOIN flink_job_instance t6
-        ON t1.`code` = t6.flink_job_code AND t1.version = t6.flink_job_version
+        ON t1.`code` = t6.flink_job_code
         WHERE t1.id = #{id}
     </select>
 </mapper>

@@ -119,7 +119,7 @@ export type FlinkJob = {
   jars?: Array<number>;
   version?: number;
   remark?: string;
-  creator: string;
+  creator?: string;
   createTime?: Date;
   updateTime?: Date;
 };

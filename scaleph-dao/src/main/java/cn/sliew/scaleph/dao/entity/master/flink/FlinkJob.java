@@ -67,14 +67,4 @@ public class FlinkJob extends BaseDO {
 
     @ApiModelProperty("jars")
     private String jars;
-
-    @TableField("from_version")
-    private Long fromVersion;
-
-    @TableField("version")
-    private Long version;
-
-    @TableField("remark")
-    private String remark;
-
 }
