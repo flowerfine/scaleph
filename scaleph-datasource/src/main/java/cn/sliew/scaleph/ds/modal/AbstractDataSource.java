@@ -74,6 +74,7 @@ import java.util.List;
         @JsonSubTypes.Type(name = "Neo4j", value = Neo4jDataSource.class),
 
         @JsonSubTypes.Type(name = "Socket", value = SocketDataSource.class),
+        @JsonSubTypes.Type(name = "Http", value = HttpDataSource.class),
 })
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractDataSource {

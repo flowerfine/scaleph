@@ -71,6 +71,7 @@ public enum DataSourceType implements DictInstance {
     INFLUXDB("InfluxDB", "InfluxDB"),
     EMAIL("Email", "Email"),
     SOCKET("Socket", "Socket"),
+    HTTP("Http", "Http"),
     ;
 
     @JsonCreator

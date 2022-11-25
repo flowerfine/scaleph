@@ -13,6 +13,7 @@ import DataHubForm from "@/pages/DataSource/StepForms/Props/DataHub";
 import HDFSForm from "@/pages/DataSource/StepForms/Props/HDFS";
 import SocketForm from "@/pages/DataSource/StepForms/Props/Socket";
 import KafkaForm from "@/pages/DataSource/StepForms/Props/Kafka";
+import HttpForm from "@/pages/DataSource/StepForms/Props/Http";
 
 const DataSourceForm: React.FC = () => {
 
@@ -56,6 +57,8 @@ const DataSourceForm: React.FC = () => {
           return <IoTDBForm/>
         case 'Socket':
           return <SocketForm/>
+        case 'Http':
+          return <HttpForm/>
         default:
           return <div>开发中</div>
       }

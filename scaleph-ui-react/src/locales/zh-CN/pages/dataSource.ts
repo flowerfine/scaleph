@@ -69,4 +69,7 @@ export default {
 
   'pages.dataSource.step.props.socket.host': 'Host',
   'pages.dataSource.step.props.socket.port': 'Port',
+
+  'pages.dataSource.step.props.http.method': 'Method',
+  'pages.dataSource.step.props.http.url': 'URL',
 }
