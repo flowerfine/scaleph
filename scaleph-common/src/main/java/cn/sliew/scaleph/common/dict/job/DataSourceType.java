@@ -52,9 +52,9 @@ public enum DataSourceType implements DictInstance {
     OSS("OSS", "OSS"),
     S3("S3", "S3"),
     HDFS("HDFS", "HDFS"),
+
     HIVE("Hive", "Hive"),
     HBASE("HBase", "HBase"),
-
     IMPALA("Impala", "Impala"),
     DORIS("Doris", "Doris"),
     CLICKHOUSE("ClickHouse", "ClickHouse"),

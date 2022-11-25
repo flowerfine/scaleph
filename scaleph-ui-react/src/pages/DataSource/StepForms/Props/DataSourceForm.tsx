@@ -16,6 +16,7 @@ import KafkaForm from "@/pages/DataSource/StepForms/Props/Kafka";
 import HttpForm from "@/pages/DataSource/StepForms/Props/Http";
 import PulsarForm from "@/pages/DataSource/StepForms/Props/Pulsar";
 import HiveForm from "@/pages/DataSource/StepForms/Props/Hive";
+import ClickHouseForm from "@/pages/DataSource/StepForms/Props/ClickHouse";
 
 const DataSourceForm: React.FC = () => {
 
@@ -57,6 +58,8 @@ const DataSourceForm: React.FC = () => {
           return <PulsarForm/>
         case 'DataHub':
           return <DataHubForm/>
+        case 'ClickHouse':
+          return <ClickHouseForm/>
         case 'Kudu':
           return <KuduForm/>
         case 'IoTDB':
