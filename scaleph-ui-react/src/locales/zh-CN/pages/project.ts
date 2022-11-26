@@ -415,4 +415,12 @@ export default {
   'pages.project.job.creator': '创建人',
   'pages.project.job.remark': '备注',
   'pages.project.job.list': '作业列表',
+  'pages.project.job.create.step1.title': '选择作业',
+  'pages.project.job.create.step1.artifact': 'Artifact',
+  'pages.project.job.create.step1.artifact.jar': 'Artifact Jar',
+  'pages.project.job.create.step1.job': '作业',
+  'pages.project.job.create.step2.title': '集群 & 资源',
+  'pages.project.job.create.step2.cluster': '集群',
+  'pages.project.job.create.step2.resource': '资源',
+  'pages.project.job.create.step3.title': '参数设置',
 };

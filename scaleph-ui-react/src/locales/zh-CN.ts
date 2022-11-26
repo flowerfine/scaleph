@@ -4,19 +4,9 @@ import pages from './zh-CN/pages/pages';
 import settingDrawer from './zh-CN/settingDrawer';
 
 export default {
-  'navBar.lang': '语言',
-  'layout.user.link.help': '帮助',
-  'layout.user.link.privacy': '隐私',
-  'layout.user.link.terms': '条款',
-  'app.copyright.produced': '蚂蚁集团体验技术部出品',
-  'app.preview.down.block': '下载此页面到本地项目',
-  'app.welcome.link.fetch-blocks': '获取全部区块',
-  'app.welcome.link.block-list': '基于 block 开发，快速构建标准页面',
   ...pages,
   ...menu,
   ...settingDrawer,
-
-  //scaleph app
   'app.title.short': 'Scaleph',
   'app.title.long': 'Scaleph',
   'app.common.operate.label': '操作',
@@ -73,7 +63,7 @@ export default {
   'app.common.validate.sameEmail': '邮箱已存在',
   'app.common.validate.samePassword': '两次输入的密码不一致',
   'app.common.validate.sameToOldPassword': '新密码不能与旧密码一致',
-  'app.common.pagination.from':'第',
-  'app.common.pagination.to':'条/总共',
-  'app.common.pagination.total':'条'
+  'app.common.pagination.from': '第',
+  'app.common.pagination.to': '条/总共',
+  'app.common.pagination.total': '条',
 };
