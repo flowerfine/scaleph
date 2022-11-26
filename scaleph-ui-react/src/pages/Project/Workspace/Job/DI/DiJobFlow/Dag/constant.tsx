@@ -219,6 +219,8 @@ export const ClickHouseParams = {
   splitMode: 'split_mode',
   shardingKey: 'sharding_key',
   clickhouseConf: 'clickhouse_conf',
+  key: 'key',
+  value: 'value',
   sql: 'sql',
   database: 'database',
 };

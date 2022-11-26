@@ -12,11 +12,12 @@ import {
   ProFormDependency,
   ProFormDigit,
   ProFormGroup,
+  ProFormList,
   ProFormSwitch,
   ProFormText,
-  ProFormTextArea,
 } from "@ant-design/pro-components";
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
+import {StepSchemaService} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper";
 
 const SinkClickHouseStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -48,6 +49,7 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
+          StepSchemaService.formatClickHouseConf(values)
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -81,7 +83,7 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
         />
         <ProFormDigit
           name={STEP_ATTR_TYPE.bulkSize}
-          label={intl.formatMessage({id: 'pages.project.di.step.bulkSize'})}
+          label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.bulkSize'})}
           initialValue={20000}
           fieldProps={{
             min: 1,
@@ -110,14 +112,38 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
             return <ProFormGroup/>;
           }}
         </ProFormDependency>
-        <ProFormTextArea
-          name={ClickHouseParams.clickhouseConf}
+        <ProFormGroup
           label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf'})}
           tooltip={{
             title: intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
-        />
+        >
+          <ProFormList
+            name={ClickHouseParams.clickhouseConf}
+            copyIconProps={false}
+            creatorButtonProps={{
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.list'}),
+              type: 'text',
+            }}
+          >
+            <ProFormGroup>
+              <ProFormText
+                name={ClickHouseParams.key}
+                label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.key'})}
+                placeholder={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.key.placeholder'})}
+                colProps={{span: 10, offset: 1}}
+                addonBefore={"clickhouse."}
+              />
+              <ProFormText
+                name={ClickHouseParams.value}
+                label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.value'})}
+                placeholder={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.value.placeholder'})}
+                colProps={{span: 10, offset: 1}}
+              />
+            </ProFormGroup>
+          </ProFormList>
+        </ProFormGroup>
       </ProForm>
     </Modal>
   );
