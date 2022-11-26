@@ -40,18 +40,14 @@ const JobDetailWeb: React.FC = () => {
   const [flinkClusterInstance, setFlinkClusterInstance] = useState<FlinkClusterInstance>();
 
   useEffect(() => {
-    console.log(params);
-    console.log('params.flinkJobInstance', params.code);
     FlinkJobInstanceService.getByCode(params.code ? params.code : 0).then((d) => {
       setFlinkJobInstance(d);
     });
-    console.log('params.flinkClusterConfigId', params.flinkClusterConfigId);
     FlinkClusterConfigService.selectOne(
       params.flinkClusterConfigId ? params.flinkClusterConfigId : 0,
     ).then((d) => {
       setFlinkClusterConfig(d);
     });
-    console.log('params.flinkClusterInstance', params.flinkClusterInstanceId);
     FlinkCLusterInstanceService.selectOne(
       params.flinkClusterInstanceId ? params.flinkClusterInstanceId : 0,
     ).then((d) => {
