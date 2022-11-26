@@ -1,7 +1,6 @@
 import {ModalFormProps} from '@/app.d';
-import {DataSourceService} from '@/services/project/dataSource.service';
 import {JobService} from '@/services/project/job.service';
-import {DiJob, MetaDataSourceParam} from '@/services/project/typings';
+import {DiJob} from '@/services/project/typings';
 import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
@@ -13,13 +12,11 @@ import {
   ProFormDependency,
   ProFormDigit,
   ProFormGroup,
-  ProFormSelect,
   ProFormSwitch,
   ProFormText,
   ProFormTextArea,
 } from "@ant-design/pro-components";
-import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
+import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
 const SinkClickHouseStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -67,34 +64,7 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
           rules={[{required: true}, {max: 120}]}
         />
-        <ProFormSelect
-          name={"dataSourceType"}
-          label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
-          colProps={{span: 6}}
-          initialValue={"ClickHouse"}
-          fieldProps={{
-            disabled: true
-          }}
-          request={(() => DictDataService.listDictDataByType(DICT_TYPE.datasourceType))}
-        />
-        <ProFormSelect
-          name={STEP_ATTR_TYPE.dataSource}
-          label={intl.formatMessage({id: 'pages.project.di.step.dataSource'})}
-          rules={[{required: true}]}
-          colProps={{span: 18}}
-          dependencies={["dataSourceType"]}
-          request={((params, props) => {
-            const param: MetaDataSourceParam = {
-              datasourceName: params.keyWords,
-              datasourceType: params.dataSourceType
-            };
-            return DataSourceService.listDataSourceByPage(param).then((response) => {
-              return response.data.map((item) => {
-                return {label: item.datasourceName, value: item.id, item: item};
-              });
-            });
-          })}
-        />
+        <DataSourceItem dataSource={"ClickHouse"}/>
         <ProFormText
           name={STEP_ATTR_TYPE.table}
           label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.table'})}
@@ -103,6 +73,7 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
         <ProFormText
           name={STEP_ATTR_TYPE.fields}
           label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.fields'})}
+          rules={[{required: true}]}
           tooltip={{
             title: intl.formatMessage({id: 'pages.project.di.step.clickhosue.fields.tooltip'}),
             icon: <InfoCircleOutlined/>,
