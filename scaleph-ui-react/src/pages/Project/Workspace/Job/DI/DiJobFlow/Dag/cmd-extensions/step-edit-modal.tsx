@@ -60,6 +60,7 @@ import SourceS3FileStepForm from "../steps/source/source-s3-file-step";
 import SinkS3FileStepForm from "../steps/sink/sink-s3-file-step";
 import SinkKafkaStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-kafka-step";
 import SourceNeo4jStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-neo4j-step";
+import SourceInfluxDBStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-influxdb-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -308,6 +309,8 @@ export class EditNodeCommand implements ICommand {
       return (<SinkNeo4jStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'Sentry'){
       return (<SinkSentryStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'InfluxDB'){
+      return (<SourceInfluxDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
       return <></>;
     }

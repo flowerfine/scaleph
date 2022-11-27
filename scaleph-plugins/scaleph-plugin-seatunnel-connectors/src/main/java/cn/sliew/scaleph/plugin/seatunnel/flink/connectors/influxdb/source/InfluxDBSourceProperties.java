@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.influxdb.source;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum InfluxDBSourceProperties {
     ;
@@ -38,6 +39,14 @@ public enum InfluxDBSourceProperties {
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> FIELDS = new PropertyDescriptor.Builder()
+            .name("fields")
+            .description("the fields of the InfluxDB when you select")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
@@ -81,6 +90,22 @@ public enum InfluxDBSourceProperties {
             .defaultValue("n")
             .allowableValues("H", "m", "s", "MS", "u", "n")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> QUERY_TIMEOUT_SEC = new PropertyDescriptor.Builder<Integer>()
+            .name("query_timeout_sec")
+            .description("the query_timeout of the InfluxDB when you select, in seconds")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Long> CONNECT_TIMEOUT_MS = new PropertyDescriptor.Builder<Long>()
+            .name("connect_timeout_ms")
+            .description("the timeout for connecting to InfluxDB, in milliseconds")
+            .type(PropertyType.INT)
+            .parser(Parsers.LONG_PARSER)
+            .addValidator(Validators.LONG_VALIDATOR)
             .validateAndBuild();
 
 }

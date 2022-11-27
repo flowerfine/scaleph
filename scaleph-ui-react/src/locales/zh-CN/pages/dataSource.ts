@@ -89,6 +89,10 @@ export default {
   'pages.dataSource.step.props.datahub.accessId': 'Access ID',
   'pages.dataSource.step.props.datahub.accessKey': 'Access Key',
 
+  'pages.dataSource.step.props.influxdb.url': 'URL',
+  'pages.dataSource.step.props.influxdb.username': 'Username',
+  'pages.dataSource.step.props.influxdb.password': 'Password',
+
   'pages.dataSource.step.props.socket.host': 'Host',
   'pages.dataSource.step.props.socket.port': 'Port',
 

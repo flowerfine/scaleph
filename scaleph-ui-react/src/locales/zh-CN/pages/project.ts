@@ -429,6 +429,18 @@ export default {
   'pages.project.di.step.sentry.flushTimeoutMillis': 'Flush Timeout(milliseconds)',
   'pages.project.di.step.sentry.maxQueueSize': 'Max Queue Size',
 
+  // influxdb
+  'pages.project.di.step.influxdb.database': 'Database',
+  'pages.project.di.step.influxdb.sql': 'SQL',
+  'pages.project.di.step.influxdb.fields': 'fields',
+  'pages.project.di.step.influxdb.splitColumn': 'Split Column',
+  'pages.project.di.step.influxdb.lowerBound': 'Lower Bound',
+  'pages.project.di.step.influxdb.upperBound': 'Upper Bound',
+  'pages.project.di.step.influxdb.partitionNum': 'Partition Num',
+  'pages.project.di.step.influxdb.epoch': 'Epoch',
+  'pages.project.di.step.influxdb.queryTimeoutSec': 'Query Timeout(seconds)',
+  'pages.project.di.step.influxdb.connectTimeoutMs': 'Connect Timeout(milliseconds)',
+
   'pages.project.job.create': '创建作业',
   'pages.project.job.createTime': '创建时间',
   'pages.project.job.name': '作业名称',
