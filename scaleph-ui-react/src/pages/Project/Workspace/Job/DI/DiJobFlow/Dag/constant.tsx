@@ -219,6 +219,8 @@ export const ClickHouseParams = {
   splitMode: 'split_mode',
   shardingKey: 'sharding_key',
   clickhouseConf: 'clickhouse_conf',
+  key: 'key',
+  value: 'value',
   sql: 'sql',
   database: 'database',
 };
@@ -366,4 +368,21 @@ export const SentryParams = {
   maxCacheItems: 'maxCacheItems',
   flushTimeoutMillis: 'flushTimeoutMillis',
   maxQueueSize: 'maxQueueSize'
+};
+
+export const InfluxDBParams = {
+  url: 'url',
+  username: 'username',
+  password: 'password',
+  database: 'database',
+  sql: 'sql',
+  fields: 'fields',
+  fieldArray: 'fieldArray',
+  splitColumn: 'split_column',
+  lowerBound: 'lower_bound',
+  upperBound: 'upper_bound',
+  partitionNum: 'partition_num',
+  epoch: 'epoch',
+  queryTimeoutSec: 'query_timeout_sec',
+  connectTimeoutMs: 'connect_timeout_ms'
 };

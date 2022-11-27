@@ -13,12 +13,12 @@ import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {Neo4jParams, STEP_ATTR_TYPE} from '../../constant';
+import {Neo4jParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {StepSchemaService} from '../helper';
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
-const SinkNeo4jStepForm: React.FC<ModalFormProps<{
+const SourceNeo4jStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -46,7 +46,7 @@ const SinkNeo4jStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-          StepSchemaService.formatPositionMapping(values)
+          StepSchemaService.formatSchema(values)
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
@@ -76,32 +76,30 @@ const SinkNeo4jStepForm: React.FC<ModalFormProps<{
           rules={[{required: true}]}
         />
         <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.queryParamPosition'})}
+          label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
           tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.neo4j.queryParamPosition.tooltip'}),
+            title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
         >
           <ProFormList
-            name={Neo4jParams.queryParamPositionArray}
+            name={SchemaParams.fields}
             copyIconProps={false}
             creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.neo4j.queryParamPosition.list'}),
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
               type: 'text',
-            }}>
+            }}
+          >
             <ProFormGroup>
               <ProFormText
-                name={Neo4jParams.field}
-                label={intl.formatMessage({id: 'pages.project.di.step.neo4j.field'})}
+                name={SchemaParams.field}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
                 colProps={{span: 10, offset: 1}}
               />
-              <ProFormDigit
-                name={Neo4jParams.position}
-                label={intl.formatMessage({id: 'pages.project.di.step.neo4j.position'})}
+              <ProFormText
+                name={SchemaParams.type}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
                 colProps={{span: 10, offset: 1}}
-                fieldProps={{
-                  min: 0
-                }}
               />
             </ProFormGroup>
           </ProFormList>
@@ -129,4 +127,4 @@ const SinkNeo4jStepForm: React.FC<ModalFormProps<{
   );
 };
 
-export default SinkNeo4jStepForm;
+export default SourceNeo4jStepForm;

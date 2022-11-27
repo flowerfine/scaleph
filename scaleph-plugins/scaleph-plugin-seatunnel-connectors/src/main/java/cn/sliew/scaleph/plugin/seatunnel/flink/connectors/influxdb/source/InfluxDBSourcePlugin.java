@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.influxdb.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.olap.ClickHouseDataSource;
+import cn.sliew.scaleph.ds.modal.InfluxDBDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
@@ -30,31 +30,36 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.ClickHouseProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.sink.ClickHouseSinkProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.influxdb.InfluxDBProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.influxdb.source.InfluxDBSourceProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class ClickHouseSinkPlugin extends SeaTunnelConnectorPlugin {
+public class InfluxDBSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public ClickHouseSinkPlugin() {
+    public InfluxDBSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Clickhouse sink connector",
-                ClickHouseSinkPlugin.class.getName());
+                "InfluxDB source connector",
+                InfluxDBSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(TABLE);
+        props.add(DATABASE);
+        props.add(SQL);
         props.add(FIELDS);
-        props.add(BULK_SIZE);
-        props.add(SPLIT_MODE);
-        props.add(SHARDING_KEY);
+        props.add(SPLIT_COLUMN);
+        props.add(LOWER_BOUND);
+        props.add(UPPER_BOUND);
+        props.add(PARTITION_NUM);
+        props.add(EPOCH);
+        props.add(QUERY_TIMEOUT_SEC);
+        props.add(CONNECT_TIMEOUT_MS);
         props.add(CommonProperties.PARALLELISM);
-        props.add(CommonProperties.SOURCE_TABLE_NAME);
+        props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
@@ -67,22 +72,19 @@ public class ClickHouseSinkPlugin extends SeaTunnelConnectorPlugin {
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
-        ClickHouseDataSource dataSource = (ClickHouseDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.putPOJO(HOST.getName(), dataSource.getHost());
-        conf.putPOJO(DATABASE.getName(), dataSource.getDatabase());
-        conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
-        conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
-        for (Map.Entry<String, Object> entry : properties.toMap().entrySet()) {
-            if (entry.getKey().startsWith(CLICKHOUSE_CONF.getName())) {
-                conf.putPOJO(entry.getKey(), entry.getValue());
-            }
+        InfluxDBDataSource dataSource = (InfluxDBDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(URL.getName(), dataSource.getUrl());
+        if (StringUtils.hasText(dataSource.getUsername())) {
+            conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
+        }
+        if (StringUtils.hasText(dataSource.getPassword())) {
+            conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
         }
         return conf;
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_CLICKHOUSE;
+        return SeaTunnelPluginMapping.SOURCE_INFLUXDB;
     }
-
 }

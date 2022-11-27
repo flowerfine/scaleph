@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.olap.ClickHouseDataSource;
+import cn.sliew.scaleph.ds.modal.Neo4jDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
@@ -30,32 +30,31 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.ClickHouseProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.sink.ClickHouseSinkProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.Neo4jProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.source.Neo4jSourceProperties.SCHEMA;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class ClickHouseSinkPlugin extends SeaTunnelConnectorPlugin {
+public class Neo4jSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public ClickHouseSinkPlugin() {
+    public Neo4jSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Clickhouse sink connector",
-                ClickHouseSinkPlugin.class.getName());
-
+                "Neo4j source connector",
+                Neo4jSourcePlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(TABLE);
-        props.add(FIELDS);
-        props.add(BULK_SIZE);
-        props.add(SPLIT_MODE);
-        props.add(SHARDING_KEY);
+        props.add(DATABASE);
+        props.add(QUERY);
+        props.add(SCHEMA);
+        props.add(MAX_TRANSACTION_RETRY_SIZE);
+        props.add(MAX_CONNECTION_TIMEOUT);
         props.add(CommonProperties.PARALLELISM);
-        props.add(CommonProperties.SOURCE_TABLE_NAME);
-        supportedProperties = Collections.unmodifiableList(props);
+        props.add(CommonProperties.RESULT_TABLE_NAME);
+        this.supportedProperties = props;
     }
 
     @Override
@@ -67,22 +66,23 @@ public class ClickHouseSinkPlugin extends SeaTunnelConnectorPlugin {
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
-        ClickHouseDataSource dataSource = (ClickHouseDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.putPOJO(HOST.getName(), dataSource.getHost());
-        conf.putPOJO(DATABASE.getName(), dataSource.getDatabase());
-        conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
-        conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
-        for (Map.Entry<String, Object> entry : properties.toMap().entrySet()) {
-            if (entry.getKey().startsWith(CLICKHOUSE_CONF.getName())) {
-                conf.putPOJO(entry.getKey(), entry.getValue());
-            }
+        Neo4jDataSource dataSource = (Neo4jDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(URI.getName(), dataSource.getUri());
+        if (StringUtils.hasText(dataSource.getUsername())) {
+            conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
+            conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        }
+        if (StringUtils.hasText(dataSource.getBearerToken())) {
+            conf.putPOJO(BEARER_TOKEN.getName(), dataSource.getBearerToken());
+        }
+        if (StringUtils.hasText(dataSource.getKerberosTicket())) {
+            conf.putPOJO(KERBEROS_TICKET.getName(), dataSource.getKerberosTicket());
         }
         return conf;
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_CLICKHOUSE;
+        return SeaTunnelPluginMapping.SOURCE_NEO4J;
     }
-
 }

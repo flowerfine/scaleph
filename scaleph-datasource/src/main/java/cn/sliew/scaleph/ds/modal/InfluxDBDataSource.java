@@ -32,31 +32,23 @@ import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
 import java.util.Map;
 
-import static cn.sliew.milky.common.check.Ensures.checkState;
-
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Neo4jDataSource extends AbstractDataSource {
+public class InfluxDBDataSource extends AbstractDataSource {
 
     @NotBlank
-    @ApiModelProperty("uri")
-    private String uri;
+    @ApiModelProperty("InfluxDB url")
+    private String url;
 
-    @ApiModelProperty("username")
+    @ApiModelProperty("InfluxDB username")
     private String username;
 
-    @ApiModelProperty("password")
+    @ApiModelProperty("InfluxDB password")
     private String password;
-
-    @ApiModelProperty("Bearer Token")
-    private String bearerToken;
-
-    @ApiModelProperty("Kerberos Ticket")
-    private String kerberosTicket;
 
     @Override
     public DataSourceType getType() {
-        return DataSourceType.NEO4J;
+        return DataSourceType.INFLUXDB;
     }
 
     @Override
@@ -67,17 +59,12 @@ public class Neo4jDataSource extends AbstractDataSource {
         dsType.setType(getType());
         dto.setDsType(dsType);
         Map<String, Object> props = new HashMap<>();
-        props.put("uri", uri);
+        props.put("url", url);
         if (StringUtils.hasText(username)) {
-            checkState(StringUtils.hasText(password), () -> "password must provide where username specified");
             props.put("username", username);
+        }
+        if (StringUtils.hasText(password)) {
             props.put("password", CodecUtil.encrypt(password));
-        }
-        if (StringUtils.hasText(bearerToken)) {
-            props.put("bearerToken", bearerToken);
-        }
-        if (StringUtils.hasText(kerberosTicket)) {
-            props.put("kerberosTicket", kerberosTicket);
         }
         dto.setProps(props);
         return dto;

@@ -6,6 +6,7 @@ import {
   ProFormDigit,
   ProFormGroup,
   ProFormList,
+  ProFormSelect,
   ProFormText,
   ProFormTextArea
 } from '@ant-design/pro-components';
@@ -13,12 +14,12 @@ import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {Neo4jParams, STEP_ATTR_TYPE} from '../../constant';
-import {InfoCircleOutlined} from "@ant-design/icons";
-import {StepSchemaService} from '../helper';
+import {InfluxDBParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
+import {InfoCircleOutlined} from "@ant-design/icons";
+import {StepSchemaService} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper";
 
-const SinkNeo4jStepForm: React.FC<ModalFormProps<{
+const SourceInfluxDBStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -46,8 +47,8 @@ const SinkNeo4jStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-          StepSchemaService.formatPositionMapping(values)
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
+          StepSchemaService.formatFields(values)
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -64,64 +65,89 @@ const SinkNeo4jStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
           rules={[{required: true}, {max: 120}]}
         />
-        <DataSourceItem dataSource={"Neo4j"}/>
+        <DataSourceItem dataSource={"InfluxDB"}/>
         <ProFormText
-          name={Neo4jParams.database}
-          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.database'})}
+          name={InfluxDBParams.database}
+          label={intl.formatMessage({id: 'pages.project.di.step.influxdb.database'})}
           rules={[{required: true}]}
         />
         <ProFormTextArea
-          name={Neo4jParams.query}
-          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.query'})}
+          name={InfluxDBParams.sql}
+          label={intl.formatMessage({id: 'pages.project.di.step.influxdb.sql'})}
           rules={[{required: true}]}
         />
         <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.queryParamPosition'})}
+          label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
           tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.neo4j.queryParamPosition.tooltip'}),
+            title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
         >
           <ProFormList
-            name={Neo4jParams.queryParamPositionArray}
+            name={InfluxDBParams.fieldArray}
             copyIconProps={false}
             creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.neo4j.queryParamPosition.list'}),
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
               type: 'text',
-            }}>
+            }}
+          >
             <ProFormGroup>
               <ProFormText
-                name={Neo4jParams.field}
-                label={intl.formatMessage({id: 'pages.project.di.step.neo4j.field'})}
+                name={SchemaParams.field}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
                 colProps={{span: 10, offset: 1}}
               />
-              <ProFormDigit
-                name={Neo4jParams.position}
-                label={intl.formatMessage({id: 'pages.project.di.step.neo4j.position'})}
+              <ProFormText
+                name={SchemaParams.type}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
                 colProps={{span: 10, offset: 1}}
-                fieldProps={{
-                  min: 0
-                }}
               />
             </ProFormGroup>
           </ProFormList>
         </ProFormGroup>
+        <ProFormText
+          name={InfluxDBParams.splitColumn}
+          label={intl.formatMessage({id: 'pages.project.di.step.influxdb.splitColumn'})}
+        />
         <ProFormDigit
-          name={Neo4jParams.maxTransactionRetryTime}
-          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.maxTransactionRetryTime'})}
-          initialValue={30}
+          name={InfluxDBParams.lowerBound}
+          label={intl.formatMessage({id: 'pages.project.di.step.influxdb.lowerBound'})}
+          colProps={{span: 8}}
+          min={0}
+        />
+        <ProFormDigit
+          name={InfluxDBParams.upperBound}
+          label={intl.formatMessage({id: 'pages.project.di.step.influxdb.upperBound'})}
+          colProps={{span: 8}}
+          min={0}
+        />
+        <ProFormDigit
+          name={InfluxDBParams.partitionNum}
+          label={intl.formatMessage({id: 'pages.project.di.step.influxdb.partitionNum'})}
+          colProps={{span: 8}}
+          min={1}
+        />
+        <ProFormSelect
+          name={InfluxDBParams.epoch}
+          label={intl.formatMessage({id: 'pages.project.di.step.influxdb.epoch'})}
+          allowClear={false}
+          initialValue={"n"}
+          options={["H", "m", "s", "MS", "u", "n"]}
+        />
+        <ProFormDigit
+          name={InfluxDBParams.queryTimeoutSec}
+          label={intl.formatMessage({id: 'pages.project.di.step.influxdb.queryTimeoutSec'})}
           fieldProps={{
-            step: 5,
-            min: 0
+            min: 1,
+            step: 1
           }}
         />
         <ProFormDigit
-          name={Neo4jParams.maxConnectionTimeout}
-          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.maxConnectionTimeout'})}
-          initialValue={30}
+          name={InfluxDBParams.connectTimeoutMs}
+          label={intl.formatMessage({id: 'pages.project.di.step.influxdb.connectTimeoutMs'})}
           fieldProps={{
-            step: 5,
-            min: 0
+            min: 1,
+            step: 1000
           }}
         />
       </ProForm>
@@ -129,4 +155,4 @@ const SinkNeo4jStepForm: React.FC<ModalFormProps<{
   );
 };
 
-export default SinkNeo4jStepForm;
+export default SourceInfluxDBStepForm;

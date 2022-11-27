@@ -81,4 +81,11 @@ export const StepSchemaService = {
     return values
   },
 
+  formatClickHouseConf: (values: Record<string, any>) => {
+    values.clickhouse_conf?.forEach(function (item: Record<string, any>) {
+      values['clickhouse.' + item.key] = item.value;
+    });
+    return values
+  },
+
 };

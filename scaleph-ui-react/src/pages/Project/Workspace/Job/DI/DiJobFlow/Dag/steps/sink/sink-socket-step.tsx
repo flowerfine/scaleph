@@ -57,7 +57,7 @@ const SinkSocketStepForm: React.FC<ModalFormProps<{
         <DataSourceItem dataSource={"Socket"}/>
         <ProFormDigit
           name={STEP_ATTR_TYPE.maxRetries}
-          label={intl.formatMessage({id: 'pages.project.di.step.maxRetries'})}
+          label={intl.formatMessage({id: 'pages.project.di.step.socket.maxRetries'})}
           initialValue={3}
           fieldProps={{
             min: 0
