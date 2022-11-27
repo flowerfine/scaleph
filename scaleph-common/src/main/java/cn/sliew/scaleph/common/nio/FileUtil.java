@@ -28,6 +28,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 import java.util.stream.Collectors;
 
 public enum FileUtil {
@@ -179,4 +181,40 @@ public enum FileUtil {
         return Files.list(path).collect(Collectors.toList());
     }
 
+    public static boolean isJarFile(File file) {
+        if (file == null) {
+            return false;
+        }
+        try {
+            JarFile jarFile = new JarFile(file);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+//    public static void getJarVersion(File file) throws IOException {
+//        //check if is jar file
+//        //1. 从manifest中读取Implementation-Version、Implementation-Vendor-Id、Implementation-Vendor信息，
+//        //2. 从pom.properties中读取相关信息
+//        //3. 取文件名，默认生成一个版本号供用户调整
+//
+//        //是否需要处理文件版本概念？
+//        JarFile jarFile = new JarFile(file);
+//        Runtime.Version version = jarFile.getVersion();
+//        System.out.println(version.toString());
+//        Manifest manifest = jarFile.getManifest();
+//        System.out.println(1231);
+//    }
+//
+//    public static void main(String[] args) throws IOException {
+////        File file = new File("D:\\mvn\\repo\\mysql\\mysql-connector-java\\8.0.25\\mysql-connector-java-8.0.25.jar");
+////        File file = new File( "D:/mvn/repo/log4j/log4j/1.2.15/log4j-1.2.15.jar");
+////        File file =  new File("D:\\mvn\\repo\\commons-io\\commons-io\\2.8.0\\commons-io-2.8.0.jar");
+//
+//        File file =  new File("E:\\idea-workspace\\scaleph\\scaleph-api\\target\\scaleph-api.jar");
+//
+//        System.out.println(isJarFile(file));
+//        getJarVersion(file);
+//    }
 }
