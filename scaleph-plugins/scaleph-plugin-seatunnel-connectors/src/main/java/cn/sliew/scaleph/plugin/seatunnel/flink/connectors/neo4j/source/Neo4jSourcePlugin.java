@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
@@ -37,23 +37,23 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.Neo4jProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.sink.Neo4jSinkProperties.QUERY_PARAM_POSITION;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.source.Neo4jSourceProperties.SCHEMA;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class Neo4jSinkPlugin extends SeaTunnelConnectorPlugin {
+public class Neo4jSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public Neo4jSinkPlugin() {
+    public Neo4jSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Neo4j sink connector",
-                Neo4jSinkPlugin.class.getName());
+                "Neo4j source connector",
+                Neo4jSourcePlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(DATABASE);
         props.add(QUERY);
-        props.add(QUERY_PARAM_POSITION);
+        props.add(SCHEMA);
         props.add(MAX_TRANSACTION_RETRY_SIZE);
         props.add(MAX_CONNECTION_TIMEOUT);
         props.add(CommonProperties.PARALLELISM);
-        props.add(CommonProperties.SOURCE_TABLE_NAME);
+        props.add(CommonProperties.RESULT_TABLE_NAME);
         this.supportedProperties = props;
     }
 
@@ -83,6 +83,6 @@ public class Neo4jSinkPlugin extends SeaTunnelConnectorPlugin {
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_NEO4J;
+        return SeaTunnelPluginMapping.SOURCE_NEO4J;
     }
 }

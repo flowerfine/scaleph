@@ -17,6 +17,7 @@ import HttpForm from "@/pages/DataSource/StepForms/Props/Http";
 import PulsarForm from "@/pages/DataSource/StepForms/Props/Pulsar";
 import HiveForm from "@/pages/DataSource/StepForms/Props/Hive";
 import ClickHouseForm from "@/pages/DataSource/StepForms/Props/ClickHouse";
+import Neo4jForm from "@/pages/DataSource/StepForms/Props/Neo4j";
 
 const DataSourceForm: React.FC = () => {
 
@@ -64,6 +65,8 @@ const DataSourceForm: React.FC = () => {
           return <KuduForm/>
         case 'IoTDB':
           return <IoTDBForm/>
+        case 'Neo4j':
+          return <Neo4jForm/>
         case 'Socket':
           return <SocketForm/>
         case 'Http':

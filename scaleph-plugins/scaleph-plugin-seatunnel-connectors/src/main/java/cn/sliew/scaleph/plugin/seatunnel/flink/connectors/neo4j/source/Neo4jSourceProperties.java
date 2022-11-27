@@ -16,17 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.source;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 import com.fasterxml.jackson.databind.JsonNode;
 
-public enum Neo4jSinkProperties {
+public enum Neo4jSourceProperties {
     ;
 
-    public static final PropertyDescriptor<JsonNode> QUERY_PARAM_POSITION = new PropertyDescriptor.Builder()
-            .name("queryParamPosition")
-            .description("position mapping information for query parameters.")
+    public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder()
+            .name("schema")
+            .description("returned fields of query")
             .type(PropertyType.STRING)
             .parser(Parsers.JSON_PARSER)
             .properties(Property.Required)

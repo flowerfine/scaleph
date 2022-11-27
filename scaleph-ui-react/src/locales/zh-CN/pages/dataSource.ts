@@ -52,6 +52,12 @@ export default {
   'pages.dataSource.step.props.iotdb.username': 'Username',
   'pages.dataSource.step.props.iotdb.password': 'Password',
 
+  'pages.dataSource.step.props.neo4j.uri': 'URI',
+  'pages.dataSource.step.props.neo4j.username': 'Username',
+  'pages.dataSource.step.props.neo4j.password': 'Password',
+  'pages.dataSource.step.props.neo4j.bearerToken': 'Bearer Token',
+  'pages.dataSource.step.props.neo4j.kerberosTicket': 'Kerberos Ticket',
+
   'pages.dataSource.step.props.clickhouse.host': 'Host',
   'pages.dataSource.step.props.clickhouse.database': 'Database',
   'pages.dataSource.step.props.clickhouse.username': 'Username',
