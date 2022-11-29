@@ -16,17 +16,15 @@ import {
   ToolOutlined,
 } from '@ant-design/icons';
 import { useIntl, useLocation } from 'umi';
-import { FlinkJob, FlinkJobForJar, FlinkJobInstance } from '@/pages/DEV/Job/typings';
 import styles from './index.less';
 import JobSavepointsWeb from './components/JobSavepoints';
 import JobLogTable from './components/JobLogTable';
-import JobOverviewWeb from './components/JobOverview';
 import JobConfigurationWeb from './components/JobConfiguration';
 import { useEffect, useState } from 'react';
-import { FlinkClusterConfig, FlinkClusterInstance } from '@/services/dev/typings';
-import { FlinkJobInstanceService } from '@/pages/DEV/Job/FlinkJobInstanceService';
-import { FlinkClusterConfigService } from '@/services/dev/flinkClusterConfig.service';
-import { FlinkCLusterInstanceService } from '@/services/dev/flinkClusterInstance.service';
+import { FlinkClusterConfig, FlinkClusterInstance, FlinkJob, FlinkJobInstance } from '@/services/project/typings';
+import { FlinkJobInstanceService } from '@/services/project/FlinkJobInstanceService';
+import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
+import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInstance.service';
 
 const JobDetailWeb: React.FC = () => {
   const urlParams = useLocation();

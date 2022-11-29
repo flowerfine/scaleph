@@ -18,63 +18,20 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.source;
 
-import cn.sliew.scaleph.plugin.framework.property.Parsers;
-import cn.sliew.scaleph.plugin.framework.property.Property;
-import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.framework.property.PropertyType;
-import cn.sliew.scaleph.plugin.framework.property.Validators;
+import cn.sliew.scaleph.plugin.framework.property.*;
 import com.fasterxml.jackson.databind.JsonNode;
 
 public enum ClickHouseSourceProperties {
     ;
 
-    public static final PropertyDescriptor<String> HOST = new PropertyDescriptor.Builder<String>()
-        .name("host")
-        .description(
-            "ClickHouse cluster address, the format is host:port , allowing multiple hosts to be specified. Such as \"host1:8123,host2:8123\"")
-        .type(PropertyType.STRING)
-        .parser(Parsers.STRING_PARSER)
-        .properties(Property.Required)
-        .addValidator(Validators.NON_BLANK_VALIDATOR)
-        .validateAndBuild();
-
-
-    public static final PropertyDescriptor<String> DATABASE = new PropertyDescriptor.Builder<String>()
-        .name("database")
-        .description("The ClickHouse database")
-        .type(PropertyType.STRING)
-        .parser(Parsers.STRING_PARSER)
-        .properties(Property.Required)
-        .addValidator(Validators.NON_BLANK_VALIDATOR)
-        .validateAndBuild();
-
     public static final PropertyDescriptor<String> SQL = new PropertyDescriptor.Builder<String>()
-        .name("sql")
-        .description("The query sql used to search data though Clickhouse server")
-        .type(PropertyType.STRING)
-        .parser(Parsers.STRING_PARSER)
-        .properties(Property.Required)
-        .addValidator(Validators.NON_BLANK_VALIDATOR)
-        .validateAndBuild();
-
-
-    public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder<String>()
-        .name("username")
-        .description("ClickHouse user username")
-        .type(PropertyType.STRING)
-        .parser(Parsers.STRING_PARSER)
-        .properties(Property.Required)
-        .addValidator(Validators.NON_BLANK_VALIDATOR)
-        .validateAndBuild();
-
-    public static final PropertyDescriptor<String> PASSWORD = new PropertyDescriptor.Builder<String>()
-        .name("password")
-        .description("ClickHouse user password")
-        .type(PropertyType.STRING)
-        .parser(Parsers.STRING_PARSER)
-        .properties(Property.Required, Property.Sensitive)
-        .addValidator(Validators.NON_BLANK_VALIDATOR)
-        .validateAndBuild();
+            .name("sql")
+            .description("The query sql used to search data though Clickhouse server")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
 
     public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder()
             .name("schema")

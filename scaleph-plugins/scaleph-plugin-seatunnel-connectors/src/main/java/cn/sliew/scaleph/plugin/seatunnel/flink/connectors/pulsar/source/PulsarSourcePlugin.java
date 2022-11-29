@@ -19,11 +19,18 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.pulsar.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
+import cn.sliew.scaleph.ds.modal.mq.PulsarDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,10 +47,6 @@ public class PulsarSourcePlugin extends SeaTunnelConnectorPlugin {
                 PulsarSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(CLIENT_SERVICE_URL);
-        props.add(ADMIN_SERVICE_URL);
-        props.add(AUTH_PLUGIN_CLASS);
-        props.add(AUTH_PARAMS);
         props.add(SUBSCRIPTION_NAME);
         props.add(TOPIC);
         props.add(TOPIC_PATTERN);
@@ -60,6 +63,27 @@ public class PulsarSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
+    }
+
+    @Override
+    public List<ResourceProperty> getRequiredResources() {
+        return Collections.singletonList(ResourceProperties.DATASOURCE_RESOURCE);
+    }
+
+    @Override
+    public ObjectNode createConf() {
+        ObjectNode conf = super.createConf();
+        JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
+        PulsarDataSource dataSource = (PulsarDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(ADMIN_SERVICE_URL.getName(), dataSource.getWebServiceUrl());
+        conf.putPOJO(CLIENT_SERVICE_URL.getName(), dataSource.getClientServiceUrl());
+        if (StringUtils.hasText(dataSource.getAuthPlugin())) {
+            conf.putPOJO(AUTH_PLUGIN_CLASS.getName(), dataSource.getAuthPlugin());
+        }
+        if (StringUtils.hasText(dataSource.getAuthParams())) {
+            conf.putPOJO(AUTH_PARAMS.getName(), dataSource.getAuthParams());
+        }
+        return conf;
     }
 
     @Override

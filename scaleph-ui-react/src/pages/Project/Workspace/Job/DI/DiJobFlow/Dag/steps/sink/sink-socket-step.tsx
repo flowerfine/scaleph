@@ -7,6 +7,7 @@ import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
 import {STEP_ATTR_TYPE} from '../../constant';
+import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
 const SinkSocketStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -53,27 +54,10 @@ const SinkSocketStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
           rules={[{required: true}, {max: 120}]}
         />
-        <ProFormText
-          name={STEP_ATTR_TYPE.host}
-          label={intl.formatMessage({id: 'pages.project.di.step.host'})}
-          rules={[{required: true}]}
-          initialValue={"127.0.0.1"}
-          colProps={{span: 12}}
-        />
-        <ProFormDigit
-          name={STEP_ATTR_TYPE.port}
-          label={intl.formatMessage({id: 'pages.project.di.step.port'})}
-          rules={[{required: true}]}
-          colProps={{span: 12}}
-          initialValue={9999}
-          fieldProps={{
-            min: 0,
-            max: 65535
-          }}
-        />
+        <DataSourceItem dataSource={"Socket"}/>
         <ProFormDigit
           name={STEP_ATTR_TYPE.maxRetries}
-          label={intl.formatMessage({id: 'pages.project.di.step.maxRetries'})}
+          label={intl.formatMessage({id: 'pages.project.di.step.socket.maxRetries'})}
           initialValue={3}
           fieldProps={{
             min: 0

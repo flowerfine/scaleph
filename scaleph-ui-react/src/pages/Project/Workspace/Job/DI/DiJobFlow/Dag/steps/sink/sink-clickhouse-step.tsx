@@ -1,7 +1,6 @@
 import {ModalFormProps} from '@/app.d';
-import {DataSourceService} from '@/services/project/dataSource.service';
 import {JobService} from '@/services/project/job.service';
-import {DiJob, MetaDataSourceParam} from '@/services/project/typings';
+import {DiJob} from '@/services/project/typings';
 import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
@@ -13,13 +12,12 @@ import {
   ProFormDependency,
   ProFormDigit,
   ProFormGroup,
-  ProFormSelect,
+  ProFormList,
   ProFormSwitch,
   ProFormText,
-  ProFormTextArea,
 } from "@ant-design/pro-components";
-import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
+import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
+import {StepSchemaService} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper";
 
 const SinkClickHouseStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -51,6 +49,7 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
+          StepSchemaService.formatClickHouseConf(values)
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.success'}));
@@ -67,34 +66,7 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
           rules={[{required: true}, {max: 120}]}
         />
-        <ProFormSelect
-          name={"dataSourceType"}
-          label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
-          colProps={{span: 6}}
-          initialValue={"ClickHouse"}
-          fieldProps={{
-            disabled: true
-          }}
-          request={(() => DictDataService.listDictDataByType(DICT_TYPE.datasourceType))}
-        />
-        <ProFormSelect
-          name={STEP_ATTR_TYPE.dataSource}
-          label={intl.formatMessage({id: 'pages.project.di.step.dataSource'})}
-          rules={[{required: true}]}
-          colProps={{span: 18}}
-          dependencies={["dataSourceType"]}
-          request={((params, props) => {
-            const param: MetaDataSourceParam = {
-              datasourceName: params.keyWords,
-              datasourceType: params.dataSourceType
-            };
-            return DataSourceService.listDataSourceByPage(param).then((response) => {
-              return response.data.map((item) => {
-                return {label: item.datasourceName, value: item.id, item: item};
-              });
-            });
-          })}
-        />
+        <DataSourceItem dataSource={"ClickHouse"}/>
         <ProFormText
           name={STEP_ATTR_TYPE.table}
           label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.table'})}
@@ -103,6 +75,7 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
         <ProFormText
           name={STEP_ATTR_TYPE.fields}
           label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.fields'})}
+          rules={[{required: true}]}
           tooltip={{
             title: intl.formatMessage({id: 'pages.project.di.step.clickhosue.fields.tooltip'}),
             icon: <InfoCircleOutlined/>,
@@ -110,7 +83,7 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
         />
         <ProFormDigit
           name={STEP_ATTR_TYPE.bulkSize}
-          label={intl.formatMessage({id: 'pages.project.di.step.bulkSize'})}
+          label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.bulkSize'})}
           initialValue={20000}
           fieldProps={{
             min: 1,
@@ -139,14 +112,38 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
             return <ProFormGroup/>;
           }}
         </ProFormDependency>
-        <ProFormTextArea
-          name={ClickHouseParams.clickhouseConf}
+        <ProFormGroup
           label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf'})}
           tooltip={{
             title: intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
-        />
+        >
+          <ProFormList
+            name={ClickHouseParams.clickhouseConf}
+            copyIconProps={false}
+            creatorButtonProps={{
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.list'}),
+              type: 'text',
+            }}
+          >
+            <ProFormGroup>
+              <ProFormText
+                name={ClickHouseParams.key}
+                label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.key'})}
+                placeholder={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.key.placeholder'})}
+                colProps={{span: 10, offset: 1}}
+                addonBefore={"clickhouse."}
+              />
+              <ProFormText
+                name={ClickHouseParams.value}
+                label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.value'})}
+                placeholder={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf.value.placeholder'})}
+                colProps={{span: 10, offset: 1}}
+              />
+            </ProFormGroup>
+          </ProFormList>
+        </ProFormGroup>
       </ProForm>
     </Modal>
   );

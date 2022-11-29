@@ -29,12 +29,13 @@ import lombok.EqualsAndHashCode;
 import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
+import java.util.HashMap;
 import java.util.Map;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class Neo4jDataSource extends AbstractDataSource {
 
     @NotBlank
@@ -65,7 +66,8 @@ public class Neo4jDataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = Map.of("uri", uri);
+        Map<String, Object> props = new HashMap<>();
+        props.put("uri", uri);
         if (StringUtils.hasText(username)) {
             checkState(StringUtils.hasText(password), () -> "password must provide where username specified");
             props.put("username", username);

@@ -10,6 +10,15 @@ import KuduForm from "@/pages/DataSource/StepForms/Props/Kudu";
 import ElasticsearchForm from "@/pages/DataSource/StepForms/Props/Elasticsearch";
 import MongoDBForm from "@/pages/DataSource/StepForms/Props/MongoDB";
 import DataHubForm from "@/pages/DataSource/StepForms/Props/DataHub";
+import HDFSForm from "@/pages/DataSource/StepForms/Props/HDFS";
+import SocketForm from "@/pages/DataSource/StepForms/Props/Socket";
+import KafkaForm from "@/pages/DataSource/StepForms/Props/Kafka";
+import HttpForm from "@/pages/DataSource/StepForms/Props/Http";
+import PulsarForm from "@/pages/DataSource/StepForms/Props/Pulsar";
+import HiveForm from "@/pages/DataSource/StepForms/Props/Hive";
+import ClickHouseForm from "@/pages/DataSource/StepForms/Props/ClickHouse";
+import Neo4jForm from "@/pages/DataSource/StepForms/Props/Neo4j";
+import InfluxDBForm from "@/pages/DataSource/StepForms/Props/InfluxDB";
 
 const DataSourceForm: React.FC = () => {
 
@@ -35,19 +44,36 @@ const DataSourceForm: React.FC = () => {
           return <OSSForm/>
         case 'S3':
           return <S3Form/>
+        case 'HDFS':
+          return <HDFSForm/>
+        case 'Hive':
+          return <HiveForm/>
         case 'Redis':
           return <RedisForm/>
         case 'Elasticsearch':
           return <ElasticsearchForm/>
         case 'MongoDB':
           return <MongoDBForm/>
-
+        case 'Kafka':
+          return <KafkaForm/>
+        case 'Pulsar':
+          return <PulsarForm/>
         case 'DataHub':
           return <DataHubForm/>
+        case 'ClickHouse':
+          return <ClickHouseForm/>
         case 'Kudu':
           return <KuduForm/>
         case 'IoTDB':
           return <IoTDBForm/>
+        case 'Neo4j':
+          return <Neo4jForm/>
+        case 'InfluxDB':
+          return <InfluxDBForm/>
+        case 'Socket':
+          return <SocketForm/>
+        case 'Http':
+          return <HttpForm/>
         default:
           return <div>开发中</div>
       }

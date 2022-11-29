@@ -1,9 +1,9 @@
 import { ModalFormProps } from '@/app.d';
 import { DICT_TYPE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { FlinkClusterConfigService } from '@/services/dev/flinkClusterConfig.service';
-import { FlinkCLusterInstanceService } from '@/services/dev/flinkClusterInstance.service';
-import { FlinkClusterConfigParam, FlinkSessionClusterNewParam } from '@/services/dev/typings';
+import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
+import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInstance.service';
+import { FlinkClusterConfigParam, FlinkSessionClusterNewParam } from '@/services/project/typings';
 import { useIntl } from '@@/exports';
 import { ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
 import { Form, message, Modal } from 'antd';

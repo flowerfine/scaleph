@@ -17,11 +17,8 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import {InfoCircleOutlined} from '@ant-design/icons';
-import {StepSchemaService} from '../schema';
-import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
-import {DsInfoParam} from "@/services/datasource/typings";
-import {DsInfoService} from "@/services/datasource/info.service";
+import {StepSchemaService} from '../helper';
+import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
 const SourceIoTDBStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -70,32 +67,7 @@ const SourceIoTDBStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
           rules={[{required: true}, {max: 120}]}
         />
-        <ProFormSelect
-          name={'dataSourceType'}
-          label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
-          colProps={{span: 6}}
-          initialValue={'IoTDB'}
-          disabled
-          request={() => DictDataService.listDictDataByType2(DICT_TYPE.datasourceType)}
-        />
-        <ProFormSelect
-          name={STEP_ATTR_TYPE.dataSource}
-          label={intl.formatMessage({id: 'pages.project.di.step.dataSource'})}
-          rules={[{required: true}]}
-          colProps={{span: 18}}
-          dependencies={['dataSourceType']}
-          request={(params, props) => {
-            const param: DsInfoParam = {
-              name: params.keyWords,
-              dsType: params.dataSourceType,
-            };
-            return DsInfoService.list(param).then((response) => {
-              return response.data.map((item) => {
-                return {label: item.name, value: item.id, item: item};
-              });
-            });
-          }}
-        />
+        <DataSourceItem dataSource={"IoTDB"}/>
         <ProFormTextArea
           name={IoTDBParams.sql}
           label={intl.formatMessage({id: 'pages.project.di.step.iotdb.sql'})}

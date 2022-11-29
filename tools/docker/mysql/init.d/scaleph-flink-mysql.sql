@@ -74,6 +74,7 @@ CREATE TABLE flink_artifact_jar
     KEY idx_flink_artifact (flink_artifact_id)
 ) ENGINE = INNODB COMMENT = 'flink artifact jar';
 
+drop table if exists flink_job;
 CREATE TABLE flink_job
 (
     id                        BIGINT       NOT NULL AUTO_INCREMENT,

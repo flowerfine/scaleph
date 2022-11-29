@@ -114,7 +114,6 @@
         <docker.push.skip>true</docker.push.skip>
 
         <spring.boot.version>2.7.4</spring.boot.version>
-        <spring.plugin.core.version>2.0.0.RELEASE</spring.plugin.core.version>
         <mybatis.plus.version>3.5.1</mybatis.plus.version>
         <org.mapstruct.extensions.spring.version>0.1.1</org.mapstruct.extensions.spring.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
@@ -280,7 +279,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-workflow-api</artifactId>
+                <artifactId>scaleph-workflow-quartz</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

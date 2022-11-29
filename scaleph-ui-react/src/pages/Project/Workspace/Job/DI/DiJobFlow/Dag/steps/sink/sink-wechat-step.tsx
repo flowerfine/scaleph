@@ -8,7 +8,7 @@ import { getIntl, getLocale } from 'umi';
 import { ProForm, ProFormGroup, ProFormList, ProFormText } from '@ant-design/pro-components';
 import { useEffect } from 'react';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { StepSchemaService } from '../schema';
+import { StepSchemaService } from '../helper';
 
 const SinkWeChatStepForm: React.FC<
   ModalFormProps<{

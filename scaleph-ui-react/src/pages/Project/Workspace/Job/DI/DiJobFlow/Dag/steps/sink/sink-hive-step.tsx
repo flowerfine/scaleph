@@ -8,6 +8,7 @@ import {getIntl, getLocale} from 'umi';
 import {HiveParams, STEP_ATTR_TYPE} from '../../constant';
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {ProForm, ProFormSelect, ProFormSwitch, ProFormText,} from "@ant-design/pro-components";
+import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
 const SinkHiveStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -56,21 +57,12 @@ const SinkHiveStepForm: React.FC<ModalFormProps<{
           rules={[{required: true}, {max: 120}]}
           colProps={{span: 24}}
         />
+        <DataSourceItem dataSource={"Hive"}/>
         <ProFormText
           name={HiveParams.tableName}
           label={intl.formatMessage({id: 'pages.project.di.step.hive.tableName'})}
           rules={[{required: true}]}
         />
-        <ProFormText
-          name={HiveParams.metastoreUri}
-          label={intl.formatMessage({id: 'pages.project.di.step.hive.metastoreUri'})}
-          rules={[{required: true}]}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.hive.metastoreUri.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-        />
-
         <ProFormText
           name={HiveParams.partitionBy}
           label={intl.formatMessage({id: 'pages.project.di.step.hive.partitionBy'})}
@@ -79,7 +71,6 @@ const SinkHiveStepForm: React.FC<ModalFormProps<{
             icon: <InfoCircleOutlined/>,
           }}
         />
-
         <ProFormText
           name={HiveParams.sinkColumns}
           label={intl.formatMessage({id: 'pages.project.di.step.hive.sinkColumns'})}

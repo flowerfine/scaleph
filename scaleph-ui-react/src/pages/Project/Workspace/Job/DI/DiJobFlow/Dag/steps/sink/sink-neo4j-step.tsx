@@ -15,7 +15,8 @@ import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
 import {Neo4jParams, STEP_ATTR_TYPE} from '../../constant';
 import {InfoCircleOutlined} from "@ant-design/icons";
-import { StepSchemaService } from '../schema';
+import {StepSchemaService} from '../helper';
+import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
 const SinkNeo4jStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -63,29 +64,7 @@ const SinkNeo4jStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
           rules={[{required: true}, {max: 120}]}
         />
-        <ProFormText
-          name={Neo4jParams.uri}
-          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.uri'})}
-          rules={[{required: true}]}
-        />
-        <ProFormText
-          name={Neo4jParams.username}
-          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.username'})}
-          colProps={{span: 12}}
-        />
-        <ProFormText
-          name={Neo4jParams.password}
-          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.password'})}
-          colProps={{span: 12}}
-        />
-        <ProFormText
-          name={Neo4jParams.bearerToken}
-          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.bearerToken'})}
-        />
-        <ProFormText
-          name={Neo4jParams.kerberosTicket}
-          label={intl.formatMessage({id: 'pages.project.di.step.neo4j.kerberosTicket'})}
-        />
+        <DataSourceItem dataSource={"Neo4j"}/>
         <ProFormText
           name={Neo4jParams.database}
           label={intl.formatMessage({id: 'pages.project.di.step.neo4j.database'})}

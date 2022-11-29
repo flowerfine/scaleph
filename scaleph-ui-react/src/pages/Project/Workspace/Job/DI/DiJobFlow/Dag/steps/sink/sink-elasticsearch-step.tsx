@@ -1,16 +1,13 @@
 import {ModalFormProps} from '@/app.d';
 import {JobService} from '@/services/project/job.service';
 import {DiJob} from '@/services/project/typings';
-import {ProForm, ProFormDigit, ProFormSelect, ProFormText} from '@ant-design/pro-components';
+import {ProForm, ProFormDigit, ProFormText} from '@ant-design/pro-components';
 import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
 import {ElasticsearchParams, STEP_ATTR_TYPE} from '../../constant';
-import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
-import {DsInfoParam} from "@/services/datasource/typings";
-import {DsInfoService} from "@/services/datasource/info.service";
+import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
 const SinkElasticsearchStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -57,32 +54,7 @@ const SinkElasticsearchStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
           rules={[{required: true}, {max: 120}]}
         />
-        <ProFormSelect
-          name={"dataSourceType"}
-          label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
-          colProps={{span: 6}}
-          initialValue={"Elasticsearch"}
-          disabled
-          request={() => DictDataService.listDictDataByType2(DICT_TYPE.datasourceType)}
-        />
-        <ProFormSelect
-          name={STEP_ATTR_TYPE.dataSource}
-          label={intl.formatMessage({id: 'pages.project.di.step.dataSource'})}
-          rules={[{required: true}]}
-          colProps={{span: 18}}
-          dependencies={["dataSourceType"]}
-          request={((params, props) => {
-            const param: DsInfoParam = {
-              name: params.keyWords,
-              dsType: params.dataSourceType
-            };
-            return DsInfoService.list(param).then((response) => {
-              return response.data.map((item) => {
-                return {label: item.name, value: item.id, item: item};
-              });
-            });
-          })}
-        />
+        <DataSourceItem dataSource={"Elasticsearch"}/>
         <ProFormText
           name={ElasticsearchParams.index}
           label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.index'})}

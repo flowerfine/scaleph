@@ -37,6 +37,12 @@ export default {
   'pages.dataSource.step.props.s3.accessKey': 'Access Key',
   'pages.dataSource.step.props.s3.accessSecret': 'Access Secret',
 
+  'pages.dataSource.step.props.hdfs.fsDefaultFs': 'fs.defaultFS',
+  'pages.dataSource.step.props.hdfs.fsDefaultFs.placeholder': 'hdfs://localhost:9000',
+
+  'pages.dataSource.step.props.hive.metastoreUri': 'Metastore URI',
+  'pages.dataSource.step.props.hive.metastoreUri.placeholder': 'thrift://namenode001:9083',
+
   'pages.dataSource.step.props.redis.host': 'Host',
   'pages.dataSource.step.props.redis.port': 'Port',
   'pages.dataSource.step.props.redis.password': 'Password',
@@ -45,6 +51,17 @@ export default {
   'pages.dataSource.step.props.iotdb.nodeUrls.placeholder': '127.0.0.1:8080,127.0.0.2:8080',
   'pages.dataSource.step.props.iotdb.username': 'Username',
   'pages.dataSource.step.props.iotdb.password': 'Password',
+
+  'pages.dataSource.step.props.neo4j.uri': 'URI',
+  'pages.dataSource.step.props.neo4j.username': 'Username',
+  'pages.dataSource.step.props.neo4j.password': 'Password',
+  'pages.dataSource.step.props.neo4j.bearerToken': 'Bearer Token',
+  'pages.dataSource.step.props.neo4j.kerberosTicket': 'Kerberos Ticket',
+
+  'pages.dataSource.step.props.clickhouse.host': 'Host',
+  'pages.dataSource.step.props.clickhouse.database': 'Database',
+  'pages.dataSource.step.props.clickhouse.username': 'Username',
+  'pages.dataSource.step.props.clickhouse.password': 'Password',
 
   'pages.dataSource.step.props.kudu.masters': 'Masters',
   'pages.dataSource.step.props.kudu.masters.placeholder': '127.0.0.1:7051',
@@ -57,7 +74,28 @@ export default {
   'pages.dataSource.step.props.mongodb.uri': 'URI',
   'pages.dataSource.step.props.mongodb.uri.placeholder': 'mongodb://username:password@127.0.0.1:27017/mypost?retryWrites=true&writeConcern=majority',
 
+  'pages.dataSource.step.props.kafka.bootstrapServers': 'bootstrap.servers',
+  'pages.dataSource.step.props.kafka.bootstrapServers.placeholder': 'localhost:9092,localhost:9093',
+
+  'pages.dataSource.step.props.pulsar.webServiceUrl': 'Admin Service URL',
+  'pages.dataSource.step.props.pulsar.webServiceUrl.placeholder': 'http://localhost:8080',
+  'pages.dataSource.step.props.pulsar.clientServiceUrl': 'Client Service URL',
+  'pages.dataSource.step.props.pulsar.clientServiceUrl.placeholder': 'pulsar://localhost:6650,localhost:6651,localhost:6652',
+  'pages.dataSource.step.props.pulsar.authPlugin': 'Authentication Plugin',
+  'pages.dataSource.step.props.pulsar.authParams': 'Authentication Plugin Parameters',
+  'pages.dataSource.step.props.pulsar.authParams.placeholder': 'key1:val1,key2:val2',
+
   'pages.dataSource.step.props.datahub.endpoint': 'Endpoint',
   'pages.dataSource.step.props.datahub.accessId': 'Access ID',
   'pages.dataSource.step.props.datahub.accessKey': 'Access Key',
+
+  'pages.dataSource.step.props.influxdb.url': 'URL',
+  'pages.dataSource.step.props.influxdb.username': 'Username',
+  'pages.dataSource.step.props.influxdb.password': 'Password',
+
+  'pages.dataSource.step.props.socket.host': 'Host',
+  'pages.dataSource.step.props.socket.port': 'Port',
+
+  'pages.dataSource.step.props.http.method': 'Method',
+  'pages.dataSource.step.props.http.url': 'URL',
 }

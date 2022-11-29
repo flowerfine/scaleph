@@ -21,13 +21,18 @@ package cn.sliew.scaleph.ds.modal;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import cn.sliew.scaleph.ds.modal.file.FtpDataSource;
+import cn.sliew.scaleph.ds.modal.file.HDFSDataSource;
 import cn.sliew.scaleph.ds.modal.file.OSSDataSource;
 import cn.sliew.scaleph.ds.modal.file.S3DataSource;
 import cn.sliew.scaleph.ds.modal.jdbc.*;
 import cn.sliew.scaleph.ds.modal.mq.DataHubDataSource;
+import cn.sliew.scaleph.ds.modal.mq.KafkaDataSource;
+import cn.sliew.scaleph.ds.modal.mq.PulsarDataSource;
 import cn.sliew.scaleph.ds.modal.nosql.ElasticsearchDataSource;
 import cn.sliew.scaleph.ds.modal.nosql.MongoDBDataSource;
 import cn.sliew.scaleph.ds.modal.nosql.RedisDataSource;
+import cn.sliew.scaleph.ds.modal.olap.ClickHouseDataSource;
+import cn.sliew.scaleph.ds.modal.olap.HiveDataSource;
 import cn.sliew.scaleph.ds.modal.olap.KuduDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -58,16 +63,26 @@ import java.util.List;
         @JsonSubTypes.Type(name = "Elasticsearch", value = ElasticsearchDataSource.class),
         @JsonSubTypes.Type(name = "MongoDB", value = MongoDBDataSource.class),
 
+        @JsonSubTypes.Type(name = "Kafka", value = KafkaDataSource.class),
+        @JsonSubTypes.Type(name = "Pulsar", value = PulsarDataSource.class),
         @JsonSubTypes.Type(name = "DataHub", value = DataHubDataSource.class),
 
         @JsonSubTypes.Type(name = "Ftp", value = FtpDataSource.class),
         @JsonSubTypes.Type(name = "OSS", value = OSSDataSource.class),
         @JsonSubTypes.Type(name = "S3", value = S3DataSource.class),
+        @JsonSubTypes.Type(name = "HDFS", value = HDFSDataSource.class),
 
+        @JsonSubTypes.Type(name = "Hive", value = HiveDataSource.class),
+
+        @JsonSubTypes.Type(name = "ClickHouse", value = ClickHouseDataSource.class),
         @JsonSubTypes.Type(name = "Kudu", value = KuduDataSource.class),
 
         @JsonSubTypes.Type(name = "IoTDB", value = IoTDBDataSource.class),
         @JsonSubTypes.Type(name = "Neo4j", value = Neo4jDataSource.class),
+
+        @JsonSubTypes.Type(name = "Socket", value = SocketDataSource.class),
+        @JsonSubTypes.Type(name = "Http", value = HttpDataSource.class),
+        @JsonSubTypes.Type(name = "InfluxDB", value = InfluxDBDataSource.class),
 })
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractDataSource {

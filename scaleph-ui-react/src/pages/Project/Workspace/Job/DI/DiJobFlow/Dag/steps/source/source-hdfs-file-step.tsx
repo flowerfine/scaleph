@@ -1,21 +1,15 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {BaseFileParams, HDFSFileParams, SchemaParams, STEP_ATTR_TYPE} from "../../constant";
+import {BaseFileParams, STEP_ATTR_TYPE} from "../../constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
 import {getIntl, getLocale} from "umi";
-import {
-  ProForm,
-  ProFormDependency,
-  ProFormGroup,
-  ProFormList,
-  ProFormSelect, ProFormSwitch,
-  ProFormText
-} from "@ant-design/pro-components";
+import {ProForm, ProFormSelect, ProFormSwitch, ProFormText} from "@ant-design/pro-components";
 import {useEffect} from "react";
-import {InfoCircleOutlined} from "@ant-design/icons";
-import { StepSchemaService } from "../schema";
+import {StepSchemaService} from "../helper";
+import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
+import SchemaItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/schema";
 
 const SourceHdfsFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -63,74 +57,13 @@ const SourceHdfsFileStepForm: React.FC<ModalFormProps<{
         label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
         rules={[{required: true}, {max: 120}]}
       />
-      <ProFormText
-        name={HDFSFileParams.defaultFS}
-        label={intl.formatMessage({id: 'pages.project.di.step.hdfsFile.defaultFS'})}
-        rules={[{required: true}]}
-        tooltip={{
-          title: intl.formatMessage({id: 'pages.project.di.step.hdfsFile.defaultFS.tooltip'}),
-          icon: <InfoCircleOutlined/>,
-        }}
-      />
+      <DataSourceItem dataSource={"HDFS"}/>
       <ProFormText
         name={BaseFileParams.path}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.path'})}
         rules={[{required: true}]}
       />
-      <ProFormSelect
-        name={"type"}
-        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.type'})}
-        rules={[{required: true}]}
-        valueEnum={{
-          json: "json",
-          parquet: "parquet",
-          orc: "orc",
-          text: "text",
-          csv: "csv"
-        }}
-      />
-      <ProFormDependency name={["type"]}>
-        {({type}) => {
-          if (type == "json") {
-            return (
-              <ProFormGroup
-                label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
-                tooltip={{
-                  title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
-                  icon: <InfoCircleOutlined/>,
-                }}
-              >
-                <ProFormList
-                  name={SchemaParams.fields}
-                  copyIconProps={false}
-                  creatorButtonProps={{
-                    creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
-                    type: 'text',
-                  }}>
-                  <ProFormGroup>
-                    <ProFormText
-                      name={SchemaParams.field}
-                      label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
-                      colProps={{span: 10, offset: 1}}
-                    />
-                    <ProFormText
-                      name={SchemaParams.type}
-                      label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
-                      colProps={{span: 10, offset: 1}}
-                    />
-                  </ProFormGroup>
-                </ProFormList>
-              </ProFormGroup>
-            );
-          }
-          return <ProFormGroup/>;
-        }}
-      </ProFormDependency>
-      <ProFormText
-        name={BaseFileParams.delimiter}
-        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.delimiter'})}
-        initialValue={"\\001"}
-      />
+      <SchemaItem/>
       <ProFormSwitch
         name={BaseFileParams.parsePartitionFromPath}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.parsePartitionFromPath'})}
