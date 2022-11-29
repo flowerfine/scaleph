@@ -23,6 +23,12 @@
             <artifactId>flink-table-planner_2.12</artifactId>
             <version>1.16.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-jdbc</artifactId>
+            <version>1.16.0</version>
+        </dependency>
     </dependencies>
 
 </project>
