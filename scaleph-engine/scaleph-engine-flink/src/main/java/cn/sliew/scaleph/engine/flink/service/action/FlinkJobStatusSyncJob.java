@@ -16,31 +16,33 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service.impl;
+package cn.sliew.scaleph.engine.flink.service.action;
 
-import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
-import lombok.SneakyThrows;
-import org.quartz.JobDataMap;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import cn.sliew.milky.common.filter.ActionListener;
+import cn.sliew.scaleph.engine.flink.service.FlinkJobService;
+import cn.sliew.scaleph.engine.flink.service.FlinkService;
+import cn.sliew.scaleph.workflow.engine.action.ActionContext;
+import cn.sliew.scaleph.workflow.engine.action.ActionResult;
+import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
-@Deprecated
+@Slf4j
 @Component
-public class SeatunnelFlinkJob extends QuartzJobBean {
+public class FlinkJobStatusSyncJob extends AbstractWorkFlow {
 
     @Autowired
-    private SeatunnelJobService seatunnelJobService;
+    private FlinkJobService flinkJobService;
+    @Autowired
+    private FlinkService flinkService;
 
-    @SneakyThrows
+    public FlinkJobStatusSyncJob() {
+        super("FLINK_JOB_STATUS_SYNC_JOB");
+    }
+
     @Override
-    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        JobDataMap dataMap = context.getJobDetail().getJobDataMap();
-        DiJobDTO job = (DiJobDTO) dataMap.get(Constants.JOB_PARAM_JOB_INFO);
-        seatunnelJobService.submit(job);
+    protected Runnable doExecute(ActionContext context, ActionListener<ActionResult> listener) {
+        return () -> log.info("Flink Job Status Sync Action execute!");
     }
 }
