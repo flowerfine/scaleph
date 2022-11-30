@@ -25,10 +25,12 @@ import cn.sliew.scaleph.common.container.pool.ContainerPool;
 import cn.sliew.scaleph.common.container.pool.ContainerValue;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 public abstract class AbstractWorkFlow implements WorkFlow {
 
     private final String name;

@@ -28,8 +28,12 @@ public abstract class AbstractContainer extends AbstractLifeCycle implements Con
 
     @Override
     public void execute(Runnable task, ActionListener<Void> listener) {
-        this.task = task;
-        this.listener = listener;
+        try {
+            task.run();
+            listener.onResponse(null);
+        } catch (Exception e) {
+            listener.onFailure(e);
+        }
     }
 
     @Override
