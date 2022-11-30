@@ -18,6 +18,8 @@
 
 package cn.sliew.scaleph.common.container;
 
+import cn.sliew.milky.common.filter.ActionListener;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
@@ -34,12 +36,7 @@ public class ThreadContainer extends AbstractContainer {
     }
 
     @Override
-    protected void doInitialize() {
-
-    }
-
-    @Override
-    protected void doStart() {
+    protected void doExecute(Runnable task, ActionListener<Void> listener) {
         future = CompletableFuture.runAsync(task, executor);
         future.whenComplete((unused, throwable) -> {
             if (throwable != null) {
@@ -48,6 +45,16 @@ public class ThreadContainer extends AbstractContainer {
                 listener.onResponse(unused);
             }
         });
+    }
+
+    @Override
+    protected void doInitialize() {
+
+    }
+
+    @Override
+    protected void doStart() {
+
     }
 
     @Override

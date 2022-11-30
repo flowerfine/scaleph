@@ -77,7 +77,6 @@ public abstract class AbstractWorkFlow implements WorkFlow {
                     listener.onFailure(e);
                 }
             });
-
         } finally {
             containerValue.close();
         }
