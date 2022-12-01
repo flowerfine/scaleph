@@ -18,12 +18,11 @@
 
 package cn.sliew.scaleph.meta.service;
 
-import java.io.Serializable;
-import java.util.Map;
-
 import cn.sliew.scaleph.meta.service.dto.MetaDataSetTypeDTO;
 import cn.sliew.scaleph.meta.service.param.MetaDataSetTypeParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import java.util.List;
 
 /**
  * <p>
@@ -41,7 +40,7 @@ public interface MetaDataSetTypeService {
 
     int deleteById(Long id);
 
-    int deleteBatch(Map<Integer, ? extends Serializable> map);
+    int deleteBatch(List<Long> ids);
 
     Page<MetaDataSetTypeDTO> listByPage(MetaDataSetTypeParam param);
 }

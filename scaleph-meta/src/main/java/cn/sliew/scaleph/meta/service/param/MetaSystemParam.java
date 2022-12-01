@@ -26,9 +26,10 @@ import lombok.EqualsAndHashCode;
 /**
  * @author gleiyu
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class MetaSystemParam extends PaginationParam {
+    
     @ApiModelProperty(value = "系统编码")
     private String systemCode;
 

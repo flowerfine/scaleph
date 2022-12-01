@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dao.entity.master.meta;
 
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -61,10 +62,9 @@ public class MetaDataSet extends BaseDO {
     private MetaSystem system;
 
     @ApiModelProperty(value = "是否标准参考数据")
-    private String isStandard;
+    private YesOrNo isStandard;
 
     @ApiModelProperty(value = "备注")
     private String remark;
-
 
 }

@@ -39,7 +39,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.io.Serializable;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -106,12 +105,12 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
      * todo check is datasource is used
      */
     @Override
-    public int deleteBatch(Map<Integer, ? extends Serializable> map) {
-        return metaDatasourceMapper.deleteBatchIds(map.values());
+    public int deleteBatch(List<Long> ids) {
+        return metaDatasourceMapper.deleteBatchIds(ids);
     }
 
     @Override
-    public MetaDatasourceDTO selectOne(Serializable id, boolean encrypt) {
+    public MetaDatasourceDTO selectOne(Long id, boolean encrypt) {
         final MetaDatasource datasource = metaDatasourceMapper.selectById(id);
         MetaDatasourceDTO datasourceDTO = MetaDataSourceConvert.INSTANCE.toDto(datasource);
         encryptProps(datasourceDTO, encrypt);
@@ -206,7 +205,7 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
                 }
             }
         } catch (IllegalAccessException | ClassNotFoundException | InstantiationException |
-                 IllegalArgumentException e) {
+                IllegalArgumentException e) {
             Rethrower.throwAs(e);
         }
         return false;

@@ -18,10 +18,6 @@
 
 package cn.sliew.scaleph.meta.service.impl;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDataSet;
 import cn.sliew.scaleph.dao.mapper.master.meta.MetaDataSetMapper;
 import cn.sliew.scaleph.meta.service.MetaDataSetService;
@@ -32,6 +28,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MetaDataSetServiceImpl implements MetaDataSetService {
@@ -57,18 +55,18 @@ public class MetaDataSetServiceImpl implements MetaDataSetService {
     }
 
     @Override
-    public int deleteBatch(Map<Integer, ? extends Serializable> map) {
-        return this.metaDataSetMapper.deleteBatchIds(map.values());
+    public int deleteBatch(List<Long> ids) {
+        return this.metaDataSetMapper.deleteBatchIds(ids);
     }
 
     @Override
     public Page<MetaDataSetDTO> listByPage(MetaDataSetParam param) {
         Page<MetaDataSetDTO> result = new Page<>();
         Page<MetaDataSet> list = this.metaDataSetMapper.selectPage(
-            new Page<>(param.getCurrent(), param.getPageSize()),
-            param.getDataSetTypeCode(),
-            param.getDataSetCode(),
-            param.getDataSetValue());
+                new Page<>(param.getCurrent(), param.getPageSize()),
+                param.getDataSetTypeCode(),
+                param.getDataSetCode(),
+                param.getDataSetValue());
         List<MetaDataSetDTO> dtoList = MetaDataSetConvert.INSTANCE.toDto(list.getRecords());
         result.setCurrent(list.getCurrent());
         result.setSize(list.getSize());
@@ -80,8 +78,8 @@ public class MetaDataSetServiceImpl implements MetaDataSetService {
     @Override
     public List<MetaDataSetDTO> listByType(Long dataSetTypeId) {
         List<MetaDataSet> list = this.metaDataSetMapper.selectList(
-            new LambdaQueryWrapper<MetaDataSet>()
-                .eq(MetaDataSet::getDataSetTypeId, dataSetTypeId)
+                new LambdaQueryWrapper<MetaDataSet>()
+                        .eq(MetaDataSet::getDataSetTypeId, dataSetTypeId)
         );
         return MetaDataSetConvert.INSTANCE.toDto(list);
     }

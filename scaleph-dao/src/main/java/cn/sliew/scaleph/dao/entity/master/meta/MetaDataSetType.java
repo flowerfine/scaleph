@@ -50,5 +50,4 @@ public class MetaDataSetType extends BaseDO {
     @ApiModelProperty(value = "备注")
     private String remark;
 
-
 }

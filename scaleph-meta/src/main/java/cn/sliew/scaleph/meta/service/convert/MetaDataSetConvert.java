@@ -31,12 +31,11 @@ import org.mapstruct.factory.Mappers;
  * @author gleiyu
  */
 @Mapper(uses = {DictVoConvert.class, MetaSystemConvert.class,
-    MetaDataSetTypeConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+        MetaDataSetTypeConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MetaDataSetConvert extends BaseConvert<MetaDataSet, MetaDataSetDTO> {
     MetaDataSetConvert INSTANCE = Mappers.getMapper(MetaDataSetConvert.class);
 
     @Override
-    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.YES_NO,entity.getIsStandard()))", target = "isStandard")
     @Mapping(source = "dataSetType", target = "dataSetType")
     @Mapping(source = "system", target = "system")
     MetaDataSetDTO toDto(MetaDataSet entity);
