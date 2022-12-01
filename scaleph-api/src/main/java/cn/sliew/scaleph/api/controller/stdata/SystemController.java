@@ -57,7 +57,7 @@ public class SystemController {
     }
 
     @Logging
-    @PostMapping
+    @PutMapping
     @ApiOperation(value = "新增业务系统", notes = "新增业务系统")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_ADD)")
     public ResponseEntity<ResponseVO> addMetaSystem(@Validated @RequestBody MetaSystemDTO metaSystemDTO) {
@@ -66,7 +66,7 @@ public class SystemController {
     }
 
     @Logging
-    @PutMapping
+    @PostMapping
     @ApiOperation(value = "修改业务系统", notes = "修改业务系统")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_EDIT)")
     public ResponseEntity<ResponseVO> editMetaSystem(@Validated @RequestBody MetaSystemDTO metaSystemDTO) {
@@ -78,13 +78,13 @@ public class SystemController {
     @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "删除业务系统", notes = "删除业务系统")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_DELETE)")
-    public ResponseEntity<ResponseVO> deleteMetaSystem(@PathVariable(value = "id") String id) {
-        metaSystemService.deleteById(Long.valueOf(id));
+    public ResponseEntity<ResponseVO> deleteMetaSystem(@PathVariable(value = "id") Long id) {
+        metaSystemService.deleteById(id);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
-    @PostMapping(path = "/batch")
+    @DeleteMapping(path = "/batch")
     @ApiOperation(value = "批量删除业务系统", notes = "批量删除业务系统")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaSystem(@RequestBody List<Long> ids) {
