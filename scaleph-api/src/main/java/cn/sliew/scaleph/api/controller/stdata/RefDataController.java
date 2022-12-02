@@ -118,7 +118,7 @@ public class RefDataController {
     }
 
     @Logging
-    @PostMapping(path = "/type")
+    @PutMapping(path = "/type")
     @ApiOperation(value = "新增参考数据类型", notes = "新增参考数据类型")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_TYPE_ADD)")
     public ResponseEntity<ResponseVO> addMetaDataSetType(@Validated @RequestBody MetaDataSetTypeDTO metaDataSetTypeDTO) {
@@ -127,7 +127,7 @@ public class RefDataController {
     }
 
     @Logging
-    @PutMapping(path = "/type")
+    @PostMapping(path = "/type")
     @ApiOperation(value = "修改参考数据类型", notes = "修改参考数据类型")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_TYPE_EDIT)")
     public ResponseEntity<ResponseVO> editMetaDataSetType(@Validated @RequestBody MetaDataSetTypeDTO metaDataSetTypeDTO) {
@@ -145,7 +145,7 @@ public class RefDataController {
     }
 
     @Logging
-    @PostMapping(path = "/type/batch")
+    @DeleteMapping(path = "/type/batch")
     @ApiOperation(value = "批量删除参考数据类型", notes = "批量删除参考数据类型")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_TYPE_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataSetType(@RequestBody List<Long> ids) {

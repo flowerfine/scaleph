@@ -54,7 +54,7 @@ public class DataElementController {
     }
 
     @Logging
-    @PostMapping
+    @PutMapping
     @ApiOperation(value = "新增数据元", notes = "新增数据元")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_DATA_ELEMENT_ADD)")
     public ResponseEntity<ResponseVO> addMetaDataElement(@Validated @RequestBody MetaDataElementDTO metaDataElementDTO) {
@@ -63,7 +63,7 @@ public class DataElementController {
     }
 
     @Logging
-    @PutMapping
+    @PostMapping
     @ApiOperation(value = "修改数据元", notes = "修改数据元")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_DATA_ELEMENT_EDIT)")
     public ResponseEntity<ResponseVO> editMetaDataElement(@Validated @RequestBody MetaDataElementDTO metaDataElementDTO) {
@@ -81,7 +81,7 @@ public class DataElementController {
     }
 
     @Logging
-    @PostMapping(path = "/batch")
+    @DeleteMapping(path = "/batch")
     @ApiOperation(value = "批量删除数据元", notes = "批量删除数据元")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_DATA_ELEMENT_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataElement(@RequestBody List<Long> ids) {

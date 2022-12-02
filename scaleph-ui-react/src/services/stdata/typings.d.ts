@@ -18,8 +18,8 @@ export type MetaSystemParam = QueryParam & {
 
 export type MetaDataElement = {
   id?: number;
-  elementCode: string;
-  elementName: string;
+  elementCode?: string;
+  elementName?: string;
   dataType?: Dict;
   dataLength?: number;
   dataPrecision?: number;

@@ -380,9 +380,18 @@ export default [
         access: 'normalRouteFilter',
       },
       {
+        name: 'system',
+        path: '/stdata/system',
+        icon: 'group',
+        exact: true,
+        component: './Stdata/System',
+        pCode: PRIVILEGE_CODE.stdataSystemShow,
+        access: 'normalRouteFilter',
+      },
+      {
         name: 'dataElement',
         path: '/stdata/dataElement',
-        icon: 'menu',
+        icon: 'hdd',
         exact: true,
         component: './Stdata/DataElement',
         pCode: PRIVILEGE_CODE.stdataDataElementShow,
@@ -391,7 +400,7 @@ export default [
       {
         name: 'refdata',
         path: '/stdata/refdata',
-        icon: 'menu',
+        icon: 'profile',
         exact: true,
         component: './Stdata/RefData',
         pCode: PRIVILEGE_CODE.stdataRefDataShow,
@@ -400,21 +409,12 @@ export default [
       {
         name: 'refdataMap',
         path: '/stdata/refdataMap',
-        icon: 'menu',
+        icon: 'oneToOne',
         exact: true,
         component: './Stdata/RefDataMap',
         pCode: PRIVILEGE_CODE.stdataRefDataMapShow,
         access: 'normalRouteFilter',
-      },
-      {
-        name: 'system',
-        path: '/stdata/system',
-        icon: 'menu',
-        exact: true,
-        component: './Stdata/System',
-        pCode: PRIVILEGE_CODE.stdataSystemShow,
-        access: 'normalRouteFilter',
-      },
+      }
     ],
   },
   {

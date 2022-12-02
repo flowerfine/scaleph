@@ -29,14 +29,7 @@ const MetaSystemForm: React.FC<ModalFormProps<MetaSystem>> = ({
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          const param: MetaSystem = {
-            id: values.id,
-            systemCode: values.systemCode,
-            systemName: values.systemName,
-            contacts: values.contacts,
-            contactsPhone: values.contactsPhone,
-            remark: values.remark,
-          };
+          const param: MetaSystem = {...values};
           data.id
             ? MetaSystemService.update(param).then((response) => {
               if (response.success) {
@@ -63,14 +56,7 @@ const MetaSystemForm: React.FC<ModalFormProps<MetaSystem>> = ({
         submitter={false}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
-        initialValues={{
-          id: data.id,
-          systemCode: data.systemCode,
-          systemName: data.systemName,
-          contacts: data.contacts,
-          contactsPhone: data.contactsPhone,
-          remark: data.remark
-        }}
+        initialValues={data}
       >
         <ProFormDigit name="id" hidden/>
         <ProFormText
