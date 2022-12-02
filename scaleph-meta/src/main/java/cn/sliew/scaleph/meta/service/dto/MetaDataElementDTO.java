@@ -18,18 +18,19 @@
 
 package cn.sliew.scaleph.meta.service.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
+import cn.sliew.scaleph.common.dict.job.DataType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDataSetType;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * <p>
@@ -59,7 +60,7 @@ public class MetaDataElementDTO extends BaseDTO {
 
     @NotNull
     @ApiModelProperty(value = "数据类型")
-    private DictVO dataType;
+    private DataType dataType;
 
     @ApiModelProperty(value = "长度")
     private Long dataLength;
@@ -71,7 +72,7 @@ public class MetaDataElementDTO extends BaseDTO {
     private Integer dataScale;
 
     @ApiModelProperty(value = "是否可以为空,1-是;0-否")
-    private DictVO nullable;
+    private YesOrNo nullable;
 
     @ApiModelProperty(value = "默认值")
     private String dataDefault;

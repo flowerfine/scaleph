@@ -26,8 +26,8 @@ import lombok.EqualsAndHashCode;
 /**
  * @author gleiyu
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class MetaDataSetParam extends PaginationParam {
 
     @ApiModelProperty(value = "参考数据类型编码")

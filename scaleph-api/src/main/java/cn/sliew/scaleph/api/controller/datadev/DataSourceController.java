@@ -119,8 +119,8 @@ public class DataSourceController {
     @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "删除数据源", notes = "删除数据源")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_DELETE)")
-    public ResponseEntity<ResponseVO> deleteDataSource(@PathVariable(value = "id") String id) {
-        this.metaDatasourceService.deleteById(Long.valueOf(id));
+    public ResponseEntity<ResponseVO> deleteDataSource(@PathVariable(value = "id") Long id) {
+        this.metaDatasourceService.deleteById(id);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -128,8 +128,8 @@ public class DataSourceController {
     @PostMapping(path = "/batch")
     @ApiOperation(value = "批量删除数据源", notes = "批量删除数据源")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_DELETE)")
-    public ResponseEntity<ResponseVO> deleteDataSource(@RequestBody Map<Integer, String> map) {
-        this.metaDatasourceService.deleteBatch(map);
+    public ResponseEntity<ResponseVO> deleteDataSource(@RequestBody List<Long> ids) {
+        this.metaDatasourceService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 

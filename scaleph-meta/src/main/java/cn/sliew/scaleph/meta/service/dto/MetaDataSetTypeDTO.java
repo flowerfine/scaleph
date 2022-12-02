@@ -58,5 +58,4 @@ public class MetaDataSetTypeDTO extends BaseDTO {
     @ApiModelProperty(value = "备注")
     private String remark;
 
-
 }
