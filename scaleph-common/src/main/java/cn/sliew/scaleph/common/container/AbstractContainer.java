@@ -20,7 +20,9 @@ package cn.sliew.scaleph.common.container;
 
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.milky.common.lifecycle.AbstractLifeCycle;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public abstract class AbstractContainer extends AbstractLifeCycle implements Container {
 
     protected Runnable task;
@@ -28,8 +30,26 @@ public abstract class AbstractContainer extends AbstractLifeCycle implements Con
 
     @Override
     public void execute(Runnable task, ActionListener<Void> listener) {
-        this.task = task;
-        this.listener = listener;
+        LifeCycleResult initializeResult = initialize();
+        if (initializeResult.isSuccess() == false) {
+            listener.onFailure(new Exception(initializeResult.getThrowable()));
+            return;
+        }
+        LifeCycleResult startResult = start();
+        if (startResult.isSuccess() == false) {
+            listener.onFailure(new Exception(startResult.getThrowable()));
+            return;
+        }
+        doExecute(task, listener);
+    }
+
+    protected void doExecute(Runnable task, ActionListener<Void> listener) {
+        try {
+            task.run();
+            listener.onResponse(null);
+        } catch (Exception e) {
+            listener.onFailure(e);
+        }
     }
 
     @Override
