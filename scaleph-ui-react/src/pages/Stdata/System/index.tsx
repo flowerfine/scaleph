@@ -40,18 +40,18 @@ const MetaSystemWeb: React.FC = () => {
       hideInSearch: true
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.remark'}),
+      title: intl.formatMessage({id: 'pages.stdata.remark'}),
       dataIndex: 'remark',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.createTime'}),
+      title: intl.formatMessage({id: 'pages.stdata.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.updateTime'}),
+      title: intl.formatMessage({id: 'pages.stdata.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,

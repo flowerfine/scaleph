@@ -24,4 +24,16 @@ export default {
   'pages.stdata.dataElement.dataSetType': '参考数据类型',
 
 
+  'pages.stdata.dataMap': '数据映射',
+  'pages.stdata.dataMap.srcDataSetTypeCode': '源参考数据类型编码',
+  'pages.stdata.dataMap.srcDataSetTypeName': '源参考数据类型名称',
+  'pages.stdata.dataMap.srcDataSetId': '源参考数据',
+  'pages.stdata.dataMap.srcDataSetCode': '源参考数据编码',
+  'pages.stdata.dataMap.srcDataSetValue': '源参考数据值',
+  'pages.stdata.dataMap.tgtDataSetTypeCode': '目标参考数据类型编码',
+  'pages.stdata.dataMap.tgtDataSetTypeName': '目标参考数据类型名称',
+  'pages.stdata.dataMap.tgtDataSetId': '目标参考数据',
+  'pages.stdata.dataMap.tgtDataSetCode': '目标参考数据编码',
+  'pages.stdata.dataMap.tgtDataSetValue': '目标参考数据值',
+
 };
