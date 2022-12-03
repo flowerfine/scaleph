@@ -71,11 +71,13 @@ export type MetaDataSetParam = QueryParam & {
 
 export type MetaDataMap = {
   id?: number;
+  srcDataSetTypeId?: number;
   srcDataSetTypeCode?: string;
   srcDataSetTypeName?: string;
   srcDataSetId?: number;
   srcDataSetCode?: string;
   srcDataSetValue?: string;
+  tgtDataSetTypeId?: number;
   tgtDataSetTypeCode?: string;
   tgtDataSetTypeName?: string;
   tgtDataSetId?: number;

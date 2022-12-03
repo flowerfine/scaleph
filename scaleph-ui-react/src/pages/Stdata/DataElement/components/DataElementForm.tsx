@@ -137,7 +137,7 @@ const MetaDataElementForm: React.FC<ModalFormProps<MetaDataElement>> = ({
           name={"dataSetType"}
           label={intl.formatMessage({id: 'pages.stdata.dataElement.dataSetType'})}
           request={(params, props) => {
-            return RefdataService.list({}).then((response) => {
+            return RefdataService.listDataSetType({}).then((response) => {
               if (response.data) {
                 return response.data.map((item) => {
                   return {value: item.id, label: item.dataSetTypeCode + '-' + item.dataSetTypeName, item: item}

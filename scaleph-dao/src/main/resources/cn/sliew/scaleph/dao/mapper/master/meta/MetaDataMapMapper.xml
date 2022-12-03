@@ -26,11 +26,13 @@
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
+        <result column="src_data_set_type_id" property="srcDataSetTypeId"/>
         <result column="src_data_set_type_code" property="srcDataSetTypeCode"/>
         <result column="src_data_set_type_name" property="srcDataSetTypeName"/>
         <result column="src_data_set_id" property="srcDataSetId"/>
         <result column="src_data_set_code" property="srcDataSetCode"/>
         <result column="src_data_set_value" property="srcDataSetValue"/>
+        <result column="tgt_data_set_type_id" property="tgtDataSetTypeId"/>
         <result column="tgt_data_set_type_code" property="tgtDataSetTypeCode"/>
         <result column="tgt_data_set_type_name" property="tgtDataSetTypeName"/>
         <result column="tgt_data_set_id" property="tgtDataSetId"/>
@@ -48,11 +50,13 @@
         (
             select
                 t.id as id,
+                st1.id as src_data_set_type_id,
                 lower(st1.data_set_type_code) as src_data_set_type_code,
                 st1.data_set_type_name as src_data_set_type_name,
                 s1.id as src_data_set_id,
                 s1.data_set_code as src_data_set_code,
                 s1.data_set_value as src_data_set_value,
+                st2.id as tgt_data_set_type_id,
                 st2.data_set_type_code as tgt_data_set_type_code,
                 st2.data_set_type_name as tgt_data_set_type_name,
                 s2.id as tgt_data_set_id,
@@ -75,11 +79,13 @@
             union
             select
                 null as id,
+                st1.id as src_data_set_type_id,
                 lower(st1.data_set_type_code) as src_data_set_type_code,
                 st1.data_set_type_name as src_data_set_type_name,
                 null as src_data_set_id,
                 s1.data_set_code as src_data_set_code,
                 s1.data_set_value as src_data_set_value,
+                st1.id as tgt_data_set_type_id,
                 st1.data_set_type_code as tgt_data_set_type_code,
                 st1.data_set_type_name as tgt_data_set_type_name,
                 null as tgt_data_set_id,

@@ -41,6 +41,9 @@ public class MetaDataMapDTO extends BaseDTO {
 
     private static final long serialVersionUID = 866554862011424582L;
 
+    @ApiModelProperty(value = "源参考数据类型 id")
+    private Long srcDataSetTypeId;
+
     @ApiModelProperty(value = "源参考数据类型编码")
     private String srcDataSetTypeCode;
 
@@ -56,6 +59,9 @@ public class MetaDataMapDTO extends BaseDTO {
 
     @ApiModelProperty(value = "源参考数据值")
     private String srcDataSetValue;
+
+    @ApiModelProperty(value = "目标参考数据类型 id")
+    private Long tgtDataSetTypeId;
 
     @ApiModelProperty(value = "目标参考数据类型编码")
     private String tgtDataSetTypeCode;

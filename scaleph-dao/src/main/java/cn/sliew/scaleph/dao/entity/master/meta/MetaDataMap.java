@@ -43,6 +43,10 @@ public class MetaDataMap extends BaseDO {
     private static final long serialVersionUID = 1413344387211239856L;
 
     @TableField(exist = false)
+    @ApiModelProperty(value = "源参考数据类型 id")
+    private Long srcDataSetTypeId;
+
+    @TableField(exist = false)
     @ApiModelProperty(value = "源参考数据类型编码")
     private String srcDataSetTypeCode;
 
@@ -60,6 +64,10 @@ public class MetaDataMap extends BaseDO {
     @TableField(exist = false)
     @ApiModelProperty(value = "源参考数据值")
     private String srcDataSetValue;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "目标参考数据类型 id")
+    private String tgtDataSetTypeId;
 
     @TableField(exist = false)
     @ApiModelProperty(value = "目标参考数据类型编码")

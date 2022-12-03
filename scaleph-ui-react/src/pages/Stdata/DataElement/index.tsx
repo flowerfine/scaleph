@@ -8,7 +8,7 @@ import {MetaDataElement} from "@/services/stdata/typings";
 import {MetaDataElementService} from "@/services/stdata/data-element.service";
 import MetaDataElementForm from "@/pages/Stdata/DataElement/components/DataElementForm";
 
-const DataElement: React.FC = () => {
+const DataElementWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
@@ -97,13 +97,13 @@ const DataElement: React.FC = () => {
       }
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.createTime'}),
+      title: intl.formatMessage({id: 'pages.stdata.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.updateTime'}),
+      title: intl.formatMessage({id: 'pages.stdata.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
@@ -237,4 +237,4 @@ const DataElement: React.FC = () => {
     </div>);
 }
 
-export default DataElement;
+export default DataElementWeb;
