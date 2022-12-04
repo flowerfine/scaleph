@@ -53,11 +53,11 @@ export type MetaDataSetTypeParam = QueryParam & {
 
 export type MetaDataSet = {
   id?: number;
-  dataSetType: MetaDataSetType;
+  dataSetType?: MetaDataSetType;
   dataSetCode?: string;
   dataSetValue?: string;
-  system: MetaSystem;
-  isStandard: Dict;
+  system?: MetaSystem;
+  isStandard?: Dict;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
