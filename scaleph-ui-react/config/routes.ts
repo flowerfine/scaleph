@@ -407,6 +407,13 @@ export default [
         access: 'normalRouteFilter',
       },
       {
+        path: '/stdata/refdata/value',
+        exact: true,
+        component: './Stdata/RefData/Value',
+        pCode: PRIVILEGE_CODE.stdataRefDataShow,
+        access: 'normalRouteFilter',
+      },
+      {
         name: 'refdataMap',
         path: '/stdata/refdataMap',
         icon: 'oneToOne',

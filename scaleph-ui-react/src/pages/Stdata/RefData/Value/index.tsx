@@ -1,34 +1,65 @@
-import {history, useAccess, useIntl} from "umi";
+import {useAccess, useIntl, useLocation} from "umi";
 import {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tooltip} from "antd";
-import {DeleteOutlined, EditOutlined, FolderOpenOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {PRIVILEGE_CODE} from "@/constant";
-import {MetaDataSetType} from "@/services/stdata/typings";
+import {MetaDataSet, MetaDataSetType} from "@/services/stdata/typings";
 import {RefdataService} from "@/services/stdata/refdata.service";
-import DataSetTypeForm from "@/pages/Stdata/RefData/components/DataSetTypeForm";
+import DataSetForm from "@/pages/Stdata/RefData/Value/DataSetForm";
+import {history} from "@@/core/history";
 
-const RefData: React.FC = () => {
+const RefDataSetValue: React.FC = () => {
+  const urlParams = useLocation();
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<MetaDataSetType[]>([]);
-  const [metaDataSetTypeFormData, setMetaDataSetTypeFormData] = useState<{
+  const [selectedRows, setSelectedRows] = useState<MetaDataSet[]>([]);
+  const [metaDataSetFormData, setMetaDataSetFormData] = useState<{
     visiable: boolean;
-    data: MetaDataSetType;
+    data: MetaDataSet;
   }>({visiable: false, data: {}});
 
-  const tableColumns: ProColumns<MetaDataSetType>[] = [
+  const dataSetType = urlParams.state as MetaDataSetType;
+
+  const tableColumns: ProColumns<MetaDataSet>[] = [
     {
-      title: intl.formatMessage({id: 'pages.stdata.dataSetType.dataSetTypeCode'}),
-      dataIndex: 'dataSetTypeCode',
+      title: intl.formatMessage({id: 'pages.stdata.dataSet.dataSetType'}),
+      dataIndex: 'dataSetType',
+      width: 280,
+      render: (text, record, index) => {
+        return record.dataSetType?.dataSetTypeCode + '-' + record.dataSetType?.dataSetTypeName
+      },
+      hideInSearch: true
+    },
+    {
+      title: intl.formatMessage({id: 'pages.stdata.dataSet.dataSetCode'}),
+      dataIndex: 'dataSetCode',
       width: 280
     },
     {
-      title: intl.formatMessage({id: 'pages.stdata.dataSetType.dataSetTypeName'}),
-      dataIndex: 'dataSetTypeName',
+      title: intl.formatMessage({id: 'pages.stdata.dataSet.dataSetValue'}),
+      dataIndex: 'dataSetValue',
       width: 280
+    },
+    {
+      title: intl.formatMessage({id: 'pages.stdata.dataSet.system'}),
+      dataIndex: 'system',
+      width: 280,
+      render: (text, record, index) => {
+        return record.system?.systemName
+      },
+      hideInSearch: true
+    },
+    {
+      title: intl.formatMessage({id: 'pages.stdata.dataSet.isStandard'}),
+      dataIndex: 'isStandard',
+      width: 100,
+      render: (text, record, index) => {
+        return record.isStandard?.label
+      },
+      hideInSearch: true
     },
     {
       title: intl.formatMessage({id: 'pages.stdata.remark'}),
@@ -63,18 +94,8 @@ const RefData: React.FC = () => {
                 <Button
                   shape="default"
                   type="link"
-                  icon={<FolderOpenOutlined/>}
-                  onClick={() => history.push('/stdata/refdata/value', record)}
-                ></Button>
-              </Tooltip>
-            )}
-            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
-                <Button
-                  shape="default"
-                  type="link"
                   icon={<EditOutlined/>}
-                  onClick={() => setMetaDataSetTypeFormData({visiable: true, data: record})}
+                  onClick={() => setMetaDataSetFormData({visiable: true, data: record})}
                 ></Button>
               </Tooltip>
             )}
@@ -92,7 +113,7 @@ const RefData: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        RefdataService.deleteDataSetType(record).then((d) => {
+                        RefdataService.deleteDataSet(record).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
@@ -112,7 +133,12 @@ const RefData: React.FC = () => {
 
   return (
     <div>
-      <ProTable<MetaDataSetType>
+      <ProTable<MetaDataSet>
+        headerTitle={
+          <Button key="return" type="default" onClick={() => history.back()}>
+            {intl.formatMessage({id: 'app.common.operate.return.label'})}
+          </Button>
+        }
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -123,7 +149,7 @@ const RefData: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return RefdataService.listDataSetType(params);
+          return RefdataService.listDataSet({...params, dataSetTypeCode: dataSetType.dataSetTypeCode});
         }}
         toolbar={{
           actions: [
@@ -131,7 +157,7 @@ const RefData: React.FC = () => {
               <Button
                 key="new"
                 type="primary"
-                onClick={() => setMetaDataSetTypeFormData({visiable: true, data: {}})}
+                onClick={() => setMetaDataSetFormData({visiable: true, data: {}})}
               >
                 {intl.formatMessage({id: 'app.common.operate.new.label'})}
               </Button>
@@ -149,7 +175,7 @@ const RefData: React.FC = () => {
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
-                      RefdataService.deleteDataSetTypeBatch(selectedRows).then((d) => {
+                      RefdataService.deleteDataSetBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();
@@ -172,19 +198,19 @@ const RefData: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       />
-      {metaDataSetTypeFormData.visiable && (
-        <DataSetTypeForm
-          visible={metaDataSetTypeFormData.visiable}
-          onCancel={() => setMetaDataSetTypeFormData({visiable: false, data: {}})}
+      {metaDataSetFormData.visiable && (
+        <DataSetForm
+          visible={metaDataSetFormData.visiable}
+          onCancel={() => setMetaDataSetFormData({visiable: false, data: {}})}
           onVisibleChange={(visiable) => {
-            setMetaDataSetTypeFormData({visiable: visiable, data: {}});
+            setMetaDataSetFormData({visiable: visiable, data: {}});
             actionRef.current?.reload();
           }}
-          data={metaDataSetTypeFormData.data}
+          data={metaDataSetFormData.data}
         />
       )}
     </div>
   );
 }
 
-export default RefData;
+export default RefDataSetValue;
