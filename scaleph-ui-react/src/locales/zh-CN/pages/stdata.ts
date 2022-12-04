@@ -23,6 +23,16 @@ export default {
   'pages.stdata.dataElement.highValue': '最大值',
   'pages.stdata.dataElement.dataSetType': '参考数据类型',
 
+  'pages.stdata.dataSetType': '参考数据类型',
+  'pages.stdata.dataSetType.dataSetTypeCode': '参考数据类型编码',
+  'pages.stdata.dataSetType.dataSetTypeName': '参考数据类型名称',
+
+  'pages.stdata.dataSet': '参考数据',
+  'pages.stdata.dataSet.dataSetType': '参考数据类型',
+  'pages.stdata.dataSet.dataSetCode': '参考数据编码',
+  'pages.stdata.dataSet.dataSetValue': '参考数据值',
+  'pages.stdata.dataSet.system': '业务系统',
+  'pages.stdata.dataSet.isStandard': '是否标准',
 
   'pages.stdata.dataMap': '数据映射',
   'pages.stdata.dataMap.srcDataSetTypeCode': '源参考数据类型编码',
