@@ -16,20 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.service.convert;
+package cn.sliew.scaleph.common.constant;
 
-import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.security.SecDept;
-import cn.sliew.scaleph.security.service.dto.SecDeptDTO;
-import cn.sliew.scaleph.system.service.convert.DictVoConvert;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import lombok.Getter;
 
-/**
- * @author gleiyu
- */
-@Mapper(uses = DictVoConvert.class)
-public interface SecDeptConvert extends BaseConvert<SecDept, SecDeptDTO> {
-    SecDeptConvert INSTANCE = Mappers.getMapper(SecDeptConvert.class);
+@Getter
+public enum MenuResource {
 
+    STUDIO("/studio", "工作台"),
+    PROJECT("/project", "项目"),
+    RESOURCE("/resource", "资源"),
+    DATA_SOURCE("/dataSource", "数据源"),
+    DATA_STANDARD("/stdata", "数据标准"),
+    ADMIN("/admin", "系统管理"),
+    ;
+
+    private String path;
+    private String desc;
+
+    MenuResource(String path, String desc) {
+        this.path = path;
+        this.desc = desc;
+    }
 }

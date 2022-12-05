@@ -299,10 +299,12 @@ public enum PrivilegeConstants {
          */
         public static final String DEPT = "dep";
 
+
         /**
          * 参数设置
          */
         public static final String SETTING = "set";
+
         /**
          * 元数据管理
          */
