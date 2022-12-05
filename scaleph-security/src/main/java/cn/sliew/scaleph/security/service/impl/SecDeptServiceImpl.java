@@ -18,9 +18,6 @@
 
 package cn.sliew.scaleph.security.service.impl;
 
-import java.io.Serializable;
-import java.util.List;
-
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.security.SecDept;
 import cn.sliew.scaleph.dao.mapper.master.security.SecDeptMapper;
@@ -34,6 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 /**
  * <p>
@@ -56,59 +55,59 @@ public class SecDeptServiceImpl implements SecDeptService {
     @Override
     public int insert(SecDeptDTO secDeptDTO) {
         SecDept secDept = SecDeptConvert.INSTANCE.toDo(secDeptDTO);
-        return this.secDeptMapper.insert(secDept);
+        return secDeptMapper.insert(secDept);
     }
 
     @Override
     public int update(SecDeptDTO secDeptDTO) {
         SecDept secDept = SecDeptConvert.INSTANCE.toDo(secDeptDTO);
-        return this.secDeptMapper.updateById(secDept);
+        return secDeptMapper.updateById(secDept);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public int deleteById(Long id) {
-        this.secUserDeptService.deleteBydeptId(id);
-        this.secDeptRoleService.deleteByDeptId(id);
-        return this.secDeptMapper.deleteById(id);
+        secUserDeptService.deleteBydeptId(id);
+        secDeptRoleService.deleteByDeptId(id);
+        return secDeptMapper.deleteById(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
-    public int deleteBatch(List<? extends Serializable> list) {
-        if (CollectionUtils.isEmpty(list)) {
+    public int deleteBatch(List<Long> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
             return 0;
         }
-        for (Serializable id : list) {
-            this.secUserDeptService.deleteBydeptId(id);
-            this.secDeptRoleService.deleteByDeptId(id);
+        for (Long id : ids) {
+            secUserDeptService.deleteBydeptId(id);
+            secDeptRoleService.deleteByDeptId(id);
         }
-        return this.secDeptMapper.deleteBatchIds(list);
+        return this.secDeptMapper.deleteBatchIds(ids);
     }
 
     @Override
     public SecDeptDTO selectOne(Long id) {
-        SecDept secDept = this.secDeptMapper.selectById(id);
+        SecDept secDept = secDeptMapper.selectById(id);
         return SecDeptConvert.INSTANCE.toDto(secDept);
     }
 
     @Override
     public SecDeptDTO selectOne(String deptCode) {
-        SecDept secDept = this.secDeptMapper.selectOne(new LambdaQueryWrapper<SecDept>()
-            .eq(SecDept::getDeptCode, deptCode));
+        SecDept secDept = secDeptMapper.selectOne(new LambdaQueryWrapper<SecDept>()
+                .eq(SecDept::getDeptCode, deptCode));
         return SecDeptConvert.INSTANCE.toDto(secDept);
     }
 
     @Override
     public List<SecDeptDTO> listAll() {
-        List<SecDept> secDeptList = this.secDeptMapper.selectList(null);
+        List<SecDept> secDeptList = secDeptMapper.selectList(null);
         return SecDeptConvert.INSTANCE.toDto(secDeptList);
     }
 
     @Override
     public List<SecDeptDTO> listByDeptId(Long pid) {
-        List<SecDept> secDeptList = this.secDeptMapper.selectList(new LambdaQueryWrapper<SecDept>()
-            .eq(SecDept::getPid, pid));
+        List<SecDept> secDeptList = secDeptMapper.selectList(new LambdaQueryWrapper<SecDept>()
+                .eq(SecDept::getPid, pid));
         return SecDeptConvert.INSTANCE.toDto(secDeptList);
     }
 }
