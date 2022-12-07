@@ -266,6 +266,13 @@ public enum PrivilegeConstants {
      */
     public enum ModuleCode {
         ;
+
+        /**
+         * 工作台
+         */
+        public static final String STUDIO = "sdo";
+        public static final String STUDIO_DATA_BOARD = "sdb";
+
         /**
          * 系统管理
          */
@@ -361,11 +368,7 @@ public enum PrivilegeConstants {
          * 数据标准-数据元管理
          */
         public static final String STDATA_DATA_ELEMENT = "ste";
-        /**
-         * 工作台
-         */
-        public static final String STUDIO = "sdo";
-        public static final String STUDIO_DATA_BOARD = "sdb";
+
 
         /**
          * 运维中心

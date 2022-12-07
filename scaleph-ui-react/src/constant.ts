@@ -56,15 +56,23 @@ export const WORKSPACE_CONF = {
 }
 
 export const PRIVILEGE_CODE = {
+  // studio
+  studioShow: 'psdo0',
+  studioDataBoardShow: 'psdb0',
+
+  // project
+  projectShow: 'pddp0',
+
   // todo flink code
   flinkShow: 'pflink0',
   flinkReleaseShow: 'pflinkr0',
 
-  studioShow: 'psdo0',
-  studioDataBoardShow: 'psdb0',
+
+
+
   datadevShow: 'pdev0',
   datadevDatasourceShow: 'pdts0',
-  datadevProjectShow: 'pddp0',
+
   datadevResourceShow: 'pdde0',
   datadevJobShow: 'pddj0',
   datadevClusterShow: 'pddc0',

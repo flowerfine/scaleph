@@ -23,31 +23,27 @@ import lombok.Getter;
 @Getter
 public enum PageResource {
 
-    DATA_BOARD("/studio/databoard", "数据看板"),
-
-    JAR("/resource/jar", "公共 Jar"),
-    FLINK_RELEASE("/resource/flink-release", "Flink Release"),
-    SEATUNNEL_RELEASE("/resource/seatunnel-release", "SeaTunnel Release"),
-    KERBEROS("/resource/kerberos", "Kerberos"),
-    CLUSTER_CREDENTIAL("/resource/cluster-credential", "Cluster Credential"),
-
-    SYSTEM("/stdata/system", "业务系统"),
-    DATA_ELEMENT("/stdata/dataElement", "数据元"),
-    REF_DATA("/stdata/refdata", "参考数据"),
-    REF_DATA_MAP("/stdata/refdataMap", "数据映射"),
-
-    USER("/admin/user", "用户管理"),
-    PRIVILEGE("/admin/privilege", "权限管理"),
-    WORKFLOW_QUARTZ("/admin/workflow/quartz", "系统任务"),
-    DICT("/admin/dict", "数据字典"),
-    SETTING("/admin/setting", "系统设置"),
+//    DATA_BOARD("/studio/databoard", "数据看板"),
+//
+//    JAR("/resource/jar", "公共 Jar"),
+//    FLINK_RELEASE("/resource/flink-release", "Flink Release"),
+//    SEATUNNEL_RELEASE("/resource/seatunnel-release", "SeaTunnel Release"),
+//    KERBEROS("/resource/kerberos", "Kerberos"),
+//    CLUSTER_CREDENTIAL("/resource/cluster-credential", "Cluster Credential"),
+//
+//    SYSTEM("/stdata/system", "业务系统"),
+//    DATA_ELEMENT("/stdata/dataElement", "数据元"),
+//    REF_DATA("/stdata/refdata", "参考数据"),
+//    REF_DATA_MAP("/stdata/refdataMap", "数据映射"),
+//
+//    USER("/admin/user", "用户管理"),
+//    PRIVILEGE("/admin/privilege", "权限管理"),
+//    WORKFLOW_QUARTZ("/admin/workflow/quartz", "系统任务"),
+//    DICT("/admin/dict", "数据字典"),
+//    SETTING("/admin/setting", "系统设置"),
     ;
 
-    private String path;
-    private String desc;
+    public static Route STUDIO_DATA_BOARD = new Route(100000, "数据看板", PrivilegeConstants.ModuleCode.STUDIO_DATA_BOARD, "/studio/databoard", MenuResource.STUDIO);
 
-    PageResource(String path, String desc) {
-        this.path = path;
-        this.desc = desc;
-    }
+    public static Route PROJECT_DATA_BOARD = new Route(100000, "数据看板", PrivilegeConstants.ModuleCode.STUDIO_DATA_BOARD, "/studio/databoard", MenuResource.STUDIO);
 }

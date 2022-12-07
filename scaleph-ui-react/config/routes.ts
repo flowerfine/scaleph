@@ -47,13 +47,13 @@ export default [
     name: 'project',
     path: '/project',
     icon: 'project',
-    pCode: PRIVILEGE_CODE.datadevProjectShow,
+    pCode: PRIVILEGE_CODE.projectShow,
     routes: [
       {
         path: '/project',
         exact: true,
         component: './Project',
-        pCode: PRIVILEGE_CODE.datadevProjectShow,
+        pCode: PRIVILEGE_CODE.projectShow,
         access: 'normalRouteFilter',
       },
     ],

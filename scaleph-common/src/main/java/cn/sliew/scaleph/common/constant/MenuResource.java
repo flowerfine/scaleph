@@ -22,20 +22,15 @@ import lombok.Getter;
 
 @Getter
 public enum MenuResource {
-
-    STUDIO("/studio", "工作台"),
-    PROJECT("/project", "项目"),
-    RESOURCE("/resource", "资源"),
-    DATA_SOURCE("/dataSource", "数据源"),
-    DATA_STANDARD("/stdata", "数据标准"),
-    ADMIN("/admin", "系统管理"),
     ;
 
-    private String path;
-    private String desc;
+    public static Route ROOT = new Route(0, "Scaleph", PrivilegeConstants.ModuleCode.STUDIO, "/", null);
 
-    MenuResource(String path, String desc) {
-        this.path = path;
-        this.desc = desc;
-    }
+    public static Route STUDIO = new Route(1, "工作台", PrivilegeConstants.ModuleCode.STUDIO, "/studio", ROOT);
+    public static Route PROJECT = new Route(2, "项目", PrivilegeConstants.ModuleCode.DATADEV_PROJECT, "/project", ROOT);
+    public static Route RESOURCE = new Route(3, "资源", PrivilegeConstants.ModuleCode.DATADEV_RESOURCE, "/resource", ROOT);
+    public static Route DATA_SOURCE = new Route(4, "数据源", PrivilegeConstants.ModuleCode.DATADEV_DATASOURCE, "/dataSource", ROOT);
+    public static Route DATA_STANDARD = new Route(4, "数据标准", PrivilegeConstants.ModuleCode.STDATA, "/stdata", ROOT);
+    public static Route ADMIN = new Route(4, "系统管理", PrivilegeConstants.ModuleCode.STDATA, "/admin", ROOT);
+
 }
