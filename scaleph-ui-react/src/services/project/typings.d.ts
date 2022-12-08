@@ -1,5 +1,6 @@
 import { Dict, QueryParam } from '@/app.d';
 import { FlinkArtifactJar, FlinkClusterConfig, FlinkClusterInstance } from '@/services/dev/typings';
+import { UploadFile } from 'antd';
 
 export type MetaDataSource = {
   id?: number;
@@ -33,7 +34,6 @@ export type DiProjectParam = QueryParam & {
   projectCode?: string;
   projectName?: string;
 };
-
 
 export type DiJob = {
   id?: number;
@@ -100,11 +100,10 @@ export type DiJobStep = {
   stepName: Dict;
   positionX: number;
   positionY: number;
-  stepAttrs?:any;
+  stepAttrs?: any;
   createTime?: Date;
   updateTime?: Date;
 };
-
 
 export type FlinkJob = {
   id?: number;
@@ -205,44 +204,45 @@ export type FlinkJobLogListParam = QueryParam & {
   flinkJobCode: number;
 };
 
-
 export type FlinkArtifact = {
   id?: number;
+  projectId?: number | string;
   name?: string;
-  type?: Dict;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
-}
+};
 
 export type FlinkArtifactListParam = QueryParam & {
+  projectId?: number;
   name?: string;
-  type?: string;
 };
 
 export type FlinkArtifactJar = {
   id?: number;
   flinkArtifact?: FlinkArtifact;
-  version?: string;
   flinkVersion?: Dict;
   entryClass?: string;
   fileName?: string;
   path?: string;
-  remark?: string;
+  version?: string;
+  jarParams?: { [key: string]: any };
   createTime?: Date;
   updateTime?: Date;
-}
+};
 
 export type FlinkArtifactJarListParam = QueryParam & {
   flinkArtifactId?: number;
 };
 
-export type FlinkArtifactJarUploadParam = QueryParam & {
+export type FlinkArtifactJarParam = QueryParam & {
+  id?: number | string;
   flinkArtifactId: number;
   version?: string;
   flinkVersion: string;
   entryClass?: string;
-  file?: File;
+  file?: UploadFile<any>;
+  jarParams: string;
 };
 
 export type FlinkClusterConfig = {
@@ -258,7 +258,7 @@ export type FlinkClusterConfig = {
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
-}
+};
 
 export type KubernetesOptions = {
   context?: string;
@@ -274,14 +274,14 @@ export type KubernetesOptions = {
   taskManagerCPU?: number;
   taskManagerMemory?: string;
   taskManagerReplicas?: number;
-}
+};
 
 export type FlinkClusterConfigParam = QueryParam & {
   name?: string;
   flinkVersion?: string;
   resourceProvider?: string;
   deployMode?: string;
-}
+};
 
 export type FlinkClusterConfigAddParam = {
   name?: string;
@@ -291,7 +291,7 @@ export type FlinkClusterConfigAddParam = {
   flinkReleaseId?: number;
   clusterCredentialId?: number;
   remark?: string;
-}
+};
 
 export type FlinkClusterInstance = {
   id?: number;
@@ -303,15 +303,15 @@ export type FlinkClusterInstance = {
   remark?: number;
   createTime?: Date;
   updateTime?: Date;
-}
+};
 
 export type FlinkClusterInstanceParam = QueryParam & {
   name?: string;
   flinkClusterConfigId?: number;
   status?: string;
-}
+};
 
 export type FlinkSessionClusterNewParam = QueryParam & {
   flinkClusterConfigId?: number;
   remark?: string;
-}
+};

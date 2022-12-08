@@ -40,6 +40,9 @@ public class FlinkClusterInstance extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField("project_id")
+    private Long projectId;
+
     @ApiModelProperty("集群配置")
     @TableField("flink_cluster_config_id")
     private Long flinkClusterConfigId;
@@ -59,9 +62,5 @@ public class FlinkClusterInstance extends BaseDO {
     @ApiModelProperty("集群状态。0: 已创建, 1: 运行中, 2: 停止")
     @TableField("`status`")
     private FlinkClusterStatus status;
-
-    @ApiModelProperty("备注")
-    @TableField("remark")
-    private String remark;
 
 }

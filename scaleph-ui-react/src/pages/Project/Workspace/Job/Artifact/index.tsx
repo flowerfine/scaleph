@@ -1,5 +1,5 @@
 import { Dict } from '@/app.d';
-import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
+import { DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { FlinkArtifactService } from '@/services/project/flinkArtifact.service';
 import { FlinkArtifact } from '@/services/project/typings';
@@ -8,7 +8,7 @@ import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/p
 import { Button, message, Modal, Select, Space, Tooltip } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { history, useAccess, useIntl } from 'umi';
-import FlinkArtifactForm from "./components/FlinkArtifactForm";
+import FlinkArtifactForm from './components/FlinkArtifactForm';
 
 const JobArtifactView: React.FC = () => {
   const intl = useIntl();
@@ -16,63 +16,31 @@ const JobArtifactView: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<FlinkArtifact[]>([]);
-  const [flinkArtifactTypeList, setFlinkArtifactTypeList] = useState<Dict[]>([]);
   const [flinkArtifactFormData, setFlinkArtifactData] = useState<{
     visiable: boolean;
     data: FlinkArtifact;
   }>({ visiable: false, data: {} });
 
-  useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.flinkArtifactType).then((d) => {
-      setFlinkArtifactTypeList(d);
-    });
-  }, []);
-
   const tableColumns: ProColumns<FlinkArtifact>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.dev.artifact.name' }),
+      title: intl.formatMessage({ id: 'pages.project.artifact.name' }),
       dataIndex: 'name',
+      width: 240,
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.artifact.type' }),
-      dataIndex: 'type',
-      render: (text, record, index) => {
-        return record.type?.label;
-      },
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
-        return (
-          <Select
-            showSearch={true}
-            allowClear={true}
-            optionFilterProp="label"
-            filterOption={(input, option) =>
-              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-            }
-          >
-            {flinkArtifactTypeList.map((item) => {
-              return (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        );
-      },
-    },
-    {
-      title: intl.formatMessage({ id: 'pages.dev.remark' }),
+      title: intl.formatMessage({ id: 'pages.project.artifact.remark' }),
       dataIndex: 'remark',
+      width: 240,
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.createTime' }),
+      title: intl.formatMessage({ id: 'pages.project.artifact.createTime' }),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.updateTime' }),
+      title: intl.formatMessage({ id: 'pages.project.artifact.updateTime' }),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
@@ -94,18 +62,19 @@ const JobArtifactView: React.FC = () => {
                   type="link"
                   icon={<UploadOutlined />}
                   onClick={() => {
-                    history.push('/workspace/job/artifact/jar', { id: record.id });
+                    history.push('/workspace/job/artifact/jar', record);
                   }}
                 />
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDownload) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.download.label' })}>
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
                 <Button
                   shape="default"
                   type="link"
                   icon={<EditOutlined />}
                   onClick={() => {
+                    console.log(record);
                     setFlinkArtifactData({ visiable: true, data: record });
                   }}
                 ></Button>
@@ -150,6 +119,7 @@ const JobArtifactView: React.FC = () => {
   return (
     <div>
       <ProTable<FlinkArtifact>
+        headerTitle={intl.formatMessage({ id: 'menu.project.job.artifact' })}
         search={{
           labelWidth: 'auto',
           span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
@@ -173,45 +143,15 @@ const JobArtifactView: React.FC = () => {
                 {intl.formatMessage({ id: 'app.common.operate.new.label' })}
               </Button>
             ),
-            access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
-              <Button
-                key="del"
-                type="default"
-                disabled={selectedRows.length < 1}
-                onClick={() => {
-                  Modal.confirm({
-                    title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                    content: intl.formatMessage({
-                      id: 'app.common.operate.delete.confirm.content',
-                    }),
-                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                    okButtonProps: { danger: true },
-                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
-                    onOk() {
-                      FlinkArtifactService.deleteBatch(selectedRows).then((d) => {
-                        if (d.success) {
-                          message.success(
-                            intl.formatMessage({ id: 'app.common.operate.delete.success' }),
-                          );
-                          actionRef.current?.reload();
-                        }
-                      });
-                    },
-                  });
-                }}
-              >
-                {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
-              </Button>
-            ),
           ],
         }}
         pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
-        rowSelection={{
-          fixed: true,
-          onChange(selectedRowKeys, selectedRows, info) {
-            setSelectedRows(selectedRows);
-          },
-        }}
+        // rowSelection={{
+        //   fixed: true,
+        //   onChange(selectedRowKeys, selectedRows, info) {
+        //     setSelectedRows(selectedRows);
+        //   },
+        // }}
         tableAlertRender={false}
         tableAlertOptionRender={false}
       ></ProTable>
@@ -230,6 +170,5 @@ const JobArtifactView: React.FC = () => {
       )}
     </div>
   );
-  };
-  export default JobArtifactView;
-  
+};
+export default JobArtifactView;

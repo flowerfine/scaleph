@@ -18,23 +18,24 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
+import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifact;
 import cn.sliew.scaleph.dao.mapper.master.flink.FlinkArtifactMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkArtifactService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkArtifactConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactListParam;
+import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
-
-import static cn.sliew.milky.common.check.Ensures.checkState;
 
 @Slf4j
 @Service
@@ -49,7 +50,7 @@ public class FlinkArtifactServiceImpl implements FlinkArtifactService {
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(FlinkArtifact.class)
                         .like(StringUtils.hasText(param.getName()), FlinkArtifact::getName, param.getName())
-                        .eq(param.getType() != null, FlinkArtifact::getType, param.getType()));
+                        .eq(param.getProjectId() != null, FlinkArtifact::getProjectId, param.getProjectId()));
         Page<FlinkArtifactDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         List<FlinkArtifactDTO> dtoList = FlinkArtifactConvert.INSTANCE.toDto(page.getRecords());
@@ -60,7 +61,6 @@ public class FlinkArtifactServiceImpl implements FlinkArtifactService {
     @Override
     public FlinkArtifactDTO selectOne(Long id) {
         final FlinkArtifact record = flinkArtifactMapper.selectById(id);
-        checkState(record != null, () -> "flink artifact not exists for id: " + id);
         return FlinkArtifactConvert.INSTANCE.toDto(record);
     }
 
@@ -77,16 +77,13 @@ public class FlinkArtifactServiceImpl implements FlinkArtifactService {
     }
 
     @Override
-    public int deleteById(Long id) {
-        return flinkArtifactMapper.deleteById(id);
-    }
-
-    @Override
-    public int deleteBatch(List<Long> ids) {
-        if (CollectionUtils.isEmpty(ids)) {
-            return 0;
+    @Transactional(rollbackFor = Exception.class)
+    public int deleteById(Long id) throws ScalephException {
+        FlinkArtifact artifact = flinkArtifactMapper.isUsed(id);
+        if (artifact != null) {
+            throw new ScalephException(I18nUtil.get("response.error.job.artifact.jar"));
         }
-        return flinkArtifactMapper.deleteBatchIds(ids);
+        return flinkArtifactMapper.deleteById(id);
     }
 
 }

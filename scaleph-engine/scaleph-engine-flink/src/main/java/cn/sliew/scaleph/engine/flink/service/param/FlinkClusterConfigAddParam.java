@@ -21,8 +21,10 @@ package cn.sliew.scaleph.engine.flink.service.param;
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfig;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -55,4 +57,10 @@ public class FlinkClusterConfigAddParam {
 
     @ApiModelProperty("备注")
     private String remark;
+
+    public FlinkClusterConfig toDo() {
+        FlinkClusterConfig entity = new FlinkClusterConfig();
+        BeanUtils.copyProperties(this, entity);
+        return entity;
+    }
 }

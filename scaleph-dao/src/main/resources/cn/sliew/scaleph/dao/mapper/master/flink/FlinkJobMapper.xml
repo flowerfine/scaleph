@@ -49,7 +49,7 @@
         <result column="flink_config" property="flinkConfig"/>
         <result column="jars" property="jars"/>
         <association property="flinkArtifactJar"
-                     javaType="cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJarVO">
+                     javaType="cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJar">
             <result column="artifact_jar_id" property="id"/>
             <result column="artifact_jar_version" property="version"/>
             <result column="artifact_jar_flink_version" property="flinkVersion"/>
@@ -59,8 +59,8 @@
             <association property="flinkArtifact"
                          javaType="cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifact">
                 <result column="artifact_id" property="id"/>
+                <result column="project_id" property="projectId"/>
                 <result column="artifact_name" property="name"/>
-                <result column="artifact_type" property="type"/>
                 <result column="artifact_remark" property="remark"/>
             </association>
         </association>

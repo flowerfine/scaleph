@@ -19,13 +19,14 @@
 package cn.sliew.scaleph.engine.flink.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.core.di.service.convert.DiProjectConvert;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifact;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {DiProjectConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FlinkArtifactConvert extends BaseConvert<FlinkArtifact, FlinkArtifactDTO> {
     FlinkArtifactConvert INSTANCE = Mappers.getMapper(FlinkArtifactConvert.class);
 }

@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.flink.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJar;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -26,12 +27,16 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class FlinkArtifactJarUploadParam {
+public class FlinkArtifactJarParam {
+
+    @ApiModelProperty("Flink Artifact Jar ID")
+    private Long id;
 
     @NotNull
     @ApiModelProperty("Flink Artifact ID")
     private Long flinkArtifactId;
 
+    @NotNull
     @ApiModelProperty("Jar 版本")
     private String version;
 
@@ -42,4 +47,18 @@ public class FlinkArtifactJarUploadParam {
     @NotBlank
     @ApiModelProperty("Entry Class")
     private String entryClass;
+
+    @ApiModelProperty("参数")
+    private String jarParams;
+
+    public FlinkArtifactJar toDo() {
+        FlinkArtifactJar jar = new FlinkArtifactJar();
+        jar.setId(this.id);
+        jar.setFlinkArtifactId(this.flinkArtifactId);
+        jar.setVersion(this.getVersion());
+        jar.setFlinkVersion(this.getFlinkVersion());
+        jar.setEntryClass(this.getEntryClass());
+        jar.setJarParams(this.getJarParams());
+        return jar;
+    }
 }

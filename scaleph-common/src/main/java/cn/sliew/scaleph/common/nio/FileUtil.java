@@ -27,7 +27,6 @@ import java.nio.file.attribute.PosixFilePermissions;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.jar.Manifest;
 import java.util.stream.Collectors;
 
 public enum FileUtil {
@@ -179,52 +178,4 @@ public enum FileUtil {
         return Files.list(path).collect(Collectors.toList());
     }
 
-    public static boolean isJarFile(File file) {
-        if (file == null) {
-            return false;
-        }
-        try {
-            JarFile jarFile = new JarFile(file);
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
-    private static String getJarPomProps(File file,String propertiesName) {
-        try (JarFile jarFile = new JarFile(file)) {
-            Enumeration<JarEntry> entris = jarFile.entries();
-            while (entris.hasMoreElements()) {
-                JarEntry jarEntry = entris.nextElement();
-                if (jarEntry.getName().endsWith("pom.properties")) {
-                    InputStream in =  jarFile.getInputStream(jarEntry);
-                    Properties properties = new Properties();
-                    properties.load(in);
-                    return properties.getProperty(propertiesName);
-                }
-            }
-        } catch (IOException e) {
-            return null;
-        }
-        return null;
-    }
-
-    public static String getJarVersion(File file) {
-        return getJarPomProps(file,"version");
-    }
-
-    public static String getJarGroup(File file) {
-        return getJarPomProps(file,"groupId");
-    }
-
-    public static String getJarArtifact(File file) {
-        return getJarPomProps(file,"artifactId");
-    }
-
-    public static void main(String[] args) {
-        File file = new File("/Users/gleiyu/Downloads/flink-1.13.6/lib/log4j-1.2-api-2.17.1.jar");
-        System.out.println(getJarVersion(file));
-        System.out.println(getJarGroup(file));
-        System.out.println(getJarArtifact(file));
-    }
 }
