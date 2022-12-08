@@ -68,7 +68,7 @@ const SinkRedisStepForm: React.FC<ModalFormProps<{
           valueEnum={{
             key: 'key',
             hash: 'hash',
-            list: 'list',
+            listDataSetType: 'list',
             set: 'set',
             zset: 'zset',
           }}

@@ -48,6 +48,7 @@ public class MetaDatasource extends BaseDO {
     @ApiModelProperty(value = "数据源支持的额外属性")
     private String additionalProps;
 
-    @ApiModelProperty(value = "备注描述")
+    @ApiModelProperty(value = "备注")
     private String remark;
+
 }

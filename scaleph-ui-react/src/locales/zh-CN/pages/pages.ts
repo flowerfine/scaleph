@@ -6,6 +6,7 @@ import project from './project';
 import resource from './resource';
 import dev from './dev';
 import dataSource from "./dataSource";
+import stdata from "./stdata";
 export default {
   ...user,
   ...admin,
@@ -15,4 +16,5 @@ export default {
   ...resource,
   ...dev,
   ...dataSource,
+  ...stdata,
 };
