@@ -214,7 +214,7 @@ export type FlinkArtifact = {
 };
 
 export type FlinkArtifactListParam = QueryParam & {
-  projectId?: number;
+  projectId?: number | string;
   name?: string;
 };
 

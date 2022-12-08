@@ -1,21 +1,19 @@
-import { Dict } from '@/app.d';
-import { DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
-import { DictDataService } from '@/services/admin/dictData.service';
+import { PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
 import { FlinkArtifactService } from '@/services/project/flinkArtifact.service';
 import { FlinkArtifact } from '@/services/project/typings';
 import { DeleteOutlined, EditOutlined, UploadOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
-import { Button, message, Modal, Select, Space, Tooltip } from 'antd';
-import { useEffect, useRef, useState } from 'react';
+import { Button, message, Modal, Space, Tooltip } from 'antd';
+import { useRef, useState } from 'react';
 import { history, useAccess, useIntl } from 'umi';
 import FlinkArtifactForm from './components/FlinkArtifactForm';
 
 const JobArtifactView: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
+  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<FlinkArtifact[]>([]);
   const [flinkArtifactFormData, setFlinkArtifactData] = useState<{
     visiable: boolean;
     data: FlinkArtifact;
@@ -129,7 +127,9 @@ const JobArtifactView: React.FC = () => {
         formRef={formRef}
         options={false}
         columns={tableColumns}
-        request={(params, sorter, filter) => FlinkArtifactService.list(params)}
+        request={(params, sorter, filter) =>
+          FlinkArtifactService.list({ ...params, projectId: projectId + '' })
+        }
         toolbar={{
           actions: [
             access.canAccess(PRIVILEGE_CODE.datadevResourceAdd) && (
@@ -146,12 +146,6 @@ const JobArtifactView: React.FC = () => {
           ],
         }}
         pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
-        // rowSelection={{
-        //   fixed: true,
-        //   onChange(selectedRowKeys, selectedRows, info) {
-        //     setSelectedRows(selectedRows);
-        //   },
-        // }}
         tableAlertRender={false}
         tableAlertOptionRender={false}
       ></ProTable>
