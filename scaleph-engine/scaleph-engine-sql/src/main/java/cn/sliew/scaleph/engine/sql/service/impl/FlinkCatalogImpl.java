@@ -1,15 +1,11 @@
 package cn.sliew.scaleph.engine.sql.service.impl;
 
-import cn.sliew.scaleph.engine.sql.service.factory.FlinkMysqlCatalogFactoryOption;
+import cn.sliew.scaleph.engine.sql.service.FlinkCatalogService;
 
-import org.apache.commons.compress.utils.Lists;
-import org.apache.flink.util.Preconditions;
-import org.apache.flink.util.StringUtils;
-import org.apache.flink.util.TemporaryClassLoaderContext;
+import org.apache.flink.connector.jdbc.catalog.JdbcCatalog;
+import org.apache.flink.table.catalog.hive.HiveCatalog;
+import org.apache.flink.table.types.DataType;
 import org.apache.flink.table.catalog.exceptions.TableNotExistException;
-import org.apache.flink.table.catalog.stats.CatalogColumnStatistics;
-import org.apache.flink.table.catalog.stats.CatalogTableStatistics;
-import org.apache.flink.table.expressions.Expression;
 
 import org.apache.flink.table.api.*;
 import org.apache.flink.table.catalog.*;
@@ -22,45 +18,74 @@ import java.util.function.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FlinkCatalogImpl extends AbstractCatalog {
+import javax.annotation.Nullable;
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+public class FlinkCatalogImpl implements FlinkCatalogService {
 
     String catalogName = "my_catalog";
 
-    protected static final String defaultDatabase = "default_database";
+    Catalog currentCatalog;
+
+    String catalogType = "";
+
+    protected static class ObjectType {
+        /**
+         * 数据库
+         */
+        public static final String DATABASE = "database";
+        /**
+         * 数据表
+         */
+        public static final String TABLE = "TABLE";
+
+        /**
+         * 视图
+         */
+        public static final String VIEW = "VIEW";
+    }
+
+    protected static class CatalogType {
+
+        public static final String INMEMORY = "INMEMORY";
+
+        public static final String HIVE = "HIVE";
+
+        public static final String JDBC = "JDBC";
+    }
+
+    protected String defaultDatabase = "scaleph";
     protected String username = "root";
     protected String password = "password";
     protected String baseUrl = "jdbc:mysql://localhost:3306";
 
+    protected String hiveConfDir = "";
+
     protected ClassLoader userClassLoader;
 
-    private static final Set<String> builtinDatabases = new HashSet<String>() {
-        {
-            this.add("information_schema");
-            this.add("mysql");
-            this.add("performance_schema");
-            this.add("sys");
+    TableEnvironment tableEnv = TableEnvironment.create(EnvironmentSettings.inStreamingMode());
+
+    public FlinkCatalogImpl(String catalogName, String catalogType, HashMap<String,String> properties) {
+        this.catalogName = catalogName;
+        this.catalogType = catalogType;
+        if(catalogType.equalsIgnoreCase(CatalogType.HIVE)){
+            this.hiveConfDir = properties.get("hiveConfDir");
+            currentCatalog = new HiveCatalog(catalogName,defaultDatabase," ");
+        }else if(catalogType.equalsIgnoreCase(CatalogType.INMEMORY)){
+            currentCatalog = tableEnv.getCatalog("default_catalog").get();
+        }else if(catalogType.equalsIgnoreCase(CatalogType.JDBC)){
+            this.baseUrl = properties.get("baseUrl").endsWith("/") ? properties.get("baseUrl") : properties.get("baseUrl") + "/";
+            this.username = properties.get("username");
+            this.password = properties.get("password");
+            this.defaultDatabase = properties.get("defaultDatabase");
+            currentCatalog = new JdbcCatalog(Thread.currentThread().getContextClassLoader(),catalogName,defaultDatabase,username,password,baseUrl);
+        }else{
+            throw new CatalogException("No such catalog type, only allow INMEMORY, HIVE, JDBC");
         }
-    };
-
-    TableEnvironment tableEnv;
-
-    Catalog currentCatalog;
-
-    public FlinkCatalogImpl(String name) {
-        super(name, defaultDatabase);
-        this.baseUrl = FlinkMysqlCatalogFactoryOption.URL.defaultValue();
-        this.username = FlinkMysqlCatalogFactoryOption.USERNAME.defaultValue();
-        this.password = FlinkMysqlCatalogFactoryOption.PASSWORD.defaultValue();
+        tableEnv.registerCatalog(catalogName, currentCatalog);
     }
 
-    public FlinkCatalogImpl(String name, String baseUrl, String username, String password) {
-        super(name, defaultDatabase);
-        this.baseUrl = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
-        this.username = username;
-        this.password = password;
-
+    public void setTableEnv(TableEnvironment tableEnv) {
+        this.tableEnv = tableEnv;
     }
 
     public String getUsername() {
@@ -75,229 +100,176 @@ public class FlinkCatalogImpl extends AbstractCatalog {
         return this.baseUrl;
     }
 
-    @Override
-    public void open() throws CatalogException {
-        TemporaryClassLoaderContext ignored = TemporaryClassLoaderContext.of(this.userClassLoader);
-        Throwable var2 = null;
-
-        try {
-            try {
-                Connection conn = DriverManager.getConnection(this.baseUrl, this.username, this.password);
-                Object var4 = null;
-                if (conn != null) {
-                    if (var4 != null) {
-                        try {
-                            conn.close();
-                        } catch (Throwable var15) {
-                            ((Throwable)var4).addSuppressed(var15);
-                        }
-                    } else {
-                        conn.close();
-                    }
-                }
-            } catch (SQLException var16) {
-                throw new ValidationException(String.format("Failed connecting to %s via JDBC.", this.baseUrl), var16);
-            }
-
-            logger.info("Catalog {} established connection to {}", this.getName(), this.baseUrl);
-        } catch (Throwable var17) {
-            var2 = var17;
-            throw var17;
-        } finally {
-            if (ignored != null) {
-                if (var2 != null) {
-                    try {
-                        ignored.close();
-                    } catch (Throwable var14) {
-                        var2.addSuppressed(var14);
-                    }
-                } else {
-                    ignored.close();
-                }
-            }
-
-        }
-    }
-
-    @Override
-    public void close() throws CatalogException {
-        logger.info("Catalog {} closing", this.getName());
+    public TableEnvironment getTableEnv() {
+        return tableEnv;
     }
 
     @Override
     public List<String> listDatabases() throws CatalogException {
-        return this.extractColumnValuesBySQL(this.baseUrl, "SELECT `SCHEMA_NAME` FROM `INFORMATION_SCHEMA`.`SCHEMATA`;", 1, (dbName) -> {
-            return !builtinDatabases.contains(dbName);
-        }, new Object[0]);
+//        return currentCatalog.listDatabases();
+        return List.of(tableEnv.listDatabases());
+    }
+
+    @Override
+    public String getCurrentDatabase() throws CatalogException {
+        return tableEnv.getCurrentDatabase();
     }
 
     @Override
     public CatalogDatabase getDatabase(String dbName) throws DatabaseNotExistException, CatalogException {
-        Preconditions.checkState(!StringUtils.isNullOrWhitespaceOnly(dbName), "Database name must not be blank.");
-        if (this.listDatabases().contains(dbName)) {
-            return new CatalogDatabaseImpl(Collections.emptyMap(), (String)null);
-        } else {
-            throw new DatabaseNotExistException(this.getName(), dbName);
-        }
+        return currentCatalog.getDatabase(dbName);
+    }
+
+    @Override
+    public void useDatabase(String dbName){
+        tableEnv.useDatabase(dbName);
     }
 
     @Override
     public boolean databaseExists(String dbName) throws CatalogException {
-        Preconditions.checkArgument(!StringUtils.isNullOrWhitespaceOnly(dbName));
-        return this.listDatabases().contains(dbName);
+        return currentCatalog.databaseExists(dbName);
     }
 
     @Override
-    public void createDatabase(String dbName, CatalogDatabase catalogDatabase, boolean ignoreIfExists) throws DatabaseAlreadyExistException, CatalogException {
-        Preconditions.checkArgument(!StringUtils.isNullOrWhitespaceOnly(dbName));
-        Preconditions.checkNotNull(catalogDatabase);
-        if (databaseExists(dbName)) {
-            if (!ignoreIfExists) {
-                throw new DatabaseAlreadyExistException(getName(), dbName);
-            }
-        } else {
-            // 在这里实现创建库的代码
-            Connection conn = null;
-            try {
-                conn = DriverManager.getConnection(this.baseUrl, this.username, this.password);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            // 启动事务
-            String insertSql = "insert into information_schema.SCHEMATA (catalog_name, schema_name) values(?, ?)";
-            //卡在这
-            try (PreparedStatement stat = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
-                conn.setAutoCommit(false);
-                stat.setString(1, dbName);
-                stat.setString(2, this.catalogName);
-                stat.executeUpdate();
-                ResultSet idRs = stat.getGeneratedKeys();
-                if (idRs.next() && catalogDatabase.getProperties() != null && catalogDatabase.getProperties().size() > 0) {
-                    int id = idRs.getInt(1);
-                    String propInsertSql = "insert into metadata_database_property(database_id, "
-                            + "`key`,`value`) values (?,?,?)";
-                    PreparedStatement pstat = conn.prepareStatement(propInsertSql);
-                    for (Map.Entry<String, String> entry : catalogDatabase.getProperties().entrySet()) {
-                        pstat.setInt(1, id);
-                        pstat.setString(2, entry.getKey());
-                        pstat.setString(3, entry.getValue());
-                        pstat.addBatch();
-                    }
-                    pstat.executeBatch();
-                    pstat.close();
-                }
-                conn.commit();
-            } catch (SQLException e) {
-//                sqlExceptionHappened = true;
-                throw new RuntimeException(e);
-//                logger.error("创建 database 信息失败：", e);
-            }
+    public void createDatabase(String dbName, HashMap<String,String> properties, @Nullable String comment, boolean ignoreIfExists) throws DatabaseAlreadyExistException, CatalogException {
+        CatalogDatabaseImpl catalogDatabase = new CatalogDatabaseImpl(properties,comment);
+        currentCatalog.createDatabase(dbName,catalogDatabase,ignoreIfExists);
+    }
+
+    @Override
+    public void dropDatabase(String dbName, boolean ignoreIfNotExists, boolean cascade) throws DatabaseNotExistException, DatabaseNotEmptyException, CatalogException {
+        currentCatalog.dropDatabase(dbName,ignoreIfNotExists,cascade);
+    }
+
+    @Override
+    public void alterDatabase(String dbName, CatalogDatabase newDatabase, boolean ignoreIfNotExists) throws DatabaseNotExistException, CatalogException {
+        currentCatalog.alterDatabase(dbName,newDatabase,ignoreIfNotExists);
+    }
+
+    @Override
+    public List<String> listCurrentDbTables() throws CatalogException {
+        return List.of(tableEnv.listTables());
+    }
+
+    @Override
+    public List<String> listTables(String dbName) throws DatabaseNotExistException, CatalogException {
+        return currentCatalog.listTables(dbName);
+    }
+
+    @Override
+    public List<String> listCurrentDbViews() throws DatabaseNotExistException, CatalogException {
+        return List.of(tableEnv.listViews());
+    }
+
+    @Override
+    public List<String> listViews(String dbName) throws DatabaseNotExistException, CatalogException {
+        return currentCatalog.listViews(dbName);
+    }
+
+    @Override
+    public CatalogBaseTable getTable(String dbName, String tableName) throws TableNotExistException, CatalogException {
+        ObjectPath objectPath  = new ObjectPath(dbName,tableName);
+        return currentCatalog.getTable(objectPath);
+    }
+
+    @Override
+    public boolean tableExists(String dbName, String tableName) throws CatalogException {
+        ObjectPath objectPath  = new ObjectPath(dbName,tableName);
+        return currentCatalog.tableExists(objectPath);
+    }
+
+    @Override
+    public void dropTable(String dbName, String tableName, boolean ignoreIfNotExists) throws TableNotExistException, CatalogException {
+        ObjectPath objectPath  = new ObjectPath(dbName,tableName);
+        System.out.println(objectPath.getFullName());
+        tableEnv.dropTemporaryTable(objectPath.getFullName());
+//        currentCatalog.dropTable(objectPath,ignoreIfNotExists);
+    }
+
+    @Override
+    public void renameTable(String dbName, String tableName, String newTableName, boolean ignoreIfNotExists) throws TableNotExistException, TableAlreadyExistException, CatalogException {
+        ObjectPath objectPath  = new ObjectPath(dbName,tableName);
+        currentCatalog.renameTable(objectPath, newTableName,ignoreIfNotExists);
+    }
+
+    @Override
+    public void createTable(String dbName, String tableName, HashMap<String,String> fieldKeyValue, boolean ignoreIfExists) throws TableAlreadyExistException, DatabaseNotExistException, CatalogException {
+        List<String> fields = new ArrayList<>(fieldKeyValue.keySet()) ;
+        List<String> fieldsType_S = new ArrayList<>(fieldKeyValue.values());
+        List<DataType> fieldsType= new ArrayList<>();
+        fieldsType_S.forEach((type)->fieldsType.add(dataTypeTranslator(type)));
+        Schema schema = Schema.newBuilder().fromFields(fields,fieldsType).build();
+//        if(catalogType )
+        if(catalogType.equalsIgnoreCase("INMEMORY")){
+            TableDescriptor tableDescriptor = TableDescriptor.forManaged().schema(schema).build();
+            ObjectPath objectPath  = new ObjectPath(dbName,tableName);
+            tableEnv.createTable(objectPath.getFullName(),tableDescriptor);
+        }else{
+            ObjectPath objectPath  = new ObjectPath(dbName,tableName);
+            CatalogBaseTable catalogBaseTable = CatalogTable.of(schema,"comment",new ArrayList<>(),new HashMap<>());
+            TableDescriptor tableDescriptor = TableDescriptor.forManaged().schema(schema).build();
+
+            currentCatalog.createTable(objectPath,tableDescriptor.toCatalogTable(),ignoreIfExists);
         }
     }
 
     @Override
-    public void dropDatabase(String s, boolean b, boolean b1) throws DatabaseNotExistException, DatabaseNotEmptyException, CatalogException {
+    public void alterTable(String dbName, String tableName, CatalogBaseTable catalogBaseTable, boolean ignoreIfNotExists) throws TableNotExistException, CatalogException {
+        ObjectPath objectPath  = new ObjectPath(dbName,tableName);
+        currentCatalog.alterTable(objectPath,catalogBaseTable,ignoreIfNotExists);
 
     }
 
     @Override
-    public void alterDatabase(String s, CatalogDatabase catalogDatabase, boolean b) throws DatabaseNotExistException, CatalogException {
-
+    public List<CatalogPartitionSpec> listPartitions(String dbName, String tableName) throws TableNotExistException, TableNotPartitionedException, CatalogException {
+        ObjectPath objectPath  = new ObjectPath(dbName,tableName);
+        return currentCatalog.listPartitions(objectPath);
     }
 
     @Override
-    public List<String> listTables(String databaseName) throws DatabaseNotExistException, CatalogException {
-        Preconditions.checkState(org.apache.commons.lang3.StringUtils.isNotBlank(databaseName), "Database name must not be blank.");
-        if (!this.databaseExists(databaseName)) {
-            throw new DatabaseNotExistException(this.getName(), databaseName);
-        } else {
-            return this.extractColumnValuesBySQL(this.baseUrl + databaseName, "SELECT TABLE_NAME FROM information_schema.`TABLES` WHERE TABLE_SCHEMA = ?", 1, (Predicate)null, new Object[]{databaseName});
-        }
+    public List<CatalogPartitionSpec> listPartitions(String dbName, String tableName, CatalogPartitionSpec catalogPartitionSpec) throws TableNotExistException, TableNotPartitionedException, PartitionSpecInvalidException, CatalogException {
+        ObjectPath objectPath  = new ObjectPath(dbName,tableName);
+        return currentCatalog.listPartitions(objectPath,catalogPartitionSpec);
     }
 
     @Override
-    public List<String> listViews(String s) throws DatabaseNotExistException, CatalogException {
-        return null;
+    public CatalogPartition getPartition(String dbName, String tableName, CatalogPartitionSpec catalogPartitionSpec) throws PartitionNotExistException, CatalogException {
+        ObjectPath objectPath  = new ObjectPath(dbName,tableName);
+        return currentCatalog.getPartition(objectPath,catalogPartitionSpec);
     }
 
     @Override
-    public CatalogBaseTable getTable(ObjectPath objectPath) throws TableNotExistException, CatalogException {
-        return null;
+    public boolean partitionExists(String dbName, String tableName, CatalogPartitionSpec catalogPartitionSpec) throws CatalogException {
+        ObjectPath objectPath  = new ObjectPath(dbName,tableName);
+        return currentCatalog.partitionExists(objectPath,catalogPartitionSpec);
     }
 
     @Override
-    public boolean tableExists(ObjectPath objectPath) throws CatalogException {
-        return false;
+    public void createPartition(String dbName, String tableName, CatalogPartitionSpec catalogPartitionSpec, CatalogPartition catalogPartition, boolean ignoreIfExists) throws TableNotExistException, TableNotPartitionedException, PartitionSpecInvalidException, PartitionAlreadyExistsException, CatalogException {
+        ObjectPath objectPath  = new ObjectPath(dbName,tableName);
+        currentCatalog.createPartition(objectPath,catalogPartitionSpec,catalogPartition,ignoreIfExists);
     }
 
     @Override
-    public void dropTable(ObjectPath objectPath, boolean b) throws TableNotExistException, CatalogException {
-
+    public void dropPartition(String dbName, String tableName, CatalogPartitionSpec catalogPartitionSpec, boolean ignoreIfNotExists) throws PartitionNotExistException, CatalogException {
+        ObjectPath objectPath  = new ObjectPath(dbName,tableName);
+        currentCatalog.dropPartition(objectPath,catalogPartitionSpec,ignoreIfNotExists);
     }
 
     @Override
-    public void renameTable(ObjectPath objectPath, String s, boolean b) throws TableNotExistException, TableAlreadyExistException, CatalogException {
-
+    public void alterPartition(String dbName, String tableName, CatalogPartitionSpec catalogPartitionSpec, CatalogPartition catalogPartition, boolean ignoreIfNotExists) throws PartitionNotExistException, CatalogException {
+        ObjectPath objectPath  = new ObjectPath(dbName,tableName);
+        currentCatalog.alterPartition(objectPath,catalogPartitionSpec,catalogPartition,ignoreIfNotExists);
     }
 
     @Override
-    public void createTable(ObjectPath objectPath, CatalogBaseTable catalogBaseTable, boolean b) throws TableAlreadyExistException, DatabaseNotExistException, CatalogException {
-
-    }
-
-    @Override
-    public void alterTable(ObjectPath objectPath, CatalogBaseTable catalogBaseTable, boolean b) throws TableNotExistException, CatalogException {
-
-    }
-
-    @Override
-    public List<CatalogPartitionSpec> listPartitions(ObjectPath objectPath) throws TableNotExistException, TableNotPartitionedException, CatalogException {
-        return null;
-    }
-
-    @Override
-    public List<CatalogPartitionSpec> listPartitions(ObjectPath objectPath, CatalogPartitionSpec catalogPartitionSpec) throws TableNotExistException, TableNotPartitionedException, PartitionSpecInvalidException, CatalogException {
-        return null;
-    }
-
-    @Override
-    public List<CatalogPartitionSpec> listPartitionsByFilter(ObjectPath objectPath, List<Expression> list) throws TableNotExistException, TableNotPartitionedException, CatalogException {
-        return null;
-    }
-
-    @Override
-    public CatalogPartition getPartition(ObjectPath objectPath, CatalogPartitionSpec catalogPartitionSpec) throws PartitionNotExistException, CatalogException {
-        return null;
-    }
-
-    @Override
-    public boolean partitionExists(ObjectPath objectPath, CatalogPartitionSpec catalogPartitionSpec) throws CatalogException {
-        return false;
-    }
-
-    @Override
-    public void createPartition(ObjectPath objectPath, CatalogPartitionSpec catalogPartitionSpec, CatalogPartition catalogPartition, boolean b) throws TableNotExistException, TableNotPartitionedException, PartitionSpecInvalidException, PartitionAlreadyExistsException, CatalogException {
-
-    }
-
-    @Override
-    public void dropPartition(ObjectPath objectPath, CatalogPartitionSpec catalogPartitionSpec, boolean b) throws PartitionNotExistException, CatalogException {
-
-    }
-
-    @Override
-    public void alterPartition(ObjectPath objectPath, CatalogPartitionSpec catalogPartitionSpec, CatalogPartition catalogPartition, boolean b) throws PartitionNotExistException, CatalogException {
-
-    }
-
-    @Override
-    public List<String> listFunctions(String s) throws DatabaseNotExistException, CatalogException {
-        return null;
+    public List<String> listFunctions(String dbName) throws DatabaseNotExistException, CatalogException {
+        return currentCatalog.listFunctions(dbName);
     }
 
     @Override
     public CatalogFunction getFunction(ObjectPath objectPath) throws FunctionNotExistException, CatalogException {
-        return null;
+        return currentCatalog.getFunction(objectPath);
     }
 
     @Override
@@ -320,111 +292,12 @@ public class FlinkCatalogImpl extends AbstractCatalog {
 
     }
 
-    @Override
-    public CatalogTableStatistics getTableStatistics(ObjectPath objectPath) throws TableNotExistException, CatalogException {
-        return null;
-    }
+    private DataType dataTypeTranslator(String dataType){
 
-    @Override
-    public CatalogColumnStatistics getTableColumnStatistics(ObjectPath objectPath) throws TableNotExistException, CatalogException {
-        return null;
-    }
-
-    @Override
-    public CatalogTableStatistics getPartitionStatistics(ObjectPath objectPath, CatalogPartitionSpec catalogPartitionSpec) throws PartitionNotExistException, CatalogException {
-        return null;
-    }
-
-    @Override
-    public CatalogColumnStatistics getPartitionColumnStatistics(ObjectPath objectPath, CatalogPartitionSpec catalogPartitionSpec) throws PartitionNotExistException, CatalogException {
-        return null;
-    }
-
-    @Override
-    public void alterTableStatistics(ObjectPath objectPath, CatalogTableStatistics catalogTableStatistics, boolean b) throws TableNotExistException, CatalogException {
-
-    }
-
-    @Override
-    public void alterTableColumnStatistics(ObjectPath objectPath, CatalogColumnStatistics catalogColumnStatistics, boolean b) throws TableNotExistException, CatalogException, TablePartitionedException {
-
-    }
-
-    @Override
-    public void alterPartitionStatistics(ObjectPath objectPath, CatalogPartitionSpec catalogPartitionSpec, CatalogTableStatistics catalogTableStatistics, boolean b) throws PartitionNotExistException, CatalogException {
-
-    }
-
-    @Override
-    public void alterPartitionColumnStatistics(ObjectPath objectPath, CatalogPartitionSpec catalogPartitionSpec, CatalogColumnStatistics catalogColumnStatistics, boolean b) throws PartitionNotExistException, CatalogException {
-
-    }
-
-    protected List<String> extractColumnValuesBySQL(String connUrl, String sql, int columnIndex, Predicate<String> filterFunc, Object... params) {
-        List<String> columnValues = Lists.newArrayList();
-
-        try {
-            Connection conn = DriverManager.getConnection(connUrl, this.username, this.password);
-            Throwable var8 = null;
-
-            try {
-                PreparedStatement ps = conn.prepareStatement(sql);
-                Throwable var10 = null;
-
-                try {
-                    if (Objects.nonNull(params) && params.length > 0) {
-                        for(int i = 0; i < params.length; ++i) {
-                            ps.setObject(i + 1, params[i]);
-                        }
-                    }
-
-                    ResultSet rs = ps.executeQuery();
-
-                    while(rs.next()) {
-                        String columnValue = rs.getString(columnIndex);
-                        if (Objects.isNull(filterFunc) || filterFunc.test(columnValue)) {
-                            columnValues.add(columnValue);
-                        }
-                    }
-
-                    ArrayList var43 = (ArrayList) columnValues;
-                    return var43;
-                } catch (Throwable var37) {
-                    var10 = var37;
-                    throw var37;
-                } finally {
-                    if (ps != null) {
-                        if (var10 != null) {
-                            try {
-                                ps.close();
-                            } catch (Throwable var36) {
-                                var10.addSuppressed(var36);
-                            }
-                        } else {
-                            ps.close();
-                        }
-                    }
-
-                }
-            } catch (Throwable var39) {
-                var8 = var39;
-                throw var39;
-            } finally {
-                if (conn != null) {
-                    if (var8 != null) {
-                        try {
-                            conn.close();
-                        } catch (Throwable var35) {
-                            var8.addSuppressed(var35);
-                        }
-                    } else {
-                        conn.close();
-                    }
-                }
-
-            }
-        } catch (Exception var41) {
-            throw new CatalogException(String.format("The following SQL query could not be executed (%s): %s", connUrl, sql), var41);
+        dataType = dataType.toUpperCase();
+        if(dataType.equals("BIGINT")){
+            return DataTypes.BIGINT();
         }
+        return DataTypes.VARCHAR(42);
     }
 }
