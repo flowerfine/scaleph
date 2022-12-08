@@ -1,8 +1,7 @@
 export default {
-  //scaleph
   'menu.studio': '工作台',
   'menu.studio.databoard': '数据看板',
-  'menu.studio.project': '项目管理',
+
   'menu.project': '项目',
   'menu.project.job': '作业管理',
   'menu.project.job.list': '作业列表',
@@ -12,18 +11,6 @@ export default {
   'menu.project.cluster': '集群管理',
   'menu.project.cluster.config': '集群配置',
   'menu.project.cluster.instance': '集群实例',
-
-  'menu.di': '数据集成',
-  'menu.di.datasource': '数据源',
-  'menu.di.job': '集成作业',
-  'menu.dev': '数据开发',
-  'menu.dev.artifact': 'Artifact',
-  'menu.dev.clusterConfig': '集群配置',
-  'menu.dev.clusterConfigOptions': '集群配置选项',
-  'menu.dev.clusterInstance': '集群实例',
-  'menu.dev.jobDetail': '任务详情',
-  'menu.dev.jobForJar': 'Jar 任务',
-  'menu.dev.jobForSeaTunnel': 'SeaTunnel 任务',
 
   'menu.resource': '资源',
   'menu.resource.jar': '公共 Jar',

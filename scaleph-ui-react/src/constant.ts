@@ -56,48 +56,54 @@ export const WORKSPACE_CONF = {
 }
 
 export const PRIVILEGE_CODE = {
-  // studio
   studioShow: 'psdo0',
   studioDataBoardShow: 'psdb0',
 
-  // project
   projectShow: 'pddp0',
+  datadevProjectSelect: 'pddp4',
+  datadevProjectAdd: 'pddp1',
+  datadevProjectDelete: 'pddp3',
+  datadevProjectEdit: 'pddp2',
 
-  // todo flink code
-  flinkShow: 'pflink0',
-  flinkReleaseShow: 'pflinkr0',
+  workspaceShow: 'pdev0',
+  workspaceJobShow: 'pddj0',
+  workspaceJobDetailShow: 'pddj0',
+  workspaceJobArtifactShow: 'pddj0',
+  workspaceJobArtifactJarShow: 'pddj0',
+  workspaceJobSqlShow: 'pddj0',
+  workspaceJobSeaTunnelShow: 'pddj0',
+  workspaceClusterShow: 'pddj0',
+  workspaceClusterConfigShow: 'pddj0',
+  workspaceClusterConfigOptionsShow: 'pddj0',
+  workspaceClusterInstanceShow: 'pddj0',
 
+  resourceShow: 'pddj0',
+  resourceJarShow: 'pddj0',
+  resourceFlinkReleaseShow: 'pddj0',
+  resourceSeaTunnelReleaseShow: 'pddj0',
+  resourceKerberosShow: 'pddj0',
+  resourceClusterCredentialShow: 'pddj0',
 
-
-
-  datadevShow: 'pdev0',
-  datadevDatasourceShow: 'pdts0',
-
-  datadevResourceShow: 'pdde0',
-  datadevJobShow: 'pddj0',
-  datadevClusterShow: 'pddc0',
-  opscenterShow: 'popc0',
-  opscenterBatchShow: 'pobt0',
-  opscenterRealtimeShow: 'port0',
-  stdataShow: 'pstd0',
-  stdataRefDataShow: 'pstr0',
-  stdataRefDataMapShow: 'pstm0',
-  stdataDataElementShow: 'pste0',
-  stdataSystemShow: 'psts0',
-  adminShow: 'padm0',
-  userShow: 'pusr0',
-  privilegeShow: 'ppvg0',
-  dictShow: 'pdic0',
-  settingShow: 'pset0',
+  dataSourceShow: 'pddj0',
   datadevDatasourceSelect: 'pdts4',
   datadevDatasourceAdd: 'pdts1',
   datadevDatasourceDelete: 'pdts3',
   datadevDatasourceEdit: 'pdts2',
   datadevDatasourceSecurity: 'pdts6',
-  datadevProjectSelect: 'pddp4',
-  datadevProjectAdd: 'pddp1',
-  datadevProjectDelete: 'pddp3',
-  datadevProjectEdit: 'pddp2',
+
+  stdataShow: 'pstd0',
+  stdataRefDataShow: 'pstr0',
+  stdataRefDataMapShow: 'pstm0',
+  stdataDataElementShow: 'pste0',
+  stdataSystemShow: 'psts0',
+
+  adminShow: 'padm0',
+  userShow: 'pusr0',
+  privilegeShow: 'ppvg0',
+  workflowQuartzShow: 'ppvg0',
+  dictShow: 'pdic0',
+  settingShow: 'pset0',
+
   datadevResourceSelect: 'pdde4',
   datadevResourceAdd: 'pdde1',
   datadevResourceDelete: 'pdde3',

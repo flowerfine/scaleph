@@ -55,7 +55,7 @@ const Project: React.FC = () => {
       render: (_, record) => (
         <>
           <Space>
-            {access.canAccess(PRIVILEGE_CODE.datadevJobShow) && (
+            {access.canAccess(PRIVILEGE_CODE.workspaceJobShow) && (
               <Tooltip title={intl.formatMessage({ id: 'pages.project.open' })}>
                 <Button
                   shape="default"
