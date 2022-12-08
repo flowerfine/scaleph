@@ -181,7 +181,7 @@ public class FlinkCatalogImpl implements FlinkCatalogService {
     @Override
     public void dropTable(String dbName, String tableName, boolean ignoreIfNotExists) throws TableNotExistException, CatalogException {
         ObjectPath objectPath  = new ObjectPath(dbName,tableName);
-        System.out.println(objectPath.getFullName());
+//        System.out.println(objectPath.getFullName());
         tableEnv.dropTemporaryTable(objectPath.getFullName());
 //        currentCatalog.dropTable(objectPath,ignoreIfNotExists);
     }
@@ -194,23 +194,23 @@ public class FlinkCatalogImpl implements FlinkCatalogService {
 
     @Override
     public void createTable(String dbName, String tableName, HashMap<String,String> fieldKeyValue, boolean ignoreIfExists) throws TableAlreadyExistException, DatabaseNotExistException, CatalogException {
-        List<String> fields = new ArrayList<>(fieldKeyValue.keySet()) ;
-        List<String> fieldsType_S = new ArrayList<>(fieldKeyValue.values());
-        List<DataType> fieldsType= new ArrayList<>();
-        fieldsType_S.forEach((type)->fieldsType.add(dataTypeTranslator(type)));
-        Schema schema = Schema.newBuilder().fromFields(fields,fieldsType).build();
-//        if(catalogType )
-        if(catalogType.equalsIgnoreCase("INMEMORY")){
-            TableDescriptor tableDescriptor = TableDescriptor.forManaged().schema(schema).build();
-            ObjectPath objectPath  = new ObjectPath(dbName,tableName);
-            tableEnv.createTable(objectPath.getFullName(),tableDescriptor);
-        }else{
-            ObjectPath objectPath  = new ObjectPath(dbName,tableName);
-            CatalogBaseTable catalogBaseTable = CatalogTable.of(schema,"comment",new ArrayList<>(),new HashMap<>());
-            TableDescriptor tableDescriptor = TableDescriptor.forManaged().schema(schema).build();
-
-            currentCatalog.createTable(objectPath,tableDescriptor.toCatalogTable(),ignoreIfExists);
-        }
+//        List<String> fields = new ArrayList<>(fieldKeyValue.keySet()) ;
+//        List<String> fieldsType_S = new ArrayList<>(fieldKeyValue.values());
+//        List<DataType> fieldsType= new ArrayList<>();
+//        fieldsType_S.forEach((type)->fieldsType.add(dataTypeTranslator(type)));
+//        Schema schema = Schema.newBuilder().fromFields(fields,fieldsType).build();
+////        if(catalogType )
+//        if(catalogType.equalsIgnoreCase("INMEMORY")){
+//            TableDescriptor tableDescriptor = TableDescriptor.forManaged().schema(schema).build();
+//            ObjectPath objectPath  = new ObjectPath(dbName,tableName);
+//            tableEnv.createTable(objectPath.getFullName(),tableDescriptor);
+//        }else{
+//            ObjectPath objectPath  = new ObjectPath(dbName,tableName);
+//            CatalogBaseTable catalogBaseTable = CatalogTable.of(schema,"comment",new ArrayList<>(),new HashMap<>());
+//            TableDescriptor tableDescriptor = TableDescriptor.forManaged().schema(schema).build();
+//
+//            currentCatalog.createTable(objectPath,tableDescriptor.toCatalogTable(),ignoreIfExists);
+//        }
     }
 
     @Override
@@ -292,12 +292,12 @@ public class FlinkCatalogImpl implements FlinkCatalogService {
 
     }
 
-    private DataType dataTypeTranslator(String dataType){
-
-        dataType = dataType.toUpperCase();
-        if(dataType.equals("BIGINT")){
-            return DataTypes.BIGINT();
-        }
-        return DataTypes.VARCHAR(42);
-    }
+//    private DataType dataTypeTranslator(String dataType){
+//
+//        dataType = dataType.toUpperCase();
+//        if(dataType.equals("BIGINT")){
+//            return DataTypes.BIGINT();
+//        }
+//        return DataTypes.VARCHAR(42);
+//    }
 }
