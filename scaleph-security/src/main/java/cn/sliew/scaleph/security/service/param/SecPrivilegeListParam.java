@@ -16,43 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.security;
+package cn.sliew.scaleph.security.service.param;
 
-import cn.sliew.scaleph.common.dict.security.ResourceType;
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
+import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * 权限表
- * </p>
- *
- * @author liyu
- */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("sec_privilege")
-@ApiModel(value = "SecPrivilege对象", description = "权限表")
-public class SecPrivilege extends BaseDO {
+public class SecPrivilegeListParam extends PaginationParam {
 
-    private static final long serialVersionUID = 4366151466958631600L;
-
-    @ApiModelProperty(value = "权限标识")
-    private String privilegeCode;
-
-    @ApiModelProperty(value = "权限名称")
+    @ApiModelProperty("privilege name")
     private String privilegeName;
 
-    @ApiModelProperty(value = "资源类型")
-    private ResourceType resourceType;
-
-    @ApiModelProperty(value = "资源路径")
-    private String resourcePath;
-
-    @ApiModelProperty(value = "上级权限id")
-    private Long pid;
 }
