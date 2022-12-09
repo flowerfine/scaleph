@@ -337,6 +337,15 @@ export default [
         access: 'normalRouteFilter',
       },
       {
+        name: 'resource.web',
+        path: '/admin/resource/web',
+        icon: 'team',
+        exact: true,
+        component: './Admin/Resource/Web',
+        pCode: PRIVILEGE_CODE.privilegeShow,
+        access: 'normalRouteFilter',
+      },
+      {
         name: 'privilege',
         path: '/admin/privilege',
         icon: 'team',
