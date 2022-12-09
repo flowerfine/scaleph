@@ -18,22 +18,34 @@
 
 package cn.sliew.scaleph.security.service.param;
 
-import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.common.dict.security.ResourceType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class SecPrivilegeListParam extends PaginationParam {
+@EqualsAndHashCode
+public class SecPrivilegeAddParam {
 
-    @NotNull
-    @ApiModelProperty("上级权限id")
-    private Long pid;
+    @NotBlank
+    @ApiModelProperty(value = "权限标识")
+    private String privilegeCode;
 
-    @ApiModelProperty("privilege name")
+    @NotBlank
+    @ApiModelProperty(value = "权限名称")
     private String privilegeName;
 
+    @NotNull
+    @ApiModelProperty(value = "资源类型")
+    private ResourceType resourceType;
+
+    @ApiModelProperty(value = "资源路径")
+    private String resourcePath;
+
+    @NotNull
+    @ApiModelProperty(value = "上级权限id")
+    private Long pid;
 }

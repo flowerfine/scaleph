@@ -19,7 +19,9 @@
 package cn.sliew.scaleph.security.service;
 
 import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;
+import cn.sliew.scaleph.security.service.param.SecPrivilegeAddParam;
 import cn.sliew.scaleph.security.service.param.SecPrivilegeListParam;
+import cn.sliew.scaleph.security.service.param.SecPrivilegeUpdateParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
@@ -38,9 +40,11 @@ public interface SecPrivilegeService {
 
     List<SecPrivilegeDTO> listAll(String resourceType);
 
-    int insert(SecPrivilegeDTO param);
+    List<SecPrivilegeDTO> listByPid(Long pid);
 
-    int update(SecPrivilegeDTO param);
+    int insert(SecPrivilegeAddParam param);
+
+    int update(Long id, SecPrivilegeUpdateParam param);
 
     int deleteById(Long id);
 

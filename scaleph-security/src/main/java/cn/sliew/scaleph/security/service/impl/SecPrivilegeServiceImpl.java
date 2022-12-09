@@ -19,17 +19,21 @@
 package cn.sliew.scaleph.security.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.security.SecPrivilege;
 import cn.sliew.scaleph.dao.mapper.master.security.SecPrivilegeMapper;
 import cn.sliew.scaleph.security.service.SecPrivilegeService;
 import cn.sliew.scaleph.security.service.convert.SecPrivilegeConvert;
 import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;
+import cn.sliew.scaleph.security.service.param.SecPrivilegeAddParam;
 import cn.sliew.scaleph.security.service.param.SecPrivilegeListParam;
+import cn.sliew.scaleph.security.service.param.SecPrivilegeUpdateParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -52,12 +56,22 @@ public class SecPrivilegeServiceImpl implements SecPrivilegeService {
     public Page<SecPrivilegeDTO> listByPage(SecPrivilegeListParam param) {
         Page<SecPrivilege> page = new Page<>(param.getCurrent(), param.getPageSize());
         LambdaQueryWrapper<SecPrivilege> queryWrapper = Wrappers.lambdaQuery(SecPrivilege.class)
+                .eq(SecPrivilege::getPid, param.getPid())
                 .like(StringUtils.hasText(param.getPrivilegeName()), SecPrivilege::getPrivilegeName, param.getPrivilegeName());
         Page<SecPrivilege> list = secPrivilegeMapper.selectPage(page, queryWrapper);
         Page<SecPrivilegeDTO> result = new Page<>(list.getCurrent(), list.getSize(), list.getTotal());
         List<SecPrivilegeDTO> dtoList = SecPrivilegeConvert.INSTANCE.toDto(list.getRecords());
+        dtoList.forEach(this::recurse);
         result.setRecords(dtoList);
         return result;
+    }
+
+    private void recurse(SecPrivilegeDTO privilege) {
+        List<SecPrivilegeDTO> children = listByPid(privilege.getId());
+        if (CollectionUtils.isEmpty(children) == false) {
+            privilege.setChildren(children);
+            children.forEach(this::recurse);
+        }
     }
 
     @Override
@@ -68,14 +82,23 @@ public class SecPrivilegeServiceImpl implements SecPrivilegeService {
     }
 
     @Override
-    public int insert(SecPrivilegeDTO param) {
-        SecPrivilege record = SecPrivilegeConvert.INSTANCE.toDo(param);
+    public List<SecPrivilegeDTO> listByPid(Long pid) {
+        LambdaQueryWrapper<SecPrivilege> queryWrapper = Wrappers.lambdaQuery(SecPrivilege.class)
+                .eq(SecPrivilege::getPid, pid);
+        List<SecPrivilege> list = secPrivilegeMapper.selectList(queryWrapper);
+        return SecPrivilegeConvert.INSTANCE.toDto(list);
+    }
+
+    @Override
+    public int insert(SecPrivilegeAddParam param) {
+        SecPrivilege record = BeanUtil.copy(param, new SecPrivilege());
         return secPrivilegeMapper.insert(record);
     }
 
     @Override
-    public int update(SecPrivilegeDTO param) {
-        SecPrivilege record = SecPrivilegeConvert.INSTANCE.toDo(param);
+    public int update(Long id, SecPrivilegeUpdateParam param) {
+        SecPrivilege record = BeanUtil.copy(param, new SecPrivilege());
+        record.setId(id);
         return secPrivilegeMapper.updateById(record);
     }
 
