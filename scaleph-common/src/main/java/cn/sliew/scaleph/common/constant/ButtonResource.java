@@ -21,5 +21,10 @@ package cn.sliew.scaleph.common.constant;
 public enum ButtonResource {
     ;
 
+    public static Route PROJECT_ADD = new Route(200000, "创建项目", PageCode.PROJECT_LIST, "/project", PageResource.PROJECT_LIST);
+    public static Route PROJECT_EDIT = new Route(200000, "修改项目", PageCode.PROJECT_LIST, "/project", PageResource.PROJECT_LIST);
+    public static Route PROJECT_DELETE = new Route(200000, "删除项目", PageCode.PROJECT_LIST, "/project", PageResource.PROJECT_LIST);
+    public static Route PROJECT_VIEW = new Route(200000, "进入项目", PageCode.PROJECT_LIST, "/project", PageResource.PROJECT_LIST);
+
 
 }
