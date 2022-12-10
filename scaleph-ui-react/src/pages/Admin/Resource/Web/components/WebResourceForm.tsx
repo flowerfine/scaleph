@@ -66,7 +66,14 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecPrivilege>> = ({
         submitter={false}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
-        initialValues={data}
+        initialValues={{
+          id: data.id,
+          pid: data.pid,
+          privilegeName: data.privilegeName,
+          privilegeCode: data.privilegeCode,
+          resourceType: data.resourceType?.value,
+          resourcePath: data.resourcePath
+        }}
       >
         <ProFormDigit name="id" hidden/>
         <ProFormText

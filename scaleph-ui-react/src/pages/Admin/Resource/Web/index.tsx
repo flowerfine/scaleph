@@ -1,7 +1,7 @@
 import {useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
-import {DeleteOutlined, EditOutlined, FolderOpenOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined, FolderOpenOutlined, PlusOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {isEmpty} from "lodash";
 import {PRIVILEGE_CODE} from "@/constant";
@@ -79,11 +79,11 @@ const WebResourceWeb: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.new.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<FolderOpenOutlined/>}
+                  icon={<PlusOutlined />}
                   onClick={() => setWebResourceFormData({visiable: true, parent: record, data: {}})}
                 ></Button>
               </Tooltip>
