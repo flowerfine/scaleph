@@ -16,22 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.service.convert;
+package cn.sliew.scaleph.common.constant;
 
-import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.security.SecPrivilege;
-import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-/**
- * @author gleiyu
- */
-@Mapper
-public interface SecPrivilegeConvert extends BaseConvert<SecPrivilege, SecPrivilegeDTO> {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Route {
 
-    SecPrivilegeConvert INSTANCE = Mappers.getMapper(SecPrivilegeConvert.class);
-
-    @Override
-    SecPrivilegeDTO toDto(SecPrivilege entity);
+    private long id;
+    private String name;
+    private String code;
+    private String path;
+    private Route parent;
 }

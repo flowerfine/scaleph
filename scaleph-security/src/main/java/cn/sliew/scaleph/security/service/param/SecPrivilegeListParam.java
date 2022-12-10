@@ -16,22 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.service.convert;
+package cn.sliew.scaleph.security.service.param;
 
-import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.security.SecPrivilege;
-import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-/**
- * @author gleiyu
- */
-@Mapper
-public interface SecPrivilegeConvert extends BaseConvert<SecPrivilege, SecPrivilegeDTO> {
+import javax.validation.constraints.NotNull;
 
-    SecPrivilegeConvert INSTANCE = Mappers.getMapper(SecPrivilegeConvert.class);
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class SecPrivilegeListParam extends PaginationParam {
 
-    @Override
-    SecPrivilegeDTO toDto(SecPrivilege entity);
+    @NotNull
+    @ApiModelProperty("上级权限id")
+    private Long pid;
+
+    @ApiModelProperty("privilege name")
+    private String privilegeName;
+
 }

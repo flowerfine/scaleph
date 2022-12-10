@@ -92,12 +92,34 @@ export type SecUserParam = QueryParam & {
 };
 
 export type SecPrivilege = {
-  id?: number;
+  id: number;
   privilegeCode?: string;
   privilegeName: string;
   resourceType: Dict;
   resourcePath: string;
   pid: number;
+  children?: SecPrivilege[]
+};
+
+export type SecPrivilegeParam = QueryParam & {
+  pid: number;
+  privilegeName?: string;
+};
+
+export type SecPrivilegeAddParam = {
+  privilegeCode: string;
+  privilegeName: string;
+  resourceType: string;
+  resourcePath?: string;
+  pid: number;
+};
+
+export type SecPrivilegeUpdateParam = {
+  id: number;
+  privilegeCode?: string;
+  privilegeName?: string;
+  resourceType?: string;
+  resourcePath?: string;
 };
 
 export type SecPrivilegeTreeNode = {

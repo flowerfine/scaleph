@@ -47,39 +47,39 @@ export default [
     name: 'project',
     path: '/project',
     icon: 'project',
-    pCode: PRIVILEGE_CODE.datadevProjectShow,
+    pCode: PRIVILEGE_CODE.projectShow,
     routes: [
       {
         path: '/project',
         exact: true,
         component: './Project',
-        pCode: PRIVILEGE_CODE.datadevProjectShow,
-        access: 'normalRouteFilter',
+        pCode: PRIVILEGE_CODE.projectShow,
+        access: 'normalRouteFilter'
       },
     ],
   },
   {
     path: '/workspace',
-    pCode: PRIVILEGE_CODE.datadevShow,
+    pCode: PRIVILEGE_CODE.workspaceShow,
     access: 'normalRouteFilter',
     routes: [
       {
         path: '/workspace',
         redirect: '/workspace/job',
-        pCode: PRIVILEGE_CODE.datadevJobShow,
+        pCode: PRIVILEGE_CODE.workspaceJobShow,
         access: 'normalRouteFilter',
       },
       {
         name: 'project.job',
         path: '/workspace/job',
         icon: 'code',
-        pCode: PRIVILEGE_CODE.datadevShow,
+        pCode: PRIVILEGE_CODE.workspaceShow,
         access: 'normalRouteFilter',
         routes: [
           {
             path: '/workspace/job',
             redirect: '/workspace/job/list',
-            pCode: PRIVILEGE_CODE.datadevJobShow,
+            pCode: PRIVILEGE_CODE.workspaceJobShow,
             access: 'normalRouteFilter',
           },
           {
@@ -87,54 +87,54 @@ export default [
             path: '/workspace/job/list',
             exact: true,
             component: './Project/Workspace/Job',
-            pCode: PRIVILEGE_CODE.datadevJobShow,
+            pCode: PRIVILEGE_CODE.workspaceJobShow,
             access: 'normalRouteFilter',
           },
           {
             path: '/workspace/job/detail',
             exact: true,
             component: './Project/Workspace/Job/Detail',
-            pCode: PRIVILEGE_CODE.datadevJobShow,
-            access: 'normalRouteFilter',
-          },
-          {
-            name: 'seatunnel',
-            path: '/workspace/job/seatunnel',
-            exact: true,
-            component: './Project/Workspace/Job/DI/DiJobView',
-            pCode: PRIVILEGE_CODE.datadevJobShow,
-            access: 'normalRouteFilter',
+            pCode: PRIVILEGE_CODE.workspaceJobDetailShow,
+            access: 'normalRouteFilter'
           },
           {
             name: 'artifact',
             path: '/workspace/job/artifact',
             exact: true,
             component: './Project/Workspace/Job/Artifact',
-            pCode: PRIVILEGE_CODE.datadevJobShow,
-            access: 'normalRouteFilter',
+            pCode: PRIVILEGE_CODE.workspaceJobArtifactShow,
+            access: 'normalRouteFilter'
+          },
+          {
+            path: '/workspace/job/artifact/jar',
+            exact: true,
+            component: './Project/Workspace/Job/Artifact/Jar',
+            pCode: PRIVILEGE_CODE.workspaceJobArtifactJarShow,
+            access: 'normalRouteFilter'
           },
           {
             name: 'sql',
             path: '/workspace/job/sql',
             exact: true,
             component: './Project/Workspace/Job/Sql',
-            pCode: PRIVILEGE_CODE.datadevJobShow,
-            access: 'normalRouteFilter',
+            pCode: PRIVILEGE_CODE.workspaceJobSqlShow,
+            access: 'normalRouteFilter'
           },
           {
-            path: '/workspace/job/artifact/jar',
+            name: 'seatunnel',
+            path: '/workspace/job/seatunnel',
             exact: true,
-            component: './Project/Workspace/Job/Artifact/Jar',
-            pCode: PRIVILEGE_CODE.datadevJobShow,
-            access: 'normalRouteFilter',
-          },
-        ],
+            component: './Project/Workspace/Job/DI/DiJobView',
+            pCode: PRIVILEGE_CODE.workspaceJobSeaTunnelShow,
+            access: 'normalRouteFilter'
+          }
+        ]
       },
       {
         name: 'project.cluster',
         path: '/workspace/cluster',
         icon: 'deploymentUnit',
-        pCode: PRIVILEGE_CODE.datadevShow,
+        pCode: PRIVILEGE_CODE.workspaceClusterShow,
         access: 'normalRouteFilter',
         routes: [
           {
@@ -142,229 +142,119 @@ export default [
             path: '/workspace/cluster/config',
             exact: true,
             component: './Project/Workspace/Cluster/Config',
-            pCode: PRIVILEGE_CODE.datadevJobShow,
-            access: 'normalRouteFilter',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
           },
           {
             path: '/workspace/cluster/config/options',
             exact: true,
             component: './Project/Workspace/Cluster/Config/Options',
-            pCode: PRIVILEGE_CODE.datadevJobShow,
-            access: 'normalRouteFilter',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigOptionsShow,
+            access: 'normalRouteFilter'
           },
           {
             name: 'instance',
             path: '/workspace/cluster/instance',
             exact: true,
             component: './Project/Workspace/Cluster/Instance',
-            pCode: PRIVILEGE_CODE.datadevJobShow,
-            access: 'normalRouteFilter',
-          },
-        ],
-      },
-
-      // {
-      //   name: 'di',
-      //   path: '/workspace/di',
-      //   icon: 'link',
-      //   pCode: PRIVILEGE_CODE.datadevShow,
-      //   access: 'normalRouteFilter',
-      //   routes: [
-      //     {
-      //       name: 'datasource',
-      //       path: '/workspace/di/datasource',
-      //       exact: true,
-      //       component: './DI/DataSource',
-      //       pCode: PRIVILEGE_CODE.datadevDatasourceShow,
-      //       access: 'normalRouteFilter',
-      //     },
-      //     {
-      //       name: 'job',
-      //       path: '/workspace/di/job',
-      //       exact: true,
-      //       component: './DI/DiJobView',
-      //       pCode: PRIVILEGE_CODE.datadevJobShow,
-      //       access: 'normalRouteFilter',
-      //     },
-      //   ],
-      // },
-      // {
-      //   name: 'dev',
-      //   path: '/workspace/dev',
-      //   icon: 'consoleSql',
-      //   pCode: PRIVILEGE_CODE.datadevShow,
-      //   access: 'normalRouteFilter',
-      //   routes: [
-      //     {
-      //       name: 'artifact',
-      //       path: '/workspace/dev/artifact',
-      //       exact: true,
-      //       component: './DEV/Artifact',
-      //       pCode: PRIVILEGE_CODE.datadevDatasourceShow,
-      //       access: 'normalRouteFilter',
-      //     },
-      //     {
-      //       path: '/workspace/dev/artifact/jar',
-      //       exact: true,
-      //       component: './DEV/Artifact/Jar',
-      //       pCode: PRIVILEGE_CODE.datadevDatasourceShow,
-      //       access: 'normalRouteFilter',
-      //     },
-      //     {
-      //       name: 'clusterConfig',
-      //       path: '/workspace/dev/clusterConfig',
-      //       exact: true,
-      //       component: './DEV/ClusterConfig',
-      //       pCode: PRIVILEGE_CODE.datadevDatasourceShow,
-      //       access: 'normalRouteFilter',
-      //     },
-      //     {
-      //       path: '/workspace/dev/clusterConfigOptions',
-      //       exact: true,
-      //       component: './DEV/ClusterConfigOptions',
-      //       pCode: PRIVILEGE_CODE.datadevDatasourceShow,
-      //       access: 'normalRouteFilter',
-      //     },
-      //     {
-      //       name: 'clusterInstance',
-      //       path: '/workspace/dev/clusterInstance',
-      //       exact: true,
-      //       component: './DEV/ClusterInstance',
-      //       pCode: PRIVILEGE_CODE.datadevDatasourceShow,
-      //       access: 'normalRouteFilter',
-      //     },
-      //     {
-      //       name: 'jobForJar',
-      //       path: '/workspace/dev/job/jar',
-      //       exact: true,
-      //       component: './DEV/Job/Jar',
-      //       pCode: PRIVILEGE_CODE.datadevDatasourceShow,
-      //       access: 'normalRouteFilter',
-      //     },
-      //     {
-      //       name: 'jobForSeaTunnel',
-      //       path: '/workspace/dev/job/seatunnel',
-      //       exact: true,
-      //       component: './DEV/Job/SeaTunnel',
-      //       pCode: PRIVILEGE_CODE.datadevDatasourceShow,
-      //       access: 'normalRouteFilter',
-      //     },
-      //     {
-      //       path: '/workspace/dev/job/jar/detail',
-      //       exact: true,
-      //       component: './DEV/Job/Detail',
-      //       pCode: PRIVILEGE_CODE.datadevDatasourceShow,
-      //       access: 'normalRouteFilter',
-      //     },
-      //     {
-      //       path: '/workspace/dev/job/jar/options',
-      //       exact: true,
-      //       component: './DEV/JobConfig/Jar',
-      //       pCode: PRIVILEGE_CODE.datadevDatasourceShow,
-      //       access: 'normalRouteFilter',
-      //     },
-      //     {
-      //       path: '/workspace/dev/job/seatunnel/options',
-      //       exact: true,
-      //       component: './DEV/JobConfig/SeaTunnel',
-      //       pCode: PRIVILEGE_CODE.datadevDatasourceShow,
-      //       access: 'normalRouteFilter',
-      //     },
-      //   ],
-      // },
-    ],
+            pCode: PRIVILEGE_CODE.workspaceClusterInstanceShow,
+            access: 'normalRouteFilter'
+          }
+        ]
+      }
+    ]
   },
   {
     name: 'resource',
     path: '/resource',
     icon: 'fileText',
-    pCode: PRIVILEGE_CODE.datadevResourceShow,
+    pCode: PRIVILEGE_CODE.resourceShow,
     access: 'normalRouteFilter',
     routes: [
       {
         path: '/resource',
         redirect: '/resource/jar',
-        pCode: PRIVILEGE_CODE.stdataShow,
-        access: 'normalRouteFilter',
+        pCode: PRIVILEGE_CODE.resourceJarShow,
+        access: 'normalRouteFilter'
       },
       {
         name: 'jar',
         path: '/resource/jar',
         exact: true,
         component: './Resource/Jar',
-        pCode: PRIVILEGE_CODE.datadevResourceShow,
-        access: 'normalRouteFilter',
+        pCode: PRIVILEGE_CODE.resourceJarShow,
+        access: 'normalRouteFilter'
       },
       {
         name: 'flinkRelease',
         path: '/resource/flink-release',
         exact: true,
         component: './Resource/FlinkRelease',
-        pCode: PRIVILEGE_CODE.datadevResourceShow,
-        access: 'normalRouteFilter',
+        pCode: PRIVILEGE_CODE.resourceFlinkReleaseShow,
+        access: 'normalRouteFilter'
       },
       {
         name: 'seatunnelRelease',
         path: '/resource/seatunnel-release',
         exact: true,
         component: './Resource/SeaTunnelRelease',
-        pCode: PRIVILEGE_CODE.datadevResourceShow,
-        access: 'normalRouteFilter',
+        pCode: PRIVILEGE_CODE.resourceSeaTunnelReleaseShow,
+        access: 'normalRouteFilter'
       },
       {
         path: '/resource/seatunnel-release/connectors',
         exact: true,
         component: './Resource/SeaTunnelConnector',
-        pCode: PRIVILEGE_CODE.datadevDatasourceShow,
-        access: 'normalRouteFilter',
+        pCode: PRIVILEGE_CODE.resourceSeaTunnelReleaseShow,
+        access: 'normalRouteFilter'
       },
       {
         name: 'kerberos',
         path: '/resource/kerberos',
         exact: true,
         component: './Resource/Kerberos',
-        pCode: PRIVILEGE_CODE.datadevResourceShow,
-        access: 'normalRouteFilter',
+        pCode: PRIVILEGE_CODE.resourceKerberosShow,
+        access: 'normalRouteFilter'
       },
       {
         name: 'clusterCredential',
         path: '/resource/cluster-credential',
         exact: true,
         component: './Resource/ClusterCredential',
-        pCode: PRIVILEGE_CODE.datadevResourceShow,
-        access: 'normalRouteFilter',
+        pCode: PRIVILEGE_CODE.resourceClusterCredentialShow,
+        access: 'normalRouteFilter'
       },
       {
         path: '/resource/cluster-credential/file',
         exact: true,
         component: './Resource/CredentialFile',
-        pCode: PRIVILEGE_CODE.datadevDatasourceShow,
-        access: 'normalRouteFilter',
-      },
-    ],
+        pCode: PRIVILEGE_CODE.resourceClusterCredentialShow,
+        access: 'normalRouteFilter'
+      }
+    ]
   },
   {
     name: 'dataSource',
     path: '/dataSource',
     icon: 'compass',
-    pCode: PRIVILEGE_CODE.datadevClusterShow,
+    pCode: PRIVILEGE_CODE.dataSourceShow,
     access: 'normalRouteFilter',
     routes: [
       {
         path: '/dataSource',
         exact: true,
         component: './DataSource',
-        pCode: PRIVILEGE_CODE.datadevClusterShow,
-        access: 'normalRouteFilter',
+        pCode: PRIVILEGE_CODE.dataSourceShow,
+        access: 'normalRouteFilter'
       },
       {
         path: '/dataSource/stepForms',
         exact: true,
         component: './DataSource/StepForms',
-        pCode: PRIVILEGE_CODE.datadevClusterShow,
-        access: 'normalRouteFilter',
-      },
-    ],
+        pCode: PRIVILEGE_CODE.dataSourceShow,
+        access: 'normalRouteFilter'
+      }
+    ]
   },
   {
     name: 'stdata',
@@ -375,9 +265,9 @@ export default [
     routes: [
       {
         path: '/stdata',
-        redirect: '/stdata/dataElement',
+        redirect: '/stdata/system',
         pCode: PRIVILEGE_CODE.stdataShow,
-        access: 'normalRouteFilter',
+        access: 'normalRouteFilter'
       },
       {
         name: 'system',
@@ -386,7 +276,7 @@ export default [
         exact: true,
         component: './Stdata/System',
         pCode: PRIVILEGE_CODE.stdataSystemShow,
-        access: 'normalRouteFilter',
+        access: 'normalRouteFilter'
       },
       {
         name: 'dataElement',
@@ -395,7 +285,7 @@ export default [
         exact: true,
         component: './Stdata/DataElement',
         pCode: PRIVILEGE_CODE.stdataDataElementShow,
-        access: 'normalRouteFilter',
+        access: 'normalRouteFilter'
       },
       {
         name: 'refdata',
@@ -404,14 +294,14 @@ export default [
         exact: true,
         component: './Stdata/RefData',
         pCode: PRIVILEGE_CODE.stdataRefDataShow,
-        access: 'normalRouteFilter',
+        access: 'normalRouteFilter'
       },
       {
         path: '/stdata/refdata/value',
         exact: true,
         component: './Stdata/RefData/Value',
         pCode: PRIVILEGE_CODE.stdataRefDataShow,
-        access: 'normalRouteFilter',
+        access: 'normalRouteFilter'
       },
       {
         name: 'refdataMap',
@@ -420,9 +310,9 @@ export default [
         exact: true,
         component: './Stdata/RefDataMap',
         pCode: PRIVILEGE_CODE.stdataRefDataMapShow,
-        access: 'normalRouteFilter',
+        access: 'normalRouteFilter'
       }
-    ],
+    ]
   },
   {
     name: 'admin',
@@ -447,6 +337,15 @@ export default [
         access: 'normalRouteFilter',
       },
       {
+        name: 'resource.web',
+        path: '/admin/resource/web',
+        icon: 'team',
+        exact: true,
+        component: './Admin/Resource/Web',
+        pCode: PRIVILEGE_CODE.privilegeShow,
+        access: 'normalRouteFilter',
+      },
+      {
         name: 'privilege',
         path: '/admin/privilege',
         icon: 'team',
@@ -461,7 +360,7 @@ export default [
         icon: 'fieldTime',
         exact: true,
         component: './Workflow/Definition/Quartz',
-        pCode: PRIVILEGE_CODE.privilegeShow,
+        pCode: PRIVILEGE_CODE.workflowQuartzShow,
         access: 'normalRouteFilter',
       },
       {

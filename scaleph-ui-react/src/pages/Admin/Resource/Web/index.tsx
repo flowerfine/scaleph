@@ -1,78 +1,69 @@
-import {Dict} from '@/app.d';
-import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
-import {DictDataService} from '@/services/admin/dictData.service';
-import {SeatunnelReleaseService} from '@/services/resource/seatunnelRelease.service';
-import {FlinkRelease, SeaTunnelRelease} from '@/services/resource/typings';
-import {DeleteOutlined, DownloadOutlined, FolderOpenOutlined} from '@ant-design/icons';
-import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
-import {useEffect, useRef, useState} from 'react';
-import {history, useAccess, useIntl} from 'umi';
-import SeaTunnelReleaseForm from './components/SeaTunnelReleaseForm';
+import {useAccess, useIntl} from "umi";
+import React, {useRef, useState} from "react";
+import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
+import {DeleteOutlined, EditOutlined, FolderOpenOutlined, PlusOutlined} from "@ant-design/icons";
+import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {isEmpty} from "lodash";
+import {PRIVILEGE_CODE} from "@/constant";
+import {SecPrivilege} from "@/services/admin/typings";
+import {PrivilegeService} from "@/services/admin/privilege.service";
+import WebResourceForm from "@/pages/Admin/Resource/Web/components/WebResourceForm";
 
-const SeaTunnelReleaseResource: React.FC = () => {
+const WebResourceWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<FlinkRelease[]>([]);
-  const [seatunnelVersionList, setSeatunnelVersionList] = useState<Dict[]>([]);
-  const [seatunnelReleaseFormData, setSeatunnelReleaseData] = useState<{
+  const [selectedRows, setSelectedRows] = useState<SecPrivilege[]>([]);
+  const [webResourceFormData, setWebResourceFormData] = useState<{
     visiable: boolean;
-    data: SeaTunnelRelease;
-  }>({visiable: false, data: {}});
+    parent: SecPrivilege;
+    data: SecPrivilege;
+  }>({visiable: false, parent: {}, data: {}});
 
-  const tableColumns: ProColumns<SeaTunnelRelease>[] = [
+  const onExpand = (expanded: boolean, record: SecPrivilege) => {
+    if (expanded && record.children && isEmpty(record.children)) {
+      PrivilegeService.listByPid(record.id).then((response) => {
+        record.children = response.data
+      })
+    }
+  }
+
+  const tableColumns: ProColumns<SecPrivilege>[] = [
     {
-      title: intl.formatMessage({id: 'pages.resource.seatunnelRelease.version'}),
-      dataIndex: 'version',
-      render: (text, record, index) => {
-        return record.version?.label;
-      },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
-        return (
-          <Select
-            showSearch={true}
-            allowClear={true}
-            optionFilterProp="label"
-            filterOption={(input, option) =>
-              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-            }
-          >
-            {seatunnelVersionList.map((item) => {
-              return (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        );
-      },
+      title: intl.formatMessage({id: 'pages.admin.resource.privilegeName'}),
+      dataIndex: 'privilegeName',
+      width: 200
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.fileName'}),
-      dataIndex: 'fileName',
-      width: 280,
-    },
-    {
-      title: intl.formatMessage({id: 'pages.resource.path'}),
-      dataIndex: 'path',
+      title: intl.formatMessage({id: 'pages.admin.resource.privilegeCode'}),
+      dataIndex: 'privilegeCode',
       hideInSearch: true,
+      width: 200
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.remark'}),
-      dataIndex: 'remark',
+      title: intl.formatMessage({id: 'pages.admin.resource.resourceType'}),
+      dataIndex: 'resourceType',
+      render: (dom, entity) => {
+        return (<Tag>{entity.resourceType?.label}</Tag>)
+      },
       hideInSearch: true,
+      width: 200
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.createTime'}),
+      title: intl.formatMessage({id: 'pages.admin.resource.resourcePath'}),
+      dataIndex: 'resourcePath',
+      hideInSearch: true,
+      width: 200
+    },
+    {
+      title: intl.formatMessage({id: 'pages.stdata.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.updateTime'}),
+      title: intl.formatMessage({id: 'pages.stdata.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
@@ -87,27 +78,23 @@ const SeaTunnelReleaseResource: React.FC = () => {
       render: (_, record) => (
         <>
           <Space>
-            {access.canAccess(PRIVILEGE_CODE.workspaceJobShow) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.upload.label'})}>
+            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.new.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<FolderOpenOutlined/>}
-                  onClick={() => {
-                    history.push('/resource/seatunnel-release/connectors', {id: record.id});
-                  }}
-                />
+                  icon={<PlusOutlined />}
+                  onClick={() => setWebResourceFormData({visiable: true, parent: record, data: {}})}
+                ></Button>
               </Tooltip>
             )}
-            {access.canAccess(PRIVILEGE_CODE.datadevResourceDownload) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.download.label'})}>
+            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DownloadOutlined></DownloadOutlined>}
-                  onClick={() => {
-                    SeatunnelReleaseService.download(record);
-                  }}
+                  icon={<EditOutlined/>}
+                  onClick={() => setWebResourceFormData({visiable: true, parent: {}, data: record})}
                 ></Button>
               </Tooltip>
             )}
@@ -125,7 +112,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        SeatunnelReleaseService.deleteOne(record).then((d) => {
+                        PrivilegeService.deleteOne(record).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
@@ -143,15 +130,9 @@ const SeaTunnelReleaseResource: React.FC = () => {
     },
   ];
 
-  useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.seatunnelVersion).then((d) => {
-      setSeatunnelVersionList(d);
-    });
-  }, []);
-
   return (
     <div>
-      <ProTable<SeaTunnelRelease>
+      <ProTable<SecPrivilege>
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -162,7 +143,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return SeatunnelReleaseService.list(params);
+          return PrivilegeService.listByPage({...params, pid: 0})
         }}
         toolbar={{
           actions: [
@@ -170,8 +151,9 @@ const SeaTunnelReleaseResource: React.FC = () => {
               <Button
                 key="new"
                 type="primary"
-                onClick={() => setSeatunnelReleaseData({visiable: true, data: {}})}>
-                {intl.formatMessage({id: 'app.common.operate.upload.label'})}
+                onClick={() => setWebResourceFormData({visiable: true, parent: null, data: {}})}
+              >
+                {intl.formatMessage({id: 'app.common.operate.new.label'})}
               </Button>
             ),
             access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
@@ -187,7 +169,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
-                      SeatunnelReleaseService.deleteBatch(selectedRows).then((d) => {
+                      PrivilegeService.deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();
@@ -195,7 +177,8 @@ const SeaTunnelReleaseResource: React.FC = () => {
                       });
                     },
                   });
-                }}>
+                }}
+              >
                 {intl.formatMessage({id: 'app.common.operate.delete.label'})}
               </Button>
             ),
@@ -204,28 +187,26 @@ const SeaTunnelReleaseResource: React.FC = () => {
         pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
         rowSelection={{
           fixed: true,
-          onChange(selectedRowKeys, selectedRows, info) {
-            setSelectedRows(selectedRows);
-          },
+          onChange: (selectedRowKeys, selectedRows, info) => setSelectedRows(selectedRows),
         }}
         tableAlertRender={false}
         tableAlertOptionRender={false}
-      ></ProTable>
-      {seatunnelReleaseFormData.visiable && (
-        <SeaTunnelReleaseForm
-          visible={seatunnelReleaseFormData.visiable}
-          onCancel={() => {
-            setSeatunnelReleaseData({visiable: false, data: {}});
-          }}
+      />
+      {webResourceFormData.visiable && (
+        <WebResourceForm
+          visible={webResourceFormData.visiable}
+          onCancel={() => setWebResourceFormData({visiable: false, parent: {}, data: {}})}
           onVisibleChange={(visiable) => {
-            setSeatunnelReleaseData({visiable: visiable, data: {}});
+            setWebResourceFormData({visiable: visiable, parent: {}, data: {}});
             actionRef.current?.reload();
           }}
-          data={seatunnelReleaseFormData.data}
+          parent={webResourceFormData.parent}
+          data={webResourceFormData.data}
         />
       )}
     </div>
   );
-};
 
-export default SeaTunnelReleaseResource;
+}
+
+export default WebResourceWeb;

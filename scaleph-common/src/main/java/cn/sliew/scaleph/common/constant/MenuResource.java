@@ -16,22 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.service.convert;
+package cn.sliew.scaleph.common.constant;
 
-import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.security.SecPrivilege;
-import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import lombok.Getter;
 
-/**
- * @author gleiyu
- */
-@Mapper
-public interface SecPrivilegeConvert extends BaseConvert<SecPrivilege, SecPrivilegeDTO> {
+@Getter
+public enum MenuResource {
+    ;
 
-    SecPrivilegeConvert INSTANCE = Mappers.getMapper(SecPrivilegeConvert.class);
+    public static Route ROOT = new Route(0, "Scaleph", PageCode.SCALEPH, "/", null);
 
-    @Override
-    SecPrivilegeDTO toDto(SecPrivilege entity);
+    public static Route STUDIO = new Route(1, "工作台", PageCode.STUDIO, "/studio", ROOT);
+    public static Route PROJECT = new Route(2, "项目", PageCode.PROJECT, "/project", ROOT);
+    public static Route RESOURCE = new Route(3, "资源", PageCode.RESOURCE, "/resource", ROOT);
+    public static Route DATA_SOURCE = new Route(4, "数据源", PageCode.DATA_SOURCE, "/dataSource", ROOT);
+    public static Route DATA_STANDARD = new Route(5, "数据标准", PageCode.STDATA, "/stdata", ROOT);
+    public static Route ADMIN = new Route(6, "系统管理", PageCode.ADMIN, "/admin", ROOT);
+
 }

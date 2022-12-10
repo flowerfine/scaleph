@@ -16,22 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.service.convert;
+package cn.sliew.scaleph.common.constant;
 
-import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.security.SecPrivilege;
-import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+public enum ButtonResource {
+    ;
 
-/**
- * @author gleiyu
- */
-@Mapper
-public interface SecPrivilegeConvert extends BaseConvert<SecPrivilege, SecPrivilegeDTO> {
+    public static Route PROJECT_ADD = new Route(200000, "创建项目", PageCode.PROJECT_LIST, "/project", PageResource.PROJECT_LIST);
+    public static Route PROJECT_EDIT = new Route(200000, "修改项目", PageCode.PROJECT_LIST, "/project", PageResource.PROJECT_LIST);
+    public static Route PROJECT_DELETE = new Route(200000, "删除项目", PageCode.PROJECT_LIST, "/project", PageResource.PROJECT_LIST);
+    public static Route PROJECT_VIEW = new Route(200000, "进入项目", PageCode.PROJECT_LIST, "/project", PageResource.PROJECT_LIST);
 
-    SecPrivilegeConvert INSTANCE = Mappers.getMapper(SecPrivilegeConvert.class);
 
-    @Override
-    SecPrivilegeDTO toDto(SecPrivilege entity);
 }
