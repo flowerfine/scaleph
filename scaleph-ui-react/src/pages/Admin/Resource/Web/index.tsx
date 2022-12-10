@@ -1,12 +1,13 @@
-import {history, useAccess, useIntl} from "umi";
+import {useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, FolderOpenOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {isEmpty} from "lodash";
 import {PRIVILEGE_CODE} from "@/constant";
 import {SecPrivilege} from "@/services/admin/typings";
 import {PrivilegeService} from "@/services/admin/privilege.service";
-import {isEmpty} from "lodash";
+import WebResourceForm from "@/pages/Admin/Resource/Web/components/WebResourceForm";
 
 const WebResourceWeb: React.FC = () => {
   const intl = useIntl();
@@ -14,8 +15,13 @@ const WebResourceWeb: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<SecPrivilege[]>([]);
+  const [webResourceFormData, setWebResourceFormData] = useState<{
+    visiable: boolean;
+    parent: SecPrivilege;
+    data: SecPrivilege;
+  }>({visiable: false, parent: {}, data: {}});
 
-  const onExpand = async (expanded: boolean, record: SecPrivilege) => {
+  const onExpand = (expanded: boolean, record: SecPrivilege) => {
     if (expanded && record.children && isEmpty(record.children)) {
       PrivilegeService.listByPid(record.id).then((response) => {
         record.children = response.data
@@ -78,7 +84,7 @@ const WebResourceWeb: React.FC = () => {
                   shape="default"
                   type="link"
                   icon={<FolderOpenOutlined/>}
-                  onClick={() => history.push('/stdata/refdata/value', record)}
+                  onClick={() => setWebResourceFormData({visiable: true, parent: record, data: {}})}
                 ></Button>
               </Tooltip>
             )}
@@ -88,7 +94,7 @@ const WebResourceWeb: React.FC = () => {
                   shape="default"
                   type="link"
                   icon={<EditOutlined/>}
-                  // onClick={() => setMetaDataSetTypeFormData({visiable: true, data: record})}
+                  onClick={() => setWebResourceFormData({visiable: true, parent: {}, data: record})}
                 ></Button>
               </Tooltip>
             )}
@@ -145,7 +151,7 @@ const WebResourceWeb: React.FC = () => {
               <Button
                 key="new"
                 type="primary"
-                // onClick={() => setMetaDataSetTypeFormData({visiable: true, data: {}})}
+                onClick={() => setWebResourceFormData({visiable: true, parent: null, data: {}})}
               >
                 {intl.formatMessage({id: 'app.common.operate.new.label'})}
               </Button>
@@ -186,6 +192,18 @@ const WebResourceWeb: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       />
+      {webResourceFormData.visiable && (
+        <WebResourceForm
+          visible={webResourceFormData.visiable}
+          onCancel={() => setWebResourceFormData({visiable: false, parent: {}, data: {}})}
+          onVisibleChange={(visiable) => {
+            setWebResourceFormData({visiable: visiable, parent: {}, data: {}});
+            actionRef.current?.reload();
+          }}
+          parent={webResourceFormData.parent}
+          data={webResourceFormData.data}
+        />
+      )}
     </div>
   );
 

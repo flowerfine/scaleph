@@ -35,6 +35,8 @@ export const DICT_TYPE = {
   seatunnelVersion: 'seatunnel_version',
   seatunnelPluginName: 'seatunnel_plugin_name',
   imagePullPolicy: 'image_pull_policy',
+
+  resourceType: 'resource_type',
 };
 
 export const USER_AUTH = {

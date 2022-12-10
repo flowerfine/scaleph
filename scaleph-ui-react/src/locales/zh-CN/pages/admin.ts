@@ -45,6 +45,7 @@ export default {
   'pages.admin.resource.privilegeCode': '权限标识',
   'pages.admin.resource.resourceType': '资源类型',
   'pages.admin.resource.resourcePath': '资源路由',
+  'pages.admin.resource.pid': '父级资源',
   'pages.admin.resource.data': '数据资源',
 
   'pages.admin.usercenter.profile': '个人资料',
