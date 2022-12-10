@@ -28,9 +28,9 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ResourceType implements DictInstance {
 
-    MENU("0", "菜单权限"),
-    PAGE("1", "页面权限"),
-    BUTTON("2", "按钮权限"),
+    MENU("0", "菜单"),
+    PAGE("1", "页面"),
+    BUTTON("2", "按钮"),
     ROW("10", "数据-行权限"),
     COLUMN("11", "数据-列权限"),
     ;

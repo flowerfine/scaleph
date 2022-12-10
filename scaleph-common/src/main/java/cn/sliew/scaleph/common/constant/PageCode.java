@@ -28,12 +28,14 @@ public enum PageCode {
 
     public static final String PROJECT = "pjp";
     public static final String PROJECT_LIST = "pjl";
+    public static final String WORKSPACE_JOB = "wjm";
     public static final String WORKSPACE_JOB_LIST = "wjl";
     public static final String WORKSPACE_JOB_DETAIL = "wjd";
     public static final String WORKSPACE_JOB_ARTIFACT = "wja";
     public static final String WORKSPACE_JOB_ARTIFACT_JAR = "wjj";
     public static final String WORKSPACE_JOB_SQL = "wjs";
     public static final String WORKSPACE_JOB_SEATUNNEL = "wst";
+    public static final String WORKSPACE_CLUSTER = "wcm";
     public static final String WORKSPACE_CLUSTER_CONFIG = "wcc";
     public static final String WORKSPACE_CLUSTER_CONFIG_OPTIONS = "wco";
     public static final String WORKSPACE_CLUSTER_INSTANCE = "wci";
