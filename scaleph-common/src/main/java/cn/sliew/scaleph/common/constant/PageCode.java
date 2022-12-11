@@ -55,6 +55,7 @@ public enum PageCode {
     public static final String STDATA_SYSTEM = "sts";
     public static final String STDATA_DATA_ELEMENT = "ste";
     public static final String STDATA_REF_DATA_TYPE = "stt";
+    public static final String STDATA_REF_DATA_VALUE = "stv";
     public static final String STDATA_REF_DATA_MAP = "stm";
 
     public static final String ADMIN = "adm";

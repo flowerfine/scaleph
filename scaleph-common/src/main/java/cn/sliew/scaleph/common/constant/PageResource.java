@@ -46,7 +46,8 @@ public enum PageResource {
     public static Route STDATA_SYSTEM = new Route(500000, "业务系统", PageCode.STDATA_SYSTEM, "/stdata/system", MenuResource.DATA_STANDARD);
     public static Route STDATA_DATA_ELEMENT = new Route(500001, "数据元", PageCode.STDATA_DATA_ELEMENT, "/stdata/dataElement", MenuResource.DATA_STANDARD);
     public static Route STDATA_REF_DATA_TYPE = new Route(500002, "参考数据", PageCode.STDATA_REF_DATA_TYPE, "/stdata/refdata", MenuResource.DATA_STANDARD);
-    public static Route STDATA_REF_DATA_MAP = new Route(500003, "数据映射", PageCode.STDATA_REF_DATA_MAP, "/stdata/refdataMap", MenuResource.DATA_STANDARD);
+    public static Route STDATA_REF_DATA_VALUE = new Route(500003, "参考数据值", PageCode.STDATA_REF_DATA_VALUE, "/stdata/refdata/value", MenuResource.DATA_STANDARD);
+    public static Route STDATA_REF_DATA_MAP = new Route(500004, "数据映射", PageCode.STDATA_REF_DATA_MAP, "/stdata/refdataMap", MenuResource.DATA_STANDARD);
 
     public static Route ADMIN_USER = new Route(600000, "用户管理", PageCode.ADMIN_USER, "/admin/user", MenuResource.ADMIN);
     public static Route ADMIN_RESOURCE_WEB = new Route(600001, "Web 资源", PageCode.ADMIN_RESOURCE_WEB, "/admin/resource/web", MenuResource.ADMIN);

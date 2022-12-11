@@ -28,6 +28,7 @@ export default {
   'pages.stdata.dataSetType.dataSetTypeName': '参考数据类型名称',
 
   'pages.stdata.dataSet': '参考数据',
+  'pages.stdata.dataSet.open': '进入',
   'pages.stdata.dataSet.dataSetType': '参考数据类型',
   'pages.stdata.dataSet.dataSetCode': '参考数据编码',
   'pages.stdata.dataSet.dataSetValue': '参考数据值',
