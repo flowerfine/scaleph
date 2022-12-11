@@ -224,7 +224,6 @@ INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_
 VALUES (500018, 'pstm2', '修改', '2', 500003, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
 VALUES (500019, 'pstm3', '删除', '2', 500003, 'sys', 'sys');
-
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
 VALUES (600000, 'padr0', '用户管理', '1', 6, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
