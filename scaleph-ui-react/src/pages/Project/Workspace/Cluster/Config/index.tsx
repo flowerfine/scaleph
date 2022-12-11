@@ -2,10 +2,11 @@ import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
-import { FlinkClusterConfig } from '@/services/project/typings';
+import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInstance.service';
+import { FlinkClusterConfig, FlinkClusterInstanceParam } from '@/services/project/typings';
 import { DeleteOutlined, DeploymentUnitOutlined, EditOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
-import { Button, message, Modal, Select, Space, Tooltip } from 'antd';
+import { Button, message, Modal, Popconfirm, Select, Space, Tooltip } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { history, useAccess, useIntl } from 'umi';
 
@@ -170,16 +171,33 @@ const FlinkClusterConfigWeb: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({ id: 'pages.project.cluster.instance.create' })}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<DeploymentUnitOutlined />}
-                  onClick={() => {
-                    
-                  }}
-                ></Button>
-              </Tooltip>
+              <Popconfirm
+                disabled={record.deployMode?.value != '2'}
+                title={intl.formatMessage({ id: 'pages.project.cluster.instance.create.confirm' })}
+                onConfirm={() => {
+                  let clusterParams: FlinkClusterInstanceParam = {
+                    flinkClusterConfigId: record.id,
+                    projectId: record.projectId,
+                  };
+                  FlinkCLusterInstanceService.newSession(clusterParams).then((response) => {
+                    if (response.success) {
+                      message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
+                      history.push('/workspace/cluster/instance');
+                    }
+                  });
+                }}
+              >
+                <Tooltip
+                  title={intl.formatMessage({ id: 'pages.project.cluster.instance.create' })}
+                >
+                  <Button
+                    shape="default"
+                    type="link"
+                    disabled={record.deployMode?.value != '2'}
+                    icon={<DeploymentUnitOutlined />}
+                  ></Button>
+                </Tooltip>
+              </Popconfirm>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
               <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>

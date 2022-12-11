@@ -38,7 +38,7 @@ CREATE TABLE flink_cluster_instance
     editor                  varchar(32) comment '修改人',
     update_time             timestamp default current_timestamp on update current_timestamp comment '修改时间',
     PRIMARY KEY (id),
-    unique key (project_id, flink_cluster_config_id),
+    unique key (project_id, flink_cluster_config_id,name),
     KEY idx_name (name)
 ) ENGINE = INNODB COMMENT = 'flink cluster instance';
 

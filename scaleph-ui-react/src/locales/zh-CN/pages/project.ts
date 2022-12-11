@@ -445,4 +445,5 @@ export default {
   // 'pages.project.artifact.jar': 'Artifact Jar',
 
   'pages.project.cluster.instance.create': '生成集群实例',
+  'pages.project.cluster.instance.create.confirm': '确定创建集群实例?',
 };
