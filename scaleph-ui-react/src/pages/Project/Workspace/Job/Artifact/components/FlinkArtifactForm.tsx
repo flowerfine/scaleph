@@ -21,9 +21,9 @@ const FlinkArtifactForm: React.FC<ModalFormProps<FlinkArtifact>> = ({
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-            intl.formatMessage({ id: 'pages.dev.artifact' })
+            intl.formatMessage({ id: 'pages.project.job.artifact' })
           : intl.formatMessage({ id: 'app.common.operate.new.label' }) +
-            intl.formatMessage({ id: 'pages.dev.artifact' })
+            intl.formatMessage({ id: 'pages.project.job.artifact' })
       }
       width={580}
       destroyOnClose={true}

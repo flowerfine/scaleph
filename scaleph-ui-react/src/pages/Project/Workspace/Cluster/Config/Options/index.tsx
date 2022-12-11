@@ -61,7 +61,7 @@ const ClusterConfigOptionsSteps: React.FC = () => {
         >
           <StepsForm.StepForm
             name="base"
-            title={intl.formatMessage({ id: 'pages.dev.clusterConfig.baseStep' })}
+            title={intl.formatMessage({ id: 'page.project.cluster.config.baseStep' })}
             layout="vertical"
             initialValues={{
               projectId: projectId,
@@ -78,7 +78,7 @@ const ClusterConfigOptionsSteps: React.FC = () => {
           </StepsForm.StepForm>
           <StepsForm.StepForm
             name="configOptions"
-            title={intl.formatMessage({ id: 'pages.dev.clusterConfig.configOptionsStep' })}
+            title={intl.formatMessage({ id: 'page.project.cluster.config.configOptionsStep' })}
             layout="vertical"
             initialValues={configOptions}
           >

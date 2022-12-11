@@ -26,7 +26,7 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({
       title={
         intl.formatMessage({ id: 'app.common.operate.new.label' }) +
         ' ' +
-        intl.formatMessage({ id: 'pages.dev.clusterInstance.session' })
+        intl.formatMessage({ id: 'pages.project.cluster.instance.session' })
       }
       width={580}
       confirmLoading={confirming}
@@ -65,21 +65,21 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({
       >
         <ProFormSelect
           name="flinkVersion"
-          label={intl.formatMessage({ id: 'pages.dev.clusterConfig.flinkVersion' })}
+          label={intl.formatMessage({ id: 'page.project.cluster.config.flinkVersion' })}
           rules={[{ required: true }]}
           showSearch={true}
           request={() => DictDataService.listDictDataByType(DICT_TYPE.flinkVersion)}
         />
         <ProFormSelect
           name="resourceProvider"
-          label={intl.formatMessage({ id: 'pages.dev.clusterConfig.resourceProvider' })}
+          label={intl.formatMessage({ id: 'page.project.cluster.config.resourceProvider' })}
           rules={[{ required: true }]}
           showSearch={true}
           request={() => DictDataService.listDictDataByType(DICT_TYPE.flinkResourceProvider)}
         />
         <ProFormSelect
           name="flinkClusterConfig"
-          label={intl.formatMessage({ id: 'pages.dev.clusterConfig' })}
+          label={intl.formatMessage({ id: 'page.project.cluster.config' })}
           rules={[{ required: true }]}
           showSearch={true}
           dependencies={['flinkVersion', 'resourceProvider']}

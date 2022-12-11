@@ -76,7 +76,7 @@ const JobDetailWeb: React.FC = () => {
                   window.history.back();
                 }}
               >
-                {intl.formatMessage({ id: 'pages.dev.job.detail.backToList' })}
+                {intl.formatMessage({ id: 'pages.project.job.detail.backToList' })}
               </Button>
             </Col>
           </Row>
@@ -86,45 +86,45 @@ const JobDetailWeb: React.FC = () => {
           <Space>
             <div>
               <Button type="default" icon={<CaretRightOutlined />}>
-                {intl.formatMessage({ id: 'pages.dev.job.detail.start' })}
+                {intl.formatMessage({ id: 'pages.project.job.detail.start' })}
               </Button>
               <Button type="default" disabled={true} icon={<PauseOutlined />}>
-                {intl.formatMessage({ id: 'pages.dev.job.detail.suspend' })}
+                {intl.formatMessage({ id: 'pages.project.job.detail.suspend' })}
               </Button>
               <Button type="default" disabled={true} icon={<CloseOutlined />}>
-                {intl.formatMessage({ id: 'pages.dev.job.detail.cancel' })}
+                {intl.formatMessage({ id: 'pages.project.job.detail.cancel' })}
               </Button>
             </div>
             <div>
               <Button type="default" icon={<CameraOutlined />}>
-                {intl.formatMessage({ id: 'pages.dev.job.detail.savepoint' })}
+                {intl.formatMessage({ id: 'pages.project.job.detail.savepoint' })}
               </Button>
             </div>
 
             <div>
               <Button type="default" icon={<DashboardOutlined />}>
-                {intl.formatMessage({ id: 'pages.dev.job.detail.flinkui' })}
+                {intl.formatMessage({ id: 'pages.project.job.detail.flinkui' })}
               </Button>
               <Button type="default" icon={<AreaChartOutlined />}>
-                {intl.formatMessage({ id: 'pages.dev.job.detail.metrics' })}
+                {intl.formatMessage({ id: 'pages.project.job.detail.metrics' })}
               </Button>
               <Button type="default" icon={<OrderedListOutlined />}>
-                {intl.formatMessage({ id: 'pages.dev.job.detail.logs' })}
+                {intl.formatMessage({ id: 'pages.project.job.detail.logs' })}
               </Button>
             </div>
             <div>
               <Button type="default" icon={<EditOutlined />}>
-                {intl.formatMessage({ id: 'pages.dev.job.detail.config' })}
+                {intl.formatMessage({ id: 'pages.project.job.detail.config' })}
               </Button>
               <Button type="primary" danger icon={<DeleteOutlined />}>
-                {intl.formatMessage({ id: 'pages.dev.job.detail.delete' })}
+                {intl.formatMessage({ id: 'pages.project.job.detail.delete' })}
               </Button>
             </div>
           </Space>
         }
         column={3}
       >
-        <Descriptions.Item label={intl.formatMessage({ id: 'pages.dev.job.detail.jobId' })}>
+        <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.job.detail.jobId' })}>
           <Typography.Paragraph
             copyable={true}
             ellipsis={{ rows: 1, expandable: true, symbol: 'more' }}
@@ -132,16 +132,16 @@ const JobDetailWeb: React.FC = () => {
             {flinkJobInstance?.jobId}
           </Typography.Paragraph>
         </Descriptions.Item>
-        <Descriptions.Item label={intl.formatMessage({ id: 'pages.dev.job.detail.jobName' })}>
+        <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.job.detail.jobName' })}>
           <Typography.Text copyable={true}>{flinkJobInstance?.jobName}</Typography.Text>
         </Descriptions.Item>
-        <Descriptions.Item label={intl.formatMessage({ id: 'pages.dev.job.detail.jobState' })}>
+        <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.job.detail.jobState' })}>
           {flinkJobInstance?.jobState?.label}
         </Descriptions.Item>
-        <Descriptions.Item label={intl.formatMessage({ id: 'pages.dev.job.detail.startTime' })}>
+        <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.job.detail.startTime' })}>
           {flinkJobInstance?.startTime}
         </Descriptions.Item>
-        <Descriptions.Item label={intl.formatMessage({ id: 'pages.dev.job.detail.duration' })}>
+        <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.job.detail.duration' })}>
           {flinkJobInstance?.duration}
         </Descriptions.Item>
       </Descriptions>
@@ -156,7 +156,7 @@ const JobDetailWeb: React.FC = () => {
                 label: (
                   <>
                     <ProfileOutlined />
-                    {intl.formatMessage({ id: 'pages.dev.job.detail.overview' })}
+                    {intl.formatMessage({ id: 'pages.project.job.detail.overview' })}
                   </>
                 ),
                 key: 'overview',
@@ -166,7 +166,7 @@ const JobDetailWeb: React.FC = () => {
                 label: (
                   <>
                     <ToolOutlined />
-                    {intl.formatMessage({ id: 'pages.dev.job.detail.config' })}
+                    {intl.formatMessage({ id: 'pages.project.job.detail.config' })}
                   </>
                 ),
                 key: 'config',
@@ -184,7 +184,7 @@ const JobDetailWeb: React.FC = () => {
                 label: (
                   <>
                     <SaveOutlined />
-                    {intl.formatMessage({ id: 'pages.dev.job.detail.savepoint' })}
+                    {intl.formatMessage({ id: 'pages.project.job.detail.savepoint' })}
                   </>
                 ),
                 key: 'Savepoint',
@@ -198,7 +198,7 @@ const JobDetailWeb: React.FC = () => {
                 label: (
                   <>
                     <ContainerOutlined />
-                    {intl.formatMessage({ id: 'pages.dev.job.detail.jobHistory' })}
+                    {intl.formatMessage({ id: 'pages.project.job.detail.jobHistory' })}
                   </>
                 ),
                 key: 'jobHistory',

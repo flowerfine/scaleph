@@ -29,7 +29,7 @@ const ClusterInstanceWeb: React.FC = () => {
 
   const tableColumns: ProColumns<FlinkClusterInstance>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.dev.clusterInstance.flinkClusterConfigId' }),
+      title: intl.formatMessage({ id: 'pages.project.cluster.instance.flinkClusterConfigId' }),
       dataIndex: 'flinkClusterConfigId',
       width: 120,
       hideInTable: true,
@@ -37,13 +37,13 @@ const ClusterInstanceWeb: React.FC = () => {
       fixed: 'left',
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.clusterInstance.name' }),
+      title: intl.formatMessage({ id: 'pages.project.cluster.instance.name' }),
       dataIndex: 'name',
       width: 180,
       fixed: 'left',
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.clusterInstance.status' }),
+      title: intl.formatMessage({ id: 'pages.project.cluster.instance.status' }),
       dataIndex: 'status',
       width: 120,
       render: (text, record, index) => {
@@ -71,31 +71,31 @@ const ClusterInstanceWeb: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.clusterInstance.clusterId' }),
+      title: intl.formatMessage({ id: 'pages.project.cluster.instance.clusterId' }),
       dataIndex: 'clusterId',
       width: 280,
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.clusterInstance.webInterfaceUrl' }),
+      title: intl.formatMessage({ id: 'pages.project.cluster.instance.webInterfaceUrl' }),
       dataIndex: 'webInterfaceUrl',
       width: 240,
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.remark' }),
+      title: intl.formatMessage({ id: 'pages.project.remark' }),
       dataIndex: 'remark',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.createTime' }),
+      title: intl.formatMessage({ id: 'pages.project.createTime' }),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.updateTime' }),
+      title: intl.formatMessage({ id: 'pages.project.updateTime' }),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
@@ -149,7 +149,7 @@ const ClusterInstanceWeb: React.FC = () => {
   return (
     <div>
       <ProTable<FlinkClusterInstance>
-        headerTitle={intl.formatMessage({ id: 'pages.dev.clusterInstance' })}
+        headerTitle={intl.formatMessage({ id: 'pages.project.cluster.instance' })}
         search={{
           labelWidth: 'auto',
           span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },

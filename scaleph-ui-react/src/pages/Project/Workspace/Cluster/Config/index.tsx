@@ -35,13 +35,13 @@ const FlinkClusterConfigWeb: React.FC = () => {
 
   const tableColumns: ProColumns<FlinkClusterConfig>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.dev.clusterConfig.name' }),
+      title: intl.formatMessage({ id: 'page.project.cluster.config.name' }),
       dataIndex: 'name',
       width: 200,
       fixed: 'left',
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.clusterConfig.flinkVersion' }),
+      title: intl.formatMessage({ id: 'page.project.cluster.config.flinkVersion' }),
       dataIndex: 'flinkVersion',
       width: 120,
       render: (text, record, index) => {
@@ -69,7 +69,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.clusterConfig.deployMode' }),
+      title: intl.formatMessage({ id: 'page.project.cluster.config.deployMode' }),
       dataIndex: 'deployMode',
       width: 120,
       render: (text, record, index) => {
@@ -97,7 +97,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.clusterConfig.resourceProvider' }),
+      title: intl.formatMessage({ id: 'page.project.cluster.config.resourceProvider' }),
       dataIndex: 'resourceProvider',
       width: 120,
       render: (text, record, index) => {
@@ -125,7 +125,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.clusterConfig.flinkRelease' }),
+      title: intl.formatMessage({ id: 'page.project.cluster.config.flinkRelease' }),
       dataIndex: 'flinkRelease',
       width: 240,
       hideInSearch: true,
@@ -134,7 +134,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.clusterConfig.clusterCredential' }),
+      title: intl.formatMessage({ id: 'page.project.cluster.config.clusterCredential' }),
       dataIndex: 'clusterCredential',
       width: 120,
       hideInSearch: true,
@@ -143,19 +143,19 @@ const FlinkClusterConfigWeb: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.remark' }),
+      title: intl.formatMessage({ id: 'pages.project.remark' }),
       dataIndex: 'remark',
       width: 240,
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.createTime' }),
+      title: intl.formatMessage({ id: 'pages.project.createTime' }),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.updateTime' }),
+      title: intl.formatMessage({ id: 'pages.project.updateTime' }),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
@@ -249,7 +249,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
 
   return (
     <ProTable<FlinkClusterConfig>
-      headerTitle={intl.formatMessage({ id: 'pages.dev.clusterConfig' })}
+      headerTitle={intl.formatMessage({ id: 'page.project.cluster.config' })}
       search={{
         labelWidth: 'auto',
         span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },

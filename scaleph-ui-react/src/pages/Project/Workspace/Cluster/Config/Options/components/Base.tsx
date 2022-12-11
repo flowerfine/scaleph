@@ -13,7 +13,7 @@ const BaseOptions: React.FC = () => {
       <ProFormText name="projectId" hidden></ProFormText>
       <ProFormText
         name="name"
-        label={intl.formatMessage({ id: 'pages.dev.clusterConfig.name' })}
+        label={intl.formatMessage({ id: 'page.project.cluster.config.name' })}
         rules={[
           { required: true },
           { max: 30 },
@@ -25,14 +25,14 @@ const BaseOptions: React.FC = () => {
       />
       <ProFormSelect
         name="resourceProvider"
-        label={intl.formatMessage({ id: 'pages.dev.clusterConfig.resourceProvider' })}
+        label={intl.formatMessage({ id: 'page.project.cluster.config.resourceProvider' })}
         rules={[{ required: true }]}
         showSearch={true}
         request={() => DictDataService.listDictDataByType(DICT_TYPE.flinkResourceProvider)}
       />
       <ProFormSelect
         name="deployMode"
-        label={intl.formatMessage({ id: 'pages.dev.clusterConfig.deployMode' })}
+        label={intl.formatMessage({ id: 'page.project.cluster.config.deployMode' })}
         rules={[{ required: true }]}
         showSearch={true}
         dependencies={['resourceProvider']}
@@ -46,7 +46,7 @@ const BaseOptions: React.FC = () => {
       />
       <ProFormSelect
         name="clusterCredentialId"
-        label={intl.formatMessage({ id: 'pages.dev.clusterConfig.clusterCredential' })}
+        label={intl.formatMessage({ id: 'page.project.cluster.config.clusterCredential' })}
         rules={[{ required: true }]}
         showSearch={true}
         dependencies={['resourceProvider']}
@@ -64,14 +64,14 @@ const BaseOptions: React.FC = () => {
       />
       {/* <ProFormSelect
         name="flinkVersion"
-        label={intl.formatMessage({ id: 'pages.dev.clusterConfig.flinkVersion' })}
+        label={intl.formatMessage({ id: 'page.project.cluster.config.flinkVersion' })}
         rules={[{ required: true }]}
         showSearch={true}
         request={() => DictDataService.listDictDataByType(DICT_TYPE.flinkVersion)}
       /> */}
       <ProFormSelect
         name="flinkReleaseId"
-        label={intl.formatMessage({ id: 'pages.dev.clusterConfig.flinkRelease' })}
+        label={intl.formatMessage({ id: 'page.project.cluster.config.flinkRelease' })}
         rules={[{ required: true }]}
         showSearch={true}
         dependencies={['flinkVersion']}
@@ -89,7 +89,7 @@ const BaseOptions: React.FC = () => {
       />
       <ProFormText
         name="remark"
-        label={intl.formatMessage({ id: 'pages.dev.remark' })}
+        label={intl.formatMessage({ id: 'pages.project.remark' })}
         rules={[{ max: 200 }]}
       />
     </>
