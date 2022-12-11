@@ -37,6 +37,9 @@ public interface FlinkJobConvert extends BaseConvert<FlinkJob, FlinkJobDTO> {
 
     @Override
     default FlinkJob toDo(FlinkJobDTO dto) {
+        if (dto == null) {
+            return null;
+        }
         FlinkJob entity = new FlinkJob();
         BeanUtils.copyProperties(dto, entity);
         if (!CollectionUtils.isEmpty(dto.getJobConfig())) {
@@ -53,6 +56,9 @@ public interface FlinkJobConvert extends BaseConvert<FlinkJob, FlinkJobDTO> {
 
     @Override
     default FlinkJobDTO toDto(FlinkJob entity) {
+        if (entity == null) {
+            return null;
+        }
         FlinkJobDTO dto = new FlinkJobDTO();
         BeanUtils.copyProperties(entity, dto);
         if (StringUtils.hasText(entity.getJobConfig())) {

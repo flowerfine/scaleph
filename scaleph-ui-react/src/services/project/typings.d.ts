@@ -126,6 +126,7 @@ export type FlinkJob = {
 export type FlinkJobListParam = QueryParam & {
   type?: string;
   name?: string;
+  projectId?: string | number;
 };
 
 export type FlinkJobListByCodeParam = QueryParam & {

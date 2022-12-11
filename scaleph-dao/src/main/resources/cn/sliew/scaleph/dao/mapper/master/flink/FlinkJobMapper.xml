@@ -29,6 +29,7 @@
         <result column="code" property="code"/>
         <result column="name" property="name"/>
         <result column="flink_artifact_id" property="flinkArtifactId"/>
+        <result column="project_id" property="projectId"/>
         <result column="job_config" property="jobConfig"/>
         <result column="flink_cluster_config_id" property="flinkClusterConfigId"/>
         <result column="flink_cluster_instance_id" property="flinkClusterInstanceId"/>
@@ -85,7 +86,6 @@
             <result column="instance_cluster_id" property="clusterId"/>
             <result column="instance_web_interface_url" property="webInterfaceUrl"/>
             <result column="instance_status" property="status"/>
-            <result column="instance_remark" property="remark"/>
         </association>
         <association property="flinkJobInstance"
                      javaType="cn.sliew.scaleph.dao.entity.master.flink.FlinkJobInstance">
@@ -147,7 +147,6 @@
             <result column="instance_cluster_id" property="clusterId"/>
             <result column="instance_web_interface_url" property="webInterfaceUrl"/>
             <result column="instance_status" property="status"/>
-            <result column="instance_remark" property="remark"/>
         </association>
         <association property="flinkJobInstance"
                      javaType="cn.sliew.scaleph.dao.entity.master.flink.FlinkJobInstance">
@@ -167,14 +166,14 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, creator, create_time, editor, update_time,
+        id, creator, create_time, editor, update_time,project_id,
         `type`, `code`, `name`, flink_artifact_id, job_config,
         flink_cluster_config_id, flink_cluster_instance_id,
         flink_config, jars
     </sql>
 
     <sql id="Flink_Job_Column_List">
-        t1.*,
+        t1.* ,
         t4.id                      AS config_id,
         t4.`name`                  AS config_name,
         t4.flink_version           AS config_flink_version,
@@ -191,7 +190,6 @@
         t5.cluster_id              AS instance_cluster_id,
         t5.web_interface_url       AS instance_web_interface_url,
         t5.`status`                AS instance_status,
-        t5.remark                  AS instance_remark,
         t6.id                      AS job_instance_id,
         t6.flink_job_code          AS job_instance_flink_job_code,
         t6.job_id                  AS job_instance_job_id,
@@ -210,8 +208,11 @@
         <include refid="Base_Column_List"/>
         from flink_job t
         <where>
+            <if test="param.projectId != null">
+                and t.project_id = #{param.projectId}
+            </if>
             <if test="param.type != null">
-                t.`type` = #{param.type}
+                and t.`type` = #{param.type}
             </if>
             <if test="param.code !=null and param.code != ''">
                 and t.`code` = #{param.code}

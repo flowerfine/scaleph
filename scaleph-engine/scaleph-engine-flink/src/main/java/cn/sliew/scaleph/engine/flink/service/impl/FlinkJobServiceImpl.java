@@ -68,7 +68,6 @@ public class FlinkJobServiceImpl implements FlinkJobService {
     @Override
     public FlinkJobDTO selectOne(Long id) {
         final FlinkJob record = flinkJobMapper.selectById(id);
-        checkState(record != null, () -> "flink job not exists for id: " + id);
         return FlinkJobConvert.INSTANCE.toDto(record);
     }
 

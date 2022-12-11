@@ -1,5 +1,5 @@
 import { Dict } from '@/app.d';
-import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
+import { DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { FlinkJobService } from '@/services/project/FlinkJobService';
 import { FlinkJob, FlinkJobListParam } from '@/services/project/typings';
@@ -27,6 +27,7 @@ const JobListView: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const [jobList, setJobList] = useState<FlinkJob[]>([]);
+  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
   const [queryParams, setQueryParams] = useState<FlinkJobListParam>({});
   const [total, setTotal] = useState<number>();
   const [jobTypeList, setJobTypeList] = useState<Dict[]>([]);
@@ -39,6 +40,7 @@ const JobListView: React.FC = () => {
   }, []);
 
   const refreshJobList = (params: FlinkJobListParam) => {
+    params.projectId = projectId + '';
     FlinkJobService.list(params).then((resp) => {
       setJobList(resp.data);
       setTotal(resp.total);

@@ -82,6 +82,7 @@ drop table if exists flink_job;
 create table flink_job
 (
     id                        bigint       not null auto_increment comment '自增主键',
+    project_id                bigint       not null comment '项目id',
     type                      varchar(4)   not null comment '作业类型 0: jar, 1: sql, 2: seatunnel',
     code                      bigint       not null comment '作业编码',
     name                      varchar(255) not null comment '作业名称',

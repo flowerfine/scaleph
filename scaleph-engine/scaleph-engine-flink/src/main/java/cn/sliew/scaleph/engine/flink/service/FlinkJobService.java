@@ -35,10 +35,12 @@ public interface FlinkJobService {
 
     int update(FlinkJobDTO dto);
 
+    @Deprecated
     Page<FlinkJobForJarDTO> listJobsForJar(FlinkJobListByTypeParam param);
 
     FlinkJobForJarDTO getJobForJarById(Long id);
 
+    @Deprecated
     Page<FlinkJobForSeaTunnelDTO> listJobsForSeaTunnel(FlinkJobListByTypeParam param);
 
     FlinkJobForSeaTunnelDTO getJobForSeaTunnelById(Long id);

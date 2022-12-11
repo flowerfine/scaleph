@@ -35,4 +35,8 @@ public class FlinkJobListParam extends PaginationParam {
 
     @ApiModelProperty("名称。支持模糊搜索")
     private String name;
+
+    @NotNull
+    @ApiModelProperty("项目ID")
+    private Long projectId;
 }
