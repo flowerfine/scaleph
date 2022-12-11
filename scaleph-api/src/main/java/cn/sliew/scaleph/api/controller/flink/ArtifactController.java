@@ -22,7 +22,7 @@ import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.engine.flink.service.FlinkArtifactService;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactListParam;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactParam;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -34,7 +34,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @Api(tags = "Flink管理-artifact管理")
@@ -48,7 +47,7 @@ public class ArtifactController {
     @Logging
     @GetMapping
     @ApiOperation(value = "查询 artifact 列表", notes = "查询 artifact 列表")
-    public ResponseEntity<Page<FlinkArtifactDTO>> list(@Valid FlinkArtifactListParam param) {
+    public ResponseEntity<Page<FlinkArtifactDTO>> list(@Valid FlinkArtifactParam param) {
         final Page<FlinkArtifactDTO> result = flinkArtifactService.list(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

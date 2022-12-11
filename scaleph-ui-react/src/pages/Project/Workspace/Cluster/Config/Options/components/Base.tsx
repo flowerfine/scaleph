@@ -1,4 +1,4 @@
-import { ProCard, ProFormGroup, ProFormSelect, ProFormText } from '@ant-design/pro-components';
+import { ProFormSelect, ProFormText } from '@ant-design/pro-components';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { DICT_TYPE, RESOURCE_TYPE } from '@/constant';
 import { useIntl } from 'umi';
@@ -10,6 +10,7 @@ const BaseOptions: React.FC = () => {
   const intl = useIntl();
   return (
     <>
+      <ProFormText name="projectId" hidden></ProFormText>
       <ProFormText
         name="name"
         label={intl.formatMessage({ id: 'pages.dev.clusterConfig.name' })}
@@ -61,13 +62,13 @@ const BaseOptions: React.FC = () => {
           });
         }}
       />
-      <ProFormSelect
+      {/* <ProFormSelect
         name="flinkVersion"
         label={intl.formatMessage({ id: 'pages.dev.clusterConfig.flinkVersion' })}
         rules={[{ required: true }]}
         showSearch={true}
         request={() => DictDataService.listDictDataByType(DICT_TYPE.flinkVersion)}
-      />
+      /> */}
       <ProFormSelect
         name="flinkReleaseId"
         label={intl.formatMessage({ id: 'pages.dev.clusterConfig.flinkRelease' })}

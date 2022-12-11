@@ -1,9 +1,9 @@
 import { Dict } from '@/app.d';
-import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
+import { DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
 import { FlinkClusterConfig } from '@/services/project/typings';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, DeploymentUnitOutlined, EditOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { Button, message, Modal, Select, Space, Tooltip } from 'antd';
 import { useEffect, useRef, useState } from 'react';
@@ -14,7 +14,8 @@ const FlinkClusterConfigWeb: React.FC = () => {
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<FlinkClusterConfig[]>([]);
+  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
+  // const [selectedRows, setSelectedRows] = useState<FlinkClusterConfig[]>([]);
   const [flinkVersionList, setFlinkVersionList] = useState<Dict[]>([]);
   const [resourceProviderList, setResourceProviderList] = useState<Dict[]>([]);
   const [deployModeList, setDeployModeList] = useState<Dict[]>([]);
@@ -35,10 +36,13 @@ const FlinkClusterConfigWeb: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'pages.dev.clusterConfig.name' }),
       dataIndex: 'name',
+      width: 200,
+      fixed: 'left',
     },
     {
       title: intl.formatMessage({ id: 'pages.dev.clusterConfig.flinkVersion' }),
       dataIndex: 'flinkVersion',
+      width: 120,
       render: (text, record, index) => {
         return record.flinkVersion?.label;
       },
@@ -66,6 +70,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'pages.dev.clusterConfig.deployMode' }),
       dataIndex: 'deployMode',
+      width: 120,
       render: (text, record, index) => {
         return record.deployMode?.label;
       },
@@ -93,6 +98,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'pages.dev.clusterConfig.resourceProvider' }),
       dataIndex: 'resourceProvider',
+      width: 120,
       render: (text, record, index) => {
         return record.resourceProvider?.label;
       },
@@ -120,6 +126,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'pages.dev.clusterConfig.flinkRelease' }),
       dataIndex: 'flinkRelease',
+      width: 240,
       hideInSearch: true,
       render: (text, record, index) => {
         return record.flinkRelease?.fileName;
@@ -128,6 +135,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'pages.dev.clusterConfig.clusterCredential' }),
       dataIndex: 'clusterCredential',
+      width: 120,
       hideInSearch: true,
       render: (text, record, index) => {
         return record.clusterCredential?.name;
@@ -136,6 +144,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'pages.dev.remark' }),
       dataIndex: 'remark',
+      width: 240,
       hideInSearch: true,
     },
     {
@@ -160,6 +169,18 @@ const FlinkClusterConfigWeb: React.FC = () => {
       render: (_, record) => (
         <>
           <Space>
+            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
+              <Tooltip title={intl.formatMessage({ id: 'pages.project.cluster.instance.create' })}>
+                <Button
+                  shape="default"
+                  type="link"
+                  icon={<DeploymentUnitOutlined />}
+                  onClick={() => {
+                    
+                  }}
+                ></Button>
+              </Tooltip>
+            )}
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
               <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
                 <Button
@@ -210,17 +231,19 @@ const FlinkClusterConfigWeb: React.FC = () => {
 
   return (
     <ProTable<FlinkClusterConfig>
+      headerTitle={intl.formatMessage({ id: 'pages.dev.clusterConfig' })}
       search={{
         labelWidth: 'auto',
         span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
       }}
       rowKey="id"
+      scroll={{ x: 1200, y: 480 }}
       actionRef={actionRef}
       formRef={formRef}
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) => {
-        return FlinkClusterConfigService.list(params);
+        return FlinkClusterConfigService.list({ ...params, projectId: projectId + '' });
       }}
       toolbar={{
         actions: [
@@ -235,45 +258,45 @@ const FlinkClusterConfigWeb: React.FC = () => {
               {intl.formatMessage({ id: 'app.common.operate.new.label' })}
             </Button>
           ),
-          access.canAccess(PRIVILEGE_CODE.datadevProjectDelete) && (
-            <Button
-              key="del"
-              type="default"
-              disabled={selectedRows.length < 1}
-              onClick={() => {
-                Modal.confirm({
-                  title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                  content: intl.formatMessage({
-                    id: 'app.common.operate.delete.confirm.content',
-                  }),
-                  okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                  okButtonProps: { danger: true },
-                  cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
-                  onOk() {
-                    FlinkClusterConfigService.deleteBatch(selectedRows).then((d) => {
-                      if (d.success) {
-                        message.success(
-                          intl.formatMessage({ id: 'app.common.operate.delete.success' }),
-                        );
-                        actionRef.current?.reload();
-                      }
-                    });
-                  },
-                });
-              }}
-            >
-              {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
-            </Button>
-          ),
+          // access.canAccess(PRIVILEGE_CODE.datadevProjectDelete) && (
+          //   <Button
+          //     key="del"
+          //     type="default"
+          //     disabled={selectedRows.length < 1}
+          //     onClick={() => {
+          //       Modal.confirm({
+          //         title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
+          //         content: intl.formatMessage({
+          //           id: 'app.common.operate.delete.confirm.content',
+          //         }),
+          //         okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+          //         okButtonProps: { danger: true },
+          //         cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+          //         onOk() {
+          //           FlinkClusterConfigService.deleteBatch(selectedRows).then((d) => {
+          //             if (d.success) {
+          //               message.success(
+          //                 intl.formatMessage({ id: 'app.common.operate.delete.success' }),
+          //               );
+          //               actionRef.current?.reload();
+          //             }
+          //           });
+          //         },
+          //       });
+          //     }}
+          //   >
+          //     {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
+          //   </Button>
+          // ),
         ],
       }}
       pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
-      rowSelection={{
-        fixed: true,
-        onChange(selectedRowKeys, selectedRows, info) {
-          setSelectedRows(selectedRows);
-        },
-      }}
+      // rowSelection={{
+      //   fixed: true,
+      //   onChange(selectedRowKeys, selectedRows, info) {
+      //     setSelectedRows(selectedRows);
+      //   },
+      // }}
       tableAlertRender={false}
       tableAlertOptionRender={false}
     />

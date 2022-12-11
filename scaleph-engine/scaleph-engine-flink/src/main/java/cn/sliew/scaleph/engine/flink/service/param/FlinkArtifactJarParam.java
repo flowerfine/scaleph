@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.flink.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
+import cn.sliew.scaleph.common.param.PaginationParam;
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJar;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -27,7 +28,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class FlinkArtifactJarParam {
+public class FlinkArtifactJarParam extends PaginationParam {
 
     @ApiModelProperty("Flink Artifact Jar ID")
     private Long id;

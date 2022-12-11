@@ -4,7 +4,6 @@ import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.engine.flink.service.FlinkArtifactJarService;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactJarDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarListParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarParam;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -35,7 +34,7 @@ public class ArtifactJarController {
     @Logging
     @GetMapping
     @ApiOperation(value = "查询 artifact jar 列表", notes = "查询 artifact jar 列表")
-    public ResponseEntity<Page<FlinkArtifactJarDTO>> list(@Valid FlinkArtifactJarListParam param) {
+    public ResponseEntity<Page<FlinkArtifactJarDTO>> list(@Valid FlinkArtifactJarParam param) {
         final Page<FlinkArtifactJarDTO> result = flinkArtifactJarService.list(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

@@ -67,9 +67,15 @@ public class FlinkClusterConfig extends BaseDO {
     @TableField(exist = false)
     private ResourceFlinkRelease flinkRelease;
 
+    @TableField("flink_release_id")
+    private Long FlinkReleaseId;
+
     @ApiModelProperty("集群凭证 id。如 hadoop 的 core-site.xml，kubernetes 的 kubeconfig")
     @TableField(exist = false)
     private ResourceClusterCredential clusterCredential;
+
+    @TableField("cluster_credential_id")
+    private Long clusterCredentialId;
 
     @ApiModelProperty("kubernetes 配置")
     @TableField("kubernetes_options")

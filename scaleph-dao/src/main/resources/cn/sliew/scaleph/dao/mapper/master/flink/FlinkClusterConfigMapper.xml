@@ -25,6 +25,7 @@
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
+        <result column="project_id" property="projectId"/>
         <result column="name" property="name"/>
         <result column="flink_version" property="flinkVersion"/>
         <result column="resource_provider" property="resourceProvider"/>
@@ -80,6 +81,9 @@
         JOIN resource_flink_release t2 ON t1.flink_release_id = t2.id
         JOIN resource_cluster_credential t3 ON t1.cluster_credential_id = t3.id
         <where>
+            <if test="param.projectId != null ">
+                and t1.project_id = #{param.projectId}
+            </if>
             <if test="param.name != null and param.name != ''">
                 AND t1.`name` like CONCAT('%', #{param.name},'%')
             </if>

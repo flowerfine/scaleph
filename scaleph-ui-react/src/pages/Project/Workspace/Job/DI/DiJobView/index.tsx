@@ -213,7 +213,7 @@ const DiJobView: React.FC = () => {
                                 onClick={() => {
                                   setJobFormData({
                                     visible: true,
-                                    data: { projectId: projectId , jobType: { value: 'r' } },
+                                    data: { projectId: projectId + '', jobType: { value: 'r' } },
                                   });
                                 }}
                               >
@@ -229,7 +229,7 @@ const DiJobView: React.FC = () => {
                                 onClick={() => {
                                   setJobFormData({
                                     visible: true,
-                                    data: { projectId: projectId, jobType: { value: 'b' } },
+                                    data: { projectId: projectId + '', jobType: { value: 'b' } },
                                   });
                                 }}
                               >

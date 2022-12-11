@@ -20,8 +20,7 @@ package cn.sliew.scaleph.engine.flink.service;
 
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptions;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigAddParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigListParam;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
@@ -29,7 +28,7 @@ import java.util.Map;
 
 public interface FlinkClusterConfigService {
 
-    FlinkClusterConfigDTO insert(FlinkClusterConfigAddParam param);
+    int insert(FlinkClusterConfigDTO param);
 
     int updateKubernetesOptions(Long id, KubernetesOptions options);
 
@@ -41,7 +40,7 @@ public interface FlinkClusterConfigService {
 
     int deleteBatch(List<Long> ids);
 
-    Page<FlinkClusterConfigDTO> listByPage(FlinkClusterConfigListParam param);
+    Page<FlinkClusterConfigDTO> listByPage(FlinkClusterConfigParam param);
 
     FlinkClusterConfigDTO selectOne(Long id);
 }

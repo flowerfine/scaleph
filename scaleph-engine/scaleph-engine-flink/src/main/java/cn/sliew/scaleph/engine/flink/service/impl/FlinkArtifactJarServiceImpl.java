@@ -25,7 +25,6 @@ import cn.sliew.scaleph.dao.mapper.master.flink.FlinkArtifactJarMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkArtifactJarService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkArtifactJarConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactJarDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarListParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarParam;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.system.util.I18nUtil;
@@ -54,7 +53,7 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
     }
 
     @Override
-    public Page<FlinkArtifactJarDTO> list(FlinkArtifactJarListParam param) {
+    public Page<FlinkArtifactJarDTO> list(FlinkArtifactJarParam param) {
         Page<FlinkArtifactJar> page = new Page<>(param.getCurrent(), param.getPageSize());
         final FlinkArtifactJar flinkArtifactJar = BeanUtil.copy(param, new FlinkArtifactJar());
         final Page<FlinkArtifactJar> jarPage = flinkArtifactJarMapper.list(page, flinkArtifactJar);

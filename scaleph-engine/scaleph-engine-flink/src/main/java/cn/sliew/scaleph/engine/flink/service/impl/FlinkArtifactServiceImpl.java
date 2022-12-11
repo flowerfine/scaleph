@@ -24,7 +24,7 @@ import cn.sliew.scaleph.dao.mapper.master.flink.FlinkArtifactMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkArtifactService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkArtifactConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactListParam;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactParam;
 import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -32,7 +32,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -45,7 +44,7 @@ public class FlinkArtifactServiceImpl implements FlinkArtifactService {
     private FlinkArtifactMapper flinkArtifactMapper;
 
     @Override
-    public Page<FlinkArtifactDTO> list(FlinkArtifactListParam param) {
+    public Page<FlinkArtifactDTO> list(FlinkArtifactParam param) {
         final Page<FlinkArtifact> page = flinkArtifactMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(FlinkArtifact.class)

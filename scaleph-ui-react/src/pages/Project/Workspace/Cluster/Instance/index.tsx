@@ -1,5 +1,5 @@
 import { Dict } from '@/app.d';
-import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
+import { DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInstance.service';
 import { FlinkClusterInstance } from '@/services/project/typings';
@@ -14,8 +14,8 @@ const ClusterInstanceWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
+  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<FlinkClusterInstance[]>([]);
   const [clusterStatusList, setClusterStatusList] = useState<Dict[]>([]);
   const [sessionClusterFormData, setSessionClusterData] = useState<{
     visiable: boolean;
@@ -149,6 +149,7 @@ const ClusterInstanceWeb: React.FC = () => {
   return (
     <div>
       <ProTable<FlinkClusterInstance>
+        headerTitle={intl.formatMessage({ id: 'pages.dev.clusterInstance' })}
         search={{
           labelWidth: 'auto',
           span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
@@ -160,7 +161,7 @@ const ClusterInstanceWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return FlinkCLusterInstanceService.list(params);
+          return FlinkCLusterInstanceService.list({ ...params, projectId: projectId + '' });
         }}
         toolbar={{
           actions: [
@@ -175,45 +176,9 @@ const ClusterInstanceWeb: React.FC = () => {
                 {intl.formatMessage({ id: 'app.common.operate.new.label' })}
               </Button>
             ),
-            access.canAccess(PRIVILEGE_CODE.datadevProjectDelete) && (
-              <Button
-                key="del"
-                type="default"
-                disabled={selectedRows.length < 1}
-                onClick={() => {
-                  Modal.confirm({
-                    title: intl.formatMessage({ id: 'app.common.operate.close.confirm.title' }),
-                    content: intl.formatMessage({
-                      id: 'app.common.operate.close.confirm.content',
-                    }),
-                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                    okButtonProps: { danger: true },
-                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
-                    onOk() {
-                      FlinkCLusterInstanceService.shutdownBatch(selectedRows).then((d) => {
-                        if (d.success) {
-                          message.success(
-                            intl.formatMessage({ id: 'app.common.operate.close.success' }),
-                          );
-                          actionRef.current?.reload();
-                        }
-                      });
-                    },
-                  });
-                }}
-              >
-                {intl.formatMessage({ id: 'app.common.operate.close.label' })}
-              </Button>
-            ),
           ],
         }}
         pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
-        rowSelection={{
-          fixed: true,
-          onChange(selectedRowKeys, selectedRows, info) {
-            setSelectedRows(selectedRows);
-          },
-        }}
         tableAlertRender={false}
         tableAlertOptionRender={false}
       ></ProTable>

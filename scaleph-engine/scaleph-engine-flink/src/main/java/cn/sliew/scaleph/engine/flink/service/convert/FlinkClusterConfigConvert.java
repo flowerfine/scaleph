@@ -56,7 +56,9 @@ public interface FlinkClusterConfigConvert extends BaseConvert<FlinkClusterConfi
         entity.setResourceProvider(dto.getResourceProvider());
         entity.setDeployMode(dto.getDeployMode());
         entity.setFlinkRelease(FlinkReleaseConvert.INSTANCE.toDo(dto.getFlinkRelease()));
+        entity.setFlinkReleaseId(entity.getFlinkRelease().getId());
         entity.setClusterCredential(ClusterCredentialConvert.INSTANCE.toDo(dto.getClusterCredential()));
+        entity.setClusterCredentialId(entity.getClusterCredential().getId());
         if (dto.getKubernetesOptions() != null) {
             entity.setKubernetesOptions(JacksonUtil.toJsonString(dto.getKubernetesOptions()));
         }

@@ -1,7 +1,7 @@
 import { Dict, QueryParam } from '@/app.d';
 import { FlinkArtifactJar, FlinkClusterConfig, FlinkClusterInstance } from '@/services/dev/typings';
 import { UploadFile } from 'antd';
-
+import { ClusterCredential, FlinkRelease } from '@/services/resource/typings';
 export type MetaDataSource = {
   id?: number;
   datasourceName?: string;
@@ -37,7 +37,7 @@ export type DiProjectParam = QueryParam & {
 
 export type DiJob = {
   id?: number;
-  projectId?: number;
+  projectId?: number | string;
   jobCode?: number;
   jobName?: string;
   jobType?: Dict;
@@ -247,6 +247,7 @@ export type FlinkArtifactJarParam = QueryParam & {
 
 export type FlinkClusterConfig = {
   id?: number;
+  projectId?: number | string;
   name?: string;
   flinkVersion?: Dict;
   resourceProvider?: Dict;
@@ -277,21 +278,22 @@ export type KubernetesOptions = {
 };
 
 export type FlinkClusterConfigParam = QueryParam & {
+  projectId?: number | string;
   name?: string;
   flinkVersion?: string;
   resourceProvider?: string;
   deployMode?: string;
 };
 
-export type FlinkClusterConfigAddParam = {
-  name?: string;
-  flinkVersion?: string;
-  resourceProvider?: string;
-  deployMode?: string;
-  flinkReleaseId?: number;
-  clusterCredentialId?: number;
-  remark?: string;
-};
+// export type FlinkClusterConfigAddParam = {
+//   name?: string;
+//   flinkVersion?: string;
+//   resourceProvider?: string;
+//   deployMode?: string;
+//   flinkReleaseId?: number;
+//   clusterCredentialId?: number;
+//   remark?: string;
+// };
 
 export type FlinkClusterInstance = {
   id?: number;
@@ -306,12 +308,8 @@ export type FlinkClusterInstance = {
 };
 
 export type FlinkClusterInstanceParam = QueryParam & {
+  projectId?: string | number;
   name?: string;
   flinkClusterConfigId?: number;
   status?: string;
-};
-
-export type FlinkSessionClusterNewParam = QueryParam & {
-  flinkClusterConfigId?: number;
-  remark?: string;
 };

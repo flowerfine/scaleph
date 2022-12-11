@@ -23,7 +23,7 @@ import cn.sliew.scaleph.dao.mapper.master.flink.FlinkClusterInstanceMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkClusterInstanceService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkClusterInstanceConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterInstanceDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterInstanceListParam;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterInstanceParam;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
@@ -41,13 +41,15 @@ public class FlinkClusterInstanceServiceImpl implements FlinkClusterInstanceServ
     private FlinkClusterInstanceMapper flinkClusterInstanceMapper;
 
     @Override
-    public Page<FlinkClusterInstanceDTO> list(FlinkClusterInstanceListParam param) {
+    public Page<FlinkClusterInstanceDTO> list(FlinkClusterInstanceParam param) {
         final Page<FlinkClusterInstance> page = flinkClusterInstanceMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(FlinkClusterInstance.class)
                         .like(StringUtils.hasText(param.getName()), FlinkClusterInstance::getName, param.getName())
                         .eq(param.getFlinkClusterConfigId() != null, FlinkClusterInstance::getFlinkClusterConfigId, param.getFlinkClusterConfigId())
-                        .eq(param.getStatus() != null, FlinkClusterInstance::getStatus, param.getStatus()));
+                        .eq(param.getStatus() != null, FlinkClusterInstance::getStatus, param.getStatus())
+                        .eq(param.getProjectId() != null, FlinkClusterInstance::getProjectId, param.getProjectId())
+        );
         Page<FlinkClusterInstanceDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         List<FlinkClusterInstanceDTO> dtoList = FlinkClusterInstanceConvert.INSTANCE.toDto(page.getRecords());

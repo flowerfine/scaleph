@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.engine.flink.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -26,14 +25,11 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FlinkClusterInstanceListParam extends PaginationParam {
+public class FlinkArtifactParam extends PaginationParam {
 
-    @ApiModelProperty("集群配置")
-    private Long flinkClusterConfigId;
-
-    @ApiModelProperty("集群名称。支持模糊匹配")
+    @ApiModelProperty("名称。支持模糊搜索")
     private String name;
 
-    @ApiModelProperty("集群状态。0: 停止, 1: 运行")
-    private FlinkClusterStatus status;
+    @ApiModelProperty("项目id")
+    private Long projectId;
 }

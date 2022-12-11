@@ -1,11 +1,11 @@
 import { ModalFormProps } from '@/app.d';
-import { DICT_TYPE } from '@/constant';
+import { DICT_TYPE, WORKSPACE_CONF } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
 import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInstance.service';
-import { FlinkClusterConfigParam, FlinkSessionClusterNewParam } from '@/services/project/typings';
+import { FlinkClusterConfigParam, FlinkClusterInstanceParam } from '@/services/project/typings';
 import { useIntl } from '@@/exports';
-import { ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
+import { ProForm, ProFormSelect } from '@ant-design/pro-components';
 import { Form, message, Modal } from 'antd';
 import { useState } from 'react';
 
@@ -18,6 +18,7 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({
   const intl = useIntl();
   const [form] = Form.useForm();
   const [confirming, setConfirming] = useState(false);
+  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
   return (
     <Modal
@@ -34,9 +35,9 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          const param: FlinkSessionClusterNewParam = {
+          const param: FlinkClusterInstanceParam = {
             flinkClusterConfigId: values.flinkClusterConfig,
-            remark: values.remark,
+            projectId: projectId + '',
           };
           setConfirming(true);
           FlinkCLusterInstanceService.newSession(param)
@@ -50,7 +51,7 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({
             })
             .finally(() => {
               setConfirming(false);
-              onVisibleChange(false);
+              onVisibleChange ? onVisibleChange(false) : null;
             });
         });
       }}
@@ -84,21 +85,20 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({
           dependencies={['flinkVersion', 'resourceProvider']}
           request={(params) => {
             const listParam: FlinkClusterConfigParam = {
+              projectId: projectId + '',
               flinkVersion: params.flinkVersion,
               resourceProvider: params.resourceProvider,
               deployMode: '2',
             };
             return FlinkClusterConfigService.list(listParam).then((response) => {
               return response.data.map((item) => {
-                return { label: item.name, value: item.id };
+                return {
+                  label: item.name,
+                  value: item.id,
+                };
               });
             });
           }}
-        />
-        <ProFormText
-          name="remark"
-          label={intl.formatMessage({ id: 'pages.dev.remark' })}
-          rules={[{ max: 200 }]}
         />
       </ProForm>
     </Modal>

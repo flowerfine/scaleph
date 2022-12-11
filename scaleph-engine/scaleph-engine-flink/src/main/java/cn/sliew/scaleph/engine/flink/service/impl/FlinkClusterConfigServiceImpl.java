@@ -26,17 +26,17 @@ import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkClusterConfigConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptions;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigAddParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigListParam;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigParam;
+import cn.sliew.scaleph.resource.service.FlinkReleaseService;
+import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
-
-import static cn.sliew.milky.common.check.Ensures.checkState;
 
 @Service
 public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService {
@@ -44,11 +44,17 @@ public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService 
     @Autowired
     private FlinkClusterConfigMapper flinkClusterConfigMapper;
 
+    @Autowired
+    private FlinkReleaseService flinkReleaseService;
+
     @Override
-    public FlinkClusterConfigDTO insert(FlinkClusterConfigAddParam param) {
-        final FlinkClusterConfig record = param.toDo();
-        flinkClusterConfigMapper.insert(record);
-        return selectOne(record.getId());
+    public int insert(FlinkClusterConfigDTO param) {
+        FlinkReleaseDTO release = flinkReleaseService.selectOne(param.getFlinkRelease().getId());
+        param.setFlinkRelease(release);
+        param.setFlinkVersion(release.getVersion());
+        final FlinkClusterConfig record = FlinkClusterConfigConvert.INSTANCE.toDo(param);
+
+        return flinkClusterConfigMapper.insert(record);
     }
 
     @Override
@@ -72,6 +78,9 @@ public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService 
 
     @Override
     public int update(FlinkClusterConfigDTO dto) {
+        FlinkReleaseDTO release = flinkReleaseService.selectOne(dto.getFlinkRelease().getId());
+        dto.setFlinkRelease(release);
+        dto.setFlinkVersion(release.getVersion());
         final FlinkClusterConfig record = FlinkClusterConfigConvert.INSTANCE.toDo(dto);
         return flinkClusterConfigMapper.updateById(record);
     }
@@ -82,6 +91,7 @@ public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int deleteBatch(List<Long> ids) {
         for (Long id : ids) {
             deleteById(id);
@@ -90,7 +100,7 @@ public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService 
     }
 
     @Override
-    public Page<FlinkClusterConfigDTO> listByPage(FlinkClusterConfigListParam param) {
+    public Page<FlinkClusterConfigDTO> listByPage(FlinkClusterConfigParam param) {
         final Page<FlinkClusterConfig> page = new Page<>(param.getCurrent(), param.getPageSize());
         FlinkClusterConfig flinkClusterConfig = BeanUtil.copy(param, new FlinkClusterConfig());
         final Page<FlinkClusterConfig> clusterPage = flinkClusterConfigMapper.list(page, flinkClusterConfig);

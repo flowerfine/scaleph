@@ -20,7 +20,6 @@ package cn.sliew.scaleph.engine.flink.service;
 
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactJarDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarListParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +29,7 @@ import java.io.OutputStream;
 
 public interface FlinkArtifactJarService {
 
-    Page<FlinkArtifactJarDTO> list(FlinkArtifactJarListParam param);
+    Page<FlinkArtifactJarDTO> list(FlinkArtifactJarParam param);
 
     FlinkArtifactJarDTO selectOne(Long id);
 
