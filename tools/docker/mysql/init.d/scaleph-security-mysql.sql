@@ -130,6 +130,38 @@ INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_
 VALUES (200009, 'pwcc0', '集群配置', '1', 8, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
 VALUES (200010, 'pwci0', '集群实例', '1', 8, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300000, 'prej0', '公共 Jar', '1', 3, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300001, 'prfr0', 'Flink Release', '1', 3, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300002, 'prsr0', 'SeaTunnel Release', '1', 3, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300003, 'prek0', 'Kerberos', '1', 3, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300004, 'prcc0', 'Cluster Credential', '1', 3, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (400000, 'pdsl0', '数据源列表', '1', 4, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500000, 'psts0', '业务系统', '1', 5, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500001, 'pste0', '数据元', '1', 5, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500002, 'pstt0', '参考数据', '1', 5, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500003, 'pstm0', '数据映射', '1', 5, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600000, 'padr0', '用户管理', '1', 6, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600001, 'parw0', 'Web 资源', '1', 6, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600002, 'padp0', '权限管理', '1', 6, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600003, 'pawq0', '系统任务', '1', 6, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600004, 'padd0', '数据字典', '1', 6, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600005, 'pads0', '系统设置', '1', 6, 'sys', 'sys');
 
 
 /* 角色权限关联表 */

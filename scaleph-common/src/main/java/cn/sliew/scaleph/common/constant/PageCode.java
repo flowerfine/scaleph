@@ -48,6 +48,7 @@ public enum PageCode {
     public static final String RESOURCE_CLUSTER_CREDENTIAL = "rcc";
 
     public static final String DATA_SOURCE = "dse";
+    public static final String DATA_SOURCE_LIST = "dsl";
 
     public static final String STDATA = "std";
     public static final String STDATA_SYSTEM = "sts";
@@ -59,6 +60,7 @@ public enum PageCode {
     public static final String ADMIN_DEPT = "adp";
     public static final String ADMIN_USER = "adr";
     public static final String ADMIN_ROLE = "adr";
+    public static final String ADMIN_RESOURCE_WEB = "arw";
     public static final String ADMIN_PRIVILEGE = "adp";
     public static final String ADMIN_WORKFLOW_QUARTZ = "awq";
     public static final String ADMIN_DICT = "add";
