@@ -39,6 +39,7 @@ public enum PageResource {
     public static Route RESOURCE_SEATUNNEL_RELEASE = new Route(300002, "SeaTunnel Release", PageCode.RESOURCE_SEATUNNEL_RELEASE, "/resource/seatunnel-release", MenuResource.RESOURCE);
     public static Route RESOURCE_KERBEROS = new Route(300003, "Kerberos", PageCode.RESOURCE_KERBEROS, "/resource/kerberos", MenuResource.RESOURCE);
     public static Route RESOURCE_CLUSTER_CREDENTIAL = new Route(300004, "Cluster Credential", PageCode.RESOURCE_CLUSTER_CREDENTIAL, "/resource/cluster-credential", MenuResource.RESOURCE);
+    public static Route RESOURCE_CLUSTER_CREDENTIAL_FILE = new Route(300005, "Cluster Credential File", PageCode.RESOURCE_CLUSTER_CREDENTIAL_FILE, "/resource/cluster-credential/file", MenuResource.RESOURCE);
 
     public static Route DATA_SOURCE = new Route(400000, "数据源", PageCode.DATA_SOURCE_LIST, "/dataSource", MenuResource.DATA_SOURCE);
 

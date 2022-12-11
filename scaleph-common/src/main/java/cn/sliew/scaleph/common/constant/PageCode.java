@@ -46,6 +46,7 @@ public enum PageCode {
     public static final String RESOURCE_SEATUNNEL_RELEASE = "rsr";
     public static final String RESOURCE_KERBEROS = "rek";
     public static final String RESOURCE_CLUSTER_CREDENTIAL = "rcc";
+    public static final String RESOURCE_CLUSTER_CREDENTIAL_FILE = "rcf";
 
     public static final String DATA_SOURCE = "dse";
     public static final String DATA_SOURCE_LIST = "dsl";
