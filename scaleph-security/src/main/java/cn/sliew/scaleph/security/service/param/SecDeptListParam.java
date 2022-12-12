@@ -16,41 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.service;
+package cn.sliew.scaleph.security.service.param;
 
-import cn.sliew.scaleph.security.service.dto.SecDeptDTO;
-import cn.sliew.scaleph.security.service.dto.SecDeptTreeDTO;
-import cn.sliew.scaleph.security.service.param.SecDeptListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class SecDeptListParam extends PaginationParam {
 
-/**
- * <p>
- * 部门表 服务类
- * </p>
- *
- * @author liyu
- * @since 2021-08-01
- */
-public interface SecDeptService {
+    @ApiModelProperty(value = "部门编号")
+    private String deptCode;
 
-    int insert(SecDeptDTO secDeptDTO);
+    @ApiModelProperty(value = "部门名称")
+    private String deptName;
 
-    int update(SecDeptDTO secDeptDTO);
-
-    int deleteById(Long id);
-
-    int deleteBatch(List<Long> ids);
-
-    SecDeptDTO selectOne(Long id);
-
-    SecDeptDTO selectOne(String deptCode);
-
-    List<SecDeptDTO> listAll();
-
-    List<SecDeptDTO> listByDeptId(Long pid);
-
-    Page<SecDeptTreeDTO> listByPage(SecDeptListParam param);
+    @ApiModelProperty(value = "上级部门id")
+    private Long pid;
 
 }

@@ -105,7 +105,7 @@ public class SecPrivilegeController {
     @ApiOperation(value = "查询权限树", notes = "查询权限树")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
     public ResponseEntity<ResponseVO<List<SecPrivilegeDTO>>> listByPid(@PathVariable("pid") Long pid) {
-        List<SecPrivilegeDTO> privilegeList = this.secPrivilegeService.listByPid(pid);
+        List<SecPrivilegeDTO> privilegeList = this.secPrivilegeService.listByPid(pid, null);
         return new ResponseEntity<>(ResponseVO.sucess(privilegeList), HttpStatus.OK);
     }
 

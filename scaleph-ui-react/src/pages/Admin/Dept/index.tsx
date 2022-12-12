@@ -1,58 +1,43 @@
 import {useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
-import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {isEmpty} from "lodash";
+import {SecDeptTree} from "@/services/admin/typings";
+import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
 import {PRIVILEGE_CODE} from "@/constant";
-import {SecPrivilege} from "@/services/admin/typings";
+import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {PrivilegeService} from "@/services/admin/privilege.service";
 import WebResourceForm from "@/pages/Admin/Resource/Web/components/WebResourceForm";
+import {DeptService} from "@/services/admin/dept.service";
 
-const WebResourceWeb: React.FC = () => {
+const DeptWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<SecPrivilege[]>([]);
+  const [selectedRows, setSelectedRows] = useState<SecDeptTree[]>([]);
   const [webResourceFormData, setWebResourceFormData] = useState<{
     visiable: boolean;
-    parent: SecPrivilege;
-    data: SecPrivilege;
+    parent: SecDeptTree;
+    data: SecDeptTree;
   }>({visiable: false, parent: {}, data: {}});
 
-  const onExpand = (expanded: boolean, record: SecPrivilege) => {
-    if (expanded && record.children && isEmpty(record.children)) {
-      PrivilegeService.listByPid(record.id).then((response) => {
-        record.children = response.data
-      })
-    }
-  }
-
-  const tableColumns: ProColumns<SecPrivilege>[] = [
+  const tableColumns: ProColumns<SecDeptTree>[] = [
     {
-      title: intl.formatMessage({id: 'pages.admin.resource.privilegeName'}),
-      dataIndex: 'privilegeName',
+      title: intl.formatMessage({id: 'pages.admin.dept.deptName'}),
+      dataIndex: 'deptName',
       width: 200
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.resource.privilegeCode'}),
-      dataIndex: 'privilegeCode',
-      hideInSearch: true,
+      title: intl.formatMessage({id: 'pages.admin.dept.deptCode'}),
+      dataIndex: 'deptCode',
       width: 200
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.resource.resourceType'}),
-      dataIndex: 'resourceType',
+      title: intl.formatMessage({id: 'pages.admin.dept.deptStatus'}),
+      dataIndex: 'deptStatus',
       render: (dom, entity) => {
-        return (<Tag>{entity.resourceType?.label}</Tag>)
+        return (<Tag>{entity.deptStatus?.label}</Tag>)
       },
-      hideInSearch: true,
-      width: 200
-    },
-    {
-      title: intl.formatMessage({id: 'pages.admin.resource.resourcePath'}),
-      dataIndex: 'resourcePath',
       hideInSearch: true,
       width: 200
     },
@@ -132,7 +117,7 @@ const WebResourceWeb: React.FC = () => {
 
   return (
     <div>
-      <ProTable<SecPrivilege>
+      <ProTable<SecDeptTree>
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -143,7 +128,7 @@ const WebResourceWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return PrivilegeService.listByPage({...params, pid: 0})
+          return DeptService.listByPage({...params, pid: 0})
         }}
         toolbar={{
           actions: [
@@ -206,7 +191,6 @@ const WebResourceWeb: React.FC = () => {
       )}
     </div>
   );
-
 }
 
-export default WebResourceWeb;
+export default DeptWeb;

@@ -61,16 +61,16 @@ public class SecPrivilegeServiceImpl implements SecPrivilegeService {
         Page<SecPrivilege> list = secPrivilegeMapper.selectPage(page, queryWrapper);
         Page<SecPrivilegeDTO> result = new Page<>(list.getCurrent(), list.getSize(), list.getTotal());
         List<SecPrivilegeDTO> dtoList = SecPrivilegeConvert.INSTANCE.toDto(list.getRecords());
-        dtoList.forEach(this::recurse);
+        dtoList.forEach(dto -> recurse(dto, param.getPrivilegeName()));
         result.setRecords(dtoList);
         return result;
     }
 
-    private void recurse(SecPrivilegeDTO privilege) {
-        List<SecPrivilegeDTO> children = listByPid(privilege.getId());
+    private void recurse(SecPrivilegeDTO privilege, String privilegeName) {
+        List<SecPrivilegeDTO> children = listByPid(privilege.getId(), privilegeName);
         if (CollectionUtils.isEmpty(children) == false) {
             privilege.setChildren(children);
-            children.forEach(this::recurse);
+            children.forEach(child -> recurse(child, privilegeName));
         }
     }
 
@@ -82,9 +82,10 @@ public class SecPrivilegeServiceImpl implements SecPrivilegeService {
     }
 
     @Override
-    public List<SecPrivilegeDTO> listByPid(Long pid) {
+    public List<SecPrivilegeDTO> listByPid(Long pid, String privilegeName) {
         LambdaQueryWrapper<SecPrivilege> queryWrapper = Wrappers.lambdaQuery(SecPrivilege.class)
-                .eq(SecPrivilege::getPid, pid);
+                .eq(SecPrivilege::getPid, pid)
+                .like(StringUtils.hasText(privilegeName), SecPrivilege::getPrivilegeName, privilegeName);
         List<SecPrivilege> list = secPrivilegeMapper.selectList(queryWrapper);
         return SecPrivilegeConvert.INSTANCE.toDto(list);
     }

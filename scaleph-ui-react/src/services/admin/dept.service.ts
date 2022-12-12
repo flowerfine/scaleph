@@ -1,9 +1,25 @@
-import { ResponseBody } from '@/app.d';
-import { request } from 'umi';
-import { SecDept, SecDeptTreeNode } from './typings';
+import {PageResponse, ResponseBody} from '@/app.d';
+import {request} from 'umi';
+import {SecDept, SecDeptParam, SecDeptTree, SecDeptTreeNode} from './typings';
 
 export const DeptService = {
   url: '/api/admin/dept',
+
+  listByPage: async (param: SecDeptParam) => {
+    return request<PageResponse<SecDeptTree>>(`${DeptService.url}/list`, {
+      method: 'GET',
+      params: param,
+    }).then((res) => {
+      const result = {
+        data: res.records,
+        total: res.total,
+        pageSize: res.size,
+        current: res.current,
+      };
+      return result;
+    });
+  },
+
   listAllDept: async () => {
     return request<SecDeptTreeNode[]>(`${DeptService.url}`);
   },
@@ -35,8 +51,8 @@ export const DeptService = {
   grantDeptToUsers: async (deptId: string, userIds: string[]) => {
     return request<ResponseBody<any>>(`${DeptService.url}/grant`, {
       method: 'POST',
-      data: { deptId: deptId, userIds: JSON.stringify(userIds) },
-      headers: { 'Content-Type': 'multipart/form-data' },
+      data: {deptId: deptId, userIds: JSON.stringify(userIds)},
+      headers: {'Content-Type': 'multipart/form-data'},
     });
   },
 };
