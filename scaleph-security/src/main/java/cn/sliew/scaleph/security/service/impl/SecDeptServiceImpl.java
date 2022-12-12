@@ -72,6 +72,10 @@ public class SecDeptServiceImpl implements SecDeptService {
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public int deleteById(Long id) {
+        List<SecDeptDTO> secDeptDTOS = listByDeptId(id);
+        for (SecDeptDTO deptDTO : secDeptDTOS) {
+            deleteById(deptDTO.getId());
+        }
         secUserDeptService.deleteBydeptId(id);
         secDeptRoleService.deleteByDeptId(id);
         return secDeptMapper.deleteById(id);
@@ -84,10 +88,9 @@ public class SecDeptServiceImpl implements SecDeptService {
             return 0;
         }
         for (Long id : ids) {
-            secUserDeptService.deleteBydeptId(id);
-            secDeptRoleService.deleteByDeptId(id);
+            deleteById(id);
         }
-        return this.secDeptMapper.deleteBatchIds(ids);
+        return ids.size();
     }
 
     @Override

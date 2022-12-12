@@ -105,12 +105,22 @@ public class SecPrivilegeServiceImpl implements SecPrivilegeService {
 
     @Override
     public int deleteById(Long id) {
+        List<SecPrivilegeDTO> secPrivilegeDTOS = listByPid(id, null);
+        for (SecPrivilegeDTO privilege : secPrivilegeDTOS) {
+            deleteById(privilege.getPid());
+        }
         return secPrivilegeMapper.deleteById(id);
     }
 
     @Override
     public int deleteBatch(List<Long> ids) {
-        return secPrivilegeMapper.deleteBatchIds(ids);
+        if (CollectionUtils.isEmpty(ids)) {
+            return 0;
+        }
+        for (Long id : ids) {
+            deleteById(id);
+        }
+        return ids.size();
     }
 
 }

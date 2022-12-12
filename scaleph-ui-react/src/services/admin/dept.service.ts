@@ -42,9 +42,17 @@ export const DeptService = {
     });
   },
 
-  deleteDept: async (row: SecDept) => {
-    return request<ResponseBody<any>>(`${DeptService.url}/` + row.id, {
+  deleteDept: async (row: SecDeptTree) => {
+    return request<ResponseBody<any>>(`${DeptService.url}/${row.id}`, {
       method: 'DELETE',
+    });
+  },
+
+  deleteBatch: async (rows: SecDeptTree[]) => {
+    const params = rows.map((row) => row.id);
+    return request<ResponseBody<any>>(`${DeptService.url}/batch`, {
+      method: 'DELETE',
+      data: params
     });
   },
 

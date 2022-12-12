@@ -1,19 +1,5 @@
-import { Dict, TreeNode } from '@/app.d';
-import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
-import { DeptService } from '@/services/admin/dept.service';
-import { DictDataService } from '@/services/admin/dictData.service';
-import { RoleService } from '@/services/admin/role.service';
-import { SecDept, SecDeptTreeNode, SecRole, SecUser } from '@/services/admin/typings';
-import { UserService } from '@/services/admin/user.service';
-import {
-  DeleteOutlined,
-  EditOutlined,
-  PlusOutlined,
-  RedoOutlined,
-  StopOutlined,
-  UserSwitchOutlined,
-} from '@ant-design/icons';
-import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
+import {useAccess, useIntl} from 'umi';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Button,
   Card,
@@ -30,8 +16,22 @@ import {
   Tree,
   Typography,
 } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
-import { useAccess, useIntl } from 'umi';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  PlusOutlined,
+  RedoOutlined,
+  StopOutlined,
+  UserSwitchOutlined,
+} from '@ant-design/icons';
+import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
+import {Dict, TreeNode} from '@/app.d';
+import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
+import {DeptService} from '@/services/admin/dept.service';
+import {DictDataService} from '@/services/admin/dictData.service';
+import {RoleService} from '@/services/admin/role.service';
+import {SecDept, SecDeptTreeNode, SecRole, SecUser} from '@/services/admin/typings';
+import {UserService} from '@/services/admin/user.service';
 import DeptForm from './components/DeptForm';
 import DeptGrant from './components/DeptGrant';
 import RoleForm from './components/RoleForm';
@@ -84,29 +84,29 @@ const User: React.FC = () => {
 
   const tableColumns: ProColumns<SecUser>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.admin.user.userName' }),
+      title: intl.formatMessage({id: 'pages.admin.user.userName'}),
       dataIndex: 'userName',
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.user.nickName' }),
+      title: intl.formatMessage({id: 'pages.admin.user.nickName'}),
       dataIndex: 'nickName',
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.user.email' }),
+      title: intl.formatMessage({id: 'pages.admin.user.email'}),
       dataIndex: 'email',
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.user.realName' }),
+      title: intl.formatMessage({id: 'pages.admin.user.realName'}),
       dataIndex: 'realName',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.user.mobilePhone' }),
+      title: intl.formatMessage({id: 'pages.admin.user.mobilePhone'}),
       dataIndex: 'mobilePhone',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.user.gender' }),
+      title: intl.formatMessage({id: 'pages.admin.user.gender'}),
       dataIndex: 'gender',
       hideInSearch: true,
       render: (text, record, index) => {
@@ -114,9 +114,9 @@ const User: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.user.userStatus' }),
+      title: intl.formatMessage({id: 'pages.admin.user.userStatus'}),
       dataIndex: 'userStatus',
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
         return (
           <Select
             showSearch={true}
@@ -141,7 +141,7 @@ const User: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'app.common.operate.label' }),
+      title: intl.formatMessage({id: 'app.common.operate.label'}),
       dataIndex: 'actions',
       align: 'center',
       width: 120,
@@ -151,13 +151,13 @@ const User: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.userEdit) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<EditOutlined />}
+                  icon={<EditOutlined/>}
                   onClick={() => {
-                    setUserFormData({ visible: true, data: record });
+                    setUserFormData({visible: true, data: record});
                   }}
                 ></Button>
               </Tooltip>
@@ -165,11 +165,11 @@ const User: React.FC = () => {
 
             {record.userStatus?.value?.substring(0, 1) != '9' &&
               access.canAccess(PRIVILEGE_CODE.userDelete) && (
-                <Tooltip title={intl.formatMessage({ id: 'app.common.operate.forbid.label' })}>
+                <Tooltip title={intl.formatMessage({id: 'app.common.operate.forbid.label'})}>
                   <Button
                     shape="default"
                     type="link"
-                    icon={<StopOutlined />}
+                    icon={<StopOutlined/>}
                     onClick={() => {
                       Modal.confirm({
                         title: intl.formatMessage({
@@ -178,14 +178,14 @@ const User: React.FC = () => {
                         content: intl.formatMessage({
                           id: 'app.common.operate.forbid.confirm.content',
                         }),
-                        okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                        okButtonProps: { danger: true },
-                        cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                        okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                        okButtonProps: {danger: true},
+                        cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                         onOk() {
                           UserService.deleteUserRow(record).then((d) => {
                             if (d.success) {
                               message.success(
-                                intl.formatMessage({ id: 'app.common.operate.forbid.success' }),
+                                intl.formatMessage({id: 'app.common.operate.forbid.success'}),
                               );
                               actionRef.current?.reload();
                             }
@@ -198,21 +198,21 @@ const User: React.FC = () => {
               )}
             {record.userStatus?.value?.substring(0, 1) == '9' &&
               access.canAccess(PRIVILEGE_CODE.userDelete) && (
-                <Tooltip title={intl.formatMessage({ id: 'app.common.operate.enable.label' })}>
+                <Tooltip title={intl.formatMessage({id: 'app.common.operate.enable.label'})}>
                   <Button
                     shape="default"
                     type="link"
-                    icon={<RedoOutlined />}
+                    icon={<RedoOutlined/>}
                     onClick={() => {
                       let user: SecUser = {
                         userName: record.userName,
                         id: record.id,
-                        userStatus: { value: '10', label: '' },
+                        userStatus: {value: '10', label: ''},
                         email: record.email,
                       };
                       UserService.updateUser(user).then((resp) => {
                         if (resp.success) {
-                          message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+                          message.success(intl.formatMessage({id: 'app.common.operate.success'}));
                           actionRef.current?.reload();
                         }
                       });
@@ -232,16 +232,16 @@ const User: React.FC = () => {
       return (
         <Tooltip
           title={
-            intl.formatMessage({ id: 'app.common.operate.new.label' }) +
-            intl.formatMessage({ id: 'pages.admin.user.role' })
+            intl.formatMessage({id: 'app.common.operate.new.label'}) +
+            intl.formatMessage({id: 'pages.admin.user.role'})
           }
         >
           <Button
             shape="default"
             type="link"
-            icon={<PlusOutlined />}
+            icon={<PlusOutlined/>}
             onClick={() => {
-              setRoleFormData({ visible: true, data: {} });
+              setRoleFormData({visible: true, data: {}});
             }}
           ></Button>
         </Tooltip>
@@ -250,16 +250,16 @@ const User: React.FC = () => {
       return (
         <Tooltip
           title={
-            intl.formatMessage({ id: 'app.common.operate.new.label' }) +
-            intl.formatMessage({ id: 'pages.admin.user.dept' })
+            intl.formatMessage({id: 'app.common.operate.new.label'}) +
+            intl.formatMessage({id: 'pages.admin.user.dept'})
           }
         >
           <Button
             shape="default"
             type="link"
-            icon={<PlusOutlined />}
+            icon={<PlusOutlined/>}
             onClick={() => {
-              setDeptFormData({ visible: true, data: {}, isUpdate: false });
+              setDeptFormData({visible: true, data: {}, isUpdate: false});
             }}
           ></Button>
         </Tooltip>
@@ -357,7 +357,7 @@ const User: React.FC = () => {
             }}
           >
             {access.canAccess(PRIVILEGE_CODE.roleSelect) && (
-              <Tabs.TabPane tab={intl.formatMessage({ id: 'pages.admin.user.role' })} key={roleTab}>
+              <Tabs.TabPane tab={intl.formatMessage({id: 'pages.admin.user.role'})} key={roleTab}>
                 <List
                   bordered={false}
                   dataSource={roleList}
@@ -379,34 +379,34 @@ const User: React.FC = () => {
                         actionRef.current?.reload();
                       }}
                     >
-                      <Typography.Text style={{ paddingRight: 12 }}>
+                      <Typography.Text style={{paddingRight: 12}}>
                         {item.roleName}
                       </Typography.Text>
                       {item.showOpIcon && (
                         <Space size={2}>
                           {access.canAccess(PRIVILEGE_CODE.roleEdit) && (
                             <Tooltip
-                              title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}
+                              title={intl.formatMessage({id: 'app.common.operate.edit.label'})}
                             >
                               <Button
                                 shape="default"
                                 type="text"
-                                icon={<EditOutlined />}
+                                icon={<EditOutlined/>}
                                 onClick={() => {
-                                  setRoleFormData({ visible: true, data: item });
+                                  setRoleFormData({visible: true, data: item});
                                 }}
                               ></Button>
                             </Tooltip>
                           )}
                           {access.canAccess(PRIVILEGE_CODE.roleDelete) && (
                             <Tooltip
-                              title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}
+                              title={intl.formatMessage({id: 'app.common.operate.delete.label'})}
                             >
                               <Button
                                 shape="default"
                                 type="text"
                                 size="small"
-                                icon={<DeleteOutlined />}
+                                icon={<DeleteOutlined/>}
                                 onClick={() => {
                                   Modal.confirm({
                                     title: intl.formatMessage({
@@ -418,7 +418,7 @@ const User: React.FC = () => {
                                     okText: intl.formatMessage({
                                       id: 'app.common.operate.confirm.label',
                                     }),
-                                    okButtonProps: { danger: true },
+                                    okButtonProps: {danger: true},
                                     cancelText: intl.formatMessage({
                                       id: 'app.common.operate.cancel.label',
                                     }),
@@ -441,15 +441,15 @@ const User: React.FC = () => {
                           )}
                           {access.canAccess(PRIVILEGE_CODE.roleGrant) && (
                             <Tooltip
-                              title={intl.formatMessage({ id: 'app.common.operate.grant.label' })}
+                              title={intl.formatMessage({id: 'app.common.operate.grant.label'})}
                             >
                               <Button
                                 shape="default"
                                 type="text"
                                 size="small"
-                                icon={<UserSwitchOutlined />}
+                                icon={<UserSwitchOutlined/>}
                                 onClick={() => {
-                                  setRoleGrantData({ visible: true, data: item });
+                                  setRoleGrantData({visible: true, data: item});
                                 }}
                               ></Button>
                             </Tooltip>
@@ -462,16 +462,16 @@ const User: React.FC = () => {
               </Tabs.TabPane>
             )}
             {access.canAccess(PRIVILEGE_CODE.deptSelect) && (
-              <Tabs.TabPane tab={intl.formatMessage({ id: 'pages.admin.user.dept' })} key={deptTab}>
+              <Tabs.TabPane tab={intl.formatMessage({id: 'pages.admin.user.dept'})} key={deptTab}>
                 <Input.Search
-                  style={{ marginBottom: 8 }}
+                  style={{marginBottom: 8}}
                   allowClear={true}
                   onSearch={searchDeptTree}
-                  placeholder={intl.formatMessage({ id: 'app.common.operate.search.label' })}
+                  placeholder={intl.formatMessage({id: 'app.common.operate.search.label'})}
                 ></Input.Search>
                 <Tree
                   treeData={deptTreeList}
-                  showLine={{ showLeafIcon: false }}
+                  showLine={{showLeafIcon: false}}
                   blockNode={true}
                   showIcon={false}
                   height={680}
@@ -507,20 +507,20 @@ const User: React.FC = () => {
                             setDeptTreeList([...deptTreeList]);
                           }}
                         >
-                          <Typography.Text style={{ paddingRight: 12 }}>
+                          <Typography.Text style={{paddingRight: 12}}>
                             {node.title}
                           </Typography.Text>
                           {node.showOpIcon && (
                             <Space size={2}>
                               {access.canAccess(PRIVILEGE_CODE.deptAdd) && (
                                 <Tooltip
-                                  title={intl.formatMessage({ id: 'app.common.operate.new.label' })}
+                                  title={intl.formatMessage({id: 'app.common.operate.new.label'})}
                                 >
                                   <Button
                                     shape="default"
                                     type="text"
                                     size="small"
-                                    icon={<PlusOutlined />}
+                                    icon={<PlusOutlined/>}
                                     onClick={() => {
                                       setDeptFormData({
                                         visible: true,
@@ -543,7 +543,7 @@ const User: React.FC = () => {
                                     shape="default"
                                     type="text"
                                     size="small"
-                                    icon={<EditOutlined />}
+                                    icon={<EditOutlined/>}
                                     onClick={() => {
                                       setDeptFormData({
                                         visible: true,
@@ -559,49 +559,6 @@ const User: React.FC = () => {
                                   ></Button>
                                 </Tooltip>
                               )}
-                              {access.canAccess(PRIVILEGE_CODE.deptDelete) && (
-                                <Tooltip
-                                  title={intl.formatMessage({
-                                    id: 'app.common.operate.delete.label',
-                                  })}
-                                >
-                                  <Button
-                                    shape="default"
-                                    type="text"
-                                    size="small"
-                                    icon={<DeleteOutlined />}
-                                    onClick={() => {
-                                      Modal.confirm({
-                                        title: intl.formatMessage({
-                                          id: 'app.common.operate.delete.confirm.title',
-                                        }),
-                                        content: intl.formatMessage({
-                                          id: 'app.common.operate.delete.confirm.content',
-                                        }),
-                                        okText: intl.formatMessage({
-                                          id: 'app.common.operate.confirm.label',
-                                        }),
-                                        okButtonProps: { danger: true },
-                                        cancelText: intl.formatMessage({
-                                          id: 'app.common.operate.cancel.label',
-                                        }),
-                                        onOk() {
-                                          DeptService.deleteDept(node.origin).then((d) => {
-                                            if (d.success) {
-                                              message.success(
-                                                intl.formatMessage({
-                                                  id: 'app.common.operate.delete.success',
-                                                }),
-                                              );
-                                              refreshDepts();
-                                            }
-                                          });
-                                        },
-                                      });
-                                    }}
-                                  ></Button>
-                                </Tooltip>
-                              )}
                               {access.canAccess(PRIVILEGE_CODE.deptGrant) && (
                                 <Tooltip
                                   title={intl.formatMessage({
@@ -612,9 +569,9 @@ const User: React.FC = () => {
                                     shape="default"
                                     type="text"
                                     size="small"
-                                    icon={<UserSwitchOutlined />}
+                                    icon={<UserSwitchOutlined/>}
                                     onClick={() => {
-                                      setDeptGrantData({ visible: true, data: node.origin });
+                                      setDeptGrantData({visible: true, data: node.origin});
                                     }}
                                   ></Button>
                                 </Tooltip>
@@ -633,12 +590,12 @@ const User: React.FC = () => {
       </Col>
       <Col span={19}>
         <ProTable<SecUser>
-          headerTitle={intl.formatMessage({ id: 'pages.admin.user' })}
+          headerTitle={intl.formatMessage({id: 'pages.admin.user'})}
           search={{
             labelWidth: 'auto',
-            span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
+            span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
           }}
-          scroll={{ x: 800 }}
+          scroll={{x: 800}}
           rowKey="id"
           actionRef={actionRef}
           formRef={formRef}
@@ -650,10 +607,10 @@ const User: React.FC = () => {
                   key="new"
                   type="primary"
                   onClick={() => {
-                    setUserFormData({ visible: true, data: {} });
+                    setUserFormData({visible: true, data: {}});
                   }}
                 >
-                  {intl.formatMessage({ id: 'app.common.operate.new.label' })}
+                  {intl.formatMessage({id: 'app.common.operate.new.label'})}
                 </Button>
               ),
               access.canAccess(PRIVILEGE_CODE.userDelete) && (
@@ -663,18 +620,18 @@ const User: React.FC = () => {
                   disabled={selectedRows.length < 1}
                   onClick={() => {
                     Modal.confirm({
-                      title: intl.formatMessage({ id: 'app.common.operate.forbid.confirm.title' }),
+                      title: intl.formatMessage({id: 'app.common.operate.forbid.confirm.title'}),
                       content: intl.formatMessage({
                         id: 'app.common.operate.forbid.confirm.content',
                       }),
-                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                      okButtonProps: { danger: true },
-                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                      okButtonProps: {danger: true},
+                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
                         UserService.deleteUserBatch(selectedRows).then((d) => {
                           if (d.success) {
                             message.success(
-                              intl.formatMessage({ id: 'app.common.operate.forbid.success' }),
+                              intl.formatMessage({id: 'app.common.operate.forbid.success'}),
                             );
                             actionRef.current?.reload();
                           }
@@ -683,7 +640,7 @@ const User: React.FC = () => {
                     });
                   }}
                 >
-                  {intl.formatMessage({ id: 'app.common.operate.forbid.label' })}
+                  {intl.formatMessage({id: 'app.common.operate.forbid.label'})}
                 </Button>
               ),
             ],
@@ -696,7 +653,7 @@ const User: React.FC = () => {
               roleId: selectRole,
             });
           }}
-          pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
+          pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
           rowSelection={{
             fixed: true,
             onChange(selectedRowKeys, selectedRows, info) {
@@ -711,10 +668,10 @@ const User: React.FC = () => {
         <RoleForm
           visible={roleFormData.visible}
           onCancel={() => {
-            setRoleFormData({ visible: false, data: {} });
+            setRoleFormData({visible: false, data: {}});
           }}
           onVisibleChange={(visible) => {
-            setRoleFormData({ visible: visible, data: {} });
+            setRoleFormData({visible: visible, data: {}});
             refreshRoles();
           }}
           data={roleFormData.data}
@@ -724,10 +681,10 @@ const User: React.FC = () => {
         <RoleGrant
           visible={roleGrantData.visible}
           onCancel={() => {
-            setRoleGrantData({ visible: false, data: {} });
+            setRoleGrantData({visible: false, data: {}});
           }}
           onVisibleChange={(visible) => {
-            setRoleGrantData({ visible: visible, data: {} });
+            setRoleGrantData({visible: visible, data: {}});
           }}
           data={roleGrantData.data}
         ></RoleGrant>
@@ -738,10 +695,10 @@ const User: React.FC = () => {
           treeData={deptTreeList}
           isUpdate={deptFormData.isUpdate}
           onCancel={() => {
-            setDeptFormData({ visible: false, data: {}, isUpdate: false });
+            setDeptFormData({visible: false, data: {}, isUpdate: false});
           }}
           onVisibleChange={(visible) => {
-            setDeptFormData({ visible: visible, data: {}, isUpdate: false });
+            setDeptFormData({visible: visible, data: {}, isUpdate: false});
             refreshDepts();
           }}
           data={deptFormData.data}
@@ -751,10 +708,10 @@ const User: React.FC = () => {
         <DeptGrant
           visible={deptGrantData.visible}
           onCancel={() => {
-            setDeptGrantData({ visible: false, data: {} });
+            setDeptGrantData({visible: false, data: {}});
           }}
           onVisibleChange={(visible) => {
-            setDeptGrantData({ visible: visible, data: {} });
+            setDeptGrantData({visible: visible, data: {}});
           }}
           data={deptGrantData.data}
         />
@@ -763,10 +720,10 @@ const User: React.FC = () => {
         <UserForm
           visible={userFormData.visible}
           onCancel={() => {
-            setUserFormData({ visible: false, data: {} });
+            setUserFormData({visible: false, data: {}});
           }}
           onVisibleChange={(visible) => {
-            setUserFormData({ visible: visible, data: {} });
+            setUserFormData({visible: visible, data: {}});
             actionRef.current?.reload();
           }}
           data={userFormData.data}

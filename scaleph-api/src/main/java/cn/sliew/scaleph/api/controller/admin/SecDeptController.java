@@ -34,7 +34,6 @@ import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.collections.list.TreeList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -96,16 +95,15 @@ public class SecDeptController {
         return new ResponseEntity<>(treeList, HttpStatus.OK);
     }
 
-
     @Logging
     @GetMapping(path = "/{pid}")
     @ApiOperation(value = "查询子节点部门树", notes = "查询子节点部门树")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DEPT_SELECT)")
-    public ResponseEntity<List<Tree<Long>>> listChildDept(@PathVariable(value = "pid") String pid) {
+    public ResponseEntity<List<Tree<Long>>> listChildDept(@PathVariable("pid") Long pid) {
         return new ResponseEntity<>(selectChilds(pid), HttpStatus.OK);
     }
 
-    private List<Tree<Long>> selectChilds(String pid) {
+    private List<Tree<Long>> selectChilds(Long pid) {
         List<SecDeptDTO> list = this.secDeptService.listAll();
         TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
         treeNodeConfig.setIdKey("deptId");
@@ -113,7 +111,7 @@ public class SecDeptController {
         treeNodeConfig.setNameKey("deptName");
         treeNodeConfig.setWeightKey("deptCode");
         List<Tree<Long>> treeList =
-                TreeUtil.build(list, Long.valueOf(pid), treeNodeConfig, (treeNode, tree) -> {
+                TreeUtil.build(list, pid, treeNodeConfig, (treeNode, tree) -> {
                     tree.setId(treeNode.getId());
                     tree.setParentId(treeNode.getPid());
                     tree.setName(treeNode.getDeptName());
@@ -143,15 +141,19 @@ public class SecDeptController {
 
     @Logging
     @DeleteMapping(path = "/{id}")
-    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @ApiOperation(value = "删除部门", notes = "删除部门")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DEPT_DELETE)")
-    public ResponseEntity<ResponseVO> deleteDept(@PathVariable(value = "id") String id) {
-        List<Tree<Long>> treeList = this.selectChilds(id);
-        List<Long> list = new TreeList();
-        list.add(Long.valueOf(id));
-        getDeptIds(list, treeList);
-        this.secDeptService.deleteBatch(list);
+    public ResponseEntity<ResponseVO> deleteDept(@PathVariable("id") Long id) {
+        secDeptService.deleteById(id);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping(path = "/batch")
+    @ApiOperation(value = "删除部门", notes = "删除部门")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DEPT_DELETE)")
+    public ResponseEntity<ResponseVO> deleteDept(@RequestBody List<Long> ids) {
+        secDeptService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
