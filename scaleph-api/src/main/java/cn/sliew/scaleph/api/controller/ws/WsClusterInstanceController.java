@@ -40,7 +40,7 @@ import java.util.List;
 @Api(tags = "Flink管理-集群实例管理")
 @RestController
 @RequestMapping(path = "/api/flink/cluster-instance")
-public class ClusterInstanceController {
+public class WsClusterInstanceController {
 
     @Autowired
     private WsFlinkClusterInstanceService wsFlinkClusterInstanceService;

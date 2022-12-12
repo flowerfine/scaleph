@@ -39,7 +39,7 @@ import javax.validation.Valid;
 @Api(tags = "Flink管理-artifact管理")
 @RestController
 @RequestMapping(path = "/api/flink/artifact")
-public class ArtifactController {
+public class WsArtifactController {
 
     @Autowired
     private WsFlinkArtifactService wsFlinkArtifactService;

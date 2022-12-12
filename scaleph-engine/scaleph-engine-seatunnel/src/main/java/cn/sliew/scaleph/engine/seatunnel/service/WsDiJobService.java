@@ -46,9 +46,9 @@ public interface WsDiJobService {
 
     WsDiJobDTO selectOne(Long projectId, Long jobCode, int jobVersion);
 
-    WsDiJobDTO insert(WsDiJobAddParam param) throws UidGenerateException;
+    WsDiJobDTO insert(WsDiJobDTO param) throws UidGenerateException;
 
-    int update(WsDiJobUpdateParam param);
+    int update(WsDiJobDTO param);
 
     int delete(Long id);
 

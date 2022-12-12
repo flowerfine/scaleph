@@ -39,7 +39,7 @@ import javax.validation.Valid;
 @Api(tags = "Flink管理-Jar 任务实例")
 @RestController
 @RequestMapping(path = "/api/flink/job-instance/jar")
-public class JobInstanceJarController {
+public class WsFlinkJobInstanceJarController {
 
     @Autowired
     private WsFlinkService wsFlinkService;

@@ -3,7 +3,7 @@ import { ModalFormProps } from '@/app.d';
 import { FeishuParams, STEP_ATTR_TYPE } from '../../constant';
 import { JobService } from '@/services/project/job.service';
 import { Form, message, Modal } from 'antd';
-import { DiJob } from '@/services/project/typings';
+import { WsDiJob } from '@/services/project/typings';
 import { getIntl, getLocale } from 'umi';
 import { ProForm, ProFormGroup, ProFormList, ProFormText } from '@ant-design/pro-components';
 import { useEffect } from 'react';
@@ -17,7 +17,7 @@ const SinkFeishuStepForm: React.FC<
   }>
 > = ({ data, visible, onCancel, onOK }) => {
   const nodeInfo = data.node.data;
-  const jobInfo = data.graphMeta.origin as DiJob;
+  const jobInfo = data.graphMeta.origin as WsDiJob;
   const jobGraph = data.graphData;
   const intl = getIntl(getLocale(), true);
   const [form] = Form.useForm();

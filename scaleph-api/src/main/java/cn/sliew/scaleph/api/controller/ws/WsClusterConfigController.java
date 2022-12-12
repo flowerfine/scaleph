@@ -41,7 +41,7 @@ import java.util.Map;
 @Api(tags = "Flink管理-集群配置管理")
 @RestController
 @RequestMapping(path = "/api/flink/cluster-config")
-public class ClusterConfigController {
+public class WsClusterConfigController {
 
     @Autowired
     private WsFlinkClusterConfigService wsFlinkClusterConfigService;

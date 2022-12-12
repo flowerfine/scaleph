@@ -33,7 +33,9 @@ import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.convert.WsDiJobConvert;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobAttrDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.param.*;
+import cn.sliew.scaleph.engine.seatunnel.service.param.WsDiJobGraphParam;
+import cn.sliew.scaleph.engine.seatunnel.service.param.WsDiJobParam;
+import cn.sliew.scaleph.engine.seatunnel.service.param.WsDiJobStepParam;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.DiJobAttrVO;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.JobGraphVO;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
@@ -108,8 +110,8 @@ public class WsDiJobServiceImpl implements WsDiJobService {
 
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
-    public WsDiJobDTO insert(WsDiJobAddParam param) throws UidGenerateException {
-        WsDiJob record = BeanUtil.copy(param, new WsDiJob());
+    public WsDiJobDTO insert(WsDiJobDTO param) throws UidGenerateException {
+        WsDiJob record = WsDiJobConvert.INSTANCE.toDo(param);
         record.setJobCode(defaultUidGenerator.getUID());
         record.setJobStatus(JobStatus.DRAFT);
         record.setJobVersion(1);
@@ -119,8 +121,8 @@ public class WsDiJobServiceImpl implements WsDiJobService {
 
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
-    public int update(WsDiJobUpdateParam param) {
-        WsDiJob record = BeanUtil.copy(param, new WsDiJob());
+    public int update(WsDiJobDTO param) {
+        WsDiJob record = WsDiJobConvert.INSTANCE.toDo(param);
         return diJobMapper.updateById(record);
     }
 

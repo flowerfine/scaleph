@@ -1,6 +1,6 @@
 import { PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
 import { ProjectService } from '@/services/project/project.service';
-import { DiProject, DiProjectParam } from '@/services/project/typings';
+import { WsProject, WsProjectParam } from '@/services/project/typings';
 import { DeleteOutlined, EditOutlined, FolderOpenOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { Button, Input, message, Modal, PageHeader, Space, Tooltip } from 'antd';
@@ -13,13 +13,13 @@ const Project: React.FC = () => {
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [queryParams, setQueryParams] = useState<DiProjectParam>();
+  const [queryParams, setQueryParams] = useState<WsProjectParam>();
   const [projectFormData, setProjectFormData] = useState<{
     visible: boolean;
-    data: DiProject;
+    data: WsProject;
   }>({ visible: false, data: {} });
 
-  const tableColumns: ProColumns<DiProject>[] = [
+  const tableColumns: ProColumns<WsProject>[] = [
     {
       title: intl.formatMessage({ id: 'pages.project.projectCode' }),
       dataIndex: 'projectCode',
@@ -141,7 +141,7 @@ const Project: React.FC = () => {
           </>
         }
       />
-      <ProTable<DiProject>
+      <ProTable<WsProject>
         headerTitle={
           <>
             <Space>

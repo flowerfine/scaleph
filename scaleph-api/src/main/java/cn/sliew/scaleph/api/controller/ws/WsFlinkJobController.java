@@ -51,7 +51,7 @@ import java.util.Map;
 @Api(tags = "Flink管理-任务管理")
 @RestController
 @RequestMapping(path = "/api/flink/job")
-public class FlinkJobController {
+public class WsFlinkJobController {
 
     @Autowired
     private WsFlinkJobService wsFlinkJobService;

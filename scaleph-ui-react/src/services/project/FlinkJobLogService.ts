@@ -1,12 +1,12 @@
-import {PageResponse} from '@/app.d';
-import {FlinkJobLog, FlinkJobLogListParam} from "@/pages/DEV/Job/typings";
-import {request} from "@@/exports";
+import { PageResponse } from '@/app.d';
+import { request } from '@@/exports';
+import { WsFlinkJobLog, WsFlinkJobLogListParam } from './typings';
 
 export const FlinkJobLogService = {
   url: '/api/flink/job-log',
 
-  list: async (queryParam: FlinkJobLogListParam) => {
-    return request<PageResponse<FlinkJobLog>>(`${FlinkJobLogService.url}`, {
+  list: async (queryParam: WsFlinkJobLogListParam) => {
+    return request<PageResponse<WsFlinkJobLog>>(`${FlinkJobLogService.url}`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
@@ -19,5 +19,4 @@ export const FlinkJobLogService = {
       return result;
     });
   },
-
-}
+};

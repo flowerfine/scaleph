@@ -1,19 +1,18 @@
 import { PageResponse, ResponseBody } from '@/app.d';
 import { request } from '@@/exports';
 import {
-  FlinkJob,
-  FlinkJobForJar,
-  FlinkJobForSeaTunnel,
-  FlinkJobListByCodeParam,
-  FlinkJobListByTypeParam,
-  FlinkJobListParam,
+  WsFlinkJob,
+  WsFlinkJobForJar,
+  WsFlinkJobForSeaTunnel,
+  WsFlinkJobListByTypeParam,
+  WsFlinkJobListParam,
 } from './typings';
 
 export const FlinkJobService = {
   url: '/api/flink/job',
 
-  list: async (queryParam: FlinkJobListParam) => {
-    return request<PageResponse<FlinkJob>>(`${FlinkJobService.url}`, {
+  list: async (queryParam: WsFlinkJobListParam) => {
+    return request<PageResponse<WsFlinkJob>>(`${FlinkJobService.url}`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
@@ -27,22 +26,22 @@ export const FlinkJobService = {
     });
   },
 
-  add: async (row: FlinkJob) => {
+  add: async (row: WsFlinkJob) => {
     return request<ResponseBody<any>>(`${FlinkJobService.url}`, {
       method: 'PUT',
       data: row,
     });
   },
 
-  update: async (row: FlinkJob) => {
+  update: async (row: WsFlinkJob) => {
     return request<ResponseBody<any>>(`${FlinkJobService.url}`, {
       method: 'POST',
       data: row,
     });
   },
 
-  listJobsForJar: async (queryParam: FlinkJobListByTypeParam) => {
-    return request<PageResponse<FlinkJobForJar>>(`${FlinkJobService.url}/jar`, {
+  listJobsForJar: async (queryParam: WsFlinkJobListByTypeParam) => {
+    return request<PageResponse<WsFlinkJobForJar>>(`${FlinkJobService.url}/jar`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
@@ -56,8 +55,8 @@ export const FlinkJobService = {
     });
   },
 
-  listJobsForSeaTunnel: async (queryParam: FlinkJobListByTypeParam) => {
-    return request<PageResponse<FlinkJobForSeaTunnel>>(`${FlinkJobService.url}/seatunnel`, {
+  listJobsForSeaTunnel: async (queryParam: WsFlinkJobListByTypeParam) => {
+    return request<PageResponse<WsFlinkJobForSeaTunnel>>(`${FlinkJobService.url}/seatunnel`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {

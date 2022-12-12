@@ -2,13 +2,13 @@ import { Dict, ModalFormProps } from '@/app.d';
 import { DICT_TYPE } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { FlinkArtifactJarService } from '@/services/project/flinkArtifactJar.service';
-import { FlinkArtifactJar, FlinkArtifactJarParam } from '@/services/project/typings';
+import { WsFlinkArtifactJar } from '@/services/project/typings';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message, Modal, Select, Upload, UploadFile, UploadProps } from 'antd';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'umi';
 
-const FlinkArtifactJarForm: React.FC<ModalFormProps<FlinkArtifactJar>> = ({
+const FlinkArtifactJarForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({
   data,
   visible,
   onVisibleChange,
@@ -67,7 +67,7 @@ const FlinkArtifactJarForm: React.FC<ModalFormProps<FlinkArtifactJar>> = ({
       onOk={() => {
         data.id
           ? form.validateFields().then((values) => {
-              const params: FlinkArtifactJar = {
+              const params: WsFlinkArtifactJar = {
                 id: values.id,
                 flinkArtifact: { id: data.flinkArtifact?.id as number },
                 version: values.version,
@@ -83,7 +83,7 @@ const FlinkArtifactJarForm: React.FC<ModalFormProps<FlinkArtifactJar>> = ({
               });
             })
           : form.validateFields().then((values) => {
-              const uploadParam: FlinkArtifactJar = {
+              const uploadParam: WsFlinkArtifactJar = {
                 flinkArtifact: { id: data.flinkArtifact?.id as number },
                 version: values.version,
                 flinkVersion: values.flinkVersion,

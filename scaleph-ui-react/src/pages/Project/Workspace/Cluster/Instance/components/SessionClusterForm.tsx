@@ -3,7 +3,7 @@ import { DICT_TYPE, WORKSPACE_CONF } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
 import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInstance.service';
-import { FlinkClusterConfigParam, FlinkClusterInstanceParam } from '@/services/project/typings';
+import { WsFlinkClusterConfigParam, WsFlinkClusterInstanceParam } from '@/services/project/typings';
 import { useIntl } from '@@/exports';
 import { ProForm, ProFormSelect } from '@ant-design/pro-components';
 import { Form, message, Modal } from 'antd';
@@ -35,7 +35,7 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          const param: FlinkClusterInstanceParam = {
+          const param: WsFlinkClusterInstanceParam = {
             flinkClusterConfigId: values.flinkClusterConfig,
             projectId: projectId + '',
           };
@@ -84,7 +84,7 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({
           showSearch={true}
           dependencies={['flinkVersion', 'resourceProvider']}
           request={(params) => {
-            const listParam: FlinkClusterConfigParam = {
+            const listParam: WsFlinkClusterConfigParam = {
               projectId: projectId + '',
               flinkVersion: params.flinkVersion,
               resourceProvider: params.resourceProvider,

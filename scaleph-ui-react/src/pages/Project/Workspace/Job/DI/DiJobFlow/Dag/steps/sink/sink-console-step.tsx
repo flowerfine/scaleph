@@ -1,7 +1,7 @@
 import {ModalFormProps} from '@/app.d';
 import {NsGraph} from '@antv/xflow';
 import {getIntl, getLocale} from 'umi';
-import {DiJob} from '@/services/project/typings';
+import {WsDiJob} from '@/services/project/typings';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {STEP_ATTR_TYPE} from '../../constant';
@@ -14,7 +14,7 @@ const SinkConsoleStepForm: React.FC<ModalFormProps<{
   graphMeta: NsGraph.IGraphMeta;
 }>> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
-  const jobInfo = data.graphMeta.origin as DiJob;
+  const jobInfo = data.graphMeta.origin as WsDiJob;
   const jobGraph = data.graphData;
   const intl = getIntl(getLocale(), true);
   const [form] = Form.useForm();

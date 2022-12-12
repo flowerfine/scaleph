@@ -20,13 +20,15 @@ package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
+import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.param.*;
+import cn.sliew.scaleph.engine.seatunnel.service.param.WsDiJobGraphParam;
+import cn.sliew.scaleph.engine.seatunnel.service.param.WsDiJobParam;
+import cn.sliew.scaleph.engine.seatunnel.service.param.WsDiJobStepParam;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.DiJobAttrVO;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.DiJobRunVO;
-import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.vo.ResponseVO;
@@ -46,7 +48,7 @@ import java.util.List;
 @Api(tags = "数据开发-作业管理")
 @RestController
 @RequestMapping(path = {"/api/datadev/job", "/api/di/job"})
-public class JobController {
+public class WsDiJobController {
 
     @Autowired
     private WsDiJobService wsDiJobService;
@@ -66,7 +68,7 @@ public class JobController {
     @PostMapping
     @ApiOperation(value = "新增作业记录", notes = "新增一条作业记录，相关流程定义不涉及")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_ADD)")
-    public ResponseEntity<ResponseVO> simpleAddJob(@Validated @RequestBody WsDiJobAddParam param) throws UidGenerateException {
+    public ResponseEntity<ResponseVO> simpleAddJob(@Validated @RequestBody WsDiJobDTO param) throws UidGenerateException {
         WsDiJobDTO wsDiJobDTO = wsDiJobService.insert(param);
         return new ResponseEntity<>(ResponseVO.sucess(wsDiJobDTO), HttpStatus.CREATED);
     }
@@ -75,7 +77,7 @@ public class JobController {
     @PutMapping
     @ApiOperation(value = "修改作业记录", notes = "只修改作业记录属性，相关流程定义不改变")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> simpleEditJob(@Validated @RequestBody WsDiJobUpdateParam param) {
+    public ResponseEntity<ResponseVO> simpleEditJob(@Validated @RequestBody WsDiJobDTO param) {
         wsDiJobService.update(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }

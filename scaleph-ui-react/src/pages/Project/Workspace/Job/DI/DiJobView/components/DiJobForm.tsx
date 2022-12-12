@@ -1,5 +1,5 @@
 import { JobService } from '@/services/project/job.service';
-import { DiJob, DiJobAddParam, DiJobUpdateParam } from '@/services/project/typings';
+import { WsDiJob } from '@/services/project/typings';
 import { Form, Input, Modal } from 'antd';
 import { useIntl } from 'umi';
 
@@ -10,7 +10,7 @@ interface DiJobFormProps<DiJob> {
   onCancel: () => void;
 }
 
-const DiJobForm: React.FC<DiJobFormProps<DiJob>> = ({
+const DiJobForm: React.FC<DiJobFormProps<WsDiJob>> = ({
   data,
   visible,
   onVisibleChange,
@@ -21,29 +21,23 @@ const DiJobForm: React.FC<DiJobFormProps<DiJob>> = ({
 
   const submit = () => {
     form.validateFields().then((values) => {
-      const addParam: DiJobAddParam = {
+      const job: WsDiJob = {
         projectId: data.projectId,
         jobName: values.jobName,
         jobType: data.jobType?.value,
         remark: values.remark,
       };
-      if (data.id) {
-        const param: DiJobUpdateParam = {
-          id: data.id,
-          ...addParam,
-        };
-        JobService.updateJob(param).then((response) => {
-          if (response.success) {
-            onVisibleChange(false, response.data);
-          }
-        });
-      } else {
-        JobService.addJob(addParam).then((response) => {
-          if (response.success) {
-            onVisibleChange(false, response.data);
-          }
-        });
-      }
+      data.id
+        ? JobService.updateJob({ ...job, id: data.id }).then((response) => {
+            if (response.success) {
+              onVisibleChange(false, response.data);
+            }
+          })
+        : JobService.addJob(job).then((response) => {
+            if (response.success) {
+              onVisibleChange(false, response.data);
+            }
+          });
     });
   };
 

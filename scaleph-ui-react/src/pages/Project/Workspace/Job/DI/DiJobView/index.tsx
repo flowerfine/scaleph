@@ -2,7 +2,7 @@ import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { JobService } from '@/services/project/job.service';
-import { DiJob } from '@/services/project/typings';
+import { WsDiJob } from '@/services/project/typings';
 import { DeleteOutlined, DownOutlined, EditOutlined, NodeIndexOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { Button, Col, Dropdown, Menu, message, Modal, Row, Select, Space, Tooltip } from 'antd';
@@ -19,11 +19,11 @@ const DiJobView: React.FC = () => {
   const formRef = useRef<ProFormInstance>();
   const [jobTypeList, setJobTypeList] = useState<Dict[]>([]);
 
-  const [jobFlowData, setJobFlowData] = useState<{ visible: boolean; data: DiJob }>({
+  const [jobFlowData, setJobFlowData] = useState<{ visible: boolean; data: WsDiJob }>({
     visible: false,
     data: {},
   });
-  const [jobFormData, setJobFormData] = useState<{ visible: boolean; data: DiJob }>({
+  const [jobFormData, setJobFormData] = useState<{ visible: boolean; data: WsDiJob }>({
     visible: false,
     data: {},
   });
@@ -34,7 +34,7 @@ const DiJobView: React.FC = () => {
     });
   }, []);
 
-  const tableColumns: ProColumns<DiJob>[] = [
+  const tableColumns: ProColumns<WsDiJob>[] = [
     {
       title: intl.formatMessage({ id: 'pages.project.di.jobName' }),
       dataIndex: 'jobName',
@@ -178,7 +178,7 @@ const DiJobView: React.FC = () => {
     <>
       <Row gutter={[12, 12]}>
         <Col span={24}>
-          <ProTable<DiJob>
+          <ProTable<WsDiJob>
             headerTitle={intl.formatMessage({ id: 'pages.project.di.job' })}
             search={{
               labelWidth: 'auto',

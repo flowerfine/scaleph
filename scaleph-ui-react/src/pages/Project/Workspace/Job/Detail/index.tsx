@@ -22,10 +22,10 @@ import JobLogTable from './components/JobLogTable';
 import JobConfigurationWeb from './components/JobConfiguration';
 import { useEffect, useState } from 'react';
 import {
-  FlinkClusterConfig,
-  FlinkClusterInstance,
-  FlinkJob,
-  FlinkJobInstance,
+  WsFlinkClusterConfig,
+  WsFlinkClusterInstance,
+  WsFlinkJob,
+  WsFlinkJobInstance,
 } from '@/services/project/typings';
 import { FlinkJobInstanceService } from '@/services/project/FlinkJobInstanceService';
 import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
@@ -34,10 +34,10 @@ import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInst
 const JobDetailWeb: React.FC = () => {
   const urlParams = useLocation();
   const intl = useIntl();
-  const params = urlParams.state as FlinkJob;
-  const [flinkJobInstance, setFlinkJobInstance] = useState<FlinkJobInstance>();
-  const [flinkClusterConfig, setFlinkClusterConfig] = useState<FlinkClusterConfig>();
-  const [flinkClusterInstance, setFlinkClusterInstance] = useState<FlinkClusterInstance>();
+  const params = urlParams.state as WsFlinkJob;
+  const [flinkJobInstance, setFlinkJobInstance] = useState<WsFlinkJobInstance>();
+  const [flinkClusterConfig, setFlinkClusterConfig] = useState<WsFlinkClusterConfig>();
+  const [flinkClusterInstance, setFlinkClusterInstance] = useState<WsFlinkClusterInstance>();
 
   useEffect(() => {
     FlinkJobInstanceService.getByCode(params.code ? params.code : 0).then((d) => {

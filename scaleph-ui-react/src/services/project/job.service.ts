@@ -1,12 +1,12 @@
-import {Dict, PageResponse, ResponseBody} from '@/app.d';
-import {request} from 'umi';
-import {DiJob, DiJobAddParam, DiJobGraphParam, DiJobParam, DiJobUpdateParam} from './typings';
+import { Dict, PageResponse, ResponseBody } from '@/app.d';
+import { request } from 'umi';
+import { WsDiJob, WsDiJobGraphParam, WsDiJobParam } from './typings';
 
 export const JobService = {
   url: '/api/di/job',
 
-  listJobByProject: async (queryParam: DiJobParam) => {
-    return request<PageResponse<DiJob>>(`${JobService.url}`, {
+  listJobByProject: async (queryParam: WsDiJobParam) => {
+    return request<PageResponse<WsDiJob>>(`${JobService.url}`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
@@ -20,27 +20,27 @@ export const JobService = {
     });
   },
 
-  addJob: async (param: DiJobAddParam) => {
+  addJob: async (param: WsDiJob) => {
     return request<ResponseBody<any>>(`${JobService.url}`, {
       method: 'POST',
       data: param,
     });
   },
 
-  updateJob: async (param: DiJobUpdateParam) => {
+  updateJob: async (param: WsDiJob) => {
     return request<ResponseBody<any>>(`${JobService.url}`, {
       method: 'PUT',
       data: param,
     });
   },
 
-  deleteJobRow: async (row: DiJob) => {
+  deleteJobRow: async (row: WsDiJob) => {
     return request<ResponseBody<any>>(`${JobService.url}/` + row.id, {
       method: 'DELETE',
     });
   },
 
-  deleteJobBatch: async (rows: DiJob[]) => {
+  deleteJobBatch: async (rows: WsDiJob[]) => {
     const params = rows.map((row) => row.id);
     return request<ResponseBody<any>>(`${JobService.url}/` + 'batch', {
       method: 'POST',
@@ -49,13 +49,13 @@ export const JobService = {
   },
 
   selectJobById: async (id: number) => {
-    return request<DiJob>(`${JobService.url}/detail`, {
+    return request<WsDiJob>(`${JobService.url}/detail`, {
       method: 'GET',
-      params: {id: id},
+      params: { id: id },
     });
   },
 
-  saveJobDetail: async (param: DiJobGraphParam) => {
+  saveJobDetail: async (param: WsDiJobGraphParam) => {
     return request<ResponseBody<any>>(`${JobService.url}/detail`, {
       method: 'POST',
       data: param,
@@ -102,7 +102,7 @@ export const JobService = {
 
   previewJob: async (jobId: number) => {
     return request<ResponseBody<string>>(`${JobService.url}/preview/` + jobId, {
-      method: 'GET'
+      method: 'GET',
     });
   },
 
@@ -116,7 +116,7 @@ export const JobService = {
   stopJob: async (jobId: number) => {
     return request<ResponseBody<any>>(`${JobService.url}/stop/`, {
       method: 'GET',
-      params: {jobId: jobId},
+      params: { jobId: jobId },
     });
   },
 

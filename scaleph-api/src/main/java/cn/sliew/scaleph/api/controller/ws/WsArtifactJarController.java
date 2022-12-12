@@ -26,7 +26,7 @@ import java.net.URLEncoder;
 @Api(tags = "Flink管理-artifact-jar")
 @RestController
 @RequestMapping(path = "/api/flink/artifact/jar")
-public class ArtifactJarController {
+public class WsArtifactJarController {
 
     @Autowired
     private WsFlinkArtifactJarService wsFlinkArtifactJarService;

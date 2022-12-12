@@ -2,7 +2,7 @@ import {ModalFormProps} from '@/app.d';
 import {DICT_TYPE} from '@/constant';
 import {DictDataService} from '@/services/admin/dictData.service';
 import {JobService} from '@/services/project/job.service';
-import {DiJob} from '@/services/project/typings';
+import {WsDiJob} from '@/services/project/typings';
 import {InfoCircleOutlined} from '@ant-design/icons';
 import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
@@ -19,7 +19,7 @@ const SourceJdbcStepForm: React.FC<ModalFormProps<{
   graphMeta: NsGraph.IGraphMeta;
 }>> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
-  const jobInfo = data.graphMeta.origin as DiJob;
+  const jobInfo = data.graphMeta.origin as WsDiJob;
   const jobGraph = data.graphData;
   const intl = getIntl(getLocale(), true);
   const [form] = Form.useForm();

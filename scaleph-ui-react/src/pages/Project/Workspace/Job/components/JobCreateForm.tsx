@@ -7,7 +7,7 @@ import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig
 import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInstance.service';
 import { FlinkJobService } from '@/services/project/FlinkJobService';
 import { JobService } from '@/services/project/job.service';
-import { FlinkJob } from '@/services/project/typings';
+import { WsFlinkJob } from '@/services/project/typings';
 import { ResourceJarService } from '@/services/resource/jar.service';
 import { ProFormInstance, StepsForm } from '@ant-design/pro-components';
 import { Form, message, Modal, Radio, Select } from 'antd';
@@ -105,7 +105,7 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
   return (
     <StepsForm
       onFinish={async (values) => {
-        let params: FlinkJob = {
+        let params: WsFlinkJob = {
           type: values.type,
           flinkArtifactId: values.flinkArtifactId,
           flinkClusterInstanceId: values.clusterInstanceId,

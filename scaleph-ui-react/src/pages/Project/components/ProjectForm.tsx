@@ -1,10 +1,10 @@
 import { ModalFormProps } from '@/app.d';
 import { ProjectService } from '@/services/project/project.service';
-import { DiProject } from '@/services/project/typings';
+import { WsProject } from '@/services/project/typings';
 import { Form, Input, message, Modal } from 'antd';
 import { useIntl } from 'umi';
 
-const ProjectForm: React.FC<ModalFormProps<DiProject>> = ({
+const ProjectForm: React.FC<ModalFormProps<WsProject>> = ({
   data,
   visible,
   onVisibleChange,
@@ -27,7 +27,7 @@ const ProjectForm: React.FC<ModalFormProps<DiProject>> = ({
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          let d: DiProject = {
+          let d: WsProject = {
             id: values.id,
             projectCode: values.projectCode,
             projectName: values.projectName,

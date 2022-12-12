@@ -46,7 +46,7 @@ import java.util.Map;
 @Api(tags = "数据开发-项目管理")
 @RestController
 @RequestMapping(path = {"/api/datadev/project", "/api/di/project"})
-public class ProjectController {
+public class WsProjectController {
 
     @Autowired
     private WsProjectService wsProjectService;
