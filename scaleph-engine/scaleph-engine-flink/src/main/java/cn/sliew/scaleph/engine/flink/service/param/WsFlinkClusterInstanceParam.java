@@ -26,7 +26,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FlinkClusterInstanceParam extends PaginationParam {
+public class WsFlinkClusterInstanceParam extends PaginationParam {
 
     @ApiModelProperty("项目ID")
     private Long projectId;

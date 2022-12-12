@@ -25,13 +25,13 @@ import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobAttrService;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobAttrDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
-import cn.sliew.scaleph.engine.flink.service.FlinkArtifactJarService;
-import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
-import cn.sliew.scaleph.engine.flink.service.FlinkClusterInstanceService;
-import cn.sliew.scaleph.engine.flink.service.FlinkJobService;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactJarService;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterConfigService;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterInstanceService;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkJobService;
 import cn.sliew.scaleph.engine.flink.service.dto.*;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByTypeParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListParam;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListByTypeParam;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListParam;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.vo.ResponseVO;
@@ -54,15 +54,15 @@ import java.util.Map;
 public class FlinkJobController {
 
     @Autowired
-    private FlinkJobService flinkJobService;
+    private WsFlinkJobService wsFlinkJobService;
     @Autowired
     private UidGenerator defaultUidGenerator;
     @Autowired
-    private FlinkArtifactJarService flinkArtifactJarService;
+    private WsFlinkArtifactJarService wsFlinkArtifactJarService;
     @Autowired
-    private FlinkClusterInstanceService flinkClusterInstanceService;
+    private WsFlinkClusterInstanceService wsFlinkClusterInstanceService;
     @Autowired
-    private FlinkClusterConfigService flinkClusterConfigService;
+    private WsFlinkClusterConfigService wsFlinkClusterConfigService;
     @Autowired
     private WsDiJobService wsDiJobService;
     @Autowired
@@ -71,40 +71,40 @@ public class FlinkJobController {
     @Logging
     @GetMapping
     @ApiOperation(value = "查询任务列表", notes = "分页查询任务列表")
-    public ResponseEntity<Page<FlinkJobDTO>> list(@Valid FlinkJobListParam param) {
-        Page<FlinkJobDTO> page = flinkJobService.list(param);
+    public ResponseEntity<Page<WsFlinkJobDTO>> list(@Valid WsFlinkJobListParam param) {
+        Page<WsFlinkJobDTO> page = wsFlinkJobService.list(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @Logging
     @PutMapping
     @ApiOperation(value = "新增任务", notes = "新增任务")
-    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody FlinkJobDTO flinkJobDTO) throws UidGenerateException {
-        flinkJobDTO.setCode(defaultUidGenerator.getUID());
-        if (FlinkJobType.JAR.equals(flinkJobDTO.getType())) {
-            FlinkArtifactJarDTO flinkArtifactJarDTO = flinkArtifactJarService.selectOne(flinkJobDTO.getFlinkArtifactId());
-            flinkJobDTO.setName(flinkArtifactJarDTO.getFlinkArtifact().getName());
+    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsFlinkJobDTO wsFlinkJobDTO) throws UidGenerateException {
+        wsFlinkJobDTO.setCode(defaultUidGenerator.getUID());
+        if (FlinkJobType.JAR.equals(wsFlinkJobDTO.getType())) {
+            WsFlinkArtifactJarDTO wsFlinkArtifactJarDTO = wsFlinkArtifactJarService.selectOne(wsFlinkJobDTO.getFlinkArtifactId());
+            wsFlinkJobDTO.setName(wsFlinkArtifactJarDTO.getFlinkArtifact().getName());
             //todo set job config value
-        } else if (FlinkJobType.SEATUNNEL.equals(flinkJobDTO.getType())) {
-            WsDiJobDTO wsDiJobDTO = wsDiJobService.selectOne(flinkJobDTO.getFlinkArtifactId());
-            flinkJobDTO.setName(wsDiJobDTO.getJobName());
+        } else if (FlinkJobType.SEATUNNEL.equals(wsFlinkJobDTO.getType())) {
+            WsDiJobDTO wsDiJobDTO = wsDiJobService.selectOne(wsFlinkJobDTO.getFlinkArtifactId());
+            wsFlinkJobDTO.setName(wsDiJobDTO.getJobName());
             Map<String, String> jobConfig = new HashMap<>();
             List<WsDiJobAttrDTO> attrList = wsDiJobAttrService.listJobAttr(wsDiJobDTO.getId());
             attrList.stream()
                     .filter(attr -> attr.getJobAttrType().equals(JobAttrType.VARIABLE))
                     .forEach(attr -> jobConfig.put(attr.getJobAttrKey(), attr.getJobAttrValue())
                     );
-            flinkJobDTO.setJobConfig(jobConfig);
+            wsFlinkJobDTO.setJobConfig(jobConfig);
         }
-        FlinkClusterInstanceDTO flinkClusterInstanceDTO = flinkClusterInstanceService.selectOne(flinkJobDTO.getFlinkClusterInstanceId());
-        flinkJobDTO.setFlinkClusterConfigId(flinkClusterInstanceDTO.getFlinkClusterConfigId());
+        WsFlinkClusterInstanceDTO wsFlinkClusterInstanceDTO = wsFlinkClusterInstanceService.selectOne(wsFlinkJobDTO.getFlinkClusterInstanceId());
+        wsFlinkJobDTO.setFlinkClusterConfigId(wsFlinkClusterInstanceDTO.getFlinkClusterConfigId());
         //flink config
-        FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(flinkJobDTO.getFlinkClusterConfigId());
+        WsFlinkClusterConfigDTO wsFlinkClusterConfigDTO = wsFlinkClusterConfigService.selectOne(wsFlinkJobDTO.getFlinkClusterConfigId());
         Map<String, String> flinkConfig = new HashMap<>();
-        flinkConfig.putAll(flinkClusterConfigDTO.getConfigOptions());
-        flinkConfig.putAll(flinkJobDTO.getFlinkConfig());
-        flinkJobDTO.setFlinkConfig(flinkConfig);
-        flinkJobService.insert(flinkJobDTO);
+        flinkConfig.putAll(wsFlinkClusterConfigDTO.getConfigOptions());
+        flinkConfig.putAll(wsFlinkJobDTO.getFlinkConfig());
+        wsFlinkJobDTO.setFlinkConfig(flinkConfig);
+        wsFlinkJobService.insert(wsFlinkJobDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -112,24 +112,24 @@ public class FlinkJobController {
     @Logging
     @PostMapping
     @ApiOperation(value = "修改任务", notes = "修改任务")
-    public ResponseEntity<ResponseVO> update(@Valid @RequestBody FlinkJobDTO param) {
-        flinkJobService.update(param);
+    public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkJobDTO param) {
+        wsFlinkJobService.update(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
     @GetMapping("jar")
     @ApiOperation(value = "查询 Jar 任务列表", notes = "分页查询 Jar 任务列表")
-    public ResponseEntity<Page<FlinkJobForJarDTO>> listJobsForJar(@Valid FlinkJobListByTypeParam param) {
-        Page<FlinkJobForJarDTO> page = flinkJobService.listJobsForJar(param);
+    public ResponseEntity<Page<WsFlinkJobForJarDTO>> listJobsForJar(@Valid WsFlinkJobListByTypeParam param) {
+        Page<WsFlinkJobForJarDTO> page = wsFlinkJobService.listJobsForJar(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @Logging
     @GetMapping("seatunnel")
     @ApiOperation(value = "查询 SeaTunnel 任务列表", notes = "分页查询 SeaTunnel 任务列表")
-    public ResponseEntity<Page<FlinkJobForSeaTunnelDTO>> listJobsForSeaTunnel(@Valid FlinkJobListByTypeParam param) {
-        Page<FlinkJobForSeaTunnelDTO> page = flinkJobService.listJobsForSeaTunnel(param);
+    public ResponseEntity<Page<WsFlinkJobForSeaTunnelDTO>> listJobsForSeaTunnel(@Valid WsFlinkJobListByTypeParam param) {
+        Page<WsFlinkJobForSeaTunnelDTO> page = wsFlinkJobService.listJobsForSeaTunnel(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 

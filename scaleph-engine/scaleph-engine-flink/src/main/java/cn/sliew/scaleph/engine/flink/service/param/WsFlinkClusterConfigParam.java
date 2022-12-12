@@ -30,7 +30,7 @@ import org.springframework.beans.BeanUtils;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FlinkClusterConfigParam extends PaginationParam {
+public class WsFlinkClusterConfigParam extends PaginationParam {
 
     @ApiModelProperty("项目ID")
     private Long projectId;

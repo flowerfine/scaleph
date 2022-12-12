@@ -31,7 +31,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class FlinkArtifactDTO extends BaseDTO {
+public class WsFlinkArtifactDTO extends BaseDTO {
 
     @NotNull
     @Length(max = 32)

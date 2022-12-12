@@ -21,8 +21,8 @@ package cn.sliew.scaleph.engine.flink.service.convert;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterConfig;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
-import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptions;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptionsDTO;
 import cn.sliew.scaleph.resource.service.convert.ClusterCredentialConvert;
 import cn.sliew.scaleph.resource.service.convert.FlinkReleaseConvert;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -36,11 +36,11 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 
 @Mapper(uses = {FlinkReleaseConvert.class, ClusterCredentialConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FlinkClusterConfigConvert extends BaseConvert<WsFlinkClusterConfig, FlinkClusterConfigDTO> {
-    FlinkClusterConfigConvert INSTANCE = Mappers.getMapper(FlinkClusterConfigConvert.class);
+public interface WsFlinkClusterConfigConvert extends BaseConvert<WsFlinkClusterConfig, WsFlinkClusterConfigDTO> {
+    WsFlinkClusterConfigConvert INSTANCE = Mappers.getMapper(WsFlinkClusterConfigConvert.class);
 
     @Override
-    default WsFlinkClusterConfig toDo(FlinkClusterConfigDTO dto) {
+    default WsFlinkClusterConfig toDo(WsFlinkClusterConfigDTO dto) {
         if (dto == null) {
             return null;
         }
@@ -59,8 +59,8 @@ public interface FlinkClusterConfigConvert extends BaseConvert<WsFlinkClusterCon
         entity.setFlinkReleaseId(entity.getFlinkRelease().getId());
         entity.setClusterCredential(ClusterCredentialConvert.INSTANCE.toDo(dto.getClusterCredential()));
         entity.setClusterCredentialId(entity.getClusterCredential().getId());
-        if (dto.getKubernetesOptions() != null) {
-            entity.setKubernetesOptions(JacksonUtil.toJsonString(dto.getKubernetesOptions()));
+        if (dto.getKubernetesOptionsDTO() != null) {
+            entity.setKubernetesOptions(JacksonUtil.toJsonString(dto.getKubernetesOptionsDTO()));
         }
         if (!CollectionUtils.isEmpty(dto.getConfigOptions())) {
             entity.setConfigOptions(JacksonUtil.toJsonString(dto.getConfigOptions()));
@@ -70,16 +70,16 @@ public interface FlinkClusterConfigConvert extends BaseConvert<WsFlinkClusterCon
     }
 
     @Override
-    default FlinkClusterConfigDTO toDto(WsFlinkClusterConfig entity) {
+    default WsFlinkClusterConfigDTO toDto(WsFlinkClusterConfig entity) {
         if (entity == null) {
             return null;
         }
-        FlinkClusterConfigDTO dto = new FlinkClusterConfigDTO();
+        WsFlinkClusterConfigDTO dto = new WsFlinkClusterConfigDTO();
         BeanUtils.copyProperties(entity, dto);
         dto.setFlinkRelease(FlinkReleaseConvert.INSTANCE.toDto(entity.getFlinkRelease()));
         dto.setClusterCredential(ClusterCredentialConvert.INSTANCE.toDto(entity.getClusterCredential()));
         if (StringUtils.hasText(entity.getKubernetesOptions())) {
-            dto.setKubernetesOptions(JacksonUtil.parseJsonString(entity.getKubernetesOptions(), KubernetesOptions.class));
+            dto.setKubernetesOptionsDTO(JacksonUtil.parseJsonString(entity.getKubernetesOptions(), KubernetesOptionsDTO.class));
         }
         if (StringUtils.hasText(entity.getConfigOptions())) {
             dto.setConfigOptions(JacksonUtil.parseJsonString(entity.getConfigOptions(), new TypeReference<Map<String, String>>() {

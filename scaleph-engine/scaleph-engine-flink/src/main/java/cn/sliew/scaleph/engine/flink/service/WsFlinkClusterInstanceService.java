@@ -18,19 +18,19 @@
 
 package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterInstanceDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterInstanceParam;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterInstanceDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkClusterInstanceParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-public interface FlinkClusterInstanceService {
+public interface WsFlinkClusterInstanceService {
 
-    Page<FlinkClusterInstanceDTO> list(FlinkClusterInstanceParam param);
+    Page<WsFlinkClusterInstanceDTO> list(WsFlinkClusterInstanceParam param);
 
-    int insert(FlinkClusterInstanceDTO dto);
+    int insert(WsFlinkClusterInstanceDTO dto);
 
-    int update(FlinkClusterInstanceDTO dto);
+    int update(WsFlinkClusterInstanceDTO dto);
 
-    FlinkClusterInstanceDTO selectOne(Long id);
+    WsFlinkClusterInstanceDTO selectOne(Long id);
 
     Long totalCnt();
 }

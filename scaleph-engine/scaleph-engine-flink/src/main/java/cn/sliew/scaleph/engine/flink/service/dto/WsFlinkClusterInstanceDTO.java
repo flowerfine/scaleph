@@ -25,7 +25,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -36,7 +35,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "FlinkClusterConfig对象", description = "flink 集群配置")
-public class FlinkClusterInstanceDTO extends BaseDTO {
+public class WsFlinkClusterInstanceDTO extends BaseDTO {
 
     @NotNull
     @ApiModelProperty("项目ID")
@@ -58,7 +57,5 @@ public class FlinkClusterInstanceDTO extends BaseDTO {
     @ApiModelProperty("集群状态。0: 已创建, 1: 运行中, 2: 停止")
     private FlinkClusterStatus status;
 
-    @ApiModelProperty("备注")
-    private String remark;
 
 }

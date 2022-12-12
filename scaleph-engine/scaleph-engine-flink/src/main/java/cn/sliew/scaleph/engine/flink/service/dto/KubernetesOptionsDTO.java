@@ -18,14 +18,13 @@
 
 package cn.sliew.scaleph.engine.flink.service.dto;
 
-import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
 @ApiModel(value = "KubernetesOptions", description = "Kubernetes Options")
-public class KubernetesOptions {
+public class KubernetesOptionsDTO {
 
     @ApiModelProperty("Kubeconfig context")
     private String context;

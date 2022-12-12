@@ -19,11 +19,11 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.engine.flink.service.FlinkYarnService;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobForSeaTunnelSubmitParam;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkYarnService;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobForSeaTunnelSubmitParam;
 import cn.sliew.scaleph.system.vo.ResponseVO;
-import cn.sliew.scaleph.engine.flink.service.FlinkService;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobForJarSubmitParam;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkService;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobForJarSubmitParam;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,23 +42,23 @@ import javax.validation.Valid;
 public class JobInstanceJarController {
 
     @Autowired
-    private FlinkService flinkService;
+    private WsFlinkService wsFlinkService;
     @Autowired
-    private FlinkYarnService flinkYarnService;
+    private WsFlinkYarnService wsFlinkYarnService;
 
     @Logging
     @PutMapping
     @ApiOperation(value = "提交 jar 任务", notes = "提交 jar 任务")
-    public ResponseEntity<ResponseVO> submitJar(@Valid @RequestBody FlinkJobForJarSubmitParam param) throws Exception {
-        flinkService.submitJar(param.getFlinkJobId());
+    public ResponseEntity<ResponseVO> submitJar(@Valid @RequestBody WsFlinkJobForJarSubmitParam param) throws Exception {
+        wsFlinkService.submitJar(param.getFlinkJobId());
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
     @PutMapping("seatunnel")
     @ApiOperation(value = "提交 seatunnel 任务", notes = "提交 seatunnel 任务")
-    public ResponseEntity<ResponseVO> submitSeaTunnel(@Valid @RequestBody FlinkJobForSeaTunnelSubmitParam param) throws Exception {
-        flinkService.submitSeaTunnel(param.getFlinkJobId());
+    public ResponseEntity<ResponseVO> submitSeaTunnel(@Valid @RequestBody WsFlinkJobForSeaTunnelSubmitParam param) throws Exception {
+        wsFlinkService.submitSeaTunnel(param.getFlinkJobId());
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 }

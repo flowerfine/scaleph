@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.service.action;
 
-import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterConfigService;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.GlobalConfiguration;
@@ -34,8 +34,8 @@ public class ConfigurationBuildForStandaloneAction extends ConfigurationBuildAct
 
     public static final String NAME = ConfigurationBuildForStandaloneAction.class.getName();
 
-    public ConfigurationBuildForStandaloneAction(FlinkClusterConfigService flinkClusterConfigService) {
-        super(NAME, flinkClusterConfigService);
+    public ConfigurationBuildForStandaloneAction(WsFlinkClusterConfigService wsFlinkClusterConfigService) {
+        super(NAME, wsFlinkClusterConfigService);
     }
 
     @Override

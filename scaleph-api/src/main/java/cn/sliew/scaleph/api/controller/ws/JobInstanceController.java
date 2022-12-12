@@ -19,9 +19,9 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.engine.flink.service.FlinkJobInstanceService;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobInstanceDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobInstanceListParam;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkJobInstanceService;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobInstanceDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobInstanceListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,21 +43,21 @@ import javax.validation.Valid;
 public class JobInstanceController {
 
     @Autowired
-    private FlinkJobInstanceService flinkJobInstanceService;
+    private WsFlinkJobInstanceService wsFlinkJobInstanceService;
 
     @Logging
     @GetMapping
     @ApiOperation(value = "查询任务实例列表", notes = "分页任务实例列表")
-    public ResponseEntity<Page<FlinkJobInstanceDTO>> list(@Valid FlinkJobInstanceListParam param) {
-        Page<FlinkJobInstanceDTO> page = flinkJobInstanceService.list(param);
+    public ResponseEntity<Page<WsFlinkJobInstanceDTO>> list(@Valid WsFlinkJobInstanceListParam param) {
+        Page<WsFlinkJobInstanceDTO> page = wsFlinkJobInstanceService.list(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @Logging
     @GetMapping("getByCode")
     @ApiOperation(value = "查询任务实例", notes = "查询任务实例")
-    public ResponseEntity<FlinkJobInstanceDTO> getByCode(@RequestParam("flinkJobCode") Long flinkJobCode) {
-        FlinkJobInstanceDTO dto = flinkJobInstanceService.selectByCode(flinkJobCode);
+    public ResponseEntity<WsFlinkJobInstanceDTO> getByCode(@RequestParam("flinkJobCode") Long flinkJobCode) {
+        WsFlinkJobInstanceDTO dto = wsFlinkJobInstanceService.selectByCode(flinkJobCode);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }

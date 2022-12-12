@@ -21,12 +21,12 @@ package cn.sliew.scaleph.engine.flink.service.convert;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.engine.seatunnel.service.convert.WsProjectConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifact;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(uses = {WsProjectConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FlinkArtifactConvert extends BaseConvert<WsFlinkArtifact, FlinkArtifactDTO> {
-    FlinkArtifactConvert INSTANCE = Mappers.getMapper(FlinkArtifactConvert.class);
+public interface WsFlinkArtifactConvert extends BaseConvert<WsFlinkArtifact, WsFlinkArtifactDTO> {
+    WsFlinkArtifactConvert INSTANCE = Mappers.getMapper(WsFlinkArtifactConvert.class);
 }

@@ -23,10 +23,10 @@ import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.TransferVO;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.WsProjectService;
-import cn.sliew.scaleph.engine.flink.service.FlinkClusterInstanceService;
-import cn.sliew.scaleph.engine.flink.service.FlinkJobLogService;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobLogDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobLogListParam;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterInstanceService;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkJobLogService;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobLogDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobLogListParam;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -52,11 +52,11 @@ public class DataBoardController {
     @Autowired
     private WsProjectService wsProjectService;
     @Autowired
-    private FlinkClusterInstanceService flinkClusterInstanceService;
+    private WsFlinkClusterInstanceService wsFlinkClusterInstanceService;
     @Autowired
     private WsDiJobService wsDiJobService;
     @Autowired
-    private FlinkJobLogService flinkJobLogService;
+    private WsFlinkJobLogService wsFlinkJobLogService;
 
     @Logging
     @GetMapping(path = "/project")
@@ -72,7 +72,7 @@ public class DataBoardController {
     @ApiOperation(value = "查询集群数量", notes = "查询集群数量")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
     public ResponseEntity<Long> countCluster() {
-        Long result = this.flinkClusterInstanceService.totalCnt();
+        Long result = this.wsFlinkClusterInstanceService.totalCnt();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -89,11 +89,11 @@ public class DataBoardController {
     @GetMapping(path = "/topBatch100")
     @ApiOperation(value = "查询近7日周期任务运行时长TOP100", notes = "查询近7日周期任务运行时长TOP100")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
-    public ResponseEntity<List<FlinkJobLogDTO>> batchTop100In7d() {
+    public ResponseEntity<List<WsFlinkJobLogDTO>> batchTop100In7d() {
         //todo 查询近7日周期任务运行时长TOP100
         Date currentDate = DateUtil.beginOfDay(new Date());
-        List<FlinkJobLogDTO> list =
-                this.flinkJobLogService.list(new FlinkJobLogListParam(0L)).getRecords();
+        List<WsFlinkJobLogDTO> list =
+                this.wsFlinkJobLogService.list(new WsFlinkJobLogListParam(0L)).getRecords();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

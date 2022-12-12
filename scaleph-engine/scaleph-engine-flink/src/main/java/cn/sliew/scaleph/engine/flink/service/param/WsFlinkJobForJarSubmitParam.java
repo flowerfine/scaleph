@@ -24,7 +24,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class FlinkJobForJarSubmitParam {
+public class WsFlinkJobForJarSubmitParam {
 
     @NotNull
     @ApiModelProperty("flink job for jar id")

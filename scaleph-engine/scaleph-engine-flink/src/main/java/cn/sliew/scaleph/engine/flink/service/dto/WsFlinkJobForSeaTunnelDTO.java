@@ -32,7 +32,7 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "FlinkJobForSeaTunnel对象", description = "flink job for seatunnel")
-public class FlinkJobForSeaTunnelDTO extends BaseDTO {
+public class WsFlinkJobForSeaTunnelDTO extends BaseDTO {
 
     @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
     private FlinkJobType type;
@@ -50,16 +50,16 @@ public class FlinkJobForSeaTunnelDTO extends BaseDTO {
     private Map<String, String> jobConfig;
 
     @ApiModelProperty("flink cluster config")
-    private FlinkClusterConfigDTO flinkClusterConfig;
+    private WsFlinkClusterConfigDTO flinkClusterConfig;
 
     @ApiModelProperty("flink cluster instance")
-    private FlinkClusterInstanceDTO flinkClusterInstance;
+    private WsFlinkClusterInstanceDTO flinkClusterInstance;
 
     @ApiModelProperty("flink 配置参数")
     private Map<String, String> flinkConfig;
 
     @ApiModelProperty("flink job instance")
-    private FlinkJobInstanceDTO flinkJobInstance;
+    private WsFlinkJobInstanceDTO flinkJobInstance;
 
     @ApiModelProperty("jars")
     private List<Long> jars;

@@ -25,15 +25,15 @@ import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJob;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobForJar;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobForSeaTunnel;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkJobMapper;
-import cn.sliew.scaleph.engine.flink.service.FlinkJobService;
-import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobConvert;
-import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobForJarConvert;
-import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobForSeaTunnelConvert;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobDTO;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForJarDTO;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForSeaTunnelDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByTypeParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListParam;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkJobService;
+import cn.sliew.scaleph.engine.flink.service.convert.WsFlinkJobConvert;
+import cn.sliew.scaleph.engine.flink.service.convert.WsFlinkJobForJarConvert;
+import cn.sliew.scaleph.engine.flink.service.convert.WsFlinkJobForSeaTunnelConvert;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobForJarDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobForSeaTunnelDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListByTypeParam;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListParam;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -46,7 +46,7 @@ import java.util.List;
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
 @Service
-public class FlinkJobServiceImpl implements FlinkJobService {
+public class WsFlinkJobServiceImpl implements WsFlinkJobService {
 
     @Autowired
     private UidGenerator defaultUidGenerator;
@@ -54,28 +54,28 @@ public class FlinkJobServiceImpl implements FlinkJobService {
     private WsFlinkJobMapper flinkJobMapper;
 
     @Override
-    public Page<FlinkJobDTO> list(FlinkJobListParam param) {
+    public Page<WsFlinkJobDTO> list(WsFlinkJobListParam param) {
         final Page<WsFlinkJob> page = new Page<>(param.getCurrent(), param.getPageSize());
         final WsFlinkJob wsFlinkJob = BeanUtil.copy(param, new WsFlinkJob());
         final Page<WsFlinkJob> flinkJobPage = flinkJobMapper.list(page, wsFlinkJob);
-        Page<FlinkJobDTO> result =
+        Page<WsFlinkJobDTO> result =
                 new Page<>(flinkJobPage.getCurrent(), flinkJobPage.getSize(), flinkJobPage.getTotal());
-        List<FlinkJobDTO> dtoList = FlinkJobConvert.INSTANCE.toDto(flinkJobPage.getRecords());
+        List<WsFlinkJobDTO> dtoList = WsFlinkJobConvert.INSTANCE.toDto(flinkJobPage.getRecords());
         result.setRecords(dtoList);
         return result;
     }
 
     @Override
-    public FlinkJobDTO selectOne(Long id) {
+    public WsFlinkJobDTO selectOne(Long id) {
         final WsFlinkJob record = flinkJobMapper.selectById(id);
-        return FlinkJobConvert.INSTANCE.toDto(record);
+        return WsFlinkJobConvert.INSTANCE.toDto(record);
     }
 
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
-    public int insert(FlinkJobDTO dto) {
+    public int insert(WsFlinkJobDTO dto) {
         try {
-            final WsFlinkJob record = FlinkJobConvert.INSTANCE.toDo(dto);
+            final WsFlinkJob record = WsFlinkJobConvert.INSTANCE.toDo(dto);
             record.setCode(defaultUidGenerator.getUID());
             return flinkJobMapper.insert(record);
         } catch (UidGenerateException e) {
@@ -86,52 +86,52 @@ public class FlinkJobServiceImpl implements FlinkJobService {
 
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
-    public int update(FlinkJobDTO dto) {
-        final WsFlinkJob record = FlinkJobConvert.INSTANCE.toDo(dto);
+    public int update(WsFlinkJobDTO dto) {
+        final WsFlinkJob record = WsFlinkJobConvert.INSTANCE.toDo(dto);
         return flinkJobMapper.updateById(record);
     }
 
     @Override
-    public Page<FlinkJobForJarDTO> listJobsForJar(FlinkJobListByTypeParam param) {
+    public Page<WsFlinkJobForJarDTO> listJobsForJar(WsFlinkJobListByTypeParam param) {
         final Page<WsFlinkJob> page = new Page<>(param.getCurrent(), param.getPageSize());
         WsFlinkJob wsFlinkJob = BeanUtil.copy(param, new WsFlinkJob());
 
         final Page<WsFlinkJobForJar> flinkJobForJarPage = flinkJobMapper.listJobsForJar(page, wsFlinkJob);
-        Page<FlinkJobForJarDTO> result =
+        Page<WsFlinkJobForJarDTO> result =
                 new Page<>(flinkJobForJarPage.getCurrent(), flinkJobForJarPage.getSize(), flinkJobForJarPage.getTotal());
-        List<FlinkJobForJarDTO> dtoList = FlinkJobForJarConvert.INSTANCE.toDto(flinkJobForJarPage.getRecords());
+        List<WsFlinkJobForJarDTO> dtoList = WsFlinkJobForJarConvert.INSTANCE.toDto(flinkJobForJarPage.getRecords());
         result.setRecords(dtoList);
         return result;
     }
 
     @Override
-    public FlinkJobForJarDTO getJobForJarById(Long id) {
+    public WsFlinkJobForJarDTO getJobForJarById(Long id) {
         final WsFlinkJobForJar record = flinkJobMapper.getJobForJarById(id);
         if (record == null) {
             throw new IllegalStateException("flink job for jar not exists for id: " + id);
         }
-        return FlinkJobForJarConvert.INSTANCE.toDto(record);
+        return WsFlinkJobForJarConvert.INSTANCE.toDto(record);
     }
 
     @Override
-    public Page<FlinkJobForSeaTunnelDTO> listJobsForSeaTunnel(FlinkJobListByTypeParam param) {
+    public Page<WsFlinkJobForSeaTunnelDTO> listJobsForSeaTunnel(WsFlinkJobListByTypeParam param) {
         final Page<WsFlinkJob> page = new Page<>(param.getCurrent(), param.getPageSize());
         WsFlinkJob wsFlinkJob = BeanUtil.copy(param, new WsFlinkJob());
 
         final Page<WsFlinkJobForSeaTunnel> flinkJobForSeaTunnelPage = flinkJobMapper.listJobsForSeaTunnel(page, wsFlinkJob);
-        Page<FlinkJobForSeaTunnelDTO> result =
+        Page<WsFlinkJobForSeaTunnelDTO> result =
                 new Page<>(flinkJobForSeaTunnelPage.getCurrent(), flinkJobForSeaTunnelPage.getSize(), flinkJobForSeaTunnelPage.getTotal());
-        List<FlinkJobForSeaTunnelDTO> dtoList = FlinkJobForSeaTunnelConvert.INSTANCE.toDto(flinkJobForSeaTunnelPage.getRecords());
+        List<WsFlinkJobForSeaTunnelDTO> dtoList = WsFlinkJobForSeaTunnelConvert.INSTANCE.toDto(flinkJobForSeaTunnelPage.getRecords());
         result.setRecords(dtoList);
         return result;
     }
 
     @Override
-    public FlinkJobForSeaTunnelDTO getJobForSeaTunnelById(Long id) {
+    public WsFlinkJobForSeaTunnelDTO getJobForSeaTunnelById(Long id) {
         final WsFlinkJobForSeaTunnel record = flinkJobMapper.getJobForSeaTunnelById(id);
         if (record == null) {
             throw new IllegalStateException("flink job for seatunnel not exists for id: " + id);
         }
-        return FlinkJobForSeaTunnelConvert.INSTANCE.toDto(record);
+        return WsFlinkJobForSeaTunnelConvert.INSTANCE.toDto(record);
     }
 }

@@ -19,8 +19,8 @@
 package cn.sliew.scaleph.engine.flink.service.action;
 
 import cn.sliew.milky.common.filter.ActionListener;
-import cn.sliew.scaleph.engine.flink.service.FlinkJobService;
-import cn.sliew.scaleph.engine.flink.service.FlinkService;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkJobService;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkService;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
@@ -33,9 +33,9 @@ import org.springframework.stereotype.Component;
 public class FlinkJobStatusSyncJob extends AbstractWorkFlow {
 
     @Autowired
-    private FlinkJobService flinkJobService;
+    private WsFlinkJobService wsFlinkJobService;
     @Autowired
-    private FlinkService flinkService;
+    private WsFlinkService wsFlinkService;
 
     public FlinkJobStatusSyncJob() {
         super("FLINK_JOB_STATUS_SYNC_JOB");

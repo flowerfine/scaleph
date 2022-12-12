@@ -18,28 +18,28 @@
 
 package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobInstanceDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobInstanceListParam;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobInstanceDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobInstanceListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-public interface FlinkJobInstanceService {
+public interface WsFlinkJobInstanceService {
 
     @Deprecated
-    Page<FlinkJobInstanceDTO> list(FlinkJobInstanceListParam param);
+    Page<WsFlinkJobInstanceDTO> list(WsFlinkJobInstanceListParam param);
 
-    FlinkJobInstanceDTO selectByCode(Long flinkJobCode);
+    WsFlinkJobInstanceDTO selectByCode(Long flinkJobCode);
 
-    FlinkJobInstanceDTO selectOne(Long id);
+    WsFlinkJobInstanceDTO selectOne(Long id);
 
-    boolean upsert(FlinkJobInstanceDTO dto);
+    boolean upsert(WsFlinkJobInstanceDTO dto);
 
-    int insert(FlinkJobInstanceDTO dto);
+    int insert(WsFlinkJobInstanceDTO dto);
 
-    int update(FlinkJobInstanceDTO dto);
+    int update(WsFlinkJobInstanceDTO dto);
 
-    FlinkJobInstanceDTO deleteById(Long id);
+    WsFlinkJobInstanceDTO deleteById(Long id);
 
     //todo useable?
-    int transferToLog(FlinkJobInstanceDTO dto);
+    int transferToLog(WsFlinkJobInstanceDTO dto);
 
 }

@@ -22,11 +22,11 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterConfig;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkClusterConfigMapper;
-import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
-import cn.sliew.scaleph.engine.flink.service.convert.FlinkClusterConfigConvert;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
-import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptions;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigParam;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterConfigService;
+import cn.sliew.scaleph.engine.flink.service.convert.WsFlinkClusterConfigConvert;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptionsDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkClusterConfigParam;
 import cn.sliew.scaleph.resource.service.FlinkReleaseService;
 import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService {
+public class WsFlinkClusterConfigServiceImpl implements WsFlinkClusterConfigService {
 
     @Autowired
     private WsFlinkClusterConfigMapper flinkClusterConfigMapper;
@@ -48,17 +48,17 @@ public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService 
     private FlinkReleaseService flinkReleaseService;
 
     @Override
-    public int insert(FlinkClusterConfigDTO param) {
+    public int insert(WsFlinkClusterConfigDTO param) {
         FlinkReleaseDTO release = flinkReleaseService.selectOne(param.getFlinkRelease().getId());
         param.setFlinkRelease(release);
         param.setFlinkVersion(release.getVersion());
-        final WsFlinkClusterConfig record = FlinkClusterConfigConvert.INSTANCE.toDo(param);
+        final WsFlinkClusterConfig record = WsFlinkClusterConfigConvert.INSTANCE.toDo(param);
 
         return flinkClusterConfigMapper.insert(record);
     }
 
     @Override
-    public int updateKubernetesOptions(Long id, KubernetesOptions options) {
+    public int updateKubernetesOptions(Long id, KubernetesOptionsDTO options) {
         WsFlinkClusterConfig record = new WsFlinkClusterConfig();
         record.setId(id);
         record.setKubernetesOptions(JacksonUtil.toJsonString(options));
@@ -77,11 +77,11 @@ public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService 
     }
 
     @Override
-    public int update(FlinkClusterConfigDTO dto) {
+    public int update(WsFlinkClusterConfigDTO dto) {
         FlinkReleaseDTO release = flinkReleaseService.selectOne(dto.getFlinkRelease().getId());
         dto.setFlinkRelease(release);
         dto.setFlinkVersion(release.getVersion());
-        final WsFlinkClusterConfig record = FlinkClusterConfigConvert.INSTANCE.toDo(dto);
+        final WsFlinkClusterConfig record = WsFlinkClusterConfigConvert.INSTANCE.toDo(dto);
         return flinkClusterConfigMapper.updateById(record);
     }
 
@@ -100,21 +100,21 @@ public class FlinkClusterConfigServiceImpl implements FlinkClusterConfigService 
     }
 
     @Override
-    public Page<FlinkClusterConfigDTO> listByPage(FlinkClusterConfigParam param) {
+    public Page<WsFlinkClusterConfigDTO> listByPage(WsFlinkClusterConfigParam param) {
         final Page<WsFlinkClusterConfig> page = new Page<>(param.getCurrent(), param.getPageSize());
         WsFlinkClusterConfig wsFlinkClusterConfig = BeanUtil.copy(param, new WsFlinkClusterConfig());
         final Page<WsFlinkClusterConfig> clusterPage = flinkClusterConfigMapper.list(page, wsFlinkClusterConfig);
 
-        Page<FlinkClusterConfigDTO> result =
+        Page<WsFlinkClusterConfigDTO> result =
                 new Page<>(clusterPage.getCurrent(), clusterPage.getSize(), clusterPage.getTotal());
-        List<FlinkClusterConfigDTO> dtoList = FlinkClusterConfigConvert.INSTANCE.toDto(clusterPage.getRecords());
+        List<WsFlinkClusterConfigDTO> dtoList = WsFlinkClusterConfigConvert.INSTANCE.toDto(clusterPage.getRecords());
         result.setRecords(dtoList);
         return result;
     }
 
     @Override
-    public FlinkClusterConfigDTO selectOne(Long id) {
+    public WsFlinkClusterConfigDTO selectOne(Long id) {
         WsFlinkClusterConfig record = flinkClusterConfigMapper.getById(id);
-        return FlinkClusterConfigConvert.INSTANCE.toDto(record);
+        return WsFlinkClusterConfigConvert.INSTANCE.toDto(record);
     }
 }

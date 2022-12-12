@@ -28,7 +28,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FlinkJobListByTypeParam extends PaginationParam {
+public class WsFlinkJobListByTypeParam extends PaginationParam {
 
     @NotNull
     @ApiModelProperty("job type")

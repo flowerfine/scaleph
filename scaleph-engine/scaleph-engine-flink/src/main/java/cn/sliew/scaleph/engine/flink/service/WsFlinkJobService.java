@@ -18,31 +18,31 @@
 
 package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobDTO;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForJarDTO;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForSeaTunnelDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByTypeParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListParam;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobForJarDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobForSeaTunnelDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListByTypeParam;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-public interface FlinkJobService {
+public interface WsFlinkJobService {
 
-    Page<FlinkJobDTO> list(FlinkJobListParam param);
+    Page<WsFlinkJobDTO> list(WsFlinkJobListParam param);
 
-    FlinkJobDTO selectOne(Long id);
+    WsFlinkJobDTO selectOne(Long id);
 
-    int insert(FlinkJobDTO dto);
+    int insert(WsFlinkJobDTO dto);
 
-    int update(FlinkJobDTO dto);
-
-    @Deprecated
-    Page<FlinkJobForJarDTO> listJobsForJar(FlinkJobListByTypeParam param);
-
-    FlinkJobForJarDTO getJobForJarById(Long id);
+    int update(WsFlinkJobDTO dto);
 
     @Deprecated
-    Page<FlinkJobForSeaTunnelDTO> listJobsForSeaTunnel(FlinkJobListByTypeParam param);
+    Page<WsFlinkJobForJarDTO> listJobsForJar(WsFlinkJobListByTypeParam param);
 
-    FlinkJobForSeaTunnelDTO getJobForSeaTunnelById(Long id);
+    WsFlinkJobForJarDTO getJobForJarById(Long id);
+
+    @Deprecated
+    Page<WsFlinkJobForSeaTunnelDTO> listJobsForSeaTunnel(WsFlinkJobListByTypeParam param);
+
+    WsFlinkJobForSeaTunnelDTO getJobForSeaTunnelById(Long id);
 
 }

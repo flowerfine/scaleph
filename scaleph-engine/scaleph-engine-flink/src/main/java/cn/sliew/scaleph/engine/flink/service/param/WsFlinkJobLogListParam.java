@@ -29,7 +29,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class FlinkJobLogListParam extends PaginationParam {
+public class WsFlinkJobLogListParam extends PaginationParam {
 
     @NotNull
     @ApiModelProperty("flink job code")

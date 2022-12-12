@@ -18,11 +18,9 @@
 
 package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
+public interface WsFlinkYarnService {
 
-public interface FlinkYarnService {
-
-    void createSessionCluster(FlinkSessionClusterAddParam param) throws Exception;
+    void createSessionCluster(Long flinkClusterConfigId) throws Exception;
 
     void submitJar(Long id) throws Exception;
 

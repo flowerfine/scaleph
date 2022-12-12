@@ -20,11 +20,11 @@ package cn.sliew.scaleph.engine.flink.service.impl;
 
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobInstance;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkJobInstanceMapper;
-import cn.sliew.scaleph.engine.flink.service.FlinkJobInstanceService;
-import cn.sliew.scaleph.engine.flink.service.FlinkJobLogService;
-import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobInstanceConvert;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobInstanceDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobInstanceListParam;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkJobInstanceService;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkJobLogService;
+import cn.sliew.scaleph.engine.flink.service.convert.WsFlinkJobInstanceConvert;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobInstanceDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobInstanceListParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -40,50 +40,50 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class FlinkJobInstanceServiceImpl
+public class WsFlinkJobInstanceServiceImpl
         extends ServiceImpl<WsFlinkJobInstanceMapper, WsFlinkJobInstance>
-        implements FlinkJobInstanceService {
+        implements WsFlinkJobInstanceService {
 
     @Autowired
     private WsFlinkJobInstanceMapper flinkJobInstanceMapper;
     @Autowired
-    private FlinkJobLogService flinkJobLogService;
+    private WsFlinkJobLogService wsFlinkJobLogService;
 
     @Override
-    public Page<FlinkJobInstanceDTO> list(FlinkJobInstanceListParam param) {
+    public Page<WsFlinkJobInstanceDTO> list(WsFlinkJobInstanceListParam param) {
         final Page<WsFlinkJobInstance> page = flinkJobInstanceMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(WsFlinkJobInstance.class)
                         .eq(WsFlinkJobInstance::getFlinkJobCode, param.getFlinkJobCode()));
-        Page<FlinkJobInstanceDTO> result =
+        Page<WsFlinkJobInstanceDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
-        List<FlinkJobInstanceDTO> dtoList = FlinkJobInstanceConvert.INSTANCE.toDto(page.getRecords());
+        List<WsFlinkJobInstanceDTO> dtoList = WsFlinkJobInstanceConvert.INSTANCE.toDto(page.getRecords());
         result.setRecords(dtoList);
         return result;
     }
 
     @Override
-    public FlinkJobInstanceDTO selectByCode(Long flinkJobCode) {
+    public WsFlinkJobInstanceDTO selectByCode(Long flinkJobCode) {
         final LambdaQueryWrapper<WsFlinkJobInstance> wrapper = Wrappers.lambdaQuery(WsFlinkJobInstance.class)
                 .eq(WsFlinkJobInstance::getFlinkJobCode, flinkJobCode);
         final WsFlinkJobInstance flinkJobInstance = flinkJobInstanceMapper.selectOne(wrapper);
         return Optional.ofNullable(flinkJobInstance)
-                .map(record -> FlinkJobInstanceConvert.INSTANCE.toDto(record))
+                .map(record -> WsFlinkJobInstanceConvert.INSTANCE.toDto(record))
                 .orElse(null);
     }
 
     @Override
-    public FlinkJobInstanceDTO selectOne(Long id) {
+    public WsFlinkJobInstanceDTO selectOne(Long id) {
         final WsFlinkJobInstance record = flinkJobInstanceMapper.selectById(id);
         if (record == null) {
             throw new IllegalStateException("flink job instance not exists for id: " + id);
         }
-        return FlinkJobInstanceConvert.INSTANCE.toDto(record);
+        return WsFlinkJobInstanceConvert.INSTANCE.toDto(record);
     }
 
     @Override
-    public boolean upsert(FlinkJobInstanceDTO dto) {
-        WsFlinkJobInstance record = FlinkJobInstanceConvert.INSTANCE.toDo(dto);
+    public boolean upsert(WsFlinkJobInstanceDTO dto) {
+        WsFlinkJobInstance record = WsFlinkJobInstanceConvert.INSTANCE.toDo(dto);
         LambdaUpdateWrapper<WsFlinkJobInstance> wrapper = new UpdateWrapper<WsFlinkJobInstance>()
                 .lambda()
                 .eq(WsFlinkJobInstance::getFlinkJobCode, dto.getFlinkJobCode())
@@ -92,28 +92,28 @@ public class FlinkJobInstanceServiceImpl
     }
 
     @Override
-    public int insert(FlinkJobInstanceDTO dto) {
-        WsFlinkJobInstance record = FlinkJobInstanceConvert.INSTANCE.toDo(dto);
+    public int insert(WsFlinkJobInstanceDTO dto) {
+        WsFlinkJobInstance record = WsFlinkJobInstanceConvert.INSTANCE.toDo(dto);
         return flinkJobInstanceMapper.insert(record);
     }
 
     @Override
-    public int update(FlinkJobInstanceDTO dto) {
-        WsFlinkJobInstance record = FlinkJobInstanceConvert.INSTANCE.toDo(dto);
+    public int update(WsFlinkJobInstanceDTO dto) {
+        WsFlinkJobInstance record = WsFlinkJobInstanceConvert.INSTANCE.toDo(dto);
         return flinkJobInstanceMapper.updateById(record);
     }
 
     @Override
-    public FlinkJobInstanceDTO deleteById(Long id) {
-        final FlinkJobInstanceDTO dto = selectOne(id);
+    public WsFlinkJobInstanceDTO deleteById(Long id) {
+        final WsFlinkJobInstanceDTO dto = selectOne(id);
         flinkJobInstanceMapper.deleteById(id);
         return dto;
     }
 
     @Override
-    public int transferToLog(FlinkJobInstanceDTO dto) {
+    public int transferToLog(WsFlinkJobInstanceDTO dto) {
         update(dto);
-        FlinkJobInstanceDTO flinkJobInstanceDTO = deleteById(dto.getId());
-        return flinkJobLogService.insert(flinkJobInstanceDTO);
+        WsFlinkJobInstanceDTO wsFlinkJobInstanceDTO = deleteById(dto.getId());
+        return wsFlinkJobLogService.insert(wsFlinkJobInstanceDTO);
     }
 }

@@ -19,25 +19,25 @@
 package cn.sliew.scaleph.engine.flink.service;
 
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactJarDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarParam;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
-public interface FlinkArtifactJarService {
+public interface WsFlinkArtifactJarService {
 
-    Page<FlinkArtifactJarDTO> list(FlinkArtifactJarParam param);
+    Page<WsFlinkArtifactJarDTO> list(WsFlinkArtifactJarParam param);
 
-    FlinkArtifactJarDTO selectOne(Long id);
+    WsFlinkArtifactJarDTO selectOne(Long id);
 
     int deleteOne(Long id) throws ScalephException;
 
-    void upload(FlinkArtifactJarDTO param, MultipartFile file) throws IOException;
+    void upload(WsFlinkArtifactJarDTO param, MultipartFile file) throws IOException;
 
-    int update(FlinkArtifactJarDTO params);
+    int update(WsFlinkArtifactJarDTO params);
 
     String download(Long id, OutputStream outputStream) throws IOException;
 }

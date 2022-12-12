@@ -18,15 +18,15 @@
 
 package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobInstanceDTO;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobLogDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobLogListParam;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobInstanceDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobLogDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobLogListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-public interface FlinkJobLogService {
+public interface WsFlinkJobLogService {
 
-    Page<FlinkJobLogDTO> list(FlinkJobLogListParam param);
+    Page<WsFlinkJobLogDTO> list(WsFlinkJobLogListParam param);
 
-    int insert(FlinkJobInstanceDTO dto);
+    int insert(WsFlinkJobInstanceDTO dto);
 
 }

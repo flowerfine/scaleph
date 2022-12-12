@@ -18,11 +18,9 @@
 
 package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
-
 import java.util.List;
 
-public interface FlinkService {
+public interface WsFlinkService {
 
     void createSessionCluster(Long projectId,Long flinkClusterConfigId) throws Exception;
 

@@ -32,7 +32,7 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "FlinkJob对象", description = "flink job")
-public class FlinkJobDTO extends BaseDTO {
+public class WsFlinkJobDTO extends BaseDTO {
 
     @NotNull
     @ApiModelProperty("项目ID")

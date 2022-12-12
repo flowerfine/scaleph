@@ -20,10 +20,10 @@ package cn.sliew.scaleph.engine.flink.service.impl;
 
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterInstance;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkClusterInstanceMapper;
-import cn.sliew.scaleph.engine.flink.service.FlinkClusterInstanceService;
-import cn.sliew.scaleph.engine.flink.service.convert.FlinkClusterInstanceConvert;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterInstanceDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterInstanceParam;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterInstanceService;
+import cn.sliew.scaleph.engine.flink.service.convert.WsFlinkClusterInstanceConvert;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterInstanceDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkClusterInstanceParam;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
@@ -35,13 +35,13 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class FlinkClusterInstanceServiceImpl implements FlinkClusterInstanceService {
+public class WsFlinkClusterInstanceServiceImpl implements WsFlinkClusterInstanceService {
 
     @Autowired
     private WsFlinkClusterInstanceMapper flinkClusterInstanceMapper;
 
     @Override
-    public Page<FlinkClusterInstanceDTO> list(FlinkClusterInstanceParam param) {
+    public Page<WsFlinkClusterInstanceDTO> list(WsFlinkClusterInstanceParam param) {
         final Page<WsFlinkClusterInstance> page = flinkClusterInstanceMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(WsFlinkClusterInstance.class)
@@ -50,29 +50,29 @@ public class FlinkClusterInstanceServiceImpl implements FlinkClusterInstanceServ
                         .eq(param.getStatus() != null, WsFlinkClusterInstance::getStatus, param.getStatus())
                         .eq(param.getProjectId() != null, WsFlinkClusterInstance::getProjectId, param.getProjectId())
         );
-        Page<FlinkClusterInstanceDTO> result =
+        Page<WsFlinkClusterInstanceDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
-        List<FlinkClusterInstanceDTO> dtoList = FlinkClusterInstanceConvert.INSTANCE.toDto(page.getRecords());
+        List<WsFlinkClusterInstanceDTO> dtoList = WsFlinkClusterInstanceConvert.INSTANCE.toDto(page.getRecords());
         result.setRecords(dtoList);
         return result;
     }
 
     @Override
-    public int insert(FlinkClusterInstanceDTO dto) {
-        final WsFlinkClusterInstance record = FlinkClusterInstanceConvert.INSTANCE.toDo(dto);
+    public int insert(WsFlinkClusterInstanceDTO dto) {
+        final WsFlinkClusterInstance record = WsFlinkClusterInstanceConvert.INSTANCE.toDo(dto);
         return flinkClusterInstanceMapper.insert(record);
     }
 
     @Override
-    public int update(FlinkClusterInstanceDTO dto) {
-        final WsFlinkClusterInstance record = FlinkClusterInstanceConvert.INSTANCE.toDo(dto);
+    public int update(WsFlinkClusterInstanceDTO dto) {
+        final WsFlinkClusterInstance record = WsFlinkClusterInstanceConvert.INSTANCE.toDo(dto);
         return flinkClusterInstanceMapper.updateById(record);
     }
 
     @Override
-    public FlinkClusterInstanceDTO selectOne(Long id) {
+    public WsFlinkClusterInstanceDTO selectOne(Long id) {
         final WsFlinkClusterInstance record = flinkClusterInstanceMapper.selectById(id);
-        return FlinkClusterInstanceConvert.INSTANCE.toDto(record);
+        return WsFlinkClusterInstanceConvert.INSTANCE.toDto(record);
     }
 
     @Override

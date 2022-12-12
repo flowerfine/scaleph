@@ -19,9 +19,9 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.engine.flink.service.FlinkJobLogService;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobLogDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobLogListParam;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkJobLogService;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobLogDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobLogListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,13 +40,13 @@ import javax.validation.Valid;
 public class FlinkJobLogController {
 
     @Autowired
-    private FlinkJobLogService flinkJobLogService;
+    private WsFlinkJobLogService wsFlinkJobLogService;
 
     @Logging
     @GetMapping
     @ApiOperation(value = "查询任务运行日志列表", notes = "分页任务运行日志列表")
-    public ResponseEntity<Page<FlinkJobLogDTO>> list(@Valid FlinkJobLogListParam param) {
-        Page<FlinkJobLogDTO> page = flinkJobLogService.list(param);
+    public ResponseEntity<Page<WsFlinkJobLogDTO>> list(@Valid WsFlinkJobLogListParam param) {
+        Page<WsFlinkJobLogDTO> page = wsFlinkJobLogService.list(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 }

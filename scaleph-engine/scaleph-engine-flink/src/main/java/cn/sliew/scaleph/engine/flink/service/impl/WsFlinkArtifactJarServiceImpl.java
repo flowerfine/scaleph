@@ -22,10 +22,10 @@ import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactJarMapper;
-import cn.sliew.scaleph.engine.flink.service.FlinkArtifactJarService;
-import cn.sliew.scaleph.engine.flink.service.convert.FlinkArtifactJarConvert;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactJarDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactJarParam;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactJarService;
+import cn.sliew.scaleph.engine.flink.service.convert.WsFlinkArtifactJarConvert;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarParam;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -39,7 +39,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 @Service
-public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
+public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService {
 
     @Autowired
     private FileSystemService fileSystemService;
@@ -47,26 +47,26 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
     private WsFlinkArtifactJarMapper flinkArtifactJarMapper;
 
     @Override
-    public int update(FlinkArtifactJarDTO params) {
-        WsFlinkArtifactJar jar = FlinkArtifactJarConvert.INSTANCE.toDo(params);
+    public int update(WsFlinkArtifactJarDTO params) {
+        WsFlinkArtifactJar jar = WsFlinkArtifactJarConvert.INSTANCE.toDo(params);
         return this.flinkArtifactJarMapper.updateById(jar);
     }
 
     @Override
-    public Page<FlinkArtifactJarDTO> list(FlinkArtifactJarParam param) {
+    public Page<WsFlinkArtifactJarDTO> list(WsFlinkArtifactJarParam param) {
         Page<WsFlinkArtifactJar> page = new Page<>(param.getCurrent(), param.getPageSize());
         final WsFlinkArtifactJar wsFlinkArtifactJar = BeanUtil.copy(param, new WsFlinkArtifactJar());
         final Page<WsFlinkArtifactJar> jarPage = flinkArtifactJarMapper.list(page, wsFlinkArtifactJar);
-        Page<FlinkArtifactJarDTO> result =
+        Page<WsFlinkArtifactJarDTO> result =
                 new Page<>(jarPage.getCurrent(), jarPage.getSize(), jarPage.getTotal());
-        result.setRecords(FlinkArtifactJarConvert.INSTANCE.toDto(jarPage.getRecords()));
+        result.setRecords(WsFlinkArtifactJarConvert.INSTANCE.toDto(jarPage.getRecords()));
         return result;
     }
 
     @Override
-    public FlinkArtifactJarDTO selectOne(Long id) {
+    public WsFlinkArtifactJarDTO selectOne(Long id) {
         final WsFlinkArtifactJar record = flinkArtifactJarMapper.selectOne(id);
-        return FlinkArtifactJarConvert.INSTANCE.toDto(record);
+        return WsFlinkArtifactJarConvert.INSTANCE.toDto(record);
     }
 
     @Override
@@ -79,12 +79,12 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
     }
 
     @Override
-    public void upload(FlinkArtifactJarDTO param, MultipartFile file) throws IOException {
+    public void upload(WsFlinkArtifactJarDTO param, MultipartFile file) throws IOException {
         String path = getFlinkArtifactPath(param.getVersion(), file.getOriginalFilename());
         try (final InputStream inputStream = file.getInputStream()) {
             fileSystemService.upload(inputStream, path);
         }
-        WsFlinkArtifactJar record = FlinkArtifactJarConvert.INSTANCE.toDo(param);
+        WsFlinkArtifactJar record = WsFlinkArtifactJarConvert.INSTANCE.toDo(param);
         record.setFileName(file.getOriginalFilename());
         record.setPath(path);
         flinkArtifactJarMapper.insert(record);
@@ -92,7 +92,7 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
 
     @Override
     public String download(Long id, OutputStream outputStream) throws IOException {
-        final FlinkArtifactJarDTO dto = selectOne(id);
+        final WsFlinkArtifactJarDTO dto = selectOne(id);
         try (final InputStream inputStream = fileSystemService.get(dto.getPath())) {
             FileCopyUtils.copy(inputStream, outputStream);
         }

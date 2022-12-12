@@ -24,7 +24,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class FlinkJobForSeaTunnelSubmitParam {
+public class WsFlinkJobForSeaTunnelSubmitParam {
 
     @NotNull
     @ApiModelProperty("flink job for seatunnel id")

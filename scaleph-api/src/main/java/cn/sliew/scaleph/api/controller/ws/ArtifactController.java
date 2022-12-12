@@ -20,9 +20,9 @@ package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.engine.flink.service.FlinkArtifactService;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactParam;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactService;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactParam;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -42,29 +42,29 @@ import javax.validation.Valid;
 public class ArtifactController {
 
     @Autowired
-    private FlinkArtifactService flinkArtifactService;
+    private WsFlinkArtifactService wsFlinkArtifactService;
 
     @Logging
     @GetMapping
     @ApiOperation(value = "查询 artifact 列表", notes = "查询 artifact 列表")
-    public ResponseEntity<Page<FlinkArtifactDTO>> list(@Valid FlinkArtifactParam param) {
-        final Page<FlinkArtifactDTO> result = flinkArtifactService.list(param);
+    public ResponseEntity<Page<WsFlinkArtifactDTO>> list(@Valid WsFlinkArtifactParam param) {
+        final Page<WsFlinkArtifactDTO> result = wsFlinkArtifactService.list(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Logging
     @PutMapping
     @ApiOperation(value = "新增 artifact", notes = "新增 artifact")
-    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody FlinkArtifactDTO param) {
-        flinkArtifactService.insert(param);
+    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsFlinkArtifactDTO param) {
+        wsFlinkArtifactService.insert(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
     @PostMapping
     @ApiOperation(value = "修改 artifact", notes = "修改 artifact")
-    public ResponseEntity<ResponseVO> update(@Valid @RequestBody FlinkArtifactDTO param) {
-        flinkArtifactService.update(param);
+    public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkArtifactDTO param) {
+        wsFlinkArtifactService.update(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
@@ -72,7 +72,7 @@ public class ArtifactController {
     @DeleteMapping("{id}")
     @ApiOperation(value = "删除 artifact", notes = "删除 artifact")
     public ResponseEntity<ResponseVO> deleteById(@PathVariable("id") Long id) throws ScalephException {
-        flinkArtifactService.deleteById(id);
+        wsFlinkArtifactService.deleteById(id);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 

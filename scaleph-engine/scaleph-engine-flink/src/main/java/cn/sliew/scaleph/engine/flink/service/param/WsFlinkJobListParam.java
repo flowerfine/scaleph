@@ -28,7 +28,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FlinkJobListParam extends PaginationParam {
+public class WsFlinkJobListParam extends PaginationParam {
 
     @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
     private FlinkJobType type;

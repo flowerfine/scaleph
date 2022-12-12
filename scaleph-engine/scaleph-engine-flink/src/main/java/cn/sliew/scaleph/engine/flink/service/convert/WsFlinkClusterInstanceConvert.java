@@ -20,12 +20,12 @@ package cn.sliew.scaleph.engine.flink.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterInstance;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterInstanceDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterInstanceDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FlinkClusterInstanceConvert extends BaseConvert<WsFlinkClusterInstance, FlinkClusterInstanceDTO> {
-    FlinkClusterInstanceConvert INSTANCE = Mappers.getMapper(FlinkClusterInstanceConvert.class);
+public interface WsFlinkClusterInstanceConvert extends BaseConvert<WsFlinkClusterInstance, WsFlinkClusterInstanceDTO> {
+    WsFlinkClusterInstanceConvert INSTANCE = Mappers.getMapper(WsFlinkClusterInstanceConvert.class);
 }

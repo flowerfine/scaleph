@@ -25,7 +25,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FlinkArtifactParam extends PaginationParam {
+public class WsFlinkArtifactParam extends PaginationParam {
 
     @ApiModelProperty("名称。支持模糊搜索")
     private String name;

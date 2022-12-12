@@ -25,6 +25,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "FlinkJobLog对象", description = "flink job log")
-public class FlinkJobLogDTO extends FlinkJobInstanceDTO {
+public class WsFlinkJobLogDTO extends WsFlinkJobInstanceDTO {
 
 }

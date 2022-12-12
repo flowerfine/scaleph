@@ -18,29 +18,29 @@
 
 package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
-import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptions;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigParam;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptionsDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkClusterConfigParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
 import java.util.Map;
 
-public interface FlinkClusterConfigService {
+public interface WsFlinkClusterConfigService {
 
-    int insert(FlinkClusterConfigDTO param);
+    int insert(WsFlinkClusterConfigDTO param);
 
-    int updateKubernetesOptions(Long id, KubernetesOptions options);
+    int updateKubernetesOptions(Long id, KubernetesOptionsDTO options);
 
     int updateFlinkConfig(Long id, Map<String, String> options);
 
-    int update(FlinkClusterConfigDTO dto);
+    int update(WsFlinkClusterConfigDTO dto);
 
     int deleteById(Long id);
 
     int deleteBatch(List<Long> ids);
 
-    Page<FlinkClusterConfigDTO> listByPage(FlinkClusterConfigParam param);
+    Page<WsFlinkClusterConfigDTO> listByPage(WsFlinkClusterConfigParam param);
 
-    FlinkClusterConfigDTO selectOne(Long id);
+    WsFlinkClusterConfigDTO selectOne(Long id);
 }

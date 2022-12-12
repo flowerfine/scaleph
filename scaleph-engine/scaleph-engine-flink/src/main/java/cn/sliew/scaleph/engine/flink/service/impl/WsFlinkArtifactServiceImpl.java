@@ -21,10 +21,10 @@ package cn.sliew.scaleph.engine.flink.service.impl;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifact;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactMapper;
-import cn.sliew.scaleph.engine.flink.service.FlinkArtifactService;
-import cn.sliew.scaleph.engine.flink.service.convert.FlinkArtifactConvert;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactParam;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactService;
+import cn.sliew.scaleph.engine.flink.service.convert.WsFlinkArtifactConvert;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactParam;
 import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -38,40 +38,40 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class FlinkArtifactServiceImpl implements FlinkArtifactService {
+public class WsFlinkArtifactServiceImpl implements WsFlinkArtifactService {
 
     @Autowired
     private WsFlinkArtifactMapper flinkArtifactMapper;
 
     @Override
-    public Page<FlinkArtifactDTO> list(FlinkArtifactParam param) {
+    public Page<WsFlinkArtifactDTO> list(WsFlinkArtifactParam param) {
         final Page<WsFlinkArtifact> page = flinkArtifactMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(WsFlinkArtifact.class)
                         .like(StringUtils.hasText(param.getName()), WsFlinkArtifact::getName, param.getName())
                         .eq(param.getProjectId() != null, WsFlinkArtifact::getProjectId, param.getProjectId()));
-        Page<FlinkArtifactDTO> result =
+        Page<WsFlinkArtifactDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
-        List<FlinkArtifactDTO> dtoList = FlinkArtifactConvert.INSTANCE.toDto(page.getRecords());
+        List<WsFlinkArtifactDTO> dtoList = WsFlinkArtifactConvert.INSTANCE.toDto(page.getRecords());
         result.setRecords(dtoList);
         return result;
     }
 
     @Override
-    public FlinkArtifactDTO selectOne(Long id) {
+    public WsFlinkArtifactDTO selectOne(Long id) {
         final WsFlinkArtifact record = flinkArtifactMapper.selectById(id);
-        return FlinkArtifactConvert.INSTANCE.toDto(record);
+        return WsFlinkArtifactConvert.INSTANCE.toDto(record);
     }
 
     @Override
-    public int insert(FlinkArtifactDTO dto) {
-        final WsFlinkArtifact record = FlinkArtifactConvert.INSTANCE.toDo(dto);
+    public int insert(WsFlinkArtifactDTO dto) {
+        final WsFlinkArtifact record = WsFlinkArtifactConvert.INSTANCE.toDo(dto);
         return flinkArtifactMapper.insert(record);
     }
 
     @Override
-    public int update(FlinkArtifactDTO dto) {
-        final WsFlinkArtifact record = FlinkArtifactConvert.INSTANCE.toDo(dto);
+    public int update(WsFlinkArtifactDTO dto) {
+        final WsFlinkArtifact record = WsFlinkArtifactConvert.INSTANCE.toDo(dto);
         return flinkArtifactMapper.updateById(record);
     }
 

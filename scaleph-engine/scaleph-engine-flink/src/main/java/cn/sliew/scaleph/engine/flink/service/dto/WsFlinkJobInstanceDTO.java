@@ -31,7 +31,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "FlinkJobInstance对象", description = "flink job instance")
-public class FlinkJobInstanceDTO extends BaseDTO {
+public class WsFlinkJobInstanceDTO extends BaseDTO {
 
     @ApiModelProperty("flink job code")
     private Long flinkJobCode;

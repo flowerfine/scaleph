@@ -41,7 +41,7 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "FlinkClusterConfig对象", description = "flink 集群配置")
-public class FlinkClusterConfigDTO extends BaseDTO {
+public class WsFlinkClusterConfigDTO extends BaseDTO {
 
     @NotNull
     @ApiModelProperty("项目id")
@@ -70,7 +70,7 @@ public class FlinkClusterConfigDTO extends BaseDTO {
     private ClusterCredentialDTO clusterCredential;
 
     @ApiModelProperty("kubernetes 配置")
-    private KubernetesOptions kubernetesOptions;
+    private KubernetesOptionsDTO kubernetesOptionsDTO;
 
     @ApiModelProperty("flink 集群配置项")
     private Map<String, String> configOptions;
