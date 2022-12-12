@@ -19,8 +19,24 @@
 package cn.sliew.scaleph.engine.seatunnel.service;
 
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.param.WsDiJobStepParam;
+import cn.sliew.scaleph.engine.seatunnel.service.vo.JobGraphVO;
 
-public interface SeatunnelConfigService {
+import java.util.Collection;
+import java.util.List;
 
-    String buildConfig(WsDiJobDTO wsDiJobDTO) throws Exception;
+public interface WsDiJobGraphService {
+
+    void queryJobGraph(WsDiJobDTO job);
+
+    void saveJobGraph(Long jobId, JobGraphVO jobGraph);
+
+    void updateJobStep(WsDiJobStepParam param);
+
+    void clone(Long sourceJobId, Long targetJobId);
+
+    void deleteBatch(List<Long> jobIds);
+
+    int deleteByProjectId(Collection<Long> projectIds);
+
 }

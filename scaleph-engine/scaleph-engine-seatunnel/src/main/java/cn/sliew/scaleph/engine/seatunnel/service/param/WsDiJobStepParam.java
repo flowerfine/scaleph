@@ -16,11 +16,33 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.engine.seatunnel.service.param;
 
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-public interface SeatunnelConfigService {
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Map;
 
-    String buildConfig(WsDiJobDTO wsDiJobDTO) throws Exception;
+@Data
+@EqualsAndHashCode
+public class WsDiJobStepParam {
+
+    @NotNull
+    @ApiModelProperty("job id")
+    private Long jobId;
+
+    @NotBlank
+    @ApiModelProperty("job grapth")
+    private String jobGraph;
+
+    @NotBlank
+    @ApiModelProperty("job step code")
+    private String stepCode;
+
+    @ApiModelProperty("job step attrs")
+    private Map<String, Object> stepAttrs;
+
 }

@@ -58,9 +58,9 @@ import java.util.*;
 public class SeatunnelJobServiceImpl implements SeatunnelJobService {
 
     @Autowired
-    private DiProjectService diProjectService;
+    private WsProjectService wsProjectService;
     @Autowired
-    private DiJobService diJobService;
+    private WsDiJobService wsDiJobService;
     @Autowired
     private FileSystemService fileSystemService;
     @Autowired
@@ -76,7 +76,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
 
     @Override
     public String preview(Long jobId) throws Exception {
-        DiJobDTO job = diJobService.queryJobGraph(jobId);
+        WsDiJobDTO job = wsDiJobService.queryJobGraph(jobId);
         return seatunnelConfigService.buildConfig(job);
     }
 
@@ -96,7 +96,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public void submit(DiJobDTO diJobDTO) throws Exception {
+    public void submit(WsDiJobDTO wsDiJobDTO) throws Exception {
 //        Path projectPath = getProjectBasePath(diJobDTO.getProjectId());
 //        Path jobConfFile = buildConfFile(diJobDTO, projectPath);
 //        Path seatunnelJarPath = getSeatunnelJar();
@@ -120,7 +120,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public void schedule(DiJobDTO diJobDTO) throws Exception {
+    public void schedule(WsDiJobDTO wsDiJobDTO) throws Exception {
 //        DiProjectDTO project = diProjectService.selectOne(diJobDTO.getProjectId());
 //        String jobName = QuartzJobUtil.getJobName(project.getProjectCode(), diJobDTO.getJobCode());
 //        JobKey seatunnelJobKey =
@@ -158,7 +158,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public void cancel(DiJobDTO diJobDTO) throws Exception {
+    public void cancel(WsDiJobDTO wsDiJobDTO) throws Exception {
 //        List<DiJobLogDTO> list = diJobLogService.listRunningJobInstance(diJobDTO.getJobCode());
 //        Configuration configuration = GlobalConfiguration.loadConfiguration();
 //        for (DiJobLogDTO instance : list) {
@@ -185,9 +185,9 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public void unschedule(DiJobDTO diJobDTO) throws Exception {
-        DiProjectDTO project = diProjectService.selectOne(diJobDTO.getProjectId());
-        String jobName = QuartzJobUtil.getJobName(project.getProjectCode(), diJobDTO.getJobCode());
+    public void unschedule(WsDiJobDTO wsDiJobDTO) throws Exception {
+        WsProjectDTO project = wsProjectService.selectOne(wsDiJobDTO.getProjectId());
+        String jobName = QuartzJobUtil.getJobName(project.getProjectCode(), wsDiJobDTO.getJobCode());
         JobKey seatunnelJobKey = scheduleService.getJobKey(QuartzJobUtil.getFlinkBatchJobName(jobName), Constants.INTERNAL_GROUP);
         if (scheduleService.checkExists(seatunnelJobKey)) {
             scheduleService.deleteScheduleJob(seatunnelJobKey);
@@ -199,9 +199,9 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public Path buildConfFile(DiJobDTO diJobDTO, Path projectPath) throws Exception {
-        String jobJson = seatunnelConfigService.buildConfig(diJobDTO);
-        final File tempFile = FileUtil.file(projectPath.toFile(), diJobDTO.getJobCode() + ".json");
+    public Path buildConfFile(WsDiJobDTO wsDiJobDTO, Path projectPath) throws Exception {
+        String jobJson = seatunnelConfigService.buildConfig(wsDiJobDTO);
+        final File tempFile = FileUtil.file(projectPath.toFile(), wsDiJobDTO.getJobCode() + ".json");
         FileUtil.writeUtf8String(jobJson, tempFile);
         return tempFile.toPath();
     }
@@ -216,7 +216,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         return seatunnelJarPath;
     }
 
-    private Set<File> getSeatunnelPluginJarFile(List<DiJobStepDTO> jobStepList) {
+    private Set<File> getSeatunnelPluginJarFile(List<WsDiJobStepDTO> jobStepList) {
         if (CollectionUtils.isEmpty(jobStepList)) {
             return null;
         }
@@ -224,7 +224,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         String seatunnelPath = this.sysConfigService.getSeatunnelHome();
         Path seatunnelConnectorsPath = Paths.get(seatunnelPath, "connectors", "flink");
         File seatunnelConnectorDir = seatunnelConnectorsPath.toFile();
-        for (DiJobStepDTO step : jobStepList) {
+        for (WsDiJobStepDTO step : jobStepList) {
 //            String pluginTag = this.seatunnelConfigService.getSeatunnelPluginTag(
 //                    step.getStepType().getValue(), step.getStepName());
 //            FileFilter fileFilter = new RegexFileFilter(".*" + pluginTag + ".*");
@@ -237,7 +237,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public Configuration buildConfiguration(DiJobDTO job, Path seatunnelJarPath,
+    public Configuration buildConfiguration(WsDiJobDTO job, Path seatunnelJarPath,
                                             Map<String, String> clusterConf,
                                             File projectPath) throws IOException {
         Configuration configuration = new Configuration();
@@ -261,7 +261,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         return configuration;
     }
 
-    private PackageJarJob buildJob(String seatunnelPath, Path confFile, List<DiJobAttrDTO> jobAttrList) throws URISyntaxException {
+    private PackageJarJob buildJob(String seatunnelPath, Path confFile, List<WsDiJobAttrDTO> jobAttrList) throws URISyntaxException {
         PackageJarJob jarJob = new PackageJarJob();
         jarJob.setJarFilePath(seatunnelPath);
         jarJob.setEntryPointClass("org.apache.seatunnel.core.flink.SeatunnelFlink");

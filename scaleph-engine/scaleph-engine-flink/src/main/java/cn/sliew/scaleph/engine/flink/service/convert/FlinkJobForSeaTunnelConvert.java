@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.flink.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.engine.seatunnel.service.convert.DiJobConvert;
+import cn.sliew.scaleph.engine.seatunnel.service.convert.WsDiJobConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobForSeaTunnel;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForSeaTunnelDTO;
 import org.mapstruct.Mapper;
@@ -40,7 +40,7 @@ public interface FlinkJobForSeaTunnelConvert extends BaseConvert<WsFlinkJobForSe
     default WsFlinkJobForSeaTunnel toDo(FlinkJobForSeaTunnelDTO dto) {
         WsFlinkJobForSeaTunnel entity = new WsFlinkJobForSeaTunnel();
         BeanUtils.copyProperties(dto, entity);
-        entity.setFlinkArtifactSeaTunnel(DiJobConvert.INSTANCE.toDo(dto.getFlinkArtifactSeaTunnel()));
+        entity.setFlinkArtifactSeaTunnel(WsDiJobConvert.INSTANCE.toDo(dto.getFlinkArtifactSeaTunnel()));
         entity.setWsFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDo(dto.getFlinkClusterConfig()));
         entity.setWsFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDo(dto.getFlinkClusterInstance()));
         entity.setFlinkJobInstance(FlinkJobInstanceConvert.INSTANCE.toDo(dto.getFlinkJobInstance()));
@@ -60,7 +60,7 @@ public interface FlinkJobForSeaTunnelConvert extends BaseConvert<WsFlinkJobForSe
     default FlinkJobForSeaTunnelDTO toDto(WsFlinkJobForSeaTunnel entity) {
         FlinkJobForSeaTunnelDTO dto = new FlinkJobForSeaTunnelDTO();
         BeanUtils.copyProperties(entity, dto);
-        dto.setFlinkArtifactSeaTunnel(DiJobConvert.INSTANCE.toDto(entity.getFlinkArtifactSeaTunnel()));
+        dto.setFlinkArtifactSeaTunnel(WsDiJobConvert.INSTANCE.toDto(entity.getFlinkArtifactSeaTunnel()));
         dto.setFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDto(entity.getWsFlinkClusterConfig()));
         dto.setFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDto(entity.getWsFlinkClusterInstance()));
         dto.setFlinkJobInstance(FlinkJobInstanceConvert.INSTANCE.toDto(entity.getFlinkJobInstance()));

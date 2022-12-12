@@ -16,11 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.engine.seatunnel.service.convert;
 
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
+import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.master.ws.WsProject;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsProjectDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
-public interface SeatunnelConfigService {
+/**
+ * @author gleiyu
+ */
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface WsProjectConvert extends BaseConvert<WsProject, WsProjectDTO> {
+    WsProjectConvert INSTANCE = Mappers.getMapper(WsProjectConvert.class);
 
-    String buildConfig(WsDiJobDTO wsDiJobDTO) throws Exception;
 }

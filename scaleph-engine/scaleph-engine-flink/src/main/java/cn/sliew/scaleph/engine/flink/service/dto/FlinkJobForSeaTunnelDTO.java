@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DiJobDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -44,7 +44,7 @@ public class FlinkJobForSeaTunnelDTO extends BaseDTO {
     private String name;
 
     @ApiModelProperty("flink artifact seatunnel")
-    private DiJobDTO flinkArtifactSeaTunnel;
+    private WsDiJobDTO flinkArtifactSeaTunnel;
 
     @ApiModelProperty("任务自身 配置参数")
     private Map<String, String> jobConfig;

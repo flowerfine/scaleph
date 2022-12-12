@@ -16,11 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.engine.seatunnel.service.convert;
 
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
+import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.master.ws.WsDiJobAttr;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobAttrDTO;
+import cn.sliew.scaleph.system.service.convert.DictVoConvert;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
-public interface SeatunnelConfigService {
+/**
+ * @author gleiyu
+ */
+@Mapper(uses = {DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface WsDiJobAttrConvert extends BaseConvert<WsDiJobAttr, WsDiJobAttrDTO> {
+    WsDiJobAttrConvert INSTANCE = Mappers.getMapper(WsDiJobAttrConvert.class);
 
-    String buildConfig(WsDiJobDTO wsDiJobDTO) throws Exception;
+    @Override
+    WsDiJobAttrDTO toDto(WsDiJobAttr entity);
 }

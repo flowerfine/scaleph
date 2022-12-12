@@ -36,9 +36,9 @@ import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
 import cn.sliew.scaleph.common.nio.FileUtil;
 import cn.sliew.scaleph.common.nio.TarUtil;
 import cn.sliew.scaleph.common.util.SeaTunnelReleaseUtil;
-import cn.sliew.scaleph.engine.seatunnel.service.DiJobService;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DiJobDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DiJobStepDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobStepDTO;
 import cn.sliew.scaleph.engine.flink.service.*;
 import cn.sliew.scaleph.engine.flink.service.dto.*;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
@@ -107,7 +107,7 @@ public class FlinkServiceImpl implements FlinkService {
     @Autowired
     private FlinkArtifactJarService flinkArtifactJarService;
     @Autowired
-    private DiJobService diJobService;
+    private WsDiJobService wsDiJobService;
     @Autowired
     private SeatunnelConfigService seatunnelConfigService;
     @Autowired
@@ -212,12 +212,12 @@ public class FlinkServiceImpl implements FlinkService {
         Path seatunnelHomePath = loadSeaTunnelRelease(seaTunnelRelease, workspace);
 
         List<URL> jars = loadJarResources(flinkJobForSeaTunnelDTO.getJars(), workspace);
-        DiJobDTO diJobDTO = diJobService.queryJobGraph(flinkJobForSeaTunnelDTO.getFlinkArtifactSeaTunnel().getId());
+        WsDiJobDTO wsDiJobDTO = wsDiJobService.queryJobGraph(flinkJobForSeaTunnelDTO.getFlinkArtifactSeaTunnel().getId());
 
-        Path seatunnelConfPath = buildSeaTunnelConf(diJobDTO, workspace);
+        Path seatunnelConfPath = buildSeaTunnelConf(wsDiJobDTO, workspace);
         PackageJarJob packageJarJob = buildSeaTunnelJob(seatunnelHomePath, seatunnelConfPath);
         jars.add(SeaTunnelReleaseUtil.getStarterJarPath(seatunnelHomePath).toFile().toURL());
-        jars.addAll(loadSeaTunnelConnectors(seaTunnelRelease, diJobDTO, workspace));
+        jars.addAll(loadSeaTunnelConnectors(seaTunnelRelease, wsDiJobDTO, workspace));
 
         final Path clusterCredentialPath = loadClusterCredential(flinkClusterConfigDTO.getClusterCredential(), workspace);
         final Configuration configuration = buildConfiguration(flinkClusterConfigDTO, clusterCredentialPath);
@@ -614,9 +614,9 @@ public class FlinkServiceImpl implements FlinkService {
         return FileUtil.listFiles(untarDir).get(0);
     }
 
-    private List<URL> loadSeaTunnelConnectors(SeaTunnelReleaseDTO seaTunnelRelease, DiJobDTO job, Path workspace) throws IOException {
+    private List<URL> loadSeaTunnelConnectors(SeaTunnelReleaseDTO seaTunnelRelease, WsDiJobDTO job, Path workspace) throws IOException {
         List<String> connectors = job.getJobStepList().stream()
-                .map(DiJobStepDTO::getStepName)
+                .map(WsDiJobStepDTO::getStepName)
                 .map(SeaTunnelPluginMapping::of)
                 .map(SeaTunnelPluginMapping::getPluginJarPrefix)
                 .distinct()
@@ -634,7 +634,7 @@ public class FlinkServiceImpl implements FlinkService {
         return result;
     }
 
-    private Path buildSeaTunnelConf(DiJobDTO job, Path workspace) throws Exception {
+    private Path buildSeaTunnelConf(WsDiJobDTO job, Path workspace) throws Exception {
         Path file = FileUtil.createFile(workspace, job.getJobName() + ".json");
         String configJson = seatunnelConfigService.buildConfig(job);
         try (Writer writer = FileUtil.getWriter(file)) {

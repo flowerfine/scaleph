@@ -22,10 +22,10 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.job.JobStepType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DiJobAttrDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DiJobDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DiJobLinkDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DiJobStepDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobAttrDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobLinkDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobStepDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
 import cn.sliew.scaleph.engine.seatunnel.service.constant.SeaTunnelConstant;
@@ -62,7 +62,7 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
     private ResourceService resourceService;
 
     @Override
-    public String buildConfig(DiJobDTO job) throws Exception {
+    public String buildConfig(WsDiJobDTO job) throws Exception {
         ObjectNode conf = JacksonUtil.createObjectNode();
         // env
         buildEnvs(conf, job.getJobName(), job.getJobAttrList());
@@ -76,17 +76,17 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         return conf.toPrettyString();
     }
 
-    private void buildEnvs(ObjectNode conf, String jobName, List<DiJobAttrDTO> jobAttrList) {
+    private void buildEnvs(ObjectNode conf, String jobName, List<WsDiJobAttrDTO> jobAttrList) {
         conf.set(SeaTunnelConstant.ENV, buildEnv(jobName, jobAttrList));
     }
 
-    private ObjectNode buildEnv(String jobName, List<DiJobAttrDTO> jobAttrs) {
+    private ObjectNode buildEnv(String jobName, List<WsDiJobAttrDTO> jobAttrs) {
         ObjectNode env = JacksonUtil.createObjectNode();
         env.put(JobNameProperties.JOB_NAME.getName(), jobName);
         if (CollectionUtils.isEmpty(jobAttrs)) {
             return env;
         }
-        for (DiJobAttrDTO attr : jobAttrs) {
+        for (WsDiJobAttrDTO attr : jobAttrs) {
             switch (attr.getJobAttrType()) {
                 case ENV:
                     break;
@@ -101,15 +101,15 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         return env;
     }
 
-    private MutableGraph<ObjectNode> buildGraph(DiJobDTO diJobDTO) throws PluginException {
+    private MutableGraph<ObjectNode> buildGraph(WsDiJobDTO wsDiJobDTO) throws PluginException {
         MutableGraph<ObjectNode> graph = GraphBuilder.directed().build();
-        List<DiJobStepDTO> jobStepList = diJobDTO.getJobStepList();
-        List<DiJobLinkDTO> jobLinkList = diJobDTO.getJobLinkList();
+        List<WsDiJobStepDTO> jobStepList = wsDiJobDTO.getJobStepList();
+        List<WsDiJobLinkDTO> jobLinkList = wsDiJobDTO.getJobLinkList();
         if (CollectionUtils.isEmpty(jobStepList) || CollectionUtils.isEmpty(jobLinkList)) {
             return graph;
         }
         Map<String, ObjectNode> stepMap = new HashMap<>();
-        for (DiJobStepDTO step : jobStepList) {
+        for (WsDiJobStepDTO step : jobStepList) {
             Properties properties = mergeJobAttrs(step);
             SeaTunnelPluginType stepType = step.getStepType();
             SeaTunnelPluginName stepName = step.getStepName();
@@ -129,7 +129,7 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
         return graph;
     }
 
-    private Properties mergeJobAttrs(DiJobStepDTO step) throws PluginException {
+    private Properties mergeJobAttrs(WsDiJobStepDTO step) throws PluginException {
         Properties properties = convertToProperties(step.getStepAttrs());
         SeaTunnelPluginType pluginType = SeaTunnelPluginType.of(step.getStepType().getValue());
         SeaTunnelConnectorPlugin connector = seatunnelConnectorService.getConnector(pluginType, step.getStepName());

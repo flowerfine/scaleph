@@ -16,35 +16,39 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service.vo;
+package cn.sliew.scaleph.engine.seatunnel.service.dto;
 
-import javax.validation.constraints.NotNull;
-import java.util.List;
-
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
+import cn.sliew.scaleph.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+/**
+ * <p>
+ * 数据集成-作业连线
+ * </p>
+ *
+ * @author liyu
+ * @since 2022-03-10
+ */
 @Data
-@ApiModel(value = "作业启动参数", description = "作业启动参数")
-public class DiJobRunVO {
+@EqualsAndHashCode(callSuper = true)
+@ApiModel(value = "作业步骤连线信息", description = "数据集成-作业连线")
+public class WsDiJobLinkDTO extends BaseDTO {
 
-    @NotNull
-    @ApiModelProperty("job id")
+    private static final long serialVersionUID = 7751624449715348321L;
+
+    @ApiModelProperty(value = "作业id")
     private Long jobId;
 
-    @NotNull
-    @ApiModelProperty("cluster id")
-    private Long clusterId;
+    @ApiModelProperty(value = "作业连线编码")
+    private String linkCode;
 
-    @ApiModelProperty("resources")
-    private List<DictVO> resources;
+    @ApiModelProperty(value = "源步骤编码")
+    private String fromStepCode;
 
-    public WsDiJobDTO toDto() {
-        WsDiJobDTO dto = new WsDiJobDTO();
-        dto.setId(this.jobId);
-        return dto;
-    }
+    @ApiModelProperty(value = "目标步骤编码")
+    private String toStepCode;
+
 }

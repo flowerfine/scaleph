@@ -18,9 +18,35 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service;
 
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
+import java.util.Collection;
+import java.util.List;
 
-public interface SeatunnelConfigService {
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobStepDTO;
 
-    String buildConfig(WsDiJobDTO wsDiJobDTO) throws Exception;
+/**
+ * <p>
+ * 数据集成-作业步骤信息 服务类
+ * </p>
+ *
+ * @author liyu
+ * @since 2022-03-10
+ */
+public interface WsDiJobStepService {
+
+    List<WsDiJobStepDTO> listJobStep(Long jobId);
+
+    WsDiJobStepDTO selectOne(Long jobId, String stepCode);
+
+    int update(WsDiJobStepDTO wsDiJobStepDTO);
+
+    int upsert(WsDiJobStepDTO diJobStep);
+
+    int deleteByProjectId(Collection<Long> projectIds);
+
+    int deleteByJobId(Collection<Long> jobIds);
+
+    int deleteSurplusStep(Long jobId, List<String> stepCodeList);
+
+    int clone(Long sourceJobId, Long targetJobId);
+
 }

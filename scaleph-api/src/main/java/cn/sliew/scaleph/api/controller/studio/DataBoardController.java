@@ -21,8 +21,8 @@ package cn.sliew.scaleph.api.controller.studio;
 import cn.hutool.core.date.DateUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.TransferVO;
-import cn.sliew.scaleph.engine.seatunnel.service.DiJobService;
-import cn.sliew.scaleph.engine.seatunnel.service.DiProjectService;
+import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.WsProjectService;
 import cn.sliew.scaleph.engine.flink.service.FlinkClusterInstanceService;
 import cn.sliew.scaleph.engine.flink.service.FlinkJobLogService;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobLogDTO;
@@ -50,11 +50,11 @@ import java.util.List;
 public class DataBoardController {
 
     @Autowired
-    private DiProjectService diProjectService;
+    private WsProjectService wsProjectService;
     @Autowired
     private FlinkClusterInstanceService flinkClusterInstanceService;
     @Autowired
-    private DiJobService diJobService;
+    private WsDiJobService wsDiJobService;
     @Autowired
     private FlinkJobLogService flinkJobLogService;
 
@@ -63,7 +63,7 @@ public class DataBoardController {
     @ApiOperation(value = "查询项目数量", notes = "查询项目数量")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
     public ResponseEntity<Long> countProject() {
-        Long result = this.diProjectService.totalCnt();
+        Long result = this.wsProjectService.totalCnt();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -81,7 +81,7 @@ public class DataBoardController {
     @ApiOperation(value = "查询作业数量", notes = "查询作业数量")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STUDIO_DATA_BOARD_SHOW)")
     public ResponseEntity<Long> countJob(@RequestParam(value = "jobType") String jobType) {
-        Long result = this.diJobService.totalCnt(jobType);
+        Long result = this.wsDiJobService.totalCnt(jobType);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

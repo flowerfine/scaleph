@@ -18,9 +18,29 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service;
 
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 
-public interface SeatunnelConfigService {
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobAttrDTO;
 
-    String buildConfig(WsDiJobDTO wsDiJobDTO) throws Exception;
+/**
+ * <p>
+ * 数据集成-作业参数 服务类
+ * </p>
+ *
+ * @author liyu
+ * @since 2022-03-10
+ */
+public interface WsDiJobAttrService {
+
+    List<WsDiJobAttrDTO> listJobAttr(Long jobId);
+
+    int upsert(WsDiJobAttrDTO jobAttrDTO);
+
+    int deleteByProjectId(Collection<? extends Serializable> projectIds);
+
+    int deleteByJobId(Collection<? extends Serializable> jobIds);
+
+    int clone(Long sourceJobId, Long targetJobId);
 }
