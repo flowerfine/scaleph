@@ -37,7 +37,7 @@ docker compose up -d
 
 If docker is unavailable for user, you has to create mysql, redis and minio by yourself.
 
-You would find sql scripts on `${scaleph_home}/tools/docker/mysql/init.d` and execute `scaleph-master-mysql.sql`, `scaleph-log-mysql.sql`, `scaleph-flink-mysql.sql`，`qutz-mysql.sql` on your mysql.
+You would find sql scripts on `${scaleph_home}/tools/docker/mysql/init.d` and execute `scaleph-master-mysql.sql`, `scaleph-log-mysql.sql`, `scaleph-ws-mysql.sql`，`qutz-mysql.sql` on your mysql.
 
 ### flink and seatunnel release
 
