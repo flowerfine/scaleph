@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.seatunnel.service.impl;
 
 import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.DiJobDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import lombok.SneakyThrows;
 import org.quartz.JobDataMap;

@@ -16,11 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.engine.seatunnel.service.vo;
 
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DiJobDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
-public interface SeatunnelConfigService {
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class EdgeCellVO {
 
-    String buildConfig(DiJobDTO diJobDTO) throws Exception;
+    private String id;
+    private String source;
+    private String target;
 }

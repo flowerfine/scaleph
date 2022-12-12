@@ -18,24 +18,37 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.dto;
 
-import cn.sliew.scaleph.engine.seatunnel.service.vo.DagPanalVO;
+import cn.sliew.scaleph.common.dto.BaseDTO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * keep same with xflow dag panal properties
+ * <p>
+ * 数据集成-作业连线
+ * </p>
+ *
+ * @author liyu
+ * @since 2022-03-10
  */
 @Data
-@EqualsAndHashCode
-public class DagNodeDTO {
+@EqualsAndHashCode(callSuper = true)
+@ApiModel(value = "作业步骤连线信息", description = "数据集成-作业连线")
+public class DiJobLinkDTO extends BaseDTO {
 
-    private String id;
+    private static final long serialVersionUID = 7751624449715348321L;
 
-    private String label;
+    @ApiModelProperty(value = "作业id")
+    private Long jobId;
 
-    private String renderKey;
+    @ApiModelProperty(value = "作业连线编码")
+    private String linkCode;
 
-    private String description;
+    @ApiModelProperty(value = "源步骤编码")
+    private String fromStepCode;
 
-    private DagPanalVO data;
+    @ApiModelProperty(value = "目标步骤编码")
+    private String toStepCode;
+
 }

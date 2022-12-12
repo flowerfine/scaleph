@@ -16,11 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.engine.seatunnel.service.param;
 
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DiJobDTO;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-public interface SeatunnelConfigService {
+/**
+ * @author gleiyu
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class DiProjectParam extends PaginationParam {
 
-    String buildConfig(DiJobDTO diJobDTO) throws Exception;
+    @ApiModelProperty("project code")
+    private String projectCode;
+
+    @ApiModelProperty("project name")
+    private String projectName;
 }

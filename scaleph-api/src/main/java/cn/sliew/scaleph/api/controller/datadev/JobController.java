@@ -20,11 +20,11 @@ package cn.sliew.scaleph.api.controller.datadev;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.core.di.service.DiJobService;
-import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
-import cn.sliew.scaleph.core.di.service.param.*;
-import cn.sliew.scaleph.core.di.service.vo.DiJobAttrVO;
-import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
+import cn.sliew.scaleph.engine.seatunnel.service.DiJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.DiJobDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.param.*;
+import cn.sliew.scaleph.engine.seatunnel.service.vo.DiJobAttrVO;
+import cn.sliew.scaleph.engine.seatunnel.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.plugin.framework.exception.PluginException;

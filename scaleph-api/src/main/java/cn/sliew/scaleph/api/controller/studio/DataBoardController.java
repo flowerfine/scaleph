@@ -21,8 +21,8 @@ package cn.sliew.scaleph.api.controller.studio;
 import cn.hutool.core.date.DateUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.TransferVO;
-import cn.sliew.scaleph.core.di.service.DiJobService;
-import cn.sliew.scaleph.core.di.service.DiProjectService;
+import cn.sliew.scaleph.engine.seatunnel.service.DiJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.DiProjectService;
 import cn.sliew.scaleph.engine.flink.service.FlinkClusterInstanceService;
 import cn.sliew.scaleph.engine.flink.service.FlinkJobLogService;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobLogDTO;
@@ -42,7 +42,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Api(tags = "工作台-数据看板")

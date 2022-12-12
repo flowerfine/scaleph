@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.flink.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.core.di.service.convert.DiJobConvert;
+import cn.sliew.scaleph.engine.seatunnel.service.convert.DiJobConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobForSeaTunnel;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForSeaTunnelDTO;
 import org.mapstruct.Mapper;

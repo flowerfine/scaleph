@@ -18,9 +18,32 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service;
 
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DiJobDTO;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
-public interface SeatunnelConfigService {
+import cn.sliew.scaleph.common.exception.ScalephException;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.DiProjectDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.param.DiProjectParam;
+import cn.sliew.scaleph.system.service.vo.DictVO;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-    String buildConfig(DiJobDTO diJobDTO) throws Exception;
+public interface DiProjectService {
+
+    Page<DiProjectDTO> listByPage(DiProjectParam param);
+
+    List<DictVO> listAll();
+
+    DiProjectDTO selectOne(Serializable id);
+
+    int insert(DiProjectDTO dto);
+
+    int update(DiProjectDTO dto);
+
+    int deleteById(Long id) throws ScalephException;
+
+    int deleteBatch(Map<Integer, Long> map) throws ScalephException;
+
+    Long totalCnt();
+
 }

@@ -16,11 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.engine.seatunnel.service.vo;
 
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DiJobDTO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
-public interface SeatunnelConfigService {
+import java.util.List;
 
-    String buildConfig(DiJobDTO diJobDTO) throws Exception;
+/**
+ * 前端job graph
+ *
+ * @author gleiyu
+ */
+@Data
+@ApiModel(value = "作业图对象", description = "作业图信息")
+public class JobGraphVO {
+
+    @ApiModelProperty("nodes")
+    private List<NodeCellVO> nodes;
+
+    @ApiModelProperty("edges")
+    private List<EdgeCellVO> edges;
 }

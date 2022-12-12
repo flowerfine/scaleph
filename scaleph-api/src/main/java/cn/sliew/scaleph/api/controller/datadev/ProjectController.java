@@ -20,9 +20,9 @@ package cn.sliew.scaleph.api.controller.datadev;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.core.di.service.DiProjectService;
-import cn.sliew.scaleph.core.di.service.dto.DiProjectDTO;
-import cn.sliew.scaleph.core.di.service.param.DiProjectParam;
+import cn.sliew.scaleph.engine.seatunnel.service.DiProjectService;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.DiProjectDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.param.DiProjectParam;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

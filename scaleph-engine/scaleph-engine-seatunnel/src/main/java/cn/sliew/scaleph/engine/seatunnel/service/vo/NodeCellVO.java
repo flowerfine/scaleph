@@ -16,11 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.engine.seatunnel.service.vo;
 
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DiJobDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
-public interface SeatunnelConfigService {
+import java.util.Map;
 
-    String buildConfig(DiJobDTO diJobDTO) throws Exception;
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class NodeCellVO {
+
+    private String id;
+    private String label;
+    private Map<String, Object> data;
+    private Integer x;
+    private Integer y;
 }

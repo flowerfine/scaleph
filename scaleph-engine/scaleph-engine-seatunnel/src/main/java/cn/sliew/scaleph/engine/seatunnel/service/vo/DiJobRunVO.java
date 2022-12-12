@@ -16,11 +16,35 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.engine.seatunnel.service.vo;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DiJobDTO;
+import cn.sliew.scaleph.system.service.vo.DictVO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
-public interface SeatunnelConfigService {
+@Data
+@ApiModel(value = "作业启动参数", description = "作业启动参数")
+public class DiJobRunVO {
 
-    String buildConfig(DiJobDTO diJobDTO) throws Exception;
+    @NotNull
+    @ApiModelProperty("job id")
+    private Long jobId;
+
+    @NotNull
+    @ApiModelProperty("cluster id")
+    private Long clusterId;
+
+    @ApiModelProperty("resources")
+    private List<DictVO> resources;
+
+    public DiJobDTO toDto() {
+        DiJobDTO dto = new DiJobDTO();
+        dto.setId(this.jobId);
+        return dto;
+    }
 }

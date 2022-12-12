@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.flink.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.core.di.service.convert.DiProjectConvert;
+import cn.sliew.scaleph.engine.seatunnel.service.convert.DiProjectConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifact;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
 import org.mapstruct.Mapper;
