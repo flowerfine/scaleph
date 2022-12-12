@@ -19,6 +19,11 @@ export const ProjectService = {
       return result;
     });
   },
+  selectOne: async (id: number) => {
+    return request<DiProject>(`${ProjectService.url}/` + id, {
+      method: 'GET',
+    });
+  },
 
   listAllProject: async () => {
     return request<Dict[]>(`${ProjectService.url}/all`, { method: 'GET' });

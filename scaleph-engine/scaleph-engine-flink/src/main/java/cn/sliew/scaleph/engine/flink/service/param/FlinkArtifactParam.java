@@ -23,13 +23,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotNull;
-
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FlinkJobListByCodeParam extends PaginationParam {
+public class FlinkArtifactParam extends PaginationParam {
 
-    @NotNull
-    @ApiModelProperty("job code")
-    private Long code;
+    @ApiModelProperty("名称。支持模糊搜索")
+    private String name;
+
+    @ApiModelProperty("项目id")
+    private Long projectId;
 }

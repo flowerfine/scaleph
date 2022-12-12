@@ -39,11 +39,11 @@ public class FlinkArtifactJar extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField(exist = false)
+    private FlinkArtifact flinkArtifact;
+
     @TableField("flink_artifact_id")
     private Long flinkArtifactId;
-
-    @TableField("version")
-    private String version;
 
     @TableField("flink_version")
     private FlinkVersion flinkVersion;
@@ -54,7 +54,13 @@ public class FlinkArtifactJar extends BaseDO {
     @TableField("file_name")
     private String fileName;
 
-    @TableField("`path`")
+    @TableField("path")
     private String path;
+
+    @TableField("version")
+    private String version;
+
+    @TableField("jar_params")
+    private String jarParams;
 
 }

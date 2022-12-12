@@ -11,20 +11,20 @@ const FlinkImageOptions: React.FC = () => {
       <ProFormGroup>
         <ProFormText
           name="registry"
-          label={(intl.formatMessage({id: 'pages.dev.clusterConfig.registry'}))}
+          label={(intl.formatMessage({id: 'page.project.cluster.config.registry'}))}
           colProps={{span: 10, offset: 1}}/>
         <ProFormText
           name="repository"
-          label={(intl.formatMessage({id: 'pages.dev.clusterConfig.repository'}))}
+          label={(intl.formatMessage({id: 'page.project.cluster.config.repository'}))}
           colProps={{span: 10, offset: 1}}/>
         <ProFormText
           name="image"
-          label={(intl.formatMessage({id: 'pages.dev.clusterConfig.image'}))}
+          label={(intl.formatMessage({id: 'page.project.cluster.config.image'}))}
           colProps={{span: 10, offset: 1}}
           rules={[{required: true}]}/>
         <ProFormSelect
           name="imagePullPolicy"
-          label={(intl.formatMessage({id: 'pages.dev.clusterConfig.imagePullPolicy'}))}
+          label={(intl.formatMessage({id: 'page.project.cluster.config.imagePullPolicy'}))}
           colProps={{span: 10, offset: 1}}
           rules={[{required: true}]}
           showSearch={false}

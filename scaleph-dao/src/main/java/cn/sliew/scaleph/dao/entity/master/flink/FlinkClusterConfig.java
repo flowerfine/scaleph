@@ -22,6 +22,8 @@ import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.dao.entity.BaseDO;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceClusterCredential;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceFlinkRelease;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -42,6 +44,9 @@ public class FlinkClusterConfig extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField("project_id")
+    private Long projectId;
+
     @ApiModelProperty("名称")
     @TableField("`name`")
     private String name;
@@ -59,10 +64,16 @@ public class FlinkClusterConfig extends BaseDO {
     private FlinkDeploymentMode deployMode;
 
     @ApiModelProperty("flink release")
+    @TableField(exist = false)
+    private ResourceFlinkRelease flinkRelease;
+
     @TableField("flink_release_id")
-    private Long flinkReleaseId;
+    private Long FlinkReleaseId;
 
     @ApiModelProperty("集群凭证 id。如 hadoop 的 core-site.xml，kubernetes 的 kubeconfig")
+    @TableField(exist = false)
+    private ResourceClusterCredential clusterCredential;
+
     @TableField("cluster_credential_id")
     private Long clusterCredentialId;
 

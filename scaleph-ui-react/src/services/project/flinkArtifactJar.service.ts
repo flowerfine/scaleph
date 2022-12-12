@@ -1,16 +1,12 @@
 import { PageResponse, ResponseBody } from '@/app.d';
 import { USER_AUTH } from '@/constant';
-import {
-  FlinkArtifactJar,
-  FlinkArtifactJarListParam,
-  FlinkArtifactJarUploadParam,
-} from './typings';
+import { FlinkArtifactJar, FlinkArtifactJarParam } from './typings';
 import { request } from 'umi';
 
 export const FlinkArtifactJarService = {
   url: '/api/flink/artifact/jar',
 
-  list: async (queryParam: FlinkArtifactJarListParam) => {
+  list: async (queryParam: FlinkArtifactJarParam) => {
     return request<PageResponse<FlinkArtifactJar>>(`${FlinkArtifactJarService.url}`, {
       method: 'GET',
       params: queryParam,
@@ -24,28 +20,32 @@ export const FlinkArtifactJarService = {
       return result;
     });
   },
-  listByArtifact: async(id:string|number)=>{
-    return request<FlinkArtifactJar[]>(`${FlinkArtifactJarService.url}/artifact/`+id,{
-      method:'GET'
-    })
+  update: async (row: FlinkArtifactJar) => {
+    return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}`, {
+      method: 'POST',
+      data: row,
+    });
   },
-  selectOne: async (id: number) => {
+  listByArtifact: async (id: string | number) => {
+    return request<FlinkArtifactJar[]>(`${FlinkArtifactJarService.url}/artifact/` + id, {
+      method: 'GET',
+    });
+  },
+  selectOne: async (id: number | string) => {
     return request<FlinkArtifactJar>(`${FlinkArtifactJarService.url}/` + id, {
       method: 'GET',
     });
   },
-  upload: async (uploadParam: FlinkArtifactJarUploadParam) => {
-    const formData = new FormData();
-    formData.append('flinkArtifactId', uploadParam.flinkArtifactId);
-    if (uploadParam.version) {
-      formData.append('version', uploadParam.version);
-    }
-    formData.append('flinkVersion', uploadParam.flinkVersion);
-    formData.append('entryClass', uploadParam.entryClass);
-    formData.append('file', uploadParam.file);
+  deleteOne: async (row: FlinkArtifactJar) => {
+    return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}/` + row.id, {
+      method: 'DELETE',
+    });
+  },
+  upload: async (uploadParam: FlinkArtifactJar) => {
     return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}`, {
-      method: 'POST',
-      data: formData,
+      method: 'PUT',
+      data: uploadParam,
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
   },
   download: async (row: FlinkArtifactJar) => {

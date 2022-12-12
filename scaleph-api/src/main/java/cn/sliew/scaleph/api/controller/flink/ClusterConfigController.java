@@ -22,8 +22,7 @@ import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptions;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigAddParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigListParam;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterConfigParam;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -50,7 +49,7 @@ public class ClusterConfigController {
     @Logging
     @GetMapping
     @ApiOperation(value = "查询集群配置列表", notes = "分页查询集群配置列表")
-    public ResponseEntity<Page<FlinkClusterConfigDTO>> list(@Valid FlinkClusterConfigListParam param) {
+    public ResponseEntity<Page<FlinkClusterConfigDTO>> list(@Valid FlinkClusterConfigParam param) {
         Page<FlinkClusterConfigDTO> page = flinkClusterConfigService.listByPage(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
@@ -66,9 +65,9 @@ public class ClusterConfigController {
     @Logging
     @PutMapping
     @ApiOperation(value = "新增集群配置", notes = "新增集群配置")
-    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody FlinkClusterConfigAddParam param) {
-        final FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.insert(param);
-        return new ResponseEntity<>(ResponseVO.sucess(flinkClusterConfigDTO), HttpStatus.OK);
+    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody FlinkClusterConfigDTO param) {
+       flinkClusterConfigService.insert(param);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
     @Logging
@@ -88,10 +87,9 @@ public class ClusterConfigController {
     }
 
     @Logging
-    @PostMapping("{id}")
+    @PostMapping
     @ApiOperation(value = "修改集群配置", notes = "修改集群配置")
-    public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid @RequestBody FlinkClusterConfigDTO param) {
-        param.setId(id);
+    public ResponseEntity<ResponseVO> update(@Valid @RequestBody FlinkClusterConfigDTO param) {
         flinkClusterConfigService.update(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -100,6 +98,7 @@ public class ClusterConfigController {
     @DeleteMapping("{id}")
     @ApiOperation(value = "删除集群配置", notes = "删除集群配置")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) {
+        //todo check if exists cluster instance
         flinkClusterConfigService.deleteById(id);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }

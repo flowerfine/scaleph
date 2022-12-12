@@ -11,7 +11,6 @@ import { FlinkJob } from '@/services/project/typings';
 import { ResourceJarService } from '@/services/resource/jar.service';
 import { ProFormInstance, StepsForm } from '@ant-design/pro-components';
 import { Form, message, Modal, Radio, Select } from 'antd';
-import { stringify } from 'rc-field-form/es/useWatch';
 import { useEffect, useRef, useState } from 'react';
 import { useAccess, useIntl } from 'umi';
 import Additional from '../../Cluster/Config/Options/components/Additional';
@@ -124,7 +123,7 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
       stepsFormRender={(dom, submitter) => {
         return (
           <Modal
-            title="创建作业"
+            title={intl.formatMessage({ id: 'pages.project.job.create' })}
             width={780}
             bodyStyle={{ overflowY: 'scroll', maxHeight: '640px' }}
             onCancel={onCancel}
@@ -142,14 +141,14 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
     >
       <StepsForm.StepForm
         name="step1"
-        title="选择作业"
+        title={intl.formatMessage({ id: 'pages.project.job.create.step1.title' })}
         layout="horizontal"
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 19 }}
         initialValues={{ type: jobType }}
         formRef={step1FormRef}
       >
-        <Form.Item name="type" label="作业类型">
+        <Form.Item name="type" label={intl.formatMessage({ id: 'pages.project.job.type' })}>
           <Radio.Group
             onChange={(item) => {
               const value = item.target.value;
@@ -170,7 +169,11 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
         </Form.Item>
         {jobType == '0' && (
           <>
-            <Form.Item name="artifact" label="Artifact" rules={[{ required: true }]}>
+            <Form.Item
+              name="artifact"
+              label={intl.formatMessage({ id: 'pages.project.job.create.step1.artifact' })}
+              rules={[{ required: true }]}
+            >
               <Select
                 showSearch
                 allowClear
@@ -195,7 +198,11 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
                 }}
               ></Select>
             </Form.Item>
-            <Form.Item name="flinkArtifactId" label="Artifact Jar" rules={[{ required: true }]}>
+            <Form.Item
+              name="flinkArtifactId"
+              label={intl.formatMessage({ id: 'pages.project.job.create.step1.artifact.jar' })}
+              rules={[{ required: true }]}
+            >
               <Select
                 showSearch
                 allowClear
@@ -208,7 +215,11 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
           </>
         )}
         {jobType == '1' && (
-          <Form.Item name="flinkArtifactId" label="作业" rules={[{ required: true }]}>
+          <Form.Item
+            name="flinkArtifactId"
+            label={intl.formatMessage({ id: 'pages.project.job.create.step1.job' })}
+            rules={[{ required: true }]}
+          >
             <Select
               showSearch
               allowClear
@@ -223,7 +234,11 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
           </Form.Item>
         )}
         {jobType == '2' && (
-          <Form.Item name="flinkArtifactId" label="作业" rules={[{ required: true }]}>
+          <Form.Item
+            name="flinkArtifactId"
+            label={intl.formatMessage({ id: 'pages.project.job.create.step1.job' })}
+            rules={[{ required: true }]}
+          >
             <Select
               showSearch
               allowClear
@@ -240,12 +255,16 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
       </StepsForm.StepForm>
       <StepsForm.StepForm
         name="step2"
-        title="集群 & 资源"
+        title={intl.formatMessage({ id: 'pages.project.job.create.step2.title' })}
         layout="horizontal"
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 19 }}
       >
-        <Form.Item name="clusterInstanceId" label="集群" rules={[{ required: true }]}>
+        <Form.Item
+          name="clusterInstanceId"
+          label={intl.formatMessage({ id: 'pages.project.job.create.step2.cluster' })}
+          rules={[{ required: true }]}
+        >
           <Select
             showSearch
             allowClear
@@ -258,7 +277,10 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
             }}
           ></Select>
         </Form.Item>
-        <Form.Item name="jars" label="资源">
+        <Form.Item
+          name="jars"
+          label={intl.formatMessage({ id: 'pages.project.job.create.step2.resource' })}
+        >
           <Select
             showSearch
             allowClear
@@ -273,7 +295,11 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
           ></Select>
         </Form.Item>
       </StepsForm.StepForm>
-      <StepsForm.StepForm name="step3" title="参数设置" layout="vertical">
+      <StepsForm.StepForm
+        name="step3"
+        title={intl.formatMessage({ id: 'pages.project.job.create.step3.title' })}
+        layout="vertical"
+      >
         <State />
         <FaultTolerance />
         <HighAvailability />

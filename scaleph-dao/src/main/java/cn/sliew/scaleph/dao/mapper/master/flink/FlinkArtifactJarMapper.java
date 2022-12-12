@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.dao.mapper.master.flink;
 
 import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJar;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJarVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
@@ -33,11 +32,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FlinkArtifactJarMapper extends BaseMapper<FlinkArtifactJar> {
 
-    String findMaxVersion(@Param("flinkArtifactId") Long flinkArtifactId);
+    Page<FlinkArtifactJar> list(Page<FlinkArtifactJar> page,
+                                @Param("param") FlinkArtifactJar param);
 
-    Page<FlinkArtifactJarVO> list(Page<FlinkArtifactJar> page,
-                                  @Param("param") FlinkArtifactJar param);
+    FlinkArtifactJar selectOne(@Param("id") Long id);
 
-    FlinkArtifactJarVO getById(@Param("id") Long id);
-
+    FlinkArtifactJar isUsed(@Param("id") Long id);
 }
