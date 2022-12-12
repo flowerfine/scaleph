@@ -144,6 +144,7 @@ public class FlinkServiceImpl implements FlinkService {
         dto.setProjectId(projectId);
         dto.setFlinkClusterConfigId(flinkClusterConfigDTO.getId());
         dto.setName(flinkClusterConfigDTO.getName() + "-" + RandomStringUtils.randomAlphabetic(8));
+        //todo session cluster has not cluster id
         dto.setClusterId(clusterClient.getClusterId().toString());
         dto.setWebInterfaceUrl(clusterClient.getWebInterfaceURL());
         dto.setStatus(FlinkClusterStatus.RUNNING);
