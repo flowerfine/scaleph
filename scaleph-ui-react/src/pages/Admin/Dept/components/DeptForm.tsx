@@ -67,7 +67,7 @@ const DeptForm: React.FC<ModalFormParentProps<SecDeptTree>> = ({
         wrapperCol={{span: 16}}
         initialValues={{
           id: data.id,
-          pid: parent?.id ? parent.id : (data?.pid ? data.pid : 0),
+          pid: parent?.id ? parent.id : (data?.pid ? data.pid : null),
           deptName: data.deptName,
           deptCode: data.deptCode,
           deptStatus: data.deptStatus?.value
