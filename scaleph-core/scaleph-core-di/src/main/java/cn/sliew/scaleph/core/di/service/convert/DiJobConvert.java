@@ -20,9 +20,8 @@ package cn.sliew.scaleph.core.di.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
-import cn.sliew.scaleph.dao.entity.master.di.DiJob;
+import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
@@ -30,12 +29,12 @@ import org.mapstruct.factory.Mappers;
  * @author gleiyu
  */
 @Mapper( unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface DiJobConvert extends BaseConvert<DiJob, DiJobDTO> {
+public interface DiJobConvert extends BaseConvert<WsDiJob, DiJobDTO> {
     DiJobConvert INSTANCE = Mappers.getMapper(DiJobConvert.class);
 
     @Override
-    DiJob toDo(DiJobDTO dto);
+    WsDiJob toDo(DiJobDTO dto);
 
     @Override
-    DiJobDTO toDto(DiJob entity);
+    DiJobDTO toDto(WsDiJob entity);
 }

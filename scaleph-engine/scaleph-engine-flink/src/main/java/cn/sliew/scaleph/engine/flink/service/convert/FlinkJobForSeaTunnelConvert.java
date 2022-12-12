@@ -21,7 +21,7 @@ package cn.sliew.scaleph.engine.flink.service.convert;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.core.di.service.convert.DiJobConvert;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobForSeaTunnel;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobForSeaTunnel;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForSeaTunnelDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -33,16 +33,16 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FlinkJobForSeaTunnelConvert extends BaseConvert<FlinkJobForSeaTunnel, FlinkJobForSeaTunnelDTO> {
+public interface FlinkJobForSeaTunnelConvert extends BaseConvert<WsFlinkJobForSeaTunnel, FlinkJobForSeaTunnelDTO> {
     FlinkJobForSeaTunnelConvert INSTANCE = Mappers.getMapper(FlinkJobForSeaTunnelConvert.class);
 
     @Override
-    default FlinkJobForSeaTunnel toDo(FlinkJobForSeaTunnelDTO dto) {
-        FlinkJobForSeaTunnel entity = new FlinkJobForSeaTunnel();
+    default WsFlinkJobForSeaTunnel toDo(FlinkJobForSeaTunnelDTO dto) {
+        WsFlinkJobForSeaTunnel entity = new WsFlinkJobForSeaTunnel();
         BeanUtils.copyProperties(dto, entity);
         entity.setFlinkArtifactSeaTunnel(DiJobConvert.INSTANCE.toDo(dto.getFlinkArtifactSeaTunnel()));
-        entity.setFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDo(dto.getFlinkClusterConfig()));
-        entity.setFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDo(dto.getFlinkClusterInstance()));
+        entity.setWsFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDo(dto.getFlinkClusterConfig()));
+        entity.setWsFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDo(dto.getFlinkClusterInstance()));
         entity.setFlinkJobInstance(FlinkJobInstanceConvert.INSTANCE.toDo(dto.getFlinkJobInstance()));
         if (CollectionUtils.isEmpty(dto.getJobConfig()) == false) {
             entity.setJobConfig(JacksonUtil.toJsonString(dto.getJobConfig()));
@@ -57,12 +57,12 @@ public interface FlinkJobForSeaTunnelConvert extends BaseConvert<FlinkJobForSeaT
     }
 
     @Override
-    default FlinkJobForSeaTunnelDTO toDto(FlinkJobForSeaTunnel entity) {
+    default FlinkJobForSeaTunnelDTO toDto(WsFlinkJobForSeaTunnel entity) {
         FlinkJobForSeaTunnelDTO dto = new FlinkJobForSeaTunnelDTO();
         BeanUtils.copyProperties(entity, dto);
         dto.setFlinkArtifactSeaTunnel(DiJobConvert.INSTANCE.toDto(entity.getFlinkArtifactSeaTunnel()));
-        dto.setFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDto(entity.getFlinkClusterConfig()));
-        dto.setFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDto(entity.getFlinkClusterInstance()));
+        dto.setFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDto(entity.getWsFlinkClusterConfig()));
+        dto.setFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDto(entity.getWsFlinkClusterInstance()));
         dto.setFlinkJobInstance(FlinkJobInstanceConvert.INSTANCE.toDto(entity.getFlinkJobInstance()));
         if (StringUtils.hasText(entity.getJobConfig())) {
             dto.setJobConfig(JacksonUtil.parseJsonString(entity.getJobConfig(), Map.class));

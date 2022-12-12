@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.flink.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobForJar;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobForJar;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobForJarDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -32,16 +32,16 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FlinkJobForJarConvert extends BaseConvert<FlinkJobForJar, FlinkJobForJarDTO> {
+public interface FlinkJobForJarConvert extends BaseConvert<WsFlinkJobForJar, FlinkJobForJarDTO> {
     FlinkJobForJarConvert INSTANCE = Mappers.getMapper(FlinkJobForJarConvert.class);
 
     @Override
-    default FlinkJobForJar toDo(FlinkJobForJarDTO dto) {
-        FlinkJobForJar entity = new FlinkJobForJar();
+    default WsFlinkJobForJar toDo(FlinkJobForJarDTO dto) {
+        WsFlinkJobForJar entity = new WsFlinkJobForJar();
         BeanUtils.copyProperties(dto, entity);
-        entity.setFlinkArtifactJar(FlinkArtifactJarConvert.INSTANCE.toDo(dto.getFlinkArtifactJar()));
-        entity.setFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDo(dto.getFlinkClusterConfig()));
-        entity.setFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDo(dto.getFlinkClusterInstance()));
+        entity.setWsFlinkArtifactJar(FlinkArtifactJarConvert.INSTANCE.toDo(dto.getFlinkArtifactJar()));
+        entity.setWsFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDo(dto.getFlinkClusterConfig()));
+        entity.setWsFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDo(dto.getFlinkClusterInstance()));
         entity.setFlinkJobInstance(FlinkJobInstanceConvert.INSTANCE.toDo(dto.getFlinkJobInstance()));
         if (!CollectionUtils.isEmpty(dto.getJobConfig()) ) {
             entity.setJobConfig(JacksonUtil.toJsonString(dto.getJobConfig()));
@@ -56,12 +56,12 @@ public interface FlinkJobForJarConvert extends BaseConvert<FlinkJobForJar, Flink
     }
 
     @Override
-    default FlinkJobForJarDTO toDto(FlinkJobForJar entity) {
+    default FlinkJobForJarDTO toDto(WsFlinkJobForJar entity) {
         FlinkJobForJarDTO dto = new FlinkJobForJarDTO();
         BeanUtils.copyProperties(entity, dto);
-        dto.setFlinkArtifactJar(FlinkArtifactJarConvert.INSTANCE.toDto(entity.getFlinkArtifactJar()));
-        dto.setFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDto(entity.getFlinkClusterConfig()));
-        dto.setFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDto(entity.getFlinkClusterInstance()));
+        dto.setFlinkArtifactJar(FlinkArtifactJarConvert.INSTANCE.toDto(entity.getWsFlinkArtifactJar()));
+        dto.setFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDto(entity.getWsFlinkClusterConfig()));
+        dto.setFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDto(entity.getWsFlinkClusterInstance()));
         dto.setFlinkJobInstance(FlinkJobInstanceConvert.INSTANCE.toDto(entity.getFlinkJobInstance()));
         if (StringUtils.hasText(entity.getJobConfig())) {
             dto.setJobConfig(JacksonUtil.parseJsonString(entity.getJobConfig(), Map.class));

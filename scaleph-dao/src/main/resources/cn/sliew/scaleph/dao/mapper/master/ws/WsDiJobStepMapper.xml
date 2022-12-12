@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsDiJobStepMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="DiJobStepMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsDiJobStep">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="job_id" property="jobId"/>
+        <result column="step_code" property="stepCode"/>
+        <result column="step_title" property="stepTitle"/>
+        <result column="step_type" property="stepType"/>
+        <result column="step_name" property="stepName"/>
+        <result column="position_x" property="positionX"/>
+        <result column="position_y" property="positionY"/>
+        <result column="step_attrs" property="stepAttrs"/>
+    </resultMap>
+
+    <select id="selectByJobId" resultMap="DiJobStepMap">
+        <![CDATA[
+        select s.id,
+               s.job_id,
+               s.step_code,
+               s.step_title,
+               s.step_type,
+               s.step_name,
+               s.position_x,
+               s.position_y,
+               s.step_attrs,
+               s.creator,
+               s.create_time,
+               s.editor,
+               s.update_time
+        from ws_di_job_step s
+        where s.job_id = #{jobId,jdbcType=BIGINT}
+        ]]>
+    </select>
+
+    <delete id="deleteByProjectId">
+        delete t from ws_di_job_step t
+        <where>
+            exists (select 1 from ws_di_job j
+            <where>
+                t.job_id = j.id
+                and j.project_id in
+                <foreach collection="projectIds" item="projectId" index="index" open="(" close=")" separator=",">
+                    #{projectId,jdbcType=BIGINT}
+                </foreach>
+            </where>
+            )
+        </where>
+    </delete>
+
+    <delete id="deleteByJobId">
+        delete from ws_di_job_step where job_id in
+        <foreach collection="jobIds" item="id" index="index" open="(" close=")" separator=",">
+            #{id,jdbcType=BIGINT}
+        </foreach>
+    </delete>
+
+    <insert id="clone">
+        insert into ws_di_job_step
+        (job_id,
+         step_code,
+         step_title,
+         step_type,
+         step_name,
+         position_x,
+         position_y,
+         step_attrs,
+         creator,
+         create_time,
+         editor,
+         update_time)
+        select #{targetJobId,jdbcType=BIGINT} as job_id,
+               step_code,
+               step_title,
+               step_type,
+               step_name,
+               position_x,
+               position_y,
+               step_attrs,
+               'sys'                          as creator,
+               now()                          as create_time,
+               'sys'                          as editor,
+               now()                          as update_time
+        from ws_di_job_step
+        where job_id = #{sourceJobId,jdbcType=BIGINT}
+    </insert>
+</mapper>

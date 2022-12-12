@@ -19,13 +19,13 @@
 package cn.sliew.scaleph.engine.flink.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobInstance;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobInstance;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobInstanceDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FlinkJobInstanceConvert extends BaseConvert<FlinkJobInstance, FlinkJobInstanceDTO> {
+public interface FlinkJobInstanceConvert extends BaseConvert<WsFlinkJobInstance, FlinkJobInstanceDTO> {
     FlinkJobInstanceConvert INSTANCE = Mappers.getMapper(FlinkJobInstanceConvert.class);
 }

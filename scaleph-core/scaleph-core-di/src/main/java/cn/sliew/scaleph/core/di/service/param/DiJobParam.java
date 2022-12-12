@@ -20,9 +20,8 @@ package cn.sliew.scaleph.core.di.service.param;
 
 import cn.sliew.scaleph.common.dict.job.JobStatus;
 import cn.sliew.scaleph.common.dict.job.JobType;
-import cn.sliew.scaleph.common.dict.job.RuntimeState;
 import cn.sliew.scaleph.common.param.PaginationParam;
-import cn.sliew.scaleph.dao.entity.master.di.DiJob;
+import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -49,8 +48,8 @@ public class DiJobParam extends PaginationParam {
     @ApiModelProperty("job status")
     private JobStatus jobStatus;
 
-    public DiJob toDo() {
-        DiJob job = new DiJob();
+    public WsDiJob toDo() {
+        WsDiJob job = new WsDiJob();
         job.setProjectId(projectId);
         job.setJobCode(jobCode);
         job.setJobName(jobName);

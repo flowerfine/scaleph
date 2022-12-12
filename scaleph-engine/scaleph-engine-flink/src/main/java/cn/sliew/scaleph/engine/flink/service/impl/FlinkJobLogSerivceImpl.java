@@ -19,9 +19,9 @@
 package cn.sliew.scaleph.engine.flink.service.impl;
 
 import cn.sliew.scaleph.common.util.BeanUtil;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobInstance;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobLog;
-import cn.sliew.scaleph.dao.mapper.master.flink.FlinkJobLogMapper;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobInstance;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobLog;
+import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkJobLogMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkJobLogService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobInstanceConvert;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkJobLogConvert;
@@ -41,14 +41,14 @@ import java.util.List;
 public class FlinkJobLogSerivceImpl implements FlinkJobLogService {
 
     @Autowired
-    private FlinkJobLogMapper flinkJobLogMapper;
+    private WsFlinkJobLogMapper flinkJobLogMapper;
 
     @Override
     public Page<FlinkJobLogDTO> list(FlinkJobLogListParam param) {
-        final Page<FlinkJobLog> page = flinkJobLogMapper.selectPage(
+        final Page<WsFlinkJobLog> page = flinkJobLogMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
-                Wrappers.lambdaQuery(FlinkJobLog.class)
-                        .eq(FlinkJobLog::getFlinkJobCode, param.getFlinkJobCode()));
+                Wrappers.lambdaQuery(WsFlinkJobLog.class)
+                        .eq(WsFlinkJobLog::getFlinkJobCode, param.getFlinkJobCode()));
         Page<FlinkJobLogDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         List<FlinkJobLogDTO> dtoList = FlinkJobLogConvert.INSTANCE.toDto(page.getRecords());
@@ -58,8 +58,8 @@ public class FlinkJobLogSerivceImpl implements FlinkJobLogService {
 
     @Override
     public int insert(FlinkJobInstanceDTO dto) {
-        final FlinkJobInstance flinkJobInstance = FlinkJobInstanceConvert.INSTANCE.toDo(dto);
-        final FlinkJobLog record = BeanUtil.copy(flinkJobInstance, new FlinkJobLog());
+        final WsFlinkJobInstance flinkJobInstance = FlinkJobInstanceConvert.INSTANCE.toDo(dto);
+        final WsFlinkJobLog record = BeanUtil.copy(flinkJobInstance, new WsFlinkJobLog());
         return flinkJobLogMapper.insert(record);
     }
 }

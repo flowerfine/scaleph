@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.flink.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkJob;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJob;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -32,15 +32,15 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FlinkJobConvert extends BaseConvert<FlinkJob, FlinkJobDTO> {
+public interface FlinkJobConvert extends BaseConvert<WsFlinkJob, FlinkJobDTO> {
     FlinkJobConvert INSTANCE = Mappers.getMapper(FlinkJobConvert.class);
 
     @Override
-    default FlinkJob toDo(FlinkJobDTO dto) {
+    default WsFlinkJob toDo(FlinkJobDTO dto) {
         if (dto == null) {
             return null;
         }
-        FlinkJob entity = new FlinkJob();
+        WsFlinkJob entity = new WsFlinkJob();
         BeanUtils.copyProperties(dto, entity);
         if (!CollectionUtils.isEmpty(dto.getJobConfig())) {
             entity.setJobConfig(JacksonUtil.toJsonString(dto.getJobConfig()));
@@ -55,7 +55,7 @@ public interface FlinkJobConvert extends BaseConvert<FlinkJob, FlinkJobDTO> {
     }
 
     @Override
-    default FlinkJobDTO toDto(FlinkJob entity) {
+    default FlinkJobDTO toDto(WsFlinkJob entity) {
         if (entity == null) {
             return null;
         }

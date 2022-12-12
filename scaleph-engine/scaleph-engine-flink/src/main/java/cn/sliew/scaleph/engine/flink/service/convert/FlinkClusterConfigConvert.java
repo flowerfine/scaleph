@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.flink.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfig;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterConfig;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptions;
 import cn.sliew.scaleph.resource.service.convert.ClusterCredentialConvert;
@@ -36,15 +36,15 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 
 @Mapper(uses = {FlinkReleaseConvert.class, ClusterCredentialConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FlinkClusterConfigConvert extends BaseConvert<FlinkClusterConfig, FlinkClusterConfigDTO> {
+public interface FlinkClusterConfigConvert extends BaseConvert<WsFlinkClusterConfig, FlinkClusterConfigDTO> {
     FlinkClusterConfigConvert INSTANCE = Mappers.getMapper(FlinkClusterConfigConvert.class);
 
     @Override
-    default FlinkClusterConfig toDo(FlinkClusterConfigDTO dto) {
+    default WsFlinkClusterConfig toDo(FlinkClusterConfigDTO dto) {
         if (dto == null) {
             return null;
         }
-        FlinkClusterConfig entity = new FlinkClusterConfig();
+        WsFlinkClusterConfig entity = new WsFlinkClusterConfig();
         entity.setId(dto.getId());
         entity.setCreateTime(dto.getCreateTime());
         entity.setCreator(dto.getCreator());
@@ -70,7 +70,7 @@ public interface FlinkClusterConfigConvert extends BaseConvert<FlinkClusterConfi
     }
 
     @Override
-    default FlinkClusterConfigDTO toDto(FlinkClusterConfig entity) {
+    default FlinkClusterConfigDTO toDto(WsFlinkClusterConfig entity) {
         if (entity == null) {
             return null;
         }

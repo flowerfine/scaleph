@@ -19,8 +19,8 @@
 package cn.sliew.scaleph.engine.flink.service.impl;
 
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifact;
-import cn.sliew.scaleph.dao.mapper.master.flink.FlinkArtifactMapper;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifact;
+import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkArtifactService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkArtifactConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
@@ -41,15 +41,15 @@ import java.util.List;
 public class FlinkArtifactServiceImpl implements FlinkArtifactService {
 
     @Autowired
-    private FlinkArtifactMapper flinkArtifactMapper;
+    private WsFlinkArtifactMapper flinkArtifactMapper;
 
     @Override
     public Page<FlinkArtifactDTO> list(FlinkArtifactParam param) {
-        final Page<FlinkArtifact> page = flinkArtifactMapper.selectPage(
+        final Page<WsFlinkArtifact> page = flinkArtifactMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
-                Wrappers.lambdaQuery(FlinkArtifact.class)
-                        .like(StringUtils.hasText(param.getName()), FlinkArtifact::getName, param.getName())
-                        .eq(param.getProjectId() != null, FlinkArtifact::getProjectId, param.getProjectId()));
+                Wrappers.lambdaQuery(WsFlinkArtifact.class)
+                        .like(StringUtils.hasText(param.getName()), WsFlinkArtifact::getName, param.getName())
+                        .eq(param.getProjectId() != null, WsFlinkArtifact::getProjectId, param.getProjectId()));
         Page<FlinkArtifactDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         List<FlinkArtifactDTO> dtoList = FlinkArtifactConvert.INSTANCE.toDto(page.getRecords());
@@ -59,26 +59,26 @@ public class FlinkArtifactServiceImpl implements FlinkArtifactService {
 
     @Override
     public FlinkArtifactDTO selectOne(Long id) {
-        final FlinkArtifact record = flinkArtifactMapper.selectById(id);
+        final WsFlinkArtifact record = flinkArtifactMapper.selectById(id);
         return FlinkArtifactConvert.INSTANCE.toDto(record);
     }
 
     @Override
     public int insert(FlinkArtifactDTO dto) {
-        final FlinkArtifact record = FlinkArtifactConvert.INSTANCE.toDo(dto);
+        final WsFlinkArtifact record = FlinkArtifactConvert.INSTANCE.toDo(dto);
         return flinkArtifactMapper.insert(record);
     }
 
     @Override
     public int update(FlinkArtifactDTO dto) {
-        final FlinkArtifact record = FlinkArtifactConvert.INSTANCE.toDo(dto);
+        final WsFlinkArtifact record = FlinkArtifactConvert.INSTANCE.toDo(dto);
         return flinkArtifactMapper.updateById(record);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int deleteById(Long id) throws ScalephException {
-        FlinkArtifact artifact = flinkArtifactMapper.isUsed(id);
+        WsFlinkArtifact artifact = flinkArtifactMapper.isUsed(id);
         if (artifact != null) {
             throw new ScalephException(I18nUtil.get("response.error.job.artifact.jar"));
         }

@@ -18,8 +18,8 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterInstance;
-import cn.sliew.scaleph.dao.mapper.master.flink.FlinkClusterInstanceMapper;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterInstance;
+import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkClusterInstanceMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkClusterInstanceService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkClusterInstanceConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterInstanceDTO;
@@ -38,17 +38,17 @@ import java.util.List;
 public class FlinkClusterInstanceServiceImpl implements FlinkClusterInstanceService {
 
     @Autowired
-    private FlinkClusterInstanceMapper flinkClusterInstanceMapper;
+    private WsFlinkClusterInstanceMapper flinkClusterInstanceMapper;
 
     @Override
     public Page<FlinkClusterInstanceDTO> list(FlinkClusterInstanceParam param) {
-        final Page<FlinkClusterInstance> page = flinkClusterInstanceMapper.selectPage(
+        final Page<WsFlinkClusterInstance> page = flinkClusterInstanceMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
-                Wrappers.lambdaQuery(FlinkClusterInstance.class)
-                        .like(StringUtils.hasText(param.getName()), FlinkClusterInstance::getName, param.getName())
-                        .eq(param.getFlinkClusterConfigId() != null, FlinkClusterInstance::getFlinkClusterConfigId, param.getFlinkClusterConfigId())
-                        .eq(param.getStatus() != null, FlinkClusterInstance::getStatus, param.getStatus())
-                        .eq(param.getProjectId() != null, FlinkClusterInstance::getProjectId, param.getProjectId())
+                Wrappers.lambdaQuery(WsFlinkClusterInstance.class)
+                        .like(StringUtils.hasText(param.getName()), WsFlinkClusterInstance::getName, param.getName())
+                        .eq(param.getFlinkClusterConfigId() != null, WsFlinkClusterInstance::getFlinkClusterConfigId, param.getFlinkClusterConfigId())
+                        .eq(param.getStatus() != null, WsFlinkClusterInstance::getStatus, param.getStatus())
+                        .eq(param.getProjectId() != null, WsFlinkClusterInstance::getProjectId, param.getProjectId())
         );
         Page<FlinkClusterInstanceDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
@@ -59,19 +59,19 @@ public class FlinkClusterInstanceServiceImpl implements FlinkClusterInstanceServ
 
     @Override
     public int insert(FlinkClusterInstanceDTO dto) {
-        final FlinkClusterInstance record = FlinkClusterInstanceConvert.INSTANCE.toDo(dto);
+        final WsFlinkClusterInstance record = FlinkClusterInstanceConvert.INSTANCE.toDo(dto);
         return flinkClusterInstanceMapper.insert(record);
     }
 
     @Override
     public int update(FlinkClusterInstanceDTO dto) {
-        final FlinkClusterInstance record = FlinkClusterInstanceConvert.INSTANCE.toDo(dto);
+        final WsFlinkClusterInstance record = FlinkClusterInstanceConvert.INSTANCE.toDo(dto);
         return flinkClusterInstanceMapper.updateById(record);
     }
 
     @Override
     public FlinkClusterInstanceDTO selectOne(Long id) {
-        final FlinkClusterInstance record = flinkClusterInstanceMapper.selectById(id);
+        final WsFlinkClusterInstance record = flinkClusterInstanceMapper.selectById(id);
         return FlinkClusterInstanceConvert.INSTANCE.toDto(record);
     }
 

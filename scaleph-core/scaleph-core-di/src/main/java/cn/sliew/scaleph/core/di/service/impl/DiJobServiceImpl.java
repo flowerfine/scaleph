@@ -34,8 +34,8 @@ import cn.sliew.scaleph.core.di.service.param.*;
 import cn.sliew.scaleph.core.di.service.vo.DiJobAttrVO;
 import cn.sliew.scaleph.core.di.service.vo.JobGraphVO;
 import cn.sliew.scaleph.dao.DataSourceConstants;
-import cn.sliew.scaleph.dao.entity.master.di.DiJob;
-import cn.sliew.scaleph.dao.mapper.master.di.DiJobMapper;
+import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
+import cn.sliew.scaleph.dao.mapper.master.ws.WsDiJobMapper;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.util.I18nUtil;
@@ -62,7 +62,7 @@ public class DiJobServiceImpl implements DiJobService {
     @Autowired
     private UidGenerator defaultUidGenerator;
     @Autowired
-    private DiJobMapper diJobMapper;
+    private WsDiJobMapper diJobMapper;
     @Autowired
     private DiJobGraphService diJobGraphService;
     @Autowired
@@ -70,7 +70,7 @@ public class DiJobServiceImpl implements DiJobService {
 
     @Override
     public Page<DiJobDTO> listByPage(DiJobParam param) {
-        Page<DiJob> jobs = diJobMapper.selectPage(
+        Page<WsDiJob> jobs = diJobMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 param.toDo()
         );
@@ -82,15 +82,15 @@ public class DiJobServiceImpl implements DiJobService {
 
     @Override
     public List<DiJobDTO> listById(Collection<Long> ids) {
-        LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>().in(DiJob::getId, ids);
-        List<DiJob> jobs = diJobMapper.selectList(queryWrapper);
+        LambdaQueryWrapper<WsDiJob> queryWrapper = new LambdaQueryWrapper<WsDiJob>().in(WsDiJob::getId, ids);
+        List<WsDiJob> jobs = diJobMapper.selectList(queryWrapper);
         List<DiJobDTO> dtoList = DiJobConvert.INSTANCE.toDto(jobs);
         return dtoList;
     }
 
     @Override
     public DiJobDTO selectOne(Long id) {
-        DiJob record = diJobMapper.selectById(id);
+        WsDiJob record = diJobMapper.selectById(id);
         checkState(record != null, () -> "job not exists for id: " + id);
         DiJobDTO dto = DiJobConvert.INSTANCE.toDto(record);
         return dto;
@@ -98,18 +98,18 @@ public class DiJobServiceImpl implements DiJobService {
 
     @Override
     public DiJobDTO selectOne(Long projectId, Long jobCode, int jobVersion) {
-        LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>()
-                .eq(DiJob::getProjectId, projectId)
-                .eq(DiJob::getJobCode, jobCode)
-                .eq(DiJob::getJobVersion, jobVersion);
-        DiJob job = diJobMapper.selectOne(queryWrapper);
+        LambdaQueryWrapper<WsDiJob> queryWrapper = new LambdaQueryWrapper<WsDiJob>()
+                .eq(WsDiJob::getProjectId, projectId)
+                .eq(WsDiJob::getJobCode, jobCode)
+                .eq(WsDiJob::getJobVersion, jobVersion);
+        WsDiJob job = diJobMapper.selectOne(queryWrapper);
         return DiJobConvert.INSTANCE.toDto(job);
     }
 
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
     public DiJobDTO insert(DiJobAddParam param) throws UidGenerateException {
-        DiJob record = BeanUtil.copy(param, new DiJob());
+        WsDiJob record = BeanUtil.copy(param, new WsDiJob());
         record.setJobCode(defaultUidGenerator.getUID());
         record.setJobStatus(JobStatus.DRAFT);
         record.setJobVersion(1);
@@ -120,7 +120,7 @@ public class DiJobServiceImpl implements DiJobService {
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
     public int update(DiJobUpdateParam param) {
-        DiJob record = BeanUtil.copy(param, new DiJob());
+        WsDiJob record = BeanUtil.copy(param, new WsDiJob());
         return diJobMapper.updateById(record);
     }
 
@@ -147,16 +147,16 @@ public class DiJobServiceImpl implements DiJobService {
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     @Override
     public int deleteByCode(Long projectId, Long jobCode) {
-        List<DiJob> jobList = diJobMapper.selectList(new LambdaQueryWrapper<DiJob>()
-                .eq(DiJob::getJobCode, jobCode)
-                .eq(DiJob::getProjectId, projectId)
+        List<WsDiJob> jobList = diJobMapper.selectList(new LambdaQueryWrapper<WsDiJob>()
+                .eq(WsDiJob::getJobCode, jobCode)
+                .eq(WsDiJob::getProjectId, projectId)
         );
-        List<Long> ids = jobList.stream().map(DiJob::getId).collect(Collectors.toList());
+        List<Long> ids = jobList.stream().map(WsDiJob::getId).collect(Collectors.toList());
         diJobGraphService.deleteBatch(ids);
         diJobAttrService.deleteByJobId(ids);
-        return diJobMapper.delete(new LambdaQueryWrapper<DiJob>()
-                .eq(DiJob::getJobCode, jobCode)
-                .eq(DiJob::getProjectId, projectId)
+        return diJobMapper.delete(new LambdaQueryWrapper<WsDiJob>()
+                .eq(WsDiJob::getJobCode, jobCode)
+                .eq(WsDiJob::getProjectId, projectId)
         );
     }
 
@@ -165,8 +165,8 @@ public class DiJobServiceImpl implements DiJobService {
     public int deleteByProjectId(Collection<Long> projectIds) {
         diJobGraphService.deleteByProjectId(projectIds);
         diJobAttrService.deleteByProjectId(projectIds);
-        return diJobMapper.delete(new LambdaQueryWrapper<DiJob>()
-                .in(DiJob::getProjectId, projectIds));
+        return diJobMapper.delete(new LambdaQueryWrapper<WsDiJob>()
+                .in(WsDiJob::getProjectId, projectIds));
     }
 
     /**
@@ -191,7 +191,7 @@ public class DiJobServiceImpl implements DiJobService {
         DiJobDTO newVersionJob = selectOne(job.getProjectId(), job.getJobCode(), jobVersion);
         checkState(newVersionJob == null, () -> I18nUtil.get("response.error.di.job.lowVersion"));
 
-        DiJob record = DiJobConvert.INSTANCE.toDo(job);
+        WsDiJob record = DiJobConvert.INSTANCE.toDo(job);
         record.setId(null);
         record.setJobVersion(jobVersion);
         record.setJobStatus(JobStatus.DRAFT);
@@ -322,22 +322,22 @@ public class DiJobServiceImpl implements DiJobService {
      * 归档任务，只保留发布状态中最大版本号的那个，其余发布状态的任务均改为归档状态
      */
     private int archive(Long projectId, Long jobCode) {
-        LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>()
-                .eq(DiJob::getJobCode, jobCode)
-                .eq(DiJob::getProjectId, projectId)
-                .eq(DiJob::getJobStatus, JobStatus.RELEASE)
-                .orderByAsc(DiJob::getJobVersion);
-        List<DiJob> jobs = diJobMapper.selectList(queryWrapper);
+        LambdaQueryWrapper<WsDiJob> queryWrapper = new LambdaQueryWrapper<WsDiJob>()
+                .eq(WsDiJob::getJobCode, jobCode)
+                .eq(WsDiJob::getProjectId, projectId)
+                .eq(WsDiJob::getJobStatus, JobStatus.RELEASE)
+                .orderByAsc(WsDiJob::getJobVersion);
+        List<WsDiJob> jobs = diJobMapper.selectList(queryWrapper);
         if (CollectionUtil.isEmpty(jobs)) {
             return 0;
         }
         int result = 0;
         for (int i = 0; i < jobs.size() - 1; i++) {
-            DiJob job = new DiJob();
+            WsDiJob job = new WsDiJob();
             job.setId(jobs.get(i).getId());
             job.setJobStatus(JobStatus.ARCHIVE);
             result += diJobMapper.update(job,
-                    new LambdaUpdateWrapper<DiJob>().eq(DiJob::getId, job.getId())
+                    new LambdaUpdateWrapper<WsDiJob>().eq(WsDiJob::getId, job.getId())
             );
         }
         return result;
@@ -345,35 +345,35 @@ public class DiJobServiceImpl implements DiJobService {
 
     @Override
     public boolean hasValidJob(Collection<Long> projectIds) {
-        LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>()
-                .in(DiJob::getProjectId, projectIds)
+        LambdaQueryWrapper<WsDiJob> queryWrapper = new LambdaQueryWrapper<WsDiJob>()
+                .in(WsDiJob::getProjectId, projectIds)
                 .last("limit 1");
-        DiJob job = diJobMapper.selectOne(queryWrapper);
+        WsDiJob job = diJobMapper.selectOne(queryWrapper);
         return Optional.ofNullable(job).isPresent();
     }
 
     @Override
     public boolean hasValidJob(Long projectId, Long dirId) {
-        LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>()
-                .eq(DiJob::getProjectId, projectId)
+        LambdaQueryWrapper<WsDiJob> queryWrapper = new LambdaQueryWrapper<WsDiJob>()
+                .eq(WsDiJob::getProjectId, projectId)
                 .last("limit 1");
-        DiJob job = diJobMapper.selectOne(queryWrapper);
+        WsDiJob job = diJobMapper.selectOne(queryWrapper);
         return Optional.ofNullable(job).isPresent();
     }
 
     @Override
     public boolean hasRunningJob(Collection<Long> clusterIds) {
         //todo check if there is running job instances
-        LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>()
+        LambdaQueryWrapper<WsDiJob> queryWrapper = new LambdaQueryWrapper<WsDiJob>()
                 .last("limit 1");
-        DiJob job = diJobMapper.selectOne(queryWrapper);
+        WsDiJob job = diJobMapper.selectOne(queryWrapper);
         return Optional.ofNullable(job).isPresent();
     }
 
     @Override
     public Long totalCnt(String jobType) {
-        LambdaQueryWrapper<DiJob> queryWrapper = new LambdaQueryWrapper<DiJob>()
-                .eq(StringUtils.hasText(jobType), DiJob::getJobType, jobType);
+        LambdaQueryWrapper<WsDiJob> queryWrapper = new LambdaQueryWrapper<WsDiJob>()
+                .eq(StringUtils.hasText(jobType), WsDiJob::getJobType, jobType);
         return diJobMapper.selectCount(queryWrapper);
     }
 

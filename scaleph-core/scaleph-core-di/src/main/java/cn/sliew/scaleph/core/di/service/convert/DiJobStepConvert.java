@@ -22,7 +22,7 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.core.di.service.dto.DiJobStepDTO;
-import cn.sliew.scaleph.dao.entity.master.di.DiJobStep;
+import cn.sliew.scaleph.dao.entity.master.ws.WsDiJobStep;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.mapstruct.Mapper;
@@ -37,15 +37,15 @@ import java.util.Map;
  * @author gleiyu
  */
 @Mapper(uses = {DictVoConvert.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface DiJobStepConvert extends BaseConvert<DiJobStep, DiJobStepDTO> {
+public interface DiJobStepConvert extends BaseConvert<WsDiJobStep, DiJobStepDTO> {
     DiJobStepConvert INSTANCE = Mappers.getMapper(DiJobStepConvert.class);
 
     @Override
-    default DiJobStep toDo(DiJobStepDTO dto) {
+    default WsDiJobStep toDo(DiJobStepDTO dto) {
         if (dto == null) {
             return null;
         }
-        DiJobStep jobStep = BeanUtil.copy(dto, new DiJobStep());
+        WsDiJobStep jobStep = BeanUtil.copy(dto, new WsDiJobStep());
         if (CollectionUtils.isEmpty(dto.getStepAttrs()) == false) {
             jobStep.setStepAttrs(JacksonUtil.toJsonString(dto.getStepAttrs()));
         }
@@ -53,7 +53,7 @@ public interface DiJobStepConvert extends BaseConvert<DiJobStep, DiJobStepDTO> {
     }
 
     @Override
-    default DiJobStepDTO toDto(DiJobStep entity) {
+    default DiJobStepDTO toDto(WsDiJobStep entity) {
         if (entity == null) {
             return null;
         }

@@ -20,8 +20,8 @@ package cn.sliew.scaleph.engine.flink.service.impl;
 
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.common.util.BeanUtil;
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJar;
-import cn.sliew.scaleph.dao.mapper.master.flink.FlinkArtifactJarMapper;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
+import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactJarMapper;
 import cn.sliew.scaleph.engine.flink.service.FlinkArtifactJarService;
 import cn.sliew.scaleph.engine.flink.service.convert.FlinkArtifactJarConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactJarDTO;
@@ -44,19 +44,19 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
     @Autowired
     private FileSystemService fileSystemService;
     @Autowired
-    private FlinkArtifactJarMapper flinkArtifactJarMapper;
+    private WsFlinkArtifactJarMapper flinkArtifactJarMapper;
 
     @Override
     public int update(FlinkArtifactJarDTO params) {
-        FlinkArtifactJar jar = FlinkArtifactJarConvert.INSTANCE.toDo(params);
+        WsFlinkArtifactJar jar = FlinkArtifactJarConvert.INSTANCE.toDo(params);
         return this.flinkArtifactJarMapper.updateById(jar);
     }
 
     @Override
     public Page<FlinkArtifactJarDTO> list(FlinkArtifactJarParam param) {
-        Page<FlinkArtifactJar> page = new Page<>(param.getCurrent(), param.getPageSize());
-        final FlinkArtifactJar flinkArtifactJar = BeanUtil.copy(param, new FlinkArtifactJar());
-        final Page<FlinkArtifactJar> jarPage = flinkArtifactJarMapper.list(page, flinkArtifactJar);
+        Page<WsFlinkArtifactJar> page = new Page<>(param.getCurrent(), param.getPageSize());
+        final WsFlinkArtifactJar wsFlinkArtifactJar = BeanUtil.copy(param, new WsFlinkArtifactJar());
+        final Page<WsFlinkArtifactJar> jarPage = flinkArtifactJarMapper.list(page, wsFlinkArtifactJar);
         Page<FlinkArtifactJarDTO> result =
                 new Page<>(jarPage.getCurrent(), jarPage.getSize(), jarPage.getTotal());
         result.setRecords(FlinkArtifactJarConvert.INSTANCE.toDto(jarPage.getRecords()));
@@ -65,13 +65,13 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
 
     @Override
     public FlinkArtifactJarDTO selectOne(Long id) {
-        final FlinkArtifactJar record = flinkArtifactJarMapper.selectOne(id);
+        final WsFlinkArtifactJar record = flinkArtifactJarMapper.selectOne(id);
         return FlinkArtifactJarConvert.INSTANCE.toDto(record);
     }
 
     @Override
     public int deleteOne(Long id) throws ScalephException {
-        FlinkArtifactJar jar = flinkArtifactJarMapper.isUsed(id);
+        WsFlinkArtifactJar jar = flinkArtifactJarMapper.isUsed(id);
         if (jar != null) {
             throw new ScalephException(I18nUtil.get("response.error.job.artifact.jar"));
         }
@@ -84,7 +84,7 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
         try (final InputStream inputStream = file.getInputStream()) {
             fileSystemService.upload(inputStream, path);
         }
-        FlinkArtifactJar record = FlinkArtifactJarConvert.INSTANCE.toDo(param);
+        WsFlinkArtifactJar record = FlinkArtifactJarConvert.INSTANCE.toDo(param);
         record.setFileName(file.getOriginalFilename());
         record.setPath(path);
         flinkArtifactJarMapper.insert(record);

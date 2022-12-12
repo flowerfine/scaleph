@@ -27,8 +27,8 @@ import cn.sliew.scaleph.core.di.service.convert.DiProjectConvert;
 import cn.sliew.scaleph.core.di.service.dto.DiProjectDTO;
 import cn.sliew.scaleph.core.di.service.param.DiProjectParam;
 import cn.sliew.scaleph.dao.DataSourceConstants;
-import cn.sliew.scaleph.dao.entity.master.di.DiProject;
-import cn.sliew.scaleph.dao.mapper.master.di.DiProjectMapper;
+import cn.sliew.scaleph.dao.entity.master.ws.WsProject;
+import cn.sliew.scaleph.dao.mapper.master.ws.WsProjectMapper;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.I18nUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -48,19 +48,19 @@ import java.util.stream.Collectors;
 public class DiProjectServiceImpl implements DiProjectService {
 
     @Autowired
-    private DiProjectMapper diProjectMapper;
+    private WsProjectMapper diProjectMapper;
     @Autowired
     private DiJobService diJobService;
 
     @Override
     public Page<DiProjectDTO> listByPage(DiProjectParam param) {
         Page<DiProjectDTO> result = new Page<>();
-        Page<DiProject> list = this.diProjectMapper.selectPage(
+        Page<WsProject> list = this.diProjectMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
-                new LambdaQueryWrapper<DiProject>()
-                        .like(StrUtil.isNotEmpty(param.getProjectCode()), DiProject::getProjectCode,
+                new LambdaQueryWrapper<WsProject>()
+                        .like(StrUtil.isNotEmpty(param.getProjectCode()), WsProject::getProjectCode,
                                 param.getProjectCode())
-                        .like(StrUtil.isNotEmpty(param.getProjectName()), DiProject::getProjectName,
+                        .like(StrUtil.isNotEmpty(param.getProjectName()), WsProject::getProjectName,
                                 param.getProjectName())
         );
         List<DiProjectDTO> dtoList = DiProjectConvert.INSTANCE.toDto(list.getRecords());
@@ -73,7 +73,7 @@ public class DiProjectServiceImpl implements DiProjectService {
 
     @Override
     public List<DictVO> listAll() {
-        List<DiProject> list = diProjectMapper.selectList(null);
+        List<WsProject> list = diProjectMapper.selectList(null);
         return list.stream()
                 .map(project -> new DictVO(String.valueOf(project.getId()), project.getProjectCode()))
                 .collect(Collectors.toList());
@@ -81,21 +81,21 @@ public class DiProjectServiceImpl implements DiProjectService {
 
     @Override
     public DiProjectDTO selectOne(Serializable id) {
-        DiProject project = diProjectMapper.selectById(id);
+        WsProject project = diProjectMapper.selectById(id);
         return DiProjectConvert.INSTANCE.toDto(project);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public int insert(DiProjectDTO dto) {
-        DiProject project = DiProjectConvert.INSTANCE.toDo(dto);
+        WsProject project = DiProjectConvert.INSTANCE.toDo(dto);
         int result = diProjectMapper.insert(project);
         return result;
     }
 
     @Override
     public int update(DiProjectDTO dto) {
-        DiProject project = DiProjectConvert.INSTANCE.toDo(dto);
+        WsProject project = DiProjectConvert.INSTANCE.toDo(dto);
         return diProjectMapper.updateById(project);
     }
 
