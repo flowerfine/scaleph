@@ -18,23 +18,22 @@
 
 package cn.sliew.scaleph.api.controller.admin;
 
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.security.web.OnlineUserService;
-import cn.sliew.scaleph.system.vo.ResponseVO;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.security.service.SecPrivilegeService;
 import cn.sliew.scaleph.security.service.SecRolePrivilegeService;
 import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;
 import cn.sliew.scaleph.security.service.dto.SecRolePrivilegeDTO;
+import cn.sliew.scaleph.security.service.param.SecPrivilegeAddParam;
+import cn.sliew.scaleph.security.service.param.SecPrivilegeListParam;
+import cn.sliew.scaleph.security.service.param.SecPrivilegeUpdateParam;
+import cn.sliew.scaleph.security.web.OnlineUserService;
+import cn.sliew.scaleph.system.vo.ResponseVO;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +41,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -67,6 +70,15 @@ public class SecPrivilegeController {
     private OnlineUserService onlineUserService;
 
     @Logging
+    @GetMapping("list")
+    @ApiOperation(value = "查询权限树", notes = "查询权限树")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
+    public ResponseEntity<Page<SecPrivilegeDTO>> listByPage(@Valid SecPrivilegeListParam param) {
+        Page<SecPrivilegeDTO> privilegeList = this.secPrivilegeService.listByPage(param);
+        return new ResponseEntity<>(privilegeList, HttpStatus.OK);
+    }
+
+    @Logging
     @GetMapping
     @ApiOperation(value = "查询权限树", notes = "查询权限树")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
@@ -78,14 +90,23 @@ public class SecPrivilegeController {
         treeNodeConfig.setNameKey("privilegeName");
         treeNodeConfig.setWeightKey("privilegeCode");
         List<Tree<Long>> treeList =
-            TreeUtil.build(privilegeList, 0L, treeNodeConfig, (treeNode, tree) -> {
-                tree.setId(treeNode.getId());
-                tree.setParentId(treeNode.getPid());
-                tree.setName(treeNode.getPrivilegeName());
-                tree.setWeight(treeNode.getPrivilegeCode());
-            });
+                TreeUtil.build(privilegeList, 0L, treeNodeConfig, (treeNode, tree) -> {
+                    tree.setId(treeNode.getId());
+                    tree.setParentId(treeNode.getPid());
+                    tree.setName(treeNode.getPrivilegeName());
+                    tree.setWeight(treeNode.getPrivilegeCode());
+                });
 
         return new ResponseEntity<>(treeList, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("list/{pid}")
+    @ApiOperation(value = "查询权限树", notes = "查询权限树")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
+    public ResponseEntity<ResponseVO<List<SecPrivilegeDTO>>> listByPid(@PathVariable("pid") Long pid) {
+        List<SecPrivilegeDTO> privilegeList = this.secPrivilegeService.listByPid(pid);
+        return new ResponseEntity<>(ResponseVO.sucess(privilegeList), HttpStatus.OK);
     }
 
     @Logging
@@ -113,12 +134,12 @@ public class SecPrivilegeController {
                                                      @NotNull String resourceType) {
         List<Long> privilegeList = JSONUtil.toList(privilegeIds, Long.class);
         List<SecRolePrivilegeDTO> oldPrivilegeList =
-            this.secRolePrivilegeService.listByRoleId(roleId, resourceType);
+                this.secRolePrivilegeService.listByRoleId(roleId, resourceType);
         List<Long> tmpList = new ArrayList<>(privilegeList.size());
         tmpList.addAll(privilegeList);
         //grant new user
         tmpList.removeAll(oldPrivilegeList.stream().map(SecRolePrivilegeDTO::getPrivilegeId)
-            .collect(Collectors.toList()));
+                .collect(Collectors.toList()));
         for (Long privilegeId : tmpList) {
             SecRolePrivilegeDTO userPrivilege = new SecRolePrivilegeDTO();
             userPrivilege.setRoleId(roleId);
@@ -132,6 +153,42 @@ public class SecPrivilegeController {
             }
         }
         this.onlineUserService.disableOnlineCacheRole(roleId);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PutMapping
+    @ApiOperation(value = "新增权限", notes = "新增权限")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_ADD)")
+    public ResponseEntity<ResponseVO> add(@Validated @RequestBody SecPrivilegeAddParam param) {
+        secPrivilegeService.insert(param);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
+    }
+
+    @Logging
+    @PostMapping("{id}")
+    @ApiOperation(value = "修改权限", notes = "修改权限")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_EDIT)")
+    public ResponseEntity<ResponseVO> editMetaSystem(@PathVariable("id") Long id, @Validated @RequestBody SecPrivilegeUpdateParam param) {
+        secPrivilegeService.update(id, param);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping(path = "/{id}")
+    @ApiOperation(value = "删除权限", notes = "删除权限")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_DELETE)")
+    public ResponseEntity<ResponseVO> deleteMetaSystem(@PathVariable("id") Long id) {
+        secPrivilegeService.deleteById(id);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping(path = "/batch")
+    @ApiOperation(value = "批量删除权限", notes = "批量删除权限")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_DELETE)")
+    public ResponseEntity<ResponseVO> deleteMetaSystem(@RequestBody List<Long> ids) {
+        secPrivilegeService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 

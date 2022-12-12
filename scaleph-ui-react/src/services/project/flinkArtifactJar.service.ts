@@ -1,12 +1,12 @@
 import { PageResponse, ResponseBody } from '@/app.d';
 import { USER_AUTH } from '@/constant';
-import { FlinkArtifactJar, FlinkArtifactJarListParam, FlinkArtifactJarParam } from './typings';
+import { FlinkArtifactJar, FlinkArtifactJarParam } from './typings';
 import { request } from 'umi';
 
 export const FlinkArtifactJarService = {
   url: '/api/flink/artifact/jar',
 
-  list: async (queryParam: FlinkArtifactJarListParam) => {
+  list: async (queryParam: FlinkArtifactJarParam) => {
     return request<PageResponse<FlinkArtifactJar>>(`${FlinkArtifactJarService.url}`, {
       method: 'GET',
       params: queryParam,
@@ -20,7 +20,7 @@ export const FlinkArtifactJarService = {
       return result;
     });
   },
-  update: async (row: FlinkArtifactJarParam) => {
+  update: async (row: FlinkArtifactJar) => {
     return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}`, {
       method: 'POST',
       data: row,
@@ -41,7 +41,7 @@ export const FlinkArtifactJarService = {
       method: 'DELETE',
     });
   },
-  upload: async (uploadParam: FlinkArtifactJarParam) => {
+  upload: async (uploadParam: FlinkArtifactJar) => {
     return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}`, {
       method: 'PUT',
       data: uploadParam,

@@ -7,7 +7,8 @@ import {DiJob} from "@/services/project/typings";
 import {getIntl, getLocale} from "umi";
 import {ProForm, ProFormDigit, ProFormGroup, ProFormList, ProFormText} from "@ant-design/pro-components";
 import {useEffect} from "react";
-import { StepSchemaService } from "../schema";
+import {StepSchemaService} from "../helper";
+import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
 const SinkHttpFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -57,12 +58,7 @@ const SinkHttpFileStepForm: React.FC<ModalFormProps<{
         rules={[{required: true}, {max: 120}]}
         colProps={{span: 24}}
       />
-      <ProFormText
-        name={HttpParams.url}
-        label={intl.formatMessage({id: 'pages.project.di.step.http.url'})}
-        rules={[{required: true}]}
-        colProps={{span: 24}}
-      />
+      <DataSourceItem dataSource={"Http"}/>
       <ProFormList
         name={HttpParams.headerArray}
         label={intl.formatMessage({id: 'pages.project.di.step.http.headers'})}

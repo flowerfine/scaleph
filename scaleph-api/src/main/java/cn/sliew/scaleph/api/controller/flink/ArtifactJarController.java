@@ -50,7 +50,7 @@ public class ArtifactJarController {
     @Logging
     @PutMapping
     @ApiOperation(value = "上传 artifact jar", notes = "上传artifact jar")
-    public ResponseEntity<ResponseVO> upload(@Valid FlinkArtifactJarParam param, @RequestPart("file") MultipartFile file) throws IOException {
+    public ResponseEntity<ResponseVO> upload(@Valid FlinkArtifactJarDTO param, @RequestPart("file") MultipartFile file) throws IOException {
         flinkArtifactJarService.upload(param, file);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -70,7 +70,7 @@ public class ArtifactJarController {
     @Logging
     @PostMapping
     @ApiOperation(value = "修改 artifact jar", notes = "修改 artifact jar")
-    public ResponseEntity<ResponseVO> update(@Valid @RequestBody FlinkArtifactJarParam param) {
+    public ResponseEntity<ResponseVO> update(@Valid @RequestBody FlinkArtifactJarDTO param) {
         this.flinkArtifactJarService.update(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }

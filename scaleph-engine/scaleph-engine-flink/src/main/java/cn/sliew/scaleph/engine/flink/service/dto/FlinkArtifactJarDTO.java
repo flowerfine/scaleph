@@ -44,7 +44,7 @@ public class FlinkArtifactJarDTO extends BaseDTO {
     @ApiModelProperty("Flink Artifact")
     private FlinkArtifactDTO flinkArtifact;
 
-    @NotBlank
+    @NotNull
     @ApiModelProperty("flink 版本")
     private FlinkVersion flinkVersion;
 
@@ -58,6 +58,7 @@ public class FlinkArtifactJarDTO extends BaseDTO {
     @ApiModelProperty("Jar 存储路径")
     private String path;
 
+    @NotNull
     @ApiModelProperty("Jar 版本")
     private String version;
 

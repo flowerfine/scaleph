@@ -36,14 +36,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.sink.Neo4jSinkProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.Neo4jProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.neo4j.sink.Neo4jSinkProperties.QUERY_PARAM_POSITION;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class Neo4jSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public Neo4jSinkPlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Write data to Neo4j.",
+                "Neo4j sink connector",
                 Neo4jSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(DATABASE);

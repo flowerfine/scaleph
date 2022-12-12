@@ -147,3 +147,23 @@ CREATE TABLE flink_job_log
     PRIMARY KEY (id),
     UNIQUE KEY uniq_job (flink_job_code, job_id)
 ) ENGINE = INNODB COMMENT = 'flink作业日志';
+
+DROP TABLE IF EXISTS flink_catalog_configuration;
+CREATE TABLE flink_catalog_configuration
+(
+    id                BIGINT       NOT NULL AUTO_INCREMENT,
+    flink_catalog_type_id BIGINT       NOT NULL,
+    flink_catalog_type_name VARCHAR(64)       NOT NULL,
+    catalog_name VARCHAR(64)       NOT NULL,
+    default_database VARCHAR(64)       NOT NULL,
+    hive_conf_dir VARCHAR(64) default NULL,
+    base_url VARCHAR(64) default NULL,
+    username VARCHAR(64) default NULL,
+    password VARCHAR(64) default NULL,
+    status VARCHAR(16),
+    create_time       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_time       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+) ENGINE = INNODB COMMENT = 'flink catalog configuration';
+    UNIQUE KEY uniq_job (flink_job_code, job_id)
+) ENGINE = INNODB COMMENT = 'flink作业日志';

@@ -47,8 +47,8 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
     private FlinkArtifactJarMapper flinkArtifactJarMapper;
 
     @Override
-    public int update(FlinkArtifactJarParam params) {
-        FlinkArtifactJar jar = params.toDo();
+    public int update(FlinkArtifactJarDTO params) {
+        FlinkArtifactJar jar = FlinkArtifactJarConvert.INSTANCE.toDo(params);
         return this.flinkArtifactJarMapper.updateById(jar);
     }
 
@@ -79,12 +79,12 @@ public class FlinkArtifactJarServiceImpl implements FlinkArtifactJarService {
     }
 
     @Override
-    public void upload(FlinkArtifactJarParam param, MultipartFile file) throws IOException {
+    public void upload(FlinkArtifactJarDTO param, MultipartFile file) throws IOException {
         String path = getFlinkArtifactPath(param.getVersion(), file.getOriginalFilename());
         try (final InputStream inputStream = file.getInputStream()) {
             fileSystemService.upload(inputStream, path);
         }
-        FlinkArtifactJar record = param.toDo();
+        FlinkArtifactJar record = FlinkArtifactJarConvert.INSTANCE.toDo(param);
         record.setFileName(file.getOriginalFilename());
         record.setPath(path);
         flinkArtifactJarMapper.insert(record);

@@ -228,12 +228,9 @@ export type FlinkArtifactJar = {
   path?: string;
   version?: string;
   jarParams?: { [key: string]: any };
+  file?: UploadFile<any>;
   createTime?: Date;
   updateTime?: Date;
-};
-
-export type FlinkArtifactJarListParam = QueryParam & {
-  flinkArtifactId?: number;
 };
 
 export type FlinkArtifactJarParam = QueryParam & {
@@ -241,9 +238,6 @@ export type FlinkArtifactJarParam = QueryParam & {
   flinkArtifactId: number;
   version?: string;
   flinkVersion: string;
-  entryClass?: string;
-  file?: UploadFile<any>;
-  jarParams: string;
 };
 
 export type FlinkClusterConfig = {

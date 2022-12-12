@@ -35,9 +35,9 @@ public interface FlinkArtifactJarService {
 
     int deleteOne(Long id) throws ScalephException;
 
-    void upload(FlinkArtifactJarParam param, MultipartFile file) throws IOException;
+    void upload(FlinkArtifactJarDTO param, MultipartFile file) throws IOException;
 
-    int update(FlinkArtifactJarParam params);
+    int update(FlinkArtifactJarDTO params);
 
     String download(Long id, OutputStream outputStream) throws IOException;
 }

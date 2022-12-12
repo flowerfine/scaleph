@@ -8,6 +8,12 @@ It trys to provide one-stop data platform for simplifying development of data ap
 
 Scaleph is driven by personal interest and evolves actively through faithful developer, flowerfine is open and appreciates any helps.
 
+## News
+
+Congratulation, Scaleph has been ready for releasing `v1.0.0` version and providing full data integration scene backened by SeaTunnel on `2023-01-01`!
+
+Now, community is working on preparation job such as docs, bug fix, or deploy tools. There are so many miscellaneous to handle and we are really looking forward any help from you! Just associate us on issue or wechat group and make scaleph better.
+
 ## Features
 
 * Provide Flink ecosystem to every data developer easily.
@@ -112,7 +118,7 @@ Thanks for all people who already contributed to Scaleph!
 
 * Chinese user:
 
-   ![wechat](docs/image/1371669250114_.pic.jpg)
+   ![wechat](docs/image/1381670200462_.pic.jpg)
 
 ## Sponsor
 

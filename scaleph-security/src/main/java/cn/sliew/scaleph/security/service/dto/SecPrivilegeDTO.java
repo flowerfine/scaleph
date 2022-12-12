@@ -18,12 +18,14 @@
 
 package cn.sliew.scaleph.security.service.dto;
 
+import cn.sliew.scaleph.common.dict.security.ResourceType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
  * <p>
@@ -46,12 +48,15 @@ public class SecPrivilegeDTO extends BaseDTO {
     private String privilegeName;
 
     @ApiModelProperty(value = "资源类型")
-    private DictVO resourceType;
+    private ResourceType resourceType;
 
     @ApiModelProperty(value = "资源路径")
     private String resourcePath;
 
     @ApiModelProperty(value = "上级权限id")
     private Long pid;
+
+    @ApiModelProperty("下级资源")
+    private List<SecPrivilegeDTO> children;
 
 }

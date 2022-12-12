@@ -1,24 +1,15 @@
 import {ModalFormProps} from '@/app.d';
-import {DICT_TYPE} from '@/constant';
-import {DictDataService} from '@/services/admin/dictData.service';
-import {DataSourceService} from '@/services/project/dataSource.service';
 import {JobService} from '@/services/project/job.service';
-import {DiJob, MetaDataSourceParam} from '@/services/project/typings';
+import {DiJob} from '@/services/project/typings';
 import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {
-  ProForm,
-  ProFormGroup,
-  ProFormList,
-  ProFormSelect,
-  ProFormText,
-  ProFormTextArea
-} from "@ant-design/pro-components";
+import {ProForm, ProFormGroup, ProFormList, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {InfoCircleOutlined} from "@ant-design/icons";
-import { ClickHouseParams, SchemaParams, STEP_ATTR_TYPE } from '../../constant';
-import { StepSchemaService } from '../schema';
+import {ClickHouseParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
+import {StepSchemaService} from '../helper';
+import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
 const SourceClickHouseStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -67,39 +58,7 @@ const SourceClickHouseStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
           rules={[{required: true}, {max: 120}]}
         />
-        <ProFormSelect
-          name={"dataSourceType"}
-          label={intl.formatMessage({id: 'pages.project.di.step.dataSourceType'})}
-          colProps={{span: 6}}
-          initialValue={"ClickHouse"}
-          fieldProps={{
-            disabled: true
-          }}
-          request={(() => DictDataService.listDictDataByType(DICT_TYPE.datasourceType))}
-        />
-        <ProFormSelect
-          name={STEP_ATTR_TYPE.dataSource}
-          label={intl.formatMessage({id: 'pages.project.di.step.dataSource'})}
-          rules={[{required: true}]}
-          colProps={{span: 18}}
-          dependencies={["dataSourceType"]}
-          request={((params, props) => {
-            const param: MetaDataSourceParam = {
-              datasourceName: params.keyWords,
-              datasourceType: params.dataSourceType,
-            };
-            return DataSourceService.listDataSourceByPage(param).then((response) => {
-              return response.data.map((item) => {
-                return {label: item.datasourceName, value: item.id, item: item};
-              });
-            });
-          })}
-        />
-        <ProFormText
-          name={ClickHouseParams.database}
-          label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.database'})}
-          rules={[{required: true}]}
-        />
+        <DataSourceItem dataSource={"ClickHouse"}/>
         <ProFormTextArea
           name={ClickHouseParams.sql}
           label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.sql'})}

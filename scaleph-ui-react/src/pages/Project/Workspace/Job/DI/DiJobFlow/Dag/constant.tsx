@@ -69,6 +69,7 @@ export const SchemaParams = {
   fields: 'fields',
   field: 'field',
   type: 'type',
+  delimiter: 'delimiter',
 }
 
 export const FakeParams = {
@@ -218,6 +219,8 @@ export const ClickHouseParams = {
   splitMode: 'split_mode',
   shardingKey: 'sharding_key',
   clickhouseConf: 'clickhouse_conf',
+  key: 'key',
+  value: 'value',
   sql: 'sql',
   database: 'database',
 };
@@ -242,9 +245,20 @@ export const KafkaParams = {
   topic: 'topic',
   pattern: 'pattern',
   kafkaConf: 'kafkaConf',
+  key: 'key',
+  value: 'value',
   consumerGroup: 'consumer.group',
   commit_on_checkpoint: 'commit_on_checkpoint',
-  bootstrapServers: 'bootstrap.servers'
+  format: 'format',
+  schema: 'schema',
+  fieldDelimiter: 'field_delimiter',
+  semantic: 'semantic',
+  partitionKey: 'partition_key',
+  partition: 'partition',
+  assignPartitions: 'assign_partitions',
+  assignPartitionArray: 'assignPartitionArray',
+  assignPartition: 'assignPartition',
+  transactionPrefix: 'transaction_prefix',
 };
 
 export const IoTDBParams = {
@@ -354,4 +368,21 @@ export const SentryParams = {
   maxCacheItems: 'maxCacheItems',
   flushTimeoutMillis: 'flushTimeoutMillis',
   maxQueueSize: 'maxQueueSize'
+};
+
+export const InfluxDBParams = {
+  url: 'url',
+  username: 'username',
+  password: 'password',
+  database: 'database',
+  sql: 'sql',
+  fields: 'fields',
+  fieldArray: 'fieldArray',
+  splitColumn: 'split_column',
+  lowerBound: 'lower_bound',
+  upperBound: 'upper_bound',
+  partitionNum: 'partition_num',
+  epoch: 'epoch',
+  queryTimeoutSec: 'query_timeout_sec',
+  connectTimeoutMs: 'connect_timeout_ms'
 };

@@ -58,6 +58,9 @@ import SinkNeo4jStepForm from "../steps/sink/sink-neo4j-step";
 import SinkSentryStepForm from "../steps/sink/sink-sentry-step";
 import SourceS3FileStepForm from "../steps/source/source-s3-file-step";
 import SinkS3FileStepForm from "../steps/sink/sink-s3-file-step";
+import SinkKafkaStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-kafka-step";
+import SourceNeo4jStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-neo4j-step";
+import SourceInfluxDBStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-influxdb-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -280,6 +283,8 @@ export class EditNodeCommand implements ICommand {
       return (<SinkKuduStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'Kafka'){
       return (<SourceKafkaStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'Kafka'){
+      return (<SinkKafkaStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'IoTDB'){
       return (<SourceIoTDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'IoTDB'){
@@ -298,10 +303,14 @@ export class EditNodeCommand implements ICommand {
       return (<SinkDatahubStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'elasticsearch'){
       return (<SinkElasticsearchStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
-    } else if(type === 'sink' && name === 'Neo4j'){
+    } else if(type === 'source' && name === 'Neo4j'){
+      return (<SourceNeo4jStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    }  else if(type === 'sink' && name === 'Neo4j'){
       return (<SinkNeo4jStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'Sentry'){
       return (<SinkSentryStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'InfluxDB'){
+      return (<SourceInfluxDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
       return <></>;
     }

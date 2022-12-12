@@ -18,73 +18,69 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.source;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.source.KafkaSourceProperties.BOOTSTRAP_SERVERS;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.source.KafkaSourceProperties.COMMIT_ON_CHECKPOINT;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.source.KafkaSourceProperties.CONSUMER_GROUP;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.source.KafkaSourceProperties.KAFKA_CONF;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.source.KafkaSourceProperties.PATTERN;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.source.KafkaSourceProperties.TOPIC;
-
-import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.common.param.PropertyUtil;
-import cn.sliew.scaleph.plugin.datasource.kafka.KafkaProperties;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
+import cn.sliew.scaleph.ds.modal.mq.KafkaDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.KafkaProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.kafka.source.KafkaSourceProperties.*;
+
 /**
  * @author lizu
- * @since 2022/10/17
  */
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class KafkaSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public KafkaSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-            "Kafka Source Plugin",
-            KafkaSourcePlugin.class.getName());
+                "Kafka Source Plugin",
+                KafkaSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(TOPIC);
-        props.add(BOOTSTRAP_SERVERS);
         props.add(PATTERN);
         props.add(CONSUMER_GROUP);
         props.add(COMMIT_ON_CHECKPOINT);
-        props.add(KAFKA_CONF);
-
+        props.add(SCHEMA);
+        props.add(FORMAT);
+        props.add(FIELD_DELIMITER);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
+
+    @Override
+    public List<ResourceProperty> getRequiredResources() {
+        return Collections.singletonList(ResourceProperties.DATASOURCE_RESOURCE);
+    }
+
     @Override
     public ObjectNode createConf() {
-        ObjectNode objectNode = JacksonUtil.createObjectNode();
-        for (PropertyDescriptor descriptor : getSupportedProperties()) {
-            if (properties.contains(descriptor)) {
-                if (BOOTSTRAP_SERVERS.getName().equals(descriptor.getName())) {
-                    String server = properties.getValue(KafkaProperties.BOOTSTRAP_SERVERS);
-                    objectNode.put(BOOTSTRAP_SERVERS.getName(), server);
-                } else if (KAFKA_CONF.getName().equals(descriptor.getName())) {
-                    Map<String, Object> map = PropertyUtil
-                        .formatPropFromStr(properties.getValue(descriptor), "\n", "=");
-                    for (Map.Entry<String, Object> entry : map.entrySet()) {
-                        objectNode.put("kafka." + entry.getKey(), String.valueOf(entry.getValue()));
-                    }
-                } else {
-                    objectNode.put(descriptor.getName(), properties.getValue(descriptor));
-                }
+        ObjectNode conf = super.createConf();
+        JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
+        KafkaDataSource dataSource = (KafkaDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(BOOTSTRAP_SERVERS.getName(), dataSource.getBootstrapServers());
+        for (Map.Entry<String, Object> entry : properties.toMap().entrySet()) {
+            if (entry.getKey().startsWith(KAFKA_CONF.getName())) {
+                conf.putPOJO(entry.getKey(), entry.getValue());
             }
         }
-        return objectNode;
+        return conf;
     }
 
     @Override

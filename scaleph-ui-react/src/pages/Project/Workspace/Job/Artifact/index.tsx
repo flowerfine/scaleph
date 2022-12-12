@@ -53,7 +53,7 @@ const JobArtifactView: React.FC = () => {
       render: (_, record) => (
         <>
           <Space>
-            {access.canAccess(PRIVILEGE_CODE.datadevJobShow) && (
+            {access.canAccess(PRIVILEGE_CODE.workspaceJobShow) && (
               <Tooltip title={intl.formatMessage({ id: 'app.common.operate.upload.label' })}>
                 <Button
                   shape="default"
@@ -72,7 +72,6 @@ const JobArtifactView: React.FC = () => {
                   type="link"
                   icon={<EditOutlined />}
                   onClick={() => {
-                    console.log(record);
                     setFlinkArtifactData({ visiable: true, data: record });
                   }}
                 ></Button>

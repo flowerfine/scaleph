@@ -29,6 +29,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.util.StringUtils;
 
+import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +44,7 @@ public class ElasticsearchDataSource extends AbstractDataSource {
         return DataSourceType.ELASTICSEARCH;
     }
 
+    @NotBlank
     @ApiModelProperty("hosts")
     private String hosts;
 

@@ -1,6 +1,6 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {BaseFileParams, HDFSFileParams, STEP_ATTR_TYPE} from "../../constant";
+import {BaseFileParams, STEP_ATTR_TYPE} from "../../constant";
 import {JobService} from "@/services/project/job.service";
 import {Form, message, Modal} from "antd";
 import {DiJob} from "@/services/project/typings";
@@ -14,7 +14,7 @@ import {
   ProFormText
 } from "@ant-design/pro-components";
 import {useEffect} from "react";
-import {InfoCircleOutlined} from "@ant-design/icons";
+import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
 const SinkHdfsFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -61,15 +61,7 @@ const SinkHdfsFileStepForm: React.FC<ModalFormProps<{
         label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
         rules={[{required: true}, {max: 120}]}
       />
-      <ProFormText
-        name={HDFSFileParams.defaultFS}
-        label={intl.formatMessage({id: 'pages.project.di.step.hdfsFile.defaultFS'})}
-        rules={[{required: true}]}
-        tooltip={{
-          title: intl.formatMessage({ id: 'pages.project.di.step.hdfsFile.defaultFS.tooltip' }),
-          icon: <InfoCircleOutlined />,
-        }}
-      />
+      <DataSourceItem dataSource={"HDFS"}/>
       <ProFormText
         name={BaseFileParams.path}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.path'})}

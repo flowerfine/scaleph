@@ -9,6 +9,7 @@ export default {
   'pages.project.updateTime': '更新时间',
   'pages.project.open': '进入项目',
   'pages.project.projectCode.placeholder': '请输入项目编码',
+
   'pages.project.di.dataSource': '数据源',
   'pages.project.di.dataSource.dataSourceName': '数据源名称',
   'pages.project.di.dataSource.dataSourceType': '数据源类型',
@@ -38,6 +39,7 @@ export default {
   'pages.project.di.dataSource.dataSourceType.other': '其他',
   'pages.project.di.dataSource.clickhosue.host.tooltip':
     'ClickHouse cluster address,allowing multiple hosts to be specified. Such as "host1:8123,host2:8123"',
+
   // 'pages.project.di.batch':''
   'pages.project.dir': '目录',
   'pages.project.dir.directoryName': '目录名称',
@@ -106,17 +108,16 @@ export default {
   'pages.project.di.step.dataSourceType': '数据源类型',
   'pages.project.di.step.dataSource': '数据源',
 
-  'pages.project.di.step.bulkSize': '批量提交记录数量',
-  'pages.project.di.step.host': '主机地址',
-  'pages.project.di.step.port': '端口号',
-  'pages.project.di.step.maxRetries': '重试次数',
-
   // schema
   'pages.project.di.step.schema': 'Schema',
   'pages.project.di.step.schema.tooltip': 'Schema 结构体',
   'pages.project.di.step.schema.fields': 'Field',
   'pages.project.di.step.schema.fields.field': 'field',
   'pages.project.di.step.schema.fields.type': 'type',
+  'pages.project.di.step.schema.delimiter': 'Field Delimiter',
+
+  // socket
+  'pages.project.di.step.socket.maxRetries': '重试次数',
 
   // jdbc
   'pages.project.di.step.jdbc.connectionCheckTimeoutSec': '数据源连接超时（秒）',
@@ -257,6 +258,7 @@ export default {
 
   // clickhouse
   'pages.project.di.step.clickhosue.table': '导出表名',
+  'pages.project.di.step.clickhosue.bulkSize': '导出表名',
   'pages.project.di.step.clickhosue.fields': '导出字段信息',
   'pages.project.di.step.clickhosue.fields.tooltip': 'For example, : id,name',
   'pages.project.di.step.clickhosue.splitMode': '是否分片',
@@ -266,6 +268,11 @@ export default {
   'pages.project.di.step.clickhosue.clickhouseConf': 'clickhouse jdbc参数',
   'pages.project.di.step.clickhosue.clickhouseConf.tooltip':
     ' For example, the way to specify socket_timeout is: clickhouse.socket_timeout = 50000',
+  'pages.project.di.step.clickhosue.clickhouseConf.list': 'Property',
+  'pages.project.di.step.clickhosue.clickhouseConf.key': 'Property',
+  'pages.project.di.step.clickhosue.clickhouseConf.key.placeholder': 'socket_timeout',
+  'pages.project.di.step.clickhosue.clickhouseConf.value': 'Value',
+  'pages.project.di.step.clickhosue.clickhouseConf.value.placeholder': '50000',
   'pages.project.di.step.clickhosue.sql': 'SQL',
   'pages.project.di.step.clickhosue.database': '数据库',
 
@@ -292,10 +299,16 @@ export default {
 
   // kafka
   'pages.project.di.step.kafka.topic': 'Topic',
+  'pages.project.di.step.kafka.topic.placeholder': 'topic1,topic2',
   'pages.project.di.step.kafka.pattern': 'pattern',
-  'pages.project.di.step.kafka.conf': 'kafkaConf',
+  'pages.project.di.step.kafka.conf': 'Kafka Configuration',
   'pages.project.di.step.kafka.conf.tooltip':
     'The way to specify parameters is to add the prefix kafka. to the original parameter name. For example, the way to specify auto.offset.reset is: kafka.auto.offset.reset = latest',
+  'pages.project.di.step.kafka.conf.list': 'Configuration',
+  'pages.project.di.step.kafka.conf.key': 'Configuration',
+  'pages.project.di.step.kafka.conf.key.placeholder': 'auto.offset.reset',
+  'pages.project.di.step.kafka.conf.value': 'Value',
+  'pages.project.di.step.kafka.conf.value.placeholder': 'latest',
   'pages.project.di.step.kafka.pattern.tooltip':
     'If pattern is set to true,the regular expression for a pattern of topic names to read from. All topics in clients with names that match the specified regular expression will be subscribed by the consumer.',
   'pages.project.di.step.kafka.consumerGroup': 'consumerGroup',
@@ -304,6 +317,14 @@ export default {
   'pages.project.di.step.kafka.commit_on_checkpoint': 'commit_on_checkpoint',
   'pages.project.di.step.kafka.commit_on_checkpoint.tooltip':
     "If true the consumer's offset will be periodically committed in the background.\n",
+  'pages.project.di.step.kafka.format': 'Format',
+  'pages.project.di.step.kafka.fieldDelimiter': 'Field Delimiter',
+  'pages.project.di.step.kafka.semantic': 'Semantic',
+  'pages.project.di.step.kafka.partitionKey': 'Partition Key',
+  'pages.project.di.step.kafka.partition': 'Partition',
+  'pages.project.di.step.kafka.assignPartitions': 'Assign Partitions',
+  'pages.project.di.step.kafka.assignPartition': 'Partition',
+  'pages.project.di.step.kafka.transactionPrefix': 'Transaction Prefix',
 
   // iotdb
   'pages.project.di.step.iotdb.nodeUrls': 'Node URLs',
@@ -407,6 +428,18 @@ export default {
   'pages.project.di.step.sentry.maxCacheItems': 'Max Cache Items',
   'pages.project.di.step.sentry.flushTimeoutMillis': 'Flush Timeout(milliseconds)',
   'pages.project.di.step.sentry.maxQueueSize': 'Max Queue Size',
+
+  // influxdb
+  'pages.project.di.step.influxdb.database': 'Database',
+  'pages.project.di.step.influxdb.sql': 'SQL',
+  'pages.project.di.step.influxdb.fields': 'fields',
+  'pages.project.di.step.influxdb.splitColumn': 'Split Column',
+  'pages.project.di.step.influxdb.lowerBound': 'Lower Bound',
+  'pages.project.di.step.influxdb.upperBound': 'Upper Bound',
+  'pages.project.di.step.influxdb.partitionNum': 'Partition Num',
+  'pages.project.di.step.influxdb.epoch': 'Epoch',
+  'pages.project.di.step.influxdb.queryTimeoutSec': 'Query Timeout(seconds)',
+  'pages.project.di.step.influxdb.connectTimeoutMs': 'Connect Timeout(milliseconds)',
 
   'pages.project.job.create': '创建作业',
   'pages.project.job.createTime': '创建时间',

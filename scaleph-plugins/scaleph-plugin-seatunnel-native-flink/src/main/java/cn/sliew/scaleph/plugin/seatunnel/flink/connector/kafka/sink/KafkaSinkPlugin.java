@@ -71,7 +71,7 @@ public class KafkaSinkPlugin extends SeatunnelNativeFlinkPlugin {
                 if (PRODUCER_BOOTSTRAP_SERVERS.getName().equals(descriptor.getName())) {
                     DictVO dictVO = JacksonUtil.parseJsonString(properties.getValue(descriptor), DictVO.class);
                     MetaDatasourceService metaDatasourceService = SpringApplicationContextUtil.getBean(MetaDatasourceService.class);
-                    MetaDatasourceDTO metaDatasource = metaDatasourceService.selectOne(dictVO.getValue(), false);
+                    MetaDatasourceDTO metaDatasource = metaDatasourceService.selectOne(Long.parseLong(dictVO.getValue()), false);
                     String bootStrapServers = metaDatasource.getProps().get(KafkaProperties.BOOTSTRAP_SERVERS.getName()).toString();
                     objectNode.put(PRODUCER_BOOTSTRAP_SERVERS.getName().replace('_', '.'), bootStrapServers);
                 } else if (PRODUCER_CONF.getName().equals(descriptor.getName())) {

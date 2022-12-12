@@ -67,9 +67,9 @@ const FlinkArtifactJarForm: React.FC<ModalFormProps<FlinkArtifactJar>> = ({
       onOk={() => {
         data.id
           ? form.validateFields().then((values) => {
-              const params: FlinkArtifactJarParam = {
+              const params: FlinkArtifactJar = {
                 id: values.id,
-                flinkArtifactId: data.flinkArtifact?.id as number,
+                flinkArtifact: { id: data.flinkArtifact?.id as number },
                 version: values.version,
                 flinkVersion: values.flinkVersion,
                 entryClass: values.entryClass,
@@ -83,8 +83,8 @@ const FlinkArtifactJarForm: React.FC<ModalFormProps<FlinkArtifactJar>> = ({
               });
             })
           : form.validateFields().then((values) => {
-              const uploadParam: FlinkArtifactJarParam = {
-                flinkArtifactId: data.flinkArtifact?.id as number,
+              const uploadParam: FlinkArtifactJar = {
+                flinkArtifact: { id: data.flinkArtifact?.id as number },
                 version: values.version,
                 flinkVersion: values.flinkVersion,
                 entryClass: values.entryClass,

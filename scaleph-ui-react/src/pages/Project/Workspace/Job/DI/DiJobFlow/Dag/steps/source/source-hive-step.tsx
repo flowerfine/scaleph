@@ -1,22 +1,21 @@
-import { NsGraph } from '@antv/xflow';
-import { ModalFormProps } from '@/app.d';
-import { HiveParams, SchemaParams, STEP_ATTR_TYPE } from '../../constant';
-import { JobService } from '@/services/project/job.service';
-import { Form, message, Modal } from 'antd';
-import { DiJob } from '@/services/project/typings';
-import { getIntl, getLocale } from 'umi';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { useEffect } from 'react';
-import { ProForm, ProFormGroup, ProFormList, ProFormText } from '@ant-design/pro-components';
-import { StepSchemaService } from '../schema';
+import {NsGraph} from '@antv/xflow';
+import {ModalFormProps} from '@/app.d';
+import {HiveParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
+import {JobService} from '@/services/project/job.service';
+import {Form, message, Modal} from 'antd';
+import {DiJob} from '@/services/project/typings';
+import {getIntl, getLocale} from 'umi';
+import {InfoCircleOutlined} from '@ant-design/icons';
+import {useEffect} from 'react';
+import {ProForm, ProFormGroup, ProFormList, ProFormText} from '@ant-design/pro-components';
+import {StepSchemaService} from '../helper';
+import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
-const SourceHiveStepForm: React.FC<
-  ModalFormProps<{
-    node: NsGraph.INodeConfig;
-    graphData: NsGraph.IGraphData;
-    graphMeta: NsGraph.IGraphMeta;
-  }>
-> = ({ data, visible, onCancel, onOK }) => {
+const SourceHiveStepForm: React.FC<ModalFormProps<{
+  node: NsGraph.INodeConfig;
+  graphData: NsGraph.IGraphData;
+  graphMeta: NsGraph.IGraphMeta;
+}>> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as DiJob;
   const jobGraph = data.graphData;
@@ -32,7 +31,7 @@ const SourceHiveStepForm: React.FC<
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{ overflowY: 'scroll', maxHeight: '640px' }}
+      bodyStyle={{overflowY: 'scroll', maxHeight: '640px'}}
       destroyOnClose={true}
       onCancel={onCancel}
       onOk={() => {
@@ -45,7 +44,7 @@ const SourceHiveStepForm: React.FC<
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           JobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
-              message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+              message.success(intl.formatMessage({id: 'app.common.operate.success'}));
               onCancel();
               onOK ? onOK(values) : null;
             }
@@ -56,48 +55,40 @@ const SourceHiveStepForm: React.FC<
       <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
         <ProFormText
           name={STEP_ATTR_TYPE.stepTitle}
-          label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
-          rules={[{ required: true }, { max: 120 }]}
+          label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
+          rules={[{required: true}, {max: 120}]}
         />
+        <DataSourceItem dataSource={"Hive"}/>
         <ProFormText
           name={HiveParams.tableName}
-          label={intl.formatMessage({ id: 'pages.project.di.step.hive.tableName' })}
-          rules={[{ required: true }]}
-        />
-        <ProFormText
-          name={HiveParams.metastoreUri}
-          label={intl.formatMessage({ id: 'pages.project.di.step.hive.metastoreUri' })}
-          rules={[{ required: true }]}
-          tooltip={{
-            title: intl.formatMessage({ id: 'pages.project.di.step.hive.metastoreUri.tooltip' }),
-            icon: <InfoCircleOutlined />,
-          }}
+          label={intl.formatMessage({id: 'pages.project.di.step.hive.tableName'})}
+          rules={[{required: true}]}
         />
         <ProFormGroup
-          label={intl.formatMessage({ id: 'pages.project.di.step.schema' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
           tooltip={{
-            title: intl.formatMessage({ id: 'pages.project.di.step.schema.tooltip' }),
-            icon: <InfoCircleOutlined />,
+            title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
+            icon: <InfoCircleOutlined/>,
           }}
         >
           <ProFormList
             name={SchemaParams.fields}
             copyIconProps={false}
             creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({ id: 'pages.project.di.step.schema.fields' }),
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
               type: 'text',
             }}
           >
             <ProFormGroup>
               <ProFormText
                 name={SchemaParams.field}
-                label={intl.formatMessage({ id: 'pages.project.di.step.schema.fields.field' })}
-                colProps={{ span: 10, offset: 1 }}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
+                colProps={{span: 10, offset: 1}}
               />
               <ProFormText
                 name={SchemaParams.type}
-                label={intl.formatMessage({ id: 'pages.project.di.step.schema.fields.type' })}
-                colProps={{ span: 10, offset: 1 }}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
+                colProps={{span: 10, offset: 1}}
               />
             </ProFormGroup>
           </ProFormList>

@@ -62,13 +62,6 @@ const BaseOptions: React.FC = () => {
           });
         }}
       />
-      {/* <ProFormSelect
-        name="flinkVersion"
-        label={intl.formatMessage({ id: 'page.project.cluster.config.flinkVersion' })}
-        rules={[{ required: true }]}
-        showSearch={true}
-        request={() => DictDataService.listDictDataByType(DICT_TYPE.flinkVersion)}
-      /> */}
       <ProFormSelect
         name="flinkReleaseId"
         label={intl.formatMessage({ id: 'page.project.cluster.config.flinkRelease' })}

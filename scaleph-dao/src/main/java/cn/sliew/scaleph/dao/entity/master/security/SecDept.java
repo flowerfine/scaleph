@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dao.entity.master.security;
 
+import cn.sliew.scaleph.common.dict.security.DeptStatus;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -50,7 +51,6 @@ public class SecDept extends BaseDO {
     private Long pid;
 
     @ApiModelProperty(value = "部门状态")
-    private String deptStatus;
-
+    private DeptStatus deptStatus;
 
 }

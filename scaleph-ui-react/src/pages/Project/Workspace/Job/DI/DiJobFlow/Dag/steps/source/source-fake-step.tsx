@@ -14,7 +14,7 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import { FakeParams, SchemaParams, STEP_ATTR_TYPE } from '../../constant';
-import { StepSchemaService } from '../schema';
+import { StepSchemaService } from '../helper';
 
 const SourceFakeStepForm: React.FC<
   ModalFormProps<{
