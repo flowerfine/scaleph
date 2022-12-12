@@ -1,9 +1,5 @@
 import { PageResponse, ResponseBody } from '@/app.d';
-import {
-  FlinkClusterInstance,
-  FlinkClusterInstanceParam,
-  FlinkSessionClusterNewParam,
-} from './typings';
+import { FlinkClusterInstance, FlinkClusterInstanceParam } from './typings';
 import { request } from 'umi';
 
 export const FlinkCLusterInstanceService = {
@@ -30,7 +26,7 @@ export const FlinkCLusterInstanceService = {
     });
   },
 
-  newSession: async (row: FlinkSessionClusterNewParam) => {
+  newSession: async (row: FlinkClusterInstanceParam) => {
     return request<ResponseBody<any>>(`${FlinkCLusterInstanceService.url}`, {
       method: 'PUT',
       data: row,

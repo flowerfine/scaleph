@@ -28,7 +28,7 @@ export const FlinkArtifactService = {
   },
 
   update: async (row: FlinkArtifact) => {
-    return request<ResponseBody<any>>(`${FlinkArtifactService.url}/` + row.id, {
+    return request<ResponseBody<any>>(`${FlinkArtifactService.url}`, {
       method: 'POST',
       data: row,
     });
@@ -37,14 +37,6 @@ export const FlinkArtifactService = {
   deleteOne: async (row: FlinkArtifact) => {
     return request<ResponseBody<any>>(`${FlinkArtifactService.url}/` + row.id, {
       method: 'DELETE',
-    });
-  },
-
-  deleteBatch: async (rows: FlinkArtifact[]) => {
-    const params = rows.map((row) => row.id);
-    return request<ResponseBody<any>>(`${FlinkArtifactService.url}/batch`, {
-      method: 'DELETE',
-      data: params,
     });
   },
 };

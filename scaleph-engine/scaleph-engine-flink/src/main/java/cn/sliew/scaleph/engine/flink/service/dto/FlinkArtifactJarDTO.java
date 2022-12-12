@@ -20,6 +20,7 @@ package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dto.BaseDTO;
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -27,6 +28,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 /**
  * <p>
@@ -42,11 +44,7 @@ public class FlinkArtifactJarDTO extends BaseDTO {
     @ApiModelProperty("Flink Artifact")
     private FlinkArtifactDTO flinkArtifact;
 
-    @NotBlank
-    @ApiModelProperty("Jar 版本")
-    private String version;
-
-    @NotBlank
+    @NotNull
     @ApiModelProperty("flink 版本")
     private FlinkVersion flinkVersion;
 
@@ -59,5 +57,12 @@ public class FlinkArtifactJarDTO extends BaseDTO {
 
     @ApiModelProperty("Jar 存储路径")
     private String path;
+
+    @NotNull
+    @ApiModelProperty("Jar 版本")
+    private String version;
+
+    @ApiModelProperty("Jar 运行参数")
+    private String jarParams;
 
 }

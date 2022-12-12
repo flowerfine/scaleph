@@ -122,8 +122,8 @@ public class FlinkServiceImpl implements FlinkService {
      * 3. flink options
      */
     @Override
-    public void createSessionCluster(FlinkSessionClusterAddParam param) throws Exception {
-        final FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(param.getFlinkClusterConfigId());
+    public void createSessionCluster(Long projectId,Long flinkClusterConfigId) throws Exception {
+        final FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(flinkClusterConfigId);
         final FlinkResourceProvider resourceProvider = flinkClusterConfigDTO.getResourceProvider();
         ClusterClient clusterClient;
         switch (resourceProvider) {
@@ -141,12 +141,13 @@ public class FlinkServiceImpl implements FlinkService {
         }
 
         FlinkClusterInstanceDTO dto = new FlinkClusterInstanceDTO();
+        dto.setProjectId(projectId);
         dto.setFlinkClusterConfigId(flinkClusterConfigDTO.getId());
         dto.setName(flinkClusterConfigDTO.getName() + "-" + RandomStringUtils.randomAlphabetic(8));
+        //todo session cluster has not cluster id
         dto.setClusterId(clusterClient.getClusterId().toString());
         dto.setWebInterfaceUrl(clusterClient.getWebInterfaceURL());
         dto.setStatus(FlinkClusterStatus.RUNNING);
-        dto.setRemark(param.getRemark());
         flinkClusterInstanceService.insert(dto);
     }
 
@@ -294,7 +295,6 @@ public class FlinkServiceImpl implements FlinkService {
         for (JobStatusMessage job : jobs) {
             FlinkJobInstanceDTO flinkJobInstanceDTO = new FlinkJobInstanceDTO();
             flinkJobInstanceDTO.setFlinkJobCode(jobCode);
-            flinkJobInstanceDTO.setFlinkJobVersion(jobVersion);
             flinkJobInstanceDTO.setJobId(job.getJobId().toHexString());
             flinkJobInstanceDTO.setJobName(job.getJobName());
             flinkJobInstanceDTO.setJobState(FlinkJobState.of(job.getJobState().name()));
@@ -325,7 +325,6 @@ public class FlinkServiceImpl implements FlinkService {
 
         final FlinkJobLogDTO flinkJobLogDTO = new FlinkJobLogDTO();
         flinkJobLogDTO.setFlinkJobCode(flinkJobInstanceDTO.getFlinkJobCode());
-        flinkJobLogDTO.setFlinkJobVersion(flinkJobInstanceDTO.getFlinkJobVersion());
         flinkJobLogDTO.setJobId(flinkJobInstanceDTO.getJobId());
         flinkJobLogDTO.setJobName(flinkJobInstanceDTO.getJobName());
         flinkJobLogDTO.setJobState(flinkJobInstanceDTO.getJobState());
@@ -357,7 +356,6 @@ public class FlinkServiceImpl implements FlinkService {
 
         final FlinkJobLogDTO flinkJobLogDTO = new FlinkJobLogDTO();
         flinkJobLogDTO.setFlinkJobCode(flinkJobInstanceDTO.getFlinkJobCode());
-        flinkJobLogDTO.setFlinkJobVersion(flinkJobInstanceDTO.getFlinkJobVersion());
         flinkJobLogDTO.setJobId(flinkJobInstanceDTO.getJobId());
         flinkJobLogDTO.setJobName(flinkJobInstanceDTO.getJobName());
         flinkJobLogDTO.setJobState(flinkJobInstanceDTO.getJobState());

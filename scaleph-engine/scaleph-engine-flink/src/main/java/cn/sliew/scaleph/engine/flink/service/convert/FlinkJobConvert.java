@@ -37,15 +37,18 @@ public interface FlinkJobConvert extends BaseConvert<FlinkJob, FlinkJobDTO> {
 
     @Override
     default FlinkJob toDo(FlinkJobDTO dto) {
+        if (dto == null) {
+            return null;
+        }
         FlinkJob entity = new FlinkJob();
         BeanUtils.copyProperties(dto, entity);
-        if (CollectionUtils.isEmpty(dto.getJobConfig()) == false) {
+        if (!CollectionUtils.isEmpty(dto.getJobConfig())) {
             entity.setJobConfig(JacksonUtil.toJsonString(dto.getJobConfig()));
         }
-        if (CollectionUtils.isEmpty(dto.getFlinkConfig()) == false) {
+        if (!CollectionUtils.isEmpty(dto.getFlinkConfig())) {
             entity.setFlinkConfig(JacksonUtil.toJsonString(dto.getFlinkConfig()));
         }
-        if (CollectionUtils.isEmpty(dto.getJars()) == false) {
+        if (!CollectionUtils.isEmpty(dto.getJars())) {
             entity.setJars(JacksonUtil.toJsonString(dto.getJars()));
         }
         return entity;
@@ -53,6 +56,9 @@ public interface FlinkJobConvert extends BaseConvert<FlinkJob, FlinkJobDTO> {
 
     @Override
     default FlinkJobDTO toDto(FlinkJob entity) {
+        if (entity == null) {
+            return null;
+        }
         FlinkJobDTO dto = new FlinkJobDTO();
         BeanUtils.copyProperties(entity, dto);
         if (StringUtils.hasText(entity.getJobConfig())) {

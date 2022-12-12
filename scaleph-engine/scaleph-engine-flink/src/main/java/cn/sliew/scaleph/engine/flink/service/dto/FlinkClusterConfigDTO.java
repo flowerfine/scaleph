@@ -43,11 +43,14 @@ import java.util.Map;
 @ApiModel(value = "FlinkClusterConfig对象", description = "flink 集群配置")
 public class FlinkClusterConfigDTO extends BaseDTO {
 
+    @NotNull
+    @ApiModelProperty("项目id")
+    private Long projectId;
+
     @NotBlank
     @ApiModelProperty("名称")
     private String name;
 
-    @NotNull
     @ApiModelProperty("集群版本")
     private FlinkVersion flinkVersion;
 

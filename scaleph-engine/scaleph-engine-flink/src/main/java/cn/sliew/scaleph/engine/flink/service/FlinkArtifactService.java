@@ -18,15 +18,14 @@
 
 package cn.sliew.scaleph.engine.flink.service;
 
+import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkArtifactDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactListParam;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkArtifactParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
-import java.util.List;
 
 public interface FlinkArtifactService {
 
-    Page<FlinkArtifactDTO> list(FlinkArtifactListParam param);
+    Page<FlinkArtifactDTO> list(FlinkArtifactParam param);
 
     FlinkArtifactDTO selectOne(Long id);
 
@@ -34,8 +33,6 @@ public interface FlinkArtifactService {
 
     int update(FlinkArtifactDTO dto);
 
-    int deleteById(Long id);
-
-    int deleteBatch(List<Long> ids);
+    int deleteById(Long id) throws ScalephException;
 
 }

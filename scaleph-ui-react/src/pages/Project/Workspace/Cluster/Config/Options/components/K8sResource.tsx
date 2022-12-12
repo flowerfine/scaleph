@@ -9,7 +9,7 @@ const K8sResourceOptions: React.FC = () => {
       <ProFormGroup>
         <ProFormDigit
           name="jobManagerCPU"
-          label={(intl.formatMessage({id: 'pages.dev.clusterConfig.jobManagerCPU'}))}
+          label={(intl.formatMessage({id: 'page.project.cluster.config.jobManagerCPU'}))}
           colProps={{span: 10, offset: 1}}
           rules={[{required: true}]}
           initialValue={1}
@@ -20,7 +20,7 @@ const K8sResourceOptions: React.FC = () => {
         />
         <ProFormDigit
           name="taskManagerCPU"
-          label={(intl.formatMessage({id: 'pages.dev.clusterConfig.taskManagerCPU'}))}
+          label={(intl.formatMessage({id: 'page.project.cluster.config.taskManagerCPU'}))}
           colProps={{span: 10, offset: 1}}
           rules={[{required: true}]}
           initialValue={1}
@@ -31,21 +31,21 @@ const K8sResourceOptions: React.FC = () => {
         />
         <ProFormText
           name="jobManagerMemory"
-          label={(intl.formatMessage({id: 'pages.dev.clusterConfig.jobManagerMemory'}))}
+          label={(intl.formatMessage({id: 'page.project.cluster.config.jobManagerMemory'}))}
           colProps={{span: 10, offset: 1}}
           rules={[{required: true}]}
           initialValue={'1024m'}
         />
         <ProFormText
           name="taskManagerMemory"
-          label={(intl.formatMessage({id: 'pages.dev.clusterConfig.taskManagerMemory'}))}
+          label={(intl.formatMessage({id: 'page.project.cluster.config.taskManagerMemory'}))}
           colProps={{span: 10, offset: 1}}
           rules={[{required: true}]}
           initialValue={'1024m'}
         />
         <ProFormDigit
           name="jobManagerReplicas"
-          label={(intl.formatMessage({id: 'pages.dev.clusterConfig.jobManagerReplicas'}))}
+          label={(intl.formatMessage({id: 'page.project.cluster.config.jobManagerReplicas'}))}
           colProps={{span: 10, offset: 1}}
           rules={[{required: true}]}
           initialValue={1}
@@ -55,7 +55,7 @@ const K8sResourceOptions: React.FC = () => {
         />
         <ProFormDigit
           name="taskManagerReplicas"
-          label={(intl.formatMessage({id: 'pages.dev.clusterConfig.taskManagerReplicas'}))}
+          label={(intl.formatMessage({id: 'page.project.cluster.config.taskManagerReplicas'}))}
           colProps={{span: 10, offset: 1}}
           rules={[{required: true}]}
           initialValue={1}

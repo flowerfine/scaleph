@@ -20,21 +20,27 @@
 <mapper namespace="cn.sliew.scaleph.dao.mapper.master.flink.FlinkArtifactMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifact">
-        <result column="id" property="id" />
-        <result column="creator" property="creator" />
-        <result column="create_time" property="createTime" />
-        <result column="editor" property="editor" />
-        <result column="update_time" property="updateTime" />
-        <result column="name" property="name" />
-        <result column="type" property="type" />
-        <result column="remark" property="remark" />
+    <resultMap id="FlinkArtifactMap" type="cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifact">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="project_id" property="projectId"/>
+        <result column="name" property="name"/>
+        <result column="remark" property="remark"/>
     </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, creator, create_time, editor, update_time,
-        `name`, `type`, remark
-    </sql>
+    <select id="isUsed" resultMap="FlinkArtifactMap">
+        select t1.*
+        from flink_artifact t1
+        join flink_artifact_jar t2
+        on t1.id = t2.flink_artifact_id
+        join flink_job t3
+        on t2.id = t3.flink_artifact_id
+        where t1.id = #{id}
+        and t3.type = '0'
+        limit 1
+    </select>
 
 </mapper>

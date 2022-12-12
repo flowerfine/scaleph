@@ -47,10 +47,6 @@ public class FlinkJobInstance extends BaseDO {
     @TableField("flink_job_code")
     private Long flinkJobCode;
 
-    @ApiModelProperty("flink job version")
-    @TableField("flink_job_version")
-    private Long flinkJobVersion;
-
     @ApiModelProperty("flink job ID")
     @TableField("job_id")
     private String jobId;
