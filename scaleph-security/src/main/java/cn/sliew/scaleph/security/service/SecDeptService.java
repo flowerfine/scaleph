@@ -18,10 +18,9 @@
 
 package cn.sliew.scaleph.security.service;
 
-import java.io.Serializable;
-import java.util.List;
-
 import cn.sliew.scaleph.security.service.dto.SecDeptDTO;
+
+import java.util.List;
 
 /**
  * <p>
