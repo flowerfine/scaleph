@@ -1,4 +1,4 @@
-import {PageResponse, ResponseBody} from '@/app.d';
+import {PageResponse, ResponseBody, TreeNode} from '@/app.d';
 import {request} from 'umi';
 import {SecDept, SecDeptParam, SecDeptTree, SecDeptTreeNode} from './typings';
 
@@ -22,6 +22,34 @@ export const DeptService = {
 
   listAllDept: async () => {
     return request<SecDeptTreeNode[]>(`${DeptService.url}`);
+  },
+
+  buildTree: (data: SecDeptTreeNode[]): TreeNode[] => {
+    let tree: TreeNode[] = [];
+    data.forEach((dept) => {
+      const node: TreeNode = {
+        key: '',
+        title: '',
+        origin: {
+          id: dept.deptId,
+          deptCode: dept.deptCode,
+          deptName: dept.deptName,
+          pid: dept.pid,
+        },
+      };
+      if (dept.children) {
+        node.key = dept.deptId;
+        node.title = dept.deptName;
+        node.children = DeptService.buildTree(dept.children);
+        node.showOpIcon = false;
+      } else {
+        node.key = dept.deptId;
+        node.title = dept.deptName;
+        node.showOpIcon = false;
+      }
+      tree.push(node);
+    });
+    return tree;
   },
 
   listChildDept: async (pid: string) => {

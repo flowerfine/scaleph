@@ -5,9 +5,8 @@ import {SecDeptTree} from "@/services/admin/typings";
 import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
 import {PRIVILEGE_CODE} from "@/constant";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
-import {PrivilegeService} from "@/services/admin/privilege.service";
-import WebResourceForm from "@/pages/Admin/Resource/Web/components/WebResourceForm";
 import {DeptService} from "@/services/admin/dept.service";
+import DeptForm from "@/pages/Admin/Dept/components/DeptForm";
 
 const DeptWeb: React.FC = () => {
   const intl = useIntl();
@@ -15,7 +14,7 @@ const DeptWeb: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<SecDeptTree[]>([]);
-  const [webResourceFormData, setWebResourceFormData] = useState<{
+  const [deptFormData, setDeptFormData] = useState<{
     visiable: boolean;
     parent: SecDeptTree;
     data: SecDeptTree;
@@ -69,7 +68,7 @@ const DeptWeb: React.FC = () => {
                   shape="default"
                   type="link"
                   icon={<PlusOutlined/>}
-                  onClick={() => setWebResourceFormData({visiable: true, parent: record, data: {}})}
+                  onClick={() => setDeptFormData({visiable: true, parent: record, data: {}})}
                 ></Button>
               </Tooltip>
             )}
@@ -79,7 +78,7 @@ const DeptWeb: React.FC = () => {
                   shape="default"
                   type="link"
                   icon={<EditOutlined/>}
-                  onClick={() => setWebResourceFormData({visiable: true, parent: {}, data: record})}
+                  onClick={() => setDeptFormData({visiable: true, parent: {}, data: record})}
                 ></Button>
               </Tooltip>
             )}
@@ -136,7 +135,7 @@ const DeptWeb: React.FC = () => {
               <Button
                 key="new"
                 type="primary"
-                onClick={() => setWebResourceFormData({visiable: true, parent: null, data: {}})}
+                onClick={() => setDeptFormData({visiable: true, parent: null, data: {}})}
               >
                 {intl.formatMessage({id: 'app.common.operate.new.label'})}
               </Button>
@@ -177,16 +176,16 @@ const DeptWeb: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       />
-      {webResourceFormData.visiable && (
-        <WebResourceForm
-          visible={webResourceFormData.visiable}
-          onCancel={() => setWebResourceFormData({visiable: false, parent: {}, data: {}})}
+      {deptFormData.visiable && (
+        <DeptForm
+          visible={deptFormData.visiable}
+          onCancel={() => setDeptFormData({visiable: false, parent: {}, data: {}})}
           onVisibleChange={(visiable) => {
-            setWebResourceFormData({visiable: visiable, parent: {}, data: {}});
+            setDeptFormData({visiable: visiable, parent: {}, data: {}});
             actionRef.current?.reload();
           }}
-          parent={webResourceFormData.parent}
-          data={webResourceFormData.data}
+          parent={deptFormData.parent}
+          data={deptFormData.data}
         />
       )}
     </div>

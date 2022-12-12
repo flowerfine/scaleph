@@ -30,9 +30,8 @@ import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
 import {DeptService} from '@/services/admin/dept.service';
 import {DictDataService} from '@/services/admin/dictData.service';
 import {RoleService} from '@/services/admin/role.service';
-import {SecDept, SecDeptTreeNode, SecRole, SecUser} from '@/services/admin/typings';
+import {SecDept, SecRole, SecUser} from '@/services/admin/typings';
 import {UserService} from '@/services/admin/user.service';
-import DeptForm from './components/DeptForm';
 import DeptGrant from './components/DeptGrant';
 import RoleForm from './components/RoleForm';
 import RoleGrant from './components/RoleGrant';
@@ -286,36 +285,8 @@ const User: React.FC = () => {
 
   const refreshDepts = () => {
     DeptService.listAllDept().then((d) => {
-      setDeptTreeList(buildTree(d));
+      setDeptTreeList(DeptService.buildTree(d));
     });
-  };
-
-  const buildTree = (data: SecDeptTreeNode[]): TreeNode[] => {
-    let tree: TreeNode[] = [];
-    data.forEach((dept) => {
-      const node: TreeNode = {
-        key: '',
-        title: '',
-        origin: {
-          id: dept.deptId,
-          deptCode: dept.deptCode,
-          deptName: dept.deptName,
-          pid: dept.pid,
-        },
-      };
-      if (dept.children) {
-        node.key = dept.deptId;
-        node.title = dept.deptName;
-        node.children = buildTree(dept.children);
-        node.showOpIcon = false;
-      } else {
-        node.key = dept.deptId;
-        node.title = dept.deptName;
-        node.showOpIcon = false;
-      }
-      tree.push(node);
-    });
-    return tree;
   };
 
   let keys: React.Key[] = [];
@@ -512,53 +483,6 @@ const User: React.FC = () => {
                           </Typography.Text>
                           {node.showOpIcon && (
                             <Space size={2}>
-                              {access.canAccess(PRIVILEGE_CODE.deptAdd) && (
-                                <Tooltip
-                                  title={intl.formatMessage({id: 'app.common.operate.new.label'})}
-                                >
-                                  <Button
-                                    shape="default"
-                                    type="text"
-                                    size="small"
-                                    icon={<PlusOutlined/>}
-                                    onClick={() => {
-                                      setDeptFormData({
-                                        visible: true,
-                                        data: {
-                                          pid: node.origin.id,
-                                        },
-                                        isUpdate: false,
-                                      });
-                                    }}
-                                  ></Button>
-                                </Tooltip>
-                              )}
-                              {access.canAccess(PRIVILEGE_CODE.deptEdit) && (
-                                <Tooltip
-                                  title={intl.formatMessage({
-                                    id: 'app.common.operate.edit.label',
-                                  })}
-                                >
-                                  <Button
-                                    shape="default"
-                                    type="text"
-                                    size="small"
-                                    icon={<EditOutlined/>}
-                                    onClick={() => {
-                                      setDeptFormData({
-                                        visible: true,
-                                        data: {
-                                          id: node.origin.id,
-                                          deptCode: node.origin.deptCode,
-                                          deptName: node.origin.deptName,
-                                          pid: node.origin.pid == '0' ? undefined : node.origin.pid,
-                                        },
-                                        isUpdate: true,
-                                      });
-                                    }}
-                                  ></Button>
-                                </Tooltip>
-                              )}
                               {access.canAccess(PRIVILEGE_CODE.deptGrant) && (
                                 <Tooltip
                                   title={intl.formatMessage({
@@ -688,21 +612,6 @@ const User: React.FC = () => {
           }}
           data={roleGrantData.data}
         ></RoleGrant>
-      ) : null}
-      {deptFormData.visible ? (
-        <DeptForm
-          visible={deptFormData.visible}
-          treeData={deptTreeList}
-          isUpdate={deptFormData.isUpdate}
-          onCancel={() => {
-            setDeptFormData({visible: false, data: {}, isUpdate: false});
-          }}
-          onVisibleChange={(visible) => {
-            setDeptFormData({visible: visible, data: {}, isUpdate: false});
-            refreshDepts();
-          }}
-          data={deptFormData.data}
-        />
       ) : null}
       {deptGrantData.visible ? (
         <DeptGrant

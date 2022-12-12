@@ -52,6 +52,7 @@ export default {
   'pages.admin.dept.deptName': '名称',
   'pages.admin.dept.deptCode': '部门标识',
   'pages.admin.dept.deptStatus': '状态',
+  'pages.admin.dept.pid': '父级部门',
 
   'pages.admin.usercenter.profile': '个人资料',
   'pages.admin.usercenter.security': '安全设置',

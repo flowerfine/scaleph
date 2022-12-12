@@ -10,6 +10,9 @@ export const DICT_TYPE = {
   yesNo: 'yes_or_no',
   roleStatus: 'role_status',
   userStatus: 'user_status',
+  deptStatus: 'dept_status',
+  resourceType: 'resource_type',
+
   idCardType: 'id_card_type',
   gender: 'gender',
   nation: 'nation',
@@ -36,7 +39,7 @@ export const DICT_TYPE = {
   seatunnelPluginName: 'seatunnel_plugin_name',
   imagePullPolicy: 'image_pull_policy',
 
-  resourceType: 'resource_type',
+
 };
 
 export const USER_AUTH = {

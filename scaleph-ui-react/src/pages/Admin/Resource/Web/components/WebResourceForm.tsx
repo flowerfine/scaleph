@@ -39,7 +39,6 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecPrivilege>> = ({
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          console.log('validateFields', values)
           data.id
             ? PrivilegeService.update({...values}).then((response) => {
               if (response.success) {
@@ -68,7 +67,7 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecPrivilege>> = ({
         wrapperCol={{span: 16}}
         initialValues={{
           id: data.id,
-          pid: data.pid,
+          pid: parent?.id ? parent.id : (data?.pid ? data.pid : 0),
           privilegeName: data.privilegeName,
           privilegeCode: data.privilegeCode,
           resourceType: data.resourceType?.value,
@@ -79,7 +78,6 @@ const WebResourceForm: React.FC<ModalFormParentProps<SecPrivilege>> = ({
         <ProFormText
           name={"pid"}
           label={intl.formatMessage({id: 'pages.admin.resource.pid'})}
-          initialValue={parent?.id ? parent.id : (data?.pid ? data.pid : 0)}
           disabled
         />
         <ProFormText
