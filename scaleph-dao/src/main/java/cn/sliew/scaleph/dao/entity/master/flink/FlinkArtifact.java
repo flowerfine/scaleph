@@ -32,7 +32,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("flink_artifact")
+@TableName("ws_flink_artifact")
 @ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
 public class FlinkArtifact extends BaseDO {
 

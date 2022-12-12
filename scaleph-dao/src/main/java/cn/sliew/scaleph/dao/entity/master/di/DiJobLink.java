@@ -35,8 +35,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("di_job_link")
-@ApiModel(value = "DiJobLink对象", description = "数据集成-作业连线")
+@TableName("ws_di_job_link")
+@ApiModel(value = "WsDiJobLink对象", description = "数据集成-作业连线")
 public class DiJobLink extends BaseDO {
 
     private static final long serialVersionUID = 8533125383197913516L;

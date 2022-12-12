@@ -1,8 +1,8 @@
 create database if not exists scaleph default character set utf8mb4 collate utf8mb4_unicode_ci;
 use scaleph;
 
-DROP TABLE IF EXISTS flink_cluster_config;
-CREATE TABLE flink_cluster_config
+DROP TABLE IF EXISTS ws_flink_cluster_config;
+CREATE TABLE ws_flink_cluster_config
 (
     id                    bigint       not null auto_increment comment '自增主键',
     project_id            bigint       not null comment '项目id',
@@ -23,8 +23,8 @@ CREATE TABLE flink_cluster_config
     unique key (project_id, name)
 ) ENGINE = INNODB COMMENT = 'flink cluster config';
 
-DROP TABLE IF EXISTS flink_cluster_instance;
-CREATE TABLE flink_cluster_instance
+DROP TABLE IF EXISTS ws_flink_cluster_instance;
+CREATE TABLE ws_flink_cluster_instance
 (
     id                      bigint       not null auto_increment comment '自增主键',
     project_id              bigint       not null comment '项目id',
@@ -42,8 +42,8 @@ CREATE TABLE flink_cluster_instance
     KEY idx_name (name)
 ) ENGINE = INNODB COMMENT = 'flink cluster instance';
 
-drop table if exists flink_artifact;
-create table flink_artifact
+drop table if exists ws_flink_artifact;
+create table ws_flink_artifact
 (
     id          bigint       not null auto_increment comment '自增主键',
     project_id  bigint       not null comment '项目id',
@@ -57,8 +57,8 @@ create table flink_artifact
     unique idx_name (project_id, name)
 ) engine = innodb comment = 'flink artifact';
 
-drop table if exists flink_artifact_jar;
-create table flink_artifact_jar
+drop table if exists ws_flink_artifact_jar;
+create table ws_flink_artifact_jar
 (
     id                bigint       not null auto_increment comment '自增主键',
     flink_artifact_id bigint       not null comment '作业artifact id',
@@ -78,8 +78,8 @@ create table flink_artifact_jar
     key idx_flink_artifact (flink_artifact_id, version)
 ) engine = innodb comment = 'flink artifact jar';
 
-drop table if exists flink_job;
-create table flink_job
+drop table if exists ws_flink_job;
+create table ws_flink_job
 (
     id                        bigint       not null auto_increment comment '自增主键',
     project_id                bigint       not null comment '项目id',
@@ -104,8 +104,8 @@ create table flink_job
     key idx_flink_cluster_instance (flink_cluster_instance_id)
 ) engine = innodb comment ='flink作业信息';
 
-drop table if exists flink_job_instance;
-create table flink_job_instance
+drop table if exists ws_flink_job_instance;
+create table ws_flink_job_instance
 (
     id                bigint       not null auto_increment comment '自增主键',
     flink_job_code    bigint       not null comment 'flink作业编码',
@@ -126,8 +126,8 @@ create table flink_job_instance
     unique key uniq_job (flink_job_code, job_id)
 ) engine = innodb comment = 'flink作业实例';
 
-DROP TABLE IF EXISTS flink_job_log;
-CREATE TABLE flink_job_log
+DROP TABLE IF EXISTS ws_flink_job_log;
+CREATE TABLE ws_flink_job_log
 (
     id                bigint       not null auto_increment comment '自增主键',
     flink_job_code    bigint       not null comment 'flink作业编码',
@@ -148,8 +148,8 @@ CREATE TABLE flink_job_log
     UNIQUE KEY uniq_job (flink_job_code, job_id)
 ) ENGINE = INNODB COMMENT = 'flink作业日志';
 
-DROP TABLE IF EXISTS flink_catalog_configuration;
-CREATE TABLE flink_catalog_configuration
+DROP TABLE IF EXISTS ws_flink_catalog_configuration;
+CREATE TABLE ws_flink_catalog_configuration
 (
     id                BIGINT       NOT NULL AUTO_INCREMENT,
     flink_catalog_type_id BIGINT       NOT NULL,
@@ -165,5 +165,3 @@ CREATE TABLE flink_catalog_configuration
     update_time       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
 ) ENGINE = INNODB COMMENT = 'flink catalog configuration';
-    UNIQUE KEY uniq_job (flink_job_code, job_id)
-) ENGINE = INNODB COMMENT = 'flink作业日志';

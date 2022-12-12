@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("flink_cluster_config")
+@TableName("ws_flink_cluster_config")
 @ApiModel(value = "FlinkClusterConfig对象", description = "flink 集群配置")
 public class FlinkClusterConfig extends BaseDO {
 

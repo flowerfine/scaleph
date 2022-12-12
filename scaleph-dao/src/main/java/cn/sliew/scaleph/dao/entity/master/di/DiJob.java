@@ -38,8 +38,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("di_job")
-@ApiModel(value = "DiJob对象", description = "数据集成-作业信息")
+@TableName("ws_di_job")
+@ApiModel(value = "WsDiJob对象", description = "数据集成-作业信息")
 public class DiJob extends BaseDO {
 
     private static final long serialVersionUID = -4141741507654897469L;

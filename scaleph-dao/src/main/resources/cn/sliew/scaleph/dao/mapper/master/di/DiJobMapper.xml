@@ -55,7 +55,7 @@
             select
                 *,
                 row_number() over(partition by project_id,job_code order by job_version desc) as rn
-            from di_job
+            from ws_di_job
         ) t
         ]]>
         <where>

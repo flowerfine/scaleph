@@ -37,7 +37,7 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("flink_job_instance")
+@TableName("ws_flink_job_instance")
 @ApiModel(value = "FlinkJobInstance对象", description = "flink job instance")
 public class FlinkJobInstance extends BaseDO {
 

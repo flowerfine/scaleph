@@ -30,7 +30,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("flink_job_log")
+@TableName("ws_flink_job_log")
 @ApiModel(value = "FlinkJobLog对象", description = "flink job log")
 public class FlinkJobLog extends FlinkJobInstance {
 

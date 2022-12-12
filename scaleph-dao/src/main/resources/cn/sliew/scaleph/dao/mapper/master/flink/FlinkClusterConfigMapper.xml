@@ -77,7 +77,7 @@
         t3.create_time AS cluster_credential_create_time,
         t3.editor AS cluster_credential_editor,
         t3.update_time AS cluster_credential_update_time
-        FROM flink_cluster_config t1
+        FROM ws_flink_cluster_config t1
         JOIN resource_flink_release t2 ON t1.flink_release_id = t2.id
         JOIN resource_cluster_credential t3 ON t1.cluster_credential_id = t3.id
         <where>
@@ -118,7 +118,7 @@
                t3.create_time AS cluster_credential_create_time,
                t3.editor      AS cluster_credential_editor,
                t3.update_time AS cluster_credential_update_time
-        FROM flink_cluster_config t1
+        FROM ws_flink_cluster_config t1
                  JOIN resource_flink_release t2 ON t1.flink_release_id = t2.id
                  JOIN resource_cluster_credential t3 ON t1.cluster_credential_id = t3.id
         WHERE t1.id = #{id}

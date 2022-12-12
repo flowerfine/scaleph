@@ -206,7 +206,7 @@
     <select id="list" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from flink_job t
+        from ws_flink_job t
         <where>
             <if test="param.projectId != null">
                 and t.project_id = #{param.projectId}
@@ -236,12 +236,12 @@
         t3.type AS artifact_type,
         t3.remark AS artifact_remark,
         <include refid="Flink_Job_Column_List"/>
-        FROM flink_job t1
-        JOIN flink_artifact_jar t2 ON t1.flink_artifact_id = t2.id
-        JOIN flink_artifact t3 ON t2.flink_artifact_id = t3.id
-        JOIN flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
-        LEFT JOIN flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
-        LEFT JOIN flink_job_instance t6
+        FROM ws_flink_job t1
+        JOIN ws_flink_artifact_jar t2 ON t1.flink_artifact_id = t2.id
+        JOIN ws_flink_artifact t3 ON t2.flink_artifact_id = t3.id
+        JOIN ws_flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
+        LEFT JOIN ws_flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
+        LEFT JOIN ws_flink_job_instance t6
         ON t1.`code` = t6.flink_job_code
         <where>
             t1.`type` = #{param.type}
@@ -270,12 +270,12 @@
         t3.type AS artifact_type,
         t3.remark AS artifact_remark,
         <include refid="Flink_Job_Column_List"/>
-        FROM flink_job t1
-        JOIN flink_artifact_jar t2 ON t1.flink_artifact_id = t2.id
-        JOIN flink_artifact t3 ON t2.flink_artifact_id = t3.id
-        JOIN flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
-        LEFT JOIN flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
-        LEFT JOIN flink_job_instance t6
+        FROM ws_flink_job t1
+        JOIN ws_flink_artifact_jar t2 ON t1.flink_artifact_id = t2.id
+        JOIN ws_flink_artifact t3 ON t2.flink_artifact_id = t3.id
+        JOIN ws_flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
+        LEFT JOIN ws_flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
+        LEFT JOIN ws_flink_job_instance t6
         ON t1.`code` = t6.flink_job_code
         WHERE t1.id = #{id}
     </select>
@@ -292,11 +292,11 @@
         t2.job_version AS di_job_job_version,
         t2.remark AS di_job_remark,
         <include refid="Flink_Job_Column_List"/>
-        FROM flink_job t1
-        JOIN di_job t2 ON t1.flink_artifact_id = t2.id
-        JOIN flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
-        LEFT JOIN flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
-        LEFT JOIN flink_job_instance t6
+        FROM ws_flink_job t1
+        JOIN ws_di_job t2 ON t1.flink_artifact_id = t2.id
+        JOIN ws_flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
+        LEFT JOIN ws_flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
+        LEFT JOIN ws_flink_job_instance t6
         ON t1.`code` = t6.flink_job_code
         <where>
             t1.`type` = #{param.type}
@@ -324,11 +324,11 @@
         t2.job_version AS di_job_job_version,
         t2.remark AS di_job_remark,
         <include refid="Flink_Job_Column_List"/>
-        FROM flink_job t1
-        JOIN di_job t2 ON t1.flink_artifact_id = t2.id
-        JOIN flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
-        LEFT JOIN flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
-        LEFT JOIN flink_job_instance t6
+        FROM ws_flink_job t1
+        JOIN ws_di_job t2 ON t1.flink_artifact_id = t2.id
+        JOIN ws_flink_cluster_config t4 ON t1.flink_cluster_config_id = t4.id
+        LEFT JOIN ws_flink_cluster_instance t5 ON t1.flink_cluster_instance_id = t5.id
+        LEFT JOIN ws_flink_job_instance t6
         ON t1.`code` = t6.flink_job_code
         WHERE t1.id = #{id}
     </select>

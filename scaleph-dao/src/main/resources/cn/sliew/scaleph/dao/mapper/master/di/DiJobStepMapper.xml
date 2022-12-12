@@ -51,15 +51,15 @@
                s.create_time,
                s.editor,
                s.update_time
-        from di_job_step s
+        from ws_di_job_step s
         where s.job_id = #{jobId,jdbcType=BIGINT}
         ]]>
     </select>
 
     <delete id="deleteByProjectId">
-        delete t from di_job_step t
+        delete t from ws_di_job_step t
         <where>
-            exists (select 1 from di_job j
+            exists (select 1 from ws_di_job j
             <where>
                 t.job_id = j.id
                 and j.project_id in
@@ -72,14 +72,14 @@
     </delete>
 
     <delete id="deleteByJobId">
-        delete from di_job_step where job_id in
+        delete from ws_di_job_step where job_id in
         <foreach collection="jobIds" item="id" index="index" open="(" close=")" separator=",">
             #{id,jdbcType=BIGINT}
         </foreach>
     </delete>
 
     <insert id="clone">
-        insert into di_job_step
+        insert into ws_di_job_step
         (job_id,
          step_code,
          step_title,
@@ -104,7 +104,7 @@
                now()                          as create_time,
                'sys'                          as editor,
                now()                          as update_time
-        from di_job_step
+        from ws_di_job_step
         where job_id = #{sourceJobId,jdbcType=BIGINT}
     </insert>
 </mapper>

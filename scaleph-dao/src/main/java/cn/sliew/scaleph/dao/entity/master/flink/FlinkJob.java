@@ -32,7 +32,7 @@ import lombok.Data;
  * </p>
  */
 @Data
-@TableName("flink_job")
+@TableName("ws_flink_job")
 @ApiModel(value = "FlinkJob对象", description = "flink job")
 public class FlinkJob extends BaseDO {
 

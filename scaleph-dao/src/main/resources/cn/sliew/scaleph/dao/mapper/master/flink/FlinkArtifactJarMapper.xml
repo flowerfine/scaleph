@@ -50,8 +50,8 @@
             t2.project_id as project_id,
             t2.`name` as flink_artifact_name,
             t2.remark as flink_artifact_remark
-        from flink_artifact_jar t1
-        join flink_artifact t2
+        from ws_flink_artifact_jar t1
+        join ws_flink_artifact t2
         on t1.flink_artifact_id = t2.id
         where t1.flink_artifact_id = #{param.flinkArtifactId}
         ]]>
@@ -68,16 +68,16 @@
                t2.project_id as project_id,
                t2.`name`     as flink_artifact_name,
                t2.remark     as flink_artifact_remark
-        from flink_artifact_jar t1
-                 join flink_artifact t2 on t1.flink_artifact_id = t2.id
+        from ws_flink_artifact_jar t1
+                 join ws_flink_artifact t2 on t1.flink_artifact_id = t2.id
         where t1.id = #{id}
     </select>
 
     <select id="isUsed" resultMap="FlinkArtifactJarMap">
         select
             t1.*
-        from flink_artifact_jar t1
-        join flink_job t2
+        from ws_flink_artifact_jar t1
+        join ws_flink_job t2
         on  t1.id  = t2.flink_artifact_id
         where t2.type = '0'
         and t1.id = #{id}

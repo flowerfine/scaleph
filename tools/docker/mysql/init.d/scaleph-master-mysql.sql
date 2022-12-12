@@ -379,8 +379,8 @@ insert into sys_config(cfg_code, cfg_value, creator, editor)
 values ('basic', '{\"seatunnelHome\":\"/opt/seatunnel\"}', 'sys_admin', 'sys_admin');
 
 /* 数据集成-项目信息 */
-drop table if exists di_project;
-create table di_project
+drop table if exists ws_project;
+create table ws_project
 (
     id           bigint      not null auto_increment comment '自增主键',
     project_code varchar(32) not null comment '项目编码',
@@ -394,12 +394,12 @@ create table di_project
     unique (project_code)
 ) engine = innodb comment '数据集成-项目信息';
 
-insert into di_project(project_code, project_name, remark, creator, editor)
+insert into ws_project(project_code, project_name, remark, creator, editor)
 VALUES ('seatunnel', 'seatunnel-examples', NULL, 'sys_admin', 'sys_admin');
 
 /* 数据集成-作业信息*/
-drop table if exists di_job;
-create table di_job
+drop table if exists ws_di_job;
+create table ws_di_job
 (
     id          bigint       not null auto_increment comment '自增主键',
     project_id  bigint       not null comment '项目id',
@@ -416,17 +416,17 @@ create table di_job
     primary key (id),
     unique key (project_id, job_code, job_version)
 ) engine = innodb comment '数据集成-作业信息';
-INSERT INTO di_job (id, project_id, job_code, job_name, job_type, job_status,
+INSERT INTO ws_di_job (id, project_id, job_code, job_name, job_type, job_status,
                     job_version, remark, creator, editor)
 VALUES (1, 1, 1, 'e_commerce', 'b', '2', 1, NULL, 'sys', 'sys');
-INSERT INTO di_job(id, project_id, job_code, job_name, job_type, job_status,
+INSERT INTO ws_di_job(id, project_id, job_code, job_name, job_type, job_status,
                    job_version, remark, creator, editor)
 VALUES (2, 1, 2, 'fake', 'b', '2', 1, NULL, 'sys', 'sys');
 
 
 /* 作业参数信息 作业参数*/
-drop table if exists di_job_attr;
-create table di_job_attr
+drop table if exists ws_di_job_attr;
+create table ws_di_job_attr
 (
     id             bigint       not null auto_increment comment '自增主键',
     job_id         bigint       not null comment '作业id',
@@ -442,8 +442,8 @@ create table di_job_attr
 ) engine = innodb comment '数据集成-作业参数';
 
 /* 作业步骤信息 包含source，transform，sink,note 等*/
-drop table if exists di_job_step;
-create table di_job_step
+drop table if exists ws_di_job_step;
+create table ws_di_job_step
 (
     id          bigint       not null auto_increment comment '自增主键',
     job_id      bigint       not null comment '作业id',
@@ -461,29 +461,29 @@ create table di_job_step
     primary key (id),
     unique key (job_id, step_code)
 ) engine = innodb comment '数据集成-作业步骤信息';
-INSERT INTO di_job_step (job_id, step_code, step_title, step_type, step_name, position_x, position_y,
+INSERT INTO ws_di_job_step (job_id, step_code, step_title, step_type, step_name, position_x, position_y,
                          step_attrs, creator, editor)
 VALUES (1, 'f3e02087-91fa-494d-86f4-694970a49ebd', 'Jdbc Source', 'source', 'Jdbc', -400, -320,
         '{\"stepTitle\":\"Jdbc Source\",\"dataSourceType\":\"MySQL\",\"dataSource\":2,\"query\":\"select * from sample_data_e_commerce\"}',
         'sys', 'sys');
-INSERT INTO di_job_step (job_id, step_code, step_title, step_type, step_name, position_x, position_y,
+INSERT INTO ws_di_job_step (job_id, step_code, step_title, step_type, step_name, position_x, position_y,
                          step_attrs, creator, editor)
 VALUES (1, '68834928-2a32-427a-a864-83b6b5848e04', 'Jdbc Sink', 'sink', 'Jdbc', -310, -120,
         '{\"stepTitle\":\"Jdbc Sink\",\"dataSourceType\":\"MySQL\",\"dataSource\":2,\"batch_size\":300,\"batch_interval_ms\":1000,\"max_retries\":3,\"is_exactly_once\":false,\"query\":\"insert into sample_data_e_commerce_duplicate ( id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country )\\nvalues (?,?,?,?,?,?,?,?,?)\"}',
         'sys', 'sys');
-INSERT INTO di_job_step(job_id, step_code, step_title, step_type, step_name, position_x, position_y,
+INSERT INTO ws_di_job_step(job_id, step_code, step_title, step_type, step_name, position_x, position_y,
                         step_attrs, creator, editor)
 VALUES (2, '6223c6c3-b552-4c69-adab-5300b7514fad', 'Fake Source', 'source', 'FakeSource', -400, -320,
         '{\"stepTitle\":\"Fake Source\",\"fields\":[{\"field\":\"c_string\",\"type\":\"string\"},{\"field\":\"c_boolean\",\"type\":\"boolean\"},{\"field\":\"c_tinyint\",\"type\":\"tinyint\"},{\"field\":\"c_smallint\",\"type\":\"smallint\"},{\"field\":\"c_int\",\"type\":\"int\"},{\"field\":\"c_bigint\",\"type\":\"bigint\"},{\"field\":\"c_float\",\"type\":\"float\"},{\"field\":\"c_double\",\"type\":\"double\"},{\"field\":\"c_decimal\",\"type\":\"decimal(30, 8)\"},{\"field\":\"c_bytes\",\"type\":\"bytes\"},{\"field\":\"c_map\",\"type\":\"map<string, string>\"},{\"field\":\"c_date\",\"type\":\"date\"},{\"field\":\"c_time\",\"type\":\"time\"},{\"field\":\"c_timestamp\",\"type\":\"timestamp\"}],\"schema\":\"{\\\"fields\\\":{\\\"c_string\\\":\\\"string\\\",\\\"c_boolean\\\":\\\"boolean\\\",\\\"c_tinyint\\\":\\\"tinyint\\\",\\\"c_smallint\\\":\\\"smallint\\\",\\\"c_int\\\":\\\"int\\\",\\\"c_bigint\\\":\\\"bigint\\\",\\\"c_float\\\":\\\"float\\\",\\\"c_double\\\":\\\"double\\\",\\\"c_decimal\\\":\\\"decimal(30, 8)\\\",\\\"c_bytes\\\":\\\"bytes\\\",\\\"c_map\\\":\\\"map<string, string>\\\",\\\"c_date\\\":\\\"date\\\",\\\"c_time\\\":\\\"time\\\",\\\"c_timestamp\\\":\\\"timestamp\\\"}}\"}',
         'sys', 'sys');
-INSERT INTO di_job_step(job_id, step_code, step_title, step_type, step_name, position_x, position_y,
+INSERT INTO ws_di_job_step(job_id, step_code, step_title, step_type, step_name, position_x, position_y,
                         step_attrs, creator, editor)
 VALUES (2, 'f08143b4-34dc-4190-8723-e8d8ce49738f', 'Console Sink', 'sink', 'Console', -320, -120,
         '{\"stepTitle\":\"Console Sink\"}', 'sys', 'sys');
 
 /* 作业连线信息 */
-drop table if exists di_job_link;
-create table di_job_link
+drop table if exists ws_di_job_link;
+create table ws_di_job_link
 (
     id             bigint      not null auto_increment comment '自增主键',
     job_id         bigint      not null comment '作业id',
@@ -497,10 +497,10 @@ create table di_job_link
     primary key (id),
     key (job_id)
 ) engine = innodb comment '数据集成-作业连线';
-INSERT INTO di_job_link (job_id, link_code, from_step_code, to_step_code, creator, editor)
+INSERT INTO ws_di_job_link (job_id, link_code, from_step_code, to_step_code, creator, editor)
 VALUES (1, 'fabfda41-aacb-4a19-b5ef-9e84a75ed4e9', 'f3e02087-91fa-494d-86f4-694970a49ebd',
         '68834928-2a32-427a-a864-83b6b5848e04', 'sys', 'sys');
-INSERT INTO di_job_link(job_id, link_code, from_step_code, to_step_code, creator, editor)
+INSERT INTO ws_di_job_link(job_id, link_code, from_step_code, to_step_code, creator, editor)
 VALUES (2, 'd57021a1-65c7-4dfe-ae89-3b73d00fcf72', '6223c6c3-b552-4c69-adab-5300b7514fad',
         'f08143b4-34dc-4190-8723-e8d8ce49738f', 'sys', 'sys');
 

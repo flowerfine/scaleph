@@ -33,10 +33,10 @@
 
     <select id="isUsed" resultMap="FlinkArtifactMap">
         select t1.*
-        from flink_artifact t1
-        join flink_artifact_jar t2
+        from ws_flink_artifact t1
+        join ws_flink_artifact_jar t2
         on t1.id = t2.flink_artifact_id
-        join flink_job t3
+        join ws_flink_job t3
         on t2.id = t3.flink_artifact_id
         where t1.id = #{id}
         and t3.type = '0'

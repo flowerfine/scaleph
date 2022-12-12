@@ -36,10 +36,6 @@ public interface FlinkJobMapper extends BaseMapper<FlinkJob> {
 
     Page<FlinkJob> list(Page<FlinkJob> page, @Param("param") FlinkJob param);
 
-//    Page<FlinkJob> listByCode(Page<FlinkJob> page, @Param("code") Long code);
-
-//    FlinkJob selectLatestJob(@Param("code") Long code);
-
     Page<FlinkJobForJar> listJobsForJar(Page<FlinkJob> page,
                                         @Param("param") FlinkJob param);
 
