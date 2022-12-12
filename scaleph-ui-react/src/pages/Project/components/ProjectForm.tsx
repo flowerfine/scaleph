@@ -1,5 +1,5 @@
 import { ModalFormProps } from '@/app.d';
-import { ProjectService } from '@/services/project/project.service';
+import { WsProjectService } from '@/services/project/WsProject.service';
 import { WsProject } from '@/services/project/typings';
 import { Form, Input, message, Modal } from 'antd';
 import { useIntl } from 'umi';
@@ -34,13 +34,13 @@ const ProjectForm: React.FC<ModalFormProps<WsProject>> = ({
             remark: values.remark,
           };
           data.id
-            ? ProjectService.updateProject({ ...d }).then((d) => {
+            ? WsProjectService.updateProject({ ...d }).then((d) => {
                 if (d.success) {
                   message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
                   onVisibleChange(false);
                 }
               })
-            : ProjectService.addProject({ ...d }).then((d) => {
+            : WsProjectService.addProject({ ...d }).then((d) => {
                 if (d.success) {
                   message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
                   onVisibleChange(false);

@@ -1,7 +1,7 @@
 import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
-import { JobService } from '@/services/project/job.service';
+import { WsDiJobService } from '@/services/project/WsDiJob.service';
 import { WsDiJob } from '@/services/project/typings';
 import { DeleteOutlined, DownOutlined, EditOutlined, NodeIndexOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
@@ -154,7 +154,7 @@ const DiJobView: React.FC = () => {
                       okButtonProps: { danger: true },
                       cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        JobService.deleteJobRow(record).then((d) => {
+                        WsDiJobService.deleteJobRow(record).then((d) => {
                           if (d.success) {
                             message.success(
                               intl.formatMessage({ id: 'app.common.operate.delete.success' }),
@@ -191,7 +191,7 @@ const DiJobView: React.FC = () => {
             options={false}
             columns={tableColumns}
             request={(params, sorter, filter) => {
-              return JobService.listJobByProject({
+              return WsDiJobService.listJobByProject({
                 ...params,
                 projectId: projectId + '',
               });

@@ -2,11 +2,11 @@ import { Dict, PageResponse, ResponseBody } from '@/app.d';
 import { request } from 'umi';
 import { WsProject, WsProjectParam } from './typings';
 
-export const ProjectService = {
+export const WsProjectService = {
   url: '/api/di/project',
 
   listProjectByPage: async (queryParam: WsProjectParam) => {
-    return request<PageResponse<WsProject>>(`${ProjectService.url}`, {
+    return request<PageResponse<WsProject>>(`${WsProjectService.url}`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
@@ -20,38 +20,38 @@ export const ProjectService = {
     });
   },
   selectOne: async (id: number) => {
-    return request<WsProject>(`${ProjectService.url}/` + id, {
+    return request<WsProject>(`${WsProjectService.url}/` + id, {
       method: 'GET',
     });
   },
 
   listAllProject: async () => {
-    return request<Dict[]>(`${ProjectService.url}/all`, { method: 'GET' });
+    return request<Dict[]>(`${WsProjectService.url}/all`, { method: 'GET' });
   },
 
   deleteProjectRow: async (row: WsProject) => {
-    return request<ResponseBody<any>>(`${ProjectService.url}/` + row.id, {
+    return request<ResponseBody<any>>(`${WsProjectService.url}/` + row.id, {
       method: 'DELETE',
     });
   },
 
   deleteProjectBatch: async (rows: WsProject[]) => {
     const params = rows.map((row) => row.id);
-    return request<ResponseBody<any>>(`${ProjectService.url}/` + 'batch', {
+    return request<ResponseBody<any>>(`${WsProjectService.url}/` + 'batch', {
       method: 'POST',
       data: { ...params },
     });
   },
 
   addProject: async (row: WsProject) => {
-    return request<ResponseBody<any>>(`${ProjectService.url}`, {
+    return request<ResponseBody<any>>(`${WsProjectService.url}`, {
       method: 'POST',
       data: row,
     });
   },
 
   updateProject: async (row: WsProject) => {
-    return request<ResponseBody<any>>(`${ProjectService.url}`, {
+    return request<ResponseBody<any>>(`${WsProjectService.url}`, {
       method: 'PUT',
       data: row,
     });

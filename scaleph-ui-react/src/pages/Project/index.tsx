@@ -1,5 +1,5 @@
 import { PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
-import { ProjectService } from '@/services/project/project.service';
+import { WsProjectService } from '@/services/project/WsProject.service';
 import { WsProject, WsProjectParam } from '@/services/project/typings';
 import { DeleteOutlined, EditOutlined, FolderOpenOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
@@ -96,7 +96,7 @@ const Project: React.FC = () => {
                       okButtonProps: { danger: true },
                       cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
-                        ProjectService.deleteProjectRow(record).then((d) => {
+                        WsProjectService.deleteProjectRow(record).then((d) => {
                           if (d.success) {
                             message.success(
                               intl.formatMessage({ id: 'app.common.operate.delete.success' }),
@@ -164,7 +164,7 @@ const Project: React.FC = () => {
         options={{ reload: true, setting: false, density: false }}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return ProjectService.listProjectByPage({ ...params, ...queryParams });
+          return WsProjectService.listProjectByPage({ ...params, ...queryParams });
         }}
         pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
         tableAlertRender={false}

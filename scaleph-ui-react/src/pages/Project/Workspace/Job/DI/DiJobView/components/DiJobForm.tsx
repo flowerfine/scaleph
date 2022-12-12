@@ -1,4 +1,4 @@
-import { JobService } from '@/services/project/job.service';
+import { WsDiJobService } from '@/services/project/WsDiJob.service';
 import { WsDiJob } from '@/services/project/typings';
 import { Form, Input, Modal } from 'antd';
 import { useIntl } from 'umi';
@@ -28,12 +28,12 @@ const DiJobForm: React.FC<DiJobFormProps<WsDiJob>> = ({
         remark: values.remark,
       };
       data.id
-        ? JobService.updateJob({ ...job, id: data.id }).then((response) => {
+        ? WsDiJobService.updateJob({ ...job, id: data.id }).then((response) => {
             if (response.success) {
               onVisibleChange(false, response.data);
             }
           })
-        : JobService.addJob(job).then((response) => {
+        : WsDiJobService.addJob(job).then((response) => {
             if (response.success) {
               onVisibleChange(false, response.data);
             }

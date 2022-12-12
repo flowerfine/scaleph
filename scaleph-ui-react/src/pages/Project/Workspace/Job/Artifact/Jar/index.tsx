@@ -1,6 +1,6 @@
 import { PRIVILEGE_CODE } from '@/constant';
 import { FlinkArtifactJarService } from '@/services/project/flinkArtifactJar.service';
-import { ProjectService } from '@/services/project/project.service';
+import { WsProjectService } from '@/services/project/WsProject.service';
 import { WsProject, WsFlinkArtifact, WsFlinkArtifactJar } from '@/services/project/typings';
 import { DeleteOutlined, DownloadOutlined, EditOutlined } from '@ant-design/icons';
 import {
@@ -32,7 +32,7 @@ const FlinkArtifactJarWeb: React.FC = () => {
     const artifact = urlParams.state as WsFlinkArtifact;
     setFlinkArtifact(artifact);
 
-    ProjectService.selectOne(artifact.projectId as number).then((d) => {
+    WsProjectService.selectOne(artifact.projectId as number).then((d) => {
       setProject(d);
     });
   }, []);

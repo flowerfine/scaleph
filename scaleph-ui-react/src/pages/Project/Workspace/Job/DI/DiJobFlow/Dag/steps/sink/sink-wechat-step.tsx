@@ -1,7 +1,7 @@
 import { NsGraph } from '@antv/xflow';
 import { ModalFormProps } from '@/app.d';
 import { STEP_ATTR_TYPE, WeChatParams } from '../../constant';
-import { JobService } from '@/services/project/job.service';
+import { WsDiJobService } from '@/services/project/WsDiJob.service';
 import { Form, message, Modal } from 'antd';
 import { WsDiJob } from '@/services/project/typings';
 import { getIntl, getLocale } from 'umi';
@@ -44,7 +44,7 @@ const SinkWeChatStepForm: React.FC<
           StepSchemaService.formatUserIds(values);
           StepSchemaService.formatMobiles(values);
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
-          JobService.saveStepAttr(map).then((resp) => {
+          WsDiJobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
               message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
               onCancel();

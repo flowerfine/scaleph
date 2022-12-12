@@ -6,7 +6,7 @@ import { FlinkArtifactJarService } from '@/services/project/flinkArtifactJar.ser
 import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
 import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInstance.service';
 import { FlinkJobService } from '@/services/project/FlinkJobService';
-import { JobService } from '@/services/project/job.service';
+import { WsDiJobService } from '@/services/project/WsDiJob.service';
 import { WsFlinkJob } from '@/services/project/typings';
 import { ResourceJarService } from '@/services/resource/jar.service';
 import { ProFormInstance, StepsForm } from '@ant-design/pro-components';
@@ -83,7 +83,7 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
       } else if (jobType == '1') {
         //todo sql job list
       } else if (jobType == '2') {
-        JobService.listJobByProject({
+        WsDiJobService.listJobByProject({
           pageSize: 10,
           current: 1,
           projectId: projectId + '',

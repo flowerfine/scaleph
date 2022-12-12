@@ -1,4 +1,4 @@
-import { JobService } from '@/services/project/job.service';
+import { WsDiJobService } from '@/services/project/WsDiJob.service';
 import { NsGraph } from '@antv/xflow';
 import { NsNodeCollapsePanel } from '@antv/xflow-extension/es';
 import { getIntl, getLocale, request } from 'umi';
@@ -19,12 +19,12 @@ export const DagService = {
       jobId: meta.origin.id,
       jobGraph: graphData
     }
-    return JobService.saveJobDetail(param);
+    return WsDiJobService.saveJobDetail(param);
   },
 
   loadJobInfo: async (id: number) => {
     let result: NsGraph.IGraphData = { nodes: [], edges: [] };
-    await JobService.selectJobById(id).then((resp) => {
+    await WsDiJobService.selectJobById(id).then((resp) => {
       let jobInfo = resp;
       let nodes: NsGraph.INodeConfig[] = [];
       let edges: NsGraph.IEdgeConfig[] = [];

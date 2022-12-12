@@ -1,5 +1,5 @@
 import {ModalFormProps} from '@/app.d';
-import {JobService} from '@/services/project/job.service';
+import {WsDiJobService} from '@/services/project/WsDiJob.service';
 import {WsDiJob} from '@/services/project/typings';
 import {
   ProForm,
@@ -49,7 +49,7 @@ const SourceInfluxDBStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           StepSchemaService.formatFields(values)
-          JobService.saveStepAttr(map).then((resp) => {
+          WsDiJobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.success'}));
               onCancel();

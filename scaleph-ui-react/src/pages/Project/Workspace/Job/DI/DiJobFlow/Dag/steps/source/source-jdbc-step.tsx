@@ -1,7 +1,7 @@
 import {ModalFormProps} from '@/app.d';
 import {DICT_TYPE} from '@/constant';
 import {DictDataService} from '@/services/admin/dictData.service';
-import {JobService} from '@/services/project/job.service';
+import {WsDiJobService} from '@/services/project/WsDiJob.service';
 import {WsDiJob} from '@/services/project/typings';
 import {InfoCircleOutlined} from '@ant-design/icons';
 import {NsGraph} from '@antv/xflow';
@@ -43,7 +43,7 @@ const SourceJdbcStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
-          JobService.saveStepAttr(map).then((resp) => {
+          WsDiJobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.success'}));
               onCancel();
