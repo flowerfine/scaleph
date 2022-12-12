@@ -59,7 +59,7 @@ const RefData: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
+              <Tooltip title={intl.formatMessage({id: 'pages.stdata.dataSet.open'})}>
                 <Button
                   shape="default"
                   type="link"

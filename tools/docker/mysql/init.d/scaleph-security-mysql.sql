@@ -89,188 +89,154 @@ create table sec_privilege
 ) engine = innodb comment = '权限表';
 /* init privilege */
 -- truncate table sec_privilege;
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (10, 'psdo0', '工作台', '0', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (1001, 'psdb0', '数据看板', '0', '', 10, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20, 'pdev0', '数据开发', '0', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (2001, 'pdts0', '数据源', '0', '', 20, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (2002, 'pddp0', '项目管理', '0', '', 20, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (2003, 'pdde0', '资源管理', '0', '', 20, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (2004, 'pddj0', '作业管理', '0', '', 20, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (2005, 'pddc0', '集群管理', '0', '', 20, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (30, 'popc0', '运维中心', '0', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (3001, 'pobt0', '周期任务', '0', '', 30, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (3002, 'port0', '实时任务', '0', '', 30, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (40, 'pstd0', '数据标准', '0', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (4001, 'pstr0', '参考数据', '0', '', 40, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (4002, 'pstm0', '数据映射', '0', '', 40, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (4003, 'pste0', '数据元', '0', '', 40, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (4004, 'psts0', '业务系统', '0', '', 40, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50, 'padm0', '系统管理', '0', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (5001, 'pusr0', '用户管理', '0', '', 50, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (5002, 'ppvg0', '权限管理', '0', '', 50, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (5003, 'pdic0', '数据字典', '0', '', 50, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (5004, 'pset0', '系统设置', '0', '', 50, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (200101, 'pdts4', '数据源', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20010101, 'pdts1', '新增数据源', '1', '', 200101, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20010102, 'pdts3', '删除数据源', '1', '', 200101, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20010103, 'pdts2', '修改数据源', '1', '', 200101, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20010104, 'pdts6', '查看密码', '1', '', 200101, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (200201, 'pddp4', '项目管理', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20020101, 'pddp1', '新增项目', '1', '', 200201, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20020102, 'pddp3', '删除项目', '1', '', 200201, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20020103, 'pddp2', '修改项目', '1', '', 200201, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (200301, 'pdde4', '资源管理', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20030101, 'pdde1', '新增资源', '1', '', 200301, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20030102, 'pdde3', '删除资源', '1', '', 200301, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20030103, 'pdde2', '修改资源', '1', '', 200301, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20030104, 'pdde7', '下载资源', '1', '', 200301, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (200401, 'pddj4', '作业管理', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20040101, 'pddj1', '新增作业', '1', '', 200401, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20040102, 'pddj3', '删除作业', '1', '', 200401, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20040103, 'pddj2', '修改作业', '1', '', 200401, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (200402, 'pddr4', '目录管理', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20040201, 'pddr1', '新增目录', '1', '', 200402, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20040202, 'pddr3', '删除目录', '1', '', 200402, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20040203, 'pddr2', '修改目录', '1', '', 200402, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (200501, 'pddc4', '集群管理', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20050101, 'pddc1', '新增集群', '1', '', 200501, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20050102, 'pddc3', '删除集群', '1', '', 200501, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (20050103, 'pddc2', '修改集群', '1', '', 200501, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (300101, 'pobt4', '周期任务', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (300201, 'port4', '实时任务', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (400101, 'pstt4', '参考数据类型管理', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (40010101, 'pstt1', '新增参考数据类型', '1', '', 400101, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (40010102, 'pstt3', '删除参考数据类型', '1', '', 400101, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (40010103, 'pstt2', '修改参考数据类型', '1', '', 400101, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (400102, 'pstr4', '参考数据管理', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (40010201, 'pstr1', '新增参考数据', '1', '', 400102, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (40010202, 'pstr3', '删除参考数据', '1', '', 400102, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (40010203, 'pstr2', '修改参考数据', '1', '', 400102, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (400201, 'pstm4', '参考数据映射管理', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (40020101, 'pstm1', '新增参考数据映射', '1', '', 400201, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (40020102, 'pstm3', '删除参考数据映射', '1', '', 400201, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (40020103, 'pstm2', '修改参考数据映射', '1', '', 400201, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (400301, 'pste4', '数据元管理', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (40030101, 'pste1', '新增数据元', '1', '', 400301, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (40030102, 'pste3', '删除数据元', '1', '', 400301, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (40030103, 'pste2', '修改数据元', '1', '', 400301, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (400401, 'psts4', '业务系统', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (40040101, 'psts1', '新增业务系统', '1', '', 400401, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (40040102, 'psts3', '删除业务系统', '1', '', 400401, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (40040103, 'psts2', '修改业务系统', '1', '', 400401, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (500101, 'pusr4', '用户管理', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50010101, 'pusr1', '新增用户', '1', '', 500101, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50010102, 'pusr3', '删除用户', '1', '', 500101, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50010103, 'pusr2', '修改用户', '1', '', 500101, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (500201, 'prol4', '角色管理', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50020101, 'prol1', '新增角色', '1', '', 500201, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50020102, 'prol3', '删除角色', '1', '', 500201, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50020103, 'prol2', '修改角色', '1', '', 500201, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50020104, 'prol5', '角色授权', '1', '', 500201, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (500202, 'pdep4', '部门管理', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50020201, 'pdep1', '新增部门', '1', '', 500202, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50020202, 'pdep3', '删除部门', '1', '', 500202, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50020203, 'pdep2', '修改部门', '1', '', 500202, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50020204, 'pdep5', '部门授权', '1', '', 500202, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (500301, 'pdct4', '字典类型', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50030101, 'pdct1', '新增字典类型', '1', '', 500301, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50030102, 'pdct3', '删除字典类型', '1', '', 500301, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50030103, 'pdct2', '修改字典类型', '1', '', 500301, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (500302, 'pdcd4', '数据字典', '1', '', 0, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50030201, 'pdcd1', '新增数据字典', '1', '', 500302, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50030202, 'pdcd3', '删除数据字典', '1', '', 500302, 'sys', 'sys');
-insert into sec_privilege (id, privilege_code, privilege_name, resource_type, resource_path, pid, creator, editor)
-values (50030203, 'pdcd2', '修改数据字典', '1', '', 500302, 'sys', 'sys');
+
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (1, 'psdo0', '工作台', '0', 0, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (2, 'ppjp0', '项目', '0', 0, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (3, 'pree0', '资源', '0', 0, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (4, 'pdse0', '数据源', '0', 0, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (5, 'pstd0', '数据标准', '0', 0, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (6, 'padm0', '系统管理', '0', 0, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (7, 'pwjm0', '作业管理', '0', 2, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (8, 'pwcm0', '集群管理', '0', 2, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (100000, 'psdb0', '数据看板', '1', 1, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (200000, 'ppjl0', '项目列表', '1', 2, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (200001, 'ppjl4', '进入项目', '2', 200000, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (200002, 'ppjl1', '创建项目', '2', 200000, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (200003, 'ppjl2', '修改', '2', 200000, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (200004, 'ppjl3', '删除', '2', 200000, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (200005, 'pwjl0', '作业列表', '1', 7, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (200006, 'pwja0', 'Artifact', '1', 7, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (200007, 'pwjs0', 'SQL', '1', 7, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (200008, 'pwst0', 'SeaTunnel', '1', 7, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (200009, 'pwcc0', '集群配置', '1', 8, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (200010, 'pwci0', '集群实例', '1', 8, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300000, 'prej0', '公共 Jar', '1', 3, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300001, 'prfr0', 'Flink Release', '1', 3, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300002, 'prsr0', 'SeaTunnel Release', '1', 3, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300003, 'prek0', 'Kerberos', '1', 3, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300004, 'prcc0', 'Cluster Credential', '1', 3, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300005, 'prej7', '上传', '2', 300000, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300006, 'prej8', '下载', '2', 300000, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300007, 'prej3', '删除', '2', 300000, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300008, 'prfr7', '上传', '2', 300001, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300009, 'prfr8', '下载', '2', 300001, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300010, 'prfr3', '删除', '2', 300001, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300011, 'prsr7', '上传', '2', 300002, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300012, 'prsr8', '下载', '2', 300002, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300013, 'prsr3', '删除', '2', 300002, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300014, 'prek7', '上传', '2', 300003, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300015, 'prek8', '下载', '2', 300003, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300016, 'prek3', '删除', '2', 300003, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300017, 'prcc1', '新增', '2', 300004, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300018, 'prcc2', '修改', '2', 300004, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300019, 'prcc3', '删除', '2', 300004, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300020, 'prcf0', '详情页', '1', 300004, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300021, 'prcf7', '上传', '2', 300020, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300022, 'prcf8', '下载', '2', 300020, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (300023, 'prcf3', '删除', '2', 300020, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (400000, 'pdsl0', '数据源列表', '1', 4, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (400001, 'pdsl1', '新增', '2', 400000, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (400002, 'pdsl3', '删除', '2', 400000, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500000, 'psts0', '业务系统', '1', 5, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500001, 'pste0', '数据元', '1', 5, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500002, 'pstt0', '参考数据', '1', 5, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500003, 'pstm0', '数据映射', '1', 5, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500004, 'psts1', '新增', '2', 500000, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500005, 'psts2', '修改', '2', 500000, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500006, 'psts3', '删除', '2', 500000, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500007, 'pste1', '新增', '2', 500001, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500008, 'pste2', '修改', '2', 500001, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500009, 'pste3', '删除', '2', 500001, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500010, 'pstt1', '新增', '2', 500002, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500011, 'pstt2', '修改', '2', 500002, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500012, 'pstt3', '删除', '2', 500002, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500013, 'pstv0', '参考数据值', '2', 500002, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500014, 'pstv1', '新增', '2', 500013, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500015, 'pstv2', '修改', '2', 500013, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500016, 'pstv3', '删除', '2', 500013, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500017, 'pstm1', '新增', '2', 500003, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500018, 'pstm2', '修改', '2', 500003, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (500019, 'pstm3', '删除', '2', 500003, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600000, 'padr0', '用户管理', '1', 6, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600001, 'parw0', 'Web 资源', '1', 6, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600002, 'padp0', '权限管理', '1', 6, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600003, 'pawq0', '系统任务', '1', 6, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600004, 'padd0', '数据字典', '1', 6, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600005, 'pads0', '系统设置', '1', 6, 'sys', 'sys');
+
 
 /* 角色权限关联表 */
 drop table if exists sec_role_privilege;

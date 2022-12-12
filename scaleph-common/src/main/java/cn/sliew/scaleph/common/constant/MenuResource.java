@@ -33,4 +33,7 @@ public enum MenuResource {
     public static Route DATA_STANDARD = new Route(5, "数据标准", PageCode.STDATA, "/stdata", ROOT);
     public static Route ADMIN = new Route(6, "系统管理", PageCode.ADMIN, "/admin", ROOT);
 
+    public static Route WORKSPACE_JOB = new Route(7, "作业管理", PageCode.WORKSPACE_JOB, "/workspace/job", PROJECT);
+    public static Route WORKSPACE_CLUSTER = new Route(8, "项目管理", PageCode.WORKSPACE_CLUSTER, "/workspace/cluster", PROJECT);
+
 }

@@ -28,12 +28,14 @@ public enum PageCode {
 
     public static final String PROJECT = "pjp";
     public static final String PROJECT_LIST = "pjl";
+    public static final String WORKSPACE_JOB = "wjm";
     public static final String WORKSPACE_JOB_LIST = "wjl";
     public static final String WORKSPACE_JOB_DETAIL = "wjd";
     public static final String WORKSPACE_JOB_ARTIFACT = "wja";
     public static final String WORKSPACE_JOB_ARTIFACT_JAR = "wjj";
     public static final String WORKSPACE_JOB_SQL = "wjs";
     public static final String WORKSPACE_JOB_SEATUNNEL = "wst";
+    public static final String WORKSPACE_CLUSTER = "wcm";
     public static final String WORKSPACE_CLUSTER_CONFIG = "wcc";
     public static final String WORKSPACE_CLUSTER_CONFIG_OPTIONS = "wco";
     public static final String WORKSPACE_CLUSTER_INSTANCE = "wci";
@@ -44,19 +46,23 @@ public enum PageCode {
     public static final String RESOURCE_SEATUNNEL_RELEASE = "rsr";
     public static final String RESOURCE_KERBEROS = "rek";
     public static final String RESOURCE_CLUSTER_CREDENTIAL = "rcc";
+    public static final String RESOURCE_CLUSTER_CREDENTIAL_FILE = "rcf";
 
     public static final String DATA_SOURCE = "dse";
+    public static final String DATA_SOURCE_LIST = "dsl";
 
     public static final String STDATA = "std";
     public static final String STDATA_SYSTEM = "sts";
     public static final String STDATA_DATA_ELEMENT = "ste";
     public static final String STDATA_REF_DATA_TYPE = "stt";
+    public static final String STDATA_REF_DATA_VALUE = "stv";
     public static final String STDATA_REF_DATA_MAP = "stm";
 
     public static final String ADMIN = "adm";
     public static final String ADMIN_DEPT = "adp";
     public static final String ADMIN_USER = "adr";
     public static final String ADMIN_ROLE = "adr";
+    public static final String ADMIN_RESOURCE_WEB = "arw";
     public static final String ADMIN_PRIVILEGE = "adp";
     public static final String ADMIN_WORKFLOW_QUARTZ = "awq";
     public static final String ADMIN_DICT = "add";

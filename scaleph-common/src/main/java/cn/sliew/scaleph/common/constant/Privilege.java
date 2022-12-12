@@ -14,5 +14,5 @@ public enum Privilege {
     public static final String SECURITY = "6";
 
     public static final String UPLOAD = "7";
-    public static final String DOWNLOAD = "7";
+    public static final String DOWNLOAD = "8";
 }
