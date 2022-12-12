@@ -21,10 +21,8 @@ package cn.sliew.scaleph.api.controller.flink;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.engine.flink.service.FlinkClusterInstanceService;
 import cn.sliew.scaleph.engine.flink.service.FlinkService;
-import cn.sliew.scaleph.engine.flink.service.FlinkYarnService;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterInstanceDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterInstanceListParam;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkSessionClusterAddParam;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterInstanceParam;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -48,20 +46,18 @@ public class ClusterInstanceController {
     private FlinkClusterInstanceService flinkClusterInstanceService;
     @Autowired
     private FlinkService flinkService;
-    @Autowired
-    private FlinkYarnService flinkYarnService;
 
     @Logging
     @GetMapping
     @ApiOperation(value = "查询集群实例列表", notes = "分页查询集群实例列表")
-    public ResponseEntity<Page<FlinkClusterInstanceDTO>> list(@Valid FlinkClusterInstanceListParam param) {
+    public ResponseEntity<Page<FlinkClusterInstanceDTO>> list(@Valid FlinkClusterInstanceParam param) {
         Page<FlinkClusterInstanceDTO> page = flinkClusterInstanceService.list(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @Logging
     @GetMapping({"{id}"})
-    @ApiOperation(value = "查询集群实例", notes = "查询集群实例Ï")
+    @ApiOperation(value = "查询集群实例", notes = "查询集群实例")
     public ResponseEntity<FlinkClusterInstanceDTO> selectOne(@PathVariable("id") Long id) {
         final FlinkClusterInstanceDTO result = flinkClusterInstanceService.selectOne(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -70,8 +66,8 @@ public class ClusterInstanceController {
     @Logging
     @PutMapping
     @ApiOperation(value = "创建 session 集群", notes = "创建 session 集群")
-    public ResponseEntity<ResponseVO> createSessionCluster(@Valid @RequestBody FlinkSessionClusterAddParam param) throws Exception {
-        flinkService.createSessionCluster(param);
+    public ResponseEntity<ResponseVO> createSessionCluster(@Valid @RequestBody FlinkClusterInstanceDTO param) throws Exception {
+        flinkService.createSessionCluster(param.getProjectId(), param.getFlinkClusterConfigId());
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 

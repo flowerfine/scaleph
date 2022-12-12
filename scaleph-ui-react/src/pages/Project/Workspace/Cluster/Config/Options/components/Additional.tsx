@@ -25,7 +25,7 @@ const Additional: React.FC = () => {
             copyIconProps={false}
             creatorButtonProps={{
               creatorButtonText: intl.formatMessage({
-                id: 'pages.dev.clusterConfig.configOptions',
+                id: 'page.project.cluster.config.configOptions',
               }),
               type: 'text',
             }}
@@ -34,13 +34,13 @@ const Additional: React.FC = () => {
               <Col span={12}>
                 <ProFormText
                   name="key"
-                  label={intl.formatMessage({ id: 'pages.dev.clusterConfig.configOptions.key' })}
+                  label={intl.formatMessage({ id: 'page.project.cluster.config.configOptions.key' })}
                 />
               </Col>
               <Col span={12}>
                 <ProFormText
                   name="value"
-                  label={intl.formatMessage({ id: 'pages.dev.clusterConfig.configOptions.value' })}
+                  label={intl.formatMessage({ id: 'page.project.cluster.config.configOptions.value' })}
                 />
               </Col>
             </Row>

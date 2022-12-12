@@ -33,4 +33,5 @@ public class FlinkReleaseListParam extends PaginationParam {
 
     @ApiModelProperty("文件名称。支持模糊匹配")
     private String fileName;
+
 }

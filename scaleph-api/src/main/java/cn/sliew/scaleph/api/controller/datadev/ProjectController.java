@@ -52,6 +52,15 @@ public class ProjectController {
     private DiProjectService diProjectService;
 
     @Logging
+    @GetMapping(path = "/{id}")
+    @ApiOperation(value = "查询项目信息", notes = "查询项目信息")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_SELECT)")
+    public ResponseEntity<DiProjectDTO> selectOne(@PathVariable(value = "id") Long projectId) {
+        DiProjectDTO project = diProjectService.selectOne(projectId);
+        return new ResponseEntity<>(project, HttpStatus.OK);
+    }
+
+    @Logging
     @GetMapping
     @ApiOperation(value = "查询项目列表", notes = "分页查询项目列表")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_SELECT)")

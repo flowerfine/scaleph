@@ -18,13 +18,11 @@
 
 package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.dao.entity.master.flink.FlinkJobInstance;
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkJobInstanceDTO;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobInstanceListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 
-public interface FlinkJobInstanceService extends IService<FlinkJobInstance> {
+public interface FlinkJobInstanceService {
 
     @Deprecated
     Page<FlinkJobInstanceDTO> list(FlinkJobInstanceListParam param);
@@ -41,6 +39,7 @@ public interface FlinkJobInstanceService extends IService<FlinkJobInstance> {
 
     FlinkJobInstanceDTO deleteById(Long id);
 
+    //todo useable?
     int transferToLog(FlinkJobInstanceDTO dto);
 
 }

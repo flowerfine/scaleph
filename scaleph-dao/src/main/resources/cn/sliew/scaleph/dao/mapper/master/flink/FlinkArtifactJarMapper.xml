@@ -19,101 +19,68 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.sliew.scaleph.dao.mapper.master.flink.FlinkArtifactJarMapper">
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJar">
+    <resultMap id="FlinkArtifactJarMap" type="cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJar">
         <result column="id" property="id"/>
         <result column="creator" property="creator"/>
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
+        <result column="version" property="version"/>
+        <result column="flink_version" property="flinkVersion"/>
+        <result column="entry_class" property="entryClass"/>
+        <result column="file_name" property="fileName"/>
+        <result column="path" property="path"/>
+        <result column="jar_params" property="jarParams"/>
         <result column="flink_artifact_id" property="flinkArtifactId"/>
-        <result column="version" property="version"/>
-        <result column="flink_version" property="flinkVersion"/>
-        <result column="entry_class" property="entryClass"/>
-        <result column="file_name" property="fileName"/>
-        <result column="path" property="path"/>
-    </resultMap>
-
-    <resultMap id="FlinkArtifactJarVOMap" type="cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifactJarVO">
-        <result column="id" property="id"/>
-        <result column="creator" property="creator"/>
-        <result column="create_time" property="createTime"/>
-        <result column="editor" property="editor"/>
-        <result column="update_time" property="updateTime"/>
-        <result column="version" property="version"/>
-        <result column="flink_version" property="flinkVersion"/>
-        <result column="entry_class" property="entryClass"/>
-        <result column="file_name" property="fileName"/>
-        <result column="path" property="path"/>
         <association property="flinkArtifact"
                      javaType="cn.sliew.scaleph.dao.entity.master.flink.FlinkArtifact">
-            <result column="artifact_id" property="id"/>
-            <result column="artifact_name" property="name"/>
-            <result column="artifact_type" property="type"/>
-            <result column="artifact_remark" property="remark"/>
+            <result column="flink_artifact_id" property="id"/>
+            <result column="project_id" property="projectId"/>
+            <result column="flink_artifact_name" property="name"/>
+            <result column="flink_artifact_remark" property="remark"/>
         </association>
     </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id
-                ,
-        creator,
-        create_time,
-        editor,
-        update_time,
-        flink_artifact_id,
-        version,
-        flink_version,
-        entry_class,
-        file_name,
-        `path`
-    </sql>
 
-    <select id="findMaxVersion" resultType="string">
-        select version
-        from flink_artifact_jar
-        where flink_artifact_id = #{flinkArtifactId}
-        order by CONCAT(
-                         LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 1), '.', -
-                                 1), 10, '0'),
-                         LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 2), '.', -
-                                 1), 10, '0'),
-                         LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(version, '.', 3), '.', -
-                                 1), 10, '0')
-                         ) DESC, id DESC
+    <select id="list" resultMap="FlinkArtifactJarMap">
+        <![CDATA[
+        select
+            t1.*,
+            t2.id as flink_artifact_id,
+            t2.project_id as project_id,
+            t2.`name` as flink_artifact_name,
+            t2.remark as flink_artifact_remark
+        from flink_artifact_jar t1
+        join flink_artifact t2
+        on t1.flink_artifact_id = t2.id
+        where t1.flink_artifact_id = #{param.flinkArtifactId}
+        ]]>
+        <if test="param.flinkVersion != null">
+            AND t1.flink_version = #{param.flinkVersion}
+        </if>
+        order by t1.create_time desc
+    </select>
+
+
+    <select id="selectOne" resultMap="FlinkArtifactJarMap">
+        select t1.*,
+               t2.id         as flink_artifact_id,
+               t2.project_id as project_id,
+               t2.`name`     as flink_artifact_name,
+               t2.remark     as flink_artifact_remark
+        from flink_artifact_jar t1
+                 join flink_artifact t2 on t1.flink_artifact_id = t2.id
+        where t1.id = #{id}
+    </select>
+
+    <select id="isUsed" resultMap="FlinkArtifactJarMap">
+        select
+            t1.*
+        from flink_artifact_jar t1
+        join flink_job t2
+        on  t1.id  = t2.flink_artifact_id
+        where t2.type = '0'
+        and t1.id = #{id}
         limit 1
-    </select>
-
-    <select id="list" resultMap="FlinkArtifactJarVOMap">
-        SELECT t1.*,
-               t2.id     AS artifact_id,
-               t2.`name` AS artifact_name,
-               t2.type   AS artifact_type,
-               t2.remark AS artifact_remark
-        FROM flink_artifact_jar t1
-                     JOIN flink_artifact t2 ON t1.flink_artifact_id = t2.id
-        WHERE t1.flink_artifact_id = #{param.flinkArtifactId}
-            <if test="param.flinkVersion != null">
-                AND t1.flink_version = #{param.flinkVersion}
-            </if>
-        ORDER BY CONCAT(
-                         LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(t1.version, '.', 1), '.', -
-                                 1), 10, '0'),
-                         LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(t1.version, '.', 2), '.', -
-                                 1), 10, '0'),
-                         LPAD(SUBSTRING_INDEX(SUBSTRING_INDEX(t1.version, '.', 3), '.', -
-                                 1), 10, '0')
-                         ) DESC, t1.id DESC
-    </select>
-
-    <select id="getById" resultMap="FlinkArtifactJarVOMap">
-        SELECT t1.*,
-               t2.id     AS artifact_id,
-               t2.`name` AS artifact_name,
-               t2.type   AS artifact_type,
-               t2.remark AS artifact_remark
-        FROM flink_artifact_jar t1
-                     JOIN flink_artifact t2 ON t1.flink_artifact_id = t2.id
-        WHERE t1.id = #{id}
     </select>
 </mapper>

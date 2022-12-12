@@ -30,7 +30,6 @@ export const DICT_TYPE = {
   flinkCheckpointRetain: 'flink_checkpoint_retain',
   flinkRestartStrategy: 'flink_restart_strategy',
   flinkHA: 'flink_high_availability',
-  flinkArtifactType: 'flink_artifact_type',
   flinkJobType: 'flink_job_type',
   seatunnelVersion: 'seatunnel_version',
   seatunnelPluginName: 'seatunnel_plugin_name',

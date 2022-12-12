@@ -207,7 +207,6 @@ public class FlinkYarnServiceImpl implements FlinkYarnService {
         for (JobStatusMessage job : jobs) {
             FlinkJobInstanceDTO flinkJobInstanceDTO = new FlinkJobInstanceDTO();
             flinkJobInstanceDTO.setFlinkJobCode(flinkJobForJarDTO.getCode());
-            flinkJobInstanceDTO.setFlinkJobVersion(flinkJobForJarDTO.getVersion());
             flinkJobInstanceDTO.setJobId(job.getJobId().toHexString());
             flinkJobInstanceDTO.setJobName(job.getJobName());
             flinkJobInstanceDTO.setJobState(FlinkJobState.of(job.getJobState().name()));

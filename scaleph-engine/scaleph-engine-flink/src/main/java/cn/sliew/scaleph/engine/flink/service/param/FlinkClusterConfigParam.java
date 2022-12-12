@@ -22,13 +22,20 @@ import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.dao.entity.master.flink.FlinkClusterConfig;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.beans.BeanUtils;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FlinkClusterConfigListParam extends PaginationParam {
+public class FlinkClusterConfigParam extends PaginationParam {
+
+    @ApiModelProperty("项目ID")
+    private Long projectId;
 
     @ApiModelProperty("名称。支持模糊搜索")
     private String name;
@@ -41,4 +48,10 @@ public class FlinkClusterConfigListParam extends PaginationParam {
 
     @ApiModelProperty("flink 部署模式。0: Application, 1: Per-Job, 2: Session")
     private FlinkDeploymentMode deployMode;
+
+    public FlinkClusterConfig toDo() {
+        FlinkClusterConfig entity = new FlinkClusterConfig();
+        BeanUtils.copyProperties(this, entity);
+        return entity;
+    }
 }

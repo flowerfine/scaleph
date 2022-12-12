@@ -33,22 +33,17 @@ const JobLogTable: React.FC<{ flinkJobCode: number }> = ({ flinkJobCode }) => {
   };
   const tableColumns: ColumnsType<FlinkJobLog> = [
     {
-      title: intl.formatMessage({ id: 'pages.dev.job.detail.jobId' }),
+      title: intl.formatMessage({ id: 'pages.project.job.detail.jobId' }),
       dataIndex: 'jobId',
       key: 'jobId',
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.job.detail.jobName' }),
+      title: intl.formatMessage({ id: 'pages.project.job.detail.jobName' }),
       dataIndex: 'jobName',
       key: 'jobName',
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.job.detail.version' }),
-      dataIndex: 'flinkJobVersion',
-      key: 'flinkJobVersion',
-    },
-    {
-      title: intl.formatMessage({ id: 'pages.dev.job.detail.jobState' }),
+      title: intl.formatMessage({ id: 'pages.project.job.detail.jobState' }),
       dataIndex: 'jobState',
       key: 'jobState',
       render: (text, record, index) => {
@@ -56,7 +51,7 @@ const JobLogTable: React.FC<{ flinkJobCode: number }> = ({ flinkJobCode }) => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.job.detail.clusterStatus' }),
+      title: intl.formatMessage({ id: 'pages.project.job.detail.clusterStatus' }),
       dataIndex: 'clusterStatus',
       key: 'clusterStatus',
       render: (text, record, index) => {
@@ -64,19 +59,19 @@ const JobLogTable: React.FC<{ flinkJobCode: number }> = ({ flinkJobCode }) => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.job.detail.startTime' }),
+      title: intl.formatMessage({ id: 'pages.project.job.detail.startTime' }),
       dataIndex: 'startTime',
       key: 'startTime',
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.job.detail.endTime' }),
+      title: intl.formatMessage({ id: 'pages.project.job.detail.endTime' }),
       dataIndex: 'endTime',
       key: 'endTime',
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.dev.job.detail.duration' }),
+      title: intl.formatMessage({ id: 'pages.project.job.detail.duration' }),
       dataIndex: 'duration',
       key: 'duration',
     },

@@ -19,12 +19,12 @@
 package cn.sliew.scaleph.engine.flink.service;
 
 import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterInstanceDTO;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterInstanceListParam;
+import cn.sliew.scaleph.engine.flink.service.param.FlinkClusterInstanceParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 public interface FlinkClusterInstanceService {
 
-    Page<FlinkClusterInstanceDTO> list(FlinkClusterInstanceListParam param);
+    Page<FlinkClusterInstanceDTO> list(FlinkClusterInstanceParam param);
 
     int insert(FlinkClusterInstanceDTO dto);
 

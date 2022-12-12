@@ -19,7 +19,7 @@ const JobConfigurationWeb: React.FC<{
     <>
       <Row gutter={[12, 12]}>
         <Col span={12}>
-          <Card title={intl.formatMessage({ id: 'pages.dev.job.detail.config.state' })}>
+          <Card title={intl.formatMessage({ id: 'pages.project.job.detail.config.state' })}>
             <List itemLayout="horizontal">
               <List.Item>
                 <List.Item.Meta title="state.backend"></List.Item.Meta>
@@ -37,7 +37,7 @@ const JobConfigurationWeb: React.FC<{
           </Card>
         </Col>
         <Col span={12}>
-          <Card title={intl.formatMessage({ id: 'pages.dev.job.detail.config.checkpoint' })}>
+          <Card title={intl.formatMessage({ id: 'pages.project.job.detail.config.checkpoint' })}>
             <List itemLayout="horizontal">
               <List.Item>
                 <List.Item.Meta title="execution.checkpointing.mode"></List.Item.Meta>
@@ -61,7 +61,7 @@ const JobConfigurationWeb: React.FC<{
           </Card>
         </Col>
         <Col span={8}>
-          <Card title={intl.formatMessage({ id: 'pages.dev.job.detail.config.resource' })}>
+          <Card title={intl.formatMessage({ id: 'pages.project.job.detail.config.resource' })}>
           <List itemLayout="horizontal">
               <List.Item>
                 <List.Item.Meta title="jobmanager.memory.process.size"></List.Item.Meta>
@@ -83,7 +83,7 @@ const JobConfigurationWeb: React.FC<{
           </Card>
         </Col>
         <Col span={8}>
-          <Card title={intl.formatMessage({ id: 'pages.dev.job.detail.config.ha' })}>
+          <Card title={intl.formatMessage({ id: 'pages.project.job.detail.config.ha' })}>
             <List itemLayout="horizontal">
               <List.Item>
                 <List.Item.Meta title="high-availability"></List.Item.Meta>
@@ -101,7 +101,7 @@ const JobConfigurationWeb: React.FC<{
           </Card>
         </Col>
         <Col span={8}>
-          <Card title={intl.formatMessage({ id: 'pages.dev.job.detail.config.fault' })}>
+          <Card title={intl.formatMessage({ id: 'pages.project.job.detail.config.fault' })}>
             <List itemLayout="horizontal">
               <List.Item>
                 <List.Item.Meta title="restart-strategy"></List.Item.Meta>
