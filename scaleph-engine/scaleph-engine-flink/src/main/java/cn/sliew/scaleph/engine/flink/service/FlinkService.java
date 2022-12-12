@@ -24,7 +24,7 @@ import java.util.List;
 
 public interface FlinkService {
 
-    void createSessionCluster(FlinkSessionClusterAddParam param) throws Exception;
+    void createSessionCluster(Long projectId,Long flinkClusterConfigId) throws Exception;
 
     void submitJar(Long id) throws Exception;
 

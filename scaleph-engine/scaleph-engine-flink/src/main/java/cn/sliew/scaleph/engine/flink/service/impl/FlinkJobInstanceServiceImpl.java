@@ -87,7 +87,6 @@ public class FlinkJobInstanceServiceImpl
         LambdaUpdateWrapper<FlinkJobInstance> wrapper = new UpdateWrapper<FlinkJobInstance>()
                 .lambda()
                 .eq(FlinkJobInstance::getFlinkJobCode, dto.getFlinkJobCode())
-                .eq(FlinkJobInstance::getFlinkJobVersion, dto.getFlinkJobVersion())
                 .eq(FlinkJobInstance::getJobId, dto.getJobId());
         return saveOrUpdate(record, wrapper);
     }

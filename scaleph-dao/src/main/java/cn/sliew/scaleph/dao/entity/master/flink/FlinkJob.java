@@ -38,6 +38,9 @@ public class FlinkJob extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField("project_id")
+    private Long projectId;
+
     @ApiModelProperty("job type. 0: jar, 1: sql+udf, 2: seatunnel")
     @TableField("`type`")
     private FlinkJobType type;
@@ -67,14 +70,4 @@ public class FlinkJob extends BaseDO {
 
     @ApiModelProperty("jars")
     private String jars;
-
-    @TableField("from_version")
-    private Long fromVersion;
-
-    @TableField("version")
-    private Long version;
-
-    @TableField("remark")
-    private String remark;
-
 }

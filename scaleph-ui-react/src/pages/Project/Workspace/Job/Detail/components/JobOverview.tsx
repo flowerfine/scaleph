@@ -11,12 +11,12 @@ const JobOverviewWeb: React.FC<{
     <>
       <Row gutter={[12, 12]}>
         <Col span={12}>
-          <Card title={intl.formatMessage({ id: 'pages.dev.job.detail.overview.basic' })}>
+          <Card title={intl.formatMessage({ id: 'pages.project.job.detail.overview.basic' })}>
             <List itemLayout="horizontal">
               <List.Item>
                 <List.Item.Meta
                   title={intl.formatMessage({
-                    id: 'pages.dev.job.detail.overview.basic.artifactType',
+                    id: 'pages.project.job.detail.overview.basic.artifactType',
                   })}
                 ></List.Item.Meta>
                 <div>{data.type}</div>
@@ -24,7 +24,7 @@ const JobOverviewWeb: React.FC<{
               <List.Item>
                 <List.Item.Meta
                   title={intl.formatMessage({
-                    id: 'pages.dev.job.detail.overview.basic.jar',
+                    id: 'pages.project.job.detail.overview.basic.jar',
                   })}
                 ></List.Item.Meta>
                 <div>{data.flinkArtifactJar?.fileName}</div>
@@ -32,7 +32,7 @@ const JobOverviewWeb: React.FC<{
               <List.Item>
                 <List.Item.Meta
                   title={intl.formatMessage({
-                    id: 'pages.dev.job.detail.overview.basic.jarPath',
+                    id: 'pages.project.job.detail.overview.basic.jarPath',
                   })}
                 ></List.Item.Meta>
                 <div>{data.flinkArtifactJar?.path}</div>
@@ -40,7 +40,7 @@ const JobOverviewWeb: React.FC<{
               <List.Item>
                 <List.Item.Meta
                   title={intl.formatMessage({
-                    id: 'pages.dev.job.detail.overview.basic.jarVersion',
+                    id: 'pages.project.job.detail.overview.basic.jarVersion',
                   })}
                 ></List.Item.Meta>
                 <div>{data.flinkArtifactJar?.version}</div>
@@ -48,7 +48,7 @@ const JobOverviewWeb: React.FC<{
               <List.Item>
                 <List.Item.Meta
                   title={intl.formatMessage({
-                    id: 'pages.dev.job.detail.overview.basic.mainClass',
+                    id: 'pages.project.job.detail.overview.basic.mainClass',
                   })}
                 ></List.Item.Meta>
                 <div>{data.flinkArtifactJar?.entryClass}</div>
@@ -56,7 +56,7 @@ const JobOverviewWeb: React.FC<{
               <List.Item>
                 <List.Item.Meta
                   title={intl.formatMessage({
-                    id: 'pages.dev.job.detail.overview.basic.flinkVersion',
+                    id: 'pages.project.job.detail.overview.basic.flinkVersion',
                   })}
                 ></List.Item.Meta>
                 <div>{data.flinkArtifactJar?.flinkVersion?.label}</div>
@@ -64,7 +64,7 @@ const JobOverviewWeb: React.FC<{
               <List.Item>
                 <List.Item.Meta
                   title={intl.formatMessage({
-                    id: 'pages.dev.job.detail.overview.basic.creator',
+                    id: 'pages.project.job.detail.overview.basic.creator',
                   })}
                 ></List.Item.Meta>
                 <div>{data.creator}</div>
@@ -72,7 +72,7 @@ const JobOverviewWeb: React.FC<{
               <List.Item>
                 <List.Item.Meta
                   title={intl.formatMessage({
-                    id: 'pages.dev.job.detail.overview.basic.editor',
+                    id: 'pages.project.job.detail.overview.basic.editor',
                   })}
                 ></List.Item.Meta>
                 <div>{data.editor}</div>
@@ -83,14 +83,14 @@ const JobOverviewWeb: React.FC<{
         <Col span={12}>
           <Card
             title={intl.formatMessage({
-              id: 'pages.dev.job.detail.overview.cluster',
+              id: 'pages.project.job.detail.overview.cluster',
             })}
           >
             <List>
               <List.Item>
                 <List.Item.Meta
                   title={intl.formatMessage({
-                    id: 'pages.dev.job.detail.overview.cluster.id',
+                    id: 'pages.project.job.detail.overview.cluster.id',
                   })}
                 ></List.Item.Meta>
                 <div>{data.flinkClusterInstance?.clusterId}</div>
@@ -98,7 +98,7 @@ const JobOverviewWeb: React.FC<{
               <List.Item>
                 <List.Item.Meta
                   title={intl.formatMessage({
-                    id: 'pages.dev.job.detail.overview.cluster.name',
+                    id: 'pages.project.job.detail.overview.cluster.name',
                   })}
                 ></List.Item.Meta>
                 <div>{data.flinkClusterInstance?.name}</div>
@@ -106,7 +106,7 @@ const JobOverviewWeb: React.FC<{
               <List.Item>
                 <List.Item.Meta
                   title={intl.formatMessage({
-                    id: 'pages.dev.job.detail.overview.cluster.status',
+                    id: 'pages.project.job.detail.overview.cluster.status',
                   })}
                 ></List.Item.Meta>
                 <div>{data.flinkClusterInstance?.status?.label}</div>
@@ -114,7 +114,7 @@ const JobOverviewWeb: React.FC<{
               <List.Item>
                 <List.Item.Meta
                   title={intl.formatMessage({
-                    id: 'pages.dev.job.detail.overview.cluster.webui',
+                    id: 'pages.project.job.detail.overview.cluster.webui',
                   })}
                 ></List.Item.Meta>
                 <div>
@@ -126,7 +126,7 @@ const JobOverviewWeb: React.FC<{
               <List.Item>
                 <List.Item.Meta
                   title={intl.formatMessage({
-                    id: 'pages.dev.job.detail.overview.cluster.deployMode',
+                    id: 'pages.project.job.detail.overview.cluster.deployMode',
                   })}
                 ></List.Item.Meta>
                 <div>{data.flinkClusterConfig?.deployMode?.label}</div>
@@ -134,7 +134,7 @@ const JobOverviewWeb: React.FC<{
               <List.Item>
                 <List.Item.Meta
                   title={intl.formatMessage({
-                    id: 'pages.dev.job.detail.overview.cluster.resourceProvider',
+                    id: 'pages.project.job.detail.overview.cluster.resourceProvider',
                   })}
                 ></List.Item.Meta>
                 <div>{data.flinkClusterConfig?.resourceProvider?.label}</div>

@@ -39,17 +39,17 @@ public interface FlinkJobForJarConvert extends BaseConvert<FlinkJobForJar, Flink
     default FlinkJobForJar toDo(FlinkJobForJarDTO dto) {
         FlinkJobForJar entity = new FlinkJobForJar();
         BeanUtils.copyProperties(dto, entity);
-        entity.setFlinkArtifactJar(FlinkArtifactJarVOConvert.INSTANCE.toDo(dto.getFlinkArtifactJar()));
+        entity.setFlinkArtifactJar(FlinkArtifactJarConvert.INSTANCE.toDo(dto.getFlinkArtifactJar()));
         entity.setFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDo(dto.getFlinkClusterConfig()));
         entity.setFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDo(dto.getFlinkClusterInstance()));
         entity.setFlinkJobInstance(FlinkJobInstanceConvert.INSTANCE.toDo(dto.getFlinkJobInstance()));
-        if (CollectionUtils.isEmpty(dto.getJobConfig()) == false) {
+        if (!CollectionUtils.isEmpty(dto.getJobConfig()) ) {
             entity.setJobConfig(JacksonUtil.toJsonString(dto.getJobConfig()));
         }
-        if (CollectionUtils.isEmpty(dto.getFlinkConfig()) == false) {
+        if (!CollectionUtils.isEmpty(dto.getFlinkConfig()) ) {
             entity.setFlinkConfig(JacksonUtil.toJsonString(dto.getFlinkConfig()));
         }
-        if (CollectionUtils.isEmpty(dto.getJars()) == false) {
+        if (!CollectionUtils.isEmpty(dto.getJars()) ) {
             entity.setJars(JacksonUtil.toJsonString(dto.getJars()));
         }
         return entity;
@@ -59,7 +59,7 @@ public interface FlinkJobForJarConvert extends BaseConvert<FlinkJobForJar, Flink
     default FlinkJobForJarDTO toDto(FlinkJobForJar entity) {
         FlinkJobForJarDTO dto = new FlinkJobForJarDTO();
         BeanUtils.copyProperties(entity, dto);
-        dto.setFlinkArtifactJar(FlinkArtifactJarVOConvert.INSTANCE.toDto(entity.getFlinkArtifactJar()));
+        dto.setFlinkArtifactJar(FlinkArtifactJarConvert.INSTANCE.toDto(entity.getFlinkArtifactJar()));
         dto.setFlinkClusterConfig(FlinkClusterConfigConvert.INSTANCE.toDto(entity.getFlinkClusterConfig()));
         dto.setFlinkClusterInstance(FlinkClusterInstanceConvert.INSTANCE.toDto(entity.getFlinkClusterInstance()));
         dto.setFlinkJobInstance(FlinkJobInstanceConvert.INSTANCE.toDto(entity.getFlinkJobInstance()));

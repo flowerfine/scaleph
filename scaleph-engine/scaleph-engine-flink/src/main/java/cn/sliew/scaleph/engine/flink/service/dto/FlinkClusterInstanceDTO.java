@@ -39,22 +39,22 @@ import javax.validation.constraints.NotNull;
 public class FlinkClusterInstanceDTO extends BaseDTO {
 
     @NotNull
+    @ApiModelProperty("项目ID")
+    private Long projectId;
+
+    @NotNull
     @ApiModelProperty("集群配置")
     private Long flinkClusterConfigId;
 
-    @NotBlank
     @ApiModelProperty("集群名称")
     private String name;
 
-    @NotBlank
     @ApiModelProperty("集群id")
     private String clusterId;
 
-    @NotBlank
     @ApiModelProperty("集群 web-ui 链接")
     private String webInterfaceUrl;
 
-    @NotNull
     @ApiModelProperty("集群状态。0: 已创建, 1: 运行中, 2: 停止")
     private FlinkClusterStatus status;
 

@@ -18,18 +18,18 @@
 
 package cn.sliew.scaleph.api.controller.flink;
 
-import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.job.JobAttrType;
-import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.core.di.service.DiJobAttrService;
 import cn.sliew.scaleph.core.di.service.DiJobService;
 import cn.sliew.scaleph.core.di.service.dto.DiJobAttrDTO;
 import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
-import cn.sliew.scaleph.engine.flink.service.*;
+import cn.sliew.scaleph.engine.flink.service.FlinkArtifactJarService;
+import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
+import cn.sliew.scaleph.engine.flink.service.FlinkClusterInstanceService;
+import cn.sliew.scaleph.engine.flink.service.FlinkJobService;
 import cn.sliew.scaleph.engine.flink.service.dto.*;
-import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByCodeParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListByTypeParam;
 import cn.sliew.scaleph.engine.flink.service.param.FlinkJobListParam;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
@@ -77,14 +77,6 @@ public class FlinkJobController {
     }
 
     @Logging
-    @GetMapping("version")
-    @ApiOperation(value = "查询任务版本列表", notes = "分页查询任务版本列表")
-    public ResponseEntity<Page<FlinkJobDTO>> list(@Valid FlinkJobListByCodeParam param) {
-        Page<FlinkJobDTO> page = flinkJobService.listByCode(param);
-        return new ResponseEntity<>(page, HttpStatus.OK);
-    }
-
-    @Logging
     @PutMapping
     @ApiOperation(value = "新增任务", notes = "新增任务")
     public ResponseEntity<ResponseVO> insert(@Valid @RequestBody FlinkJobDTO flinkJobDTO) throws UidGenerateException {
@@ -112,18 +104,15 @@ public class FlinkJobController {
         flinkConfig.putAll(flinkClusterConfigDTO.getConfigOptions());
         flinkConfig.putAll(flinkJobDTO.getFlinkConfig());
         flinkJobDTO.setFlinkConfig(flinkConfig);
-        flinkJobDTO.setFromVersion(0L);
-        flinkJobDTO.setVersion(0L);
         flinkJobService.insert(flinkJobDTO);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
 
     @Logging
-    @PostMapping("{code}")
+    @PostMapping
     @ApiOperation(value = "修改任务", notes = "修改任务")
-    public ResponseEntity<ResponseVO> update(@PathVariable("code") Long code, @Valid @RequestBody FlinkJobDTO param) {
-        param.setCode(code);
+    public ResponseEntity<ResponseVO> update(@Valid @RequestBody FlinkJobDTO param) {
         flinkJobService.update(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }

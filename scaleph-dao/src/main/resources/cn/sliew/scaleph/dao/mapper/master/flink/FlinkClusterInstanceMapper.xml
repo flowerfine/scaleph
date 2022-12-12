@@ -26,18 +26,12 @@
         <result column="create_time" property="createTime" />
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
+        <result column="project_id" property="projectId"/>
         <result column="flink_cluster_config_id" property="flinkClusterConfigId" />
         <result column="name" property="name" />
         <result column="cluster_id" property="clusterId" />
         <result column="web_interface_url" property="webInterfaceUrl" />
         <result column="status" property="status" />
-        <result column="remark" property="remark" />
     </resultMap>
-
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, creator, create_time, editor, update_time,
-        flink_cluster_config_id, `name`, cluster_id, web_interface_url, `status`, remark
-    </sql>
 
 </mapper>

@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.dao.entity.master.flink;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkArtifactType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -39,10 +38,10 @@ public class FlinkArtifact extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("`type`")
-    private FlinkArtifactType type;
+    @TableField("project_id")
+    private Long projectId;
 
-    @TableField("`name`")
+    @TableField("name")
     private String name;
 
     @TableField("remark")

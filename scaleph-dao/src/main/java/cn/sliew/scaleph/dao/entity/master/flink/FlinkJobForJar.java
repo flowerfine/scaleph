@@ -47,7 +47,7 @@ public class FlinkJobForJar extends BaseDO {
     private String name;
 
     @ApiModelProperty("flink artifact ID")
-    private FlinkArtifactJarVO flinkArtifactJar;
+    private FlinkArtifactJar flinkArtifactJar;
 
     @ApiModelProperty("job artifact config")
     private String jobConfig;
