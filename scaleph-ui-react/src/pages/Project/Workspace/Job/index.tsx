@@ -2,7 +2,7 @@ import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { FlinkJobService } from '@/services/project/FlinkJobService';
-import { FlinkJob, FlinkJobListParam } from '@/services/project/typings';
+import { WsFlinkJob, WsFlinkJobListParam } from '@/services/project/typings';
 import {
   Button,
   Card,
@@ -26,9 +26,9 @@ import JobCreateForm from './components/JobCreateForm';
 const JobListView: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
-  const [jobList, setJobList] = useState<FlinkJob[]>([]);
+  const [jobList, setJobList] = useState<WsFlinkJob[]>([]);
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
-  const [queryParams, setQueryParams] = useState<FlinkJobListParam>({});
+  const [queryParams, setQueryParams] = useState<WsFlinkJobListParam>({});
   const [total, setTotal] = useState<number>();
   const [jobTypeList, setJobTypeList] = useState<Dict[]>([]);
   const [jobCreateFormData, setJobCreateFormData] = useState<{ visible: boolean; data: any }>({
@@ -39,7 +39,7 @@ const JobListView: React.FC = () => {
     refreshJobList({ pageSize: 5 });
   }, []);
 
-  const refreshJobList = (params: FlinkJobListParam) => {
+  const refreshJobList = (params: WsFlinkJobListParam) => {
     params.projectId = projectId + '';
     FlinkJobService.list(params).then((resp) => {
       setJobList(resp.data);

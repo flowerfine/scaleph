@@ -1,4 +1,4 @@
-import { DiJob } from '@/services/project/typings';
+import { WsDiJob } from '@/services/project/typings';
 import {
   CloseOutlined,
   CompressOutlined,
@@ -51,10 +51,10 @@ import './index.less';
 
 interface DiJobFlowPorps {
   visible: boolean;
-  data: DiJob;
+  data: WsDiJob;
   onVisibleChange: (visible: boolean, data: any) => void;
   onCancel: () => void;
-  meta: { flowId?: string; origin?: DiJob };
+  meta: { flowId?: string; origin?: WsDiJob };
 }
 
 const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {

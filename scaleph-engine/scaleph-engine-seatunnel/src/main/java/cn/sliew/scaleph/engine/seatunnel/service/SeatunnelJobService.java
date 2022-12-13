@@ -18,8 +18,8 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service;
 
-import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
-import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import org.apache.flink.configuration.Configuration;
@@ -37,22 +37,22 @@ public interface SeatunnelJobService {
 
     void run(DiJobRunVO jobRunParam) throws Exception;
 
-    void submit(DiJobDTO diJobDTO) throws Exception;
+    void submit(WsDiJobDTO wsDiJobDTO) throws Exception;
 
-    void schedule(DiJobDTO diJobDTO) throws Exception;
+    void schedule(WsDiJobDTO wsDiJobDTO) throws Exception;
 
     void stop(Long jobId) throws Exception;
 
-    void cancel(DiJobDTO diJobDTO) throws Exception;
+    void cancel(WsDiJobDTO wsDiJobDTO) throws Exception;
 
-    void unschedule(DiJobDTO diJobDTO) throws Exception;
+    void unschedule(WsDiJobDTO wsDiJobDTO) throws Exception;
 
     // todo remove
-    Path buildConfFile(DiJobDTO diJobDTO, Path projectPath) throws Exception;
+    Path buildConfFile(WsDiJobDTO wsDiJobDTO, Path projectPath) throws Exception;
 
     Path getSeatunnelJar() throws IOException;
 
-    Configuration buildConfiguration(DiJobDTO job, Path seatunnelJarPath,
+    Configuration buildConfiguration(WsDiJobDTO job, Path seatunnelJarPath,
                                      Map<String, String> clusterConf,
                                      File projectPath) throws IOException;
 

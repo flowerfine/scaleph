@@ -1,11 +1,11 @@
 import { ModalFormProps } from '@/app.d';
 import { WORKSPACE_CONF } from '@/constant';
 import { FlinkArtifactService } from '@/services/project/flinkArtifact.service';
-import { FlinkArtifact } from '@/services/project/typings';
+import { WsFlinkArtifact } from '@/services/project/typings';
 import { Form, Input, message, Modal } from 'antd';
 import { useIntl } from 'umi';
 
-const FlinkArtifactForm: React.FC<ModalFormProps<FlinkArtifact>> = ({
+const FlinkArtifactForm: React.FC<ModalFormProps<WsFlinkArtifact>> = ({
   data,
   visible,
   onVisibleChange,
@@ -30,7 +30,7 @@ const FlinkArtifactForm: React.FC<ModalFormProps<FlinkArtifact>> = ({
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          const param: FlinkArtifact = {
+          const param: WsFlinkArtifact = {
             id: values.id,
             name: values.name,
             projectId: projectId + '',

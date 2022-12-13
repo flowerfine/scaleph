@@ -1,9 +1,9 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
 import {IoTDBParams, STEP_ATTR_TYPE} from "../../constant";
-import {JobService} from "@/services/project/job.service";
+import {WsDiJobService} from "@/services/project/WsDiJob.service";
 import {Form, message, Modal} from "antd";
-import {DiJob} from "@/services/project/typings";
+import {WsDiJob} from "@/services/project/typings";
 import {getIntl, getLocale} from "umi";
 import {useEffect} from "react";
 import {ProForm, ProFormDigit, ProFormSwitch, ProFormText} from "@ant-design/pro-components";
@@ -15,7 +15,7 @@ const SinkIoTDBStepForm: React.FC<ModalFormProps<{
   graphMeta: NsGraph.IGraphMeta;
 }>> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
-  const jobInfo = data.graphMeta.origin as DiJob;
+  const jobInfo = data.graphMeta.origin as WsDiJob;
   const jobGraph = data.graphData;
   const intl = getIntl(getLocale(), true);
   const [form] = Form.useForm();
@@ -38,7 +38,7 @@ const SinkIoTDBStepForm: React.FC<ModalFormProps<{
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
         map.set(STEP_ATTR_TYPE.stepAttrs, values);
-        JobService.saveStepAttr(map).then((resp) => {
+        WsDiJobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
             onCancel();

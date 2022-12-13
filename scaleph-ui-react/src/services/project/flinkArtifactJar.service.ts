@@ -1,13 +1,13 @@
 import { PageResponse, ResponseBody } from '@/app.d';
 import { USER_AUTH } from '@/constant';
-import { FlinkArtifactJar, FlinkArtifactJarParam } from './typings';
+import { WsFlinkArtifactJar, WsFlinkArtifactJarParam } from './typings';
 import { request } from 'umi';
 
 export const FlinkArtifactJarService = {
   url: '/api/flink/artifact/jar',
 
-  list: async (queryParam: FlinkArtifactJarParam) => {
-    return request<PageResponse<FlinkArtifactJar>>(`${FlinkArtifactJarService.url}`, {
+  list: async (queryParam: WsFlinkArtifactJarParam) => {
+    return request<PageResponse<WsFlinkArtifactJar>>(`${FlinkArtifactJarService.url}`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
@@ -20,35 +20,35 @@ export const FlinkArtifactJarService = {
       return result;
     });
   },
-  update: async (row: FlinkArtifactJar) => {
+  update: async (row: WsFlinkArtifactJar) => {
     return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}`, {
       method: 'POST',
       data: row,
     });
   },
   listByArtifact: async (id: string | number) => {
-    return request<FlinkArtifactJar[]>(`${FlinkArtifactJarService.url}/artifact/` + id, {
+    return request<WsFlinkArtifactJar[]>(`${FlinkArtifactJarService.url}/artifact/` + id, {
       method: 'GET',
     });
   },
   selectOne: async (id: number | string) => {
-    return request<FlinkArtifactJar>(`${FlinkArtifactJarService.url}/` + id, {
+    return request<WsFlinkArtifactJar>(`${FlinkArtifactJarService.url}/` + id, {
       method: 'GET',
     });
   },
-  deleteOne: async (row: FlinkArtifactJar) => {
+  deleteOne: async (row: WsFlinkArtifactJar) => {
     return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}/` + row.id, {
       method: 'DELETE',
     });
   },
-  upload: async (uploadParam: FlinkArtifactJar) => {
+  upload: async (uploadParam: WsFlinkArtifactJar) => {
     return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}`, {
       method: 'PUT',
       data: uploadParam,
       headers: { 'Content-Type': 'multipart/form-data' },
     });
   },
-  download: async (row: FlinkArtifactJar) => {
+  download: async (row: WsFlinkArtifactJar) => {
     const a = document.createElement('a');
     a.href =
       `${FlinkArtifactJarService.url}/download/` +

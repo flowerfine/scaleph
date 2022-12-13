@@ -21,8 +21,8 @@ package cn.sliew.scaleph.engine.flink.service.action;
 import cn.sliew.milky.common.constant.Attribute;
 import cn.sliew.milky.common.constant.AttributeKey;
 import cn.sliew.milky.common.filter.ActionListener;
-import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
-import cn.sliew.scaleph.engine.flink.service.dto.FlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterConfigService;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterConfigDTO;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.action.ActionStatus;
@@ -41,11 +41,11 @@ public abstract class ConfigurationBuildAction extends AbstractWorkFlow {
     private AttributeKey<Long> FLINK_CLUSTER_CONFIG_ID = AttributeKey.newInstance("flinkClusterConfigId");
     private AttributeKey<Configuration> CONFIGURATION = AttributeKey.newInstance("configuration");
 
-    private FlinkClusterConfigService flinkClusterConfigService;
+    private WsFlinkClusterConfigService wsFlinkClusterConfigService;
 
-    public ConfigurationBuildAction(String name, FlinkClusterConfigService flinkClusterConfigService) {
+    public ConfigurationBuildAction(String name, WsFlinkClusterConfigService wsFlinkClusterConfigService) {
         super(name);
-        this.flinkClusterConfigService = flinkClusterConfigService;
+        this.wsFlinkClusterConfigService = wsFlinkClusterConfigService;
     }
 
     @Override
@@ -72,12 +72,12 @@ public abstract class ConfigurationBuildAction extends AbstractWorkFlow {
 
     private void build(ActionContext context) throws IOException {
         Attribute<Long> flinkClusterConfigId = context.attr(FLINK_CLUSTER_CONFIG_ID);
-        FlinkClusterConfigDTO flinkClusterConfigDTO = flinkClusterConfigService.selectOne(flinkClusterConfigId.get());
+        WsFlinkClusterConfigDTO wsFlinkClusterConfigDTO = wsFlinkClusterConfigService.selectOne(flinkClusterConfigId.get());
         Configuration dynamicProperties;
-        if (CollectionUtils.isEmpty(flinkClusterConfigDTO.getConfigOptions())) {
+        if (CollectionUtils.isEmpty(wsFlinkClusterConfigDTO.getConfigOptions())) {
             dynamicProperties = new Configuration();
         } else {
-            dynamicProperties = Configuration.fromMap(flinkClusterConfigDTO.getConfigOptions());
+            dynamicProperties = Configuration.fromMap(wsFlinkClusterConfigDTO.getConfigOptions());
         }
 
         Attribute<Path> clusterCredentialPath = context.attr(ClusterCredentialLoadAction.CLUSTER_CREDENTIAL_PATH);
