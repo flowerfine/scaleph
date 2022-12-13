@@ -47,6 +47,7 @@ import org.springframework.util.CollectionUtils;
  */
 @Service
 public class SecRoleServiceImpl implements SecRoleService {
+
     @Autowired
     private SecRoleMapper secRoleMapper;
     @Autowired
@@ -116,4 +117,5 @@ public class SecRoleServiceImpl implements SecRoleService {
         List<SecRole> list = this.secRoleMapper.selectRoleByDept(grant, deptId);
         return SecRoleConvert.INSTANCE.toDto(list);
     }
+
 }
