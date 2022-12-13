@@ -16,41 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.service;
+package cn.sliew.scaleph.security.service.dto;
 
-import cn.sliew.scaleph.security.service.dto.SecDeptDTO;
-import cn.sliew.scaleph.security.service.dto.SecDeptTreeDTO;
-import cn.sliew.scaleph.security.service.param.SecDeptListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
-/**
- * <p>
- * 部门表 服务类
- * </p>
- *
- * @author liyu
- * @since 2021-08-01
- */
-public interface SecDeptService {
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class SecDeptTreeDTO extends SecDeptDTO {
 
-    int insert(SecDeptDTO secDeptDTO);
-
-    int update(SecDeptDTO secDeptDTO);
-
-    int deleteById(Long id);
-
-    int deleteBatch(List<Long> ids);
-
-    SecDeptDTO selectOne(Long id);
-
-    SecDeptDTO selectOne(String deptCode);
-
-    List<SecDeptDTO> listAll();
-
-    List<SecDeptDTO> listByDeptId(Long pid);
-
-    Page<SecDeptTreeDTO> listByPage(SecDeptListParam param);
-
+    @ApiModelProperty("下级部门")
+    private List<SecDeptTreeDTO> children;
 }

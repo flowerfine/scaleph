@@ -40,7 +40,7 @@ public interface SecPrivilegeService {
 
     List<SecPrivilegeDTO> listAll(String resourceType);
 
-    List<SecPrivilegeDTO> listByPid(Long pid);
+    List<SecPrivilegeDTO> listByPid(Long pid, String privilegeName);
 
     int insert(SecPrivilegeAddParam param);
 

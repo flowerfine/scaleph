@@ -58,6 +58,21 @@ export type SecDeptTreeNode = {
   children: SecDeptTreeNode[];
 };
 
+export type SecDeptParam = QueryParam & {
+  pid?: number;
+  deptCode?: string;
+  deptName?: string;
+};
+
+export type SecDeptTree = {
+  id: number;
+  deptCode: string;
+  deptName: string;
+  pid: number;
+  deptStatus?: Dict;
+  children: SecDeptTreeNode[];
+};
+
 export type SecUser = {
   id?: number;
   userName?: string;
