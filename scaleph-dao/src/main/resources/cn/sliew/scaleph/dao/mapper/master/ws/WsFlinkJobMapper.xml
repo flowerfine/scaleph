@@ -49,7 +49,7 @@
         <result column="job_config" property="jobConfig"/>
         <result column="flink_config" property="flinkConfig"/>
         <result column="jars" property="jars"/>
-        <association property="flinkArtifactJar"
+        <association property="wsFlinkArtifactJar"
                      javaType="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar">
             <result column="artifact_jar_id" property="id"/>
             <result column="artifact_jar_version" property="version"/>
@@ -57,7 +57,7 @@
             <result column="artifact_jar_entry_class" property="entryClass"/>
             <result column="artifact_jar_file_name" property="fileName"/>
             <result column="artifact_jar_path" property="path"/>
-            <association property="flinkArtifact"
+            <association property="wsFlinkArtifact"
                          javaType="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifact">
                 <result column="artifact_id" property="id"/>
                 <result column="project_id" property="projectId"/>
@@ -65,7 +65,7 @@
                 <result column="artifact_remark" property="remark"/>
             </association>
         </association>
-        <association property="flinkClusterConfig"
+        <association property="wsFlinkClusterConfig"
                      javaType="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterConfig">
             <result column="config_id" property="id"/>
             <result column="config_name" property="name"/>
@@ -78,7 +78,7 @@
             <result column="config_config_options" property="configOptions"/>
             <result column="config_remark" property="remark"/>
         </association>
-        <association property="flinkClusterInstance"
+        <association property="wsFlinkClusterInstance"
                      javaType="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterInstance">
             <result column="instance_id" property="id"/>
             <result column="instance_flink_cluster_config_id" property="flinkClusterConfigId"/>
@@ -126,7 +126,7 @@
             <result column="di_job_job_version" property="jobVersion"/>
             <result column="di_job_remark" property="remark"/>
         </association>
-        <association property="flinkClusterConfig"
+        <association property="wsFlinkClusterConfig"
                      javaType="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterConfig">
             <result column="config_id" property="id"/>
             <result column="config_name" property="name"/>
@@ -139,7 +139,7 @@
             <result column="config_config_options" property="configOptions"/>
             <result column="config_remark" property="remark"/>
         </association>
-        <association property="flinkClusterInstance"
+        <association property="wsFlinkClusterInstance"
                      javaType="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterInstance">
             <result column="instance_id" property="id"/>
             <result column="instance_flink_cluster_config_id" property="flinkClusterConfigId"/>
@@ -233,7 +233,6 @@
         t2.path AS artifact_jar_path,
         t3.id AS artifact_id,
         t3.`name` AS artifact_name,
-        t3.type AS artifact_type,
         t3.remark AS artifact_remark,
         <include refid="Flink_Job_Column_List"/>
         FROM ws_flink_job t1
@@ -267,7 +266,6 @@
         t2.path AS artifact_jar_path,
         t3.id AS artifact_id,
         t3.`name` AS artifact_name,
-        t3.type AS artifact_type,
         t3.remark AS artifact_remark,
         <include refid="Flink_Job_Column_List"/>
         FROM ws_flink_job t1
@@ -287,7 +285,6 @@
         t2.job_code AS di_job_job_code,
         t2.job_name AS di_job_job_name,
         t2.job_type AS di_job_job_type,
-        t2.job_owner AS di_job_job_owner,
         t2.job_status AS di_job_job_status,
         t2.job_version AS di_job_job_version,
         t2.remark AS di_job_remark,
@@ -319,7 +316,6 @@
         t2.job_code AS di_job_job_code,
         t2.job_name AS di_job_job_name,
         t2.job_type AS di_job_job_type,
-        t2.job_owner AS di_job_job_owner,
         t2.job_status AS di_job_job_status,
         t2.job_version AS di_job_job_version,
         t2.remark AS di_job_remark,
