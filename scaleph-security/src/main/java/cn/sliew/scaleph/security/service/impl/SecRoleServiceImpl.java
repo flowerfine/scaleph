@@ -18,10 +18,6 @@
 
 package cn.sliew.scaleph.security.service.impl;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.security.SecRole;
 import cn.sliew.scaleph.dao.mapper.master.security.SecRoleMapper;
@@ -31,11 +27,17 @@ import cn.sliew.scaleph.security.service.SecRoleService;
 import cn.sliew.scaleph.security.service.SecUserRoleService;
 import cn.sliew.scaleph.security.service.convert.SecRoleConvert;
 import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
+import cn.sliew.scaleph.security.service.param.SecRoleListParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 /**
  * <p>
@@ -80,16 +82,14 @@ public class SecRoleServiceImpl implements SecRoleService {
 
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
-    public int deleteBatch(Map<Integer, ? extends Serializable> map) {
-        if (CollectionUtils.isEmpty(map)) {
+    public int deleteBatch(List<Long> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
             return 0;
         }
-        for (Serializable id : map.values()) {
-            this.secUserRoleService.deleteByRoleId(id);
-            this.secRolePrivilegeService.deleteByRoleId(id);
-            this.secDeptRoleService.deleteByRoleId(id);
+        for (Long id : ids) {
+            deleteById(id);
         }
-        return this.secRoleMapper.deleteBatchIds(map.values());
+        return ids.size();
     }
 
     @Override
@@ -101,15 +101,29 @@ public class SecRoleServiceImpl implements SecRoleService {
     @Override
     public SecRoleDTO selectOne(String roleCode) {
         SecRole secRole = this.secRoleMapper.selectOne(
-            new LambdaQueryWrapper<SecRole>().eq(SecRole::getRoleCode, roleCode));
+                new LambdaQueryWrapper<SecRole>().eq(SecRole::getRoleCode, roleCode));
         return SecRoleConvert.INSTANCE.toDto(secRole);
     }
 
     @Override
     public List<SecRoleDTO> listAll() {
         List<SecRole> list = this.secRoleMapper.selectList(
-            new LambdaQueryWrapper<SecRole>().orderByAsc(SecRole::getCreateTime));
+                new LambdaQueryWrapper<SecRole>().orderByAsc(SecRole::getCreateTime));
         return SecRoleConvert.INSTANCE.toDto(list);
+    }
+
+    @Override
+    public Page<SecRoleDTO> listByPage(SecRoleListParam param) {
+        Page<SecRole> page = new Page<>(param.getCurrent(), param.getPageSize());
+        LambdaQueryWrapper<SecRole> queryWrapper = Wrappers.lambdaQuery(SecRole.class)
+                .eq(param.getRoleType() != null, SecRole::getRoleType, param.getRoleType())
+                .eq(param.getRoleStatus() != null, SecRole::getRoleStatus, param.getRoleStatus())
+                .like(StringUtils.hasText(param.getRoleName()), SecRole::getRoleName, param.getRoleName());
+        Page<SecRole> secRolePage = secRoleMapper.selectPage(page, queryWrapper);
+        Page<SecRoleDTO> result = new Page<>(secRolePage.getCurrent(), secRolePage.getSize(), secRolePage.getTotal());
+        List<SecRoleDTO> secRoleDTOS = SecRoleConvert.INSTANCE.toDto(secRolePage.getRecords());
+        result.setRecords(secRoleDTOS);
+        return result;
     }
 
     @Override

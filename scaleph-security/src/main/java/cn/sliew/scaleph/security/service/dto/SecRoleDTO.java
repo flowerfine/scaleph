@@ -18,16 +18,17 @@
 
 package cn.sliew.scaleph.security.service.dto;
 
-import javax.validation.constraints.NotBlank;
-import java.util.List;
-
+import cn.sliew.scaleph.common.dict.security.RoleStatus;
+import cn.sliew.scaleph.common.dict.security.RoleType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * @author gleiyu
@@ -49,10 +50,10 @@ public class SecRoleDTO extends BaseDTO {
     private String roleName;
 
     @ApiModelProperty(value = "角色类型")
-    private DictVO roleType;
+    private RoleType roleType;
 
     @ApiModelProperty(value = "角色状态")
-    private DictVO roleStatus;
+    private RoleStatus roleStatus;
 
     @Length(max = 100)
     @ApiModelProperty(value = "角色备注")

@@ -323,8 +323,26 @@ export default [
     routes: [
       {
         path: '/admin',
-        redirect: '/admin/user',
+        redirect: '/admin/dept',
         pCode: PRIVILEGE_CODE.adminShow,
+        access: 'normalRouteFilter',
+      },
+      {
+        name: 'dept',
+        path: '/admin/dept',
+        icon: 'apartment',
+        exact: true,
+        component: './Admin/Dept',
+        pCode: PRIVILEGE_CODE.userShow,
+        access: 'normalRouteFilter',
+      },
+      {
+        name: 'role',
+        path: '/admin/role',
+        icon: 'safety',
+        exact: true,
+        component: './Admin/Role',
+        pCode: PRIVILEGE_CODE.userShow,
         access: 'normalRouteFilter',
       },
       {
@@ -354,15 +372,7 @@ export default [
         pCode: PRIVILEGE_CODE.privilegeShow,
         access: 'normalRouteFilter',
       },
-      {
-        name: 'dept',
-        path: '/admin/dept',
-        icon: 'apartment',
-        exact: true,
-        component: './Admin/Dept',
-        pCode: PRIVILEGE_CODE.userShow,
-        access: 'normalRouteFilter',
-      },
+
       {
         name: 'quartz',
         path: '/admin/workflow/quartz',

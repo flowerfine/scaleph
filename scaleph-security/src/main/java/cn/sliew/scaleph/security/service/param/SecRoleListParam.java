@@ -16,36 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.security;
-
-import java.util.List;
+package cn.sliew.scaleph.security.service.param;
 
 import cn.sliew.scaleph.common.dict.security.RoleStatus;
 import cn.sliew.scaleph.common.dict.security.RoleType;
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
+import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * 角色表
- * </p>
- *
- * @author liyu
- */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "sec_role", resultMap = "SecRoleMap")
-@ApiModel(value = "SecRole对象", description = "角色表")
-public class SecRole extends BaseDO {
-
-    private static final long serialVersionUID = 2621684597930016649L;
-
-    @ApiModelProperty(value = "角色编码")
-    private String roleCode;
+public class SecRoleListParam extends PaginationParam {
 
     @ApiModelProperty(value = "角色名称")
     private String roleName;
@@ -55,10 +37,4 @@ public class SecRole extends BaseDO {
 
     @ApiModelProperty(value = "角色状态")
     private RoleStatus roleStatus;
-
-    @ApiModelProperty(value = "角色备注")
-    private String roleDesc;
-
-    @ApiModelProperty(value = "权限信息")
-    private List<SecPrivilege> privileges;
 }

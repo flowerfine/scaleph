@@ -8,6 +8,7 @@ export const DEFAULT_PAGE_PARAM = {
 
 export const DICT_TYPE = {
   yesNo: 'yes_or_no',
+  roleType: 'role_type',
   roleStatus: 'role_status',
   userStatus: 'user_status',
   deptStatus: 'dept_status',

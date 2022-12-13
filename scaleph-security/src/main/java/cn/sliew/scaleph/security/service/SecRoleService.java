@@ -18,11 +18,11 @@
 
 package cn.sliew.scaleph.security.service;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-
 import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
+import cn.sliew.scaleph.security.service.param.SecRoleListParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import java.util.List;
 
 /**
  * <p>
@@ -40,13 +40,15 @@ public interface SecRoleService {
 
     int deleteById(Long id);
 
-    int deleteBatch(Map<Integer, ? extends Serializable> map);
+    int deleteBatch(List<Long> ids);
 
     SecRoleDTO selectOne(Long id);
 
     SecRoleDTO selectOne(String roleCode);
 
     List<SecRoleDTO> listAll();
+
+    Page<SecRoleDTO> listByPage(SecRoleListParam param);
 
     List<SecRoleDTO> selectRoleByDept(String grant, Long deptId);
 }
