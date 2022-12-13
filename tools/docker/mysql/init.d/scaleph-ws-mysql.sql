@@ -282,12 +282,14 @@ CREATE TABLE ws_flink_catalog_configuration
     flink_catalog_type_name VARCHAR(64) NOT NULL,
     catalog_name            VARCHAR(64) NOT NULL,
     default_database        VARCHAR(64) NOT NULL,
-    hive_conf_dir           VARCHAR(64)          default NULL,
-    base_url                VARCHAR(64)          default NULL,
-    username                VARCHAR(64)          default NULL,
-    password                VARCHAR(64)          default NULL,
+    hive_conf_dir           VARCHAR(64),
+    base_url                VARCHAR(64),
+    username                VARCHAR(64),
+    password                VARCHAR(64),
     status                  VARCHAR(16),
+    creator                 VARCHAR(32),
     create_time             DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    editor                  VARCHAR(32),
     update_time             DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 ) ENGINE = INNODB COMMENT = 'flink catalog configuration';
