@@ -355,6 +355,15 @@ export default [
         access: 'normalRouteFilter',
       },
       {
+        name: 'dept',
+        path: '/admin/dept',
+        icon: 'apartment',
+        exact: true,
+        component: './Admin/Dept',
+        pCode: PRIVILEGE_CODE.userShow,
+        access: 'normalRouteFilter',
+      },
+      {
         name: 'quartz',
         path: '/admin/workflow/quartz',
         icon: 'fieldTime',

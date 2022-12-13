@@ -167,5 +167,3 @@ CREATE TABLE flink_catalog_configuration
     update_time             DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 ) ENGINE = INNODB COMMENT = 'flink catalog configuration';
-    UNIQUE KEY uniq_job (flink_job_code, job_id)
-) ENGINE = INNODB COMMENT = 'flink作业日志';

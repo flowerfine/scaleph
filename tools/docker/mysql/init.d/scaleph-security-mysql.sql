@@ -13,7 +13,7 @@ create table sec_user
     real_name        varchar(64) comment '真实姓名',
     id_card_type     varchar(4) comment '证件类型',
     id_card_no       varchar(18) comment '证件号码',
-    gender           varchar(4) default '0' comment '性别',
+    gender           varchar(4)            default '0' comment '性别',
     nation           varchar(4) comment '民族',
     birthday         date comment '出生日期',
     qq               varchar(18) comment 'qq号码',
@@ -22,12 +22,12 @@ create table sec_user
     user_status      varchar(4)   not null comment '用户状态',
     summary          varchar(512) comment '用户简介',
     register_channel varchar(4)   not null comment '注册渠道',
-    register_time    timestamp  default current_timestamp comment '注册时间',
+    register_time    datetime              default current_timestamp comment '注册时间',
     register_ip      varchar(16) comment '注册ip',
     creator          varchar(32) comment '创建人',
-    create_time      timestamp  default current_timestamp comment '创建时间',
+    create_time      datetime     not null default current_timestamp comment '创建时间',
     editor           varchar(32) comment '修改人',
-    update_time      timestamp  default current_timestamp on update current_timestamp comment '更新时间',
+    update_time      datetime     not null default current_timestamp on update current_timestamp comment '更新时间',
     primary key (id),
     unique key (user_name),
     unique key (email),
@@ -54,9 +54,9 @@ create table sec_role
     role_status varchar(4)  not null comment '角色状态',
     role_desc   varchar(128) comment '角色备注',
     creator     varchar(32) comment '创建人',
-    create_time timestamp default current_timestamp comment '创建时间',
+    create_time datetime    not null default current_timestamp comment '创建时间',
     editor      varchar(32) comment '修改人',
-    update_time timestamp default current_timestamp on update current_timestamp comment '更新时间',
+    update_time datetime    not null default current_timestamp on update current_timestamp comment '更新时间',
     primary key (id),
     unique key (role_code),
     key (update_time)
@@ -80,9 +80,9 @@ create table sec_privilege
     resource_path  varchar(64) comment '资源路径',
     pid            bigint       not null default '0' comment '上级权限id',
     creator        varchar(32) comment '创建人',
-    create_time    timestamp             default current_timestamp comment '创建时间',
+    create_time    datetime     not null default current_timestamp comment '创建时间',
     editor         varchar(32) comment '修改人',
-    update_time    timestamp             default current_timestamp on update current_timestamp comment '修改时间',
+    update_time    datetime     not null default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key (privilege_code),
     key (update_time)
@@ -242,13 +242,13 @@ VALUES (600005, 'pads0', '系统设置', '1', 6, 'sys', 'sys');
 drop table if exists sec_role_privilege;
 create table sec_role_privilege
 (
-    id           bigint not null auto_increment comment '自增主键',
-    role_id      bigint not null comment '角色id',
-    privilege_id bigint not null comment '权限id',
+    id           bigint   not null auto_increment comment '自增主键',
+    role_id      bigint   not null comment '角色id',
+    privilege_id bigint   not null comment '权限id',
     creator      varchar(32) comment '创建人',
-    create_time  timestamp default current_timestamp comment '创建时间',
+    create_time  datetime not null default current_timestamp comment '创建时间',
     editor       varchar(32) comment '修改人',
-    update_time  timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    update_time  datetime not null default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key (role_id, privilege_id),
     key (update_time)
@@ -273,26 +273,58 @@ create table sec_dept
     pid         bigint      not null default '0' comment '上级部门',
     dept_status varchar(1)  not null default '1' comment '部门状态',
     creator     varchar(32) comment '创建人',
-    create_time timestamp            default current_timestamp comment '创建时间',
+    create_time datetime    not null default current_timestamp comment '创建时间',
     editor      varchar(32) comment '修改人',
-    update_time timestamp            default current_timestamp on update current_timestamp comment '修改时间',
+    update_time datetime    not null default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique (dept_code),
     unique (dept_name),
     key (pid)
 ) engine = innodb comment = '部门表';
+INSERT INTO `sec_dept`(`id`, `dept_code`, `dept_name`, `pid`, `dept_status`, `creator`, `editor`)
+VALUES (1, 'scaleph', '水母文化', 0, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `dept_code`, `dept_name`, `pid`, `dept_status`, `creator`, `editor`)
+VALUES (2, 'develop', '数据开发团队', 1, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `dept_code`, `dept_name`, `pid`, `dept_status`, `creator`, `editor`)
+VALUES (3, 'data', '数据治理团队', 1, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `dept_code`, `dept_name`, `pid`, `dept_status`, `creator`, `editor`)
+VALUES (4, 'application', '数据应用团队', 1, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `dept_code`, `dept_name`, `pid`, `dept_status`, `creator`, `editor`)
+VALUES (5, 'integration', '数据集成', 2, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `dept_code`, `dept_name`, `pid`, `dept_status`, `creator`, `editor`)
+VALUES (6, 'compute', '计算组', 2, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `dept_code`, `dept_name`, `pid`, `dept_status`, `creator`, `editor`)
+VALUES (7, 'scheduler', '调度组', 2, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `dept_code`, `dept_name`, `pid`, `dept_status`, `creator`, `editor`)
+VALUES (8, 'meta', '元数据', 3, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `dept_code`, `dept_name`, `pid`, `dept_status`, `creator`, `editor`)
+VALUES (9, 'lineage', '数据血缘', 3, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `dept_code`, `dept_name`, `pid`, `dept_status`, `creator`, `editor`)
+VALUES (10, 'quality', '数据质量', 3, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `dept_code`, `dept_name`, `pid`, `dept_status`, `creator`, `editor`)
+VALUES (11, 'standard', '数据标准', 3, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `dept_code`, `dept_name`, `pid`, `dept_status`, `creator`, `editor`)
+VALUES (12, 'model', '数据建模', 3, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `dept_code`, `dept_name`, `pid`, `dept_status`, `creator`, `editor`)
+VALUES (13, 'index', '指标系统', 4, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `dept_code`, `dept_name`, `pid`, `dept_status`, `creator`, `editor`)
+VALUES (14, 'analysis', '数据分析', 4, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `dept_code`, `dept_name`, `pid`, `dept_status`, `creator`, `editor`)
+VALUES (15, 'ad-hoc', 'Ad-hoc', 4, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `dept_code`, `dept_name`, `pid`, `dept_status`, `creator`, `editor`)
+VALUES (16, 'service', '数据服务', 4, '1', 'sys', 'sys');
 
 /*用户和部门关联表 */
 drop table if exists sec_user_dept;
 create table sec_user_dept
 (
-    id          bigint not null auto_increment comment '自增主键',
-    user_id     bigint not null comment '用户id',
-    dept_id     bigint not null comment '部门id',
+    id          bigint   not null auto_increment comment '自增主键',
+    user_id     bigint   not null comment '用户id',
+    dept_id     bigint   not null comment '部门id',
     creator     varchar(32) comment '创建人',
-    create_time timestamp default current_timestamp comment '创建时间',
+    create_time datetime not null default current_timestamp comment '创建时间',
     editor      varchar(32) comment '修改人',
-    update_time timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    update_time datetime not null default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key (dept_id, user_id),
     key (update_time)
@@ -303,13 +335,13 @@ create table sec_user_dept
 drop table if exists sec_user_role;
 create table sec_user_role
 (
-    id          bigint not null auto_increment comment '自增主键',
-    user_id     bigint not null comment '用户id',
-    role_id     bigint not null comment '角色id',
+    id          bigint   not null auto_increment comment '自增主键',
+    user_id     bigint   not null comment '用户id',
+    role_id     bigint   not null comment '角色id',
     creator     varchar(32) comment '创建人',
-    create_time timestamp default current_timestamp comment '创建时间',
+    create_time datetime not null default current_timestamp comment '创建时间',
     editor      varchar(32) comment '修改人',
-    update_time timestamp default current_timestamp on update current_timestamp comment '更新时间',
+    update_time datetime not null default current_timestamp on update current_timestamp comment '更新时间',
     primary key (id),
     unique key (user_id, role_id),
     key (update_time)
@@ -322,13 +354,13 @@ values (1, 1, 1, 'sys', 'sys');
 drop table if exists sec_dept_role;
 create table sec_dept_role
 (
-    id          bigint not null auto_increment comment '自增主键',
-    dept_id     bigint not null comment '部门id',
-    role_id     bigint not null comment '角色id',
+    id          bigint   not null auto_increment comment '自增主键',
+    dept_id     bigint   not null comment '部门id',
+    role_id     bigint   not null comment '角色id',
     creator     varchar(32) comment '创建人',
-    create_time timestamp default current_timestamp comment '创建时间',
+    create_time datetime not null default current_timestamp comment '创建时间',
     editor      varchar(32) comment '修改人',
-    update_time timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    update_time datetime not null default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key (dept_id, role_id),
     key (update_time)
@@ -344,9 +376,9 @@ create table sec_user_active
     expiry_time bigint      not null comment '激活码过期时间戳',
     active_time timestamp comment '激活时间',
     creator     varchar(32) comment '创建人',
-    create_time timestamp default current_timestamp comment '创建时间',
+    create_time datetime    not null default current_timestamp comment '创建时间',
     editor      varchar(32) comment '修改人',
-    update_time timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    update_time datetime    not null default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key (active_code),
     key (user_name),

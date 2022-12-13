@@ -32,6 +32,7 @@ export default {
   'menu.admin.user': '用户管理',
   'menu.admin.resource.web': 'Web 资源',
   'menu.admin.privilege': '权限管理',
+  'menu.admin.dept': '部门管理',
   'menu.admin.quartz': '系统任务',
   'menu.admin.dict': '数据字典',
   'menu.admin.setting': '系统设置',
