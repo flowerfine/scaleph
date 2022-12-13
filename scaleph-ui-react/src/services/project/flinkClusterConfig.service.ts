@@ -1,8 +1,7 @@
 import { PageResponse, ResponseBody } from '@/app.d';
 import {
-  FlinkClusterConfig,
-  // FlinkClusterConfigAddParam,
-  FlinkClusterConfigParam,
+  WsFlinkClusterConfig,
+  WsFlinkClusterConfigParam,
   KubernetesOptions,
 } from './typings';
 import { request } from 'umi';
@@ -10,8 +9,8 @@ import { request } from 'umi';
 export const FlinkClusterConfigService = {
   url: '/api/flink/cluster-config',
 
-  list: async (queryParam: FlinkClusterConfigParam) => {
-    return request<PageResponse<FlinkClusterConfig>>(`${FlinkClusterConfigService.url}`, {
+  list: async (queryParam: WsFlinkClusterConfigParam) => {
+    return request<PageResponse<WsFlinkClusterConfig>>(`${FlinkClusterConfigService.url}`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
@@ -26,13 +25,13 @@ export const FlinkClusterConfigService = {
   },
 
   selectOne: async (id: number) => {
-    return request<FlinkClusterConfig>(`${FlinkClusterConfigService.url}/` + id, {
+    return request<WsFlinkClusterConfig>(`${FlinkClusterConfigService.url}/` + id, {
       method: 'GET',
     });
   },
 
-  add: async (param: FlinkClusterConfig) => {
-    return request<ResponseBody<FlinkClusterConfig>>(`${FlinkClusterConfigService.url}`, {
+  add: async (param: WsFlinkClusterConfig) => {
+    return request<ResponseBody<WsFlinkClusterConfig>>(`${FlinkClusterConfigService.url}`, {
       method: 'PUT',
       data: param,
     });
@@ -52,20 +51,20 @@ export const FlinkClusterConfigService = {
     });
   },
 
-  update: async (row: FlinkClusterConfig) => {
+  update: async (row: WsFlinkClusterConfig) => {
     return request<ResponseBody<any>>(`${FlinkClusterConfigService.url}`, {
       method: 'POST',
       data: row,
     });
   },
 
-  deleteOne: async (row: FlinkClusterConfig) => {
+  deleteOne: async (row: WsFlinkClusterConfig) => {
     return request<ResponseBody<any>>(`${FlinkClusterConfigService.url}/` + row.id, {
       method: 'DELETE',
     });
   },
 
-  deleteBatch: async (rows: FlinkClusterConfig[]) => {
+  deleteBatch: async (rows: WsFlinkClusterConfig[]) => {
     const params = rows.map((row) => row.id);
     return request<ResponseBody<any>>(`${FlinkClusterConfigService.url}/batch`, {
       method: 'DELETE',

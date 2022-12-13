@@ -1,12 +1,12 @@
 import { PageResponse, ResponseBody } from '@/app.d';
-import { FlinkArtifact, FlinkArtifactListParam } from './typings';
+import { WsFlinkArtifact, WsFlinkArtifactListParam } from './typings';
 import { request } from 'umi';
 
 export const FlinkArtifactService = {
   url: '/api/flink/artifact',
 
-  list: async (queryParam: FlinkArtifactListParam) => {
-    return request<PageResponse<FlinkArtifact>>(`${FlinkArtifactService.url}`, {
+  list: async (queryParam: WsFlinkArtifactListParam) => {
+    return request<PageResponse<WsFlinkArtifact>>(`${FlinkArtifactService.url}`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
@@ -20,21 +20,21 @@ export const FlinkArtifactService = {
     });
   },
 
-  add: async (row: FlinkArtifact) => {
+  add: async (row: WsFlinkArtifact) => {
     return request<ResponseBody<any>>(`${FlinkArtifactService.url}`, {
       method: 'PUT',
       data: row,
     });
   },
 
-  update: async (row: FlinkArtifact) => {
+  update: async (row: WsFlinkArtifact) => {
     return request<ResponseBody<any>>(`${FlinkArtifactService.url}`, {
       method: 'POST',
       data: row,
     });
   },
 
-  deleteOne: async (row: FlinkArtifact) => {
+  deleteOne: async (row: WsFlinkArtifact) => {
     return request<ResponseBody<any>>(`${FlinkArtifactService.url}/` + row.id, {
       method: 'DELETE',
     });

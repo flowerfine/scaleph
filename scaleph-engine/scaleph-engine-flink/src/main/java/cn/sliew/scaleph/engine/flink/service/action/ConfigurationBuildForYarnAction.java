@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.service.action;
 
-import cn.sliew.scaleph.engine.flink.service.FlinkClusterConfigService;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterConfigService;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import org.apache.flink.configuration.*;
 
@@ -29,8 +29,8 @@ public class ConfigurationBuildForYarnAction extends ConfigurationBuildAction {
 
     public static final String NAME = ConfigurationBuildForYarnAction.class.getName();
 
-    public ConfigurationBuildForYarnAction(FlinkClusterConfigService flinkClusterConfigService) {
-        super(NAME, flinkClusterConfigService);
+    public ConfigurationBuildForYarnAction(WsFlinkClusterConfigService wsFlinkClusterConfigService) {
+        super(NAME, wsFlinkClusterConfigService);
     }
 
     @Override

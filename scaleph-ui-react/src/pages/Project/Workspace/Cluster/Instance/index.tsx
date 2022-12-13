@@ -2,7 +2,7 @@ import { Dict } from '@/app.d';
 import { DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInstance.service';
-import { FlinkClusterInstance } from '@/services/project/typings';
+import { WsFlinkClusterInstance } from '@/services/project/typings';
 import { CloseOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { Button, message, Modal, Select, Space, Tooltip } from 'antd';
@@ -27,7 +27,7 @@ const ClusterInstanceWeb: React.FC = () => {
     });
   }, []);
 
-  const tableColumns: ProColumns<FlinkClusterInstance>[] = [
+  const tableColumns: ProColumns<WsFlinkClusterInstance>[] = [
     {
       title: intl.formatMessage({ id: 'pages.project.cluster.instance.flinkClusterConfigId' }),
       dataIndex: 'flinkClusterConfigId',
@@ -148,7 +148,7 @@ const ClusterInstanceWeb: React.FC = () => {
 
   return (
     <div>
-      <ProTable<FlinkClusterInstance>
+      <ProTable<WsFlinkClusterInstance>
         headerTitle={intl.formatMessage({ id: 'pages.project.cluster.instance' })}
         search={{
           labelWidth: 'auto',

@@ -1,6 +1,6 @@
 import {ModalFormProps} from '@/app.d';
-import {JobService} from '@/services/project/job.service';
-import {DiJob} from '@/services/project/typings';
+import {WsDiJobService} from '@/services/project/WsDiJob.service';
+import {WsDiJob} from '@/services/project/typings';
 import {ProForm, ProFormDigit, ProFormText} from '@ant-design/pro-components';
 import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
@@ -16,7 +16,7 @@ const SinkDatahubStepForm: React.FC<ModalFormProps<{
   graphMeta: NsGraph.IGraphMeta;
 }>> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
-  const jobInfo = data.graphMeta.origin as DiJob;
+  const jobInfo = data.graphMeta.origin as WsDiJob;
   const jobGraph = data.graphData;
   const intl = getIntl(getLocale(), true);
   const [form] = Form.useForm();
@@ -39,7 +39,7 @@ const SinkDatahubStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
-          JobService.saveStepAttr(map).then((resp) => {
+          WsDiJobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.success'}));
               onCancel();

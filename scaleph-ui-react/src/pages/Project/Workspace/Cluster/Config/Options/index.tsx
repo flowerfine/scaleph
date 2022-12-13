@@ -7,7 +7,7 @@ import FaultTolerance from './components/FaultTolerance';
 import HighAvailability from './components/HA';
 import Resource from './components/Resource';
 import Additional from './components/Additional';
-import { FlinkClusterConfig } from '@/services/project/typings';
+import { WsFlinkClusterConfig } from '@/services/project/typings';
 import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
 import { WORKSPACE_CONF } from '@/constant';
 import { message } from 'antd';
@@ -18,7 +18,7 @@ const ClusterConfigOptionsSteps: React.FC = () => {
   const formRef = useRef<ProFormInstance>();
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
-  const params = urlParams.state as FlinkClusterConfig;
+  const params = urlParams.state as WsFlinkClusterConfig;
 
   const configOptions = FlinkClusterConfigService.setData(
     new Map(Object.entries(params?.configOptions ? params?.configOptions : {})),
@@ -36,7 +36,7 @@ const ClusterConfigOptionsSteps: React.FC = () => {
         <StepsForm
           formRef={formRef}
           onFinish={async (values) => {
-            let cluster: FlinkClusterConfig = {
+            let cluster: WsFlinkClusterConfig = {
               projectId: values.projectId,
               name: values.name,
               clusterCredential: { id: values.clusterCredentialId },
