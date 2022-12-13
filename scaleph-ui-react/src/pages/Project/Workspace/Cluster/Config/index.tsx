@@ -3,7 +3,7 @@ import { DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
 import { DictDataService } from '@/services/admin/dictData.service';
 import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
 import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInstance.service';
-import { FlinkClusterConfig, FlinkClusterInstanceParam } from '@/services/project/typings';
+import { WsFlinkClusterConfig, WsFlinkClusterInstanceParam } from '@/services/project/typings';
 import { DeleteOutlined, DeploymentUnitOutlined, EditOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { Button, message, Modal, Popconfirm, Select, Space, Tooltip } from 'antd';
@@ -33,7 +33,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
     });
   }, []);
 
-  const tableColumns: ProColumns<FlinkClusterConfig>[] = [
+  const tableColumns: ProColumns<WsFlinkClusterConfig>[] = [
     {
       title: intl.formatMessage({ id: 'page.project.cluster.config.name' }),
       dataIndex: 'name',
@@ -175,7 +175,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
                 disabled={record.deployMode?.value != '2'}
                 title={intl.formatMessage({ id: 'pages.project.cluster.instance.create.confirm' })}
                 onConfirm={() => {
-                  let clusterParams: FlinkClusterInstanceParam = {
+                  let clusterParams: WsFlinkClusterInstanceParam = {
                     flinkClusterConfigId: record.id,
                     projectId: record.projectId,
                   };
@@ -248,7 +248,7 @@ const FlinkClusterConfigWeb: React.FC = () => {
   ];
 
   return (
-    <ProTable<FlinkClusterConfig>
+    <ProTable<WsFlinkClusterConfig>
       headerTitle={intl.formatMessage({ id: 'page.project.cluster.config' })}
       search={{
         labelWidth: 'auto',

@@ -1,6 +1,6 @@
 import { PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
 import { FlinkArtifactService } from '@/services/project/flinkArtifact.service';
-import { FlinkArtifact } from '@/services/project/typings';
+import { WsFlinkArtifact } from '@/services/project/typings';
 import { DeleteOutlined, EditOutlined, UploadOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { Button, message, Modal, Space, Tooltip } from 'antd';
@@ -16,10 +16,10 @@ const JobArtifactView: React.FC = () => {
   const formRef = useRef<ProFormInstance>();
   const [flinkArtifactFormData, setFlinkArtifactData] = useState<{
     visiable: boolean;
-    data: FlinkArtifact;
+    data: WsFlinkArtifact;
   }>({ visiable: false, data: {} });
 
-  const tableColumns: ProColumns<FlinkArtifact>[] = [
+  const tableColumns: ProColumns<WsFlinkArtifact>[] = [
     {
       title: intl.formatMessage({ id: 'pages.project.artifact.name' }),
       dataIndex: 'name',
@@ -115,7 +115,7 @@ const JobArtifactView: React.FC = () => {
 
   return (
     <div>
-      <ProTable<FlinkArtifact>
+      <ProTable<WsFlinkArtifact>
         headerTitle={intl.formatMessage({ id: 'menu.project.job.artifact' })}
         search={{
           labelWidth: 'auto',

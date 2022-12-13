@@ -16,7 +16,7 @@ import {render, unmount} from 'rc-util/lib/React/render';
 import React, {useEffect, useRef, useState} from 'react';
 import {getLocale} from 'umi';
 import {CustomCommands} from '../constant';
-import {JobService} from "@/services/project/job.service";
+import {WsDiJobService} from "@/services/project/WsDiJob.service";
 import Editor, {useMonaco} from "@monaco-editor/react";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
@@ -151,7 +151,7 @@ const GraphPreviewForm: React.FC<ModalFormProps<{ graphMeta: NsGraph.IGraphMeta;
   }, [monaco]);
 
   useEffect(() => {
-    JobService.previewJob(jobId).then((reponse) => {
+    WsDiJobService.previewJob(jobId).then((reponse) => {
       setConf(reponse.data)
     })
   }, []);

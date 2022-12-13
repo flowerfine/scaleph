@@ -1,11 +1,11 @@
 import { useIntl } from 'umi';
 import { Button, Card, Col, Form, List, Row } from 'antd';
-import { FlinkClusterConfig, FlinkClusterInstance } from '@/services/project/typings';
+import { WsFlinkClusterConfig, WsFlinkClusterInstance } from '@/services/project/typings';
 import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
 
 const JobConfigurationWeb: React.FC<{
-  clusterConfig: FlinkClusterConfig;
-  clusterInstance: FlinkClusterInstance;
+  clusterConfig: WsFlinkClusterConfig;
+  clusterInstance: WsFlinkClusterInstance;
   flinkConfig?: { [key: string]: any };
 }> = ({ clusterConfig, clusterInstance, flinkConfig }) => {
   const intl = useIntl();

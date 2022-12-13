@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkClusterConfigMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="FlinkClusterConfigMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterConfig">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="project_id" property="projectId"/>
+        <result column="name" property="name"/>
+        <result column="flink_version" property="flinkVersion"/>
+        <result column="resource_provider" property="resourceProvider"/>
+        <result column="deploy_mode" property="deployMode"/>
+        <result column="kubernetes_options" property="kubernetesOptions"/>
+        <result column="config_options" property="configOptions"/>
+        <result column="remark" property="remark"/>
+        <association property="flinkRelease"
+                     javaType="cn.sliew.scaleph.dao.entity.master.resource.ResourceFlinkRelease">
+            <result column="flink_release_id" property="id"/>
+            <result column="flink_release_creator" property="creator"/>
+            <result column="flink_release_create_time" property="createTime"/>
+            <result column="flink_release_editor" property="editor"/>
+            <result column="flink_release_update_time" property="updateTime"/>
+            <result column="flink_release_version" property="version"/>
+            <result column="flink_release_file_name" property="fileName"/>
+            <result column="flink_release_path" property="path"/>
+            <result column="flink_release_remark" property="remark"/>
+        </association>
+        <association property="clusterCredential"
+                     javaType="cn.sliew.scaleph.dao.entity.master.resource.ResourceClusterCredential">
+            <result column="cluster_credential_id" property="id"/>
+            <result column="cluster_credential_creator" property="creator"/>
+            <result column="cluster_credential_create_time" property="createTime"/>
+            <result column="cluster_credential_editor" property="editor"/>
+            <result column="cluster_credential_update_time" property="updateTime"/>
+            <result column="cluster_credential_config_type" property="configType"/>
+            <result column="cluster_credential_name" property="name"/>
+            <result column="cluster_credential_remark" property="remark"/>
+        </association>
+    </resultMap>
+
+    <select id="list" resultMap="FlinkClusterConfigMap">
+        SELECT t1.*,
+        t2.id AS flink_release_id,
+        t2.version AS flink_release_version,
+        t2.file_name AS flink_release_file_name,
+        t2.path AS flink_release_path,
+        t2.remark AS flink_release_remark,
+        t2.creator AS flink_release_creator,
+        t2.create_time AS flink_release_create_time,
+        t2.editor AS flink_release_editor,
+        t2.update_time AS flink_release_update_time,
+        t3.id AS cluster_credential_id,
+        t3.config_type AS cluster_credential_config_type,
+        t3.`name` AS cluster_credential_name,
+        t3.remark AS cluster_credential_remark,
+        t3.creator AS cluster_credential_creator,
+        t3.create_time AS cluster_credential_create_time,
+        t3.editor AS cluster_credential_editor,
+        t3.update_time AS cluster_credential_update_time
+        FROM ws_flink_cluster_config t1
+        JOIN resource_flink_release t2 ON t1.flink_release_id = t2.id
+        JOIN resource_cluster_credential t3 ON t1.cluster_credential_id = t3.id
+        <where>
+            <if test="param.projectId != null ">
+                and t1.project_id = #{param.projectId}
+            </if>
+            <if test="param.name != null and param.name != ''">
+                AND t1.`name` like CONCAT('%', #{param.name},'%')
+            </if>
+            <if test="param.flinkVersion != null">
+                AND t1.flink_version = #{param.flinkVersion}
+            </if>
+            <if test="param.resourceProvider != null">
+                AND t1.resource_provider = #{param.resourceProvider}
+            </if>
+            <if test="param.deployMode != null">
+                AND t1.deploy_mode = #{param.deployMode}
+            </if>
+        </where>
+    </select>
+
+    <select id="getById" resultMap="FlinkClusterConfigMap">
+        SELECT t1.*,
+               t2.id          AS flink_release_id,
+               t2.version     AS flink_release_version,
+               t2.file_name   AS flink_release_file_name,
+               t2.path        AS flink_release_path,
+               t2.remark      AS flink_release_remark,
+               t2.creator     AS flink_release_creator,
+               t2.create_time AS flink_release_create_time,
+               t2.editor      AS flink_release_editor,
+               t2.update_time AS flink_release_update_time,
+               t3.id          AS cluster_credential_id,
+               t3.config_type AS cluster_credential_config_type,
+               t3.`name`      AS cluster_credential_name,
+               t3.remark      AS cluster_credential_remark,
+               t3.creator     AS cluster_credential_creator,
+               t3.create_time AS cluster_credential_create_time,
+               t3.editor      AS cluster_credential_editor,
+               t3.update_time AS cluster_credential_update_time
+        FROM ws_flink_cluster_config t1
+                 JOIN resource_flink_release t2 ON t1.flink_release_id = t2.id
+                 JOIN resource_cluster_credential t3 ON t1.cluster_credential_id = t3.id
+        WHERE t1.id = #{id}
+    </select>
+</mapper>

@@ -4,16 +4,16 @@ import { Button, Space, Table, Tooltip } from 'antd';
 import { PRIVILEGE_CODE } from '@/constant';
 import { ProfileOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/lib/table';
-import { FlinkJobLog, FlinkJobLogListParam } from '@/services/project/typings';
+import { WsFlinkJobLog, WsFlinkJobLogListParam } from '@/services/project/typings';
 import { FlinkJobLogService } from '@/services/project/FlinkJobLogService';
 
 const JobLogTable: React.FC<{ flinkJobCode: number }> = ({ flinkJobCode }) => {
   const intl = useIntl();
   const access = useAccess();
-  const [data, setData] = useState<FlinkJobLog[]>();
+  const [data, setData] = useState<WsFlinkJobLog[]>();
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
-  const [queryParams, setQueryParams] = useState<FlinkJobLogListParam>({
+  const [queryParams, setQueryParams] = useState<WsFlinkJobLogListParam>({
     pageSize: 10,
     current: 1,
     flinkJobCode: flinkJobCode,
@@ -31,7 +31,7 @@ const JobLogTable: React.FC<{ flinkJobCode: number }> = ({ flinkJobCode }) => {
       setLoading(false);
     });
   };
-  const tableColumns: ColumnsType<FlinkJobLog> = [
+  const tableColumns: ColumnsType<WsFlinkJobLog> = [
     {
       title: intl.formatMessage({ id: 'pages.project.job.detail.jobId' }),
       dataIndex: 'jobId',

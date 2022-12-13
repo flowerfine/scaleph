@@ -1,4 +1,4 @@
-import { JobService } from '@/services/project/job.service';
+import { WsDiJobService } from '@/services/project/WsDiJob.service';
 import {
   IArgsBase,
   ICmdHooks as IHooks,
@@ -56,7 +56,7 @@ export class GraphPublishCommand implements ICommand {
       args,
       async () => {
         const graphMeta = await ctx.getGraphMeta();
-        JobService.publishJob(graphMeta.origin.id).then((resp) => {
+        WsDiJobService.publishJob(graphMeta.origin.id).then((resp) => {
           if (resp.success) {
             message.info(intl.formatMessage({ id: 'app.common.operate.success' }));
           }

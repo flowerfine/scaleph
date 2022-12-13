@@ -19,66 +19,38 @@
 package cn.sliew.scaleph.engine.seatunnel.service.impl;
 
 import cn.hutool.core.io.FileUtil;
-import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
-import cn.sliew.flinkful.cli.base.util.FlinkUtil;
-import cn.sliew.flinkful.cli.descriptor.DescriptorCliClient;
-import cn.sliew.flinkful.common.enums.DeploymentTarget;
-import cn.sliew.flinkful.rest.base.JobClient;
-import cn.sliew.flinkful.rest.base.RestClient;
-import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.common.constant.DictConstants;
-import cn.sliew.scaleph.common.dict.job.RuntimeState;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.common.enums.JobAttrTypeEnum;
-import cn.sliew.scaleph.common.enums.JobTypeEnum;
-import cn.sliew.scaleph.core.di.service.*;
-import cn.sliew.scaleph.core.di.service.dto.*;
-import cn.sliew.scaleph.core.di.service.vo.DagPanalVO;
-import cn.sliew.scaleph.core.di.service.vo.DiJobRunVO;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.*;
+import cn.sliew.scaleph.engine.seatunnel.service.vo.DagPanalVO;
+import cn.sliew.scaleph.engine.seatunnel.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.core.scheduler.service.ScheduleService;
-import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
-import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
-import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.*;
 import cn.sliew.scaleph.engine.seatunnel.service.constant.GraphConstants;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DagNodeDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.util.QuartzJobUtil;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.privilege.SecurityContext;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.system.service.SysConfigService;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.flink.api.common.JobID;
-import org.apache.flink.api.common.JobStatus;
-import org.apache.flink.client.deployment.executors.RemoteExecutor;
-import org.apache.flink.client.program.ClusterClient;
 import org.apache.flink.configuration.*;
-import org.apache.flink.runtime.client.JobStatusMessage;
 import org.apache.flink.runtime.jobgraph.SavepointRestoreSettings;
-import org.apache.flink.runtime.rest.handler.async.TriggerResponse;
-import org.apache.flink.runtime.rest.messages.EmptyResponseBody;
-import org.apache.flink.runtime.rest.messages.job.savepoints.stop.StopWithSavepointRequestBody;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 
 @Deprecated
 @Slf4j
@@ -86,9 +58,9 @@ import java.util.concurrent.CompletableFuture;
 public class SeatunnelJobServiceImpl implements SeatunnelJobService {
 
     @Autowired
-    private DiProjectService diProjectService;
+    private WsProjectService wsProjectService;
     @Autowired
-    private DiJobService diJobService;
+    private WsDiJobService wsDiJobService;
     @Autowired
     private FileSystemService fileSystemService;
     @Autowired
@@ -104,7 +76,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
 
     @Override
     public String preview(Long jobId) throws Exception {
-        DiJobDTO job = diJobService.queryJobGraph(jobId);
+        WsDiJobDTO job = wsDiJobService.queryJobGraph(jobId);
         return seatunnelConfigService.buildConfig(job);
     }
 
@@ -124,7 +96,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public void submit(DiJobDTO diJobDTO) throws Exception {
+    public void submit(WsDiJobDTO wsDiJobDTO) throws Exception {
 //        Path projectPath = getProjectBasePath(diJobDTO.getProjectId());
 //        Path jobConfFile = buildConfFile(diJobDTO, projectPath);
 //        Path seatunnelJarPath = getSeatunnelJar();
@@ -148,7 +120,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public void schedule(DiJobDTO diJobDTO) throws Exception {
+    public void schedule(WsDiJobDTO wsDiJobDTO) throws Exception {
 //        DiProjectDTO project = diProjectService.selectOne(diJobDTO.getProjectId());
 //        String jobName = QuartzJobUtil.getJobName(project.getProjectCode(), diJobDTO.getJobCode());
 //        JobKey seatunnelJobKey =
@@ -186,7 +158,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public void cancel(DiJobDTO diJobDTO) throws Exception {
+    public void cancel(WsDiJobDTO wsDiJobDTO) throws Exception {
 //        List<DiJobLogDTO> list = diJobLogService.listRunningJobInstance(diJobDTO.getJobCode());
 //        Configuration configuration = GlobalConfiguration.loadConfiguration();
 //        for (DiJobLogDTO instance : list) {
@@ -213,9 +185,9 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public void unschedule(DiJobDTO diJobDTO) throws Exception {
-        DiProjectDTO project = diProjectService.selectOne(diJobDTO.getProjectId());
-        String jobName = QuartzJobUtil.getJobName(project.getProjectCode(), diJobDTO.getJobCode());
+    public void unschedule(WsDiJobDTO wsDiJobDTO) throws Exception {
+        WsProjectDTO project = wsProjectService.selectOne(wsDiJobDTO.getProjectId());
+        String jobName = QuartzJobUtil.getJobName(project.getProjectCode(), wsDiJobDTO.getJobCode());
         JobKey seatunnelJobKey = scheduleService.getJobKey(QuartzJobUtil.getFlinkBatchJobName(jobName), Constants.INTERNAL_GROUP);
         if (scheduleService.checkExists(seatunnelJobKey)) {
             scheduleService.deleteScheduleJob(seatunnelJobKey);
@@ -227,9 +199,9 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public Path buildConfFile(DiJobDTO diJobDTO, Path projectPath) throws Exception {
-        String jobJson = seatunnelConfigService.buildConfig(diJobDTO);
-        final File tempFile = FileUtil.file(projectPath.toFile(), diJobDTO.getJobCode() + ".json");
+    public Path buildConfFile(WsDiJobDTO wsDiJobDTO, Path projectPath) throws Exception {
+        String jobJson = seatunnelConfigService.buildConfig(wsDiJobDTO);
+        final File tempFile = FileUtil.file(projectPath.toFile(), wsDiJobDTO.getJobCode() + ".json");
         FileUtil.writeUtf8String(jobJson, tempFile);
         return tempFile.toPath();
     }
@@ -244,7 +216,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         return seatunnelJarPath;
     }
 
-    private Set<File> getSeatunnelPluginJarFile(List<DiJobStepDTO> jobStepList) {
+    private Set<File> getSeatunnelPluginJarFile(List<WsDiJobStepDTO> jobStepList) {
         if (CollectionUtils.isEmpty(jobStepList)) {
             return null;
         }
@@ -252,7 +224,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         String seatunnelPath = this.sysConfigService.getSeatunnelHome();
         Path seatunnelConnectorsPath = Paths.get(seatunnelPath, "connectors", "flink");
         File seatunnelConnectorDir = seatunnelConnectorsPath.toFile();
-        for (DiJobStepDTO step : jobStepList) {
+        for (WsDiJobStepDTO step : jobStepList) {
 //            String pluginTag = this.seatunnelConfigService.getSeatunnelPluginTag(
 //                    step.getStepType().getValue(), step.getStepName());
 //            FileFilter fileFilter = new RegexFileFilter(".*" + pluginTag + ".*");
@@ -265,7 +237,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public Configuration buildConfiguration(DiJobDTO job, Path seatunnelJarPath,
+    public Configuration buildConfiguration(WsDiJobDTO job, Path seatunnelJarPath,
                                             Map<String, String> clusterConf,
                                             File projectPath) throws IOException {
         Configuration configuration = new Configuration();
@@ -289,7 +261,7 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
         return configuration;
     }
 
-    private PackageJarJob buildJob(String seatunnelPath, Path confFile, List<DiJobAttrDTO> jobAttrList) throws URISyntaxException {
+    private PackageJarJob buildJob(String seatunnelPath, Path confFile, List<WsDiJobAttrDTO> jobAttrList) throws URISyntaxException {
         PackageJarJob jarJob = new PackageJarJob();
         jarJob.setJarFilePath(seatunnelPath);
         jarJob.setEntryPointClass("org.apache.seatunnel.core.flink.SeatunnelFlink");

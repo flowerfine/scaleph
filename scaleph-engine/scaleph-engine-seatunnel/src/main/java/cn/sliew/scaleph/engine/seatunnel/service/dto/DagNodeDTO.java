@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.dto;
 
-import cn.sliew.scaleph.core.di.service.vo.DagPanalVO;
+import cn.sliew.scaleph.engine.seatunnel.service.vo.DagPanalVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

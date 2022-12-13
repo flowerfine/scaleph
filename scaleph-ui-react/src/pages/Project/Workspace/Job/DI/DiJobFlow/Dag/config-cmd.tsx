@@ -8,7 +8,7 @@ import {
   XFlowEdgeCommands,
   XFlowGraphCommands,
 } from '@antv/xflow';
-import { DiJob } from '@/services/project/typings';
+import { WsDiJob } from '@/services/project/typings';
 import { XFlowEdge } from '@antv/xflow-extension/es/canvas-dag-extension/x6-extension/edge';
 import { XFlowNode } from '@antv/xflow-extension/es/canvas-dag-extension/x6-extension/node';
 import { commandContributions } from './cmd-extensions';
@@ -116,7 +116,7 @@ export const useCmdConfig = createCmdConfig((config) => {
 });
 
 /** 查询图的节点和边的数据 */
-export const initGraphCmds = (app: IApplication, job: DiJob) => {
+export const initGraphCmds = (app: IApplication, job: WsDiJob) => {
   app.executeCommandPipeline([
     {
       commandId: XFlowGraphCommands.GRAPH_ZOOM.id,

@@ -1,9 +1,9 @@
 import {NsGraph} from '@antv/xflow';
 import {ModalFormProps} from '@/app.d';
 import {RedisParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
-import {JobService} from '@/services/project/job.service';
+import {WsDiJobService} from '@/services/project/WsDiJob.service';
 import {Form, message, Modal} from 'antd';
-import {DiJob} from '@/services/project/typings';
+import {WsDiJob} from '@/services/project/typings';
 import {getIntl, getLocale} from 'umi';
 import {InfoCircleOutlined} from '@ant-design/icons';
 import {useEffect} from 'react';
@@ -24,7 +24,7 @@ const SourceRedisStepForm: React.FC<ModalFormProps<{
   graphMeta: NsGraph.IGraphMeta;
 }>> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
-  const jobInfo = data.graphMeta.origin as DiJob;
+  const jobInfo = data.graphMeta.origin as WsDiJob;
   const jobGraph = data.graphData;
   const intl = getIntl(getLocale(), true);
   const [form] = Form.useForm();
@@ -49,7 +49,7 @@ const SourceRedisStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
           StepSchemaService.formatSchema(values);
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
-          JobService.saveStepAttr(map).then((resp) => {
+          WsDiJobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
               message.success(intl.formatMessage({id: 'app.common.operate.success'}));
               onCancel();

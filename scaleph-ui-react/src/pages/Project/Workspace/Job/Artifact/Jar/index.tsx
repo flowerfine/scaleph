@@ -1,7 +1,7 @@
 import { PRIVILEGE_CODE } from '@/constant';
 import { FlinkArtifactJarService } from '@/services/project/flinkArtifactJar.service';
-import { ProjectService } from '@/services/project/project.service';
-import { DiProject, FlinkArtifact, FlinkArtifactJar } from '@/services/project/typings';
+import { WsProjectService } from '@/services/project/WsProject.service';
+import { WsProject, WsFlinkArtifact, WsFlinkArtifactJar } from '@/services/project/typings';
 import { DeleteOutlined, DownloadOutlined, EditOutlined } from '@ant-design/icons';
 import {
   ActionType,
@@ -21,23 +21,23 @@ const FlinkArtifactJarWeb: React.FC = () => {
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [project, setProject] = useState<DiProject>({});
-  const [flinkArtifact, setFlinkArtifact] = useState<FlinkArtifact>({});
+  const [project, setProject] = useState<WsProject>({});
+  const [flinkArtifact, setFlinkArtifact] = useState<WsFlinkArtifact>({});
   const [flinkArtifactJarData, setFlinkArtifactJarData] = useState<{
     visiable: boolean;
-    data: FlinkArtifactJar;
+    data: WsFlinkArtifactJar;
   }>({ visiable: false, data: {} });
 
   useEffect(() => {
-    const artifact = urlParams.state as FlinkArtifact;
+    const artifact = urlParams.state as WsFlinkArtifact;
     setFlinkArtifact(artifact);
 
-    ProjectService.selectOne(artifact.projectId as number).then((d) => {
+    WsProjectService.selectOne(artifact.projectId as number).then((d) => {
       setProject(d);
     });
   }, []);
 
-  const tableColumns: ProColumns<FlinkArtifactJar>[] = [
+  const tableColumns: ProColumns<WsFlinkArtifactJar>[] = [
     {
       title: intl.formatMessage({ id: 'pages.project.artifact.jar.fileName' }),
       dataIndex: 'fileName',
@@ -198,7 +198,7 @@ const FlinkArtifactJarWeb: React.FC = () => {
           </Descriptions>
         </PageHeader>
       </div>
-      <ProTable<FlinkArtifactJar>
+      <ProTable<WsFlinkArtifactJar>
         rowKey="id"
         actionRef={actionRef}
         formRef={formRef}

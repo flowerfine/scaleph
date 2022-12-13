@@ -23,7 +23,7 @@ On `develop` stage, different usage will require or yield different artifact:
 When people uploads jar artifact, scaleph inserts jar artifact record into mysql.
 
 ```sql
-CREATE TABLE `flink_artifact_jar` (
+CREATE TABLE `ws_flink_artifact_jar` (
   `version` varchar(32) NOT NULL,
   `flink_version` varchar(32) NOT NULL,
   `entry_class` varchar(255) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE `flink_artifact_jar` (
 Scaleph provides click-and-drag web for developing SeaTunnel data integration job, which yields a connector DAG and saved as a standard graph.
 
 ```sql
-CREATE TABLE `di_job` (
+CREATE TABLE `ws_di_job` (
   `job_code` varchar(128) NOT NULL COMMENT '作业编码',
   `job_name` varchar(256) NOT NULL COMMENT '作业名称',
   `directory_id` bigint NOT NULL COMMENT '作业目录',
@@ -50,14 +50,14 @@ CREATE TABLE `di_job` (
   `job_crontab` varchar(32) DEFAULT NULL COMMENT '作业调度crontab表达式'
 ) ENGINE=InnoDB COMMENT='数据集成-作业信息';
 
-CREATE TABLE `di_job_attr` (
+CREATE TABLE `ws_di_job_attr` (
   `job_id` bigint NOT NULL COMMENT '作业id',
   `job_attr_type` varchar(4) NOT NULL COMMENT '作业参数类型',
   `job_attr_key` varchar(128) NOT NULL COMMENT '作业参数key',
   `job_attr_value` varchar(512) DEFAULT NULL COMMENT '作业参数value'
 ) ENGINE=InnoDB COMMENT='数据集成-作业参数';
 
-CREATE TABLE `di_job_step` (
+CREATE TABLE `ws_di_job_step` (
   `job_id` bigint NOT NULL COMMENT '作业id',
   `step_code` varchar(36) NOT NULL COMMENT '步骤编码',
   `step_title` varchar(128) NOT NULL COMMENT '步骤标题',
@@ -67,19 +67,13 @@ CREATE TABLE `di_job_step` (
   `position_y` int NOT NULL COMMENT 'y坐标'
 ) ENGINE=InnoDB COMMENT='数据集成-作业步骤信息';
 
-CREATE TABLE `di_job_link` (
+CREATE TABLE `ws_di_job_link` (
   `job_id` bigint NOT NULL COMMENT '作业id',
   `link_code` varchar(36) NOT NULL COMMENT '作业连线编码',
   `from_step_code` varchar(36) NOT NULL COMMENT '源步骤编码',
   `to_step_code` varchar(36) NOT NULL COMMENT '目标步骤编码'
 ) ENGINE=InnoDB COMMENT='数据集成-作业连线';
 
-CREATE TABLE `di_job_step_attr` (
-  `job_id` bigint NOT NULL COMMENT '作业id',
-  `step_code` varchar(36) NOT NULL COMMENT '步骤编码',
-  `step_attr_key` varchar(128) NOT NULL COMMENT '步骤参数key',
-  `step_attr_value` text COMMENT '步骤参数value'
-) ENGINE=InnoDB COMMENT='数据集成-作业步骤参数';
 ```
 
 ### sql

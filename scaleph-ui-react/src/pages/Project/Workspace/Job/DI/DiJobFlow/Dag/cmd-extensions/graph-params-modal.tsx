@@ -2,7 +2,7 @@ import enUS from 'antd/es/locale/en_US';
 import zhCN from 'antd/es/locale/zh_CN';
 
 import {ModalFormProps} from '@/app.d';
-import {JobService} from '@/services/project/job.service';
+import {WsDiJobService} from '@/services/project/WsDiJob.service';
 import {
   IArgsBase,
   ICmdHooks as IHooks,
@@ -138,7 +138,7 @@ const GraphParamsSettingForm: React.FC<ModalFormProps<{ graphMeta: NsGraph.IGrap
   const [form] = Form.useForm();
   const intl = getIntl(getLocale(), true);
   useEffect(() => {
-    JobService.listJobAttr(jobId).then((d) => {
+    WsDiJobService.listJobAttr(jobId).then((d) => {
       form.setFieldsValue(d);
     });
   }, []);
@@ -152,7 +152,7 @@ const GraphParamsSettingForm: React.FC<ModalFormProps<{ graphMeta: NsGraph.IGrap
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          JobService.saveJobAttr(values).then((resp) => {
+          WsDiJobService.saveJobAttr(values).then((resp) => {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
             onCancel();
           });
