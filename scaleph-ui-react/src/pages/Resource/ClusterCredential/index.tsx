@@ -88,7 +88,7 @@ const ClusterCredentialResource: React.FC = () => {
       render: (_, record) => (
         <>
           <Space>
-            {access.canAccess(PRIVILEGE_CODE.datadevJobShow) && (
+            {access.canAccess(PRIVILEGE_CODE.workspaceJobShow) && (
               <Tooltip title={intl.formatMessage({ id: 'app.common.operate.upload.label' })}>
                 <Button
                   shape="default"
@@ -121,18 +121,14 @@ const ClusterCredentialResource: React.FC = () => {
                   onClick={() => {
                     Modal.confirm({
                       title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                      content: intl.formatMessage({
-                        id: 'app.common.operate.delete.confirm.content',
-                      }),
+                      content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
                       okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
                       okButtonProps: { danger: true },
                       cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
                         ClusterCredentialService.deleteOne(record).then((d) => {
                           if (d.success) {
-                            message.success(
-                              intl.formatMessage({ id: 'app.common.operate.delete.success' }),
-                            );
+                            message.success(intl.formatMessage({ id: 'app.common.operate.delete.success' }));
                             actionRef.current?.reload();
                           }
                         });

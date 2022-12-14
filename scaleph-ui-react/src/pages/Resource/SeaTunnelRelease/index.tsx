@@ -87,7 +87,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
       render: (_, record) => (
         <>
           <Space>
-            {access.canAccess(PRIVILEGE_CODE.datadevJobShow) && (
+            {access.canAccess(PRIVILEGE_CODE.workspaceJobShow) && (
               <Tooltip title={intl.formatMessage({id: 'app.common.operate.upload.label'})}>
                 <Button
                   shape="default"

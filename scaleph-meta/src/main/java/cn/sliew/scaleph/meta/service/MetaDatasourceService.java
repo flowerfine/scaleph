@@ -22,15 +22,16 @@ import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;
 import cn.sliew.scaleph.meta.service.param.MetaDatasourceParam;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.resource.service.ResourceDescriptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public interface MetaDatasourceService extends ResourceDescriptor<MetaDatasourceDTO> {
+@Deprecated
+public interface MetaDatasourceService {
 
     Set<PluginInfo> getAvailableDataSources();
 
@@ -42,9 +43,9 @@ public interface MetaDatasourceService extends ResourceDescriptor<MetaDatasource
 
     int deleteById(Long id);
 
-    int deleteBatch(Map<Integer, ? extends Serializable> map);
+    int deleteBatch(List<Long> ids);
 
-    MetaDatasourceDTO selectOne(Serializable id, boolean encrypt);
+    MetaDatasourceDTO selectOne(Long id, boolean encrypt);
 
     Page<MetaDatasourceDTO> selectPage(MetaDatasourceParam param);
 

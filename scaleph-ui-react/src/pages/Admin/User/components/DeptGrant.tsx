@@ -38,7 +38,7 @@ const DeptGrant: React.FC<ModalFormProps<SecDept>> = ({
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       destroyOnClose={true}
       title={
         intl.formatMessage(

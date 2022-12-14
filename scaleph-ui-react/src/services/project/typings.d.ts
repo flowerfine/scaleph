@@ -1,25 +1,9 @@
 import { Dict, QueryParam } from '@/app.d';
+import { FlinkArtifactJar, FlinkClusterConfig, FlinkClusterInstance } from '@/services/dev/typings';
+import { UploadFile } from 'antd';
+import { ClusterCredential, FlinkRelease } from '@/services/resource/typings';
 
-export type MetaDataSource = {
-  id?: number;
-  datasourceName?: string;
-  datasourceType?: Dict;
-  props?: any;
-  propsStr?: string;
-  additionalProps?: any;
-  additionalPropsStr?: string;
-  remark?: string;
-  createTime?: Date;
-  updateTime?: Date;
-  passwdChanged?: boolean;
-};
-
-export type MetaDataSourceParam = QueryParam & {
-  datasourceName?: string;
-  datasourceType?: string;
-};
-
-export type DiProject = {
+export type WsProject = {
   id?: number;
   projectCode?: string;
   projectName?: string;
@@ -28,73 +12,41 @@ export type DiProject = {
   updateTime?: Date;
 };
 
-export type DiProjectParam = QueryParam & {
+export type WsProjectParam = QueryParam & {
   projectCode?: string;
   projectName?: string;
 };
 
-export type DiDirectory = {
+export type WsDiJob = {
   id?: number;
-  projectId?: string;
-  directoryName?: string;
-  pid?: number;
-  fullPath?: string;
-};
-
-export type DiDirectoryTreeNode = {
-  id: number;
-  pid: number;
-  directoryName: string;
-  children: DiDirectoryTreeNode[];
-};
-
-export type DiJob = {
-  id?: number;
-  projectId?: number;
-  jobCode?: string;
+  projectId?: number | string;
+  jobCode?: number;
   jobName?: string;
-  directory?: DiDirectory;
-  jobType?: Dict;
+  jobType?: Dict | any;
   jobStatus?: Dict;
-  runtimeState?: Dict;
   jobVersion?: number;
   remark?: string;
-  jobCrontab?: string;
   createTime?: Date;
   updateTime?: Date;
-  jobAttrList?: DiJobAttr[];
-  jobLinkList?: DiJobLink[];
-  jobStepList?: DiJobStep[];
+  jobAttrList?: WsDiJobAttr[];
+  jobLinkList?: WsDiJobLink[];
+  jobStepList?: WsDiJobStep[];
   jobGraph?: any;
 };
 
-export type DiJobParam = QueryParam & {
+export type WsDiJobParam = QueryParam & {
   projectId: string;
-  jobCode?: string;
+  jobCode?: number;
   jobName?: string;
   jobType?: string;
-  runtimeState?: string;
-  directoryId?: string;
 };
 
-export type DiJobAddParam = {
-  projectId?: number;
-  jobName: string;
-  directoryId: number;
-  jobType?: string;
-  remark?: string;
-};
-
-export type DiJobUpdateParam = DiJobAddParam & {
-  id?: number;
-};
-
-export type DiJobGraphParam = {
+export type WsDiJobGraphParam = {
   jobId?: number;
   jobGraph?: any;
 };
 
-export type DiJobAttr = {
+export type WsDiJobAttr = {
   id?: number;
   jobId: number;
   jobAttrType: Dict;
@@ -102,7 +54,7 @@ export type DiJobAttr = {
   jobAttrValue: string;
 };
 
-export type DiJobLink = {
+export type WsDiJobLink = {
   id?: number;
   jobId: number;
   linkCode: string;
@@ -110,7 +62,7 @@ export type DiJobLink = {
   toStepCode: string;
 };
 
-export type DiJobStep = {
+export type WsDiJobStep = {
   id?: number;
   jobId: number;
   stepCode: string;
@@ -119,7 +71,211 @@ export type DiJobStep = {
   stepName: Dict;
   positionX: number;
   positionY: number;
-  stepAttrs?:any;
+  stepAttrs?: any;
   createTime?: Date;
   updateTime?: Date;
+};
+
+export type WsFlinkJob = {
+  id?: number;
+  type: string;
+  code?: number;
+  name?: string;
+  flinkArtifactId?: number;
+  jobConfig?: { [key: string]: any };
+  flinkClusterConfigId?: number;
+  flinkClusterInstanceId?: number;
+  flinkConfig?: { [key: string]: any };
+  jars?: Array<number>;
+  version?: number;
+  remark?: string;
+  creator?: string;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsFlinkJobListParam = QueryParam & {
+  type?: string;
+  name?: string;
+  projectId?: string | number;
+};
+
+export type WsFlinkJobListByCodeParam = QueryParam & {
+  code: number;
+};
+
+export type WsFlinkJobListByTypeParam = QueryParam & {
+  type: string;
+  name?: string;
+  flinkClusterConfigId?: number;
+  flinkClusterInstanceId?: number;
+};
+
+export type WsFlinkJobForJar = {
+  id?: number;
+  type: Dict;
+  code?: number;
+  name?: string;
+  flinkArtifactJar?: FlinkArtifactJar;
+  jobConfig?: { [key: string]: any };
+  flinkClusterConfig?: FlinkClusterConfig;
+  flinkClusterInstance?: FlinkClusterInstance;
+  flinkConfig?: { [key: string]: any };
+  flinkJobInstance?: WsFlinkJobInstance;
+  jars?: Array<number>;
+  version?: number;
+  remark?: string;
+  creator?: string;
+  createTime?: Date;
+  editor?: string;
+  updateTime?: Date;
+};
+
+export type WsFlinkJobForSeaTunnel = {
+  id?: number;
+  type: Dict;
+  code?: number;
+  name?: string;
+  flinkArtifactSeaTunnel?: WsDiJob;
+  jobConfig?: { [key: string]: any };
+  flinkClusterConfig?: FlinkClusterConfig;
+  flinkClusterInstance?: FlinkClusterInstance;
+  flinkConfig?: { [key: string]: any };
+  flinkJobInstance?: WsFlinkJobInstance;
+  jars?: Array<number>;
+  version?: number;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsFlinkJobInstance = {
+  id: number;
+  type: Dict;
+  flinkJobCode: number;
+  jobId: string;
+  jobName: string;
+  jobState: Dict;
+  clusterId: string;
+  webInterfaceUrl: string;
+  clusterStatus: Dict;
+  startTime?: Date;
+  endTime?: Date;
+  duration?: number;
+  createTime: Date;
+  updateTime: Date;
+};
+
+export type WsFlinkJobInstanceListParam = QueryParam & {
+  flinkJobCode: number;
+};
+
+export type WsFlinkJobLog = WsFlinkJobInstance & {};
+
+export type WsFlinkJobLogListParam = QueryParam & {
+  flinkJobCode: number;
+};
+
+export type WsFlinkArtifact = {
+  id?: number;
+  projectId?: number | string;
+  name?: string;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsFlinkArtifactListParam = QueryParam & {
+  projectId?: number | string;
+  name?: string;
+};
+
+export type WsFlinkArtifactJar = {
+  id?: number;
+  flinkArtifact?: WsFlinkArtifact;
+  flinkVersion?: Dict;
+  entryClass?: string;
+  fileName?: string;
+  path?: string;
+  version?: string;
+  jarParams?: { [key: string]: any };
+  file?: UploadFile<any>;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsFlinkArtifactJarParam = QueryParam & {
+  id?: number | string;
+  flinkArtifactId: number;
+  version?: string;
+  flinkVersion: string;
+};
+
+export type WsFlinkClusterConfig = {
+  id?: number;
+  projectId?: number | string;
+  name?: string;
+  flinkVersion?: Dict;
+  resourceProvider?: Dict;
+  deployMode?: Dict;
+  flinkRelease?: FlinkRelease;
+  clusterCredential?: ClusterCredential;
+  kubernetesOptions?: KubernetesOptions;
+  configOptions?: { [key: string]: any };
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type KubernetesOptions = {
+  context?: string;
+  namespace?: string;
+  serviceAccount?: string;
+  registry?: string;
+  repository?: string;
+  image?: string;
+  imagePullPolicy?: string;
+  jobManagerCPU?: number;
+  jobManagerMemory?: string;
+  jobManagerReplicas?: number;
+  taskManagerCPU?: number;
+  taskManagerMemory?: string;
+  taskManagerReplicas?: number;
+};
+
+export type WsFlinkClusterConfigParam = QueryParam & {
+  projectId?: number | string;
+  name?: string;
+  flinkVersion?: string;
+  resourceProvider?: string;
+  deployMode?: string;
+};
+
+// export type FlinkClusterConfigAddParam = {
+//   name?: string;
+//   flinkVersion?: string;
+//   resourceProvider?: string;
+//   deployMode?: string;
+//   flinkReleaseId?: number;
+//   clusterCredentialId?: number;
+//   remark?: string;
+// };
+
+export type WsFlinkClusterInstance = {
+  id?: number;
+  flinkClusterConfigId?: number;
+  name?: string;
+  clusterId?: string;
+  webInterfaceUrl?: string;
+  status?: Dict;
+  remark?: number;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsFlinkClusterInstanceParam = QueryParam & {
+  projectId?: string | number;
+  name?: string;
+  flinkClusterConfigId?: number;
+  status?: string;
 };

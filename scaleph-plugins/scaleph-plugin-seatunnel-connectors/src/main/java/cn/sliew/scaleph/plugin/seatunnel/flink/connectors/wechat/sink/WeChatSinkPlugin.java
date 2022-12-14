@@ -42,6 +42,7 @@ public class WeChatSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(URL);
         props.add(MENTIONED_LIST);
         props.add(MENTIONED_MOBILE_LIST);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = Collections.unmodifiableList(props);
     }

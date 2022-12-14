@@ -95,6 +95,7 @@
         <module>scaleph-engine</module>
         <module>scaleph-plugins</module>
         <module>scaleph-workflow</module>
+        <module>scaleph-datasource</module>
     </modules>
 
     <properties>
@@ -113,7 +114,6 @@
         <docker.push.skip>true</docker.push.skip>
 
         <spring.boot.version>2.7.4</spring.boot.version>
-        <spring.plugin.core.version>2.0.0.RELEASE</spring.plugin.core.version>
         <mybatis.plus.version>3.5.1</mybatis.plus.version>
         <org.mapstruct.extensions.spring.version>0.1.1</org.mapstruct.extensions.spring.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
@@ -196,6 +196,11 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-datasource</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-meta</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -274,7 +279,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-workflow-api</artifactId>
+                <artifactId>scaleph-workflow-quartz</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -650,7 +655,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-<!--                <version>${netty.version}</version>-->
+                <!--                <version>${netty.version}</version>-->
                 <version>4.1.82.Final</version>
             </dependency>
         </dependencies>

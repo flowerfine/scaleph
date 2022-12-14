@@ -69,9 +69,9 @@ public class ClusterCredentialController {
     @Logging
     @PutMapping
     @ApiOperation(value = "新增部署配置", notes = "新增部署配置")
-    public ResponseEntity<ResponseVO> addDeployConfig(@Valid @RequestBody ClusterCredentialDTO param) {
-        clusterCredentialService.insert(param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+    public ResponseEntity<ResponseVO<ClusterCredentialDTO>> addDeployConfig(@Valid @RequestBody ClusterCredentialDTO param) {
+        final ClusterCredentialDTO result = clusterCredentialService.insert(param);
+        return new ResponseEntity<>(ResponseVO.sucess(result), HttpStatus.OK);
     }
 
     @Logging

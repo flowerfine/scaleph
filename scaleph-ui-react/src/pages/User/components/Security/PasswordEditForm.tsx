@@ -14,7 +14,7 @@ const PasswordEditForm: React.FC<
   const [form] = Form.useForm();
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={intl.formatMessage({ id: 'pages.admin.usercenter.security.password.edit' })}
       width={580}
       destroyOnClose={true}

@@ -70,12 +70,11 @@ public class MetaDataSetTypeServiceImpl implements MetaDataSetTypeService {
 
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
-    public int deleteBatch(Map<Integer, ? extends Serializable> map) {
+    public int deleteBatch(List<Long> ids) {
         this.metaDataSetMapper.delete(
-            new LambdaQueryWrapper<MetaDataSet>()
-                .in(MetaDataSet::getDataSetTypeId, map.values())
+            new LambdaQueryWrapper<MetaDataSet>().in(MetaDataSet::getDataSetTypeId, ids)
         );
-        return this.metaDataSetTypeMapper.deleteBatchIds(map.values());
+        return this.metaDataSetTypeMapper.deleteBatchIds(ids);
     }
 
     @Override

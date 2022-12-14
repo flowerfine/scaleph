@@ -30,7 +30,7 @@ const JarForm: React.FC<ModalFormProps<Jar>> = ({ data, visible, onVisibleChange
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +

@@ -18,18 +18,25 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.sink;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
+import cn.sliew.scaleph.ds.modal.file.FtpDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSinkProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ftp.FtpFileProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
@@ -41,10 +48,6 @@ public class FtpFileSinkPlugin extends SeaTunnelConnectorPlugin {
                 FtpFileSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(HOST);
-        props.add(PORT);
-        props.add(USERNAME);
-        props.add(PASSWORD);
         props.add(PATH);
         props.add(FILE_FORMAT);
         props.add(FILE_NAME_EXPRESSION);
@@ -56,9 +59,26 @@ public class FtpFileSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(IS_PARTITION_FIELD_WRITE_IN_FILE);
         props.add(SINK_COLUMNS);
         props.add(IS_ENABLE_TRANSACTION);
-        props.add(SAVE_MODE);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
+    }
+
+    @Override
+    public List<ResourceProperty> getRequiredResources() {
+        return Collections.singletonList(ResourceProperties.DATASOURCE_RESOURCE);
+    }
+
+    @Override
+    public ObjectNode createConf() {
+        ObjectNode conf = super.createConf();
+        JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
+        FtpDataSource dataSource = (FtpDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.put(HOST.getName(), dataSource.getHost());
+        conf.putPOJO(PORT.getName(), dataSource.getPort());
+        conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
+        conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        return conf;
     }
 
     @Override

@@ -8,6 +8,12 @@ It trys to provide one-stop data platform for simplifying development of data ap
 
 Scaleph is driven by personal interest and evolves actively through faithful developer, flowerfine is open and appreciates any helps.
 
+## News
+
+Congratulation, Scaleph has been ready for releasing `v1.0.0` version and providing full data integration scene backened by SeaTunnel on `2023-01-01`!
+
+Now, community is working on preparation job such as docs, bug fix, or deploy tools. There are so many miscellaneous to handle and we are really looking forward any help from you! Just associate us on issue or wechat group and make scaleph better.
+
 ## Features
 
 * Provide Flink ecosystem to every data developer easily.
@@ -20,7 +26,9 @@ Scaleph is driven by personal interest and evolves actively through faithful dev
 
 ### data integration
 
-* Web-ui click-and-drag data integration ways backended by out-of-the-box connectors.
+* Web-ui click-and-drag data integration ways backended by Apache SeaTunnel(incubating)
+*  Support 2.3.0-beta V2 out-of-the-box connectors
+* DataSource management
 
 ### data develop
 
@@ -49,13 +57,13 @@ Once all containers have started, the UI is ready to go at [http://localhost](ht
 
 ## Documentation
 
-please refer [wiki](https://github.com/flowerfine/scaleph/wiki)
+please refer [website](https://flowerfine.github.io/scaleph/#/)
 
 ## Build and Deployment
 
 * [develop](docs/develop/develop.md). This doc describes how to set up local development environment of Scaleph project.
 * checkstyle. Scaleph project requires clean and robust code, which can help Scaleph go further and develop better.
-* build. This doc describes how to compile `scaleph-api` or `scaleph-ui` from source and build corresponding docker image. For more information about build from source, refer [workflows](https://github.com/flowerfine/scaleph/tree/dev/.github/workflows) and [actions](https://github.com/flowerfine/scaleph/actions).
+* build. This doc describes how to compile `scaleph-api` or `scaleph-ui-react` from source and build corresponding docker image. For more information about build from source, refer [workflows](https://github.com/flowerfine/scaleph/tree/dev/.github/workflows) and [actions](https://github.com/flowerfine/scaleph/actions).
     * compile.  Scaleph adopts `maven` as its build system, .
         * [local](docs/build/build-local.md)。People has to install jdk, maven, node, use `mvn clean package` or `npm` command to compile project.
         * [docker](docs/build/build-docker.md)。Recommend way. Just need git and docker, after clone the source code, use docker as the build tools to compile project, which is slower than local.
@@ -110,7 +118,7 @@ Thanks for all people who already contributed to Scaleph!
 
 * Chinese user:
 
-   ![wechat](docs/image/1281666711380_.pic.jpg)
+   ![wechat](docs/image/1401670848956_.pic.jpg)
 
 ## Sponsor
 

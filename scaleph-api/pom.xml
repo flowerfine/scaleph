@@ -34,6 +34,14 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-datasource</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-meta</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-security</artifactId>
         </dependency>
         <dependency>
@@ -43,10 +51,6 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-resource</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-core-di</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
@@ -97,6 +101,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.version}</version>
                 <configuration>
                     <mainClass>cn.sliew.scaleph.Application</mainClass>
                     <layout>ZIP</layout>

@@ -22,12 +22,10 @@ on:
       seatunnelVersion:
         description: 'seatunnel version'
         required: true
-        default: '2.2.0-beta'
+        default: '2.3.0-beta'
         type: choice
         options:
-          - 2.1.2
-          - 2.1.3
-          - 2.2.0-beta
+          - 2.3.0-beta
 env:
   HUB: ghcr.io/flowerfine/scaleph_seatunnel
   SEATUNNEL_VERSION: ${{ inputs.seatunnelVersion }}

@@ -8,8 +8,12 @@ export const DEFAULT_PAGE_PARAM = {
 
 export const DICT_TYPE = {
   yesNo: 'yes_or_no',
+  roleType: 'role_type',
   roleStatus: 'role_status',
   userStatus: 'user_status',
+  deptStatus: 'dept_status',
+  resourceType: 'resource_type',
+
   idCardType: 'id_card_type',
   gender: 'gender',
   nation: 'nation',
@@ -30,10 +34,12 @@ export const DICT_TYPE = {
   flinkCheckpointRetain: 'flink_checkpoint_retain',
   flinkRestartStrategy: 'flink_restart_strategy',
   flinkHA: 'flink_high_availability',
-  flinkArtifactType: 'flink_artifact_type',
+  flinkJobType: 'flink_job_type',
   seatunnelVersion: 'seatunnel_version',
   seatunnelPluginName: 'seatunnel_plugin_name',
   imagePullPolicy: 'image_pull_policy',
+
+
 };
 
 export const USER_AUTH = {
@@ -55,40 +61,54 @@ export const WORKSPACE_CONF = {
 }
 
 export const PRIVILEGE_CODE = {
-  // todo flink code
-  flinkShow: 'pflink0',
-  flinkReleaseShow: 'pflinkr0',
-
   studioShow: 'psdo0',
   studioDataBoardShow: 'psdb0',
-  datadevShow: 'pdev0',
-  datadevDatasourceShow: 'pdts0',
-  datadevProjectShow: 'pddp0',
-  datadevResourceShow: 'pdde0',
-  datadevJobShow: 'pddj0',
-  datadevClusterShow: 'pddc0',
-  opscenterShow: 'popc0',
-  opscenterBatchShow: 'pobt0',
-  opscenterRealtimeShow: 'port0',
-  stdataShow: 'pstd0',
-  stdataRefDataShow: 'pstr0',
-  stdataRefDataMapShow: 'pstm0',
-  stdataDataElementShow: 'pste0',
-  stdataSystemShow: 'psts0',
-  adminShow: 'padm0',
-  userShow: 'pusr0',
-  privilegeShow: 'ppvg0',
-  dictShow: 'pdic0',
-  settingShow: 'pset0',
+
+  projectShow: 'pddp0',
+  datadevProjectSelect: 'pddp4',
+  datadevProjectAdd: 'pddp1',
+  datadevProjectDelete: 'pddp3',
+  datadevProjectEdit: 'pddp2',
+
+  workspaceShow: 'pdev0',
+  workspaceJobShow: 'pddj0',
+  workspaceJobDetailShow: 'pddj0',
+  workspaceJobArtifactShow: 'pddj0',
+  workspaceJobArtifactJarShow: 'pddj0',
+  workspaceJobSqlShow: 'pddj0',
+  workspaceJobSeaTunnelShow: 'pddj0',
+  workspaceClusterShow: 'pddj0',
+  workspaceClusterConfigShow: 'pddj0',
+  workspaceClusterConfigOptionsShow: 'pddj0',
+  workspaceClusterInstanceShow: 'pddj0',
+
+  resourceShow: 'pddj0',
+  resourceJarShow: 'pddj0',
+  resourceFlinkReleaseShow: 'pddj0',
+  resourceSeaTunnelReleaseShow: 'pddj0',
+  resourceKerberosShow: 'pddj0',
+  resourceClusterCredentialShow: 'pddj0',
+
+  dataSourceShow: 'pddj0',
   datadevDatasourceSelect: 'pdts4',
   datadevDatasourceAdd: 'pdts1',
   datadevDatasourceDelete: 'pdts3',
   datadevDatasourceEdit: 'pdts2',
   datadevDatasourceSecurity: 'pdts6',
-  datadevProjectSelect: 'pddp4',
-  datadevProjectAdd: 'pddp1',
-  datadevProjectDelete: 'pddp3',
-  datadevProjectEdit: 'pddp2',
+
+  stdataShow: 'pstd0',
+  stdataRefDataShow: 'pstr0',
+  stdataRefDataMapShow: 'pstm0',
+  stdataDataElementShow: 'pste0',
+  stdataSystemShow: 'psts0',
+
+  adminShow: 'padm0',
+  userShow: 'pusr0',
+  privilegeShow: 'ppvg0',
+  workflowQuartzShow: 'ppvg0',
+  dictShow: 'pdic0',
+  settingShow: 'pset0',
+
   datadevResourceSelect: 'pdde4',
   datadevResourceAdd: 'pdde1',
   datadevResourceDelete: 'pdde3',

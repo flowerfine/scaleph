@@ -1,1 +1,0 @@
-* [About](/#about-scaleph)

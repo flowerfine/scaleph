@@ -63,5 +63,4 @@ public class MetaSystemDTO extends BaseDTO {
     @ApiModelProperty(value = "备注")
     private String remark;
 
-
 }

@@ -27,6 +27,7 @@ import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
 import cn.sliew.scaleph.common.dict.security.*;
+import cn.sliew.scaleph.common.dict.workflow.*;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -73,7 +74,6 @@ public enum DictType implements DictDefinition {
     FLINK_CLUSTER_STATUS("flink_cluster_status", "Flink 集群状态", FlinkClusterStatus.class),
     FLINK_JOB_STATUS("flink_job_status", "Flink 任务状态", FlinkJobState.class),
     FLINK_JOB_TYPE("flink_job_type", "Flink 任务类型", FlinkJobType.class),
-    FLINK_ARTIFACT_TYPE("flink_artifact_type", "Flink Artifact 类型", FlinkArtifactType.class),
 
     SEATUNNEL_VERSION("seatunnel_version", "SeaTunnel 版本", SeaTunnelVersion.class),
     SEATUNNEL_ENGINE_TYPE("seatunnel_engine_type", "SeaTunnel 引擎类型", SeaTunnelEngineType.class),
@@ -81,6 +81,13 @@ public enum DictType implements DictDefinition {
     SEATUNNEL_PLUGIN_NAME("seatunnel_plugin_name", "SeaTunnel 插件名称", SeaTunnelPluginName.class),
 
     IMAGE_PULL_POLICY("image_pull_policy", "Image Pull Policy", ImagePullPolicy.class),
+
+    WORKFLOW_TYPE("workflow_type", "Workflow Type", WorkflowType.class),
+    WORKFLOW_EXECUTE_TYPE("workflow_execute_type", "Workflow Execute Type", WorkflowExecuteType.class),
+    WORKFLOW_INSTANCE_STATE("workflow_instance_state", "Workflow Instance State", WorkflowInstanceState.class),
+    WORKFLOW_TASK_TYPE("workflow_task_type", "Workflow Task Type", WorkflowTaskType.class),
+    WORKFLOW_TASK_INSTANCE_STAGE("workflow_task_instance_stage", "Workflow Task Instance Stage", WorkflowTaskInstanceStage.class),
+    SCHEDULE_STATUS("schedule_status", "Schedule Status", ScheduleStatus.class),
     ;
 
     @JsonValue

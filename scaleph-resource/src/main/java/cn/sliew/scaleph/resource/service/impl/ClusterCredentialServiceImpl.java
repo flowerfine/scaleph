@@ -90,16 +90,17 @@ public class ClusterCredentialServiceImpl implements ClusterCredentialService {
     }
 
     @Override
-    public ClusterCredentialDTO selectOne(Serializable id) {
+    public ClusterCredentialDTO selectOne(Long id) {
         final ResourceClusterCredential record = resourceClusterCredentialMapper.selectById(id);
         checkState(record != null, () -> "cluster credential not exists for id: " + id);
         return ClusterCredentialConvert.INSTANCE.toDto(record);
     }
 
     @Override
-    public void insert(ClusterCredentialDTO dto) {
+    public ClusterCredentialDTO insert(ClusterCredentialDTO dto) {
         final ResourceClusterCredential record = ClusterCredentialConvert.INSTANCE.toDo(dto);
         resourceClusterCredentialMapper.insert(record);
+        return selectOne(record.getId());
     }
 
     @Override
@@ -109,14 +110,14 @@ public class ClusterCredentialServiceImpl implements ClusterCredentialService {
     }
 
     @Override
-    public int deleteById(Serializable id) {
+    public int deleteById(Long id) {
         try {
             final ClusterCredentialDTO flinkDeployConfigFileDTO = selectOne(id);
             final String rootPath = getCredentialFileRootPath() + "/" + flinkDeployConfigFileDTO.getName();
             if (fileSystemService.exists(rootPath)) {
                 final List<FileStatus> fileStatuses = fileSystemService.listStatus(rootPath);
                 for (FileStatus fileStatus : fileStatuses) {
-                    deleteCredentialFile((Long) id, fileStatus.getPath().getName());
+                    deleteCredentialFile(id, fileStatus.getPath().getName());
                 }
             }
             return resourceClusterCredentialMapper.deleteById(id);

@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dao.entity.master.security;
 
+import cn.sliew.scaleph.common.dict.security.ResourceType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -47,7 +48,7 @@ public class SecPrivilege extends BaseDO {
     private String privilegeName;
 
     @ApiModelProperty(value = "资源类型")
-    private String resourceType;
+    private ResourceType resourceType;
 
     @ApiModelProperty(value = "资源路径")
     private String resourcePath;
