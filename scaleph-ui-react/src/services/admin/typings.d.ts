@@ -1,4 +1,4 @@
-import { Dict, QueryParam } from '@/app.d';
+import {Dict, QueryParam} from '@/app.d';
 
 export type SysDictType = {
   id?: number;
@@ -42,6 +42,12 @@ export type SecRole = {
   showOpIcon?: boolean;
 };
 
+export type SecRoleParam = QueryParam & {
+  roleName?: string;
+  roleType?: string;
+  roleStatus?: string;
+};
+
 export type SecDept = {
   id?: number;
   deptCode?: string;
@@ -55,6 +61,21 @@ export type SecDeptTreeNode = {
   deptCode: string;
   deptName: string;
   pid: number;
+  children: SecDeptTreeNode[];
+};
+
+export type SecDeptParam = QueryParam & {
+  pid?: number;
+  deptCode?: string;
+  deptName?: string;
+};
+
+export type SecDeptTree = {
+  id: number;
+  deptCode: string;
+  deptName: string;
+  pid: number;
+  deptStatus?: Dict;
   children: SecDeptTreeNode[];
 };
 
@@ -92,12 +113,34 @@ export type SecUserParam = QueryParam & {
 };
 
 export type SecPrivilege = {
-  id?: number;
+  id: number;
   privilegeCode?: string;
   privilegeName: string;
   resourceType: Dict;
   resourcePath: string;
   pid: number;
+  children?: SecPrivilege[]
+};
+
+export type SecPrivilegeParam = QueryParam & {
+  pid: number;
+  privilegeName?: string;
+};
+
+export type SecPrivilegeAddParam = {
+  privilegeCode: string;
+  privilegeName: string;
+  resourceType: string;
+  resourcePath?: string;
+  pid: number;
+};
+
+export type SecPrivilegeUpdateParam = {
+  id: number;
+  privilegeCode?: string;
+  privilegeName?: string;
+  resourceType?: string;
+  resourcePath?: string;
 };
 
 export type SecPrivilegeTreeNode = {

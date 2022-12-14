@@ -36,12 +36,13 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.dingtalk.sink.D
 public class DingTalkSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public DingTalkSinkPlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "A sink plugin which use DingTalk robot send message",
                 DingTalkSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(URL);
         props.add(SECRET);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = Collections.unmodifiableList(props);
     }

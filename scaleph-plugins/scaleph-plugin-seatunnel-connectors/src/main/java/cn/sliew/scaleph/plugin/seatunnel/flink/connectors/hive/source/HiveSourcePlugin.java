@@ -18,70 +18,58 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.source;
 
-
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.*;
-
-import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
+import cn.sliew.scaleph.ds.modal.olap.HiveDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-import com.typesafe.config.ConfigRenderOptions;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class HiveSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public HiveSourcePlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
-            "Hive Source Plugin.",
-            HiveSourcePlugin.class.getName());
+        this.pluginInfo = new PluginInfo(getIdentity(),
+                "Hive Source Plugin.",
+                HiveSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(TABLE_NAME);
-        props.add(METASTORE_URI);
         props.add(SCHEMA);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
     @Override
+    public List<ResourceProperty> getRequiredResources() {
+        return Collections.singletonList(ResourceProperties.DATASOURCE_RESOURCE);
+    }
+
+    @Override
     public ObjectNode createConf() {
-        ObjectNode objectNode = JacksonUtil.createObjectNode();
-        for (PropertyDescriptor descriptor : getSupportedProperties()) {
-            if (properties.contains(descriptor)) {
-                if (SCHEMA.getName().equals(descriptor.getName())) {
-                    Config config = ConfigFactory.parseString(properties.getValue(descriptor));
-                    ConfigRenderOptions options = ConfigRenderOptions.concise();
-                    String schema = config.root().render(options);
-                    ObjectNode jsonNodes = (ObjectNode) JacksonUtil.toJsonNode(schema);
-                    ObjectNode filedNode = JacksonUtil.createObjectNode();
-                    JsonNode filed = filedNode.set("filed", jsonNodes);
-                    ObjectNode schemaNode = JacksonUtil.createObjectNode();
-                    schemaNode.set("schema", filed);
-                    objectNode.set(descriptor.getName(), schemaNode);
-                } else {
-                    objectNode.put(descriptor.getName(), properties.getValue(descriptor));
-                }
-            }
-        }
-        return objectNode;
+        ObjectNode conf = super.createConf();
+        JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
+        HiveDataSource dataSource = (HiveDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(METASTORE_URI.getName(), dataSource.getMetastoreUri());
+        return conf;
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
         return SeaTunnelPluginMapping.SOURCE_HIVE;
     }
-
 
 }

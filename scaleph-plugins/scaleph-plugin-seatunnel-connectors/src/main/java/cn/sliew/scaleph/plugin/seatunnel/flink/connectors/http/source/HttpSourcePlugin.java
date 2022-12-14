@@ -18,11 +18,17 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.http.source;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
+import cn.sliew.scaleph.ds.modal.AbstractDataSource;
+import cn.sliew.scaleph.ds.modal.HttpDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperties;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
@@ -36,13 +42,11 @@ import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.http.source.Htt
 public class HttpSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public HttpSourcePlugin() {
-        this.pluginInfo = new PluginInfo(getPluginName().getLabel(),
+        this.pluginInfo = new PluginInfo(getIdentity(),
                 "Read data from http endpoint",
                 HttpSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(URL);
-        props.add(METHOD);
         props.add(HEADERS);
         props.add(PARAMS);
         props.add(BODY);
@@ -52,9 +56,24 @@ public class HttpSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(RETRY);
         props.add(RETRY_BACKOFF_MULTIPLIER_MS);
         props.add(RETRY_BACKOFF_MAX_MS);
-        props.add(CommonProperties.FIELD_NAME);
+        props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
+    }
+
+    @Override
+    public List<ResourceProperty> getRequiredResources() {
+        return Collections.singletonList(ResourceProperties.DATASOURCE_RESOURCE);
+    }
+
+    @Override
+    public ObjectNode createConf() {
+        ObjectNode conf = super.createConf();
+        JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
+        HttpDataSource dataSource = (HttpDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(METHOD.getName(), dataSource.getMethod());
+        conf.putPOJO(URL.getName(), dataSource.getUrl());
+        return conf;
     }
 
     @Override

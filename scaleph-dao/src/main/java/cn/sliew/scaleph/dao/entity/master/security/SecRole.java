@@ -20,6 +20,8 @@ package cn.sliew.scaleph.dao.entity.master.security;
 
 import java.util.List;
 
+import cn.sliew.scaleph.common.dict.security.RoleStatus;
+import cn.sliew.scaleph.common.dict.security.RoleType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -49,10 +51,10 @@ public class SecRole extends BaseDO {
     private String roleName;
 
     @ApiModelProperty(value = "角色类型")
-    private String roleType;
+    private RoleType roleType;
 
     @ApiModelProperty(value = "角色状态")
-    private String roleStatus;
+    private RoleStatus roleStatus;
 
     @ApiModelProperty(value = "角色备注")
     private String roleDesc;

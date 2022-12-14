@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.wechat.sink;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum WechatSinkProperties {
     ;
@@ -32,19 +33,19 @@ public enum WechatSinkProperties {
             .properties(Property.Required)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> MENTIONED_LIST = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<JsonNode> MENTIONED_LIST = new PropertyDescriptor.Builder()
             .name("mentioned_list")
             .description("A list of userids to remind the specified members in the group (@ a member), @ all means to remind everyone")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> MENTIONED_MOBILE_LIST = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<JsonNode> MENTIONED_MOBILE_LIST = new PropertyDescriptor.Builder()
             .name("mentioned_mobile_list")
             .description("Mobile phone number list, remind the group member corresponding to the mobile phone number (@ a member), @ all means remind everyone")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

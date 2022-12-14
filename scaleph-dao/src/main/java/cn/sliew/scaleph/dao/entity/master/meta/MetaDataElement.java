@@ -18,6 +18,8 @@
 
 package cn.sliew.scaleph.dao.entity.master.meta;
 
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
+import cn.sliew.scaleph.common.dict.job.DataType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -49,7 +51,7 @@ public class MetaDataElement extends BaseDO {
     private String elementName;
 
     @ApiModelProperty(value = "数据类型")
-    private String dataType;
+    private DataType dataType;
 
     @ApiModelProperty(value = "长度")
     private Long dataLength;
@@ -61,7 +63,7 @@ public class MetaDataElement extends BaseDO {
     private Integer dataScale;
 
     @ApiModelProperty(value = "是否可以为空,1-是;0-否")
-    private String nullable;
+    private YesOrNo nullable;
 
     @ApiModelProperty(value = "默认值")
     private String dataDefault;

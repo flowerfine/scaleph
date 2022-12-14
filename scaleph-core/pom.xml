@@ -30,7 +30,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>scaleph-core-di</module>
         <module>scaleph-core-scheduler</module>
     </modules>
 

@@ -18,9 +18,6 @@
 
 package cn.sliew.scaleph.security.service.impl;
 
-import java.io.Serializable;
-import java.util.List;
-
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.security.SecDept;
 import cn.sliew.scaleph.dao.mapper.master.security.SecDeptMapper;
@@ -29,11 +26,18 @@ import cn.sliew.scaleph.security.service.SecDeptService;
 import cn.sliew.scaleph.security.service.SecUserDeptService;
 import cn.sliew.scaleph.security.service.convert.SecDeptConvert;
 import cn.sliew.scaleph.security.service.dto.SecDeptDTO;
+import cn.sliew.scaleph.security.service.dto.SecDeptTreeDTO;
+import cn.sliew.scaleph.security.service.param.SecDeptListParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 /**
  * <p>
@@ -56,59 +60,86 @@ public class SecDeptServiceImpl implements SecDeptService {
     @Override
     public int insert(SecDeptDTO secDeptDTO) {
         SecDept secDept = SecDeptConvert.INSTANCE.toDo(secDeptDTO);
-        return this.secDeptMapper.insert(secDept);
+        return secDeptMapper.insert(secDept);
     }
 
     @Override
     public int update(SecDeptDTO secDeptDTO) {
         SecDept secDept = SecDeptConvert.INSTANCE.toDo(secDeptDTO);
-        return this.secDeptMapper.updateById(secDept);
+        return secDeptMapper.updateById(secDept);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public int deleteById(Long id) {
-        this.secUserDeptService.deleteBydeptId(id);
-        this.secDeptRoleService.deleteByDeptId(id);
-        return this.secDeptMapper.deleteById(id);
+        List<SecDeptDTO> secDeptDTOS = listByDeptId(id);
+        for (SecDeptDTO deptDTO : secDeptDTOS) {
+            deleteById(deptDTO.getId());
+        }
+        secUserDeptService.deleteBydeptId(id);
+        secDeptRoleService.deleteByDeptId(id);
+        return secDeptMapper.deleteById(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
-    public int deleteBatch(List<? extends Serializable> list) {
-        if (CollectionUtils.isEmpty(list)) {
+    public int deleteBatch(List<Long> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
             return 0;
         }
-        for (Serializable id : list) {
-            this.secUserDeptService.deleteBydeptId(id);
-            this.secDeptRoleService.deleteByDeptId(id);
+        for (Long id : ids) {
+            deleteById(id);
         }
-        return this.secDeptMapper.deleteBatchIds(list);
+        return ids.size();
     }
 
     @Override
     public SecDeptDTO selectOne(Long id) {
-        SecDept secDept = this.secDeptMapper.selectById(id);
+        SecDept secDept = secDeptMapper.selectById(id);
         return SecDeptConvert.INSTANCE.toDto(secDept);
     }
 
     @Override
     public SecDeptDTO selectOne(String deptCode) {
-        SecDept secDept = this.secDeptMapper.selectOne(new LambdaQueryWrapper<SecDept>()
-            .eq(SecDept::getDeptCode, deptCode));
+        SecDept secDept = secDeptMapper.selectOne(new LambdaQueryWrapper<SecDept>()
+                .eq(SecDept::getDeptCode, deptCode));
         return SecDeptConvert.INSTANCE.toDto(secDept);
     }
 
     @Override
     public List<SecDeptDTO> listAll() {
-        List<SecDept> secDeptList = this.secDeptMapper.selectList(null);
+        List<SecDept> secDeptList = secDeptMapper.selectList(null);
         return SecDeptConvert.INSTANCE.toDto(secDeptList);
     }
 
     @Override
     public List<SecDeptDTO> listByDeptId(Long pid) {
-        List<SecDept> secDeptList = this.secDeptMapper.selectList(new LambdaQueryWrapper<SecDept>()
-            .eq(SecDept::getPid, pid));
+        List<SecDept> secDeptList = secDeptMapper.selectList(new LambdaQueryWrapper<SecDept>()
+                .eq(SecDept::getPid, pid));
         return SecDeptConvert.INSTANCE.toDto(secDeptList);
+    }
+
+    @Override
+    public Page<SecDeptTreeDTO> listByPage(SecDeptListParam param) {
+        Page<SecDept> page = new Page<>(param.getCurrent(), param.getPageSize());
+        LambdaQueryWrapper<SecDept> queryWrapper = Wrappers.lambdaQuery(SecDept.class)
+                .eq(SecDept::getPid, param.getPid())
+                .eq(StringUtils.hasText(param.getDeptCode()), SecDept::getDeptCode, param.getDeptCode())
+                .like(StringUtils.hasText(param.getDeptName()), SecDept::getDeptName, param.getDeptName());
+        Page<SecDept> list = secDeptMapper.selectPage(page, queryWrapper);
+        Page<SecDeptTreeDTO> result = new Page<>(list.getCurrent(), list.getSize(), list.getTotal());
+        List<SecDeptTreeDTO> dtoList = SecDeptConvert.INSTANCE.entity2TreeDTO(list.getRecords());
+        dtoList.forEach(dto -> recurse(dto));
+        result.setRecords(dtoList);
+        return result;
+    }
+
+    private void recurse(SecDeptTreeDTO deptTreeDTO) {
+        List<SecDeptDTO> secDeptDTOS = listByDeptId(deptTreeDTO.getId());
+        List<SecDeptTreeDTO> children = SecDeptConvert.INSTANCE.dto2TreeDTO(secDeptDTOS);
+        if (CollectionUtils.isEmpty(children) == false) {
+            deptTreeDTO.setChildren(children);
+            children.forEach(child -> recurse(child));
+        }
     }
 }

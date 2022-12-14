@@ -95,14 +95,14 @@
         <module>scaleph-engine</module>
         <module>scaleph-plugins</module>
         <module>scaleph-workflow</module>
+        <module>scaleph-datasource</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <akka.scala.binary.version>2.13</akka.scala.binary.version>
-        <scala.binary.version>2.12</scala.binary.version>
+        <scala.binary.version>2.11</scala.binary.version>
         <java.version>11</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -114,7 +114,6 @@
         <docker.push.skip>true</docker.push.skip>
 
         <spring.boot.version>2.7.4</spring.boot.version>
-        <spring.plugin.core.version>2.0.0.RELEASE</spring.plugin.core.version>
         <mybatis.plus.version>3.5.1</mybatis.plus.version>
         <org.mapstruct.extensions.spring.version>0.1.1</org.mapstruct.extensions.spring.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
@@ -138,7 +137,7 @@
         <doris.version>5.1.26</doris.version>
         <postgresql.version>42.3.3</postgresql.version>
         <druid.version>0.22.1</druid.version>
-        <calcite-druid.version>1.31.0</calcite-druid.version>
+        <calcite-druid.version>1.29.0</calcite-druid.version>
         <flink.version>1.13.6</flink.version>
         <flink-kubernetes-operator.version>1.1.0</flink-kubernetes-operator.version>
         <flinkful.version>1.13.6_4-SNAPSHOT</flinkful.version>
@@ -148,7 +147,7 @@
         <minio.version>8.3.8</minio.version>
         <milky.version>1.0.7</milky.version>
         <hadoop.version>3.3.4</hadoop.version>
-        <akka.version>2.6.19</akka.version>
+        <akka.version>2.5.21</akka.version>
         <sofa.ark.version>2.0.0</sofa.ark.version>
         <protobuf.version>3.21.5</protobuf.version>
     </properties>
@@ -162,13 +161,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
+            <!--<dependency>
                 <groupId>com.typesafe.akka</groupId>
-                <artifactId>akka-bom_${akka.scala.binary.version}</artifactId>
+                <artifactId>akka-bom_${scala.binary.version}</artifactId>
                 <version>${akka.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>io.micrometer</groupId>
                 <artifactId>micrometer-bom</artifactId>
@@ -193,6 +192,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-resource</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-datasource</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -275,7 +279,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-workflow-api</artifactId>
+                <artifactId>scaleph-workflow-quartz</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -429,6 +433,11 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.flink</groupId>
+                <artifactId>flink-table-planner-blink_${scala.binary.version}</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.flink</groupId>
                 <artifactId>flink-runtime-web_${scala.binary.version}</artifactId>
                 <version>${flink.version}</version>
             </dependency>
@@ -525,6 +534,17 @@
             </dependency>
 
             <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-actor-typed_${scala.binary.version}</artifactId>
+                <version>${akka.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-stream_${scala.binary.version}</artifactId>
+                <version>${akka.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.typesafe</groupId>
                 <artifactId>config</artifactId>
                 <version>${config.version}</version>
@@ -584,7 +604,7 @@
                 <artifactId>clickhouse-jdbc</artifactId>
                 <version>${clickhouse-jdbc.version}</version>
             </dependency>
-            <dependency>
+            <!--<dependency>
                 <groupId>org.apache.druid</groupId>
                 <artifactId>druid-indexing-service</artifactId>
                 <version>${druid.version}</version>
@@ -607,7 +627,7 @@
                 <groupId>org.apache.calcite</groupId>
                 <artifactId>calcite-druid</artifactId>
                 <version>${calcite-druid.version}</version>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
@@ -635,7 +655,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-<!--                <version>${netty.version}</version>-->
+                <!--                <version>${netty.version}</version>-->
                 <version>4.1.82.Final</version>
             </dependency>
         </dependencies>

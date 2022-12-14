@@ -20,6 +20,9 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.jdbc;
 
 import cn.sliew.scaleph.plugin.datasource.jdbc.JdbcPoolProperties;
 import cn.sliew.scaleph.plugin.framework.property.*;
+import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
+import cn.sliew.scaleph.resource.service.enums.ResourceType;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum JdbcProperties {
     ;

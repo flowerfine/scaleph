@@ -23,6 +23,6 @@ public enum GraphConstants {
 
     public static final String NODE_TYPE = "_node_type";
     public static final String NODE_ID = "_node_id";
-    public static final String TABLE_PREFIX = "table_";
+    public static final String TABLE_PREFIX = "_seatunnel_table_";
     public static String DND_RENDER_ID = "DND_NODE";
 }

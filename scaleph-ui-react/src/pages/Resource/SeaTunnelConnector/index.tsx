@@ -1,11 +1,10 @@
-import {PRIVILEGE_CODE} from '@/constant';
-import {CredentialFile, SeaTunnelConnectorFile} from '@/services/resource/typings';
-import {history} from '@@/core/history';
+import {history, useAccess, useIntl, useLocation} from 'umi';
+import {useEffect, useRef, useState} from 'react';
+import {Button, message, Space, Tooltip} from 'antd';
 import {DownloadOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, message, Space, Tooltip} from 'antd';
-import {useEffect, useRef, useState} from 'react';
-import {useAccess, useIntl, useLocation} from 'umi';
+import {PRIVILEGE_CODE} from '@/constant';
+import {CredentialFile, SeaTunnelConnectorFile} from '@/services/resource/typings';
 import {SeatunnelReleaseService} from "@/services/resource/seatunnelRelease.service";
 import ConnectorFileForm from "@/pages/Resource/SeaTunnelConnector/components/ConnectorFileForm";
 

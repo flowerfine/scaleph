@@ -20,9 +20,11 @@ package cn.sliew.scaleph.resource.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
 import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.util.StringUtils;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -33,4 +35,5 @@ public class ClusterCredentialListParam extends PaginationParam {
 
     @ApiModelProperty("配置名称")
     private String name;
+
 }

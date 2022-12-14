@@ -19,12 +19,16 @@
 package cn.sliew.scaleph.security.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.security.SecDept;
 import cn.sliew.scaleph.security.service.dto.SecDeptDTO;
+import cn.sliew.scaleph.security.service.dto.SecDeptTreeDTO;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author gleiyu
@@ -33,7 +37,14 @@ import org.mapstruct.factory.Mappers;
 public interface SecDeptConvert extends BaseConvert<SecDept, SecDeptDTO> {
     SecDeptConvert INSTANCE = Mappers.getMapper(SecDeptConvert.class);
 
-    @Override
-    @Mapping(expression = "java(cn.sliew.scaleph.system.service.vo.DictVO.toVO(cn.sliew.scaleph.common.constant.DictConstants.DEPT_STATUS,entity.getDeptStatus()))", target = "deptStatus")
-    SecDeptDTO toDto(SecDept entity);
+    default List<SecDeptTreeDTO> entity2TreeDTO(List<SecDept> entityList) {
+        return entityList.stream().map(entity -> BeanUtil.copy(entity, new SecDeptTreeDTO())).collect(Collectors.toList());
+    }
+
+    default List<SecDeptTreeDTO> dto2TreeDTO(List<SecDeptDTO> dtoList) {
+        return dtoList.stream()
+                .map(dto -> BeanUtil.copy(dto, new SecDeptTreeDTO()))
+                .collect(Collectors.toList());
+    }
+
 }

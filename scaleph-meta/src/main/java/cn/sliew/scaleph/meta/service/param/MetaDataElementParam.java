@@ -26,9 +26,10 @@ import lombok.EqualsAndHashCode;
 /**
  * @author gleiyu
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class MetaDataElementParam extends PaginationParam {
+    
     @ApiModelProperty(value = "数据元标识")
     private String elementCode;
 

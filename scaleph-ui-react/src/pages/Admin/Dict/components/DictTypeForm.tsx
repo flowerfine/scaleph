@@ -14,7 +14,7 @@ const DictTypeForm: React.FC<ModalFormProps<SysDictType>> = ({
   const [form] = Form.useForm();
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +

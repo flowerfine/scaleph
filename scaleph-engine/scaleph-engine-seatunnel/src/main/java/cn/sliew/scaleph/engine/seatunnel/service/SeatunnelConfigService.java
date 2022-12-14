@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service;
 
-import cn.sliew.scaleph.core.di.service.dto.DiJobDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
 
 public interface SeatunnelConfigService {
 
-    String buildConfig(DiJobDTO diJobDTO);
+    String buildConfig(WsDiJobDTO wsDiJobDTO) throws Exception;
 }

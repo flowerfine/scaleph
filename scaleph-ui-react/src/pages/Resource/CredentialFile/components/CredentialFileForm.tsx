@@ -56,12 +56,11 @@ const CredentialFileForm: React.FC<ModalFormProps<{ id: number }>> =
             };
             setUploading(true);
             ClusterCredentialService.uploadFiles(uploadParam)
-              .then(() => {
-                setFileList([]);
-                message.success(intl.formatMessage({id: 'app.common.operate.upload.success'}));
-              })
-              .catch(() => {
-                message.error(intl.formatMessage({id: 'app.common.operate.upload.failure'}));
+              .then((response) => {
+                if (response.success) {
+                  setFileList([]);
+                  message.success(intl.formatMessage({id: 'app.common.operate.upload.success'}));
+                }
               })
               .finally(() => {
                 setUploading(false);

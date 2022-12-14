@@ -33,7 +33,7 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title={
         data.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +

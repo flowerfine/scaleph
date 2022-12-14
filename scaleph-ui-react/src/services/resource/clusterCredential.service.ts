@@ -6,7 +6,7 @@ import {
   CredentialFile,
   CredentialFileUploadParam,
 } from '@/services/resource/typings';
-import { request } from '@@/exports';
+import { request } from 'umi';
 export const ClusterCredentialService = {
   url: '/api/resource/cluster-credential',
 
@@ -32,7 +32,7 @@ export const ClusterCredentialService = {
   },
 
   add: async (row: ClusterCredential) => {
-    return request<ResponseBody<any>>(`${ClusterCredentialService.url}`, {
+    return request<ResponseBody<ClusterCredential>>(`${ClusterCredentialService.url}`, {
       method: 'PUT',
       data: row,
     });

@@ -24,6 +24,7 @@ import lombok.Getter;
  * @author gleiyu
  */
 @Getter
+@Deprecated
 public enum JobAttrTypeEnum {
 
     JOB_ATTR("1", "作业变量"),

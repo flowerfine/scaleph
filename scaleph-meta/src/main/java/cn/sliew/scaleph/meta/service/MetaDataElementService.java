@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.meta.service;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 import cn.sliew.scaleph.meta.service.dto.MetaDataElementDTO;
@@ -41,7 +42,7 @@ public interface MetaDataElementService {
 
     int deleteById(Long id);
 
-    int deleteBatch(Map<Integer, ? extends Serializable> map);
+    int deleteBatch(List<Long> ids);
 
     Page<MetaDataElementDTO> listByPage(MetaDataElementParam param);
 }

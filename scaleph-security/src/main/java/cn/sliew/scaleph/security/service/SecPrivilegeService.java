@@ -18,9 +18,13 @@
 
 package cn.sliew.scaleph.security.service;
 
-import java.util.List;
-
 import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;
+import cn.sliew.scaleph.security.service.param.SecPrivilegeAddParam;
+import cn.sliew.scaleph.security.service.param.SecPrivilegeListParam;
+import cn.sliew.scaleph.security.service.param.SecPrivilegeUpdateParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import java.util.List;
 
 /**
  * <p>
@@ -31,12 +35,19 @@ import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;
  * @since 2021-08-01
  */
 public interface SecPrivilegeService {
-    /**
-     * 查询全部权限编码
-     *
-     * @param resourceType 资源类型
-     * @return list
-     */
+
+    Page<SecPrivilegeDTO> listByPage(SecPrivilegeListParam param);
+
     List<SecPrivilegeDTO> listAll(String resourceType);
+
+    List<SecPrivilegeDTO> listByPid(Long pid, String privilegeName);
+
+    int insert(SecPrivilegeAddParam param);
+
+    int update(Long id, SecPrivilegeUpdateParam param);
+
+    int deleteById(Long id);
+
+    int deleteBatch(List<Long> ids);
 
 }

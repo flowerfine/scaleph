@@ -24,10 +24,9 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
 public enum FileUtil {
@@ -151,6 +150,17 @@ public enum FileUtil {
 
     public static OutputStream getOutputStream(Path path) throws IOException {
         return getOutputStream(path.toFile());
+    }
+
+    public static Writer getWriter(File file) throws IOException {
+        if (!file.exists()) {
+            createFile(file.toPath());
+        }
+        return new FileWriter(file);
+    }
+
+    public static Writer getWriter(Path path) throws IOException {
+        return getWriter(path.toFile());
     }
 
     public static InputStream getInputStream(File file) throws FileNotFoundException {
