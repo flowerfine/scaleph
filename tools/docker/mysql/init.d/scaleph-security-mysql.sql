@@ -225,17 +225,21 @@ VALUES (500018, 'pstm2', '修改', '2', 500003, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
 VALUES (500019, 'pstm3', '删除', '2', 500003, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
-VALUES (600000, 'padr0', '用户管理', '1', 6, 'sys', 'sys');
+VALUES (600000, 'padp0', '部门管理', '1', 6, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
-VALUES (600001, 'parw0', 'Web 资源', '1', 6, 'sys', 'sys');
+VALUES (600001, 'padr0', '角色管理', '1', 6, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
-VALUES (600002, 'padp0', '权限管理', '1', 6, 'sys', 'sys');
+VALUES (600002, 'padu0', '用户管理', '1', 6, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
-VALUES (600003, 'pawq0', '系统任务', '1', 6, 'sys', 'sys');
+VALUES (600003, 'parw0', 'Web 资源', '1', 6, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
-VALUES (600004, 'padd0', '数据字典', '1', 6, 'sys', 'sys');
+VALUES (600004, 'pape0', '权限管理', '1', 6, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
-VALUES (600005, 'pads0', '系统设置', '1', 6, 'sys', 'sys');
+VALUES (600005, 'pawq0', '系统任务', '1', 6, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600006, 'padd0', '数据字典', '1', 6, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600007, 'pads0', '系统设置', '1', 6, 'sys', 'sys');
 
 
 /* 角色权限关联表 */

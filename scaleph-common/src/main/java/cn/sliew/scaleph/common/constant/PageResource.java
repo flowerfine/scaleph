@@ -49,11 +49,13 @@ public enum PageResource {
     public static Route STDATA_REF_DATA_VALUE = new Route(500003, "参考数据值", PageCode.STDATA_REF_DATA_VALUE, "/stdata/refdata/value", MenuResource.DATA_STANDARD);
     public static Route STDATA_REF_DATA_MAP = new Route(500004, "数据映射", PageCode.STDATA_REF_DATA_MAP, "/stdata/refdataMap", MenuResource.DATA_STANDARD);
 
-    public static Route ADMIN_USER = new Route(600000, "用户管理", PageCode.ADMIN_USER, "/admin/user", MenuResource.ADMIN);
-    public static Route ADMIN_RESOURCE_WEB = new Route(600001, "Web 资源", PageCode.ADMIN_RESOURCE_WEB, "/admin/resource/web", MenuResource.ADMIN);
-    public static Route ADMIN_PRIVILEGE = new Route(600002, "权限管理", PageCode.ADMIN_PRIVILEGE, "/admin/privilege", MenuResource.ADMIN);
-    public static Route ADMIN_WORKFLOW_QUARTZ = new Route(600003, "系统任务", PageCode.ADMIN_WORKFLOW_QUARTZ, "/admin/workflow/quartz", MenuResource.ADMIN);
-    public static Route ADMIN_DICT = new Route(600004, "数据字典", PageCode.ADMIN_DICT, "/admin/dict", MenuResource.ADMIN);
-    public static Route ADMIN_SETTING = new Route(600005, "系统设置", PageCode.ADMIN_SETTING, "/admin/setting", MenuResource.ADMIN);
+    public static Route ADMIN_DEPT = new Route(600000, "部门管理", PageCode.ADMIN_DEPT, "/admin/dept", MenuResource.ADMIN);
+    public static Route ADMIN_ROLE = new Route(600001, "角色管理", PageCode.ADMIN_ROLE, "/admin/role", MenuResource.ADMIN);
+    public static Route ADMIN_USER = new Route(600002, "用户管理", PageCode.ADMIN_USER, "/admin/user", MenuResource.ADMIN);
+    public static Route ADMIN_RESOURCE_WEB = new Route(600003, "Web 资源", PageCode.ADMIN_RESOURCE_WEB, "/admin/resource/web", MenuResource.ADMIN);
+    public static Route ADMIN_PRIVILEGE = new Route(600004, "权限管理", PageCode.ADMIN_PRIVILEGE, "/admin/privilege", MenuResource.ADMIN);
+    public static Route ADMIN_WORKFLOW_QUARTZ = new Route(600005, "系统任务", PageCode.ADMIN_WORKFLOW_QUARTZ, "/admin/workflow/quartz", MenuResource.ADMIN);
+    public static Route ADMIN_DICT = new Route(600006, "数据字典", PageCode.ADMIN_DICT, "/admin/dict", MenuResource.ADMIN);
+    public static Route ADMIN_SETTING = new Route(600007, "系统设置", PageCode.ADMIN_SETTING, "/admin/setting", MenuResource.ADMIN);
 
 }
