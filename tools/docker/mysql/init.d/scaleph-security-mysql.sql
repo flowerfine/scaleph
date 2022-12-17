@@ -246,6 +246,12 @@ INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_
 VALUES (600009, 'padp2', '修改', '2', 600000, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
 VALUES (6000010, 'padp3', '删除', '2', 600000, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600011, 'padr1', '新增', '2', 600001, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600012, 'padr2', '修改', '2', 600001, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (6000013, 'padr3', '删除', '2', 600001, 'sys', 'sys');
 
 
 /* 角色权限关联表 */

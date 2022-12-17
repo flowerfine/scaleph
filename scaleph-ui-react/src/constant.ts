@@ -145,7 +145,6 @@ export const PRIVILEGE_CODE = {
   stdataSystemEdit: 'psts2',
 
 
-
   adminShow: 'padm0',
   deptShow: 'padp0',
   deptAdd: 'padp1',
@@ -155,6 +154,12 @@ export const PRIVILEGE_CODE = {
   deptGrant: 'padp5',
 
   roleShow: 'padr0',
+  roleAdd: 'padr1',
+  roleEdit: 'padr2',
+  roleDelete: 'padr3',
+  roleSelect: 'padr4',
+  roleGrant: 'padr5',
+
   userShow: 'padu0',
   resourceWebShow: 'parw0',
   privilegeShow: 'pape0',
@@ -166,11 +171,7 @@ export const PRIVILEGE_CODE = {
   userAdd: 'pusr1',
   userDelete: 'pusr3',
   userEdit: 'pusr2',
-  roleSelect: 'prol4',
-  roleAdd: 'prol1',
-  roleDelete: 'prol3',
-  roleEdit: 'prol2',
-  roleGrant: 'prol5',
+
 
   dictTypeSelect: 'pdct4',
   dictTypeAdd: 'pdct1',

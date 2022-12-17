@@ -24,6 +24,13 @@ public enum ButtonPrivilege {
     public static final String ADMIN_DEPT_ADD = PagePrivilege.PRIVILEGE_PREFIX + PageCode.ADMIN_DEPT + ButtonCode.ADD;
     public static final String ADMIN_DEPT_EDIT = PagePrivilege.PRIVILEGE_PREFIX + PageCode.ADMIN_DEPT + ButtonCode.EDIT;
     public static final String ADMIN_DEPT_DELETE = PagePrivilege.PRIVILEGE_PREFIX + PageCode.ADMIN_DEPT + ButtonCode.DELETE;
+    public static final String ADMIN_DEPT_SELECT = PagePrivilege.PRIVILEGE_PREFIX + PageCode.ADMIN_DEPT + ButtonCode.SELECT;
     public static final String ADMIN_DEPT_AUTHORIZE = PagePrivilege.PRIVILEGE_PREFIX + PageCode.ADMIN_DEPT + ButtonCode.AUTHORIZE;
+    public static final String ADMIN_DEPT_UNAUTHORIZE = PagePrivilege.PRIVILEGE_PREFIX + PageCode.ADMIN_DEPT + ButtonCode.UNAUTHORIZE;
+
+    public static final String ADMIN_ROLE_ADD = PagePrivilege.PRIVILEGE_PREFIX + PageCode.ADMIN_ROLE + ButtonCode.ADD;
+    public static final String ADMIN_ROLE_EDIT = PagePrivilege.PRIVILEGE_PREFIX + PageCode.ADMIN_ROLE + ButtonCode.EDIT;
+    public static final String ADMIN_ROLE_DELETE = PagePrivilege.PRIVILEGE_PREFIX + PageCode.ADMIN_ROLE + ButtonCode.DELETE;
+    public static final String ADMIN_ROLE_AUTHORIZE = PagePrivilege.PRIVILEGE_PREFIX + PageCode.ADMIN_ROLE + ButtonCode.AUTHORIZE;
 
 }
