@@ -18,13 +18,12 @@
 
 package cn.sliew.scaleph.common.constant;
 
-public enum ButtonResource {
+public enum ButtonPrivilege {
     ;
 
-    public static Route PROJECT_ADD = new Route(200000, "创建项目", PageCode.PROJECT_LIST, "/project", PageResource.PROJECT_LIST);
-    public static Route PROJECT_EDIT = new Route(200000, "修改项目", PageCode.PROJECT_LIST, "/project", PageResource.PROJECT_LIST);
-    public static Route PROJECT_DELETE = new Route(200000, "删除项目", PageCode.PROJECT_LIST, "/project", PageResource.PROJECT_LIST);
-    public static Route PROJECT_VIEW = new Route(200000, "进入项目", PageCode.PROJECT_LIST, "/project", PageResource.PROJECT_LIST);
-
+    public static final String ADMIN_DEPT_ADD = PagePrivilege.PRIVILEGE_PREFIX + PageCode.ADMIN_DEPT + ButtonCode.ADD;
+    public static final String ADMIN_DEPT_EDIT = PagePrivilege.PRIVILEGE_PREFIX + PageCode.ADMIN_DEPT + ButtonCode.EDIT;
+    public static final String ADMIN_DEPT_DELETE = PagePrivilege.PRIVILEGE_PREFIX + PageCode.ADMIN_DEPT + ButtonCode.DELETE;
+    public static final String ADMIN_DEPT_AUTHORIZE = PagePrivilege.PRIVILEGE_PREFIX + PageCode.ADMIN_DEPT + ButtonCode.AUTHORIZE;
 
 }

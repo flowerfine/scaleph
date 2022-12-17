@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.common.constant;
 
+@Deprecated
 public enum PageResource {
     ;
 
