@@ -16,25 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.constant;
+package cn.sliew.scaleph.dao.mapper.master.ws;
+
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkCheckpoint;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
- * @author gleiyu
+ * <p>
+ * flink checkpoint Mapper 接口
+ * </p>
  */
-@Deprecated
-public enum DictConstants {
-    ;
-
-    public static final String YES_NO = "yes_or_no";
-    public static final String ID_CARD_TYPE = "id_card_type";
-    public static final String GENDER = "gender";
-    public static final String NATION = "nation";
-    public static final String USER_STATUS = "user_status";
-    public static final String REGISTER_CHANNEL = "register_channel";
-    public static final String IS_DELETE = "is_delete";
-    public static final String LOGIN_TYPE = "login_type";
-    public static final String MESSAGE_TYPE = "message_type";
-    public static final String TASK_RESULT = "task_result";
-    public static final String DATASOURCE_TYPE = "datasource_type";
+@Repository
+public interface WsFlinkCheckpointMapper extends BaseMapper<WsFlinkCheckpoint> {
 
 }

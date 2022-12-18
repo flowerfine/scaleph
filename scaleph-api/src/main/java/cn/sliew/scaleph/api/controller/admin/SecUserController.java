@@ -123,7 +123,6 @@ public class SecUserController {
      * @param loginUser 用户信息
      * @return 登录成功后返回token
      */
-
     @AnonymousAccess
     @PostMapping(path = "/user/login")
     @ApiOperation(value = "用户登录", notes = "用户登录接口")
