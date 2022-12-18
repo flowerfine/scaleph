@@ -31,6 +31,7 @@ const JobListView: React.FC = () => {
   const [queryParams, setQueryParams] = useState<WsFlinkJobListParam>({});
   const [total, setTotal] = useState<number>();
   const [jobTypeList, setJobTypeList] = useState<Dict[]>([]);
+  const [JobStateList, setJobStateList] = useState<Dict[]>([]);
   const [jobCreateFormData, setJobCreateFormData] = useState<{ visible: boolean; data: any }>({
     visible: false,
     data: {},
@@ -47,6 +48,9 @@ const JobListView: React.FC = () => {
     });
     DictDataService.listDictDataByType(DICT_TYPE.flinkJobType).then((d) => {
       setJobTypeList(d);
+    });
+    DictDataService.listDictDataByType(DICT_TYPE.flinkJobStatus).then((d) => {
+      setJobStateList(d);
     });
   };
 
@@ -72,7 +76,7 @@ const JobListView: React.FC = () => {
           }
         >
           <Row gutter={[12, 12]}>
-            <Col span={12}>
+            <Col span={8}>
               <Form.Item label={intl.formatMessage({ id: 'pages.project.job.name' })}>
                 <Input
                   onChange={(item) => {
@@ -82,7 +86,7 @@ const JobListView: React.FC = () => {
                 ></Input>
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col span={8}>
               <Form.Item label={intl.formatMessage({ id: 'pages.project.job.type' })}>
                 <Select
                   style={{ width: '100%' }}
@@ -100,6 +104,33 @@ const JobListView: React.FC = () => {
                   }}
                 >
                   {jobTypeList.map((item) => {
+                    return (
+                      <Select.Option key={item.value} value={item.value}>
+                        {item.label}
+                      </Select.Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item label={intl.formatMessage({ id: 'pages.project.job.detail.jobState' })}>
+                <Select
+                  style={{ width: '100%' }}
+                  showSearch={true}
+                  allowClear={true}
+                  optionFilterProp="label"
+                  filterOption={(input, option) =>
+                    (option!.children as unknown as string)
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  onChange={(value) => {
+                    setQueryParams({ ...queryParams, flinkJobState: value });
+                    refreshJobList({ ...queryParams, flinkJobState: value });
+                  }}
+                >
+                  {JobStateList.map((item) => {
                     return (
                       <Select.Option key={item.value} value={item.value}>
                         {item.label}
@@ -129,6 +160,11 @@ const JobListView: React.FC = () => {
                   <Space>
                     {item.name}
                     <Tag color="#108ee9">{item.type}</Tag>
+                    <Tag color="#2db7f5">
+                      {item.wsFlinkJobInstance?.jobState?.label
+                        ? item.wsFlinkJobInstance?.jobState?.label
+                        : intl.formatMessage({ id: 'pages.project.job.detail.jobState.notRunning' })}
+                    </Tag>
                   </Space>
                 </Typography.Title>
                 <Space split={<Divider type="vertical" />}>

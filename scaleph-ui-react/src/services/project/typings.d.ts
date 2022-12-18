@@ -79,12 +79,14 @@ export type WsDiJobStep = {
 export type WsFlinkJob = {
   id?: number;
   type: string;
+  projectId: number | string;
   code?: number;
   name?: string;
   flinkArtifactId?: number;
   jobConfig?: { [key: string]: any };
-  flinkClusterConfigId?: number;
-  flinkClusterInstanceId?: number;
+  wsFlinkJobInstance?: WsFlinkJobInstance;
+  wsFlinkClusterConfig?: WsFlinkClusterConfig;
+  wsFlinkClusterInstance?: WsFlinkClusterInstance;
   flinkConfig?: { [key: string]: any };
   jars?: Array<number>;
   version?: number;
@@ -98,6 +100,7 @@ export type WsFlinkJobListParam = QueryParam & {
   type?: string;
   name?: string;
   projectId?: string | number;
+  flinkJobState?: string;
 };
 
 export type WsFlinkJobListByCodeParam = QueryParam & {
@@ -192,7 +195,7 @@ export type WsFlinkArtifactListParam = QueryParam & {
 
 export type WsFlinkArtifactJar = {
   id?: number;
-  flinkArtifact?: WsFlinkArtifact;
+  wsFlinkArtifact?: WsFlinkArtifact;
   flinkVersion?: Dict;
   entryClass?: string;
   fileName?: string;

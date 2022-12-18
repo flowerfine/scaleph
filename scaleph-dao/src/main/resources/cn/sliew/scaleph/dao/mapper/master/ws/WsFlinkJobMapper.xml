@@ -35,6 +35,42 @@
         <result column="flink_cluster_instance_id" property="flinkClusterInstanceId"/>
         <result column="flink_config" property="flinkConfig"/>
         <result column="jars" property="jars"/>
+        <association property="wsFlinkJobInstance"
+                     javaType="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobInstance">
+            <result column="job_instance_id" property="id"/>
+            <result column="code" property="flinkJobCode"/>
+            <result column="job_instance_job_id" property="jobId"/>
+            <result column="job_instance_job_name" property="jobName"/>
+            <result column="job_instance_job_state" property="jobState"/>
+            <result column="job_instance_cluster_id" property="clusterId"/>
+            <result column="job_instance_web_interface_url" property="webInterfaceUrl"/>
+            <result column="job_instance_cluster_status" property="clusterStatus"/>
+            <result column="job_instance_start_time" property="startTime"/>
+            <result column="job_instance_end_time" property="endTime"/>
+            <result column="job_instance_duration" property="duration"/>
+        </association>
+        <association property="wsFlinkClusterConfig"
+                     javaType="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterConfig">
+            <result column="config_id" property="id"/>
+            <result column="config_name" property="name"/>
+            <result column="config_flink_version" property="flinkVersion"/>
+            <result column="config_resource_provider" property="resourceProvider"/>
+            <result column="config_deploy_mode" property="deployMode"/>
+            <result column="config_flink_release_id" property="flinkReleaseId"/>
+            <result column="config_cluster_credential_id" property="clusterCredentialId"/>
+            <result column="config_kubernetes_options" property="kubernetesOptions"/>
+            <result column="config_config_options" property="configOptions"/>
+            <result column="config_remark" property="remark"/>
+        </association>
+        <association property="wsFlinkClusterInstance"
+                     javaType="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterInstance">
+            <result column="instance_id" property="id"/>
+            <result column="instance_flink_cluster_config_id" property="flinkClusterConfigId"/>
+            <result column="instance_name" property="name"/>
+            <result column="instance_cluster_id" property="clusterId"/>
+            <result column="instance_web_interface_url" property="webInterfaceUrl"/>
+            <result column="instance_status" property="status"/>
+        </association>
     </resultMap>
 
     <resultMap id="FLinkJobForJarMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobForJar">
@@ -164,14 +200,6 @@
         </association>
     </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, creator, create_time, editor, update_time,project_id,
-        `type`, `code`, `name`, flink_artifact_id, job_config,
-        flink_cluster_config_id, flink_cluster_instance_id,
-        flink_config, jars
-    </sql>
-
     <sql id="Flink_Job_Column_List">
         t1.* ,
         t4.id                      AS config_id,
@@ -204,9 +232,58 @@
     </sql>
 
     <select id="list" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
+        <![CDATA[
+        select t.id,
+               t.project_id,
+               t.type,
+               t.code,
+               t.name,
+               t.flink_artifact_id,
+               t.job_config,
+               t.flink_cluster_config_id,
+               t.flink_cluster_instance_id,
+               t.flink_config,
+               t.jars,
+               t.creator,
+               t.create_time,
+               t.editor,
+               t.update_time,
+               fi.id                      as job_instance_id,
+               fi.job_id                  as job_instance_job_id,
+               fi.job_name                as job_instance_job_name,
+               fi.job_state               as job_instance_job_state,
+               fi.cluster_id              as job_instance_cluster_id,
+               fi.cluster_status          as job_instance_cluster_status,
+               fi.web_interface_url       as job_instance_web_interface_url,
+               fi.start_time              as job_instance_start_time,
+               fi.end_time                as job_instance_end_time,
+               fi.duration                as job_instance_duration,
+               c.id                       as config_id,
+               c.name                     as config_name,
+               c.flink_version            as config_flink_version,
+               c.resource_provider        as config_resource_provider,
+               c.deploy_mode              as config_deploy_mode,
+               c.flink_release_id         as config_flink_release_id,
+               c.cluster_credential_id    as config_cluster_credential_id,
+               c.kubernetes_options       as config_kubernetes_options,
+               c.config_options           as config_config_options,
+               c.remark                   as config_remark,
+               ci.id                      as instance_id,
+               ci.flink_cluster_config_id as instance_flink_cluster_config_id,
+               ci.name                    as instance_name,
+               ci.cluster_id              as instance_cluster_id,
+               ci.web_interface_url       as instance_web_interface_url,
+               ci.status                  as instance_status
         from ws_flink_job t
+        left join ws_flink_job_instance fi
+        on t.code = fi.flink_job_code
+        left join ws_flink_cluster_config c
+        on t.flink_cluster_config_id = c.id
+        and t.project_id = c.project_id
+        left join ws_flink_cluster_instance ci
+        on t.project_id = ci.project_id
+        and t.flink_cluster_instance_id = ci.id
+    ]]>
         <where>
             <if test="param.projectId != null">
                 and t.project_id = #{param.projectId}
@@ -219,6 +296,9 @@
             </if>
             <if test="param.name != null and param.name != ''">
                 AND t.`name` like CONCAT('%', #{param.name}, '%')
+            </if>
+            <if test="param.wsFlinkJobInstance != null and param.wsFlinkJobInstance.jobState !=null ">
+                and fi.job_state = #{param.wsFlinkJobInstance.jobState}
             </if>
         </where>
     </select>

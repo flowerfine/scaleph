@@ -24,6 +24,7 @@ import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJob;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobForJar;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobForSeaTunnel;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobInstance;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkJobMapper;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkJobService;
 import cn.sliew.scaleph.engine.flink.service.convert.WsFlinkJobConvert;
@@ -57,6 +58,9 @@ public class WsFlinkJobServiceImpl implements WsFlinkJobService {
     public Page<WsFlinkJobDTO> list(WsFlinkJobListParam param) {
         final Page<WsFlinkJob> page = new Page<>(param.getCurrent(), param.getPageSize());
         final WsFlinkJob wsFlinkJob = BeanUtil.copy(param, new WsFlinkJob());
+        WsFlinkJobInstance instance = new WsFlinkJobInstance();
+        instance.setJobState(param.getFlinkJobState());
+        wsFlinkJob.setWsFlinkJobInstance(instance);
         final Page<WsFlinkJob> flinkJobPage = flinkJobMapper.list(page, wsFlinkJob);
         Page<WsFlinkJobDTO> result =
                 new Page<>(flinkJobPage.getCurrent(), flinkJobPage.getSize(), flinkJobPage.getTotal());

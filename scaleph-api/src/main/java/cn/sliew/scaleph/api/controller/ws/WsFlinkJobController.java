@@ -21,10 +21,7 @@ package cn.sliew.scaleph.api.controller.ws;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.job.JobAttrType;
-import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobAttrService;
-import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobAttrDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
+import cn.sliew.scaleph.common.param.PropertyUtil;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactJarService;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterConfigService;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterInstanceService;
@@ -32,6 +29,10 @@ import cn.sliew.scaleph.engine.flink.service.WsFlinkJobService;
 import cn.sliew.scaleph.engine.flink.service.dto.*;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListByTypeParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListParam;
+import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobAttrService;
+import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobAttrDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.vo.ResponseVO;
@@ -83,8 +84,14 @@ public class WsFlinkJobController {
         wsFlinkJobDTO.setCode(defaultUidGenerator.getUID());
         if (FlinkJobType.JAR.equals(wsFlinkJobDTO.getType())) {
             WsFlinkArtifactJarDTO wsFlinkArtifactJarDTO = wsFlinkArtifactJarService.selectOne(wsFlinkJobDTO.getFlinkArtifactId());
-            wsFlinkJobDTO.setName(wsFlinkArtifactJarDTO.getFlinkArtifact().getName());
-            //todo set job config value
+            wsFlinkJobDTO.setName(wsFlinkArtifactJarDTO.getWsFlinkArtifact().getName());
+            Map<String, Object> jarParamMap = PropertyUtil.formatPropFromStr(wsFlinkArtifactJarDTO.getJarParams(), "\n", ":");
+            Map<String, String> jobConfig = new HashMap<>();
+            jarParamMap.forEach((k, v) -> {
+                jobConfig.put(k, String.valueOf(v));
+            });
+            wsFlinkJobDTO.setJobConfig(jobConfig);
+
         } else if (FlinkJobType.SEATUNNEL.equals(wsFlinkJobDTO.getType())) {
             WsDiJobDTO wsDiJobDTO = wsDiJobService.selectOne(wsFlinkJobDTO.getFlinkArtifactId());
             wsFlinkJobDTO.setName(wsDiJobDTO.getJobName());
@@ -96,10 +103,11 @@ public class WsFlinkJobController {
                     );
             wsFlinkJobDTO.setJobConfig(jobConfig);
         }
-        WsFlinkClusterInstanceDTO wsFlinkClusterInstanceDTO = wsFlinkClusterInstanceService.selectOne(wsFlinkJobDTO.getFlinkClusterInstanceId());
-        wsFlinkJobDTO.setFlinkClusterConfigId(wsFlinkClusterInstanceDTO.getFlinkClusterConfigId());
-        //flink config
-        WsFlinkClusterConfigDTO wsFlinkClusterConfigDTO = wsFlinkClusterConfigService.selectOne(wsFlinkJobDTO.getFlinkClusterConfigId());
+        WsFlinkClusterInstanceDTO wsFlinkClusterInstanceDTO = wsFlinkClusterInstanceService.selectOne(wsFlinkJobDTO.getWsFlinkClusterInstance().getId());
+        wsFlinkJobDTO.setWsFlinkClusterInstance(wsFlinkClusterInstanceDTO);
+        WsFlinkClusterConfigDTO wsFlinkClusterConfigDTO = wsFlinkClusterConfigService.selectOne(wsFlinkClusterInstanceDTO.getFlinkClusterConfigId());
+        wsFlinkJobDTO.setWsFlinkClusterConfig(wsFlinkClusterConfigDTO);
+        //merge flink config
         Map<String, String> flinkConfig = new HashMap<>();
         flinkConfig.putAll(wsFlinkClusterConfigDTO.getConfigOptions());
         flinkConfig.putAll(wsFlinkJobDTO.getFlinkConfig());

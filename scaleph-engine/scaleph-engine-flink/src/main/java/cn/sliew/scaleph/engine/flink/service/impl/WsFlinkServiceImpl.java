@@ -597,7 +597,7 @@ public class WsFlinkServiceImpl implements WsFlinkService {
     }
 
     private Path loadFlinkArtifactJar(WsFlinkArtifactJarDTO wsFlinkArtifactJarDTO, Path workspace) throws IOException {
-        final Path tempDir = FileUtil.createDir(workspace, wsFlinkArtifactJarDTO.getFlinkArtifact().getName() + "/" + wsFlinkArtifactJarDTO.getVersion());
+        final Path tempDir = FileUtil.createDir(workspace, wsFlinkArtifactJarDTO.getWsFlinkArtifact().getName() + "/" + wsFlinkArtifactJarDTO.getVersion());
         final Path jarPath = FileUtil.createFile(tempDir, wsFlinkArtifactJarDTO.getFileName());
         try (final OutputStream outputStream = FileUtil.getOutputStream(jarPath)) {
             wsFlinkArtifactJarService.download(wsFlinkArtifactJarDTO.getId(), outputStream);

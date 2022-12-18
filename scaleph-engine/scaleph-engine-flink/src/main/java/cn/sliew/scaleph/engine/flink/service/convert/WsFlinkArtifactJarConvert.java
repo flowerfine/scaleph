@@ -31,6 +31,6 @@ public interface WsFlinkArtifactJarConvert extends BaseConvert<WsFlinkArtifactJa
     WsFlinkArtifactJarConvert INSTANCE = Mappers.getMapper(WsFlinkArtifactJarConvert.class);
 
     @Override
-    @Mapping(source = "flinkArtifact.id", target = "flinkArtifactId")
+    @Mapping(source = "wsFlinkArtifact.id", target = "flinkArtifactId")
     WsFlinkArtifactJar toDo(WsFlinkArtifactJarDTO dto);
 }

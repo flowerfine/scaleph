@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 public interface WsFlinkArtifactJarService {
 
@@ -40,4 +41,6 @@ public interface WsFlinkArtifactJarService {
     int update(WsFlinkArtifactJarDTO params);
 
     String download(Long id, OutputStream outputStream) throws IOException;
+
+    List<WsFlinkArtifactJarDTO> listByArtifact(Long artifactId);
 }

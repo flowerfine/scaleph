@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.service.param;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
@@ -39,4 +40,7 @@ public class WsFlinkJobListParam extends PaginationParam {
     @NotNull
     @ApiModelProperty("项目ID")
     private Long projectId;
+
+    @ApiModelProperty("flink作业状态")
+    private FlinkJobState flinkJobState;
 }

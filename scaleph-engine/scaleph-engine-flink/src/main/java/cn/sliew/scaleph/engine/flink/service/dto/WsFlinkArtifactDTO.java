@@ -34,7 +34,6 @@ import javax.validation.constraints.NotNull;
 public class WsFlinkArtifactDTO extends BaseDTO {
 
     @NotNull
-    @Length(max = 32)
     @ApiModelProperty("项目id")
     private Long projectId;
 
