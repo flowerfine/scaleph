@@ -27,9 +27,7 @@ import {
   WsFlinkJob,
   WsFlinkJobInstance,
 } from '@/services/project/typings';
-import { FlinkJobInstanceService } from '@/services/project/FlinkJobInstanceService';
-import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
-import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInstance.service';
+import JobOverviewWeb from './components/JobOverview';
 
 const JobDetailWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -40,19 +38,9 @@ const JobDetailWeb: React.FC = () => {
   const [flinkClusterInstance, setFlinkClusterInstance] = useState<WsFlinkClusterInstance>();
 
   useEffect(() => {
-    FlinkJobInstanceService.getByCode(params.code ? params.code : 0).then((d) => {
-      setFlinkJobInstance(d);
-    });
-    FlinkClusterConfigService.selectOne(
-      params.flinkClusterConfigId ? params.flinkClusterConfigId : 0,
-    ).then((d) => {
-      setFlinkClusterConfig(d);
-    });
-    FlinkCLusterInstanceService.selectOne(
-      params.flinkClusterInstanceId ? params.flinkClusterInstanceId : 0,
-    ).then((d) => {
-      setFlinkClusterInstance(d);
-    });
+    setFlinkJobInstance(params.wsFlinkJobInstance);
+    setFlinkClusterConfig(params.wsFlinkClusterConfig);
+    setFlinkClusterInstance(params.wsFlinkClusterInstance);
   }, []);
 
   return (
@@ -129,20 +117,22 @@ const JobDetailWeb: React.FC = () => {
             copyable={true}
             ellipsis={{ rows: 1, expandable: true, symbol: 'more' }}
           >
-            {flinkJobInstance?.jobId}
+            {flinkJobInstance?.jobId ? flinkJobInstance?.jobId : '-'}
           </Typography.Paragraph>
         </Descriptions.Item>
         <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.job.detail.jobName' })}>
-          <Typography.Text copyable={true}>{flinkJobInstance?.jobName}</Typography.Text>
+          <Typography.Text copyable={true}>
+            {flinkJobInstance?.jobName ? flinkJobInstance?.jobName : '-'}
+          </Typography.Text>
         </Descriptions.Item>
         <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.job.detail.jobState' })}>
-          {flinkJobInstance?.jobState?.label}
+          {flinkJobInstance?.jobState?.label ? flinkJobInstance?.jobState?.label : '-'}
         </Descriptions.Item>
         <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.job.detail.startTime' })}>
-          {flinkJobInstance?.startTime}
+          {flinkJobInstance?.startTime ? flinkJobInstance?.startTime : '-'}
         </Descriptions.Item>
         <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.job.detail.duration' })}>
-          {flinkJobInstance?.duration}
+          {flinkJobInstance?.duration ? flinkJobInstance?.duration : '-'}
         </Descriptions.Item>
       </Descriptions>
       <Row>
@@ -160,7 +150,11 @@ const JobDetailWeb: React.FC = () => {
                   </>
                 ),
                 key: 'overview',
-                children: <>{/* <JobOverviewWeb data={params} /> */}</>,
+                children: (
+                  <>
+                    <JobOverviewWeb data={params} />
+                  </>
+                ),
               },
               {
                 label: (

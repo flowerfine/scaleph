@@ -78,7 +78,7 @@ export type WsDiJobStep = {
 
 export type WsFlinkJob = {
   id?: number;
-  type: string;
+  type: Dict;
   projectId: number | string;
   code?: number;
   name?: string;
@@ -93,6 +93,7 @@ export type WsFlinkJob = {
   remark?: string;
   creator?: string;
   createTime?: Date;
+  editor?: string;
   updateTime?: Date;
 };
 

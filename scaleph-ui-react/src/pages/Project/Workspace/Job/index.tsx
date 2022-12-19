@@ -77,67 +77,83 @@ const JobListView: React.FC = () => {
         >
           <Row gutter={[12, 12]}>
             <Col span={8}>
-              <Form.Item label={intl.formatMessage({ id: 'pages.project.job.name' })}>
-                <Input
-                  onChange={(item) => {
-                    setQueryParams({ ...queryParams, name: item.target.value });
-                    refreshJobList({ ...queryParams, name: item.target.value });
-                  }}
-                ></Input>
+              <Form.Item>
+                <Input.Group compact>
+                  <Button type="primary" style={{ width: '20%', pointerEvents: 'none' }}>
+                    {intl.formatMessage({ id: 'pages.project.job.name' })}
+                  </Button>
+                  <Input
+                    style={{ width: '80%' }}
+                    onChange={(item) => {
+                      setQueryParams({ ...queryParams, name: item.target.value });
+                      refreshJobList({ ...queryParams, name: item.target.value });
+                    }}
+                  ></Input>
+                </Input.Group>
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item label={intl.formatMessage({ id: 'pages.project.job.type' })}>
-                <Select
-                  style={{ width: '100%' }}
-                  showSearch={true}
-                  allowClear={true}
-                  optionFilterProp="label"
-                  filterOption={(input, option) =>
-                    (option!.children as unknown as string)
-                      .toLowerCase()
-                      .includes(input.toLowerCase())
-                  }
-                  onChange={(value) => {
-                    setQueryParams({ ...queryParams, type: value });
-                    refreshJobList({ ...queryParams, type: value });
-                  }}
-                >
-                  {jobTypeList.map((item) => {
-                    return (
-                      <Select.Option key={item.value} value={item.value}>
-                        {item.label}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
+              <Form.Item>
+                <Input.Group compact>
+                  <Button type="primary" style={{ width: '20%', pointerEvents: 'none' }}>
+                    {intl.formatMessage({ id: 'pages.project.job.type' })}
+                  </Button>
+                  <Select
+                    style={{ width: '80%' }}
+                    showSearch={true}
+                    allowClear={true}
+                    optionFilterProp="label"
+                    filterOption={(input, option) =>
+                      (option!.children as unknown as string)
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
+                    onChange={(value) => {
+                      setQueryParams({ ...queryParams, type: value });
+                      refreshJobList({ ...queryParams, type: value });
+                    }}
+                  >
+                    {jobTypeList.map((item) => {
+                      return (
+                        <Select.Option key={item.value} value={item.value}>
+                          {item.label}
+                        </Select.Option>
+                      );
+                    })}
+                  </Select>
+                </Input.Group>
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item label={intl.formatMessage({ id: 'pages.project.job.detail.jobState' })}>
-                <Select
-                  style={{ width: '100%' }}
-                  showSearch={true}
-                  allowClear={true}
-                  optionFilterProp="label"
-                  filterOption={(input, option) =>
-                    (option!.children as unknown as string)
-                      .toLowerCase()
-                      .includes(input.toLowerCase())
-                  }
-                  onChange={(value) => {
-                    setQueryParams({ ...queryParams, flinkJobState: value });
-                    refreshJobList({ ...queryParams, flinkJobState: value });
-                  }}
-                >
-                  {JobStateList.map((item) => {
-                    return (
-                      <Select.Option key={item.value} value={item.value}>
-                        {item.label}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
+              <Form.Item>
+                <Input.Group compact>
+                  <Button type="primary" style={{ width: '20%', pointerEvents: 'none' }}>
+                    {intl.formatMessage({ id: 'pages.project.job.detail.jobState' })}
+                  </Button>
+                  <Select
+                    style={{ width: '80%' }}
+                    showSearch={true}
+                    allowClear={true}
+                    optionFilterProp="label"
+                    filterOption={(input, option) =>
+                      (option!.children as unknown as string)
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
+                    onChange={(value) => {
+                      setQueryParams({ ...queryParams, flinkJobState: value });
+                      refreshJobList({ ...queryParams, flinkJobState: value });
+                    }}
+                  >
+                    {JobStateList.map((item) => {
+                      return (
+                        <Select.Option key={item.value} value={item.value}>
+                          {item.label}
+                        </Select.Option>
+                      );
+                    })}
+                  </Select>
+                </Input.Group>
               </Form.Item>
             </Col>
           </Row>
@@ -159,11 +175,13 @@ const JobListView: React.FC = () => {
                 <Typography.Title level={5}>
                   <Space>
                     {item.name}
-                    <Tag color="#108ee9">{item.type}</Tag>
+                    <Tag color="#108ee9">{item?.type?.label}</Tag>
                     <Tag color="#2db7f5">
                       {item.wsFlinkJobInstance?.jobState?.label
                         ? item.wsFlinkJobInstance?.jobState?.label
-                        : intl.formatMessage({ id: 'pages.project.job.detail.jobState.notRunning' })}
+                        : intl.formatMessage({
+                            id: 'pages.project.job.detail.jobState.notRunning',
+                          })}
                     </Tag>
                   </Space>
                 </Typography.Title>
