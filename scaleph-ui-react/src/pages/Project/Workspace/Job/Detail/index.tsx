@@ -184,7 +184,7 @@ const JobDetailWeb: React.FC = () => {
                 key: 'Savepoint',
                 children: (
                   <>
-                    <JobSavepointsWeb />
+                    <JobSavepointsWeb flinkJobInstanceId={flinkJobInstance?.id as number} />
                   </>
                 ),
               },

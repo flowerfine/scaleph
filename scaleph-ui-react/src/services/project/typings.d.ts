@@ -255,16 +255,6 @@ export type WsFlinkClusterConfigParam = QueryParam & {
   deployMode?: string;
 };
 
-// export type FlinkClusterConfigAddParam = {
-//   name?: string;
-//   flinkVersion?: string;
-//   resourceProvider?: string;
-//   deployMode?: string;
-//   flinkReleaseId?: number;
-//   clusterCredentialId?: number;
-//   remark?: string;
-// };
-
 export type WsFlinkClusterInstance = {
   id?: number;
   flinkClusterConfigId?: number;
@@ -282,4 +272,28 @@ export type WsFlinkClusterInstanceParam = QueryParam & {
   name?: string;
   flinkClusterConfigId?: number;
   status?: string;
+};
+
+export type WsFlinkCheckPoint = {
+  id: number | string;
+  flinkJobInstanceId?: number;
+  flinkCheckpointId?: number;
+  checkpointType?: Dict;
+  status?: Dict;
+  savepoint?: boolean;
+  triggerTimestamp?: number;
+  duration?: number;
+  discarded?: boolean;
+  externalPath?: string;
+  stateSize?: number;
+  processedData?: number;
+  persistedData?: number;
+  alignmentBuffered?: number;
+  numSubtasks?: number;
+  numAcknowledgedSubtasks?: number;
+  latestAckTimestamp?: number;
+};
+
+export type WsFlinkCheckPointParam = QueryParam & {
+  flinkJobInstanceId: number;
 };
