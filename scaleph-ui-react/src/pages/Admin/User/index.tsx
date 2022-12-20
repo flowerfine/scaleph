@@ -1,31 +1,9 @@
 import {useAccess, useIntl} from 'umi';
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  Button,
-  Card,
-  Col,
-  Input,
-  List,
-  message,
-  Modal,
-  Row,
-  Select,
-  Space,
-  Tabs,
-  Tooltip,
-  Tree,
-  Typography,
-} from 'antd';
-import {
-  DeleteOutlined,
-  EditOutlined,
-  PlusOutlined,
-  RedoOutlined,
-  StopOutlined,
-  UserSwitchOutlined,
-} from '@ant-design/icons';
-import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Dict, TreeNode} from '@/app.d';
+import {Button, Card, Col, Input, List, message, Modal, Row, Space, Tabs, Tooltip, Tree, Typography,} from 'antd';
+import {EditOutlined, RedoOutlined, StopOutlined, UserSwitchOutlined,} from '@ant-design/icons';
+import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from '@ant-design/pro-components';
+import {TreeNode} from '@/app.d';
 import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
 import {DeptService} from '@/services/admin/dept.service';
 import {DictDataService} from '@/services/admin/dictData.service';
@@ -41,18 +19,16 @@ import styles from './index.less';
 const User: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
+  const actionRef = useRef<ActionType>();
+  const formRef = useRef<ProFormInstance>();
   const roleTab: string = 'role';
   const deptTab: string = 'dept';
-  const [tabId, setTabId] = useState<string>(roleTab);
   const [roleList, setRoleList] = useState<SecRole[]>([]);
   const [deptTreeList, setDeptTreeList] = useState<TreeNode[]>([]);
   const [searchValue, setSearchValue] = useState<string>();
   const [expandKeys, setExpandKeys] = useState<React.Key[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
-  const actionRef = useRef<ActionType>();
-  const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<SecUser[]>([]);
-  const [userStatusList, setUserStatusList] = useState<Dict[]>([]);
   const [selectDept, setSelectDept] = useState<React.Key>('');
   const [selectRole, setSelectRole] = useState<string>('');
   const [userFormData, setUserFormData] = useState<{ visible: boolean; data: SecUser }>({
@@ -66,15 +42,6 @@ const User: React.FC = () => {
   const [roleGrantData, setRoleGrantData] = useState<{ visible: boolean; data: SecRole }>({
     visible: false,
     data: {},
-  });
-  const [deptFormData, setDeptFormData] = useState<{
-    visible: boolean;
-    data: SecDept;
-    isUpdate: boolean;
-  }>({
-    visible: false,
-    data: {},
-    isUpdate: false,
   });
   const [deptGrantData, setDeptGrantData] = useState<{ visible: boolean; data: SecDept }>({
     visible: false,
@@ -115,29 +82,18 @@ const User: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.admin.user.userStatus'}),
       dataIndex: 'userStatus',
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
-        return (
-          <Select
-            showSearch={true}
-            allowClear={true}
-            optionFilterProp="label"
-            filterOption={(input, option) =>
-              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-            }
-          >
-            {userStatusList.map((item) => {
-              return (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        );
-      },
       render: (text, record, index) => {
         return record.userStatus?.label;
       },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.userStatus)}
+          />
+        );
+      }
     },
     {
       title: intl.formatMessage({id: 'app.common.operate.label'}),
@@ -171,21 +127,15 @@ const User: React.FC = () => {
                     icon={<StopOutlined/>}
                     onClick={() => {
                       Modal.confirm({
-                        title: intl.formatMessage({
-                          id: 'app.common.operate.forbid.confirm.title',
-                        }),
-                        content: intl.formatMessage({
-                          id: 'app.common.operate.forbid.confirm.content',
-                        }),
+                        title: intl.formatMessage({id: 'app.common.operate.forbid.confirm.title'}),
+                        content: intl.formatMessage({id: 'app.common.operate.forbid.confirm.content'}),
                         okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
                         okButtonProps: {danger: true},
                         cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                         onOk() {
                           UserService.deleteUserRow(record).then((d) => {
                             if (d.success) {
-                              message.success(
-                                intl.formatMessage({id: 'app.common.operate.forbid.success'}),
-                              );
+                              message.success(intl.formatMessage({id: 'app.common.operate.forbid.success'}));
                               actionRef.current?.reload();
                             }
                           });
@@ -225,56 +175,10 @@ const User: React.FC = () => {
     },
   ];
 
-  const tabBarButtonOperations = (type: string) => {
-    const intl = useIntl();
-    if (type == 'role' && access.canAccess(PRIVILEGE_CODE.roleAdd)) {
-      return (
-        <Tooltip
-          title={
-            intl.formatMessage({id: 'app.common.operate.new.label'}) +
-            intl.formatMessage({id: 'pages.admin.user.role'})
-          }
-        >
-          <Button
-            shape="default"
-            type="link"
-            icon={<PlusOutlined/>}
-            onClick={() => {
-              setRoleFormData({visible: true, data: {}});
-            }}
-          ></Button>
-        </Tooltip>
-      );
-    } else if (type == 'dept' && access.canAccess(PRIVILEGE_CODE.deptAdd)) {
-      return (
-        <Tooltip
-          title={
-            intl.formatMessage({id: 'app.common.operate.new.label'}) +
-            intl.formatMessage({id: 'pages.admin.user.dept'})
-          }
-        >
-          <Button
-            shape="default"
-            type="link"
-            icon={<PlusOutlined/>}
-            onClick={() => {
-              setDeptFormData({visible: true, data: {}, isUpdate: false});
-            }}
-          ></Button>
-        </Tooltip>
-      );
-    } else {
-      return <></>;
-    }
-  };
-
   //init data
   useEffect(() => {
     refreshRoles();
     refreshDepts();
-    DictDataService.listDictDataByType(DICT_TYPE.userStatus).then((d) => {
-      setUserStatusList(d);
-    });
   }, []);
 
   const refreshRoles = () => {
@@ -319,10 +223,8 @@ const User: React.FC = () => {
       <Col span={5}>
         <Card className={styles.leftCard}>
           <Tabs
-            tabBarExtraContent={tabBarButtonOperations(tabId)}
             type="card"
             onChange={(activeKey) => {
-              setTabId(activeKey);
               setSelectRole('');
               setSelectDept('');
             }}
@@ -355,65 +257,8 @@ const User: React.FC = () => {
                       </Typography.Text>
                       {item.showOpIcon && (
                         <Space size={2}>
-                          {access.canAccess(PRIVILEGE_CODE.roleEdit) && (
-                            <Tooltip
-                              title={intl.formatMessage({id: 'app.common.operate.edit.label'})}
-                            >
-                              <Button
-                                shape="default"
-                                type="text"
-                                icon={<EditOutlined/>}
-                                onClick={() => {
-                                  setRoleFormData({visible: true, data: item});
-                                }}
-                              ></Button>
-                            </Tooltip>
-                          )}
-                          {access.canAccess(PRIVILEGE_CODE.roleDelete) && (
-                            <Tooltip
-                              title={intl.formatMessage({id: 'app.common.operate.delete.label'})}
-                            >
-                              <Button
-                                shape="default"
-                                type="text"
-                                size="small"
-                                icon={<DeleteOutlined/>}
-                                onClick={() => {
-                                  Modal.confirm({
-                                    title: intl.formatMessage({
-                                      id: 'app.common.operate.delete.confirm.title',
-                                    }),
-                                    content: intl.formatMessage({
-                                      id: 'app.common.operate.delete.confirm.content',
-                                    }),
-                                    okText: intl.formatMessage({
-                                      id: 'app.common.operate.confirm.label',
-                                    }),
-                                    okButtonProps: {danger: true},
-                                    cancelText: intl.formatMessage({
-                                      id: 'app.common.operate.cancel.label',
-                                    }),
-                                    onOk() {
-                                      RoleService.deleteRole(item).then((d) => {
-                                        if (d.success) {
-                                          message.success(
-                                            intl.formatMessage({
-                                              id: 'app.common.operate.delete.success',
-                                            }),
-                                          );
-                                          refreshRoles();
-                                        }
-                                      });
-                                    },
-                                  });
-                                }}
-                              ></Button>
-                            </Tooltip>
-                          )}
                           {access.canAccess(PRIVILEGE_CODE.roleGrant) && (
-                            <Tooltip
-                              title={intl.formatMessage({id: 'app.common.operate.grant.label'})}
-                            >
+                            <Tooltip title={intl.formatMessage({id: 'app.common.operate.grant.label'})}>
                               <Button
                                 shape="default"
                                 type="text"
@@ -484,11 +329,7 @@ const User: React.FC = () => {
                           {node.showOpIcon && (
                             <Space size={2}>
                               {access.canAccess(PRIVILEGE_CODE.deptGrant) && (
-                                <Tooltip
-                                  title={intl.formatMessage({
-                                    id: 'app.common.operate.grant.label',
-                                  })}
-                                >
+                                <Tooltip title={intl.formatMessage({id: 'app.common.operate.grant.label'})}>
                                   <Button
                                     shape="default"
                                     type="text"
@@ -545,18 +386,14 @@ const User: React.FC = () => {
                   onClick={() => {
                     Modal.confirm({
                       title: intl.formatMessage({id: 'app.common.operate.forbid.confirm.title'}),
-                      content: intl.formatMessage({
-                        id: 'app.common.operate.forbid.confirm.content',
-                      }),
+                      content: intl.formatMessage({id: 'app.common.operate.forbid.confirm.content'}),
                       okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
                         UserService.deleteUserBatch(selectedRows).then((d) => {
                           if (d.success) {
-                            message.success(
-                              intl.formatMessage({id: 'app.common.operate.forbid.success'}),
-                            );
+                            message.success(intl.formatMessage({id: 'app.common.operate.forbid.success'}));
                             actionRef.current?.reload();
                           }
                         });

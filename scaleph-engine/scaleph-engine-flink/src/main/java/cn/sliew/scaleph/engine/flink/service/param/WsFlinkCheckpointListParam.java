@@ -16,25 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.constant;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-/**
- * @author gleiyu
- */
-@Deprecated
-public enum DictConstants {
-    ;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-    public static final String YES_NO = "yes_or_no";
-    public static final String ID_CARD_TYPE = "id_card_type";
-    public static final String GENDER = "gender";
-    public static final String NATION = "nation";
-    public static final String USER_STATUS = "user_status";
-    public static final String REGISTER_CHANNEL = "register_channel";
-    public static final String IS_DELETE = "is_delete";
-    public static final String LOGIN_TYPE = "login_type";
-    public static final String MESSAGE_TYPE = "message_type";
-    public static final String TASK_RESULT = "task_result";
-    public static final String DATASOURCE_TYPE = "datasource_type";
+import javax.validation.constraints.NotNull;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class WsFlinkCheckpointListParam extends PaginationParam {
+
+    @NotNull
+    @ApiModelProperty("flink job instance id")
+    private Long flinkJobInstanceId;
 
 }

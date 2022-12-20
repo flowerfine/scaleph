@@ -1,4 +1,4 @@
-import { Dict, QueryParam } from '@/app.d';
+import {Dict, QueryParam} from '@/app.d';
 
 export type SysDictType = {
   id?: number;
@@ -40,6 +40,12 @@ export type SecRole = {
   roleStatus?: Dict;
   roleDesc?: string;
   showOpIcon?: boolean;
+};
+
+export type SecRoleParam = QueryParam & {
+  roleName?: string;
+  roleType?: string;
+  roleStatus?: string;
 };
 
 export type SecDept = {

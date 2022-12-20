@@ -323,8 +323,26 @@ export default [
     routes: [
       {
         path: '/admin',
-        redirect: '/admin/user',
+        redirect: '/admin/dept',
         pCode: PRIVILEGE_CODE.adminShow,
+        access: 'normalRouteFilter',
+      },
+      {
+        name: 'dept',
+        path: '/admin/dept',
+        icon: 'apartment',
+        exact: true,
+        component: './Admin/Dept',
+        pCode: PRIVILEGE_CODE.deptShow,
+        access: 'normalRouteFilter',
+      },
+      {
+        name: 'role',
+        path: '/admin/role',
+        icon: 'safety',
+        exact: true,
+        component: './Admin/Role',
+        pCode: PRIVILEGE_CODE.roleShow,
         access: 'normalRouteFilter',
       },
       {
@@ -342,7 +360,7 @@ export default [
         icon: 'team',
         exact: true,
         component: './Admin/Resource/Web',
-        pCode: PRIVILEGE_CODE.privilegeShow,
+        pCode: PRIVILEGE_CODE.resourceWebShow,
         access: 'normalRouteFilter',
       },
       {
@@ -354,15 +372,7 @@ export default [
         pCode: PRIVILEGE_CODE.privilegeShow,
         access: 'normalRouteFilter',
       },
-      {
-        name: 'dept',
-        path: '/admin/dept',
-        icon: 'apartment',
-        exact: true,
-        component: './Admin/Dept',
-        pCode: PRIVILEGE_CODE.userShow,
-        access: 'normalRouteFilter',
-      },
+
       {
         name: 'quartz',
         path: '/admin/workflow/quartz',
@@ -376,14 +386,14 @@ export default [
         path: '/admin/workflow/quartz/task',
         exact: true,
         component: './Workflow/Definition/Quartz/Task',
-        pCode: PRIVILEGE_CODE.privilegeShow,
+        pCode: PRIVILEGE_CODE.workflowQuartzShow,
         access: 'normalRouteFilter',
       },
       {
         path: '/admin/workflow/schedule',
         exact: true,
         component: './Workflow/Schedule',
-        pCode: PRIVILEGE_CODE.privilegeShow,
+        pCode: PRIVILEGE_CODE.workflowQuartzShow,
         access: 'normalRouteFilter',
       },
       {

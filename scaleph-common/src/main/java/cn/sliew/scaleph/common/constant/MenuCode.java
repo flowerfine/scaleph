@@ -18,23 +18,16 @@
 
 package cn.sliew.scaleph.common.constant;
 
-/**
- * @author gleiyu
- */
-@Deprecated
-public enum DictConstants {
+public enum MenuCode {
     ;
 
-    public static final String YES_NO = "yes_or_no";
-    public static final String ID_CARD_TYPE = "id_card_type";
-    public static final String GENDER = "gender";
-    public static final String NATION = "nation";
-    public static final String USER_STATUS = "user_status";
-    public static final String REGISTER_CHANNEL = "register_channel";
-    public static final String IS_DELETE = "is_delete";
-    public static final String LOGIN_TYPE = "login_type";
-    public static final String MESSAGE_TYPE = "message_type";
-    public static final String TASK_RESULT = "task_result";
-    public static final String DATASOURCE_TYPE = "datasource_type";
+    public static final String SCALEPH = "sch";
+
+    public static final String STUDIO = "sdo";
+    public static final String PROJECT = "pjp";
+    public static final String RESOURCE = "ree";
+    public static final String DATA_SOURCE = "dse";
+    public static final String STDATA = "std";
+    public static final String ADMIN = "adm";
 
 }

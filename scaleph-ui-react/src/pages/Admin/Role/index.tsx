@@ -1,42 +1,74 @@
 import {useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {SecDeptTree} from "@/services/admin/typings";
 import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
-import {PRIVILEGE_CODE} from "@/constant";
-import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
-import {DeptService} from "@/services/admin/dept.service";
-import DeptForm from "@/pages/Admin/Dept/components/DeptForm";
+import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from "@ant-design/pro-components";
+import {DICT_TYPE, PRIVILEGE_CODE} from "@/constant";
+import {SecRole} from "@/services/admin/typings";
+import {RoleService} from "@/services/admin/role.service";
+import RoleForm from "@/pages/Admin/Role/components/RoleForm";
+import {DictDataService} from "@/services/admin/dictData.service";
 
-const DeptWeb: React.FC = () => {
+const RoleWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<SecDeptTree[]>([]);
-  const [deptFormData, setDeptFormData] = useState<{
+  const [selectedRows, setSelectedRows] = useState<SecRole[]>([]);
+  const [roleFormData, setRoleFormData] = useState<{
     visiable: boolean;
-    parent: SecDeptTree;
-    data: SecDeptTree;
-  }>({visiable: false, parent: {}, data: {}});
+    data: SecRole;
+  }>({visiable: false, data: {}});
 
-  const tableColumns: ProColumns<SecDeptTree>[] = [
+  const tableColumns: ProColumns<SecRole>[] = [
     {
-      title: intl.formatMessage({id: 'pages.admin.dept.deptName'}),
-      dataIndex: 'deptName',
+      title: intl.formatMessage({id: 'pages.admin.role.roleName'}),
+      dataIndex: 'roleName',
       width: 200
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.dept.deptCode'}),
-      dataIndex: 'deptCode',
+      title: intl.formatMessage({id: 'pages.admin.role.roleCode'}),
+      dataIndex: 'roleCode',
+      hideInSearch: true,
       width: 200
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.dept.deptStatus'}),
-      dataIndex: 'deptStatus',
+      title: intl.formatMessage({id: 'pages.admin.role.roleType'}),
+      dataIndex: 'roleType',
       render: (dom, entity) => {
-        return (<Tag>{entity.deptStatus?.label}</Tag>)
+        return (<Tag>{entity.roleType?.label}</Tag>)
       },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.roleType)}
+          />
+        );
+      },
+      width: 200
+    },
+    {
+      title: intl.formatMessage({id: 'pages.admin.role.roleStatus'}),
+      dataIndex: 'roleStatus',
+      render: (dom, entity) => {
+        return (<Tag>{entity.roleStatus?.label}</Tag>)
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.roleStatus)}
+          />
+        );
+      },
+      width: 200
+    },
+    {
+      title: intl.formatMessage({id: 'pages.admin.role.roleStatus'}),
+      dataIndex: 'roleStatus',
       hideInSearch: true,
       width: 200
     },
@@ -62,27 +94,17 @@ const DeptWeb: React.FC = () => {
       render: (_, record) => (
         <>
           <Space>
-            {access.canAccess(PRIVILEGE_CODE.deptAdd) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.new.label'})}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<PlusOutlined/>}
-                  onClick={() => setDeptFormData({visiable: true, parent: record, data: {}})}
-                ></Button>
-              </Tooltip>
-            )}
-            {access.canAccess(PRIVILEGE_CODE.deptEdit) && (
+            {access.canAccess(PRIVILEGE_CODE.roleEdit) && (
               <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
                 <Button
                   shape="default"
                   type="link"
                   icon={<EditOutlined/>}
-                  onClick={() => setDeptFormData({visiable: true, parent: {}, data: record})}
+                  onClick={() => setRoleFormData({visiable: true, data: record})}
                 ></Button>
               </Tooltip>
             )}
-            {access.canAccess(PRIVILEGE_CODE.deptDelete) && (
+            {access.canAccess(PRIVILEGE_CODE.roleDelete) && (
               <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
                 <Button
                   shape="default"
@@ -96,7 +118,7 @@ const DeptWeb: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        DeptService.deleteDept(record).then((d) => {
+                        RoleService.deleteRole(record).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
@@ -116,7 +138,7 @@ const DeptWeb: React.FC = () => {
 
   return (
     <div>
-      <ProTable<SecDeptTree>
+      <ProTable<SecRole>
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -127,20 +149,20 @@ const DeptWeb: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) => {
-          return DeptService.listByPage({...params, pid: 0})
+          return RoleService.listByPage({...params})
         }}
         toolbar={{
           actions: [
-            access.canAccess(PRIVILEGE_CODE.deptAdd) && (
+            access.canAccess(PRIVILEGE_CODE.roleAdd) && (
               <Button
                 key="new"
                 type="primary"
-                onClick={() => setDeptFormData({visiable: true, parent: null, data: {}})}
+                onClick={() => setRoleFormData({visiable: true, data: {}})}
               >
                 {intl.formatMessage({id: 'app.common.operate.new.label'})}
               </Button>
             ),
-            access.canAccess(PRIVILEGE_CODE.deptDelete) && (
+            access.canAccess(PRIVILEGE_CODE.roleDelete) && (
               <Button
                 key="del"
                 type="default"
@@ -153,7 +175,7 @@ const DeptWeb: React.FC = () => {
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
-                      DeptService.deleteBatch(selectedRows).then((d) => {
+                      RoleService.deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
                           message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();
@@ -176,20 +198,20 @@ const DeptWeb: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       />
-      {deptFormData.visiable && (
-        <DeptForm
-          visible={deptFormData.visiable}
-          onCancel={() => setDeptFormData({visiable: false, parent: {}, data: {}})}
+      {roleFormData.visiable && (
+        <RoleForm
+          visible={roleFormData.visiable}
+          onCancel={() => setRoleFormData({visiable: false, data: {}})}
           onVisibleChange={(visiable) => {
-            setDeptFormData({visiable: visiable, parent: {}, data: {}});
+            setRoleFormData({visiable: visiable, data: {}});
             actionRef.current?.reload();
           }}
-          parent={deptFormData.parent}
-          data={deptFormData.data}
+          data={roleFormData.data}
         />
       )}
     </div>
   );
+
 }
 
-export default DeptWeb;
+export default RoleWeb;

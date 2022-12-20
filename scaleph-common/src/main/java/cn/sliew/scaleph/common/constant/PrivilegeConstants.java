@@ -26,6 +26,7 @@ import cn.sliew.scaleph.common.annotation.Desc;
  *
  * @author gleiyu
  */
+@Deprecated
 public enum PrivilegeConstants {
     ;
 

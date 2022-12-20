@@ -19,13 +19,15 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkCheckpointService;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkJobInstanceService;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkCheckpointDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobInstanceDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkCheckpointListParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobInstanceListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +38,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@Slf4j
 @Api(tags = "Flink管理-任务实例管理")
 @RestController
 @RequestMapping(path = "/api/flink/job-instance")
@@ -44,6 +45,8 @@ public class WsFlinkJobInstanceController {
 
     @Autowired
     private WsFlinkJobInstanceService wsFlinkJobInstanceService;
+    @Autowired
+    private WsFlinkCheckpointService wsFlinkCheckpointService;
 
     @Logging
     @GetMapping
@@ -60,4 +63,13 @@ public class WsFlinkJobInstanceController {
         WsFlinkJobInstanceDTO dto = wsFlinkJobInstanceService.selectByCode(flinkJobCode);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+
+    @Logging
+    @GetMapping("checkpoints")
+    @ApiOperation(value = "查询任务 checkpoints", notes = "查询任务 checkpoints")
+    public ResponseEntity<Page<WsFlinkCheckpointDTO>> checkpoints(@Valid WsFlinkCheckpointListParam param) {
+        Page<WsFlinkCheckpointDTO> result = wsFlinkCheckpointService.list(param);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }

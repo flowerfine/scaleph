@@ -8,6 +8,7 @@ export const DEFAULT_PAGE_PARAM = {
 
 export const DICT_TYPE = {
   yesNo: 'yes_or_no',
+  roleType: 'role_type',
   roleStatus: 'role_status',
   userStatus: 'user_status',
   deptStatus: 'dept_status',
@@ -102,12 +103,7 @@ export const PRIVILEGE_CODE = {
   stdataDataElementShow: 'pste0',
   stdataSystemShow: 'psts0',
 
-  adminShow: 'padm0',
-  userShow: 'pusr0',
-  privilegeShow: 'ppvg0',
-  workflowQuartzShow: 'ppvg0',
-  dictShow: 'pdic0',
-  settingShow: 'pset0',
+
 
   datadevResourceSelect: 'pdde4',
   datadevResourceAdd: 'pdde1',
@@ -148,20 +144,36 @@ export const PRIVILEGE_CODE = {
   stdataSystemAdd: 'psts1',
   stdataSystemDelete: 'psts3',
   stdataSystemEdit: 'psts2',
+
+
+  adminShow: 'padm0',
+  deptShow: 'padp0',
+  deptAdd: 'padp1',
+  deptEdit: 'padp2',
+  deptDelete: 'padp3',
+  deptSelect: 'padp4',
+  deptGrant: 'padp5',
+
+  roleShow: 'padr0',
+  roleAdd: 'padr1',
+  roleEdit: 'padr2',
+  roleDelete: 'padr3',
+  roleSelect: 'padr4',
+  roleGrant: 'padr5',
+
+  userShow: 'padu0',
+  resourceWebShow: 'parw0',
+  privilegeShow: 'pape0',
+  workflowQuartzShow: 'pawq0',
+  dictShow: 'padd0',
+  settingShow: 'pads0',
+
   userSelect: 'pusr4',
   userAdd: 'pusr1',
   userDelete: 'pusr3',
   userEdit: 'pusr2',
-  roleSelect: 'prol4',
-  roleAdd: 'prol1',
-  roleDelete: 'prol3',
-  roleEdit: 'prol2',
-  roleGrant: 'prol5',
-  deptSelect: 'pdep4',
-  deptAdd: 'pdep1',
-  deptDelete: 'pdep3',
-  deptEdit: 'pdep2',
-  deptGrant: 'pdep5',
+
+
   dictTypeSelect: 'pdct4',
   dictTypeAdd: 'pdct1',
   dictTypeDelete: 'pdct3',

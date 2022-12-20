@@ -1,10 +1,10 @@
-import { Dict, ModalFormProps } from '@/app.d';
-import { DictDataService } from '@/services/admin/dictData.service';
-import { DictTypeService } from '@/services/admin/dictType.service';
-import { SysDictData } from '@/services/admin/typings';
-import { Form, Input, message, Modal, Select } from 'antd';
-import { useEffect, useState } from 'react';
-import { useIntl } from 'umi';
+import {useIntl} from 'umi';
+import {useEffect, useState} from 'react';
+import {Form, Input, message, Modal, Select} from 'antd';
+import {Dict, ModalFormProps} from '@/app.d';
+import {DictDataService} from '@/services/admin/dictData.service';
+import {DictTypeService} from '@/services/admin/dictType.service';
+import {SysDictData} from '@/services/admin/typings';
 
 const { Option } = Select;
 
