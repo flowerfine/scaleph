@@ -16,15 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.constant;
+package cn.sliew.scaleph.engine.flink.service.convert;
 
-public enum ButtonResource {
-    ;
+import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkCheckpoint;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkCheckpointDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
-    public static Route PROJECT_ADD = new Route(200000, "创建项目", PageCode.PROJECT_LIST, "/project", PageResource.PROJECT_LIST);
-    public static Route PROJECT_EDIT = new Route(200000, "修改项目", PageCode.PROJECT_LIST, "/project", PageResource.PROJECT_LIST);
-    public static Route PROJECT_DELETE = new Route(200000, "删除项目", PageCode.PROJECT_LIST, "/project", PageResource.PROJECT_LIST);
-    public static Route PROJECT_VIEW = new Route(200000, "进入项目", PageCode.PROJECT_LIST, "/project", PageResource.PROJECT_LIST);
-
-
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface WsFlinkCheckpointConvert extends BaseConvert<WsFlinkCheckpoint, WsFlinkCheckpointDTO> {
+    WsFlinkCheckpointConvert INSTANCE = Mappers.getMapper(WsFlinkCheckpointConvert.class);
 }
