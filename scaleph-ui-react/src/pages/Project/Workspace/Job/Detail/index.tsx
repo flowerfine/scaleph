@@ -1,6 +1,5 @@
-import { Button, Col, Descriptions, Row, Space, Tabs, Typography } from 'antd';
+import { Button, Col, Descriptions, message, Modal, Row, Space, Tabs, Typography } from 'antd';
 import {
-  AreaChartOutlined,
   CameraOutlined,
   CaretRightOutlined,
   CloseOutlined,
@@ -8,7 +7,6 @@ import {
   DashboardOutlined,
   DeleteOutlined,
   EditOutlined,
-  OrderedListOutlined,
   PauseOutlined,
   ProfileOutlined,
   RollbackOutlined,
@@ -28,6 +26,7 @@ import {
   WsFlinkJobInstance,
 } from '@/services/project/typings';
 import JobOverviewWeb from './components/JobOverview';
+import { FlinkJobInstanceService } from '@/services/project/FlinkJobInstanceService';
 
 const JobDetailWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -73,7 +72,29 @@ const JobDetailWeb: React.FC = () => {
         extra={
           <Space>
             <div>
-              <Button type="default" icon={<CaretRightOutlined />}>
+              <Button
+                type="default"
+                icon={<CaretRightOutlined />}
+                onClick={() => {
+                  Modal.confirm({
+                    type: 'info',
+                    title: intl.formatMessage({ id: 'pages.project.job.detail.start.title' }),
+                    content: intl.formatMessage({
+                      id: 'pages.project.job.detail.start.content',
+                    }),
+                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                    onOk() {
+                      FlinkJobInstanceService.submit(params).then((d) => {
+                        if (d.success) {
+                          message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+                          // dictTypeActionRef.current?.reload();
+                        }
+                      });
+                    },
+                  });
+                }}
+              >
                 {intl.formatMessage({ id: 'pages.project.job.detail.start' })}
               </Button>
               <Button type="default" disabled={true} icon={<PauseOutlined />}>
@@ -93,12 +114,12 @@ const JobDetailWeb: React.FC = () => {
               <Button type="default" icon={<DashboardOutlined />}>
                 {intl.formatMessage({ id: 'pages.project.job.detail.flinkui' })}
               </Button>
-              <Button type="default" icon={<AreaChartOutlined />}>
+              {/* <Button type="default" icon={<AreaChartOutlined />}>
                 {intl.formatMessage({ id: 'pages.project.job.detail.metrics' })}
               </Button>
               <Button type="default" icon={<OrderedListOutlined />}>
                 {intl.formatMessage({ id: 'pages.project.job.detail.logs' })}
-              </Button>
+              </Button> */}
             </div>
             <div>
               <Button type="default" icon={<EditOutlined />}>
@@ -178,10 +199,10 @@ const JobDetailWeb: React.FC = () => {
                 label: (
                   <>
                     <SaveOutlined />
-                    {intl.formatMessage({ id: 'pages.project.job.detail.savepoint' })}
+                    {intl.formatMessage({ id: 'pages.project.job.detail.checkpoint' })}
                   </>
                 ),
-                key: 'Savepoint',
+                key: 'checkpoint',
                 children: (
                   <>
                     <JobSavepointsWeb flinkJobInstanceId={flinkJobInstance?.id as number} />

@@ -19,9 +19,6 @@
 package cn.sliew.scaleph.engine.flink.service;
 
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobForJarDTO;
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobForSeaTunnelDTO;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListByTypeParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -35,14 +32,5 @@ public interface WsFlinkJobService {
 
     int update(WsFlinkJobDTO dto);
 
-    @Deprecated
-    Page<WsFlinkJobForJarDTO> listJobsForJar(WsFlinkJobListByTypeParam param);
-
-    WsFlinkJobForJarDTO getJobForJarById(Long id);
-
-    @Deprecated
-    Page<WsFlinkJobForSeaTunnelDTO> listJobsForSeaTunnel(WsFlinkJobListByTypeParam param);
-
-    WsFlinkJobForSeaTunnelDTO getJobForSeaTunnelById(Long id);
 
 }

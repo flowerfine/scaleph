@@ -5,7 +5,9 @@ import { ColumnsType } from 'antd/lib/table';
 import { useEffect, useState } from 'react';
 import { useAccess, useIntl } from 'umi';
 
-const JobSavepointsWeb: React.FC<{ flinkJobInstanceId: number }> = ({ flinkJobInstanceId }) => {
+const JobSavepointsWeb: React.FC<{ flinkJobInstanceId: number | undefined }> = ({
+  flinkJobInstanceId,
+}) => {
   const intl = useIntl();
   const access = useAccess();
   const [loading, setLoading] = useState(false);
@@ -14,7 +16,7 @@ const JobSavepointsWeb: React.FC<{ flinkJobInstanceId: number }> = ({ flinkJobIn
   const [queryParams, setQueryParams] = useState<WsFlinkCheckPointParam>({
     pageSize: 10,
     current: 1,
-    flinkJobInstanceId: flinkJobInstanceId,
+    flinkJobInstanceId: flinkJobInstanceId as number,
   });
 
   useEffect(() => {
@@ -23,11 +25,13 @@ const JobSavepointsWeb: React.FC<{ flinkJobInstanceId: number }> = ({ flinkJobIn
 
   const refreshLogList = () => {
     setLoading(true);
-    FlinkJobInstanceService.listCheckPoints(queryParams).then((d) => {
-      setData(d.data);
-      setTotal(d.total);
-      setLoading(false);
-    });
+    queryParams.flinkJobInstanceId
+      ? FlinkJobInstanceService.listCheckPoints(queryParams).then((d) => {
+          setData(d.data);
+          setTotal(d.total);
+          setLoading(false);
+        })
+      : setLoading(false);
   };
 
   const tableColumns: ColumnsType<WsFlinkCheckPoint> = [
@@ -67,11 +71,6 @@ const JobSavepointsWeb: React.FC<{ flinkJobInstanceId: number }> = ({ flinkJobIn
       dataIndex: 'duration',
       key: 'duration',
     },
-    // {
-    //   title: intl.formatMessage({ id: 'pages.project.job.detail.discarded' }),
-    //   dataIndex: 'discarded',
-    //   key: 'discarded',
-    // },
     {
       title: intl.formatMessage({ id: 'pages.project.job.detail.externalPath' }),
       dataIndex: 'externalPath',
@@ -82,36 +81,6 @@ const JobSavepointsWeb: React.FC<{ flinkJobInstanceId: number }> = ({ flinkJobIn
       dataIndex: 'stateSize',
       key: 'stateSize',
     },
-    // {
-    //   title: intl.formatMessage({ id: 'pages.project.job.detail.processedData' }),
-    //   dataIndex: 'processedData',
-    //   key: 'processedData',
-    // },
-    // {
-    //   title: intl.formatMessage({ id: 'pages.project.job.detail.persistedData' }),
-    //   dataIndex: 'persistedData',
-    //   key: 'persistedData',
-    // },
-    // {
-    //   title: intl.formatMessage({ id: 'pages.project.job.detail.alignmentBuffered' }),
-    //   dataIndex: 'alignmentBuffered',
-    //   key: 'alignmentBuffered',
-    // },
-    // {
-    //   title: intl.formatMessage({ id: 'pages.project.job.detail.numSubtasks' }),
-    //   dataIndex: 'numSubtasks',
-    //   key: 'numSubtasks',
-    // },
-    // {
-    //   title: intl.formatMessage({ id: 'pages.project.job.detail.numAcknowledgedSubtasks' }),
-    //   dataIndex: 'numAcknowledgedSubtasks',
-    //   key: 'numAcknowledgedSubtasks',
-    // },
-    // {
-    //   title: intl.formatMessage({ id: 'pages.project.job.detail.latestAckTimestamp' }),
-    //   dataIndex: 'latestAckTimestamp',
-    //   key: 'latestAckTimestamp',
-    // },
   ];
   return (
     <>

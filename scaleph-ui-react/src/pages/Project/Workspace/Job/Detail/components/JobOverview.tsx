@@ -1,5 +1,5 @@
 import { FlinkArtifactJarService } from '@/services/project/flinkArtifactJar.service';
-import { WsDiJob, WsFlinkArtifactJar, WsFlinkJob } from '@/services/project/typings';
+import { WsFlinkArtifactJar, WsFlinkJob } from '@/services/project/typings';
 import { WsDiJobService } from '@/services/project/WsDiJob.service';
 import Editor, { useMonaco } from '@monaco-editor/react';
 import { Card, Col, List, Row } from 'antd';
@@ -12,7 +12,7 @@ const JobOverviewWeb: React.FC<{
   const intl = useIntl();
   const [flinkArtifactJar, setFlinkArtifactJar] = useState<WsFlinkArtifactJar>({});
   const [seatunnelJob, setSeatunnelJob] = useState<String>('');
-  const monaco = useMonaco();
+  // const monaco = useMonaco();
   useEffect(() => {
     if (data.type.value == '0') {
       //jar
@@ -109,6 +109,7 @@ const JobOverviewWeb: React.FC<{
                 language="json"
                 value={seatunnelJob + ''}
                 height="480px"
+                width="100%"
                 options={{ readOnly: true, selectOnLineNumbers: true }}
               ></Editor>
             </Card>

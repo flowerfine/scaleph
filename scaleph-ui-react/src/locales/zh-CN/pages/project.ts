@@ -540,9 +540,12 @@ export default {
   'pages.project.job.detail.version': '版本',
   'pages.project.job.detail.clusterStatus': '集群',
   'pages.project.job.detail.start': '启动',
+  'pages.project.job.detail.start.title': '启动任务',
+  'pages.project.job.detail.start.content': '任务启动后，相关信息获取可能存在延迟',
   'pages.project.job.detail.suspend': '中止',
   'pages.project.job.detail.cancel': '取消',
   'pages.project.job.detail.savepoint': 'Savepoint',
+  'pages.project.job.detail.checkpoint': 'Checkpoint',
   'pages.project.job.detail.delete': '删除',
   'pages.project.job.detail.config': '配置',
   'pages.project.job.detail.flinkui': 'Flink UI',
@@ -572,4 +575,6 @@ export default {
   'pages.project.job.detail.config.ha': 'High Availability',
   'pages.project.job.detail.overview.cluster.deployMode': '部署模式',
   'pages.project.job.detail.overview.cluster.resourceProvider': 'Resource Providers',
+
+  
 };

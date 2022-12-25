@@ -1,6 +1,11 @@
-import { PageResponse } from '@/app';
+import { PageResponse, ResponseBody } from '@/app.d';
 import { request } from '@@/exports';
-import { WsFlinkCheckPoint, WsFlinkCheckPointParam, WsFlinkJobInstance } from './typings';
+import {
+  WsFlinkCheckPoint,
+  WsFlinkCheckPointParam,
+  WsFlinkJob,
+  WsFlinkJobInstance,
+} from './typings';
 
 export const FlinkJobInstanceService = {
   url: '/api/flink/job-instance',
@@ -16,6 +21,12 @@ export const FlinkJobInstanceService = {
     return request<PageResponse<WsFlinkCheckPoint>>(`${FlinkJobInstanceService.url}/checkpoints`, {
       method: 'GET',
       params: param,
+    });
+  },
+  submit: async (row: WsFlinkJob) => {
+    return request<ResponseBody<any>>(`${FlinkJobInstanceService.url}/submit`, {
+      method: 'PUT',
+      data: { flinkJobId: row.id },
     });
   },
 };

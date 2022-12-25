@@ -26,8 +26,10 @@ import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactJarService;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterConfigService;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterInstanceService;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkJobService;
-import cn.sliew.scaleph.engine.flink.service.dto.*;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListByTypeParam;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterInstanceDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListParam;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobAttrService;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
@@ -123,22 +125,6 @@ public class WsFlinkJobController {
     public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkJobDTO param) {
         wsFlinkJobService.update(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
-    }
-
-    @Logging
-    @GetMapping("jar")
-    @ApiOperation(value = "查询 Jar 任务列表", notes = "分页查询 Jar 任务列表")
-    public ResponseEntity<Page<WsFlinkJobForJarDTO>> listJobsForJar(@Valid WsFlinkJobListByTypeParam param) {
-        Page<WsFlinkJobForJarDTO> page = wsFlinkJobService.listJobsForJar(param);
-        return new ResponseEntity<>(page, HttpStatus.OK);
-    }
-
-    @Logging
-    @GetMapping("seatunnel")
-    @ApiOperation(value = "查询 SeaTunnel 任务列表", notes = "分页查询 SeaTunnel 任务列表")
-    public ResponseEntity<Page<WsFlinkJobForSeaTunnelDTO>> listJobsForSeaTunnel(@Valid WsFlinkJobListByTypeParam param) {
-        Page<WsFlinkJobForSeaTunnelDTO> page = wsFlinkJobService.listJobsForSeaTunnel(param);
-        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
 }

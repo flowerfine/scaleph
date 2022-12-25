@@ -115,44 +115,6 @@ export type WsFlinkJobListByTypeParam = QueryParam & {
   flinkClusterInstanceId?: number;
 };
 
-export type WsFlinkJobForJar = {
-  id?: number;
-  type: Dict;
-  code?: number;
-  name?: string;
-  flinkArtifactJar?: FlinkArtifactJar;
-  jobConfig?: { [key: string]: any };
-  flinkClusterConfig?: FlinkClusterConfig;
-  flinkClusterInstance?: FlinkClusterInstance;
-  flinkConfig?: { [key: string]: any };
-  flinkJobInstance?: WsFlinkJobInstance;
-  jars?: Array<number>;
-  version?: number;
-  remark?: string;
-  creator?: string;
-  createTime?: Date;
-  editor?: string;
-  updateTime?: Date;
-};
-
-export type WsFlinkJobForSeaTunnel = {
-  id?: number;
-  type: Dict;
-  code?: number;
-  name?: string;
-  flinkArtifactSeaTunnel?: WsDiJob;
-  jobConfig?: { [key: string]: any };
-  flinkClusterConfig?: FlinkClusterConfig;
-  flinkClusterInstance?: FlinkClusterInstance;
-  flinkConfig?: { [key: string]: any };
-  flinkJobInstance?: WsFlinkJobInstance;
-  jars?: Array<number>;
-  version?: number;
-  remark?: string;
-  createTime?: Date;
-  updateTime?: Date;
-};
-
 export type WsFlinkJobInstance = {
   id: number;
   type: Dict;

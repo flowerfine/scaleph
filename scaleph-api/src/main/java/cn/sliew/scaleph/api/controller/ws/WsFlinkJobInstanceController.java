@@ -21,20 +21,21 @@ package cn.sliew.scaleph.api.controller.ws;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkCheckpointService;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkJobInstanceService;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkService;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkYarnService;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkCheckpointDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobInstanceDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkCheckpointListParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobInstanceListParam;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobSubmitParam;
+import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -43,6 +44,10 @@ import javax.validation.Valid;
 @RequestMapping(path = "/api/flink/job-instance")
 public class WsFlinkJobInstanceController {
 
+    @Autowired
+    private WsFlinkService wsFlinkService;
+    @Autowired
+    private WsFlinkYarnService wsFlinkYarnService;
     @Autowired
     private WsFlinkJobInstanceService wsFlinkJobInstanceService;
     @Autowired
@@ -70,6 +75,14 @@ public class WsFlinkJobInstanceController {
     public ResponseEntity<Page<WsFlinkCheckpointDTO>> checkpoints(@Valid WsFlinkCheckpointListParam param) {
         Page<WsFlinkCheckpointDTO> result = wsFlinkCheckpointService.list(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @PutMapping("submit")
+    @ApiOperation(value = "提交 jar 任务", notes = "提交 jar 任务")
+    public ResponseEntity<ResponseVO> submitJar(@Valid @RequestBody WsFlinkJobSubmitParam param) throws Exception {
+        wsFlinkService.submit(param);
+        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
 
 }
