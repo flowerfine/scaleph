@@ -13,7 +13,7 @@ import {
   SaveOutlined,
   ToolOutlined,
 } from '@ant-design/icons';
-import { useIntl, useLocation } from 'umi';
+import { history, useIntl, useLocation } from 'umi';
 import styles from './index.less';
 import JobSavepointsWeb from './components/JobSavepoints';
 import JobLogTable from './components/JobLogTable';
@@ -27,6 +27,7 @@ import {
 } from '@/services/project/typings';
 import JobOverviewWeb from './components/JobOverview';
 import { FlinkJobInstanceService } from '@/services/project/FlinkJobInstanceService';
+import JobEditForm from '../components/JobEditForm';
 
 const JobDetailWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -35,6 +36,10 @@ const JobDetailWeb: React.FC = () => {
   const [flinkJobInstance, setFlinkJobInstance] = useState<WsFlinkJobInstance>();
   const [flinkClusterConfig, setFlinkClusterConfig] = useState<WsFlinkClusterConfig>();
   const [flinkClusterInstance, setFlinkClusterInstance] = useState<WsFlinkClusterInstance>();
+  const [jobEditFormData, setJobEditFormData] = useState<{ visible: boolean; data: any }>({
+    visible: false,
+    data: {},
+  });
 
   useEffect(() => {
     setFlinkJobInstance(params.wsFlinkJobInstance);
@@ -111,9 +116,11 @@ const JobDetailWeb: React.FC = () => {
             </div>
 
             <div>
-              <Button type="default" icon={<DashboardOutlined />}>
-                {intl.formatMessage({ id: 'pages.project.job.detail.flinkui' })}
-              </Button>
+              <a href={flinkClusterInstance?.webInterfaceUrl} target="_blank">
+                <Button type="default" icon={<DashboardOutlined />}>
+                  {intl.formatMessage({ id: 'pages.project.job.detail.flinkui' })}
+                </Button>
+              </a>
               {/* <Button type="default" icon={<AreaChartOutlined />}>
                 {intl.formatMessage({ id: 'pages.project.job.detail.metrics' })}
               </Button>
@@ -122,9 +129,17 @@ const JobDetailWeb: React.FC = () => {
               </Button> */}
             </div>
             <div>
-              <Button type="default" icon={<EditOutlined />}>
+              {/* 
+              //todo update job instance flink config in dynamic
+              <Button
+                type="default"
+                icon={<EditOutlined />}
+                onClick={() => {
+                  setJobEditFormData({ visible: true, data: { params } });
+                }}
+              >
                 {intl.formatMessage({ id: 'pages.project.job.detail.config' })}
-              </Button>
+              </Button> */}
               <Button type="primary" danger icon={<DeleteOutlined />}>
                 {intl.formatMessage({ id: 'pages.project.job.detail.delete' })}
               </Button>
@@ -227,6 +242,19 @@ const JobDetailWeb: React.FC = () => {
           ></Tabs>
         </Col>
       </Row>
+      {jobEditFormData.visible && (
+        <JobEditForm
+          data={jobEditFormData.data}
+          onCancel={() => {
+            setJobEditFormData({ visible: false, data: {} });
+          }}
+          onVisibleChange={(visible) => {
+            setJobEditFormData({ visible: visible, data: {} });
+            window.location.reload();
+          }}
+          visible={jobEditFormData.visible}
+        ></JobEditForm>
+      )}
     </div>
   );
 };

@@ -2,7 +2,6 @@ import { useIntl } from 'umi';
 import { Card, Col, List, Row } from 'antd';
 import { WsFlinkClusterConfig, WsFlinkClusterInstance } from '@/services/project/typings';
 import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
-import { useEffect } from 'react';
 
 const JobConfigurationWeb: React.FC<{
   clusterConfig: WsFlinkClusterConfig;
@@ -18,12 +17,6 @@ const JobConfigurationWeb: React.FC<{
   const clusterConfigOptions = FlinkClusterConfigService.setData(
     new Map(Object.entries(clusterConfig.configOptions ? clusterConfig.configOptions : {})),
   );
-
-  useEffect(() => {
-    console.log('clusterConfig', clusterConfig);
-    console.log('clusterInstance', clusterInstance);
-    console.log('flinkConfig', flinkConfig);
-  }, []);
 
   return (
     <>
