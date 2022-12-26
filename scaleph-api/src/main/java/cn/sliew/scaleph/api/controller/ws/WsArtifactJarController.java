@@ -1,7 +1,9 @@
 package cn.sliew.scaleph.api.controller.ws;
 
+import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
+import cn.sliew.scaleph.common.param.PropertyUtil;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactJarService;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarParam;
@@ -21,6 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Api(tags = "Flink管理-artifact-jar")
@@ -40,7 +44,16 @@ public class WsArtifactJarController {
     }
 
     @Logging
-    @GetMapping("{id}")
+    @GetMapping("/artifact/{id}")
+    @ApiOperation(value = "根据id查询 artifact jar 列表", notes = "根据id查询 artifact jar 列表")
+    public ResponseEntity<List<WsFlinkArtifactJarDTO>> listByArtifact(@PathVariable("id") Long id) {
+        final List<WsFlinkArtifactJarDTO> result = wsFlinkArtifactJarService.listByArtifact(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+
+    @Logging
+    @GetMapping("/{id}")
     @ApiOperation(value = "查询 artifact jar 详情", notes = "查询 artifact jar 详情")
     public ResponseEntity<WsFlinkArtifactJarDTO> selectOne(@PathVariable("id") Long id) {
         final WsFlinkArtifactJarDTO result = wsFlinkArtifactJarService.selectOne(id);
@@ -51,6 +64,10 @@ public class WsArtifactJarController {
     @PutMapping
     @ApiOperation(value = "上传 artifact jar", notes = "上传artifact jar")
     public ResponseEntity<ResponseVO> upload(@Valid WsFlinkArtifactJarDTO param, @RequestPart("file") MultipartFile file) throws IOException {
+        if (StrUtil.isNotBlank(param.getJarParams())) {
+            Map<String, Object> map = PropertyUtil.formatPropFromStr(param.getJarParams(), "\n", ":");
+            param.setJarParams(PropertyUtil.mapToFormatProp(map, "\n", ":"));
+        }
         wsFlinkArtifactJarService.upload(param, file);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -71,6 +88,10 @@ public class WsArtifactJarController {
     @PostMapping
     @ApiOperation(value = "修改 artifact jar", notes = "修改 artifact jar")
     public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkArtifactJarDTO param) {
+        if (StrUtil.isNotBlank(param.getJarParams())) {
+            Map<String, Object> map = PropertyUtil.formatPropFromStr(param.getJarParams(), "\n", ":");
+            param.setJarParams(PropertyUtil.mapToFormatProp(map, "\n", ":"));
+        }
         this.wsFlinkArtifactJarService.update(param);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
@@ -82,4 +103,5 @@ public class WsArtifactJarController {
         wsFlinkArtifactJarService.deleteOne(id);
         return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
     }
+
 }

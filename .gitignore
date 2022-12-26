@@ -40,3 +40,4 @@ target/
 .gitee
 /lib/
 **/pom.xml.versionsBackup
+/tools/docker/mysql/data/

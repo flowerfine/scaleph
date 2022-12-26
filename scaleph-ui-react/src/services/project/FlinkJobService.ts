@@ -2,9 +2,6 @@ import { PageResponse, ResponseBody } from '@/app.d';
 import { request } from '@@/exports';
 import {
   WsFlinkJob,
-  WsFlinkJobForJar,
-  WsFlinkJobForSeaTunnel,
-  WsFlinkJobListByTypeParam,
   WsFlinkJobListParam,
 } from './typings';
 
@@ -39,34 +36,5 @@ export const FlinkJobService = {
       data: row,
     });
   },
-
-  listJobsForJar: async (queryParam: WsFlinkJobListByTypeParam) => {
-    return request<PageResponse<WsFlinkJobForJar>>(`${FlinkJobService.url}/jar`, {
-      method: 'GET',
-      params: queryParam,
-    }).then((res) => {
-      const result = {
-        data: res.records,
-        total: res.total,
-        pageSize: res.size,
-        current: res.current,
-      };
-      return result;
-    });
-  },
-
-  listJobsForSeaTunnel: async (queryParam: WsFlinkJobListByTypeParam) => {
-    return request<PageResponse<WsFlinkJobForSeaTunnel>>(`${FlinkJobService.url}/seatunnel`, {
-      method: 'GET',
-      params: queryParam,
-    }).then((res) => {
-      const result = {
-        data: res.records,
-        total: res.total,
-        pageSize: res.size,
-        current: res.current,
-      };
-      return result;
-    });
-  },
+ 
 };

@@ -21,9 +21,10 @@ package cn.sliew.scaleph.common.dict.flink;
 import cn.sliew.scaleph.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Arrays;
-
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum FlinkJobType implements DictInstance {
 
     JAR("0", "Jar"),

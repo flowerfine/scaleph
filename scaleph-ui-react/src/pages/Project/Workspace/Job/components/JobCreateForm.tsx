@@ -106,9 +106,10 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
     <StepsForm
       onFinish={async (values) => {
         let params: WsFlinkJob = {
+          projectId: projectId + '',
           type: values.type,
           flinkArtifactId: values.flinkArtifactId,
-          flinkClusterInstanceId: values.clusterInstanceId,
+          wsFlinkClusterInstance: { id: values.clusterInstanceId },
           jars: values.jars,
           flinkConfig: FlinkClusterConfigService.getData(values),
         };

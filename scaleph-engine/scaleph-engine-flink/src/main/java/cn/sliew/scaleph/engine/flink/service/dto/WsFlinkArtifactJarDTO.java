@@ -40,7 +40,7 @@ public class WsFlinkArtifactJarDTO extends BaseDTO {
 
     @NotNull
     @ApiModelProperty("Flink Artifact")
-    private WsFlinkArtifactDTO flinkArtifact;
+    private WsFlinkArtifactDTO wsFlinkArtifact;
 
     @NotNull
     @ApiModelProperty("flink 版本")
