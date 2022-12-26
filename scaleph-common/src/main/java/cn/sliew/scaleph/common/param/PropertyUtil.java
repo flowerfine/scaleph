@@ -42,6 +42,17 @@ public enum PropertyUtil {
         return map;
     }
 
+    public static String mapToFormatProp(Map<String, Object> map, String lineSeparator, String kvSeparator) {
+        if (CollectionUtils.isEmpty(map)) {
+            return null;
+        }
+        StringBuffer buffer = new StringBuffer();
+        map.forEach((k, v) -> {
+            buffer.append(k).append(kvSeparator).append(v).append(lineSeparator);
+        });
+        return buffer.toString();
+    }
+
     public static Properties mapToProperties(Map<String, Object> map) {
         Properties props = new Properties();
         if (!CollectionUtils.isEmpty(map)) {

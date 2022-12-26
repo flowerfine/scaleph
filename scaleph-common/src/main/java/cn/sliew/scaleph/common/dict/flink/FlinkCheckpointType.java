@@ -24,27 +24,27 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Arrays;
+
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum FlinkJobType implements DictInstance {
+public enum FlinkCheckpointType implements DictInstance {
 
-    JAR("0", "Jar"),
-    SQL("1", "SQL"),
-    SEATUNNEL("2", "SeaTunnel"),
-
+    CHECKPOINT("CHECKPOINT", "Checkpoint"),
+    SAVEPOINT("SAVEPOINT", "Savepoint"),
+    SYNC_SAVEPOINT("SYNC_SAVEPOINT", "Take savepoint while job suspending or terminating"),
     ;
 
     @JsonCreator
-    public static FlinkJobType of(String value) {
+    public static FlinkCheckpointType of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(FlinkJobType.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(FlinkCheckpointType.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    FlinkJobType(String value, String label) {
+    FlinkCheckpointType(String value, String label) {
         this.value = value;
         this.label = label;
     }
@@ -58,4 +58,5 @@ public enum FlinkJobType implements DictInstance {
     public String getLabel() {
         return label;
     }
+
 }

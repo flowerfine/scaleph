@@ -60,10 +60,10 @@ public enum PageCode {
 
     public static final String ADMIN = "adm";
     public static final String ADMIN_DEPT = "adp";
-    public static final String ADMIN_USER = "adr";
     public static final String ADMIN_ROLE = "adr";
+    public static final String ADMIN_USER = "adu";
     public static final String ADMIN_RESOURCE_WEB = "arw";
-    public static final String ADMIN_PRIVILEGE = "adp";
+    public static final String ADMIN_PRIVILEGE = "ape";
     public static final String ADMIN_WORKFLOW_QUARTZ = "awq";
     public static final String ADMIN_DICT = "add";
     public static final String ADMIN_DICT_TYPE = "adt";

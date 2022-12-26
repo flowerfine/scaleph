@@ -16,21 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.common.constant;
 
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+public enum MenuCode {
+    ;
 
-public interface WsFlinkJobService {
+    public static final String SCALEPH = "sch";
 
-    Page<WsFlinkJobDTO> list(WsFlinkJobListParam param);
-
-    WsFlinkJobDTO selectOne(Long id);
-
-    int insert(WsFlinkJobDTO dto);
-
-    int update(WsFlinkJobDTO dto);
-
+    public static final String STUDIO = "sdo";
+    public static final String PROJECT = "pjp";
+    public static final String RESOURCE = "ree";
+    public static final String DATA_SOURCE = "dse";
+    public static final String STDATA = "std";
+    public static final String ADMIN = "adm";
 
 }

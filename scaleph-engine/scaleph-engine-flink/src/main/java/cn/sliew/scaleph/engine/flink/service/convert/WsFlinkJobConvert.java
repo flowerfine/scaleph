@@ -31,7 +31,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.Map;
 
-@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = {WsFlinkJobInstanceConvert.class, WsFlinkClusterInstanceConvert.class, WsFlinkClusterConfigConvert.class},
+        unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WsFlinkJobConvert extends BaseConvert<WsFlinkJob, WsFlinkJobDTO> {
     WsFlinkJobConvert INSTANCE = Mappers.getMapper(WsFlinkJobConvert.class);
 
@@ -42,6 +43,11 @@ public interface WsFlinkJobConvert extends BaseConvert<WsFlinkJob, WsFlinkJobDTO
         }
         WsFlinkJob entity = new WsFlinkJob();
         BeanUtils.copyProperties(dto, entity);
+        entity.setWsFlinkJobInstance(WsFlinkJobInstanceConvert.INSTANCE.toDo(dto.getWsFlinkJobInstance()));
+        entity.setWsFlinkClusterConfig(WsFlinkClusterConfigConvert.INSTANCE.toDo(dto.getWsFlinkClusterConfig()));
+        entity.setFlinkClusterConfigId(entity.getWsFlinkClusterConfig().getId());
+        entity.setWsFlinkClusterInstance(WsFlinkClusterInstanceConvert.INSTANCE.toDo(dto.getWsFlinkClusterInstance()));
+        entity.setFlinkClusterInstanceId(entity.getWsFlinkClusterInstance().getId());
         if (!CollectionUtils.isEmpty(dto.getJobConfig())) {
             entity.setJobConfig(JacksonUtil.toJsonString(dto.getJobConfig()));
         }
@@ -61,6 +67,9 @@ public interface WsFlinkJobConvert extends BaseConvert<WsFlinkJob, WsFlinkJobDTO
         }
         WsFlinkJobDTO dto = new WsFlinkJobDTO();
         BeanUtils.copyProperties(entity, dto);
+        dto.setWsFlinkJobInstance(WsFlinkJobInstanceConvert.INSTANCE.toDto(entity.getWsFlinkJobInstance()));
+        dto.setWsFlinkClusterConfig(WsFlinkClusterConfigConvert.INSTANCE.toDto(entity.getWsFlinkClusterConfig()));
+        dto.setWsFlinkClusterInstance(WsFlinkClusterInstanceConvert.INSTANCE.toDto(entity.getWsFlinkClusterInstance()));
         if (StringUtils.hasText(entity.getJobConfig())) {
             dto.setJobConfig(JacksonUtil.parseJsonString(entity.getJobConfig(), Map.class));
         }

@@ -18,19 +18,11 @@
 
 package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListParam;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkCheckpointDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkCheckpointListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-public interface WsFlinkJobService {
+public interface WsFlinkCheckpointService {
 
-    Page<WsFlinkJobDTO> list(WsFlinkJobListParam param);
-
-    WsFlinkJobDTO selectOne(Long id);
-
-    int insert(WsFlinkJobDTO dto);
-
-    int update(WsFlinkJobDTO dto);
-
-
+    Page<WsFlinkCheckpointDTO> list(WsFlinkCheckpointListParam param);
 }

@@ -16,21 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.common.constant;
 
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+public enum ButtonCode {
+    ;
 
-public interface WsFlinkJobService {
+    public static final String SHOW = "0";
 
-    Page<WsFlinkJobDTO> list(WsFlinkJobListParam param);
+    public static final String ADD = "1";
+    public static final String EDIT = "2";
+    public static final String DELETE = "3";
+    public static final String SELECT = "4";
 
-    WsFlinkJobDTO selectOne(Long id);
+    public static final String AUTHORIZE = "5";
+    public static final String UNAUTHORIZE = "6";
 
-    int insert(WsFlinkJobDTO dto);
-
-    int update(WsFlinkJobDTO dto);
-
-
+    public static final String UPLOAD = "7";
+    public static final String DOWNLOAD = "8";
 }

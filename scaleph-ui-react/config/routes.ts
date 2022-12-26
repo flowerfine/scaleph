@@ -333,7 +333,7 @@ export default [
         icon: 'apartment',
         exact: true,
         component: './Admin/Dept',
-        pCode: PRIVILEGE_CODE.userShow,
+        pCode: PRIVILEGE_CODE.deptShow,
         access: 'normalRouteFilter',
       },
       {
@@ -342,7 +342,7 @@ export default [
         icon: 'safety',
         exact: true,
         component: './Admin/Role',
-        pCode: PRIVILEGE_CODE.userShow,
+        pCode: PRIVILEGE_CODE.roleShow,
         access: 'normalRouteFilter',
       },
       {
@@ -360,7 +360,7 @@ export default [
         icon: 'team',
         exact: true,
         component: './Admin/Resource/Web',
-        pCode: PRIVILEGE_CODE.privilegeShow,
+        pCode: PRIVILEGE_CODE.resourceWebShow,
         access: 'normalRouteFilter',
       },
       {
@@ -386,14 +386,14 @@ export default [
         path: '/admin/workflow/quartz/task',
         exact: true,
         component: './Workflow/Definition/Quartz/Task',
-        pCode: PRIVILEGE_CODE.privilegeShow,
+        pCode: PRIVILEGE_CODE.workflowQuartzShow,
         access: 'normalRouteFilter',
       },
       {
         path: '/admin/workflow/schedule',
         exact: true,
         component: './Workflow/Schedule',
-        pCode: PRIVILEGE_CODE.privilegeShow,
+        pCode: PRIVILEGE_CODE.workflowQuartzShow,
         access: 'normalRouteFilter',
       },
       {

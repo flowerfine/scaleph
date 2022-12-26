@@ -68,7 +68,7 @@ public class WsFlinkClusterConfig extends BaseDO {
     private ResourceFlinkRelease flinkRelease;
 
     @TableField("flink_release_id")
-    private Long FlinkReleaseId;
+    private Long flinkReleaseId;
 
     @ApiModelProperty("集群凭证 id。如 hadoop 的 core-site.xml，kubernetes 的 kubeconfig")
     @TableField(exist = false)

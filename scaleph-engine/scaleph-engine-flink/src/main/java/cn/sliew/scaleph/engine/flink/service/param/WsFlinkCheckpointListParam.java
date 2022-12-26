@@ -16,21 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-public interface WsFlinkJobService {
+import javax.validation.constraints.NotNull;
 
-    Page<WsFlinkJobDTO> list(WsFlinkJobListParam param);
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class WsFlinkCheckpointListParam extends PaginationParam {
 
-    WsFlinkJobDTO selectOne(Long id);
-
-    int insert(WsFlinkJobDTO dto);
-
-    int update(WsFlinkJobDTO dto);
-
+    @NotNull
+    @ApiModelProperty("flink job instance id")
+    private Long flinkJobInstanceId;
 
 }

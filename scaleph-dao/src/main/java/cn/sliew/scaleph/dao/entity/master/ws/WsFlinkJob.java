@@ -65,6 +65,15 @@ public class WsFlinkJob extends BaseDO {
     @TableField("flink_cluster_instance_id")
     private Long flinkClusterInstanceId;
 
+    @TableField(exist = false)
+    private WsFlinkJobInstance wsFlinkJobInstance;
+
+    @TableField(exist = false)
+    private WsFlinkClusterConfig wsFlinkClusterConfig;
+
+    @TableField(exist = false)
+    private WsFlinkClusterInstance wsFlinkClusterInstance;
+
     @TableField("flink_config")
     private String flinkConfig;
 

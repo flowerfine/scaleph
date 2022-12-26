@@ -62,7 +62,7 @@ const DeptWeb: React.FC = () => {
       render: (_, record) => (
         <>
           <Space>
-            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
+            {access.canAccess(PRIVILEGE_CODE.deptAdd) && (
               <Tooltip title={intl.formatMessage({id: 'app.common.operate.new.label'})}>
                 <Button
                   shape="default"
@@ -72,7 +72,7 @@ const DeptWeb: React.FC = () => {
                 ></Button>
               </Tooltip>
             )}
-            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
+            {access.canAccess(PRIVILEGE_CODE.deptEdit) && (
               <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
                 <Button
                   shape="default"
@@ -82,7 +82,7 @@ const DeptWeb: React.FC = () => {
                 ></Button>
               </Tooltip>
             )}
-            {access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
+            {access.canAccess(PRIVILEGE_CODE.deptDelete) && (
               <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
                 <Button
                   shape="default"
@@ -131,7 +131,7 @@ const DeptWeb: React.FC = () => {
         }}
         toolbar={{
           actions: [
-            access.canAccess(PRIVILEGE_CODE.datadevResourceAdd) && (
+            access.canAccess(PRIVILEGE_CODE.deptAdd) && (
               <Button
                 key="new"
                 type="primary"
@@ -140,7 +140,7 @@ const DeptWeb: React.FC = () => {
                 {intl.formatMessage({id: 'app.common.operate.new.label'})}
               </Button>
             ),
-            access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
+            access.canAccess(PRIVILEGE_CODE.deptDelete) && (
               <Button
                 key="del"
                 type="default"

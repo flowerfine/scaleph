@@ -27,7 +27,6 @@ import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum FlinkJobState implements DictInstance {
-
     SUBMITING("SUBMITING", "提交中"),
     SUBMITED("SUBMITED", "已提交"),
     SUBMIT_FAILED("SUBMIT_FAILED", "提交失败"),
