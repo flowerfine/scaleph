@@ -76,7 +76,7 @@ public class KerberosController {
             throw new ScalephException("缺少文件");
         }
         kerberosService.upload(param, file);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -88,7 +88,7 @@ public class KerberosController {
             response.setCharacterEncoding("utf-8");// 设置字符编码
             response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(name, "UTF-8")); // 设置响应头
         }
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -96,7 +96,7 @@ public class KerberosController {
     @ApiOperation(value = "删除 kerberos", notes = "删除 kerberos")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws IOException {
         kerberosService.delete(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -104,7 +104,7 @@ public class KerberosController {
     @ApiOperation(value = "批量删除 kerberos", notes = "批量删除 kerberos")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) throws IOException {
         kerberosService.deleteBatch(ids);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
 }

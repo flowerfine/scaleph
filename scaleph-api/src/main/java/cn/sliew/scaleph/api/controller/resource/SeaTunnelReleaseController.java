@@ -86,7 +86,7 @@ public class SeaTunnelReleaseController {
             throw new ScalephException("缺少文件");
         }
         SeaTunnelReleaseDTO result = seaTunnelReleaseService.upload(param, file);
-        return new ResponseEntity<>(ResponseVO.sucess(result), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
     }
 
     @Logging
@@ -97,7 +97,7 @@ public class SeaTunnelReleaseController {
             throw new ScalephException("缺少文件");
         }
         seaTunnelReleaseService.uploadConnector(param, file);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -105,7 +105,7 @@ public class SeaTunnelReleaseController {
     @ApiOperation(value = "自动获取 connector", notes = "自动获取 connector")
     public ResponseEntity<ResponseVO> fetchConnectors(@RequestParam("id") Long id) throws Exception {
         seaTunnelReleaseService.fetchConnectors(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -117,7 +117,7 @@ public class SeaTunnelReleaseController {
             response.setCharacterEncoding("utf-8");// 设置字符编码
             response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(name, "UTF-8")); // 设置响应头
         }
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -129,7 +129,7 @@ public class SeaTunnelReleaseController {
             response.setCharacterEncoding("utf-8");// 设置字符编码
             response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(name, "UTF-8")); // 设置响应头
         }
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -137,7 +137,7 @@ public class SeaTunnelReleaseController {
     @ApiOperation(value = "删除 release", notes = "删除 release")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws IOException {
         seaTunnelReleaseService.delete(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -145,6 +145,6 @@ public class SeaTunnelReleaseController {
     @ApiOperation(value = "批量删除 release", notes = "批量删除 release")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) throws IOException {
         seaTunnelReleaseService.deleteBatch(ids);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 }

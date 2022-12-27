@@ -22,6 +22,8 @@ import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
+import java.util.List;
+
 public interface WsFlinkJobService {
 
     Page<WsFlinkJobDTO> list(WsFlinkJobListParam param);
@@ -32,5 +34,5 @@ public interface WsFlinkJobService {
 
     int update(WsFlinkJobDTO dto);
 
-
+    int delete(Long id);
 }

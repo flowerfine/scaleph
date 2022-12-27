@@ -106,7 +106,7 @@ public class SecPrivilegeController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).ROLE_GRANT)")
     public ResponseEntity<ResponseVO<List<SecPrivilegeDTO>>> listByPid(@PathVariable("pid") Long pid) {
         List<SecPrivilegeDTO> privilegeList = this.secPrivilegeService.listByPid(pid, null);
-        return new ResponseEntity<>(ResponseVO.sucess(privilegeList), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(privilegeList), HttpStatus.OK);
     }
 
     @Logging
@@ -153,7 +153,7 @@ public class SecPrivilegeController {
             }
         }
         this.onlineUserService.disableOnlineCacheRole(roleId);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -162,7 +162,7 @@ public class SecPrivilegeController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_ADD)")
     public ResponseEntity<ResponseVO> add(@Validated @RequestBody SecPrivilegeAddParam param) {
         secPrivilegeService.insert(param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
     }
 
     @Logging
@@ -171,7 +171,7 @@ public class SecPrivilegeController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_EDIT)")
     public ResponseEntity<ResponseVO> editMetaSystem(@PathVariable("id") Long id, @Validated @RequestBody SecPrivilegeUpdateParam param) {
         secPrivilegeService.update(id, param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -180,7 +180,7 @@ public class SecPrivilegeController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaSystem(@PathVariable("id") Long id) {
         secPrivilegeService.deleteById(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -189,7 +189,7 @@ public class SecPrivilegeController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_SYSTEM_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaSystem(@RequestBody List<Long> ids) {
         secPrivilegeService.deleteBatch(ids);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
 }

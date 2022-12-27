@@ -49,7 +49,7 @@ public class CategoryController {
     @ApiOperation(value = "查询分类列表", notes = "查询分类列表")
     public ResponseEntity<ResponseVO<List<DsCategoryDTO>>> list() {
         List<DsCategoryDTO> result = dsCategoryService.list();
-        return new ResponseEntity<>(ResponseVO.sucess(result), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
     }
 
     @Logging
@@ -57,7 +57,7 @@ public class CategoryController {
     @ApiOperation(value = "查询数据源类型", notes = "查询数据源类型")
     public ResponseEntity<ResponseVO<List<DsTypeDTO>>> listTypes(@Valid DsTypeListParam param) {
         List<DsTypeDTO> result = dsCategoryService.listTypes(param);
-        return new ResponseEntity<>(ResponseVO.sucess(result), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
     }
 
 }

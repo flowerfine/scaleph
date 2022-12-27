@@ -130,6 +130,7 @@
         ]]>
         where t.id = #{id}
     </select>
+
     <select id="list" resultMap="BaseResultMap">
         <![CDATA[
         select t.id,

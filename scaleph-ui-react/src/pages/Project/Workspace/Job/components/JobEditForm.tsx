@@ -1,6 +1,5 @@
 import { ModalFormProps } from '@/app.d';
 import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
-import { FlinkJobInstanceService } from '@/services/project/FlinkJobInstanceService';
 import { FlinkJobService } from '@/services/project/FlinkJobService';
 import { WsFlinkJob } from '@/services/project/typings';
 import { Form, Modal } from 'antd';

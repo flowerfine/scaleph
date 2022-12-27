@@ -67,7 +67,7 @@ public class WsClusterConfigController {
     @ApiOperation(value = "新增集群配置", notes = "新增集群配置")
     public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsFlinkClusterConfigDTO param) {
        wsFlinkClusterConfigService.insert(param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -75,7 +75,7 @@ public class WsClusterConfigController {
     @ApiOperation(value = "修改 kubernetes 配置", notes = "修改 kubernetes 配置")
     public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid @RequestBody KubernetesOptionsDTO options) {
         wsFlinkClusterConfigService.updateKubernetesOptions(id, options);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -83,7 +83,7 @@ public class WsClusterConfigController {
     @ApiOperation(value = "修改 flink 配置", notes = "修改 flink 配置")
     public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @RequestBody Map<String, String> options) {
         wsFlinkClusterConfigService.updateFlinkConfig(id, options);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -91,7 +91,7 @@ public class WsClusterConfigController {
     @ApiOperation(value = "修改集群配置", notes = "修改集群配置")
     public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkClusterConfigDTO param) {
         wsFlinkClusterConfigService.update(param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -100,7 +100,7 @@ public class WsClusterConfigController {
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) {
         //todo check if exists cluster instance
         wsFlinkClusterConfigService.deleteById(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -108,7 +108,7 @@ public class WsClusterConfigController {
     @ApiOperation(value = "批量删除集群", notes = "批量删除集群")
     public ResponseEntity<ResponseVO> deleteCluster(@RequestBody List<Long> ids) {
         wsFlinkClusterConfigService.deleteBatch(ids);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
 }

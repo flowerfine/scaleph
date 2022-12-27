@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.api.controller.ws;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.job.JobAttrType;
@@ -80,6 +81,14 @@ public class WsFlinkJobController {
     }
 
     @Logging
+    @GetMapping("/{id}")
+    @ApiOperation(value = "查询任务信息", notes = "查询任务信息")
+    public ResponseEntity<ResponseVO<WsFlinkJobDTO>> selectOne(@PathVariable("id") Long id) {
+        WsFlinkJobDTO dto = wsFlinkJobService.selectOne(id);
+        return new ResponseEntity<ResponseVO<WsFlinkJobDTO>>(ResponseVO.success(dto), HttpStatus.OK);
+    }
+
+    @Logging
     @PutMapping
     @ApiOperation(value = "新增任务", notes = "新增任务")
     public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsFlinkJobDTO wsFlinkJobDTO) throws UidGenerateException {
@@ -111,11 +120,15 @@ public class WsFlinkJobController {
         wsFlinkJobDTO.setWsFlinkClusterConfig(wsFlinkClusterConfigDTO);
         //merge flink config
         Map<String, String> flinkConfig = new HashMap<>();
-        flinkConfig.putAll(wsFlinkClusterConfigDTO.getConfigOptions());
-        flinkConfig.putAll(wsFlinkJobDTO.getFlinkConfig());
+        if (CollectionUtil.isNotEmpty(wsFlinkClusterConfigDTO.getConfigOptions())) {
+            flinkConfig.putAll(wsFlinkClusterConfigDTO.getConfigOptions());
+        }
+        if (CollectionUtil.isNotEmpty(wsFlinkJobDTO.getFlinkConfig())) {
+            flinkConfig.putAll(wsFlinkJobDTO.getFlinkConfig());
+        }
         wsFlinkJobDTO.setFlinkConfig(flinkConfig);
         wsFlinkJobService.insert(wsFlinkJobDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
 
@@ -124,7 +137,15 @@ public class WsFlinkJobController {
     @ApiOperation(value = "修改任务", notes = "修改任务")
     public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkJobDTO param) {
         wsFlinkJobService.update(param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping
+    @ApiOperation(value = "删除任务", notes = "删除任务")
+    public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) {
+        wsFlinkJobService.delete(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
 }

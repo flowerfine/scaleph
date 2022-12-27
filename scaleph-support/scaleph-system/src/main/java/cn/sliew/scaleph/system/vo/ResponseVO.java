@@ -56,13 +56,13 @@ public class ResponseVO<T> {
     private ResponseVO() {
     }
 
-    public static ResponseVO sucess() {
+    public static ResponseVO success() {
         ResponseVO info = new ResponseVO();
         info.setSuccess(true);
         return info;
     }
 
-    public static ResponseVO sucess(Object data) {
+    public static ResponseVO success(Object data) {
         ResponseVO info = new ResponseVO();
         info.setSuccess(true);
         info.setData(data);
