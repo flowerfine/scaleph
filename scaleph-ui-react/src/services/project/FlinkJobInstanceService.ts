@@ -29,4 +29,19 @@ export const FlinkJobInstanceService = {
       data: { flinkJobId: row.id },
     });
   },
+  stop: async (id: number) => {
+    return request<ResponseBody<any>>(`${FlinkJobInstanceService.url}/stop/` + id, {
+      method: 'GET',
+    });
+  },
+  cancel: async (id: number) => {
+    return request<ResponseBody<any>>(`${FlinkJobInstanceService.url}/cancel/` + id, {
+      method: 'GET',
+    });
+  },
+  savepoint: async (id: number) => {
+    return request<ResponseBody<any>>(`${FlinkJobInstanceService.url}/savepoint/` + id, {
+      method: 'GET',
+    });
+  },
 };

@@ -78,7 +78,7 @@ public class LogMessageController {
         if (!Strings.isNullOrEmpty(userName)) {
             message.setIsRead(DictVO.toVO(DictConstants.YES_NO, BoolEnum.YES.getValue()));
             this.logMessageService.update(message);
-            return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+            return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(
                     ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
@@ -93,7 +93,7 @@ public class LogMessageController {
         String userName = SecurityUtil.getCurrentUserName();
         if (!Strings.isNullOrEmpty(userName)) {
             this.logMessageService.readAll(userName);
-            return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+            return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(
                     ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),

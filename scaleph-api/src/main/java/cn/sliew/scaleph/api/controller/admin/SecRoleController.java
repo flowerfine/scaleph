@@ -102,7 +102,7 @@ public class SecRoleController {
         String roleCode = Constants.USER_DEFINE_ROLE_PREFIX + secRoleDTO.getRoleCode();
         secRoleDTO.setRoleCode(roleCode);
         this.secRoleService.insert(secRoleDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
     }
 
 
@@ -112,7 +112,7 @@ public class SecRoleController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_ROLE_EDIT)")
     public ResponseEntity<ResponseVO> editRole(@Validated @RequestBody SecRoleDTO secRoleDTO) {
         this.secRoleService.update(secRoleDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
     }
 
     @Logging
@@ -122,7 +122,7 @@ public class SecRoleController {
     public ResponseEntity<ResponseVO> deleteRole(@PathVariable("id") Long id) {
         this.secRoleService.deleteById(id);
         this.onlineUserService.disableOnlineCacheRole(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -134,7 +134,7 @@ public class SecRoleController {
         for (Long id : ids) {
             this.onlineUserService.disableOnlineCacheRole(id);
         }
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -166,7 +166,7 @@ public class SecRoleController {
             SecUserDTO user = this.secUserService.selectOne(d);
             this.onlineUserService.disableOnlineCacheUser(user.getUserName());
         });
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -188,7 +188,7 @@ public class SecRoleController {
         userList.forEach(user -> {
             this.onlineUserService.disableOnlineCacheUser(user.getUserName());
         });
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -201,7 +201,7 @@ public class SecRoleController {
         userList.forEach(user -> {
             this.onlineUserService.disableOnlineCacheUser(user.getUserName());
         });
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 }
 

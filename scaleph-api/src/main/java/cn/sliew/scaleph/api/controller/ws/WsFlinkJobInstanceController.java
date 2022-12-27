@@ -79,10 +79,34 @@ public class WsFlinkJobInstanceController {
 
     @Logging
     @PutMapping("submit")
-    @ApiOperation(value = "提交 jar 任务", notes = "提交 jar 任务")
+    @ApiOperation(value = "提交任务", notes = "提交任务")
     public ResponseEntity<ResponseVO> submitJar(@Valid @RequestBody WsFlinkJobSubmitParam param) throws Exception {
         wsFlinkService.submit(param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("stop/{id}")
+    @ApiOperation(value = "终止任务", notes = "终止任务")
+    public ResponseEntity<ResponseVO> stop(@PathVariable("id") Long id) throws Exception {
+        wsFlinkService.stop(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("cancel/{id}")
+    @ApiOperation(value = "取消任务", notes = "取消任务")
+    public ResponseEntity<ResponseVO> cancel(@PathVariable("id") Long id) throws Exception {
+        wsFlinkService.cancel(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("savepoint/{id}")
+    @ApiOperation(value = "创建savepoint", notes = "创建savepoint")
+    public ResponseEntity<ResponseVO> savepoint(@PathVariable("id") Long id) throws Exception {
+        wsFlinkService.triggerSavepoint(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
 }

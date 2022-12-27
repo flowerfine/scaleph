@@ -106,7 +106,7 @@ public class CommonController {
         try (final InputStream inputStream = file.getInputStream()) {
             fileSystemService.upload(inputStream, file.getName());
         }
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -126,7 +126,7 @@ public class CommonController {
             FileCopyUtils.copy(inputStream, outputStream);
             outputStream.flush();
         }
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -139,7 +139,7 @@ public class CommonController {
                             I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
         }
         fileSystemService.delete(fileName);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging

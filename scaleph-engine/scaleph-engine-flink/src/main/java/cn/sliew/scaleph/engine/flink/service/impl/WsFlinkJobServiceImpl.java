@@ -86,5 +86,8 @@ public class WsFlinkJobServiceImpl implements WsFlinkJobService {
         return flinkJobMapper.updateById(record);
     }
 
+    public int delete(Long id) {
+        return flinkJobMapper.deleteById(id);
+    }
 
 }

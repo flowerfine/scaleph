@@ -24,6 +24,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * <p>
  * flink job Mapper 接口
@@ -33,6 +35,8 @@ import org.springframework.stereotype.Repository;
 public interface WsFlinkJobMapper extends BaseMapper<WsFlinkJob> {
 
     Page<WsFlinkJob> list(Page<WsFlinkJob> page, @Param("param") WsFlinkJob param);
+
+    List<WsFlinkJob> list(@Param("param") WsFlinkJob param);
 
     WsFlinkJob selectOne(@Param("id") Long id);
 }

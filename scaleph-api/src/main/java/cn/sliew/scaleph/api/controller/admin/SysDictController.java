@@ -105,7 +105,7 @@ public class SysDictController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_DATA_ADD)")
     public ResponseEntity<ResponseVO> addDict(@Validated @RequestBody SysDictDTO sysDictDTO) {
         sysDictService.insert(sysDictDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
     }
 
     @Logging
@@ -114,7 +114,7 @@ public class SysDictController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_DATA_EDIT)")
     public ResponseEntity<ResponseVO> editDict(@Validated @RequestBody SysDictDTO sysDictDTO) {
         sysDictService.update(sysDictDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -123,7 +123,7 @@ public class SysDictController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_DATA_DELETE)")
     public ResponseEntity<ResponseVO> deleteDict(@PathVariable(value = "id") String id) {
         sysDictService.deleteById(Long.valueOf(id));
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -132,7 +132,7 @@ public class SysDictController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_DATA_DELETE)")
     public ResponseEntity<ResponseVO> deleteBatchDict(@RequestBody Map<Integer, String> map) {
         sysDictService.deleteBatch(map);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -163,7 +163,7 @@ public class SysDictController {
     public ResponseEntity<ResponseVO> addDictType(@Validated @RequestBody
                                                   SysDictTypeDTO sysDictTypeDTO) {
         sysDictTypeService.insert(sysDictTypeDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
     }
 
     @Logging
@@ -173,7 +173,7 @@ public class SysDictController {
     public ResponseEntity<ResponseVO> editDictType(
             @Validated @RequestBody SysDictTypeDTO sysDictTypeDTO) {
         sysDictTypeService.update(sysDictTypeDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -182,7 +182,7 @@ public class SysDictController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_TYPE_DELETE)")
     public ResponseEntity<ResponseVO> deleteDictType(@PathVariable(value = "id") String id) {
         sysDictTypeService.deleteById(Long.valueOf(id));
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -191,7 +191,7 @@ public class SysDictController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_TYPE_DELETE)")
     public ResponseEntity<ResponseVO> deleteBatchDictType(@RequestBody Map<Integer, String> map) {
         sysDictTypeService.deleteBatch(map);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 }
 
