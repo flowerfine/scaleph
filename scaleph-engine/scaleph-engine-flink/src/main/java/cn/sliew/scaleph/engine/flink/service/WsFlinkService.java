@@ -18,16 +18,15 @@
 
 package cn.sliew.scaleph.engine.flink.service;
 
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobSubmitParam;
 
 import java.util.List;
 
 public interface WsFlinkService {
 
-    void createSessionCluster(Long projectId,Long flinkClusterConfigId) throws Exception;
+    void createSessionCluster(Long projectId, Long flinkClusterConfigId) throws Exception;
 
-    void submit(WsFlinkJobSubmitParam params)  throws Exception;
+    void submit(WsFlinkJobSubmitParam params) throws Exception;
 
     void shutdown(Long id) throws Exception;
 

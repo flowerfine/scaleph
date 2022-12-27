@@ -17,7 +17,7 @@ import styles from './index.less';
 import JobSavepointsWeb from './components/JobSavepoints';
 import JobLogTable from './components/JobLogTable';
 import JobConfigurationWeb from './components/JobConfiguration';
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import {
   WsFlinkClusterConfig,
   WsFlinkClusterInstance,
@@ -41,10 +41,19 @@ const JobDetailWeb: React.FC = () => {
     data: {},
   });
 
+  const reducer = (state: { count: number }) => {
+    return { count: state.count + 1 };
+  };
+
+  const [state, dispatch] = useReducer(reducer, { count: 0 });
+
   useEffect(() => {
     setFlinkJobInstance(params.wsFlinkJobInstance);
     setFlinkClusterConfig(params.wsFlinkClusterConfig);
     setFlinkClusterInstance(params.wsFlinkClusterInstance);
+    setInterval(() => {
+      refresh();
+    }, 3000);
   }, []);
 
   const refresh = () => {
