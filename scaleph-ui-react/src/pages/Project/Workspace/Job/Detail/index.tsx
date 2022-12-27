@@ -73,7 +73,7 @@ const JobDetailWeb: React.FC = () => {
   };
 
   const isJobStartable = () => {
-    if (isJobEditable() && flinkJobInstance?.jobState.value == 'SUSPENDED') {
+    if (isJobEditable() || flinkJobInstance?.jobState?.value == 'SUSPENDED') {
       return true;
     } else {
       return false;
@@ -138,7 +138,7 @@ const JobDetailWeb: React.FC = () => {
               </Button>
               <Button
                 type="default"
-                disabled={flinkJobInstance?.jobState.value != 'RUNNING'}
+                disabled={flinkJobInstance?.jobState?.value != 'RUNNING'}
                 icon={<PauseOutlined />}
                 onClick={() => {
                   Modal.confirm({
@@ -164,7 +164,7 @@ const JobDetailWeb: React.FC = () => {
               </Button>
               <Button
                 type="default"
-                disabled={flinkJobInstance?.jobState.value != 'RUNNING'}
+                disabled={flinkJobInstance?.jobState?.value != 'RUNNING'}
                 icon={<CloseOutlined />}
                 onClick={() => {
                   Modal.confirm({
@@ -192,7 +192,7 @@ const JobDetailWeb: React.FC = () => {
             <div>
               <Button
                 type="default"
-                disabled={flinkJobInstance?.jobState.value != 'RUNNING'}
+                disabled={flinkJobInstance?.jobState?.value != 'RUNNING'}
                 icon={<CameraOutlined />}
                 onClick={() => {
                   Modal.confirm({
