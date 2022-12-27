@@ -68,7 +68,7 @@ public class WorkflowController {
     @ApiOperation(value = "查询 workflow 定义列表", notes = "查询 workflow 定义列表")
     public ResponseEntity<ResponseVO<List<WorkflowTaskDefinitionDTO>>> listWorkflowTaskDefinitions(@PathVariable("workflowDefinitionId") Long workflowDefinitionId) {
         List<WorkflowTaskDefinitionDTO> result = workflowTaskDefinitionService.list(workflowDefinitionId);
-        return new ResponseEntity<>(ResponseVO.sucess(result), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
     }
 
 }

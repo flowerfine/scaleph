@@ -32,5 +32,5 @@ public interface WsFlinkJobService {
 
     int update(WsFlinkJobDTO dto);
 
-
+    int delete(Long id);
 }

@@ -153,7 +153,7 @@ public class SecUserController {
                 //存储信息到redis中
                 onlineUserService.insert(userInfo, token);
                 //验证成功返回token
-                ResponseVO info = ResponseVO.sucess();
+                ResponseVO info = ResponseVO.success();
                 info.setData(token);
                 return new ResponseEntity<>(info, HttpStatus.OK);
             } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
@@ -176,7 +176,7 @@ public class SecUserController {
         if (token != null) {
             this.onlineUserService.logoutByToken(token);
         }
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @AnonymousAccess
@@ -198,7 +198,7 @@ public class SecUserController {
                 secUserDTO.setId(user.getId());
                 secUserDTO.setPassword(this.passwordEncoder.encode(password));
                 this.secUserService.update(secUserDTO);
-                return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+                return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(
                         ResponseVO.error(I18nUtil.get("response.error.oldPassword")),
@@ -238,7 +238,7 @@ public class SecUserController {
             String[] sendTo = {email};
             emailService.sendHtmlEmail(sendTo, subject, html);
         }
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     /**
@@ -267,7 +267,7 @@ public class SecUserController {
                         DictVO.toVO(DictConstants.USER_STATUS, UserStatusEnum.BIND_EMAIL.getValue()));
                 this.secUserActiveService.updateByUserAndCode(userActive);
                 this.secUserService.updateByUserName(user);
-                return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+                return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
             }
         } else {
             return new ResponseEntity<>(
@@ -288,7 +288,7 @@ public class SecUserController {
     public ResponseEntity<ResponseVO> getOnlineUserInfo(
             @PathVariable(value = "token") String token) {
         OnlineUserVO onlineUser = this.onlineUserService.getAllPrivilegeByToken(token);
-        ResponseVO info = ResponseVO.sucess();
+        ResponseVO info = ResponseVO.success();
         info.setData(onlineUser);
         return new ResponseEntity<>(info, HttpStatus.OK);
     }
@@ -338,7 +338,7 @@ public class SecUserController {
                 secUserRoleDTO.setCreateTime(date);
                 secUserRoleDTO.setUpdateTime(date);
                 this.secUserRoleService.insert(secUserRoleDTO);
-                return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
+                return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
             } else {
                 //前台有验证提示，此处只做返回，不展示
                 return new ResponseEntity<>(
@@ -379,7 +379,7 @@ public class SecUserController {
         secUserRoleDTO.setCreateTime(date);
         secUserRoleDTO.setUpdateTime(date);
         this.secUserRoleService.insert(secUserRoleDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
     }
 
 
@@ -389,7 +389,7 @@ public class SecUserController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).USER_EDIT)")
     public ResponseEntity<ResponseVO> editUser(@Validated @RequestBody SecUserDTO secUserDTO) {
         this.secUserService.update(secUserDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
 
@@ -399,7 +399,7 @@ public class SecUserController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).USER_DELETE)")
     public ResponseEntity<ResponseVO> deleteUser(@PathVariable(value = "id") String id) {
         this.secUserService.deleteById(Long.valueOf(id));
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -408,7 +408,7 @@ public class SecUserController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).USER_DELETE)")
     public ResponseEntity<ResponseVO> deleteBatchUser(@RequestBody Map<Integer, Integer> map) {
         this.secUserService.deleteBatch(map);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging

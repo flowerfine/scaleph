@@ -1,9 +1,6 @@
 import { PageResponse, ResponseBody } from '@/app.d';
 import { request } from '@@/exports';
-import {
-  WsFlinkJob,
-  WsFlinkJobListParam,
-} from './typings';
+import { WsFlinkJob, WsFlinkJobListParam } from './typings';
 
 export const FlinkJobService = {
   url: '/api/flink/job',
@@ -22,7 +19,11 @@ export const FlinkJobService = {
       return result;
     });
   },
-
+  selectOne: async (id: number) => {
+    return request<ResponseBody<WsFlinkJob>>(`${FlinkJobService.url}/` + id, {
+      method: 'GET',
+    });
+  },
   add: async (row: WsFlinkJob) => {
     return request<ResponseBody<any>>(`${FlinkJobService.url}`, {
       method: 'PUT',
@@ -36,5 +37,9 @@ export const FlinkJobService = {
       data: row,
     });
   },
- 
+  delete: async (row: WsFlinkJob) => {
+    return request<ResponseBody<any>>(`${FlinkJobService.url}/` + row.id, {
+      method: 'DELETE',
+    });
+  },
 };

@@ -69,7 +69,7 @@ public class WsArtifactJarController {
             param.setJarParams(PropertyUtil.mapToFormatProp(map, "\n", ":"));
         }
         wsFlinkArtifactJarService.upload(param, file);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -81,7 +81,7 @@ public class WsArtifactJarController {
             response.setCharacterEncoding("utf-8");// 设置字符编码
             response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8")); // 设置响应头
         }
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -93,7 +93,7 @@ public class WsArtifactJarController {
             param.setJarParams(PropertyUtil.mapToFormatProp(map, "\n", ":"));
         }
         this.wsFlinkArtifactJarService.update(param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -101,7 +101,7 @@ public class WsArtifactJarController {
     @ApiOperation(value = "删除 artifact jar", notes = "删除 artifact jar")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws ScalephException {
         wsFlinkArtifactJarService.deleteOne(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
 }
