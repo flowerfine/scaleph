@@ -144,6 +144,14 @@ export default {
 
   // fake
   'pages.project.di.step.fake.rowNum': '生成数据行数',
+  'pages.project.di.step.fake.splitNum': 'Split 数量',
+  'pages.project.di.step.fake.splitNum.tooltip': '越大数据生成越多',
+  'pages.project.di.step.fake.splitReadInterval': 'Split 频率(毫秒)',
+  'pages.project.di.step.fake.splitReadInterval.tooltip': '越大数据生成越快',
+  'pages.project.di.step.fake.mapSize': 'map 类型 size',
+  'pages.project.di.step.fake.arraySize': 'array 类型 size',
+  'pages.project.di.step.fake.bytesLength': 'bytes 长度',
+  'pages.project.di.step.fake.stringLength': 'string 长度',
 
   // base file
   'pages.project.di.step.baseFile.path': 'Path',
@@ -577,5 +585,5 @@ export default {
   'pages.project.job.detail.overview.cluster.deployMode': '部署模式',
   'pages.project.job.detail.overview.cluster.resourceProvider': 'Resource Providers',
 
-  
+
 };

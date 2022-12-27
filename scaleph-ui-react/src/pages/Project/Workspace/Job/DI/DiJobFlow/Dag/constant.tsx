@@ -73,7 +73,13 @@ export const SchemaParams = {
 }
 
 export const FakeParams = {
-  rowNum: 'row_num',
+  rowNum: 'row.num',
+  splitNum: 'split.num',
+  splitReadInterval: 'split.read-interval',
+  mapSize: 'map.size',
+  arraySize: 'array.size',
+  bytesLength: 'bytes.length',
+  stringLength: 'string.length',
 }
 
 export const JdbcParams = {
