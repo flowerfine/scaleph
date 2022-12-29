@@ -44,58 +44,58 @@ const DataBoard: React.FC = () => {
 
   const columns: ColumnsType<topBatch100> = [
     {
-      title: 'id',
+      title: 'ID',
       dataIndex: 'id'
     },
     {
-      title: 'project',
+      title: '项目',
       dataIndex: 'project',
     },
     {
-      title: 'jobId',
+      title: '作业 ID',
       dataIndex: 'jobId',
     },
     {
-      title: 'jobCode',
+      title: '作业 CODE',
       dataIndex: 'jobCode',
     },
     {
-      title: 'clusterId',
+      title: '用户 ID',
       dataIndex: 'clusterId',
     },
     {
-      title: 'cluster',
+      title: '用户',
       dataIndex: 'cluster',
     },
     {
-      title: 'jobInstanceId',
+      title: '作业实例 ID',
       dataIndex: 'jobInstanceId',
     },
     {
-      title: 'jobLogUrl',
+      title: '作业日志 URL',
       dataIndex: 'jobLogUrl',
     },
     {
-      title: 'startTime',
+      title: '开始时间',
       dataIndex: 'startTime',
     },
     {
-      title: 'endTime',
+      title: '结束时间',
       dataIndex: 'endTime',
     },
     {
-      title: 'duration',
+      title: '运行时长',
       dataIndex: 'duration',
     },
     {
-      title: 'jobInstanceState',
+      title: '作业实例状态',
       dataIndex: 'jobInstanceState'
     },
   ];
 
   return (
     <>
-      <Row gutter={4}>
+      <Row gutter={[4, 16]}>
       <Col span="6">
           <Card>
             <Statistic
@@ -132,11 +132,11 @@ const DataBoard: React.FC = () => {
             />
           </Card>
         </Col>
-        <Col span={12}>
-          <Table columns={columns} dataSource={topBatch100} size="middle" scroll={{ x: 1500, y: 300 }} />
-        </Col>
-        <Col span={12}>
-        </Col>
+        <Col span={24}>
+            <Card title="作业TOP100">
+              <Table columns={columns} dataSource={topBatch100} size="middle" scroll={{ x: 1500, y: 300 }} />
+            </Card>
+          </Col>
       </Row>
     </>
   );
