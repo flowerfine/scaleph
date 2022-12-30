@@ -37,6 +37,7 @@ export default {
   'pages.dataSource.step.props.s3.accessKey': 'Access Key',
   'pages.dataSource.step.props.s3.accessSecret': 'Access Secret',
 
+  'pages.dataSource.step.props.hdfs.hdfsSitePath': 'hdfs-site.xml Path',
   'pages.dataSource.step.props.hdfs.fsDefaultFs': 'fs.defaultFS',
   'pages.dataSource.step.props.hdfs.fsDefaultFs.placeholder': 'hdfs://localhost:9000',
 

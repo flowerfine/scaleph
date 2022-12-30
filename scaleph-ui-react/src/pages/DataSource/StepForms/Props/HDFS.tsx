@@ -58,6 +58,11 @@ const HDFSForm: React.FC = () => {
           }}
         />
         <ProFormText
+          name="hdfsSitePath"
+          label={intl.formatMessage({id: 'pages.dataSource.step.props.hdfs.fsDefaultFs'})}
+          colProps={{span: 21, offset: 1}}
+        />
+        <ProFormText
           name="fsDefaultFS"
           label={intl.formatMessage({id: 'pages.dataSource.step.props.hdfs.fsDefaultFs'})}
           placeholder={intl.formatMessage({id: 'pages.dataSource.step.props.hdfs.fsDefaultFs.placeholder'})}

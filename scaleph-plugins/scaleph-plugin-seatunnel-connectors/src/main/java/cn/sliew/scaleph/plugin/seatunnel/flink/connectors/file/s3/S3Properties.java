@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.s3;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum S3Properties {
     ;
@@ -47,6 +48,14 @@ public enum S3Properties {
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> HADOOP_S3_PROPERTIES = new PropertyDescriptor.Builder<JsonNode>()
+            .name("hadoop_s3_properties")
+            .description("If you need to add a other option, you could add it here")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 }

@@ -52,6 +52,22 @@ public enum HttpSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<JsonNode> CONTENT_JSON = new PropertyDescriptor.Builder()
+            .name("content_json")
+            .description("This parameter can get some json data")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> JSON_FIELD = new PropertyDescriptor.Builder()
+            .name("json_field")
+            .description("This parameter helps you configure the schema,so this parameter must be used with schema")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder()
             .name("schema")
             .description("the upstream data schema")

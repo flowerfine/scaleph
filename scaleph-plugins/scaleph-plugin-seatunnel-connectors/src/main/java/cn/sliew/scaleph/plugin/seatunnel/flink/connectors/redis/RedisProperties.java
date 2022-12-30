@@ -41,6 +41,14 @@ public enum RedisProperties {
             .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<String> USER = new PropertyDescriptor.Builder()
+            .name("user")
+            .description("redis authentication user, you need it when you connect to an encrypted cluster")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<String> AUTH = new PropertyDescriptor.Builder()
             .name("auth")
             .description("Redis authentication password, you need it when you connect to an encrypted cluster")
