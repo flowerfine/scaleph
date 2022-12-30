@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.redis;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum RedisProperties {
     ;
@@ -54,6 +55,23 @@ public enum RedisProperties {
             .description("Redis authentication password, you need it when you connect to an encrypted cluster")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> MODE = new PropertyDescriptor.Builder()
+            .name("mode")
+            .description("redis mode")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .allowableValues("single", "cluster")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> NODES = new PropertyDescriptor.Builder()
+            .name("nodes")
+            .description("redis nodes information, used in cluster mode")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

@@ -46,6 +46,7 @@ export default {
 
   'pages.dataSource.step.props.redis.host': 'Host',
   'pages.dataSource.step.props.redis.port': 'Port',
+  'pages.dataSource.step.props.redis.user': 'User',
   'pages.dataSource.step.props.redis.password': 'Password',
 
   'pages.dataSource.step.props.iotdb.nodeUrls': 'Node URLs',
