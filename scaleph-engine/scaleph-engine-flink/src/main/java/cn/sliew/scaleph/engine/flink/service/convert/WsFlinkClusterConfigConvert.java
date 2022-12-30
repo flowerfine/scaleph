@@ -20,9 +20,11 @@ package cn.sliew.scaleph.engine.flink.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceClusterCredential;
+import cn.sliew.scaleph.dao.entity.master.resource.ResourceFlinkRelease;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterConfig;
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterConfigDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.KubernetesOptionsDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterConfigDTO;
 import cn.sliew.scaleph.resource.service.convert.ClusterCredentialConvert;
 import cn.sliew.scaleph.resource.service.convert.FlinkReleaseConvert;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -76,7 +78,17 @@ public interface WsFlinkClusterConfigConvert extends BaseConvert<WsFlinkClusterC
         }
         WsFlinkClusterConfigDTO dto = new WsFlinkClusterConfigDTO();
         BeanUtils.copyProperties(entity, dto);
+        if (entity.getFlinkReleaseId() != null && entity.getFlinkRelease() == null) {
+            ResourceFlinkRelease flinkRelease = new ResourceFlinkRelease();
+            flinkRelease.setId(entity.getFlinkReleaseId());
+            entity.setFlinkRelease(flinkRelease);
+        }
         dto.setFlinkRelease(FlinkReleaseConvert.INSTANCE.toDto(entity.getFlinkRelease()));
+        if (entity.getClusterCredentialId() != null && entity.getClusterCredential() == null) {
+            ResourceClusterCredential clusterCredential = new ResourceClusterCredential();
+            clusterCredential.setId(entity.getClusterCredentialId());
+            entity.setClusterCredential(clusterCredential);
+        }
         dto.setClusterCredential(ClusterCredentialConvert.INSTANCE.toDto(entity.getClusterCredential()));
         if (StringUtils.hasText(entity.getKubernetesOptions())) {
             dto.setKubernetesOptionsDTO(JacksonUtil.parseJsonString(entity.getKubernetesOptions(), KubernetesOptionsDTO.class));

@@ -1,14 +1,11 @@
-import { Button, Col, Descriptions, Row, Space, Tabs, Typography } from 'antd';
+import { Button, Col, Descriptions, message, Modal, Row, Space, Tabs, Typography } from 'antd';
 import {
-  AreaChartOutlined,
   CameraOutlined,
   CaretRightOutlined,
   CloseOutlined,
   ContainerOutlined,
   DashboardOutlined,
   DeleteOutlined,
-  EditOutlined,
-  OrderedListOutlined,
   PauseOutlined,
   ProfileOutlined,
   RollbackOutlined,
@@ -20,16 +17,17 @@ import styles from './index.less';
 import JobSavepointsWeb from './components/JobSavepoints';
 import JobLogTable from './components/JobLogTable';
 import JobConfigurationWeb from './components/JobConfiguration';
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import {
   WsFlinkClusterConfig,
   WsFlinkClusterInstance,
   WsFlinkJob,
   WsFlinkJobInstance,
 } from '@/services/project/typings';
+import JobOverviewWeb from './components/JobOverview';
 import { FlinkJobInstanceService } from '@/services/project/FlinkJobInstanceService';
-import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
-import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInstance.service';
+import JobEditForm from '../components/JobEditForm';
+import { FlinkJobService } from '@/services/project/FlinkJobService';
 
 const JobDetailWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -38,22 +36,58 @@ const JobDetailWeb: React.FC = () => {
   const [flinkJobInstance, setFlinkJobInstance] = useState<WsFlinkJobInstance>();
   const [flinkClusterConfig, setFlinkClusterConfig] = useState<WsFlinkClusterConfig>();
   const [flinkClusterInstance, setFlinkClusterInstance] = useState<WsFlinkClusterInstance>();
+  const [jobEditFormData, setJobEditFormData] = useState<{ visible: boolean; data: any }>({
+    visible: false,
+    data: {},
+  });
+
+  const reducer = (state: { count: number }) => {
+    return { count: state.count + 1 };
+  };
+
+  const [state, dispatch] = useReducer(reducer, { count: 0 });
 
   useEffect(() => {
-    FlinkJobInstanceService.getByCode(params.code ? params.code : 0).then((d) => {
-      setFlinkJobInstance(d);
-    });
-    FlinkClusterConfigService.selectOne(
-      params.flinkClusterConfigId ? params.flinkClusterConfigId : 0,
-    ).then((d) => {
-      setFlinkClusterConfig(d);
-    });
-    FlinkCLusterInstanceService.selectOne(
-      params.flinkClusterInstanceId ? params.flinkClusterInstanceId : 0,
-    ).then((d) => {
-      setFlinkClusterInstance(d);
-    });
+    setFlinkJobInstance(params.wsFlinkJobInstance);
+    setFlinkClusterConfig(params.wsFlinkClusterConfig);
+    setFlinkClusterInstance(params.wsFlinkClusterInstance);
+    setInterval(() => {
+      refresh();
+    }, 3000);
   }, []);
+
+  const refresh = () => {
+    FlinkJobService.selectOne(params.id as number).then((d) => {
+      setFlinkJobInstance(d.data?.wsFlinkJobInstance);
+      setFlinkClusterConfig(d.data?.wsFlinkClusterConfig);
+      setFlinkClusterInstance(d.data?.wsFlinkClusterInstance);
+    });
+  };
+
+  const isJobEditable = () => {
+    if (flinkJobInstance?.jobId == undefined) {
+      return true;
+    }
+    if (
+      flinkJobInstance?.jobId &&
+      flinkJobInstance.jobState.value != 'CANCELED' &&
+      flinkJobInstance.jobState.value != 'FAILED' &&
+      flinkJobInstance.jobState.value != 'FINISHED' &&
+      flinkJobInstance.jobState.value != 'SUBMIT_FAILED'
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const isJobStartable = () => {
+    if (isJobEditable() || flinkJobInstance?.jobState?.value == 'SUSPENDED') {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   return (
     <div className={styles.mainContainer}>
@@ -85,38 +119,168 @@ const JobDetailWeb: React.FC = () => {
         extra={
           <Space>
             <div>
-              <Button type="default" icon={<CaretRightOutlined />}>
+              <Button
+                type="default"
+                icon={<CaretRightOutlined />}
+                disabled={!isJobStartable()}
+                onClick={() => {
+                  Modal.confirm({
+                    type: 'info',
+                    title: intl.formatMessage({ id: 'pages.project.job.detail.start.title' }),
+                    content: intl.formatMessage({
+                      id: 'pages.project.job.detail.start.content',
+                    }),
+                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                    onOk() {
+                      FlinkJobInstanceService.submit(params).then((d) => {
+                        if (d.success) {
+                          message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+                          refresh();
+                        }
+                      });
+                    },
+                  });
+                }}
+              >
                 {intl.formatMessage({ id: 'pages.project.job.detail.start' })}
               </Button>
-              <Button type="default" disabled={true} icon={<PauseOutlined />}>
+              <Button
+                type="default"
+                disabled={flinkJobInstance?.jobState?.value != 'RUNNING'}
+                icon={<PauseOutlined />}
+                onClick={() => {
+                  Modal.confirm({
+                    type: 'info',
+                    title: intl.formatMessage({ id: 'pages.project.job.detail.start.title' }),
+                    content: intl.formatMessage({
+                      id: 'pages.project.job.detail.start.content',
+                    }),
+                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                    onOk() {
+                      FlinkJobInstanceService.stop(flinkJobInstance?.id as number).then((d) => {
+                        if (d.success) {
+                          message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+                          refresh();
+                        }
+                      });
+                    },
+                  });
+                }}
+              >
                 {intl.formatMessage({ id: 'pages.project.job.detail.suspend' })}
               </Button>
-              <Button type="default" disabled={true} icon={<CloseOutlined />}>
+              <Button
+                type="default"
+                disabled={flinkJobInstance?.jobState?.value != 'RUNNING'}
+                icon={<CloseOutlined />}
+                onClick={() => {
+                  Modal.confirm({
+                    type: 'info',
+                    title: intl.formatMessage({ id: 'pages.project.job.detail.start.title' }),
+                    content: intl.formatMessage({
+                      id: 'pages.project.job.detail.start.content',
+                    }),
+                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                    onOk() {
+                      FlinkJobInstanceService.cancel(flinkJobInstance?.id as number).then((d) => {
+                        if (d.success) {
+                          message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+                          refresh();
+                        }
+                      });
+                    },
+                  });
+                }}
+              >
                 {intl.formatMessage({ id: 'pages.project.job.detail.cancel' })}
               </Button>
             </div>
             <div>
-              <Button type="default" icon={<CameraOutlined />}>
+              <Button
+                type="default"
+                disabled={flinkJobInstance?.jobState?.value != 'RUNNING'}
+                icon={<CameraOutlined />}
+                onClick={() => {
+                  Modal.confirm({
+                    type: 'info',
+                    title: intl.formatMessage({ id: 'pages.project.job.detail.start.title' }),
+                    content: intl.formatMessage({
+                      id: 'pages.project.job.detail.start.content',
+                    }),
+                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                    onOk() {
+                      FlinkJobInstanceService.savepoint(flinkJobInstance?.id as number).then(
+                        (d) => {
+                          if (d.success) {
+                            message.success(
+                              intl.formatMessage({ id: 'app.common.operate.success' }),
+                            );
+                            refresh();
+                          }
+                        },
+                      );
+                    },
+                  });
+                }}
+              >
                 {intl.formatMessage({ id: 'pages.project.job.detail.savepoint' })}
               </Button>
             </div>
 
             <div>
-              <Button type="default" icon={<DashboardOutlined />}>
-                {intl.formatMessage({ id: 'pages.project.job.detail.flinkui' })}
-              </Button>
-              <Button type="default" icon={<AreaChartOutlined />}>
+              <a href={flinkClusterInstance?.webInterfaceUrl} target="_blank">
+                <Button type="default" icon={<DashboardOutlined />}>
+                  {intl.formatMessage({ id: 'pages.project.job.detail.flinkui' })}
+                </Button>
+              </a>
+              {/* <Button type="default" icon={<AreaChartOutlined />}>
                 {intl.formatMessage({ id: 'pages.project.job.detail.metrics' })}
               </Button>
               <Button type="default" icon={<OrderedListOutlined />}>
                 {intl.formatMessage({ id: 'pages.project.job.detail.logs' })}
-              </Button>
+              </Button> */}
             </div>
             <div>
-              <Button type="default" icon={<EditOutlined />}>
+              {/* 
+              //todo update job instance flink config in dynamic
+              <Button
+                type="default"
+                icon={<EditOutlined />}
+                onClick={() => {
+                  setJobEditFormData({ visible: true, data: { params } });
+                }}
+              >
                 {intl.formatMessage({ id: 'pages.project.job.detail.config' })}
-              </Button>
-              <Button type="primary" danger icon={<DeleteOutlined />}>
+              </Button> */}
+              <Button
+                type="primary"
+                danger
+                icon={<DeleteOutlined />}
+                disabled={!isJobEditable()}
+                onClick={() => {
+                  Modal.confirm({
+                    type: 'info',
+                    title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
+                    content: intl.formatMessage({
+                      id: 'app.common.operate.delete.confirm.content',
+                    }),
+                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
+                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                    onOk() {
+                      FlinkJobService.delete(params).then((d) => {
+                        if (d.success) {
+                          message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+                          refresh();
+                        }
+                      });
+                    },
+                  });
+                }}
+              >
                 {intl.formatMessage({ id: 'pages.project.job.detail.delete' })}
               </Button>
             </div>
@@ -129,20 +293,22 @@ const JobDetailWeb: React.FC = () => {
             copyable={true}
             ellipsis={{ rows: 1, expandable: true, symbol: 'more' }}
           >
-            {flinkJobInstance?.jobId}
+            {flinkJobInstance?.jobId ? flinkJobInstance?.jobId : '-'}
           </Typography.Paragraph>
         </Descriptions.Item>
         <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.job.detail.jobName' })}>
-          <Typography.Text copyable={true}>{flinkJobInstance?.jobName}</Typography.Text>
+          <Typography.Text copyable={true}>
+            {flinkJobInstance?.jobName ? flinkJobInstance?.jobName : '-'}
+          </Typography.Text>
         </Descriptions.Item>
         <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.job.detail.jobState' })}>
-          {flinkJobInstance?.jobState?.label}
+          {flinkJobInstance?.jobState?.label ? flinkJobInstance?.jobState?.label : '-'}
         </Descriptions.Item>
         <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.job.detail.startTime' })}>
-          {flinkJobInstance?.startTime}
+          {flinkJobInstance?.startTime ? flinkJobInstance?.startTime : '-'}
         </Descriptions.Item>
         <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.job.detail.duration' })}>
-          {flinkJobInstance?.duration}
+          {flinkJobInstance?.duration ? flinkJobInstance?.duration : '-'}
         </Descriptions.Item>
       </Descriptions>
       <Row>
@@ -160,7 +326,11 @@ const JobDetailWeb: React.FC = () => {
                   </>
                 ),
                 key: 'overview',
-                children: <>{/* <JobOverviewWeb data={params} /> */}</>,
+                children: (
+                  <>
+                    <JobOverviewWeb data={params} />
+                  </>
+                ),
               },
               {
                 label: (
@@ -184,13 +354,13 @@ const JobDetailWeb: React.FC = () => {
                 label: (
                   <>
                     <SaveOutlined />
-                    {intl.formatMessage({ id: 'pages.project.job.detail.savepoint' })}
+                    {intl.formatMessage({ id: 'pages.project.job.detail.checkpoint' })}
                   </>
                 ),
-                key: 'Savepoint',
+                key: 'checkpoint',
                 children: (
                   <>
-                    <JobSavepointsWeb />
+                    <JobSavepointsWeb flinkJobInstanceId={flinkJobInstance?.id as number} />
                   </>
                 ),
               },
@@ -212,6 +382,19 @@ const JobDetailWeb: React.FC = () => {
           ></Tabs>
         </Col>
       </Row>
+      {jobEditFormData.visible && (
+        <JobEditForm
+          data={jobEditFormData.data}
+          onCancel={() => {
+            setJobEditFormData({ visible: false, data: {} });
+          }}
+          onVisibleChange={(visible) => {
+            setJobEditFormData({ visible: visible, data: {} });
+            refresh();
+          }}
+          visible={jobEditFormData.visible}
+        ></JobEditForm>
+      )}
     </div>
   );
 };

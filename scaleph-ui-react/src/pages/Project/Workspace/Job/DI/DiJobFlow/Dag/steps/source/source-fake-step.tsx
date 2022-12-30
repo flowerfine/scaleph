@@ -68,9 +68,72 @@ const SourceFakeStepForm: React.FC<
         <ProFormDigit
           name={FakeParams.rowNum}
           label={intl.formatMessage({ id: 'pages.project.di.step.fake.rowNum' })}
+          initialValue={10}
           fieldProps={{
-            defaultValue: 10,
             step: 100,
+            min: 1
+          }}
+        />
+        <ProFormDigit
+          name={FakeParams.splitNum}
+          label={intl.formatMessage({ id: 'pages.project.di.step.fake.splitNum' })}
+          tooltip={{
+            title: intl.formatMessage({ id: 'pages.project.di.step.fake.splitNum.tooltip' }),
+            icon: <InfoCircleOutlined />,
+          }}
+          initialValue={1}
+          fieldProps={{
+            step: 1,
+            min: 1
+          }}
+        />
+        <ProFormDigit
+          name={FakeParams.splitReadInterval}
+          label={intl.formatMessage({ id: 'pages.project.di.step.fake.splitReadInterval' })}
+          tooltip={{
+            title: intl.formatMessage({ id: 'pages.project.di.step.fake.splitReadInterval.tooltip' }),
+            icon: <InfoCircleOutlined />,
+          }}
+          initialValue={1}
+          fieldProps={{
+            step: 1,
+            min: 1
+          }}
+        />
+        <ProFormDigit
+          name={FakeParams.mapSize}
+          label={intl.formatMessage({ id: 'pages.project.di.step.fake.mapSize' })}
+          initialValue={5}
+          fieldProps={{
+            step: 1,
+            min: 1
+          }}
+        />
+        <ProFormDigit
+          name={FakeParams.arraySize}
+          label={intl.formatMessage({ id: 'pages.project.di.step.fake.arraySize' })}
+          initialValue={5}
+          fieldProps={{
+            step: 1,
+            min: 1
+          }}
+        />
+        <ProFormDigit
+          name={FakeParams.bytesLength}
+          label={intl.formatMessage({ id: 'pages.project.di.step.fake.bytesLength' })}
+          initialValue={5}
+          fieldProps={{
+            step: 1,
+            min: 1
+          }}
+        />
+        <ProFormDigit
+          name={FakeParams.stringLength}
+          label={intl.formatMessage({ id: 'pages.project.di.step.fake.stringLength' })}
+          initialValue={5}
+          fieldProps={{
+            step: 1,
+            min: 1
           }}
         />
         <ProFormGroup

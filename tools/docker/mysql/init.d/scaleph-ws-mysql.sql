@@ -274,6 +274,34 @@ CREATE TABLE ws_flink_job_log
     UNIQUE KEY uniq_job (flink_job_code, job_id)
 ) ENGINE = INNODB COMMENT = 'flink作业日志';
 
+DROP TABLE IF EXISTS ws_flink_checkpoint;
+CREATE TABLE ws_flink_checkpoint
+(
+    id                        bigint      not null auto_increment comment 'id',
+    flink_job_instance_id     bigint      not null comment 'flink job instance id',
+    flink_checkpoint_id       bigint      not null comment 'flink checkpoint id',
+    checkpoint_type           varchar(16) not null comment 'checkpoint type',
+    `status`                  varchar(16) not null comment 'checkpoint status',
+    `savepoint`               tinyint     not null comment 'is savepoint',
+    trigger_timestamp         bigint      not null comment 'checkpoint trigger timestamp',
+    duration                  bigint comment 'checkpoint duration',
+    discarded                 tinyint     not null comment 'is discarded',
+    external_path             text comment 'checkpoint path',
+    state_size                bigint comment 'state size',
+    processed_data            bigint comment 'processed data size',
+    persisted_data            bigint comment 'persisted data size',
+    alignment_buffered        bigint comment 'checkpoint alignment buffered size',
+    num_subtasks              int comment 'subtask nums',
+    num_acknowledged_subtasks int comment 'acknowledged subtask nums',
+    latest_ack_timestamp      bigint comment 'latest acknowledged subtask timestamp',
+    creator                   varchar(32) comment '创建人',
+    create_time               timestamp default current_timestamp comment '创建时间',
+    editor                    varchar(32) comment '修改人',
+    update_time               timestamp default current_timestamp on update current_timestamp comment '修改时间',
+    PRIMARY KEY (id),
+    UNIQUE KEY uniq_job (flink_job_instance_id, flink_checkpoint_id)
+) ENGINE = INNODB COMMENT = 'flink checkpoint';
+
 DROP TABLE IF EXISTS ws_flink_catalog_configuration;
 CREATE TABLE ws_flink_catalog_configuration
 (

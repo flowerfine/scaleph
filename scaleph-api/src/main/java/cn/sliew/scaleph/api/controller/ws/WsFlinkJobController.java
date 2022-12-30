@@ -18,20 +18,24 @@
 
 package cn.sliew.scaleph.api.controller.ws;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.job.JobAttrType;
-import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobAttrService;
-import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobAttrDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
+import cn.sliew.scaleph.common.param.PropertyUtil;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactJarService;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterConfigService;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterInstanceService;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkJobService;
-import cn.sliew.scaleph.engine.flink.service.dto.*;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListByTypeParam;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterConfigDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterInstanceDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListParam;
+import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobAttrService;
+import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobAttrDTO;
+import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.vo.ResponseVO;
@@ -77,14 +81,28 @@ public class WsFlinkJobController {
     }
 
     @Logging
+    @GetMapping("/{id}")
+    @ApiOperation(value = "查询任务信息", notes = "查询任务信息")
+    public ResponseEntity<ResponseVO<WsFlinkJobDTO>> selectOne(@PathVariable("id") Long id) {
+        WsFlinkJobDTO dto = wsFlinkJobService.selectOne(id);
+        return new ResponseEntity<ResponseVO<WsFlinkJobDTO>>(ResponseVO.success(dto), HttpStatus.OK);
+    }
+
+    @Logging
     @PutMapping
     @ApiOperation(value = "新增任务", notes = "新增任务")
     public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsFlinkJobDTO wsFlinkJobDTO) throws UidGenerateException {
         wsFlinkJobDTO.setCode(defaultUidGenerator.getUID());
         if (FlinkJobType.JAR.equals(wsFlinkJobDTO.getType())) {
             WsFlinkArtifactJarDTO wsFlinkArtifactJarDTO = wsFlinkArtifactJarService.selectOne(wsFlinkJobDTO.getFlinkArtifactId());
-            wsFlinkJobDTO.setName(wsFlinkArtifactJarDTO.getFlinkArtifact().getName());
-            //todo set job config value
+            wsFlinkJobDTO.setName(wsFlinkArtifactJarDTO.getWsFlinkArtifact().getName());
+            Map<String, Object> jarParamMap = PropertyUtil.formatPropFromStr(wsFlinkArtifactJarDTO.getJarParams(), "\n", ":");
+            Map<String, String> jobConfig = new HashMap<>();
+            jarParamMap.forEach((k, v) -> {
+                jobConfig.put(k, String.valueOf(v));
+            });
+            wsFlinkJobDTO.setJobConfig(jobConfig);
+
         } else if (FlinkJobType.SEATUNNEL.equals(wsFlinkJobDTO.getType())) {
             WsDiJobDTO wsDiJobDTO = wsDiJobService.selectOne(wsFlinkJobDTO.getFlinkArtifactId());
             wsFlinkJobDTO.setName(wsDiJobDTO.getJobName());
@@ -96,16 +114,21 @@ public class WsFlinkJobController {
                     );
             wsFlinkJobDTO.setJobConfig(jobConfig);
         }
-        WsFlinkClusterInstanceDTO wsFlinkClusterInstanceDTO = wsFlinkClusterInstanceService.selectOne(wsFlinkJobDTO.getFlinkClusterInstanceId());
-        wsFlinkJobDTO.setFlinkClusterConfigId(wsFlinkClusterInstanceDTO.getFlinkClusterConfigId());
-        //flink config
-        WsFlinkClusterConfigDTO wsFlinkClusterConfigDTO = wsFlinkClusterConfigService.selectOne(wsFlinkJobDTO.getFlinkClusterConfigId());
+        WsFlinkClusterInstanceDTO wsFlinkClusterInstanceDTO = wsFlinkClusterInstanceService.selectOne(wsFlinkJobDTO.getWsFlinkClusterInstance().getId());
+        wsFlinkJobDTO.setWsFlinkClusterInstance(wsFlinkClusterInstanceDTO);
+        WsFlinkClusterConfigDTO wsFlinkClusterConfigDTO = wsFlinkClusterConfigService.selectOne(wsFlinkClusterInstanceDTO.getFlinkClusterConfigId());
+        wsFlinkJobDTO.setWsFlinkClusterConfig(wsFlinkClusterConfigDTO);
+        //merge flink config
         Map<String, String> flinkConfig = new HashMap<>();
-        flinkConfig.putAll(wsFlinkClusterConfigDTO.getConfigOptions());
-        flinkConfig.putAll(wsFlinkJobDTO.getFlinkConfig());
+        if (CollectionUtil.isNotEmpty(wsFlinkClusterConfigDTO.getConfigOptions())) {
+            flinkConfig.putAll(wsFlinkClusterConfigDTO.getConfigOptions());
+        }
+        if (CollectionUtil.isNotEmpty(wsFlinkJobDTO.getFlinkConfig())) {
+            flinkConfig.putAll(wsFlinkJobDTO.getFlinkConfig());
+        }
         wsFlinkJobDTO.setFlinkConfig(flinkConfig);
         wsFlinkJobService.insert(wsFlinkJobDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
 
@@ -114,23 +137,15 @@ public class WsFlinkJobController {
     @ApiOperation(value = "修改任务", notes = "修改任务")
     public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkJobDTO param) {
         wsFlinkJobService.update(param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
-    @GetMapping("jar")
-    @ApiOperation(value = "查询 Jar 任务列表", notes = "分页查询 Jar 任务列表")
-    public ResponseEntity<Page<WsFlinkJobForJarDTO>> listJobsForJar(@Valid WsFlinkJobListByTypeParam param) {
-        Page<WsFlinkJobForJarDTO> page = wsFlinkJobService.listJobsForJar(param);
-        return new ResponseEntity<>(page, HttpStatus.OK);
-    }
-
-    @Logging
-    @GetMapping("seatunnel")
-    @ApiOperation(value = "查询 SeaTunnel 任务列表", notes = "分页查询 SeaTunnel 任务列表")
-    public ResponseEntity<Page<WsFlinkJobForSeaTunnelDTO>> listJobsForSeaTunnel(@Valid WsFlinkJobListByTypeParam param) {
-        Page<WsFlinkJobForSeaTunnelDTO> page = wsFlinkJobService.listJobsForSeaTunnel(param);
-        return new ResponseEntity<>(page, HttpStatus.OK);
+    @DeleteMapping
+    @ApiOperation(value = "删除任务", notes = "删除任务")
+    public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) {
+        wsFlinkJobService.delete(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
 }

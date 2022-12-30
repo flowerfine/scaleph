@@ -19,31 +19,39 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkCheckpointService;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkJobInstanceService;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkService;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkYarnService;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkCheckpointDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobInstanceDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkCheckpointListParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobInstanceListParam;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobSubmitParam;
+import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Slf4j
 @Api(tags = "Flink管理-任务实例管理")
 @RestController
 @RequestMapping(path = "/api/flink/job-instance")
 public class WsFlinkJobInstanceController {
 
     @Autowired
+    private WsFlinkService wsFlinkService;
+    @Autowired
+    private WsFlinkYarnService wsFlinkYarnService;
+    @Autowired
     private WsFlinkJobInstanceService wsFlinkJobInstanceService;
+    @Autowired
+    private WsFlinkCheckpointService wsFlinkCheckpointService;
 
     @Logging
     @GetMapping
@@ -60,4 +68,45 @@ public class WsFlinkJobInstanceController {
         WsFlinkJobInstanceDTO dto = wsFlinkJobInstanceService.selectByCode(flinkJobCode);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+
+    @Logging
+    @GetMapping("checkpoints")
+    @ApiOperation(value = "查询任务 checkpoints", notes = "查询任务 checkpoints")
+    public ResponseEntity<Page<WsFlinkCheckpointDTO>> checkpoints(@Valid WsFlinkCheckpointListParam param) {
+        Page<WsFlinkCheckpointDTO> result = wsFlinkCheckpointService.list(param);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @PutMapping("submit")
+    @ApiOperation(value = "提交任务", notes = "提交任务")
+    public ResponseEntity<ResponseVO> submitJar(@Valid @RequestBody WsFlinkJobSubmitParam param) throws Exception {
+        wsFlinkService.submit(param);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("stop/{id}")
+    @ApiOperation(value = "终止任务", notes = "终止任务")
+    public ResponseEntity<ResponseVO> stop(@PathVariable("id") Long id) throws Exception {
+        wsFlinkService.stop(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("cancel/{id}")
+    @ApiOperation(value = "取消任务", notes = "取消任务")
+    public ResponseEntity<ResponseVO> cancel(@PathVariable("id") Long id) throws Exception {
+        wsFlinkService.cancel(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("savepoint/{id}")
+    @ApiOperation(value = "创建savepoint", notes = "创建savepoint")
+    public ResponseEntity<ResponseVO> savepoint(@PathVariable("id") Long id) throws Exception {
+        wsFlinkService.triggerSavepoint(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
 }

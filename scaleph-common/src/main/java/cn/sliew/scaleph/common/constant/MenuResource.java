@@ -20,6 +20,7 @@ package cn.sliew.scaleph.common.constant;
 
 import lombok.Getter;
 
+@Deprecated
 @Getter
 public enum MenuResource {
     ;

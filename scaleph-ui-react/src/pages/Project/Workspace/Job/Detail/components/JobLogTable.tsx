@@ -87,14 +87,7 @@ const JobLogTable: React.FC<{ flinkJobCode: number }> = ({ flinkJobCode }) => {
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
               <Tooltip title={intl.formatMessage({ id: 'app.common.operate.detail.label' })}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<ProfileOutlined />}
-                  //  onClick={() => {
-                  //    history.push("/workspace/dev/job/jar/detail", record)
-                  //  }}
-                />
+                <Button shape="default" type="link" icon={<ProfileOutlined />} />
               </Tooltip>
             )}
           </Space>

@@ -70,7 +70,7 @@ public class WsDiJobController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_ADD)")
     public ResponseEntity<ResponseVO> simpleAddJob(@Validated @RequestBody WsDiJobDTO param) throws UidGenerateException {
         WsDiJobDTO wsDiJobDTO = wsDiJobService.insert(param);
-        return new ResponseEntity<>(ResponseVO.sucess(wsDiJobDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseVO.success(wsDiJobDTO), HttpStatus.CREATED);
     }
 
     @Logging
@@ -79,7 +79,7 @@ public class WsDiJobController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> simpleEditJob(@Validated @RequestBody WsDiJobDTO param) {
         wsDiJobService.update(param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -88,7 +88,7 @@ public class WsDiJobController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_DELETE)")
     public ResponseEntity<ResponseVO> deleteJob(@PathVariable("id") Long id) {
         wsDiJobService.delete(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -97,7 +97,7 @@ public class WsDiJobController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_DELETE)")
     public ResponseEntity<ResponseVO> deleteJob(@RequestBody List<Long> ids) {
         wsDiJobService.deleteBatch(ids);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
 
@@ -116,7 +116,7 @@ public class WsDiJobController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> saveJobStepInfo(@Valid @RequestBody WsDiJobStepParam param) throws ScalephException {
         Long editableJobId = wsDiJobService.saveJobStep(param);
-        return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(editableJobId), HttpStatus.OK);
     }
 
     @Logging
@@ -125,7 +125,7 @@ public class WsDiJobController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> saveJobDetail(@Validated @RequestBody WsDiJobGraphParam param) throws ScalephException {
         Long editableJobId = wsDiJobService.saveJobGraph(param);
-        return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseVO.success(editableJobId), HttpStatus.CREATED);
     }
 
     @Logging
@@ -143,7 +143,7 @@ public class WsDiJobController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> saveJobAttr(@RequestBody DiJobAttrVO jobAttrVO) throws ScalephException {
         Long editableJobId = wsDiJobService.saveJobAttrs(jobAttrVO);
-        return new ResponseEntity<>(ResponseVO.sucess(editableJobId), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(editableJobId), HttpStatus.OK);
     }
 
     @Logging
@@ -152,7 +152,7 @@ public class WsDiJobController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> publishJob(@PathVariable(value = "jobId") Long jobId) throws ScalephException {
         wsDiJobService.publish(jobId);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -160,7 +160,7 @@ public class WsDiJobController {
     @ApiOperation(value = "任务预览", notes = "任务预览")
     public ResponseEntity<ResponseVO> previewJob(@PathVariable(value = "jobId") Long jobId) throws Exception {
         String conf = seatunnelJobService.preview(jobId);
-        return new ResponseEntity<>(ResponseVO.sucess(conf), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(conf), HttpStatus.OK);
     }
 
     @Logging
@@ -169,7 +169,7 @@ public class WsDiJobController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> runJob(@RequestBody DiJobRunVO jobRunParam) throws Exception {
         seatunnelJobService.run(jobRunParam);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -178,7 +178,7 @@ public class WsDiJobController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> stopJob(@RequestParam(value = "jobId") Long jobId) throws Exception {
         seatunnelJobService.stop(jobId);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging

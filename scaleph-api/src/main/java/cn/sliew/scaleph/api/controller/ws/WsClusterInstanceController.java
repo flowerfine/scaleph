@@ -68,7 +68,7 @@ public class WsClusterInstanceController {
     @ApiOperation(value = "创建 session 集群", notes = "创建 session 集群")
     public ResponseEntity<ResponseVO> createSessionCluster(@Valid @RequestBody WsFlinkClusterInstanceDTO param) throws Exception {
         wsFlinkService.createSessionCluster(param.getProjectId(), param.getFlinkClusterConfigId());
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -76,7 +76,7 @@ public class WsClusterInstanceController {
     @ApiOperation(value = "关闭集群", notes = "关闭集群")
     public ResponseEntity<ResponseVO> shutdownCluster(@PathVariable("id") Long id) throws Exception {
         wsFlinkService.shutdown(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -84,7 +84,7 @@ public class WsClusterInstanceController {
     @ApiOperation(value = "批量关闭集群", notes = "批量关闭集群")
     public ResponseEntity<ResponseVO> shutdownClusterBatch(@RequestBody List<Long> ids) throws Exception {
         wsFlinkService.shutdownBatch(ids);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
 }

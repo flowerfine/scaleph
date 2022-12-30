@@ -69,7 +69,7 @@ public class RefDataController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_SELECT)")
     public ResponseEntity<ResponseVO<List<MetaDataSetDTO>>> listMetaDataByType(@PathVariable("type") Long typeId) {
         List<MetaDataSetDTO> list = metaDataSetService.listByType(typeId);
-        return new ResponseEntity<>(ResponseVO.sucess(list), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(list), HttpStatus.OK);
     }
 
     @Logging
@@ -78,7 +78,7 @@ public class RefDataController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_ADD)")
     public ResponseEntity<ResponseVO> addMetaDataSet(@Validated @RequestBody MetaDataSetDTO metaDataSetDTO) {
         metaDataSetService.insert(metaDataSetDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
     }
 
     @Logging
@@ -87,7 +87,7 @@ public class RefDataController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_EDIT)")
     public ResponseEntity<ResponseVO> editMetaDataSet(@Validated @RequestBody MetaDataSetDTO metaDataSetDTO) {
         metaDataSetService.update(metaDataSetDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -96,7 +96,7 @@ public class RefDataController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataSet(@PathVariable("id") Long id) {
         metaDataSetService.deleteById(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -105,7 +105,7 @@ public class RefDataController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataSet(@RequestBody List<Long> ids) {
         metaDataSetService.deleteBatch(ids);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -123,7 +123,7 @@ public class RefDataController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_TYPE_ADD)")
     public ResponseEntity<ResponseVO> addMetaDataSetType(@Validated @RequestBody MetaDataSetTypeDTO metaDataSetTypeDTO) {
         metaDataSetTypeService.insert(metaDataSetTypeDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
     }
 
     @Logging
@@ -132,7 +132,7 @@ public class RefDataController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_TYPE_EDIT)")
     public ResponseEntity<ResponseVO> editMetaDataSetType(@Validated @RequestBody MetaDataSetTypeDTO metaDataSetTypeDTO) {
         metaDataSetTypeService.update(metaDataSetTypeDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -141,7 +141,7 @@ public class RefDataController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_TYPE_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataSetType(@PathVariable(value = "id") Long id) {
         metaDataSetTypeService.deleteById(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -150,7 +150,7 @@ public class RefDataController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_TYPE_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataSetType(@RequestBody List<Long> ids) {
         metaDataSetTypeService.deleteBatch(ids);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -168,7 +168,7 @@ public class RefDataController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_MAP_ADD)")
     public ResponseEntity<ResponseVO> addMetaDataMap(@Validated @RequestBody MetaDataMapDTO metaDataSetTypeDTO) {
         metaDataMapService.insert(metaDataSetTypeDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
     }
 
     @Logging
@@ -177,7 +177,7 @@ public class RefDataController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_MAP_EDIT)")
     public ResponseEntity<ResponseVO> editMetaDataMap(@Validated @RequestBody MetaDataMapDTO metaDataSetTypeDTO) {
         metaDataMapService.update(metaDataSetTypeDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -186,7 +186,7 @@ public class RefDataController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_MAP_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataMap(@PathVariable(value = "id") Long id) {
         metaDataMapService.deleteById(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -195,6 +195,6 @@ public class RefDataController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_REF_DATA_MAP_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataMap(@RequestBody List<Long> ids) {
         metaDataMapService.deleteBatch(ids);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 }

@@ -28,6 +28,7 @@ import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarParam;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.system.util.I18nUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 @Service
 public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService {
@@ -69,6 +71,7 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
         return WsFlinkArtifactJarConvert.INSTANCE.toDto(record);
     }
 
+
     @Override
     public int deleteOne(Long id) throws ScalephException {
         WsFlinkArtifactJar jar = flinkArtifactJarMapper.isUsed(id);
@@ -97,6 +100,15 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
             FileCopyUtils.copy(inputStream, outputStream);
         }
         return dto.getFileName();
+    }
+
+    @Override
+    public List<WsFlinkArtifactJarDTO> listByArtifact(Long artifactId) {
+        List<WsFlinkArtifactJar> list = flinkArtifactJarMapper.selectList(
+                Wrappers.lambdaQuery(WsFlinkArtifactJar.class)
+                        .eq(WsFlinkArtifactJar::getFlinkArtifactId, artifactId)
+        );
+        return WsFlinkArtifactJarConvert.INSTANCE.toDto(list);
     }
 
     private String getFlinkArtifactPath(String version, String fileName) {

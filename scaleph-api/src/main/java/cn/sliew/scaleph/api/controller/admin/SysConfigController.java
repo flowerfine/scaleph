@@ -77,7 +77,7 @@ public class SysConfigController {
         sysConfig.setCfgValue(JSONUtil.toJsonStr(emailConfig));
         this.sysConfigService.insert(sysConfig);
         this.emailService.configEmail(emailConfig);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -131,7 +131,7 @@ public class SysConfigController {
         sysConfig.setCfgCode(Constants.CFG_BASIC_CODE);
         sysConfig.setCfgValue(JSONUtil.toJsonStr(basicConfig));
         this.sysConfigService.insert(sysConfig);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging

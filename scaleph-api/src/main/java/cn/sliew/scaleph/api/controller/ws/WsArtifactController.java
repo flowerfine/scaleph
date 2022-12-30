@@ -57,7 +57,7 @@ public class WsArtifactController {
     @ApiOperation(value = "新增 artifact", notes = "新增 artifact")
     public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsFlinkArtifactDTO param) {
         wsFlinkArtifactService.insert(param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -65,7 +65,7 @@ public class WsArtifactController {
     @ApiOperation(value = "修改 artifact", notes = "修改 artifact")
     public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkArtifactDTO param) {
         wsFlinkArtifactService.update(param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -73,7 +73,7 @@ public class WsArtifactController {
     @ApiOperation(value = "删除 artifact", notes = "删除 artifact")
     public ResponseEntity<ResponseVO> deleteById(@PathVariable("id") Long id) throws ScalephException {
         wsFlinkArtifactService.deleteById(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
 }

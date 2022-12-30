@@ -225,17 +225,33 @@ VALUES (500018, 'pstm2', '修改', '2', 500003, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
 VALUES (500019, 'pstm3', '删除', '2', 500003, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
-VALUES (600000, 'padr0', '用户管理', '1', 6, 'sys', 'sys');
+VALUES (600000, 'padp0', '部门管理', '1', 6, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
-VALUES (600001, 'parw0', 'Web 资源', '1', 6, 'sys', 'sys');
+VALUES (600001, 'padr0', '角色管理', '1', 6, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
-VALUES (600002, 'padp0', '权限管理', '1', 6, 'sys', 'sys');
+VALUES (600002, 'padu0', '用户管理', '1', 6, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
-VALUES (600003, 'pawq0', '系统任务', '1', 6, 'sys', 'sys');
+VALUES (600003, 'parw0', 'Web 资源', '1', 6, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
-VALUES (600004, 'padd0', '数据字典', '1', 6, 'sys', 'sys');
+VALUES (600004, 'pape0', '权限管理', '1', 6, 'sys', 'sys');
 INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
-VALUES (600005, 'pads0', '系统设置', '1', 6, 'sys', 'sys');
+VALUES (600005, 'pawq0', '系统任务', '1', 6, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600006, 'padd0', '数据字典', '1', 6, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600007, 'pads0', '系统设置', '1', 6, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600008, 'padp1', '新增', '2', 600000, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600009, 'padp2', '修改', '2', 600000, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (6000010, 'padp3', '删除', '2', 600000, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600011, 'padr1', '新增', '2', 600001, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (600012, 'padr2', '修改', '2', 600001, 'sys', 'sys');
+INSERT INTO `sec_privilege`(`id`, `privilege_code`, `privilege_name`, `resource_type`, `pid`, `creator`, `editor`)
+VALUES (6000013, 'padr3', '删除', '2', 600001, 'sys', 'sys');
 
 
 /* 角色权限关联表 */
@@ -262,7 +278,15 @@ select r.id  as role_id,
        'sys' as editor
 from sec_privilege p,
      sec_role r
-where r.role_code in ('sys_normal', 'sys_admin', 'sys_super_admin');
+where r.role_code in ('sys_admin', 'sys_super_admin');
+insert into sec_role_privilege (role_id, privilege_id, creator, editor)
+select r.id  as role_id,
+       p.id  as privilege_id,
+       'sys' as creator,
+       'sys' as editor
+from sec_privilege p,
+     sec_role r
+where r.role_code in ('sys_normal') and p.resource_type in ('0', '1');
 /* 部门表 */
 drop table if exists sec_dept;
 create table sec_dept

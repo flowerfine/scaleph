@@ -23,6 +23,9 @@ public enum PagePrivilege {
 
     public static final String PRIVILEGE_PREFIX = "p";
 
-    public static final String STUDIO_SHOW = PRIVILEGE_PREFIX + MenuResource.STUDIO.getCode() + Privilege.SHOW;
-    public static final String STUDIO_DATA_BOARD_SHOW = PRIVILEGE_PREFIX + PageResource.STUDIO_DATA_BOARD + Privilege.SHOW;
+    public static final String STUDIO_SHOW = PRIVILEGE_PREFIX + MenuResource.STUDIO.getCode() + ButtonCode.SHOW;
+    public static final String STUDIO_DATA_BOARD_SHOW = PRIVILEGE_PREFIX + PageResource.STUDIO_DATA_BOARD + ButtonCode.SHOW;
+
+    public static final String ADMIN_DEPT_SHOW = PRIVILEGE_PREFIX + PageCode.ADMIN_DEPT + ButtonCode.SHOW;
+    public static final String ADMIN_ROLE_SHOW = PRIVILEGE_PREFIX + PageCode.ADMIN_ROLE + ButtonCode.SHOW;
 }

@@ -29,8 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.fake.source.FakeProperties.ROW_NUM;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.fake.source.FakeProperties.SCHEMA;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.fake.source.FakeProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class FakeSourcePlugin extends SeaTunnelConnectorPlugin {
@@ -44,6 +43,12 @@ public class FakeSourcePlugin extends SeaTunnelConnectorPlugin {
 
         props.add(SCHEMA);
         props.add(ROW_NUM);
+        props.add(SPLIT_NUM);
+        props.add(SPLIT_READ_INTERVAL);
+        props.add(MAP_SIZE);
+        props.add(ARRAY_SIZE);
+        props.add(BYTES_SIZE);
+        props.add(STRING_SIZE);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

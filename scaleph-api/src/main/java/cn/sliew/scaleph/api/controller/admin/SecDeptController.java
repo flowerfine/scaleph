@@ -39,7 +39,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,7 +68,7 @@ public class SecDeptController {
     @Logging
     @GetMapping("list")
     @ApiOperation(value = "查询部门树", notes = "查询部门树")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DEPT_SELECT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PagePrivilege).ADMIN_DEPT_SHOW)")
     public ResponseEntity<Page<SecDeptTreeDTO>> listByPage(@Valid SecDeptListParam param) {
         Page<SecDeptTreeDTO> result = secDeptService.listByPage(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -78,7 +77,7 @@ public class SecDeptController {
     @Logging
     @GetMapping
     @ApiOperation(value = "查询部门树", notes = "查询部门树")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DEPT_SELECT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PagePrivilege).ADMIN_DEPT_SHOW)")
     public ResponseEntity<List<Tree<Long>>> listDept() {
         List<SecDeptDTO> list = this.secDeptService.listAll();
         TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
@@ -98,7 +97,7 @@ public class SecDeptController {
     @Logging
     @GetMapping(path = "/{pid}")
     @ApiOperation(value = "查询子节点部门树", notes = "查询子节点部门树")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DEPT_SELECT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PagePrivilege).ADMIN_DEPT_SHOW)")
     public ResponseEntity<List<Tree<Long>>> listChildDept(@PathVariable("pid") Long pid) {
         return new ResponseEntity<>(selectChilds(pid), HttpStatus.OK);
     }
@@ -123,55 +122,45 @@ public class SecDeptController {
     @Logging
     @PostMapping
     @ApiOperation(value = "新增部门", notes = "新增部门")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DEPT_ADD)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_ADD)")
     public ResponseEntity<ResponseVO> addDept(@Validated @RequestBody SecDeptDTO secDeptDTO) {
         this.secDeptService.insert(secDeptDTO);
         SecDeptDTO dept = this.secDeptService.selectOne(secDeptDTO.getDeptCode());
-        return new ResponseEntity<>(ResponseVO.sucess(dept.getId()), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(dept.getId()), HttpStatus.OK);
     }
 
     @Logging
     @PutMapping
     @ApiOperation(value = "修改部门", notes = "修改部门")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DEPT_EDIT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_EDIT)")
     public ResponseEntity<ResponseVO> editDept(@Validated @RequestBody SecDeptDTO secDeptDTO) {
         this.secDeptService.update(secDeptDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
     @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "删除部门", notes = "删除部门")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DEPT_DELETE)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_DELETE)")
     public ResponseEntity<ResponseVO> deleteDept(@PathVariable("id") Long id) {
         secDeptService.deleteById(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
     @DeleteMapping(path = "/batch")
     @ApiOperation(value = "删除部门", notes = "删除部门")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DEPT_DELETE)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_DELETE)")
     public ResponseEntity<ResponseVO> deleteDept(@RequestBody List<Long> ids) {
         secDeptService.deleteBatch(ids);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
-    }
-
-    private void getDeptIds(List<Long> list, List<Tree<Long>> treeList) {
-        if (CollectionUtils.isEmpty(treeList)) {
-            return;
-        }
-        for (Tree<Long> tree : treeList) {
-            list.add(tree.getId());
-            getDeptIds(list, tree.getChildren());
-        }
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
     @PostMapping(path = "/grant")
     @ApiOperation(value = "部门分配用户", notes = "部门分配用户")
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DEPT_GRANT)")
+    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_AUTHORIZE)")
     public ResponseEntity<ResponseVO> grantDept(@NotNull Long deptId, @NotNull String userIds) {
         List<Long> userList = JSONUtil.toList(userIds, Long.class);
         List<SecUserDeptDTO> oldUserList = this.secUserDeptService.listByDeptId(deptId);
@@ -192,7 +181,7 @@ public class SecDeptController {
                 this.secUserDeptService.delete(userDept);
             }
         }
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 }
 
