@@ -12,7 +12,7 @@ import {NsGraphPublish} from './cmd-extensions/graph-publish';
 import {CustomCommands, ZOOM_OPTIONS} from './constant';
 import {DagService} from './service';
 import {NsGraphPreview} from './cmd-extensions/graph-preview';
-import {NsGraphSubmit} from "@/pages/DI/DiJobFlow/Dag/cmd-extensions/graph-submit";
+import { NsGraphSubmit } from './cmd-extensions/graph-submit';
 
 export const useToolbarConfig = createToolbarConfig((toolbarConfig) => {
   /** toolbar item */
@@ -102,28 +102,28 @@ const getMainToolbarConfig = () => {
             );
           },
         },
-        {
-          id: 'publish',
-          iconName: 'SendOutlined',
-          tooltip: intl.formatMessage({id: 'pages.project.di.flow.dag.publish'}),
-          onClick: async ({commandService}) => {
-            commandService.executeCommand<NsGraphPublish.IArgs>(
-              CustomCommands.GRAPH_PUBLISH.id,
-              {},
-            );
-          },
-        },
-        {
-          id: 'submit',
-          iconName: 'FundProjectionScreenOutlined',
-          tooltip: intl.formatMessage({id: 'pages.project.di.flow.dag.submit'}),
-          onClick: async ({commandService}) => {
-            commandService.executeCommand<NsGraphSubmit.IArgs>(
-              CustomCommands.GRAPH_SUBMIT.id,
-              {},
-            );
-          },
-        },
+        // {
+        //   id: 'publish',
+        //   iconName: 'SendOutlined',
+        //   tooltip: intl.formatMessage({id: 'pages.project.di.flow.dag.publish'}),
+        //   onClick: async ({commandService}) => {
+        //     commandService.executeCommand<NsGraphPublish.IArgs>(
+        //       CustomCommands.GRAPH_PUBLISH.id,
+        //       {},
+        //     );
+        //   },
+        // },
+        // {
+        //   id: 'submit',
+        //   iconName: 'FundProjectionScreenOutlined',
+        //   tooltip: intl.formatMessage({id: 'pages.project.di.flow.dag.submit'}),
+        //   onClick: async ({commandService}) => {
+        //     commandService.executeCommand<NsGraphSubmit.IArgs>(
+        //       CustomCommands.GRAPH_SUBMIT.id,
+        //       {},
+        //     );
+        //   },
+        // },
       ],
     },
   ] as IToolbarGroupOptions[];

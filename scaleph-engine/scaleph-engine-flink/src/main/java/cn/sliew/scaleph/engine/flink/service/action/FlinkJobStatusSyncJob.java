@@ -66,7 +66,7 @@ public class FlinkJobStatusSyncJob extends AbstractWorkFlow {
                     instance.setStartTime(new Date(jobInfo.getStartTime()));
                     instance.setEndTime(new Date(jobInfo.getEndTime()));
                     instance.setDuration(jobInfo.getDuration());
-                    wsFlinkJobInstanceService.upsert(instance);
+                    wsFlinkJobInstanceService.update(instance);
                     log.info("Flink Job {} Status Sync Action executed!", instance.getJobId());
                 } catch (Exception e) {
                     log.info("Flink Job Status Sync Action Error {}, job code is {} and job id is {}", e.getMessage(), instance.getFlinkJobCode(), instance.getJobId());
