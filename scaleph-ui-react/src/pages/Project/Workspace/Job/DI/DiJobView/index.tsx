@@ -69,23 +69,23 @@ const DiJobView: React.FC = () => {
         );
       },
     },
-    {
-      title: intl.formatMessage({ id: 'pages.project.di.jobStatus' }),
-      dataIndex: 'jobStatus',
-      align: 'center',
-      hideInSearch: true,
-      width: 100,
-      render: (_, record) => {
-        return record.jobStatus?.label;
-      },
-    },
-    {
-      title: intl.formatMessage({ id: 'pages.project.di.jobVersion' }),
-      dataIndex: 'jobVersion',
-      width: 80,
-      hideInSearch: true,
-      align: 'center',
-    },
+    // {
+    //   title: intl.formatMessage({ id: 'pages.project.di.jobStatus' }),
+    //   dataIndex: 'jobStatus',
+    //   align: 'center',
+    //   hideInSearch: true,
+    //   width: 100,
+    //   render: (_, record) => {
+    //     return record.jobStatus?.label;
+    //   },
+    // },
+    // {
+    //   title: intl.formatMessage({ id: 'pages.project.di.jobVersion' }),
+    //   dataIndex: 'jobVersion',
+    //   width: 80,
+    //   hideInSearch: true,
+    //   align: 'center',
+    // },
     {
       title: intl.formatMessage({ id: 'pages.project.di.remark' }),
       dataIndex: 'remark',

@@ -19,15 +19,14 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.engine.flink.service.WsFlinkCheckpointService;
-import cn.sliew.scaleph.engine.flink.service.WsFlinkJobInstanceService;
-import cn.sliew.scaleph.engine.flink.service.WsFlinkService;
-import cn.sliew.scaleph.engine.flink.service.WsFlinkYarnService;
+import cn.sliew.scaleph.engine.flink.service.*;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkCheckpointDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobInstanceDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkCheckpointListParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobInstanceListParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobSubmitParam;
+import cn.sliew.scaleph.system.snowflake.UidGenerator;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -52,6 +51,10 @@ public class WsFlinkJobInstanceController {
     private WsFlinkJobInstanceService wsFlinkJobInstanceService;
     @Autowired
     private WsFlinkCheckpointService wsFlinkCheckpointService;
+    @Autowired
+    private UidGenerator defaultUidGenerator;
+    @Autowired
+    private WsFlinkJobService wsFlinkJobService;
 
     @Logging
     @GetMapping
@@ -81,7 +84,10 @@ public class WsFlinkJobInstanceController {
     @PutMapping("submit")
     @ApiOperation(value = "提交任务", notes = "提交任务")
     public ResponseEntity<ResponseVO> submitJar(@Valid @RequestBody WsFlinkJobSubmitParam param) throws Exception {
-        wsFlinkService.submit(param);
+        WsFlinkJobDTO job = wsFlinkJobService.selectOne(param.getFlinkJobId());
+        wsFlinkJobInstanceService.archiveLog(job.getCode());
+        job.setName(job.getName() + "_" + defaultUidGenerator.getUID());
+        wsFlinkService.submit(job);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 

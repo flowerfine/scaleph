@@ -18,9 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
-import cn.sliew.flinkful.rest.base.JobClient;
-import cn.sliew.flinkful.rest.base.RestClient;
-import cn.sliew.flinkful.rest.client.FlinkRestClient;
+import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobInstance;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkJobInstanceMapper;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkJobInstanceService;
@@ -34,14 +32,11 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.flink.configuration.Configuration;
-import org.apache.flink.runtime.rest.messages.job.JobDetailsInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
@@ -118,15 +113,16 @@ public class WsFlinkJobInstanceServiceImpl
     }
 
     @Override
-    public int transferToLog(WsFlinkJobInstanceDTO dto) {
-        update(dto);
-        WsFlinkJobInstanceDTO wsFlinkJobInstanceDTO = deleteById(dto.getId());
-        return wsFlinkJobLogService.insert(wsFlinkJobInstanceDTO);
-    }
-
-    @Override
     public List<WsFlinkJobInstanceDTO> listAll() {
         List<WsFlinkJobInstance> list = flinkJobInstanceMapper.selectList(null);
         return WsFlinkJobInstanceConvert.INSTANCE.toDto(list);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
+    public int archiveLog(Long flinkJobCode) {
+        flinkJobInstanceMapper.archiveLog(flinkJobCode);
+        flinkJobInstanceMapper.deleteByJobCode(flinkJobCode);
+        return 0;
     }
 }

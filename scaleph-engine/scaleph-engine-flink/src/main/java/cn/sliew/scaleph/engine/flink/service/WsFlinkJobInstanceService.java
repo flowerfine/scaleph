@@ -43,7 +43,6 @@ public interface WsFlinkJobInstanceService {
 
     WsFlinkJobInstanceDTO deleteById(Long id);
 
-    //todo useable?
-    int transferToLog(WsFlinkJobInstanceDTO dto);
+    int archiveLog(Long flinkJobCode);
 
 }

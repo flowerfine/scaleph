@@ -141,7 +141,7 @@ public class WsFlinkJobController {
     }
 
     @Logging
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @ApiOperation(value = "删除任务", notes = "删除任务")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) {
         wsFlinkJobService.delete(id);
