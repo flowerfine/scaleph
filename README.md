@@ -27,7 +27,7 @@ Now, community is working on preparation job such as docs, bug fix, or deploy to
 ### data integration
 
 * Web-ui click-and-drag data integration ways backended by Apache SeaTunnel(incubating)
-*  Support 2.3.0-beta V2 out-of-the-box connectors
+*  Support 2.3.0 V2 out-of-the-box connectors
 * DataSource management
 
 ### data develop

@@ -357,7 +357,7 @@ VALUES ('flink_high_availability', 'org.apache.flink.kubernetes.highavailability
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_high_availability', 'zookeeper', 'ZooKeeper', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('seatunnel_version', '2.3.0-beta', '2.3.0-beta', 'sys', 'sys');
+VALUES ('seatunnel_version', '2.3.0', '2.3.0', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('image_pull_policy', 'IfNotPresent', 'IfNotPresent', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)

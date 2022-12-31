@@ -5,7 +5,7 @@
 > Scaleph ['skəlef] 是一个基于 Apache Flink 和 Apache SeaTunnel(Incubating) 的开源可视化数据开发 & 管理系统
 
 - Drag and Drop 可视化开发 SeaTunnel 同步任务
-  - 全面支持 2.3.0-beta 版本 V2 connectors
+  - 全面支持 2.3.0 版本 V2 connectors
   - 独立的数据源管理功能
   - 作业多版本管理
 
