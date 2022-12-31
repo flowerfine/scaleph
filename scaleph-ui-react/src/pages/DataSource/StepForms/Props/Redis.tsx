@@ -76,6 +76,11 @@ const RedisForm: React.FC = () => {
           }}
         />
         <ProFormText
+          name="user"
+          label={intl.formatMessage({id: 'pages.dataSource.step.props.redis.user'})}
+          colProps={{span: 21, offset: 1}}
+        />
+        <ProFormText
           name="password"
           label={intl.formatMessage({id: 'pages.dataSource.step.props.redis.password'})}
           colProps={{span: 21, offset: 1}}

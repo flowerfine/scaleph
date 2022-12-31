@@ -8,6 +8,7 @@ import {getIntl, getLocale} from 'umi';
 import {
   ProForm,
   ProFormDependency,
+  ProFormDigit,
   ProFormGroup,
   ProFormSelect,
   ProFormSwitch,
@@ -144,8 +145,15 @@ const SinkS3FileStepForm: React.FC<ModalFormProps<{
           name={BaseFileParams.isEnableTransaction}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.isEnableTransaction'})}
           initialValue={true}
+          disabled
+        />
+        <ProFormDigit
+          name={BaseFileParams.batchSize}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.batchSize'})}
+          initialValue={1000000}
           fieldProps={{
-            disabled: true,
+            step: 10000,
+            min: 0,
           }}
         />
       </ProForm>

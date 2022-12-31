@@ -8,16 +8,17 @@ import {
   DeleteOutlined,
   PauseOutlined,
   ProfileOutlined,
+  RedoOutlined,
   RollbackOutlined,
   SaveOutlined,
   ToolOutlined,
 } from '@ant-design/icons';
-import { useIntl, useLocation } from 'umi';
+import { history, useIntl, useLocation } from 'umi';
 import styles from './index.less';
 import JobSavepointsWeb from './components/JobSavepoints';
 import JobLogTable from './components/JobLogTable';
 import JobConfigurationWeb from './components/JobConfiguration';
-import { useEffect, useReducer, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   WsFlinkClusterConfig,
   WsFlinkClusterInstance,
@@ -41,19 +42,16 @@ const JobDetailWeb: React.FC = () => {
     data: {},
   });
 
-  const reducer = (state: { count: number }) => {
-    return { count: state.count + 1 };
-  };
-
-  const [state, dispatch] = useReducer(reducer, { count: 0 });
-
   useEffect(() => {
     setFlinkJobInstance(params.wsFlinkJobInstance);
     setFlinkClusterConfig(params.wsFlinkClusterConfig);
     setFlinkClusterInstance(params.wsFlinkClusterInstance);
-    setInterval(() => {
+    let timer = setInterval(() => {
       refresh();
     }, 3000);
+    return () => {
+      clearInterval(timer);
+    };
   }, []);
 
   const refresh = () => {
@@ -152,9 +150,9 @@ const JobDetailWeb: React.FC = () => {
                 onClick={() => {
                   Modal.confirm({
                     type: 'info',
-                    title: intl.formatMessage({ id: 'pages.project.job.detail.start.title' }),
+                    title: intl.formatMessage({ id: 'pages.project.job.detail.suspend.title' }),
                     content: intl.formatMessage({
-                      id: 'pages.project.job.detail.start.content',
+                      id: 'pages.project.job.detail.suspend.content',
                     }),
                     okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
                     cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
@@ -178,9 +176,9 @@ const JobDetailWeb: React.FC = () => {
                 onClick={() => {
                   Modal.confirm({
                     type: 'info',
-                    title: intl.formatMessage({ id: 'pages.project.job.detail.start.title' }),
+                    title: intl.formatMessage({ id: 'pages.project.job.detail.cancel.title' }),
                     content: intl.formatMessage({
-                      id: 'pages.project.job.detail.start.content',
+                      id: 'pages.project.job.detail.cancel.content',
                     }),
                     okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
                     cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
@@ -206,9 +204,9 @@ const JobDetailWeb: React.FC = () => {
                 onClick={() => {
                   Modal.confirm({
                     type: 'info',
-                    title: intl.formatMessage({ id: 'pages.project.job.detail.start.title' }),
+                    title: intl.formatMessage({ id: 'pages.project.job.detail.savepoint.title' }),
                     content: intl.formatMessage({
-                      id: 'pages.project.job.detail.start.content',
+                      id: 'pages.project.job.detail.savepoint.content',
                     }),
                     okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
                     cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
@@ -274,7 +272,7 @@ const JobDetailWeb: React.FC = () => {
                       FlinkJobService.delete(params).then((d) => {
                         if (d.success) {
                           message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
-                          refresh();
+                          history.back();
                         }
                       });
                     },
@@ -283,6 +281,14 @@ const JobDetailWeb: React.FC = () => {
               >
                 {intl.formatMessage({ id: 'pages.project.job.detail.delete' })}
               </Button>
+            </div>
+            <div>
+              <Button
+                icon={<RedoOutlined />}
+                onClick={() => {
+                  refresh();
+                }}
+              ></Button>
             </div>
           </Space>
         }
@@ -307,8 +313,14 @@ const JobDetailWeb: React.FC = () => {
         <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.job.detail.startTime' })}>
           {flinkJobInstance?.startTime ? flinkJobInstance?.startTime : '-'}
         </Descriptions.Item>
+        <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.job.detail.endTime' })}>
+          {flinkJobInstance?.endTime &&
+          flinkJobInstance?.endTime.toString() != '1970-01-01 08:00:00'
+            ? flinkJobInstance?.endTime
+            : '-'}
+        </Descriptions.Item>
         <Descriptions.Item label={intl.formatMessage({ id: 'pages.project.job.detail.duration' })}>
-          {flinkJobInstance?.duration ? flinkJobInstance?.duration : '-'}
+          {flinkJobInstance?.duration ? flinkJobInstance?.duration / 1000 : '-'}
         </Descriptions.Item>
       </Descriptions>
       <Row>

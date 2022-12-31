@@ -41,8 +41,8 @@ public enum FtpFileProperties {
             .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder<String>()
-            .name("username")
+    public static final PropertyDescriptor<String> USER = new PropertyDescriptor.Builder<String>()
+            .name("user")
             .description("The target ftp username")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)

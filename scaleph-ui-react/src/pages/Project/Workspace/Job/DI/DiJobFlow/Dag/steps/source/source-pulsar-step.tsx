@@ -126,6 +126,7 @@ const SourcePulsarStepForm: React.FC<ModalFormProps<{
           name={PulsarParams.pollTimeout}
           label={intl.formatMessage({id: 'pages.project.di.step.pulsar.pollTimeout'})}
           colProps={{span: 8}}
+          initialValue={100}
           fieldProps={{
             step: 1000,
             min: 0,
@@ -135,6 +136,7 @@ const SourcePulsarStepForm: React.FC<ModalFormProps<{
           name={PulsarParams.pollInterval}
           label={intl.formatMessage({id: 'pages.project.di.step.pulsar.pollInterval'})}
           colProps={{span: 8}}
+          initialValue={50}
           fieldProps={{
             step: 1000,
             min: 0,
@@ -144,6 +146,7 @@ const SourcePulsarStepForm: React.FC<ModalFormProps<{
           name={PulsarParams.pollBatchSize}
           label={intl.formatMessage({id: 'pages.project.di.step.pulsar.pollBatchSize'})}
           colProps={{span: 8}}
+          initialValue={500}
           fieldProps={{
             step: 100,
             min: 0,

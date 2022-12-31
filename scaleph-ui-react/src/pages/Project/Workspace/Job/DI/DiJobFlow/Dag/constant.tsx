@@ -115,7 +115,8 @@ export const BaseFileParams = {
   partitionDirExpression: 'partition_dir_expression',
   isPartitionFieldWriteInFile: 'is_partition_field_write_in_file',
   sinkColumns: 'sink_columns',
-  isEnableTransaction: 'is_enable_transaction'
+  isEnableTransaction: 'is_enable_transaction',
+  batchSize: 'batch_size'
 };
 
 export const HDFSFileParams = {

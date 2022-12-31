@@ -172,6 +172,7 @@ export default {
   'pages.project.di.step.baseFile.isPartitionFieldWriteInFile': 'Write Partition Field to File',
   'pages.project.di.step.baseFile.sinkColumns': 'Sink Columns',
   'pages.project.di.step.baseFile.isEnableTransaction': 'Enable Transaction',
+  'pages.project.di.step.baseFile.batchSize': 'Maximum Rows in One File',
 
   // hdfs file
   'pages.project.di.step.hdfsFile.defaultFS': 'fs.defaultFS',
@@ -552,8 +553,14 @@ export default {
   'pages.project.job.detail.start.title': '启动任务',
   'pages.project.job.detail.start.content': '任务启动后，相关信息获取可能存在延迟',
   'pages.project.job.detail.suspend': '中止',
+  'pages.project.job.detail.suspend.title': '中止任务',
+  'pages.project.job.detail.suspend.content': '确认中止任务？',
   'pages.project.job.detail.cancel': '取消',
+  'pages.project.job.detail.cancel.title': '取消任务',
+  'pages.project.job.detail.cancel.content': '确认取消任务？',
   'pages.project.job.detail.savepoint': 'Savepoint',
+  'pages.project.job.detail.savepoint.title': '创建Savepoint',
+  'pages.project.job.detail.savepoint.content': '确认触发创建Savepoint?',
   'pages.project.job.detail.checkpoint': 'Checkpoint',
   'pages.project.job.detail.delete': '删除',
   'pages.project.job.detail.config': '配置',
