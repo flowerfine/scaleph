@@ -26,13 +26,18 @@ import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
+import java.util.HashMap;
 import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class HDFSDataSource extends AbstractDataSource {
+
+    @ApiModelProperty("hdfs hdfs-site.xml path")
+    private String hdfsSitePath;
 
     @NotBlank
     @ApiModelProperty("hdfs fs.defaultFS property")
@@ -50,7 +55,11 @@ public class HDFSDataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = Map.of("fsDefaultFS", fsDefaultFS);
+        Map<String, Object> props = new HashMap<>();
+        props.put("fsDefaultFS", fsDefaultFS);
+        if (StringUtils.hasText(hdfsSitePath)) {
+            props.put("hdfsSitePath", hdfsSitePath);
+        }
         dto.setProps(props);
         return dto;
     }

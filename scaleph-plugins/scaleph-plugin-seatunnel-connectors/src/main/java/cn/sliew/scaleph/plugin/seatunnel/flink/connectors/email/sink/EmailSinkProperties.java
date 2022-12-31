@@ -55,6 +55,7 @@ public enum EmailSinkProperties {
             .description("Whether to authenticate the customer")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
@@ -63,6 +64,7 @@ public enum EmailSinkProperties {
             .description("authorization code,You can obtain the authorization code from the mailbox Settings.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
@@ -80,6 +82,7 @@ public enum EmailSinkProperties {
             .description("The subject line of the entire message.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
@@ -88,6 +91,7 @@ public enum EmailSinkProperties {
             .description("The body of the entire message.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

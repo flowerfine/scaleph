@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.common.dict;
 
 import cn.sliew.scaleph.common.dict.common.*;
+import cn.sliew.scaleph.common.dict.ds.RedisMode;
 import cn.sliew.scaleph.common.dict.flink.*;
 import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
 import cn.sliew.scaleph.common.dict.job.*;
@@ -88,6 +89,8 @@ public enum DictType implements DictDefinition {
     WORKFLOW_TASK_TYPE("workflow_task_type", "Workflow Task Type", WorkflowTaskType.class),
     WORKFLOW_TASK_INSTANCE_STAGE("workflow_task_instance_stage", "Workflow Task Instance Stage", WorkflowTaskInstanceStage.class),
     SCHEDULE_STATUS("schedule_status", "Schedule Status", ScheduleStatus.class),
+
+    REDIS_MODE("redis_mode", "Redis Mode", RedisMode.class),
     ;
 
     @JsonValue

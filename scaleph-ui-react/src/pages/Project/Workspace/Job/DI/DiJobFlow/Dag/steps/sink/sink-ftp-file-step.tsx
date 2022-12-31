@@ -7,7 +7,7 @@ import {WsDiJob} from '@/services/project/typings';
 import {getIntl, getLocale} from 'umi';
 import {
   ProForm,
-  ProFormDependency,
+  ProFormDependency, ProFormDigit,
   ProFormGroup,
   ProFormSelect,
   ProFormSwitch,
@@ -150,6 +150,16 @@ const SinkFtpFileStepForm: React.FC<ModalFormProps<{
           initialValue={true}
           fieldProps={{
             disabled: true,
+          }}
+        />
+        <ProFormDigit
+          name={BaseFileParams.batchSize}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.batchSize'})}
+          colProps={{span: 24}}
+          initialValue={1000000}
+          fieldProps={{
+            step: 10000,
+            min: 0,
           }}
         />
       </ProForm>
