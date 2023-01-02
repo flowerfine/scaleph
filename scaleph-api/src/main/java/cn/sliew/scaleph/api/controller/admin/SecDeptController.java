@@ -126,7 +126,7 @@ public class SecDeptController {
     public ResponseEntity<ResponseVO> addDept(@Validated @RequestBody SecDeptDTO secDeptDTO) {
         this.secDeptService.insert(secDeptDTO);
         SecDeptDTO dept = this.secDeptService.selectOne(secDeptDTO.getDeptCode());
-        return new ResponseEntity<>(ResponseVO.sucess(dept.getId()), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(dept.getId()), HttpStatus.OK);
     }
 
     @Logging
@@ -135,7 +135,7 @@ public class SecDeptController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_EDIT)")
     public ResponseEntity<ResponseVO> editDept(@Validated @RequestBody SecDeptDTO secDeptDTO) {
         this.secDeptService.update(secDeptDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -144,7 +144,7 @@ public class SecDeptController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_DELETE)")
     public ResponseEntity<ResponseVO> deleteDept(@PathVariable("id") Long id) {
         secDeptService.deleteById(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -153,7 +153,7 @@ public class SecDeptController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_DEPT_DELETE)")
     public ResponseEntity<ResponseVO> deleteDept(@RequestBody List<Long> ids) {
         secDeptService.deleteBatch(ids);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -181,7 +181,7 @@ public class SecDeptController {
                 this.secUserDeptService.delete(userDept);
             }
         }
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 }
 

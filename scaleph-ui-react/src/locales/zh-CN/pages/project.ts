@@ -144,6 +144,14 @@ export default {
 
   // fake
   'pages.project.di.step.fake.rowNum': '生成数据行数',
+  'pages.project.di.step.fake.splitNum': 'Split 数量',
+  'pages.project.di.step.fake.splitNum.tooltip': '越大数据生成越多',
+  'pages.project.di.step.fake.splitReadInterval': 'Split 频率(毫秒)',
+  'pages.project.di.step.fake.splitReadInterval.tooltip': '越大数据生成越快',
+  'pages.project.di.step.fake.mapSize': 'map 类型 size',
+  'pages.project.di.step.fake.arraySize': 'array 类型 size',
+  'pages.project.di.step.fake.bytesLength': 'bytes 长度',
+  'pages.project.di.step.fake.stringLength': 'string 长度',
 
   // base file
   'pages.project.di.step.baseFile.path': 'Path',
@@ -164,6 +172,7 @@ export default {
   'pages.project.di.step.baseFile.isPartitionFieldWriteInFile': 'Write Partition Field to File',
   'pages.project.di.step.baseFile.sinkColumns': 'Sink Columns',
   'pages.project.di.step.baseFile.isEnableTransaction': 'Enable Transaction',
+  'pages.project.di.step.baseFile.batchSize': 'Maximum Rows in One File',
 
   // hdfs file
   'pages.project.di.step.hdfsFile.defaultFS': 'fs.defaultFS',
@@ -442,6 +451,7 @@ export default {
   'pages.project.di.step.influxdb.connectTimeoutMs': 'Connect Timeout(milliseconds)',
 
   'pages.project.job.create': '创建作业',
+  'pages.project.job.edit': '作业配置',
   'pages.project.job.createTime': '创建时间',
   'pages.project.job.name': '作业名称',
   'pages.project.job.type': '作业类型',
@@ -468,7 +478,8 @@ export default {
   'pages.project.artifact.jar.path': '存储路径',
   'pages.project.artifact.jar.entryClass': 'Entry Class',
   'pages.project.artifact.jar.jarParams': '参数',
-  'pages.project.artifact.jar.jarParams.placeholder': '请输入方法参数',
+  'pages.project.artifact.jar.jarParams.placeholder':
+    '请输入方法参数，按照key:value格式配置属性，每个属性一行。例如：\narg1:123',
   'page.project.cluster.config': '集群配置',
   'page.project.cluster.config.name': '配置名称',
   'page.project.cluster.config.baseStep': 'Base',
@@ -518,16 +529,39 @@ export default {
   'pages.project.job.detail.jobId': '作业ID',
   'pages.project.job.detail.jobName': '作业名称',
   'pages.project.job.detail.jobState': '运行状态',
+  'pages.project.job.detail.jobState.notRunning': '未运行',
   'pages.project.job.detail.startTime': '启动时间',
   'pages.project.job.detail.endTime': '结束时间',
   'pages.project.job.detail.duration': '运行时长',
+  'pages.project.job.detail.flinkCheckpointId': '检查点ID',
+  'pages.project.job.detail.checkpointType': '类型',
+  'pages.project.job.detail.FlinkCheckpointStatus': '状态',
+  'pages.project.job.detail.triggerTimestamp': '触发事件',
+  // 'pages.project.job.detail.discarded': 'discarded',
+  'pages.project.job.detail.externalPath': '路径',
+  'pages.project.job.detail.stateSize': '状态大小',
+  // 'pages.project.job.detail.processedData': 'processedData',
+  // 'pages.project.job.detail.persistedData': 'persistedData',
+  // 'pages.project.job.detail.alignmentBuffered': 'alignmentBuffered',
+  // 'pages.project.job.detail.numSubtasks': '子任务数',
+  // 'pages.project.job.detail.numAcknowledgedSubtasks': 'ACK子任务数量',
+  // 'pages.project.job.detail.latestAckTimestamp': '上次ACK时间',
   'pages.project.job.detail.backToList': '返回作业列表',
   'pages.project.job.detail.version': '版本',
   'pages.project.job.detail.clusterStatus': '集群',
   'pages.project.job.detail.start': '启动',
+  'pages.project.job.detail.start.title': '启动任务',
+  'pages.project.job.detail.start.content': '任务启动后，相关信息获取可能存在延迟',
   'pages.project.job.detail.suspend': '中止',
+  'pages.project.job.detail.suspend.title': '中止任务',
+  'pages.project.job.detail.suspend.content': '确认中止任务？',
   'pages.project.job.detail.cancel': '取消',
+  'pages.project.job.detail.cancel.title': '取消任务',
+  'pages.project.job.detail.cancel.content': '确认取消任务？',
   'pages.project.job.detail.savepoint': 'Savepoint',
+  'pages.project.job.detail.savepoint.title': '创建Savepoint',
+  'pages.project.job.detail.savepoint.content': '确认触发创建Savepoint?',
+  'pages.project.job.detail.checkpoint': 'Checkpoint',
   'pages.project.job.detail.delete': '删除',
   'pages.project.job.detail.config': '配置',
   'pages.project.job.detail.flinkui': 'Flink UI',
@@ -557,4 +591,6 @@ export default {
   'pages.project.job.detail.config.ha': 'High Availability',
   'pages.project.job.detail.overview.cluster.deployMode': '部署模式',
   'pages.project.job.detail.overview.cluster.resourceProvider': 'Resource Providers',
+
+
 };

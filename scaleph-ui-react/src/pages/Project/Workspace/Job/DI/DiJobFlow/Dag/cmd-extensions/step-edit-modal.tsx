@@ -263,15 +263,15 @@ export class EditNodeCommand implements ICommand {
       return (<SinkWeChatStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type==='sink' && name ==='DingTalk'){
       return (<SinkDingTalkStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
-    } else if(type==='sink' && name ==='Email'){
+    } else if(type==='sink' && name ==='EmailSink'){
       return (<SinkEmailStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'Socket'){
       return (<SourceSocketStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'Socket'){
       return (<SinkSocketStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
-    } else if(type === 'source' && name === 'ClickHouse'){
+    } else if(type === 'source' && name === 'Clickhouse'){
       return (<SourceClickHouseStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
-    } else if(type === 'sink' && name === 'ClickHouse'){
+    } else if(type === 'sink' && name === 'Clickhouse'){
       return (<SinkClickHouseStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'Hive'){
       return (<SourceHiveStepForm visible data={data}  onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
@@ -301,7 +301,7 @@ export class EditNodeCommand implements ICommand {
       return (<SourcePulsarStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'DataHub'){
       return (<SinkDatahubStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
-    } else if(type === 'sink' && name === 'elasticsearch'){
+    } else if(type === 'sink' && name === 'Elasticsearch'){
       return (<SinkElasticsearchStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'Neo4j'){
       return (<SourceNeo4jStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);

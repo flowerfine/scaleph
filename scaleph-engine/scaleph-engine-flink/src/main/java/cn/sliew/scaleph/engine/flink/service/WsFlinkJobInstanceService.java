@@ -22,10 +22,14 @@ import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobInstanceDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobInstanceListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
+import java.util.List;
+
 public interface WsFlinkJobInstanceService {
 
     @Deprecated
     Page<WsFlinkJobInstanceDTO> list(WsFlinkJobInstanceListParam param);
+
+    List<WsFlinkJobInstanceDTO> listAll();
 
     WsFlinkJobInstanceDTO selectByCode(Long flinkJobCode);
 
@@ -39,7 +43,6 @@ public interface WsFlinkJobInstanceService {
 
     WsFlinkJobInstanceDTO deleteById(Long id);
 
-    //todo useable?
-    int transferToLog(WsFlinkJobInstanceDTO dto);
+    int archiveLog(Long flinkJobCode);
 
 }

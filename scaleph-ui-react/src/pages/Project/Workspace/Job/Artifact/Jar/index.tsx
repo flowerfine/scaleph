@@ -176,7 +176,7 @@ const FlinkArtifactJarWeb: React.FC = () => {
                 onClick={() => {
                   setFlinkArtifactJarData({
                     visiable: true,
-                    data: { flinkArtifact: flinkArtifact },
+                    data: { wsFlinkArtifact: flinkArtifact },
                   });
                 }}
               >
@@ -220,7 +220,7 @@ const FlinkArtifactJarWeb: React.FC = () => {
             setFlinkArtifactJarData({ visiable: false, data: {} });
           }}
           onVisibleChange={(visiable) => {
-            setFlinkArtifactJarData({ visiable: visiable, data: { flinkArtifact: flinkArtifact } });
+            setFlinkArtifactJarData({ visiable: visiable, data: { wsFlinkArtifact: flinkArtifact } });
             actionRef.current?.reload();
           }}
           data={flinkArtifactJarData.data}

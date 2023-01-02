@@ -73,7 +73,13 @@ export const SchemaParams = {
 }
 
 export const FakeParams = {
-  rowNum: 'row_num',
+  rowNum: 'row.num',
+  splitNum: 'split.num',
+  splitReadInterval: 'split.read-interval',
+  mapSize: 'map.size',
+  arraySize: 'array.size',
+  bytesLength: 'bytes.length',
+  stringLength: 'string.length',
 }
 
 export const JdbcParams = {
@@ -109,7 +115,8 @@ export const BaseFileParams = {
   partitionDirExpression: 'partition_dir_expression',
   isPartitionFieldWriteInFile: 'is_partition_field_write_in_file',
   sinkColumns: 'sink_columns',
-  isEnableTransaction: 'is_enable_transaction'
+  isEnableTransaction: 'is_enable_transaction',
+  batchSize: 'batch_size'
 };
 
 export const HDFSFileParams = {

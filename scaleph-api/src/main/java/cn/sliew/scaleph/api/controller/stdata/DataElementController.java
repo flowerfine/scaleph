@@ -59,7 +59,7 @@ public class DataElementController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_DATA_ELEMENT_ADD)")
     public ResponseEntity<ResponseVO> addMetaDataElement(@Validated @RequestBody MetaDataElementDTO metaDataElementDTO) {
         metaDataElementService.insert(metaDataElementDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
     }
 
     @Logging
@@ -68,7 +68,7 @@ public class DataElementController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_DATA_ELEMENT_EDIT)")
     public ResponseEntity<ResponseVO> editMetaDataElement(@Validated @RequestBody MetaDataElementDTO metaDataElementDTO) {
         metaDataElementService.update(metaDataElementDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -77,7 +77,7 @@ public class DataElementController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_DATA_ELEMENT_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataElement(@PathVariable(value = "id") String id) {
         metaDataElementService.deleteById(Long.valueOf(id));
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -86,6 +86,6 @@ public class DataElementController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).STDATA_DATA_ELEMENT_DELETE)")
     public ResponseEntity<ResponseVO> deleteMetaDataElement(@RequestBody List<Long> ids) {
         metaDataElementService.deleteBatch(ids);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 }

@@ -112,4 +112,13 @@ public enum FileSinkProperties {
             .parser(Parsers.BOOLEAN_PARSER)
             .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> BATCH_SIZE = new PropertyDescriptor.Builder<Integer>()
+            .name("batch_size")
+            .description("The maximum number of rows in a file")
+            .type(PropertyType.INT)
+            .defaultValue("1000000")
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
 }

@@ -71,7 +71,7 @@ public class ClusterCredentialController {
     @ApiOperation(value = "新增部署配置", notes = "新增部署配置")
     public ResponseEntity<ResponseVO<ClusterCredentialDTO>> addDeployConfig(@Valid @RequestBody ClusterCredentialDTO param) {
         final ClusterCredentialDTO result = clusterCredentialService.insert(param);
-        return new ResponseEntity<>(ResponseVO.sucess(result), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
     }
 
     @Logging
@@ -79,7 +79,7 @@ public class ClusterCredentialController {
     @ApiOperation(value = "修改部署配置", notes = "修改部署配置")
     public ResponseEntity<ResponseVO> updateDeployConfig(@Valid @RequestBody ClusterCredentialDTO param) {
         clusterCredentialService.update(param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -87,7 +87,7 @@ public class ClusterCredentialController {
     @ApiOperation(value = "删除部署配置", notes = "删除部署配置")
     public ResponseEntity<ResponseVO> deleteDeployConfig(@PathVariable("id") Long id) {
         clusterCredentialService.deleteById(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -95,7 +95,7 @@ public class ClusterCredentialController {
     @ApiOperation(value = "批量删除部署配置", notes = "批量删除部署配置")
     public ResponseEntity<ResponseVO> deleteDeployConfig(@RequestBody List<Long> ids) {
         clusterCredentialService.deleteBatch(ids);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -114,7 +114,7 @@ public class ClusterCredentialController {
     @ApiOperation(value = "上传部署配置文件", notes = "上传部署配置文件，支持上传多个文件")
     public ResponseEntity<ResponseVO> uploadDeployConfigFile(@PathVariable("id") Long id, @RequestPart("files") MultipartFile[] files) throws IOException {
         clusterCredentialService.uploadCredentialFile(id, files);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -129,7 +129,7 @@ public class ClusterCredentialController {
             response.setCharacterEncoding("utf-8");// 设置字符编码
             response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8")); // 设置响应头
         }
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -139,7 +139,7 @@ public class ClusterCredentialController {
             @PathVariable("id") Long id,
             @PathVariable("fileName") String fileName) throws IOException {
         clusterCredentialService.deleteCredentialFile(id, fileName);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -149,6 +149,6 @@ public class ClusterCredentialController {
             @PathVariable("id") Long id,
             @RequestBody List<String> fileNames) throws IOException {
         clusterCredentialService.deleteCredentialFiles(id, fileNames);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 }

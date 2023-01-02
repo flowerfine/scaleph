@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.dict.flink;
+package cn.sliew.scaleph.common.dict.ds;
 
 import cn.sliew.scaleph.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -24,27 +24,26 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Arrays;
+
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum FlinkJobType implements DictInstance {
+public enum RedisMode implements DictInstance {
 
-    JAR("0", "Jar"),
-    SQL("1", "SQL"),
-    SEATUNNEL("2", "SeaTunnel"),
-
+    SINGLE("single", "单例"),
+    CLUSTER("cluster", "集群"),
     ;
 
     @JsonCreator
-    public static FlinkJobType of(String value) {
+    public static RedisMode of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(FlinkJobType.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(RedisMode.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    FlinkJobType(String value, String label) {
+    RedisMode(String value, String label) {
         this.value = value;
         this.label = label;
     }
@@ -58,4 +57,5 @@ public enum FlinkJobType implements DictInstance {
     public String getLabel() {
         return label;
     }
+
 }
