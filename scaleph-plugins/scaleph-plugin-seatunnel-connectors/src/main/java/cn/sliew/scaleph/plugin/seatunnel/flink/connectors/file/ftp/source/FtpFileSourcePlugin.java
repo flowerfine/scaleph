@@ -73,7 +73,7 @@ public class FtpFileSourcePlugin extends SeaTunnelConnectorPlugin {
         FtpDataSource dataSource = (FtpDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
         conf.put(HOST.getName(), dataSource.getHost());
         conf.putPOJO(PORT.getName(), dataSource.getPort());
-        conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
+        conf.putPOJO(USER.getName(), dataSource.getUsername());
         conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
         return conf;
     }

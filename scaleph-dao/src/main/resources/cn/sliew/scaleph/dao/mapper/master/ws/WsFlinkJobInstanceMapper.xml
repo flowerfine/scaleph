@@ -21,21 +21,58 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobInstance">
-        <result column="id" property="id" />
-        <result column="creator" property="creator" />
-        <result column="create_time" property="createTime" />
-        <result column="editor" property="editor" />
-        <result column="update_time" property="updateTime" />
-        <result column="flink_job_code" property="flinkJobCode" />
-        <result column="job_id" property="jobId" />
-        <result column="job_name" property="jobName" />
-        <result column="job_state" property="jobState" />
-        <result column="cluster_id" property="clusterId" />
-        <result column="web_interface_url" property="webInterfaceUrl" />
-        <result column="cluster_status" property="clusterStatus" />
-        <result column="start_time" property="startTime" />
-        <result column="end_time" property="endTime" />
-        <result column="duration" property="duration" />
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="flink_job_code" property="flinkJobCode"/>
+        <result column="job_id" property="jobId"/>
+        <result column="job_name" property="jobName"/>
+        <result column="job_state" property="jobState"/>
+        <result column="cluster_id" property="clusterId"/>
+        <result column="web_interface_url" property="webInterfaceUrl"/>
+        <result column="cluster_status" property="clusterStatus"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="duration" property="duration"/>
     </resultMap>
 
+    <insert id="archiveLog">
+        insert into ws_flink_job_log
+        (flink_job_code,
+         job_id, job_name,
+         job_state,
+         cluster_id,
+         web_interface_url,
+         cluster_status,
+         start_time,
+         end_time,
+         duration,
+         creator,
+         create_time,
+         editor,
+         update_time)
+        select flink_job_code,
+               job_id,
+               job_name,
+               job_state,
+               cluster_id,
+               web_interface_url,
+               cluster_status,
+               start_time,
+               end_time,
+               duration,
+               creator,
+               create_time,
+               editor,
+               update_time
+        from ws_flink_job_instance
+        where flink_job_code = #{flink_job_code}
+    </insert>
+
+    <delete id="deleteByJobCode">
+        delete from ws_flink_job_instance
+        where flink_job_code = #{flink_job_code}
+    </delete>
 </mapper>

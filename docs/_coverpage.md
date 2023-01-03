@@ -21,7 +21,7 @@
 开源不易，你们的鼓励就是 contributor 的动力，走过路过的点个 star ~
 
 [GitHub](https://github.com/flowerfine/scaleph)
-[Get Started](#关于Scaleph)
+[Get Started](#about)
 
 <!-- 背景图片 -->
 

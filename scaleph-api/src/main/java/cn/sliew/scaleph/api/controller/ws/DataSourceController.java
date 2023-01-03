@@ -44,7 +44,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author gleiyu
@@ -97,7 +96,7 @@ public class DataSourceController {
             );
         }
         this.metaDatasourceService.insert(metaDatasourceDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
     }
 
     @Logging
@@ -113,7 +112,7 @@ public class DataSourceController {
             );
         }
         this.metaDatasourceService.update(metaDatasourceDTO);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -122,7 +121,7 @@ public class DataSourceController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_DELETE)")
     public ResponseEntity<ResponseVO> deleteDataSource(@PathVariable(value = "id") Long id) {
         this.metaDatasourceService.deleteById(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -131,7 +130,7 @@ public class DataSourceController {
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_DATASOURCE_DELETE)")
     public ResponseEntity<ResponseVO> deleteDataSource(@RequestBody List<Long> ids) {
         this.metaDatasourceService.deleteBatch(ids);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -154,7 +153,7 @@ public class DataSourceController {
                         .append("\n");
             }
         }
-        return new ResponseEntity<>(ResponseVO.sucess(buffer.toString()), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(buffer.toString()), HttpStatus.OK);
     }
 
     @Logging
@@ -175,7 +174,7 @@ public class DataSourceController {
                 metaDatasourceDTO = oldDsInfo;
             }
             this.metaDatasourceService.testConnection(metaDatasourceDTO);
-            return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+            return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
         } catch (Exception e) {
             throw new ScalephException(e.getMessage(), e);
         }

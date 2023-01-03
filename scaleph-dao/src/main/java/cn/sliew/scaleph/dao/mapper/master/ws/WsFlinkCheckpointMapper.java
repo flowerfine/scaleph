@@ -16,17 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.dao.mapper.master.ws;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkCheckpoint;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.NotNull;
+/**
+ * <p>
+ * flink checkpoint Mapper 接口
+ * </p>
+ */
+@Repository
+public interface WsFlinkCheckpointMapper extends BaseMapper<WsFlinkCheckpoint> {
 
-@Data
-public class WsFlinkJobForJarSubmitParam {
-
-    @NotNull
-    @ApiModelProperty("flink job for jar id")
-    private Long flinkJobId;
 }

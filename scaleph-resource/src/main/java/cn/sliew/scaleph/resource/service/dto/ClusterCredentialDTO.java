@@ -20,7 +20,6 @@ package cn.sliew.scaleph.resource.service.dto;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

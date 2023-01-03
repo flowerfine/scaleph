@@ -19,12 +19,12 @@
 package cn.sliew.scaleph.dao.mapper.master.ws;
 
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJob;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobForJar;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobForSeaTunnel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -36,14 +36,7 @@ public interface WsFlinkJobMapper extends BaseMapper<WsFlinkJob> {
 
     Page<WsFlinkJob> list(Page<WsFlinkJob> page, @Param("param") WsFlinkJob param);
 
-    Page<WsFlinkJobForJar> listJobsForJar(Page<WsFlinkJob> page,
-                                          @Param("param") WsFlinkJob param);
+    List<WsFlinkJob> list(@Param("param") WsFlinkJob param);
 
-    WsFlinkJobForJar getJobForJarById(@Param("id") Long id);
-
-    Page<WsFlinkJobForSeaTunnel> listJobsForSeaTunnel(Page<WsFlinkJob> page,
-                                                      @Param("param") WsFlinkJob param);
-
-    WsFlinkJobForSeaTunnel getJobForSeaTunnelById(@Param("id") Long id);
-
+    WsFlinkJob selectOne(@Param("id") Long id);
 }

@@ -59,6 +59,7 @@ public class OSSSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(IS_PARTITION_FIELD_WRITE_IN_FILE);
         props.add(SINK_COLUMNS);
         props.add(IS_ENABLE_TRANSACTION);
+        props.add(BATCH_SIZE);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

@@ -54,7 +54,7 @@ public class SchedulerController {
     @ApiOperation(value = "查询 workflow 调度列表", notes = "查询 workflow 调度列表")
     public ResponseEntity<ResponseVO<List<WorkflowScheduleDTO>>> get(@Valid WorkflowScheduleListParam param) throws ParseException {
         List<WorkflowScheduleDTO> result = workflowScheduleService.list(param);
-        return new ResponseEntity<>(ResponseVO.sucess(result), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
     }
 
     @Logging
@@ -62,7 +62,7 @@ public class SchedulerController {
     @ApiOperation(value = "新增 workflow 调度", notes = "新增 workflow 调度")
     public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WorkflowScheduleAddParam param) throws ParseException {
         workflowScheduleService.insert(param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -70,7 +70,7 @@ public class SchedulerController {
     @ApiOperation(value = "修改 workflow 调度", notes = "修改 workflow 调度")
     public ResponseEntity<ResponseVO> update(@PathVariable("id") Long id, @Valid @RequestBody WorkflowScheduleUpdateParam param) throws ParseException {
         workflowScheduleService.update(id, param);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -78,7 +78,7 @@ public class SchedulerController {
     @ApiOperation(value = "删除 workflow 调度", notes = "删除 workflow 调度")
     public ResponseEntity<ResponseVO> deleteById(@PathVariable("id") Long id) {
         workflowScheduleService.delete(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -86,7 +86,7 @@ public class SchedulerController {
     @ApiOperation(value = "批量删除 workflow 调度", notes = "批量删除 workflow 调度")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) {
         workflowScheduleService.deleteBatch(ids);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -94,7 +94,7 @@ public class SchedulerController {
     @ApiOperation(value = "启用 workflow 调度", notes = "启用 workflow 调度")
     public ResponseEntity<ResponseVO> enable(@PathVariable("id") Long id) throws ParseException {
         workflowScheduleService.enable(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
@@ -102,7 +102,7 @@ public class SchedulerController {
     @ApiOperation(value = "启用 workflow 调度", notes = "启用 workflow 调度")
     public ResponseEntity<ResponseVO> disable(@PathVariable("id") Long id) throws ParseException {
         workflowScheduleService.disable(id);
-        return new ResponseEntity<>(ResponseVO.sucess(), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging

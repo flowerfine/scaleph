@@ -55,12 +55,15 @@ public class WsFlinkJobDTO extends BaseDTO {
     @ApiModelProperty("job config")
     private Map<String, String> jobConfig;
 
-    @ApiModelProperty("flink cluster config id")
-    private Long flinkClusterConfigId;
+    @ApiModelProperty("flink job instance")
+    private WsFlinkJobInstanceDTO wsFlinkJobInstance;
+
+    @ApiModelProperty("flink cluster config")
+    private WsFlinkClusterConfigDTO wsFlinkClusterConfig;
 
     @NotNull
-    @ApiModelProperty("flink cluster instance id")
-    private Long flinkClusterInstanceId;
+    @ApiModelProperty("flink cluster instance")
+    private WsFlinkClusterInstanceDTO wsFlinkClusterInstance;
 
     @ApiModelProperty("flink config")
     private Map<String, String> flinkConfig;

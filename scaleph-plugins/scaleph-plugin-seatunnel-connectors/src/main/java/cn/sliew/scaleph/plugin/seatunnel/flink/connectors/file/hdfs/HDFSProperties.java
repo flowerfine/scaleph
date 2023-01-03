@@ -32,4 +32,12 @@ public enum HDFSProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<String> HDFS_SITE_PATH = new PropertyDescriptor.Builder<String>()
+            .name("hdfs_site_path")
+            .description("The path of hdfs-site.xml, used to load ha configuration of namenodes")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
 }

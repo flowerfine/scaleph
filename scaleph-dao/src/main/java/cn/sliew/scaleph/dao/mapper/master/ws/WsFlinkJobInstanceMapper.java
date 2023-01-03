@@ -30,4 +30,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WsFlinkJobInstanceMapper extends BaseMapper<WsFlinkJobInstance> {
 
+    void archiveLog(Long flinkJobCode);
+
+    void deleteByJobCode(Long flinkJobCode);
 }

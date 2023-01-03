@@ -122,10 +122,12 @@ const SinkEmailStepForm: React.FC<ModalFormProps<{
       <ProFormTextArea
         name={EmailParams.emailMessageHeadline}
         label={intl.formatMessage({id: 'pages.project.di.step.email.emailMessageHeadline'})}
+        rules={[{required: true}]}
       />
       <ProFormTextArea
         name={EmailParams.emailMessageContent}
         label={intl.formatMessage({id: 'pages.project.di.step.email.emailMessageContent'})}
+        rules={[{required: true}]}
       />
     </ProForm>
   </Modal>);

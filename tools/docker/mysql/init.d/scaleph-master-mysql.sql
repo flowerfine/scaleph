@@ -306,32 +306,37 @@ INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_type', '1', 'SQL', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_job_type', '2', 'SeaTunnel', 'sys', 'sys');
+
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('flink_job_status', '0', 'SUBMITED', 'sys', 'sys');
+VALUES ('flink_job_status', 'SUBMITING', '提交中', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('flink_job_status', '1', 'SUBMIT FAILED', 'sys', 'sys');
+VALUES ('flink_job_status', 'SUBMITED', '已提交', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('flink_job_status', '2', 'INITIALIZING', 'sys', 'sys');
+VALUES ('flink_job_status', 'SUBMIT_FAILED', '提交失败', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('flink_job_status', '3', 'CREATED', 'sys', 'sys');
+VALUES ('flink_job_status', 'INITIALIZING', '初始化', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('flink_job_status', '4', 'RUNNING', 'sys', 'sys');
+VALUES ('flink_job_status', 'CREATED', '已创建', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('flink_job_status', '5', 'FAILING', 'sys', 'sys');
+VALUES ('flink_job_status', 'RUNNING', '运行中', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('flink_job_status', '6', 'FAILED', 'sys', 'sys');
+VALUES ('flink_job_status', 'FAILING', '失败中', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('flink_job_status', '7', 'CANCELLING', 'sys', 'sys');
+VALUES ('flink_job_status', 'FAILED', '已失败', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('flink_job_status', '8', 'CANCELED', 'sys', 'sys');
+VALUES ('flink_job_status', 'CANCELLING', '取消中', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('flink_job_status', '9', 'FINISHED', 'sys', 'sys');
+VALUES ('flink_job_status', 'CANCELED', '已取消', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('flink_job_status', '10', 'RESTARTING', 'sys', 'sys');
+VALUES ('flink_job_status', 'FINISHED', '已完成', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('flink_job_status', '11', 'SUSPENDED', 'sys', 'sys');
+VALUES ('flink_job_status', 'RESTARTING', '重启中', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('flink_job_status', '12', 'RECONCILING', 'sys', 'sys');
+VALUES ('flink_job_status', 'SUSPENDED', '已暂停', 'sys', 'sys');
+INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
+VALUES ('flink_job_status', 'RECONCILING', '调节中', 'sys', 'sys');
+
+
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_checkpoint_retain', 'DELETE_ON_CANCELLATION', 'DELETE_ON_CANCELLATION', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
@@ -352,7 +357,7 @@ VALUES ('flink_high_availability', 'org.apache.flink.kubernetes.highavailability
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('flink_high_availability', 'zookeeper', 'ZooKeeper', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
-VALUES ('seatunnel_version', '2.3.0-beta', '2.3.0-beta', 'sys', 'sys');
+VALUES ('seatunnel_version', '2.3.0', '2.3.0', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
 VALUES ('image_pull_policy', 'IfNotPresent', 'IfNotPresent', 'sys', 'sys');
 INSERT INTO sys_dict(dict_type_code, dict_code, dict_value, creator, editor)
