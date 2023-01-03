@@ -4,7 +4,7 @@ declare namespace Studio {
   }; 
 }
 
-export type topBatch100Source = {
+export type topBatch100 = {
   id?: number;
   project?: any;
   jobId?: number;

@@ -112,23 +112,6 @@ npm start
 
 After web server started, user can open http://localhost:8000/ in browser and admin account is `sys_admin/123456`.
 
-### try local jdbc_to_jdbc seatunnel job
-
-1. update `seatunnel_home`. `系统管理 -> 系统配置 -> 基本设置: seatunnel Home`.
-2. upload `mysql-connector-jdbc-xxx.jar`. MySQL license is not compatible with Apache 2.0 license and seatunnel release doesn't contain any JDBC driver dependency, user have to provide it by themselves.
-3. start `local_jdbc_to_jdbc` job.
-
-![image-20220619090931916](develop.assets/image-20220619090931916.png)
-
-![image-20220619091022358](develop.assets/image-20220619091022358.png)
-
-![image-20220619091048566](develop.assets/image-20220619091048566.png)
-
-![image-20220619091119965](develop.assets/image-20220619091119965.png)
-
-![image-20220619091138141](develop.assets/image-20220619091138141.png)
-
-![image-20220619091204243](develop.assets/image-20220619091204243.png)
 
 ## swagger ui
 

@@ -16,41 +16,40 @@
 
 services:
 
-#  scaleph-api:
-#    image: ghcr.io/flowerfine/scaleph/scaleph-api:latest
-#    container_name: scaleph-api
-#    depends_on:
-#      mysql:
-#        condition: service_healthy
-#      redis:
-#        condition: service_started
-#      minio:
-#        condition: service_started
-#    ports:
-#      - 8080:8080
-#    restart: unless-stopped
-#    healthcheck:
-#      test: [ "CMD", "curl", "-f", "http://localhost:8080/scaleph/actuator/health" ]
-#      interval: 3s
-#      timeout: 1s
-#      retries: 128
-#      start_period: 1m
-#    networks:
-#      - scaleph
-#
-#  scaleph-ui:
-#    image: ghcr.io/flowerfine/scaleph/scaleph-ui-react:latest
-#    container_name: scaleph-ui-react
-#    depends_on:
-#      scaleph-api:
-#        condition: service_healthy
-#    environment:
-#      - SCALEPH_API_URL="scaleph-api:8080"
-#    ports:
-#      - 80:80
-#    networks:
-#      - scaleph
+  scaleph-api:
+    image: ghcr.io/flowerfine/scaleph/scaleph-api:latest
+    container_name: scaleph-api
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      minio:
+        condition: service_started
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/scaleph/actuator/health" ]
+      interval: 3s
+      timeout: 1s
+      retries: 128
+      start_period: 1m
+    networks:
+      - scaleph
 
+  scaleph-ui:
+    image: ghcr.io/flowerfine/scaleph/scaleph-ui-react:latest
+    container_name: scaleph-ui-react
+    depends_on:
+      scaleph-api:
+        condition: service_healthy
+    environment:
+      - SCALEPH_API_URL="scaleph-api:8080"
+    ports:
+      - 80:80
+    networks:
+      - scaleph
 
   mysql:
     image: bitnami/mysql:8.0
