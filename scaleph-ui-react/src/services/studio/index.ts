@@ -1,5 +1,7 @@
 // @ts-ignore
 import { request } from 'umi';
+import { topBatch100 } from "./typings"
+import { ResponseBody, PageResponse } from "@/app.d"
 
 export const DataboardService = {
   url: '/api/studio/databoard',
@@ -24,6 +26,14 @@ export const DataboardService = {
     return request<number>(`${DataboardService.url}/project`, {
       method: 'GET',
       ...(options || {}),
+    });
+  },
+  // topBatch100: async (queryParam: topBatch100) => {
+  topBatch100: async (options?: { [key: string]: any }) => {
+    return request<Array<topBatch100>>(`${DataboardService.url}/topBatch100`, {
+      method: 'GET',
+      ...(options || {}),
+      // params: queryParam,
     });
   },
 };
