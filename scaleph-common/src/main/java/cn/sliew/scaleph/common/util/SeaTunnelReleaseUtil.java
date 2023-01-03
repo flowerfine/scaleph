@@ -43,8 +43,9 @@ public enum SeaTunnelReleaseUtil {
         return rootDir.resolve("lib");
     }
 
+    public static Path getStarterDir(Path rootDir){ return rootDir.resolve("starter");}
     public static Path getStarterJarPath(Path rootDir) {
-        return getLibDir(rootDir).resolve(STARTER_JAR_NAME);
+        return getStarterDir(rootDir).resolve(STARTER_JAR_NAME);
     }
 
     /**
