@@ -28,6 +28,11 @@ export default {
   'pages.dataSource.step.props.ftp.username': 'Username',
   'pages.dataSource.step.props.ftp.password': 'Password',
 
+  'pages.dataSource.step.props.sftp.host': 'Host',
+  'pages.dataSource.step.props.sftp.port': 'Port',
+  'pages.dataSource.step.props.sftp.username': 'Username',
+  'pages.dataSource.step.props.sftp.password': 'Password',
+
   'pages.dataSource.step.props.oss.endpoint': 'Endpoint',
   'pages.dataSource.step.props.oss.bucket': 'Bucket',
   'pages.dataSource.step.props.oss.accessKey': 'Access Key',

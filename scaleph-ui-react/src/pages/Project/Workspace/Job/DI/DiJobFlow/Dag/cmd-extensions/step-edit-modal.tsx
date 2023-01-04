@@ -61,6 +61,8 @@ import SinkS3FileStepForm from "../steps/sink/sink-s3-file-step";
 import SinkKafkaStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-kafka-step";
 import SourceNeo4jStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-neo4j-step";
 import SourceInfluxDBStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-influxdb-step";
+import SourceSftpFileStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-sftp-file-step";
+import SinkSftpFileStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-sftp-file-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -229,6 +231,10 @@ export class EditNodeCommand implements ICommand {
       return (<SourceFtpFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'sink' && name === 'FtpFile') {
       return (<SinkFtpFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if (type === 'source' && name === 'SftpFile') {
+      return (<SourceSftpFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if (type === 'sink' && name === 'SftpFile') {
+      return (<SinkSftpFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'source' && name === 'HdfsFile') {
       return (<SourceHdfsFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'sink' && name === 'HdfsFile') {
