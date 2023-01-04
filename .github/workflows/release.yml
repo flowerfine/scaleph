@@ -48,20 +48,20 @@ jobs:
             -t ${{ env.HUB }}/scaleph-api:${{ github.sha }} \
             -t ${{ env.HUB }}/scaleph-api:${{ github.ref_name }} \
             .
-      - name: Build scaleph-ui image
+      - name: Build scaleph-ui-react image
         run: |
           docker build \
             --no-cache \
-            -f tools/docker/build/scaleph-ui/Dockerfile \
-            -t ${{ env.HUB }}/scaleph-ui:${{ github.sha }} \
-            -t ${{ env.HUB }}/scaleph-ui:${{ github.ref_name }} \
+            -f tools/docker/build/scaleph-ui-react/Dockerfile \
+            -t ${{ env.HUB }}/scaleph-ui-react:${{ github.sha }} \
+            -t ${{ env.HUB }}/scaleph-ui-react:${{ github.ref_name }} \
             .
-      - name: Push scaleph-ui image
+      - name: Push scaleph-ui-react image
         run: |
           docker buildx build \
             --no-cache \
             --push \
-            -f tools/docker/build/scaleph-ui/Dockerfile \
-            -t ${{ env.HUB }}/scaleph-ui:${{ github.sha }} \
-            -t ${{ env.HUB }}/scaleph-ui:${{ github.ref_name }} \
+            -f tools/docker/build/scaleph-ui-react/Dockerfile \
+            -t ${{ env.HUB }}/scaleph-ui-react:${{ github.sha }} \
+            -t ${{ env.HUB }}/scaleph-ui-react:${{ github.ref_name }} \
             .
