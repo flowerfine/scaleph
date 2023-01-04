@@ -1,26 +1,22 @@
 import {NsGraph} from '@antv/xflow';
 import {ModalFormProps} from '@/app.d';
-import {BaseFileParams, S3FileParams, STEP_ATTR_TYPE} from '../../constant';
+import {BaseFileParams, STEP_ATTR_TYPE} from '../../constant';
 import {WsDiJobService} from '@/services/project/WsDiJob.service';
 import {Form, message, Modal} from 'antd';
 import {WsDiJob} from '@/services/project/typings';
 import {getIntl, getLocale} from 'umi';
 import {
   ProForm,
-  ProFormDependency,
-  ProFormDigit,
+  ProFormDependency, ProFormDigit,
   ProFormGroup,
-  ProFormList,
   ProFormSelect,
   ProFormSwitch,
   ProFormText,
 } from '@ant-design/pro-components';
 import {useEffect} from 'react';
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
-import {InfoCircleOutlined} from "@ant-design/icons";
-import {StepSchemaService} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper";
 
-const SinkS3FileStepForm: React.FC<ModalFormProps<{
+const SinkSftpFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -49,7 +45,6 @@ const SinkS3FileStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-          StepSchemaService.formatHadoopS3Properties(values)
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           WsDiJobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
@@ -68,38 +63,7 @@ const SinkS3FileStepForm: React.FC<ModalFormProps<{
           rules={[{required: true}, {max: 120}]}
           colProps={{span: 24}}
         />
-        <DataSourceItem dataSource={"S3"}/>
-        <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-        >
-          <ProFormList
-            name={S3FileParams.hadoopS3Properties}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.list'}),
-              type: 'text',
-            }}
-          >
-            <ProFormGroup>
-              <ProFormText
-                name={S3FileParams.key}
-                label={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.key'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.key.placeholder'})}
-                colProps={{span: 10, offset: 1}}
-              />
-              <ProFormText
-                name={S3FileParams.value}
-                label={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.value'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.value.placeholder'})}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
-        </ProFormGroup>
+        <DataSourceItem dataSource={"Sftp"}/>
         <ProFormText
           name={BaseFileParams.path}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.path'})}
@@ -165,26 +129,33 @@ const SinkS3FileStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({
             id: 'pages.project.di.step.baseFile.partitionDirExpression',
           })}
+          colProps={{span: 12}}
         />
         <ProFormSwitch
           name={BaseFileParams.isPartitionFieldWriteInFile}
           label={intl.formatMessage({
             id: 'pages.project.di.step.baseFile.isPartitionFieldWriteInFile',
           })}
+          colProps={{span: 24}}
         />
         <ProFormText
           name={BaseFileParams.sinkColumns}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.sinkColumns'})}
+          colProps={{span: 24}}
         />
         <ProFormSwitch
           name={BaseFileParams.isEnableTransaction}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.isEnableTransaction'})}
+          colProps={{span: 24}}
           initialValue={true}
-          disabled
+          fieldProps={{
+            disabled: true,
+          }}
         />
         <ProFormDigit
           name={BaseFileParams.batchSize}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.batchSize'})}
+          colProps={{span: 24}}
           initialValue={1000000}
           fieldProps={{
             step: 10000,
@@ -196,4 +167,4 @@ const SinkS3FileStepForm: React.FC<ModalFormProps<{
   );
 };
 
-export default SinkS3FileStepForm;
+export default SinkSftpFileStepForm;

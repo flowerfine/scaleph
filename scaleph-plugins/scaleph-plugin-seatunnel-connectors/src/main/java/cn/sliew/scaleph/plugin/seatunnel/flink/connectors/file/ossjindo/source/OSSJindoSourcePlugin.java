@@ -16,11 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.s3.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ossjindo.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.file.S3DataSource;
+import cn.sliew.scaleph.ds.modal.file.OSSDataSource;
+import cn.sliew.scaleph.ds.modal.file.OSSJindoDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
@@ -36,33 +37,28 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSinkProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.s3.S3Properties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ossjindo.OSSJindoProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class S3SinkPlugin extends SeaTunnelConnectorPlugin {
+public class OSSJindoSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public S3SinkPlugin() {
+    public OSSJindoSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Output data to AWS S3 service",
-                S3SinkPlugin.class.getName());
+                "Read data from aliyun oss file system using jindo api.",
+                OSSJindoSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(HADOOP_S3_PROPERTIES);
         props.add(PATH);
-        props.add(FILE_FORMAT);
-        props.add(FILE_NAME_EXPRESSION);
-        props.add(FILENAME_TIME_FORMAT);
-        props.add(FIELD_DELIMITER);
-        props.add(ROW_DELIMITER);
-        props.add(PARTITION_BY);
-        props.add(PARTITION_DIR_EXPRESSION);
-        props.add(IS_PARTITION_FIELD_WRITE_IN_FILE);
-        props.add(SINK_COLUMNS);
-        props.add(IS_ENABLE_TRANSACTION);
-        props.add(BATCH_SIZE);
+        props.add(TYPE);
+        props.add(SCHEMA);
+        props.add(DELIMITER);
+        props.add(PARSE_PARTITION_FROM_PATH);
+        props.add(DATE_FORMAT);
+        props.add(TIME_FORMAT);
+        props.add(DATETIME_FORMAT);
         props.add(CommonProperties.PARALLELISM);
-        props.add(CommonProperties.SOURCE_TABLE_NAME);
+        props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
@@ -75,7 +71,8 @@ public class S3SinkPlugin extends SeaTunnelConnectorPlugin {
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
-        S3DataSource dataSource = (S3DataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        OSSJindoDataSource dataSource = (OSSJindoDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.put(ENDPOINT.getName(), dataSource.getEndpoint());
         conf.putPOJO(BUCKET.getName(), dataSource.getBucket());
         conf.putPOJO(ACCESS_KEY.getName(), dataSource.getAccessKey());
         conf.putPOJO(ACCESS_SECRET.getName(), dataSource.getAccessSecret());
@@ -84,6 +81,6 @@ public class S3SinkPlugin extends SeaTunnelConnectorPlugin {
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_S3_FILE;
+        return SeaTunnelPluginMapping.SOURCE_OSS_JINDO_FILE;
     }
 }

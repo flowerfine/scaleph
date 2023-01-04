@@ -52,6 +52,7 @@ const SourceHttpFileStepForm: React.FC<ModalFormProps<{
           StepSchemaService.formatSchema(values);
           StepSchemaService.formatHeader(values);
           StepSchemaService.formatParam(values);
+          StepSchemaService.formatJsonField(values);
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           WsDiJobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
@@ -142,18 +143,14 @@ const SourceHttpFileStepForm: React.FC<ModalFormProps<{
                   }}
                   copyIconProps={false}
                   creatorButtonProps={{
-                    creatorButtonText: intl.formatMessage({
-                      id: 'pages.project.di.step.schema.fields',
-                    }),
+                    creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
                     type: 'text',
                   }}
                 >
                   <ProFormGroup>
                     <ProFormText
                       name={SchemaParams.field}
-                      label={intl.formatMessage({
-                        id: 'pages.project.di.step.schema.fields.field',
-                      })}
+                      label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
                       colProps={{span: 10, offset: 1}}
                     />
                     <ProFormText
@@ -168,6 +165,38 @@ const SourceHttpFileStepForm: React.FC<ModalFormProps<{
             return <ProFormGroup/>;
           }}
         </ProFormDependency>
+        <ProFormText
+          name={HttpParams.contentField}
+          label={intl.formatMessage({id: 'pages.project.di.step.http.contentField'})}
+          placeholder={intl.formatMessage({id: 'pages.project.di.step.http.contentField.placeholder'})}
+        />
+        <ProFormGroup
+          label={intl.formatMessage({id: 'pages.project.di.step.http.fieldJson'})}
+        >
+          <ProFormList
+            name={HttpParams.jsonField}
+            copyIconProps={false}
+            creatorButtonProps={{
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.http.fieldJson.list'}),
+              type: 'text',
+            }}
+          >
+            <ProFormGroup>
+              <ProFormText
+                name={HttpParams.key}
+                label={intl.formatMessage({id: 'pages.project.di.step.http.fieldJson.key'})}
+                placeholder={intl.formatMessage({id: 'pages.project.di.step.http.fieldJson.key.placeholder'})}
+                colProps={{span: 10, offset: 1}}
+              />
+              <ProFormText
+                name={HttpParams.path}
+                label={intl.formatMessage({id: 'pages.project.di.step.http.fieldJson.path'})}
+                placeholder={intl.formatMessage({id: 'pages.project.di.step.http.fieldJson.path.placeholder'})}
+                colProps={{span: 10, offset: 1}}
+              />
+            </ProFormGroup>
+          </ProFormList>
+        </ProFormGroup>
         <ProFormDigit
           name={HttpParams.pollIntervalMs}
           label={intl.formatMessage({id: 'pages.project.di.step.http.pollIntervalMs'})}

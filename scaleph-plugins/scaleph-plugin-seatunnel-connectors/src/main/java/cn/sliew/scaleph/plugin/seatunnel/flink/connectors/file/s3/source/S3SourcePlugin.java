@@ -48,6 +48,7 @@ public class S3SourcePlugin extends SeaTunnelConnectorPlugin {
                 S3SourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(HADOOP_S3_PROPERTIES);
         props.add(PATH);
         props.add(TYPE);
         props.add(SCHEMA);

@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.s3.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.sftp.sink;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.file.S3DataSource;
+import cn.sliew.scaleph.ds.modal.file.SftpDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
@@ -37,18 +37,17 @@ import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSinkProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.s3.S3Properties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.sftp.SftpFileProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class S3SinkPlugin extends SeaTunnelConnectorPlugin {
+public class SftpFileSinkPlugin extends SeaTunnelConnectorPlugin {
 
-    public S3SinkPlugin() {
+    public SftpFileSinkPlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Output data to AWS S3 service",
-                S3SinkPlugin.class.getName());
+                "Sftp file sink connector",
+                SftpFileSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(HADOOP_S3_PROPERTIES);
         props.add(PATH);
         props.add(FILE_FORMAT);
         props.add(FILE_NAME_EXPRESSION);
@@ -75,15 +74,16 @@ public class S3SinkPlugin extends SeaTunnelConnectorPlugin {
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
-        S3DataSource dataSource = (S3DataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.putPOJO(BUCKET.getName(), dataSource.getBucket());
-        conf.putPOJO(ACCESS_KEY.getName(), dataSource.getAccessKey());
-        conf.putPOJO(ACCESS_SECRET.getName(), dataSource.getAccessSecret());
+        SftpDataSource dataSource = (SftpDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.put(HOST.getName(), dataSource.getHost());
+        conf.putPOJO(PORT.getName(), dataSource.getPort());
+        conf.putPOJO(USER.getName(), dataSource.getUsername());
+        conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
         return conf;
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_S3_FILE;
+        return SeaTunnelPluginMapping.SINK_SFTP_FILE;
     }
 }

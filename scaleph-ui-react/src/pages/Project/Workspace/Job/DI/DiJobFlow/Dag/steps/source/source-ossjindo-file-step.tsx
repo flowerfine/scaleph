@@ -1,25 +1,17 @@
 import {NsGraph} from '@antv/xflow';
 import {ModalFormProps} from '@/app.d';
-import {BaseFileParams, S3FileParams, STEP_ATTR_TYPE} from '../../constant';
+import {BaseFileParams, STEP_ATTR_TYPE} from '../../constant';
 import {WsDiJobService} from '@/services/project/WsDiJob.service';
 import {Form, message, Modal} from 'antd';
 import {WsDiJob} from '@/services/project/typings';
 import {getIntl, getLocale} from 'umi';
-import {
-  ProForm,
-  ProFormGroup,
-  ProFormList,
-  ProFormSelect,
-  ProFormSwitch,
-  ProFormText,
-} from '@ant-design/pro-components';
+import {ProForm, ProFormSelect, ProFormSwitch, ProFormText,} from '@ant-design/pro-components';
 import {useEffect} from 'react';
 import {StepSchemaService} from '../helper';
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 import SchemaItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/schema";
-import {InfoCircleOutlined} from "@ant-design/icons";
 
-const SourceS3FileStepForm: React.FC<ModalFormProps<{
+const SourceOSSJindoFileStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -49,7 +41,6 @@ const SourceS3FileStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
           StepSchemaService.formatSchema(values);
-          StepSchemaService.formatHadoopS3Properties(values)
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           WsDiJobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
@@ -67,38 +58,7 @@ const SourceS3FileStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
           rules={[{required: true}, {max: 120}]}
         />
-        <DataSourceItem dataSource={"S3"}/>
-        <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-        >
-          <ProFormList
-            name={S3FileParams.hadoopS3Properties}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.list'}),
-              type: 'text',
-            }}
-          >
-            <ProFormGroup>
-              <ProFormText
-                name={S3FileParams.key}
-                label={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.key'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.key.placeholder'})}
-                colProps={{span: 10, offset: 1}}
-              />
-              <ProFormText
-                name={S3FileParams.value}
-                label={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.value'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.s3.hadoop_s3_properties.value.placeholder'})}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
-        </ProFormGroup>
+        <DataSourceItem dataSource={"OSSJindo"}/>
         <ProFormText
           name={BaseFileParams.path}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.path'})}
@@ -140,4 +100,4 @@ const SourceS3FileStepForm: React.FC<ModalFormProps<{
   );
 };
 
-export default SourceS3FileStepForm;
+export default SourceOSSJindoFileStepForm;

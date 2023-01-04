@@ -141,6 +141,9 @@ export const S3FileParams = {
   bucket: 'bucket',
   accessKey: 'access_key',
   accessSecret: 'access_secret',
+  hadoopS3Properties: 'hadoopS3Properties',
+  key: 'key',
+  value: 'value',
 };
 
 export const HttpParams = {
@@ -155,6 +158,10 @@ export const HttpParams = {
   body: 'body',
   format: 'format',
   schema: 'schema',
+  contentField: 'content_field',
+  jsonField: 'jsonField',
+  key: 'key',
+  path: 'path',
   pollIntervalMs: 'poll_interval_ms',
   retry: 'retry',
   retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
