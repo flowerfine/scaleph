@@ -48,6 +48,7 @@ public class S3SinkPlugin extends SeaTunnelConnectorPlugin {
                 S3SinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(HADOOP_S3_PROPERTIES);
         props.add(PATH);
         props.add(FILE_FORMAT);
         props.add(FILE_NAME_EXPRESSION);

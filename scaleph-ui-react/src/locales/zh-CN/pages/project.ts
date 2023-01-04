@@ -194,6 +194,13 @@ export default {
   'pages.project.di.step.s3.bucket': 'Bucket',
   'pages.project.di.step.s3.accessKey': 'Access Key',
   'pages.project.di.step.s3.accessSecret': 'Access Secret',
+  'pages.project.di.step.s3.hadoop_s3_properties': 'Hadoop S3 Properties',
+  'pages.project.di.step.s3.hadoop_s3_properties.tooltip': 'The way to add additional hadoop on s3 properties',
+  'pages.project.di.step.s3.hadoop_s3_properties.list': 'Properties',
+  'pages.project.di.step.s3.hadoop_s3_properties.key': 'Property',
+  'pages.project.di.step.s3.hadoop_s3_properties.key.placeholder': 'fs.s3a.aws.credentials.provider',
+  'pages.project.di.step.s3.hadoop_s3_properties.value': 'Value',
+  'pages.project.di.step.s3.hadoop_s3_properties.value.placeholder': 'org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider',
 
   // http
   'pages.project.di.step.http.method': 'Method',

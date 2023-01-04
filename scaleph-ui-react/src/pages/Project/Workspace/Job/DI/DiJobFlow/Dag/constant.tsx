@@ -141,6 +141,9 @@ export const S3FileParams = {
   bucket: 'bucket',
   accessKey: 'access_key',
   accessSecret: 'access_secret',
+  hadoopS3Properties: 'hadoopS3Properties',
+  key: 'key',
+  value: 'value',
 };
 
 export const HttpParams = {

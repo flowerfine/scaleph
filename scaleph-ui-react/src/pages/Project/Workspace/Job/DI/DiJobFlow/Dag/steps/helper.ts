@@ -88,4 +88,13 @@ export const StepSchemaService = {
     return values
   },
 
+  formatHadoopS3Properties: (values: Record<string, any>) => {
+    const properteis: Record<string, any> = {}
+    values.hadoopS3Properties?.forEach(function (item: Record<string, any>) {
+      properteis[item.key] = item.value;
+    });
+    values.hadoop_s3_properties = JSON.stringify(properteis)
+    return values
+  },
+
 };
