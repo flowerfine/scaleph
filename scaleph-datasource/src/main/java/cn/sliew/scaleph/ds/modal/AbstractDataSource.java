@@ -20,10 +20,7 @@ package cn.sliew.scaleph.ds.modal;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
-import cn.sliew.scaleph.ds.modal.file.FtpDataSource;
-import cn.sliew.scaleph.ds.modal.file.HDFSDataSource;
-import cn.sliew.scaleph.ds.modal.file.OSSDataSource;
-import cn.sliew.scaleph.ds.modal.file.S3DataSource;
+import cn.sliew.scaleph.ds.modal.file.*;
 import cn.sliew.scaleph.ds.modal.jdbc.*;
 import cn.sliew.scaleph.ds.modal.mq.DataHubDataSource;
 import cn.sliew.scaleph.ds.modal.mq.KafkaDataSource;
@@ -68,6 +65,7 @@ import java.util.List;
         @JsonSubTypes.Type(name = "DataHub", value = DataHubDataSource.class),
 
         @JsonSubTypes.Type(name = "Ftp", value = FtpDataSource.class),
+        @JsonSubTypes.Type(name = "Sftp", value = SftpDataSource.class),
         @JsonSubTypes.Type(name = "OSS", value = OSSDataSource.class),
         @JsonSubTypes.Type(name = "S3", value = S3DataSource.class),
         @JsonSubTypes.Type(name = "HDFS", value = HDFSDataSource.class),

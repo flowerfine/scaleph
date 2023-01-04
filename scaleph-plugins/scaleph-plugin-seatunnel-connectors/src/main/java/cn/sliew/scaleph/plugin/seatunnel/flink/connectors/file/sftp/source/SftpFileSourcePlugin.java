@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.sftp.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.file.HDFSDataSource;
+import cn.sliew.scaleph.ds.modal.file.SftpDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
@@ -30,40 +30,34 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSinkProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSProperties.FS_DEFAULT_FS;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSProperties.HDFS_SITE_PATH;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.sftp.SftpFileProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class HDFSFileSinkPlugin extends SeaTunnelConnectorPlugin {
+public class SftpFileSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public HDFSFileSinkPlugin() {
+    public SftpFileSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Write data to HDFS",
-                HDFSFileSinkPlugin.class.getName());
+                "Read data from sftp file server.",
+                SftpFileSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(PATH);
-        props.add(FILE_FORMAT);
-        props.add(FILE_NAME_EXPRESSION);
-        props.add(FILENAME_TIME_FORMAT);
-        props.add(FIELD_DELIMITER);
-        props.add(ROW_DELIMITER);
-        props.add(PARTITION_BY);
-        props.add(PARTITION_DIR_EXPRESSION);
-        props.add(IS_PARTITION_FIELD_WRITE_IN_FILE);
-        props.add(SINK_COLUMNS);
-        props.add(IS_ENABLE_TRANSACTION);
-        props.add(BATCH_SIZE);
+        props.add(TYPE);
+        props.add(SCHEMA);
+        props.add(DELIMITER);
+        props.add(PARSE_PARTITION_FROM_PATH);
+        props.add(DATE_FORMAT);
+        props.add(TIME_FORMAT);
+        props.add(DATETIME_FORMAT);
         props.add(CommonProperties.PARALLELISM);
-        props.add(CommonProperties.SOURCE_TABLE_NAME);
+        props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
@@ -76,16 +70,16 @@ public class HDFSFileSinkPlugin extends SeaTunnelConnectorPlugin {
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
-        HDFSDataSource dataSource = (HDFSDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.put(FS_DEFAULT_FS.getName(), dataSource.getFsDefaultFS());
-        if (StringUtils.hasText(dataSource.getHdfsSitePath())) {
-            conf.put(HDFS_SITE_PATH.getName(), dataSource.getHdfsSitePath());
-        }
+        SftpDataSource dataSource = (SftpDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.put(HOST.getName(), dataSource.getHost());
+        conf.putPOJO(PORT.getName(), dataSource.getPort());
+        conf.putPOJO(USER.getName(), dataSource.getUsername());
+        conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
         return conf;
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_HDFS_FILE;
+        return SeaTunnelPluginMapping.SOURCE_SFTP_FILE;
     }
 }

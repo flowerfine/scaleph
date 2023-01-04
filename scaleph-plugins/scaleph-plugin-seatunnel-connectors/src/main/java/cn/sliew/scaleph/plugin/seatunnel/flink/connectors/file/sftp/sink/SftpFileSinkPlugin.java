@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.sftp.sink;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.file.HDFSDataSource;
+import cn.sliew.scaleph.ds.modal.file.SftpDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
@@ -30,7 +30,6 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,16 +37,15 @@ import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSinkProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSProperties.FS_DEFAULT_FS;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSProperties.HDFS_SITE_PATH;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.sftp.SftpFileProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class HDFSFileSinkPlugin extends SeaTunnelConnectorPlugin {
+public class SftpFileSinkPlugin extends SeaTunnelConnectorPlugin {
 
-    public HDFSFileSinkPlugin() {
+    public SftpFileSinkPlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Write data to HDFS",
-                HDFSFileSinkPlugin.class.getName());
+                "Sftp file sink connector",
+                SftpFileSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(PATH);
@@ -76,16 +74,16 @@ public class HDFSFileSinkPlugin extends SeaTunnelConnectorPlugin {
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
-        HDFSDataSource dataSource = (HDFSDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.put(FS_DEFAULT_FS.getName(), dataSource.getFsDefaultFS());
-        if (StringUtils.hasText(dataSource.getHdfsSitePath())) {
-            conf.put(HDFS_SITE_PATH.getName(), dataSource.getHdfsSitePath());
-        }
+        SftpDataSource dataSource = (SftpDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.put(HOST.getName(), dataSource.getHost());
+        conf.putPOJO(PORT.getName(), dataSource.getPort());
+        conf.putPOJO(USER.getName(), dataSource.getUsername());
+        conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
         return conf;
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_HDFS_FILE;
+        return SeaTunnelPluginMapping.SINK_SFTP_FILE;
     }
 }
