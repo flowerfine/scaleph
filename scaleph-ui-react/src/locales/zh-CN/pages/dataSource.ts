@@ -38,6 +38,11 @@ export default {
   'pages.dataSource.step.props.oss.accessKey': 'Access Key',
   'pages.dataSource.step.props.oss.accessSecret': 'Access Secret',
 
+  'pages.dataSource.step.props.ossjindo.endpoint': 'Endpoint',
+  'pages.dataSource.step.props.ossjindo.bucket': 'Bucket',
+  'pages.dataSource.step.props.ossjindo.accessKey': 'Access Key',
+  'pages.dataSource.step.props.ossjindo.accessSecret': 'Access Secret',
+
   'pages.dataSource.step.props.s3.bucket': 'Bucket',
   'pages.dataSource.step.props.s3.accessKey': 'Access Key',
   'pages.dataSource.step.props.s3.accessSecret': 'Access Secret',

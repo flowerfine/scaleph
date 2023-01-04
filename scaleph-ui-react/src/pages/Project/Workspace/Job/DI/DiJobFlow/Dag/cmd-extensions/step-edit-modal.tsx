@@ -63,6 +63,10 @@ import SourceNeo4jStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/
 import SourceInfluxDBStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-influxdb-step";
 import SourceSftpFileStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-sftp-file-step";
 import SinkSftpFileStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-sftp-file-step";
+import SourceOSSJindoFileStepForm
+  from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-ossjindo-file-step";
+import SinkOSSJindoFileStepForm
+  from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-ossjindo-file-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -243,6 +247,10 @@ export class EditNodeCommand implements ICommand {
       return (<SourceOSSFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'sink' && name === 'OssFile') {
       return (<SinkOSSFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if (type === 'source' && name === 'OssJindoFile') {
+      return (<SourceOSSJindoFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if (type === 'sink' && name === 'OssJindoFile') {
+      return (<SinkOSSJindoFileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'source' && name === 'S3File') {
       return (<SourceS3FileStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if (type === 'sink' && name === 'S3File') {

@@ -20,6 +20,7 @@ import ClickHouseForm from "@/pages/DataSource/StepForms/Props/ClickHouse";
 import Neo4jForm from "@/pages/DataSource/StepForms/Props/Neo4j";
 import InfluxDBForm from "@/pages/DataSource/StepForms/Props/InfluxDB";
 import SftpForm from "@/pages/DataSource/StepForms/Props/Sftp";
+import OSSJindoForm from "@/pages/DataSource/StepForms/Props/OSSJindo";
 
 const DataSourceForm: React.FC = () => {
 
@@ -45,6 +46,8 @@ const DataSourceForm: React.FC = () => {
           return <SftpForm/>
         case 'OSS':
           return <OSSForm/>
+        case 'OSSJindo':
+          return <OSSJindoForm/>
         case 'S3':
           return <S3Form/>
         case 'HDFS':

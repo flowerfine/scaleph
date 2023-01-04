@@ -67,6 +67,7 @@ import java.util.List;
         @JsonSubTypes.Type(name = "Ftp", value = FtpDataSource.class),
         @JsonSubTypes.Type(name = "Sftp", value = SftpDataSource.class),
         @JsonSubTypes.Type(name = "OSS", value = OSSDataSource.class),
+        @JsonSubTypes.Type(name = "OSSJindo", value = OSSJindoDataSource.class),
         @JsonSubTypes.Type(name = "S3", value = S3DataSource.class),
         @JsonSubTypes.Type(name = "HDFS", value = HDFSDataSource.class),
 
