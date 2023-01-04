@@ -30,6 +30,7 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +39,7 @@ import java.util.List;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSinkProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSProperties.FS_DEFAULT_FS;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.hdfs.HDFSProperties.HDFS_SITE_PATH;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class HDFSFileSinkPlugin extends SeaTunnelConnectorPlugin {
@@ -76,6 +78,9 @@ public class HDFSFileSinkPlugin extends SeaTunnelConnectorPlugin {
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
         HDFSDataSource dataSource = (HDFSDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
         conf.put(FS_DEFAULT_FS.getName(), dataSource.getFsDefaultFS());
+        if (StringUtils.hasText(dataSource.getHdfsSitePath())) {
+            conf.put(HDFS_SITE_PATH.getName(), dataSource.getHdfsSitePath());
+        }
         return conf;
     }
 

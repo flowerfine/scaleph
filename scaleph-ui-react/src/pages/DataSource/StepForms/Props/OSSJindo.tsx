@@ -4,7 +4,7 @@ import {useEffect} from "react";
 import {ProCard, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {DsCategoryService} from "@/services/datasource/category.service";
 
-const HDFSForm: React.FC = () => {
+const OSSJindoForm: React.FC = () => {
   const intl = useIntl();
   const form = Form.useFormInstance()
 
@@ -58,14 +58,26 @@ const HDFSForm: React.FC = () => {
           }}
         />
         <ProFormText
-          name="hdfsSitePath"
-          label={intl.formatMessage({id: 'pages.dataSource.step.props.hdfs.hdfsSitePath'})}
+          name="endpoint"
+          label={intl.formatMessage({id: 'pages.dataSource.step.props.ossjindo.endpoint'})}
           colProps={{span: 21, offset: 1}}
+          rules={[{required: true}]}
         />
         <ProFormText
-          name="fsDefaultFS"
-          label={intl.formatMessage({id: 'pages.dataSource.step.props.hdfs.fsDefaultFs'})}
-          placeholder={intl.formatMessage({id: 'pages.dataSource.step.props.hdfs.fsDefaultFs.placeholder'})}
+          name="bucket"
+          label={intl.formatMessage({id: 'pages.dataSource.step.props.ossjindo.bucket'})}
+          colProps={{span: 21, offset: 1}}
+          rules={[{required: true}]}
+        />
+        <ProFormText
+          name="accessKey"
+          label={intl.formatMessage({id: 'pages.dataSource.step.props.ossjindo.accessKey'})}
+          colProps={{span: 21, offset: 1}}
+          rules={[{required: true}]}
+        />
+        <ProFormText
+          name="accessSecret"
+          label={intl.formatMessage({id: 'pages.dataSource.step.props.ossjindo.accessSecret'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
@@ -74,5 +86,5 @@ const HDFSForm: React.FC = () => {
   );
 }
 
-export default HDFSForm;
+export default OSSJindoForm;
 

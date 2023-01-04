@@ -50,6 +50,7 @@ public enum DataSourceType implements DictInstance {
     FTP("Ftp", "Ftp"),
     SFTP("Sftp", "Sftp"),
     OSS("OSS", "OSS"),
+    OSSJINDO("OSSJindo", "OSSJindo"),
     S3("S3", "S3"),
     HDFS("HDFS", "HDFS"),
 

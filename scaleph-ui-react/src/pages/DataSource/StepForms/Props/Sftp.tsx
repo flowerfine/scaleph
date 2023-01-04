@@ -1,10 +1,10 @@
 import {useIntl, useModel} from "umi";
 import {Form} from "antd";
 import {useEffect} from "react";
-import {ProCard, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
+import {ProCard, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {DsCategoryService} from "@/services/datasource/category.service";
 
-const HDFSForm: React.FC = () => {
+const SftpForm: React.FC = () => {
   const intl = useIntl();
   const form = Form.useFormInstance()
 
@@ -58,14 +58,32 @@ const HDFSForm: React.FC = () => {
           }}
         />
         <ProFormText
-          name="hdfsSitePath"
-          label={intl.formatMessage({id: 'pages.dataSource.step.props.hdfs.hdfsSitePath'})}
+          name="host"
+          label={intl.formatMessage({id: 'pages.dataSource.step.props.sftp.host'})}
           colProps={{span: 21, offset: 1}}
+          rules={[{required: true}]}
+          initialValue={"localhost"}
+        />
+        <ProFormDigit
+          name="port"
+          label={intl.formatMessage({id: 'pages.dataSource.step.props.sftp.port'})}
+          colProps={{span: 21, offset: 1}}
+          rules={[{required: true}]}
+          initialValue={22}
+          fieldProps={{
+            min: 0,
+            max: 65535
+          }}
         />
         <ProFormText
-          name="fsDefaultFS"
-          label={intl.formatMessage({id: 'pages.dataSource.step.props.hdfs.fsDefaultFs'})}
-          placeholder={intl.formatMessage({id: 'pages.dataSource.step.props.hdfs.fsDefaultFs.placeholder'})}
+          name="username"
+          label={intl.formatMessage({id: 'pages.dataSource.step.props.sftp.username'})}
+          colProps={{span: 21, offset: 1}}
+          rules={[{required: true}]}
+        />
+        <ProFormText
+          name="password"
+          label={intl.formatMessage({id: 'pages.dataSource.step.props.sftp.password'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
         />
@@ -74,5 +92,5 @@ const HDFSForm: React.FC = () => {
   );
 }
 
-export default HDFSForm;
+export default SftpForm;
 
