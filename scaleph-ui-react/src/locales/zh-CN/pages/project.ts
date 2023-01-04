@@ -213,11 +213,19 @@ export default {
   'pages.project.di.step.http.value': 'value',
   'pages.project.di.step.http.format': 'Format',
   'pages.project.di.step.http.schema': 'Schema',
-  'pages.project.di.step.http.pollIntervalMs': 'Poll Interval(milliseconds)',
+  'pages.project.di.step.http.contentField': 'Content JsonPath',
+  'pages.project.di.step.http.contentField.placeholder': '$.store.book.*',
+  'pages.project.di.step.http.fieldJson': 'Fields JsonPath',
+  'pages.project.di.step.http.fieldJson.list': 'JsonPath',
+  'pages.project.di.step.http.fieldJson.key': 'Field',
+  'pages.project.di.step.http.fieldJson.key.placeholder': 'category',
+  'pages.project.di.step.http.fieldJson.path': 'JsonPath',
+  'pages.project.di.step.http.fieldJson.path.placeholder': '$.store.book[*].category',
+  'pages.project.di.step.http.pollIntervalMs': 'Poll Interval(mills)',
   'pages.project.di.step.http.retry': 'Retry',
   'pages.project.di.step.http.retryBackoffMultiplierMs':
-    'Retry-Backoff times(milliseconds) Multiplier',
-  'pages.project.di.step.http.retryBackoffMaxMs': 'Maximum Retry-Backoff times(milliseconds)',
+    'Retry-Backoff times(mills) Multiplier',
+  'pages.project.di.step.http.retryBackoffMaxMs': 'Maximum Retry-Backoff times(mills)',
 
   // wechat
   'pages.project.di.step.wechat.url': 'WeChat Robot URL',

@@ -52,11 +52,11 @@ public enum HttpSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<JsonNode> CONTENT_JSON = new PropertyDescriptor.Builder()
-            .name("content_json")
+    public static final PropertyDescriptor<String> CONTENT_FIELD = new PropertyDescriptor.Builder()
+            .name("content_field")
             .description("This parameter can get some json data")
-            .type(PropertyType.OBJECT)
-            .parser(Parsers.JSON_PARSER)
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
