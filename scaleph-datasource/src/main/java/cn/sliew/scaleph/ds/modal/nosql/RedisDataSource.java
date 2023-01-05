@@ -60,7 +60,7 @@ public class RedisDataSource extends AbstractDataSource {
     private RedisMode mode;
 
     @ApiModelProperty("redis nodes information, used in cluster mode")
-    private List<String> nodes;
+    private List<Node> nodes;
 
     @Override
     public DataSourceType getType() {
@@ -91,5 +91,11 @@ public class RedisDataSource extends AbstractDataSource {
         }
         dto.setProps(props);
         return dto;
+    }
+
+    @Data
+    public static class Node {
+
+        private String node;
     }
 }

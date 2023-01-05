@@ -58,6 +58,10 @@ export default {
   'pages.dataSource.step.props.redis.port': 'Port',
   'pages.dataSource.step.props.redis.user': 'User',
   'pages.dataSource.step.props.redis.password': 'Password',
+  'pages.dataSource.step.props.redis.mode': 'Redis Mode',
+  'pages.dataSource.step.props.redis.nodes': 'Cluster Nodes',
+  'pages.dataSource.step.props.redis.nodes.list': 'Node',
+  'pages.dataSource.step.props.redis.nodes.node': 'Node',
 
   'pages.dataSource.step.props.iotdb.nodeUrls': 'Node URLs',
   'pages.dataSource.step.props.iotdb.nodeUrls.placeholder': '127.0.0.1:8080,127.0.0.2:8080',
