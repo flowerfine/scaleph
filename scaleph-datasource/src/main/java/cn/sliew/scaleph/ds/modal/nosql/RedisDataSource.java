@@ -86,7 +86,7 @@ public class RedisDataSource extends AbstractDataSource {
         if (mode != null) {
             props.put("mode", mode.getValue());
         }
-        if (CollectionUtils.isEmpty(nodes)) {
+        if (CollectionUtils.isEmpty(nodes) == false) {
             props.put("nodes", JacksonUtil.toJsonString(nodes));
         }
         dto.setProps(props);

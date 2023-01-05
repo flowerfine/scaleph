@@ -384,6 +384,7 @@ export default {
   'pages.project.di.step.redis.auth': 'Authentication Password',
   'pages.project.di.step.redis.keys': 'Keys Pattern',
   'pages.project.di.step.redis.dataType': 'Data Type',
+  'pages.project.di.step.redis.hashKeyParseMode': 'Hash Key Parse Mode',
   'pages.project.di.step.redis.format': 'Format',
   'pages.project.di.step.redis.key': 'Key',
 

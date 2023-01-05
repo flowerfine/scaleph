@@ -30,11 +30,13 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.redis.RedisProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.redis.sink.RedisSinkProperties.*;
@@ -73,6 +75,12 @@ public class RedisSinkPlugin extends SeaTunnelConnectorPlugin {
         }
         if (StringUtils.hasText(dataSource.getPassword())) {
             conf.putPOJO(AUTH.getName(), dataSource.getPassword());
+        }
+        if (dataSource.getMode() != null) {
+            conf.putPOJO(MODE.getName(), dataSource.getMode().getValue());
+        }
+        if (CollectionUtils.isEmpty(dataSource.getNodes()) == false) {
+            conf.putPOJO(NODES.getName(), dataSource.getNodes().stream().map(RedisDataSource.Node::getNode).collect(Collectors.toList()));
         }
         return conf;
     }

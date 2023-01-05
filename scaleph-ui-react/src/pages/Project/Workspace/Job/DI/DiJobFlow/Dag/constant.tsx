@@ -314,6 +314,7 @@ export const RedisParams = {
   auth: 'auth',
   keys: 'keys',
   dataType: 'data_type',
+  hashKeyParseMode: 'hash_key_parse_mode',
   format: 'format',
   schema: 'schema',
   key: 'key'

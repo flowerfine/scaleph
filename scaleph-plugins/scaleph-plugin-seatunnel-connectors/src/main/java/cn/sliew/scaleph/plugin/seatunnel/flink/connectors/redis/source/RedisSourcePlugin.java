@@ -36,6 +36,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.redis.RedisProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.redis.source.RedisSourceProperties.*;
@@ -51,6 +52,7 @@ public class RedisSourcePlugin extends SeaTunnelConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(KEYS);
         props.add(DATA_TYPE);
+        props.add(HASH_KEY_PARSE_MODE);
         props.add(FORMAT);
         props.add(SCHEMA);
         props.add(CommonProperties.PARALLELISM);
@@ -80,7 +82,7 @@ public class RedisSourcePlugin extends SeaTunnelConnectorPlugin {
             conf.putPOJO(MODE.getName(), dataSource.getMode().getValue());
         }
         if (CollectionUtils.isEmpty(dataSource.getNodes()) == false) {
-            conf.putPOJO(NODES.getName(), dataSource.getNodes());
+            conf.putPOJO(NODES.getName(), dataSource.getNodes().stream().map(RedisDataSource.Node::getNode).collect(Collectors.toList()));
         }
         return conf;
     }
