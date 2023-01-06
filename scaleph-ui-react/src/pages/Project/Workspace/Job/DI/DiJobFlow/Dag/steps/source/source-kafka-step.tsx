@@ -3,7 +3,7 @@ import {WsDiJobService} from '@/services/project/WsDiJob.service';
 import {WsDiJob} from '@/services/project/typings';
 import {
   ProForm,
-  ProFormDependency,
+  ProFormDependency, ProFormDigit,
   ProFormGroup,
   ProFormList,
   ProFormSelect,
@@ -106,10 +106,7 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.kafka.format'})}
           rules={[{required: true}]}
           initialValue={"json"}
-          valueEnum={{
-            json: 'json',
-            text: 'text'
-          }}
+          options={["json", "text"]}
         />
         <ProFormDependency name={['format']}>
           {({format}) => {
@@ -154,6 +151,35 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<{
               );
             }
             return <ProFormGroup/>;
+          }}
+        </ProFormDependency>
+
+        <ProFormSelect
+          name={'start_mode'}
+          label={intl.formatMessage({id: 'pages.project.di.step.kafka.startMode'})}
+          rules={[{required: true}]}
+          initialValue={"group_offsets"}
+          options={["earliest", "group_offsets", "latest", "specific_offsets", "timestamp"]}
+        />
+        <ProFormDependency name={['start_mode']}>
+          {({start_mode}) => {
+            if (start_mode == 'timestamp') {
+              return (
+                <ProFormDigit
+                  name={KafkaParams.startModeTimestamp}
+                  label={intl.formatMessage({id: 'pages.project.di.step.kafka.startModeTimestamp'})}
+                  min={0}
+                />
+              );
+            } else if (start_mode == 'specific_offsets') {
+              return (
+                <ProFormText
+                  name={KafkaParams.startModeOffsets}
+                  label={intl.formatMessage({id: 'pages.project.di.step.kafka.startModeOffsets'})}
+                />
+              );
+            }
+            return <></>;
           }}
         </ProFormDependency>
 

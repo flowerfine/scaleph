@@ -267,12 +267,16 @@ export const KafkaParams = {
   schema: 'schema',
   fieldDelimiter: 'field_delimiter',
   semantic: 'semantic',
-  partitionKey: 'partition_key',
+  partitionKeyFields: 'partition_key_fields',
+  partitionKeyArray: 'partitionKeyArray',
+  partitionKey: 'partitionKey',
   partition: 'partition',
   assignPartitions: 'assign_partitions',
   assignPartitionArray: 'assignPartitionArray',
   assignPartition: 'assignPartition',
   transactionPrefix: 'transaction_prefix',
+  startModeTimestamp: 'start_mode.timestamp',
+  startModeOffsets: 'start_mode.offsets',
 };
 
 export const IoTDBParams = {
@@ -314,6 +318,7 @@ export const RedisParams = {
   auth: 'auth',
   keys: 'keys',
   dataType: 'data_type',
+  hashKeyParseMode: 'hash_key_parse_mode',
   format: 'format',
   schema: 'schema',
   key: 'key'

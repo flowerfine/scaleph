@@ -344,11 +344,15 @@ export default {
   'pages.project.di.step.kafka.format': 'Format',
   'pages.project.di.step.kafka.fieldDelimiter': 'Field Delimiter',
   'pages.project.di.step.kafka.semantic': 'Semantic',
-  'pages.project.di.step.kafka.partitionKey': 'Partition Key',
+  'pages.project.di.step.kafka.partitionKeyFields': 'Partition Key Fields',
+  'pages.project.di.step.kafka.partitionKey': 'Field',
   'pages.project.di.step.kafka.partition': 'Partition',
   'pages.project.di.step.kafka.assignPartitions': 'Assign Partitions',
   'pages.project.di.step.kafka.assignPartition': 'Partition',
   'pages.project.di.step.kafka.transactionPrefix': 'Transaction Prefix',
+  'pages.project.di.step.kafka.startMode': 'Start Mode',
+  'pages.project.di.step.kafka.startModeTimestamp': 'Timestamp',
+  'pages.project.di.step.kafka.startModeOffsets': 'Offsets',
 
   // iotdb
   'pages.project.di.step.iotdb.nodeUrls': 'Node URLs',
@@ -384,6 +388,7 @@ export default {
   'pages.project.di.step.redis.auth': 'Authentication Password',
   'pages.project.di.step.redis.keys': 'Keys Pattern',
   'pages.project.di.step.redis.dataType': 'Data Type',
+  'pages.project.di.step.redis.hashKeyParseMode': 'Hash Key Parse Mode',
   'pages.project.di.step.redis.format': 'Format',
   'pages.project.di.step.redis.key': 'Key',
 

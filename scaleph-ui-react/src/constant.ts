@@ -17,7 +17,10 @@ export const DICT_TYPE = {
   idCardType: 'id_card_type',
   gender: 'gender',
   nation: 'nation',
+
   datasourceType: 'datasource_type',
+  redisMode: 'redis_mode',
+
   jobType: 'job_type',
   jobStatus: 'job_status',
   jobInstanceState: 'job_instance_state',
