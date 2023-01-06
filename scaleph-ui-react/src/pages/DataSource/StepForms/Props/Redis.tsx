@@ -1,8 +1,19 @@
 import {useIntl, useModel} from "umi";
 import {Form} from "antd";
 import {useEffect} from "react";
-import {ProCard, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
+import {
+  ProCard,
+  ProFormDependency,
+  ProFormDigit,
+  ProFormGroup,
+  ProFormList,
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea
+} from "@ant-design/pro-components";
 import {DsCategoryService} from "@/services/datasource/category.service";
+import {DictDataService} from "@/services/admin/dictData.service";
+import {DICT_TYPE} from "@/constant";
 
 const RedisForm: React.FC = () => {
   const intl = useIntl();
@@ -85,6 +96,42 @@ const RedisForm: React.FC = () => {
           label={intl.formatMessage({id: 'pages.dataSource.step.props.redis.password'})}
           colProps={{span: 21, offset: 1}}
         />
+        <ProFormSelect
+          name={"mode"}
+          label={intl.formatMessage({id: 'pages.dataSource.step.props.redis.mode'})}
+          colProps={{span: 21, offset: 1}}
+          request={() => DictDataService.listDictDataByType2(DICT_TYPE.redisMode)}
+        />
+        <ProFormDependency name={['mode']}>
+          {({mode}) => {
+            if (mode == 'cluster') {
+              return (
+                <ProFormGroup
+                  label={intl.formatMessage({id: 'pages.dataSource.step.props.redis.nodes'})}
+                  colProps={{span: 21, offset: 1}}
+                >
+                  <ProFormList
+                    name={"nodes"}
+                    copyIconProps={false}
+                    creatorButtonProps={{
+                      creatorButtonText: intl.formatMessage({id: 'pages.dataSource.step.props.redis.nodes.list'}),
+                      type: 'text',
+                    }}
+                    colProps={{span: 24, offset: 3}}
+                  >
+                    <ProFormGroup>
+                      <ProFormText
+                        name={"node"}
+                        colProps={{span: 16, offset: 4}}
+                      />
+                    </ProFormGroup>
+                  </ProFormList>
+                </ProFormGroup>
+              );
+            }
+            return <ProFormGroup/>;
+          }}
+        </ProFormDependency>
       </ProCard>
     </div>
   );

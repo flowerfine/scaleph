@@ -49,6 +49,7 @@ const SinkKafkaStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
           StepSchemaService.formatSchema(values)
           StepSchemaService.formatKafkaConf(values)
+          StepSchemaService.formatPartitionKeyFields(values)
           StepSchemaService.formatAssginPartitions(values)
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           WsDiJobService.saveStepAttr(map).then((resp) => {
@@ -95,10 +96,18 @@ const SinkKafkaStepForm: React.FC<ModalFormProps<{
             return <ProFormGroup/>;
           }}
         </ProFormDependency>
-        <ProFormText
-          name={KafkaParams.partitionKey}
-          label={intl.formatMessage({id: 'pages.project.di.step.kafka.partitionKey'})}
-        />
+        <ProFormGroup label={intl.formatMessage({id: 'pages.project.di.step.kafka.partitionKeyFields'})}>
+          <ProFormList
+            name={KafkaParams.partitionKeyArray}
+            copyIconProps={false}
+            creatorButtonProps={{
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.kafka.partitionKey'}),
+              type: 'text',
+            }}
+          >
+            <ProFormText name={KafkaParams.partitionKey}/>
+          </ProFormList>
+        </ProFormGroup>
         <ProFormDigit
           name={KafkaParams.partition}
           label={intl.formatMessage({id: 'pages.project.di.step.kafka.partition'})}
@@ -116,6 +125,27 @@ const SinkKafkaStepForm: React.FC<ModalFormProps<{
             <ProFormText name={KafkaParams.assignPartition}/>
           </ProFormList>
         </ProFormGroup>
+        <ProFormSelect
+          name={'format'}
+          label={intl.formatMessage({id: 'pages.project.di.step.kafka.format'})}
+          rules={[{required: true}]}
+          initialValue={"json"}
+          options={["json", "text"]}
+        />
+        <ProFormDependency name={['format']}>
+          {({format}) => {
+            if (format == 'text') {
+              return (
+                <ProFormText
+                  name={KafkaParams.fieldDelimiter}
+                  label={intl.formatMessage({id: 'pages.project.di.step.kafka.fieldDelimiter'})}
+                  initialValue={","}
+                />
+              );
+            }
+            return <ProFormGroup/>;
+          }}
+        </ProFormDependency>
         <ProFormGroup
           label={intl.formatMessage({id: 'pages.project.di.step.kafka.conf'})}
           tooltip={{

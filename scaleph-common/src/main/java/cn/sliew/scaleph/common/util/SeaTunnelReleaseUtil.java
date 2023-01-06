@@ -38,12 +38,8 @@ public enum SeaTunnelReleaseUtil {
 
     public static final String SEATUNNEL_PLUGIN_MAPPING = "plugin-mapping.properties";
 
-
-    public static Path getLibDir(Path rootDir) {
-        return rootDir.resolve("lib");
-    }
-
     public static Path getStarterDir(Path rootDir){ return rootDir.resolve("starter");}
+
     public static Path getStarterJarPath(Path rootDir) {
         return getStarterDir(rootDir).resolve(STARTER_JAR_NAME);
     }

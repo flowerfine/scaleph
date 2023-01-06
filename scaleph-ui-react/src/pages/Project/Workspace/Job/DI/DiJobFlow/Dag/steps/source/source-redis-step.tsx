@@ -72,7 +72,7 @@ const SourceRedisStepForm: React.FC<ModalFormProps<{
           rules={[{required: true}]}
         />
         <ProFormSelect
-          name={RedisParams.dataType}
+          name={"data_type"}
           label={intl.formatMessage({id: 'pages.project.di.step.redis.dataType'})}
           rules={[{required: true}]}
           valueEnum={{
@@ -83,6 +83,22 @@ const SourceRedisStepForm: React.FC<ModalFormProps<{
             zset: 'zset',
           }}
         />
+        <ProFormDependency name={['data_type']}>
+          {({data_type}) => {
+            if (data_type == 'hash') {
+              return (
+                <ProFormSelect
+                  name={RedisParams.hashKeyParseMode}
+                  label={intl.formatMessage({id: 'pages.project.di.step.redis.hashKeyParseMode'})}
+                  initialValue={"all"}
+                  options={["all", "kv"]}
+                  allowClear={false}
+                />
+              );
+            }
+            return <></>;
+          }}
+        </ProFormDependency>
         <ProFormSelect
           name={'format'}
           label={intl.formatMessage({id: 'pages.project.di.step.redis.format'})}

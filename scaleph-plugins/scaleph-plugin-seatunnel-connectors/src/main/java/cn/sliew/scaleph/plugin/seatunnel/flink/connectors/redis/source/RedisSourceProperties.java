@@ -43,6 +43,16 @@ public enum RedisSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<String> HASH_KEY_PARSE_MODE = new PropertyDescriptor.Builder()
+            .name("hash_key_parse_mode")
+            .description("hash key parse mode, used to tell connector how to parse hash key.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .allowableValues("all", "kv")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<String> FORMAT = new PropertyDescriptor.Builder()
             .name("format")
             .description("the format of upstream data, now only support json text, default json.")
