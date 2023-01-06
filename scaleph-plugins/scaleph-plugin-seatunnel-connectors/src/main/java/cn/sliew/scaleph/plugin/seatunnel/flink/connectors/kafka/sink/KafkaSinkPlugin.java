@@ -50,10 +50,12 @@ public class KafkaSinkPlugin extends SeaTunnelConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(TOPIC);
         props.add(SEMANTIC);
-        props.add(PARTITION_KEY);
+        props.add(PARTITION_KEY_FIELDS);
         props.add(PARTITION);
         props.add(ASSIGN_PARTITIONS);
         props.add(TRANSACTION_PREFIX);
+        props.add(FORMAT);
+        props.add(FIELD_DELIMITER);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

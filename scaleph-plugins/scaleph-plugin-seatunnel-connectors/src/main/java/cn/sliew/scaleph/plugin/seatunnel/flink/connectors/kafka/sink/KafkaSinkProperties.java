@@ -34,12 +34,11 @@ public enum KafkaSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> PARTITION_KEY = new PropertyDescriptor.Builder<String>()
-            .name("partition_key")
-            .description(
-                    "Configure which field is used as the key of the kafka message.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
+    public static final PropertyDescriptor<JsonNode> PARTITION_KEY_FIELDS = new PropertyDescriptor.Builder<JsonNode>()
+            .name("partition_key_fields")
+            .description("Configure which fields are used as the key of the kafka message.")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
@@ -65,6 +64,24 @@ public enum KafkaSinkProperties {
             .description("If semantic is specified as EXACTLY_ONCE, the producer will write all messages in a Kafka transaction")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> FORMAT = new PropertyDescriptor.Builder<String>()
+            .name("format")
+            .description("Data format.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .allowableValues("text", "json")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> FIELD_DELIMITER = new PropertyDescriptor.Builder<String>()
+            .name("field_delimiter")
+            .description("Customize the field delimiter for data format.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .defaultValue(",")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

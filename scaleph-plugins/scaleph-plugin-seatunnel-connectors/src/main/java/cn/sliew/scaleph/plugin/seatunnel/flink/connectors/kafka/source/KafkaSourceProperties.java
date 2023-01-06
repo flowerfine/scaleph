@@ -66,10 +66,10 @@ public enum KafkaSourceProperties {
 
     public static final PropertyDescriptor<String> FORMAT = new PropertyDescriptor.Builder<String>()
             .name("format")
-            .description("We support the following file types: text, csv, parquet, orc, json")
+            .description("We support the following file types: text, json")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .allowableValues("text", "csv", "parquet", "orc", "json")
+            .allowableValues("text", "json")
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
@@ -79,6 +79,31 @@ public enum KafkaSourceProperties {
             .description("The separator between columns in a row of data. Only needed by text and csv file format")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> START_MODE = new PropertyDescriptor.Builder<String>()
+            .name("start_mode")
+            .description("The initial consumption pattern of consumers")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .allowableValues("earliest", "group_offsets", "latest", "specific_offsets", "timestamp")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Long> START_MODE_TIMESTAMP = new PropertyDescriptor.Builder<Long>()
+            .name("start_mode.timestamp")
+            .description("The time required for consumption mode to be timestamp.")
+            .type(PropertyType.INT)
+            .parser(Parsers.LONG_PARSER)
+            .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> START_MODE_OFFSETS = new PropertyDescriptor.Builder()
+            .name("start_mode.offsets")
+            .description("The offset required for consumption mode to be specific_offsets")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

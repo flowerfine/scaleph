@@ -58,6 +58,9 @@ public class KafkaSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(SCHEMA);
         props.add(FORMAT);
         props.add(FIELD_DELIMITER);
+        props.add(START_MODE);
+        props.add(START_MODE_TIMESTAMP);
+        props.add(START_MODE_OFFSETS);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

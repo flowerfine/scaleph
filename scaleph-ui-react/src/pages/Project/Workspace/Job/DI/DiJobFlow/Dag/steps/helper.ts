@@ -72,6 +72,15 @@ export const StepSchemaService = {
     return values
   },
 
+  formatPartitionKeyFields: (values: Record<string, any>) => {
+    const partitionKeyFields: Array<string> = []
+    values.partitionKeyArray?.forEach(function (item: Record<string, any>) {
+      partitionKeyFields.push(item.partitionKey)
+    });
+    values[KafkaParams.partitionKeyFields] = JSON.stringify(partitionKeyFields)
+    return values
+  },
+
   formatAssginPartitions: (values: Record<string, any>) => {
     const assignPartitions: Array<string> = []
     values.assignPartitionArray?.forEach(function (item: Record<string, any>) {
