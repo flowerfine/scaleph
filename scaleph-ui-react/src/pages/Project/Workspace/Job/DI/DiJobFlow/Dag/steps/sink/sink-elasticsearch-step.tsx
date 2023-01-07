@@ -1,13 +1,14 @@
 import {ModalFormProps} from '@/app.d';
 import {WsDiJobService} from '@/services/project/WsDiJob.service';
 import {WsDiJob} from '@/services/project/typings';
-import {ProForm, ProFormDigit, ProFormText} from '@ant-design/pro-components';
+import {ProForm, ProFormDigit, ProFormGroup, ProFormList, ProFormText} from '@ant-design/pro-components';
 import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {ElasticsearchParams, STEP_ATTR_TYPE} from '../../constant';
+import {ElasticsearchParams, JdbcParams, STEP_ATTR_TYPE} from '../../constant';
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
+import {StepSchemaService} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper";
 
 const SinkElasticsearchStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -37,6 +38,7 @@ const SinkElasticsearchStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
+          StepSchemaService.formatEsPrimaryKeys(values)
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           WsDiJobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
@@ -60,6 +62,24 @@ const SinkElasticsearchStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.index'})}
           rules={[{required: true}]}
         />
+        <ProFormGroup
+          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.primaryKeys'})}
+        >
+          <ProFormList
+            name={ElasticsearchParams.primaryKeyArray}
+            copyIconProps={false}
+            creatorButtonProps={{
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.elasticsearch.primaryKeys.list'}),
+              type: 'text',
+            }}
+          >
+            <ProFormText
+              name={ElasticsearchParams.primaryKey}
+              colProps={{span: 16, offset: 4}}
+            />
+          </ProFormList>
+        </ProFormGroup>
+
         <ProFormDigit
           name={ElasticsearchParams.maxRetrySize}
           label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.maxRetrySize'})}

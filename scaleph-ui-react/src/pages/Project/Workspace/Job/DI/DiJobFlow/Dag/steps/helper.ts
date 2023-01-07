@@ -1,4 +1,10 @@
-import {KafkaParams} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
+import {
+  ElasticsearchParams,
+  IoTDBParams,
+  JdbcParams,
+  KafkaParams,
+  SchemaParams
+} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
 
 export const StepSchemaService = {
 
@@ -13,10 +19,10 @@ export const StepSchemaService = {
 
   formatFields: (values: Record<string, any>) => {
     const fields: Record<string, any> = {}
-    values.fieldArray?.forEach(function (item: Record<string, any>) {
+    values[SchemaParams.fieldArray]?.forEach(function (item: Record<string, any>) {
       fields[item.field] = item.type;
     });
-    values.fields = JSON.stringify(fields)
+    values[SchemaParams.fields] = JSON.stringify(fields)
     return values
   },
 
@@ -112,6 +118,33 @@ export const StepSchemaService = {
       jsonFields[item.key] = item.path;
     });
     values.json_field = JSON.stringify(jsonFields)
+    return values
+  },
+
+  formatPrimaryKeys: (values: Record<string, any>) => {
+    const primaryKeys: Array<string> = []
+    values[JdbcParams.primaryKeyArray]?.forEach(function (item: Record<string, any>) {
+      primaryKeys.push(item[JdbcParams.primaryKey])
+    });
+    values[JdbcParams.primaryKeys] = JSON.stringify(primaryKeys)
+    return values
+  },
+
+  formatEsPrimaryKeys: (values: Record<string, any>) => {
+    const primaryKeys: Array<string> = []
+    values[ElasticsearchParams.primaryKeyArray]?.forEach(function (item: Record<string, any>) {
+      primaryKeys.push(item[ElasticsearchParams.primaryKey])
+    });
+    values[ElasticsearchParams.primaryKeys] = JSON.stringify(primaryKeys)
+    return values
+  },
+
+  formatMeasurementFields: (values: Record<string, any>) => {
+    const primaryKeys: Array<string> = []
+    values[IoTDBParams.keyMeasurementFieldArray]?.forEach(function (item: Record<string, any>) {
+      primaryKeys.push(item[IoTDBParams.keyMeasurementField])
+    });
+    values[IoTDBParams.keyMeasurementFields] = JSON.stringify(primaryKeys)
     return values
   },
 

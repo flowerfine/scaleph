@@ -19,16 +19,40 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.jdbc.sink;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum JdbcSinkProperties {
     ;
+
+    public static final PropertyDescriptor<String> TABLE = new PropertyDescriptor.Builder<String>()
+            .name("table")
+            .description("Use this table-name auto-generate sql and receive upstream input datas write to database")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Boolean> SUPPORT_UPSERT_BY_QUERY_PRIMARY_KEY_EXIST = new PropertyDescriptor.Builder<Boolean>()
+            .name("support_upsert_by_query_primary_key_exist")
+            .description("Choose to use INSERT sql, UPDATE sql to process update events(INSERT, UPDATE_AFTER) based on query primary key exists")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> PRIMARY_KEYS = new PropertyDescriptor.Builder<JsonNode>()
+            .name("primary_keys")
+            .description("This option is used to support operations such as insert, delete, and update when automatically generate sql.")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
 
     public static final PropertyDescriptor<String> QUERY = new PropertyDescriptor.Builder<String>()
             .name("query")
             .description("upsert statement")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

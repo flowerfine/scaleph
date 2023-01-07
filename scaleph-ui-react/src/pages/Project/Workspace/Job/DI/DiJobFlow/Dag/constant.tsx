@@ -67,6 +67,7 @@ export const STEP_ATTR_TYPE = {
 export const SchemaParams = {
   schema: 'schema',
   fields: 'fields',
+  fieldArray: 'fieldArray',
   field: 'field',
   type: 'type',
   delimiter: 'delimiter',
@@ -84,10 +85,17 @@ export const FakeParams = {
 
 export const JdbcParams = {
   connectionCheckTimeoutSec: 'connection_check_timeout_sec',
+  table: 'table',
+  supportUpsert: 'support_upsert_by_query_primary_key_exist',
+  primaryKeys: 'primary_keys',
+  primaryKeyArray: 'primaryKeyArray',
+  primaryKey: 'key',
   query: 'query',
   partitionColumn: 'partition_column',
   partitionLowerBound: 'partition_lower_bound',
   partitionUpperBound: 'partition_upper_bound',
+  partitionNum: 'partition_num',
+  fetchSize: 'fetch_size',
   batchSize: 'batch_size',
   batchIntervalMs: 'batch_interval_ms',
   maxRetries: 'max_retries',
@@ -232,6 +240,9 @@ export const ClickHouseParams = {
   dataSourceType: 'ClickHouse',
   splitMode: 'split_mode',
   shardingKey: 'sharding_key',
+  primaryKey: 'primary_key',
+  supportUpsert: 'support_upsert',
+  allowExperimentalLightweightDelete: 'allow_experimental_lightweight_delete',
   clickhouseConf: 'clickhouse_conf',
   key: 'key',
   value: 'value',
@@ -304,6 +315,11 @@ export const IoTDBParams = {
   zoneId: 'zone_id',
   enableRpcCompression: 'enable_rpc_compression',
   connectionTimeoutInMs: 'connection_timeout_in_ms',
+  keyDevice: 'key_device',
+  keyTimestamp: 'key_timestamp',
+  keyMeasurementFields: 'key_measurement_fields',
+  keyMeasurementFieldArray: 'keyMeasurementFieldArray',
+  keyMeasurementField: 'keyMeasurementField',
 };
 
 export const MondoDBParams = {
@@ -358,6 +374,10 @@ export const ElasticsearchParams = {
   username: 'username',
   password: 'password',
   index: 'index',
+  primaryKeys: 'primary_keys',
+  primaryKeyArray: 'primaryKeyArray',
+  primaryKey: 'primaryKey',
+  keyDelimiter: 'key_delimiter',
   maxRetrySize: 'max_retry_size',
   maxBatchSize: 'max_batch_size'
 };

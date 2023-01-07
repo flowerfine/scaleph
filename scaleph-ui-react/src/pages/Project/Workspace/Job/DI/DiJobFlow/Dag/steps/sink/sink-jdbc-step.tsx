@@ -7,12 +7,12 @@ import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {JdbcParams, STEP_ATTR_TYPE} from '../../constant';
+import {JdbcParams, KafkaParams, STEP_ATTR_TYPE} from '../../constant';
 import {
   ProForm,
   ProFormDependency,
   ProFormDigit,
-  ProFormGroup,
+  ProFormGroup, ProFormList,
   ProFormSelect,
   ProFormSwitch,
   ProFormText,
@@ -21,6 +21,7 @@ import {
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {DsInfoParam} from "@/services/datasource/typings";
 import {DsInfoService} from "@/services/datasource/info.service";
+import {StepSchemaService} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper";
 
 const SinkJdbcStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -51,6 +52,7 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
+          StepSchemaService.formatPrimaryKeys(values)
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           WsDiJobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
@@ -103,6 +105,59 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<{
             min: 0
           }}
         />
+
+        <ProFormText
+          name={JdbcParams.table}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.table'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.table.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+        />
+        <ProFormSwitch
+          name={"support_upsert_by_query_primary_key_exist"}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.supportUpsert'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.supportUpsert.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+        />
+        <ProFormDependency name={["support_upsert_by_query_primary_key_exist"]}>
+          {({support_upsert_by_query_primary_key_exist}) => {
+            if (support_upsert_by_query_primary_key_exist) {
+              return (
+                <ProFormGroup
+                  label={intl.formatMessage({id: 'pages.project.di.step.jdbc.primaryKeys'})}
+                  tooltip={{
+                    title: intl.formatMessage({id: 'pages.project.di.step.jdbc.primaryKeys.tooltip'}),
+                    icon: <InfoCircleOutlined/>,
+                  }}
+                >
+                  <ProFormList
+                    name={JdbcParams.primaryKeyArray}
+                    copyIconProps={false}
+                    creatorButtonProps={{
+                      creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.jdbc.primaryKeys.list'}),
+                      type: 'text',
+                    }}
+                  >
+                    <ProFormText
+                      name={JdbcParams.primaryKey}
+                      colProps={{span: 16, offset: 4}}
+                    />
+                  </ProFormList>
+                </ProFormGroup>
+              );
+            }
+            return <ProFormGroup/>;
+          }}
+        </ProFormDependency>
+
+        <ProFormTextArea
+          name={JdbcParams.query}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.query'})}
+        />
+
         <ProFormDigit
           name={JdbcParams.batchSize}
           label={intl.formatMessage({id: 'pages.project.di.step.jdbc.batchSize'})}
@@ -188,12 +243,6 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<{
             return <ProFormGroup/>;
           }}
         </ProFormDependency>
-
-        <ProFormTextArea
-          name={JdbcParams.query}
-          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.query'})}
-          rules={[{required: true}]}
-        />
       </ProForm>
     </Modal>
   );
