@@ -84,10 +84,17 @@ export const FakeParams = {
 
 export const JdbcParams = {
   connectionCheckTimeoutSec: 'connection_check_timeout_sec',
+  table: 'table',
+  supportUpsert: 'support_upsert_by_query_primary_key_exist',
+  primaryKeys: 'primary_keys',
+  primaryKeyArray: 'primaryKeyArray',
+  primaryKey: 'key',
   query: 'query',
   partitionColumn: 'partition_column',
   partitionLowerBound: 'partition_lower_bound',
   partitionUpperBound: 'partition_upper_bound',
+  partitionNum: 'partition_num',
+  fetchSize: 'fetch_size',
   batchSize: 'batch_size',
   batchIntervalMs: 'batch_interval_ms',
   maxRetries: 'max_retries',

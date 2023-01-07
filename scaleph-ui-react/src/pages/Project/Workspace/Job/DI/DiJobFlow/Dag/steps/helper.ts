@@ -1,4 +1,4 @@
-import {KafkaParams} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
+import {JdbcParams, KafkaParams} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
 
 export const StepSchemaService = {
 
@@ -112,6 +112,15 @@ export const StepSchemaService = {
       jsonFields[item.key] = item.path;
     });
     values.json_field = JSON.stringify(jsonFields)
+    return values
+  },
+
+  formatPrimaryKeys: (values: Record<string, any>) => {
+    const primaryKeys: Array<string> = []
+    values[JdbcParams.primaryKeyArray]?.forEach(function (item: Record<string, any>) {
+      primaryKeys.push(item[JdbcParams.primaryKey])
+    });
+    values[JdbcParams.primaryKeys] = JSON.stringify(primaryKeys)
     return values
   },
 

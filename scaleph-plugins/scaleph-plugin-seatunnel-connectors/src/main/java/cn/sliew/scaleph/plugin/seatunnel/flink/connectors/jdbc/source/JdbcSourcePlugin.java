@@ -52,6 +52,8 @@ public class JdbcSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(PARTITION_COLUMN);
         props.add(PARTITION_UPPER_BOUND);
         props.add(PARTITION_LOWER_BOUND);
+        props.add(PARTITION_NUM);
+        props.add(FETCH_SIZE);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
