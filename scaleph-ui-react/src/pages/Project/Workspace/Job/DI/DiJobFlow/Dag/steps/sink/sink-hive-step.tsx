@@ -6,8 +6,7 @@ import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
 import {HiveParams, STEP_ATTR_TYPE} from '../../constant';
-import {InfoCircleOutlined} from "@ant-design/icons";
-import {ProForm, ProFormSelect, ProFormSwitch, ProFormText,} from "@ant-design/pro-components";
+import {ProForm, ProFormText,} from "@ant-design/pro-components";
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
 const SinkHiveStepForm: React.FC<ModalFormProps<{
@@ -62,46 +61,6 @@ const SinkHiveStepForm: React.FC<ModalFormProps<{
           name={HiveParams.tableName}
           label={intl.formatMessage({id: 'pages.project.di.step.hive.tableName'})}
           rules={[{required: true}]}
-        />
-        <ProFormText
-          name={HiveParams.partitionBy}
-          label={intl.formatMessage({id: 'pages.project.di.step.hive.partitionBy'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.hive.partitionBy.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-        />
-        <ProFormText
-          name={HiveParams.sinkColumns}
-          label={intl.formatMessage({id: 'pages.project.di.step.hive.sinkColumns'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.hive.sinkColumns.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-        />
-        <ProFormSwitch
-          name={HiveParams.isEnableTransaction}
-          label={intl.formatMessage({id: 'pages.project.di.step.hive.isEnableTransaction'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.hive.isEnableTransaction.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-          initialValue={true}
-          disabled
-        />
-        <ProFormSelect
-          name={HiveParams.saveMode}
-          label={intl.formatMessage({id: 'pages.project.di.step.hive.saveMode'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.hive.saveMode.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-          allowClear={false}
-          initialValue={"append"}
-          valueEnum={{
-            append: {text: "append", disabled: false},
-            overwrite: {text: "overwrite", disabled: true}
-          }}
         />
       </ProForm>
     </Modal>

@@ -21,8 +21,6 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive;
 import cn.sliew.scaleph.plugin.framework.property.*;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import java.util.List;
-
 public enum HiveProperties {
     ;
 
@@ -49,47 +47,6 @@ public enum HiveProperties {
             .description("The schema information of upstream data.")
             .type(PropertyType.OBJECT)
             .parser(Parsers.JSON_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<List<String>> PARTITION_BY = new PropertyDescriptor.Builder()
-            .name("partition_by")
-            .description(
-                    "required if hive sink table have partitions,Partition data based on selected fields")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_ARRAY_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<List<String>> SINK_COLUMNS = new PropertyDescriptor.Builder()
-            .name("sink_columns")
-            .description(
-                    "Which columns need be write to hive, default value is all of the columns get from Transform or Source. "
-                            + "The order of the fields determines the order in which the file is actually written.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_ARRAY_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<Boolean> IS_ENABLE_TRANSACTION = new PropertyDescriptor.Builder()
-            .name("is_enable_transaction")
-            .description(
-                    "If is_enable_transaction is true, we will ensure that data will not be lost or duplicated when it is written to the target directory.\n"
-                            + "Only support true now.")
-            .type(PropertyType.BOOLEAN)
-            .parser(Parsers.BOOLEAN_PARSER)
-            .defaultValue(true)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> SAVE_MODE = new PropertyDescriptor.Builder<String>()
-            .name("save_mode")
-            .description(
-                    "Storage mode, we need support overwrite and append. append is now supported.\n"
-                            + "Streaming Job not support overwrite.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .defaultValue("append")
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 

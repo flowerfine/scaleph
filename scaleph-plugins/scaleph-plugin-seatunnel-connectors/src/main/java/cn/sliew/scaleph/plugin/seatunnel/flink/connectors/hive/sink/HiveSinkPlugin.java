@@ -47,10 +47,6 @@ public class HiveSinkPlugin extends SeaTunnelConnectorPlugin {
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(TABLE_NAME);
-        props.add(PARTITION_BY);
-        props.add(SINK_COLUMNS);
-        props.add(IS_ENABLE_TRANSACTION);
-        props.add(SAVE_MODE);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
