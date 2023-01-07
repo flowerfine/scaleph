@@ -99,7 +99,7 @@ const SourceJdbcStepForm: React.FC<ModalFormProps<{
             title: intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionColumn.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
-          colProps={{span: 8}}
+          colProps={{span: 6}}
         />
         <ProFormDigit
           name={JdbcParams.partitionLowerBound}
@@ -108,7 +108,7 @@ const SourceJdbcStepForm: React.FC<ModalFormProps<{
             title: intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionLowerBound.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
-          colProps={{span: 8}}
+          colProps={{span: 6}}
         />
         <ProFormDigit
           name={JdbcParams.partitionUpperBound}
@@ -117,7 +117,25 @@ const SourceJdbcStepForm: React.FC<ModalFormProps<{
             title: intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionUpperBound.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
-          colProps={{span: 8}}
+          colProps={{span: 6}}
+        />
+        <ProFormDigit
+          name={JdbcParams.partitionNum}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionNum'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.partitionNum.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          colProps={{span: 6}}
+        />
+        <ProFormDigit
+          name={JdbcParams.fetchSize}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.fetchSize'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.fetchSize.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          initialValue={0}
         />
 
         <ProFormTextArea

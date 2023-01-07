@@ -6,8 +6,9 @@ import {Form, message, Modal} from "antd";
 import {WsDiJob} from "@/services/project/typings";
 import {getIntl, getLocale} from "umi";
 import {useEffect} from "react";
-import {ProForm, ProFormDigit, ProFormSwitch, ProFormText} from "@ant-design/pro-components";
+import {ProForm, ProFormDigit, ProFormGroup, ProFormList, ProFormSwitch, ProFormText} from "@ant-design/pro-components";
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
+import {StepSchemaService} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper";
 
 const SinkIoTDBStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -37,6 +38,7 @@ const SinkIoTDBStepForm: React.FC<ModalFormProps<{
         map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
         map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
         map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
+        StepSchemaService.formatMeasurementFields(values)
         map.set(STEP_ATTR_TYPE.stepAttrs, values);
         WsDiJobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
@@ -55,6 +57,27 @@ const SinkIoTDBStepForm: React.FC<ModalFormProps<{
         rules={[{required: true}, {max: 120}]}
       />
       <DataSourceItem dataSource={"IoTDB"}/>
+      <ProFormText
+        name={IoTDBParams.keyDevice}
+        label={intl.formatMessage({id: 'pages.project.di.step.iotdb.keyDevice'})}
+        rules={[{required: true}]}
+      />
+      <ProFormText
+        name={IoTDBParams.keyTimestamp}
+        label={intl.formatMessage({id: 'pages.project.di.step.iotdb.keyTimestamp'})}
+      />
+      <ProFormGroup label={intl.formatMessage({id: 'pages.project.di.step.iotdb.keyMeasurementFields'})}>
+        <ProFormList
+          name={IoTDBParams.keyMeasurementFieldArray}
+          copyIconProps={false}
+          creatorButtonProps={{
+            creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.iotdb.keyMeasurementFields.field'}),
+            type: 'text',
+          }}
+        >
+          <ProFormText name={IoTDBParams.keyMeasurementField}/>
+        </ProFormList>
+      </ProFormGroup>
       <ProFormDigit
         name={IoTDBParams.batchSize}
         label={intl.formatMessage({id: 'pages.project.di.step.iotdb.batchSize'})}

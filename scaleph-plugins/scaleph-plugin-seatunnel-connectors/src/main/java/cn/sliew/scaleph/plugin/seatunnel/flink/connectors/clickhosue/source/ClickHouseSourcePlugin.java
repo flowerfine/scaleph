@@ -36,7 +36,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.ClickHouseProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.source.ClickHouseSourceProperties.SCHEMA;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.clickhosue.source.ClickHouseSourceProperties.SQL;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
@@ -44,12 +43,11 @@ public class ClickHouseSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public ClickHouseSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Clickhouse source connector",
+                "ClickHouse source connector",
                 ClickHouseSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(SQL);
-        props.add(SCHEMA);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

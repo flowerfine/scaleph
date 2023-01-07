@@ -32,8 +32,6 @@ public enum ElasticsearchSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-
-
     public static final PropertyDescriptor<String> INDEX_TYPE = new PropertyDescriptor.Builder<String>()
             .name("index_type")
             .description("Elasticsearch index type, it is recommended not to specify in elasticsearch 7 and above")

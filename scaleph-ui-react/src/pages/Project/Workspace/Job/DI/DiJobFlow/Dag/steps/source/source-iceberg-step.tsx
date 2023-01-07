@@ -1,6 +1,6 @@
 import { NsGraph } from '@antv/xflow';
 import { ModalFormProps } from '@/app.d';
-import { IcebergParams, STEP_ATTR_TYPE } from '../../constant';
+import {IcebergParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
 import { WsDiJobService } from '@/services/project/WsDiJob.service';
 import { Form, message, Modal } from 'antd';
 import { WsDiJob } from '@/services/project/typings';
@@ -9,12 +9,14 @@ import {
   ProForm,
   ProFormDependency,
   ProFormDigit,
-  ProFormGroup,
+  ProFormGroup, ProFormList,
   ProFormSelect,
   ProFormSwitch,
   ProFormText,
 } from '@ant-design/pro-components';
 import { useEffect } from 'react';
+import {InfoCircleOutlined} from "@ant-design/icons";
+import {StepSchemaService} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper";
 
 const SourceIcebergStepForm: React.FC<
   ModalFormProps<{
@@ -47,6 +49,7 @@ const SourceIcebergStepForm: React.FC<
           map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
+          StepSchemaService.formatFields(values);
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           WsDiJobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
@@ -68,7 +71,6 @@ const SourceIcebergStepForm: React.FC<
           name={IcebergParams.catalogType}
           label={intl.formatMessage({ id: 'pages.project.di.step.iceberg.catalogType' })}
           rules={[{ required: true }]}
-          colProps={{ span: 24 }}
           valueEnum={{
             hive: 'Hive',
             hadoop: 'Hadoop',
@@ -83,7 +85,6 @@ const SourceIcebergStepForm: React.FC<
                     name={IcebergParams.uri}
                     label={intl.formatMessage({ id: 'pages.project.di.step.iceberg.uri' })}
                     rules={[{ required: true }]}
-                    colProps={{ span: 24 }}
                   />
                 </ProFormGroup>
               );
@@ -113,7 +114,6 @@ const SourceIcebergStepForm: React.FC<
           name={IcebergParams.warehouse}
           label={intl.formatMessage({ id: 'pages.project.di.step.iceberg.warehouse' })}
           rules={[{ required: true }]}
-          colProps={{ span: 24 }}
         />
         <ProFormSwitch
           name={IcebergParams.caseSensitive}
@@ -134,15 +134,39 @@ const SourceIcebergStepForm: React.FC<
             TABLE_SCAN_THEN_INCREMENTAL: 'TABLE_SCAN_THEN_INCREMENTAL',
           }}
         />
-        <ProFormText
-          name={IcebergParams.fields}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iceberg.fields' })}
-          colProps={{ span: 24 }}
-        />
+        <ProFormGroup
+          label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+        >
+          <ProFormList
+            name={SchemaParams.fieldArray}
+            copyIconProps={false}
+            creatorButtonProps={{
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
+              type: 'text',
+            }}
+          >
+            <ProFormGroup>
+              <ProFormText
+                name={SchemaParams.field}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
+                colProps={{span: 10, offset: 1}}
+              />
+              <ProFormText
+                name={SchemaParams.type}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
+                colProps={{span: 10, offset: 1}}
+              />
+            </ProFormGroup>
+          </ProFormList>
+        </ProFormGroup>
+
         <ProFormSwitch
           name={'use_snapshot_id'}
           label={intl.formatMessage({ id: 'pages.project.di.step.iceberg.useSnapshotId' })}
-          colProps={{ span: 24 }}
         />
         <ProFormDependency name={['use_snapshot_id']}>
           {({ use_snapshot_id }) => {

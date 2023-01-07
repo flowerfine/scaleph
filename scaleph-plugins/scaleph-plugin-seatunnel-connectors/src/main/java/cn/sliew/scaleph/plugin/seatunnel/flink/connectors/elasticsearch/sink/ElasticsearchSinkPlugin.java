@@ -47,6 +47,8 @@ public class ElasticsearchSinkPlugin extends SeaTunnelConnectorPlugin {
                 ElasticsearchSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(INDEX);
+        props.add(PRIMARY_KEYS);
+        props.add(KEY_DELIMITER);
         props.add(MAX_RETRY_SIZE);
         props.add(MAX_BATCH_SIZE);
         props.add(CommonProperties.PARALLELISM);
@@ -64,7 +66,7 @@ public class ElasticsearchSinkPlugin extends SeaTunnelConnectorPlugin {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
         ElasticsearchDataSource dataSource = (ElasticsearchDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.putPOJO(HOSTS.getName(), StringUtils.split(dataSource.getHosts(), ","));
+        conf.putPOJO(HOSTS.getName(), StringUtils.commaDelimitedListToStringArray(dataSource.getHosts()));
         if (StringUtils.hasText(dataSource.getUsername())) {
             conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
             conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());

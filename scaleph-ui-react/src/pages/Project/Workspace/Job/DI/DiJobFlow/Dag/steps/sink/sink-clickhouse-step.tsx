@@ -112,6 +112,28 @@ const SinkClickHouseStepForm: React.FC<ModalFormProps<{
             return <ProFormGroup/>;
           }}
         </ProFormDependency>
+        <ProFormSwitch
+          name={"support_upsert"}
+          label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.supportUpsert'})}
+        />
+        <ProFormDependency name={["support_upsert"]}>
+          {({support_upsert}) => {
+            if (support_upsert) {
+              return (
+                <ProFormText
+                  name={ClickHouseParams.primaryKey}
+                  label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.primaryKey'})}
+                  rules={[{required: true}]}
+                />
+              );
+            }
+            return <ProFormGroup/>;
+          }}
+        </ProFormDependency>
+        <ProFormSwitch
+          name={ClickHouseParams.allowExperimentalLightweightDelete}
+          label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.allowExperimentalLightweightDelete'})}
+        />
         <ProFormGroup
           label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf'})}
           tooltip={{

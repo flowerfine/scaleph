@@ -121,12 +121,23 @@ export default {
 
   // jdbc
   'pages.project.di.step.jdbc.connectionCheckTimeoutSec': '数据源连接超时（秒）',
+  'pages.project.di.step.jdbc.table': 'Table',
+  'pages.project.di.step.jdbc.table.tooltip': 'Higher priority than SQL',
+  'pages.project.di.step.jdbc.supportUpsert': 'Support Upsert',
+  'pages.project.di.step.jdbc.supportUpsert.tooltip': 'support update when query by primary key exists',
+  'pages.project.di.step.jdbc.primaryKeys': 'Table Primary Keys',
+  'pages.project.di.step.jdbc.primaryKeys.tooltip': 'Please Provide Table Primary Keys',
+  'pages.project.di.step.jdbc.primaryKeys.list': 'Primary Key',
   'pages.project.di.step.jdbc.partitionColumn': '分区字段',
   'pages.project.di.step.jdbc.partitionColumn.tooltip': '只支持数值类型字段作为分区字段',
   'pages.project.di.step.jdbc.partitionLowerBound': '分区最小值',
   'pages.project.di.step.jdbc.partitionLowerBound.tooltip': 'SeaTunnel 可查询数据库获取最小值',
   'pages.project.di.step.jdbc.partitionUpperBound': '分区最大值',
-  'pages.project.di.step.jdbc.partitionUpperBound.tooltip': 'SeaTunnel 可查询数据库获取最小值',
+  'pages.project.di.step.jdbc.partitionUpperBound.tooltip': 'SeaTunnel 可查询数据库获取最大值',
+  'pages.project.di.step.jdbc.partitionNum': '分区数',
+  'pages.project.di.step.jdbc.partitionNum.tooltip': '默认值: 任务并行度',
+  'pages.project.di.step.jdbc.fetchSize': 'Jdbc Fetch Size',
+  'pages.project.di.step.jdbc.fetchSize.tooltip': '参阅 Jdbc 规范: fetch size',
   'pages.project.di.step.jdbc.query': 'SQL',
   'pages.project.di.step.jdbc.getsql': '获取SQL',
   'pages.project.di.step.jdbc.preview': '预览结果',
@@ -282,13 +293,16 @@ export default {
 
   // clickhouse
   'pages.project.di.step.clickhosue.table': '导出表名',
-  'pages.project.di.step.clickhosue.bulkSize': '导出表名',
+  'pages.project.di.step.clickhosue.bulkSize': '每批次数据规模',
   'pages.project.di.step.clickhosue.fields': '导出字段信息',
   'pages.project.di.step.clickhosue.fields.tooltip': 'For example, : id,name',
   'pages.project.di.step.clickhosue.splitMode': '是否分片',
   'pages.project.di.step.clickhosue.shardingKey': 'shardingKey 分片字段',
   'pages.project.di.step.clickhosue.splitMode.tooltip':
     "Split mode when table is distributed engine,This mode only support clickhouse table which engine is 'Distributed'",
+  'pages.project.di.step.clickhosue.primaryKey': 'Primary Key',
+  'pages.project.di.step.clickhosue.supportUpsert': 'Support Upsert',
+  'pages.project.di.step.clickhosue.allowExperimentalLightweightDelete': 'Allow Lightweight Delete(experimental)',
   'pages.project.di.step.clickhosue.clickhouseConf': 'clickhouse jdbc参数',
   'pages.project.di.step.clickhosue.clickhouseConf.tooltip':
     ' For example, the way to specify socket_timeout is: clickhouse.socket_timeout = 50000',
@@ -376,6 +390,10 @@ export default {
   'pages.project.di.step.iotdb.zoneId': 'Time Zone ID',
   'pages.project.di.step.iotdb.enableRpcCompression': 'Enable RPC Compression',
   'pages.project.di.step.iotdb.connectionTimeoutInMs': 'Connection Timeout(milliseconds)',
+  'pages.project.di.step.iotdb.keyDevice': 'Device',
+  'pages.project.di.step.iotdb.keyTimestamp': 'Timestamp',
+  'pages.project.di.step.iotdb.keyMeasurementFields': 'Measurement Fields',
+  'pages.project.di.step.iotdb.keyMeasurementFields.field': 'Field',
 
   // mongodb
   'pages.project.di.step.mongodb.uri': 'URI',
@@ -429,6 +447,8 @@ export default {
   'pages.project.di.step.elasticsearch.username': 'Username',
   'pages.project.di.step.elasticsearch.password': 'Password',
   'pages.project.di.step.elasticsearch.index': 'Index',
+  'pages.project.di.step.elasticsearch.primaryKeys': 'Primary Keys',
+  'pages.project.di.step.elasticsearch.primaryKeys.list': 'Primary Key',
   'pages.project.di.step.elasticsearch.maxRetrySize': 'Max Retry Size',
   'pages.project.di.step.elasticsearch.maxBatchSize': 'Max Batch Size',
 

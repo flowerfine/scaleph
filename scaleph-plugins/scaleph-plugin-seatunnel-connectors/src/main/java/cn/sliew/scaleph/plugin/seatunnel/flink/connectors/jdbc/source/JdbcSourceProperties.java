@@ -57,4 +57,22 @@ public enum JdbcSourceProperties {
             .parser(Parsers.LONG_PARSER)
             .addValidator(Validators.LONG_VALIDATOR)
             .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> PARTITION_NUM = new PropertyDescriptor.Builder<Integer>()
+            .name("partition_num")
+            .description("The number of partition count, only support positive integer. default value is job parallelism")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> FETCH_SIZE = new PropertyDescriptor.Builder<Integer>()
+            .name("fetch_size")
+            .description("The number of records writen per batch")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(0)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
 }
