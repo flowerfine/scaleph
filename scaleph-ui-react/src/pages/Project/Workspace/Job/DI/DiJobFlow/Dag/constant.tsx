@@ -365,6 +365,10 @@ export const ElasticsearchParams = {
   username: 'username',
   password: 'password',
   index: 'index',
+  primaryKeys: 'primary_keys',
+  primaryKeyArray: 'primaryKeyArray',
+  primaryKey: 'primaryKey',
+  keyDelimiter: 'key_delimiter',
   maxRetrySize: 'max_retry_size',
   maxBatchSize: 'max_batch_size'
 };

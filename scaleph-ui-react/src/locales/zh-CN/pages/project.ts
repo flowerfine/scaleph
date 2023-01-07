@@ -440,6 +440,8 @@ export default {
   'pages.project.di.step.elasticsearch.username': 'Username',
   'pages.project.di.step.elasticsearch.password': 'Password',
   'pages.project.di.step.elasticsearch.index': 'Index',
+  'pages.project.di.step.elasticsearch.primaryKeys': 'Primary Keys',
+  'pages.project.di.step.elasticsearch.primaryKeys.list': 'Primary Key',
   'pages.project.di.step.elasticsearch.maxRetrySize': 'Max Retry Size',
   'pages.project.di.step.elasticsearch.maxBatchSize': 'Max Batch Size',
 

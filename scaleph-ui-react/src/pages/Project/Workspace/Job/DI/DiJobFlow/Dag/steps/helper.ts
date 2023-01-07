@@ -1,4 +1,4 @@
-import {JdbcParams, KafkaParams} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
+import {ElasticsearchParams, JdbcParams, KafkaParams} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
 
 export const StepSchemaService = {
 
@@ -121,6 +121,15 @@ export const StepSchemaService = {
       primaryKeys.push(item[JdbcParams.primaryKey])
     });
     values[JdbcParams.primaryKeys] = JSON.stringify(primaryKeys)
+    return values
+  },
+
+  formatEsPrimaryKeys: (values: Record<string, any>) => {
+    const primaryKeys: Array<string> = []
+    values[ElasticsearchParams.primaryKeyArray]?.forEach(function (item: Record<string, any>) {
+      primaryKeys.push(item[ElasticsearchParams.primaryKey])
+    });
+    values[ElasticsearchParams.primaryKeys] = JSON.stringify(primaryKeys)
     return values
   },
 
