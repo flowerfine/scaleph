@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>scaleph</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2-SNAPSHOT</version>
     </parent>
     <artifactId>scaleph-datasource</artifactId>
 
