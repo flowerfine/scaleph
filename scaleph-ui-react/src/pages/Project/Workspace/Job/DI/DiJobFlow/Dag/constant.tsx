@@ -67,6 +67,7 @@ export const STEP_ATTR_TYPE = {
 export const SchemaParams = {
   schema: 'schema',
   fields: 'fields',
+  fieldArray: 'fieldArray',
   field: 'field',
   type: 'type',
   delimiter: 'delimiter',

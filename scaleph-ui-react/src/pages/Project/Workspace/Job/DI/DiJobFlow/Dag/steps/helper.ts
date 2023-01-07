@@ -1,4 +1,9 @@
-import {ElasticsearchParams, JdbcParams, KafkaParams} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
+import {
+  ElasticsearchParams,
+  JdbcParams,
+  KafkaParams,
+  SchemaParams
+} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
 
 export const StepSchemaService = {
 
@@ -13,10 +18,10 @@ export const StepSchemaService = {
 
   formatFields: (values: Record<string, any>) => {
     const fields: Record<string, any> = {}
-    values.fieldArray?.forEach(function (item: Record<string, any>) {
+    values[SchemaParams.fieldArray]?.forEach(function (item: Record<string, any>) {
       fields[item.field] = item.type;
     });
-    values.fields = JSON.stringify(fields)
+    values[SchemaParams.fields] = JSON.stringify(fields)
     return values
   },
 

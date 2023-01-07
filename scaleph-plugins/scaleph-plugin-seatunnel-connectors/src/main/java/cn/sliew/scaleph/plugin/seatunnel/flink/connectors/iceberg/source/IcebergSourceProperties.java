@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.iceberg.source;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum IcebergSourceProperties {
     ;
@@ -86,11 +87,11 @@ public enum IcebergSourceProperties {
             .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> FIELDS = new PropertyDescriptor.Builder<Boolean>()
+    public static final PropertyDescriptor<JsonNode> FIELDS = new PropertyDescriptor.Builder<JsonNode>()
             .name("fields")
             .description("Use projection to select data columns and columns order.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
