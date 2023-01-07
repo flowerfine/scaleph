@@ -83,4 +83,28 @@ public enum ClickHouseSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<String> PRIMARY_KEY = new PropertyDescriptor.Builder<String>()
+            .name("primary_key")
+            .description("Mark the primary key column from clickhouse table, and based on primary key execute INSERT/UPDATE/DELETE to clickhouse table")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Boolean> SUPPORT_UPSERT = new PropertyDescriptor.Builder<Boolean>()
+            .name("support_upsert")
+            .description("Mark the primary key column from clickhouse table, and based on primary key execute INSERT/UPDATE/DELETE to clickhouse table")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Boolean> ALLOW_EXPERIMENTAL_LIGHTWEIGHT_DELETE = new PropertyDescriptor.Builder<Boolean>()
+            .name("allow_experimental_lightweight_delete")
+            .description("Allow experimental lightweight delete based on *MergeTree table engine")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
+
 }

@@ -44,7 +44,7 @@ public class ClickHouseSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public ClickHouseSinkPlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Clickhouse sink connector",
+                "ClickHouse sink connector",
                 ClickHouseSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
@@ -53,6 +53,9 @@ public class ClickHouseSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(BULK_SIZE);
         props.add(SPLIT_MODE);
         props.add(SHARDING_KEY);
+        props.add(PRIMARY_KEY);
+        props.add(SUPPORT_UPSERT);
+        props.add(ALLOW_EXPERIMENTAL_LIGHTWEIGHT_DELETE);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

@@ -5,10 +5,8 @@ import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {ProForm, ProFormGroup, ProFormList, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
-import {InfoCircleOutlined} from "@ant-design/icons";
-import {ClickHouseParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
-import {StepSchemaService} from '../helper';
+import {ProForm, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
+import {ClickHouseParams, STEP_ATTR_TYPE} from '../../constant';
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 
 const SourceClickHouseStepForm: React.FC<ModalFormProps<{
@@ -40,7 +38,6 @@ const SourceClickHouseStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-          StepSchemaService.formatSchema(values)
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           WsDiJobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
@@ -64,34 +61,6 @@ const SourceClickHouseStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.sql'})}
           rules={[{required: true}]}
         />
-        <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-        >
-          <ProFormList
-            name={SchemaParams.fields}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
-              type: 'text',
-            }}>
-            <ProFormGroup>
-              <ProFormText
-                name={SchemaParams.field}
-                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
-                colProps={{span: 10, offset: 1}}
-              />
-              <ProFormText
-                name={SchemaParams.type}
-                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
-        </ProFormGroup>
       </ProForm>
     </Modal>
   );
