@@ -18,13 +18,36 @@
 
 package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.iotdb.sink;
 
-import cn.sliew.scaleph.plugin.framework.property.Parsers;
-import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.framework.property.PropertyType;
-import cn.sliew.scaleph.plugin.framework.property.Validators;
+import cn.sliew.scaleph.plugin.framework.property.*;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum IoTDBSinkProperties {
     ;
+
+    public static final PropertyDescriptor<String> KEY_DEVICE = new PropertyDescriptor.Builder()
+            .name("key_device")
+            .description("Specify field name of the IoTDB deviceId in SeaTunnelRow")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> KEY_TIMESTAMP = new PropertyDescriptor.Builder()
+            .name("key_timestamp")
+            .description("Specify field-name of the IoTDB timestamp in SeaTunnelRow. If not specified, use processing-time as timestamp")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> KEY_MEASUREMENT_FIELDS = new PropertyDescriptor.Builder()
+            .name("key_measurement_fields")
+            .description("Specify field-name of the IoTDB measurement list in SeaTunnelRow. If not specified, include all fields but exclude device & timestamp")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> BATCH_SIZE = new PropertyDescriptor.Builder()
             .name("batch_size")

@@ -47,6 +47,9 @@ public class IoTDBSinkPlugin extends SeaTunnelConnectorPlugin {
                 IoTDBSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
+        props.add(KEY_DEVICE);
+        props.add(KEY_TIMESTAMP);
+        props.add(KEY_MEASUREMENT_FIELDS);
         props.add(BATCH_SIZE);
         props.add(BATCH_INTERVAL_MS);
         props.add(MAX_RETRIES);

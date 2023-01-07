@@ -315,6 +315,11 @@ export const IoTDBParams = {
   zoneId: 'zone_id',
   enableRpcCompression: 'enable_rpc_compression',
   connectionTimeoutInMs: 'connection_timeout_in_ms',
+  keyDevice: 'key_device',
+  keyTimestamp: 'key_timestamp',
+  keyMeasurementFields: 'key_measurement_fields',
+  keyMeasurementFieldArray: 'keyMeasurementFieldArray',
+  keyMeasurementField: 'keyMeasurementField',
 };
 
 export const MondoDBParams = {

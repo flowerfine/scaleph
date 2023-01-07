@@ -1,5 +1,6 @@
 import {
   ElasticsearchParams,
+  IoTDBParams,
   JdbcParams,
   KafkaParams,
   SchemaParams
@@ -135,6 +136,15 @@ export const StepSchemaService = {
       primaryKeys.push(item[ElasticsearchParams.primaryKey])
     });
     values[ElasticsearchParams.primaryKeys] = JSON.stringify(primaryKeys)
+    return values
+  },
+
+  formatMeasurementFields: (values: Record<string, any>) => {
+    const primaryKeys: Array<string> = []
+    values[IoTDBParams.keyMeasurementFieldArray]?.forEach(function (item: Record<string, any>) {
+      primaryKeys.push(item[IoTDBParams.keyMeasurementField])
+    });
+    values[IoTDBParams.keyMeasurementFields] = JSON.stringify(primaryKeys)
     return values
   },
 

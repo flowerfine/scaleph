@@ -390,6 +390,10 @@ export default {
   'pages.project.di.step.iotdb.zoneId': 'Time Zone ID',
   'pages.project.di.step.iotdb.enableRpcCompression': 'Enable RPC Compression',
   'pages.project.di.step.iotdb.connectionTimeoutInMs': 'Connection Timeout(milliseconds)',
+  'pages.project.di.step.iotdb.keyDevice': 'Device',
+  'pages.project.di.step.iotdb.keyTimestamp': 'Timestamp',
+  'pages.project.di.step.iotdb.keyMeasurementFields': 'Measurement Fields',
+  'pages.project.di.step.iotdb.keyMeasurementFields.field': 'Field',
 
   // mongodb
   'pages.project.di.step.mongodb.uri': 'URI',
