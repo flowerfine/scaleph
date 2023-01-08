@@ -99,6 +99,10 @@ export default {
   'pages.dataSource.step.props.kudu.masters': 'Masters',
   'pages.dataSource.step.props.kudu.masters.placeholder': '127.0.0.1:7051',
 
+  'pages.dataSource.step.props.maxcompute.endpoint': 'Endpoint',
+  'pages.dataSource.step.props.maxcompute.accessId': 'AccessId',
+  'pages.dataSource.step.props.maxcompute.accesskey': 'AccessKey',
+
   'pages.dataSource.step.props.elasticsearch.hosts': 'Hosts',
   'pages.dataSource.step.props.elasticsearch.hosts.placeholder': 'localhost:9200,localhost:9201',
   'pages.dataSource.step.props.elasticsearch.username': 'Username',

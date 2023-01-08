@@ -64,6 +64,7 @@ public enum DataSourceType implements DictInstance {
     KUDU("Kudu", "Kudu"),
     KYLIN("Kylin", "Kylin"),
     DRUID("Druid", "Druid"),
+    MAXCOMPUTE("MaxCompute", "MaxCompute"),
 
     IOTDB("IoTDB", "IoTDB"),
     NEO4J("Neo4j", "Neo4j"),

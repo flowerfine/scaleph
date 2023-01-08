@@ -77,6 +77,7 @@ import java.util.List;
         @JsonSubTypes.Type(name = "Kudu", value = KuduDataSource.class),
         @JsonSubTypes.Type(name = "Doris", value = DorisDataSource.class),
         @JsonSubTypes.Type(name = "StarRocks", value = StarRocksDataSource.class),
+        @JsonSubTypes.Type(name = "MaxCompute", value = MaxComputeDataSource.class),
 
         @JsonSubTypes.Type(name = "IoTDB", value = IoTDBDataSource.class),
         @JsonSubTypes.Type(name = "Neo4j", value = Neo4jDataSource.class),

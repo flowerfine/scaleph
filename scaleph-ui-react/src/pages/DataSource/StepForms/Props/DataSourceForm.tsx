@@ -24,6 +24,7 @@ import OSSJindoForm from "@/pages/DataSource/StepForms/Props/OSSJindo";
 import CassandraForm from "@/pages/DataSource/StepForms/Props/Cassandra";
 import DorisForm from "@/pages/DataSource/StepForms/Props/Doris";
 import StarRocksForm from "@/pages/DataSource/StepForms/Props/StarRocks";
+import MaxComputeForm from "@/pages/DataSource/StepForms/Props/MaxCompute";
 
 const DataSourceForm: React.FC = () => {
 
@@ -79,6 +80,8 @@ const DataSourceForm: React.FC = () => {
           return <ClickHouseForm/>
         case 'Kudu':
           return <KuduForm/>
+        case 'MaxCompute':
+          return <MaxComputeForm/>
         case 'IoTDB':
           return <IoTDBForm/>
         case 'Neo4j':
