@@ -59,6 +59,7 @@ public enum DataSourceType implements DictInstance {
     HBASE("HBase", "HBase"),
     IMPALA("Impala", "Impala"),
     DORIS("Doris", "Doris"),
+    STARROCKS("StarRocks", "StarRocks"),
     CLICKHOUSE("ClickHouse", "ClickHouse"),
     KUDU("Kudu", "Kudu"),
     KYLIN("Kylin", "Kylin"),
