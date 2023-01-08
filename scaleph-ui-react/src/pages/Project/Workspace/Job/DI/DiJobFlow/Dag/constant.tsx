@@ -425,3 +425,8 @@ export const InfluxDBParams = {
   queryTimeoutSec: 'query_timeout_sec',
   connectTimeoutMs: 'connect_timeout_ms'
 };
+
+export const CassandraParams = {
+  consistencyLevel: 'consistency_level',
+  cql: 'cql'
+};

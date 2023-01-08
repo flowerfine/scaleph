@@ -490,6 +490,10 @@ export default {
   'pages.project.di.step.influxdb.queryTimeoutSec': 'Query Timeout(seconds)',
   'pages.project.di.step.influxdb.connectTimeoutMs': 'Connect Timeout(milliseconds)',
 
+  // cassandra
+  'pages.project.di.step.cassandra.consistencyLevel': 'Consistency Level',
+  'pages.project.di.step.cassandra.cql': 'CQL',
+
   'pages.project.job.create': '创建作业',
   'pages.project.job.edit': '作业配置',
   'pages.project.job.createTime': '创建时间',
@@ -631,6 +635,5 @@ export default {
   'pages.project.job.detail.config.ha': 'High Availability',
   'pages.project.job.detail.overview.cluster.deployMode': '部署模式',
   'pages.project.job.detail.overview.cluster.resourceProvider': 'Resource Providers',
-
 
 };
