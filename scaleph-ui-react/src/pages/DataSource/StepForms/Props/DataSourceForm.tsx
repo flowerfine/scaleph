@@ -22,6 +22,8 @@ import InfluxDBForm from "@/pages/DataSource/StepForms/Props/InfluxDB";
 import SftpForm from "@/pages/DataSource/StepForms/Props/Sftp";
 import OSSJindoForm from "@/pages/DataSource/StepForms/Props/OSSJindo";
 import CassandraForm from "@/pages/DataSource/StepForms/Props/Cassandra";
+import DorisForm from "@/pages/DataSource/StepForms/Props/Doris";
+import StarRocksForm from "@/pages/DataSource/StepForms/Props/StarRocks";
 
 const DataSourceForm: React.FC = () => {
 
@@ -69,6 +71,10 @@ const DataSourceForm: React.FC = () => {
           return <PulsarForm/>
         case 'DataHub':
           return <DataHubForm/>
+        case 'Doris':
+          return <DorisForm/>
+        case 'StarRocks':
+          return <StarRocksForm/>
         case 'ClickHouse':
           return <ClickHouseForm/>
         case 'Kudu':
