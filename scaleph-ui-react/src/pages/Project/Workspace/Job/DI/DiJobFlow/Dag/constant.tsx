@@ -425,3 +425,55 @@ export const InfluxDBParams = {
   queryTimeoutSec: 'query_timeout_sec',
   connectTimeoutMs: 'connect_timeout_ms'
 };
+
+export const CassandraParams = {
+  consistencyLevel: 'consistency_level',
+  cql: 'cql',
+  table: 'table',
+  fields: 'fields',
+  fieldArray: 'fieldArray',
+  field: 'field',
+  batchSize: 'batch_size',
+  batchType: 'batch_type',
+  asyncWrite: 'async_write'
+};
+
+export const DorisParams = {
+  database: 'database',
+  table: 'table',
+  labelPrefix: 'labelPrefix',
+  batchMaxRows: 'batch_max_rows',
+  batchMaxBytes: 'batch_max_bytes',
+  batchIntervalMs: 'batch_interval_ms',
+  maxRetries: 'max_retries',
+  retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
+  maxRetryBackoffMs: 'max_retry_backoff_ms',
+  sinkProperties: 'sink.properties.',
+  sinkPropertyArray: 'sinkPropertieArray',
+  sinkProperty: 'property',
+  sinkPropertyValue: 'value',
+};
+
+export const StarRocksParams = {
+  database: 'database',
+  table: 'table',
+  labelPrefix: 'labelPrefix',
+  batchMaxRows: 'batch_max_rows',
+  batchMaxBytes: 'batch_max_bytes',
+  batchIntervalMs: 'batch_interval_ms',
+  maxRetries: 'max_retries',
+  retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
+  maxRetryBackoffMs: 'max_retry_backoff_ms',
+  sinkProperties: 'sink.properties.',
+  sinkPropertyArray: 'sinkPropertieArray',
+  sinkProperty: 'property',
+  sinkPropertyValue: 'value',
+};
+
+export const MaxComputeParams = {
+  project: 'project',
+  tableName: 'table_name',
+  partitionSpec: 'partition_spec',
+  splitRow: 'split_row',
+  overwrite: 'overwrite'
+};

@@ -25,12 +25,11 @@ import cn.sliew.scaleph.ds.modal.jdbc.*;
 import cn.sliew.scaleph.ds.modal.mq.DataHubDataSource;
 import cn.sliew.scaleph.ds.modal.mq.KafkaDataSource;
 import cn.sliew.scaleph.ds.modal.mq.PulsarDataSource;
+import cn.sliew.scaleph.ds.modal.nosql.CassandraDataSource;
 import cn.sliew.scaleph.ds.modal.nosql.ElasticsearchDataSource;
 import cn.sliew.scaleph.ds.modal.nosql.MongoDBDataSource;
 import cn.sliew.scaleph.ds.modal.nosql.RedisDataSource;
-import cn.sliew.scaleph.ds.modal.olap.ClickHouseDataSource;
-import cn.sliew.scaleph.ds.modal.olap.HiveDataSource;
-import cn.sliew.scaleph.ds.modal.olap.KuduDataSource;
+import cn.sliew.scaleph.ds.modal.olap.*;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -59,6 +58,7 @@ import java.util.List;
         @JsonSubTypes.Type(name = "Redis", value = RedisDataSource.class),
         @JsonSubTypes.Type(name = "Elasticsearch", value = ElasticsearchDataSource.class),
         @JsonSubTypes.Type(name = "MongoDB", value = MongoDBDataSource.class),
+        @JsonSubTypes.Type(name = "Cassandra", value = CassandraDataSource.class),
 
         @JsonSubTypes.Type(name = "Kafka", value = KafkaDataSource.class),
         @JsonSubTypes.Type(name = "Pulsar", value = PulsarDataSource.class),
@@ -75,6 +75,9 @@ import java.util.List;
 
         @JsonSubTypes.Type(name = "ClickHouse", value = ClickHouseDataSource.class),
         @JsonSubTypes.Type(name = "Kudu", value = KuduDataSource.class),
+        @JsonSubTypes.Type(name = "Doris", value = DorisDataSource.class),
+        @JsonSubTypes.Type(name = "StarRocks", value = StarRocksDataSource.class),
+        @JsonSubTypes.Type(name = "MaxCompute", value = MaxComputeDataSource.class),
 
         @JsonSubTypes.Type(name = "IoTDB", value = IoTDBDataSource.class),
         @JsonSubTypes.Type(name = "Neo4j", value = Neo4jDataSource.class),

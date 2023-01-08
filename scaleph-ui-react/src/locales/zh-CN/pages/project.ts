@@ -490,6 +490,60 @@ export default {
   'pages.project.di.step.influxdb.queryTimeoutSec': 'Query Timeout(seconds)',
   'pages.project.di.step.influxdb.connectTimeoutMs': 'Connect Timeout(milliseconds)',
 
+  // cassandra
+  'pages.project.di.step.cassandra.consistencyLevel': 'Consistency Level',
+  'pages.project.di.step.cassandra.cql': 'CQL',
+  'pages.project.di.step.cassandra.table': 'Table',
+  'pages.project.di.step.cassandra.fields': 'Fields',
+  'pages.project.di.step.cassandra.fields.tooltip': 'Fields',
+  'pages.project.di.step.cassandra.fields.field': 'Field',
+  'pages.project.di.step.cassandra.batchSize': 'Batch Size',
+  'pages.project.di.step.cassandra.batchType': 'Batch Type',
+  'pages.project.di.step.cassandra.asyncWrite': 'Enable Async Write',
+
+  // doris
+  'pages.project.di.step.doris.database': 'Database',
+  'pages.project.di.step.doris.table': 'Table',
+  'pages.project.di.step.doris.labelPrefix': 'Label Prefix',
+  'pages.project.di.step.doris.batchMaxRows': 'Batch Max Rows',
+  'pages.project.di.step.doris.batchMaxBytes': 'Batch Max Bytes',
+  'pages.project.di.step.doris.batchIntervalMs': 'Batch Interval(mills)',
+  'pages.project.di.step.doris.maxRetries': 'Max Retries',
+  'pages.project.di.step.doris.retryBackoffMultiplierMs': 'Retry Backoff Multiplier(mills)',
+  'pages.project.di.step.doris.maxRetryBackoffMs': 'Max Retry Backoff(mills)',
+  'pages.project.di.step.doris.sinkProperties': 'Stream Load Config',
+  'pages.project.di.step.doris.sinkProperties.tooltip': 'The way to specify the parameter is to add the prefix sink.properties. to the original stream load parameter',
+  'pages.project.di.step.doris.sinkProperties.list': 'Config',
+  'pages.project.di.step.doris.sinkProperties.key': 'Config',
+  'pages.project.di.step.doris.sinkProperties.key.placeholder': 'format',
+  'pages.project.di.step.doris.sinkProperties.value': 'Value',
+  'pages.project.di.step.doris.sinkProperties.value.placeholder': 'JSON',
+
+  // starrocks
+  'pages.project.di.step.starrocks.database': 'Database',
+  'pages.project.di.step.starrocks.table': 'Table',
+  'pages.project.di.step.starrocks.labelPrefix': 'Label Prefix',
+  'pages.project.di.step.starrocks.batchMaxRows': 'Batch Max Rows',
+  'pages.project.di.step.starrocks.batchMaxBytes': 'Batch Max Bytes',
+  'pages.project.di.step.starrocks.batchIntervalMs': 'Batch Interval(mills)',
+  'pages.project.di.step.starrocks.maxRetries': 'Max Retries',
+  'pages.project.di.step.starrocks.retryBackoffMultiplierMs': 'Retry Backoff Multiplier(mills)',
+  'pages.project.di.step.starrocks.maxRetryBackoffMs': 'Max Retry Backoff(mills)',
+  'pages.project.di.step.starrocks.sinkProperties': 'Stream Load Config',
+  'pages.project.di.step.starrocks.sinkProperties.tooltip': 'The way to specify the parameter is to add the prefix sink.properties. to the original stream load parameter',
+  'pages.project.di.step.starrocks.sinkProperties.list': 'Config',
+  'pages.project.di.step.starrocks.sinkProperties.key': 'Config',
+  'pages.project.di.step.starrocks.sinkProperties.key.placeholder': 'format',
+  'pages.project.di.step.starrocks.sinkProperties.value': 'Value',
+  'pages.project.di.step.starrocks.sinkProperties.value.placeholder': 'JSON',
+
+  // maxcompute
+  'pages.project.di.step.maxcompute.project': 'Project',
+  'pages.project.di.step.maxcompute.tableName': 'Table',
+  'pages.project.di.step.maxcompute.partitionSpec': 'Partition',
+  'pages.project.di.step.maxcompute.splitRow': 'Split Row',
+  'pages.project.di.step.maxcompute.overwrite': 'Enable OverWrite',
+
   'pages.project.job.create': '创建作业',
   'pages.project.job.edit': '作业配置',
   'pages.project.job.createTime': '创建时间',
@@ -631,6 +685,5 @@ export default {
   'pages.project.job.detail.config.ha': 'High Availability',
   'pages.project.job.detail.overview.cluster.deployMode': '部署模式',
   'pages.project.job.detail.overview.cluster.resourceProvider': 'Resource Providers',
-
 
 };

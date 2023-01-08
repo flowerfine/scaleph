@@ -1,6 +1,6 @@
 import {useModel} from "umi";
-import JdbcForm from "@/pages/DataSource/StepForms/Props/Jdbc";
 import {DsType} from "@/services/datasource/typings";
+import JdbcForm from "@/pages/DataSource/StepForms/Props/Jdbc";
 import FtpForm from "@/pages/DataSource/StepForms/Props/Ftp";
 import OSSForm from "@/pages/DataSource/StepForms/Props/OSS";
 import S3Form from "@/pages/DataSource/StepForms/Props/S3";
@@ -21,6 +21,10 @@ import Neo4jForm from "@/pages/DataSource/StepForms/Props/Neo4j";
 import InfluxDBForm from "@/pages/DataSource/StepForms/Props/InfluxDB";
 import SftpForm from "@/pages/DataSource/StepForms/Props/Sftp";
 import OSSJindoForm from "@/pages/DataSource/StepForms/Props/OSSJindo";
+import CassandraForm from "@/pages/DataSource/StepForms/Props/Cassandra";
+import DorisForm from "@/pages/DataSource/StepForms/Props/Doris";
+import StarRocksForm from "@/pages/DataSource/StepForms/Props/StarRocks";
+import MaxComputeForm from "@/pages/DataSource/StepForms/Props/MaxCompute";
 
 const DataSourceForm: React.FC = () => {
 
@@ -60,16 +64,24 @@ const DataSourceForm: React.FC = () => {
           return <ElasticsearchForm/>
         case 'MongoDB':
           return <MongoDBForm/>
+        case 'Cassandra':
+          return <CassandraForm/>
         case 'Kafka':
           return <KafkaForm/>
         case 'Pulsar':
           return <PulsarForm/>
         case 'DataHub':
           return <DataHubForm/>
+        case 'Doris':
+          return <DorisForm/>
+        case 'StarRocks':
+          return <StarRocksForm/>
         case 'ClickHouse':
           return <ClickHouseForm/>
         case 'Kudu':
           return <KuduForm/>
+        case 'MaxCompute':
+          return <MaxComputeForm/>
         case 'IoTDB':
           return <IoTDBForm/>
         case 'Neo4j':

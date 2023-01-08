@@ -42,6 +42,7 @@ public enum DataSourceType implements DictInstance {
     SOLR("Solr", "Solr"),
     MONGODB("MongoDB", "MongoDB"),
     TIDB("TiDB", "TiDB"),
+    CASSANDRA("Cassandra", "Cassandra"),
 
     KAFKA("Kafka", "Kafka"),
     PULSAR("Pulsar", "Pulsar"),
@@ -58,10 +59,12 @@ public enum DataSourceType implements DictInstance {
     HBASE("HBase", "HBase"),
     IMPALA("Impala", "Impala"),
     DORIS("Doris", "Doris"),
+    STARROCKS("StarRocks", "StarRocks"),
     CLICKHOUSE("ClickHouse", "ClickHouse"),
     KUDU("Kudu", "Kudu"),
     KYLIN("Kylin", "Kylin"),
     DRUID("Druid", "Druid"),
+    MAXCOMPUTE("MaxCompute", "MaxCompute"),
 
     IOTDB("IoTDB", "IoTDB"),
     NEO4J("Neo4j", "Neo4j"),

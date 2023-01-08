@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.elasticsearch.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.maxcompute.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.nosql.ElasticsearchDataSource;
+import cn.sliew.scaleph.ds.modal.olap.MaxComputeDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
@@ -30,30 +30,30 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.elasticsearch.sink.ElasticsearchSinkProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.maxcompute.MaxComputeProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.maxcompute.source.MaxComputeSourceProperties.SPLIT_ROW;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class ElasticsearchSinkPlugin extends SeaTunnelConnectorPlugin {
+public class MaxComputeSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public ElasticsearchSinkPlugin() {
+    public MaxComputeSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Output data to Elasticsearch7 or above",
-                ElasticsearchSinkPlugin.class.getName());
+                "Used to read data from MaxCompute.",
+                MaxComputeSourcePlugin.class.getName());
+
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(INDEX);
-        props.add(PRIMARY_KEYS);
-        props.add(KEY_DELIMITER);
-        props.add(MAX_RETRY_SIZE);
-        props.add(MAX_BATCH_SIZE);
+        props.add(PROJECT);
+        props.add(TABLE_NAME);
+        props.add(PARTITION_SPEC);
+        props.add(SPLIT_ROW);
         props.add(CommonProperties.PARALLELISM);
-        props.add(CommonProperties.SOURCE_TABLE_NAME);
-        this.supportedProperties = props;
+        props.add(CommonProperties.RESULT_TABLE_NAME);
+        supportedProperties = Collections.unmodifiableList(props);
     }
 
     @Override
@@ -65,17 +65,16 @@ public class ElasticsearchSinkPlugin extends SeaTunnelConnectorPlugin {
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
-        ElasticsearchDataSource dataSource = (ElasticsearchDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.putPOJO(HOSTS.getName(), StringUtils.commaDelimitedListToStringArray(dataSource.getHosts()));
-        if (StringUtils.hasText(dataSource.getUsername())) {
-            conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
-            conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
-        }
+        MaxComputeDataSource dataSource = (MaxComputeDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(ENDPOINT.getName(), dataSource.getEndpoint());
+        conf.putPOJO(ACCESS_ID.getName(), dataSource.getAccessId());
+        conf.putPOJO(ACCESS_KEY.getName(), dataSource.getAccesskey());
         return conf;
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_ELASTICSEARCH;
+        return SeaTunnelPluginMapping.SOURCE_MAXCOMPUTE;
     }
+
 }

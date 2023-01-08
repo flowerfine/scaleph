@@ -63,6 +63,13 @@ export default {
   'pages.dataSource.step.props.redis.nodes.list': 'Node',
   'pages.dataSource.step.props.redis.nodes.node': 'Node',
 
+  'pages.dataSource.step.props.cassandra.host': 'Host',
+  'pages.dataSource.step.props.cassandra.host.placeholoder': 'cassandra1:9042,cassandra2:9042',
+  'pages.dataSource.step.props.cassandra.keyspace': 'Keyspace',
+  'pages.dataSource.step.props.cassandra.username': 'Username',
+  'pages.dataSource.step.props.cassandra.password': 'Password',
+  'pages.dataSource.step.props.cassandra.datacenter': 'Datacenter',
+
   'pages.dataSource.step.props.iotdb.nodeUrls': 'Node URLs',
   'pages.dataSource.step.props.iotdb.nodeUrls.placeholder': '127.0.0.1:8080,127.0.0.2:8080',
   'pages.dataSource.step.props.iotdb.username': 'Username',
@@ -74,6 +81,16 @@ export default {
   'pages.dataSource.step.props.neo4j.bearerToken': 'Bearer Token',
   'pages.dataSource.step.props.neo4j.kerberosTicket': 'Kerberos Ticket',
 
+  'pages.dataSource.step.props.doris.nodeUrls': 'Node URLs',
+  'pages.dataSource.step.props.doris.nodeUrls.placeholder': '127.0.0.1:8030,127.0.0.2:8030',
+  'pages.dataSource.step.props.doris.username': 'Username',
+  'pages.dataSource.step.props.doris.password': 'Password',
+
+  'pages.dataSource.step.props.starrocks.nodeUrls': 'Node URLs',
+  'pages.dataSource.step.props.starrocks.nodeUrls.placeholder': '127.0.0.1:8030,127.0.0.2:8030',
+  'pages.dataSource.step.props.starrocks.username': 'Username',
+  'pages.dataSource.step.props.starrocks.password': 'Password',
+
   'pages.dataSource.step.props.clickhouse.host': 'Host',
   'pages.dataSource.step.props.clickhouse.database': 'Database',
   'pages.dataSource.step.props.clickhouse.username': 'Username',
@@ -81,6 +98,10 @@ export default {
 
   'pages.dataSource.step.props.kudu.masters': 'Masters',
   'pages.dataSource.step.props.kudu.masters.placeholder': '127.0.0.1:7051',
+
+  'pages.dataSource.step.props.maxcompute.endpoint': 'Endpoint',
+  'pages.dataSource.step.props.maxcompute.accessId': 'AccessId',
+  'pages.dataSource.step.props.maxcompute.accesskey': 'AccessKey',
 
   'pages.dataSource.step.props.elasticsearch.hosts': 'Hosts',
   'pages.dataSource.step.props.elasticsearch.hosts.placeholder': 'localhost:9200,localhost:9201',

@@ -15,12 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.elasticsearch.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cassandra.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.nosql.ElasticsearchDataSource;
+import cn.sliew.scaleph.ds.modal.nosql.CassandraDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
@@ -36,24 +35,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.elasticsearch.sink.ElasticsearchSinkProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cassandra.CassandraProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cassandra.source.CassandraSourceProperties.CQL;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class ElasticsearchSinkPlugin extends SeaTunnelConnectorPlugin {
+public class CassandraSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public ElasticsearchSinkPlugin() {
+    public CassandraSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Output data to Elasticsearch7 or above",
-                ElasticsearchSinkPlugin.class.getName());
+                "Cassandra source connector",
+                CassandraSourcePlugin.class.getName());
+
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(INDEX);
-        props.add(PRIMARY_KEYS);
-        props.add(KEY_DELIMITER);
-        props.add(MAX_RETRY_SIZE);
-        props.add(MAX_BATCH_SIZE);
+        props.add(CQL);
+        props.add(CONSISTENCY_LEVEL);
         props.add(CommonProperties.PARALLELISM);
-        props.add(CommonProperties.SOURCE_TABLE_NAME);
-        this.supportedProperties = props;
+        props.add(CommonProperties.RESULT_TABLE_NAME);
+        supportedProperties = Collections.unmodifiableList(props);
     }
 
     @Override
@@ -65,17 +63,24 @@ public class ElasticsearchSinkPlugin extends SeaTunnelConnectorPlugin {
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
-        ElasticsearchDataSource dataSource = (ElasticsearchDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.putPOJO(HOSTS.getName(), StringUtils.commaDelimitedListToStringArray(dataSource.getHosts()));
+        CassandraDataSource dataSource = (CassandraDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(HOST.getName(), dataSource.getHost());
+        conf.putPOJO(KEYSPACE.getName(), dataSource.getKeyspace());
         if (StringUtils.hasText(dataSource.getUsername())) {
             conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
+        }
+        if (StringUtils.hasText(dataSource.getPassword())) {
             conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        }
+        if (StringUtils.hasText(dataSource.getDatacenter())) {
+            conf.putPOJO(DATACENTER.getName(), dataSource.getDatacenter());
         }
         return conf;
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_ELASTICSEARCH;
+        return SeaTunnelPluginMapping.SOURCE_CASSANDRA;
     }
+
 }

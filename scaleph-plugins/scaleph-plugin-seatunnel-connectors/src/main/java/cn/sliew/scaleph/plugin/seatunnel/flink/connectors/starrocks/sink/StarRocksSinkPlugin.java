@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.elasticsearch.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.starrocks.sink;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.nosql.ElasticsearchDataSource;
+import cn.sliew.scaleph.ds.modal.olap.StarRocksDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
@@ -35,22 +35,28 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.elasticsearch.sink.ElasticsearchSinkProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.starrocks.StarRocksProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.starrocks.sink.StarRocksSinkProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class ElasticsearchSinkPlugin extends SeaTunnelConnectorPlugin {
+public class StarRocksSinkPlugin extends SeaTunnelConnectorPlugin {
 
-    public ElasticsearchSinkPlugin() {
+    public StarRocksSinkPlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Output data to Elasticsearch7 or above",
-                ElasticsearchSinkPlugin.class.getName());
+                "Used to send data to StarRocks. Both support streaming and batch mode. The internal implementation of StarRocks sink connector is cached and imported by stream load in batches.",
+                StarRocksSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(INDEX);
-        props.add(PRIMARY_KEYS);
-        props.add(KEY_DELIMITER);
-        props.add(MAX_RETRY_SIZE);
-        props.add(MAX_BATCH_SIZE);
+        props.add(DATABASE);
+        props.add(TABLE);
+        props.add(LABEL_PREFIX);
+        props.add(BATCH_MAX_ROWS);
+        props.add(BATCH_MAX_BYTES);
+        props.add(BATCH_INTERVAL_MS);
+        props.add(MAX_RETRIES);
+        props.add(RETRY_BACKOFF_MULTIPLIER_MS);
+        props.add(MAX_RETRY_BACKOFF_MS);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;
@@ -65,17 +71,24 @@ public class ElasticsearchSinkPlugin extends SeaTunnelConnectorPlugin {
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
-        ElasticsearchDataSource dataSource = (ElasticsearchDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.putPOJO(HOSTS.getName(), StringUtils.commaDelimitedListToStringArray(dataSource.getHosts()));
+        StarRocksDataSource dataSource = (StarRocksDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(NODE_URLS.getName(), StringUtils.commaDelimitedListToStringArray(dataSource.getNodeUrls()));
         if (StringUtils.hasText(dataSource.getUsername())) {
             conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
+        }
+        if (StringUtils.hasText(dataSource.getPassword())) {
             conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        }
+        for (Map.Entry<String, Object> entry : properties.toMap().entrySet()) {
+            if (entry.getKey().startsWith(SINK_PROPERTIES.getName())) {
+                conf.putPOJO(entry.getKey(), entry.getValue());
+            }
         }
         return conf;
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_ELASTICSEARCH;
+        return SeaTunnelPluginMapping.SINK_STARROCKS;
     }
 }

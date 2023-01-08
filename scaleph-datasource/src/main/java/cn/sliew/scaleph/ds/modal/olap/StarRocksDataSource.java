@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal.nosql;
+package cn.sliew.scaleph.ds.modal.olap;
 
 import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
@@ -33,25 +33,25 @@ import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
 import java.util.Map;
 
-import static cn.sliew.milky.common.check.Ensures.checkState;
-
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ElasticsearchDataSource extends AbstractDataSource {
+public class StarRocksDataSource extends AbstractDataSource {
 
     @NotBlank
-    @ApiModelProperty("hosts")
-    private String hosts;
+    @ApiModelProperty("Node Urls")
+    private String nodeUrls;
 
+    @NotBlank
     @ApiModelProperty("username")
     private String username;
 
+    @NotBlank
     @ApiModelProperty("password")
     private String password;
 
     @Override
     public DataSourceType getType() {
-        return DataSourceType.ELASTICSEARCH;
+        return DataSourceType.STARROCKS;
     }
 
     @Override
@@ -62,10 +62,11 @@ public class ElasticsearchDataSource extends AbstractDataSource {
         dsType.setType(getType());
         dto.setDsType(dsType);
         Map<String, Object> props = new HashMap<>();
-        props.put("hosts", hosts);
+        props.put("nodeUrls", nodeUrls);
         if (StringUtils.hasText(username)) {
-            checkState(StringUtils.hasText(password), () -> "password must provide where username specified");
             props.put("username", username);
+        }
+        if (StringUtils.hasText(password)) {
             props.put("password", CodecUtil.encrypt(password));
         }
         dto.setProps(props);
