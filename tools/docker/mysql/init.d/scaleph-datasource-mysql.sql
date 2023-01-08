@@ -126,6 +126,8 @@ INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `edito
 VALUES (37, 'Http', NULL, 42, NULL, 'sys', 'sys');
 INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
 VALUES (38, 'OSSJindo', NULL, 43, NULL, 'sys', 'sys');
+INSERT INTO `ds_type`(`id`, `type`, `logo`, `order`, `remark`, `creator`, `editor`)
+VALUES (39, 'Cassandra', NULL, 44, NULL, 'sys', 'sys');
 
 DROP TABLE IF EXISTS ds_category_type_relation;
 CREATE TABLE `ds_category_type_relation`
@@ -231,6 +233,8 @@ INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator
 VALUES (10, 37, 'sys', 'sys');
 INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
 VALUES (5, 38, 'sys', 'sys');
+INSERT INTO `ds_category_type_relation`(`ds_category_id`, `ds_type_id`, `creator`, `editor`)
+VALUES (3, 39, 'sys', 'sys');
 
 DROP TABLE IF EXISTS ds_info;
 CREATE TABLE `ds_info`

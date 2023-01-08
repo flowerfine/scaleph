@@ -63,6 +63,12 @@ export default {
   'pages.dataSource.step.props.redis.nodes.list': 'Node',
   'pages.dataSource.step.props.redis.nodes.node': 'Node',
 
+  'pages.dataSource.step.props.cassandra.host': 'Host',
+  'pages.dataSource.step.props.cassandra.keyspace': 'Keyspace',
+  'pages.dataSource.step.props.cassandra.username': 'Username',
+  'pages.dataSource.step.props.cassandra.password': 'Password',
+  'pages.dataSource.step.props.cassandra.datacenter': 'Datacenter',
+
   'pages.dataSource.step.props.iotdb.nodeUrls': 'Node URLs',
   'pages.dataSource.step.props.iotdb.nodeUrls.placeholder': '127.0.0.1:8080,127.0.0.2:8080',
   'pages.dataSource.step.props.iotdb.username': 'Username',

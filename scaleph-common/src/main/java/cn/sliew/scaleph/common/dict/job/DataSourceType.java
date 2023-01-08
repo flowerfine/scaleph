@@ -42,6 +42,7 @@ public enum DataSourceType implements DictInstance {
     SOLR("Solr", "Solr"),
     MONGODB("MongoDB", "MongoDB"),
     TIDB("TiDB", "TiDB"),
+    CASSANDRA("Cassandra", "Cassandra"),
 
     KAFKA("Kafka", "Kafka"),
     PULSAR("Pulsar", "Pulsar"),

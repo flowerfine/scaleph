@@ -21,6 +21,7 @@ import Neo4jForm from "@/pages/DataSource/StepForms/Props/Neo4j";
 import InfluxDBForm from "@/pages/DataSource/StepForms/Props/InfluxDB";
 import SftpForm from "@/pages/DataSource/StepForms/Props/Sftp";
 import OSSJindoForm from "@/pages/DataSource/StepForms/Props/OSSJindo";
+import CassandraForm from "@/pages/DataSource/StepForms/Props/Cassandra";
 
 const DataSourceForm: React.FC = () => {
 
@@ -60,6 +61,8 @@ const DataSourceForm: React.FC = () => {
           return <ElasticsearchForm/>
         case 'MongoDB':
           return <MongoDBForm/>
+        case 'Cassandra':
+          return <CassandraForm/>
         case 'Kafka':
           return <KafkaForm/>
         case 'Pulsar':
