@@ -68,10 +68,13 @@ import SourceOSSJindoFileStepForm
 import SinkOSSJindoFileStepForm
   from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-ossjindo-file-step";
 import SourceCassandraStepForm
-  from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-cassandra-file-step";
+  from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-cassandra-step";
 import SinkCassandraStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-cassandra-step";
 import SinkDorisStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-doris-step";
 import SinkStarRocksStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-starrocks-step";
+import SourceMaxComputeStepForm
+  from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-maxcompute-step";
+import SinkMaxComputeStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-maxcompute-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -304,6 +307,10 @@ export class EditNodeCommand implements ICommand {
       return (<SourceKuduStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'Kudu'){
       return (<SinkKuduStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'Maxcompute'){
+      return (<SourceMaxComputeStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'Maxcompute'){
+      return (<SinkMaxComputeStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'Kafka'){
       return (<SourceKafkaStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'Kafka'){

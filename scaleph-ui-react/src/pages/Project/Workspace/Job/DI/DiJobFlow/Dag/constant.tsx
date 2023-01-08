@@ -469,3 +469,11 @@ export const StarRocksParams = {
   sinkProperty: 'property',
   sinkPropertyValue: 'value',
 };
+
+export const MaxComputeParams = {
+  project: 'project',
+  tableName: 'table_name',
+  partitionSpec: 'partition_spec',
+  splitRow: 'split_row',
+  overwrite: 'overwrite'
+};

@@ -537,6 +537,13 @@ export default {
   'pages.project.di.step.starrocks.sinkProperties.value': 'Value',
   'pages.project.di.step.starrocks.sinkProperties.value.placeholder': 'JSON',
 
+  // maxcompute
+  'pages.project.di.step.maxcompute.project': 'Project',
+  'pages.project.di.step.maxcompute.tableName': 'Table',
+  'pages.project.di.step.maxcompute.partitionSpec': 'Partition',
+  'pages.project.di.step.maxcompute.splitRow': 'Split Row',
+  'pages.project.di.step.maxcompute.overwrite': 'Enable OverWrite',
+
   'pages.project.job.create': '创建作业',
   'pages.project.job.edit': '作业配置',
   'pages.project.job.createTime': '创建时间',

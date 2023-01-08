@@ -15,11 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cassandra.sink;
+
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.maxcompute.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.nosql.CassandraDataSource;
+import cn.sliew.scaleph.ds.modal.olap.MaxComputeDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
@@ -29,32 +30,29 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cassandra.CassandraProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cassandra.sink.CassandraSinkProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.maxcompute.MaxComputeProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.maxcompute.source.MaxComputeSourceProperties.SPLIT_ROW;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class CassandraSinkPlugin extends SeaTunnelConnectorPlugin {
+public class MaxComputeSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public CassandraSinkPlugin() {
+    public MaxComputeSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Cassandra sink connector",
-                CassandraSinkPlugin.class.getName());
+                "Used to read data from MaxCompute.",
+                MaxComputeSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(TABLE);
-        props.add(FIELDS);
-        props.add(BATCH_SIZE);
-        props.add(BATCH_TYPE);
-        props.add(ASYNC_WRITE);
-        props.add(CONSISTENCY_LEVEL);
+        props.add(PROJECT);
+        props.add(TABLE_NAME);
+        props.add(PARTITION_SPEC);
+        props.add(SPLIT_ROW);
         props.add(CommonProperties.PARALLELISM);
-        props.add(CommonProperties.SOURCE_TABLE_NAME);
+        props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
@@ -67,24 +65,16 @@ public class CassandraSinkPlugin extends SeaTunnelConnectorPlugin {
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
-        CassandraDataSource dataSource = (CassandraDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.putPOJO(HOST.getName(), dataSource.getHost());
-        conf.putPOJO(KEYSPACE.getName(), dataSource.getKeyspace());
-        if (StringUtils.hasText(dataSource.getUsername())) {
-            conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
-        }
-        if (StringUtils.hasText(dataSource.getPassword())) {
-            conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
-        }
-        if (StringUtils.hasText(dataSource.getDatacenter())) {
-            conf.putPOJO(DATACENTER.getName(), dataSource.getDatacenter());
-        }
+        MaxComputeDataSource dataSource = (MaxComputeDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(ENDPOINT.getName(), dataSource.getEndpoint());
+        conf.putPOJO(ACCESS_ID.getName(), dataSource.getAccessId());
+        conf.putPOJO(ACCESS_KEY.getName(), dataSource.getAccesskey());
         return conf;
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_CASSANDRA;
+        return SeaTunnelPluginMapping.SOURCE_MAXCOMPUTE;
     }
 
 }

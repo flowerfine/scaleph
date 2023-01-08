@@ -77,7 +77,7 @@ public enum SeaTunnelPluginName implements DictInstance {
     HUDI("Hudi", "Hudi"),
     ICEBERG("Iceberg", "Iceberg"),
     S3REDSHIFT("S3Redshift", "S3Redshift"),
-    MAXCOMPUTE("Maxcompute", "Maxcompute"),
+    MAXCOMPUTE("Maxcompute", "MaxCompute"),
     KUDU("Kudu", "Kudu"),
     IOTDB("IoTDB", "IoTDB"),
     OPENMLDB("OpenMldb", "OpenMldb"),
