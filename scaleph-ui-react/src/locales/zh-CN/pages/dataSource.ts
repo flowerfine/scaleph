@@ -64,6 +64,7 @@ export default {
   'pages.dataSource.step.props.redis.nodes.node': 'Node',
 
   'pages.dataSource.step.props.cassandra.host': 'Host',
+  'pages.dataSource.step.props.cassandra.host.placeholoder': 'cassandra1:9042,cassandra2:9042',
   'pages.dataSource.step.props.cassandra.keyspace': 'Keyspace',
   'pages.dataSource.step.props.cassandra.username': 'Username',
   'pages.dataSource.step.props.cassandra.password': 'Password',

@@ -1,7 +1,7 @@
 import {useIntl, useModel} from "umi";
 import {Form} from "antd";
 import {useEffect} from "react";
-import {ProCard, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
+import {ProCard, ProFormSelect, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
 import {DsCategoryService} from "@/services/datasource/category.service";
 
 const CassandraForm: React.FC = () => {
@@ -60,6 +60,7 @@ const CassandraForm: React.FC = () => {
         <ProFormText
           name="host"
           label={intl.formatMessage({id: 'pages.dataSource.step.props.cassandra.host'})}
+          placeholder={intl.formatMessage({id: 'pages.dataSource.step.props.cassandra.host.placeholoder'})}
           colProps={{span: 21, offset: 1}}
           rules={[{required: true}]}
           initialValue={"localhost:9042"}
