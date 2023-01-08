@@ -41,9 +41,11 @@ public class DorisDataSource extends AbstractDataSource {
     @ApiModelProperty("Node Urls")
     private String nodeUrls;
 
+    @NotBlank
     @ApiModelProperty("username")
     private String username;
 
+    @NotBlank
     @ApiModelProperty("password")
     private String password;
 

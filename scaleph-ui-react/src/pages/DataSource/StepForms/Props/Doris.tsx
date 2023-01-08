@@ -69,11 +69,13 @@ const DorisForm: React.FC = () => {
           name="username"
           label={intl.formatMessage({id: 'pages.dataSource.step.props.doris.username'})}
           colProps={{span: 21, offset: 1}}
+          rules={[{required: true}]}
         />
         <ProFormText
           name="password"
           label={intl.formatMessage({id: 'pages.dataSource.step.props.doris.password'})}
           colProps={{span: 21, offset: 1}}
+          rules={[{required: true}]}
         />
       </ProCard>
     </div>

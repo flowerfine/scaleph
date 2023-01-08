@@ -1,6 +1,6 @@
 import {useModel} from "umi";
-import JdbcForm from "@/pages/DataSource/StepForms/Props/Jdbc";
 import {DsType} from "@/services/datasource/typings";
+import JdbcForm from "@/pages/DataSource/StepForms/Props/Jdbc";
 import FtpForm from "@/pages/DataSource/StepForms/Props/Ftp";
 import OSSForm from "@/pages/DataSource/StepForms/Props/OSS";
 import S3Form from "@/pages/DataSource/StepForms/Props/S3";
