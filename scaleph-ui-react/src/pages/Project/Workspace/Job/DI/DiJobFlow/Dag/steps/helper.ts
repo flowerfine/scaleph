@@ -1,10 +1,10 @@
 import {
-  CassandraParams,
+  CassandraParams, DorisParams,
   ElasticsearchParams,
   IoTDBParams,
   JdbcParams,
   KafkaParams,
-  SchemaParams
+  SchemaParams, StarRocksParams
 } from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
 
 export const StepSchemaService = {
@@ -155,6 +155,20 @@ export const StepSchemaService = {
       primaryKeys.push(item[CassandraParams.field])
     });
     values[CassandraParams.fields] = JSON.stringify(primaryKeys)
+    return values
+  },
+
+  formatDorisSinkProperties: (values: Record<string, any>) => {
+    values[DorisParams.sinkPropertyArray]?.forEach(function (item: Record<string, any>) {
+      values[DorisParams.sinkProperties + item[DorisParams.sinkProperty]] = item[DorisParams.sinkPropertyValue];
+    });
+    return values
+  },
+
+  formatStarRocksSinkProperties: (values: Record<string, any>) => {
+    values[StarRocksParams.sinkPropertyArray]?.forEach(function (item: Record<string, any>) {
+      values[StarRocksParams.sinkProperties + item[StarRocksParams.sinkProperty]] = item[StarRocksParams.sinkPropertyValue];
+    });
     return values
   },
 
