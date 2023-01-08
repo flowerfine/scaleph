@@ -428,5 +428,12 @@ export const InfluxDBParams = {
 
 export const CassandraParams = {
   consistencyLevel: 'consistency_level',
-  cql: 'cql'
+  cql: 'cql',
+  table: 'table',
+  fields: 'fields',
+  fieldArray: 'fieldArray',
+  field: 'field',
+  batchSize: 'batch_size',
+  batchType: 'batch_type',
+  asyncWrite: 'async_write'
 };

@@ -493,6 +493,13 @@ export default {
   // cassandra
   'pages.project.di.step.cassandra.consistencyLevel': 'Consistency Level',
   'pages.project.di.step.cassandra.cql': 'CQL',
+  'pages.project.di.step.cassandra.table': 'Table',
+  'pages.project.di.step.cassandra.fields': 'Fields',
+  'pages.project.di.step.cassandra.fields.tooltip': 'Fields',
+  'pages.project.di.step.cassandra.fields.field': 'Field',
+  'pages.project.di.step.cassandra.batchSize': 'Batch Size',
+  'pages.project.di.step.cassandra.batchType': 'Batch Type',
+  'pages.project.di.step.cassandra.asyncWrite': 'Enable Async Write',
 
   'pages.project.job.create': '创建作业',
   'pages.project.job.edit': '作业配置',

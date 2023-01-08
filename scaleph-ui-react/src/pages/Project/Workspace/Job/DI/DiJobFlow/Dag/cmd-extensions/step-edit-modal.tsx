@@ -69,6 +69,7 @@ import SinkOSSJindoFileStepForm
   from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-ossjindo-file-step";
 import SourceCassandraStepForm
   from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-cassandra-file-step";
+import SinkCassandraStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-cassandra-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -311,6 +312,8 @@ export class EditNodeCommand implements ICommand {
       return (<SinkMongoDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'Cassandra'){
       return (<SourceCassandraStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'Cassandra'){
+      return (<SinkCassandraStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'Redis'){
       return (<SourceRedisStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'Redis'){

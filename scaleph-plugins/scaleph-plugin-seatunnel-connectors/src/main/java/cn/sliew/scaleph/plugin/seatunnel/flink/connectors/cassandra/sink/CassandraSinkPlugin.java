@@ -43,7 +43,7 @@ public class CassandraSinkPlugin extends SeaTunnelConnectorPlugin {
 
     public CassandraSinkPlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Cassandra source connector",
+                "Cassandra sink connector",
                 CassandraSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();

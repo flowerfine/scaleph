@@ -1,4 +1,5 @@
 import {
+  CassandraParams,
   ElasticsearchParams,
   IoTDBParams,
   JdbcParams,
@@ -145,6 +146,15 @@ export const StepSchemaService = {
       primaryKeys.push(item[IoTDBParams.keyMeasurementField])
     });
     values[IoTDBParams.keyMeasurementFields] = JSON.stringify(primaryKeys)
+    return values
+  },
+
+  formatCassandraFields: (values: Record<string, any>) => {
+    const primaryKeys: Array<string> = []
+    values[CassandraParams.fieldArray]?.forEach(function (item: Record<string, any>) {
+      primaryKeys.push(item[CassandraParams.field])
+    });
+    values[CassandraParams.fields] = JSON.stringify(primaryKeys)
     return values
   },
 
