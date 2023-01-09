@@ -1,0 +1,231 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.mysql.source;
+
+import cn.sliew.scaleph.plugin.framework.property.*;
+import com.fasterxml.jackson.databind.JsonNode;
+
+public enum MySQLCDCSourceProperties {
+    ;
+
+    public static final PropertyDescriptor<String> HOSTNAME = new PropertyDescriptor.Builder()
+            .name("hostname")
+            .description("IP address or hostname of the database server.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> PORT = new PropertyDescriptor.Builder()
+            .name("port")
+            .description("Integer port number of the database server.")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(3306)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder()
+            .name("username")
+            .description("Name of the database to use when connecting to the database server.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> PASSWORD = new PropertyDescriptor.Builder()
+            .name("password")
+            .description("Password to use when connecting to the database server.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required, Property.Sensitive)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> DATABASE = new PropertyDescriptor.Builder()
+            .name("database-name")
+            .description("Database name of the database to monitor.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> TABLE = new PropertyDescriptor.Builder()
+            .name("table-name")
+            .description("Table name of the database to monitor.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> STARTUP_MODE = new PropertyDescriptor.Builder()
+            .name("startup.mode")
+            .description("Optional startup mode for MySQL CDC consumer")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .allowableValues("initial", "earliest", "latest", "specific")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Long> STARTUP_TIMESTAMP = new PropertyDescriptor.Builder()
+            .name("startup.timestamp")
+            .description("Start from the specified epoch timestamp (in milliseconds).")
+            .type(PropertyType.INT)
+            .parser(Parsers.LONG_PARSER)
+            .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> STARTUP_SPECIFIC_OFFSET_FILE = new PropertyDescriptor.Builder()
+            .name("startup.specific-offset.file")
+            .description("Start from the specified binlog file name.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Long> STARTUP_SPECIFIC_OFFSET_POS = new PropertyDescriptor.Builder()
+            .name("startup.specific-offset.pos")
+            .description("Start from the specified binlog file position.")
+            .type(PropertyType.INT)
+            .parser(Parsers.LONG_PARSER)
+            .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> STOP_MODE = new PropertyDescriptor.Builder()
+            .name("stop.mode")
+            .description("Optional stop mode for MySQL CDC consumer")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .allowableValues("never")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Long> STOP_TIMESTAMP = new PropertyDescriptor.Builder()
+            .name("stop.timestamp")
+            .description("Stop from the specified epoch timestamp (in milliseconds).")
+            .type(PropertyType.INT)
+            .parser(Parsers.LONG_PARSER)
+            .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> STOP_SPECIFIC_OFFSET_FILE = new PropertyDescriptor.Builder()
+            .name("stop.specific-offset.file")
+            .description("Stop from the specified binlog file name.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Long> STOP_SPECIFIC_OFFSET_POS = new PropertyDescriptor.Builder()
+            .name("stop.specific-offset.pos")
+            .description("Stop from the specified binlog file position.")
+            .type(PropertyType.INT)
+            .parser(Parsers.LONG_PARSER)
+            .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> INCREMENTAL_PARALLELISM = new PropertyDescriptor.Builder()
+            .name("incremental.parallelism")
+            .description("The number of parallel readers in the incremental phase.")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> SNAPSHOT_SPLIT_SIZE = new PropertyDescriptor.Builder()
+            .name("snapshot.split.size")
+            .description("The split size (number of rows) of table snapshot, captured tables are split into multiple splits when read the snapshot of table.")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> SNAPSHOT_FETCH_SIZE = new PropertyDescriptor.Builder()
+            .name("snapshot.fetch.size")
+            .description("The maximum fetch size for per poll when read table snapshot.")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> SERVER_ID = new PropertyDescriptor.Builder()
+            .name("server-id")
+            .description("A numeric ID or a numeric ID range of this database client")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> SERVER_TIME_ZONE = new PropertyDescriptor.Builder()
+            .name("server-time-zone")
+            .description("The session time zone in database server.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> CONNECT_TIMEOUT = new PropertyDescriptor.Builder()
+            .name("connect.timeout")
+            .description("The maximum time that the connector should wait after trying to connect to the database server before timing out.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> CONNECT_MAX_RETRIES = new PropertyDescriptor.Builder()
+            .name("connect.max-retries")
+            .description("The max retry times that the connector should retry to build database server connection.")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> CONNECT_POOL_SIZE = new PropertyDescriptor.Builder()
+            .name("connection.pool.size")
+            .description("The connection pool size.")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Double> CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_UPPER_BOUND = new PropertyDescriptor.Builder()
+            .name("chunk-key.even-distribution.factor.upper-bound")
+            .description("chunk-key.even-distribution.factor.upper-bound")
+            .type(PropertyType.DOUBLE)
+            .parser(Parsers.DOUBLE_PARSER)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Double> CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_LOWER_BOUND = new PropertyDescriptor.Builder()
+            .name("chunk-key.even-distribution.factor.lower-bound")
+            .description("chunk-key.even-distribution.factor.lower-bound")
+            .type(PropertyType.DOUBLE)
+            .parser(Parsers.DOUBLE_PARSER)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> DEBEZIUM = new PropertyDescriptor.Builder()
+            .name("debezium.")
+            .description("Pass-through Debezium's properties to Debezium Embedded Engine which is used to capture data changes from MySQL server.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .validateAndBuild();
+}

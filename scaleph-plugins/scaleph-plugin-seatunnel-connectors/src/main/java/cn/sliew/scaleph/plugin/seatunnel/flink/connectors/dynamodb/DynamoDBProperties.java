@@ -16,53 +16,55 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.influxdb;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.dynamodb;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum InfluxDBProperties {
+public enum DynamoDBProperties {
     ;
 
-    public static final PropertyDescriptor<String> URL = new PropertyDescriptor.Builder<String>()
+    public static final PropertyDescriptor<String> URL = new PropertyDescriptor.Builder()
             .name("url")
-            .description("the url to connect to influxDB")
+            .description("The URL to write to Amazon DynamoDB.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder<String>()
-            .name("username")
-            .description("the username of the influxDB when you select")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> PASSWORD = new PropertyDescriptor.Builder<String>()
-            .name("password")
-            .description("the password of the influxDB when you select")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> DATABASE = new PropertyDescriptor.Builder<String>()
-            .name("database")
-            .description("The influxDB database")
+    public static final PropertyDescriptor<String> REGION = new PropertyDescriptor.Builder()
+            .name("region")
+            .description("The region of Amazon DynamoDB.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Long> CONNECT_TIMEOUT_MS = new PropertyDescriptor.Builder<Long>()
-            .name("connect_timeout_ms")
-            .description("the timeout for connecting to InfluxDB, in milliseconds")
-            .type(PropertyType.INT)
-            .parser(Parsers.LONG_PARSER)
-            .addValidator(Validators.LONG_VALIDATOR)
+    public static final PropertyDescriptor<String> ACCESS_KEY_ID = new PropertyDescriptor.Builder()
+            .name("access_key_id")
+            .description("The access id of Amazon DynamoDB.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> SECRET_ACCESS_KEY = new PropertyDescriptor.Builder()
+            .name("secret_access_key")
+            .description("The access secret of Amazon DynamoDB.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> TABLE = new PropertyDescriptor.Builder()
+            .name("table")
+            .description("The table of Amazon DynamoDB.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
 }

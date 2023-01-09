@@ -16,53 +16,47 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.influxdb;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.s3redshift;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-public enum InfluxDBProperties {
+public enum S3RedshiftProperties {
     ;
 
-    public static final PropertyDescriptor<String> URL = new PropertyDescriptor.Builder<String>()
-            .name("url")
-            .description("the url to connect to influxDB")
+    public static final PropertyDescriptor<String> JDBC_URL = new PropertyDescriptor.Builder()
+            .name("jdbc_url")
+            .description("The JDBC URL to connect to the Redshift database.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder<String>()
-            .name("username")
-            .description("the username of the influxDB when you select")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> PASSWORD = new PropertyDescriptor.Builder<String>()
-            .name("password")
-            .description("the password of the influxDB when you select")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> DATABASE = new PropertyDescriptor.Builder<String>()
-            .name("database")
-            .description("The influxDB database")
+    public static final PropertyDescriptor<String> JDBC_USER = new PropertyDescriptor.Builder()
+            .name("jdbc_user")
+            .description("The JDBC user to connect to the Redshift database.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Long> CONNECT_TIMEOUT_MS = new PropertyDescriptor.Builder<Long>()
-            .name("connect_timeout_ms")
-            .description("the timeout for connecting to InfluxDB, in milliseconds")
-            .type(PropertyType.INT)
-            .parser(Parsers.LONG_PARSER)
-            .addValidator(Validators.LONG_VALIDATOR)
+    public static final PropertyDescriptor<String> JDBC_PASSWORD = new PropertyDescriptor.Builder()
+            .name("jdbc_password")
+            .description("The JDBC password to connect to the Redshift database.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> EXECUTE_SQL = new PropertyDescriptor.Builder()
+            .name("execute_sql")
+            .description("The SQL to execute after the data is written to S3.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
 }
