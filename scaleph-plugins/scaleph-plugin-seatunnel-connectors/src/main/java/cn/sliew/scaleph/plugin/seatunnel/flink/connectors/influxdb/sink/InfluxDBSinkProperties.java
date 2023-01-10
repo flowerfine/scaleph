@@ -21,6 +21,8 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.influxdb.sink;
 import cn.sliew.scaleph.plugin.framework.property.*;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.util.List;
+
 public enum InfluxDBSinkProperties {
     ;
 

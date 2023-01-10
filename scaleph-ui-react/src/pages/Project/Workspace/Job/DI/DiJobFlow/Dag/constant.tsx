@@ -423,7 +423,15 @@ export const InfluxDBParams = {
   partitionNum: 'partition_num',
   epoch: 'epoch',
   queryTimeoutSec: 'query_timeout_sec',
-  connectTimeoutMs: 'connect_timeout_ms'
+  connectTimeoutMs: 'connect_timeout_ms',
+  measurement: 'measurement',
+  keyKime: 'key_time',
+  keyTagArray: 'keyTagArray',
+  keyTags: 'key_tags',
+  batchSize: 'batch_size',
+  batchIntervalMs: 'batch_interval_ms',
+  maxRetries: 'max_retries',
+  retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms'
 };
 
 export const CassandraParams = {

@@ -75,6 +75,7 @@ import SinkStarRocksStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Da
 import SourceMaxComputeStepForm
   from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-maxcompute-step";
 import SinkMaxComputeStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-maxcompute-step";
+import SinkInfluxDBStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-influxdb-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -345,6 +346,8 @@ export class EditNodeCommand implements ICommand {
       return (<SinkSentryStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'InfluxDB'){
       return (<SourceInfluxDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'InfluxDB'){
+      return (<SinkInfluxDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
       return <></>;
     }

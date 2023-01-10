@@ -489,6 +489,13 @@ export default {
   'pages.project.di.step.influxdb.epoch': 'Epoch',
   'pages.project.di.step.influxdb.queryTimeoutSec': 'Query Timeout(seconds)',
   'pages.project.di.step.influxdb.connectTimeoutMs': 'Connect Timeout(milliseconds)',
+  'pages.project.di.step.influxdb.measurement': 'Measurement',
+  'pages.project.di.step.influxdb.keyKime': 'Key Kime',
+  'pages.project.di.step.influxdb.keyTags': 'Key Tags',
+  'pages.project.di.step.influxdb.batchSize': 'Batch Size',
+  'pages.project.di.step.influxdb.batchIntervalMs': 'Batch Interval(millis)',
+  'pages.project.di.step.influxdb.maxRetries': 'Max Retries',
+  'pages.project.di.step.influxdb.retryBackoffMultiplierMs': 'Retry Backoff Multiplier(millis)',
 
   // cassandra
   'pages.project.di.step.cassandra.consistencyLevel': 'Consistency Level',
