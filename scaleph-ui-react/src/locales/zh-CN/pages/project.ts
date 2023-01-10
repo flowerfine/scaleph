@@ -569,6 +569,17 @@ export default {
   'pages.project.di.step.s3redshift.executeSql.placeholoder':
     'COPY target_table FROM \'s3://yourbucket${path}\' IAM_ROLE \'arn:XXX\' REGION \'your region\' format as json \'auto\';',
 
+  // openmldb
+  'pages.project.di.step.openmldb.clusterMode': 'Enable Cluster Mode',
+  'pages.project.di.step.openmldb.host': 'Host',
+  'pages.project.di.step.openmldb.port': 'Port',
+  'pages.project.di.step.openmldb.zkHost': 'Zookeeper Host',
+  'pages.project.di.step.openmldb.zkPath': 'Zookeeper Path',
+  'pages.project.di.step.openmldb.database': 'Database',
+  'pages.project.di.step.openmldb.sql': 'SQL',
+  'pages.project.di.step.openmldb.sessionTimeout': 'Session Timeout(mills)',
+  'pages.project.di.step.openmldb.requestTimeout': 'Request Timeout(mills)',
+
   'pages.project.job.create': '创建作业',
   'pages.project.job.edit': '作业配置',
   'pages.project.job.createTime': '创建时间',

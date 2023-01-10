@@ -80,6 +80,7 @@ import SourceAmazonDynamodbStepForm from "@/pages/Project/Workspace/Job/DI/DiJob
 import SinkAmazonDynamodbStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-dynamodb-step";
 import SinkS3RedshiftStepForm
   from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-s3redshift-file-step";
+import SourceOpenMLDBStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-openmldb-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -358,6 +359,8 @@ export class EditNodeCommand implements ICommand {
       return (<SinkAmazonDynamodbStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'S3Redshift'){
       return (<SinkS3RedshiftStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'OpenMldb'){
+      return (<SourceOpenMLDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
       return <></>;
     }

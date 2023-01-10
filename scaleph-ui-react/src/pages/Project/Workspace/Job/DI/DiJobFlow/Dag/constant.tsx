@@ -1,14 +1,12 @@
-import { IGraphCommand, XFlowGraphCommands, XFlowNodeCommands } from '@antv/xflow';
-import SourceAmazonDynamodbStepForm
-  from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-dynamodb-step";
+import {IGraphCommand, XFlowGraphCommands, XFlowNodeCommands} from '@antv/xflow';
 
 export const DND_RENDER_ID = 'DND_NODE';
 export const GROUP_NODE_RENDER_ID = 'GROUP_NODE_RENDER_ID';
 export const EDGE_NODE_RENDER_ID = 'EDGE_NODE_RENDER_ID';
 export const NODE_WIDTH = 180;
 export const NODE_HEIGHT = 32;
-export const ZOOM_OPTIONS = { maxScale: 2, minScale: 0.5 };
-export const CONNECTION_PORT_TYPE = { source: 'outPort', target: 'inPort' };
+export const ZOOM_OPTIONS = {maxScale: 2, minScale: 0.5};
+export const CONNECTION_PORT_TYPE = {source: 'outPort', target: 'inPort'};
 
 /** custom commands */
 export namespace CustomCommands {
@@ -504,4 +502,16 @@ export const S3RedshiftParams = {
   jdbcUser: 'jdbc_user',
   jdbcPassword: 'jdbc_password',
   executeSql: 'execute_sql'
+};
+
+export const OpenMLDBParams = {
+  clusterMode: 'cluster_mode',
+  host: 'host',
+  port: 'port',
+  zkHost: 'zk_host',
+  zkPath: 'zk_path',
+  database: 'database',
+  sql: 'sql',
+  sessionTimeout: 'session_timeout',
+  requestTimeout: 'request_timeout',
 };
