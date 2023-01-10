@@ -223,9 +223,9 @@ public enum MySQLCDCSourceProperties {
             .validateAndBuild();
 
     public static final PropertyDescriptor<JsonNode> DEBEZIUM = new PropertyDescriptor.Builder()
-            .name("debezium.")
+            .name("debezium")
             .description("Pass-through Debezium's properties to Debezium Embedded Engine which is used to capture data changes from MySQL server.")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
             .validateAndBuild();
 }

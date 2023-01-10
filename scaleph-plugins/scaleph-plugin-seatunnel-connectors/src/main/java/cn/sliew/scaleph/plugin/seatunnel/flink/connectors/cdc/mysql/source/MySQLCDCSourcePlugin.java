@@ -23,17 +23,13 @@ import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.mysql.source.MySQLCDCSourceProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.DorisProperties.PASSWORD;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.DorisProperties.USERNAME;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class MySQLCDCSourcePlugin extends SeaTunnelConnectorPlugin {
@@ -68,20 +64,10 @@ public class MySQLCDCSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(CONNECT_POOL_SIZE);
         props.add(CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_UPPER_BOUND);
         props.add(CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_LOWER_BOUND);
+        props.add(DEBEZIUM);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
-    }
-
-    @Override
-    public ObjectNode createConf() {
-        ObjectNode conf = super.createConf();
-        for (Map.Entry<String, Object> entry : properties.toMap().entrySet()) {
-            if (entry.getKey().startsWith(DEBEZIUM.getName())) {
-                conf.putPOJO(entry.getKey(), entry.getValue());
-            }
-        }
-        return conf;
     }
 
     @Override
