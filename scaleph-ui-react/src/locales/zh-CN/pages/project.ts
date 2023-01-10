@@ -561,6 +561,14 @@ export default {
   'pages.project.di.step.dynamodb.batchSize': 'Batch Size',
   'pages.project.di.step.dynamodb.batchIntervalMs': 'Batch Interval(mills)',
 
+  // s3redshift
+  'pages.project.di.step.s3redshift.jdbcUrl': 'Jdbc URL',
+  'pages.project.di.step.s3redshift.jdbcUser': 'Jdbc User',
+  'pages.project.di.step.s3redshift.jdbcPassword': 'Ldbc Password',
+  'pages.project.di.step.s3redshift.executeSql': 'SQL',
+  'pages.project.di.step.s3redshift.executeSql.placeholoder':
+    'COPY target_table FROM \'s3://yourbucket${path}\' IAM_ROLE \'arn:XXX\' REGION \'your region\' format as json \'auto\';',
+
   'pages.project.job.create': '创建作业',
   'pages.project.job.edit': '作业配置',
   'pages.project.job.createTime': '创建时间',

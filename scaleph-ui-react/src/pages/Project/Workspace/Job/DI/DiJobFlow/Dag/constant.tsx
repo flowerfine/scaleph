@@ -498,3 +498,10 @@ export const AmazonDynamoDBParams = {
   batchSize: 'batch_size',
   batchIntervalMs: 'batch_interval_ms'
 };
+
+export const S3RedshiftParams = {
+  jdbcUrl: 'jdbc_url',
+  jdbcUser: 'jdbc_user',
+  jdbcPassword: 'jdbc_password',
+  executeSql: 'execute_sql'
+};
