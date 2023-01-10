@@ -101,12 +101,13 @@ const SinkInfluxDBStepForm: React.FC<ModalFormProps<{
         <ProFormDigit
           name={InfluxDBParams.maxRetries}
           label={intl.formatMessage({id: 'pages.project.di.step.influxdb.maxRetries'})}
-          colProps={{span: 8}}
+          colProps={{span: 12}}
           min={1}
         />
         <ProFormDigit
           name={InfluxDBParams.retryBackoffMultiplierMs}
           label={intl.formatMessage({id: 'pages.project.di.step.influxdb.retryBackoffMultiplierMs'})}
+          colProps={{span: 12}}
           fieldProps={{
             min: 1,
             step: 1000

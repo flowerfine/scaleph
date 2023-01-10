@@ -1,4 +1,6 @@
 import { IGraphCommand, XFlowGraphCommands, XFlowNodeCommands } from '@antv/xflow';
+import SourceAmazonDynamodbStepForm
+  from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-dynamodb-step";
 
 export const DND_RENDER_ID = 'DND_NODE';
 export const GROUP_NODE_RENDER_ID = 'GROUP_NODE_RENDER_ID';
@@ -484,4 +486,15 @@ export const MaxComputeParams = {
   partitionSpec: 'partition_spec',
   splitRow: 'split_row',
   overwrite: 'overwrite'
+};
+
+export const AmazonDynamoDBParams = {
+  url: 'url',
+  region: 'region',
+  accessKeyId: 'access_key_id',
+  secretAccessKey: 'secret_access_key',
+  table: 'table',
+  schema: 'schema',
+  batchSize: 'batch_size',
+  batchIntervalMs: 'batch_interval_ms'
 };

@@ -30,6 +30,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.dynamodb.DynamoDBProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.dynamodb.sink.DynamoDBSinkProperties.BATCH_INTERVAL_MS;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.dynamodb.sink.DynamoDBSinkProperties.BATCH_SIZE;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class DynamoDBSinkPlugin extends SeaTunnelConnectorPlugin {
@@ -44,6 +46,8 @@ public class DynamoDBSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(ACCESS_KEY_ID);
         props.add(SECRET_ACCESS_KEY);
         props.add(TABLE);
+        props.add(BATCH_SIZE);
+        props.add(BATCH_INTERVAL_MS);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = Collections.unmodifiableList(props);

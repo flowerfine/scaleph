@@ -551,6 +551,16 @@ export default {
   'pages.project.di.step.maxcompute.splitRow': 'Split Row',
   'pages.project.di.step.maxcompute.overwrite': 'Enable OverWrite',
 
+  // amazon dynamodb
+  'pages.project.di.step.dynamodb.url': 'URL',
+  'pages.project.di.step.dynamodb.region': 'Region',
+  'pages.project.di.step.dynamodb.accessKeyId': 'Access Key Id',
+  'pages.project.di.step.dynamodb.secretAccessKey': 'Secret Access Key',
+  'pages.project.di.step.dynamodb.table': 'Table',
+  'pages.project.di.step.dynamodb.schema': 'Schema',
+  'pages.project.di.step.dynamodb.batchSize': 'Batch Size',
+  'pages.project.di.step.dynamodb.batchIntervalMs': 'Batch Interval(mills)',
+
   'pages.project.job.create': '创建作业',
   'pages.project.job.edit': '作业配置',
   'pages.project.job.createTime': '创建时间',
