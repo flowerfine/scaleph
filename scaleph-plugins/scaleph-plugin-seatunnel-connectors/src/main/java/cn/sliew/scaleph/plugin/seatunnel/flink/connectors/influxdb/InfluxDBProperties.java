@@ -48,4 +48,21 @@ public enum InfluxDBProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<String> DATABASE = new PropertyDescriptor.Builder<String>()
+            .name("database")
+            .description("The influxDB database")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Long> CONNECT_TIMEOUT_MS = new PropertyDescriptor.Builder<Long>()
+            .name("connect_timeout_ms")
+            .description("the timeout for connecting to InfluxDB, in milliseconds")
+            .type(PropertyType.INT)
+            .parser(Parsers.LONG_PARSER)
+            .addValidator(Validators.LONG_VALIDATOR)
+            .validateAndBuild();
+
 }

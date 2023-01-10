@@ -1,10 +1,13 @@
 import {
-  CassandraParams, DorisParams,
+  CassandraParams, CDCMySQLParams,
+  DorisParams,
   ElasticsearchParams,
+  InfluxDBParams,
   IoTDBParams,
   JdbcParams,
   KafkaParams,
-  SchemaParams, StarRocksParams
+  SchemaParams,
+  StarRocksParams
 } from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
 
 export const StepSchemaService = {
@@ -172,4 +175,19 @@ export const StepSchemaService = {
     return values
   },
 
+  formatKeyTags: (values: Record<string, any>) => {
+    values[InfluxDBParams.keyTags] = JSON.stringify(values[InfluxDBParams.keyTagArray])
+    return values
+  },
+
+  formatDebeziumProperties: (values: Record<string, any>) => {
+    const properties: Record<string, any> = {}
+    values[CDCMySQLParams.debeziumProperties].forEach(function (item: Record<string, any>) {
+      properties[item[CDCMySQLParams.debeziumProperty]] = item[CDCMySQLParams.debeziumValue];
+    });
+    values[CDCMySQLParams.debeziums] = JSON.stringify(properties)
+    values[CDCMySQLParams.startupMode] = values.startupMode
+    values[CDCMySQLParams.stopMode] = values.stopMode
+    return values
+  },
 };

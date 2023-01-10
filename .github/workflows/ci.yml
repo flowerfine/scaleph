@@ -32,7 +32,7 @@ jobs:
         timeout-minutes: 360
         run: mvn -B -U -T 4 clean package --file pom.xml
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./**/target/site/jacoco/jacoco.xml

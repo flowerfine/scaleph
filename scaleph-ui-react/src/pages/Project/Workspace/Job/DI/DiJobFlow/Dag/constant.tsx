@@ -1,12 +1,12 @@
-import { IGraphCommand, XFlowGraphCommands, XFlowNodeCommands } from '@antv/xflow';
+import {IGraphCommand, XFlowGraphCommands, XFlowNodeCommands} from '@antv/xflow';
 
 export const DND_RENDER_ID = 'DND_NODE';
 export const GROUP_NODE_RENDER_ID = 'GROUP_NODE_RENDER_ID';
 export const EDGE_NODE_RENDER_ID = 'EDGE_NODE_RENDER_ID';
 export const NODE_WIDTH = 180;
 export const NODE_HEIGHT = 32;
-export const ZOOM_OPTIONS = { maxScale: 2, minScale: 0.5 };
-export const CONNECTION_PORT_TYPE = { source: 'outPort', target: 'inPort' };
+export const ZOOM_OPTIONS = {maxScale: 2, minScale: 0.5};
+export const CONNECTION_PORT_TYPE = {source: 'outPort', target: 'inPort'};
 
 /** custom commands */
 export namespace CustomCommands {
@@ -423,7 +423,15 @@ export const InfluxDBParams = {
   partitionNum: 'partition_num',
   epoch: 'epoch',
   queryTimeoutSec: 'query_timeout_sec',
-  connectTimeoutMs: 'connect_timeout_ms'
+  connectTimeoutMs: 'connect_timeout_ms',
+  measurement: 'measurement',
+  keyKime: 'key_time',
+  keyTagArray: 'keyTagArray',
+  keyTags: 'key_tags',
+  batchSize: 'batch_size',
+  batchIntervalMs: 'batch_interval_ms',
+  maxRetries: 'max_retries',
+  retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms'
 };
 
 export const CassandraParams = {
@@ -476,4 +484,65 @@ export const MaxComputeParams = {
   partitionSpec: 'partition_spec',
   splitRow: 'split_row',
   overwrite: 'overwrite'
+};
+
+export const AmazonDynamoDBParams = {
+  url: 'url',
+  region: 'region',
+  accessKeyId: 'access_key_id',
+  secretAccessKey: 'secret_access_key',
+  table: 'table',
+  schema: 'schema',
+  batchSize: 'batch_size',
+  batchIntervalMs: 'batch_interval_ms'
+};
+
+export const S3RedshiftParams = {
+  jdbcUrl: 'jdbc_url',
+  jdbcUser: 'jdbc_user',
+  jdbcPassword: 'jdbc_password',
+  executeSql: 'execute_sql'
+};
+
+export const OpenMLDBParams = {
+  clusterMode: 'cluster_mode',
+  host: 'host',
+  port: 'port',
+  zkHost: 'zk_host',
+  zkPath: 'zk_path',
+  database: 'database',
+  sql: 'sql',
+  sessionTimeout: 'session_timeout',
+  requestTimeout: 'request_timeout',
+};
+
+export const CDCMySQLParams = {
+  hostname: 'hostname',
+  port: 'port',
+  username: 'username',
+  password: 'password',
+  database: 'database-name',
+  table: 'table-name',
+  startupMode: 'startup.mode',
+  startupTimestamp: 'startup.timestamp',
+  startupSpecificOffsetFile: 'startup.specific-offset.file',
+  startupSpecificOffsetPos: 'startup.specific-offset.pos',
+  stopMode: 'stop.mode',
+  stopTimestamp: 'stop.timestamp',
+  stopSpecificOffsetFile: 'stop.specific-offset.file',
+  stopSpecificOffsetPos: 'stop.specific-offset.pos',
+  incrementalParallelism: 'incremental.parallelism',
+  snapshotSplitSize: 'snapshot.split.size',
+  snapshotFetchSize: 'snapshot.fetch.size',
+  serverId: 'server-id',
+  serverTimeZone: 'server-time-zone',
+  connectTimeout: 'connect.timeout',
+  connectMaxRetries: 'connect.max-retries',
+  connectionPoolSize: 'connection.pool.size',
+  chunkKeyEvenDistributionFactorUpperBound: 'chunk-key.even-distribution.factor.upper-bound',
+  chunkKeyEvenDistributionFactorLowerBound: 'chunk-key.even-distribution.factor.lower-bound',
+  debeziums: 'debezium',
+  debeziumProperties: 'debeziumProperties',
+  debeziumProperty: 'debeziumProperty',
+  debeziumValue: 'debeziumValue',
 };

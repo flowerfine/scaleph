@@ -75,6 +75,13 @@ import SinkStarRocksStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Da
 import SourceMaxComputeStepForm
   from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-maxcompute-step";
 import SinkMaxComputeStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-maxcompute-step";
+import SinkInfluxDBStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-influxdb-step";
+import SourceAmazonDynamodbStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-dynamodb-step";
+import SinkAmazonDynamodbStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-dynamodb-step";
+import SinkS3RedshiftStepForm
+  from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/sink/sink-s3redshift-file-step";
+import SourceOpenMLDBStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-openmldb-step";
+import SourceCDCMySQLStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-cdc-mysql-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -345,6 +352,18 @@ export class EditNodeCommand implements ICommand {
       return (<SinkSentryStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'InfluxDB'){
       return (<SourceInfluxDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'InfluxDB'){
+      return (<SinkInfluxDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'AmazonDynamodb'){
+      return (<SourceAmazonDynamodbStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'AmazonDynamodb'){
+      return (<SinkAmazonDynamodbStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'sink' && name === 'S3Redshift'){
+      return (<SinkS3RedshiftStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'OpenMldb'){
+      return (<SourceOpenMLDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'MySQL-CDC'){
+      return (<SourceCDCMySQLStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
       return <></>;
     }
