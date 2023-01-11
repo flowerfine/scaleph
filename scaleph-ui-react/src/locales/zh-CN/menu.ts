@@ -22,6 +22,9 @@ export default {
 
   'menu.dataSource': '数据源',
 
+  'menu.dataService': '数据服务',
+  'menu.dataService.schema': 'Schema',
+
   'menu.stdata': '数据标准',
   'menu.stdata.system': '业务系统',
   'menu.stdata.dataElement': '数据元',
