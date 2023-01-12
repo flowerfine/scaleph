@@ -182,7 +182,7 @@ export const StepSchemaService = {
 
   formatDebeziumProperties: (values: Record<string, any>) => {
     const properties: Record<string, any> = {}
-    values[CDCMySQLParams.debeziumProperties].forEach(function (item: Record<string, any>) {
+    values[CDCMySQLParams.debeziumProperties]?.forEach(function (item: Record<string, any>) {
       properties[item[CDCMySQLParams.debeziumProperty]] = item[CDCMySQLParams.debeziumValue];
     });
     values[CDCMySQLParams.debeziums] = JSON.stringify(properties)
