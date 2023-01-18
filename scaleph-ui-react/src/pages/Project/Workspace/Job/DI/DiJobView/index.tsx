@@ -7,7 +7,7 @@ import { DeleteOutlined, DownOutlined, EditOutlined, NodeIndexOutlined } from '@
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { Button, Col, Dropdown, Menu, message, Modal, Row, Select, Space, Tooltip } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import { useAccess, useIntl } from 'umi';
+import { useAccess, useIntl ,history} from 'umi';
 import DiJobFlow from '../DiJobFlow';
 import DiJobForm from './components/DiJobForm';
 
@@ -133,7 +133,8 @@ const DiJobView: React.FC = () => {
                   type="link"
                   icon={<NodeIndexOutlined />}
                   onClick={() => {
-                    setJobFlowData({ visible: true, data: record });
+                    history.push("/workspace/xflow2", {visible: true, data: record, meta: { flowId: 'flow_' + record.jobCode, origin: record }})
+                    // setJobFlowData({ visible: true, data: record });
                   }}
                 ></Button>
               </Tooltip>

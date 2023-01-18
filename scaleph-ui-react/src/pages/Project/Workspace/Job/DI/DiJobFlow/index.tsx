@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useIntl} from 'umi';
+import {useIntl, useLocation} from 'umi';
 import {Button, Drawer, Popover, Space, Tag, Tooltip} from 'antd';
 import {
   CloseOutlined,
@@ -58,8 +58,9 @@ interface DiJobFlowPorps {
   meta: { flowId?: string; origin?: WsDiJob };
 }
 
-const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
+const DiJobFlow: React.FC<DiJobFlowPorps> = () => {
   const intl = useIntl();
+  const props = useLocation().state as DiJobFlowPorps
   const graphConfig = useGraphCOnfig(props);
   const graphHookConfig = useGraphHookConfig(props);
   const cmdConfig = useCmdConfig();

@@ -170,6 +170,14 @@ export default [
         pCode: PRIVILEGE_CODE.workspaceClusterConfigOptionsShow,
         access: 'normalRouteFilter'
       },
+      {
+        name: '流程可视化2',
+        path: '/workspace/xflow2',
+        icon: 'smile',
+        component: './Project/Workspace/Job/DI/DiJobFlow',
+        pCode: PRIVILEGE_CODE.workspaceClusterConfigOptionsShow,
+        access: 'normalRouteFilter'
+      },
     ]
   },
   {
