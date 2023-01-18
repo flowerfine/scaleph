@@ -34,7 +34,7 @@ import {
   IAppLoad,
 } from '@antv/xflow';
 /** config graph */
-import {useGraphCOnfig, useGraphHookConfig} from './Dag/config-graph';
+import {useGraphConfig, useGraphHookConfig} from './Dag/config-graph';
 /** config command */
 import {initGraphCmds, useCmdConfig} from './Dag/config-cmd';
 /** config key bind */
@@ -61,7 +61,7 @@ interface DiJobFlowPorps {
 const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
   const intl = useIntl();
   // const props = useLocation().state as DiJobFlowPorps
-  const graphConfig = useGraphCOnfig(props);
+  const graphConfig = useGraphConfig(props);
   const graphHookConfig = useGraphHookConfig(props);
   const cmdConfig = useCmdConfig();
   const keybindingConfig = useKeybindingConfig();

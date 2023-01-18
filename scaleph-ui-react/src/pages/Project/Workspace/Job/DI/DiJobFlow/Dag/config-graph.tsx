@@ -82,7 +82,7 @@ export const useGraphHookConfig = createHookConfig((config, proxy) => {
   });
 });
 
-export const useGraphCOnfig = createGraphConfig((config) => {
+export const useGraphConfig = createGraphConfig((config) => {
   config.setX6Config({
     grid: {
       size: 10,
