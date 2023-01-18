@@ -161,7 +161,15 @@ export default [
             access: 'normalRouteFilter'
           }
         ]
-      }
+      },
+      {
+        name: '流程可视化',
+        path: '/workspace/xflow',
+        icon: 'smile',
+        component: './Project/Workspace/Job/DI/Xflow',
+        pCode: PRIVILEGE_CODE.workspaceClusterConfigOptionsShow,
+        access: 'normalRouteFilter'
+      },
     ]
   },
   {
