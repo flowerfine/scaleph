@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import {useIntl, useLocation} from 'umi';
-import {Button, Drawer, Popover, Space, Tag, Tooltip} from 'antd';
+import { PageContainer } from '@ant-design/pro-components';
 import {
-  CloseOutlined,
   CompressOutlined,
   DeleteOutlined,
   EditOutlined,
@@ -19,19 +18,21 @@ import {
   ZoomOutOutlined,
 } from '@ant-design/icons';
 import {
-  CanvasContextMenu, /** 通用组件：节点连接桩 */
-  CanvasMiniMap, /** 通用组件：小地图 */
-  CanvasNodePortTooltip, /** 通用组件：画布缩放 */
-  CanvasSnapline, /** 通用组件：工具栏 */
-  CanvasToolbar, /** 流程图画布组件 */
+  CanvasContextMenu,
+  CanvasMiniMap,
+  CanvasNodePortTooltip,
+  CanvasScaleToolbar,
+  CanvasSnapline,
+  CanvasToolbar,
+  FlowchartExtension,
+  IApplication,
+  IAppLoad,
   IconStore,
   KeyBindings,
   NodeCollapsePanel,
-  XFlow, /** XFlow核心组件 */
-  XFlowCanvas,
   NsGraph,
-  IApplication,
-  IAppLoad,
+  XFlow,
+  XFlowCanvas,
 } from '@antv/xflow';
 /** config graph */
 import {useGraphConfig, useGraphHookConfig} from './Dag/config-graph';
@@ -51,25 +52,23 @@ import {WsDiJob} from '@/services/project/typings';
 import {DagService} from './Dag/service';
 
 interface DiJobFlowPorps {
-  visible: boolean;
   data: WsDiJob;
-  onVisibleChange: (visible: boolean, data: any) => void;
-  onCancel: () => void;
   meta: { flowId?: string; origin?: WsDiJob };
 }
 
-const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
+const DiJobFlow: React.FC<DiJobFlowPorps> = () => {
   const intl = useIntl();
-  // const props = useLocation().state as DiJobFlowPorps
+  const props = useLocation().state as DiJobFlowPorps
   const graphConfig = useGraphConfig(props);
   const graphHookConfig = useGraphHookConfig(props);
-  const cmdConfig = useCmdConfig();
-  const keybindingConfig = useKeybindingConfig();
-  const menuConfig = useMenuConfig();
-  const scaleToolbarConfig = useScaleToolbarConfig();
+  const commandConfig = useCmdConfig();
   const toolbarConfig = useToolbarConfig();
+  const scaleToolbarConfig = useScaleToolbarConfig();
+  const menuConfig = useMenuConfig();
+  const keybindingConfig = useKeybindingConfig();
   const [graphData, setGraphData] = useState<NsGraph.IGraphData>({nodes: [], edges: []});
-  const {visible, data, onVisibleChange, onCancel, meta} = props;
+  const {data, meta} = props;
+
 
   /**register icons */
   IconStore.set('DeleteOutlined', DeleteOutlined);
@@ -93,7 +92,6 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
     }),
     [],
   );
-
   const onLoad: IAppLoad = async (app) => {
     cache.app = app;
     initGraphCmds(cache.app, meta.origin || {id: data.id});
@@ -112,107 +110,43 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
     });
   };
 
+  // dag-user-custom-clz
   return (
-    <>
-      <Drawer
-        title={
-          <Space>
-            <Popover
-              content={
-                <>
-                  <p>
-                    {intl.formatMessage({id: 'pages.project.di.jobCode'}) + ' : ' + data.jobCode}
-                  </p>
-                  <p>
-                    {intl.formatMessage({id: 'pages.project.di.jobName'}) + ' : ' + data.jobName}
-                  </p>
-                  <p>
-                    {intl.formatMessage({id: 'pages.project.di.jobStatus'}) +
-                      ' : ' +
-                      data.jobStatus?.label}
-                  </p>
-                  <p>
-                    {intl.formatMessage({id: 'pages.project.di.jobVersion'}) +
-                      ' : ' +
-                      data.jobVersion}
-                  </p>
-                  <p>
-                    {intl.formatMessage({id: 'pages.project.di.createTime'}) +
-                      ' : ' +
-                      data.createTime}
-                  </p>
-                  <p>
-                    {intl.formatMessage({id: 'pages.project.di.updateTime'}) +
-                      ' : ' +
-                      data.updateTime}
-                  </p>
-                </>
-              }
-              title={false}
-              placement="bottom"
-              trigger="hover"
-            >
-              <Tag color="blue">{data.jobType?.label + ' : ' + data.jobName}</Tag>
-            </Popover>
-          </Space>
-        }
-        bodyStyle={{padding: '0px'}}
-        placement="top"
-        width="100%"
-        height="100%"
-        closable={false}
-        onClose={onCancel}
-        extra={
-          <Space>
-            <Tooltip title={intl.formatMessage({id: 'app.common.operate.close.label'})}></Tooltip>
-            <Button
-              shape="default"
-              type="text"
-              icon={<CloseOutlined/>}
-              onClick={onCancel}
-            ></Button>
-          </Space>
-        }
-        open={visible}
+    <PageContainer title={false}>
+      <XFlow
+        className="flow-user-custom-clz"
+        hookConfig={graphHookConfig}
+        commandConfig={commandConfig}
+        onLoad={onLoad}
+        graphData={graphData}
+        meta={meta}
       >
-        <XFlow
-          className="dag-user-custom-clz"
-          hookConfig={graphHookConfig}
-          commandConfig={cmdConfig}
-          onLoad={onLoad}
-          graphData={graphData}
-          meta={meta}
-        >
-          <NodeCollapsePanel
-            className="xflow-node-panel"
-            position={{width: 240, top: 0, bottom: 0, left: 0}}
-            bodyPosition={{top: 40, bottom: 0, left: 0}}
-            footerPosition={{height: 0}}
-            nodeDataService={dndPanelConfig.nodeDataService}
-            onNodeDrop={dndPanelConfig.onNodeDrop}
-            searchService={dndPanelConfig.searchService}
-          ></NodeCollapsePanel>
-          <CanvasToolbar
-            className="xflow-workspace-toolbar-top"
-            layout="horizontal"
-            config={toolbarConfig}
-            position={{top: 0, left: 240, right: 0, bottom: 0}}
-          />
-          <XFlowCanvas config={graphConfig} position={{top: 40, left: 240, right: 0, bottom: 0}}>
-            <CanvasToolbar
-              position={{top: 12, right: 12}}
-              config={scaleToolbarConfig}
-              layout="vertical"
-            />
-            <CanvasContextMenu config={menuConfig}/>
-            <CanvasSnapline color="#faad14"/>
-            <CanvasMiniMap minimapOptions={{width: 200, height: 120}}/>
-            <CanvasNodePortTooltip/>
-          </XFlowCanvas>
-          <KeyBindings config={keybindingConfig}/>
-        </XFlow>
-      </Drawer>
-    </>
+        <FlowchartExtension/>
+        <NodeCollapsePanel
+          className="xflow-node-panel"
+          position={{width: 240, top: 0, bottom: 0, left: 0}}
+          bodyPosition={{top: 40, bottom: 0, left: 0}}
+          footerPosition={{height: 0}}
+          nodeDataService={dndPanelConfig.nodeDataService}
+          onNodeDrop={dndPanelConfig.onNodeDrop}
+          searchService={dndPanelConfig.searchService}
+        />
+        <CanvasToolbar
+          className="xflow-workspace-toolbar-top"
+          layout="horizontal"
+          config={toolbarConfig}
+          position={{top: 0, left: 240, right: 0, bottom: 0}}
+        />
+        <XFlowCanvas config={graphConfig} position={{top: 40, left: 240, right: 0, bottom: 0}}>
+          <CanvasScaleToolbar layout="vertical" position={{top: 12, right: 12}}/>
+          <CanvasContextMenu config={menuConfig}/>
+          <CanvasSnapline color="#faad14"/>
+          <CanvasMiniMap minimapOptions={{width: 200, height: 120}}/>
+          <CanvasNodePortTooltip/>
+        </XFlowCanvas>
+        <KeyBindings config={keybindingConfig}/>
+      </XFlow>
+    </PageContainer>
   );
 };
 

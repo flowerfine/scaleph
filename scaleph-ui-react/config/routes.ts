@@ -127,7 +127,14 @@ export default [
             component: './Project/Workspace/Job/DI/DiJobView',
             pCode: PRIVILEGE_CODE.workspaceJobSeaTunnelShow,
             access: 'normalRouteFilter'
-          }
+          },
+          {
+            path: '/workspace/job/seatunnel/dag',
+            exact: true,
+            component: './Project/Workspace/Job/DI/DiJobFlow',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigOptionsShow,
+            access: 'normalRouteFilter'
+          },
         ]
       },
       {
@@ -162,22 +169,14 @@ export default [
           }
         ]
       },
-      /*{
+      {
         name: '流程可视化',
         path: '/workspace/xflow',
         icon: 'smile',
         component: './Project/Workspace/Job/DI/Xflow',
         pCode: PRIVILEGE_CODE.workspaceClusterConfigOptionsShow,
         access: 'normalRouteFilter'
-      },
-      {
-        name: '流程可视化2',
-        path: '/workspace/xflow2',
-        icon: 'smile',
-        component: './Project/Workspace/Job/DI/DiJobFlow',
-        pCode: PRIVILEGE_CODE.workspaceClusterConfigOptionsShow,
-        access: 'normalRouteFilter'
-      },*/
+      }
     ]
   },
   {

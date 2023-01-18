@@ -36,7 +36,7 @@ import CustomNodeCollapsePanel from './CustomNodeCollapsePanel';
 /** 配置Dnd组件面板 */
 import '@antv/xflow/dist/index.css';
 import './index.less';
-import { PageContainer } from '@ant-design/pro-layout';
+import { PageContainer } from '@ant-design/pro-components';
 import { useGraphConfig } from './CustomNodeCollapsePanel/config-dnd-panel';
 
 export interface IProps {
