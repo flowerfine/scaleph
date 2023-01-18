@@ -271,6 +271,30 @@ export default [
       }
     ]
   },
+  // {
+  //   name: 'dataService',
+  //   path: '/dataService',
+  //   icon: 'function',
+  //   pCode: PRIVILEGE_CODE.stdataShow,
+  //   access: 'normalRouteFilter',
+  //   routes: [
+  //     {
+  //       path: '/dataService',
+  //       redirect: '/dataService/schema',
+  //       pCode: PRIVILEGE_CODE.stdataShow,
+  //       access: 'normalRouteFilter'
+  //     },
+  //     {
+  //       name: 'schema',
+  //       path: '/dataService/schema',
+  //       icon: 'insertRowAbove',
+  //       exact: true,
+  //       component: './DataService',
+  //       pCode: PRIVILEGE_CODE.stdataSystemShow,
+  //       access: 'normalRouteFilter'
+  //     }
+  //   ]
+  // },
   {
     name: 'stdata',
     path: '/stdata',
