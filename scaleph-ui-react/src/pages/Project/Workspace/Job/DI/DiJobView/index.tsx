@@ -133,8 +133,8 @@ const DiJobView: React.FC = () => {
                   type="link"
                   icon={<NodeIndexOutlined />}
                   onClick={() => {
-                    history.push("/workspace/xflow2", {visible: true, data: record, meta: { flowId: 'flow_' + record.jobCode, origin: record }})
-                    // setJobFlowData({ visible: true, data: record });
+                    // history.push("/workspace/xflow2", {visible: true, data: record, meta: { flowId: 'flow_' + record.jobCode, origin: record }})
+                    setJobFlowData({ visible: true, data: record });
                   }}
                 ></Button>
               </Tooltip>

@@ -58,9 +58,9 @@ interface DiJobFlowPorps {
   meta: { flowId?: string; origin?: WsDiJob };
 }
 
-const DiJobFlow: React.FC<DiJobFlowPorps> = () => {
+const DiJobFlow: React.FC<DiJobFlowPorps> = (props) => {
   const intl = useIntl();
-  const props = useLocation().state as DiJobFlowPorps
+  // const props = useLocation().state as DiJobFlowPorps
   const graphConfig = useGraphCOnfig(props);
   const graphHookConfig = useGraphHookConfig(props);
   const cmdConfig = useCmdConfig();

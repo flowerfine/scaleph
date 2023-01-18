@@ -162,7 +162,7 @@ export default [
           }
         ]
       },
-      {
+      /*{
         name: '流程可视化',
         path: '/workspace/xflow',
         icon: 'smile',
@@ -177,7 +177,7 @@ export default [
         component: './Project/Workspace/Job/DI/DiJobFlow',
         pCode: PRIVILEGE_CODE.workspaceClusterConfigOptionsShow,
         access: 'normalRouteFilter'
-      },
+      },*/
     ]
   },
   {
