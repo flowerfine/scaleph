@@ -1,7 +1,5 @@
-create
-database if not exists scaleph default character set utf8mb4 collate utf8mb4_unicode_ci;
-use
-scaleph;
+create database if not exists scaleph default character set utf8mb4 collate utf8mb4_unicode_ci;
+use scaleph;
 
 /* 数据集成-项目信息 */
 drop table if exists ws_project;
