@@ -27,14 +27,9 @@ const DefaultTemplateEditor: React.FC = () => {
         metadata: json.metadata,
         spec: json.spec
       }
-      WsFlinkKubernetesDeploymentTemplateService.mergeDefault(data).then((response) => {
-        console.log("response", response)
+      WsFlinkKubernetesDeploymentTemplateService.asTemplateWithDefault(data).then((response) => {
         if (response.data) {
-          const template = {
-            metadata: response.data.metadata,
-            spec: response.data.spec
-          }
-          setEditorValue(YAML.stringify(template))
+          setEditorValue(YAML.stringify(response.data))
         }
       })
     }

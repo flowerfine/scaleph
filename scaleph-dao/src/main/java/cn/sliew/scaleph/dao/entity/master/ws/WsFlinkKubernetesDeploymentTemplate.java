@@ -50,4 +50,7 @@ public class WsFlinkKubernetesDeploymentTemplate extends BaseDO {
     @TableField("spec")
     private String spec;
 
+    @TableField("remark")
+    private String remark;
+
 }

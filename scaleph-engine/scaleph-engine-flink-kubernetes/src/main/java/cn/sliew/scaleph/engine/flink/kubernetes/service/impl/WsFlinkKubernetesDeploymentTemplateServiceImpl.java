@@ -62,6 +62,16 @@ public class WsFlinkKubernetesDeploymentTemplateServiceImpl implements WsFlinkKu
     }
 
     @Override
+    public DeploymentTemplate asTemplate(WsFlinkKubernetesDeploymentTemplateDTO dto) {
+        return DeploymentTemplateFactory.from(dto);
+    }
+
+    @Override
+    public DeploymentTemplate asTemplateWithDefault(WsFlinkKubernetesDeploymentTemplateDTO dto) {
+        return DeploymentTemplateFactory.from(mergeDefault(dto));
+    }
+
+    @Override
     public WsFlinkKubernetesDeploymentTemplateDTO mergeDefault(WsFlinkKubernetesDeploymentTemplateDTO dto) {
         DeploymentTemplate customTemplate = DeploymentTemplateFactory.from(dto);
         DeploymentTemplate defaultTemplate = DeploymentTemplateFactory.create("default", "default", customTemplate);

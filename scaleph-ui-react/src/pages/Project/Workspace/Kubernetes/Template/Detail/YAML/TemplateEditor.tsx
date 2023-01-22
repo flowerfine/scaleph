@@ -1,22 +1,17 @@
 import {useModel} from "umi";
 import React, {useEffect, useRef, useState} from "react";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
+import {Props} from '@/app.d';
+import {WsFlinkKubernetesDeploymentTemplate} from "@/services/project/typings";
+import {
+  WsFlinkKubernetesDeploymentTemplateService
+} from "@/services/project/WsFlinkKubernetesDeploymentTemplateService";
+import YAML from "yaml";
 
-const TemplateEditor: React.FC = () => {
-  const [conf, setConf] = useState<string>();
-
-  const confData = "apiVersion: v1\n" +
-    "kind: DeploymentDefaults\n" +
-    "metadata:\n" +
-    "  name: default\n" +
-    "  namespace: default\n" +
-    "spec:\n" +
-    "  deploymentTargetName: '111'\n" +
-    "  restoreStrategy:\n" +
-    "    allowNonRestoredState: false";
-
+const TemplateEditor: React.FC<Props<WsFlinkKubernetesDeploymentTemplate>> = ({data}) => {
   const editorRef = useRef(null);
   const monaco = useMonaco();
+  const [conf, setConf] = useState<string>();
 
   const {setDeploymentTemplate} = useModel('deploymentTemplateYAMLEditor', (model) => ({
     setDeploymentTemplate: model.setDeploymentTemplate
@@ -28,8 +23,12 @@ const TemplateEditor: React.FC = () => {
   }, [monaco]);
 
   useEffect(() => {
-    setConf(confData)
-  }, []);
+    WsFlinkKubernetesDeploymentTemplateService.asTemplate(data).then((response) => {
+      if (response.data) {
+        setConf(YAML.stringify(response.data))
+      }
+    })
+  }, [data]);
 
   const handleEditorDidMount = (editor, monaco: Monaco) => {
     editorRef.current = editor;

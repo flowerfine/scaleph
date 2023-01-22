@@ -108,7 +108,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
                   onClick={() => {
                     SeatunnelReleaseService.download(record);
                   }}
-                ></Button>
+                />
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
@@ -134,7 +134,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
                       },
                     });
                   }}
-                ></Button>
+                />
               </Tooltip>
             )}
           </Space>

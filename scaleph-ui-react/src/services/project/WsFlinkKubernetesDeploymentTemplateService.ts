@@ -1,5 +1,5 @@
 import {PageResponse, ResponseBody} from '@/app.d';
-import {request} from '@@/exports';
+import {request} from 'umi';
 import {WsFlinkKubernetesDeploymentTemplate, WsFlinkKubernetesDeploymentTemplateParam} from './typings';
 
 export const WsFlinkKubernetesDeploymentTemplateService = {
@@ -23,6 +23,20 @@ export const WsFlinkKubernetesDeploymentTemplateService = {
   selectOne: async (id: number) => {
     return request<ResponseBody<WsFlinkKubernetesDeploymentTemplate>>(`${WsFlinkKubernetesDeploymentTemplateService.url}/` + id, {
       method: 'GET',
+    });
+  },
+
+  asTemplate: async (row: any) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesDeploymentTemplateService.url}/asTemplate`, {
+      method: 'POST',
+      data: row,
+    });
+  },
+
+  asTemplateWithDefault: async (row: any) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesDeploymentTemplateService.url}/asTemplateWithDefault`, {
+      method: 'POST',
+      data: row,
     });
   },
 

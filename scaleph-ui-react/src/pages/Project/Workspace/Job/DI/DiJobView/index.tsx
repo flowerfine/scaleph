@@ -71,23 +71,6 @@ const DiJobView: React.FC = () => {
         );
       },
     },
-    // {
-    //   title: intl.formatMessage({ id: 'pages.project.di.jobStatus' }),
-    //   dataIndex: 'jobStatus',
-    //   align: 'center',
-    //   hideInSearch: true,
-    //   width: 100,
-    //   render: (_, record) => {
-    //     return record.jobStatus?.label;
-    //   },
-    // },
-    // {
-    //   title: intl.formatMessage({ id: 'pages.project.di.jobVersion' }),
-    //   dataIndex: 'jobVersion',
-    //   width: 80,
-    //   hideInSearch: true,
-    //   align: 'center',
-    // },
     {
       title: intl.formatMessage({id: 'pages.project.di.remark'}),
       dataIndex: 'remark',
@@ -125,7 +108,7 @@ const DiJobView: React.FC = () => {
                   onClick={() => {
                     setJobFormData({visible: true, data: record});
                   }}
-                ></Button>
+                />
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
@@ -135,7 +118,7 @@ const DiJobView: React.FC = () => {
                   type="link"
                   icon={<NodeIndexOutlined/>}
                   onClick={() => onJobFlow(record)}
-                ></Button>
+                />
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevDatasourceDelete) && (
@@ -147,25 +130,21 @@ const DiJobView: React.FC = () => {
                   onClick={() => {
                     Modal.confirm({
                       title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
-                      content: intl.formatMessage({
-                        id: 'app.common.operate.delete.confirm.content',
-                      }),
+                      content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
                       okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
                         WsDiJobService.deleteJobRow(record).then((d) => {
                           if (d.success) {
-                            message.success(
-                              intl.formatMessage({id: 'app.common.operate.delete.success'}),
-                            );
+                            message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
                           }
                         });
                       },
                     });
                   }}
-                ></Button>
+                />
               </Tooltip>
             )}
           </Space>

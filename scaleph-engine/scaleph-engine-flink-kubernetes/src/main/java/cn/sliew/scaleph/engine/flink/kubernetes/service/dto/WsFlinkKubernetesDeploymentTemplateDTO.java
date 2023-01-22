@@ -47,4 +47,6 @@ public class WsFlinkKubernetesDeploymentTemplateDTO extends BaseDTO {
     @ApiModelProperty("flink deployment spec")
     private JsonNode spec;
 
+    private String remark;
+
 }

@@ -265,8 +265,9 @@ export type WsFlinkKubernetesDeploymentTemplate = {
   name?: string;
   metadata?: Record<string, any>;
   spec?: Record<string, any>;
-  createTime: Date;
-  updateTime: Date;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
 };
 
 export type WsFlinkKubernetesDeploymentTemplateParam = QueryParam & {

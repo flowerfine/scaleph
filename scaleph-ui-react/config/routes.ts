@@ -193,7 +193,6 @@ export default [
             access: 'normalRouteFilter'
           },
           {
-            name: 'deployment-detail',
             path: '/workspace/flink/kubernetes/deployment/template/detail',
             exact: true,
             component: './Project/Workspace/Kubernetes/Template/Detail',

@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.entity.DeploymentTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesDeploymentTemplateService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentTemplateDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentTemplateListParam;
@@ -56,7 +57,23 @@ public class WsFlinkKubernetesDeploymentTemplateController {
     @ApiOperation(value = "查询 Deployment 模板信息", notes = "查询 Deployment 模板信息")
     public ResponseEntity<ResponseVO<WsFlinkKubernetesDeploymentTemplateDTO>> selectOne(@PathVariable("id") Long id) {
         WsFlinkKubernetesDeploymentTemplateDTO dto = wsFlinkKubernetesDeploymentTemplateService.selectOne(id);
-        return new ResponseEntity<ResponseVO<WsFlinkKubernetesDeploymentTemplateDTO>>(ResponseVO.success(dto), HttpStatus.OK);
+        return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("asTemplate")
+    @ApiOperation(value = "转换 Deployment 模板信息", notes = "转换 Deployment 模板信息")
+    public ResponseEntity<ResponseVO<DeploymentTemplate>> asTemplate(@RequestBody WsFlinkKubernetesDeploymentTemplateDTO dto) {
+        DeploymentTemplate template = wsFlinkKubernetesDeploymentTemplateService.asTemplate(dto);
+        return new ResponseEntity(ResponseVO.success(template), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("asTemplateWithDefault")
+    @ApiOperation(value = "转换 Deployment 模板和默认信息", notes = "转换 Deployment 模板和默认信息")
+    public ResponseEntity<ResponseVO<DeploymentTemplate>> asTemplateWithDefault(@RequestBody WsFlinkKubernetesDeploymentTemplateDTO dto) {
+        DeploymentTemplate template = wsFlinkKubernetesDeploymentTemplateService.asTemplateWithDefault(dto);
+        return new ResponseEntity(ResponseVO.success(template), HttpStatus.OK);
     }
 
     @Logging

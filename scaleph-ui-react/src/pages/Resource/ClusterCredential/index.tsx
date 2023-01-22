@@ -135,7 +135,7 @@ const ClusterCredentialResource: React.FC = () => {
                       },
                     });
                   }}
-                ></Button>
+                />
               </Tooltip>
             )}
           </Space>
