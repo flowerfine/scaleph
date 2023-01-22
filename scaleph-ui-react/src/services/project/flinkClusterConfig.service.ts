@@ -72,34 +72,6 @@ export const FlinkClusterConfigService = {
     });
   },
 
-  formatArgs: (values: Record<string, any>) => {
-    const jobConfig = new Map<string, any>();
-    values.args?.forEach(function (item: Record<string, any>) {
-      jobConfig[item.parameter] = item.value;
-    });
-    return jobConfig;
-  },
-
-  parseArgs: (jobConfig: { [key: string]: any }) => {
-    const args: Array<any> = [];
-    jobConfig.forEach((value: any, key: string) => {
-      args.push({ parameter: key, value: value });
-    });
-    return args;
-  },
-
-  formatJars: (values: Record<string, any>) => {
-    return values.jars?.map((data: Record<string, any>) => data.jar);
-  },
-
-  parseJars: (jars: Array<number>) => {
-    const result: Array<any> = [];
-    jars.forEach((jarId) => {
-      result.push({ jar: jarId });
-    });
-    return result;
-  },
-
   getData: (value: Record<string, any>) => {
     const options = new Map<string, any>();
     options['state.backend'] = value['state.backend'];

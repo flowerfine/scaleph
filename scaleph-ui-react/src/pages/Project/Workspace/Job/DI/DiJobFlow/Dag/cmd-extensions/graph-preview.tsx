@@ -146,7 +146,7 @@ const GraphPreviewForm: React.FC<ModalFormProps<{ graphMeta: NsGraph.IGraphMeta;
     monaco?.languages.typescript.javascriptDefaults.setEagerModelSync(true);
     // or make sure that it exists by other ways
     if (monaco) {
-      console.log("here is the monaco instance:", monaco);
+      // console.log("here is the monaco instance:", monaco);
     }
   }, [monaco]);
 
@@ -178,7 +178,10 @@ const GraphPreviewForm: React.FC<ModalFormProps<{ graphMeta: NsGraph.IGraphMeta;
         value={conf}
         options={{
           selectOnLineNumbers: true,
-          readOnly: true
+          readOnly: true,
+          minimap: {
+            enabled: false
+          }
         }}
         onMount={handleEditorDidMount}
       />

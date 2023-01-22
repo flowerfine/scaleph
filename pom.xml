@@ -124,7 +124,7 @@
         <swagger.version>1.6.7</swagger.version>
         <auto-service.version>1.0.1</auto-service.version>
         <hutool.version>5.5.4</hutool.version>
-        <commons.lang3.version>3.5</commons.lang3.version>
+        <commons.lang3.version>3.12.0</commons.lang3.version>
         <commons.beanutils.version>1.9.4</commons.beanutils.version>
         <commons.text.version>1.9</commons.text.version>
         <commons.compress.version>1.19</commons.compress.version>

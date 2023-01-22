@@ -60,6 +60,14 @@ public class WsFlinkKubernetesDeploymentTemplateController {
     }
 
     @Logging
+    @PatchMapping("default")
+    @ApiOperation(value = "merge 默认 Deployment 模板信息", notes = "merge 默认 Deployment 模板信息")
+    public ResponseEntity<ResponseVO<WsFlinkKubernetesDeploymentTemplateDTO>> mergeDefault(@RequestBody WsFlinkKubernetesDeploymentTemplateDTO template) {
+        WsFlinkKubernetesDeploymentTemplateDTO dto = wsFlinkKubernetesDeploymentTemplateService.mergeDefault(template);
+        return new ResponseEntity<ResponseVO<WsFlinkKubernetesDeploymentTemplateDTO>>(ResponseVO.success(dto), HttpStatus.OK);
+    }
+
+    @Logging
     @PutMapping
     @ApiOperation(value = "新增 Deployment 模板", notes = "新增 Deployment 模板")
     public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsFlinkKubernetesDeploymentTemplateDTO param) throws UidGenerateException {

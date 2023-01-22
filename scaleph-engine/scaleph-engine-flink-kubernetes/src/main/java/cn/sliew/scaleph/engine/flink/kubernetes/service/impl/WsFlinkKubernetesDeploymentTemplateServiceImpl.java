@@ -18,8 +18,12 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesDeploymentTemplate;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesDeploymentTemplateMapper;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.entity.DeploymentTemplate;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.factory.DeploymentTemplateFactory;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.util.JsonPatchMerger;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesDeploymentTemplateService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesDeploymentTemplateConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentTemplateDTO;
@@ -55,6 +59,31 @@ public class WsFlinkKubernetesDeploymentTemplateServiceImpl implements WsFlinkKu
     public WsFlinkKubernetesDeploymentTemplateDTO selectOne(Long id) {
         WsFlinkKubernetesDeploymentTemplate record = wsFlinkKubernetesDeploymentTemplateMapper.selectById(id);
         return WsFlinkKubernetesDeploymentTemplateConvert.INSTANCE.toDto(record);
+    }
+
+    @Override
+    public WsFlinkKubernetesDeploymentTemplateDTO mergeDefault(WsFlinkKubernetesDeploymentTemplateDTO dto) {
+        DeploymentTemplate customTemplate = DeploymentTemplateFactory.from(dto);
+        DeploymentTemplate defaultTemplate = DeploymentTemplateFactory.create("default", "default", customTemplate);
+        return doMergeDefault(DeploymentTemplateFactory.to(defaultTemplate));
+    }
+
+    private WsFlinkKubernetesDeploymentTemplateDTO doMergeDefault(WsFlinkKubernetesDeploymentTemplateDTO dto) {
+        WsFlinkKubernetesDeploymentTemplateDTO globalDefault = getGlobalDefault();
+        WsFlinkKubernetesDeploymentTemplateDTO result = new WsFlinkKubernetesDeploymentTemplateDTO();
+        result.setName(dto.getName());
+        result.setMetadata(JsonPatchMerger.mergePatch(globalDefault.getMetadata(), dto.getMetadata()));
+        result.setSpec(JsonPatchMerger.mergePatch(globalDefault.getSpec(), dto.getSpec()));
+        return result;
+    }
+
+    private WsFlinkKubernetesDeploymentTemplateDTO getGlobalDefault() {
+        DeploymentTemplate template = DeploymentTemplateFactory.getGlobal();
+        WsFlinkKubernetesDeploymentTemplateDTO dto = new WsFlinkKubernetesDeploymentTemplateDTO();
+        dto.setName(template.getMetadata().getName());
+        dto.setMetadata(JacksonUtil.toJsonNode(template.getMetadata()));
+        dto.setSpec(JacksonUtil.toJsonNode(template.getSpec()));
+        return dto;
     }
 
     @Override

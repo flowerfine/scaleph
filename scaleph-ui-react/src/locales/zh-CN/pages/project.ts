@@ -755,4 +755,6 @@ export default {
   'pages.project.job.detail.overview.cluster.deployMode': '部署模式',
   'pages.project.job.detail.overview.cluster.resourceProvider': 'Resource Providers',
 
+  'pages.project.flink.kubernetes.deployment.template.name': '名称',
+
 };

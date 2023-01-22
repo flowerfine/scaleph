@@ -30,6 +30,8 @@ public interface WsFlinkKubernetesDeploymentTemplateService {
 
     WsFlinkKubernetesDeploymentTemplateDTO selectOne(Long id);
 
+    WsFlinkKubernetesDeploymentTemplateDTO mergeDefault(WsFlinkKubernetesDeploymentTemplateDTO dto);
+
     int insert(WsFlinkKubernetesDeploymentTemplateDTO dto);
 
     int update(WsFlinkKubernetesDeploymentTemplateDTO dto);

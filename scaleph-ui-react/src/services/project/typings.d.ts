@@ -259,3 +259,16 @@ export type WsFlinkCheckPoint = {
 export type WsFlinkCheckPointParam = QueryParam & {
   flinkJobInstanceId: number;
 };
+
+export type WsFlinkKubernetesDeploymentTemplate = {
+  id?: number;
+  name?: string;
+  metadata?: Record<string, any>;
+  spec?: Record<string, any>;
+  createTime: Date;
+  updateTime: Date;
+};
+
+export type WsFlinkKubernetesDeploymentTemplateParam = QueryParam & {
+  name?: string;
+};
