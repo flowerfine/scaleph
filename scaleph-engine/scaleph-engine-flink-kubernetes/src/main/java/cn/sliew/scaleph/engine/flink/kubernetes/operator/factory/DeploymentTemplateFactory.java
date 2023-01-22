@@ -31,7 +31,7 @@ public enum DeploymentTemplateFactory {
 
     public static DeploymentTemplate create(String name, String namespace, DeploymentTemplate defaultTemplate) {
         DeploymentTemplate template = new DeploymentTemplate();
-        DeploymentTemplate.DeploymentTemplateMetadata metadata = new DeploymentTemplate.DeploymentTemplateMetadata();
+        DeploymentTemplate.DeploymentTemplateMetadata metadata = defaultTemplate.getMetadata();
         if (metadata == null) {
             metadata = new DeploymentTemplate.DeploymentTemplateMetadata();
             metadata.setName(name);

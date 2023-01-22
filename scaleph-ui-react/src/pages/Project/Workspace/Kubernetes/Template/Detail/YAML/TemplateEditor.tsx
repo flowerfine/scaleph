@@ -1,12 +1,12 @@
 import {useModel} from "umi";
 import React, {useEffect, useRef, useState} from "react";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
+import YAML from "yaml";
 import {Props} from '@/app.d';
 import {WsFlinkKubernetesDeploymentTemplate} from "@/services/project/typings";
 import {
   WsFlinkKubernetesDeploymentTemplateService
 } from "@/services/project/WsFlinkKubernetesDeploymentTemplateService";
-import YAML from "yaml";
 
 const TemplateEditor: React.FC<Props<WsFlinkKubernetesDeploymentTemplate>> = ({data}) => {
   const editorRef = useRef(null);

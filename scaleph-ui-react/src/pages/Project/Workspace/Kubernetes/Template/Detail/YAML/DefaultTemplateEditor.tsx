@@ -21,19 +21,21 @@ const DefaultTemplateEditor: React.FC = () => {
 
   useEffect(() => {
     if (deploymentTemplate) {
-      const json = YAML.parse(deploymentTemplate)
-      const data = {
-        name: json.metadata?.name,
-        metadata: json.metadata,
-        spec: json.spec
-      }
-      WsFlinkKubernetesDeploymentTemplateService.asTemplateWithDefault(data).then((response) => {
-        if (response.data) {
-          setEditorValue(YAML.stringify(response.data))
+      try {
+        const json = YAML.parse(deploymentTemplate)
+        const data = {
+          name: json.metadata?.name,
+          metadata: json.metadata,
+          spec: json.spec
         }
-      })
+        WsFlinkKubernetesDeploymentTemplateService.asTemplateWithDefault(data).then((response) => {
+          if (response.data) {
+            setEditorValue(YAML.stringify(response.data))
+          }
+        })
+      } catch (unused) {
+      }
     }
-    setEditorValue(deploymentTemplate)
   }, [deploymentTemplate]);
 
   const handleEditorDidMount = (editor, monaco: Monaco) => {
