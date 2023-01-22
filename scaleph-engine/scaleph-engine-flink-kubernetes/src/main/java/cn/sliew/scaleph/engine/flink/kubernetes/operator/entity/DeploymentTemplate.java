@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.operator.entity;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -37,6 +38,7 @@ public class DeploymentTemplate {
 
     @Data
     @EqualsAndHashCode
+    @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonPropertyOrder({"name", "namespace", "labels", "annotations"})
     public static final class DeploymentTemplateMetadata {
 

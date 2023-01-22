@@ -21,9 +21,21 @@ const DefaultTemplateEditor: React.FC = () => {
 
   useEffect(() => {
     if (deploymentTemplate) {
-      WsFlinkKubernetesDeploymentTemplateService.mergeDefault(YAML.parse(deploymentTemplate)).then((response) => {
+      const json = YAML.parse(deploymentTemplate)
+      const data = {
+        name: json.metadata?.name,
+        metadata: json.metadata,
+        spec: json.spec
+      }
+      WsFlinkKubernetesDeploymentTemplateService.mergeDefault(data).then((response) => {
         console.log("response", response)
-        // setEditorValue(deploymentTemplate)
+        if (response.data) {
+          const template = {
+            metadata: response.data.metadata,
+            spec: response.data.spec
+          }
+          setEditorValue(YAML.stringify(template))
+        }
       })
     }
     setEditorValue(deploymentTemplate)

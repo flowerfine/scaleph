@@ -17,6 +17,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.fabric8.kubernetes.api.model.Pod;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -30,11 +31,12 @@ import java.util.Map;
  * Spec that describes a Flink application or session cluster deployment.
  */
 @Data
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FlinkDeploymentSpec extends AbstractFlinkSpec {
     /**
      * Flink docker image used to start the Job and TaskManager pods.

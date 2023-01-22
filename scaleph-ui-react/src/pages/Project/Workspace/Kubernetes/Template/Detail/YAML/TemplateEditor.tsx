@@ -1,7 +1,6 @@
 import {useModel} from "umi";
 import React, {useEffect, useRef, useState} from "react";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
-import YAML from "yaml";
 
 const TemplateEditor: React.FC = () => {
   const [conf, setConf] = useState<string>();
@@ -9,12 +8,8 @@ const TemplateEditor: React.FC = () => {
   const confData = "apiVersion: v1\n" +
     "kind: DeploymentDefaults\n" +
     "metadata:\n" +
-    "  createdAt: '2023-01-20T03:34:46.336356Z'\n" +
-    "  id: 9b89a9c7-fda4-488a-8fb7-073f176ba591\n" +
-    "  modifiedAt: '2023-01-20T03:34:46.336359Z'\n" +
     "  name: default\n" +
     "  namespace: default\n" +
-    "  resourceVersion: 1\n" +
     "spec:\n" +
     "  deploymentTargetName: '111'\n" +
     "  restoreStrategy:\n" +
@@ -42,8 +37,6 @@ const TemplateEditor: React.FC = () => {
 
   const handleValueChange = (value, event) => {
     setDeploymentTemplate(value)
-    console.log("handleValueChange", YAML.parse(value))
-    // setConf(YAML.stringify(YAML.parse(value)))
   }
 
   return (
