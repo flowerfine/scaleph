@@ -1,5 +1,5 @@
 import {useModel} from "umi";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef} from "react";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
 import YAML from "yaml";
 import {Props} from '@/app.d';
@@ -11,11 +11,8 @@ import {
 const TemplateEditor: React.FC<Props<WsFlinkKubernetesDeploymentTemplate>> = ({data}) => {
   const editorRef = useRef(null);
   const monaco = useMonaco();
-  const [conf, setConf] = useState<string>();
 
-  const {setDeploymentTemplate} = useModel('deploymentTemplateYAMLEditor', (model) => ({
-    setDeploymentTemplate: model.setDeploymentTemplate
-  }));
+  const {deploymentTemplate, setDeploymentTemplate} = useModel('deploymentTemplateYAMLEditor');
 
   useEffect(() => {
     // do conditional chaining
@@ -25,7 +22,7 @@ const TemplateEditor: React.FC<Props<WsFlinkKubernetesDeploymentTemplate>> = ({d
   useEffect(() => {
     WsFlinkKubernetesDeploymentTemplateService.asTemplate(data).then((response) => {
       if (response.data) {
-        setConf(YAML.stringify(response.data))
+        setDeploymentTemplate(YAML.stringify(response.data))
       }
     })
   }, [data]);
@@ -44,7 +41,7 @@ const TemplateEditor: React.FC<Props<WsFlinkKubernetesDeploymentTemplate>> = ({d
       height="600px"
       language="yaml"
       theme="vs-white"
-      value={conf}
+      value={deploymentTemplate}
       options={{
         selectOnLineNumbers: true,
         readOnly: false,

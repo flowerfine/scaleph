@@ -13,8 +13,8 @@ const AdvancedBasic: React.FC = () => {
         label={"flinkVersion"}
         colProps={{span: 10, offset: 1}}
         showSearch={true}
-        request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkVersion)}
-        initialValue={"1.13.6"}
+        options={["v1_13", "v1_14", "v1_15", "v1_16"]}
+        initialValue={"v1_13"}
       />
       <ProFormText
         name="spec.serviceAccount"
