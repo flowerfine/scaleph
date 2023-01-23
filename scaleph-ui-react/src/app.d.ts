@@ -71,6 +71,10 @@ export type Dict = {
   value?: string | number;
 };
 
+export type Props<T> = {
+  data: T;
+};
+
 export type ModalFormProps<T> = {
   data: T;
   visible: boolean;

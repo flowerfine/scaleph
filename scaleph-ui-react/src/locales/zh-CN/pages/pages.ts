@@ -1,3 +1,4 @@
+import base from './base';
 import admin from './admin';
 import user from './user';
 import studio from './studio';
@@ -6,6 +7,7 @@ import resource from './resource';
 import dataSource from "./dataSource";
 import stdata from "./stdata";
 export default {
+  ...base,
   ...user,
   ...admin,
   ...studio,

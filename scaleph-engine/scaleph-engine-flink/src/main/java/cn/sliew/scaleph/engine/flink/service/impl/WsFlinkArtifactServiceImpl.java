@@ -45,7 +45,7 @@ public class WsFlinkArtifactServiceImpl implements WsFlinkArtifactService {
 
     @Override
     public Page<WsFlinkArtifactDTO> list(WsFlinkArtifactParam param) {
-        final Page<WsFlinkArtifact> page = flinkArtifactMapper.selectPage(
+        Page<WsFlinkArtifact> page = flinkArtifactMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(WsFlinkArtifact.class)
                         .like(StringUtils.hasText(param.getName()), WsFlinkArtifact::getName, param.getName())

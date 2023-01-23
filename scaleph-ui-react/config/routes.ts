@@ -176,7 +176,31 @@ export default [
         component: './Project/Workspace/Job/DI/Xflow',
         pCode: PRIVILEGE_CODE.workspaceClusterConfigOptionsShow,
         access: 'normalRouteFilter'
-      }
+      },
+      {
+        name: 'project.flink.kubernetes',
+        path: '/workspace/flink/kubernetes',
+        icon: 'deploymentUnit',
+        pCode: PRIVILEGE_CODE.workspaceClusterShow,
+        access: 'normalRouteFilter',
+        routes: [
+          {
+            name: 'deployment-template',
+            path: '/workspace/flink/kubernetes/deployment/template',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/Template',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
+            path: '/workspace/flink/kubernetes/deployment/template/detail',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/Template/Detail',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+        ]
+      },
     ]
   },
   {

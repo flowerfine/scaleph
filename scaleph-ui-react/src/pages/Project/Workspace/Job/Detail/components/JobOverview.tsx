@@ -110,7 +110,7 @@ const JobOverviewWeb: React.FC<{
                 value={seatunnelJob + ''}
                 height="480px"
                 width="100%"
-                options={{ readOnly: true, selectOnLineNumbers: true }}
+                options={{ readOnly: true, selectOnLineNumbers: true, minimap: {enabled: false} }}
               ></Editor>
             </Card>
           )}

@@ -10,7 +10,8 @@ export default {
   'menu.project.job.seatunnel': 'SeaTunnel',
   'menu.project.cluster': '集群管理',
   'menu.project.cluster.config': '集群配置',
-  'menu.project.cluster.instance': '集群实例',
+  'menu.project.flink.kubernetes': 'Flink Kuberentes',
+  'menu.project.flink.kubernetes.deployment-template': 'Deployment Template',
 
   'menu.resource': '资源',
   'menu.resource.jar': '公共 Jar',

@@ -132,7 +132,7 @@ CREATE TABLE ws_flink_cluster_config
 (
     id                    bigint       not null auto_increment comment '自增主键',
     project_id            bigint       not null comment '项目id',
-    name                  varchar(255) not null comment 'flink配置名称',
+    `name`                varchar(255) not null comment 'flink配置名称',
     flink_version         varchar(32)  not null comment 'flink版本',
     resource_provider     varchar(4)   not null comment '资源管理器：0: Standalone, 1: Native Kubernetes, 2: YARN',
     deploy_mode           varchar(4)   not null comment '部署模式：0: Application, 1: Per-Job, 2: Session',
@@ -155,7 +155,7 @@ CREATE TABLE ws_flink_cluster_instance
     id                      bigint       not null auto_increment comment '自增主键',
     project_id              bigint       not null comment '项目id',
     flink_cluster_config_id bigint       not null comment 'flink集群配置id',
-    name                    varchar(255) not null comment 'flink实例名称',
+    `name`                  varchar(255) not null comment 'flink实例名称',
     cluster_id              varchar(64) comment 'flink集群内部id',
     web_interface_url       varchar(255) comment 'WEB UI',
     status                  varchar(4) comment '集群状态',
@@ -165,7 +165,7 @@ CREATE TABLE ws_flink_cluster_instance
     update_time             timestamp default current_timestamp on update current_timestamp comment '修改时间',
     PRIMARY KEY (id),
     unique key (project_id, flink_cluster_config_id, name),
-    KEY idx_name (name)
+    KEY                     idx_name ( name)
 ) ENGINE = INNODB COMMENT = 'flink cluster instance';
 
 drop table if exists ws_flink_artifact;
@@ -201,7 +201,7 @@ create table ws_flink_artifact_jar
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key idx_flink_artifact (flink_artifact_id, version)
+    key               idx_flink_artifact (flink_artifact_id, version)
 ) engine = innodb comment = 'flink artifact jar';
 
 drop table if exists ws_flink_job;
@@ -224,10 +224,10 @@ create table ws_flink_job
     update_time               timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key idx_code (code),
-    key idx_name (type, name),
-    key idx_flink_artifact (type, flink_artifact_id),
-    key idx_flink_cluster_config (flink_cluster_config_id),
-    key idx_flink_cluster_instance (flink_cluster_instance_id)
+    key                       idx_name ( type, name),
+    key                       idx_flink_artifact ( type, flink_artifact_id),
+    key                       idx_flink_cluster_config (flink_cluster_config_id),
+    key                       idx_flink_cluster_instance (flink_cluster_instance_id)
 ) engine = innodb comment ='flink作业信息';
 
 drop table if exists ws_flink_job_instance;
@@ -321,3 +321,22 @@ CREATE TABLE ws_flink_catalog_configuration
     update_time             DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 ) ENGINE = INNODB COMMENT = 'flink catalog configuration';
+
+DROP TABLE IF EXISTS ws_flink_kubernetes_deployment_template;
+CREATE TABLE ws_flink_kubernetes_deployment_template
+(
+    id          bigint      not null auto_increment,
+    `name`      varchar(64) not null,
+    metadata    text comment 'flink deployment metadata',
+    spec        text comment 'flink deployment spec',
+    remark      varchar(255),
+    creator     varchar(32),
+    create_time datetime    not null default current_timestamp,
+    editor      varchar(32),
+    update_time datetime    not null default current_timestamp on update current_timestamp,
+    PRIMARY KEY (id),
+    UNIQUE KEY uniq_name (`name`)
+) ENGINE = INNODB COMMENT = 'flink kubernetes deployment template';
+
+INSERT INTO `ws_flink_kubernetes_deployment_template` (`id`, `name`, `metadata`, `spec`, `remark`, `creator`, `editor`)
+VALUES (1, 'default', '{\"name\":\"default\",\"namespace\":\"default\"}', '{}', NULL, 'sys', 'sys');

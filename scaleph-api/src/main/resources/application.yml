@@ -29,6 +29,7 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
   mail:
     username: xxxx@xxx.com
     password: xxxxxxx
