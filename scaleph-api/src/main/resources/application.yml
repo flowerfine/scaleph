@@ -82,16 +82,10 @@ spring:
           isClustered: true
           clusterCheckinInterval: 10000
           useProperties: false
-  devtools:
-    remote:
-      restart:
-        enabled: false
+  devtools.remote.restart.enabled: false
 
 management:
-  endpoints:
-    web:
-      exposure:
-        include: health, info
+  endpoints.web.exposure.include: "*"
 
 logging:
   level:
