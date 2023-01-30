@@ -32,8 +32,7 @@ import cn.sliew.scaleph.ds.modal.nosql.RedisDataSource;
 import cn.sliew.scaleph.ds.modal.olap.*;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -44,50 +43,9 @@ import java.util.Iterator;
 import java.util.List;
 
 @Data
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
-@JsonSubTypes(value = {
-        @JsonSubTypes.Type(name = "MySQL", value = MySQLDataSource.class),
-        @JsonSubTypes.Type(name = "Oracle", value = OracleDataSource.class),
-        @JsonSubTypes.Type(name = "PostgreSQL", value = PostgreSQLDataSource.class),
-        @JsonSubTypes.Type(name = "SQLServer", value = SQLServerDataSource.class),
-        @JsonSubTypes.Type(name = "DmDB", value = DmDBDataSource.class),
-        @JsonSubTypes.Type(name = "GBase8a", value = GBase8aDataSource.class),
-        @JsonSubTypes.Type(name = "Greenplum", value = GreenplumDataSource.class),
-        @JsonSubTypes.Type(name = "Phoenix", value = PhoenixDataSource.class),
-
-        @JsonSubTypes.Type(name = "Redis", value = RedisDataSource.class),
-        @JsonSubTypes.Type(name = "Elasticsearch", value = ElasticsearchDataSource.class),
-        @JsonSubTypes.Type(name = "MongoDB", value = MongoDBDataSource.class),
-        @JsonSubTypes.Type(name = "Cassandra", value = CassandraDataSource.class),
-
-        @JsonSubTypes.Type(name = "Kafka", value = KafkaDataSource.class),
-        @JsonSubTypes.Type(name = "Pulsar", value = PulsarDataSource.class),
-        @JsonSubTypes.Type(name = "DataHub", value = DataHubDataSource.class),
-
-        @JsonSubTypes.Type(name = "Ftp", value = FtpDataSource.class),
-        @JsonSubTypes.Type(name = "Sftp", value = SftpDataSource.class),
-        @JsonSubTypes.Type(name = "OSS", value = OSSDataSource.class),
-        @JsonSubTypes.Type(name = "OSSJindo", value = OSSJindoDataSource.class),
-        @JsonSubTypes.Type(name = "S3", value = S3DataSource.class),
-        @JsonSubTypes.Type(name = "HDFS", value = HDFSDataSource.class),
-
-        @JsonSubTypes.Type(name = "Hive", value = HiveDataSource.class),
-
-        @JsonSubTypes.Type(name = "ClickHouse", value = ClickHouseDataSource.class),
-        @JsonSubTypes.Type(name = "Kudu", value = KuduDataSource.class),
-        @JsonSubTypes.Type(name = "Doris", value = DorisDataSource.class),
-        @JsonSubTypes.Type(name = "StarRocks", value = StarRocksDataSource.class),
-        @JsonSubTypes.Type(name = "MaxCompute", value = MaxComputeDataSource.class),
-
-        @JsonSubTypes.Type(name = "IoTDB", value = IoTDBDataSource.class),
-        @JsonSubTypes.Type(name = "Neo4j", value = Neo4jDataSource.class),
-
-        @JsonSubTypes.Type(name = "Socket", value = SocketDataSource.class),
-        @JsonSubTypes.Type(name = "Http", value = HttpDataSource.class),
-        @JsonSubTypes.Type(name = "InfluxDB", value = InfluxDBDataSource.class),
-})
+@JsonTypeIdResolver(AbstractDataSource.DataSourceResolver.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class AbstractDataSource {
+public abstract class AbstractDataSource implements Polymorphic {
 
     @NotNull
     @ApiModelProperty("data source type id")
@@ -121,6 +79,52 @@ public abstract class AbstractDataSource {
             }
         }
         return JacksonUtil.toObject(jsonNode, AbstractDataSource.class);
+    }
+
+    public static final class DataSourceResolver extends PolymorphicResolver {
+        public DataSourceResolver() {
+            bindDefault(MySQLDataSource.class);
+
+            bind(DataSourceType.MYSQL, MySQLDataSource.class);
+            bind(DataSourceType.ORACLE, OracleDataSource.class);
+            bind(DataSourceType.POSTGRESQL, PostgreSQLDataSource.class);
+            bind(DataSourceType.SQLSERVER, SQLServerDataSource.class);
+            bind(DataSourceType.DMDB, DmDBDataSource.class);
+            bind(DataSourceType.GBASE8A, GBase8aDataSource.class);
+            bind(DataSourceType.GREENPLUM, GreenplumDataSource.class);
+            bind(DataSourceType.PHOENIX, PhoenixDataSource.class);
+
+            bind(DataSourceType.REDIS, RedisDataSource.class);
+            bind(DataSourceType.ELASTICSEARCH, ElasticsearchDataSource.class);
+            bind(DataSourceType.MONGODB, MongoDBDataSource.class);
+            bind(DataSourceType.CASSANDRA, CassandraDataSource.class);
+
+            bind(DataSourceType.KAFKA, KafkaDataSource.class);
+            bind(DataSourceType.PULSAR, PulsarDataSource.class);
+            bind(DataSourceType.DATAHUB, DataHubDataSource.class);
+
+            bind(DataSourceType.FTP, FtpDataSource.class);
+            bind(DataSourceType.SFTP, SftpDataSource.class);
+            bind(DataSourceType.OSS, OSSDataSource.class);
+            bind(DataSourceType.OSSJINDO, OSSJindoDataSource.class);
+            bind(DataSourceType.S3, S3DataSource.class);
+            bind(DataSourceType.HDFS, HDFSDataSource.class);
+
+            bind(DataSourceType.HIVE, HiveDataSource.class);
+
+            bind(DataSourceType.CLICKHOUSE, ClickHouseDataSource.class);
+            bind(DataSourceType.KUDU, KuduDataSource.class);
+            bind(DataSourceType.DORIS, DorisDataSource.class);
+            bind(DataSourceType.STARROCKS, StarRocksDataSource.class);
+            bind(DataSourceType.MAXCOMPUTE, MaxComputeDataSource.class);
+
+            bind(DataSourceType.IOTDB, IoTDBDataSource.class);
+            bind(DataSourceType.NEO4J, Neo4jDataSource.class);
+
+            bind(DataSourceType.SOCKET, SocketDataSource.class);
+            bind(DataSourceType.HTTP, HttpDataSource.class);
+            bind(DataSourceType.INFLUXDB, InfluxDBDataSource.class);
+        }
     }
 
 }

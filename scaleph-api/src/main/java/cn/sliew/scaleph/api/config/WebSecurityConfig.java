@@ -24,6 +24,7 @@ import cn.sliew.scaleph.security.web.CustomAuthenticationEntryPoint;
 import cn.sliew.scaleph.security.web.TokenConfigurer;
 import cn.sliew.scaleph.system.util.SpringApplicationContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -88,6 +89,7 @@ public class WebSecurityConfig {
 
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
                 //禁用iframe
                 .and()
                 .headers()
@@ -97,6 +99,8 @@ public class WebSecurityConfig {
                 //请求权限配置
                 .and()
                 .authorizeRequests()
+                //放行endpoint
+                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                 //自定义匿名访问url
                 .antMatchers(anonymousUrls.toArray(new String[0])).permitAll()
                 //静态资源
@@ -108,10 +112,12 @@ public class WebSecurityConfig {
                 //放行options请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
+
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
                 .accessDeniedHandler(customAccessDeniedHandler)
+
                 //禁用session
                 .and()
                 .apply(tokenConfigurer)

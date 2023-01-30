@@ -114,7 +114,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = () => {
   return (
     <PageContainer title={false}>
       <XFlow
-        className="flow-user-custom-clz"
+        className="dag-user-custom-clz"
         hookConfig={graphHookConfig}
         commandConfig={commandConfig}
         onLoad={onLoad}
