@@ -170,14 +170,6 @@ export default [
         ]
       },
       {
-        name: '流程可视化',
-        path: '/workspace/xflow',
-        icon: 'smile',
-        component: './Project/Workspace/Job/DI/Xflow',
-        pCode: PRIVILEGE_CODE.workspaceClusterConfigOptionsShow,
-        access: 'normalRouteFilter'
-      },
-      {
         name: 'project.flink.kubernetes',
         path: '/workspace/flink/kubernetes',
         icon: 'deploymentUnit',
