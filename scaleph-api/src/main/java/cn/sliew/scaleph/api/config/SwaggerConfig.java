@@ -36,7 +36,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 import java.util.List;
 
 /**
- * swagger 配置。使用 swagger 2 协议，在 springboot3 后，knife
+ * swagger 配置。swagger 2 协议
+ * 由于 springfox 更新跟不上 springboot 的迭代，springboot3 后，knife4j 只适配 openapi
  *
  * @author gleiyu
  */
@@ -54,7 +55,9 @@ public class SwaggerConfig {
                 .build();
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
+                .groupName("默认")
                 .select()
+//                .apis(RequestHandlerSelectors.basePackage("cn.sliew.scaleph"))
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())
                 .build()
