@@ -120,6 +120,8 @@
         <mapstruct.lombok.binding.version>0.2.0</mapstruct.lombok.binding.version>
         <org.projectlombok.version>1.18.24</org.projectlombok.version>
         <velocity.engine.version>2.2</velocity.engine.version>
+        <knife4j.version>4.0.0</knife4j.version>
+        <springfox.version>2.10.5</springfox.version>
         <swagger-v3.version>2.2.3</swagger-v3.version>
         <swagger.version>1.6.7</swagger.version>
         <auto-service.version>1.0.1</auto-service.version>
@@ -169,6 +171,13 @@
                 <groupId>io.micrometer</groupId>
                 <artifactId>micrometer-bom</artifactId>
                 <version>${micrometer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-dependencies</artifactId>
+                <version>${knife4j.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <dependency>
@@ -322,6 +331,11 @@
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-annotations</artifactId>
                 <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox.version}</version>
             </dependency>
 
             <dependency>
