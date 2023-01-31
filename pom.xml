@@ -121,9 +121,7 @@
         <org.projectlombok.version>1.18.24</org.projectlombok.version>
         <velocity.engine.version>2.2</velocity.engine.version>
         <knife4j.version>4.0.0</knife4j.version>
-        <springfox.version>2.10.5</springfox.version>
-        <swagger-v3.version>2.2.3</swagger-v3.version>
-        <swagger.version>1.6.7</swagger.version>
+        <swagger.version>1.6.6</swagger.version>
         <auto-service.version>1.0.1</auto-service.version>
         <hutool.version>5.5.4</hutool.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>
@@ -321,21 +319,10 @@
                 <version>2.8.1</version>
             </dependency>
 
-            <!-- swagger-->
-            <dependency>
-                <groupId>io.swagger.core.v3</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger-v3.version}</version>
-            </dependency>
             <dependency>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-annotations</artifactId>
                 <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox.version}</version>
             </dependency>
 
             <dependency>
