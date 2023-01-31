@@ -94,6 +94,14 @@ logging:
 
 knife4j:
   enable: true
+  production: false
+  setting:
+    language: zh_cn
+    enable-footer: true
+    enable-debug: true
+    enable-open-api: true
+    enable-host: false
+    enable-host-text: localhost:9090
   basic.enable: false
   cors: true
 
