@@ -20,6 +20,8 @@ package cn.sliew.scaleph.ds.modal;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
+import cn.sliew.scaleph.common.jackson.polymorphic.Polymorphic;
+import cn.sliew.scaleph.common.jackson.polymorphic.PolymorphicResolver;
 import cn.sliew.scaleph.ds.modal.file.*;
 import cn.sliew.scaleph.ds.modal.jdbc.*;
 import cn.sliew.scaleph.ds.modal.mq.DataHubDataSource;
@@ -45,7 +47,7 @@ import java.util.List;
 @Data
 @JsonTypeIdResolver(AbstractDataSource.DataSourceResolver.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class AbstractDataSource implements Polymorphic {
+public abstract class AbstractDataSource implements Polymorphic<DataSourceType> {
 
     @NotNull
     @ApiModelProperty("data source type id")
@@ -81,7 +83,7 @@ public abstract class AbstractDataSource implements Polymorphic {
         return JacksonUtil.toObject(jsonNode, AbstractDataSource.class);
     }
 
-    public static final class DataSourceResolver extends PolymorphicResolver {
+    public static final class DataSourceResolver extends PolymorphicResolver<DataSourceType> {
         public DataSourceResolver() {
             bindDefault(MySQLDataSource.class);
 
@@ -124,6 +126,17 @@ public abstract class AbstractDataSource implements Polymorphic {
             bind(DataSourceType.SOCKET, SocketDataSource.class);
             bind(DataSourceType.HTTP, HttpDataSource.class);
             bind(DataSourceType.INFLUXDB, InfluxDBDataSource.class);
+        }
+
+        @Override
+        protected String typeFromSubtype(Object obj) {
+            return subTypes.inverse().get(obj.getClass()).getValue();
+        }
+
+        @Override
+        protected Class<?> subTypeFromType(String id) {
+            Class<?> subType = subTypes.get(DataSourceType.of(id));
+            return subType != null ? subType : defaultClass;
         }
     }
 
