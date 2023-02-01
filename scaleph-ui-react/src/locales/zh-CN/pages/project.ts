@@ -760,4 +760,8 @@ export default {
   'pages.project.flink.kubernetes.deployment.template.namespace': 'Namespace',
   'pages.project.flink.kubernetes.deployment.template.define': '模板定义',
 
+  'pages.project.flink.kubernetes.deployment': 'Deployment',
+  'pages.project.flink.kubernetes.deployment.name': '名称',
+  'pages.project.flink.kubernetes.deployment.namespace': 'Namespace',
+
 };

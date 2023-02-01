@@ -38,7 +38,7 @@ import java.util.List;
 
 @Api(tags = "Flink Kubernetes管理-模板管理")
 @RestController
-@RequestMapping(path = "/api/flink/kubernetes/deployment-template")
+@RequestMapping(path = "/api/flink/kubernetes/template")
 public class WsFlinkKubernetesDeploymentTemplateController {
 
     @Autowired
