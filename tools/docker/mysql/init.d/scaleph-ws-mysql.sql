@@ -340,3 +340,19 @@ CREATE TABLE ws_flink_kubernetes_deployment_template
 
 INSERT INTO `ws_flink_kubernetes_deployment_template` (`id`, `name`, `metadata`, `spec`, `remark`, `creator`, `editor`)
 VALUES (1, 'default', '{\"name\":\"default\",\"namespace\":\"default\"}', '{}', NULL, 'sys', 'sys');
+
+DROP TABLE IF EXISTS ws_flink_kubernetes_deployment;
+CREATE TABLE ws_flink_kubernetes_deployment
+(
+    id          bigint      not null auto_increment,
+    `name`      varchar(64) not null,
+    metadata    text comment 'flink deployment metadata',
+    spec        text comment 'flink deployment spec',
+    remark      varchar(255),
+    creator     varchar(32),
+    create_time datetime    not null default current_timestamp,
+    editor      varchar(32),
+    update_time datetime    not null default current_timestamp on update current_timestamp,
+    PRIMARY KEY (id),
+    UNIQUE KEY uniq_name (`name`)
+) ENGINE = INNODB COMMENT = 'flink kubernetes deployment';
