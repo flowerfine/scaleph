@@ -2,9 +2,13 @@ import {history, useIntl, useLocation, useModel} from "umi";
 import React from "react";
 import {Button, Tabs} from "antd";
 import {FooterToolbar, PageContainer} from "@ant-design/pro-components";
+import YAML from "yaml";
 import DeploymentTemplateAdvanced from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced";
 import DeploymentTemplateYAML from "@/pages/Project/Workspace/Kubernetes/Template/Detail/YAML";
 import {WsFlinkKubernetesDeploymentTemplate} from "@/services/project/typings";
+import {
+  WsFlinkKubernetesDeploymentTemplateService
+} from "@/services/project/WsFlinkKubernetesDeploymentTemplateService";
 
 const FlinkKubernetesDeploymentTemplateDetailWeb: React.FC = () => {
   const intl = useIntl();
@@ -19,8 +23,20 @@ const FlinkKubernetesDeploymentTemplateDetailWeb: React.FC = () => {
   }
 
   const onSubmit = () => {
-    console.log('FlinkKubernetesDeploymentTemplateDetailWeb', deploymentTemplate)
-    history.back()
+    if (deploymentTemplate) {
+      const json = YAML.parse(deploymentTemplate)
+      const template = {
+        id: data.id,
+        name: json.metadata?.name,
+        metadata: json.metadata,
+        spec: json.spec
+      }
+      WsFlinkKubernetesDeploymentTemplateService.update(template).then((response) => {
+        if (response.success) {
+          history.back()
+        }
+      })
+    }
   }
 
   const items = [
