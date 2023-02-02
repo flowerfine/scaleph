@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal;
+package cn.sliew.scaleph.common.jackson.polymorphic;
 
-import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -26,18 +25,16 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
-import javax.validation.constraints.AssertTrue;
-
 import static cn.sliew.scaleph.common.exception.Rethrower.checkArgument;
 
 @JsonTypeInfo(use = Id.NAME, include = As.EXISTING_PROPERTY, property = "type", visible = true)
 @JsonPropertyOrder({"type"})
 @JsonIgnoreProperties(ignoreUnknown = true)
-public interface Polymorphic {
+public interface Polymorphic<S> {
 
-    DataSourceType getType();
+    S getType();
 
-    default void setType(DataSourceType ignored) {
+    default void setType(S ignored) {
 
     }
 
@@ -49,7 +46,6 @@ public interface Polymorphic {
 
     interface Unknown {
 
-        @AssertTrue(message = "undefined value")
         @JsonIgnore
         default boolean isValid() {
             return false;

@@ -25,10 +25,20 @@ const DeploymentTemplateAdvanced: React.FC<Props<WsFlinkKubernetesDeploymentTemp
   const {deploymentTemplate, setDeploymentTemplate} = useModel('deploymentTemplateYAMLEditor');
 
   useEffect(() => {
+    const newTemplate = WsFlinkKubernetesDeploymentTemplateService.formatData(data, form.getFieldsValue(true))
+    WsFlinkKubernetesDeploymentTemplateService.asTemplate(newTemplate).then((response) => {
+      if (response.data) {
+        setDeploymentTemplate(YAML.stringify(response.data))
+      }
+    })
+  }, []);
+
+  useEffect(() => {
     if (deploymentTemplate) {
       try {
         const json = YAML.parse(deploymentTemplate)
         const template = {
+          id: data.id,
           name: json.metadata?.name,
           metadata: json.metadata,
           spec: json.spec
@@ -40,22 +50,25 @@ const DeploymentTemplateAdvanced: React.FC<Props<WsFlinkKubernetesDeploymentTemp
   }, [deploymentTemplate]);
 
   const onFieldsChange = (changedFields: FieldData[], allFields: FieldData[]) => {
-    if (deploymentTemplate) {
-      try {
-        const json = YAML.parse(deploymentTemplate)
-        const template = {
-          name: json.metadata?.name,
-          metadata: json.metadata,
-          spec: json.spec
+    if (!deploymentTemplate) {
+      return
+    }
+
+    const json = YAML.parse(deploymentTemplate)
+    const template = {
+      id: data.id,
+      name: json.metadata?.name,
+      metadata: json.metadata,
+      spec: json.spec
+    }
+    try {
+      const newTemplate = WsFlinkKubernetesDeploymentTemplateService.formatData(template, form.getFieldsValue(true))
+      WsFlinkKubernetesDeploymentTemplateService.asTemplate(newTemplate).then((response) => {
+        if (response.data) {
+          setDeploymentTemplate(YAML.stringify(response.data))
         }
-        const newTemplate = WsFlinkKubernetesDeploymentTemplateService.formatData(template, form.getFieldsValue(true))
-        WsFlinkKubernetesDeploymentTemplateService.asTemplate(newTemplate).then((response) => {
-          if (response.data) {
-            setDeploymentTemplate(YAML.stringify(response.data))
-          }
-        })
-      } catch (unused) {
-      }
+      })
+    } catch (unused) {
     }
   }
 

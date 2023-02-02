@@ -78,7 +78,7 @@ public class WebSecurityConfig {
             HandlerMethod handlerMethod = entry.getValue();
             AnonymousAccess anonymousAccess = handlerMethod.getMethodAnnotation(AnonymousAccess.class);
             if (!ObjectUtils.isEmpty(anonymousAccess)) {
-                anonymousUrls.addAll(requestMappingInfo.getPathPatternsCondition().getPatternValues());
+                anonymousUrls.addAll(requestMappingInfo.getPatternValues());
             }
         }
 

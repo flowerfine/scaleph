@@ -23,10 +23,7 @@ import cn.sliew.scaleph.common.dict.ds.RedisMode;
 import cn.sliew.scaleph.common.dict.flink.*;
 import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
 import cn.sliew.scaleph.common.dict.job.*;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
+import cn.sliew.scaleph.common.dict.seatunnel.*;
 import cn.sliew.scaleph.common.dict.security.*;
 import cn.sliew.scaleph.common.dict.workflow.*;
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -80,6 +77,8 @@ public enum DictType implements DictDefinition {
     SEATUNNEL_ENGINE_TYPE("seatunnel_engine_type", "SeaTunnel 引擎类型", SeaTunnelEngineType.class),
     SEATUNNEL_PLUGIN_TYPE("seatunnel_plugin_type", "SeaTunnel 插件类型", SeaTunnelPluginType.class),
     SEATUNNEL_PLUGIN_NAME("seatunnel_plugin_name", "SeaTunnel 插件名称", SeaTunnelPluginName.class),
+    SEATUNNEL_CONNECTOR_FEATURE("seatunnel_connector_feature", "SeaTunnel connector 特性", SeaTunnelConnectorFeature.class),
+    SEATUNNEL_CONNECTOR_HEALTH("seatunnel_connector_health", "SeaTunnel connector 成熟度", SeaTunnelConnectorHealth.class),
 
     IMAGE_PULL_POLICY("image_pull_policy", "Image Pull Policy", ImagePullPolicy.class),
 

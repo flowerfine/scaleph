@@ -19,10 +19,7 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink;
 
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
+import cn.sliew.scaleph.common.dict.seatunnel.*;
 import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
@@ -48,6 +45,14 @@ public abstract class SeaTunnelConnectorPlugin extends AbstractPlugin {
 
     public final SeaTunnelPluginName getPluginName() {
         return getPluginMapping().getPluginName();
+    }
+
+    public final SeaTunnelConnectorHealth getPluginHealth() {
+        return getPluginMapping().getHealth();
+    }
+
+    public final SeaTunnelConnectorFeature[] getPluginFeatures() {
+        return getPluginMapping().getFeatures();
     }
 
     public ObjectNode createConf() {

@@ -16,26 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.dao.mapper.master.ws;
 
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesDeployment;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public interface WsFlinkService {
-
-    void createSessionCluster(Long projectId, Long flinkClusterConfigId) throws Exception;
-
-    void submit(WsFlinkJobDTO wsFlinkJobDTO) throws Exception;
-
-    void shutdown(Long id) throws Exception;
-
-    void shutdownBatch(List<Long> ids) throws Exception;
-
-    void stop(Long id) throws Exception;
-
-    void cancel(Long id) throws Exception;
-
-    void triggerSavepoint(Long id) throws Exception;
+/**
+ * <p>
+ * flink kubernetes deployment Mapper 接口
+ * </p>
+ */
+@Repository
+public interface WsFlinkKubernetesDeploymentMapper extends BaseMapper<WsFlinkKubernetesDeployment> {
 
 }

@@ -30,7 +30,7 @@ services:
       - 9870:9870
       - 9002:9002
     networks:
-      - hadoop
+      - scaleph
 
   datanode:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
@@ -45,7 +45,7 @@ services:
       - 9864:9864
       - 9866:9866
     networks:
-      - hadoop
+      - scaleph
 
   resourcemanager:
     image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8
@@ -59,7 +59,7 @@ services:
       - 8030:8030
       - 8031:8031
     networks:
-      - hadoop
+      - scaleph
 
   nodemanager:
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8
@@ -69,11 +69,8 @@ services:
       SERVICE_PRECONDITION: "namenode:9002 namenode:9870 datanode:9864 datanode:9866 resourcemanager:8088"
     ports:
       - 8042:8042
-#      - 1-65535:1-65535
-#    expose:
-#      - "1-65535"
     networks:
-      - hadoop
+      - scaleph
 
   historyserver:
     image: bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8
@@ -84,7 +81,7 @@ services:
     ports:
       - 8188:8188
     networks:
-      - hadoop
+      - scaleph
 
 networks:
-  hadoop:
+  scaleph:

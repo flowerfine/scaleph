@@ -16,34 +16,41 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service.dto;
+package cn.sliew.scaleph.dao.entity.master.ws;
 
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelConnectorFeature;
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelConnectorHealth;
-import cn.sliew.scaleph.engine.seatunnel.service.vo.DagPanalVO;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.List;
-
 /**
- * keep same with xflow dag panal properties
+ * <p>
+ * flink kubernetes deployment
+ * </p>
  */
 @Data
 @EqualsAndHashCode
-public class DagNodeDTO {
+@TableName("ws_flink_kubernetes_deployment")
+@ApiModel(value = "WsFlinkKubernetesDeployment对象", description = "flink kubernetes deployment")
+public class WsFlinkKubernetesDeployment extends BaseDO {
 
-    private String id;
+    private static final long serialVersionUID = 1L;
 
-    private String label;
+    @TableField("`name`")
+    private String name;
 
-    private String renderKey;
+    @ApiModelProperty("flink deployment metadata")
+    @TableField("metadata")
+    private String metadata;
 
-    private String description;
+    @ApiModelProperty("flink deployment spec")
+    @TableField("spec")
+    private String spec;
 
-    private SeaTunnelConnectorHealth health;
+    @TableField("remark")
+    private String remark;
 
-    private SeaTunnelConnectorFeature[] features;
-
-    private DagPanalVO data;
 }

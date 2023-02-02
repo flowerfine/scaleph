@@ -87,6 +87,8 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
                     node.setDescription(pluginInfo.getDescription());
                     node.setLabel(plugin.getPluginName().getLabel());
                     node.setRenderKey(GraphConstants.DND_RENDER_ID);
+                    node.setHealth(plugin.getPluginHealth());
+                    node.setFeatures(plugin.getPluginFeatures());
                     node.setData(buildPluginInfo(plugin));
                     nodeList.add(node);
                 });

@@ -3,7 +3,7 @@ import {request} from 'umi';
 import {WsFlinkKubernetesDeploymentTemplate, WsFlinkKubernetesDeploymentTemplateParam} from './typings';
 
 export const WsFlinkKubernetesDeploymentTemplateService = {
-  url: '/api/flink/kubernetes/deployment-template',
+  url: '/api/flink/kubernetes/template',
 
   list: async (queryParam: WsFlinkKubernetesDeploymentTemplateParam) => {
     return request<PageResponse<WsFlinkKubernetesDeploymentTemplate>>(`${WsFlinkKubernetesDeploymentTemplateService.url}`, {

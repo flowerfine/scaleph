@@ -16,26 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
+import cn.sliew.scaleph.common.dto.BaseDTO;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+@Data
+@EqualsAndHashCode
+@ApiModel(value = "WsFlinkKubernetesDeployment对象", description = "flink kubernetes deployment")
+public class WsFlinkKubernetesDeploymentDTO extends BaseDTO {
 
-public interface WsFlinkService {
+    @ApiModelProperty("name")
+    private String name;
 
-    void createSessionCluster(Long projectId, Long flinkClusterConfigId) throws Exception;
+    @ApiModelProperty("flink deployment metadata")
+    private JsonNode metadata;
 
-    void submit(WsFlinkJobDTO wsFlinkJobDTO) throws Exception;
+    @ApiModelProperty("flink deployment spec")
+    private JsonNode spec;
 
-    void shutdown(Long id) throws Exception;
-
-    void shutdownBatch(List<Long> ids) throws Exception;
-
-    void stop(Long id) throws Exception;
-
-    void cancel(Long id) throws Exception;
-
-    void triggerSavepoint(Long id) throws Exception;
+    @ApiModelProperty("remark")
+    private String remark;
 
 }

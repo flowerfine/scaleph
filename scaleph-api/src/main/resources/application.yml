@@ -36,6 +36,7 @@ spring:
     #    host: smtp.xxx.cn
     port: 25
     default-encoding: UTF-8
+  mvc.pathmatch.matching-strategy: ant_path_matcher
   servlet.multipart:
     enabled: true
     max-file-size: 1024MB
@@ -90,6 +91,19 @@ management:
 logging:
   level:
     root: info
+
+knife4j:
+  enable: true
+  production: false
+  setting:
+    language: zh_cn
+    enable-footer: true
+    enable-debug: true
+    enable-open-api: true
+    enable-host: false
+    enable-host-text: localhost:9090
+  basic.enable: false
+  cors: true
 
 # 线程池配置
 thread:

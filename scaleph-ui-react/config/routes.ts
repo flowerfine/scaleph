@@ -177,17 +177,25 @@ export default [
         access: 'normalRouteFilter',
         routes: [
           {
-            name: 'deployment-template',
-            path: '/workspace/flink/kubernetes/deployment/template',
+            name: 'template',
+            path: '/workspace/flink/kubernetes/template',
             exact: true,
             component: './Project/Workspace/Kubernetes/Template',
             pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
             access: 'normalRouteFilter'
           },
           {
-            path: '/workspace/flink/kubernetes/deployment/template/detail',
+            path: '/workspace/flink/kubernetes/template/detail',
             exact: true,
             component: './Project/Workspace/Kubernetes/Template/Detail',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
+            name: 'deployment',
+            path: '/workspace/flink/kubernetes/deployment',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/Deployment',
             pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
             access: 'normalRouteFilter'
           },

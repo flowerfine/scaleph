@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.ds.modal;
+package cn.sliew.scaleph.common.jackson.polymorphic;
 
-import cn.sliew.scaleph.common.dict.job.DataSourceType;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.databind.DatabindContext;
 import com.fasterxml.jackson.databind.JavaType;
@@ -26,12 +25,12 @@ import com.fasterxml.jackson.databind.jsontype.impl.TypeIdResolverBase;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
-public class PolymorphicResolver extends TypeIdResolverBase {
-    private final BiMap<DataSourceType, Class<?>> subTypes = HashBiMap.create();
-    private JavaType superType;
-    private Class<?> defaultClass;
+public abstract class PolymorphicResolver<T> extends TypeIdResolverBase {
+    protected final BiMap<T, Class<?>> subTypes = HashBiMap.create();
+    protected JavaType superType;
+    protected Class<?> defaultClass;
 
-    protected void bind(DataSourceType type, Class<?> subClass) {
+    protected void bind(T type, Class<?> subClass) {
         this.subTypes.put(type, subClass);
     }
 
@@ -48,24 +47,19 @@ public class PolymorphicResolver extends TypeIdResolverBase {
     }
 
     public String idFromValue(Object obj) {
-        return this.kindFromSubtype(obj);
+        return typeFromSubtype(obj);
     }
 
     public String idFromValueAndType(Object obj, Class<?> subType) {
-        return this.kindFromSubtype(obj);
+        return typeFromSubtype(obj);
     }
 
     public JavaType typeFromId(DatabindContext context, String id) {
-        Class<?> subType = this.subTypeFromKind(id);
+        Class<?> subType = this.subTypeFromType(id);
         return context.constructSpecializedType(this.superType, subType);
     }
 
-    private String kindFromSubtype(Object obj) {
-        return subTypes.inverse().get(obj.getClass()).getValue();
-    }
+    protected abstract String typeFromSubtype(Object obj);
 
-    private Class<?> subTypeFromKind(String id) {
-        Class<?> subType = subTypes.get(DataSourceType.of(id));
-        return subType != null ? subType : defaultClass;
-    }
+    protected abstract Class<?> subTypeFromType(String id);
 }

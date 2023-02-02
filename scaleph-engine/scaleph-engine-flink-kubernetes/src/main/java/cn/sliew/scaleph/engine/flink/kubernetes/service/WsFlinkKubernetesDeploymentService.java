@@ -16,26 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentListParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
 
-public interface WsFlinkService {
+public interface WsFlinkKubernetesDeploymentService {
 
-    void createSessionCluster(Long projectId, Long flinkClusterConfigId) throws Exception;
+    Page<WsFlinkKubernetesDeploymentDTO> list(WsFlinkKubernetesDeploymentListParam param);
 
-    void submit(WsFlinkJobDTO wsFlinkJobDTO) throws Exception;
+    WsFlinkKubernetesDeploymentDTO selectOne(Long id);
 
-    void shutdown(Long id) throws Exception;
+    int insert(WsFlinkKubernetesDeploymentDTO dto);
 
-    void shutdownBatch(List<Long> ids) throws Exception;
+    int update(WsFlinkKubernetesDeploymentDTO dto);
 
-    void stop(Long id) throws Exception;
+    int deleteById(Long id);
 
-    void cancel(Long id) throws Exception;
-
-    void triggerSavepoint(Long id) throws Exception;
-
+    int deleteBatch(List<Long> ids);
 }

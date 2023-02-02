@@ -16,26 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class WsFlinkKubernetesDeploymentListParam extends PaginationParam {
 
-public interface WsFlinkService {
-
-    void createSessionCluster(Long projectId, Long flinkClusterConfigId) throws Exception;
-
-    void submit(WsFlinkJobDTO wsFlinkJobDTO) throws Exception;
-
-    void shutdown(Long id) throws Exception;
-
-    void shutdownBatch(List<Long> ids) throws Exception;
-
-    void stop(Long id) throws Exception;
-
-    void cancel(Long id) throws Exception;
-
-    void triggerSavepoint(Long id) throws Exception;
-
+    @ApiModelProperty("name")
+    private String name;
 }
