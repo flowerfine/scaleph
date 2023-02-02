@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.engine.flink.service;
 
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobSubmitParam;
 
 import java.util.List;
 

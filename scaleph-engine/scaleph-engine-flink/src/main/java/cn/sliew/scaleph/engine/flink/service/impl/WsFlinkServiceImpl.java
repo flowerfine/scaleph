@@ -89,8 +89,6 @@ import static cn.sliew.milky.common.check.Ensures.checkState;
 public class WsFlinkServiceImpl implements WsFlinkService {
 
     @Autowired
-    private WsFlinkJobService wsFlinkJobService;
-    @Autowired
     private WsFlinkJobInstanceService wsFlinkJobInstanceService;
     @Autowired
     private WsFlinkClusterConfigService wsFlinkClusterConfigService;
@@ -142,7 +140,6 @@ public class WsFlinkServiceImpl implements WsFlinkService {
         dto.setProjectId(projectId);
         dto.setFlinkClusterConfigId(wsFlinkClusterConfigDTO.getId());
         dto.setName(wsFlinkClusterConfigDTO.getName() + "-" + RandomStringUtils.randomAlphabetic(8));
-        //todo session cluster has not cluster id
         dto.setClusterId(clusterClient.getClusterId().toString());
         dto.setWebInterfaceUrl(clusterClient.getWebInterfaceURL());
         dto.setStatus(FlinkClusterStatus.RUNNING);
