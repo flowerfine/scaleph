@@ -18,9 +18,13 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.dto;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelConnectorFeature;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelConnectorHealth;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.DagPanalVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
  * keep same with xflow dag panal properties
@@ -36,6 +40,10 @@ public class DagNodeDTO {
     private String renderKey;
 
     private String description;
+
+    private SeaTunnelConnectorHealth health;
+
+    private SeaTunnelConnectorFeature[] features;
 
     private DagPanalVO data;
 }
