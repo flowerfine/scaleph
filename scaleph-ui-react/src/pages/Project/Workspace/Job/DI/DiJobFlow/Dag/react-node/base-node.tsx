@@ -35,7 +35,7 @@ export const BaseNode = (props: any) => {
       title={
         <div>
           <Typography.Text>{props.data.data.displayName}</Typography.Text>
-          <a href="https://flowerfine.github.io/scaleph/#/" target="_blank">
+          <a href="https://flowerfine.github.io/scaleph-website/" target="_blank">
             <Button shape="default" type="link" icon={<InfoCircleOutlined />}></Button>
           </a>
         </div>
