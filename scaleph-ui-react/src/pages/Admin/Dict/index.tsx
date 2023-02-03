@@ -1,253 +1,78 @@
-import { PRIVILEGE_CODE } from '@/constant';
-import { DictDataService } from '@/services/admin/dictData.service';
-import { DictTypeService } from '@/services/admin/dictType.service';
-import { SysDictData, SysDictType } from '@/services/admin/typings';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
-import { Button, Col, message, Modal, Row, Space, Tooltip } from 'antd';
-import { useRef, useState } from 'react';
-import { useAccess, useIntl } from 'umi';
-import DictDataForm from './components/DictDataForm';
-import DictTypeForm from './components/DictTypeForm';
+import {useIntl} from 'umi';
+import {useRef} from 'react';
+import {Col, Row} from 'antd';
+import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
+import {DictDataService} from '@/services/admin/dictData.service';
+import {DictTypeService} from '@/services/admin/dictType.service';
+import {SysDictData, SysDictType} from '@/services/admin/typings';
 
 const Dict: React.FC = () => {
   const intl = useIntl();
-  const access = useAccess();
   const dictTypeActionRef = useRef<ActionType>();
   const dictDataActionRef = useRef<ActionType>();
   const dictTypeFormRef = useRef<ProFormInstance>();
   const dictDataFormRef = useRef<ProFormInstance>();
-  const [selectedDictType, setSelectedDictType] = useState<SysDictType[]>([]);
-  const [selectedDictData, setSelectedDictData] = useState<SysDictData[]>([]);
-  const [dictTypeFormData, setDictTypeFormData] = useState<{
-    visible: boolean;
-    data: SysDictType;
-  }>({ visible: false, data: {} });
-  const [dictDataFormData, setDictDataFormData] = useState<{
-    visible: boolean;
-    data: SysDictData;
-  }>({ visible: false, data: {} });
 
   const dictTypeTableColumns: ProColumns<SysDictType>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.admin.dict.dictTypeCode' }),
-      dataIndex: 'dictTypeCode',
+      title: intl.formatMessage({id: 'pages.admin.dict.dictTypeCode'}),
+      dataIndex: 'code',
       width: 180,
       fixed: 'left',
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.dict.dictTypeName' }),
-      dataIndex: 'dictTypeName',
-      width: 180,
+      title: intl.formatMessage({id: 'pages.admin.dict.name'}),
+      dataIndex: 'name',
+      width: 300,
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.dict.remark' }),
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
-      width: 260,
+      width: 150,
       hideInSearch: true,
-    },
-    {
-      title: intl.formatMessage({ id: 'app.common.operate.label' }),
-      dataIndex: 'actions',
-      width: 120,
-      align: 'center',
-      fixed: 'right',
-      valueType: 'option',
-      render: (_, record) => (
-        <>
-          <Space>
-            {access.canAccess(PRIVILEGE_CODE.dictTypeEdit) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<EditOutlined />}
-                  onClick={() => {
-                    setDictTypeFormData({ visible: true, data: record });
-                  }}
-                ></Button>
-              </Tooltip>
-            )}
-            {access.canAccess(PRIVILEGE_CODE.dictTypeDelete) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<DeleteOutlined />}
-                  onClick={() => {
-                    Modal.confirm({
-                      title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                      content: intl.formatMessage({
-                        id: 'app.common.operate.delete.confirm.content',
-                      }),
-                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                      okButtonProps: { danger: true },
-                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
-                      onOk() {
-                        DictTypeService.deleteDictTypeRow(record).then((d) => {
-                          if (d.success) {
-                            message.success(
-                              intl.formatMessage({ id: 'app.common.operate.delete.success' }),
-                            );
-                            dictTypeActionRef.current?.reload();
-                          }
-                        });
-                      },
-                    });
-                  }}
-                ></Button>
-              </Tooltip>
-            )}
-          </Space>
-        </>
-      ),
-    },
+    }
   ];
 
   const dictDataTableColumns: ProColumns<SysDictData>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.admin.dict.dictType' }),
+      title: intl.formatMessage({id: 'pages.admin.dict.dictType'}),
       dataIndex: 'dictTypeCode',
       width: 240,
       fixed: 'left',
       render: (_, record) => {
-        return <span>{record.dictType?.dictTypeCode + '-' + record.dictType?.dictTypeName}</span>;
+        return <span>{record.dictType?.code + '-' + record.dictType?.name}</span>;
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.dict.dictCode' }),
+      title: intl.formatMessage({id: 'pages.admin.dict.dictCode'}),
       dataIndex: 'dictCode',
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.dict.dictValue' }),
+      title: intl.formatMessage({id: 'pages.admin.dict.dictValue'}),
       dataIndex: 'dictValue',
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.dict.remark' }),
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       width: 260,
       hideInSearch: true,
-    },
-    {
-      title: intl.formatMessage({ id: 'app.common.operate.label' }),
-      dataIndex: 'actions',
-      width: 120,
-      align: 'center',
-      fixed: 'right',
-      valueType: 'option',
-      render: (_, record) => (
-        <>
-          <Space>
-            {access.canAccess(PRIVILEGE_CODE.dictDataEdit) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<EditOutlined />}
-                  onClick={() => {
-                    setDictDataFormData({ visible: true, data: record });
-                  }}
-                ></Button>
-              </Tooltip>
-            )}
-            {access.canAccess(PRIVILEGE_CODE.dictDataDelete) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<DeleteOutlined />}
-                  onClick={() => {
-                    Modal.confirm({
-                      title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                      content: intl.formatMessage({
-                        id: 'app.common.operate.delete.confirm.content',
-                      }),
-                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                      okButtonProps: { danger: true },
-                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
-                      onOk() {
-                        DictDataService.deleteDictDataRow(record).then((d) => {
-                          if (d.success) {
-                            message.success(
-                              intl.formatMessage({ id: 'app.common.operate.delete.success' }),
-                            );
-                            dictDataActionRef.current?.reload();
-                          }
-                        });
-                      },
-                    });
-                  }}
-                ></Button>
-              </Tooltip>
-            )}
-          </Space>
-        </>
-      ),
-    },
+    }
   ];
 
   return (
     <div>
       <Row gutter={[12, 12]}>
-        <Col span={12}>
+        <Col span={8}>
           <ProTable<SysDictType>
-            headerTitle={intl.formatMessage({ id: 'pages.admin.dict.dictType' })}
-            search={{ filterType: 'light' }}
-            scroll={{ x: 800 }}
-            rowKey="dictTypeCode"
+            headerTitle={intl.formatMessage({id: 'pages.admin.dict.dictType'})}
+            search={{filterType: 'light'}}
+            rowKey="code"
             actionRef={dictTypeActionRef}
             formRef={dictTypeFormRef}
             options={false}
-            toolbar={{
-              actions: [
-                access.canAccess(PRIVILEGE_CODE.dictTypeAdd) && (
-                  <Button
-                    key="new"
-                    type="primary"
-                    onClick={() => {
-                      setDictTypeFormData({ visible: true, data: {} });
-                    }}
-                  >
-                    {intl.formatMessage({ id: 'app.common.operate.new.label' })}
-                  </Button>
-                ),
-                access.canAccess(PRIVILEGE_CODE.dictTypeDelete) && (
-                  <Button
-                    key="del"
-                    type="default"
-                    disabled={selectedDictType.length < 1}
-                    onClick={() => {
-                      Modal.confirm({
-                        title: intl.formatMessage({
-                          id: 'app.common.operate.delete.confirm.title',
-                        }),
-                        content: intl.formatMessage({
-                          id: 'app.common.operate.delete.confirm.content',
-                        }),
-                        okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                        okButtonProps: { danger: true },
-                        cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
-                        onOk() {
-                          DictTypeService.deleteDictTypeBatch(selectedDictType).then((d) => {
-                            if (d.success) {
-                              message.success(
-                                intl.formatMessage({ id: 'app.common.operate.delete.success' }),
-                              );
-                              dictTypeActionRef.current?.reload();
-                            }
-                          });
-                        },
-                      });
-                    }}
-                  >
-                    {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
-                  </Button>
-                ),
-              ],
-            }}
             columns={dictTypeTableColumns}
             request={(params, sorter, filter) => {
               dictDataFormRef.current?.setFieldsValue({
@@ -256,125 +81,39 @@ const Dict: React.FC = () => {
               dictDataFormRef.current?.submit();
               return DictTypeService.listDictTypeByPage(params);
             }}
-            pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
+            pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
             onRow={(record) => {
               return {
                 onClick: (event) => {
                   dictDataFormRef.current?.setFieldsValue({
-                    dictTypeCode: record.dictTypeCode,
+                    dictTypeCode: record.code,
                   });
                   dictDataFormRef.current?.submit();
                 },
               };
             }}
-            rowSelection={{
-              fixed: true,
-              onChange(selectedRowKeys, selectedRows, info) {
-                setSelectedDictType(selectedRows);
-              },
-            }}
             tableAlertRender={false}
             tableAlertOptionRender={false}
-          ></ProTable>
+          />
         </Col>
-        <Col span={12}>
+        <Col span={16}>
           <ProTable<SysDictData>
-            headerTitle={intl.formatMessage({ id: 'pages.admin.dict.dictData' })}
-            search={{ filterType: 'light' }}
-            scroll={{ x: 800 }}
+            headerTitle={intl.formatMessage({id: 'pages.admin.dict.dictData'})}
+            search={{filterType: 'light'}}
             rowKey="id"
             actionRef={dictDataActionRef}
             formRef={dictDataFormRef}
             options={false}
-            toolbar={{
-              actions: [
-                access.canAccess(PRIVILEGE_CODE.dictDataAdd) && (
-                  <Button
-                    key="new"
-                    type="primary"
-                    onClick={() => {
-                      setDictDataFormData({ visible: true, data: {} });
-                    }}
-                  >
-                    {intl.formatMessage({ id: 'app.common.operate.new.label' })}
-                  </Button>
-                ),
-                access.canAccess(PRIVILEGE_CODE.dictDataDelete) && (
-                  <Button
-                    key="del"
-                    type="default"
-                    disabled={selectedDictData.length < 1}
-                    onClick={() => {
-                      Modal.confirm({
-                        title: intl.formatMessage({
-                          id: 'app.common.operate.delete.confirm.title',
-                        }),
-                        content: intl.formatMessage({
-                          id: 'app.common.operate.delete.confirm.content',
-                        }),
-                        okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                        okButtonProps: { danger: true },
-                        cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
-                        onOk() {
-                          DictDataService.deleteDictDataBatch(selectedDictData).then((d) => {
-                            if (d.success) {
-                              message.success(
-                                intl.formatMessage({ id: 'app.common.operate.delete.success' }),
-                              );
-                              dictDataActionRef.current?.reload();
-                            }
-                          });
-                        },
-                      });
-                    }}
-                  >
-                    {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
-                  </Button>
-                ),
-              ],
-            }}
             columns={dictDataTableColumns}
             request={(params, sorter, filter) => {
               return DictDataService.listDictDataByPage(params);
             }}
-            pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
-            rowSelection={{
-              fixed: true,
-              onChange(selectedRowKeys, selectedRows, info) {
-                setSelectedDictData(selectedRows);
-              },
-            }}
+            pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
             tableAlertRender={false}
             tableAlertOptionRender={false}
-          ></ProTable>
+          />
         </Col>
       </Row>
-      {dictTypeFormData.visible ? (
-        <DictTypeForm
-          visible={dictTypeFormData.visible}
-          onCancel={() => {
-            setDictTypeFormData({ visible: false, data: {} });
-          }}
-          onVisibleChange={(visible) => {
-            setDictTypeFormData({ visible: visible, data: {} });
-            dictTypeActionRef.current?.reload();
-          }}
-          data={dictTypeFormData.data}
-        />
-      ) : null}
-      {dictDataFormData.visible ? (
-        <DictDataForm
-          visible={dictDataFormData.visible}
-          onCancel={() => {
-            setDictDataFormData({ visible: false, data: {} });
-          }}
-          onVisibleChange={(visible) => {
-            setDictDataFormData({ visible: visible, data: {} });
-            dictDataActionRef.current?.reload();
-          }}
-          data={dictDataFormData.data}
-        />
-      ) : null}
     </div>
   );
 };

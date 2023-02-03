@@ -28,7 +28,7 @@ import cn.sliew.scaleph.common.dict.security.*;
 import cn.sliew.scaleph.common.dict.workflow.*;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum DictType implements DictDefinition {
@@ -92,7 +92,6 @@ public enum DictType implements DictDefinition {
     REDIS_MODE("redis_mode", "Redis Mode", RedisMode.class),
     ;
 
-    @JsonValue
     @EnumValue
     private String code;
     private String name;
@@ -114,6 +113,7 @@ public enum DictType implements DictDefinition {
         return name;
     }
 
+    @JsonIgnore
     public Class getInstanceClass() {
         return instanceClass;
     }

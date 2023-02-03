@@ -22,15 +22,12 @@ import cn.sliew.scaleph.api.annotation.AnonymousAccess;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.dict.DictInstance;
 import cn.sliew.scaleph.common.dict.DictType;
-import cn.sliew.scaleph.system.cache.DictTypeCache;
 import cn.sliew.scaleph.system.service.SysDictService;
 import cn.sliew.scaleph.system.service.SysDictTypeService;
 import cn.sliew.scaleph.system.service.dto.SysDictDTO;
-import cn.sliew.scaleph.system.service.dto.SysDictTypeDTO;
 import cn.sliew.scaleph.system.service.param.SysDictParam;
 import cn.sliew.scaleph.system.service.param.SysDictTypeParam;
 import cn.sliew.scaleph.system.service.vo.DictVO;
-import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,13 +35,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -81,8 +77,7 @@ public class SysDictController {
     @AnonymousAccess
     @GetMapping(path = "/data/{dictTypeCode}")
     @ApiOperation(value = "查询数据字典", notes = "根据字典类型code查询数据字典")
-    public ResponseEntity<List<DictVO>> listDictByType(
-            @NotNull @PathVariable(value = "dictTypeCode") String dictTypeCode) {
+    public ResponseEntity<List<DictVO>> listDictByType(@PathVariable("dictTypeCode") String dictTypeCode) {
         List<SysDictDTO> list = sysDictService.selectByType(dictTypeCode);
         List<DictVO> result = list.stream()
                 .map(d -> new DictVO(d.getDictCode(), d.getDictValue()))
@@ -93,105 +88,27 @@ public class SysDictController {
     @AnonymousAccess
     @GetMapping(path = "/data/v2/{dictTypeCode}")
     @ApiOperation(value = "查询数据字典", notes = "根据字典类型code查询数据字典")
-    public ResponseEntity<List<DictInstance>> listDictByType(
-            @PathVariable(value = "dictTypeCode") DictType dictType) {
+    public ResponseEntity<List<DictInstance>> listDictByType(@PathVariable("dictTypeCode") DictType dictType) {
         List<DictInstance> list = sysDictService.selectByType2(dictType);
         return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
-    @Logging
-    @PostMapping(path = "/data")
-    @ApiOperation(value = "新增数据字典", notes = "新增数据字典")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_DATA_ADD)")
-    public ResponseEntity<ResponseVO> addDict(@Validated @RequestBody SysDictDTO sysDictDTO) {
-        sysDictService.insert(sysDictDTO);
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
-    }
-
-    @Logging
-    @PutMapping(path = "/data")
-    @ApiOperation(value = "修改数据字典", notes = "修改数据字典")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_DATA_EDIT)")
-    public ResponseEntity<ResponseVO> editDict(@Validated @RequestBody SysDictDTO sysDictDTO) {
-        sysDictService.update(sysDictDTO);
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-    }
-
-    @Logging
-    @DeleteMapping(path = "/data/{id}")
-    @ApiOperation(value = "删除数据字典", notes = "根据id删除数据字典")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_DATA_DELETE)")
-    public ResponseEntity<ResponseVO> deleteDict(@PathVariable(value = "id") String id) {
-        sysDictService.deleteById(Long.valueOf(id));
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-    }
-
-    @Logging
-    @PostMapping(path = "/data/batch")
-    @ApiOperation(value = "批量删除数据字典", notes = "根据id列表批量数据字典")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_DATA_DELETE)")
-    public ResponseEntity<ResponseVO> deleteBatchDict(@RequestBody Map<Integer, String> map) {
-        sysDictService.deleteBatch(map);
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
     @GetMapping(path = "/type")
     @ApiOperation(value = "查询数据字典类型", notes = "分页查询数据字典类型")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_TYPE_SELECT)")
-    public ResponseEntity<Page<SysDictTypeDTO>> listDictType(SysDictTypeParam sysDictTypeParam) {
-        Page<SysDictTypeDTO> pageDTO = sysDictTypeService.listByPage(sysDictTypeParam);
+    public ResponseEntity<Page<DictType>> listDictType(SysDictTypeParam sysDictTypeParam) {
+        Page<DictType> pageDTO = sysDictTypeService.listByPage(sysDictTypeParam);
         return new ResponseEntity<>(pageDTO, HttpStatus.OK);
     }
 
     @AnonymousAccess
     @GetMapping(path = "/type/all")
     @ApiOperation(value = "查询数据字典类型", notes = "从缓存中查询所有数据字典类型")
-    public ResponseEntity<List<DictVO>> listDictTypeAll() {
-        List<SysDictTypeDTO> list = DictTypeCache.listAll();
-        List<DictVO> result = new ArrayList<>();
-        for (SysDictTypeDTO dto : list) {
-            result.add(new DictVO(dto.getDictTypeCode(), dto.getDictTypeName()));
-        }
+    public ResponseEntity<List<DictType>> listDictTypeAll() {
+        List<DictType> result = sysDictTypeService.selectAll();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @Logging
-    @PostMapping(path = "/type")
-    @ApiOperation(value = "新增数据字典类型", notes = "新增数据字典类型")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_TYPE_ADD)")
-    public ResponseEntity<ResponseVO> addDictType(@Validated @RequestBody
-                                                  SysDictTypeDTO sysDictTypeDTO) {
-        sysDictTypeService.insert(sysDictTypeDTO);
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
-    }
-
-    @Logging
-    @PutMapping(path = "/type")
-    @ApiOperation(value = "修改数据字典类型", notes = "修改数据字典类型")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_TYPE_EDIT)")
-    public ResponseEntity<ResponseVO> editDictType(
-            @Validated @RequestBody SysDictTypeDTO sysDictTypeDTO) {
-        sysDictTypeService.update(sysDictTypeDTO);
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-    }
-
-    @Logging
-    @DeleteMapping(path = "/type/{id}")
-    @ApiOperation(value = "删除数据字典类型", notes = "根据id删除数据字典类型")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_TYPE_DELETE)")
-    public ResponseEntity<ResponseVO> deleteDictType(@PathVariable(value = "id") String id) {
-        sysDictTypeService.deleteById(Long.valueOf(id));
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-    }
-
-    @Logging
-    @PostMapping(path = "/type/batch")
-    @ApiOperation(value = "批量删除数据字典类型", notes = "根据id列表批量数据字典类型")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_TYPE_DELETE)")
-    public ResponseEntity<ResponseVO> deleteBatchDictType(@RequestBody Map<Integer, String> map) {
-        sysDictTypeService.deleteBatch(map);
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-    }
 }
 

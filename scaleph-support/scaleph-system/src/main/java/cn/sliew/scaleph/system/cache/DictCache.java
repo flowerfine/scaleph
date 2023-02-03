@@ -51,10 +51,6 @@ public class DictCache {
     @Autowired
     private SysDictService sysDictService;
 
-    public DictCache() {
-
-    }
-
     public synchronized static void updateCache(List<SysDictDTO> list) {
         for (SysDictDTO dictType : list) {
             updateCache(dictType);

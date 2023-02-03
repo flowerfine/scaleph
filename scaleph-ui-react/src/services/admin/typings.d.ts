@@ -1,12 +1,9 @@
 import {Dict, QueryParam} from '@/app.d';
 
 export type SysDictType = {
-  id?: number;
-  dictTypeCode?: string;
-  dictTypeName?: string;
+  code: string;
+  name: string;
   remark?: string;
-  createTime?: Date;
-  updateTime?: Date;
 };
 
 export type SysDictTypeParam = QueryParam & {
