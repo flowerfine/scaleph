@@ -23,7 +23,7 @@ const ClusterCredentialResource: React.FC = () => {
   }>({ visiable: false, data: {} });
 
   useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.flinkResourceProvider).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.flinkResourceProvider).then((d) => {
       setClusterTypeList(d);
     });
   }, []);

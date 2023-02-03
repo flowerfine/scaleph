@@ -18,7 +18,7 @@ const RoleForm: React.FC<ModalFormProps<SecRole>> = ({
   const [roleStatusList, setRoleStatusList] = useState<Dict[]>([]);
 
   useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.roleStatus).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.roleStatus).then((d) => {
       setRoleStatusList(d);
     });
   }, []);

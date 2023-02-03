@@ -23,7 +23,7 @@ const FlinkReleaseResource: React.FC = () => {
   }>({ visiable: false, data: {} });
 
   useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.flinkVersion).then((d) => {
       setFlinkVersionList(d);
     });
   }, []);

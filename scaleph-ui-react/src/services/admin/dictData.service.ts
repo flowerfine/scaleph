@@ -1,6 +1,6 @@
-import { Dict, PageResponse, ResponseBody } from '@/app.d';
-import { request } from 'umi';
-import { SysDictData, SysDictDataParam } from './typings';
+import {Dict, PageResponse, ResponseBody} from '@/app.d';
+import {request} from 'umi';
+import {SysDictData, SysDictDataParam} from './typings';
 
 export const DictDataService = {
   url: '/api/admin/dict/data',
@@ -29,7 +29,7 @@ export const DictDataService = {
     const params = rows.map((row) => row.id);
     return request<ResponseBody<any>>(`${DictDataService.url}/` + 'batch', {
       method: 'POST',
-      data: { ...params },
+      data: {...params},
     });
   },
   addDictData: async (row: SysDictData) => {
@@ -43,12 +43,6 @@ export const DictDataService = {
     return request<ResponseBody<any>>(`${DictDataService.url}`, {
       method: 'PUT',
       data: row,
-    });
-  },
-
-  listDictDataByType: async (dictTypeCode: string) => {
-    return request<Dict[]>(`${DictDataService.url}/` + dictTypeCode, {
-      method: 'GET',
     });
   },
 

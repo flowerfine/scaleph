@@ -20,7 +20,7 @@ const SeaTunnelReleaseForm: React.FC<ModalFormProps<SeaTunnelRelease>> = ({
   const [uploading, setUploading] = useState(false);
   const [seatunnelVersionList, setSeatunnelVersionList] = useState<Dict[]>([]);
   useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.seatunnelVersion).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.seatunnelVersion).then((d) => {
       setSeatunnelVersionList(d);
     });
   }, []);

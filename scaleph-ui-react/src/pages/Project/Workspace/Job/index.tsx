@@ -46,10 +46,10 @@ const JobListView: React.FC = () => {
       setJobList(resp.data);
       setTotal(resp.total);
     });
-    DictDataService.listDictDataByType(DICT_TYPE.flinkJobType).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.flinkJobType).then((d) => {
       setJobTypeList(d);
     });
-    DictDataService.listDictDataByType(DICT_TYPE.flinkJobStatus).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.flinkJobStatus).then((d) => {
       setJobStateList(d);
     });
   };

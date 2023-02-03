@@ -28,7 +28,7 @@ const BaseOptions: React.FC = () => {
         label={intl.formatMessage({ id: 'page.project.cluster.config.resourceProvider' })}
         rules={[{ required: true }]}
         showSearch={true}
-        request={() => DictDataService.listDictDataByType(DICT_TYPE.flinkResourceProvider)}
+        request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkResourceProvider)}
       />
       <ProFormSelect
         name="deployMode"
@@ -41,7 +41,7 @@ const BaseOptions: React.FC = () => {
             const dict: Dict = { label: 'Session', value: '2' };
             return Promise.resolve([dict]);
           }
-          return DictDataService.listDictDataByType(DICT_TYPE.flinkDeploymentMode);
+          return DictDataService.listDictDataByType2(DICT_TYPE.flinkDeploymentMode);
         }}
       />
       <ProFormSelect

@@ -144,7 +144,7 @@ const SeaTunnelReleaseResource: React.FC = () => {
   ];
 
   useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.seatunnelVersion).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.seatunnelVersion).then((d) => {
       setSeatunnelVersionList(d);
     });
   }, []);

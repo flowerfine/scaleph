@@ -15,13 +15,13 @@ const Profile: React.FC = () => {
   const [nationList, setNationList] = useState<Dict[]>([]);
   const [idCardTypeList, setIdCardTypeList] = useState<Dict[]>([]);
   useLayoutEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.idCardType).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.idCardType).then((d) => {
       setIdCardTypeList(d);
     });
-    DictDataService.listDictDataByType(DICT_TYPE.gender).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.gender).then((d) => {
       setGenderList(d);
     });
-    DictDataService.listDictDataByType(DICT_TYPE.nation).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.nation).then((d) => {
       setNationList(d);
     });
     refreshUserInfo();

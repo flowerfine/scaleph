@@ -68,14 +68,14 @@ const SessionClusterForm: React.FC<ModalFormProps<any>> = ({
           label={intl.formatMessage({ id: 'page.project.cluster.config.flinkVersion' })}
           rules={[{ required: true }]}
           showSearch={true}
-          request={() => DictDataService.listDictDataByType(DICT_TYPE.flinkVersion)}
+          request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkVersion)}
         />
         <ProFormSelect
           name="resourceProvider"
           label={intl.formatMessage({ id: 'page.project.cluster.config.resourceProvider' })}
           rules={[{ required: true }]}
           showSearch={true}
-          request={() => DictDataService.listDictDataByType(DICT_TYPE.flinkResourceProvider)}
+          request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkResourceProvider)}
         />
         <ProFormSelect
           name="flinkClusterConfig"

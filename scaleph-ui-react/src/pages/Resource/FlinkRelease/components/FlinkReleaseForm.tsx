@@ -20,7 +20,7 @@ const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
   const [uploading, setUploading] = useState(false);
   const [flinkVersionList, setFlinkVersionList] = useState<Dict[]>([]);
   useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.flinkVersion).then((d) => {
       setFlinkVersionList(d);
     });
   }, []);

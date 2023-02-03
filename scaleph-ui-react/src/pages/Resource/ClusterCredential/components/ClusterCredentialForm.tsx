@@ -17,7 +17,7 @@ const ClusterCredentialForm: React.FC<ModalFormProps<ClusterCredential>> = ({
   const [form] = Form.useForm();
   const [clusterTypeList, setClusterTypeList] = useState<Dict[]>([]);
   useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.flinkResourceProvider).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.flinkResourceProvider).then((d) => {
       setClusterTypeList(d);
     });
   }, []);
