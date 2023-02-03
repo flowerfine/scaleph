@@ -27,8 +27,11 @@ import cn.sliew.scaleph.common.dict.seatunnel.*;
 import cn.sliew.scaleph.common.dict.security.*;
 import cn.sliew.scaleph.common.dict.workflow.*;
 import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum DictType implements DictDefinition {
@@ -91,6 +94,13 @@ public enum DictType implements DictDefinition {
 
     REDIS_MODE("redis_mode", "Redis Mode", RedisMode.class),
     ;
+
+    @JsonCreator
+    public static DictType of(String code) {
+        return Arrays.stream(values())
+                .filter(type -> type.getCode().equals(code))
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(DictType.class, code));
+    }
 
     @EnumValue
     private String code;

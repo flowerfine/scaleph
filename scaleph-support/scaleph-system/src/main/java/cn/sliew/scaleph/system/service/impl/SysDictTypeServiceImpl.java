@@ -49,8 +49,6 @@ public class SysDictTypeServiceImpl implements SysDictTypeService {
     @Override
     public Page<DictType> listByPage(SysDictTypeParam param) {
         List<DictType> dictTypes = selectAll();
-        Page<DictType> result = new Page<>(dictTypes.size(), param.getCurrent(), param.getPageSize());
-
         List<DictType> filteredDictTypes = dictTypes.stream().filter(dictType -> {
             if (StringUtils.hasText(param.getCode())) {
                 return dictType.getCode().contains(param.getCode());
@@ -63,12 +61,14 @@ public class SysDictTypeServiceImpl implements SysDictTypeService {
             return true;
         }).collect(Collectors.toList());
 
+        Page<DictType> result = new Page<>(filteredDictTypes.size(), param.getCurrent(), param.getPageSize());
         Long from = (param.getCurrent() - 1) * param.getPageSize();
         Long to = from + param.getPageSize();
         if (from >= filteredDictTypes.size()) {
             result.setRecords(Collections.emptyList());
             return result;
         }
+
         result.setRecords(filteredDictTypes.subList(from.intValue(), to.intValue()));
         return result;
     }

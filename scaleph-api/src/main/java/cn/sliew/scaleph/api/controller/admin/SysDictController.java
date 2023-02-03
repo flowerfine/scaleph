@@ -24,10 +24,8 @@ import cn.sliew.scaleph.common.dict.DictInstance;
 import cn.sliew.scaleph.common.dict.DictType;
 import cn.sliew.scaleph.system.service.SysDictService;
 import cn.sliew.scaleph.system.service.SysDictTypeService;
-import cn.sliew.scaleph.system.service.dto.SysDictDTO;
 import cn.sliew.scaleph.system.service.param.SysDictParam;
 import cn.sliew.scaleph.system.service.param.SysDictTypeParam;
-import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,7 +39,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -64,32 +61,16 @@ public class SysDictController {
     @GetMapping(path = "/data")
     @ApiOperation(value = "查询数据字典", notes = "分页查询数据字典")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_DATA_SELECT)")
-    public ResponseEntity<Page<SysDictDTO>> listDict(SysDictParam sysDictParam) {
-        Page<SysDictDTO> pageDTO = sysDictService.listByPage(sysDictParam);
+    public ResponseEntity<Page<DictInstance>> listDict(SysDictParam sysDictParam) {
+        Page<DictInstance> pageDTO = sysDictService.listByPage(sysDictParam);
         return new ResponseEntity<>(pageDTO, HttpStatus.OK);
-    }
-
-    /**
-     * todo multiple version endpoint path such as v1/data, v2/data
-     *
-     * @see org.springframework.web.servlet.mvc.condition.RequestCondition
-     */
-    @AnonymousAccess
-    @GetMapping(path = "/data/{dictTypeCode}")
-    @ApiOperation(value = "查询数据字典", notes = "根据字典类型code查询数据字典")
-    public ResponseEntity<List<DictVO>> listDictByType(@PathVariable("dictTypeCode") String dictTypeCode) {
-        List<SysDictDTO> list = sysDictService.selectByType(dictTypeCode);
-        List<DictVO> result = list.stream()
-                .map(d -> new DictVO(d.getDictCode(), d.getDictValue()))
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @AnonymousAccess
     @GetMapping(path = "/data/v2/{dictTypeCode}")
     @ApiOperation(value = "查询数据字典", notes = "根据字典类型code查询数据字典")
     public ResponseEntity<List<DictInstance>> listDictByType(@PathVariable("dictTypeCode") DictType dictType) {
-        List<DictInstance> list = sysDictService.selectByType2(dictType);
+        List<DictInstance> list = sysDictService.selectByType(dictType);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
