@@ -15,7 +15,7 @@ const Dict: React.FC = () => {
 
   const dictTypeTableColumns: ProColumns<SysDictType>[] = [
     {
-      title: intl.formatMessage({id: 'pages.admin.dict.dictTypeCode'}),
+      title: intl.formatMessage({id: 'pages.admin.dict.code'}),
       dataIndex: 'code',
       width: 180,
       fixed: 'left',
@@ -76,7 +76,7 @@ const Dict: React.FC = () => {
             columns={dictTypeTableColumns}
             request={(params, sorter, filter) => {
               dictDataFormRef.current?.setFieldsValue({
-                dictTypeCode: params.dictTypeCode,
+                dictTypeCode: params.code,
               });
               dictDataFormRef.current?.submit();
               return DictTypeService.listDictTypeByPage(params);

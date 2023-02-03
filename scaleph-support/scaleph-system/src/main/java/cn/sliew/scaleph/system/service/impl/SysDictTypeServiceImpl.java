@@ -52,13 +52,13 @@ public class SysDictTypeServiceImpl implements SysDictTypeService {
         Page<DictType> result = new Page<>(dictTypes.size(), param.getCurrent(), param.getPageSize());
 
         List<DictType> filteredDictTypes = dictTypes.stream().filter(dictType -> {
-            if (StringUtils.hasText(param.getDictTypeCode())) {
-                return dictType.getCode().contains(param.getDictTypeCode());
+            if (StringUtils.hasText(param.getCode())) {
+                return dictType.getCode().contains(param.getCode());
             }
             return true;
         }).filter(dictType -> {
-            if (StringUtils.hasText(param.getDictTypeName())) {
-                return dictType.getName().contains(param.getDictTypeName());
+            if (StringUtils.hasText(param.getName())) {
+                return dictType.getName().contains(param.getName());
             }
             return true;
         }).collect(Collectors.toList());

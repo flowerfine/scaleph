@@ -7,8 +7,8 @@ export type SysDictType = {
 };
 
 export type SysDictTypeParam = QueryParam & {
-  dictTypeCode?: string;
-  dictTypeName?: string;
+  code?: string;
+  name?: string;
 };
 
 export type SysDictData = {
