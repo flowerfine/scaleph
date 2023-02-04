@@ -37,7 +37,7 @@ const Dict: React.FC = () => {
   const dictDataTableColumns: ProColumns<SysDictData>[] = [
     {
       title: intl.formatMessage({id: 'pages.admin.dict.dictType'}),
-      dataIndex: 'dictTypeCode',
+      dataIndex: 'dictType',
       width: 240,
       fixed: 'left',
       render: (_, record) => {
@@ -75,10 +75,6 @@ const Dict: React.FC = () => {
             options={false}
             columns={dictTypeTableColumns}
             request={(params, sorter, filter) => {
-              dictDataFormRef.current?.setFieldsValue({
-                dictType: params.code,
-              });
-              dictDataFormRef.current?.submit();
               return DictTypeService.listDictTypeByPage(params);
             }}
             pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
@@ -88,7 +84,6 @@ const Dict: React.FC = () => {
                   dictDataFormRef.current?.setFieldsValue({
                     dictType: record.code,
                   });
-                  console.log('SysDictType onRow', dictDataFormRef.current?.getFieldsValue(true))
                   dictDataFormRef.current?.submit();
                 },
               };

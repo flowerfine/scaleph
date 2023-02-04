@@ -85,7 +85,7 @@ public class SysDictServiceImpl implements SysDictService {
             return true;
         }).collect(Collectors.toList());
 
-        Page<SysDictDTO> result = new Page<>(filteredDictInstances.size(), param.getCurrent(), param.getPageSize());
+        Page<SysDictDTO> result = new Page<>(param.getCurrent(), param.getPageSize(), filteredDictInstances.size());
         Long from = (param.getCurrent() - 1) * param.getPageSize();
         Long to = from + param.getPageSize();
         if (from >= filteredDictInstances.size()) {
@@ -93,7 +93,7 @@ public class SysDictServiceImpl implements SysDictService {
             return result;
         }
 
-        result.setRecords(filteredDictInstances.subList(from.intValue(), to.intValue()));
+        result.setRecords(filteredDictInstances.subList(from.intValue(), to.intValue() < filteredDictInstances.size() ? to.intValue() : filteredDictInstances.size() - 1));
         return result;
     }
 

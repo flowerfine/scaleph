@@ -61,7 +61,7 @@ public class SysDictTypeServiceImpl implements SysDictTypeService {
             return true;
         }).collect(Collectors.toList());
 
-        Page<DictType> result = new Page<>(filteredDictTypes.size(), param.getCurrent(), param.getPageSize());
+        Page<DictType> result = new Page<>(param.getCurrent(), param.getPageSize(), filteredDictTypes.size());
         Long from = (param.getCurrent() - 1) * param.getPageSize();
         Long to = from + param.getPageSize();
         if (from >= filteredDictTypes.size()) {
@@ -69,7 +69,7 @@ public class SysDictTypeServiceImpl implements SysDictTypeService {
             return result;
         }
 
-        result.setRecords(filteredDictTypes.subList(from.intValue(), to.intValue()));
+        result.setRecords(filteredDictTypes.subList(from.intValue(), to.intValue() < filteredDictTypes.size() ? to.intValue() : filteredDictTypes.size() - 1));
         return result;
     }
 
