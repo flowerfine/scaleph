@@ -1,13 +1,12 @@
-import { Dict } from '@/app.d';
-import { DICT_TYPE, PRIVILEGE_CODE } from '@/constant';
-import { DictDataService } from '@/services/admin/dictData.service';
-import { FlinkReleaseService } from '@/services/resource/flinkRelease.service';
-import { FlinkRelease } from '@/services/resource/typings';
-import { DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
-import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
-import { Button, message, Modal, Select, Space, Tooltip } from 'antd';
-import { useEffect, useRef, useState } from 'react';
-import { useAccess, useIntl } from 'umi';
+import {useAccess, useIntl} from 'umi';
+import {useRef, useState} from 'react';
+import {Button, message, Modal, Space, Tooltip} from 'antd';
+import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
+import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
+import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
+import {DictDataService} from '@/services/admin/dictData.service';
+import {FlinkReleaseService} from '@/services/resource/flinkRelease.service';
+import {FlinkRelease} from '@/services/resource/typings';
 import FlinkReleaseForm from './components/FlinkReleaseForm';
 
 const FlinkReleaseResource: React.FC = () => {
@@ -16,75 +15,51 @@ const FlinkReleaseResource: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<FlinkRelease[]>([]);
-  const [flinkVersionList, setFlinkVersionList] = useState<Dict[]>([]);
   const [flinkReleaseFormData, setFlinkReleaseData] = useState<{
     visiable: boolean;
     data: FlinkRelease;
-  }>({ visiable: false, data: {} });
-
-  useEffect(() => {
-    DictDataService.listDictDataByType2(DICT_TYPE.flinkVersion).then((d) => {
-      setFlinkVersionList(d);
-    });
-  }, []);
+  }>({visiable: false, data: {}});
 
   const tableColumns: ProColumns<FlinkRelease>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.resource.flinkRelease.version' }),
+      title: intl.formatMessage({id: 'pages.resource.flinkRelease.version'}),
       dataIndex: 'version',
       render: (text, record, index) => {
         return record.version?.label;
       },
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
-        return (
-          <Select
-            showSearch={true}
-            allowClear={true}
-            optionFilterProp="label"
-            filterOption={(input, option) =>
-              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-            }
-          >
-            {flinkVersionList.map((item) => {
-              return (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        );
+      request: (params, props) => {
+        return DictDataService.listDictDataByType2(DICT_TYPE.flinkVersion)
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.fileName' }),
+      title: intl.formatMessage({id: 'pages.resource.fileName'}),
       dataIndex: 'fileName',
       width: 280,
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.path' }),
+      title: intl.formatMessage({id: 'pages.resource.path'}),
       dataIndex: 'path',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.remark' }),
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.createTime' }),
+      title: intl.formatMessage({id: 'app.common.data.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.updateTime' }),
+      title: intl.formatMessage({id: 'app.common.data.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'app.common.operate.label' }),
+      title: intl.formatMessage({id: 'app.common.operate.label'}),
       dataIndex: 'actions',
       align: 'center',
       width: 120,
@@ -94,45 +69,39 @@ const FlinkReleaseResource: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDownload) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.download.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.download.label'})}>
                 <Button
                   shape="default"
                   type="link"
                   icon={<DownloadOutlined></DownloadOutlined>}
-                  onClick={() => {
-                    FlinkReleaseService.download(record);
-                  }}
-                ></Button>
+                  onClick={() => FlinkReleaseService.download(record)}
+                />
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DeleteOutlined />}
+                  icon={<DeleteOutlined/>}
                   onClick={() => {
                     Modal.confirm({
-                      title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                      content: intl.formatMessage({
-                        id: 'app.common.operate.delete.confirm.content',
-                      }),
-                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                      okButtonProps: { danger: true },
-                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                      content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
+                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                      okButtonProps: {danger: true},
+                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
                         FlinkReleaseService.deleteOne(record).then((d) => {
                           if (d.success) {
-                            message.success(
-                              intl.formatMessage({ id: 'app.common.operate.delete.success' }),
-                            );
+                            message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
                           }
                         });
                       },
                     });
                   }}
-                ></Button>
+                />
               </Tooltip>
             )}
           </Space>
@@ -146,7 +115,7 @@ const FlinkReleaseResource: React.FC = () => {
       <ProTable<FlinkRelease>
         search={{
           labelWidth: 'auto',
-          span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
+          span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
         }}
         rowKey="id"
         actionRef={actionRef}
@@ -162,11 +131,9 @@ const FlinkReleaseResource: React.FC = () => {
               <Button
                 key="new"
                 type="primary"
-                onClick={() => {
-                  setFlinkReleaseData({ visiable: true, data: {} });
-                }}
+                onClick={() => setFlinkReleaseData({visiable: true, data: {}})}
               >
-                {intl.formatMessage({ id: 'app.common.operate.upload.label' })}
+                {intl.formatMessage({id: 'app.common.operate.upload.label'})}
               </Button>
             ),
             access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
@@ -176,19 +143,15 @@ const FlinkReleaseResource: React.FC = () => {
                 disabled={selectedRows.length < 1}
                 onClick={() => {
                   Modal.confirm({
-                    title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                    content: intl.formatMessage({
-                      id: 'app.common.operate.delete.confirm.content',
-                    }),
-                    okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                    okButtonProps: { danger: true },
-                    cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                    title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                    content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
+                    okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                    okButtonProps: {danger: true},
+                    cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
                       FlinkReleaseService.deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
-                          message.success(
-                            intl.formatMessage({ id: 'app.common.operate.delete.success' }),
-                          );
+                          message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();
                         }
                       });
@@ -196,12 +159,12 @@ const FlinkReleaseResource: React.FC = () => {
                   });
                 }}
               >
-                {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
+                {intl.formatMessage({id: 'app.common.operate.delete.label'})}
               </Button>
             ),
           ],
         }}
-        pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
+        pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
         rowSelection={{
           fixed: true,
           onChange(selectedRowKeys, selectedRows, info) {
@@ -210,15 +173,15 @@ const FlinkReleaseResource: React.FC = () => {
         }}
         tableAlertRender={false}
         tableAlertOptionRender={false}
-      ></ProTable>
+      />
       {flinkReleaseFormData.visiable && (
         <FlinkReleaseForm
           visible={flinkReleaseFormData.visiable}
           onCancel={() => {
-            setFlinkReleaseData({ visiable: false, data: {} });
+            setFlinkReleaseData({visiable: false, data: {}});
           }}
           onVisibleChange={(visiable) => {
-            setFlinkReleaseData({ visiable: visiable, data: {} });
+            setFlinkReleaseData({visiable: visiable, data: {}});
             actionRef.current?.reload();
           }}
           data={flinkReleaseFormData.data}
