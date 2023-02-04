@@ -1,10 +1,10 @@
-import {PRIVILEGE_CODE} from '@/constant';
-import {ResourceJarService} from '@/services/resource/jar.service';
+import {useAccess, useIntl} from 'umi';
+import {useRef, useState} from 'react';
+import {Button, message, Modal, Space, Tooltip} from 'antd';
 import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, message, Modal, Space, Tooltip} from 'antd';
-import {useRef, useState} from 'react';
-import {useAccess, useIntl} from 'umi';
+import {PRIVILEGE_CODE} from '@/constant';
+import {ResourceJarService} from '@/services/resource/jar.service';
 import {Kerberos} from "@/pages/Resource/typings";
 import {KerberosService} from "@/pages/Resource/KerberosService";
 import KerberosForm from "@/pages/Resource/Kerberos/components/KerberosForm";
@@ -40,18 +40,18 @@ const KerberosResource: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.remark'}),
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.createTime'}),
+      title: intl.formatMessage({id: 'app.common.data.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.updateTime'}),
+      title: intl.formatMessage({id: 'app.common.data.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
@@ -92,9 +92,7 @@ const KerberosResource: React.FC = () => {
                       onOk() {
                         KerberosService.deleteOne(record).then((d) => {
                           if (d.success) {
-                            message.success(
-                              intl.formatMessage({id: 'app.common.operate.delete.success'}),
-                            );
+                            message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
                           }
                         });
@@ -151,9 +149,7 @@ const KerberosResource: React.FC = () => {
                     onOk() {
                       ResourceJarService.deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
-                          message.success(
-                            intl.formatMessage({id: 'app.common.operate.delete.success'}),
-                          );
+                          message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();
                         }
                       });

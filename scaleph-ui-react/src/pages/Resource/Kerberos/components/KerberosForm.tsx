@@ -1,10 +1,10 @@
-import {ModalFormProps} from '@/app.d';
-import {UploadOutlined} from '@ant-design/icons';
-import {Form, message, Modal, UploadFile} from 'antd';
-import {useState} from 'react';
 import {useIntl} from 'umi';
-import {Kerberos, KerberosUploadParam} from "@/pages/Resource/typings";
+import {useState} from 'react';
+import {Form, message, Modal, UploadFile} from 'antd';
+import {UploadOutlined} from '@ant-design/icons';
 import {ProForm, ProFormText, ProFormUploadButton} from '@ant-design/pro-components';
+import {ModalFormProps} from '@/app.d';
+import {Kerberos, KerberosUploadParam} from "@/pages/Resource/typings";
 import {KerberosService} from "@/pages/Resource/KerberosService";
 
 const KerberosForm: React.FC<ModalFormProps<Kerberos>> = ({data, visible, onVisibleChange, onCancel}) => {
@@ -89,7 +89,7 @@ const KerberosForm: React.FC<ModalFormProps<Kerberos>> = ({data, visible, onVisi
         />
         <ProFormText
           name="remark"
-          label={intl.formatMessage({id: 'pages.resource.remark'})}
+          label={intl.formatMessage({id: 'app.common.data.remark'})}
           rules={[{max: 200}]}
         />
       </ProForm>
