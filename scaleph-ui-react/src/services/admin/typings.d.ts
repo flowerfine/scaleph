@@ -12,21 +12,18 @@ export type SysDictTypeParam = QueryParam & {
 };
 
 export type SysDictData = {
-  id?: number;
+  key: string,
   dictType?: SysDictType;
-  dictCode?: string;
-  dictValue?: string;
+  value?: string;
+  label?: string;
   remark?: string;
-  isValid?: string;
-  createTime?: Date;
-  updateTime?: Date;
+  valid?: boolean;
 };
 
 export type SysDictDataParam = QueryParam & {
-  dictTypeCode?: string;
-  dictCode?: string;
-  dictValue?: string;
-  isValid?: string;
+  dictType?: string;
+  value?: string;
+  label?: string;
 };
 
 export type SecRole = {

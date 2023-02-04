@@ -20,14 +20,11 @@ package cn.sliew.scaleph.system.service.impl;
 
 import cn.sliew.scaleph.common.dict.DictInstance;
 import cn.sliew.scaleph.common.dict.DictType;
-import cn.sliew.scaleph.dao.entity.master.system.SysDict;
 import cn.sliew.scaleph.dao.mapper.master.system.SysDictMapper;
 import cn.sliew.scaleph.system.service.SysDictService;
 import cn.sliew.scaleph.system.service.SysDictTypeService;
-import cn.sliew.scaleph.system.service.convert.SysDictConvert;
 import cn.sliew.scaleph.system.service.dto.SysDictDTO;
 import cn.sliew.scaleph.system.service.param.SysDictParam;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,8 +56,7 @@ public class SysDictServiceImpl implements SysDictService {
         return EnumUtils.getEnumList(type.getInstanceClass());
     }
 
-    @Override
-    public List<DictInstance> selectAll() {
+    private List<DictInstance> selectAll() {
         List<DictType> dictTypes = sysDictTypeService.selectAll();
         return dictTypes.stream()
                 .flatMap(dictType -> selectByType(dictType).stream())
@@ -68,9 +64,16 @@ public class SysDictServiceImpl implements SysDictService {
     }
 
     @Override
-    public Page<DictInstance> listByPage(SysDictParam param) {
-        List<DictInstance> dictInstances = param.getDictType() != null ? selectByType(param.getDictType()) : selectAll();
-        List<DictInstance> filteredDictInstances = dictInstances.stream().filter(dictInstance -> {
+    public Page<SysDictDTO> listByPage(SysDictParam param) {
+        List<SysDictDTO> dictInstances;
+        if (param.getDictType() != null) {
+            dictInstances = convert(param.getDictType());
+        } else {
+            dictInstances = sysDictTypeService.selectAll().stream()
+                    .flatMap(dictType -> convert(dictType).stream())
+                    .collect(Collectors.toList());
+        }
+        List<SysDictDTO> filteredDictInstances = dictInstances.stream().filter(dictInstance -> {
             if (StringUtils.hasText(param.getValue())) {
                 return dictInstance.getValue().contains(param.getValue());
             }
@@ -82,7 +85,7 @@ public class SysDictServiceImpl implements SysDictService {
             return true;
         }).collect(Collectors.toList());
 
-        Page<DictInstance> result = new Page<>(filteredDictInstances.size(), param.getCurrent(), param.getPageSize());
+        Page<SysDictDTO> result = new Page<>(filteredDictInstances.size(), param.getCurrent(), param.getPageSize());
         Long from = (param.getCurrent() - 1) * param.getPageSize();
         Long to = from + param.getPageSize();
         if (from >= filteredDictInstances.size()) {
@@ -92,5 +95,21 @@ public class SysDictServiceImpl implements SysDictService {
 
         result.setRecords(filteredDictInstances.subList(from.intValue(), to.intValue()));
         return result;
+    }
+
+    private List<SysDictDTO> convert(DictType type) {
+        return selectByType(type).stream()
+                .map(dictInstance -> convert(type, dictInstance))
+                .collect(Collectors.toList());
+    }
+
+    private SysDictDTO convert(DictType type, DictInstance instance) {
+        SysDictDTO dictDTO = new SysDictDTO();
+        dictDTO.setDictType(type);
+        dictDTO.setValue(instance.getValue());
+        dictDTO.setLabel(instance.getLabel());
+        dictDTO.setValid(instance.isValid());
+        dictDTO.setRemark(instance.getRemark());
+        return dictDTO;
     }
 }

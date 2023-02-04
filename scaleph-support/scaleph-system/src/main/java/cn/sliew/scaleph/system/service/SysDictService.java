@@ -20,6 +20,7 @@ package cn.sliew.scaleph.system.service;
 
 import cn.sliew.scaleph.common.dict.DictInstance;
 import cn.sliew.scaleph.common.dict.DictType;
+import cn.sliew.scaleph.system.service.dto.SysDictDTO;
 import cn.sliew.scaleph.system.service.param.SysDictParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -37,7 +38,5 @@ public interface SysDictService {
 
     List<DictInstance> selectByType(DictType type);
 
-    List<DictInstance> selectAll();
-
-    Page<DictInstance> listByPage(SysDictParam param);
+    Page<SysDictDTO> listByPage(SysDictParam param);
 }

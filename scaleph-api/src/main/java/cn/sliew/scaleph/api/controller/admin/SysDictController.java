@@ -24,6 +24,7 @@ import cn.sliew.scaleph.common.dict.DictInstance;
 import cn.sliew.scaleph.common.dict.DictType;
 import cn.sliew.scaleph.system.service.SysDictService;
 import cn.sliew.scaleph.system.service.SysDictTypeService;
+import cn.sliew.scaleph.system.service.dto.SysDictDTO;
 import cn.sliew.scaleph.system.service.param.SysDictParam;
 import cn.sliew.scaleph.system.service.param.SysDictTypeParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -61,8 +62,8 @@ public class SysDictController {
     @GetMapping(path = "/data")
     @ApiOperation(value = "查询数据字典", notes = "分页查询数据字典")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DICT_DATA_SELECT)")
-    public ResponseEntity<Page<DictInstance>> listDict(SysDictParam sysDictParam) {
-        Page<DictInstance> pageDTO = sysDictService.listByPage(sysDictParam);
+    public ResponseEntity<Page<SysDictDTO>> listDict(SysDictParam sysDictParam) {
+        Page<SysDictDTO> pageDTO = sysDictService.listByPage(sysDictParam);
         return new ResponseEntity<>(pageDTO, HttpStatus.OK);
     }
 

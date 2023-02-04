@@ -45,13 +45,13 @@ const Dict: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.dict.dictCode'}),
-      dataIndex: 'dictCode',
+      title: intl.formatMessage({id: 'pages.admin.dict.value'}),
+      dataIndex: 'value',
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.dict.dictValue'}),
-      dataIndex: 'dictValue',
+      title: intl.formatMessage({id: 'pages.admin.dict.label'}),
+      dataIndex: 'label',
       width: 180,
     },
     {
@@ -76,7 +76,7 @@ const Dict: React.FC = () => {
             columns={dictTypeTableColumns}
             request={(params, sorter, filter) => {
               dictDataFormRef.current?.setFieldsValue({
-                dictTypeCode: params.code,
+                dictType: params.code,
               });
               dictDataFormRef.current?.submit();
               return DictTypeService.listDictTypeByPage(params);
@@ -86,8 +86,9 @@ const Dict: React.FC = () => {
               return {
                 onClick: (event) => {
                   dictDataFormRef.current?.setFieldsValue({
-                    dictTypeCode: record.code,
+                    dictType: record.code,
                   });
+                  console.log('SysDictType onRow', dictDataFormRef.current?.getFieldsValue(true))
                   dictDataFormRef.current?.submit();
                 },
               };
@@ -100,7 +101,7 @@ const Dict: React.FC = () => {
           <ProTable<SysDictData>
             headerTitle={intl.formatMessage({id: 'pages.admin.dict.dictData'})}
             search={{filterType: 'light'}}
-            rowKey="id"
+            rowKey="key"
             actionRef={dictDataActionRef}
             formRef={dictDataFormRef}
             options={false}

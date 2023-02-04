@@ -25,6 +25,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.EnumUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -44,14 +45,17 @@ public class DictVO implements Serializable {
     private String label;
 
     public static DictVO toVO(String dictTypeCode, String dictCode) {
-        DictType dictType = DictType.of(dictTypeCode);
-        List<DictInstance> dictInstances = EnumUtils.getEnumList(dictType.getInstanceClass());
-        Optional<DictInstance> optional = dictInstances.stream()
-                .filter(dictInstance -> dictInstance.getValue().equals(dictCode))
-                .findAny();
-        if (optional.isPresent()) {
-            return new DictVO(dictCode, optional.get().getLabel());
+        if (StringUtils.hasText(dictTypeCode) && StringUtils.hasText(dictCode)) {
+            DictType dictType = DictType.of(dictTypeCode);
+            List<DictInstance> dictInstances = EnumUtils.getEnumList(dictType.getInstanceClass());
+            Optional<DictInstance> optional = dictInstances.stream()
+                    .filter(dictInstance -> dictInstance.getValue().equals(dictCode))
+                    .findAny();
+            if (optional.isPresent()) {
+                return new DictVO(dictCode, optional.get().getLabel());
+            }
+            throw new EnumConstantNotPresentException(dictType.getInstanceClass(), dictCode);
         }
-        throw new EnumConstantNotPresentException(dictType.getInstanceClass(), dictCode);
+        return null;
     }
 }
