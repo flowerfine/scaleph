@@ -18,13 +18,11 @@
 
 package cn.sliew.scaleph.system.service;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-
-import cn.sliew.scaleph.system.service.dto.SysDictTypeDTO;
+import cn.sliew.scaleph.common.dict.DictType;
 import cn.sliew.scaleph.system.service.param.SysDictTypeParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import java.util.List;
 
 /**
  * <p>
@@ -36,20 +34,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  */
 public interface SysDictTypeService {
 
-    int insert(SysDictTypeDTO sysDictTypeDTO);
+    Page<DictType> listByPage(SysDictTypeParam sysDictTypeParam);
 
-    int update(SysDictTypeDTO sysDictTypeDTO);
-
-    int deleteById(Long id);
-
-    int deleteBatch(Map<Integer, ? extends Serializable> map);
-
-    SysDictTypeDTO selectOne(Long id);
-
-    SysDictTypeDTO selectOne(String dictTypeCode);
-
-    Page<SysDictTypeDTO> listByPage(SysDictTypeParam sysDictTypeParam);
-
-    List<SysDictTypeDTO> selectAll();
+    List<DictType> selectAll();
 
 }

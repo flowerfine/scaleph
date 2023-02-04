@@ -1,35 +1,29 @@
 import {Dict, QueryParam} from '@/app.d';
 
 export type SysDictType = {
-  id?: number;
-  dictTypeCode?: string;
-  dictTypeName?: string;
+  code: string;
+  name: string;
   remark?: string;
-  createTime?: Date;
-  updateTime?: Date;
 };
 
 export type SysDictTypeParam = QueryParam & {
-  dictTypeCode?: string;
-  dictTypeName?: string;
+  code?: string;
+  name?: string;
 };
 
 export type SysDictData = {
-  id?: number;
+  key: string,
   dictType?: SysDictType;
-  dictCode?: string;
-  dictValue?: string;
+  value?: string;
+  label?: string;
   remark?: string;
-  isValid?: string;
-  createTime?: Date;
-  updateTime?: Date;
+  valid?: boolean;
 };
 
 export type SysDictDataParam = QueryParam & {
-  dictTypeCode?: string;
-  dictCode?: string;
-  dictValue?: string;
-  isValid?: string;
+  dictType?: string;
+  value?: string;
+  label?: string;
 };
 
 export type SecRole = {

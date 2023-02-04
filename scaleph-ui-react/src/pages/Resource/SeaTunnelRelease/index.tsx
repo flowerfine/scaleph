@@ -1,13 +1,12 @@
-import {Dict} from '@/app.d';
+import {history, useAccess, useIntl} from 'umi';
+import {useRef, useState} from 'react';
+import {Button, message, Modal, Space, Tooltip} from 'antd';
+import {DeleteOutlined, DownloadOutlined, FolderOpenOutlined} from '@ant-design/icons';
+import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
 import {DictDataService} from '@/services/admin/dictData.service';
 import {SeatunnelReleaseService} from '@/services/resource/seatunnelRelease.service';
 import {FlinkRelease, SeaTunnelRelease} from '@/services/resource/typings';
-import {DeleteOutlined, DownloadOutlined, FolderOpenOutlined} from '@ant-design/icons';
-import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, message, Modal, Select, Space, Tooltip} from 'antd';
-import {useEffect, useRef, useState} from 'react';
-import {history, useAccess, useIntl} from 'umi';
 import SeaTunnelReleaseForm from './components/SeaTunnelReleaseForm';
 
 const SeaTunnelReleaseResource: React.FC = () => {
@@ -16,7 +15,6 @@ const SeaTunnelReleaseResource: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<FlinkRelease[]>([]);
-  const [seatunnelVersionList, setSeatunnelVersionList] = useState<Dict[]>([]);
   const [seatunnelReleaseFormData, setSeatunnelReleaseData] = useState<{
     visiable: boolean;
     data: SeaTunnelRelease;
@@ -29,26 +27,9 @@ const SeaTunnelReleaseResource: React.FC = () => {
       render: (text, record, index) => {
         return record.version?.label;
       },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
-        return (
-          <Select
-            showSearch={true}
-            allowClear={true}
-            optionFilterProp="label"
-            filterOption={(input, option) =>
-              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-            }
-          >
-            {seatunnelVersionList.map((item) => {
-              return (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        );
-      },
+      request: (params, props) => {
+        return DictDataService.listDictDataByType2(DICT_TYPE.seatunnelVersion)
+      }
     },
     {
       title: intl.formatMessage({id: 'pages.resource.fileName'}),
@@ -61,18 +42,18 @@ const SeaTunnelReleaseResource: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.remark'}),
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.createTime'}),
+      title: intl.formatMessage({id: 'app.common.data.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.resource.updateTime'}),
+      title: intl.formatMessage({id: 'app.common.data.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
@@ -142,12 +123,6 @@ const SeaTunnelReleaseResource: React.FC = () => {
       ),
     },
   ];
-
-  useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.seatunnelVersion).then((d) => {
-      setSeatunnelVersionList(d);
-    });
-  }, []);
 
   return (
     <div>

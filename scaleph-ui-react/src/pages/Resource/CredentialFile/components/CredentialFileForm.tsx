@@ -1,12 +1,10 @@
+import {useIntl} from 'umi';
+import {useState} from 'react';
+import {Form, message, Modal, UploadFile, UploadProps} from 'antd';
+import {ProForm, ProFormUploadDragger} from '@ant-design/pro-components';
 import {ModalFormProps} from '@/app.d';
 import {ClusterCredentialService} from '@/services/resource/clusterCredential.service';
 import {CredentialFileUploadParam} from '@/services/resource/typings';
-import {InboxOutlined} from '@ant-design/icons';
-import {Form, message, Modal, Upload, UploadFile, UploadProps} from 'antd';
-import {useState} from 'react';
-import {useIntl} from 'umi';
-
-const {Dragger} = Upload;
 
 const CredentialFileForm: React.FC<ModalFormProps<{ id: number }>> =
   ({data, visible, onVisibleChange, onCancel}) => {
@@ -69,21 +67,14 @@ const CredentialFileForm: React.FC<ModalFormProps<{ id: number }>> =
           });
         }}
       >
-        <Form form={form} layout="horizontal">
-          <Form.Item>
-            <Dragger {...props}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined/>
-              </p>
-              <p className="ant-upload-text">
-                {intl.formatMessage({id: 'pages.resource.files.upload.tooltip'})}
-              </p>
-              <p className="ant-upload-hint">
-                {intl.formatMessage({id: 'pages.resource.files.upload.hint'})}
-              </p>
-            </Dragger>
-          </Form.Item>
-        </Form>
+        <ProForm form={form} submitter={false}>
+          <ProFormUploadDragger
+            name={"files"}
+            description={intl.formatMessage({id: 'pages.resource.files.upload.hint'})}
+            fieldProps={props}
+            rules={[{required: true}]}
+          />
+        </ProForm>
       </Modal>
     );
   };

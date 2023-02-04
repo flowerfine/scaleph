@@ -20,13 +20,13 @@ const UserForm: React.FC<ModalFormProps<SecUser>> = ({
   const [nationList, setNationList] = useState<Dict[]>([]);
   const [idCardTypeList, setIdCardTypeList] = useState<Dict[]>([]);
   useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.idCardType).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.idCardType).then((d) => {
       setIdCardTypeList(d);
     });
-    DictDataService.listDictDataByType(DICT_TYPE.gender).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.gender).then((d) => {
       setGenderList(d);
     });
-    DictDataService.listDictDataByType(DICT_TYPE.nation).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.nation).then((d) => {
       setNationList(d);
     });
   }, []);

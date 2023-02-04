@@ -1,10 +1,11 @@
 import {useIntl} from "umi";
 import React from "react";
-import {Form, message, Modal} from "antd";
-import {ProForm, ProFormDigit, ProFormText} from "@ant-design/pro-components";
+import {Form, Modal} from "antd";
+import {ProForm, ProFormDigit, ProFormRadio, ProFormText} from "@ant-design/pro-components";
 import {ModalFormProps} from '@/app.d';
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
-import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
+import {DictDataService} from "@/services/admin/dictData.service";
+import {DICT_TYPE} from "@/constant";
 
 const DeploymentForm: React.FC<ModalFormProps<WsFlinkKubernetesDeployment>> = ({
                                                                                  data,
@@ -29,35 +30,7 @@ const DeploymentForm: React.FC<ModalFormProps<WsFlinkKubernetesDeployment>> = ({
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          const metadataData = {
-            ...data.metadata,
-            name: values.name,
-            namespace: values.namespace
-          }
-          const param: WsFlinkKubernetesDeployment = {
-            id: values.id,
-            name: values.name,
-            metadata: metadataData,
-            spec: data.spec ? data.spec : {},
-            remark: values.remark,
-          };
-          data.id
-            ? WsFlinkKubernetesDeploymentService.update(param).then((response) => {
-              if (response.success) {
-                message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
-                if (onVisibleChange) {
-                  onVisibleChange(false);
-                }
-              }
-            })
-            : WsFlinkKubernetesDeploymentService.add(param).then((response) => {
-              if (response.success) {
-                message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
-                if (onVisibleChange) {
-                  onVisibleChange(false);
-                }
-              }
-            });
+          onVisibleChange(false);
         });
       }}
     >
@@ -80,10 +53,11 @@ const DeploymentForm: React.FC<ModalFormProps<WsFlinkKubernetesDeployment>> = ({
           label={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.name'})}
           rules={[{required: true}]}
         />
-        <ProFormText
-          name={"namespace"}
-          label={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.namespace'})}
+        <ProFormRadio.Group
+          name={"type"}
+          label={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.type'})}
           rules={[{required: true}]}
+          request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkJobType)}
         />
         <ProFormText
           name={"remark"}

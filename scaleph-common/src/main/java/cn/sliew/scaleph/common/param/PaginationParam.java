@@ -18,10 +18,6 @@
 
 package cn.sliew.scaleph.common.param;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
@@ -31,12 +27,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author gleiyu
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @ApiModel(description = "分页参数")
 public class PaginationParam implements Serializable {
     private static final long serialVersionUID = -860020632404225667L;
@@ -67,5 +67,14 @@ public class PaginationParam implements Serializable {
         }
         return list;
     }
+
+    public Long getCurrent() {
+        return current == null || current < 1L ? 1L : current;
+    }
+
+    public Long getPageSize() {
+        return pageSize == null || pageSize < 1L ? 10L : pageSize;
+    }
+
 }
 

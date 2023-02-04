@@ -1,29 +1,18 @@
-import { Dict, ModalFormProps } from '@/app.d';
-import { DICT_TYPE } from '@/constant';
-import { DictDataService } from '@/services/admin/dictData.service';
-import { FlinkReleaseService } from '@/services/resource/flinkRelease.service';
-import { FlinkRelease, FlinkReleaseUploadParam } from '@/services/resource/typings';
-import { UploadOutlined } from '@ant-design/icons';
-import { Button, Form, Input, message, Modal, Select, Upload, UploadFile, UploadProps } from 'antd';
-import { useEffect, useState } from 'react';
-import { useIntl } from 'umi';
+import {useIntl} from 'umi';
+import {useState} from 'react';
+import {Form, message, Modal, UploadFile, UploadProps} from 'antd';
+import {ProForm, ProFormDigit, ProFormSelect, ProFormText, ProFormUploadButton} from '@ant-design/pro-components';
+import {ModalFormProps} from '@/app.d';
+import {DICT_TYPE} from '@/constant';
+import {DictDataService} from '@/services/admin/dictData.service';
+import {FlinkReleaseService} from '@/services/resource/flinkRelease.service';
+import {FlinkRelease, FlinkReleaseUploadParam} from '@/services/resource/typings';
 
-const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
-  data,
-  visible,
-  onVisibleChange,
-  onCancel,
-}) => {
+const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({data, visible, onVisibleChange, onCancel}) => {
   const intl = useIntl();
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [uploading, setUploading] = useState(false);
-  const [flinkVersionList, setFlinkVersionList] = useState<Dict[]>([]);
-  useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
-      setFlinkVersionList(d);
-    });
-  }, []);
 
   const props: UploadProps = {
     multiple: false,
@@ -46,10 +35,10 @@ const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
       open={visible}
       title={
         data.id
-          ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-            intl.formatMessage({ id: 'pages.resource.flinkRelease' })
-          : intl.formatMessage({ id: 'app.common.operate.upload.label' }) +
-            intl.formatMessage({ id: 'pages.resource.flinkRelease' })
+          ? intl.formatMessage({id: 'app.common.operate.edit.label'}) +
+          intl.formatMessage({id: 'pages.resource.flinkRelease'})
+          : intl.formatMessage({id: 'app.common.operate.upload.label'}) +
+          intl.formatMessage({id: 'pages.resource.flinkRelease'})
       }
       width={580}
       destroyOnClose={true}
@@ -57,8 +46,8 @@ const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
       confirmLoading={uploading}
       okText={
         uploading
-          ? intl.formatMessage({ id: 'app.common.operate.uploading.label' })
-          : intl.formatMessage({ id: 'app.common.operate.upload.label' })
+          ? intl.formatMessage({id: 'app.common.operate.uploading.label'})
+          : intl.formatMessage({id: 'app.common.operate.upload.label'})
       }
       onOk={() => {
         form.validateFields().then((values) => {
@@ -72,7 +61,7 @@ const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
             .then((response) => {
               if (response.success) {
                 setFileList([]);
-                message.success(intl.formatMessage({ id: 'app.common.operate.upload.success' }));
+                message.success(intl.formatMessage({id: 'app.common.operate.upload.success'}));
               }
             })
             .finally(() => {
@@ -82,51 +71,30 @@ const FlinkReleaseForm: React.FC<ModalFormProps<FlinkRelease>> = ({
         });
       }}
     >
-      <Form form={form} layout="horizontal" labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}>
-        <Form.Item name="id" hidden>
-          <Input></Input>
-        </Form.Item>
-        <Form.Item
+      <ProForm form={form} layout={"horizontal"} submitter={false} labelCol={{span: 6}} wrapperCol={{span: 16}}>
+        <ProFormDigit name="id" hidden/>
+        <ProFormSelect
           name="version"
-          label={intl.formatMessage({ id: 'pages.resource.flinkRelease.version' })}
-          rules={[{ required: true }]}
-        >
-          <Select
-            disabled={data.id ? true : false}
-            showSearch={true}
-            allowClear={true}
-            optionFilterProp="label"
-            filterOption={(input, option) =>
-              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-            }
-          >
-            {flinkVersionList.map((item) => {
-              return (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label={intl.formatMessage({ id: 'pages.resource.file' })}
-          rules={[{ required: true }]}
-        >
-          <Upload {...props}>
-            <Button icon={<UploadOutlined />}>
-              {intl.formatMessage({ id: 'pages.resource.flinkRelease.file' })}
-            </Button>
-          </Upload>
-        </Form.Item>
-        <Form.Item
+          label={intl.formatMessage({id: 'pages.resource.flinkRelease.version'})}
+          rules={[{required: true}]}
+          request={(params, props) => {
+            return DictDataService.listDictDataByType2(DICT_TYPE.flinkVersion)
+          }}
+        />
+        <ProFormUploadButton
+          name={"file"}
+          label={intl.formatMessage({id: 'pages.resource.file'})}
+          title={intl.formatMessage({id: 'pages.resource.flinkRelease.file'})}
+          max={1}
+          fieldProps={props}
+          rules={[{required: true}]}
+        />
+        <ProFormText
           name="remark"
-          label={intl.formatMessage({ id: 'pages.resource.remark' })}
-          rules={[{ max: 200 }]}
-        >
-          <Input></Input>
-        </Form.Item>
-      </Form>
+          label={intl.formatMessage({id: 'app.common.data.remark'})}
+          rules={[{max: 200}]}
+        />
+      </ProForm>
     </Modal>
   );
 };

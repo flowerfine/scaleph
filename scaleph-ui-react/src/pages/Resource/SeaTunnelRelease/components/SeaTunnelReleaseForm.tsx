@@ -1,29 +1,23 @@
-import {Dict, ModalFormProps} from '@/app.d';
+import {history, useIntl} from 'umi';
+import {useState} from 'react';
+import {Form, Modal, UploadFile, UploadProps} from 'antd';
+import {ProForm, ProFormDigit, ProFormSelect, ProFormText, ProFormUploadButton} from '@ant-design/pro-components';
+import {ModalFormProps} from '@/app.d';
 import {DICT_TYPE} from '@/constant';
 import {DictDataService} from '@/services/admin/dictData.service';
 import {SeatunnelReleaseService} from '@/services/resource/seatunnelRelease.service';
 import {SeaTunnelRelease, SeaTunnelReleaseUploadParam} from '@/services/resource/typings';
-import {UploadOutlined} from '@ant-design/icons';
-import {Button, Form, Input, message, Modal, Select, Upload, UploadFile, UploadProps} from 'antd';
-import {useEffect, useState} from 'react';
-import {useIntl, history} from 'umi';
 
 const SeaTunnelReleaseForm: React.FC<ModalFormProps<SeaTunnelRelease>> = ({
                                                                             data,
                                                                             visible,
                                                                             onVisibleChange,
-                                                                            onCancel,
+                                                                            onCancel
                                                                           }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [uploading, setUploading] = useState(false);
-  const [seatunnelVersionList, setSeatunnelVersionList] = useState<Dict[]>([]);
-  useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.seatunnelVersion).then((d) => {
-      setSeatunnelVersionList(d);
-    });
-  }, []);
 
   const props: UploadProps = {
     multiple: false,
@@ -82,51 +76,30 @@ const SeaTunnelReleaseForm: React.FC<ModalFormProps<SeaTunnelRelease>> = ({
         });
       }}
     >
-      <Form form={form} layout="horizontal" labelCol={{span: 6}} wrapperCol={{span: 16}}>
-        <Form.Item name="id" hidden>
-          <Input></Input>
-        </Form.Item>
-        <Form.Item
+      <ProForm form={form} layout={"horizontal"} submitter={false} labelCol={{span: 6}} wrapperCol={{span: 16}}>
+        <ProFormDigit name="id" hidden/>
+        <ProFormSelect
           name="version"
           label={intl.formatMessage({id: 'pages.resource.seatunnelRelease.version'})}
-          rules={[{required: true}, {max: 128}]}
-        >
-          <Select
-            disabled={data.id ? true : false}
-            showSearch={true}
-            allowClear={true}
-            optionFilterProp="label"
-            filterOption={(input, option) =>
-              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-            }
-          >
-            {seatunnelVersionList.map((item) => {
-              return (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label={intl.formatMessage({id: 'pages.resource.file'})}
           rules={[{required: true}]}
-        >
-          <Upload {...props}>
-            <Button icon={<UploadOutlined/>}>
-              {intl.formatMessage({id: 'pages.resource.seatunnelRelease.file'})}
-            </Button>
-          </Upload>
-        </Form.Item>
-        <Form.Item
+          request={(params, props) => {
+            return DictDataService.listDictDataByType2(DICT_TYPE.seatunnelVersion)
+          }}
+        />
+        <ProFormUploadButton
+          name={"file"}
+          label={intl.formatMessage({id: 'pages.resource.file'})}
+          title={intl.formatMessage({id: 'pages.resource.seatunnelRelease.file'})}
+          max={1}
+          fieldProps={props}
+          rules={[{required: true}]}
+        />
+        <ProFormText
           name="remark"
-          label={intl.formatMessage({id: 'pages.resource.remark'})}
+          label={intl.formatMessage({id: 'app.common.data.remark'})}
           rules={[{max: 200}]}
-        >
-          <Input></Input>
-        </Form.Item>
-      </Form>
+        />
+      </ProForm>
     </Modal>
   );
 };

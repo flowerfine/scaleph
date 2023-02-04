@@ -1,11 +1,11 @@
 export default {
-  'pages.admin.dict.dictTypeCode': '字典类型编码',
-  'pages.admin.dict.dictTypeName': '字典类型名称',
+  'pages.admin.dict.code': '字典类型编码',
+  'pages.admin.dict.name': '字典类型名称',
   'pages.admin.dict.remark': '备注',
   'pages.admin.dict.dictType': '字典类型',
   'pages.admin.dict.dictData': '数据字典',
-  'pages.admin.dict.dictCode': '字典编码',
-  'pages.admin.dict.dictValue': '字典值',
+  'pages.admin.dict.value': '字典编码',
+  'pages.admin.dict.label': '字典值',
 
   'pages.admin.user.role': '角色',
   'pages.admin.user.role.roleCode': '角色编码',

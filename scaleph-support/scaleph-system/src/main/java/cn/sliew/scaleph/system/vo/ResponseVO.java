@@ -49,7 +49,7 @@ public class ResponseVO<T> {
      */
     private String errorMessage;
     /**
-     * ErrorShowTypeEnum
+     * @see ErrorShowTypeEnum
      */
     private Integer showType;
 
@@ -105,7 +105,6 @@ public class ResponseVO<T> {
         info.setShowType(showType.getCode());
         return info;
     }
-
 
     @SneakyThrows
     @Override

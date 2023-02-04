@@ -22,7 +22,7 @@ const ClusterInstanceWeb: React.FC = () => {
   }>({ visiable: false });
 
   useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.flinkClusterStatus).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.flinkClusterStatus).then((d) => {
       setClusterStatusList(d);
     });
   }, []);

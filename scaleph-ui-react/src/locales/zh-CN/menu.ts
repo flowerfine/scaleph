@@ -12,7 +12,7 @@ export default {
   'menu.project.cluster.config': '集群配置',
   'menu.project.cluster.instance': '集群实例',
   'menu.project.flink.kubernetes': 'Flink Kuberentes',
-  'menu.project.flink.kubernetes.template': 'Deployment Template',
+  'menu.project.flink.kubernetes.template': 'Template',
   'menu.project.flink.kubernetes.deployment': 'Deployment',
 
   'menu.resource': '资源',

@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.system.service.param;
 
+import cn.sliew.scaleph.common.dict.DictType;
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -26,18 +27,16 @@ import lombok.EqualsAndHashCode;
 /**
  * @author gleiyu
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class SysDictParam extends PaginationParam {
+
     @ApiModelProperty(value = "字典类型编码")
-    private String dictTypeCode;
+    private DictType dictType;
 
     @ApiModelProperty(value = "字典编码")
-    private String dictCode;
+    private String value;
 
     @ApiModelProperty(value = "字典值")
-    private String dictValue;
-
-    @ApiModelProperty(value = "是否有效")
-    private String isValid;
+    private String label;
 }

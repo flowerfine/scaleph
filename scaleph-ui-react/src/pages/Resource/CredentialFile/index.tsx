@@ -1,11 +1,11 @@
+import {history, useAccess, useIntl, useLocation} from 'umi';
+import {useEffect, useRef, useState} from 'react';
+import {Button, message, Modal, Space, Tooltip} from 'antd';
+import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
+import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {PRIVILEGE_CODE} from '@/constant';
 import {ClusterCredentialService} from '@/services/resource/clusterCredential.service';
 import {CredentialFile} from '@/services/resource/typings';
-import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
-import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, message, Modal, Space, Tooltip} from 'antd';
-import {useEffect, useRef, useState} from 'react';
-import {history, useAccess, useIntl, useLocation} from 'umi';
 import CredentialFileForm from './components/CredentialFileForm';
 
 const CredentialFileResource: React.FC = () => {
@@ -78,7 +78,7 @@ const CredentialFileResource: React.FC = () => {
                   onClick={() => {
                     ClusterCredentialService.downloadFile(credentialId, record);
                   }}
-                ></Button>
+                />
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
@@ -104,7 +104,7 @@ const CredentialFileResource: React.FC = () => {
                       },
                     });
                   }}
-                ></Button>
+                />
               </Tooltip>
             )}
           </Space>

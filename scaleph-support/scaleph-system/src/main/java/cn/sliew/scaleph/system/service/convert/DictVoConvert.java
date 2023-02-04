@@ -22,6 +22,8 @@ import cn.sliew.scaleph.system.service.vo.DictVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.Optional;
+
 /**
  * @author gleiyu
  */
@@ -31,11 +33,6 @@ public interface DictVoConvert {
     DictVoConvert INSTANCE = Mappers.getMapper(DictVoConvert.class);
 
     default String toDo(DictVO vo) {
-        if (vo == null) {
-            return null;
-        } else if (vo.getValue() == null) {
-            return "";
-        }
-        return vo.getValue();
+        return Optional.ofNullable(vo).map(DictVO::getValue).orElse(null);
     }
 }

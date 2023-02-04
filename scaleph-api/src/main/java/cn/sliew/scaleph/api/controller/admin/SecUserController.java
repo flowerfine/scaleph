@@ -131,7 +131,7 @@ public class SecUserController {
         //检查验证码
         String authCode = (String) redisUtil.get(loginUser.getUuid());
         redisUtil.delKeys(loginUser.getUuid());
-        if (!StringUtils.isEmpty(authCode) && authCode.equalsIgnoreCase(loginUser.getAuthCode())) {
+        if (StringUtils.hasText(authCode) && authCode.equalsIgnoreCase(loginUser.getAuthCode())) {
             try {
                 //检查用户名密码
                 UsernamePasswordAuthenticationToken authenticationToken =

@@ -1,15 +1,14 @@
-import {ModalFormProps} from '@/app.d';
-import {SeaTunnelConnectorUploadParam} from '@/services/resource/typings';
-import {Form, message, Modal, UploadFile, UploadProps} from 'antd';
-import {useState} from 'react';
 import {useIntl} from 'umi';
+import {useState} from 'react';
+import {Form, message, Modal, UploadFile, UploadProps} from 'antd';
 import {ProForm, ProFormSelect, ProFormUploadButton} from "@ant-design/pro-components";
-import {DictDataService} from "@/services/admin/dictData.service";
+import {ModalFormProps} from '@/app.d';
 import {DICT_TYPE} from "@/constant";
+import {SeaTunnelConnectorUploadParam} from '@/services/resource/typings';
+import {DictDataService} from "@/services/admin/dictData.service";
 import {SeatunnelReleaseService} from "@/services/resource/seatunnelRelease.service";
 
-const ConnectorFileForm: React.FC<ModalFormProps<{ id: number }>> =
-  ({data, visible, onVisibleChange, onCancel}) => {
+const ConnectorFileForm: React.FC<ModalFormProps<{ id: number }>> = ({data, visible, onVisibleChange, onCancel}) => {
     const intl = useIntl();
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState<UploadFile[]>([]);

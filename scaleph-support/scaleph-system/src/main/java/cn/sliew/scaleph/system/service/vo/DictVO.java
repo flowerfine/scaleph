@@ -18,21 +18,25 @@
 
 package cn.sliew.scaleph.system.service.vo;
 
-import java.io.Serializable;
-
-import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.system.cache.DictCache;
+import cn.sliew.scaleph.common.dict.DictInstance;
+import cn.sliew.scaleph.common.dict.DictType;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.EnumUtils;
+import org.springframework.util.StringUtils;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author gleiyu
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @ApiModel(value = "数据字典", description = "数据字典对象，用来前后端枚举值交互")
 public class DictVO implements Serializable {
     private static final long serialVersionUID = 1357098965682678688L;
@@ -41,7 +45,17 @@ public class DictVO implements Serializable {
     private String label;
 
     public static DictVO toVO(String dictTypeCode, String dictCode) {
-        String dictValue = DictCache.getValueByKey(dictTypeCode + Constants.SEPARATOR + dictCode);
-        return new DictVO(dictCode, dictValue);
+        if (StringUtils.hasText(dictTypeCode) && StringUtils.hasText(dictCode)) {
+            DictType dictType = DictType.of(dictTypeCode);
+            List<DictInstance> dictInstances = EnumUtils.getEnumList(dictType.getInstanceClass());
+            Optional<DictInstance> optional = dictInstances.stream()
+                    .filter(dictInstance -> dictInstance.getValue().equals(dictCode))
+                    .findAny();
+            if (optional.isPresent()) {
+                return new DictVO(dictCode, optional.get().getLabel());
+            }
+            throw new EnumConstantNotPresentException(dictType.getInstanceClass(), dictCode);
+        }
+        return null;
     }
 }

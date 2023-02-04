@@ -24,7 +24,7 @@ const DiJobView: React.FC = () => {
   });
 
   useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.jobType).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.jobType).then((d) => {
       setJobTypeList(d);
     });
   }, []);

@@ -1,11 +1,11 @@
+import { useAccess, useIntl } from 'umi';
+import { useRef, useState } from 'react';
+import { Button, message, Modal, Space, Tooltip } from 'antd';
+import { DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
+import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { PRIVILEGE_CODE } from '@/constant';
 import { ResourceJarService } from '@/services/resource/jar.service';
 import { Jar } from '@/services/resource/typings';
-import { DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
-import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
-import { Button, message, Modal, Space, Tooltip } from 'antd';
-import { useRef, useState } from 'react';
-import { useAccess, useIntl } from 'umi';
 import JarForm from './components/JarForm';
 
 const JarResource: React.FC = () => {
@@ -35,18 +35,18 @@ const JarResource: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.remark' }),
+      title: intl.formatMessage({ id: 'app.common.data.remark' }),
       dataIndex: 'remark',
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.createTime' }),
+      title: intl.formatMessage({ id: 'app.common.data.createTime' }),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.resource.updateTime' }),
+      title: intl.formatMessage({ id: 'app.common.data.updateTime' }),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
@@ -67,10 +67,8 @@ const JarResource: React.FC = () => {
                   shape="default"
                   type="link"
                   icon={<DownloadOutlined></DownloadOutlined>}
-                  onClick={() => {
-                    ResourceJarService.download(record);
-                  }}
-                ></Button>
+                  onClick={() => ResourceJarService.download(record)}
+                />
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
@@ -82,25 +80,21 @@ const JarResource: React.FC = () => {
                   onClick={() => {
                     Modal.confirm({
                       title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                      content: intl.formatMessage({
-                        id: 'app.common.operate.delete.confirm.content',
-                      }),
+                      content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
                       okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
                       okButtonProps: { danger: true },
                       cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
                         ResourceJarService.deleteOne(record).then((d) => {
                           if (d.success) {
-                            message.success(
-                              intl.formatMessage({ id: 'app.common.operate.delete.success' }),
-                            );
+                            message.success(intl.formatMessage({ id: 'app.common.operate.delete.success' }));
                             actionRef.current?.reload();
                           }
                         });
                       },
                     });
                   }}
-                ></Button>
+                />
               </Tooltip>
             )}
           </Space>
@@ -130,9 +124,7 @@ const JarResource: React.FC = () => {
               <Button
                 key="new"
                 type="primary"
-                onClick={() => {
-                  setJarData({ visiable: true, data: {} });
-                }}
+                onClick={() => setJarData({ visiable: true, data: {} })}
               >
                 {intl.formatMessage({ id: 'app.common.operate.upload.label' })}
               </Button>
@@ -145,18 +137,14 @@ const JarResource: React.FC = () => {
                 onClick={() => {
                   Modal.confirm({
                     title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                    content: intl.formatMessage({
-                      id: 'app.common.operate.delete.confirm.content',
-                    }),
+                    content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
                     okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
                     okButtonProps: { danger: true },
                     cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                     onOk() {
                       ResourceJarService.deleteBatch(selectedRows).then((d) => {
                         if (d.success) {
-                          message.success(
-                            intl.formatMessage({ id: 'app.common.operate.delete.success' }),
-                          );
+                          message.success(intl.formatMessage({ id: 'app.common.operate.delete.success' }));
                           actionRef.current?.reload();
                         }
                       });
@@ -178,7 +166,7 @@ const JarResource: React.FC = () => {
         }}
         tableAlertRender={false}
         tableAlertOptionRender={false}
-      ></ProTable>
+      />
       {jarFormData.visiable && (
         <JarForm
           visible={jarFormData.visiable}

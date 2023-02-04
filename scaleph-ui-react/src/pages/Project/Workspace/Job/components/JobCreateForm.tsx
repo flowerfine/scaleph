@@ -37,7 +37,7 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
   const [jobType, setJobType] = useState<string>('0');
 
   useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.flinkJobType).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.flinkJobType).then((d) => {
       setJobTypeList(d);
     });
     init(0, jobType);

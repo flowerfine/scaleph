@@ -22,13 +22,13 @@ const FlinkClusterConfigWeb: React.FC = () => {
   const [deployModeList, setDeployModeList] = useState<Dict[]>([]);
 
   useEffect(() => {
-    DictDataService.listDictDataByType(DICT_TYPE.flinkVersion).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.flinkVersion).then((d) => {
       setFlinkVersionList(d);
     });
-    DictDataService.listDictDataByType(DICT_TYPE.flinkResourceProvider).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.flinkResourceProvider).then((d) => {
       setResourceProviderList(d);
     });
-    DictDataService.listDictDataByType(DICT_TYPE.flinkDeploymentMode).then((d) => {
+    DictDataService.listDictDataByType2(DICT_TYPE.flinkDeploymentMode).then((d) => {
       setDeployModeList(d);
     });
   }, []);

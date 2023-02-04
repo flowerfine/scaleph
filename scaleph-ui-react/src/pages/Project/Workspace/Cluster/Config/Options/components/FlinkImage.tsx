@@ -30,7 +30,7 @@ const FlinkImageOptions: React.FC = () => {
           showSearch={false}
           allowClear={false}
           initialValue={"IfNotPresent"}
-          request={() => DictDataService.listDictDataByType(DICT_TYPE.imagePullPolicy)}
+          request={() => DictDataService.listDictDataByType2(DICT_TYPE.imagePullPolicy)}
         />
       </ProFormGroup>
     </ProCard>
