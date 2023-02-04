@@ -19,12 +19,10 @@
 package cn.sliew.scaleph.system.service.impl;
 
 import cn.sliew.scaleph.common.dict.DictType;
-import cn.sliew.scaleph.dao.mapper.master.system.SysDictTypeMapper;
 import cn.sliew.scaleph.system.service.SysDictTypeService;
 import cn.sliew.scaleph.system.service.param.SysDictTypeParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.EnumUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -42,9 +40,6 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SysDictTypeServiceImpl implements SysDictTypeService {
-
-    @Autowired
-    private SysDictTypeMapper sysDictTypeMapper;
 
     @Override
     public Page<DictType> listByPage(SysDictTypeParam param) {

@@ -20,7 +20,6 @@ package cn.sliew.scaleph.system.service.impl;
 
 import cn.sliew.scaleph.common.dict.DictInstance;
 import cn.sliew.scaleph.common.dict.DictType;
-import cn.sliew.scaleph.dao.mapper.master.system.SysDictMapper;
 import cn.sliew.scaleph.system.service.SysDictService;
 import cn.sliew.scaleph.system.service.SysDictTypeService;
 import cn.sliew.scaleph.system.service.dto.SysDictDTO;
@@ -47,20 +46,11 @@ import java.util.stream.Collectors;
 public class SysDictServiceImpl implements SysDictService {
 
     @Autowired
-    private SysDictMapper sysDictMapper;
-    @Autowired
     private SysDictTypeService sysDictTypeService;
 
     @Override
     public List<DictInstance> selectByType(DictType type) {
         return EnumUtils.getEnumList(type.getInstanceClass());
-    }
-
-    private List<DictInstance> selectAll() {
-        List<DictType> dictTypes = sysDictTypeService.selectAll();
-        return dictTypes.stream()
-                .flatMap(dictType -> selectByType(dictType).stream())
-                .collect(Collectors.toList());
     }
 
     @Override
