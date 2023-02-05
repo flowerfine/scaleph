@@ -764,5 +764,6 @@ export default {
   'pages.project.flink.kubernetes.deployment.name': '名称',
   'pages.project.flink.kubernetes.deployment.type': '类型',
   'pages.project.flink.kubernetes.deployment.namespace': 'Namespace',
+  'pages.project.flink.kubernetes.deployment.detail': '详情',
 
 };

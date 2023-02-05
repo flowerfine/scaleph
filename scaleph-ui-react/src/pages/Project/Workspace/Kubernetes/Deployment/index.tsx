@@ -1,7 +1,7 @@
-import {useAccess, useIntl} from "umi";
+import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tooltip} from "antd";
-import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {PRIVILEGE_CODE} from "@/constant";
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
@@ -69,6 +69,18 @@ const FlinkKubernetesDeploymentWeb: React.FC = () => {
                 icon={<EditOutlined/>}
                 onClick={() => {
                   setDeploymentFormData({visiable: true, data: record});
+                }}
+              />
+            </Tooltip>
+          )}
+          {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
+            <Tooltip title={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.detail'})}>
+              <Button
+                shape="default"
+                type="link"
+                icon={<NodeIndexOutlined/>}
+                onClick={() => {
+                  history.push("/workspace/flink/kubernetes/deployment/detail", record)
                 }}
               />
             </Tooltip>

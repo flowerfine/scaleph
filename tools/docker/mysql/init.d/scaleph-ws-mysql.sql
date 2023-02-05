@@ -165,7 +165,7 @@ CREATE TABLE ws_flink_cluster_instance
     update_time             timestamp default current_timestamp on update current_timestamp comment '修改时间',
     PRIMARY KEY (id),
     unique key (project_id, flink_cluster_config_id, name),
-    KEY                     idx_name ( name)
+    KEY idx_name (name)
 ) ENGINE = INNODB COMMENT = 'flink cluster instance';
 
 drop table if exists ws_flink_artifact;
@@ -201,7 +201,7 @@ create table ws_flink_artifact_jar
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key               idx_flink_artifact (flink_artifact_id, version)
+    key idx_flink_artifact (flink_artifact_id, version)
 ) engine = innodb comment = 'flink artifact jar';
 
 drop table if exists ws_flink_job;
@@ -224,10 +224,10 @@ create table ws_flink_job
     update_time               timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key idx_code (code),
-    key                       idx_name ( type, name),
-    key                       idx_flink_artifact ( type, flink_artifact_id),
-    key                       idx_flink_cluster_config (flink_cluster_config_id),
-    key                       idx_flink_cluster_instance (flink_cluster_instance_id)
+    key idx_name (type, name),
+    key idx_flink_artifact (type, flink_artifact_id),
+    key idx_flink_cluster_config (flink_cluster_config_id),
+    key idx_flink_cluster_instance (flink_cluster_instance_id)
 ) engine = innodb comment ='flink作业信息';
 
 drop table if exists ws_flink_job_instance;
@@ -356,3 +356,8 @@ CREATE TABLE ws_flink_kubernetes_deployment
     PRIMARY KEY (id),
     UNIQUE KEY uniq_name (`name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment';
+
+INSERT INTO `ws_flink_kubernetes_deployment`(`id`, `name`, `metadata`, `spec`, `remark`, `creator`, `editor`)
+VALUES (1, 'basic-example', '{\"name\":\"basic-example\",\"namespace\":\"default\"}',
+        '{\"flinkConfiguration\":{\"taskmanager.numberOfTaskSlots\":2,\"execution.checkpointing.interval\":\"10s\",\"execution.checkpointing.timeout\":\"10min\",\"execution.checkpointing.max-concurrent-checkpoints\":\"1\",\"execution.checkpointing.alignment-timeout\":\"10s\",\"state.checkpoints.num-retained\":\"1\",\"kubernetes.operator.savepoint.history.max.count\":\"10\",\"kubernetes.operator.cluster.health-check.restarts.threshold\":\"64\"},\"image\":\"flink:1.13\",\"imagePullPolicy\":\"IfNotPresent\",\"serviceAccount\":\"flink\",\"flinkVersion\":\"v1_13\",\"jobManager\":{\"resource\":{\"cpu\":1,\"memory\":\"2048m\"},\"replicas\":1},\"taskManager\":{\"resource\":{\"cpu\":1,\"memory\":\"2048m\"},\"replicas\":1},\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":2,\"upgradeMode\":\"stateless\"}}',
+        NULL, 'sys', 'sys');
