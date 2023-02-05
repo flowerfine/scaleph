@@ -32,8 +32,8 @@ import java.util.Map;
 @JsonPropertyOrder({"kind", "apiVersion", "metadata", "spec", "status"})
 public class Deployment {
 
-    private final String kind = "Deployment";
-    private final String apiVersion = "v1";
+    private final String kind = Constant.FLINK_DEPLOYMENT;
+    private final String apiVersion = Constant.API_VERSION;
     private DeploymentMetadata metadata;
     private FlinkDeploymentSpec spec;
 
