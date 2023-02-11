@@ -21,21 +21,30 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesDeployment">
-        <result column="id" property="id" />
-        <result column="creator" property="creator" />
-        <result column="create_time" property="createTime" />
-        <result column="editor" property="editor" />
-        <result column="update_time" property="updateTime" />
-        <result column="name" property="name" />
-        <result column="metadata" property="metadata" />
-        <result column="spec" property="spec" />
-        <result column="remark" property="remark" />
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="kind" property="kind"/>
+        <result column="name" property="name"/>
+        <result column="namespace" property="namespace"/>
+        <result column="kuberenetes_options" property="kuberenetesOptions"/>
+        <result column="job_manager" property="jobManager"/>
+        <result column="task_manager" property="taskManager"/>
+        <result column="pod_template" property="podTemplate"/>
+        <result column="flink_configuration" property="flinkConfiguration"/>
+        <result column="deployment_name" property="deploymentName"/>
+        <result column="job" property="job"/>
+        <result column="remark" property="remark"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        `name`, metadata, spec, remark
+        kind, `name`, namespace, kuberenetes_options,
+        job_manager, task_manager, pod_template,
+        flink_configuration, deployment_name, job, remark
     </sql>
 
 </mapper>

@@ -1,7 +1,6 @@
-import { Dict, QueryParam } from '@/app.d';
-import { FlinkArtifactJar, FlinkClusterConfig, FlinkClusterInstance } from '@/services/dev/typings';
-import { UploadFile } from 'antd';
-import { ClusterCredential, FlinkRelease } from '@/services/resource/typings';
+import {Dict, QueryParam} from '@/app.d';
+import {UploadFile} from 'antd';
+import {ClusterCredential, FlinkRelease} from '@/services/resource/typings';
 
 export type WsProject = {
   id?: number;
@@ -276,14 +275,28 @@ export type WsFlinkKubernetesDeploymentTemplateParam = QueryParam & {
 
 export type WsFlinkKubernetesDeployment = {
   id?: number;
-  name?: string;
-  metadata?: Record<string, any>;
-  spec?: Record<string, any>;
+  kind: Dict;
+  name: string;
+  namespace: string;
+  kuberenetesOptions?: KubernetesOptions;
+  jobManager?: Record<string, any>;
+  taskManager?: Record<string, any>;
+  podTemplate?: Record<string, any>;
+  flinkConfiguration?: Record<string, any>;
+  deploymentName?: string;
+  job?: Record<string, any>;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
 };
 
+export type KubernetesOptions = {
+  image?: string;
+  flinkVersion?: string;
+  serviceAccount?: string;
+};
+
 export type WsFlinkKubernetesDeploymentParam = QueryParam & {
+  kind: string
   name?: string;
 };

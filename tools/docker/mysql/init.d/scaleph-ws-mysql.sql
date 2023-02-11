@@ -344,20 +344,59 @@ VALUES (1, 'default', '{\"name\":\"default\",\"namespace\":\"default\"}', '{}', 
 DROP TABLE IF EXISTS ws_flink_kubernetes_deployment;
 CREATE TABLE ws_flink_kubernetes_deployment
 (
-    id          bigint      not null auto_increment,
-    `name`      varchar(64) not null,
-    metadata    text comment 'flink deployment metadata',
-    spec        text comment 'flink deployment spec',
-    remark      varchar(255),
-    creator     varchar(32),
-    create_time datetime    not null default current_timestamp,
-    editor      varchar(32),
-    update_time datetime    not null default current_timestamp on update current_timestamp,
+    id                  bigint       not null auto_increment,
+    kind              varchar(16)  not null,
+    `name`              varchar(255) not null,
+    namespace           varchar(255) not null,
+    kuberenetes_options varchar(255),
+    job_manager         text,
+    task_manager        text,
+    pod_template        text,
+    flink_configuration text,
+    deployment_name     varchar(255),
+    job                 text,
+    remark              varchar(255),
+    creator             varchar(32),
+    create_time         datetime     not null default current_timestamp,
+    editor              varchar(32),
+    update_time         datetime     not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    UNIQUE KEY uniq_name (`name`)
+    UNIQUE KEY uniq_name (kind, `name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment';
 
-INSERT INTO `ws_flink_kubernetes_deployment`(`id`, `name`, `metadata`, `spec`, `remark`, `creator`, `editor`)
-VALUES (1, 'basic-example', '{\"name\":\"basic-example\",\"namespace\":\"default\"}',
-        '{\"flinkConfiguration\":{\"taskmanager.numberOfTaskSlots\":2,\"execution.checkpointing.interval\":\"10s\",\"execution.checkpointing.timeout\":\"10min\",\"execution.checkpointing.max-concurrent-checkpoints\":\"1\",\"execution.checkpointing.alignment-timeout\":\"10s\",\"state.checkpoints.num-retained\":\"1\",\"kubernetes.operator.savepoint.history.max.count\":\"10\",\"kubernetes.operator.cluster.health-check.restarts.threshold\":\"64\"},\"image\":\"flink:1.13\",\"imagePullPolicy\":\"IfNotPresent\",\"serviceAccount\":\"flink\",\"flinkVersion\":\"v1_13\",\"jobManager\":{\"resource\":{\"cpu\":1,\"memory\":\"2048m\"},\"replicas\":1},\"taskManager\":{\"resource\":{\"cpu\":1,\"memory\":\"2048m\"},\"replicas\":1},\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":2,\"upgradeMode\":\"stateless\"}}',
+INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `namespace`, `kuberenetes_options`, `job_manager`,
+                                           `task_manager`, `pod_template`, `flink_configuration`, `deployment_name`,
+                                           `job`, `remark`,
+                                           `creator`, `editor`)
+VALUES (1, 'FlinkDeployment', 'basic-example', 'default',
+        '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
+        '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', NULL,
+        '{\"taskmanager.numberOfTaskSlots\":\"2\"}', NULL,
+        '{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"entryClass\":\"org.apache.flink.streaming.examples.statemachine.StateMachineExample\",\"parallelism\":2,\"upgradeMode\":\"stateless\"}',
+        NULL, 'sys', 'sys');
+
+INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `namespace`, `kuberenetes_options`, `job_manager`,
+                                           `task_manager`, `pod_template`, `flink_configuration`, `deployment_name`,
+                                           `job`, `remark`, `creator`, `editor`)
+VALUES (2, 'FlinkDeployment', 'stateful-example', 'default',
+        '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
+        '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
+        '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
+        '{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/flink-data\",\"name\":\"flink-volume\"}]}],\"volumes\":[{\"emptyDir\":{\"sizeLimit\":\"500Mi\"},\"name\":\"flink-volume\"}]}}',
+        '{\"taskmanager.numberOfTaskSlots\":\"2\",\"state.savepoints.dir\":\"file:///flink-data/savepoints\",\"state.checkpoints.dir\":\"file:///flink-data/checkpoints\",\"high-availability\":\"org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory\",\"high-availability.storageDir\":\"file:///flink-data/ha\"}',
+        NULL,
+        '{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":2,\"entryClass\":\"org.apache.flink.streaming.examples.statemachine.StateMachineExample\",\"args\":[],\"state\":\"running\",\"upgradeMode\":\"last-state\"}',
+        NULL, 'sys', 'sys');
+
+INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `namespace`, `kuberenetes_options`, `job_manager`,
+                                           `task_manager`, `pod_template`, `flink_configuration`, `deployment_name`,
+                                           `job`, `remark`, `creator`, `editor`)
+VALUES (3, 'FlinkDeployment', 'stateful-example2', 'default',
+        '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
+        '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
+        '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
+        '{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/flink-data\",\"name\":\"flink-volume\"}]}],\"volumes\":[{\"hostPath\":{\"path\":\"/tmp/flink\",\"type\":\"DirectoryOrCreate\"},\"name\":\"flink-volume\"}]}}',
+        '{\"taskmanager.numberOfTaskSlots\":\"2\",\"state.savepoints.dir\":\"file:///flink-data/savepoints\",\"state.checkpoints.dir\":\"file:///flink-data/checkpoints\",\"high-availability\":\"org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory\",\"high-availability.storageDir\":\"file:///flink-data/ha\"}',
+        NULL,
+        '{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":2,\"entryClass\":\"org.apache.flink.streaming.examples.statemachine.StateMachineExample\",\"args\":[],\"state\":\"running\",\"upgradeMode\":\"last-state\"}',
         NULL, 'sys', 'sys');
