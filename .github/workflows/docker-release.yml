@@ -67,3 +67,20 @@ jobs:
             -t ${{ env.HUB }}/scaleph-ui-react:${{ github.sha }} \
             -t ${{ env.HUB }}/scaleph-ui-react:latest \
             .
+      - name: Build mysql image
+        run: |
+          docker build \
+            --no-cache \
+            -f tools/docker/build/mysql/Dockerfile \
+            -t ${{ env.HUB }}/mysql:${{ github.sha }} \
+            -t ${{ env.HUB }}/mysql:latest \
+            .
+      - name: Push mysql image
+        run: |
+          docker buildx build \
+            --no-cache \
+            --push \
+            -f tools/docker/build/mysql/Dockerfile \
+            -t ${{ env.HUB }}/mysql:${{ github.sha }} \
+            -t ${{ env.HUB }}/mysql:latest \
+            .
