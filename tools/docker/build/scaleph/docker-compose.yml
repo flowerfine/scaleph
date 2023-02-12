@@ -34,9 +34,6 @@ services:
   scaleph-ui:
     image: scaleph/scaleph-ui-react:dev
     container_name: scaleph-ui-react
-#    depends_on:
-#      scaleph-api:
-#        condition: service_healthy
     build:
       context: ../../../../
       dockerfile: tools/docker/build/scaleph-ui-react/Dockerfile
@@ -48,8 +45,11 @@ services:
       - scaleph
 
   mysql:
-    image: bitnami/mysql:8.0
+    image: scaleph/mysql:dev
     container_name: mysql
+    build:
+      context: ../../../../
+      dockerfile: tools/docker/build/mysql/Dockerfile
     environment:
       - TZ=Asia/Shanghai
       - MYSQL_ROOT_USER=root
@@ -58,9 +58,6 @@ services:
       - MYSQL_DATABASE=scaleph
     ports:
       - 3306:3306
-    volumes:
-      - ../../mysql/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
-      - ../../mysql/init.d:/docker-entrypoint-initdb.d
     networks:
       - scaleph
 
