@@ -18,26 +18,54 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
+import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import com.fasterxml.jackson.databind.JsonNode;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
+import io.fabric8.kubernetes.api.model.Pod;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.Map;
 
 @Data
 @EqualsAndHashCode
 @ApiModel(value = "WsFlinkKubernetesDeployment对象", description = "flink kubernetes deployment")
 public class WsFlinkKubernetesDeploymentDTO extends BaseDTO {
 
+    @ApiModelProperty("kind")
+    private DeploymentKind kind;
+
     @ApiModelProperty("name")
     private String name;
 
-    @ApiModelProperty("flink deployment metadata")
-    private JsonNode metadata;
+    @ApiModelProperty("namespace")
+    private String namespace;
 
-    @ApiModelProperty("flink deployment spec")
-    private JsonNode spec;
+    @ApiModelProperty("kubernetes options")
+    private KubernetesOptionsVO kuberenetesOptions;
+
+    @ApiModelProperty("job manager spec")
+    private JobManagerSpec jobManager;
+
+    @ApiModelProperty("task manager spec")
+    private TaskManagerSpec taskManager;
+
+    @ApiModelProperty("pod template")
+    private Pod podTemplate;
+
+    @ApiModelProperty("flink configuration")
+    private Map<String, String> flinkConfiguration;
+
+    @ApiModelProperty("deployment name for session job")
+    private String deploymentName;
+
+    @ApiModelProperty("job spec")
+    private JobSpec job;
 
     @ApiModelProperty("remark")
     private String remark;

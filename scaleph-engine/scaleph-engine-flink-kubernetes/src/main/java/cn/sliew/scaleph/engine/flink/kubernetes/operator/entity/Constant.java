@@ -16,17 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.entity;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+public enum Constant {
+    ;
 
-@SpringBootTest(classes = Application.class)
-@ActiveProfiles("dev")
-public class ApplicationTest {
-
-    protected static final Logger log = LoggerFactory.getLogger(ApplicationTest.class);
+    public static final String API_VERSION = "flink.apache.org/v1beta1";
+    public static final String FLINK_DEPLOYMENT = "FlinkDeployment";
+    public static final String FLINK_SESSION_JOB = "FlinkSessionJob";
 
 }

@@ -1,12 +1,13 @@
-import {useAccess, useIntl} from "umi";
+import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tooltip} from "antd";
-import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {PRIVILEGE_CODE} from "@/constant";
+import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
+import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
+import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from "@ant-design/pro-components";
+import {DICT_TYPE, PRIVILEGE_CODE} from "@/constant";
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
 import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
 import DeploymentForm from "@/pages/Project/Workspace/Kubernetes/Deployment/DeploymentForm";
+import {DictDataService} from "@/services/admin/dictData.service";
 
 const FlinkKubernetesDeploymentWeb: React.FC = () => {
   const intl = useIntl();
@@ -21,18 +22,32 @@ const FlinkKubernetesDeploymentWeb: React.FC = () => {
 
   const tableColumns: ProColumns<WsFlinkKubernetesDeployment>[] = [
     {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.kind'}),
+      dataIndex: 'kind',
+      width: 200,
+      render: (dom, entity) => {
+        return (<Tag>{entity.kind?.label}</Tag>)
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.deploymentKind)}
+          />
+        );
+      }
+    },
+    {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.name'}),
       dataIndex: 'name',
       width: 200,
     },
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.namespace'}),
-      dataIndex: 'name.metadata.namespace',
+      dataIndex: 'namespace',
       hideInSearch: true,
-      width: 200,
-      render: (dom, entity, index, action, schema) => {
-        return entity.metadata?.namespace;
-      }
+      width: 200
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
@@ -69,6 +84,18 @@ const FlinkKubernetesDeploymentWeb: React.FC = () => {
                 icon={<EditOutlined/>}
                 onClick={() => {
                   setDeploymentFormData({visiable: true, data: record});
+                }}
+              />
+            </Tooltip>
+          )}
+          {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
+            <Tooltip title={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.detail'})}>
+              <Button
+                shape="default"
+                type="link"
+                icon={<NodeIndexOutlined/>}
+                onClick={() => {
+                  history.push("/workspace/flink/kubernetes/deployment/detail", record)
                 }}
               />
             </Tooltip>

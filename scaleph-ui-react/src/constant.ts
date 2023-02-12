@@ -43,6 +43,8 @@ export const DICT_TYPE = {
   seatunnelPluginName: 'seatunnel_plugin_name',
   imagePullPolicy: 'image_pull_policy',
 
+  deploymentKind: 'deployment_kind',
+
 
 };
 

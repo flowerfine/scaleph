@@ -45,6 +45,7 @@ public class WsFlinkKubernetesDeploymentServiceImpl implements WsFlinkKubernetes
         Page<WsFlinkKubernetesDeployment> page = wsFlinkKubernetesDeploymentMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(WsFlinkKubernetesDeployment.class)
+                        .eq(param.getKind() != null, WsFlinkKubernetesDeployment::getKind, param.getKind())
                         .like(StringUtils.hasText(param.getName()), WsFlinkKubernetesDeployment::getName, param.getName()));
         Page<WsFlinkKubernetesDeploymentDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());

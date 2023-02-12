@@ -18,11 +18,11 @@
 
 package cn.sliew.scaleph.dao.entity.master.ws;
 
+import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -39,16 +39,35 @@ public class WsFlinkKubernetesDeployment extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField("`kind`")
+    private DeploymentKind kind;
+
     @TableField("`name`")
     private String name;
 
-    @ApiModelProperty("flink deployment metadata")
-    @TableField("metadata")
-    private String metadata;
+    @TableField("namespace")
+    private String namespace;
 
-    @ApiModelProperty("flink deployment spec")
-    @TableField("spec")
-    private String spec;
+    @TableField("kuberenetes_options")
+    private String kuberenetesOptions;
+
+    @TableField("job_manager")
+    private String jobManager;
+
+    @TableField("task_manager")
+    private String taskManager;
+
+    @TableField("pod_template")
+    private String podTemplate;
+
+    @TableField("flink_configuration")
+    private String flinkConfiguration;
+
+    @TableField("deployment_name")
+    private String deploymentName;
+
+    @TableField("job")
+    private String job;
 
     @TableField("remark")
     private String remark;
