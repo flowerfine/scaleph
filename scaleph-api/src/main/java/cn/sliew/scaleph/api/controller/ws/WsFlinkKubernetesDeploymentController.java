@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesDeploymentService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentListParam;
@@ -56,6 +57,14 @@ public class WsFlinkKubernetesDeploymentController {
     @ApiOperation(value = "查询 Deployment", notes = "查询 Deployment")
     public ResponseEntity<ResponseVO<WsFlinkKubernetesDeploymentDTO>> selectOne(@PathVariable("id") Long id) {
         WsFlinkKubernetesDeploymentDTO dto = wsFlinkKubernetesDeploymentService.selectOne(id);
+        return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("/asYaml/{id}")
+    @ApiOperation(value = "查询 YAML 格式 Deployment", notes = "查询 YAML 格式 Deployment")
+    public ResponseEntity<ResponseVO<FlinkDeployment>> asYaml(@PathVariable("id") Long id) {
+        FlinkDeployment dto = wsFlinkKubernetesDeploymentService.asYaml(id);
         return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
     }
 

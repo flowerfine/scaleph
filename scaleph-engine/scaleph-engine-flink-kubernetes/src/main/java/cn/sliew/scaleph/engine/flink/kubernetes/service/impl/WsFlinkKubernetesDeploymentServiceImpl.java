@@ -20,12 +20,18 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesDeployment;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesDeploymentMapper;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.FlinkDeployment;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesDeploymentService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesDeploymentConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentListParam;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -59,6 +65,27 @@ public class WsFlinkKubernetesDeploymentServiceImpl implements WsFlinkKubernetes
         WsFlinkKubernetesDeployment record = wsFlinkKubernetesDeploymentMapper.selectById(id);
         checkState(record != null, () -> "flink kubernetes deployment not exist for id = " + id);
         return WsFlinkKubernetesDeploymentConvert.INSTANCE.toDto(record);
+    }
+
+    @Override
+    public FlinkDeployment asYaml(Long id) {
+        WsFlinkKubernetesDeploymentDTO dto = selectOne(id);
+        FlinkDeployment deployment = new FlinkDeployment();
+        ObjectMetaBuilder builder = new ObjectMetaBuilder(true);
+        builder.withName(dto.getName()).withNamespace(dto.getNamespace());
+        deployment.setMetadata(builder.build());
+        FlinkDeploymentSpec spec = new FlinkDeploymentSpec();
+        KubernetesOptionsVO kuberenetesOptions = dto.getKuberenetesOptions();
+        spec.setImage(kuberenetesOptions.getImage());
+        spec.setServiceAccount(kuberenetesOptions.getServiceAccount());
+        spec.setFlinkVersion(EnumUtils.getEnum(FlinkVersion.class, kuberenetesOptions.getFlinkVersion()));
+        spec.setFlinkConfiguration(dto.getFlinkConfiguration());
+        spec.setJobManager(dto.getJobManager());
+        spec.setTaskManager(dto.getTaskManager());
+        spec.setPodTemplate(dto.getPodTemplate());
+        spec.setJob(dto.getJob());
+        deployment.setSpec(spec);
+        return deployment;
     }
 
     @Override

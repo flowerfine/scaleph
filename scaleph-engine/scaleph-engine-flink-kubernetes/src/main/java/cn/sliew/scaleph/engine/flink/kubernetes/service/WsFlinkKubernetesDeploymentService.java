@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -29,6 +30,8 @@ public interface WsFlinkKubernetesDeploymentService {
     Page<WsFlinkKubernetesDeploymentDTO> list(WsFlinkKubernetesDeploymentListParam param);
 
     WsFlinkKubernetesDeploymentDTO selectOne(Long id);
+
+    FlinkDeployment asYaml(Long id);
 
     int insert(WsFlinkKubernetesDeploymentDTO dto);
 
