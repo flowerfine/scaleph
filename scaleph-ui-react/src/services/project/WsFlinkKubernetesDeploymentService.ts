@@ -26,6 +26,12 @@ export const WsFlinkKubernetesDeploymentService = {
     });
   },
 
+  asYaml: async (id: number) => {
+    return request<ResponseBody<WsFlinkKubernetesDeployment>>(`${WsFlinkKubernetesDeploymentService.url}/asYaml/` + id, {
+      method: 'GET',
+    });
+  },
+
   add: async (row: WsFlinkKubernetesDeployment) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesDeploymentService.url}`, {
       method: 'PUT',
