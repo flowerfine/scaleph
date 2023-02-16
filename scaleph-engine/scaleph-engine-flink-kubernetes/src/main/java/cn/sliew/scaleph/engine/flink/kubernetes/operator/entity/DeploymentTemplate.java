@@ -16,23 +16,35 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.entity;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.entity.Constant;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import io.fabric8.kubernetes.api.model.ObjectMeta;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Map;
+
 @Data
 @EqualsAndHashCode
-@JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec"})
-public class FlinkDeployment {
+@JsonPropertyOrder({"apiVersion", "kind",  "metadata", "spec", "status"})
+public class DeploymentTemplate {
 
     private final String apiVersion = Constant.API_VERSION;
     private final String kind = Constant.FLINK_DEPLOYMENT;
-    private ObjectMeta metadata;
+    private DeploymentTemplateMetadata metadata;
     private FlinkDeploymentSpec spec;
 
+    @Data
+    @EqualsAndHashCode
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonPropertyOrder({"name", "namespace", "labels", "annotations"})
+    public static final class DeploymentTemplateMetadata {
+
+        private String name;
+        private String namespace;
+        private Map<String, String> labels;
+        private Map<String, String> annotations;
+    }
 }

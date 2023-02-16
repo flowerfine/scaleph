@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.FlinkDeployment;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesDeploymentService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentListParam;
@@ -98,6 +98,34 @@ public class WsFlinkKubernetesDeploymentController {
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) {
         wsFlinkKubernetesDeploymentService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @PostMapping("/run/{id}")
+    @ApiOperation(value = "运行 Deployment", notes = "运行 Deployment")
+    public ResponseEntity<ResponseVO> run(@PathVariable("id") Long id) throws Exception {
+        wsFlinkKubernetesDeploymentService.run(id);
+        return new ResponseEntity(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @PostMapping("/suspend/{id}")
+    @ApiOperation(value = "暂停 Deployment", notes = "暂停 Deployment")
+    public ResponseEntity<ResponseVO> suspend(@PathVariable("id") Long id) throws Exception {
+        wsFlinkKubernetesDeploymentService.suspend(id);
+        return new ResponseEntity(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @PostMapping("/resume/{id}")
+    @ApiOperation(value = "恢复 Deployment", notes = "恢复 Deployment")
+    public ResponseEntity<ResponseVO> resume(@PathVariable("id") Long id) throws Exception {
+        wsFlinkKubernetesDeploymentService.resume(id);
+        return new ResponseEntity(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @PostMapping("/shutdown/{id}")
+    @ApiOperation(value = "关闭 Deployment", notes = "关闭 Deployment")
+    public ResponseEntity<ResponseVO> shutdown(@PathVariable("id") Long id) throws Exception {
+        wsFlinkKubernetesDeploymentService.shutdown(id);
+        return new ResponseEntity(ResponseVO.success(), HttpStatus.OK);
     }
 
 }

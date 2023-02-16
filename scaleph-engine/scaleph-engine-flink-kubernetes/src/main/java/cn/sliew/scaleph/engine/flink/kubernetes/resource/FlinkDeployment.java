@@ -20,20 +20,14 @@ package cn.sliew.scaleph.engine.flink.kubernetes.resource;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.entity.Constant;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.fabric8.kubernetes.client.CustomResource;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Date;
-
 @Data
 @EqualsAndHashCode
-@JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec"})
-public class FlinkDeployment implements Resource {
-
-    private FlinkDeploymentMetadata metadata;
-    private FlinkDeploymentSpec spec;
-
+public class FlinkDeployment extends CustomResource<FlinkDeploymentSpec, Void> implements Resource {
+    
     @Override
     public String getKind() {
         return Constant.FLINK_DEPLOYMENT;
@@ -44,44 +38,4 @@ public class FlinkDeployment implements Resource {
         return Constant.API_VERSION;
     }
 
-    @Override
-    public ResourceMetadata getMetadata() {
-        return metadata;
-    }
-
-    @Data
-    @EqualsAndHashCode
-    public static class FlinkDeploymentMetadata implements ResourceMetadata {
-
-        private Long id;
-        private String name;
-        private String namespace;
-        private Date createTime;
-        private Date updateTime;
-
-        @Override
-        public Long getId() {
-            return id;
-        }
-
-        @Override
-        public String getName() {
-            return name;
-        }
-
-        @Override
-        public String getNamespace() {
-            return namespace;
-        }
-
-        @Override
-        public Date getCreateTime() {
-            return createTime;
-        }
-
-        @Override
-        public Date getUpdateTime() {
-            return updateTime;
-        }
-    }
 }

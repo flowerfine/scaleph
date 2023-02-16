@@ -18,12 +18,12 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource;
 
-public interface Resource {
+import io.fabric8.kubernetes.api.model.HasMetadata;
+
+public interface Resource extends HasMetadata {
 
     String getKind();
 
     String getApiVersion();
-
-    ResourceMetadata getMetadata();
 
 }
