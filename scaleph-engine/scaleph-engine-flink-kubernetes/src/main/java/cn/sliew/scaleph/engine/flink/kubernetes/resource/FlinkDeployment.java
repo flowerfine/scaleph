@@ -20,6 +20,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.resource;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.entity.Constant;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -27,6 +28,7 @@ import java.util.Date;
 
 @Data
 @EqualsAndHashCode
+@JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec"})
 public class FlinkDeployment implements Resource {
 
     private FlinkDeploymentMetadata metadata;
