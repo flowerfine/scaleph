@@ -33,8 +33,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.client.Config;
+import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -56,9 +56,7 @@ public class WsFlinkKubernetesDeploymentServiceImpl implements WsFlinkKubernetes
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        client = new KubernetesClientBuilder()
-                .withConfig(Config.autoConfigure("docker-desktop"))
-                .build();
+        client = new DefaultKubernetesClient(Config.autoConfigure("docker-desktop"));
     }
 
     @Override
@@ -140,14 +138,14 @@ public class WsFlinkKubernetesDeploymentServiceImpl implements WsFlinkKubernetes
     public void suspend(Long id) throws Exception {
         FlinkDeployment deployment = asYaml(id);
         deployment.getSpec().getJob().setState(JobState.SUSPENDED);
-        client.resource(deployment).replace();
+        client.resource(deployment).createOrReplace();
     }
 
     @Override
     public void resume(Long id) throws Exception {
         FlinkDeployment deployment = asYaml(id);
         deployment.getSpec().getJob().setState(JobState.RUNNING);
-        client.resource(deployment).replace();
+        client.resource(deployment).createOrReplace();
     }
 
     @Override

@@ -20,14 +20,18 @@ package cn.sliew.scaleph.engine.flink.kubernetes.resource;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.entity.Constant;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.fabric8.kubernetes.client.CustomResource;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode
-public class FlinkDeployment extends CustomResource<FlinkDeploymentSpec, Void> implements Resource {
-    
+@JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec"})
+public class FlinkDeployment extends CustomResource implements Resource {
+
+    private FlinkDeploymentSpec spec;
+
     @Override
     public String getKind() {
         return Constant.FLINK_DEPLOYMENT;
