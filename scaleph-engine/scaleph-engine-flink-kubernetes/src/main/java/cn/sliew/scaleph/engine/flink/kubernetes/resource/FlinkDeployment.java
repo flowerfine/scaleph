@@ -16,36 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.entity;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource;
 
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.entity.Constant;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.fabric8.kubernetes.client.CustomResource;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Map;
-
 @Data
 @EqualsAndHashCode
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonPropertyOrder({"kind", "apiVersion", "metadata", "spec", "status"})
-public class Deployment {
+@JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec"})
+public class FlinkDeployment extends CustomResource implements Resource {
 
-    private final String kind = Constant.FLINK_DEPLOYMENT;
-    private final String apiVersion = Constant.API_VERSION;
-    private DeploymentMetadata metadata;
     private FlinkDeploymentSpec spec;
 
-    @Data
-    @EqualsAndHashCode
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonPropertyOrder({"name", "namespace", "labels", "annotations"})
-    public static final class DeploymentMetadata {
-
-        private String name;
-        private String namespace;
-        private Map<String, String> labels;
-        private Map<String, String> annotations;
+    @Override
+    public String getKind() {
+        return Constant.FLINK_DEPLOYMENT;
     }
+
+    @Override
+    public String getApiVersion() {
+        return Constant.API_VERSION;
+    }
+
 }

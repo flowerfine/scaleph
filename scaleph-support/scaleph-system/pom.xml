@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>scaleph-support</artifactId>
-        <version>1.0.3-SNAPSHOT</version>
+        <version>1.0.3</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>scaleph-system</artifactId>

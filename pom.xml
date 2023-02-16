@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.sliew</groupId>
     <artifactId>scaleph</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
     <packaging>pom</packaging>
     <name>scaleph</name>
     <description>Scaleph System</description>
@@ -147,6 +147,7 @@
         <akka.version>2.5.21</akka.version>
         <protobuf.version>3.21.5</protobuf.version>
         <netty.version>4.1.82.Final</netty.version>
+        <kubernetes.client.version>4.9.2</kubernetes.client.version>
     </properties>
 
     <dependencyManagement>
@@ -554,6 +555,12 @@
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
                 <version>${netty.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.fabric8</groupId>
+                <artifactId>kubernetes-client</artifactId>
+                <version>${kubernetes.client.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

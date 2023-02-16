@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>scaleph-engine</artifactId>
-        <version>1.0.3-SNAPSHOT</version>
+        <version>1.0.3</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>scaleph-engine-flink-kubernetes</artifactId>
@@ -20,7 +20,6 @@
         <dependency>
             <groupId>io.fabric8</groupId>
             <artifactId>kubernetes-client</artifactId>
-            <version>4.9.2</version>
         </dependency>
 
     </dependencies>

@@ -28,11 +28,11 @@ import java.util.Map;
 
 @Data
 @EqualsAndHashCode
-@JsonPropertyOrder({"kind", "apiVersion", "metadata", "spec", "status"})
+@JsonPropertyOrder({"apiVersion", "kind",  "metadata", "spec", "status"})
 public class DeploymentTemplate {
 
-    private final String kind = Constant.FLINK_DEPLOYMENT;
     private final String apiVersion = Constant.API_VERSION;
+    private final String kind = Constant.FLINK_DEPLOYMENT;
     private DeploymentTemplateMetadata metadata;
     private FlinkDeploymentSpec spec;
 

@@ -17,7 +17,7 @@
 services:
 
   scaleph-api:
-    image: ghcr.io/flowerfine/scaleph/scaleph-api:v1.0.2
+    image: ghcr.io/flowerfine/scaleph/scaleph-api:v1.0.3
     container_name: scaleph-api
     depends_on:
       mysql:
@@ -39,7 +39,7 @@ services:
       - scaleph
 
   scaleph-ui-react:
-    image: ghcr.io/flowerfine/scaleph/scaleph-ui-react:v1.0.2
+    image: ghcr.io/flowerfine/scaleph/scaleph-ui-react:v1.0.3
     container_name: scaleph-ui-react
     depends_on:
       scaleph-api:
@@ -52,7 +52,7 @@ services:
       - scaleph
 
   mysql:
-    image: bitnami/mysql:8.0
+    image: ghcr.io/flowerfine/scaleph/mysql:v1.0.3
     container_name: mysql
     environment:
       - TZ=Asia/Shanghai
@@ -69,9 +69,6 @@ services:
       retries: 16
       start_period: 30s
     restart: unless-stopped
-    volumes:
-      - ../../mysql/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
-      - ../../mysql/init.d:/docker-entrypoint-initdb.d
     networks:
       - scaleph
 
@@ -101,32 +98,6 @@ services:
       interval: 30s
       timeout: 20s
       retries: 3
-    networks:
-      - scaleph
-
-  jobmanager:
-    image: apache/flink:1.13.6-scala_2.11
-    container_name: jobmanager
-    environment:
-      FLINK_PROPERTIES: |
-        jobmanager.rpc.address: jobmanager
-    ports:
-      - 8081:8081
-    command: jobmanager
-    networks:
-      - scaleph
-
-  taskmanager:
-    image: apache/flink:1.13.6-scala_2.11
-    container_name: taskmanager
-    depends_on:
-      - jobmanager
-    environment:
-      FLINK_PROPERTIES: |
-        jobmanager.rpc.address: jobmanager
-        taskmanager.numberOfTaskSlots: 8
-    command: taskmanager
-    scale: 1
     networks:
       - scaleph
 
