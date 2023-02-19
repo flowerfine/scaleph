@@ -16,20 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource;
+package cn.sliew.scaleph.common.resource;
 
-import java.util.Date;
+public interface ResourceConverter<S, T extends Resource> {
 
-public interface ResourceMetadata {
+    T convertTo(S source);
 
-    Long getId();
-
-    String getName();
-
-    String getNamespace();
-
-    Date getCreateTime();
-
-    Date getUpdateTime();
-
+    S convertFrom(T target);
 }

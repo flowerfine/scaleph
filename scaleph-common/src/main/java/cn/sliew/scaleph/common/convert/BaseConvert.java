@@ -27,7 +27,6 @@ import java.util.List;
  * @param <D>
  * @author gleiyu
  */
-
 public interface BaseConvert<E, D> {
     /**
      * dto转换为do

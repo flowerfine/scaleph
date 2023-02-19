@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource;
 
+import cn.sliew.scaleph.common.resource.Resource;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.entity.Constant;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
