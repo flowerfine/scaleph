@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.operator.entity;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
+import cn.sliew.scaleph.kubernetes.Constant;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
@@ -28,7 +29,7 @@ import java.util.Map;
 
 @Data
 @EqualsAndHashCode
-@JsonPropertyOrder({"apiVersion", "kind",  "metadata", "spec", "status"})
+@JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec", "status"})
 public class DeploymentTemplate {
 
     private final String apiVersion = Constant.API_VERSION;
