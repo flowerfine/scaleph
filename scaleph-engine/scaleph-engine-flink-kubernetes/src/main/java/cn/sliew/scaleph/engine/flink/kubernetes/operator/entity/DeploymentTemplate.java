@@ -29,7 +29,7 @@ import java.util.Map;
 
 @Data
 @EqualsAndHashCode
-@JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec", "status"})
+@JsonPropertyOrder({"apiVersion", "kind",  "metadata", "spec", "status"})
 public class DeploymentTemplate {
 
     private final String apiVersion = Constant.API_VERSION;
