@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.resource;
+package cn.sliew.scaleph.kubernetes;
 
-import io.fabric8.kubernetes.api.model.HasMetadata;
+public interface ResourceConverter<S, T extends Resource> {
 
-public interface Resource extends HasMetadata {
+    T convertTo(S source);
 
+    S convertFrom(T target);
 }

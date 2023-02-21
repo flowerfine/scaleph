@@ -16,26 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource;
+package cn.sliew.scaleph.engine.flink.resource;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.Resource;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.fabric8.kubernetes.client.CustomResource;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Data
-@EqualsAndHashCode
-@JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec"})
-public class FlinkDeployment extends CustomResource implements Resource {
+import java.util.List;
 
-    private FlinkDeploymentSpec spec;
+@Data
+public class JarArtifact extends CustomResource implements Resource {
+
+    private JarArtifactSpec spec;
 
     @Override
     public String getKind() {
-        return Constant.FLINK_DEPLOYMENT;
+        return Constant.JAR_ARTIFACT;
     }
 
     @Override
@@ -43,4 +41,22 @@ public class FlinkDeployment extends CustomResource implements Resource {
         return Constant.API_VERSION;
     }
 
+    @Data
+    @EqualsAndHashCode
+    public static class JarArtifactSpec {
+
+        private String flinkVersion;
+
+        private String name;
+
+        private String version;
+
+        private String jarUri;
+
+        private String entryClass;
+
+        private String mainArgs;
+
+        private List<String> additionalDependencies;
+    }
 }

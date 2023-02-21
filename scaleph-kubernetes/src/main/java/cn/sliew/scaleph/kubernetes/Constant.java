@@ -16,11 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.resource;
+package cn.sliew.scaleph.kubernetes;
 
-public interface ResourceConverter<S, T extends Resource> {
+public enum Constant {
+    ;
 
-    T convertTo(S source);
+    public static final String API_VERSION = "flink.apache.org/v1beta1";
 
-    S convertFrom(T target);
+    public static final String FLINK_DEPLOYMENT = "FlinkDeployment";
+    public static final String FLINK_SESSION_JOB = "FlinkSessionJob";
+
+    public static final String JAR_ARTIFACT = "JarArtifact";
+
 }
