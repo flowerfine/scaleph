@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.flink.service;
 
 import cn.sliew.scaleph.common.exception.ScalephException;
+import cn.sliew.scaleph.engine.flink.resource.JarArtifact;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -33,6 +34,8 @@ public interface WsFlinkArtifactJarService {
     Page<WsFlinkArtifactJarDTO> list(WsFlinkArtifactJarParam param);
 
     WsFlinkArtifactJarDTO selectOne(Long id);
+
+    JarArtifact asYaml(Long id);
 
     int deleteOne(Long id) throws ScalephException;
 

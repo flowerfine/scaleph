@@ -16,36 +16,47 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.entity;
+package cn.sliew.scaleph.engine.flink.resource;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.kubernetes.Constant;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import cn.sliew.scaleph.kubernetes.Resource;
+import io.fabric8.kubernetes.client.CustomResource;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Map;
+import java.util.List;
 
 @Data
-@EqualsAndHashCode
-@JsonPropertyOrder({"apiVersion", "kind",  "metadata", "spec", "status"})
-public class DeploymentTemplate {
+public class JarArtifact extends CustomResource implements Resource {
 
-    private final String apiVersion = Constant.API_VERSION;
-    private final String kind = Constant.FLINK_DEPLOYMENT;
-    private DeploymentTemplateMetadata metadata;
-    private FlinkDeploymentSpec spec;
+    private JarArtifactSpec spec;
+
+    @Override
+    public String getKind() {
+        return Constant.JAR_ARTIFACT;
+    }
+
+    @Override
+    public String getApiVersion() {
+        return Constant.API_VERSION;
+    }
 
     @Data
     @EqualsAndHashCode
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonPropertyOrder({"name", "namespace", "labels", "annotations"})
-    public static final class DeploymentTemplateMetadata {
+    public static class JarArtifactSpec {
+
+        private String flinkVersion;
 
         private String name;
-        private String namespace;
-        private Map<String, String> labels;
-        private Map<String, String> annotations;
+
+        private String version;
+
+        private String jarUri;
+
+        private String entryClass;
+
+        private String mainArgs;
+
+        private List<String> additionalDependencies;
     }
 }

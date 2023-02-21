@@ -5,20 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>scaleph-engine</artifactId>
+        <artifactId>scaleph</artifactId>
         <version>1.0.3</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>scaleph-engine-flink-kubernetes</artifactId>
+    <artifactId>scaleph-kubernetes</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-system</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-kubernetes</artifactId>
+            <groupId>io.fabric8</groupId>
+            <artifactId>kubernetes-client</artifactId>
         </dependency>
     </dependencies>
 

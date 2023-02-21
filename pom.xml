@@ -96,6 +96,7 @@
         <module>scaleph-plugins</module>
         <module>scaleph-workflow</module>
         <module>scaleph-datasource</module>
+        <module>scaleph-kubernetes</module>
     </modules>
 
     <properties>
@@ -192,6 +193,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-kubernetes</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

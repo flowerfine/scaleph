@@ -35,6 +35,10 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-kubernetes</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-workflow-quartz</artifactId>
         </dependency>
         <dependency>

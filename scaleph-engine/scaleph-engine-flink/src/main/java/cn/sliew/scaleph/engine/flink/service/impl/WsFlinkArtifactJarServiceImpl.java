@@ -22,6 +22,8 @@ import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactJarMapper;
+import cn.sliew.scaleph.engine.flink.resource.JarArtifact;
+import cn.sliew.scaleph.engine.flink.resource.JarArtifactConverter;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactJarService;
 import cn.sliew.scaleph.engine.flink.service.convert.WsFlinkArtifactJarConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
@@ -71,6 +73,11 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
         return WsFlinkArtifactJarConvert.INSTANCE.toDto(record);
     }
 
+    @Override
+    public JarArtifact asYaml(Long id) {
+        WsFlinkArtifactJarDTO dto = selectOne(id);
+        return JarArtifactConverter.INSTANCE.convertTo(dto);
+    }
 
     @Override
     public int deleteOne(Long id) throws ScalephException {

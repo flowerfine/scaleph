@@ -20,10 +20,9 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesDeployment;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesDeploymentMapper;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobState;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.FlinkDeployment;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.FlinkDeploymentConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesDeploymentService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesDeploymentConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
@@ -31,11 +30,9 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesD
 import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
-import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,22 +85,7 @@ public class WsFlinkKubernetesDeploymentServiceImpl implements WsFlinkKubernetes
     @Override
     public FlinkDeployment asYaml(Long id) {
         WsFlinkKubernetesDeploymentDTO dto = selectOne(id);
-        FlinkDeployment deployment = new FlinkDeployment();
-        ObjectMetaBuilder builder = new ObjectMetaBuilder(true);
-        builder.withName(dto.getName()).withNamespace(dto.getNamespace());
-        deployment.setMetadata(builder.build());
-        FlinkDeploymentSpec spec = new FlinkDeploymentSpec();
-        KubernetesOptionsVO kuberenetesOptions = dto.getKuberenetesOptions();
-        spec.setImage(kuberenetesOptions.getImage());
-        spec.setServiceAccount(kuberenetesOptions.getServiceAccount());
-        spec.setFlinkVersion(EnumUtils.getEnum(FlinkVersion.class, kuberenetesOptions.getFlinkVersion()));
-        spec.setFlinkConfiguration(dto.getFlinkConfiguration());
-        spec.setJobManager(dto.getJobManager());
-        spec.setTaskManager(dto.getTaskManager());
-        spec.setPodTemplate(dto.getPodTemplate());
-        spec.setJob(dto.getJob());
-        deployment.setSpec(spec);
-        return deployment;
+        return FlinkDeploymentConverter.INSTANCE.convertTo(dto);
     }
 
     @Override

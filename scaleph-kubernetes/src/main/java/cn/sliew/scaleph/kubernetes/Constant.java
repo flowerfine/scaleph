@@ -16,48 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.convert;
+package cn.sliew.scaleph.kubernetes;
 
-import java.util.List;
+public enum Constant {
+    ;
 
-/**
- * do和dto对象转换接口
- *
- * @param <E>
- * @param <D>
- * @author gleiyu
- */
-public interface BaseConvert<E, D> {
-    /**
-     * dto转换为do
-     *
-     * @param dto dto object
-     * @return E entity
-     */
-    E toDo(D dto);
+    public static final String API_VERSION = "flink.apache.org/v1beta1";
 
-    /**
-     * do转换为dto
-     *
-     * @param entity do object
-     * @return D dto
-     */
-    D toDto(E entity);
+    public static final String FLINK_DEPLOYMENT = "FlinkDeployment";
+    public static final String FLINK_SESSION_JOB = "FlinkSessionJob";
 
-    /**
-     * dto list 转换为 do list
-     *
-     * @param dtoList dto List
-     * @return List<E> entity list
-     */
-    List<E> toDo(List<D> dtoList);
-
-    /**
-     * do list 转换为 dto list
-     *
-     * @param entityList do list
-     * @return List<D> dto list
-     */
-    List<D> toDto(List<E> entityList);
+    public static final String JAR_ARTIFACT = "JarArtifact";
 
 }

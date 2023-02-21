@@ -16,13 +16,10 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.entity;
+package cn.sliew.scaleph.kubernetes;
 
-public enum Constant {
-    ;
+import io.fabric8.kubernetes.api.model.HasMetadata;
 
-    public static final String API_VERSION = "flink.apache.org/v1beta1";
-    public static final String FLINK_DEPLOYMENT = "FlinkDeployment";
-    public static final String FLINK_SESSION_JOB = "FlinkSessionJob";
+public interface Resource extends HasMetadata {
 
 }
