@@ -33,17 +33,18 @@ public interface WsFlinkArtifactJarService {
 
     Page<WsFlinkArtifactJarDTO> list(WsFlinkArtifactJarParam param);
 
+    List<WsFlinkArtifactJarDTO> listByArtifact(Long artifactId);
+
     WsFlinkArtifactJarDTO selectOne(Long id);
 
     JarArtifact asYaml(Long id);
 
-    int deleteOne(Long id) throws ScalephException;
-
     void upload(WsFlinkArtifactJarDTO param, MultipartFile file) throws IOException;
-
-    int update(WsFlinkArtifactJarDTO params);
 
     String download(Long id, OutputStream outputStream) throws IOException;
 
-    List<WsFlinkArtifactJarDTO> listByArtifact(Long artifactId);
+    int update(WsFlinkArtifactJarDTO params);
+
+    int deleteOne(Long id) throws ScalephException;
+
 }

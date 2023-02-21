@@ -1,16 +1,12 @@
-import { ModalFormProps } from '@/app.d';
-import { WORKSPACE_CONF } from '@/constant';
-import { FlinkArtifactService } from '@/services/project/flinkArtifact.service';
-import { WsFlinkArtifact } from '@/services/project/typings';
-import { Form, Input, message, Modal } from 'antd';
-import { useIntl } from 'umi';
+import {useIntl} from 'umi';
+import {Form, message, Modal} from 'antd';
+import {ProForm, ProFormDigit, ProFormText} from '@ant-design/pro-components';
+import {ModalFormProps} from '@/app.d';
+import {WORKSPACE_CONF} from '@/constant';
+import {FlinkArtifactService} from '@/services/project/flinkArtifact.service';
+import {WsFlinkArtifact} from '@/services/project/typings';
 
-const FlinkArtifactForm: React.FC<ModalFormProps<WsFlinkArtifact>> = ({
-  data,
-  visible,
-  onVisibleChange,
-  onCancel,
-}) => {
+const FlinkArtifactForm: React.FC<ModalFormProps<WsFlinkArtifact>> = ({data, visible, onVisibleChange, onCancel}) => {
   const intl = useIntl();
   const [form] = Form.useForm();
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
@@ -20,10 +16,10 @@ const FlinkArtifactForm: React.FC<ModalFormProps<WsFlinkArtifact>> = ({
       open={visible}
       title={
         data.id
-          ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-            intl.formatMessage({ id: 'pages.project.job.artifact' })
-          : intl.formatMessage({ id: 'app.common.operate.new.label' }) +
-            intl.formatMessage({ id: 'pages.project.job.artifact' })
+          ? intl.formatMessage({id: 'app.common.operate.edit.label'}) +
+          intl.formatMessage({id: 'pages.project.job.artifact'})
+          : intl.formatMessage({id: 'app.common.operate.new.label'}) +
+          intl.formatMessage({id: 'pages.project.job.artifact'})
       }
       width={580}
       destroyOnClose={true}
@@ -38,53 +34,48 @@ const FlinkArtifactForm: React.FC<ModalFormProps<WsFlinkArtifact>> = ({
           };
           data.id
             ? FlinkArtifactService.update(param).then((d) => {
-                if (d.success) {
-                  message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
-                  if (onVisibleChange) {
-                    onVisibleChange(false);
-                  }
+              if (d.success) {
+                message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
+                if (onVisibleChange) {
+                  onVisibleChange(false);
                 }
-              })
+              }
+            })
             : FlinkArtifactService.add(param).then((d) => {
-                if (d.success) {
-                  message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
-                  if (onVisibleChange) {
-                    onVisibleChange(false);
-                  }
+              if (d.success) {
+                message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
+                if (onVisibleChange) {
+                  onVisibleChange(false);
                 }
-              });
+              }
+            });
         });
       }}
     >
-      <Form
+      <ProForm
         form={form}
         layout="horizontal"
-        labelCol={{ span: 6 }}
-        wrapperCol={{ span: 16 }}
+        submitter={false}
+        labelCol={{span: 4}}
+        wrapperCol={{span: 18}}
         initialValues={{
           id: data.id,
           name: data.name,
           remark: data.remark,
         }}
       >
-        <Form.Item name="id" hidden>
-          <Input></Input>
-        </Form.Item>
-        <Form.Item
+        <ProFormDigit name="id" hidden/>
+        <ProFormText
           name="name"
-          label={intl.formatMessage({ id: 'pages.project.artifact.name' })}
-          rules={[{ required: true }, { max: 32 }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
+          label={intl.formatMessage({id: 'pages.project.artifact.name'})}
+          rules={[{required: true}, {max: 32}]}
+        />
+        <ProFormText
           name="remark"
-          label={intl.formatMessage({ id: 'pages.project.artifact.remark' })}
-          rules={[{ max: 200 }]}
-        >
-          <Input />
-        </Form.Item>
-      </Form>
+          label={intl.formatMessage({id: 'app.common.data.remark'})}
+          rules={[{max: 200}]}
+        />
+      </ProForm>
     </Modal>
   );
 };

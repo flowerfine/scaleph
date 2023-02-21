@@ -60,7 +60,4 @@ public class WsFlinkArtifactJarDTO extends BaseDTO {
     @ApiModelProperty("Jar 版本")
     private String version;
 
-    @ApiModelProperty("Jar 运行参数")
-    private String jarParams;
-
 }

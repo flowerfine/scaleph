@@ -51,16 +51,10 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
     private WsFlinkArtifactJarMapper flinkArtifactJarMapper;
 
     @Override
-    public int update(WsFlinkArtifactJarDTO params) {
-        WsFlinkArtifactJar jar = WsFlinkArtifactJarConvert.INSTANCE.toDo(params);
-        return this.flinkArtifactJarMapper.updateById(jar);
-    }
-
-    @Override
     public Page<WsFlinkArtifactJarDTO> list(WsFlinkArtifactJarParam param) {
         Page<WsFlinkArtifactJar> page = new Page<>(param.getCurrent(), param.getPageSize());
-        final WsFlinkArtifactJar wsFlinkArtifactJar = BeanUtil.copy(param, new WsFlinkArtifactJar());
-        final Page<WsFlinkArtifactJar> jarPage = flinkArtifactJarMapper.list(page, wsFlinkArtifactJar);
+        WsFlinkArtifactJar wsFlinkArtifactJar = BeanUtil.copy(param, new WsFlinkArtifactJar());
+        Page<WsFlinkArtifactJar> jarPage = flinkArtifactJarMapper.list(page, wsFlinkArtifactJar);
         Page<WsFlinkArtifactJarDTO> result =
                 new Page<>(jarPage.getCurrent(), jarPage.getSize(), jarPage.getTotal());
         result.setRecords(WsFlinkArtifactJarConvert.INSTANCE.toDto(jarPage.getRecords()));
@@ -68,8 +62,17 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
     }
 
     @Override
+    public List<WsFlinkArtifactJarDTO> listByArtifact(Long artifactId) {
+        List<WsFlinkArtifactJar> list = flinkArtifactJarMapper.selectList(
+                Wrappers.lambdaQuery(WsFlinkArtifactJar.class)
+                        .eq(WsFlinkArtifactJar::getFlinkArtifactId, artifactId)
+        );
+        return WsFlinkArtifactJarConvert.INSTANCE.toDto(list);
+    }
+
+    @Override
     public WsFlinkArtifactJarDTO selectOne(Long id) {
-        final WsFlinkArtifactJar record = flinkArtifactJarMapper.selectOne(id);
+        WsFlinkArtifactJar record = flinkArtifactJarMapper.selectOne(id);
         return WsFlinkArtifactJarConvert.INSTANCE.toDto(record);
     }
 
@@ -80,18 +83,9 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
     }
 
     @Override
-    public int deleteOne(Long id) throws ScalephException {
-        WsFlinkArtifactJar jar = flinkArtifactJarMapper.isUsed(id);
-        if (jar != null) {
-            throw new ScalephException(I18nUtil.get("response.error.job.artifact.jar"));
-        }
-        return flinkArtifactJarMapper.deleteById(id);
-    }
-
-    @Override
     public void upload(WsFlinkArtifactJarDTO param, MultipartFile file) throws IOException {
         String path = getFlinkArtifactPath(param.getVersion(), file.getOriginalFilename());
-        try (final InputStream inputStream = file.getInputStream()) {
+        try (InputStream inputStream = file.getInputStream()) {
             fileSystemService.upload(inputStream, path);
         }
         WsFlinkArtifactJar record = WsFlinkArtifactJarConvert.INSTANCE.toDo(param);
@@ -102,20 +96,26 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
 
     @Override
     public String download(Long id, OutputStream outputStream) throws IOException {
-        final WsFlinkArtifactJarDTO dto = selectOne(id);
-        try (final InputStream inputStream = fileSystemService.get(dto.getPath())) {
+        WsFlinkArtifactJarDTO dto = selectOne(id);
+        try (InputStream inputStream = fileSystemService.get(dto.getPath())) {
             FileCopyUtils.copy(inputStream, outputStream);
         }
         return dto.getFileName();
     }
 
     @Override
-    public List<WsFlinkArtifactJarDTO> listByArtifact(Long artifactId) {
-        List<WsFlinkArtifactJar> list = flinkArtifactJarMapper.selectList(
-                Wrappers.lambdaQuery(WsFlinkArtifactJar.class)
-                        .eq(WsFlinkArtifactJar::getFlinkArtifactId, artifactId)
-        );
-        return WsFlinkArtifactJarConvert.INSTANCE.toDto(list);
+    public int update(WsFlinkArtifactJarDTO params) {
+        WsFlinkArtifactJar jar = WsFlinkArtifactJarConvert.INSTANCE.toDo(params);
+        return flinkArtifactJarMapper.updateById(jar);
+    }
+
+    @Override
+    public int deleteOne(Long id) throws ScalephException {
+        WsFlinkArtifactJar jar = flinkArtifactJarMapper.isUsed(id);
+        if (jar != null) {
+            throw new ScalephException(I18nUtil.get("response.error.job.artifact.jar"));
+        }
+        return flinkArtifactJarMapper.deleteById(id);
     }
 
     private String getFlinkArtifactPath(String version, String fileName) {

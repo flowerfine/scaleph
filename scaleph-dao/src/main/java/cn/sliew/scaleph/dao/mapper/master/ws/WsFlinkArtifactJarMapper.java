@@ -38,4 +38,5 @@ public interface WsFlinkArtifactJarMapper extends BaseMapper<WsFlinkArtifactJar>
     WsFlinkArtifactJar selectOne(@Param("id") Long id);
 
     WsFlinkArtifactJar isUsed(@Param("id") Long id);
+
 }
