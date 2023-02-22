@@ -54,11 +54,11 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-resource</artifactId>
+            <artifactId>scaleph-log</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-core-scheduler</artifactId>
+            <artifactId>scaleph-resource</artifactId>
         </dependency>
 
         <dependency>
