@@ -20,13 +20,12 @@ package cn.sliew.scaleph.resource.service;
 
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import cn.sliew.scaleph.resource.service.param.ClusterCredentialListParam;
-import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
+import cn.sliew.scaleph.resource.service.param.ClusterCredentialUploadParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.util.List;
 
 public interface ClusterCredentialService extends ResourceDescriptor<ClusterCredentialDTO> {
@@ -35,21 +34,12 @@ public interface ClusterCredentialService extends ResourceDescriptor<ClusterCred
 
     ClusterCredentialDTO selectOne(Long id);
 
-    ClusterCredentialDTO insert(ClusterCredentialDTO dto);
+    void upload(ClusterCredentialUploadParam param, MultipartFile file) throws IOException;
 
-    int update(ClusterCredentialDTO dto);
+    String download(Long id, OutputStream outputStream) throws IOException;
 
-    int deleteById(Long id);
+    int deleteBatch(List<Long> ids) throws IOException;
 
-    int deleteBatch(List<Long> ids);
+    void delete(Long id) throws IOException;
 
-    List<FileStatusVO> listCredentialFile(Long id) throws IOException;
-
-    void uploadCredentialFile(Long id, MultipartFile[] files) throws IOException;
-
-    void downloadCredentialFile(Long id, String fileName, OutputStream outputStream) throws IOException;
-
-    void deleteCredentialFile(Long id, String fileName) throws IOException;
-
-    void deleteCredentialFiles(Long id, List<String> fileNames) throws IOException;
 }

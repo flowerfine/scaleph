@@ -52,19 +52,22 @@ CREATE TABLE resource_flink_release
     PRIMARY KEY (id)
 ) ENGINE = INNODB COMMENT = 'flink release';
 
-/* hadoop 或 kubernetes 部署配置文件 */
+/* kubernetes kubeconfig */
 DROP TABLE IF EXISTS resource_cluster_credential;
 CREATE TABLE resource_cluster_credential
 (
-    id          BIGINT      NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-    config_type VARCHAR(4)  NOT NULL COMMENT '配置文件类型。0: Hadoop, 1: Kubernetes',
-    name        VARCHAR(64) NOT NULL COMMENT '配置名称',
+    id          BIGINT       NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    `name`      VARCHAR(64)  NOT NULL COMMENT 'name',
+    `context`   VARCHAR(64) COMMENT 'current context',
+    file_name   VARCHAR(64) COMMENT 'kube config file name',
+    `path`      VARCHAR(255) NOT NULL COMMENT 'kube config path',
     remark      VARCHAR(256) COMMENT '备注',
     creator     VARCHAR(32) COMMENT '创建人',
-    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    create_time DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     editor      VARCHAR(32) COMMENT '修改人',
-    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-    PRIMARY KEY (id)
+    update_time DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (id),
+    KEY idx_name (`name`)
 ) ENGINE = INNODB COMMENT = 'cluster credential';
 
 /* 公共 java jar */

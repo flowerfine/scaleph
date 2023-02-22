@@ -100,15 +100,15 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService {
 
     @Override
     public int deleteBatch(List<Long> ids) throws IOException {
-        for (Serializable id : ids) {
-            delete((Long) id);
+        for (Long id : ids) {
+            delete(id);
         }
         return ids.size();
     }
 
     @Override
     public void delete(Long id) throws IOException {
-        final FlinkReleaseDTO dto = selectOne(id);
+        FlinkReleaseDTO dto = selectOne(id);
         fileSystemService.delete(dto.getPath());
         flinkReleaseMapper.deleteById(id);
     }
@@ -129,8 +129,8 @@ public class FlinkReleaseServiceImpl implements FlinkReleaseService {
 
     @Override
     public String download(Long id, OutputStream outputStream) throws IOException {
-        final FlinkReleaseDTO dto = selectOne(id);
-        try (final InputStream inputStream = fileSystemService.get(dto.getPath())) {
+        FlinkReleaseDTO dto = selectOne(id);
+        try (InputStream inputStream = fileSystemService.get(dto.getPath())) {
             FileCopyUtils.copy(inputStream, outputStream);
         }
         return dto.getFileName();

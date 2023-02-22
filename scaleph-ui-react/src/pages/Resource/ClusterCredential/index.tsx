@@ -1,10 +1,9 @@
-import {history, useAccess, useIntl} from 'umi';
+import {useAccess, useIntl} from 'umi';
 import {useRef, useState} from 'react';
 import {Button, message, Modal, Space, Tooltip} from 'antd';
-import {DeleteOutlined, EditOutlined, UploadOutlined} from '@ant-design/icons';
+import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {DICT_TYPE, PRIVILEGE_CODE} from '@/constant';
-import {DictDataService} from '@/services/admin/dictData.service';
+import {PRIVILEGE_CODE} from '@/constant';
 import {ClusterCredentialService} from '@/services/resource/clusterCredential.service';
 import {ClusterCredential} from '@/services/resource/typings';
 import ClusterCredentialForm from './components/ClusterCredentialForm';
@@ -22,24 +21,28 @@ const ClusterCredentialResource: React.FC = () => {
 
   const tableColumns: ProColumns<ClusterCredential>[] = [
     {
-      title: intl.formatMessage({id: 'pages.resource.clusterCredential.configType'}),
-      dataIndex: 'configType',
-      render: (text, record, index) => {
-        return record.configType?.label;
-      },
-      request: (params, props) => {
-        return DictDataService.listDictDataByType2(DICT_TYPE.flinkResourceProvider)
-      }
-    },
-    {
       title: intl.formatMessage({id: 'pages.resource.clusterCredential.name'}),
       dataIndex: 'name',
-      width: 280,
+    },
+    {
+      title: intl.formatMessage({id: 'pages.resource.clusterCredential.context'}),
+      dataIndex: 'context',
+      hideInSearch: true
+    },
+    {
+      title: intl.formatMessage({id: 'pages.resource.clusterCredential.fileName'}),
+      dataIndex: 'fileName',
+      hideInSearch: true
+    },
+    {
+      title: intl.formatMessage({id: 'pages.resource.clusterCredential.path'}),
+      dataIndex: 'path',
+      hideInSearch: true
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
-      hideInSearch: true,
+      hideInSearch: true
     },
     {
       title: intl.formatMessage({id: 'app.common.data.createTime'}),
@@ -64,25 +67,13 @@ const ClusterCredentialResource: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.workspaceJobShow) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.upload.label'})}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.download.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<UploadOutlined/>}
+                  icon={<DownloadOutlined/>}
                   onClick={() => {
-                    history.push('/resource/cluster-credential/file', {id: record.id});
-                  }}
-                />
-              </Tooltip>
-            )}
-            {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<EditOutlined/>}
-                  onClick={() => {
-                    setClusterCredentialData({visiable: true, data: record});
+                    ClusterCredentialService.download(record);
                   }}
                 />
               </Tooltip>
