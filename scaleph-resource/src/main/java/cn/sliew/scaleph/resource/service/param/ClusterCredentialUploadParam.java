@@ -16,25 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.core.scheduler.service;
+package cn.sliew.scaleph.resource.service.param;
 
-import org.quartz.impl.matchers.EverythingMatcher;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
-@Order(2)
-//@Component
-public class ScheduleInitRunner implements ApplicationRunner {
+import javax.validation.constraints.NotBlank;
 
-    @Autowired
-    private ScheduleService scheduleService;
+@Data
+public class ClusterCredentialUploadParam {
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-        scheduleService.addJobListener(new QuartzJobListener(), EverythingMatcher.allJobs());
-    }
+    @NotBlank
+    @ApiModelProperty("flink 版本")
+    private String name;
 
+    @ApiModelProperty("current context")
+    private String context;
+
+    @ApiModelProperty("备注")
+    private String remark;
 }

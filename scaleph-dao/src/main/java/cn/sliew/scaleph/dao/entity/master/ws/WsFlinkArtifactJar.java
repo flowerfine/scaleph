@@ -60,7 +60,4 @@ public class WsFlinkArtifactJar extends BaseDO {
     @TableField("version")
     private String version;
 
-    @TableField("jar_params")
-    private String jarParams;
-
 }

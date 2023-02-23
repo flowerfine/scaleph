@@ -80,7 +80,6 @@
     </repositories>
 
     <modules>
-        <module>scaleph-ui</module>
         <module>scaleph-ui-react</module>
 
         <module>scaleph-common</module>
@@ -90,7 +89,6 @@
         <module>scaleph-support</module>
 
         <module>scaleph-api</module>
-        <module>scaleph-core</module>
         <module>scaleph-meta</module>
         <module>scaleph-engine</module>
         <module>scaleph-plugins</module>
@@ -285,16 +283,6 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-plugin-flink-1.13</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-core-di</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-core-scheduler</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

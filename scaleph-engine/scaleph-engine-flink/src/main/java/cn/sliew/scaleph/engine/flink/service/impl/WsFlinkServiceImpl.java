@@ -465,7 +465,8 @@ public class WsFlinkServiceImpl implements WsFlinkService {
         }
 
         final ClusterCredentialDTO clusterCredentialDTO = wsFlinkClusterConfigDTO.getClusterCredential();
-        final FlinkResourceProvider resourceProvider = clusterCredentialDTO.getConfigType();
+//        final FlinkResourceProvider resourceProvider = clusterCredentialDTO.getConfigType();
+        FlinkResourceProvider resourceProvider = FlinkResourceProvider.NATIVE_KUBERNETES;
         switch (resourceProvider) {
             case YARN:
                 return buildYarnConfiguration(dynamicProperties, clusterCredentialPath);
@@ -580,15 +581,16 @@ public class WsFlinkServiceImpl implements WsFlinkService {
     }
 
     private Path loadClusterCredential(ClusterCredentialDTO clusterCredential, Path workspace) throws IOException {
-        final List<FileStatusVO> fileStatusVOS = clusterCredentialService.listCredentialFile(clusterCredential.getId());
-        final Path tempDir = FileUtil.createDir(workspace, clusterCredential.getName());
-        for (FileStatusVO fileStatusVO : fileStatusVOS) {
-            final Path deployConfigFile = Paths.get(tempDir.toString(), fileStatusVO.getName());
-            try (final OutputStream outputStream = FileUtil.getOutputStream(deployConfigFile)) {
-                clusterCredentialService.downloadCredentialFile(clusterCredential.getId(), fileStatusVO.getName(), outputStream);
-            }
-        }
-        return tempDir;
+//        final List<FileStatusVO> fileStatusVOS = clusterCredentialService.listCredentialFile(clusterCredential.getId());
+//        final Path tempDir = FileUtil.createDir(workspace, clusterCredential.getName());
+//        for (FileStatusVO fileStatusVO : fileStatusVOS) {
+//            final Path deployConfigFile = Paths.get(tempDir.toString(), fileStatusVO.getName());
+//            try (final OutputStream outputStream = FileUtil.getOutputStream(deployConfigFile)) {
+//                clusterCredentialService.downloadCredentialFile(clusterCredential.getId(), fileStatusVO.getName(), outputStream);
+//            }
+//        }
+//        return tempDir;
+        return null;
     }
 
     private List<URL> loadJarResources(List<Long> jarIds, Path workspace) throws IOException {

@@ -85,8 +85,10 @@ export type SeaTunnelConnectorFile = {
 
 export type ClusterCredential = {
   id?: number;
-  configType?: Dict;
   name?: string;
+  context?: string;
+  fileName?: string;
+  path?: string;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
@@ -95,6 +97,13 @@ export type ClusterCredential = {
 export type ClusterCredentialListParam = QueryParam & {
   configType?: string;
   name?: string;
+}
+
+export type ClusterCredentialUploadParam = QueryParam & {
+  name: string;
+  context?: string;
+  file: File;
+  remark?: string;
 }
 
 export type CredentialFile = {

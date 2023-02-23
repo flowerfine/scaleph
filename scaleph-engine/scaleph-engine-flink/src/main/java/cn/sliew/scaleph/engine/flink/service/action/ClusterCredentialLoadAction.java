@@ -76,17 +76,17 @@ public class ClusterCredentialLoadAction extends AbstractWorkFlow {
     }
 
     private void download(ActionContext context) throws IOException {
-        Attribute<Long> clusterCredentialId = context.attr(CLUSTER_CREDENTIAL_ID);
-        ClusterCredentialDTO clusterCredentialDTO = clusterCredentialService.selectOne(clusterCredentialId.get());
-        List<FileStatusVO> fileStatusVOS = clusterCredentialService.listCredentialFile(clusterCredentialId.get());
-        Path tempDir = FileUtil.createDir(workspace, clusterCredentialDTO.getName());
-        for (FileStatusVO fileStatusVO : fileStatusVOS) {
-            Path deployConfigFile = FileUtil.createTempFile(tempDir,fileStatusVO.getName());
-            try (OutputStream outputStream = FileUtil.getOutputStream(deployConfigFile)) {
-                clusterCredentialService.downloadCredentialFile(clusterCredentialDTO.getId(), fileStatusVO.getName(), outputStream);
-            }
-        }
-        Attribute<Path> clusterCredentialPath = context.attr(CLUSTER_CREDENTIAL_PATH);
-        clusterCredentialPath.setIfAbsent(tempDir);
+//        Attribute<Long> clusterCredentialId = context.attr(CLUSTER_CREDENTIAL_ID);
+//        ClusterCredentialDTO clusterCredentialDTO = clusterCredentialService.selectOne(clusterCredentialId.get());
+//        List<FileStatusVO> fileStatusVOS = clusterCredentialService.listCredentialFile(clusterCredentialId.get());
+//        Path tempDir = FileUtil.createDir(workspace, clusterCredentialDTO.getName());
+//        for (FileStatusVO fileStatusVO : fileStatusVOS) {
+//            Path deployConfigFile = FileUtil.createTempFile(tempDir,fileStatusVO.getName());
+//            try (OutputStream outputStream = FileUtil.getOutputStream(deployConfigFile)) {
+//                clusterCredentialService.downloadCredentialFile(clusterCredentialDTO.getId(), fileStatusVO.getName(), outputStream);
+//            }
+//        }
+//        Attribute<Path> clusterCredentialPath = context.attr(CLUSTER_CREDENTIAL_PATH);
+//        clusterCredentialPath.setIfAbsent(tempDir);
     }
 }

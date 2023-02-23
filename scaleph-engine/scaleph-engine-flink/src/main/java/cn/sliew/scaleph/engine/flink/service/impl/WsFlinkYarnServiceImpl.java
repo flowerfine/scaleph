@@ -110,16 +110,17 @@ public class WsFlinkYarnServiceImpl implements WsFlinkYarnService {
     }
 
     private Path loadClusterCredential(ClusterCredentialDTO clusterCredential, Path workspace) throws IOException {
-        final List<FileStatusVO> fileStatusVOS = clusterCredentialService.listCredentialFile(clusterCredential.getId());
-        final Path tempDir = FileUtil.createDir(workspace, clusterCredential.getName());
-        for (FileStatusVO fileStatusVO : fileStatusVOS) {
-            final Path deployConfigFile = tempDir.resolve(fileStatusVO.getName());
-            Files.createFile(deployConfigFile, FileUtil.ATTRIBUTES);
-            try (final OutputStream outputStream = Files.newOutputStream(deployConfigFile, StandardOpenOption.WRITE)) {
-                clusterCredentialService.downloadCredentialFile(clusterCredential.getId(), fileStatusVO.getName(), outputStream);
-            }
-        }
-        return tempDir;
+//        final List<FileStatusVO> fileStatusVOS = clusterCredentialService.listCredentialFile(clusterCredential.getId());
+//        final Path tempDir = FileUtil.createDir(workspace, clusterCredential.getName());
+//        for (FileStatusVO fileStatusVO : fileStatusVOS) {
+//            final Path deployConfigFile = tempDir.resolve(fileStatusVO.getName());
+//            Files.createFile(deployConfigFile, FileUtil.ATTRIBUTES);
+//            try (final OutputStream outputStream = Files.newOutputStream(deployConfigFile, StandardOpenOption.WRITE)) {
+//                clusterCredentialService.downloadCredentialFile(clusterCredential.getId(), fileStatusVO.getName(), outputStream);
+//            }
+//        }
+//        return tempDir;
+        return null;
     }
 
     private Path loadFlinkArtifactJar(WsFlinkArtifactJarDTO wsFlinkArtifactJarDTO, Path workspace) throws IOException {

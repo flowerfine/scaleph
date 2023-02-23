@@ -1,30 +1,23 @@
-import { Dict, ModalFormProps } from '@/app.d';
-import { DICT_TYPE } from '@/constant';
-import { DictDataService } from '@/services/admin/dictData.service';
-import { FlinkArtifactJarService } from '@/services/project/flinkArtifactJar.service';
-import { WsFlinkArtifactJar } from '@/services/project/typings';
-import { UploadOutlined } from '@ant-design/icons';
-import { Button, Form, Input, message, Modal, Select, Upload, UploadFile, UploadProps } from 'antd';
-import { useEffect, useState } from 'react';
-import { useIntl } from 'umi';
+import {useIntl} from 'umi';
+import {useState} from 'react';
+import {Form, message, Modal, UploadFile, UploadProps} from 'antd';
+import {ProForm, ProFormDigit, ProFormSelect, ProFormText, ProFormUploadButton} from '@ant-design/pro-components';
+import {ModalFormProps} from '@/app.d';
+import {DICT_TYPE} from '@/constant';
+import {DictDataService} from '@/services/admin/dictData.service';
+import {FlinkArtifactJarService} from '@/services/project/flinkArtifactJar.service';
+import {WsFlinkArtifactJar} from '@/services/project/typings';
 
 const FlinkArtifactJarForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({
-  data,
-  visible,
-  onVisibleChange,
-  onCancel,
-}) => {
+                                                                              data,
+                                                                              visible,
+                                                                              onVisibleChange,
+                                                                              onCancel
+                                                                            }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [uploading, setUploading] = useState(false);
-  const [flinkVersionList, setFlinkVersionList] = useState<Dict[]>([]);
-
-  useEffect(() => {
-    DictDataService.listDictDataByType2(DICT_TYPE.flinkVersion).then((d) => {
-      setFlinkVersionList(d);
-    });
-  }, []);
 
   const props: UploadProps = {
     accept: '.jar',
@@ -48,10 +41,10 @@ const FlinkArtifactJarForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({
       open={visible}
       title={
         data.id
-          ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-            intl.formatMessage({ id: 'pages.project.artifact.jar' })
-          : intl.formatMessage({ id: 'app.common.operate.upload.label' }) +
-            intl.formatMessage({ id: 'pages.project.artifact.jar' })
+          ? intl.formatMessage({id: 'app.common.operate.edit.label'}) +
+          intl.formatMessage({id: 'pages.project.artifact.jar'})
+          : intl.formatMessage({id: 'app.common.operate.upload.label'}) +
+          intl.formatMessage({id: 'pages.project.artifact.jar'})
       }
       width={580}
       destroyOnClose={true}
@@ -59,63 +52,64 @@ const FlinkArtifactJarForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({
       confirmLoading={uploading}
       okText={
         data.id
-          ? intl.formatMessage({ id: 'app.common.operate.confirm.label' })
+          ? intl.formatMessage({id: 'app.common.operate.confirm.label'})
           : uploading
-          ? intl.formatMessage({ id: 'app.common.operate.uploading.label' })
-          : intl.formatMessage({ id: 'app.common.operate.upload.label' })
+            ? intl.formatMessage({id: 'app.common.operate.uploading.label'})
+            : intl.formatMessage({id: 'app.common.operate.upload.label'})
       }
       onOk={() => {
         data.id
           ? form.validateFields().then((values) => {
-              const params: WsFlinkArtifactJar = {
-                id: values.id,
-                wsFlinkArtifact: { id: data.wsFlinkArtifact?.id as number },
-                version: values.version,
-                flinkVersion: values.flinkVersion,
-                entryClass: values.entryClass,
-                jarParams: values.jarParams,
-              };
-              FlinkArtifactJarService.update(params).then((d) => {
-                if (d.success) {
-                  message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
-                  onVisibleChange ? onVisibleChange(false) : null;
-                }
-              });
-            })
-          : form.validateFields().then((values) => {
-              const uploadParam: WsFlinkArtifactJar = {
-                wsFlinkArtifact: { id: data.wsFlinkArtifact?.id as number },
-                version: values.version,
-                flinkVersion: values.flinkVersion,
-                entryClass: values.entryClass,
-                file: fileList[0],
-                jarParams: values.jarParams,
-              };
-              setUploading(true);
-              FlinkArtifactJarService.upload(uploadParam)
-                .then((response) => {
-                  setFileList([]);
-                  if (response.success) {
-                    message.success(
-                      intl.formatMessage({ id: 'app.common.operate.upload.success' }),
-                    );
-                  }
-                })
-                .catch(() => {
-                  message.error(intl.formatMessage({ id: 'app.common.operate.upload.failure' }));
-                })
-                .finally(() => {
-                  setUploading(false);
-                  onVisibleChange ? onVisibleChange(false) : null;
-                });
+            const params: WsFlinkArtifactJar = {
+              id: values.id,
+              wsFlinkArtifact: {id: data.wsFlinkArtifact?.id as number},
+              version: values.version,
+              flinkVersion: values.flinkVersion,
+              entryClass: values.entryClass,
+              jarParams: values.jarParams,
+            };
+            FlinkArtifactJarService.update(params).then((d) => {
+              if (d.success) {
+                message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
+                onVisibleChange ? onVisibleChange(false) : null;
+              }
             });
+          })
+          : form.validateFields().then((values) => {
+            const uploadParam: WsFlinkArtifactJar = {
+              wsFlinkArtifact: {id: data.wsFlinkArtifact?.id as number},
+              version: values.version,
+              flinkVersion: values.flinkVersion,
+              entryClass: values.entryClass,
+              file: fileList[0],
+              jarParams: values.jarParams,
+            };
+            setUploading(true);
+            FlinkArtifactJarService.upload(uploadParam)
+              .then((response) => {
+                setFileList([]);
+                if (response.success) {
+                  message.success(
+                    intl.formatMessage({id: 'app.common.operate.upload.success'}),
+                  );
+                }
+              })
+              .catch(() => {
+                message.error(intl.formatMessage({id: 'app.common.operate.upload.failure'}));
+              })
+              .finally(() => {
+                setUploading(false);
+                onVisibleChange ? onVisibleChange(false) : null;
+              });
+          });
       }}
     >
-      <Form
+      <ProForm
         form={form}
         layout="horizontal"
-        labelCol={{ span: 6 }}
-        wrapperCol={{ span: 16 }}
+        submitter={false}
+        labelCol={{span: 4}}
+        wrapperCol={{span: 18}}
         initialValues={{
           id: data.id,
           version: data.version,
@@ -124,70 +118,36 @@ const FlinkArtifactJarForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({
           jarParams: data.jarParams,
         }}
       >
-        <Form.Item hidden name="id">
-          <Input></Input>
-        </Form.Item>
+        <ProFormDigit name="id" hidden/>
         {!data.id && (
-          <Form.Item
-            name="file"
-            label={intl.formatMessage({ id: 'pages.project.artifact.jar.file' })}
-            rules={[{ required: true }]}
-          >
-            <Upload {...props}>
-              <Button icon={<UploadOutlined />}>
-                {intl.formatMessage({ id: 'pages.project.artifact.jar' })}
-              </Button>
-            </Upload>
-          </Form.Item>
-        )}
-        <Form.Item
-          name="version"
-          rules={[{ required: true }]}
-          label={intl.formatMessage({ id: 'pages.project.artifact.jar.version' })}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="flinkVersion"
-          label={intl.formatMessage({ id: 'pages.resource.flinkRelease.version' })}
-          rules={[{ required: true }]}
-        >
-          <Select
-            showSearch={true}
-            allowClear={true}
-            optionFilterProp="label"
-            filterOption={(input, option) =>
-              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-            }
-          >
-            {flinkVersionList.map((item) => {
-              return (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          name="entryClass"
-          label={intl.formatMessage({ id: 'pages.project.artifact.jar.entryClass' })}
-          rules={[{ required: true }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="jarParams"
-          label={intl.formatMessage({ id: 'pages.project.artifact.jar.jarParams' })}
-        >
-          <Input.TextArea
-            rows={3}
-            placeholder={intl.formatMessage({
-              id: 'pages.project.artifact.jar.jarParams.placeholder',
-            })}
+          <ProFormUploadButton
+            name={"file"}
+            label={intl.formatMessage({id: 'pages.project.artifact.jar.file'})}
+            title={intl.formatMessage({id: 'pages.project.artifact.jar'})}
+            max={1}
+            fieldProps={props}
+            rules={[{required: true}]}
           />
-        </Form.Item>
-      </Form>
+        )}
+        <ProFormText
+          name="version"
+          label={intl.formatMessage({id: 'pages.project.artifact.jar.version'})}
+          rules={[{required: true}]}
+        />
+        <ProFormSelect
+          name="flinkVersion"
+          label={intl.formatMessage({id: 'pages.resource.flinkRelease.version'})}
+          rules={[{required: true}]}
+          request={() => {
+            return DictDataService.listDictDataByType2(DICT_TYPE.flinkVersion);
+          }}
+        />
+        <ProFormText
+          name="entryClass"
+          label={intl.formatMessage({id: 'pages.project.artifact.jar.entryClass'})}
+          rules={[{required: true}]}
+        />
+      </ProForm>
     </Modal>
   );
 };

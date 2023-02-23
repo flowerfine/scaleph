@@ -96,11 +96,11 @@ public class WsFlinkJobController {
         if (FlinkJobType.JAR.equals(wsFlinkJobDTO.getType())) {
             WsFlinkArtifactJarDTO wsFlinkArtifactJarDTO = wsFlinkArtifactJarService.selectOne(wsFlinkJobDTO.getFlinkArtifactId());
             wsFlinkJobDTO.setName(wsFlinkArtifactJarDTO.getWsFlinkArtifact().getName());
-            Map<String, Object> jarParamMap = PropertyUtil.formatPropFromStr(wsFlinkArtifactJarDTO.getJarParams(), "\n", ":");
+//            Map<String, Object> jarParamMap = PropertyUtil.formatPropFromStr(wsFlinkArtifactJarDTO.getJarParams(), "\n", ":");
             Map<String, String> jobConfig = new HashMap<>();
-            jarParamMap.forEach((k, v) -> {
-                jobConfig.put(k, String.valueOf(v));
-            });
+//            jarParamMap.forEach((k, v) -> {
+//                jobConfig.put(k, String.valueOf(v));
+//            });
             wsFlinkJobDTO.setJobConfig(jobConfig);
 
         } else if (FlinkJobType.SEATUNNEL.equals(wsFlinkJobDTO.getType())) {

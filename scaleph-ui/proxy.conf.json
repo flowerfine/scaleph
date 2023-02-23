@@ -1,8 +1,0 @@
-{
-  "/api": {
-    "target": "http://localhost:8080/scaleph",
-    "secure": false,
-    "changeOrigin": true,
-    "pathRewrite": { "^": "" }
-  }
-}

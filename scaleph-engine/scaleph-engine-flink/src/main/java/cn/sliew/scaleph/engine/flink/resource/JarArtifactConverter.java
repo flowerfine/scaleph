@@ -33,7 +33,6 @@ public enum JarArtifactConverter implements ResourceConverter<WsFlinkArtifactJar
         spec.setVersion(source.getVersion());
         spec.setJarUri(source.getPath());
         spec.setEntryClass(source.getEntryClass());
-        spec.setMainArgs(source.getJarParams());
         artifact.setSpec(spec);
         return artifact;
     }

@@ -19,15 +19,15 @@
 package cn.sliew.scaleph.api.controller.resource;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.system.vo.ResponseVO;
+import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import cn.sliew.scaleph.resource.service.param.ClusterCredentialListParam;
-import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
+import cn.sliew.scaleph.resource.service.param.ClusterCredentialUploadParam;
+import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +41,6 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 
-@Slf4j
 @Api(tags = "资源管理-集群凭证")
 @RestController
 @RequestMapping(path = "/api/resource/cluster-credential")
@@ -54,7 +53,7 @@ public class ClusterCredentialController {
     @GetMapping
     @ApiOperation(value = "查询部署配置列表", notes = "查询部署配置列表")
     public ResponseEntity<Page<ClusterCredentialDTO>> list(@Valid ClusterCredentialListParam param) {
-        final Page<ClusterCredentialDTO> result = clusterCredentialService.list(param);
+        Page<ClusterCredentialDTO> result = clusterCredentialService.list(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -62,93 +61,46 @@ public class ClusterCredentialController {
     @GetMapping({"{id}"})
     @ApiOperation(value = "查询部署配置", notes = "查询部署配置")
     public ResponseEntity<ClusterCredentialDTO> selectOne(@PathVariable("id") Long id) {
-        final ClusterCredentialDTO result = clusterCredentialService.selectOne(id);
+        ClusterCredentialDTO result = clusterCredentialService.selectOne(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Logging
-    @PutMapping
-    @ApiOperation(value = "新增部署配置", notes = "新增部署配置")
-    public ResponseEntity<ResponseVO<ClusterCredentialDTO>> addDeployConfig(@Valid @RequestBody ClusterCredentialDTO param) {
-        final ClusterCredentialDTO result = clusterCredentialService.insert(param);
-        return new ResponseEntity<>(ResponseVO.success(result), HttpStatus.OK);
+    @PostMapping("upload")
+    @ApiOperation(value = "上传部署配置", notes = "上传部署配置")
+    public ResponseEntity<ResponseVO> upload(@Valid ClusterCredentialUploadParam param, @RequestPart("file") MultipartFile file) throws Exception {
+        if (file.isEmpty()) {
+            throw new ScalephException("缺少文件");
+        }
+        clusterCredentialService.upload(param, file);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
-    @PostMapping
-    @ApiOperation(value = "修改部署配置", notes = "修改部署配置")
-    public ResponseEntity<ResponseVO> updateDeployConfig(@Valid @RequestBody ClusterCredentialDTO param) {
-        clusterCredentialService.update(param);
+    @GetMapping("download/{id}")
+    @ApiOperation("下载部署配置")
+    public ResponseEntity<ResponseVO> download(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
+        try (ServletOutputStream outputStream = response.getOutputStream()) {
+            String name = clusterCredentialService.download(id, outputStream);
+            response.setCharacterEncoding("utf-8");// 设置字符编码
+            response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(name, "UTF-8")); // 设置响应头
+        }
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
     @DeleteMapping("{id}")
     @ApiOperation(value = "删除部署配置", notes = "删除部署配置")
-    public ResponseEntity<ResponseVO> deleteDeployConfig(@PathVariable("id") Long id) {
-        clusterCredentialService.deleteById(id);
+    public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws IOException {
+        clusterCredentialService.delete(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
     @DeleteMapping(path = "/batch")
     @ApiOperation(value = "批量删除部署配置", notes = "批量删除部署配置")
-    public ResponseEntity<ResponseVO> deleteDeployConfig(@RequestBody List<Long> ids) {
+    public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) throws IOException {
         clusterCredentialService.deleteBatch(ids);
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-    }
-
-    @Logging
-    @GetMapping("{id}/file")
-    @ApiOperation(value = "查询部署配置文件列表", notes = "查询部署配置文件列表")
-    public ResponseEntity<List<FileStatusVO>> listDeployConfigFile(@PathVariable("id") Long id) throws IOException {
-        final List<FileStatusVO> fileStatuses = clusterCredentialService.listCredentialFile(id);
-        return new ResponseEntity<>(fileStatuses, HttpStatus.OK);
-    }
-
-    /**
-     * 支持文件上传和表单一起提交，如果是多个文件时，可以使用 {@code @RequestParam("files") MultipartFile[] files}
-     */
-    @Logging
-    @PostMapping("{id}/file")
-    @ApiOperation(value = "上传部署配置文件", notes = "上传部署配置文件，支持上传多个文件")
-    public ResponseEntity<ResponseVO> uploadDeployConfigFile(@PathVariable("id") Long id, @RequestPart("files") MultipartFile[] files) throws IOException {
-        clusterCredentialService.uploadCredentialFile(id, files);
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-    }
-
-    @Logging
-    @GetMapping("{id}/file/{fileName}")
-    @ApiOperation(value = "下载部署配置文件", notes = "下载部署配置文件")
-    public ResponseEntity<ResponseVO> downloadDeployConfigFile(
-            @PathVariable("id") Long id,
-            @PathVariable("fileName") String fileName,
-            HttpServletResponse response) throws IOException {
-        try (ServletOutputStream outputStream = response.getOutputStream()) {
-            clusterCredentialService.downloadCredentialFile(id, fileName, outputStream);
-            response.setCharacterEncoding("utf-8");// 设置字符编码
-            response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8")); // 设置响应头
-        }
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-    }
-
-    @Logging
-    @DeleteMapping("{id}/file/{fileName}")
-    @ApiOperation(value = "删除部署配置文件", notes = "删除部署配置文件")
-    public ResponseEntity<ResponseVO> deleteDeployConfigFile(
-            @PathVariable("id") Long id,
-            @PathVariable("fileName") String fileName) throws IOException {
-        clusterCredentialService.deleteCredentialFile(id, fileName);
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-    }
-
-    @Logging
-    @DeleteMapping("{id}/file")
-    @ApiOperation(value = "批量删除部署配置文件", notes = "删除部署配置文件")
-    public ResponseEntity<ResponseVO> deleteDeployConfigFiles(
-            @PathVariable("id") Long id,
-            @RequestBody List<String> fileNames) throws IOException {
-        clusterCredentialService.deleteCredentialFiles(id, fileNames);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 }

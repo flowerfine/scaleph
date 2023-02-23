@@ -1,12 +1,12 @@
-import { PageResponse, ResponseBody } from '@/app.d';
-import { USER_AUTH } from '@/constant';
+import {PageResponse, ResponseBody} from '@/app.d';
 import {
   ClusterCredential,
   ClusterCredentialListParam,
-  CredentialFile,
-  CredentialFileUploadParam,
+  ClusterCredentialUploadParam,
 } from '@/services/resource/typings';
-import { request } from 'umi';
+import {request} from 'umi';
+import {USER_AUTH} from "@/constant";
+
 export const ClusterCredentialService = {
   url: '/api/resource/cluster-credential',
 
@@ -31,18 +31,34 @@ export const ClusterCredentialService = {
     });
   },
 
-  add: async (row: ClusterCredential) => {
-    return request<ResponseBody<ClusterCredential>>(`${ClusterCredentialService.url}`, {
-      method: 'PUT',
-      data: row,
+  upload: async (uploadParam: ClusterCredentialUploadParam) => {
+    const formData = new FormData();
+    formData.append('name', uploadParam.name);
+    if (uploadParam.context) {
+      formData.append('context', uploadParam.context);
+    }
+    formData.append('file', uploadParam.file);
+    if (uploadParam.remark) {
+      formData.append('remark', uploadParam.remark);
+    }
+    return request<ResponseBody<any>>(`${ClusterCredentialService.url}/upload`, {
+      method: 'POST',
+      data: formData,
     });
   },
 
-  update: async (row: ClusterCredential) => {
-    return request<ResponseBody<any>>(`${ClusterCredentialService.url}`, {
-      method: 'POST',
-      data: row,
-    });
+  download: async (row: ClusterCredential) => {
+    const a = document.createElement('a');
+    a.href =
+      `${ClusterCredentialService.url}/download/` +
+      row.id +
+      '?' +
+      USER_AUTH.token +
+      '=' +
+      localStorage.getItem(USER_AUTH.token);
+    a.download = row.fileName + '';
+    a.click();
+    window.URL.revokeObjectURL(ClusterCredentialService.url);
   },
 
   deleteOne: async (row: ClusterCredential) => {
@@ -59,49 +75,4 @@ export const ClusterCredentialService = {
     });
   },
 
-  listFiles: async (id: number) => {
-    return request<Array<CredentialFile>>(`${ClusterCredentialService.url}/` + id + '/file', {
-      method: 'GET',
-    }).then((res) => {
-      return { data: res };
-    });
-  },
-
-  uploadFiles: async (uploadParam: CredentialFileUploadParam) => {
-    const params: FormData = new FormData();
-    uploadParam.files.forEach(function (file: string | Blob) {
-      params.append('files', file);
-    });
-    return request<ResponseBody<any>>(
-      `${ClusterCredentialService.url}/` + uploadParam.id + '/file',
-      {
-        method: 'POST',
-        data: params,
-      },
-    );
-  },
-
-  downloadFile: async (id: number, row: CredentialFile) => {
-    const a = document.createElement('a');
-    a.href =
-      `${ClusterCredentialService.url}/` +
-      id +
-      '/file/' +
-      row.name +
-      '?' +
-      USER_AUTH.token +
-      '=' +
-      localStorage.getItem(USER_AUTH.token);
-    a.download = row.name + '';
-    a.click();
-    window.URL.revokeObjectURL(ClusterCredentialService.url);
-  },
-
-  deleteFiles: async (id: number, files: CredentialFile[]) => {
-    const params = files.map((row) => row.name);
-    return request<ResponseBody<any>>(`${ClusterCredentialService.url}/` + id + '/file', {
-      method: 'DELETE',
-      data: params,
-    });
-  },
 };

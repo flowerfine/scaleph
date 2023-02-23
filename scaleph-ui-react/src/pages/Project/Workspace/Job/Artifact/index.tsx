@@ -1,11 +1,11 @@
-import { PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
-import { FlinkArtifactService } from '@/services/project/flinkArtifact.service';
-import { WsFlinkArtifact } from '@/services/project/typings';
-import { DeleteOutlined, EditOutlined, UploadOutlined } from '@ant-design/icons';
-import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
-import { Button, message, Modal, Space, Tooltip } from 'antd';
-import { useRef, useState } from 'react';
-import { history, useAccess, useIntl } from 'umi';
+import {history, useAccess, useIntl} from 'umi';
+import {useRef, useState} from 'react';
+import {Button, message, Modal, Space, Tooltip} from 'antd';
+import {DeleteOutlined, EditOutlined, UploadOutlined} from '@ant-design/icons';
+import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
+import {PRIVILEGE_CODE, WORKSPACE_CONF} from '@/constant';
+import {FlinkArtifactService} from '@/services/project/flinkArtifact.service';
+import {WsFlinkArtifact} from '@/services/project/typings';
 import FlinkArtifactForm from './components/FlinkArtifactForm';
 
 const JobArtifactView: React.FC = () => {
@@ -17,34 +17,34 @@ const JobArtifactView: React.FC = () => {
   const [flinkArtifactFormData, setFlinkArtifactData] = useState<{
     visiable: boolean;
     data: WsFlinkArtifact;
-  }>({ visiable: false, data: {} });
+  }>({visiable: false, data: {}});
 
   const tableColumns: ProColumns<WsFlinkArtifact>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.project.artifact.name' }),
+      title: intl.formatMessage({id: 'pages.project.artifact.name'}),
       dataIndex: 'name',
       width: 240,
     },
     {
-      title: intl.formatMessage({ id: 'pages.project.artifact.remark' }),
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       width: 240,
       hideInSearch: true,
     },
     {
-      title: intl.formatMessage({ id: 'pages.project.artifact.createTime' }),
+      title: intl.formatMessage({id: 'app.common.data.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.project.artifact.updateTime' }),
+      title: intl.formatMessage({id: 'app.common.data.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'app.common.operate.label' }),
+      title: intl.formatMessage({id: 'app.common.operate.label'}),
       dataIndex: 'actions',
       align: 'center',
       width: 120,
@@ -54,11 +54,11 @@ const JobArtifactView: React.FC = () => {
         <>
           <Space>
             {access.canAccess(PRIVILEGE_CODE.workspaceJobShow) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.upload.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.upload.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<UploadOutlined />}
+                  icon={<UploadOutlined/>}
                   onClick={() => {
                     history.push('/workspace/job/artifact/jar', record);
                   }}
@@ -66,38 +66,34 @@ const JobArtifactView: React.FC = () => {
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDownload) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<EditOutlined />}
+                  icon={<EditOutlined/>}
                   onClick={() => {
-                    setFlinkArtifactData({ visiable: true, data: record });
+                    setFlinkArtifactData({visiable: true, data: record});
                   }}
                 ></Button>
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DeleteOutlined />}
+                  icon={<DeleteOutlined/>}
                   onClick={() => {
                     Modal.confirm({
-                      title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                      content: intl.formatMessage({
-                        id: 'app.common.operate.delete.confirm.content',
-                      }),
-                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                      okButtonProps: { danger: true },
-                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                      content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
+                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                      okButtonProps: {danger: true},
+                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
                         FlinkArtifactService.deleteOne(record).then((d) => {
                           if (d.success) {
-                            message.success(
-                              intl.formatMessage({ id: 'app.common.operate.delete.success' }),
-                            );
+                            message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
                           }
                         });
@@ -116,10 +112,10 @@ const JobArtifactView: React.FC = () => {
   return (
     <div>
       <ProTable<WsFlinkArtifact>
-        headerTitle={intl.formatMessage({ id: 'menu.project.job.artifact' })}
+        headerTitle={intl.formatMessage({id: 'menu.project.job.artifact'})}
         search={{
           labelWidth: 'auto',
-          span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
+          span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
         }}
         rowKey="id"
         actionRef={actionRef}
@@ -127,7 +123,7 @@ const JobArtifactView: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) =>
-          FlinkArtifactService.list({ ...params, projectId: projectId + '' })
+          FlinkArtifactService.list({...params, projectId: projectId + ''})
         }
         toolbar={{
           actions: [
@@ -136,26 +132,26 @@ const JobArtifactView: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setFlinkArtifactData({ visiable: true, data: {} });
+                  setFlinkArtifactData({visiable: true, data: {}});
                 }}
               >
-                {intl.formatMessage({ id: 'app.common.operate.new.label' })}
+                {intl.formatMessage({id: 'app.common.operate.new.label'})}
               </Button>
             ),
           ],
         }}
-        pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
+        pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
         tableAlertRender={false}
         tableAlertOptionRender={false}
-      ></ProTable>
+      />
       {flinkArtifactFormData.visiable && (
         <FlinkArtifactForm
           visible={flinkArtifactFormData.visiable}
           onCancel={() => {
-            setFlinkArtifactData({ visiable: false, data: {} });
+            setFlinkArtifactData({visiable: false, data: {}});
           }}
           onVisibleChange={(visiable) => {
-            setFlinkArtifactData({ visiable: visiable, data: {} });
+            setFlinkArtifactData({visiable: visiable, data: {}});
             actionRef.current?.reload();
           }}
           data={flinkArtifactFormData.data}
