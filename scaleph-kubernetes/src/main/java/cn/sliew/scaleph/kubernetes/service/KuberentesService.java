@@ -16,8 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.flink;
+package cn.sliew.scaleph.kubernetes.service;
 
-public interface FlinkfulClientProvider {
-    
+import io.fabric8.kubernetes.client.Config;
+import io.fabric8.kubernetes.client.KubernetesClient;
+
+import java.io.IOException;
+
+public interface KuberentesService {
+
+    KubernetesClient getClient(Long clusterCredentialId) throws IOException;
+
+    Config getConfig(Long clusterCredentialId) throws IOException;
+
 }

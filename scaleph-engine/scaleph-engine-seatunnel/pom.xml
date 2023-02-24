@@ -41,10 +41,6 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-plugin-seatunnel-connectors</artifactId>
         </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-plugin-flink-1.13</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
