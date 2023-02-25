@@ -20,7 +20,7 @@ package cn.sliew.scaleph.kubernetes.service.impl;
 
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.scaleph.common.nio.FileUtil;
-import cn.sliew.scaleph.kubernetes.service.KuberentesService;
+import cn.sliew.scaleph.kubernetes.service.KuberenetesService;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import cn.sliew.scaleph.system.util.SystemUtil;
@@ -38,7 +38,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @Service
-public class KuberentesServiceImpl implements KuberentesService {
+public class KubernetesServiceImpl implements KuberenetesService {
 
     private ConcurrentMap<Long, KubernetesClient> cache = new ConcurrentHashMap<>(4);
 
@@ -46,7 +46,7 @@ public class KuberentesServiceImpl implements KuberentesService {
     private ClusterCredentialService clusterCredentialService;
 
     @Override
-    public KubernetesClient getClient(Long clusterCredentialId) throws IOException {
+    public KubernetesClient getClient(Long clusterCredentialId) {
         return cache.computeIfAbsent(clusterCredentialId, this::buildClient);
     }
 

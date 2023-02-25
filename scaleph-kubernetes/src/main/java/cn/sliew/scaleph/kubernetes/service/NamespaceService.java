@@ -18,15 +18,11 @@
 
 package cn.sliew.scaleph.kubernetes.service;
 
-import io.fabric8.kubernetes.client.Config;
-import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.api.model.Namespace;
 
-import java.io.IOException;
+import java.util.List;
 
-public interface KuberentesService {
+public interface NamespaceService {
 
-    KubernetesClient getClient(Long clusterCredentialId) throws IOException;
-
-    Config getConfig(Long clusterCredentialId) throws IOException;
-
+    List<Namespace> getNamespaces(Long clusterCredentialId);
 }
