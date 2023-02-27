@@ -25,7 +25,6 @@
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
-        <result column="kind" property="kind"/>
         <result column="name" property="name"/>
         <result column="namespace" property="namespace"/>
         <result column="kuberenetes_options" property="kuberenetesOptions"/>

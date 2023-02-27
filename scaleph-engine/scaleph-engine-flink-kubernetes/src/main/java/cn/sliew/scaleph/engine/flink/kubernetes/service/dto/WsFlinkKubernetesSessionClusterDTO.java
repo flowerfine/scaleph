@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
-import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
@@ -36,9 +35,6 @@ import java.util.Map;
 @EqualsAndHashCode
 @ApiModel(value = "WsFlinkKubernetesDeployment对象", description = "flink kubernetes deployment")
 public class WsFlinkKubernetesSessionClusterDTO extends BaseDTO {
-
-    @ApiModelProperty("kind")
-    private DeploymentKind kind;
 
     @ApiModelProperty("name")
     private String name;

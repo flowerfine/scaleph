@@ -38,9 +38,6 @@ public class WsFlinkKubernetesSessionCluster extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("kind")
-    private String kind;
-
     @TableField("`name`")
     private String name;
 
@@ -64,6 +61,5 @@ public class WsFlinkKubernetesSessionCluster extends BaseDO {
 
     @TableField("remark")
     private String remark;
-
-
+    
 }

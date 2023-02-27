@@ -365,7 +365,6 @@ DROP TABLE IF EXISTS ws_flink_kubernetes_session_cluster;
 CREATE TABLE ws_flink_kubernetes_session_cluster
 (
     id                  bigint       not null auto_increment,
-    kind                varchar(16)  not null,
     `name`              varchar(255) not null,
     namespace           varchar(255) not null,
     kuberenetes_options varchar(255),
@@ -373,7 +372,6 @@ CREATE TABLE ws_flink_kubernetes_session_cluster
     task_manager        text,
     pod_template        text,
     flink_configuration text,
-    deployment_name     varchar(255),
     remark              varchar(255),
     creator             varchar(32),
     create_time         datetime     not null default current_timestamp,
