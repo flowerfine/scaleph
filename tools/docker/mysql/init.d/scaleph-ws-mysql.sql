@@ -362,7 +362,7 @@ CREATE TABLE ws_flink_kubernetes_deployment
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment';
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_session_cluster;
-CREATE TABLE ws_flink_kubernetes_deployment
+CREATE TABLE ws_flink_kubernetes_session_cluster
 (
     id                  bigint       not null auto_increment,
     kind                varchar(16)  not null,
