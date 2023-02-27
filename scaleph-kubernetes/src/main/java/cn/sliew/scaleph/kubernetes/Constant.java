@@ -24,6 +24,7 @@ public enum Constant {
     public static final String API_VERSION = "flink.apache.org/v1beta1";
 
     public static final String FLINK_DEPLOYMENT = "FlinkDeployment";
+    public static final String FLINK_SESSION_CLUSTER = "FlinkSessionCluster";
     public static final String FLINK_SESSION_JOB = "FlinkSessionJob";
 
     public static final String JAR_ARTIFACT = "JarArtifact";

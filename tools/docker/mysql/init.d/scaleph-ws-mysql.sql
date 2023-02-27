@@ -164,7 +164,7 @@ CREATE TABLE ws_flink_cluster_instance
     update_time             timestamp default current_timestamp on update current_timestamp comment '修改时间',
     PRIMARY KEY (id),
     unique key (project_id, flink_cluster_config_id, name),
-    KEY idx_name (name)
+    KEY                     idx_name ( name)
 ) ENGINE = INNODB COMMENT = 'flink cluster instance';
 
 drop table if exists ws_flink_artifact;
@@ -220,10 +220,10 @@ create table ws_flink_job
     update_time               timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key idx_code (code),
-    key idx_name (type, name),
-    key idx_flink_artifact (type, flink_artifact_id),
-    key idx_flink_cluster_config (flink_cluster_config_id),
-    key idx_flink_cluster_instance (flink_cluster_instance_id)
+    key                       idx_name ( type, name),
+    key                       idx_flink_artifact ( type, flink_artifact_id),
+    key                       idx_flink_cluster_config (flink_cluster_config_id),
+    key                       idx_flink_cluster_instance (flink_cluster_instance_id)
 ) engine = innodb comment ='flink作业信息';
 
 drop table if exists ws_flink_job_instance;
@@ -337,6 +337,7 @@ CREATE TABLE ws_flink_kubernetes_deployment_template
 INSERT INTO `ws_flink_kubernetes_deployment_template` (`id`, `name`, `metadata`, `spec`, `remark`, `creator`, `editor`)
 VALUES (1, 'default', '{\"name\":\"default\",\"namespace\":\"default\"}', '{}', NULL, 'sys', 'sys');
 
+
 DROP TABLE IF EXISTS ws_flink_kubernetes_deployment;
 CREATE TABLE ws_flink_kubernetes_deployment
 (
@@ -359,6 +360,28 @@ CREATE TABLE ws_flink_kubernetes_deployment
     PRIMARY KEY (id),
     UNIQUE KEY uniq_name (kind, `name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment';
+
+DROP TABLE IF EXISTS ws_flink_kubernetes_session_cluster;
+CREATE TABLE ws_flink_kubernetes_deployment
+(
+    id                  bigint       not null auto_increment,
+    kind                varchar(16)  not null,
+    `name`              varchar(255) not null,
+    namespace           varchar(255) not null,
+    kuberenetes_options varchar(255),
+    job_manager         text,
+    task_manager        text,
+    pod_template        text,
+    flink_configuration text,
+    deployment_name     varchar(255),
+    remark              varchar(255),
+    creator             varchar(32),
+    create_time         datetime     not null default current_timestamp,
+    editor              varchar(32),
+    update_time         datetime     not null default current_timestamp on update current_timestamp,
+    PRIMARY KEY (id),
+    UNIQUE KEY uniq_name (kind, `name`)
+) ENGINE = INNODB COMMENT = 'flink kubernetes session cluster';
 
 INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `namespace`, `kuberenetes_options`, `job_manager`,
                                               `task_manager`, `pod_template`, `flink_configuration`, `deployment_name`,

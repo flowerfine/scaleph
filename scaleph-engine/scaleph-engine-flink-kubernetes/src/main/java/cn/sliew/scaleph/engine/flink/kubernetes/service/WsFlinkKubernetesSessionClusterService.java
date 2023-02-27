@@ -18,7 +18,9 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
+import org.apache.flink.kubernetes.operator.api.FlinkSessionJob;
+
 public interface WsFlinkKubernetesSessionClusterService {
 
-
+    FlinkSessionJob asYaml(Long id);
 }

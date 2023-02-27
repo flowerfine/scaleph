@@ -18,28 +18,30 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionClusterSpec;
 import cn.sliew.scaleph.kubernetes.Constant;
-import cn.sliew.scaleph.kubernetes.Resource;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.fabric8.kubernetes.client.CustomResource;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.flink.kubernetes.operator.api.status.FlinkDeploymentStatus;
 
+/**
+ * same as FlinkDeployment
+ */
 @Data
 @EqualsAndHashCode
 @JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec"})
-public class FlinkDeployment extends CustomResource<FlinkDeploymentSpec, FlinkDeploymentStatus> implements Resource {
-
-    @Override
-    public String getKind() {
-        return Constant.FLINK_DEPLOYMENT;
-    }
+public class FlinkSessionCluster extends CustomResource<FlinkSessionClusterSpec, FlinkDeploymentStatus> implements Resource {
 
     @Override
     public String getApiVersion() {
         return Constant.API_VERSION;
+    }
+
+    @Override
+    public String getKind() {
+        return Constant.FLINK_SESSION_CLUSTER;
     }
 
 }
