@@ -378,7 +378,7 @@ CREATE TABLE ws_flink_kubernetes_session_cluster
     editor              varchar(32),
     update_time         datetime     not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    UNIQUE KEY uniq_name (kind, `name`)
+    UNIQUE KEY uniq_name (`name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes session cluster';
 
 INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `namespace`, `kuberenetes_options`, `job_manager`,
