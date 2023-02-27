@@ -16,25 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.service;
+package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterListParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class WsFlinkKubernetesSessionClusterListParam extends PaginationParam {
 
-public interface WsFlinkKubernetesSessionClusterService {
-
-    Page<WsFlinkKubernetesSessionClusterDTO> list(WsFlinkKubernetesSessionClusterListParam param);
-
-    WsFlinkKubernetesSessionClusterDTO selectOne(Long id);
-
-    int insert(WsFlinkKubernetesSessionClusterDTO dto);
-
-    int update(WsFlinkKubernetesSessionClusterDTO dto);
-
-    int deleteById(Long id);
-
-    int deleteBatch(List<Long> ids);
+    @ApiModelProperty("name")
+    private String name;
 }
