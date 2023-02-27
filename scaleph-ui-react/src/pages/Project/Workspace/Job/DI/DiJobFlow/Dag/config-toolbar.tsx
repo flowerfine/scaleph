@@ -144,6 +144,15 @@ const getExtraToolbarConfig = () => {
             commandService.executeCommand(CustomCommands.GRAPH_PARAMS_SETTING.id, {});
           },
         },
+        {
+          id: 'help',
+          iconName: 'InfoCircleOutlined',
+          text: intl.formatMessage({id: 'pages.project.di.flow.dag.help'}),
+          tooltip: intl.formatMessage({id: 'pages.project.di.flow.dag.help'}),
+          onClick: ({commandService}) => {
+            commandService.executeCommand(CustomCommands.GRAPH_HELP.id, {});
+          },
+        }
       ],
     },
   ] as IToolbarGroupOptions[];
