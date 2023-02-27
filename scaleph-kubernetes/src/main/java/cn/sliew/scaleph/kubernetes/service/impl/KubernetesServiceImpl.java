@@ -29,10 +29,13 @@ import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -68,9 +71,13 @@ public class KubernetesServiceImpl implements KuberenetesService {
         try (OutputStream outputStream = FileUtil.getOutputStream(kubeconfig)) {
             clusterCredentialService.download(clusterCredentialId, outputStream);
         }
-        if (StringUtils.hasText(clusterCredentialDTO.getContext())) {
-            return Config.fromKubeconfig(clusterCredentialDTO.getContext(), null, kubeconfig.toAbsolutePath().toString());
+
+        try (InputStream inputStream = FileUtil.getInputStream(kubeconfig)) {
+            String kubeContent = StreamUtils.copyToString(inputStream, Charset.forName("UTF-8"));
+            if (StringUtils.hasText(clusterCredentialDTO.getContext())) {
+                return Config.fromKubeconfig(clusterCredentialDTO.getContext(), kubeContent, null);
+            }
+            return Config.fromKubeconfig(null, kubeContent, null);
         }
-        return Config.fromKubeconfig(null, null, kubeconfig.toAbsolutePath().toString());
     }
 }

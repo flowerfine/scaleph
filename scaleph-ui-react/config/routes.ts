@@ -1,4 +1,4 @@
-﻿import { PRIVILEGE_CODE } from '../src/constant';
+﻿import {PRIVILEGE_CODE} from '../src/constant';
 
 export default [
   {
@@ -169,45 +169,45 @@ export default [
           }
         ]
       },
-      // {
-      //   name: 'project.flink.kubernetes',
-      //   path: '/workspace/flink/kubernetes',
-      //   icon: 'deploymentUnit',
-      //   pCode: PRIVILEGE_CODE.workspaceClusterShow,
-      //   access: 'normalRouteFilter',
-      //   routes: [
-      //     {
-      //       name: 'template',
-      //       path: '/workspace/flink/kubernetes/template',
-      //       exact: true,
-      //       component: './Project/Workspace/Kubernetes/Template',
-      //       pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
-      //       access: 'normalRouteFilter'
-      //     },
-      //     {
-      //       path: '/workspace/flink/kubernetes/template/detail',
-      //       exact: true,
-      //       component: './Project/Workspace/Kubernetes/Template/Detail',
-      //       pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
-      //       access: 'normalRouteFilter'
-      //     },
-      //     {
-      //       name: 'deployment',
-      //       path: '/workspace/flink/kubernetes/deployment',
-      //       exact: true,
-      //       component: './Project/Workspace/Kubernetes/Deployment',
-      //       pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
-      //       access: 'normalRouteFilter'
-      //     },
-      //     {
-      //       path: '/workspace/flink/kubernetes/deployment/detail',
-      //       exact: true,
-      //       component: './Project/Workspace/Kubernetes/Deployment/Detail',
-      //       pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
-      //       access: 'normalRouteFilter'
-      //     },
-      //   ]
-      // },
+      {
+        name: 'project.flink.kubernetes',
+        path: '/workspace/flink/kubernetes',
+        icon: 'deploymentUnit',
+        pCode: PRIVILEGE_CODE.workspaceClusterShow,
+        access: 'normalRouteFilter',
+        routes: [
+          {
+            name: 'template',
+            path: '/workspace/flink/kubernetes/template',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/Template',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
+            path: '/workspace/flink/kubernetes/template/detail',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/Template/Detail',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
+            name: 'deployment',
+            path: '/workspace/flink/kubernetes/deployment',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/Deployment',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
+            path: '/workspace/flink/kubernetes/deployment/detail',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/Deployment/Detail',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+        ]
+      },
     ]
   },
   {
