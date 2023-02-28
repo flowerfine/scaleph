@@ -381,6 +381,15 @@ CREATE TABLE ws_flink_kubernetes_session_cluster
     UNIQUE KEY uniq_name (`name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes session cluster';
 
+INSERT INTO `ws_flink_kubernetes_session_cluster` (`id`, `name`, `namespace`, `kuberenetes_options`, `job_manager`,
+                                                   `task_manager`, `pod_template`, `flink_configuration`,
+                                                   `remark`, `creator`, `editor`)
+VALUES (1, 'session-cluster', 'default',
+        '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
+        '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', NULL,
+        '{\"taskmanager.numberOfTaskSlots\":\"32\"}', NULL,
+        'sys', 'sys');
+
 INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `namespace`, `kuberenetes_options`, `job_manager`,
                                               `task_manager`, `pod_template`, `flink_configuration`, `deployment_name`,
                                               `job`, `remark`,
