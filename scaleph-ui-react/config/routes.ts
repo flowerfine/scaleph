@@ -192,6 +192,14 @@ export default [
             access: 'normalRouteFilter'
           },
           {
+            name: 'session-cluster',
+            path: '/workspace/flink/kubernetes/session-cluster',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/SessionCluster',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
             name: 'deployment',
             path: '/workspace/flink/kubernetes/deployment',
             exact: true,
@@ -267,13 +275,6 @@ export default [
         path: '/resource/cluster-credential',
         exact: true,
         component: './Resource/ClusterCredential',
-        pCode: PRIVILEGE_CODE.resourceClusterCredentialShow,
-        access: 'normalRouteFilter'
-      },
-      {
-        path: '/resource/cluster-credential/file',
-        exact: true,
-        component: './Resource/CredentialFile',
         pCode: PRIVILEGE_CODE.resourceClusterCredentialShow,
         access: 'normalRouteFilter'
       }
