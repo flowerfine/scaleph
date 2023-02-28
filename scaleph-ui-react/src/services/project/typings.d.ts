@@ -300,3 +300,21 @@ export type WsFlinkKubernetesDeploymentParam = QueryParam & {
   kind: string
   name?: string;
 };
+
+export type WsFlinkKubernetesSessionCluster = {
+  id?: number;
+  name: string;
+  namespace: string;
+  kuberenetesOptions?: KubernetesOptions;
+  jobManager?: Record<string, any>;
+  taskManager?: Record<string, any>;
+  podTemplate?: Record<string, any>;
+  flinkConfiguration?: Record<string, any>;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsFlinkKubernetesSessionClusterParam = QueryParam & {
+  name?: string;
+};
