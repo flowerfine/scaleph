@@ -1,6 +1,7 @@
 import {useIntl} from "umi";
 import React from "react";
 import {StepsForm} from "@ant-design/pro-components";
+import SessionClusterClusterStepForm from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Steps/ClusterStepForm";
 
 const FlinkKubernetesSessionClusterSteps: React.FC = () => {
   const intl = useIntl();
@@ -12,7 +13,7 @@ const FlinkKubernetesSessionClusterSteps: React.FC = () => {
         name="cluster"
         title={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.steps.cluster'})}
       >
-        <div>StepsForm.StepForm1</div>
+        <SessionClusterClusterStepForm/>
       </StepsForm.StepForm>
 
       <StepsForm.StepForm
