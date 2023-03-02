@@ -1,4 +1,4 @@
-import {useAccess, useIntl} from "umi";
+import {useAccess, useIntl, history} from "umi";
 import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
@@ -129,7 +129,7 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                // setDeploymentFormData({visiable: true, data: {}});
+                history.push("/workspace/flink/kubernetes/session-cluster/steps")
               }}
             >
               {intl.formatMessage({id: 'app.common.operate.new.label'})}

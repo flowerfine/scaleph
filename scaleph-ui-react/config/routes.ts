@@ -200,6 +200,13 @@ export default [
             access: 'normalRouteFilter'
           },
           {
+            path: '/workspace/flink/kubernetes/session-cluster/steps',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/SessionCluster/Steps',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
             name: 'deployment',
             path: '/workspace/flink/kubernetes/deployment',
             exact: true,
