@@ -15,7 +15,6 @@ const BaseOptions: React.FC = () => {
         name="name"
         label={intl.formatMessage({ id: 'page.project.cluster.config.name' })}
         rules={[
-          { required: true },
           { max: 30 },
           {
             pattern: /^[\w\s-_.]+$/,
@@ -26,14 +25,12 @@ const BaseOptions: React.FC = () => {
       <ProFormSelect
         name="resourceProvider"
         label={intl.formatMessage({ id: 'page.project.cluster.config.resourceProvider' })}
-        rules={[{ required: true }]}
         showSearch={true}
         request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkResourceProvider)}
       />
       <ProFormSelect
         name="deployMode"
         label={intl.formatMessage({ id: 'page.project.cluster.config.deployMode' })}
-        rules={[{ required: true }]}
         showSearch={true}
         dependencies={['resourceProvider']}
         request={(params) => {
@@ -47,7 +44,6 @@ const BaseOptions: React.FC = () => {
       <ProFormSelect
         name="clusterCredentialId"
         label={intl.formatMessage({ id: 'page.project.cluster.config.clusterCredential' })}
-        rules={[{ required: true }]}
         showSearch={true}
         dependencies={['resourceProvider']}
         request={(params) => {
@@ -65,7 +61,6 @@ const BaseOptions: React.FC = () => {
       <ProFormSelect
         name="flinkReleaseId"
         label={intl.formatMessage({ id: 'page.project.cluster.config.flinkRelease' })}
-        rules={[{ required: true }]}
         showSearch={true}
         dependencies={['flinkVersion']}
         request={(params) => {

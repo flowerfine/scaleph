@@ -765,6 +765,7 @@ export default {
   'pages.project.flink.kubernetes.session-cluster.namespace': 'Namespace',
   'pages.project.flink.kubernetes.session-cluster.steps.cluster': 'Cluster & Template',
   'pages.project.flink.kubernetes.session-cluster.steps.cluster.template': 'Template',
+  'pages.project.flink.kubernetes.session-cluster.steps.cluster.cluster': 'Cluster',
   'pages.project.flink.kubernetes.session-cluster.steps.options': 'Options',
   'pages.project.flink.kubernetes.session-cluster.steps.yaml': 'YAML',
 
