@@ -1,25 +1,15 @@
 import {useIntl} from "umi";
 import React from "react";
-import {Form} from "antd";
 import {ProCard, ProFormSelect} from "@ant-design/pro-components";
 import {
   WsFlinkKubernetesDeploymentTemplateService
 } from "@/services/project/WsFlinkKubernetesDeploymentTemplateService";
-import {
-  WsFlinkKubernetesDeploymentTemplate,
-  WsFlinkKubernetesDeploymentTemplateParam
-} from "@/services/project/typings";
+import {WsFlinkKubernetesDeploymentTemplateParam} from "@/services/project/typings";
 import {ClusterCredentialService} from "@/services/resource/clusterCredential.service";
 import {ClusterCredentialListParam} from "@/services/resource/typings";
 
 const SessionClusterClusterStepForm: React.FC = () => {
   const intl = useIntl();
-  const form = Form.useFormInstance()
-
-  const handleTemplateChange = (value: any, option: any) => {
-    const item: WsFlinkKubernetesDeploymentTemplate = option.item
-    form.setFieldsValue(WsFlinkKubernetesDeploymentTemplateService.parseData(item))
-  }
 
   return (
     <ProCard>
@@ -28,7 +18,7 @@ const SessionClusterClusterStepForm: React.FC = () => {
         label={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.steps.cluster.template'})}
         allowClear={false}
         fieldProps={{
-          onSelect: handleTemplateChange
+          // onSelect: handleTemplateChange
         }}
         request={((params, props) => {
           const param: WsFlinkKubernetesDeploymentTemplateParam = {
