@@ -16,28 +16,24 @@ const FlinkKubernetesSessionClusterSteps: React.FC = () => {
         formProps={{
           grid: true,
           rowProps: {gutter: [16, 8]}
-        }}
-      >
+        }}>
         <StepsForm.StepForm
           name="cluster"
           title={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.steps.cluster'})}
-          style={{width: 1000}}
-        >
+          style={{width: 1000}}>
           <SessionClusterClusterStepForm/>
         </StepsForm.StepForm>
 
         <StepsForm.StepForm
           name="options"
           title={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.steps.options'})}
-          style={{width: 1000}}
-        >
+          style={{width: 1000}}>
           <SessionClusterOptionsStepForm/>
         </StepsForm.StepForm>
 
         <StepsForm.StepForm
           name="yaml"
-          title={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.steps.yaml'})}
-        >
+          title={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.steps.yaml'})}>
           <SessionClusterYAMLStepForm/>
         </StepsForm.StepForm>
       </StepsForm>
