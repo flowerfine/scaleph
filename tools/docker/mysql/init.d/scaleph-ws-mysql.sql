@@ -318,8 +318,8 @@ CREATE TABLE ws_flink_catalog_configuration
     PRIMARY KEY (id)
 ) ENGINE = INNODB COMMENT = 'flink catalog configuration';
 
-DROP TABLE IF EXISTS ws_flink_kubernetes_deployment_template;
-CREATE TABLE ws_flink_kubernetes_deployment_template
+DROP TABLE IF EXISTS ws_flink_kubernetes_template;
+CREATE TABLE ws_flink_kubernetes_template
 (
     id          bigint      not null auto_increment,
     `name`      varchar(64) not null,
@@ -334,7 +334,7 @@ CREATE TABLE ws_flink_kubernetes_deployment_template
     UNIQUE KEY uniq_name (`name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment template';
 
-INSERT INTO `ws_flink_kubernetes_deployment_template` (`id`, `name`, `metadata`, `spec`, `remark`, `creator`, `editor`)
+INSERT INTO `ws_flink_kubernetes_template` (`id`, `name`, `metadata`, `spec`, `remark`, `creator`, `editor`)
 VALUES (1, 'default', '{\"name\":\"default\",\"namespace\":\"default\"}', '{}', NULL, 'sys', 'sys');
 
 

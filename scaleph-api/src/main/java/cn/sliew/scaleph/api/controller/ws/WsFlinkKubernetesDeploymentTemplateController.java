@@ -19,10 +19,10 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.entity.DeploymentTemplate;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesDeploymentTemplateService;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentTemplateDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentTemplateListParam;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesTemplateService;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateListParam;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -42,77 +42,77 @@ import java.util.List;
 public class WsFlinkKubernetesDeploymentTemplateController {
 
     @Autowired
-    private WsFlinkKubernetesDeploymentTemplateService wsFlinkKubernetesDeploymentTemplateService;
+    private WsFlinkKubernetesTemplateService wsFlinkKubernetesTemplateService;
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "查询 Deployment 模板列表", notes = "分页查询 Deployment 模板列表")
-    public ResponseEntity<Page<WsFlinkKubernetesDeploymentTemplateDTO>> list(@Valid WsFlinkKubernetesDeploymentTemplateListParam param) {
-        Page<WsFlinkKubernetesDeploymentTemplateDTO> page = wsFlinkKubernetesDeploymentTemplateService.list(param);
+    @ApiOperation(value = "查询模板列表", notes = "分页查询模板列表")
+    public ResponseEntity<Page<WsFlinkKubernetesTemplateDTO>> list(@Valid WsFlinkKubernetesTemplateListParam param) {
+        Page<WsFlinkKubernetesTemplateDTO> page = wsFlinkKubernetesTemplateService.list(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @Logging
     @GetMapping("/{id}")
-    @ApiOperation(value = "查询 Deployment 模板信息", notes = "查询 Deployment 模板信息")
-    public ResponseEntity<ResponseVO<WsFlinkKubernetesDeploymentTemplateDTO>> selectOne(@PathVariable("id") Long id) {
-        WsFlinkKubernetesDeploymentTemplateDTO dto = wsFlinkKubernetesDeploymentTemplateService.selectOne(id);
+    @ApiOperation(value = "查询模板信息", notes = "查询模板信息")
+    public ResponseEntity<ResponseVO<WsFlinkKubernetesTemplateDTO>> selectOne(@PathVariable("id") Long id) {
+        WsFlinkKubernetesTemplateDTO dto = wsFlinkKubernetesTemplateService.selectOne(id);
         return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
     }
 
     @Logging
     @PostMapping("asTemplate")
-    @ApiOperation(value = "转换 Deployment 模板信息", notes = "转换 Deployment 模板信息")
-    public ResponseEntity<ResponseVO<DeploymentTemplate>> asTemplate(@RequestBody WsFlinkKubernetesDeploymentTemplateDTO dto) {
-        DeploymentTemplate template = wsFlinkKubernetesDeploymentTemplateService.asTemplate(dto);
+    @ApiOperation(value = "转换模板信息", notes = "转换模板信息")
+    public ResponseEntity<ResponseVO<FlinkTemplate>> asTemplate(@RequestBody WsFlinkKubernetesTemplateDTO dto) {
+        FlinkTemplate template = wsFlinkKubernetesTemplateService.asTemplate(dto);
         return new ResponseEntity(ResponseVO.success(template), HttpStatus.OK);
     }
 
     @Logging
     @PostMapping("asTemplateWithDefault")
-    @ApiOperation(value = "转换 Deployment 模板和默认信息", notes = "转换 Deployment 模板和默认信息")
-    public ResponseEntity<ResponseVO<DeploymentTemplate>> asTemplateWithDefault(@RequestBody WsFlinkKubernetesDeploymentTemplateDTO dto) {
-        DeploymentTemplate template = wsFlinkKubernetesDeploymentTemplateService.asTemplateWithDefault(dto);
+    @ApiOperation(value = "转换模板和默认信息", notes = "转换模板和默认信息")
+    public ResponseEntity<ResponseVO<FlinkTemplate>> asTemplateWithDefault(@RequestBody WsFlinkKubernetesTemplateDTO dto) {
+        FlinkTemplate template = wsFlinkKubernetesTemplateService.asTemplateWithDefault(dto);
         return new ResponseEntity(ResponseVO.success(template), HttpStatus.OK);
     }
 
     @Logging
     @PatchMapping("default")
-    @ApiOperation(value = "merge 默认 Deployment 模板信息", notes = "merge 默认 Deployment 模板信息")
-    public ResponseEntity<ResponseVO<WsFlinkKubernetesDeploymentTemplateDTO>> mergeDefault(@RequestBody WsFlinkKubernetesDeploymentTemplateDTO template) {
-        WsFlinkKubernetesDeploymentTemplateDTO dto = wsFlinkKubernetesDeploymentTemplateService.mergeDefault(template);
-        return new ResponseEntity<ResponseVO<WsFlinkKubernetesDeploymentTemplateDTO>>(ResponseVO.success(dto), HttpStatus.OK);
+    @ApiOperation(value = "merge 默认模板信息", notes = "merge 默认模板信息")
+    public ResponseEntity<ResponseVO<WsFlinkKubernetesTemplateDTO>> mergeDefault(@RequestBody WsFlinkKubernetesTemplateDTO template) {
+        WsFlinkKubernetesTemplateDTO dto = wsFlinkKubernetesTemplateService.mergeDefault(template);
+        return new ResponseEntity<ResponseVO<WsFlinkKubernetesTemplateDTO>>(ResponseVO.success(dto), HttpStatus.OK);
     }
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "新增 Deployment 模板", notes = "新增 Deployment 模板")
-    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsFlinkKubernetesDeploymentTemplateDTO param) throws UidGenerateException {
-        wsFlinkKubernetesDeploymentTemplateService.insert(param);
+    @ApiOperation(value = "新增模板", notes = "新增模板")
+    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsFlinkKubernetesTemplateDTO param) throws UidGenerateException {
+        wsFlinkKubernetesTemplateService.insert(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
     @PostMapping
-    @ApiOperation(value = "修改 Deployment 模板", notes = "修改 Deployment 模板")
-    public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkKubernetesDeploymentTemplateDTO param) {
-        wsFlinkKubernetesDeploymentTemplateService.update(param);
+    @ApiOperation(value = "修改模板", notes = "修改模板")
+    public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkKubernetesTemplateDTO param) {
+        wsFlinkKubernetesTemplateService.update(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "删除 Deployment 模板", notes = "删除 Deployment 模板")
+    @ApiOperation(value = "删除模板", notes = "删除模板")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) {
-        wsFlinkKubernetesDeploymentTemplateService.deleteById(id);
+        wsFlinkKubernetesTemplateService.deleteById(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
     @DeleteMapping("/batch")
-    @ApiOperation(value = "批量删除 Deployment 模板", notes = "批量删除 Deployment 模板")
+    @ApiOperation(value = "批量删除模板", notes = "批量删除模板")
     public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) {
-        wsFlinkKubernetesDeploymentTemplateService.deleteBatch(ids);
+        wsFlinkKubernetesTemplateService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 

@@ -16,79 +16,61 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.factory;
+package cn.sliew.scaleph.engine.flink.kubernetes.factory;
 
-import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.entity.DeploymentTemplate;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.*;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentTemplateDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplateDefaults;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplateDefaultsConverter;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplateSpec;
+import io.fabric8.kubernetes.api.model.ObjectMeta;
+import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
+import org.apache.flink.kubernetes.operator.api.spec.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum DeploymentTemplateFactory {
+public enum FlinkTemplateFactory {
     ;
 
-    public static DeploymentTemplate create(String name, String namespace, DeploymentTemplate defaultTemplate) {
-        DeploymentTemplate template = new DeploymentTemplate();
-        DeploymentTemplate.DeploymentTemplateMetadata metadata = defaultTemplate.getMetadata();
+    public static FlinkTemplate create(String name, String namespace, FlinkTemplate defaultTemplate) {
+        FlinkTemplate template = new FlinkTemplate();
+        ObjectMeta metadata = defaultTemplate.getMetadata();
         if (metadata == null) {
-            metadata = new DeploymentTemplate.DeploymentTemplateMetadata();
-            metadata.setName(name);
-            metadata.setNamespace(namespace);
+            metadata = new ObjectMetaBuilder()
+                    .withName(name)
+                    .withNamespace(namespace)
+                    .build();
         }
         template.setMetadata(metadata);
 
-        FlinkDeploymentSpec spec = defaultTemplate.getSpec();
+        FlinkTemplateSpec spec = defaultTemplate.getSpec();
         if (spec == null) {
-            spec = FlinkDeploymentSpec.builder().build();
+            spec = new FlinkTemplateSpec();
         }
         template.setSpec(spec);
         return template;
     }
 
-    public static DeploymentTemplate getGlobal() {
-        return create("default", "default", createGlobalTemplate());
+    public static FlinkTemplate getDefaults() {
+        FlinkTemplateDefaults defaults = createFlinkTemplateDefaults();
+        FlinkTemplate template = FlinkTemplateDefaultsConverter.INSTANCE.convertTo(defaults);
+        return create("default", "default", template);
     }
 
-    public static DeploymentTemplate from(WsFlinkKubernetesDeploymentTemplateDTO dto) {
-        DeploymentTemplate template = new DeploymentTemplate();
-        template.setMetadata(JacksonUtil.toObject(dto.getMetadata(), DeploymentTemplate.DeploymentTemplateMetadata.class));
-        template.setSpec(JacksonUtil.toObject(dto.getSpec(), FlinkDeploymentSpec.class));
-        return template;
-    }
-
-    public static WsFlinkKubernetesDeploymentTemplateDTO to(DeploymentTemplate template) {
-        WsFlinkKubernetesDeploymentTemplateDTO dto = new WsFlinkKubernetesDeploymentTemplateDTO();
-        dto.setName(template.getMetadata().getName());
-        dto.setMetadata(JacksonUtil.toJsonNode(template.getMetadata()));
-        dto.setSpec(JacksonUtil.toJsonNode(template.getSpec()));
-        return dto;
-    }
-
-    private static DeploymentTemplate createGlobalTemplate() {
-        DeploymentTemplate template = new DeploymentTemplate();
-        FlinkDeploymentSpec spec = new FlinkDeploymentSpec();
-        spec.setFlinkVersion(FlinkVersion.v1_13);
-        spec.setImage("flink:1.13");
+    private static FlinkTemplateDefaults createFlinkTemplateDefaults() {
+        FlinkTemplateDefaults template = new FlinkTemplateDefaults();
+        FlinkTemplateSpec spec = new FlinkTemplateSpec();
+        spec.setFlinkVersion(FlinkVersion.v1_16);
+        spec.setImage("flink:1.16");
         spec.setImagePullPolicy("IfNotPresent");
         spec.setServiceAccount("flink");
         spec.setMode(KubernetesDeploymentMode.NATIVE);
-        spec.setJob(createJob());
         spec.setJobManager(createJobManager());
         spec.setTaskManager(createTaskManager());
         spec.setFlinkConfiguration(createFlinkConfiguration());
         spec.setLogConfiguration(createLogConfiguration());
         template.setSpec(spec);
         return template;
-    }
-
-    private static JobSpec createJob() {
-        return JobSpec.builder()
-                .state(JobState.RUNNING)
-                .upgradeMode(UpgradeMode.LAST_STATE)
-                .allowNonRestoredState(false)
-                .build();
     }
 
     private static JobManagerSpec createJobManager() {

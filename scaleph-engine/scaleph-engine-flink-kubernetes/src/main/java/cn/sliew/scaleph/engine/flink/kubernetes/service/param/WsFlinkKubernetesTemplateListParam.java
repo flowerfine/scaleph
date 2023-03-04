@@ -16,41 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.ws;
+package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
+import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * flink kubernetes deployment template
- * </p>
- */
 @Data
-@EqualsAndHashCode
-@TableName("ws_flink_kubernetes_deployment_template")
-@ApiModel(value = "WsFlinkKubernetesDeploymentTemplate对象", description = "flink kubernetes deployment template")
-public class WsFlinkKubernetesDeploymentTemplate extends BaseDO {
+@EqualsAndHashCode(callSuper = true)
+public class WsFlinkKubernetesTemplateListParam extends PaginationParam {
 
-    private static final long serialVersionUID = 1L;
-
-    @TableField("`name`")
+    @ApiModelProperty("name")
     private String name;
-
-    @ApiModelProperty("flink deployment metadata")
-    @TableField("metadata")
-    private String metadata;
-
-    @ApiModelProperty("flink deployment spec")
-    @TableField("spec")
-    private String spec;
-
-    @TableField("remark")
-    private String remark;
-
 }

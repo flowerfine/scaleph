@@ -18,16 +18,16 @@
 
 package cn.sliew.scaleph.dao.mapper.master.ws;
 
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesDeploymentTemplate;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesTemplate;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
 /**
  * <p>
- * flink kubernetes deployment template Mapper 接口
+ * flink kubernetes template Mapper 接口
  * </p>
  */
 @Repository
-public interface WsFlinkKubernetesDeploymentTemplateMapper extends BaseMapper<WsFlinkKubernetesDeploymentTemplate> {
+public interface WsFlinkKubernetesTemplateMapper extends BaseMapper<WsFlinkKubernetesTemplate> {
 
 }

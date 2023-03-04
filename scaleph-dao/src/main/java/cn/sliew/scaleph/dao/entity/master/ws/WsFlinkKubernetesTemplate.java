@@ -16,37 +16,41 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
+package cn.sliew.scaleph.dao.entity.master.ws;
 
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import com.fasterxml.jackson.databind.JsonNode;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * <p>
- * flink kubernetes deployment template
+ * flink kubernetes template
  * </p>
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "WsFlinkKubernetesDeploymentTemplate对象", description = "flink kubernetes deployment template")
-public class WsFlinkKubernetesDeploymentTemplateDTO extends BaseDTO {
+@EqualsAndHashCode
+@TableName("ws_flink_kubernetes_template")
+@ApiModel(value = "WsFlinkKubernetesTemplate对象", description = "flink kubernetes template")
+public class WsFlinkKubernetesTemplate extends BaseDO {
 
+    private static final long serialVersionUID = 1L;
+
+    @TableField("`name`")
     private String name;
 
-    @NotNull
-    @ApiModelProperty("flink deployment metadata")
-    private JsonNode metadata;
+    @ApiModelProperty("flink metadata")
+    @TableField("metadata")
+    private String metadata;
 
-    @NotNull
-    @ApiModelProperty("flink deployment spec")
-    private JsonNode spec;
+    @ApiModelProperty("flink spec")
+    @TableField("spec")
+    private String spec;
 
+    @TableField("remark")
     private String remark;
 
 }

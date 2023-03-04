@@ -17,10 +17,10 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesDeploymentTemplateMapper">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesTemplateMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesDeploymentTemplate">
+    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesTemplate">
         <result column="id" property="id" />
         <result column="creator" property="creator" />
         <result column="create_time" property="createTime" />

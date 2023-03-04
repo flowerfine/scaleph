@@ -16,17 +16,37 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
+package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
-import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.common.dto.BaseDTO;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
+
+/**
+ * <p>
+ * flink kubernetes template
+ * </p>
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class WsFlinkKubernetesDeploymentTemplateListParam extends PaginationParam {
+@ApiModel(value = "WsFlinkKubernetesTemplate对象", description = "flink kubernetes template")
+public class WsFlinkKubernetesTemplateDTO extends BaseDTO {
 
-    @ApiModelProperty("name")
     private String name;
+
+    @NotNull
+    @ApiModelProperty("flink metadata")
+    private JsonNode metadata;
+
+    @NotNull
+    @ApiModelProperty("flink spec")
+    private JsonNode spec;
+
+    private String remark;
+
 }

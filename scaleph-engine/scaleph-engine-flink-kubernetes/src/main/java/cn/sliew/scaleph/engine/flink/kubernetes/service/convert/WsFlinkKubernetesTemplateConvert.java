@@ -20,20 +20,20 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesDeploymentTemplate;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentTemplateDTO;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesTemplate;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WsFlinkKubernetesDeploymentTemplateConvert extends BaseConvert<WsFlinkKubernetesDeploymentTemplate, WsFlinkKubernetesDeploymentTemplateDTO> {
-    WsFlinkKubernetesDeploymentTemplateConvert INSTANCE = Mappers.getMapper(WsFlinkKubernetesDeploymentTemplateConvert.class);
+public interface WsFlinkKubernetesTemplateConvert extends BaseConvert<WsFlinkKubernetesTemplate, WsFlinkKubernetesTemplateDTO> {
+    WsFlinkKubernetesTemplateConvert INSTANCE = Mappers.getMapper(WsFlinkKubernetesTemplateConvert.class);
 
     @Override
-    default WsFlinkKubernetesDeploymentTemplate toDo(WsFlinkKubernetesDeploymentTemplateDTO dto) {
-        WsFlinkKubernetesDeploymentTemplate entity = new WsFlinkKubernetesDeploymentTemplate();
+    default WsFlinkKubernetesTemplate toDo(WsFlinkKubernetesTemplateDTO dto) {
+        WsFlinkKubernetesTemplate entity = new WsFlinkKubernetesTemplate();
         BeanUtils.copyProperties(dto, entity);
         entity.setMetadata(dto.getMetadata().toString());
         entity.setSpec(dto.getSpec().toString());
@@ -41,8 +41,8 @@ public interface WsFlinkKubernetesDeploymentTemplateConvert extends BaseConvert<
     }
 
     @Override
-    default WsFlinkKubernetesDeploymentTemplateDTO toDto(WsFlinkKubernetesDeploymentTemplate entity) {
-        WsFlinkKubernetesDeploymentTemplateDTO dto = new WsFlinkKubernetesDeploymentTemplateDTO();
+    default WsFlinkKubernetesTemplateDTO toDto(WsFlinkKubernetesTemplate entity) {
+        WsFlinkKubernetesTemplateDTO dto = new WsFlinkKubernetesTemplateDTO();
         BeanUtils.copyProperties(entity, dto);
         dto.setMetadata(JacksonUtil.toJsonNode(entity.getMetadata()));
         dto.setSpec(JacksonUtil.toJsonNode(entity.getSpec()));
