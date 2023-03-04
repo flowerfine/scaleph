@@ -12,7 +12,7 @@ const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesDeploymen
                                                                                                  data,
                                                                                                  visible,
                                                                                                  onVisibleChange,
-                                                                                                 onCancel,
+                                                                                                 onCancel
                                                                                                }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
@@ -58,7 +58,6 @@ const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesDeploymen
                 if (onVisibleChange) {
                   onVisibleChange(false);
                 }
-                // history.push('/resource/cluster-credential/file', {id: response.data?.id});
               }
             });
         });
