@@ -19,8 +19,6 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.factory;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplateDefaults;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplateDefaultsConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplateSpec;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
@@ -52,13 +50,12 @@ public enum FlinkTemplateFactory {
     }
 
     public static FlinkTemplate getDefaults() {
-        FlinkTemplateDefaults defaults = createFlinkTemplateDefaults();
-        FlinkTemplate template = FlinkTemplateDefaultsConverter.INSTANCE.convertTo(defaults);
-        return create("default", "default", template);
+        FlinkTemplate defaults = createFlinkTemplateDefaults();
+        return create("default", "default", defaults);
     }
 
-    private static FlinkTemplateDefaults createFlinkTemplateDefaults() {
-        FlinkTemplateDefaults template = new FlinkTemplateDefaults();
+    private static FlinkTemplate createFlinkTemplateDefaults() {
+        FlinkTemplate template = new FlinkTemplate();
         FlinkTemplateSpec spec = new FlinkTemplateSpec();
         spec.setFlinkVersion(FlinkVersion.v1_16);
         spec.setImage("flink:1.16");

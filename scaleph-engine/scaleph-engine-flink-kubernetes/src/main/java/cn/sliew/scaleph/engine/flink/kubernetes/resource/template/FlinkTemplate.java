@@ -22,11 +22,15 @@ import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.Resource;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.fabric8.kubernetes.client.CustomResource;
+import io.fabric8.kubernetes.model.annotation.Group;
+import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.flink.kubernetes.operator.api.status.FlinkDeploymentStatus;
 
 @Data
+@Group("flink.apache.org")
+@Version("v1beta1")
 @EqualsAndHashCode
 @JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec", "status"})
 public class FlinkTemplate extends CustomResource<FlinkTemplateSpec, FlinkDeploymentStatus> implements Resource {
