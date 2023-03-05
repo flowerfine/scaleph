@@ -13,8 +13,8 @@ import AdvancedHighAvailability
 import AdvancedResource from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedResource";
 import AdvancedAdditional from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedAdditional";
 import {
-  WsFlinkKubernetesDeploymentTemplateService
-} from "@/services/project/WsFlinkKubernetesDeploymentTemplateService";
+  WsFlinkKubernetesTemplateService
+} from "@/services/project/WsFlinkKubernetesTemplateService";
 
 const SessionClusterOptionsStepForm: React.FC = () => {
   const form = Form.useFormInstance()
@@ -25,7 +25,8 @@ const SessionClusterOptionsStepForm: React.FC = () => {
 
   useEffect(() => {
     if (template) {
-      form.setFieldsValue(WsFlinkKubernetesDeploymentTemplateService.parseData(template))
+      console.log('SessionClusterOptionsStepForm', template)
+      form.setFieldsValue(WsFlinkKubernetesTemplateService.parseData(template))
     }
   }, [template]);
 

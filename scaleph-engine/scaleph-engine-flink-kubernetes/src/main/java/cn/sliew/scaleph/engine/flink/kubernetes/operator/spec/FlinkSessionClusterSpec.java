@@ -15,17 +15,6 @@ import java.util.Map;
 public class FlinkSessionClusterSpec {
 
     /**
-     * Nonce used to manually trigger restart for the cluster/session job. In order to trigger
-     * restart, change the number to anything other than the current value.
-     */
-    private Long restartNonce;
-
-    /**
-     * Flink configuration overrides for the Flink deployment or Flink session job.
-     */
-    private Map<String, String> flinkConfiguration;
-
-    /**
      * Flink docker image used to start the Job and TaskManager pods.
      */
     private String image;
@@ -67,6 +56,11 @@ public class FlinkSessionClusterSpec {
     private TaskManagerSpec taskManager;
 
     /**
+     * Flink configuration overrides for the Flink deployment or Flink session job.
+     */
+    private Map<String, String> flinkConfiguration;
+
+    /**
      * Log configuration overrides for the Flink deployment. Format logConfigFileName ->
      * configContent.
      */
@@ -76,4 +70,11 @@ public class FlinkSessionClusterSpec {
      * Deployment mode of the Flink cluster, native or standalone.
      */
     private KubernetesDeploymentMode mode;
+
+    /**
+     * Nonce used to manually trigger restart for the cluster/session job. In order to trigger
+     * restart, change the number to anything other than the current value.
+     */
+    private Long restartNonce;
+
 }

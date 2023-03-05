@@ -1,12 +1,12 @@
 import {PageResponse, ResponseBody} from '@/app.d';
 import {request} from 'umi';
-import {WsFlinkKubernetesDeploymentTemplate, WsFlinkKubernetesDeploymentTemplateParam} from './typings';
+import {WsFlinkKubernetesTemplate, WsFlinkKubernetesTemplateParam} from './typings';
 
-export const WsFlinkKubernetesDeploymentTemplateService = {
+export const WsFlinkKubernetesTemplateService = {
   url: '/api/flink/kubernetes/template',
 
-  list: async (queryParam: WsFlinkKubernetesDeploymentTemplateParam) => {
-    return request<PageResponse<WsFlinkKubernetesDeploymentTemplate>>(`${WsFlinkKubernetesDeploymentTemplateService.url}`, {
+  list: async (queryParam: WsFlinkKubernetesTemplateParam) => {
+    return request<PageResponse<WsFlinkKubernetesTemplate>>(`${WsFlinkKubernetesTemplateService.url}`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
@@ -21,61 +21,61 @@ export const WsFlinkKubernetesDeploymentTemplateService = {
   },
 
   selectOne: async (id: number) => {
-    return request<ResponseBody<WsFlinkKubernetesDeploymentTemplate>>(`${WsFlinkKubernetesDeploymentTemplateService.url}/` + id, {
+    return request<ResponseBody<WsFlinkKubernetesTemplate>>(`${WsFlinkKubernetesTemplateService.url}/` + id, {
       method: 'GET',
     });
   },
 
   asTemplate: async (row: any) => {
-    return request<ResponseBody<any>>(`${WsFlinkKubernetesDeploymentTemplateService.url}/asTemplate`, {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}/asTemplate`, {
       method: 'POST',
       data: row,
     });
   },
 
   asTemplateWithDefault: async (row: any) => {
-    return request<ResponseBody<any>>(`${WsFlinkKubernetesDeploymentTemplateService.url}/asTemplateWithDefault`, {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}/asTemplateWithDefault`, {
       method: 'POST',
       data: row,
     });
   },
 
   mergeDefault: async (row: any) => {
-    return request<ResponseBody<any>>(`${WsFlinkKubernetesDeploymentTemplateService.url}/default`, {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}/default`, {
       method: 'PATCH',
       data: row,
     });
   },
 
-  add: async (row: WsFlinkKubernetesDeploymentTemplate) => {
-    return request<ResponseBody<any>>(`${WsFlinkKubernetesDeploymentTemplateService.url}`, {
+  add: async (row: WsFlinkKubernetesTemplate) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}`, {
       method: 'PUT',
       data: row,
     });
   },
 
-  update: async (row: WsFlinkKubernetesDeploymentTemplate) => {
-    return request<ResponseBody<any>>(`${WsFlinkKubernetesDeploymentTemplateService.url}`, {
+  update: async (row: WsFlinkKubernetesTemplate) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}`, {
       method: 'POST',
       data: row,
     });
   },
 
-  delete: async (row: WsFlinkKubernetesDeploymentTemplate) => {
-    return request<ResponseBody<any>>(`${WsFlinkKubernetesDeploymentTemplateService.url}/` + row.id, {
+  delete: async (row: WsFlinkKubernetesTemplate) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}/` + row.id, {
       method: 'DELETE',
     });
   },
 
-  deleteBatch: async (rows: WsFlinkKubernetesDeploymentTemplate[]) => {
+  deleteBatch: async (rows: WsFlinkKubernetesTemplate[]) => {
     const params = rows.map((row) => row.id);
-    return request<ResponseBody<any>>(`${WsFlinkKubernetesDeploymentTemplateService.url}/batch`, {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}/batch`, {
       method: 'DELETE',
       data: params,
     });
   },
 
-  formatData: (data: WsFlinkKubernetesDeploymentTemplate, value: Record<string, any>) => {
+  formatData: (data: WsFlinkKubernetesTemplate, value: Record<string, any>) => {
     const spec: Record<string, any> = {}
     spec["flinkVersion"] = value["spec.flinkVersion"]
     spec["serviceAccount"] = value["spec.serviceAccount"]
@@ -154,7 +154,7 @@ export const WsFlinkKubernetesDeploymentTemplateService = {
     return data;
   },
 
-  parseData: (data: WsFlinkKubernetesDeploymentTemplate) => {
+  parseData: (data: WsFlinkKubernetesTemplate) => {
     const spec: Record<string, any> = data.spec ? {...data.spec} : {}
     const flinkConfiguration: Record<string, any> = new Map<string, any>()
     Object.entries<[string, any][]>(spec.flinkConfiguration ? {...spec.flinkConfiguration} : {}).forEach(([key, value]) => {

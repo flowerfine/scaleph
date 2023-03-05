@@ -1,6 +1,10 @@
 import {PageResponse, ResponseBody} from '@/app.d';
 import {request} from 'umi';
-import {WsFlinkKubernetesSessionCluster, WsFlinkKubernetesSessionClusterParam} from './typings';
+import {
+  WsFlinkKubernetesSessionCluster,
+  WsFlinkKubernetesSessionClusterParam,
+  WsFlinkKubernetesTemplate
+} from './typings';
 
 export const WsFlinkKubernetesSessionClusterService = {
   url: '/api/flink/kubernetes/session-cluster',
@@ -23,6 +27,20 @@ export const WsFlinkKubernetesSessionClusterService = {
   selectOne: async (id: number) => {
     return request<ResponseBody<WsFlinkKubernetesSessionCluster>>(`${WsFlinkKubernetesSessionClusterService.url}/` + id, {
       method: 'GET',
+    });
+  },
+
+  asYAML: async (row: WsFlinkKubernetesSessionCluster) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/asYAML`, {
+      method: 'POST',
+      data: row,
+    });
+  },
+
+  fromTemplate: async (row: WsFlinkKubernetesTemplate) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/fromTemplate`, {
+      method: 'POST',
+      data: row,
     });
   },
 

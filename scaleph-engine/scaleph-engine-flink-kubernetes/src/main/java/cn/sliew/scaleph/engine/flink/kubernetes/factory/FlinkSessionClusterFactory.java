@@ -18,7 +18,21 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.factory;
 
+import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionClusterSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplateSpec;
+
 public enum FlinkSessionClusterFactory {
     ;
 
+    public static FlinkSessionCluster create(FlinkTemplate template) {
+        FlinkSessionCluster sessionCluster = new FlinkSessionCluster();
+        sessionCluster.setMetadata(template.getMetadata());
+        FlinkTemplateSpec templateSpec = template.getSpec();
+        FlinkSessionClusterSpec sessionClusterSpec = BeanUtil.copy(templateSpec, new FlinkSessionClusterSpec());
+        sessionCluster.setSpec(sessionClusterSpec);
+        return sessionCluster;
+    }
 }

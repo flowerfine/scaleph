@@ -19,8 +19,8 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionClusterSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.Resource;
 import cn.sliew.scaleph.kubernetes.Constant;
+import cn.sliew.scaleph.kubernetes.Resource;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.model.annotation.Group;

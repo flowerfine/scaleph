@@ -4,10 +4,10 @@ import {Button, message, Modal, Space, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {PRIVILEGE_CODE} from "@/constant";
-import {WsFlinkKubernetesDeploymentTemplate} from "@/services/project/typings";
+import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 import {
-  WsFlinkKubernetesDeploymentTemplateService
-} from "@/services/project/WsFlinkKubernetesDeploymentTemplateService";
+  WsFlinkKubernetesTemplateService
+} from "@/services/project/WsFlinkKubernetesTemplateService";
 import DeploymentTemplateForm from "@/pages/Project/Workspace/Kubernetes/Template/DeploymentTemplateForm";
 
 const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
@@ -15,13 +15,13 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<WsFlinkKubernetesDeploymentTemplate[]>([]);
+  const [selectedRows, setSelectedRows] = useState<WsFlinkKubernetesTemplate[]>([]);
   const [deploymentTemplateFormData, setDeploymentTemplateFormData] = useState<{
     visiable: boolean;
-    data: WsFlinkKubernetesDeploymentTemplate;
+    data: WsFlinkKubernetesTemplate;
   }>({visiable: false, data: {}});
 
-  const tableColumns: ProColumns<WsFlinkKubernetesDeploymentTemplate>[] = [
+  const tableColumns: ProColumns<WsFlinkKubernetesTemplate>[] = [
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.name'}),
       dataIndex: 'name',
@@ -101,7 +101,7 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
-                      WsFlinkKubernetesDeploymentTemplateService.delete(record).then((d) => {
+                      WsFlinkKubernetesTemplateService.delete(record).then((d) => {
                         if (d.success) {
                           message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();
@@ -119,7 +119,7 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
   ];
 
   return (<div>
-    <ProTable<WsFlinkKubernetesDeploymentTemplate>
+    <ProTable<WsFlinkKubernetesTemplate>
       search={{
         labelWidth: 'auto',
         span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -130,7 +130,7 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) =>
-        WsFlinkKubernetesDeploymentTemplateService.list({...params})
+        WsFlinkKubernetesTemplateService.list({...params})
       }
       toolbar={{
         actions: [
@@ -158,7 +158,7 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
                   okButtonProps: {danger: true},
                   cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                   onOk() {
-                    WsFlinkKubernetesDeploymentTemplateService.deleteBatch(selectedRows).then((d) => {
+                    WsFlinkKubernetesTemplateService.deleteBatch(selectedRows).then((d) => {
                       if (d.success) {
                         message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                         actionRef.current?.reload();

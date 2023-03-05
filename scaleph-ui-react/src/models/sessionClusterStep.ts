@@ -1,14 +1,14 @@
 import {useState} from 'react';
-import {WsFlinkKubernetesDeploymentTemplate} from "@/services/project/typings";
+import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 
 export default () => {
-  const [template, setTemplate] = useState<WsFlinkKubernetesDeploymentTemplate>()
-  const [deploymentTemplate, setDeploymentTemplate] = useState<string>()
+  const [template, setTemplate] = useState<WsFlinkKubernetesTemplate>()
+  const [sessionCluster, setSessionCluster] = useState<string>()
 
   return {
     template,
     setTemplate,
-    deploymentTemplate,
-    setDeploymentTemplate
+    sessionCluster,
+    setSessionCluster
   };
 };

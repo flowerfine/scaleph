@@ -2,10 +2,15 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesSessionCluster;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesSessionClusterMapper;
+import cn.sliew.scaleph.engine.flink.kubernetes.factory.FlinkSessionClusterFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionClusterConverter;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesTemplateService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesSessionClusterConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterListParam;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -22,6 +27,8 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
 
     @Autowired
     private WsFlinkKubernetesSessionClusterMapper wsFlinkKubernetesSessionClusterMapper;
+    @Autowired
+    private WsFlinkKubernetesTemplateService wsFlinkKubernetesTemplateService;
 
     @Override
     public Page<WsFlinkKubernetesSessionClusterDTO> list(WsFlinkKubernetesSessionClusterListParam param) {
@@ -44,9 +51,14 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     }
 
     @Override
-    public FlinkSessionCluster asYAML(Long id) {
-        WsFlinkKubernetesSessionClusterDTO dto = selectOne(id);
-        return null;
+    public FlinkSessionCluster asYAML(WsFlinkKubernetesSessionClusterDTO dto) {
+        return FlinkSessionClusterConverter.INSTANCE.convertTo(dto);
+    }
+
+    @Override
+    public FlinkSessionCluster fromTemplate(WsFlinkKubernetesTemplateDTO dto) {
+        FlinkTemplate template = wsFlinkKubernetesTemplateService.asTemplate(dto);
+        return FlinkSessionClusterFactory.create(template);
     }
 
     @Override

@@ -3,12 +3,12 @@ import React from "react";
 import {Form, message, Modal} from "antd";
 import {ProForm, ProFormDigit, ProFormText} from "@ant-design/pro-components";
 import {ModalFormProps} from '@/app.d';
-import {WsFlinkKubernetesDeploymentTemplate} from "@/services/project/typings";
+import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 import {
-  WsFlinkKubernetesDeploymentTemplateService
-} from "@/services/project/WsFlinkKubernetesDeploymentTemplateService";
+  WsFlinkKubernetesTemplateService
+} from "@/services/project/WsFlinkKubernetesTemplateService";
 
-const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesDeploymentTemplate>> = ({
+const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesTemplate>> = ({
                                                                                                  data,
                                                                                                  visible,
                                                                                                  onVisibleChange,
@@ -36,7 +36,7 @@ const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesDeploymen
             name: values.name,
             namespace: values.namespace
           }
-          const param: WsFlinkKubernetesDeploymentTemplate = {
+          const param: WsFlinkKubernetesTemplate = {
             id: values.id,
             name: values.name,
             metadata: metadataData,
@@ -44,7 +44,7 @@ const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesDeploymen
             remark: values.remark,
           };
           data.id
-            ? WsFlinkKubernetesDeploymentTemplateService.update(param).then((response) => {
+            ? WsFlinkKubernetesTemplateService.update(param).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
                 if (onVisibleChange) {
@@ -52,7 +52,7 @@ const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesDeploymen
                 }
               }
             })
-            : WsFlinkKubernetesDeploymentTemplateService.add(param).then((response) => {
+            : WsFlinkKubernetesTemplateService.add(param).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
                 if (onVisibleChange) {

@@ -16,17 +16,17 @@ import AdvancedHighAvailability
   from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedHighAvailability";
 import AdvancedAdditional from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedAdditional";
 import {
-  WsFlinkKubernetesDeploymentTemplateService
-} from "@/services/project/WsFlinkKubernetesDeploymentTemplateService";
-import {WsFlinkKubernetesDeploymentTemplate} from "@/services/project/typings";
+  WsFlinkKubernetesTemplateService
+} from "@/services/project/WsFlinkKubernetesTemplateService";
+import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 
-const DeploymentTemplateAdvanced: React.FC<Props<WsFlinkKubernetesDeploymentTemplate>> = ({data}) => {
+const DeploymentTemplateAdvanced: React.FC<Props<WsFlinkKubernetesTemplate>> = ({data}) => {
   const [form] = Form.useForm()
   const {deploymentTemplate, setDeploymentTemplate} = useModel('deploymentTemplateYAMLEditor');
 
   useEffect(() => {
-    const newTemplate = WsFlinkKubernetesDeploymentTemplateService.formatData(data, form.getFieldsValue(true))
-    WsFlinkKubernetesDeploymentTemplateService.asTemplate(newTemplate).then((response) => {
+    const newTemplate = WsFlinkKubernetesTemplateService.formatData(data, form.getFieldsValue(true))
+    WsFlinkKubernetesTemplateService.asTemplate(newTemplate).then((response) => {
       if (response.data) {
         setDeploymentTemplate(YAML.stringify(response.data))
       }
@@ -43,7 +43,7 @@ const DeploymentTemplateAdvanced: React.FC<Props<WsFlinkKubernetesDeploymentTemp
           metadata: json.metadata,
           spec: json.spec
         }
-        form.setFieldsValue(WsFlinkKubernetesDeploymentTemplateService.parseData(template))
+        form.setFieldsValue(WsFlinkKubernetesTemplateService.parseData(template))
       } catch (unused) {
       }
     }
@@ -62,8 +62,8 @@ const DeploymentTemplateAdvanced: React.FC<Props<WsFlinkKubernetesDeploymentTemp
       spec: json.spec
     }
     try {
-      const newTemplate = WsFlinkKubernetesDeploymentTemplateService.formatData(template, form.getFieldsValue(true))
-      WsFlinkKubernetesDeploymentTemplateService.asTemplate(newTemplate).then((response) => {
+      const newTemplate = WsFlinkKubernetesTemplateService.formatData(template, form.getFieldsValue(true))
+      WsFlinkKubernetesTemplateService.asTemplate(newTemplate).then((response) => {
         if (response.data) {
           setDeploymentTemplate(YAML.stringify(response.data))
         }
@@ -75,7 +75,7 @@ const DeploymentTemplateAdvanced: React.FC<Props<WsFlinkKubernetesDeploymentTemp
   return (
     <ProForm
       form={form}
-      initialValues={WsFlinkKubernetesDeploymentTemplateService.parseData(data)}
+      initialValues={WsFlinkKubernetesTemplateService.parseData(data)}
       grid={true}
       submitter={false}
       onFieldsChange={onFieldsChange}>

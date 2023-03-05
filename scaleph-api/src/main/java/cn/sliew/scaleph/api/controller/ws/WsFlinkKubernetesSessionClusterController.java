@@ -19,8 +19,11 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterListParam;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.vo.ResponseVO;
@@ -57,6 +60,22 @@ public class WsFlinkKubernetesSessionClusterController {
     public ResponseEntity<ResponseVO<WsFlinkKubernetesSessionClusterDTO>> selectOne(@PathVariable("id") Long id) {
         WsFlinkKubernetesSessionClusterDTO dto = wsFlinkKubernetesSessionClusterService.selectOne(id);
         return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("asYAML")
+    @ApiOperation(value = "转换 SessionCluster", notes = "转换 SessionCluster")
+    public ResponseEntity<ResponseVO<FlinkSessionCluster>> asYAML(@RequestBody WsFlinkKubernetesSessionClusterDTO dto) {
+        FlinkSessionCluster sessionCluster = wsFlinkKubernetesSessionClusterService.asYAML(dto);
+        return new ResponseEntity(ResponseVO.success(sessionCluster), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("fromTemplate")
+    @ApiOperation(value = "转换 SessionCluster", notes = "转换 SessionCluster")
+    public ResponseEntity<ResponseVO<FlinkSessionCluster>> fromTemplate(@RequestBody WsFlinkKubernetesTemplateDTO dto) {
+        FlinkSessionCluster sessionCluster = wsFlinkKubernetesSessionClusterService.fromTemplate(dto);
+        return new ResponseEntity(ResponseVO.success(sessionCluster), HttpStatus.OK);
     }
 
     @Logging
