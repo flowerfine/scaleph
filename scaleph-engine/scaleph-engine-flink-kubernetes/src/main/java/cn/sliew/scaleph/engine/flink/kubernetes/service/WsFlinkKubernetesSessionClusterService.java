@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -29,6 +30,8 @@ public interface WsFlinkKubernetesSessionClusterService {
     Page<WsFlinkKubernetesSessionClusterDTO> list(WsFlinkKubernetesSessionClusterListParam param);
 
     WsFlinkKubernetesSessionClusterDTO selectOne(Long id);
+
+    FlinkSessionCluster asYAML(Long id);
 
     int insert(WsFlinkKubernetesSessionClusterDTO dto);
 

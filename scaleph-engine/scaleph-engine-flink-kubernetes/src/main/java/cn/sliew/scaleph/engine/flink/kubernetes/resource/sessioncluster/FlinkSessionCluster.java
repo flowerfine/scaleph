@@ -16,12 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionClusterSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.Resource;
 import cn.sliew.scaleph.kubernetes.Constant;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.fabric8.kubernetes.client.CustomResource;
+import io.fabric8.kubernetes.model.annotation.Group;
+import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.flink.kubernetes.operator.api.status.FlinkDeploymentStatus;
@@ -30,6 +33,8 @@ import org.apache.flink.kubernetes.operator.api.status.FlinkDeploymentStatus;
  * same as FlinkDeployment
  */
 @Data
+@Group(Constant.GROUP)
+@Version(Constant.VERSION)
 @EqualsAndHashCode
 @JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec"})
 public class FlinkSessionCluster extends CustomResource<FlinkSessionClusterSpec, FlinkDeploymentStatus> implements Resource {

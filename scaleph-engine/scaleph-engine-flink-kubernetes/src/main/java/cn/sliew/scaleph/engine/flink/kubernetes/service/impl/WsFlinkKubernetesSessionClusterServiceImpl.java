@@ -2,6 +2,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesSessionCluster;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesSessionClusterMapper;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesSessionClusterConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
@@ -40,6 +41,12 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
         WsFlinkKubernetesSessionCluster record = wsFlinkKubernetesSessionClusterMapper.selectById(id);
         checkState(record != null, () -> "flink kubernetes session cluster not exist for id = " + id);
         return WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDto(record);
+    }
+
+    @Override
+    public FlinkSessionCluster asYAML(Long id) {
+        WsFlinkKubernetesSessionClusterDTO dto = selectOne(id);
+        return null;
     }
 
     @Override

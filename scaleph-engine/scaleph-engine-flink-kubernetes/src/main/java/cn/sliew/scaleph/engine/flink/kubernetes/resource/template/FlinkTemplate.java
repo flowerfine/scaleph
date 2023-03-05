@@ -29,8 +29,8 @@ import lombok.EqualsAndHashCode;
 import org.apache.flink.kubernetes.operator.api.status.FlinkDeploymentStatus;
 
 @Data
-@Group("flink.apache.org")
-@Version("v1beta1")
+@Group(Constant.GROUP)
+@Version(Constant.VERSION)
 @EqualsAndHashCode
 @JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec", "status"})
 public class FlinkTemplate extends CustomResource<FlinkTemplateSpec, FlinkDeploymentStatus> implements Resource {
