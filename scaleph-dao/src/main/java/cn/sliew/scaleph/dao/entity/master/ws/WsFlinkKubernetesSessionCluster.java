@@ -22,6 +22,7 @@ import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -38,28 +39,18 @@ public class WsFlinkKubernetesSessionCluster extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField("cluster_credential_id")
+    private Long clusterCredentialId;
+
     @TableField("`name`")
     private String name;
 
-    @TableField("namespace")
-    private String namespace;
+    @ApiModelProperty("flink metadata")
+    @TableField("metadata")
+    private String metadata;
 
-    @TableField("kuberenetes_options")
-    private String kuberenetesOptions;
+    @ApiModelProperty("flink spec")
+    @TableField("spec")
+    private String spec;
 
-    @TableField("job_manager")
-    private String jobManager;
-
-    @TableField("task_manager")
-    private String taskManager;
-
-    @TableField("pod_template")
-    private String podTemplate;
-
-    @TableField("flink_configuration")
-    private String flinkConfiguration;
-
-    @TableField("remark")
-    private String remark;
-    
 }

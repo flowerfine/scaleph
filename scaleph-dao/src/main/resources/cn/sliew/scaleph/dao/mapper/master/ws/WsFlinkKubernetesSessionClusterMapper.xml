@@ -25,14 +25,10 @@
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
+        <result column="cluster_credential_id" property="clusterCredentialId"/>
         <result column="name" property="name"/>
-        <result column="namespace" property="namespace"/>
-        <result column="kuberenetes_options" property="kuberenetesOptions"/>
-        <result column="job_manager" property="jobManager"/>
-        <result column="task_manager" property="taskManager"/>
-        <result column="pod_template" property="podTemplate"/>
-        <result column="flink_configuration" property="flinkConfiguration"/>
-        <result column="remark" property="remark"/>
+        <result column="metadata" property="metadata"/>
+        <result column="spec" property="spec"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -43,6 +39,6 @@
         create_time,
         editor,
         update_time,
-        kind, `name`, namespace, kuberenetes_options, job_manager, task_manager, pod_template, flink_configuration, remark
+        cluster_credential_id, `name`, metadata, spec
     </sql>
 </mapper>
