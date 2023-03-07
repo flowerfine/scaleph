@@ -1,7 +1,7 @@
 import { NsGraph } from '@antv/xflow';
 import { ModalFormProps } from '@/app.d';
 import { WsDiJobService } from '@/services/project/WsDiJob.service';
-import { Form, message, Modal } from 'antd';
+import { Button, Drawer, Form, message } from 'antd';
 import { WsDiJob } from '@/services/project/typings';
 import { getIntl, getLocale } from 'umi';
 import { InfoCircleOutlined } from '@ant-design/icons';
@@ -34,30 +34,36 @@ const SourceFakeStepForm: React.FC<
   }, []);
 
   return (
-    <Modal
+    <Drawer
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
       bodyStyle={{ overflowY: 'scroll', maxHeight: '640px' }}
       destroyOnClose={true}
-      onCancel={onCancel}
-      onOk={() => {
-        form.validateFields().then((values) => {
-          let map: Map<string, any> = new Map();
-          map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
-          map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
-          map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-          StepSchemaService.formatSchema(values);
-          map.set(STEP_ATTR_TYPE.stepAttrs, values);
-          WsDiJobService.saveStepAttr(map).then((resp) => {
-            if (resp.success) {
-              message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
-              onCancel();
-              onOK ? onOK(values) : null;
-            }
-          });
-        });
-      }}
+      onClose={onCancel}
+      extra={
+        <Button
+          type="primary"
+          onClick={() => {
+            form.validateFields().then((values) => {
+              let map: Map<string, any> = new Map();
+              map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
+              map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
+              map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
+              StepSchemaService.formatSchema(values);
+              map.set(STEP_ATTR_TYPE.stepAttrs, values);
+              WsDiJobService.saveStepAttr(map).then((resp) => {
+                if (resp.success) {
+                  message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+                  onOK ? onOK(values) : null;
+                }
+              });
+            });
+          }}
+        >
+          {intl.formatMessage({ id: 'app.common.operate.confirm.label' })}
+        </Button>
+      }
     >
       <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
         <ProFormText
@@ -71,7 +77,7 @@ const SourceFakeStepForm: React.FC<
           initialValue={10}
           fieldProps={{
             step: 100,
-            min: 1
+            min: 1,
           }}
         />
         <ProFormDigit
@@ -84,20 +90,22 @@ const SourceFakeStepForm: React.FC<
           initialValue={1}
           fieldProps={{
             step: 1,
-            min: 1
+            min: 1,
           }}
         />
         <ProFormDigit
           name={FakeParams.splitReadInterval}
           label={intl.formatMessage({ id: 'pages.project.di.step.fake.splitReadInterval' })}
           tooltip={{
-            title: intl.formatMessage({ id: 'pages.project.di.step.fake.splitReadInterval.tooltip' }),
+            title: intl.formatMessage({
+              id: 'pages.project.di.step.fake.splitReadInterval.tooltip',
+            }),
             icon: <InfoCircleOutlined />,
           }}
           initialValue={1}
           fieldProps={{
             step: 1,
-            min: 1
+            min: 1,
           }}
         />
         <ProFormDigit
@@ -106,7 +114,7 @@ const SourceFakeStepForm: React.FC<
           initialValue={5}
           fieldProps={{
             step: 1,
-            min: 1
+            min: 1,
           }}
         />
         <ProFormDigit
@@ -115,7 +123,7 @@ const SourceFakeStepForm: React.FC<
           initialValue={5}
           fieldProps={{
             step: 1,
-            min: 1
+            min: 1,
           }}
         />
         <ProFormDigit
@@ -124,7 +132,7 @@ const SourceFakeStepForm: React.FC<
           initialValue={5}
           fieldProps={{
             step: 1,
-            min: 1
+            min: 1,
           }}
         />
         <ProFormDigit
@@ -133,7 +141,7 @@ const SourceFakeStepForm: React.FC<
           initialValue={5}
           fieldProps={{
             step: 1,
-            min: 1
+            min: 1,
           }}
         />
         <ProFormGroup
@@ -166,7 +174,7 @@ const SourceFakeStepForm: React.FC<
           </ProFormList>
         </ProFormGroup>
       </ProForm>
-    </Modal>
+    </Drawer>
   );
 };
 
