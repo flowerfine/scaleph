@@ -34,6 +34,7 @@ target/
 
 ### logs ###
 /logs/
+/release
 *.log
 
 **/dependency-reduced-pom.xml
