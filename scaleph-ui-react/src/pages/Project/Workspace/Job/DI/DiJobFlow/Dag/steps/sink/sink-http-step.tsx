@@ -44,7 +44,6 @@ const SinkHttpFileStepForm: React.FC<ModalFormProps<{
         WsDiJobService.saveStepAttr(map).then((resp) => {
           if (resp.success) {
             message.success(intl.formatMessage({id: 'app.common.operate.success'}));
-            onCancel();
             onOK ? onOK(values) : null;
           }
         });
