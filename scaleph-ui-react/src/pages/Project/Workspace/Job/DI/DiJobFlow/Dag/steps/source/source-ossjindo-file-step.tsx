@@ -33,7 +33,7 @@ const SourceOSSJindoFileStepForm: React.FC<
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{ overflowY: 'scroll', maxHeight: '640px' }}
+      bodyStyle={{ overflowY: 'scroll'}}
       destroyOnClose={true}
       onClose={onCancel}
       extra={
