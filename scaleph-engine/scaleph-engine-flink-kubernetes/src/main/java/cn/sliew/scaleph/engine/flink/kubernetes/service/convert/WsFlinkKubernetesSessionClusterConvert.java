@@ -43,21 +43,8 @@ public interface WsFlinkKubernetesSessionClusterConvert extends BaseConvert<WsFl
     default WsFlinkKubernetesSessionCluster toDo(WsFlinkKubernetesSessionClusterDTO dto) {
         WsFlinkKubernetesSessionCluster entity = new WsFlinkKubernetesSessionCluster();
         BeanUtils.copyProperties(dto, entity);
-        if (dto.getKuberenetesOptions() != null) {
-            entity.setKuberenetesOptions(JacksonUtil.toJsonString(dto.getKuberenetesOptions()));
-        }
-        if (dto.getJobManager() != null) {
-            entity.setJobManager(JacksonUtil.toJsonString(dto.getJobManager()));
-        }
-        if (dto.getTaskManager() != null) {
-            entity.setTaskManager(JacksonUtil.toJsonString(dto.getTaskManager()));
-        }
-        if (dto.getPodTemplate() != null) {
-            entity.setPodTemplate(JacksonUtil.toJsonString(dto.getPodTemplate()));
-        }
-        if (CollectionUtils.isEmpty(dto.getFlinkConfiguration()) == false) {
-            entity.setFlinkConfiguration(JacksonUtil.toJsonString(dto.getFlinkConfiguration()));
-        }
+        entity.setMetadata(dto.getMetadata().toString());
+        entity.setSpec(dto.getSpec().toString());
         return entity;
     }
 

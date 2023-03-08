@@ -23,12 +23,14 @@ import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
@@ -37,33 +39,16 @@ import java.util.Map;
 public class WsFlinkKubernetesSessionClusterDTO extends BaseDTO {
 
     @ApiModelProperty("name")
+    private Long clusterCredentialId;
+
+    @ApiModelProperty("name")
     private String name;
 
-    @ApiModelProperty("namespace")
-    private String namespace;
+    @NotNull
+    @ApiModelProperty("flink metadata")
+    private JsonNode metadata;
 
-    @ApiModelProperty("kubernetes options")
-    private KubernetesOptionsVO kuberenetesOptions;
-
-    @ApiModelProperty("job manager spec")
-    private JobManagerSpec jobManager;
-
-    @ApiModelProperty("task manager spec")
-    private TaskManagerSpec taskManager;
-
-    @ApiModelProperty("pod template")
-    private Pod podTemplate;
-
-    @ApiModelProperty("flink configuration")
-    private Map<String, String> flinkConfiguration;
-
-    @ApiModelProperty("deployment name for session job")
-    private String deploymentName;
-
-    @ApiModelProperty("job spec")
-    private JobSpec job;
-
-    @ApiModelProperty("remark")
-    private String remark;
-
+    @NotNull
+    @ApiModelProperty("flink spec")
+    private JsonNode spec;
 }
