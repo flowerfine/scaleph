@@ -21,19 +21,11 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.convert;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesSessionCluster;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
-import io.fabric8.kubernetes.api.model.Pod;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-
-import java.util.Map;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WsFlinkKubernetesSessionClusterConvert extends BaseConvert<WsFlinkKubernetesSessionCluster, WsFlinkKubernetesSessionClusterDTO> {
@@ -52,21 +44,8 @@ public interface WsFlinkKubernetesSessionClusterConvert extends BaseConvert<WsFl
     default WsFlinkKubernetesSessionClusterDTO toDto(WsFlinkKubernetesSessionCluster entity) {
         WsFlinkKubernetesSessionClusterDTO dto = new WsFlinkKubernetesSessionClusterDTO();
         BeanUtils.copyProperties(entity, dto);
-        if (StringUtils.hasText(entity.getKuberenetesOptions())) {
-            dto.setKuberenetesOptions(JacksonUtil.parseJsonString(entity.getKuberenetesOptions(), KubernetesOptionsVO.class));
-        }
-        if (StringUtils.hasText(entity.getJobManager())) {
-            dto.setJobManager(JacksonUtil.parseJsonString(entity.getJobManager(), JobManagerSpec.class));
-        }
-        if (StringUtils.hasText(entity.getTaskManager())) {
-            dto.setTaskManager(JacksonUtil.parseJsonString(entity.getTaskManager(), TaskManagerSpec.class));
-        }
-        if (StringUtils.hasText(entity.getPodTemplate())) {
-            dto.setPodTemplate(JacksonUtil.parseJsonString(entity.getPodTemplate(), Pod.class));
-        }
-        if (StringUtils.hasText(entity.getFlinkConfiguration())) {
-            dto.setFlinkConfiguration(JacksonUtil.parseJsonString(entity.getFlinkConfiguration(), Map.class));
-        }
+        dto.setMetadata(JacksonUtil.toJsonNode(entity.getMetadata()));
+        dto.setSpec(JacksonUtil.toJsonNode(entity.getSpec()));
         return dto;
     }
 }

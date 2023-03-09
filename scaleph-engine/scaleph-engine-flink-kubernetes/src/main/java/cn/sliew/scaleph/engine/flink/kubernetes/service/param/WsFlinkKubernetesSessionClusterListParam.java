@@ -27,6 +27,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class WsFlinkKubernetesSessionClusterListParam extends PaginationParam {
 
+    @ApiModelProperty("cluster credential id")
+    private Long clusterCredentialId;
+
     @ApiModelProperty("name")
     private String name;
 }

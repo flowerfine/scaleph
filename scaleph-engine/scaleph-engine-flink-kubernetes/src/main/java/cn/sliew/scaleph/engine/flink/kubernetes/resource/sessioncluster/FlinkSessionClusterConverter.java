@@ -18,14 +18,11 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionClusterSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
 import cn.sliew.scaleph.kubernetes.ResourceConverter;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
-import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
-import org.apache.commons.lang3.EnumUtils;
 
 public enum FlinkSessionClusterConverter implements ResourceConverter<WsFlinkKubernetesSessionClusterDTO, FlinkSessionCluster> {
     INSTANCE;
@@ -33,38 +30,17 @@ public enum FlinkSessionClusterConverter implements ResourceConverter<WsFlinkKub
     @Override
     public FlinkSessionCluster convertTo(WsFlinkKubernetesSessionClusterDTO source) {
         FlinkSessionCluster sessionCluster = new FlinkSessionCluster();
-        ObjectMetaBuilder builder = new ObjectMetaBuilder(true);
-        builder.withName(source.getName()).withNamespace(source.getNamespace());
-        sessionCluster.setMetadata(builder.build());
-        FlinkSessionClusterSpec spec = new FlinkSessionClusterSpec();
-        KubernetesOptionsVO kuberenetesOptions = source.getKuberenetesOptions();
-        spec.setImage(kuberenetesOptions.getImage());
-        spec.setServiceAccount(kuberenetesOptions.getServiceAccount());
-        spec.setFlinkVersion(EnumUtils.getEnum(FlinkVersion.class, kuberenetesOptions.getFlinkVersion()));
-        spec.setFlinkConfiguration(source.getFlinkConfiguration());
-        spec.setJobManager(source.getJobManager());
-        spec.setTaskManager(source.getTaskManager());
-        spec.setPodTemplate(source.getPodTemplate());
-        sessionCluster.setSpec(spec);
+        sessionCluster.setMetadata(JacksonUtil.toObject(source.getMetadata(), ObjectMeta.class));
+        sessionCluster.setSpec(JacksonUtil.toObject(source.getSpec(), FlinkSessionClusterSpec.class));
         return sessionCluster;
     }
 
     @Override
     public WsFlinkKubernetesSessionClusterDTO convertFrom(FlinkSessionCluster target) {
         WsFlinkKubernetesSessionClusterDTO dto = new WsFlinkKubernetesSessionClusterDTO();
-        ObjectMeta metadata = target.getMetadata();
-        dto.setName(metadata.getName());
-        dto.setNamespace(metadata.getNamespace());
-        FlinkSessionClusterSpec spec = target.getSpec();
-        KubernetesOptionsVO optionsVO = new KubernetesOptionsVO();
-        optionsVO.setFlinkVersion(spec.getFlinkVersion().name());
-        optionsVO.setImage(spec.getImage());
-        optionsVO.setServiceAccount(spec.getServiceAccount());
-        dto.setKuberenetesOptions(optionsVO);
-        dto.setJobManager(spec.getJobManager());
-        dto.setTaskManager(spec.getTaskManager());
-        dto.setPodTemplate(spec.getPodTemplate());
-        dto.setFlinkConfiguration(spec.getFlinkConfiguration());
+        dto.setName(target.getMetadata().getName());
+        dto.setMetadata(JacksonUtil.toJsonNode(target.getMetadata()));
+        dto.setSpec(JacksonUtil.toJsonNode(target.getSpec()));
         return dto;
     }
 }

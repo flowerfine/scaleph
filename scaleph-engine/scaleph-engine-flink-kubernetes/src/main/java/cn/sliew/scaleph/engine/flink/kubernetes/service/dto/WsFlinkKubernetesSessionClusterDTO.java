@@ -38,7 +38,7 @@ import java.util.Map;
 @ApiModel(value = "WsFlinkKubernetesDeployment对象", description = "flink kubernetes deployment")
 public class WsFlinkKubernetesSessionClusterDTO extends BaseDTO {
 
-    @ApiModelProperty("name")
+    @ApiModelProperty("cluster credential id")
     private Long clusterCredentialId;
 
     @ApiModelProperty("name")
