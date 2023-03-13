@@ -21,18 +21,20 @@ const FlinkKubernetesSessionClusterSteps: React.FC = () => {
           grid: true,
           rowProps: {gutter: [16, 8]}
         }}
-        onFinish={() => {
-          const json = YAML.parse(sessionCluster)
+        onFinish={(values) => {
+          const newTemplate = WsFlinkKubernetesTemplateService.formatData(template, values)
           const param = {
-            name: json.metadata?.name,
-            metadata: json.metadata,
-            spec: json.spec
+            clusterCredentialId: values.cluster,
+            name: newTemplate.metadata?.name,
+            metadata: newTemplate.metadata,
+            spec: newTemplate.spec
           }
           return WsFlinkKubernetesSessionClusterService.add(param).then((response) => {
             if (response.success) {
               history.back()
             }
           })
+
         }}>
         <StepsForm.StepForm
           name="cluster"

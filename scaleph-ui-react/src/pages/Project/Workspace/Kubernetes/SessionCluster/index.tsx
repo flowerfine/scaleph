@@ -24,13 +24,10 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.namespace'}),
       dataIndex: 'namespace',
       hideInSearch: true,
-      width: 200
-    },
-    {
-      title: intl.formatMessage({id: 'app.common.data.remark'}),
-      dataIndex: 'remark',
-      hideInSearch: true,
-      width: 180,
+      width: 200,
+      render: (dom, entity, index, action, schema) => {
+        return entity.metadata?.namespace;
+      }
     },
     {
       title: intl.formatMessage({id: 'app.common.data.createTime'}),

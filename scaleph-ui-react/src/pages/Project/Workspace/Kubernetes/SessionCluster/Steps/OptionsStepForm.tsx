@@ -25,7 +25,6 @@ const SessionClusterOptionsStepForm: React.FC = () => {
 
   useEffect(() => {
     if (template) {
-      console.log('SessionClusterOptionsStepForm', template)
       form.setFieldsValue(WsFlinkKubernetesTemplateService.parseData(template))
     }
   }, [template]);
