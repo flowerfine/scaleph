@@ -21,6 +21,7 @@ package cn.sliew.scaleph.api.controller.ws;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
@@ -45,6 +46,8 @@ public class WsFlinkKubernetesSessionClusterController {
 
     @Autowired
     private WsFlinkKubernetesSessionClusterService wsFlinkKubernetesSessionClusterService;
+    @Autowired
+    private FlinkKubernetesOperatorService flinkKubernetesOperatorService;
 
     @Logging
     @GetMapping
@@ -110,4 +113,19 @@ public class WsFlinkKubernetesSessionClusterController {
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
+    @Logging
+    @PostMapping("deploy/{id}")
+    @ApiOperation(value = "启动 SessionCluster", notes = "启动 SessionCluster")
+    public ResponseEntity<ResponseVO> deploySessionCluster(@PathVariable("id") Long id) throws Exception {
+        flinkKubernetesOperatorService.deploySessionCluster(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("shutdown/{id}")
+    @ApiOperation(value = "关闭 SessionCluster", notes = "关闭 SessionCluster")
+    public ResponseEntity<ResponseVO> shutdownSessionCluster(@PathVariable("id") Long id) throws Exception {
+        flinkKubernetesOperatorService.shutdownSessionCluster(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
 }
