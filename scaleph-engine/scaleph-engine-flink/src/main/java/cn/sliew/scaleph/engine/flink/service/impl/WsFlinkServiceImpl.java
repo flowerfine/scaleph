@@ -215,7 +215,7 @@ public class WsFlinkServiceImpl implements WsFlinkService {
 
     private ClusterClient doSubmitSeatunnel(WsFlinkJobDTO wsFlinkJobDTO, Path workspace) throws Exception {
         WsFlinkClusterConfigDTO wsFlinkClusterConfigDTO = wsFlinkJobDTO.getWsFlinkClusterConfig();
-        SeaTunnelReleaseDTO seaTunnelRelease = seaTunnelReleaseService.selectByVersion(SeaTunnelVersion.V_2_3_0);
+        SeaTunnelReleaseDTO seaTunnelRelease = seaTunnelReleaseService.selectByVersion(SeaTunnelVersion.V_2_3_1);
 
         Path flinkHomePath = loadFlinkRelease(wsFlinkClusterConfigDTO.getFlinkRelease(), workspace);
         Path seatunnelHomePath = loadSeaTunnelRelease(seaTunnelRelease, workspace);
