@@ -19,35 +19,17 @@
 package cn.sliew.scaleph.plugin.seatunnel.flink.transform;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
-import com.fasterxml.jackson.databind.JsonNode;
 
-public enum SplitProperties {
+public enum SQLProperties {
     ;
 
-    public static final PropertyDescriptor<String> SEPARATOR = new PropertyDescriptor.Builder<String>()
-            .name("separator")
-            .description("The list of fields that need to be kept. Fields not in the list will be deleted")
+    public static final PropertyDescriptor<String> QUERY = new PropertyDescriptor.Builder<String>()
+            .name("query")
+            .description("The query SQL, it's a simple SQL supported base function and criteria filter operation. But the complex SQL unsupported yet, include: multi source table/rows JOIN and AGGREGATE operation and the like.")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .properties(Property.Required)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> SPLIT_FIELD = new PropertyDescriptor.Builder<String>()
-            .name("split_field")
-            .description("The field to be split")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .properties(Property.Required)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<JsonNode> OUTPUT_FIELDS = new PropertyDescriptor.Builder()
-            .name("output_fields")
-            .description("The result fields after split")
-            .type(PropertyType.OBJECT)
-            .parser(Parsers.JSON_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
 }
