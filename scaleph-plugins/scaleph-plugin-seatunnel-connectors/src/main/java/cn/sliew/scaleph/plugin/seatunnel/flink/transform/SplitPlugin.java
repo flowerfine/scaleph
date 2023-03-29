@@ -30,14 +30,16 @@ import java.util.Collections;
 import java.util.List;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class FilterPlugin extends SeaTunnelConnectorPlugin {
+public class SplitPlugin extends SeaTunnelConnectorPlugin {
 
-    public FilterPlugin() {
+    public SplitPlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Filter the field.",
-                FilterPlugin.class.getName());
+                "Split a field to more than one field.",
+                SplitPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(FilterProperties.FIELDS);
+        props.add(SplitProperties.SEPARATOR);
+        props.add(SplitProperties.SPLIT_FIELD);
+        props.add(SplitProperties.OUTPUT_FIELDS);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         this.supportedProperties = Collections.unmodifiableList(props);
@@ -45,6 +47,6 @@ public class FilterPlugin extends SeaTunnelConnectorPlugin {
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.TRANSFORM_FILTER;
+        return SeaTunnelPluginMapping.TRANSFORM_SPLIT;
     }
 }
