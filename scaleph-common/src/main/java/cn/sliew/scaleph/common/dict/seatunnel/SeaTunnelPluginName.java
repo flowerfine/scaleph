@@ -92,6 +92,14 @@ public enum SeaTunnelPluginName implements DictInstance {
 
     SENTRY("Sentry", "Sentry"),
     GOOGLE_SHEETS("GoogleSheets", "GoogleSheets"),
+
+    COPY("Copy", "Copy"),
+    FIELD_MAPPER("FieldMapper", "FieldMapper"),
+    FILTER_ROW_KIND("FilterRowKind", "FilterRowKind"),
+    FILTER("Filter", "Filter"),
+    REPLACE("Replace", "Replace"),
+    SPLIT("Split", "Split"),
+    SQL("Sql", "Sql"),
     ;
 
     @JsonCreator
