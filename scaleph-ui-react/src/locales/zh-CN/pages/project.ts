@@ -613,6 +613,17 @@ export default {
   'pages.project.di.step.cdcmysql.debeziums.value': 'Value',
   'pages.project.di.step.cdcmysql.debeziums.value.placeholder': 'never',
 
+  // copy
+  'pages.project.di.step.copy.srcField': 'Source',
+  'pages.project.di.step.copy.destField': 'Target',
+
+  // FieldMapper
+  'pages.project.di.step.fieldMapper': 'Field Mapper',
+  'pages.project.di.step.fieldMapper.tooltip': 'Specify the field mapping relationship between input and output',
+  'pages.project.di.step.fieldMapper.fieldMapper': 'Mapper',
+  'pages.project.di.step.fieldMapper.fieldMapper.source': 'Source',
+  'pages.project.di.step.fieldMapper.fieldMapper.target': 'Target',
+
   'pages.project.job.create': '创建作业',
   'pages.project.job.edit': '作业配置',
   'pages.project.job.createTime': '创建时间',

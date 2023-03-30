@@ -26,25 +26,25 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum SeaTunnelPluginType implements DictInstance {
+public enum SeaTunnelRowKind implements DictInstance {
 
-    SOURCE("source", "Source"),
-    SINK("sink", "Sink"),
-    TRANSFORM("transform", "Transform"),
+    INSERT("INSERT", "INSERT"),
+    UPDATE("UPDATE", "UPDATE"),
+    DELETE("DELETE", "DELETE"),
     ;
 
     @JsonCreator
-    public static SeaTunnelPluginType of(String value) {
+    public static SeaTunnelRowKind of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(SeaTunnelPluginType.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(SeaTunnelRowKind.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    SeaTunnelPluginType(String value, String label) {
+    SeaTunnelRowKind(String value, String label) {
         this.value = value;
         this.label = label;
     }
@@ -58,5 +58,4 @@ public enum SeaTunnelPluginType implements DictInstance {
     public String getLabel() {
         return label;
     }
-
 }

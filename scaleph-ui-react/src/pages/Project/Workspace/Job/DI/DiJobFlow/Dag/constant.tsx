@@ -546,3 +546,15 @@ export const CDCMySQLParams = {
   debeziumProperty: 'debeziumProperty',
   debeziumValue: 'debeziumValue',
 };
+
+export const CopyParams = {
+  srcField: 'src_field',
+  destField: 'dest_field'
+}
+
+export const FieldMapperParams = {
+  fieldMapper: 'field_mapper',
+  fieldMapperGroup: 'fieldMapperGroup',
+  srcField: 'src_field',
+  destField: 'dest_field'
+}
