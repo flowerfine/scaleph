@@ -624,6 +624,12 @@ export default {
   'pages.project.di.step.fieldMapper.fieldMapper.source': 'Source',
   'pages.project.di.step.fieldMapper.fieldMapper.target': 'Target',
 
+  // FilterRowKind
+  'pages.project.di.step.filterRowKind.includeKinds': 'Include',
+  'pages.project.di.step.filterRowKind.includeKinds.tooltip': 'The row kinds to include',
+  'pages.project.di.step.filterRowKind.excludeKinds': 'Exclude',
+  'pages.project.di.step.filterRowKind.excludeKinds.tooltip': 'he row kinds to exclude.',
+
   'pages.project.job.create': '创建作业',
   'pages.project.job.edit': '作业配置',
   'pages.project.job.createTime': '创建时间',

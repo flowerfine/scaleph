@@ -85,6 +85,8 @@ import SourceCDCMySQLStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/D
 import TransformCopyStepForm from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/transform/transform-copy-step';
 import TransformFieldMapperStepForm
   from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/transform/transform-field-mapper-step";
+import TransformFilterRowKindStepForm
+  from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/transform/transform-filter-row-kind-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -371,6 +373,8 @@ export class EditNodeCommand implements ICommand {
       return (<TransformCopyStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'transform' && name === 'FieldMapper'){
       return (<TransformFieldMapperStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'transform' && name === 'FilterRowKind'){
+      return (<TransformFilterRowKindStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
       return <></>;
     }

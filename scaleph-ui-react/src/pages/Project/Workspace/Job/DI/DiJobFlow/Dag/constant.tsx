@@ -558,3 +558,8 @@ export const FieldMapperParams = {
   srcField: 'src_field',
   destField: 'dest_field'
 }
+
+export const FilterRowKindParams = {
+  includeKinds: 'include_kinds',
+  excludeKinds: 'exclude_kinds'
+}

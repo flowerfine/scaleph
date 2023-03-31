@@ -29,7 +29,8 @@ import java.util.Arrays;
 public enum SeaTunnelRowKind implements DictInstance {
 
     INSERT("INSERT", "INSERT"),
-    UPDATE("UPDATE", "UPDATE"),
+    UPDATE_BEFORE("UPDATE_BEFORE", "UPDATE_BEFORE"),
+    UPDATE_AFTER("UPDATE_AFTER", "UPDATE_AFTER"),
     DELETE("DELETE", "DELETE"),
     ;
 
