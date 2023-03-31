@@ -1,7 +1,7 @@
 import {
   CassandraParams, CDCMySQLParams,
   DorisParams,
-  ElasticsearchParams,
+  ElasticsearchParams, FieldMapperParams,
   InfluxDBParams,
   IoTDBParams,
   JdbcParams,
@@ -188,6 +188,15 @@ export const StepSchemaService = {
     values[CDCMySQLParams.debeziums] = JSON.stringify(properties)
     values[CDCMySQLParams.startupMode] = values.startupMode
     values[CDCMySQLParams.stopMode] = values.stopMode
+    return values
+  },
+
+  formatFieldMapper: (values: Record<string, any>) => {
+    const fieldMapper: Record<string, any> = {}
+    values[FieldMapperParams.fieldMapperGroup]?.forEach(function (item: Record<string, any>) {
+      fieldMapper[item[FieldMapperParams.srcField]] = item[FieldMapperParams.destField];
+    });
+    values[FieldMapperParams.fieldMapper] = JSON.stringify(fieldMapper)
     return values
   },
 };

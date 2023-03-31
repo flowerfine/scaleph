@@ -27,8 +27,7 @@ import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelConnectorFeature.*
 import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelConnectorHealth.*;
 import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType.SEATUNNEL;
 import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName.*;
-import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType.SINK;
-import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType.SOURCE;
+import static cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType.*;
 
 /**
  * https://github.com/apache/incubator-seatunnel/blob/dev/plugin-mapping.properties
@@ -127,6 +126,14 @@ public enum SeaTunnelPluginMapping {
 
     SINK_SENTRY(SEATUNNEL, SINK, SENTRY, "connector-sentry", ALPHA),
     SOURCE_GOOGLE_SHEETS(SEATUNNEL, SOURCE, GOOGLE_SHEETS, "connector-google-sheets", UNKNOWN, BATCH, SCHEMA_PROJECTION),
+
+    TRANSFORM_COPY(SEATUNNEL, TRANSFORM, COPY, "connector-copy", UNKNOWN),
+    TRANSFORM_FIELD_MAPPER(SEATUNNEL, TRANSFORM, FIELD_MAPPER, "connector-field-mapper", UNKNOWN),
+    TRANSFORM_FILTER_ROW_KIND(SEATUNNEL, TRANSFORM, FILTER_ROW_KIND, "connector-field-row-kind", UNKNOWN),
+    TRANSFORM_FILTER(SEATUNNEL, TRANSFORM, FILTER, "connector-filter", UNKNOWN),
+    TRANSFORM_REPLACE(SEATUNNEL, TRANSFORM, REPLACE, "connector-replace", UNKNOWN),
+    TRANSFORM_SPLIT(SEATUNNEL, TRANSFORM, SPLIT, "connector-split", UNKNOWN),
+    TRANSFORM_SQL(SEATUNNEL, TRANSFORM, SQL, "connector-sql", UNKNOWN),
     ;
 
     private SeaTunnelEngineType engineType;
