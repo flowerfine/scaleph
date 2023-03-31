@@ -563,3 +563,9 @@ export const FilterRowKindParams = {
   includeKinds: 'include_kinds',
   excludeKinds: 'exclude_kinds'
 }
+
+export const FilterParams = {
+  fields: 'fields',
+  fieldArray: 'fieldArray',
+  field: 'field',
+}

@@ -1,7 +1,7 @@
 import {
   CassandraParams, CDCMySQLParams,
   DorisParams,
-  ElasticsearchParams, FieldMapperParams,
+  ElasticsearchParams, FieldMapperParams, FilterParams,
   InfluxDBParams,
   IoTDBParams,
   JdbcParams,
@@ -197,6 +197,15 @@ export const StepSchemaService = {
       fieldMapper[item[FieldMapperParams.srcField]] = item[FieldMapperParams.destField];
     });
     values[FieldMapperParams.fieldMapper] = JSON.stringify(fieldMapper)
+    return values
+  },
+
+  formatFilterFields: (values: Record<string, any>) => {
+    const fields: Array<string> = []
+    values[FilterParams.fieldArray]?.forEach(function (item: Record<string, any>) {
+      fields.push(item[FilterParams.field])
+    });
+    values[FilterParams.fields] = JSON.stringify(fields)
     return values
   },
 };
