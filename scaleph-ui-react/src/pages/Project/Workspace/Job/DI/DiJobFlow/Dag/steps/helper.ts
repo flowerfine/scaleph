@@ -6,7 +6,7 @@ import {
   IoTDBParams,
   JdbcParams,
   KafkaParams,
-  SchemaParams,
+  SchemaParams, SplitParams,
   StarRocksParams
 } from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
 
@@ -206,6 +206,15 @@ export const StepSchemaService = {
       fields.push(item[FilterParams.field])
     });
     values[FilterParams.fields] = JSON.stringify(fields)
+    return values
+  },
+
+  formatSplitOutputFields: (values: Record<string, any>) => {
+    const outputFields: Array<string> = []
+    values[SplitParams.outputFieldArray]?.forEach(function (item: Record<string, any>) {
+      outputFields.push(item[SplitParams.outputField])
+    });
+    values[SplitParams.outputFields] = JSON.stringify(fields)
     return values
   },
 };

@@ -91,6 +91,8 @@ import TransformFilterStepForm
   from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/transform/transform-filter-step";
 import TransformReplaceStepForm
   from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/transform/transform-replace-step";
+import TransformSplitStepForm
+  from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/transform/transform-split-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -383,6 +385,8 @@ export class EditNodeCommand implements ICommand {
       return (<TransformFilterStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'transform' && name === 'Replace'){
       return (<TransformReplaceStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'transform' && name === 'Split'){
+      return (<TransformSplitStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
       return <></>;
     }
