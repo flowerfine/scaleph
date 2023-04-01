@@ -214,7 +214,7 @@ export const StepSchemaService = {
     values[SplitParams.outputFieldArray]?.forEach(function (item: Record<string, any>) {
       outputFields.push(item[SplitParams.outputField])
     });
-    values[SplitParams.outputFields] = JSON.stringify(fields)
+    values[SplitParams.outputFields] = JSON.stringify(outputFields)
     return values
   },
 };
