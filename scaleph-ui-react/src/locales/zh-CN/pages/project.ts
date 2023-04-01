@@ -648,6 +648,9 @@ export default {
   'pages.project.di.step.split.outputFields': 'Output Fields',
   'pages.project.di.step.split.outputField': 'Field',
 
+  // Sql
+  'pages.project.di.step.sql.query': 'SQL',
+
   'pages.project.job.create': '创建作业',
   'pages.project.job.edit': '作业配置',
   'pages.project.job.createTime': '创建时间',

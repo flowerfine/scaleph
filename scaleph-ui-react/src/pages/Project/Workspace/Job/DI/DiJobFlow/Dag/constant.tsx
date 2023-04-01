@@ -578,11 +578,15 @@ export const ReplaceParams = {
   replaceFirst: 'replace_first'
 }
 
-
 export const SplitParams = {
   separator: 'separator',
   splitField: 'split_field',
   outputFields: 'output_fields',
   outputFieldArray: 'outputFieldArray',
   outputField: 'outputField'
+}
+
+
+export const SqlParams = {
+  query: 'query'
 }
