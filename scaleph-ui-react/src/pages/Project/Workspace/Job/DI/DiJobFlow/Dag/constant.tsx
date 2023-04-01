@@ -569,3 +569,11 @@ export const FilterParams = {
   fieldArray: 'fieldArray',
   field: 'field',
 }
+
+export const ReplaceParams = {
+  replaceField: 'replace_field',
+  pattern: 'pattern',
+  replacement: 'replacement',
+  isRegex: 'is_regex',
+  replaceFirst: 'replace_first'
+}

@@ -635,6 +635,13 @@ export default {
   'pages.project.di.step.filter.fields.tooltip': 'The list of fields that need to be kept. Fields not in the list will be deleted',
   'pages.project.di.step.filter.field': 'Field',
 
+  // Replace
+  'pages.project.di.step.replace.replaceField': 'Field',
+  'pages.project.di.step.replace.pattern': 'Pattern',
+  'pages.project.di.step.replace.replacement': 'To Be Replaced',
+  'pages.project.di.step.replace.isRegex': 'Enable Regex',
+  'pages.project.di.step.replace.replaceFirst': 'Replace First?',
+
   'pages.project.job.create': '创建作业',
   'pages.project.job.edit': '作业配置',
   'pages.project.job.createTime': '创建时间',
