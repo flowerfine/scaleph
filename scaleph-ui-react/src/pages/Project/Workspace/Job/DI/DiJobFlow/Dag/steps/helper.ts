@@ -1,12 +1,12 @@
 import {
   CassandraParams, CDCMySQLParams,
   DorisParams,
-  ElasticsearchParams, FieldMapperParams,
+  ElasticsearchParams, FieldMapperParams, FilterParams,
   InfluxDBParams,
   IoTDBParams,
   JdbcParams,
   KafkaParams,
-  SchemaParams,
+  SchemaParams, SplitParams,
   StarRocksParams
 } from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
 
@@ -197,6 +197,24 @@ export const StepSchemaService = {
       fieldMapper[item[FieldMapperParams.srcField]] = item[FieldMapperParams.destField];
     });
     values[FieldMapperParams.fieldMapper] = JSON.stringify(fieldMapper)
+    return values
+  },
+
+  formatFilterFields: (values: Record<string, any>) => {
+    const fields: Array<string> = []
+    values[FilterParams.fieldArray]?.forEach(function (item: Record<string, any>) {
+      fields.push(item[FilterParams.field])
+    });
+    values[FilterParams.fields] = JSON.stringify(fields)
+    return values
+  },
+
+  formatSplitOutputFields: (values: Record<string, any>) => {
+    const outputFields: Array<string> = []
+    values[SplitParams.outputFieldArray]?.forEach(function (item: Record<string, any>) {
+      outputFields.push(item[SplitParams.outputField])
+    });
+    values[SplitParams.outputFields] = JSON.stringify(outputFields)
     return values
   },
 };

@@ -31,7 +31,7 @@ public enum SeaTunnelConnectorFeature implements DictInstance {
     BATCH("batch", "batch"),
     STREAM("stream", "stream"),
     EXACTLY_ONCE("exactly-once", "exactly-once"),
-    SCHEMA_PROJECTION("schema projection", "schema projection"),
+    COLUMN_PROJECTION("column projection", "column projection"),
     PARALLELISM("parallelism", "parallelism"),
     SUPPORT_USER_DEFINED_SPLIT("support user-defined split", "support user-defined split"),
     CDC("cdc", "cdc"),

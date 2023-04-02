@@ -630,6 +630,27 @@ export default {
   'pages.project.di.step.filterRowKind.excludeKinds': 'Exclude',
   'pages.project.di.step.filterRowKind.excludeKinds.tooltip': 'he row kinds to exclude.',
 
+  // Filter
+  'pages.project.di.step.filter.fields': 'Fields',
+  'pages.project.di.step.filter.fields.tooltip': 'The list of fields that need to be kept. Fields not in the list will be deleted',
+  'pages.project.di.step.filter.field': 'Field',
+
+  // Replace
+  'pages.project.di.step.replace.replaceField': 'Field',
+  'pages.project.di.step.replace.pattern': 'Pattern',
+  'pages.project.di.step.replace.replacement': 'To Be Replaced',
+  'pages.project.di.step.replace.isRegex': 'Enable Regex',
+  'pages.project.di.step.replace.replaceFirst': 'Replace First?',
+
+  // Split
+  'pages.project.di.step.split.separator': 'Separator',
+  'pages.project.di.step.split.splitField': 'Split Field',
+  'pages.project.di.step.split.outputFields': 'Output Fields',
+  'pages.project.di.step.split.outputField': 'Field',
+
+  // Sql
+  'pages.project.di.step.sql.query': 'SQL',
+
   'pages.project.job.create': '创建作业',
   'pages.project.job.edit': '作业配置',
   'pages.project.job.createTime': '创建时间',

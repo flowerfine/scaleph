@@ -87,6 +87,13 @@ import TransformFieldMapperStepForm
   from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/transform/transform-field-mapper-step";
 import TransformFilterRowKindStepForm
   from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/transform/transform-filter-row-kind-step";
+import TransformFilterStepForm
+  from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/transform/transform-filter-step";
+import TransformReplaceStepForm
+  from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/transform/transform-replace-step";
+import TransformSplitStepForm
+  from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/transform/transform-split-step";
+import TransformSqlStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/transform/transform-sql-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -375,6 +382,14 @@ export class EditNodeCommand implements ICommand {
       return (<TransformFieldMapperStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'transform' && name === 'FilterRowKind'){
       return (<TransformFilterRowKindStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'transform' && name === 'Filter'){
+      return (<TransformFilterStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'transform' && name === 'Replace'){
+      return (<TransformReplaceStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'transform' && name === 'Split'){
+      return (<TransformSplitStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'transform' && name === 'Sql'){
+      return (<TransformSqlStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else {
       return <></>;
     }
