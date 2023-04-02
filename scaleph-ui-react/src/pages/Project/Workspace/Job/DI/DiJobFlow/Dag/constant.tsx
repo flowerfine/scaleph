@@ -546,3 +546,47 @@ export const CDCMySQLParams = {
   debeziumProperty: 'debeziumProperty',
   debeziumValue: 'debeziumValue',
 };
+
+export const CopyParams = {
+  srcField: 'src_field',
+  destField: 'dest_field'
+}
+
+export const FieldMapperParams = {
+  fieldMapper: 'field_mapper',
+  fieldMapperGroup: 'fieldMapperGroup',
+  srcField: 'src_field',
+  destField: 'dest_field'
+}
+
+export const FilterRowKindParams = {
+  includeKinds: 'include_kinds',
+  excludeKinds: 'exclude_kinds'
+}
+
+export const FilterParams = {
+  fields: 'fields',
+  fieldArray: 'fieldArray',
+  field: 'field',
+}
+
+export const ReplaceParams = {
+  replaceField: 'replace_field',
+  pattern: 'pattern',
+  replacement: 'replacement',
+  isRegex: 'is_regex',
+  replaceFirst: 'replace_first'
+}
+
+export const SplitParams = {
+  separator: 'separator',
+  splitField: 'split_field',
+  outputFields: 'output_fields',
+  outputFieldArray: 'outputFieldArray',
+  outputField: 'outputField'
+}
+
+
+export const SqlParams = {
+  query: 'query'
+}

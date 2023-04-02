@@ -24,40 +24,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 public enum ElasticsearchSinkProperties {
     ;
 
-    public static final PropertyDescriptor<String> HOSTS = new PropertyDescriptor.Builder()
-            .name("hosts")
-            .description("cluster http address, the format is host:port")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder()
-            .name("username")
-            .description("cluster username")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> PASSWORD = new PropertyDescriptor.Builder()
-            .name("password")
-            .description("cluster password")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<String> INDEX = new PropertyDescriptor.Builder()
-            .name("index")
-            .description("cluster index name")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
     public static final PropertyDescriptor<JsonNode> PRIMARY_KEYS = new PropertyDescriptor.Builder()
             .name("primary_keys")
             .description("Primary key fields used to generate the document _id, this is cdc required options.")

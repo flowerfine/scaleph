@@ -613,6 +613,44 @@ export default {
   'pages.project.di.step.cdcmysql.debeziums.value': 'Value',
   'pages.project.di.step.cdcmysql.debeziums.value.placeholder': 'never',
 
+  // copy
+  'pages.project.di.step.copy.srcField': 'Source',
+  'pages.project.di.step.copy.destField': 'Target',
+
+  // FieldMapper
+  'pages.project.di.step.fieldMapper': 'Field Mapper',
+  'pages.project.di.step.fieldMapper.tooltip': 'Specify the field mapping relationship between input and output',
+  'pages.project.di.step.fieldMapper.fieldMapper': 'Mapper',
+  'pages.project.di.step.fieldMapper.fieldMapper.source': 'Source',
+  'pages.project.di.step.fieldMapper.fieldMapper.target': 'Target',
+
+  // FilterRowKind
+  'pages.project.di.step.filterRowKind.includeKinds': 'Include',
+  'pages.project.di.step.filterRowKind.includeKinds.tooltip': 'The row kinds to include',
+  'pages.project.di.step.filterRowKind.excludeKinds': 'Exclude',
+  'pages.project.di.step.filterRowKind.excludeKinds.tooltip': 'he row kinds to exclude.',
+
+  // Filter
+  'pages.project.di.step.filter.fields': 'Fields',
+  'pages.project.di.step.filter.fields.tooltip': 'The list of fields that need to be kept. Fields not in the list will be deleted',
+  'pages.project.di.step.filter.field': 'Field',
+
+  // Replace
+  'pages.project.di.step.replace.replaceField': 'Field',
+  'pages.project.di.step.replace.pattern': 'Pattern',
+  'pages.project.di.step.replace.replacement': 'To Be Replaced',
+  'pages.project.di.step.replace.isRegex': 'Enable Regex',
+  'pages.project.di.step.replace.replaceFirst': 'Replace First?',
+
+  // Split
+  'pages.project.di.step.split.separator': 'Separator',
+  'pages.project.di.step.split.splitField': 'Split Field',
+  'pages.project.di.step.split.outputFields': 'Output Fields',
+  'pages.project.di.step.split.outputField': 'Field',
+
+  // Sql
+  'pages.project.di.step.sql.query': 'SQL',
+
   'pages.project.job.create': '创建作业',
   'pages.project.job.edit': '作业配置',
   'pages.project.job.createTime': '创建时间',
