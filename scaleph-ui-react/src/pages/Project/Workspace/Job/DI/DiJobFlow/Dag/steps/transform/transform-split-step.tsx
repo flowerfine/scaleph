@@ -80,7 +80,7 @@ const TransformSplitStepForm: React.FC<ModalFormProps<{
             <ProFormGroup>
               <ProFormText
                 name={SplitParams.outputField}
-                label={intl.formatMessage({id: 'pages.project.di.step.fieldMapper.fieldMapper.source'})}
+                colProps={{span: 16, offset: 4}}
               />
             </ProFormGroup>
           </ProFormList>

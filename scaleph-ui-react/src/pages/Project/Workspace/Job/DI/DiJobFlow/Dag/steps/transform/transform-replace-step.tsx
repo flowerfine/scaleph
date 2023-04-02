@@ -1,11 +1,11 @@
 import {NsGraph} from '@antv/xflow';
 import {ModalFormProps} from '@/app.d';
-import {CopyParams, ReplaceParams, STEP_ATTR_TYPE} from '../../constant';
+import {ReplaceParams, STEP_ATTR_TYPE} from '../../constant';
 import {WsDiJobService} from '@/services/project/WsDiJob.service';
 import {Form, message, Modal} from 'antd';
 import {WsDiJob} from '@/services/project/typings';
 import {getIntl, getLocale} from 'umi';
-import {ProForm, ProFormSwitch, ProFormText,} from '@ant-design/pro-components';
+import {ProForm, ProFormDependency, ProFormGroup, ProFormSwitch, ProFormText,} from '@ant-design/pro-components';
 import {useEffect} from 'react';
 
 const TransformReplaceStepForm: React.FC<ModalFormProps<{
@@ -73,13 +73,22 @@ const TransformReplaceStepForm: React.FC<ModalFormProps<{
           colProps={{span: 8}}
         />
         <ProFormSwitch
-          name={ReplaceParams.isRegex}
+          name={'is_regex'}
           label={intl.formatMessage({id: 'pages.project.di.step.replace.isRegex'})}
         />
-        <ProFormSwitch
-          name={ReplaceParams.replaceFirst}
-          label={intl.formatMessage({id: 'pages.project.di.step.replace.replaceFirst'})}
-        />
+        <ProFormDependency name={['is_regex']}>
+          {({is_regex}) => {
+            if (is_regex) {
+              return (
+                <ProFormSwitch
+                  name={ReplaceParams.replaceFirst}
+                  label={intl.formatMessage({id: 'pages.project.di.step.replace.replaceFirst'})}
+                />
+              );
+            }
+            return <ProFormGroup/>;
+          }}
+        </ProFormDependency>
       </ProForm>
     </Modal>
   );
