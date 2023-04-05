@@ -48,6 +48,57 @@ public enum ElasticsearchProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+
+    public static final PropertyDescriptor<Boolean> TLS_VERIFY_CERTIFICATE = new PropertyDescriptor.Builder()
+            .name("tls_verify_certificate")
+            .description("Enable certificates validation for HTTPS endpoints")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .defaultValue(true)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Boolean> TLS_VERIFY_HOSTNAMES = new PropertyDescriptor.Builder()
+            .name("tls_verify_hostnames")
+            .description("Enable hostname validation for HTTPS endpoints")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .defaultValue(true)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> TLS_KEYSTORE_PATH = new PropertyDescriptor.Builder()
+            .name("tls_keystore_path")
+            .description("The path to the PEM or JKS key store")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> TLS_KEYSTORE_PASSWORD = new PropertyDescriptor.Builder()
+            .name("tls_keystore_password")
+            .description("The key password for the key store specified")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> TLS_TRUSTSTORE_PATH = new PropertyDescriptor.Builder()
+            .name("tls_truststore_path")
+            .description("The path to PEM or JKS trust store")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> TLS_TRUSTSTORE_PASSWORD = new PropertyDescriptor.Builder()
+            .name("tls_truststore_password")
+            .description("The key password for the trust store specified")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<String> INDEX = new PropertyDescriptor.Builder()
             .name("index")
             .description("cluster index name")

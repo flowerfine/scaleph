@@ -379,7 +379,14 @@ export const ElasticsearchParams = {
   primaryKey: 'primaryKey',
   keyDelimiter: 'key_delimiter',
   maxRetrySize: 'max_retry_size',
-  maxBatchSize: 'max_batch_size'
+  maxBatchSize: 'max_batch_size',
+  query: "query",
+  scrollTime: "scroll_time",
+  scrollSize: "scroll_size",
+  source: "source",
+  sourceArray: "sourceArray",
+  sourceField: "sourceField",
+  schema: "schema"
 };
 
 export const Neo4jParams = {

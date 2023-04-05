@@ -1,16 +1,24 @@
 import {ModalFormProps} from '@/app.d';
 import {WsDiJobService} from '@/services/project/WsDiJob.service';
 import {WsDiJob} from '@/services/project/typings';
-import {ProForm, ProFormDigit, ProFormGroup, ProFormList, ProFormText} from '@ant-design/pro-components';
+import {
+  ProForm,
+  ProFormDigit,
+  ProFormGroup,
+  ProFormList,
+  ProFormText,
+  ProFormTextArea
+} from '@ant-design/pro-components';
 import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {ElasticsearchParams, STEP_ATTR_TYPE} from '../../constant';
+import {ElasticsearchParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 import {StepSchemaService} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper";
+import {InfoCircleOutlined} from "@ant-design/icons";
 
-const SinkElasticsearchStepForm: React.FC<ModalFormProps<{
+const SourceElasticsearchStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -38,7 +46,8 @@ const SinkElasticsearchStepForm: React.FC<ModalFormProps<{
           map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
           map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
           map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-          StepSchemaService.formatEsPrimaryKeys(values)
+          StepSchemaService.formatEsSource(values)
+          StepSchemaService.formatSchema(values);
           map.set(STEP_ATTR_TYPE.stepAttrs, values);
           WsDiJobService.saveStepAttr(map).then((resp) => {
             if (resp.success) {
@@ -62,44 +71,76 @@ const SinkElasticsearchStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.index'})}
           rules={[{required: true}]}
         />
+        <ProFormTextArea
+          name={ElasticsearchParams.query}
+          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.query'})}
+          initialValue={"{\"match_all\": {}}"}
+        />
+        <ProFormText
+          name={ElasticsearchParams.scrollTime}
+          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.scrollTime'})}
+          colProps={{span: 12}}
+          initialValue={"1m"}
+        />
+        <ProFormDigit
+          name={ElasticsearchParams.scrollSize}
+          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.scrollSize'})}
+          colProps={{span: 12}}
+          initialValue={100}
+          fieldProps={{
+            min: 1,
+            step: 100
+          }}
+        />
         <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.primaryKeys'})}
+          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.source'})}
         >
           <ProFormList
-            name={ElasticsearchParams.primaryKeyArray}
+            name={ElasticsearchParams.sourceArray}
             copyIconProps={false}
             creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.elasticsearch.primaryKeys.list'}),
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.elasticsearch.source.field'}),
               type: 'text',
             }}
           >
             <ProFormText
-              name={ElasticsearchParams.primaryKey}
+              name={ElasticsearchParams.sourceField}
               colProps={{span: 16, offset: 4}}
             />
           </ProFormList>
         </ProFormGroup>
-
-        <ProFormDigit
-          name={ElasticsearchParams.maxRetrySize}
-          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.maxRetrySize'})}
-          initialValue={0}
-          fieldProps={{
-            min: 0
+        <ProFormGroup
+          label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
+            icon: <InfoCircleOutlined/>,
           }}
-        />
-        <ProFormDigit
-          name={ElasticsearchParams.maxBatchSize}
-          label={intl.formatMessage({id: 'pages.project.di.step.elasticsearch.maxBatchSize'})}
-          initialValue={1000}
-          fieldProps={{
-            step: 1000,
-            min: 0
-          }}
-        />
+        >
+          <ProFormList
+            name={SchemaParams.fields}
+            copyIconProps={false}
+            creatorButtonProps={{
+              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
+              type: 'text',
+            }}
+          >
+            <ProFormGroup>
+              <ProFormText
+                name={SchemaParams.field}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
+                colProps={{span: 10, offset: 1}}
+              />
+              <ProFormText
+                name={SchemaParams.type}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
+                colProps={{span: 10, offset: 1}}
+              />
+            </ProFormGroup>
+          </ProFormList>
+        </ProFormGroup>
       </ProForm>
     </Modal>
   );
 };
 
-export default SinkElasticsearchStepForm;
+export default SourceElasticsearchStepForm;

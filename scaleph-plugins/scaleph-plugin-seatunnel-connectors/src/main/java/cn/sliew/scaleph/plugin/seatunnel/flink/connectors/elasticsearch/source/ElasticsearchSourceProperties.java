@@ -69,15 +69,4 @@ public enum ElasticsearchSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Boolean> TLS_VERIFY_CERTIFICATE = new PropertyDescriptor.Builder()
-            .name("tls_verify_certificate")
-            .description("Enable certificates validation for HTTPS endpoints")
-            .type(PropertyType.BOOLEAN)
-            .parser(Parsers.BOOLEAN_PARSER)
-            .addValidator(Validators.BOOLEAN_VALIDATOR)
-            .defaultValue(true)
-            .validateAndBuild();
-
-
-
 }

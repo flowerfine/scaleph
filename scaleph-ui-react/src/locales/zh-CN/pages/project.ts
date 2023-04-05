@@ -451,6 +451,12 @@ export default {
   'pages.project.di.step.elasticsearch.primaryKeys.list': 'Primary Key',
   'pages.project.di.step.elasticsearch.maxRetrySize': 'Max Retry Size',
   'pages.project.di.step.elasticsearch.maxBatchSize': 'Max Batch Size',
+  'pages.project.di.step.elasticsearch.query': 'Query',
+  'pages.project.di.step.elasticsearch.scrollTime': 'Scroll Time',
+  'pages.project.di.step.elasticsearch.scrollSize': 'Scroll Size',
+  'pages.project.di.step.elasticsearch.source': 'Fields',
+  'pages.project.di.step.elasticsearch.source.field': 'Field',
+
 
   // neo4j
   'pages.project.di.step.neo4j.uri': 'URI',

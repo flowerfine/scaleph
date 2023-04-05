@@ -143,6 +143,15 @@ export const StepSchemaService = {
     return values
   },
 
+  formatEsSource: (values: Record<string, any>) => {
+    const source: Array<string> = []
+    values[ElasticsearchParams.sourceArray]?.forEach(function (item: Record<string, any>) {
+      source.push(item[ElasticsearchParams.sourceField])
+    });
+    values[ElasticsearchParams.source] = JSON.stringify(source)
+    return values
+  },
+
   formatMeasurementFields: (values: Record<string, any>) => {
     const primaryKeys: Array<string> = []
     values[IoTDBParams.keyMeasurementFieldArray]?.forEach(function (item: Record<string, any>) {
