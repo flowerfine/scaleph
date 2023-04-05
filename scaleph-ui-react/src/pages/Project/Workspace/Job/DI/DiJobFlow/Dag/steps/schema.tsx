@@ -18,13 +18,7 @@ const SchemaItem: React.FC = () => {
         name={'file_format_type'}
         label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fileFormatType'})}
         rules={[{required: true}]}
-        valueEnum={{
-          json: 'json',
-          parquet: 'parquet',
-          orc: 'orc',
-          text: 'text',
-          csv: 'csv',
-        }}
+        options={['json', 'parquet', 'orc', 'text', 'csv']}
       />
       <ProFormDependency name={['file_format_type']}>
         {({file_format_type}) => {

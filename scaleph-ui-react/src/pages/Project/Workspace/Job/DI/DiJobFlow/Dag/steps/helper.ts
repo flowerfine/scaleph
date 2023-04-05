@@ -1,7 +1,7 @@
 import {
-  CassandraParams, CDCMySQLParams,
+  CassandraParams, CDCMySQLParams, ColumnParams,
   DorisParams,
-  ElasticsearchParams, FieldMapperParams, FilterParams,
+  ElasticsearchParams, FieldMapperParams, FilterParams, HiveParams,
   InfluxDBParams,
   IoTDBParams,
   JdbcParams,
@@ -18,6 +18,15 @@ export const StepSchemaService = {
       fields[item.field] = item.type;
     });
     values.schema = JSON.stringify({fields: fields})
+    return values
+  },
+
+  formatColumns: (values: Record<string, any>) => {
+    const columns: Array<any> = []
+    values[ColumnParams.readColumnArray]?.forEach(function (item: Record<string, any>) {
+      columns.push(item[ColumnParams.readColumn])
+    });
+    values[ColumnParams.readColumns] = JSON.stringify(columns)
     return values
   },
 
@@ -224,6 +233,16 @@ export const StepSchemaService = {
       outputFields.push(item[SplitParams.outputField])
     });
     values[SplitParams.outputFields] = JSON.stringify(outputFields)
+    return values
+  },
+
+
+  formatPartitions: (values: Record<string, any>) => {
+    const partitions: Array<any> = []
+    values[HiveParams.readPartitionArray]?.forEach(function (item: Record<string, any>) {
+      partitions.push(item[HiveParams.readPartition])
+    });
+    values[HiveParams.readPartitions] = JSON.stringify(partitions)
     return values
   },
 };

@@ -74,6 +74,12 @@ export const SchemaParams = {
   skipHeaderRowNumber: 'skip_header_row_number',
 }
 
+export const ColumnParams = {
+  readColumns: 'read_columns',
+  readColumnArray: 'readColumnArray',
+  readColumn: 'readColumn'
+}
+
 export const FakeParams = {
   rows: 'rows',
   rowNum: 'row.num',
@@ -283,6 +289,9 @@ export const ClickHouseParams = {
 export const HiveParams = {
   tableName: 'table_name',
   metastoreUri: 'metastore_uri',
+  readPartitions: 'read_partitions',
+  readPartitionArray: 'read_partitions',
+  readPartition: 'read_partition',
   partitionBy: 'partition_by',
   sinkColumns: 'sink_columns',
   isEnableTransaction: 'is_enable_transaction',

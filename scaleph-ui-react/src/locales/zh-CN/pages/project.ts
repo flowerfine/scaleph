@@ -117,6 +117,11 @@ export default {
   'pages.project.di.step.schema.delimiter': 'Field Delimiter',
   'pages.project.di.step.schema.skipHeaderRowNumber': 'Skip Header RowNumber',
 
+  // column
+  'pages.project.di.step.column': 'Column',
+  'pages.project.di.step.column.tooltip': 'The read column list of the data source, user can use it to implement field projection.',
+  'pages.project.di.step.column.field': 'Field',
+
   // socket
   'pages.project.di.step.socket.maxRetries': '重试次数',
 
@@ -347,6 +352,8 @@ export default {
   'pages.project.di.step.hive.tableName': 'Hive Table Name',
   'pages.project.di.step.hive.metastoreUri': 'Hive Metastore URI',
   'pages.project.di.step.hive.metastoreUri.tooltip': 'example : thrift://ctyun7:9083',
+  'pages.project.di.step.hive.readParitions': 'Paritions',
+  'pages.project.di.step.hive.readParition': 'Parition',
   'pages.project.di.step.hive.partitionBy': 'Partition',
   'pages.project.di.step.hive.partitionBy.tooltip': 'example : "test_par1", "test_par2"',
   'pages.project.di.step.hive.sinkColumns': 'Write Columns',

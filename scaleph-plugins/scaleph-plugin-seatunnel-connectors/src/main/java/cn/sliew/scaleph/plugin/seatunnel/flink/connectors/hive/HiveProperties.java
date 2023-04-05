@@ -42,6 +42,30 @@ public enum HiveProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<String> HDFS_SITE_PATH = new PropertyDescriptor.Builder<String>()
+            .name("hdfs_site_path")
+            .description("The path of hdfs-site.xml")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> KERBEROS_KEYTAB_PATH = new PropertyDescriptor.Builder<String>()
+            .name("kerberos_keytab_path")
+            .description("The keytab path of kerberos")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> KERBEROS_PRINCIPAL = new PropertyDescriptor.Builder<String>()
+            .name("kerberos_principal")
+            .description("The principal of kerberos")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder()
             .name("schema")
             .description("The schema information of upstream data.")
