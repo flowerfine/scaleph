@@ -74,13 +74,41 @@ export const SchemaParams = {
 }
 
 export const FakeParams = {
+  rows: 'rows',
   rowNum: 'row.num',
   splitNum: 'split.num',
   splitReadInterval: 'split.read-interval',
   mapSize: 'map.size',
   arraySize: 'array.size',
   bytesLength: 'bytes.length',
+  stringFakeMode: 'string.fake.mode',
   stringLength: 'string.length',
+  stringTemplate: 'string.template',
+  tinyintFakeMode: 'tinyint.fake.mode',
+  tinyintMin: 'tinyint.min',
+  tinyintMax: 'tinyint.max',
+  tinyintTemplate: 'tinyint.template',
+  smallintFakeMode: 'smallint.fake.mode',
+  smallintMin: 'smallint.min',
+  smallintMax: 'smallint.max',
+  smallintTemplate: 'smallint.template',
+  intFakeMode: 'int.fake.mode',
+  intMin: 'int.min',
+  intMax: 'int.max',
+  intTemplate: 'int.template',
+  bigintFakeMode: 'bigint.fake.mode',
+  bigintMin: 'bigint.min',
+  bigintMax: 'bigint.max',
+  bigintTemplate: 'bigint.template',
+  floatFakeMode: 'float.fake.mode',
+  floatMin: 'float.min',
+  floatMax: 'float.max',
+  floatTemplate: 'float.template',
+
+  doubleFakeMode: 'double.fake.mode',
+  doubleMin: 'double.min',
+  doubleMax: 'double.max',
+  doubleTemplate: 'double.template'
 }
 
 export const JdbcParams = {

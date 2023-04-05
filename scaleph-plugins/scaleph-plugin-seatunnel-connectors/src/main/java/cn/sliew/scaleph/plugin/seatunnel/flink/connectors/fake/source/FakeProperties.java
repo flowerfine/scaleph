@@ -34,15 +34,6 @@ public enum FakeProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<JsonNode> ROWS = new PropertyDescriptor.Builder<JsonNode>()
-            .name("rows")
-            .description(
-                    "The row list of fake data output per degree of parallelism")
-            .type(PropertyType.OBJECT)
-            .parser(Parsers.JSON_PARSER)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
     public static final PropertyDescriptor<Integer> ROW_NUM = new PropertyDescriptor.Builder<Integer>()
             .name("row.num")
             .description("Table structure description ,you should assign schema option to tell connector how to parse data to the row you want.")
@@ -106,6 +97,15 @@ public enum FakeProperties {
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<JsonNode> ROWS = new PropertyDescriptor.Builder<JsonNode>()
+            .name("rows")
+            .description(
+                    "The row list of fake data output per degree of parallelism")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<String> STRING_FAKE_MODE = new PropertyDescriptor.Builder()
             .name("string.fake.mode")
             .description("The fake mode of generating string data")
@@ -119,6 +119,223 @@ public enum FakeProperties {
     public static final PropertyDescriptor<JsonNode> STRING_TEMPLATE = new PropertyDescriptor.Builder()
             .name("string.template")
             .description("The template list of string type that connector generated")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> TINYINT_FAKE_MODE = new PropertyDescriptor.Builder()
+            .name("tinyint.fake.mode")
+            .description("The fake mode of generating tinyint data")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .defaultValue("range")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .allowableValues("range", "template")
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> TINYINT_MIN = new PropertyDescriptor.Builder()
+            .name("tinyint.min")
+            .description("The min value of tinyint data that connector generated")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(0)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> TINYINT_MAX = new PropertyDescriptor.Builder()
+            .name("tinyint.max")
+            .description("The max value of tinyint data that connector generated")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(Byte.MAX_VALUE)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> TINYINT_TEMPLATE = new PropertyDescriptor.Builder()
+            .name("tinyint.template")
+            .description("The template list of tinyint type that connector generated")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> SMALLINT_FAKE_MODE = new PropertyDescriptor.Builder()
+            .name("smallint.fake.mode")
+            .description("The fake mode of generating smallint data")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .defaultValue("range")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .allowableValues("range", "template")
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> SMALLINT_MIN = new PropertyDescriptor.Builder()
+            .name("smallint.min")
+            .description("The min value of smallint data that connector generated")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(0)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> SMALLINT_MAX = new PropertyDescriptor.Builder()
+            .name("smallint.max")
+            .description("The max value of smallint data that connector generated")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(Short.MAX_VALUE)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> SMALLINT_TEMPLATE = new PropertyDescriptor.Builder()
+            .name("smallint.template")
+            .description("The template list of smallint type that connector generated")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> INT_FAKE_MODE = new PropertyDescriptor.Builder()
+            .name("int.fake.mode")
+            .description("The fake mode of generating int data")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .defaultValue("range")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .allowableValues("range", "template")
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> INT_MIN = new PropertyDescriptor.Builder()
+            .name("int.min")
+            .description("The min value of int data that connector generated")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(0)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> INT_MAX = new PropertyDescriptor.Builder()
+            .name("int.max")
+            .description("The max value of int data that connector generated")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(Integer.MAX_VALUE)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> INT_TEMPLATE = new PropertyDescriptor.Builder()
+            .name("int.template")
+            .description("The template list of int type that connector generated")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> BIGINT_FAKE_MODE = new PropertyDescriptor.Builder()
+            .name("int.fake.mode")
+            .description("The fake mode of generating int data")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .defaultValue("range")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .allowableValues("range", "template")
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> BIGINT_MIN = new PropertyDescriptor.Builder()
+            .name("int.min")
+            .description("The min value of int data that connector generated")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(0)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> BIGINT_MAX = new PropertyDescriptor.Builder()
+            .name("int.max")
+            .description("The max value of int data that connector generated")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(Long.MAX_VALUE)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> BIGINT_TEMPLATE = new PropertyDescriptor.Builder()
+            .name("int.template")
+            .description("The template list of int type that connector generated")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> FLOAT_FAKE_MODE = new PropertyDescriptor.Builder()
+            .name("float.fake.mode")
+            .description("The fake mode of generating float data")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .defaultValue("range")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .allowableValues("range", "template")
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> FLOAT_MIN = new PropertyDescriptor.Builder()
+            .name("float.min")
+            .description("The min value of float data that connector generated")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(0)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> FLOAT_MAX = new PropertyDescriptor.Builder()
+            .name("float.max")
+            .description("The max value of float data that connector generated")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(Float.MAX_VALUE)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> FLOAT_TEMPLATE = new PropertyDescriptor.Builder()
+            .name("float.template")
+            .description("The template list of float type that connector generated")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+
+    public static final PropertyDescriptor<String> DOUBLE_FAKE_MODE = new PropertyDescriptor.Builder()
+            .name("double.fake.mode")
+            .description("The fake mode of generating double data")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .defaultValue("range")
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .allowableValues("range", "template")
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> DOUBLE_MIN = new PropertyDescriptor.Builder()
+            .name("double.min")
+            .description("The min value of double data that connector generated")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(0)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> DOUBLE_MAX = new PropertyDescriptor.Builder()
+            .name("double.max")
+            .description("The max value of double data that connector generated")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .defaultValue(Double.MAX_VALUE)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> DOUBLE_TEMPLATE = new PropertyDescriptor.Builder()
+            .name("double.template")
+            .description("The template list of double type that connector generated")
             .type(PropertyType.OBJECT)
             .parser(Parsers.JSON_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
