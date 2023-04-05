@@ -1,6 +1,13 @@
 import {getIntl, getLocale} from "umi";
 import {InfoCircleOutlined} from "@ant-design/icons";
-import {ProFormDependency, ProFormGroup, ProFormList, ProFormSelect, ProFormText} from "@ant-design/pro-components";
+import {
+  ProFormDependency,
+  ProFormDigit,
+  ProFormGroup,
+  ProFormList,
+  ProFormSelect,
+  ProFormText
+} from "@ant-design/pro-components";
 import {SchemaParams} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
 
 const SchemaItem: React.FC = () => {
@@ -8,8 +15,8 @@ const SchemaItem: React.FC = () => {
   return (
     <ProFormGroup>
       <ProFormSelect
-        name={'type'}
-        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.type'})}
+        name={'file_format_type'}
+        label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fileFormatType'})}
         rules={[{required: true}]}
         valueEnum={{
           json: 'json',
@@ -19,9 +26,9 @@ const SchemaItem: React.FC = () => {
           csv: 'csv',
         }}
       />
-      <ProFormDependency name={['type']}>
-        {({type}) => {
-          if (type == 'json') {
+      <ProFormDependency name={['file_format_type']}>
+        {({file_format_type}) => {
+          if (file_format_type == 'json') {
             return (
               <ProFormGroup
                 label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
@@ -54,14 +61,38 @@ const SchemaItem: React.FC = () => {
               </ProFormGroup>
             );
           }
+          if (file_format_type == 'text') {
+            return <ProFormGroup>
+              <ProFormDigit
+                name={SchemaParams.skipHeaderRowNumber}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.skipHeaderRowNumber'})}
+                initialValue={0}
+                fieldProps={{
+                  min: 0
+                }}
+              />
+              <ProFormText
+                name={SchemaParams.delimiter}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.delimiter'})}
+                initialValue={'\\001'}
+              />
+            </ProFormGroup>;
+          }
+          if (file_format_type == 'csv') {
+            return <ProFormGroup>
+              <ProFormDigit
+                name={SchemaParams.skipHeaderRowNumber}
+                label={intl.formatMessage({id: 'pages.project.di.step.schema.skipHeaderRowNumber'})}
+                initialValue={0}
+                fieldProps={{
+                  min: 0
+                }}
+              />
+            </ProFormGroup>;
+          }
           return <ProFormGroup/>;
         }}
       </ProFormDependency>
-      <ProFormText
-        name={SchemaParams.delimiter}
-        label={intl.formatMessage({id: 'pages.project.di.step.schema.delimiter'})}
-        initialValue={'\\001'}
-      />
     </ProFormGroup>
   );
 }

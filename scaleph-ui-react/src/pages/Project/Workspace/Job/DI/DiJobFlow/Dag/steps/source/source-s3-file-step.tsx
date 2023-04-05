@@ -11,7 +11,7 @@ import {
   ProFormList,
   ProFormSelect,
   ProFormSwitch,
-  ProFormText,
+  ProFormText, ProFormTextArea,
 } from '@ant-design/pro-components';
 import {useEffect} from 'react';
 import {StepSchemaService} from '../helper';
@@ -103,6 +103,10 @@ const SourceS3FileStepForm: React.FC<ModalFormProps<{
           name={BaseFileParams.path}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.path'})}
           rules={[{required: true}]}
+        />
+        <ProFormTextArea
+          name={BaseFileParams.readColumns}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.readColumns'})}
         />
         <SchemaItem/>
         <ProFormSwitch

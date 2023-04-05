@@ -4,7 +4,7 @@ import {WsDiJobService} from '@/services/project/WsDiJob.service';
 import {Form, message, Modal} from 'antd';
 import {WsDiJob} from '@/services/project/typings';
 import {getIntl, getLocale} from 'umi';
-import {ProForm, ProFormSelect, ProFormSwitch, ProFormText,} from '@ant-design/pro-components';
+import {ProForm, ProFormSelect, ProFormSwitch, ProFormText, ProFormTextArea,} from '@ant-design/pro-components';
 import {useEffect} from 'react';
 import {BaseFileParams, STEP_ATTR_TYPE} from '../../constant';
 import {StepSchemaService} from '../helper';
@@ -63,6 +63,10 @@ const SourceFtpFileStepForm: React.FC<ModalFormProps<{
           name={BaseFileParams.path}
           label={intl.formatMessage({id: 'pages.project.di.step.baseFile.path'})}
           rules={[{required: true}]}
+        />
+        <ProFormTextArea
+          name={BaseFileParams.readColumns}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.readColumns'})}
         />
         <SchemaItem/>
         <ProFormSwitch

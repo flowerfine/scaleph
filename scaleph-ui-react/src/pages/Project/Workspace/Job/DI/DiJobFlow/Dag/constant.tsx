@@ -71,6 +71,7 @@ export const SchemaParams = {
   field: 'field',
   type: 'type',
   delimiter: 'delimiter',
+  skipHeaderRowNumber: 'skip_header_row_number',
 }
 
 export const FakeParams = {
@@ -135,7 +136,8 @@ export const JdbcParams = {
 
 export const BaseFileParams = {
   path: 'path',
-  type: 'type',
+  fileFormatType: 'file_format_type',
+  readColumns: 'read_columns',
   schema: 'schema',
   delimiter: 'delimiter',
   parsePartitionFromPath: 'parse_partition_from_path',

@@ -115,6 +115,7 @@ export default {
   'pages.project.di.step.schema.fields.field': 'field',
   'pages.project.di.step.schema.fields.type': 'type',
   'pages.project.di.step.schema.delimiter': 'Field Delimiter',
+  'pages.project.di.step.schema.skipHeaderRowNumber': 'Skip Header RowNumber',
 
   // socket
   'pages.project.di.step.socket.maxRetries': '重试次数',
@@ -186,7 +187,6 @@ export default {
   'pages.project.di.step.fake.floatMin': 'float 最小值',
   'pages.project.di.step.fake.floatMax': 'float 最大值',
   'pages.project.di.step.fake.floatTemplate': 'float 数据',
-
   'pages.project.di.step.fake.doubleFakeMode': 'double fake 类型',
   'pages.project.di.step.fake.doubleMin': 'double 最小值',
   'pages.project.di.step.fake.doubleMax': 'double 最大值',
@@ -194,7 +194,8 @@ export default {
 
   // base file
   'pages.project.di.step.baseFile.path': 'Path',
-  'pages.project.di.step.baseFile.type': 'File Type',
+  'pages.project.di.step.baseFile.fileFormatType': 'File Format',
+  'pages.project.di.step.baseFile.readColumns': 'Columns',
   'pages.project.di.step.baseFile.schema': 'Schema',
   'pages.project.di.step.baseFile.delimiter': 'Field Delimiter',
   'pages.project.di.step.baseFile.parsePartitionFromPath': 'Enable Parse Partition From Path',
