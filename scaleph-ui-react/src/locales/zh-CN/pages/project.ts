@@ -123,6 +123,12 @@ export default {
   'pages.project.di.step.schema.fields.field': 'field',
   'pages.project.di.step.schema.fields.type': 'type',
   'pages.project.di.step.schema.delimiter': 'Field Delimiter',
+  'pages.project.di.step.schema.skipHeaderRowNumber': 'Skip Header RowNumber',
+
+  // column
+  'pages.project.di.step.column': 'Column',
+  'pages.project.di.step.column.tooltip': 'The read column list of the data source, user can use it to implement field projection.',
+  'pages.project.di.step.column.field': 'Field',
 
   // socket
   'pages.project.di.step.socket.maxRetries': '重试次数',
@@ -162,6 +168,7 @@ export default {
   'pages.project.di.step.jdbc.transactionTimeoutSec.tooltip': '-1 表示从不超时',
 
   // fake
+  'pages.project.di.step.fake.rows': '生成数据',
   'pages.project.di.step.fake.rowNum': '生成数据行数',
   'pages.project.di.step.fake.splitNum': 'Split 数量',
   'pages.project.di.step.fake.splitNum.tooltip': '越大数据生成越多',
@@ -170,11 +177,38 @@ export default {
   'pages.project.di.step.fake.mapSize': 'map 类型 size',
   'pages.project.di.step.fake.arraySize': 'array 类型 size',
   'pages.project.di.step.fake.bytesLength': 'bytes 长度',
+  'pages.project.di.step.fake.stringFakeMode': 'string fake 类型',
   'pages.project.di.step.fake.stringLength': 'string 长度',
+  'pages.project.di.step.fake.stringTemplate': 'string 数据',
+  'pages.project.di.step.fake.tinyintFakeMode': 'tinyint fake 类型',
+  'pages.project.di.step.fake.tinyintMin': 'tinyint 最小值',
+  'pages.project.di.step.fake.tinyintMax': 'tinyint 最大值',
+  'pages.project.di.step.fake.tinyintTemplate': 'tinyint 数据',
+  'pages.project.di.step.fake.smallintFakeMode': 'smallint fake 类型',
+  'pages.project.di.step.fake.smallintMin': 'smallint 最小值',
+  'pages.project.di.step.fake.smallintMax': 'smallint 最大值',
+  'pages.project.di.step.fake.smallintTemplate': 'smallint 数据',
+  'pages.project.di.step.fake.intFakeMode': 'int fake 类型',
+  'pages.project.di.step.fake.intMin': 'int 最小值',
+  'pages.project.di.step.fake.intMax': 'int 最大值',
+  'pages.project.di.step.fake.intTemplate': 'int 数据',
+  'pages.project.di.step.fake.bigintFakeMode': 'bigint fake 类型',
+  'pages.project.di.step.fake.bigintMin': 'bigint 最小值',
+  'pages.project.di.step.fake.bigintMax': 'bigint 最大值',
+  'pages.project.di.step.fake.bigintTemplate': 'bigint 数据',
+  'pages.project.di.step.fake.floatFakeMode': 'float fake 类型',
+  'pages.project.di.step.fake.floatMin': 'float 最小值',
+  'pages.project.di.step.fake.floatMax': 'float 最大值',
+  'pages.project.di.step.fake.floatTemplate': 'float 数据',
+  'pages.project.di.step.fake.doubleFakeMode': 'double fake 类型',
+  'pages.project.di.step.fake.doubleMin': 'double 最小值',
+  'pages.project.di.step.fake.doubleMax': 'double 最大值',
+  'pages.project.di.step.fake.doubleTemplate': 'double 数据',
 
   // base file
   'pages.project.di.step.baseFile.path': 'Path',
-  'pages.project.di.step.baseFile.type': 'File Type',
+  'pages.project.di.step.baseFile.fileFormatType': 'File Format',
+  'pages.project.di.step.baseFile.readColumns': 'Columns',
   'pages.project.di.step.baseFile.schema': 'Schema',
   'pages.project.di.step.baseFile.delimiter': 'Field Delimiter',
   'pages.project.di.step.baseFile.parsePartitionFromPath': 'Enable Parse Partition From Path',
@@ -326,6 +360,8 @@ export default {
   'pages.project.di.step.hive.tableName': 'Hive Table Name',
   'pages.project.di.step.hive.metastoreUri': 'Hive Metastore URI',
   'pages.project.di.step.hive.metastoreUri.tooltip': 'example : thrift://ctyun7:9083',
+  'pages.project.di.step.hive.readParitions': 'Paritions',
+  'pages.project.di.step.hive.readParition': 'Parition',
   'pages.project.di.step.hive.partitionBy': 'Partition',
   'pages.project.di.step.hive.partitionBy.tooltip': 'example : "test_par1", "test_par2"',
   'pages.project.di.step.hive.sinkColumns': 'Write Columns',
@@ -340,7 +376,6 @@ export default {
   // kudu
   'pages.project.di.step.kudu.master': 'Master',
   'pages.project.di.step.kudu.table': 'Table',
-  'pages.project.di.step.kudu.savemode': '写入模式',
   'pages.project.di.step.kudu.columnsList': '字段列表',
 
   // kafka
@@ -384,7 +419,6 @@ export default {
   'pages.project.di.step.iotdb.fields': 'Fields',
   'pages.project.di.step.iotdb.fetchSize': 'Fetch Size',
   'pages.project.di.step.iotdb.thriftDefaultBufferSize': 'Default Thrift Buffer Size',
-  'pages.project.di.step.iotdb.thriftMaxFrameSize': 'Max Thrift Max Size',
   'pages.project.di.step.iotdb.enableCacheLeader': 'Enable Cache Leader',
   'pages.project.di.step.iotdb.version': 'Version',
   'pages.project.di.step.iotdb.numPartitions': 'Partition Num',
@@ -459,6 +493,12 @@ export default {
   'pages.project.di.step.elasticsearch.primaryKeys.list': 'Primary Key',
   'pages.project.di.step.elasticsearch.maxRetrySize': 'Max Retry Size',
   'pages.project.di.step.elasticsearch.maxBatchSize': 'Max Batch Size',
+  'pages.project.di.step.elasticsearch.query': 'Query',
+  'pages.project.di.step.elasticsearch.scrollTime': 'Scroll Time',
+  'pages.project.di.step.elasticsearch.scrollSize': 'Scroll Size',
+  'pages.project.di.step.elasticsearch.source': 'Fields',
+  'pages.project.di.step.elasticsearch.source.field': 'Field',
+
 
   // neo4j
   'pages.project.di.step.neo4j.uri': 'URI',
@@ -589,8 +629,7 @@ export default {
   'pages.project.di.step.openmldb.requestTimeout': 'Request Timeout(mills)',
 
   // cdc-mysql
-  'pages.project.di.step.cdcmysql.hostname': 'Hostname',
-  'pages.project.di.step.cdcmysql.port': 'Port',
+  'pages.project.di.step.cdcmysql.baseUrl': 'Jdbc URL',
   'pages.project.di.step.cdcmysql.username': 'Username',
   'pages.project.di.step.cdcmysql.password': 'Password',
   'pages.project.di.step.cdcmysql.database': 'Database',
@@ -620,6 +659,7 @@ export default {
   'pages.project.di.step.cdcmysql.debeziums.property.placeholder': 'snapshot.mode',
   'pages.project.di.step.cdcmysql.debeziums.value': 'Value',
   'pages.project.di.step.cdcmysql.debeziums.value.placeholder': 'never',
+  'pages.project.di.step.cdcmysql.format': 'CDC Format',
 
   // copy
   'pages.project.di.step.copy.srcField': 'Source',

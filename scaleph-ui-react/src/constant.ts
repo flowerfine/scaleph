@@ -42,6 +42,8 @@ export const DICT_TYPE = {
   seatunnelVersion: 'seatunnel_version',
   seatunnelPluginName: 'seatunnel_plugin_name',
   seatunnelRowKind: 'seatunnel_row_kind',
+  seatunnelFakeMode: 'seatunnel_fake_mode',
+  seatunnelCDCFormat: 'seatunnel_cdc_format',
   imagePullPolicy: 'image_pull_policy',
 
   deploymentKind: 'deployment_kind',

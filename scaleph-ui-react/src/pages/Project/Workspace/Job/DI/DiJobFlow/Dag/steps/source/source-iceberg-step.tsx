@@ -1,31 +1,26 @@
-import { NsGraph } from '@antv/xflow';
-import { ModalFormProps } from '@/app.d';
-import { IcebergParams, SchemaParams, STEP_ATTR_TYPE } from '../../constant';
-import { WsDiJobService } from '@/services/project/WsDiJob.service';
-import { Button, Drawer, Form, message, Modal } from 'antd';
-import { WsDiJob } from '@/services/project/typings';
-import { getIntl, getLocale } from 'umi';
+import {NsGraph} from '@antv/xflow';
+import {ModalFormProps} from '@/app.d';
+import {IcebergParams, STEP_ATTR_TYPE} from '../../constant';
+import {WsDiJobService} from '@/services/project/WsDiJob.service';
+import {Button, Drawer, Form, message} from 'antd';
+import {WsDiJob} from '@/services/project/typings';
+import {getIntl, getLocale} from 'umi';
 import {
   ProForm,
   ProFormDependency,
   ProFormDigit,
   ProFormGroup,
-  ProFormList,
   ProFormSelect,
   ProFormSwitch,
   ProFormText,
 } from '@ant-design/pro-components';
-import { useEffect } from 'react';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { StepSchemaService } from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper';
+import {useEffect} from 'react';
 
-const SourceIcebergStepForm: React.FC<
-  ModalFormProps<{
-    node: NsGraph.INodeConfig;
-    graphData: NsGraph.IGraphData;
-    graphMeta: NsGraph.IGraphMeta;
-  }>
-> = ({ data, visible, onCancel, onOK }) => {
+const SourceIcebergStepForm: React.FC<ModalFormProps<{
+  node: NsGraph.INodeConfig;
+  graphData: NsGraph.IGraphData;
+  graphMeta: NsGraph.IGraphMeta;
+}>> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as WsDiJob;
   const jobGraph = data.graphData;
@@ -41,7 +36,7 @@ const SourceIcebergStepForm: React.FC<
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{ overflowY: 'scroll'}}
+      bodyStyle={{overflowY: 'scroll'}}
       destroyOnClose={true}
       onClose={onCancel}
       extra={
@@ -53,84 +48,83 @@ const SourceIcebergStepForm: React.FC<
               map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
               map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
               map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-              StepSchemaService.formatFields(values);
               map.set(STEP_ATTR_TYPE.stepAttrs, values);
               WsDiJobService.saveStepAttr(map).then((resp) => {
                 if (resp.success) {
-                  message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+                  message.success(intl.formatMessage({id: 'app.common.operate.success'}));
                   onOK ? onOK(values) : null;
                 }
               });
             });
           }}
         >
-          {intl.formatMessage({ id: 'app.common.operate.confirm.label' })}
+          {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
         </Button>
       }
     >
       <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
         <ProFormText
           name={STEP_ATTR_TYPE.stepTitle}
-          label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
-          rules={[{ required: true }, { max: 120 }]}
+          label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
+          rules={[{required: true}, {max: 120}]}
         />
         <ProFormSelect
           name={IcebergParams.catalogType}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iceberg.catalogType' })}
-          rules={[{ required: true }]}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.catalogType'})}
+          rules={[{required: true}]}
           valueEnum={{
             hive: 'Hive',
             hadoop: 'Hadoop',
           }}
         />
         <ProFormDependency name={['catalog_type']}>
-          {({ catalog_type }) => {
+          {({catalog_type}) => {
             if (catalog_type == 'hive') {
               return (
                 <ProFormGroup>
                   <ProFormText
                     name={IcebergParams.uri}
-                    label={intl.formatMessage({ id: 'pages.project.di.step.iceberg.uri' })}
-                    rules={[{ required: true }]}
+                    label={intl.formatMessage({id: 'pages.project.di.step.iceberg.uri'})}
+                    rules={[{required: true}]}
                   />
                 </ProFormGroup>
               );
             }
-            return <ProFormGroup />;
+            return <ProFormGroup/>;
           }}
         </ProFormDependency>
         <ProFormText
           name={IcebergParams.catalogName}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iceberg.catalogName' })}
-          rules={[{ required: true }]}
-          colProps={{ span: 6 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.catalogName'})}
+          rules={[{required: true}]}
+          colProps={{span: 6}}
         />
         <ProFormText
           name={IcebergParams.namespace}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iceberg.namespace' })}
-          rules={[{ required: true }]}
-          colProps={{ span: 6 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.namespace'})}
+          rules={[{required: true}]}
+          colProps={{span: 6}}
         />
         <ProFormText
           name={IcebergParams.table}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iceberg.table' })}
-          rules={[{ required: true }]}
-          colProps={{ span: 12 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.table'})}
+          rules={[{required: true}]}
+          colProps={{span: 12}}
         />
         <ProFormText
           name={IcebergParams.warehouse}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iceberg.warehouse' })}
-          rules={[{ required: true }]}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.warehouse'})}
+          rules={[{required: true}]}
         />
         <ProFormSwitch
           name={IcebergParams.caseSensitive}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iceberg.caseSensitive' })}
-          colProps={{ span: 6 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.caseSensitive'})}
+          colProps={{span: 6}}
         />
         <ProFormSelect
           name={IcebergParams.streamScanStrategy}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iceberg.streamScanStrategy' })}
-          colProps={{ span: 18 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.streamScanStrategy'})}
+          colProps={{span: 18}}
           allowClear={false}
           initialValue={'FROM_LATEST_SNAPSHOT'}
           valueEnum={{
@@ -141,42 +135,13 @@ const SourceIcebergStepForm: React.FC<
             TABLE_SCAN_THEN_INCREMENTAL: 'TABLE_SCAN_THEN_INCREMENTAL',
           }}
         />
-        <ProFormGroup
-          label={intl.formatMessage({ id: 'pages.project.di.step.schema' })}
-          tooltip={{
-            title: intl.formatMessage({ id: 'pages.project.di.step.schema.tooltip' }),
-            icon: <InfoCircleOutlined />,
-          }}
-        >
-          <ProFormList
-            name={SchemaParams.fieldArray}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({ id: 'pages.project.di.step.schema.fields' }),
-              type: 'text',
-            }}
-          >
-            <ProFormGroup>
-              <ProFormText
-                name={SchemaParams.field}
-                label={intl.formatMessage({ id: 'pages.project.di.step.schema.fields.field' })}
-                colProps={{ span: 10, offset: 1 }}
-              />
-              <ProFormText
-                name={SchemaParams.type}
-                label={intl.formatMessage({ id: 'pages.project.di.step.schema.fields.type' })}
-                colProps={{ span: 10, offset: 1 }}
-              />
-            </ProFormGroup>
-          </ProFormList>
-        </ProFormGroup>
 
         <ProFormSwitch
           name={'use_snapshot_id'}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iceberg.useSnapshotId' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.useSnapshotId'})}
         />
         <ProFormDependency name={['use_snapshot_id']}>
-          {({ use_snapshot_id }) => {
+          {({use_snapshot_id}) => {
             if (use_snapshot_id) {
               return (
                 <ProFormGroup>
@@ -185,32 +150,32 @@ const SourceIcebergStepForm: React.FC<
                     label={intl.formatMessage({
                       id: 'pages.project.di.step.iceberg.startSnapshotId',
                     })}
-                    rules={[{ required: true }]}
-                    colProps={{ span: 12 }}
+                    rules={[{required: true}]}
+                    colProps={{span: 12}}
                   />
                   <ProFormDigit
                     name={IcebergParams.endSnapshotId}
                     label={intl.formatMessage({
                       id: 'pages.project.di.step.iceberg.endSnapshotId',
                     })}
-                    rules={[{ required: true }]}
-                    colProps={{ span: 12 }}
+                    rules={[{required: true}]}
+                    colProps={{span: 12}}
                   />
                 </ProFormGroup>
               );
             }
-            return <ProFormGroup />;
+            return <ProFormGroup/>;
           }}
         </ProFormDependency>
         <ProFormDigit
           name={IcebergParams.startSnapshotTimestamp}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iceberg.startSnapshotTimestamp' })}
-          colProps={{ span: 12 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.startSnapshotTimestamp'})}
+          colProps={{span: 12}}
         />
         <ProFormDigit
           name={IcebergParams.useSnapshotTimestamp}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iceberg.useSnapshotTimestamp' })}
-          colProps={{ span: 12 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.iceberg.useSnapshotTimestamp'})}
+          colProps={{span: 12}}
         />
       </ProForm>
     </Drawer>

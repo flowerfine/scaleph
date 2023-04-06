@@ -1,10 +1,10 @@
-import { NsGraph } from '@antv/xflow';
-import { ModalFormProps } from '@/app.d';
-import { CDCMySQLParams, STEP_ATTR_TYPE } from '../../constant';
-import { WsDiJobService } from '@/services/project/WsDiJob.service';
-import { Button, Drawer, Form, message, Modal } from 'antd';
-import { WsDiJob } from '@/services/project/typings';
-import { getIntl, getLocale } from 'umi';
+import {NsGraph} from '@antv/xflow';
+import {ModalFormProps} from '@/app.d';
+import {CDCMySQLParams, STEP_ATTR_TYPE} from '../../constant';
+import {WsDiJobService} from '@/services/project/WsDiJob.service';
+import {Button, Drawer, Form, message} from 'antd';
+import {WsDiJob} from '@/services/project/typings';
+import {getIntl, getLocale} from 'umi';
 import {
   ProForm,
   ProFormDependency,
@@ -14,17 +14,17 @@ import {
   ProFormSelect,
   ProFormText,
 } from '@ant-design/pro-components';
-import { useEffect } from 'react';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { StepSchemaService } from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper';
+import {useEffect} from 'react';
+import {InfoCircleOutlined} from "@ant-design/icons";
+import {StepSchemaService} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper";
+import {DictDataService} from "@/services/admin/dictData.service";
+import {DICT_TYPE} from "@/constant";
 
-const SourceCDCMySQLStepForm: React.FC<
-  ModalFormProps<{
-    node: NsGraph.INodeConfig;
-    graphData: NsGraph.IGraphData;
-    graphMeta: NsGraph.IGraphMeta;
-  }>
-> = ({ data, visible, onCancel, onOK }) => {
+const SourceCDCMySQLStepForm: React.FC<ModalFormProps<{
+  node: NsGraph.INodeConfig;
+  graphData: NsGraph.IGraphData;
+  graphMeta: NsGraph.IGraphMeta;
+}>> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as WsDiJob;
   const jobGraph = data.graphData;
@@ -40,7 +40,7 @@ const SourceCDCMySQLStepForm: React.FC<
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{ overflowY: 'scroll'}}
+      bodyStyle={{overflowY: 'scroll'}}
       destroyOnClose={true}
       onClose={onCancel}
       extra={
@@ -56,73 +56,61 @@ const SourceCDCMySQLStepForm: React.FC<
               map.set(STEP_ATTR_TYPE.stepAttrs, values);
               WsDiJobService.saveStepAttr(map).then((resp) => {
                 if (resp.success) {
-                  message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+                  message.success(intl.formatMessage({id: 'app.common.operate.success'}));
                   onOK ? onOK(values) : null;
                 }
               });
             });
           }}
         >
-          {intl.formatMessage({ id: 'app.common.operate.confirm.label' })}
+          {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
         </Button>
       }
     >
       <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
         <ProFormText
           name={STEP_ATTR_TYPE.stepTitle}
-          label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
-          rules={[{ required: true }, { max: 120 }]}
+          label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
+          rules={[{required: true}, {max: 120}]}
         />
         <ProFormText
-          name={CDCMySQLParams.hostname}
-          label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.hostname' })}
-          rules={[{ required: true }]}
-          colProps={{ span: 16 }}
-        />
-        <ProFormDigit
-          name={CDCMySQLParams.port}
-          label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.port' })}
-          rules={[{ required: true }]}
-          colProps={{ span: 8 }}
-          initialValue={3306}
-          fieldProps={{
-            min: 0,
-            max: 65535,
-          }}
+          name={CDCMySQLParams.baseUrl}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.baseUrl'})}
+          rules={[{required: true}]}
         />
         <ProFormText
           name={CDCMySQLParams.username}
-          label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.username' })}
-          rules={[{ required: true }]}
-          colProps={{ span: 12 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.username'})}
+          rules={[{required: true}]}
+          colProps={{span: 12}}
         />
         <ProFormText
           name={CDCMySQLParams.password}
-          label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.password' })}
-          rules={[{ required: true }]}
-          colProps={{ span: 12 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.password'})}
+          rules={[{required: true}]}
+          colProps={{span: 12}}
         />
         <ProFormText
           name={CDCMySQLParams.database}
-          label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.database' })}
-          rules={[{ required: true }]}
-          colProps={{ span: 12 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.database'})}
+          rules={[{required: true}]}
+          colProps={{span: 12}}
         />
         <ProFormText
           name={CDCMySQLParams.table}
-          label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.table' })}
-          rules={[{ required: true }]}
-          colProps={{ span: 12 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.table'})}
+          rules={[{required: true}]}
+          colProps={{span: 12}}
         />
         <ProFormSelect
           name={'startupMode'}
-          label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.startupMode' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.startupMode'})}
           allowClear={false}
           initialValue={'initial'}
           options={['initial', 'earliest', 'latest', 'specific', 'timestamp']}
         />
         <ProFormDependency name={['startupMode']}>
-          {({ startupMode }) => {
+          {({startupMode}) => {
             if (startupMode == 'timestamp') {
               return (
                 <ProFormGroup>
@@ -131,7 +119,7 @@ const SourceCDCMySQLStepForm: React.FC<
                     label={intl.formatMessage({
                       id: 'pages.project.di.step.cdcmysql.startupTimestamp',
                     })}
-                    rules={[{ required: true }]}
+                    rules={[{required: true}]}
                   />
                 </ProFormGroup>
               );
@@ -143,33 +131,33 @@ const SourceCDCMySQLStepForm: React.FC<
                     label={intl.formatMessage({
                       id: 'pages.project.di.step.cdcmysql.startupSpecificOffsetFile',
                     })}
-                    rules={[{ required: true }]}
-                    colProps={{ span: 12 }}
+                    rules={[{required: true}]}
+                    colProps={{span: 12}}
                   />
                   <ProFormText
                     name={CDCMySQLParams.startupSpecificOffsetPos}
                     label={intl.formatMessage({
                       id: 'pages.project.di.step.cdcmysql.startupSpecificOffsetPos',
                     })}
-                    rules={[{ required: true }]}
-                    colProps={{ span: 12 }}
+                    rules={[{required: true}]}
+                    colProps={{span: 12}}
                   />
                 </ProFormGroup>
               );
             }
-            return <ProFormGroup />;
+            return <ProFormGroup/>;
           }}
         </ProFormDependency>
 
         <ProFormSelect
           name={'stopMode'}
-          label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.stopMode' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.stopMode'})}
           allowClear={false}
           initialValue={'never'}
           options={['never', 'latest', 'specific', 'timestamp']}
         />
         <ProFormDependency name={['stopMode']}>
-          {({ stopMode }) => {
+          {({stopMode}) => {
             if (stopMode == 'timestamp') {
               return (
                 <ProFormGroup>
@@ -178,7 +166,7 @@ const SourceCDCMySQLStepForm: React.FC<
                     label={intl.formatMessage({
                       id: 'pages.project.di.step.cdcmysql.stopTimestamp',
                     })}
-                    rules={[{ required: true }]}
+                    rules={[{required: true}]}
                   />
                 </ProFormGroup>
               );
@@ -190,27 +178,27 @@ const SourceCDCMySQLStepForm: React.FC<
                     label={intl.formatMessage({
                       id: 'pages.project.di.step.cdcmysql.stopSpecificOffsetFile',
                     })}
-                    rules={[{ required: true }]}
-                    colProps={{ span: 12 }}
+                    rules={[{required: true}]}
+                    colProps={{span: 12}}
                   />
                   <ProFormText
                     name={CDCMySQLParams.stopSpecificOffsetPos}
                     label={intl.formatMessage({
                       id: 'pages.project.di.step.cdcmysql.stopSpecificOffsetPos',
                     })}
-                    rules={[{ required: true }]}
-                    colProps={{ span: 12 }}
+                    rules={[{required: true}]}
+                    colProps={{span: 12}}
                   />
                 </ProFormGroup>
               );
             }
-            return <ProFormGroup />;
+            return <ProFormGroup/>;
           }}
         </ProFormDependency>
         <ProFormDigit
           name={CDCMySQLParams.snapshotSplitSize}
-          label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.snapshotSplitSize' })}
-          colProps={{ span: 8 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.snapshotSplitSize'})}
+          colProps={{span: 8}}
           initialValue={8096}
           fieldProps={{
             step: 1024,
@@ -219,8 +207,8 @@ const SourceCDCMySQLStepForm: React.FC<
         />
         <ProFormDigit
           name={CDCMySQLParams.snapshotFetchSize}
-          label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.snapshotFetchSize' })}
-          colProps={{ span: 8 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.snapshotFetchSize'})}
+          colProps={{span: 8}}
           initialValue={1024}
           fieldProps={{
             step: 1024,
@@ -232,7 +220,7 @@ const SourceCDCMySQLStepForm: React.FC<
           label={intl.formatMessage({
             id: 'pages.project.di.step.cdcmysql.incrementalParallelism',
           })}
-          colProps={{ span: 8 }}
+          colProps={{span: 8}}
           initialValue={1}
           fieldProps={{
             min: 0,
@@ -240,19 +228,19 @@ const SourceCDCMySQLStepForm: React.FC<
         />
         <ProFormText
           name={CDCMySQLParams.serverId}
-          label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.serverId' })}
-          colProps={{ span: 12 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.serverId'})}
+          colProps={{span: 12}}
         />
         <ProFormText
           name={CDCMySQLParams.serverTimeZone}
-          label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.serverTimeZone' })}
-          colProps={{ span: 12 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.serverTimeZone'})}
+          colProps={{span: 12}}
           initialValue={'UTC'}
         />
         <ProFormDigit
           name={CDCMySQLParams.connectionPoolSize}
-          label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.connectionPoolSize' })}
-          colProps={{ span: 8 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.connectionPoolSize'})}
+          colProps={{span: 8}}
           initialValue={20}
           fieldProps={{
             min: 1,
@@ -260,14 +248,14 @@ const SourceCDCMySQLStepForm: React.FC<
         />
         <ProFormText
           name={CDCMySQLParams.connectTimeout}
-          label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.connectTimeout' })}
-          colProps={{ span: 8 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.connectTimeout'})}
+          colProps={{span: 8}}
           initialValue={'30s'}
         />
         <ProFormDigit
           name={CDCMySQLParams.connectMaxRetries}
-          label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.connectMaxRetries' })}
-          colProps={{ span: 8 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.connectMaxRetries'})}
+          colProps={{span: 8}}
           initialValue={3}
           fieldProps={{
             min: 0,
@@ -279,7 +267,7 @@ const SourceCDCMySQLStepForm: React.FC<
           label={intl.formatMessage({
             id: 'pages.project.di.step.cdcmysql.chunkKeyEvenDistributionFactorLowerBound',
           })}
-          colProps={{ span: 12 }}
+          colProps={{span: 12}}
           initialValue={0.05}
           fieldProps={{
             min: 0,
@@ -290,18 +278,17 @@ const SourceCDCMySQLStepForm: React.FC<
           label={intl.formatMessage({
             id: 'pages.project.di.step.cdcmysql.chunkKeyEvenDistributionFactorUpperBound',
           })}
-          colProps={{ span: 12 }}
+          colProps={{span: 12}}
           initialValue={1000}
           fieldProps={{
             min: 0,
           }}
         />
-
         <ProFormGroup
-          label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.debeziums' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.debeziums'})}
           tooltip={{
-            title: intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.debeziums.tooltip' }),
-            icon: <InfoCircleOutlined />,
+            title: intl.formatMessage({id: 'pages.project.di.step.cdcmysql.debeziums.tooltip'}),
+            icon: <InfoCircleOutlined/>,
           }}
         >
           <ProFormList
@@ -323,19 +310,27 @@ const SourceCDCMySQLStepForm: React.FC<
                 placeholder={intl.formatMessage({
                   id: 'pages.project.di.step.cdcmysql.debeziums.property.placeholder',
                 })}
-                colProps={{ span: 10, offset: 1 }}
+                colProps={{span: 10, offset: 1}}
               />
               <ProFormText
                 name={CDCMySQLParams.debeziumValue}
-                label={intl.formatMessage({ id: 'pages.project.di.step.cdcmysql.debeziums.value' })}
+                label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.debeziums.value'})}
                 placeholder={intl.formatMessage({
                   id: 'pages.project.di.step.cdcmysql.debeziums.value.placeholder',
                 })}
-                colProps={{ span: 10, offset: 1 }}
+                colProps={{span: 10, offset: 1}}
               />
             </ProFormGroup>
           </ProFormList>
         </ProFormGroup>
+        <ProFormSelect
+          name={CDCMySQLParams.format}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.format'})}
+          initialValue={"DEFAULT"}
+          request={() => {
+            return DictDataService.listDictDataByType2(DICT_TYPE.seatunnelCDCFormat)
+          }}
+        />
       </ProForm>
     </Drawer>
   );

@@ -20,7 +20,6 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.ossjindo.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.file.OSSDataSource;
 import cn.sliew.scaleph.ds.modal.file.OSSJindoDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
@@ -50,7 +49,9 @@ public class OSSJindoSourcePlugin extends SeaTunnelConnectorPlugin {
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(PATH);
-        props.add(TYPE);
+        props.add(SKIP_HEADER_ROW_NUMBER);
+        props.add(FILE_FORMAT_TYPE);
+        props.add(READ_COLUMNS);
         props.add(SCHEMA);
         props.add(DELIMITER);
         props.add(PARSE_PARTITION_FROM_PATH);

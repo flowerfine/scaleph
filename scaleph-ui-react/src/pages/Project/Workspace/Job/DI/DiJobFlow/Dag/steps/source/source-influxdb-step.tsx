@@ -1,23 +1,15 @@
 import {ModalFormProps} from '@/app.d';
 import {WsDiJobService} from '@/services/project/WsDiJob.service';
 import {WsDiJob} from '@/services/project/typings';
-import {
-  ProForm,
-  ProFormDigit,
-  ProFormGroup,
-  ProFormList,
-  ProFormSelect,
-  ProFormText,
-  ProFormTextArea
-} from '@ant-design/pro-components';
+import {ProForm, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from '@ant-design/pro-components';
 import {NsGraph} from '@antv/xflow';
-import {Button, Drawer, Form, message, Modal} from 'antd';
+import {Button, Drawer, Form, message} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {InfluxDBParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
+import {InfluxDBParams, STEP_ATTR_TYPE} from '../../constant';
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
-import {InfoCircleOutlined} from "@ant-design/icons";
 import {StepSchemaService} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper";
+import FieldItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/fields";
 
 const SourceInfluxDBStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -50,7 +42,7 @@ const SourceInfluxDBStepForm: React.FC<ModalFormProps<{
               map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
               map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
               map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-              StepSchemaService.formatFields(values)
+              StepSchemaService.formatSchema(values)
               map.set(STEP_ATTR_TYPE.stepAttrs, values);
               WsDiJobService.saveStepAttr(map).then((resp) => {
                 if (resp.success) {
@@ -61,7 +53,7 @@ const SourceInfluxDBStepForm: React.FC<ModalFormProps<{
             });
           }}
         >
-          {intl.formatMessage({ id: 'app.common.operate.confirm.label' })}
+          {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
         </Button>
       }
     >
@@ -82,35 +74,7 @@ const SourceInfluxDBStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.influxdb.sql'})}
           rules={[{required: true}]}
         />
-        <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-        >
-          <ProFormList
-            name={InfluxDBParams.fieldArray}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
-              type: 'text',
-            }}
-          >
-            <ProFormGroup>
-              <ProFormText
-                name={SchemaParams.field}
-                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
-                colProps={{span: 10, offset: 1}}
-              />
-              <ProFormText
-                name={SchemaParams.type}
-                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
-        </ProFormGroup>
+        <FieldItem/>
         <ProFormText
           name={InfluxDBParams.splitColumn}
           label={intl.formatMessage({id: 'pages.project.di.step.influxdb.splitColumn'})}
