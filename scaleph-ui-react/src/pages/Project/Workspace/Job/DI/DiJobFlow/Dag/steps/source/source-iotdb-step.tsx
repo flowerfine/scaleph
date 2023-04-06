@@ -1,6 +1,6 @@
 import {NsGraph} from '@antv/xflow';
 import {ModalFormProps} from '@/app.d';
-import {IoTDBParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
+import {IoTDBParams, STEP_ATTR_TYPE} from '../../constant';
 import {WsDiJobService} from '@/services/project/WsDiJob.service';
 import {Form, message, Modal} from 'antd';
 import {WsDiJob} from '@/services/project/typings';
@@ -9,16 +9,14 @@ import {useEffect} from 'react';
 import {
   ProForm,
   ProFormDigit,
-  ProFormGroup,
-  ProFormList,
   ProFormSelect,
   ProFormSwitch,
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
-import {InfoCircleOutlined} from '@ant-design/icons';
 import {StepSchemaService} from '../helper';
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
+import FieldItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/fields";
 
 const SourceIoTDBStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -73,35 +71,7 @@ const SourceIoTDBStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.iotdb.sql'})}
           rules={[{required: true}]}
         />
-        <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-        >
-          <ProFormList
-            name={IoTDBParams.fieldArray}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
-              type: 'text',
-            }}
-          >
-            <ProFormGroup>
-              <ProFormText
-                name={SchemaParams.field}
-                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
-                colProps={{span: 10, offset: 1}}
-              />
-              <ProFormText
-                name={SchemaParams.type}
-                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
-        </ProFormGroup>
+        <FieldItem/>
         <ProFormDigit
           name={IoTDBParams.fetchSize}
           label={intl.formatMessage({id: 'pages.project.di.step.iotdb.fetchSize'})}

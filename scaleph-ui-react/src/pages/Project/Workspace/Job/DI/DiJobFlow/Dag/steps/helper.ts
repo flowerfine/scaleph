@@ -1,12 +1,18 @@
 import {
-  CassandraParams, CDCMySQLParams, ColumnParams,
+  CassandraParams,
+  CDCMySQLParams,
+  ColumnParams,
   DorisParams,
-  ElasticsearchParams, FieldMapperParams, FilterParams, HiveParams,
+  ElasticsearchParams,
+  FieldMapperParams,
+  FilterParams,
+  HiveParams,
   InfluxDBParams,
   IoTDBParams,
   JdbcParams,
   KafkaParams,
-  SchemaParams, SplitParams,
+  SchemaParams,
+  SplitParams,
   StarRocksParams
 } from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
 
@@ -33,9 +39,11 @@ export const StepSchemaService = {
   formatFields: (values: Record<string, any>) => {
     const fields: Record<string, any> = {}
     values[SchemaParams.fieldArray]?.forEach(function (item: Record<string, any>) {
-      fields[item.field] = item.type;
+      fields[SchemaParams.field] = item[SchemaParams.type];
     });
-    values[SchemaParams.fields] = JSON.stringify(fields)
+    const schema: Record<string, any> = {}
+    schema[SchemaParams.fields] = schema;
+    values[SchemaParams.schema] = JSON.stringify(schema)
     return values
   },
 
