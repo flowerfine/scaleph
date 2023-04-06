@@ -621,8 +621,7 @@ export default {
   'pages.project.di.step.openmldb.requestTimeout': 'Request Timeout(mills)',
 
   // cdc-mysql
-  'pages.project.di.step.cdcmysql.hostname': 'Hostname',
-  'pages.project.di.step.cdcmysql.port': 'Port',
+  'pages.project.di.step.cdcmysql.baseUrl': 'Jdbc URL',
   'pages.project.di.step.cdcmysql.username': 'Username',
   'pages.project.di.step.cdcmysql.password': 'Password',
   'pages.project.di.step.cdcmysql.database': 'Database',
@@ -652,6 +651,7 @@ export default {
   'pages.project.di.step.cdcmysql.debeziums.property.placeholder': 'snapshot.mode',
   'pages.project.di.step.cdcmysql.debeziums.value': 'Value',
   'pages.project.di.step.cdcmysql.debeziums.value.placeholder': 'never',
+  'pages.project.di.step.cdcmysql.format': 'CDC Format',
 
   // copy
   'pages.project.di.step.copy.srcField': 'Source',

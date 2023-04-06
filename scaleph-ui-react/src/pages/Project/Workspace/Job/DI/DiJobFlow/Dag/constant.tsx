@@ -560,8 +560,7 @@ export const OpenMLDBParams = {
 };
 
 export const CDCMySQLParams = {
-  hostname: 'hostname',
-  port: 'port',
+  baseUrl: 'base-url',
   username: 'username',
   password: 'password',
   database: 'database-name',
@@ -588,6 +587,7 @@ export const CDCMySQLParams = {
   debeziumProperties: 'debeziumProperties',
   debeziumProperty: 'debeziumProperty',
   debeziumValue: 'debeziumValue',
+  format: 'format',
 };
 
 export const CopyParams = {

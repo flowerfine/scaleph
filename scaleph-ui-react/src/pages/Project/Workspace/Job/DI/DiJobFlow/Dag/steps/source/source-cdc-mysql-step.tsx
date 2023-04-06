@@ -17,6 +17,8 @@ import {
 import {useEffect} from 'react';
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {StepSchemaService} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper";
+import {DictDataService} from "@/services/admin/dictData.service";
+import {DICT_TYPE} from "@/constant";
 
 const SourceCDCMySQLStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -66,21 +68,9 @@ const SourceCDCMySQLStepForm: React.FC<ModalFormProps<{
           rules={[{required: true}, {max: 120}]}
         />
         <ProFormText
-          name={CDCMySQLParams.hostname}
-          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.hostname'})}
+          name={CDCMySQLParams.baseUrl}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.baseUrl'})}
           rules={[{required: true}]}
-          colProps={{span: 16}}
-        />
-        <ProFormDigit
-          name={CDCMySQLParams.port}
-          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.port'})}
-          rules={[{required: true}]}
-          colProps={{span: 8}}
-          initialValue={3306}
-          fieldProps={{
-            min: 0,
-            max: 65535
-          }}
         />
         <ProFormText
           name={CDCMySQLParams.username}
@@ -270,8 +260,6 @@ const SourceCDCMySQLStepForm: React.FC<ModalFormProps<{
             min: 0
           }}
         />
-
-
         <ProFormGroup
           label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.debeziums'})}
           tooltip={{
@@ -303,6 +291,14 @@ const SourceCDCMySQLStepForm: React.FC<ModalFormProps<{
             </ProFormGroup>
           </ProFormList>
         </ProFormGroup>
+        <ProFormSelect
+          name={CDCMySQLParams.format}
+          label={intl.formatMessage({id: 'pages.project.di.step.cdcmysql.format'})}
+          initialValue={"DEFAULT"}
+          request={() => {
+            return DictDataService.listDictDataByType2(DICT_TYPE.seatunnelCDCFormat)
+          }}
+        />
       </ProForm>
     </Modal>
   );
