@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.sftp.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.elasticsearch.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.file.SftpDataSource;
+import cn.sliew.scaleph.ds.modal.nosql.ElasticsearchDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
@@ -30,37 +30,32 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileProperties.PATH;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.FileSourceProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.file.sftp.SftpFileProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.elasticsearch.ElasticsearchProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.elasticsearch.source.ElasticsearchSourceProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class SftpFileSourcePlugin extends SeaTunnelConnectorPlugin {
+public class ElasticsearchSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public SftpFileSourcePlugin() {
+    public ElasticsearchSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Read data from sftp file server.",
-                SftpFileSourcePlugin.class.getName());
-
+                "Used to read data from Elasticsearch. support version >= 2.x and < 8.x.",
+                ElasticsearchSourcePlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(PATH);
-        props.add(SKIP_HEADER_ROW_NUMBER);
-        props.add(FILE_FORMAT_TYPE);
-        props.add(READ_COLUMNS);
+        props.add(INDEX);
+        props.add(SOURCE);
+        props.add(QUERY);
+        props.add(SCROLL_TIME);
+        props.add(SCROLL_SIZE);
         props.add(SCHEMA);
-        props.add(DELIMITER);
-        props.add(PARSE_PARTITION_FROM_PATH);
-        props.add(DATE_FORMAT);
-        props.add(TIME_FORMAT);
-        props.add(DATETIME_FORMAT);
         props.add(CommonProperties.PARALLELISM);
-        props.add(CommonProperties.RESULT_TABLE_NAME);
-        supportedProperties = Collections.unmodifiableList(props);
+        props.add(CommonProperties.SOURCE_TABLE_NAME);
+        this.supportedProperties = props;
     }
 
     @Override
@@ -72,16 +67,17 @@ public class SftpFileSourcePlugin extends SeaTunnelConnectorPlugin {
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
-        SftpDataSource dataSource = (SftpDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.put(HOST.getName(), dataSource.getHost());
-        conf.putPOJO(PORT.getName(), dataSource.getPort());
-        conf.putPOJO(USER.getName(), dataSource.getUsername());
-        conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        ElasticsearchDataSource dataSource = (ElasticsearchDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(HOSTS.getName(), StringUtils.commaDelimitedListToStringArray(dataSource.getHosts()));
+        if (StringUtils.hasText(dataSource.getUsername())) {
+            conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
+            conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        }
         return conf;
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SOURCE_SFTP_FILE;
+        return SeaTunnelPluginMapping.SOURCE_ELASTICSEARCH;
     }
 }

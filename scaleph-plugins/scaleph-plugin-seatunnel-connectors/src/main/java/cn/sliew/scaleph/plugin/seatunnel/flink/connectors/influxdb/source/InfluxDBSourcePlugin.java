@@ -50,7 +50,7 @@ public class InfluxDBSourcePlugin extends SeaTunnelConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(DATABASE);
         props.add(SQL);
-        props.add(FIELDS);
+        props.add(SCHEMA);
         props.add(SPLIT_COLUMN);
         props.add(LOWER_BOUND);
         props.add(UPPER_BOUND);

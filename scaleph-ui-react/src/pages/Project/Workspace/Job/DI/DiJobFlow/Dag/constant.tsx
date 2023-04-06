@@ -71,16 +71,51 @@ export const SchemaParams = {
   field: 'field',
   type: 'type',
   delimiter: 'delimiter',
+  skipHeaderRowNumber: 'skip_header_row_number',
+}
+
+export const ColumnParams = {
+  readColumns: 'read_columns',
+  readColumnArray: 'readColumnArray',
+  readColumn: 'readColumn'
 }
 
 export const FakeParams = {
+  rows: 'rows',
   rowNum: 'row.num',
   splitNum: 'split.num',
   splitReadInterval: 'split.read-interval',
   mapSize: 'map.size',
   arraySize: 'array.size',
   bytesLength: 'bytes.length',
+  stringFakeMode: 'string.fake.mode',
   stringLength: 'string.length',
+  stringTemplate: 'string.template',
+  tinyintFakeMode: 'tinyint.fake.mode',
+  tinyintMin: 'tinyint.min',
+  tinyintMax: 'tinyint.max',
+  tinyintTemplate: 'tinyint.template',
+  smallintFakeMode: 'smallint.fake.mode',
+  smallintMin: 'smallint.min',
+  smallintMax: 'smallint.max',
+  smallintTemplate: 'smallint.template',
+  intFakeMode: 'int.fake.mode',
+  intMin: 'int.min',
+  intMax: 'int.max',
+  intTemplate: 'int.template',
+  bigintFakeMode: 'bigint.fake.mode',
+  bigintMin: 'bigint.min',
+  bigintMax: 'bigint.max',
+  bigintTemplate: 'bigint.template',
+  floatFakeMode: 'float.fake.mode',
+  floatMin: 'float.min',
+  floatMax: 'float.max',
+  floatTemplate: 'float.template',
+
+  doubleFakeMode: 'double.fake.mode',
+  doubleMin: 'double.min',
+  doubleMax: 'double.max',
+  doubleTemplate: 'double.template'
 }
 
 export const JdbcParams = {
@@ -107,7 +142,8 @@ export const JdbcParams = {
 
 export const BaseFileParams = {
   path: 'path',
-  type: 'type',
+  fileFormatType: 'file_format_type',
+  readColumns: 'read_columns',
   schema: 'schema',
   delimiter: 'delimiter',
   parsePartitionFromPath: 'parse_partition_from_path',
@@ -253,6 +289,9 @@ export const ClickHouseParams = {
 export const HiveParams = {
   tableName: 'table_name',
   metastoreUri: 'metastore_uri',
+  readPartitions: 'read_partitions',
+  readPartitionArray: 'read_partitions',
+  readPartition: 'read_partition',
   partitionBy: 'partition_by',
   sinkColumns: 'sink_columns',
   isEnableTransaction: 'is_enable_transaction',
@@ -262,8 +301,7 @@ export const HiveParams = {
 export const KuduParams = {
   kuduMaster: 'kudu_master',
   kuduTable: 'kudu_table',
-  columnsList: 'columnsList',
-  saveMode: 'save_mode',
+  columnsList: 'columnsList'
 };
 
 export const KafkaParams = {
@@ -296,10 +334,8 @@ export const IoTDBParams = {
   password: 'password',
   sql: 'sql',
   fields: 'fields',
-  fieldArray: 'fieldArray',
   fetchSize: 'fetch_size',
   thriftDefaultBufferSize: 'thrift_default_buffer_size',
-  thriftMaxFrameSize: 'thrift_max_frame_size',
   enableCacheLeader: 'enable_cache_leader',
   version: 'version',
   numPartitions: 'num_partitions',
@@ -379,7 +415,14 @@ export const ElasticsearchParams = {
   primaryKey: 'primaryKey',
   keyDelimiter: 'key_delimiter',
   maxRetrySize: 'max_retry_size',
-  maxBatchSize: 'max_batch_size'
+  maxBatchSize: 'max_batch_size',
+  query: "query",
+  scrollTime: "scroll_time",
+  scrollSize: "scroll_size",
+  source: "source",
+  sourceArray: "sourceArray",
+  sourceField: "sourceField",
+  schema: "schema"
 };
 
 export const Neo4jParams = {
@@ -415,7 +458,7 @@ export const InfluxDBParams = {
   password: 'password',
   database: 'database',
   sql: 'sql',
-  fields: 'fields',
+  schema: 'schema',
   fieldArray: 'fieldArray',
   splitColumn: 'split_column',
   lowerBound: 'lower_bound',
@@ -517,8 +560,7 @@ export const OpenMLDBParams = {
 };
 
 export const CDCMySQLParams = {
-  hostname: 'hostname',
-  port: 'port',
+  baseUrl: 'base-url',
   username: 'username',
   password: 'password',
   database: 'database-name',
@@ -545,6 +587,7 @@ export const CDCMySQLParams = {
   debeziumProperties: 'debeziumProperties',
   debeziumProperty: 'debeziumProperty',
   debeziumValue: 'debeziumValue',
+  format: 'format',
 };
 
 export const CopyParams = {

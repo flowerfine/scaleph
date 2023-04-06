@@ -39,8 +39,7 @@ public class FakeSourcePlugin extends SeaTunnelConnectorPlugin {
                 "Fake Source Plugin, output random records.",
                 FakeSourcePlugin.class.getName());
 
-        final List<PropertyDescriptor> props = new ArrayList<>();
-
+        List<PropertyDescriptor> props = new ArrayList<>();
         props.add(SCHEMA);
         props.add(ROW_NUM);
         props.add(SPLIT_NUM);
@@ -49,6 +48,34 @@ public class FakeSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(ARRAY_SIZE);
         props.add(BYTES_SIZE);
         props.add(STRING_SIZE);
+        props.add(ROWS);
+
+        props.add(STRING_FAKE_MODE);
+        props.add(STRING_TEMPLATE);
+        props.add(TINYINT_FAKE_MODE);
+        props.add(TINYINT_MIN);
+        props.add(TINYINT_MAX);
+        props.add(TINYINT_TEMPLATE);
+        props.add(SMALLINT_FAKE_MODE);
+        props.add(SMALLINT_MIN);
+        props.add(SMALLINT_MAX);
+        props.add(SMALLINT_TEMPLATE);
+        props.add(INT_FAKE_MODE);
+        props.add(INT_MIN);
+        props.add(INT_MAX);
+        props.add(INT_TEMPLATE);
+        props.add(BIGINT_FAKE_MODE);
+        props.add(BIGINT_MIN);
+        props.add(BIGINT_MAX);
+        props.add(BIGINT_TEMPLATE);
+        props.add(FLOAT_FAKE_MODE);
+        props.add(FLOAT_MIN);
+        props.add(FLOAT_MAX);
+        props.add(FLOAT_TEMPLATE);
+        props.add(DOUBLE_FAKE_MODE);
+        props.add(DOUBLE_MIN);
+        props.add(DOUBLE_MAX);
+        props.add(DOUBLE_TEMPLATE);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
