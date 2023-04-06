@@ -337,7 +337,6 @@ export const IoTDBParams = {
   fields: 'fields',
   fetchSize: 'fetch_size',
   thriftDefaultBufferSize: 'thrift_default_buffer_size',
-  thriftMaxFrameSize: 'thrift_max_frame_size',
   enableCacheLeader: 'enable_cache_leader',
   version: 'version',
   numPartitions: 'num_partitions',

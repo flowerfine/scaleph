@@ -412,7 +412,6 @@ export default {
   'pages.project.di.step.iotdb.fields': 'Fields',
   'pages.project.di.step.iotdb.fetchSize': 'Fetch Size',
   'pages.project.di.step.iotdb.thriftDefaultBufferSize': 'Default Thrift Buffer Size',
-  'pages.project.di.step.iotdb.thriftMaxFrameSize': 'Max Thrift Max Size',
   'pages.project.di.step.iotdb.enableCacheLeader': 'Enable Cache Leader',
   'pages.project.di.step.iotdb.version': 'Version',
   'pages.project.di.step.iotdb.numPartitions': 'Partition Num',

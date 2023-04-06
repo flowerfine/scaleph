@@ -85,14 +85,6 @@ const SourceIoTDBStepForm: React.FC<ModalFormProps<{
             min: 1,
           }}
         />
-        <ProFormDigit
-          name={IoTDBParams.thriftMaxFrameSize}
-          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.thriftMaxFrameSize'})}
-          fieldProps={{
-            step: 1000,
-            min: 1,
-          }}
-        />
         <ProFormSwitch
           name={IoTDBParams.enableCacheLeader}
           label={intl.formatMessage({id: 'pages.project.di.step.iotdb.enableCacheLeader'})}
