@@ -368,7 +368,6 @@ export default {
   // kudu
   'pages.project.di.step.kudu.master': 'Master',
   'pages.project.di.step.kudu.table': 'Table',
-  'pages.project.di.step.kudu.savemode': '写入模式',
   'pages.project.di.step.kudu.columnsList': '字段列表',
 
   // kafka

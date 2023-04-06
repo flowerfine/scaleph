@@ -49,12 +49,4 @@ public enum KuduProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> SAVE_MODE = new PropertyDescriptor.Builder()
-            .name("save_mode")
-            .description("Storage mode, we need support overwrite and append")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
 }

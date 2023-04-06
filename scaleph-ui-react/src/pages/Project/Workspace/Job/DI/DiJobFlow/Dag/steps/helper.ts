@@ -20,10 +20,12 @@ export const StepSchemaService = {
 
   formatSchema: (values: Record<string, any>) => {
     const fields: Record<string, any> = {}
-    values.fields?.forEach(function (item: Record<string, any>) {
-      fields[item.field] = item.type;
+    values[SchemaParams.fieldArray]?.forEach(function (item: Record<string, any>) {
+      fields[SchemaParams.field] = item[SchemaParams.type];
     });
-    values.schema = JSON.stringify({fields: fields})
+    const schema: Record<string, any> = {}
+    schema[SchemaParams.fields] = schema;
+    values[SchemaParams.schema] = JSON.stringify(schema)
     return values
   },
 
@@ -33,17 +35,6 @@ export const StepSchemaService = {
       columns.push(item[ColumnParams.readColumn])
     });
     values[ColumnParams.readColumns] = JSON.stringify(columns)
-    return values
-  },
-
-  formatFields: (values: Record<string, any>) => {
-    const fields: Record<string, any> = {}
-    values[SchemaParams.fieldArray]?.forEach(function (item: Record<string, any>) {
-      fields[SchemaParams.field] = item[SchemaParams.type];
-    });
-    const schema: Record<string, any> = {}
-    schema[SchemaParams.fields] = schema;
-    values[SchemaParams.schema] = JSON.stringify(schema)
     return values
   },
 

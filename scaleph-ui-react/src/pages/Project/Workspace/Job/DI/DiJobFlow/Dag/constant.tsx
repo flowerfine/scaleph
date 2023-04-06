@@ -301,8 +301,7 @@ export const HiveParams = {
 export const KuduParams = {
   kuduMaster: 'kudu_master',
   kuduTable: 'kudu_table',
-  columnsList: 'columnsList',
-  saveMode: 'save_mode',
+  columnsList: 'columnsList'
 };
 
 export const KafkaParams = {
