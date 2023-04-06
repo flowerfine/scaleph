@@ -6,6 +6,9 @@ on:
   pull_request:
     paths-ignore: [ 'docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
 
+env:
+  HUB: ghcr.io/flowerfine/scaleph
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,3 +23,51 @@ jobs:
           fetch-depth: 0
       - name: Build docker images
         run: docker-compose -f tools/docker/build/scaleph/docker-compose.yml up -d
+  buildx:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build scaleph-api image
+        uses: docker/build-push-action@v4
+        with:
+          no-cache: true
+          push: false
+          context: .
+          platforms: linux/amd64,linux/arm64,linux/arm,linux/arm/v8
+          file: tools/docker/build/scaleph-api/Dockerfile
+          tags: |
+            ${{ env.HUB }}/scaleph-api:${{ github.sha }},
+            ${{ env.HUB }}/scaleph-api:latest
+      - name: Build scaleph-ui-react image
+        uses: docker/build-push-action@v4
+        with:
+          no-cache: true
+          push: false
+          context: .
+          platforms: linux/amd64,linux/arm64,linux/arm,linux/arm/v8
+          file: tools/docker/build/scaleph-ui-react/Dockerfile
+          tags: |
+            ${{ env.HUB }}/scaleph-ui-react:${{ github.sha }},
+            ${{ env.HUB }}/scaleph-ui-react:latest
+      - name: Build mysql image
+        uses: docker/build-push-action@v4
+        with:
+          no-cache: true
+          push: false
+          context: .
+          platforms: linux/amd64,linux/arm64,linux/arm,linux/arm/v8
+          file: tools/docker/build/mysql/Dockerfile
+          tags: |
+            ${{ env.HUB }}/mysql:${{ github.sha }},
+            ${{ env.HUB }}/mysql:latest
