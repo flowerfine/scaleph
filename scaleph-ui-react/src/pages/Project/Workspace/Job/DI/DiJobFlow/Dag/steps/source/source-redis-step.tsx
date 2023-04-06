@@ -2,7 +2,7 @@ import {NsGraph} from '@antv/xflow';
 import {ModalFormProps} from '@/app.d';
 import {RedisParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
 import {WsDiJobService} from '@/services/project/WsDiJob.service';
-import {Button, Drawer, Form, message, Modal} from 'antd';
+import {Button, Drawer, Form, message} from 'antd';
 import {WsDiJob} from '@/services/project/typings';
 import {getIntl, getLocale} from 'umi';
 import {InfoCircleOutlined} from '@ant-design/icons';
@@ -61,10 +61,10 @@ const SourceRedisStepForm: React.FC<ModalFormProps<{
             });
           }}
         >
-          {intl.formatMessage({ id: 'app.common.operate.confirm.label' })}
+          {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
         </Button>
       }
-   
+
     >
       <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
         <ProFormText
