@@ -96,6 +96,8 @@ import TransformSplitStepForm
 import TransformSqlStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/transform/transform-sql-step";
 import SourceElasticsearchStepForm
   from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-elasticsearch-step";
+import SourceCDCSqlServerStepForm
+  from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-cdc-sqlserver-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -380,6 +382,8 @@ export class EditNodeCommand implements ICommand {
       return (<SourceOpenMLDBStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'MySQL-CDC'){
       return (<SourceCDCMySQLStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'SqlServer-CDC'){
+      return (<SourceCDCSqlServerStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'transform' && name === 'Copy'){
       return (<TransformCopyStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'transform' && name === 'FieldMapper'){

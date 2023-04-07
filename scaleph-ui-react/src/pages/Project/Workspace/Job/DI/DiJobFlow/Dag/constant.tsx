@@ -565,8 +565,10 @@ export const OpenMLDBParams = {
   requestTimeout: 'request_timeout',
 };
 
-export const CDCMySQLParams = {
+export const CDCParams = {
   baseUrl: 'base-url',
+  hostname: 'hostname',
+  port: 'port',
   username: 'username',
   password: 'password',
   database: 'database-name',
