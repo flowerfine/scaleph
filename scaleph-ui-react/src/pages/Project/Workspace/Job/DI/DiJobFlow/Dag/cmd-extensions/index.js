@@ -1,9 +1,10 @@
-import {GraphCutSelectionCommand, NsGraphCutSelection} from './graph-cut';
-import {GraphParamsSettingCommand, NsGraphParamsSetting} from './graph-params-modal';
-import {GraphPublishCommand, NsGraphPublish} from './graph-publish';
-import {EditNodeCommand, NsEditNode} from './step-edit-modal';
-import {GraphPreviewCommand, NsGraphPreview} from './graph-preview';
-import {GraphSubmitCommand, NsGraphSubmit} from "./graph-submit";
+import { GraphCutSelectionCommand, NsGraphCutSelection } from './graph-cut';
+import { GraphParamsSettingCommand, NsGraphParamsSetting } from './graph-params-modal';
+import { GraphPublishCommand, NsGraphPublish } from './graph-publish';
+import { EditNodeCommand, NsEditNode } from './step-edit-modal';
+import { GraphPreviewCommand, NsGraphPreview } from './graph-preview';
+import { GraphSubmitCommand, NsGraphSubmit } from './graph-submit';
+import { GraphHelpCommand, NsGraphHelp } from './graph-help';
 
 /** 注册成为可以执行的命令 */
 export const commandContributions = [
@@ -30,5 +31,9 @@ export const commandContributions = [
   {
     ...NsGraphSubmit,
     CommandHandler: GraphSubmitCommand,
+  },
+  {
+    ...NsGraphHelp,
+    CommandHandler: GraphHelpCommand,
   },
 ];

@@ -28,6 +28,12 @@ export namespace CustomCommands {
     category: XFlowGraphCommands.GRAPH_COPY.category,
   };
 
+  export const GRAPH_HELP: IGraphCommand = {
+    id: 'xflow:graph-help',
+    label: 'graph-help',
+    category: XFlowGraphCommands.GRAPH_COPY.category,
+  };
+
   export const GRAPH_PREVIEW: IGraphCommand = {
     id: 'xflow:graph-preview',
     label: 'graph-preview',
