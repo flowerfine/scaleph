@@ -382,6 +382,7 @@ export default {
   'pages.project.di.step.kafka.topic': 'Topic',
   'pages.project.di.step.kafka.topic.placeholder': 'topic1,topic2',
   'pages.project.di.step.kafka.pattern': 'pattern',
+  'pages.project.di.step.kafka.partitionDiscoveryIntervalMillis': 'Discover Topics and Partitions Dynamically Interval',
   'pages.project.di.step.kafka.conf': 'Kafka Configuration',
   'pages.project.di.step.kafka.conf.tooltip':
     'The way to specify parameters is to add the prefix kafka. to the original parameter name. For example, the way to specify auto.offset.reset is: kafka.auto.offset.reset = latest',

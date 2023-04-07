@@ -107,4 +107,12 @@ public enum KafkaSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<Long> PARTITION_DISCOVERY_INTERVAL_MILLIS = new PropertyDescriptor.Builder()
+            .name("partition-discovery.interval-millis")
+            .description("The interval for dynamically discovering topics and partitions.")
+            .type(PropertyType.INT)
+            .parser(Parsers.LONG_PARSER)
+            .addValidator(Validators.LONG_VALIDATOR)
+            .validateAndBuild();
+
 }

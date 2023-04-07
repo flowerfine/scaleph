@@ -3,7 +3,8 @@ import {WsDiJobService} from '@/services/project/WsDiJob.service';
 import {WsDiJob} from '@/services/project/typings';
 import {
   ProForm,
-  ProFormDependency, ProFormDigit,
+  ProFormDependency,
+  ProFormDigit,
   ProFormGroup,
   ProFormList,
   ProFormSelect,
@@ -11,13 +12,14 @@ import {
   ProFormText
 } from '@ant-design/pro-components';
 import {NsGraph} from '@antv/xflow';
-import {Button, Drawer, Form, message, Modal} from 'antd';
+import {Button, Drawer, Form, message} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {KafkaParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
+import {KafkaParams, STEP_ATTR_TYPE} from '../../constant';
 import {InfoCircleOutlined} from "@ant-design/icons";
 import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
 import {StepSchemaService} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper";
+import FieldItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/fields";
 
 const SourceKafkaStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
@@ -62,7 +64,7 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<{
             });
           }}
         >
-          {intl.formatMessage({ id: 'app.common.operate.confirm.label' })}
+          {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
         </Button>
       }
     >
@@ -87,6 +89,11 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<{
             icon: <InfoCircleOutlined/>,
           }}
           initialValue={false}
+        />
+        <ProFormDigit
+          name={KafkaParams.partitionDiscoveryIntervalMillis}
+          label={intl.formatMessage({id: 'pages.project.di.step.kafka.partitionDiscoveryIntervalMillis'})}
+          initialValue={-1}
         />
         <ProFormText
           name={KafkaParams.consumerGroup}
@@ -117,37 +124,7 @@ const SourceKafkaStepForm: React.FC<ModalFormProps<{
         <ProFormDependency name={['format']}>
           {({format}) => {
             if (format == 'json') {
-              return (
-                <ProFormGroup
-                  label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
-                  tooltip={{
-                    title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
-                    icon: <InfoCircleOutlined/>,
-                  }}
-                >
-                  <ProFormList
-                    name={SchemaParams.fields}
-                    copyIconProps={false}
-                    creatorButtonProps={{
-                      creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
-                      type: 'text',
-                    }}
-                  >
-                    <ProFormGroup>
-                      <ProFormText
-                        name={SchemaParams.field}
-                        label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
-                        colProps={{span: 10, offset: 1}}
-                      />
-                      <ProFormText
-                        name={SchemaParams.type}
-                        label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
-                        colProps={{span: 10, offset: 1}}
-                      />
-                    </ProFormGroup>
-                  </ProFormList>
-                </ProFormGroup>
-              );
+              return <FieldItem/>
             } else if (format == 'text') {
               return (
                 <ProFormText

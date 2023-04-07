@@ -313,6 +313,7 @@ export const KuduParams = {
 export const KafkaParams = {
   topic: 'topic',
   pattern: 'pattern',
+  partitionDiscoveryIntervalMillis: 'partition-discovery.interval-millis',
   kafkaConf: 'kafkaConf',
   key: 'key',
   value: 'value',
