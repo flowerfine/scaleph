@@ -39,7 +39,7 @@ jobs:
           no-cache: true
           push: true
           context: .
-          platforms: linux/arm,linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64
           file: tools/docker/build/scaleph-api/Dockerfile
           tags: |
             ${{ env.HUB }}/scaleph-api:${{ github.sha }},
@@ -50,7 +50,7 @@ jobs:
           no-cache: true
           push: true
           context: .
-          platforms: linux/amd64,linux/arm64,linux/arm,linux/arm/v8
+          platforms: linux/amd64,linux/arm64
           file: tools/docker/build/scaleph-ui-react/Dockerfile
           tags: |
             ${{ env.HUB }}/scaleph-ui-react:${{ github.sha }},
@@ -61,7 +61,7 @@ jobs:
           no-cache: true
           push: true
           context: .
-          platforms: linux/amd64,linux/arm64,linux/arm,linux/arm/v8
+          platforms: linux/amd64,linux/arm64
           file: tools/docker/build/mysql/Dockerfile
           tags: |
             ${{ env.HUB }}/mysql:${{ github.sha }},
