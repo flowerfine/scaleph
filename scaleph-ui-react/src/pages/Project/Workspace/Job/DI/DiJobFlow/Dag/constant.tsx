@@ -156,17 +156,20 @@ export const BaseFileParams = {
   dateFormat: 'date_format',
   timeFormat: 'time_format',
   datetimeFormat: 'datetime_format',
-  fileNameExpression: 'file_name_expression',
   fileFormat: 'file_format',
+  customFilename: 'custom_filename',
+  fileNameExpression: 'file_name_expression',
   filenameTimeFormat: 'filename_time_format',
   fieldDelimiter: 'field_delimiter',
   rowDelimiter: 'row_delimiter',
+  havePartition: 'have_partition',
   partitionBy: 'partition_by',
   partitionDirExpression: 'partition_dir_expression',
   isPartitionFieldWriteInFile: 'is_partition_field_write_in_file',
   sinkColumns: 'sink_columns',
   isEnableTransaction: 'is_enable_transaction',
-  batchSize: 'batch_size'
+  batchSize: 'batch_size',
+  compressCodec: 'compress_codec'
 };
 
 export const HDFSFileParams = {
