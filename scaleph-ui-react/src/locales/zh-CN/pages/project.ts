@@ -591,6 +591,13 @@ export default {
   'pages.project.di.step.starrocks.sinkProperties.key.placeholder': 'format',
   'pages.project.di.step.starrocks.sinkProperties.value': 'Value',
   'pages.project.di.step.starrocks.sinkProperties.value.placeholder': 'JSON',
+  'pages.project.di.step.starrocks.scanFilter': 'StarRocks Scan Filter',
+  'pages.project.di.step.starrocks.scanConnectTimeoutMs': 'Scan Connect Timeout(ms)',
+  'pages.project.di.step.starrocks.scanQueryTimeoutSec': 'Scan Connect Timeout(seconds)',
+  'pages.project.di.step.starrocks.scanKeepAliveMin': 'Scan KeepAlive(minutes)',
+  'pages.project.di.step.starrocks.scanBatchRows': 'Scan Batch Row',
+  'pages.project.di.step.starrocks.scanMemLimit': 'Scan Mem Limit(bytes)',
+  'pages.project.di.step.starrocks.requestTabletSize': 'Tablet Size',
 
   // maxcompute
   'pages.project.di.step.maxcompute.project': 'Project',

@@ -98,6 +98,7 @@ import SourceElasticsearchStepForm
   from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-elasticsearch-step";
 import SourceCDCSqlServerStepForm
   from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-cdc-sqlserver-step";
+import SourceStarRocksStepForm from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/source/source-starrocks-step";
 
 const {inject, injectable, postConstruct} = ManaSyringe;
 type ICommand = ICommandHandler<NsEditNode.IArgs, NsEditNode.IResult, NsEditNode.ICmdHooks>;
@@ -316,6 +317,8 @@ export class EditNodeCommand implements ICommand {
       return (<SinkSocketStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'Doris'){
       return (<SinkDorisStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
+    } else if(type === 'source' && name === 'StarRocks'){
+      return (<SourceStarRocksStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'sink' && name === 'StarRocks'){
       return (<SinkStarRocksStepForm visible data={data} onCancel={() => this.onCancel(container)} onOK={() => this.onOk(data, container)}/>);
     } else if(type === 'source' && name === 'Clickhouse'){

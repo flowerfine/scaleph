@@ -525,6 +525,13 @@ export const StarRocksParams = {
   sinkPropertyArray: 'sinkPropertieArray',
   sinkProperty: 'property',
   sinkPropertyValue: 'value',
+  scanFilter: 'scan_filter',
+  scanConnectTimeoutMs: 'scan_connect_timeout_ms',
+  scanQueryTimeoutSec: 'scan_query_timeout_sec',
+  scanKeepAliveMin: 'scan_keep_alive_min',
+  scanBatchRows: 'scan_batch_rows',
+  scanMemLimit: 'scan_mem_limit',
+  requestTabletSize: 'request_tablet_size',
 };
 
 export const MaxComputeParams = {
