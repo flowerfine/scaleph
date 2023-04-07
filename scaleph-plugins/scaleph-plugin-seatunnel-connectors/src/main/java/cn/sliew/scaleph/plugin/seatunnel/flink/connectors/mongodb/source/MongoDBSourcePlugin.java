@@ -49,6 +49,7 @@ public class MongoDBSourcePlugin extends SeaTunnelConnectorPlugin {
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(DATABASE);
         props.add(COLLECTION);
+        props.add(MATCH_QUERY);
         props.add(SCHEMA);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);

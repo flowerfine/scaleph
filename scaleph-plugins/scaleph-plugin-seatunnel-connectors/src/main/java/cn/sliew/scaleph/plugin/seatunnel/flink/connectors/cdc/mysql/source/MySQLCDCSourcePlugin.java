@@ -40,8 +40,7 @@ public class MySQLCDCSourcePlugin extends SeaTunnelConnectorPlugin {
                 MySQLCDCSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(HOSTNAME);
-        props.add(PORT);
+        props.add(BASE_URL);
         props.add(USERNAME);
         props.add(PASSWORD);
         props.add(DATABASE);
@@ -65,6 +64,7 @@ public class MySQLCDCSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_UPPER_BOUND);
         props.add(CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_LOWER_BOUND);
         props.add(DEBEZIUM);
+        props.add(FORMAT);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

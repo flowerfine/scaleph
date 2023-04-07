@@ -33,54 +33,36 @@ jobs:
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - name: Build scaleph-api image
-        run: |
-          docker build \
-            --no-cache \
-            -f tools/docker/build/scaleph-api/Dockerfile \
-            -t ${{ env.HUB }}/scaleph-api:${{ github.sha }} \
-            -t ${{ env.HUB }}/scaleph-api:latest \
-            .
       - name: Push scaleph-api image
-        run: |
-          docker buildx build \
-            --no-cache \
-            --push \
-            -f tools/docker/build/scaleph-api/Dockerfile \
-            -t ${{ env.HUB }}/scaleph-api:${{ github.sha }} \
-            -t ${{ env.HUB }}/scaleph-api:latest \
-            .
-      - name: Build scaleph-ui-react image
-        run: |
-          docker build \
-            --no-cache \
-            -f tools/docker/build/scaleph-ui-react/Dockerfile \
-            -t ${{ env.HUB }}/scaleph-ui-react:${{ github.sha }} \
-            -t ${{ env.HUB }}/scaleph-ui-react:latest \
-            .
+        uses: docker/build-push-action@v4
+        with:
+          no-cache: true
+          push: true
+          context: .
+          platforms: linux/amd64,linux/arm64
+          file: tools/docker/build/scaleph-api/Dockerfile
+          tags: |
+            ${{ env.HUB }}/scaleph-api:${{ github.sha }},
+            ${{ env.HUB }}/scaleph-api:latest
       - name: Push scaleph-ui-react image
-        run: |
-          docker buildx build \
-            --no-cache \
-            --push \
-            -f tools/docker/build/scaleph-ui-react/Dockerfile \
-            -t ${{ env.HUB }}/scaleph-ui-react:${{ github.sha }} \
-            -t ${{ env.HUB }}/scaleph-ui-react:latest \
-            .
-      - name: Build mysql image
-        run: |
-          docker build \
-            --no-cache \
-            -f tools/docker/build/mysql/Dockerfile \
-            -t ${{ env.HUB }}/mysql:${{ github.sha }} \
-            -t ${{ env.HUB }}/mysql:latest \
-            .
+        uses: docker/build-push-action@v4
+        with:
+          no-cache: true
+          push: true
+          context: .
+          platforms: linux/amd64,linux/arm64
+          file: tools/docker/build/scaleph-ui-react/Dockerfile
+          tags: |
+            ${{ env.HUB }}/scaleph-ui-react:${{ github.sha }},
+            ${{ env.HUB }}/scaleph-ui-react:latest
       - name: Push mysql image
-        run: |
-          docker buildx build \
-            --no-cache \
-            --push \
-            -f tools/docker/build/mysql/Dockerfile \
-            -t ${{ env.HUB }}/mysql:${{ github.sha }} \
-            -t ${{ env.HUB }}/mysql:latest \
-            .
+        uses: docker/build-push-action@v4
+        with:
+          no-cache: true
+          push: true
+          context: .
+          platforms: linux/amd64,linux/arm64
+          file: tools/docker/build/mysql/Dockerfile
+          tags: |
+            ${{ env.HUB }}/mysql:${{ github.sha }},
+            ${{ env.HUB }}/mysql:latest
