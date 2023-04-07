@@ -1,21 +1,15 @@
-import { ModalFormProps } from '@/app.d';
-import { NsGraph } from '@antv/xflow';
-import { getIntl, getLocale } from 'umi';
-import { WsDiJob } from '@/services/project/typings';
-import { Button, Drawer, Form, message, Modal } from 'antd';
-import { useEffect } from 'react';
-import { DorisParams, STEP_ATTR_TYPE } from '../../constant';
-import { WsDiJobService } from '@/services/project/WsDiJob.service';
-import {
-  ProForm,
-  ProFormDigit,
-  ProFormGroup,
-  ProFormList,
-  ProFormText,
-} from '@ant-design/pro-components';
+import {ModalFormProps} from '@/app.d';
+import {NsGraph} from '@antv/xflow';
+import {getIntl, getLocale} from 'umi';
+import {WsDiJob} from '@/services/project/typings';
+import {Button, Drawer, Form, message} from 'antd';
+import {useEffect} from 'react';
+import {DorisParams, STEP_ATTR_TYPE} from '../../constant';
+import {WsDiJobService} from '@/services/project/WsDiJob.service';
+import {ProForm, ProFormGroup, ProFormList, ProFormSwitch, ProFormText,} from '@ant-design/pro-components';
 import DataSourceItem from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { StepSchemaService } from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper';
+import {InfoCircleOutlined} from '@ant-design/icons';
+import {StepSchemaService} from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper';
 
 const SinkDorisStepForm: React.FC<
   ModalFormProps<{
@@ -23,7 +17,7 @@ const SinkDorisStepForm: React.FC<
     graphData: NsGraph.IGraphData;
     graphMeta: NsGraph.IGraphMeta;
   }>
-> = ({ data, visible, onCancel, onOK }) => {
+> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as WsDiJob;
   const jobGraph = data.graphData;
@@ -38,7 +32,7 @@ const SinkDorisStepForm: React.FC<
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{ overflowY: 'scroll'}}
+      bodyStyle={{overflowY: 'scroll'}}
       destroyOnClose={true}
       onClose={onCancel}
       extra={
@@ -50,138 +44,89 @@ const SinkDorisStepForm: React.FC<
               map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
               map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
               map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-              StepSchemaService.formatDorisSinkProperties(values);
+              StepSchemaService.formatDorisConfig(values);
               map.set(STEP_ATTR_TYPE.stepAttrs, values);
               WsDiJobService.saveStepAttr(map).then((resp) => {
                 if (resp.success) {
-                  message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+                  message.success(intl.formatMessage({id: 'app.common.operate.success'}));
                   onOK ? onOK(values) : null;
                 }
               });
             });
           }}
         >
-          {intl.formatMessage({ id: 'app.common.operate.confirm.label' })}
+          {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
         </Button>
       }
     >
       <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
         <ProFormText
           name={STEP_ATTR_TYPE.stepTitle}
-          label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
-          rules={[{ required: true }, { max: 120 }]}
-          colProps={{ span: 24 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
+          rules={[{required: true}, {max: 120}]}
+          colProps={{span: 24}}
         />
-        <DataSourceItem dataSource={'Doris'} />
+        <DataSourceItem dataSource={'Doris'}/>
         <ProFormText
           name={DorisParams.database}
-          label={intl.formatMessage({ id: 'pages.project.di.step.doris.database' })}
-          rules={[{ required: true }]}
+          label={intl.formatMessage({id: 'pages.project.di.step.doris.database'})}
+          rules={[{required: true}]}
         />
         <ProFormText
-          name={DorisParams.table}
-          label={intl.formatMessage({ id: 'pages.project.di.step.doris.table' })}
-          rules={[{ required: true }]}
+          name={DorisParams.tableIdentifier}
+          label={intl.formatMessage({id: 'pages.project.di.step.doris.tableIdentifier'})}
+          rules={[{required: true}]}
         />
         <ProFormText
-          name={DorisParams.labelPrefix}
-          label={intl.formatMessage({ id: 'pages.project.di.step.doris.labelPrefix' })}
+          name={DorisParams.sinkLabelPrefix}
+          label={intl.formatMessage({id: 'pages.project.di.step.doris.sinkLabelPrefix'})}
+          rules={[{required: true}]}
         />
-        <ProFormDigit
-          name={DorisParams.batchMaxRows}
-          label={intl.formatMessage({ id: 'pages.project.di.step.doris.batchMaxRows' })}
-          colProps={{ span: 8 }}
-          initialValue={1024}
-          fieldProps={{
-            step: 1000,
-            min: 1,
-          }}
+        <ProFormSwitch
+          name={DorisParams.sinkEnable2PC}
+          label={intl.formatMessage({id: 'pages.project.di.step.doris.sinkEnable2PC'})}
+          initialValue={true}
         />
-        <ProFormDigit
-          name={DorisParams.batchMaxBytes}
-          label={intl.formatMessage({ id: 'pages.project.di.step.doris.batchMaxBytes' })}
-          colProps={{ span: 8 }}
-          initialValue={5 * 1024 * 1024}
-          fieldProps={{
-            step: 1024 * 1024,
-            min: 1,
-          }}
+        <ProFormSwitch
+          name={DorisParams.sinkEnableDelete}
+          label={intl.formatMessage({id: 'pages.project.di.step.doris.sinkEnableDelete'})}
+          initialValue={false}
         />
-        <ProFormDigit
-          name={DorisParams.batchIntervalMs}
-          label={intl.formatMessage({ id: 'pages.project.di.step.doris.batchIntervalMs' })}
-          colProps={{ span: 8 }}
-          initialValue={1000}
-          fieldProps={{
-            step: 1000,
-            min: 1,
-          }}
-        />
-        <ProFormDigit
-          name={DorisParams.maxRetries}
-          label={intl.formatMessage({ id: 'pages.project.di.step.doris.maxRetries' })}
-          colProps={{ span: 8 }}
-          initialValue={1}
-          fieldProps={{
-            step: 1,
-            min: 1,
-          }}
-        />
-        <ProFormDigit
-          name={DorisParams.retryBackoffMultiplierMs}
-          label={intl.formatMessage({ id: 'pages.project.di.step.doris.retryBackoffMultiplierMs' })}
-          colProps={{ span: 8 }}
-          fieldProps={{
-            step: 1000,
-            min: 1,
-          }}
-        />
-        <ProFormDigit
-          name={DorisParams.maxRetryBackoffMs}
-          label={intl.formatMessage({ id: 'pages.project.di.step.doris.maxRetryBackoffMs' })}
-          colProps={{ span: 8 }}
-          fieldProps={{
-            step: 1000,
-            min: 1,
-          }}
-        />
-
         <ProFormGroup
-          label={intl.formatMessage({ id: 'pages.project.di.step.doris.sinkProperties' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.doris.dorisConfig'})}
           tooltip={{
-            title: intl.formatMessage({ id: 'pages.project.di.step.doris.sinkProperties.tooltip' }),
-            icon: <InfoCircleOutlined />,
+            title: intl.formatMessage({id: 'pages.project.di.step.doris.dorisConfig.tooltip'}),
+            icon: <InfoCircleOutlined/>,
           }}
         >
           <ProFormList
-            name={DorisParams.sinkPropertyArray}
+            name={DorisParams.dorisConfigArray}
             copyIconProps={false}
             creatorButtonProps={{
               creatorButtonText: intl.formatMessage({
-                id: 'pages.project.di.step.doris.sinkProperties.list',
+                id: 'pages.project.di.step.doris.dorisConfig.list',
               }),
               type: 'text',
             }}
           >
             <ProFormGroup>
               <ProFormText
-                name={DorisParams.sinkProperty}
-                label={intl.formatMessage({ id: 'pages.project.di.step.doris.sinkProperties.key' })}
+                name={DorisParams.dorisConfigProperty}
+                label={intl.formatMessage({id: 'pages.project.di.step.doris.dorisConfig.key'})}
                 placeholder={intl.formatMessage({
-                  id: 'pages.project.di.step.doris.sinkProperties.key.placeholder',
+                  id: 'pages.project.di.step.doris.dorisConfig.key.placeholder',
                 })}
-                colProps={{ span: 10, offset: 1 }}
-                addonBefore={'sink.properties.'}
+                colProps={{span: 10, offset: 1}}
               />
               <ProFormText
-                name={DorisParams.sinkPropertyValue}
+                name={DorisParams.dorisConfigValue}
                 label={intl.formatMessage({
-                  id: 'pages.project.di.step.doris.sinkProperties.value',
+                  id: 'pages.project.di.step.doris.dorisConfig.value',
                 })}
                 placeholder={intl.formatMessage({
-                  id: 'pages.project.di.step.doris.sinkProperties.value.placeholder',
+                  id: 'pages.project.di.step.doris.dorisConfig.value.placeholder',
                 })}
-                colProps={{ span: 10, offset: 1 }}
+                colProps={{span: 10, offset: 1}}
               />
             </ProFormGroup>
           </ProFormList>

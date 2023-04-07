@@ -498,18 +498,14 @@ export const CassandraParams = {
 
 export const DorisParams = {
   database: 'database',
-  table: 'table',
-  labelPrefix: 'labelPrefix',
-  batchMaxRows: 'batch_max_rows',
-  batchMaxBytes: 'batch_max_bytes',
-  batchIntervalMs: 'batch_interval_ms',
-  maxRetries: 'max_retries',
-  retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
-  maxRetryBackoffMs: 'max_retry_backoff_ms',
-  sinkProperties: 'sink.properties.',
-  sinkPropertyArray: 'sinkPropertieArray',
-  sinkProperty: 'property',
-  sinkPropertyValue: 'value',
+  tableIdentifier: 'table.identifier',
+  sinkLabelPrefix: 'sink.label-prefix',
+  sinkEnable2PC: 'sink.enable-2pc',
+  sinkEnableDelete: 'sink.enable-delete',
+  dorisConfig: 'doris.config',
+  dorisConfigArray: 'dorisConfigArray',
+  dorisConfigProperty: 'property',
+  dorisConfigValue: 'value',
 };
 
 export const StarRocksParams = {

@@ -20,69 +20,35 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.sink;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 
-import java.util.List;
-
 public enum DorisSinkProperties {
     ;
 
-    public static final PropertyDescriptor<String> LABEL_PREFIX = new PropertyDescriptor.Builder()
-            .name("labelPrefix")
+    public static final PropertyDescriptor<String> SINK_LABEL_PREFIX = new PropertyDescriptor.Builder()
+            .name("sink.label-prefix")
             .description("The prefix of Doris stream load label")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Long> BATCH_MAX_ROWS = new PropertyDescriptor.Builder()
-            .name("batch_max_rows")
-            .description("For batch writing, when the number of buffers reaches the number of batch_max_rows or the byte size of batch_max_bytes or the time reaches batch_interval_ms, the data will be flushed into the Doris")
-            .type(PropertyType.INT)
-            .parser(Parsers.LONG_PARSER)
-            .addValidator(Validators.POSITIVE_LONG_VALIDATOR)
+    public static final PropertyDescriptor<Boolean> SINK_ENABLE_2PC = new PropertyDescriptor.Builder()
+            .name("sink.enable-2pc")
+            .description("Whether to enable two-phase commit (2pc), the default is true, to ensure Exactly-Once semantics")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Integer> BATCH_MAX_BYTES = new PropertyDescriptor.Builder()
-            .name("batch_max_bytes")
-            .description("For batch writing, when the number of buffers reaches the number of batch_max_rows or the byte size of batch_max_bytes or the time reaches batch_interval_ms, the data will be flushed into the Doris")
-            .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+    public static final PropertyDescriptor<Boolean> SINK_ENABLE_DELETE = new PropertyDescriptor.Builder()
+            .name("sink.enable-delete")
+            .description("Whether to enable deletion.")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Integer> BATCH_INTERVAL_MS = new PropertyDescriptor.Builder()
-            .name("batch_interval_ms")
-            .description("For batch writing, when the number of buffers reaches the number of batch_max_rows or the byte size of batch_max_bytes or the time reaches batch_interval_ms, the data will be flushed into the Doris")
-            .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<Integer> MAX_RETRIES = new PropertyDescriptor.Builder()
-            .name("max_retries")
-            .description("The number of retries to flush failed")
-            .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<Integer> RETRY_BACKOFF_MULTIPLIER_MS = new PropertyDescriptor.Builder()
-            .name("retry_backoff_multiplier_ms")
-            .description("Using as a multiplier for generating the next delay for backoff")
-            .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<Integer> MAX_RETRY_BACKOFF_MS = new PropertyDescriptor.Builder()
-            .name("max_retry_backoff_ms")
-            .description("The amount of time to wait before attempting to retry a request to Doris")
-            .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<Integer> SINK_PROPERTIES = new PropertyDescriptor.Builder()
-            .name("sink.properties.")
+    public static final PropertyDescriptor<Integer> DORIS_CONFIG = new PropertyDescriptor.Builder()
+            .name("doris.config.")
             .description("The way to specify the parameter is to add the prefix sink.properties. to the original stream load parameter")
             .type(PropertyType.INT)
             .parser(Parsers.INTEGER_PARSER)
