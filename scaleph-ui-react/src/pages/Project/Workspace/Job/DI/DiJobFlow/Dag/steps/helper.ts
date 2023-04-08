@@ -1,12 +1,18 @@
 import {
-  CassandraParams, CDCMySQLParams,
+  CassandraParams,
+  CDCMySQLParams,
+  ColumnParams,
   DorisParams,
-  ElasticsearchParams, FieldMapperParams, FilterParams,
+  ElasticsearchParams,
+  FieldMapperParams,
+  FilterParams,
+  HiveParams,
   InfluxDBParams,
   IoTDBParams,
   JdbcParams,
   KafkaParams,
-  SchemaParams, SplitParams,
+  SchemaParams,
+  SplitParams,
   StarRocksParams
 } from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
 
@@ -14,19 +20,21 @@ export const StepSchemaService = {
 
   formatSchema: (values: Record<string, any>) => {
     const fields: Record<string, any> = {}
-    values.fields?.forEach(function (item: Record<string, any>) {
-      fields[item.field] = item.type;
+    values[SchemaParams.fieldArray]?.forEach(function (item: Record<string, any>) {
+      fields[SchemaParams.field] = item[SchemaParams.type];
     });
-    values.schema = JSON.stringify({fields: fields})
+    const schema: Record<string, any> = {}
+    schema[SchemaParams.fields] = schema;
+    values[SchemaParams.schema] = JSON.stringify(schema)
     return values
   },
 
-  formatFields: (values: Record<string, any>) => {
-    const fields: Record<string, any> = {}
-    values[SchemaParams.fieldArray]?.forEach(function (item: Record<string, any>) {
-      fields[item.field] = item.type;
+  formatColumns: (values: Record<string, any>) => {
+    const columns: Array<any> = []
+    values[ColumnParams.readColumnArray]?.forEach(function (item: Record<string, any>) {
+      columns.push(item[ColumnParams.readColumn])
     });
-    values[SchemaParams.fields] = JSON.stringify(fields)
+    values[ColumnParams.readColumns] = JSON.stringify(columns)
     return values
   },
 
@@ -143,6 +151,15 @@ export const StepSchemaService = {
     return values
   },
 
+  formatEsSource: (values: Record<string, any>) => {
+    const source: Array<string> = []
+    values[ElasticsearchParams.sourceArray]?.forEach(function (item: Record<string, any>) {
+      source.push(item[ElasticsearchParams.sourceField])
+    });
+    values[ElasticsearchParams.source] = JSON.stringify(source)
+    return values
+  },
+
   formatMeasurementFields: (values: Record<string, any>) => {
     const primaryKeys: Array<string> = []
     values[IoTDBParams.keyMeasurementFieldArray]?.forEach(function (item: Record<string, any>) {
@@ -215,6 +232,16 @@ export const StepSchemaService = {
       outputFields.push(item[SplitParams.outputField])
     });
     values[SplitParams.outputFields] = JSON.stringify(outputFields)
+    return values
+  },
+
+
+  formatPartitions: (values: Record<string, any>) => {
+    const partitions: Array<any> = []
+    values[HiveParams.readPartitionArray]?.forEach(function (item: Record<string, any>) {
+      partitions.push(item[HiveParams.readPartition])
+    });
+    values[HiveParams.readPartitions] = JSON.stringify(partitions)
     return values
   },
 };

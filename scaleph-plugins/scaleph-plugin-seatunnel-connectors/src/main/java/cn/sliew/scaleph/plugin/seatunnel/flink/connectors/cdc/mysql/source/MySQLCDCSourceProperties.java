@@ -24,22 +24,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 public enum MySQLCDCSourceProperties {
     ;
 
-    public static final PropertyDescriptor<String> HOSTNAME = new PropertyDescriptor.Builder()
-            .name("hostname")
-            .description("IP address or hostname of the database server.")
+    public static final PropertyDescriptor<String> BASE_URL = new PropertyDescriptor.Builder()
+            .name("base-url")
+            .description("URL has to be with database, like \"jdbc:mysql://localhost:5432/db\" or \"jdbc:mysql://localhost:5432/db?useSSL=true\".")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<Integer> PORT = new PropertyDescriptor.Builder()
-            .name("port")
-            .description("Integer port number of the database server.")
-            .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
-            .defaultValue(3306)
-            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder()
@@ -227,5 +218,12 @@ public enum MySQLCDCSourceProperties {
             .description("Pass-through Debezium's properties to Debezium Embedded Engine which is used to capture data changes from MySQL server.")
             .type(PropertyType.OBJECT)
             .parser(Parsers.JSON_PARSER)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> FORMAT = new PropertyDescriptor.Builder()
+            .name("format")
+            .description("Optional output format for MySQL CDC")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
             .validateAndBuild();
 }
