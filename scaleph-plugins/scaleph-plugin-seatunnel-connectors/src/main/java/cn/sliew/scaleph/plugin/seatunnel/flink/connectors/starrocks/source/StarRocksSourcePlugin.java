@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.starrocks.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.olap.DorisDataSource;
+import cn.sliew.scaleph.ds.modal.olap.StarRocksDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
@@ -35,24 +35,29 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.DorisProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.doris.sink.DorisSinkProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.starrocks.StarRocksProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.starrocks.source.StarRocksSourceProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class DorisSinkPlugin extends SeaTunnelConnectorPlugin {
+public class StarRocksSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public DorisSinkPlugin() {
+    public StarRocksSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Used to send data to Doris. Both support streaming and batch mode. The internal implementation of Doris sink connector is cached and imported by stream load in batches.",
-                DorisSinkPlugin.class.getName());
+                "Read external data source data through StarRocks. The internal implementation of StarRocks source connector is obtains the query plan from the frontend (FE), delivers the query plan as a parameter to BE nodes, and then obtains data results from BE nodes.",
+                StarRocksSourcePlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(DATABASE);
-        props.add(TABLE_IDENTIFIER);
-        props.add(SINK_LABEL_PREFIX);
-        props.add(SINK_ENABLE_2PC);
-        props.add(SINK_ENABLE_DELETE);
+        props.add(TABLE);
+        props.add(SCHEMA);
+        props.add(SCAN_FILTER);
+        props.add(SCAN_CONNECT_TIMEOUT_MS);
+        props.add(SCAN_QUERY_TIMEOUT_MS);
+        props.add(SCAN_KEEP_ALIVE_MIN);
+        props.add(SCAN_BATCH_ROWS);
+        props.add(SCAN_MEM_LIMIT);
+        props.add(REQUEST_TABLET_SIZE);
+        props.add(MAX_RETRIES);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;
@@ -67,24 +72,19 @@ public class DorisSinkPlugin extends SeaTunnelConnectorPlugin {
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
-        DorisDataSource dataSource = (DorisDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.putPOJO(FENODES.getName(), StringUtils.commaDelimitedListToStringArray(dataSource.getNodeUrls()));
+        StarRocksDataSource dataSource = (StarRocksDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(NODE_URLS.getName(), StringUtils.commaDelimitedListToStringArray(dataSource.getNodeUrls()));
         if (StringUtils.hasText(dataSource.getUsername())) {
             conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
         }
         if (StringUtils.hasText(dataSource.getPassword())) {
             conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
         }
-        for (Map.Entry<String, Object> entry : properties.toMap().entrySet()) {
-            if (entry.getKey().startsWith(DORIS_CONFIG.getName())) {
-                conf.putPOJO(entry.getKey(), entry.getValue());
-            }
-        }
         return conf;
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_DORIS;
+        return SeaTunnelPluginMapping.SOURCE_STARROCKS;
     }
 }

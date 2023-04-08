@@ -1,6 +1,6 @@
 import {
   CassandraParams,
-  CDCMySQLParams,
+  CDCParams,
   ColumnParams,
   DorisParams,
   ElasticsearchParams,
@@ -178,10 +178,12 @@ export const StepSchemaService = {
     return values
   },
 
-  formatDorisSinkProperties: (values: Record<string, any>) => {
-    values[DorisParams.sinkPropertyArray]?.forEach(function (item: Record<string, any>) {
-      values[DorisParams.sinkProperties + item[DorisParams.sinkProperty]] = item[DorisParams.sinkPropertyValue];
+  formatDorisConfig: (values: Record<string, any>) => {
+    const config: Record<string, any> = {}
+    values[DorisParams.dorisConfigArray]?.forEach(function (item: Record<string, any>) {
+      values[DorisParams.dorisConfigProperty] = item[DorisParams.dorisConfigValue];
     });
+    values[DorisParams.dorisConfig] = JSON.stringify(config)
     return values
   },
 
@@ -199,12 +201,12 @@ export const StepSchemaService = {
 
   formatDebeziumProperties: (values: Record<string, any>) => {
     const properties: Record<string, any> = {}
-    values[CDCMySQLParams.debeziumProperties]?.forEach(function (item: Record<string, any>) {
-      properties[item[CDCMySQLParams.debeziumProperty]] = item[CDCMySQLParams.debeziumValue];
+    values[CDCParams.debeziumProperties]?.forEach(function (item: Record<string, any>) {
+      properties[item[CDCParams.debeziumProperty]] = item[CDCParams.debeziumValue];
     });
-    values[CDCMySQLParams.debeziums] = JSON.stringify(properties)
-    values[CDCMySQLParams.startupMode] = values.startupMode
-    values[CDCMySQLParams.stopMode] = values.stopMode
+    values[CDCParams.debeziums] = JSON.stringify(properties)
+    values[CDCParams.startupMode] = values.startupMode
+    values[CDCParams.stopMode] = values.stopMode
     return values
   },
 

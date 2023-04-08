@@ -53,6 +53,12 @@ public class ElasticsearchSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(SCROLL_TIME);
         props.add(SCROLL_SIZE);
         props.add(SCHEMA);
+//        props.add(TLS_VERIFY_CERTIFICATE);
+//        props.add(TLS_VERIFY_HOSTNAMES);
+//        props.add(TLS_KEYSTORE_PATH);
+//        props.add(TLS_KEYSTORE_PASSWORD);
+//        props.add(TLS_TRUSTSTORE_PATH);
+//        props.add(TLS_TRUSTSTORE_PASSWORD);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;

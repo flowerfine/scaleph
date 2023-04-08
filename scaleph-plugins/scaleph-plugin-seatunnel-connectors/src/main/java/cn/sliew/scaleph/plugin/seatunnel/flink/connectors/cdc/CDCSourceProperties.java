@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.mysql.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc;
 
 import cn.sliew.scaleph.plugin.framework.property.*;
 import com.fasterxml.jackson.databind.JsonNode;
 
-public enum MySQLCDCSourceProperties {
+public enum CDCSourceProperties {
     ;
 
     public static final PropertyDescriptor<String> BASE_URL = new PropertyDescriptor.Builder()
@@ -31,6 +31,23 @@ public enum MySQLCDCSourceProperties {
             .parser(Parsers.STRING_PARSER)
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> HOSTNAME = new PropertyDescriptor.Builder()
+            .name("hostname")
+            .description("IP address or hostname of the database server.")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .properties(Property.Required)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Integer> PORT = new PropertyDescriptor.Builder()
+            .name("port")
+            .description("Integer port number of the database server.")
+            .type(PropertyType.INT)
+            .parser(Parsers.INTEGER_PARSER)
+            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> USERNAME = new PropertyDescriptor.Builder()
@@ -226,4 +243,5 @@ public enum MySQLCDCSourceProperties {
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .validateAndBuild();
+
 }
