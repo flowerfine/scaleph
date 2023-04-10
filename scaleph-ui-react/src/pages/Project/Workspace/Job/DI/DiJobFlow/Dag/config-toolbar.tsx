@@ -8,11 +8,9 @@ import {
 } from '@antv/xflow';
 import {message} from 'antd';
 import {getIntl, getLocale} from 'umi';
-import {NsGraphPublish} from './cmd-extensions/graph-publish';
 import {CustomCommands, ZOOM_OPTIONS} from './constant';
 import {DagService} from './service';
 import {NsGraphPreview} from './cmd-extensions/graph-preview';
-import { NsGraphSubmit } from './cmd-extensions/graph-submit';
 
 export const useToolbarConfig = createToolbarConfig((toolbarConfig) => {
   /** toolbar item */
@@ -157,13 +155,7 @@ const getExtraToolbarConfig = () => {
     },
   ] as IToolbarGroupOptions[];
 };
-const getScaleToolbarConfig = ({
-                                 zoomFactor,
-                                 fullScreen,
-                               }: {
-  zoomFactor?: Number;
-  fullScreen?: boolean;
-}) => {
+const getScaleToolbarConfig = ({zoomFactor, fullScreen}: { zoomFactor?: Number; fullScreen?: boolean; }) => {
   const intl = getIntl(getLocale(), true);
   return [
     {
