@@ -32,8 +32,6 @@ jobs:
           registry: ${{ env.HUB }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: PreInstall QEMU image
-        run: docker run --privileged --rm tonistiigi/binfmt --install all
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
