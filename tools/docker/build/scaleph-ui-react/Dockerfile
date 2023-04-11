@@ -1,7 +1,8 @@
 FROM node:18 as build
 
 COPY ./ /scaleph
-RUN cd /scaleph/scaleph-ui-react && npm install --force && npm run build --prod
+RUN npm install -g pnpm
+RUN cd /scaleph/scaleph-ui-react && pnpm install && pnpm run build:prod
 
 
 FROM nginx:latest as release
