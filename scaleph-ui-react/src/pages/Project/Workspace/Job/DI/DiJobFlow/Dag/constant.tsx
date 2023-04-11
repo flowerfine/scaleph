@@ -156,17 +156,20 @@ export const BaseFileParams = {
   dateFormat: 'date_format',
   timeFormat: 'time_format',
   datetimeFormat: 'datetime_format',
-  fileNameExpression: 'file_name_expression',
   fileFormat: 'file_format',
+  customFilename: 'custom_filename',
+  fileNameExpression: 'file_name_expression',
   filenameTimeFormat: 'filename_time_format',
   fieldDelimiter: 'field_delimiter',
   rowDelimiter: 'row_delimiter',
+  havePartition: 'have_partition',
   partitionBy: 'partition_by',
   partitionDirExpression: 'partition_dir_expression',
   isPartitionFieldWriteInFile: 'is_partition_field_write_in_file',
   sinkColumns: 'sink_columns',
   isEnableTransaction: 'is_enable_transaction',
-  batchSize: 'batch_size'
+  batchSize: 'batch_size',
+  compressCodec: 'compress_codec'
 };
 
 export const HDFSFileParams = {
@@ -313,6 +316,7 @@ export const KuduParams = {
 export const KafkaParams = {
   topic: 'topic',
   pattern: 'pattern',
+  partitionDiscoveryIntervalMillis: 'partition-discovery.interval-millis',
   kafkaConf: 'kafkaConf',
   key: 'key',
   value: 'value',
@@ -497,18 +501,14 @@ export const CassandraParams = {
 
 export const DorisParams = {
   database: 'database',
-  table: 'table',
-  labelPrefix: 'labelPrefix',
-  batchMaxRows: 'batch_max_rows',
-  batchMaxBytes: 'batch_max_bytes',
-  batchIntervalMs: 'batch_interval_ms',
-  maxRetries: 'max_retries',
-  retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
-  maxRetryBackoffMs: 'max_retry_backoff_ms',
-  sinkProperties: 'sink.properties.',
-  sinkPropertyArray: 'sinkPropertieArray',
-  sinkProperty: 'property',
-  sinkPropertyValue: 'value',
+  tableIdentifier: 'table.identifier',
+  sinkLabelPrefix: 'sink.label-prefix',
+  sinkEnable2PC: 'sink.enable-2pc',
+  sinkEnableDelete: 'sink.enable-delete',
+  dorisConfig: 'doris.config',
+  dorisConfigArray: 'dorisConfigArray',
+  dorisConfigProperty: 'property',
+  dorisConfigValue: 'value',
 };
 
 export const StarRocksParams = {
@@ -525,6 +525,13 @@ export const StarRocksParams = {
   sinkPropertyArray: 'sinkPropertieArray',
   sinkProperty: 'property',
   sinkPropertyValue: 'value',
+  scanFilter: 'scan_filter',
+  scanConnectTimeoutMs: 'scan_connect_timeout_ms',
+  scanQueryTimeoutSec: 'scan_query_timeout_sec',
+  scanKeepAliveMin: 'scan_keep_alive_min',
+  scanBatchRows: 'scan_batch_rows',
+  scanMemLimit: 'scan_mem_limit',
+  requestTabletSize: 'request_tablet_size',
 };
 
 export const MaxComputeParams = {
@@ -565,8 +572,10 @@ export const OpenMLDBParams = {
   requestTimeout: 'request_timeout',
 };
 
-export const CDCMySQLParams = {
+export const CDCParams = {
   baseUrl: 'base-url',
+  hostname: 'hostname',
+  port: 'port',
   username: 'username',
   password: 'password',
   database: 'database-name',

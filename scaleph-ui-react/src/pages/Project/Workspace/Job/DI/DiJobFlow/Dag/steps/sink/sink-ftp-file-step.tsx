@@ -1,10 +1,10 @@
-import { NsGraph } from '@antv/xflow';
-import { ModalFormProps } from '@/app.d';
-import { BaseFileParams, STEP_ATTR_TYPE } from '../../constant';
-import { WsDiJobService } from '@/services/project/WsDiJob.service';
-import { Button, Drawer, Form, message, Modal } from 'antd';
-import { WsDiJob } from '@/services/project/typings';
-import { getIntl, getLocale } from 'umi';
+import {NsGraph} from '@antv/xflow';
+import {ModalFormProps} from '@/app.d';
+import {BaseFileParams, STEP_ATTR_TYPE} from '../../constant';
+import {WsDiJobService} from '@/services/project/WsDiJob.service';
+import {Button, Drawer, Form, message} from 'antd';
+import {WsDiJob} from '@/services/project/typings';
+import {getIntl, getLocale} from 'umi';
 import {
   ProForm,
   ProFormDependency,
@@ -14,7 +14,7 @@ import {
   ProFormSwitch,
   ProFormText,
 } from '@ant-design/pro-components';
-import { useEffect } from 'react';
+import {useEffect} from 'react';
 import DataSourceItem from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource';
 
 const SinkFtpFileStepForm: React.FC<
@@ -23,7 +23,7 @@ const SinkFtpFileStepForm: React.FC<
     graphData: NsGraph.IGraphData;
     graphMeta: NsGraph.IGraphMeta;
   }>
-> = ({ data, visible, onCancel, onOK }) => {
+> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as WsDiJob;
   const jobGraph = data.graphData;
@@ -39,7 +39,7 @@ const SinkFtpFileStepForm: React.FC<
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{ overflowY: 'scroll'}}
+      bodyStyle={{overflowY: 'scroll'}}
       destroyOnClose={true}
       onClose={onCancel}
       extra={
@@ -54,45 +54,39 @@ const SinkFtpFileStepForm: React.FC<
               map.set(STEP_ATTR_TYPE.stepAttrs, values);
               WsDiJobService.saveStepAttr(map).then((resp) => {
                 if (resp.success) {
-                  message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+                  message.success(intl.formatMessage({id: 'app.common.operate.success'}));
                   onOK ? onOK(values) : null;
                 }
               });
             });
           }}
         >
-          {intl.formatMessage({ id: 'app.common.operate.confirm.label' })}
+          {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
         </Button>
       }
     >
       <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
         <ProFormText
           name={STEP_ATTR_TYPE.stepTitle}
-          label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
-          rules={[{ required: true }, { max: 120 }]}
-          colProps={{ span: 24 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
+          rules={[{required: true}, {max: 120}]}
+          colProps={{span: 24}}
         />
-        <DataSourceItem dataSource={'Ftp'} />
+        <DataSourceItem dataSource={'Ftp'}/>
         <ProFormText
           name={BaseFileParams.path}
-          label={intl.formatMessage({ id: 'pages.project.di.step.baseFile.path' })}
-          rules={[{ required: true }]}
-          colProps={{ span: 24 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.path'})}
+          rules={[{required: true}]}
+          colProps={{span: 24}}
         />
         <ProFormSelect
           name={'file_format'}
-          label={intl.formatMessage({ id: 'pages.project.di.step.baseFile.fileFormat' })}
-          colProps={{ span: 24 }}
-          valueEnum={{
-            json: 'json',
-            parquet: 'parquet',
-            orc: 'orc',
-            text: 'text',
-            csv: 'csv',
-          }}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fileFormat'})}
+          colProps={{span: 24}}
+          options={['json', 'parquet', 'orc', 'text', 'csv']}
         />
         <ProFormDependency name={['file_format']}>
-          {({ file_format }) => {
+          {({file_format}) => {
             if (file_format == 'text' || file_format == 'csv') {
               return (
                 <ProFormGroup>
@@ -101,61 +95,71 @@ const SinkFtpFileStepForm: React.FC<
                     label={intl.formatMessage({
                       id: 'pages.project.di.step.baseFile.fieldDelimiter',
                     })}
-                    rules={[{ required: true }]}
-                    colProps={{ span: 12 }}
+                    rules={[{required: true}]}
+                    colProps={{span: 12}}
                   />
                   <ProFormText
                     name={BaseFileParams.rowDelimiter}
                     label={intl.formatMessage({
                       id: 'pages.project.di.step.baseFile.rowDelimiter',
                     })}
-                    rules={[{ required: true }]}
-                    colProps={{ span: 12 }}
+                    rules={[{required: true}]}
+                    colProps={{span: 12}}
                   />
                 </ProFormGroup>
               );
             }
-            return <ProFormGroup />;
+            return <ProFormGroup/>;
           }}
         </ProFormDependency>
+        <ProFormSwitch
+          name={BaseFileParams.customFilename}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.customFilename'})}
+          initialValue={false}
+        />
         <ProFormText
           name={BaseFileParams.fileNameExpression}
-          label={intl.formatMessage({ id: 'pages.project.di.step.baseFile.fileNameExpression' })}
-          colProps={{ span: 12 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.fileNameExpression'})}
+          colProps={{span: 12}}
         />
         <ProFormText
           name={BaseFileParams.filenameTimeFormat}
-          label={intl.formatMessage({ id: 'pages.project.di.step.baseFile.filenameTimeFormat' })}
-          colProps={{ span: 12 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.filenameTimeFormat'})}
+          colProps={{span: 12}}
+        />
+        <ProFormSwitch
+          name={BaseFileParams.havePartition}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.havePartition'})}
+          initialValue={false}
         />
         <ProFormText
           name={BaseFileParams.partitionBy}
-          label={intl.formatMessage({ id: 'pages.project.di.step.baseFile.partitionBy' })}
-          colProps={{ span: 12 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.partitionBy'})}
+          colProps={{span: 12}}
         />
         <ProFormText
           name={BaseFileParams.partitionDirExpression}
           label={intl.formatMessage({
             id: 'pages.project.di.step.baseFile.partitionDirExpression',
           })}
-          colProps={{ span: 12 }}
+          colProps={{span: 12}}
         />
         <ProFormSwitch
           name={BaseFileParams.isPartitionFieldWriteInFile}
           label={intl.formatMessage({
             id: 'pages.project.di.step.baseFile.isPartitionFieldWriteInFile',
           })}
-          colProps={{ span: 24 }}
+          colProps={{span: 24}}
         />
         <ProFormText
           name={BaseFileParams.sinkColumns}
-          label={intl.formatMessage({ id: 'pages.project.di.step.baseFile.sinkColumns' })}
-          colProps={{ span: 24 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.sinkColumns'})}
+          colProps={{span: 24}}
         />
         <ProFormSwitch
           name={BaseFileParams.isEnableTransaction}
-          label={intl.formatMessage({ id: 'pages.project.di.step.baseFile.isEnableTransaction' })}
-          colProps={{ span: 24 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.isEnableTransaction'})}
+          colProps={{span: 24}}
           initialValue={true}
           fieldProps={{
             disabled: true,
@@ -163,13 +167,18 @@ const SinkFtpFileStepForm: React.FC<
         />
         <ProFormDigit
           name={BaseFileParams.batchSize}
-          label={intl.formatMessage({ id: 'pages.project.di.step.baseFile.batchSize' })}
-          colProps={{ span: 24 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.batchSize'})}
+          colProps={{span: 24}}
           initialValue={1000000}
           fieldProps={{
             step: 10000,
             min: 0,
           }}
+        />
+        <ProFormText
+          name={BaseFileParams.compressCodec}
+          label={intl.formatMessage({id: 'pages.project.di.step.baseFile.compressCodec'})}
+          initialValue={'none'}
         />
       </ProForm>
     </Drawer>

@@ -25,8 +25,8 @@ import java.util.List;
 public enum DorisProperties {
     ;
 
-    public static final PropertyDescriptor<List<String>> NODE_URLS = new PropertyDescriptor.Builder()
-            .name("hosts")
+    public static final PropertyDescriptor<List<String>> FENODES = new PropertyDescriptor.Builder()
+            .name("fenodes")
             .description("Doris cluster address")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
@@ -61,8 +61,8 @@ public enum DorisProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> TABLE = new PropertyDescriptor.Builder()
-            .name("table")
+    public static final PropertyDescriptor<String> TABLE_IDENTIFIER = new PropertyDescriptor.Builder()
+            .name("table.identifier")
             .description("The name of Doris table")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
