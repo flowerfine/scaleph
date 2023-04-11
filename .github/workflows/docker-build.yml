@@ -49,7 +49,7 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v4
         with:
-          no-cache: true
+          no-cache: false
           push: false
           context: .
           platforms: linux/amd64,linux/arm64

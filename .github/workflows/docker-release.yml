@@ -43,7 +43,7 @@ jobs:
       - name: Push image
         uses: docker/build-push-action@v4
         with:
-          no-cache: true
+          no-cache: false
           push: true
           context: .
           platforms: linux/amd64,linux/arm64
