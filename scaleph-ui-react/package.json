@@ -67,6 +67,8 @@
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^2.1.0",
+    "@antv/xflow-core": "^1.0.51",
+    "@antv/xflow-extension": "^1.0.51",
     "@playwright/test": "^1.17.0",
     "@types/classnames": "^2.3.1",
     "@types/express": "^4.17.0",
@@ -87,6 +89,7 @@
     "husky": "^7.0.4",
     "jsdom-global": "^3.0.0",
     "lint-staged": "^10.0.0",
+    "mana-syringe": "^0.2.2",
     "mockjs": "^1.1.0",
     "prettier": "^2.5.0",
     "swagger-ui-dist": "^4.12.0",
