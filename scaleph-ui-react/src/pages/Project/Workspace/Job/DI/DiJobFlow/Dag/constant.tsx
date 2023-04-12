@@ -366,6 +366,7 @@ export const IoTDBParams = {
   keyMeasurementFields: 'key_measurement_fields',
   keyMeasurementFieldArray: 'keyMeasurementFieldArray',
   keyMeasurementField: 'keyMeasurementField',
+  storageGroup: 'storage_group',
 };
 
 export const MondoDBParams = {

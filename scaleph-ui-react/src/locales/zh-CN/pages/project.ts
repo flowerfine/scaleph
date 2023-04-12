@@ -440,6 +440,7 @@ export default {
   'pages.project.di.step.iotdb.keyTimestamp': 'Timestamp',
   'pages.project.di.step.iotdb.keyMeasurementFields': 'Measurement Fields',
   'pages.project.di.step.iotdb.keyMeasurementFields.field': 'Field',
+  'pages.project.di.step.iotdb.storageGroup': 'Storage Group',
 
   // mongodb
   'pages.project.di.step.mongodb.uri': 'URI',
