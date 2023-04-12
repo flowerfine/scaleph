@@ -5,7 +5,7 @@ import {
   DorisParams,
   ElasticsearchParams,
   FieldMapperParams,
-  FilterParams,
+  FilterParams, HbaseParams,
   HiveParams,
   InfluxDBParams,
   IoTDBParams,
@@ -237,7 +237,6 @@ export const StepSchemaService = {
     return values
   },
 
-
   formatPartitions: (values: Record<string, any>) => {
     const partitions: Array<any> = []
     values[HiveParams.readPartitionArray]?.forEach(function (item: Record<string, any>) {
@@ -246,4 +245,23 @@ export const StepSchemaService = {
     values[HiveParams.readPartitions] = JSON.stringify(partitions)
     return values
   },
+
+  formatRowKeyColumn: (values: Record<string, any>) => {
+    const columns: Array<any> = []
+    values[HbaseParams.rowkeyColumnArray]?.forEach(function (item: Record<string, any>) {
+      columns.push(item[HbaseParams.rowkeyColumnValue])
+    });
+    values[HbaseParams.rowkeyColumn] = JSON.stringify(columns)
+    return values
+  },
+
+  formatHbaseExtraConfig: (values: Record<string, any>) => {
+    const configs: Record<string, any> = {}
+    values[HbaseParams.hbaseExtraConfigMap]?.forEach(function (item: Record<string, any>) {
+      configs[item[HbaseParams.hbaseExtraConfigKey]] = item[HbaseParams.hbaseExtraConfigValue];
+    });
+    values[HbaseParams.hbaseExtraConfig] = JSON.stringify(configs)
+    return values
+  },
+
 };

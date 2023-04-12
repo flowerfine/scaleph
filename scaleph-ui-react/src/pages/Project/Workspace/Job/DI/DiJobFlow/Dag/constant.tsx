@@ -605,6 +605,25 @@ export const CDCParams = {
   format: 'format',
 };
 
+export const HbaseParams = {
+  zookeeperQuorum: 'zookeeper_quorum',
+  table: 'table',
+  familyName: 'family_name',
+  rowkeyColumn: 'rowkey_column',
+  rowkeyColumnArray: 'rowkeyColumnArray',
+  rowkeyColumnValue: 'rowkeyColumnArray',
+  rowkeyDelimiter: 'rowkey_delimiter',
+  versionColumn: 'version_column',
+  nullMode: 'null_mode',
+  walWrite: 'wal_write',
+  writeBufferSize: 'write_buffer_size',
+  encoding: 'encoding',
+  hbaseExtraConfig: 'hbase_extra_config',
+  hbaseExtraConfigMap: 'hbaseExtraConfigMap',
+  hbaseExtraConfigKey: 'hbaseExtraConfigKey',
+  hbaseExtraConfigValue: 'hbaseExtraConfigValue'
+}
+
 export const CopyParams = {
   srcField: 'src_field',
   destField: 'dest_field'
