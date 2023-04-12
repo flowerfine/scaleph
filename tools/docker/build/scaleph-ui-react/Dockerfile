@@ -1,7 +1,7 @@
 FROM node:18 as build
 
 COPY ./ /scaleph
-RUN npm install -g pnpm
+RUN npm install -g pnpm@7.32.0
 RUN cd /scaleph/scaleph-ui-react && pnpm install && pnpm build --prod
 
 
