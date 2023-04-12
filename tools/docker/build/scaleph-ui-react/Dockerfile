@@ -10,6 +10,7 @@ RUN mkdir /dist
 #COPY --from=build  /scaleph/scaleph-ui-react/dist /dist
 #COPY --from=build /scaleph/tools/docker/build/scaleph-ui-react/nginx.conf.template /
 
+RUN pwd
 COPY scaleph-ui-react/dist /usr/share/nginx/html
 COPY tools/docker/build/scaleph-ui-react/nginx.conf.template /
 
