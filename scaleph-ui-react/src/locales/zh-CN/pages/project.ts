@@ -135,6 +135,7 @@ export default {
 
   // jdbc
   'pages.project.di.step.jdbc.connectionCheckTimeoutSec': '数据源连接超时（秒）',
+  'pages.project.di.step.jdbc.database': 'Database',
   'pages.project.di.step.jdbc.table': 'Table',
   'pages.project.di.step.jdbc.table.tooltip': 'Higher priority than SQL',
   'pages.project.di.step.jdbc.supportUpsert': 'Support Upsert',
@@ -166,6 +167,7 @@ export default {
   'pages.project.di.step.jdbc.maxCommitAttempts': '事务重试次数',
   'pages.project.di.step.jdbc.transactionTimeoutSec': '事务超时时间（秒）',
   'pages.project.di.step.jdbc.transactionTimeoutSec.tooltip': '-1 表示从不超时',
+  'pages.project.di.step.jdbc.autoCommit': '自动提交',
 
   // fake
   'pages.project.di.step.fake.rows': '生成数据',

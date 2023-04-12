@@ -126,6 +126,7 @@ export const FakeParams = {
 
 export const JdbcParams = {
   connectionCheckTimeoutSec: 'connection_check_timeout_sec',
+  database: 'database',
   table: 'table',
   supportUpsert: 'support_upsert_by_query_primary_key_exist',
   primaryKeys: 'primary_keys',
@@ -143,7 +144,8 @@ export const JdbcParams = {
   isExactlyOnce: 'is_exactly_once',
   xaDataSourceClassName: 'xa_data_source_class_name',
   maxCommitAttempts: 'max_commit_attempts',
-  transactionTimeoutSec: 'transaction_timeout_sec'
+  transactionTimeoutSec: 'transaction_timeout_sec',
+  autoCommit: 'auto_commit'
 }
 
 export const BaseFileParams = {

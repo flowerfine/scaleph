@@ -24,9 +24,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 public enum JdbcSinkProperties {
     ;
 
+    public static final PropertyDescriptor<String> DATABASE = new PropertyDescriptor.Builder<String>()
+            .name("database")
+            .description("Use this database and table-name auto-generate sql and receive upstream input datas write to database")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<String> TABLE = new PropertyDescriptor.Builder<String>()
             .name("table")
-            .description("Use this table-name auto-generate sql and receive upstream input datas write to database")
+            .description("Use this database and table-name auto-generate sql and receive upstream input datas write to database")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
@@ -115,5 +123,13 @@ public enum JdbcSinkProperties {
             .type(PropertyType.INT)
             .defaultValue(-1)
             .parser(Parsers.INTEGER_PARSER)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Boolean> AUTO_COMMIT = new PropertyDescriptor.Builder<Boolean>()
+            .name("auto_commit")
+            .description("Automatic transaction commit is enabled by default")
+            .type(PropertyType.BOOLEAN)
+            .defaultValue(true)
+            .parser(Parsers.BOOLEAN_PARSER)
             .validateAndBuild();
 }
