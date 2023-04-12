@@ -46,6 +46,8 @@ jobs:
           platforms: amd64,arm64
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+      - name: Build scaleph-ui-react
+        run: cd scaleph/scaleph-ui-react && npm install && npm run build --prod
       - name: Build image
         uses: docker/build-push-action@v4
         with:
