@@ -30,6 +30,7 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -63,6 +64,15 @@ public class HiveSinkPlugin extends SeaTunnelConnectorPlugin {
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
         HiveDataSource dataSource = (HiveDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
         conf.putPOJO(METASTORE_URI.getName(), dataSource.getMetastoreUri());
+        if (StringUtils.hasText(dataSource.getHdfsSitePath())) {
+            conf.putPOJO(HDFS_SITE_PATH.getName(), dataSource.getHdfsSitePath());
+        }
+        if (StringUtils.hasText(dataSource.getKerberosKeytabPath())) {
+            conf.putPOJO(KERBEROS_KEYTAB_PATH.getName(), dataSource.getKerberosKeytabPath());
+        }
+        if (StringUtils.hasText(dataSource.getKerberosPrincipal())) {
+            conf.putPOJO(KERBEROS_PRINCIPAL.getName(), dataSource.getKerberosPrincipal());
+        }
         return conf;
     }
 
