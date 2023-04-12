@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useIntl, useLocation } from 'umi';
-import { PageContainer } from '@ant-design/pro-components';
+import React, {useState} from 'react';
+import {useLocation} from 'umi';
+import {PageContainer} from '@ant-design/pro-components';
 import {
   CompressOutlined,
   DeleteOutlined,
@@ -25,7 +25,6 @@ import {
   CanvasScaleToolbar,
   CanvasSnapline,
   CanvasToolbar,
-  FlowchartExtension,
   IApplication,
   IAppLoad,
   IconStore,
@@ -36,21 +35,21 @@ import {
   XFlowCanvas,
 } from '@antv/xflow';
 /** config graph */
-import { useGraphConfig, useGraphHookConfig } from './Dag/config-graph';
+import {useGraphConfig, useGraphHookConfig} from './Dag/config-graph';
 /** config command */
-import { initGraphCmds, useCmdConfig } from './Dag/config-cmd';
+import {initGraphCmds, useCmdConfig} from './Dag/config-cmd';
 /** config key bind */
-import { useKeybindingConfig } from './Dag/config-keybinding';
+import {useKeybindingConfig} from './Dag/config-keybinding';
 /** config menu */
-import { useMenuConfig } from './Dag/config-menu';
+import {useMenuConfig} from './Dag/config-menu';
 /** config toolbar */
-import { useScaleToolbarConfig, useToolbarConfig } from './Dag/config-toolbar';
+import {useScaleToolbarConfig, useToolbarConfig} from './Dag/config-toolbar';
 /** config dnd panel */
 import '@antv/xflow/dist/index.css';
 import './index.less';
 import * as dndPanelConfig from './Dag/config-dnd-panel';
-import { WsDiJob } from '@/services/project/typings';
-import { DagService } from './Dag/service';
+import {WsDiJob} from '@/services/project/typings';
+import {DagService} from './Dag/service';
 
 interface DiJobFlowPorps {
   data: WsDiJob;
@@ -58,7 +57,6 @@ interface DiJobFlowPorps {
 }
 
 const DiJobFlow: React.FC<DiJobFlowPorps> = () => {
-  const intl = useIntl();
   const props = useLocation().state as DiJobFlowPorps;
   const graphConfig = useGraphConfig(props);
   const graphHookConfig = useGraphHookConfig(props);
@@ -67,8 +65,8 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = () => {
   const scaleToolbarConfig = useScaleToolbarConfig();
   const menuConfig = useMenuConfig();
   const keybindingConfig = useKeybindingConfig();
-  const [graphData, setGraphData] = useState<NsGraph.IGraphData>({ nodes: [], edges: [] });
-  const { data, meta } = props;
+  const [graphData, setGraphData] = useState<NsGraph.IGraphData>({nodes: [], edges: []});
+  const {data, meta} = props;
 
   /**register icons */
   IconStore.set('DeleteOutlined', DeleteOutlined);
@@ -95,12 +93,12 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = () => {
   );
   const onLoad: IAppLoad = async (app) => {
     cache.app = app;
-    initGraphCmds(cache.app, meta.origin || { id: data.id });
+    initGraphCmds(cache.app, meta.origin || {id: data.id});
   };
 
   React.useEffect(() => {
     if (cache.app) {
-      initGraphCmds(cache.app, meta.origin || { id: data.id });
+      initGraphCmds(cache.app, meta.origin || {id: data.id});
     }
     refreshJobGraph();
   }, [meta]);
@@ -121,12 +119,11 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = () => {
         graphData={graphData}
         meta={meta}
       >
-        <FlowchartExtension />
         <NodeCollapsePanel
           className="xflow-node-panel"
-          position={{ width: 240, top: 0, bottom: 0, left: 0 }}
-          bodyPosition={{ top: 40, bottom: 0, left: 0 }}
-          footerPosition={{ height: 0 }}
+          position={{width: 240, top: 0, bottom: 0, left: 0}}
+          bodyPosition={{top: 40, bottom: 0, left: 0}}
+          footerPosition={{height: 0}}
           nodeDataService={dndPanelConfig.nodeDataService}
           onNodeDrop={dndPanelConfig.onNodeDrop}
           searchService={dndPanelConfig.searchService}
@@ -135,16 +132,16 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = () => {
           className="xflow-workspace-toolbar-top"
           layout="horizontal"
           config={toolbarConfig}
-          position={{ top: 0, left: 240, right: 0, bottom: 0 }}
+          position={{top: 0, left: 240, right: 0, bottom: 0}}
         />
-        <XFlowCanvas config={graphConfig} position={{ top: 40, left: 240, right: 0, bottom: 0 }}>
-          <CanvasScaleToolbar layout="vertical" position={{ top: 12, right: 12 }} />
-          <CanvasContextMenu config={menuConfig} />
-          <CanvasSnapline color="#faad14" />
-          <CanvasMiniMap minimapOptions={{ width: 200, height: 120 }} />
-          <CanvasNodePortTooltip />
+        <XFlowCanvas config={graphConfig} position={{top: 40, left: 240, right: 0, bottom: 0}}>
+          <CanvasScaleToolbar layout="vertical" position={{top: 12, right: 12}}/>
+          <CanvasContextMenu config={menuConfig}/>
+          <CanvasSnapline color="#faad14"/>
+          <CanvasMiniMap minimapOptions={{width: 200, height: 120}}/>
+          <CanvasNodePortTooltip/>
         </XFlowCanvas>
-        <KeyBindings config={keybindingConfig} />
+        <KeyBindings config={keybindingConfig}/>
       </XFlow>
     </PageContainer>
   );
