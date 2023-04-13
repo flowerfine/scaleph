@@ -40,7 +40,7 @@ services:
     networks:
       - scaleph
 
-  scaleph-ui:
+  scaleph-ui-react:
     image: ghcr.io/flowerfine/scaleph/scaleph-ui-react:latest
     container_name: scaleph-ui-react
     depends_on:

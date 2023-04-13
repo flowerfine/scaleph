@@ -135,6 +135,7 @@ export default {
 
   // jdbc
   'pages.project.di.step.jdbc.connectionCheckTimeoutSec': '数据源连接超时（秒）',
+  'pages.project.di.step.jdbc.database': 'Database',
   'pages.project.di.step.jdbc.table': 'Table',
   'pages.project.di.step.jdbc.table.tooltip': 'Higher priority than SQL',
   'pages.project.di.step.jdbc.supportUpsert': 'Support Upsert',
@@ -166,6 +167,7 @@ export default {
   'pages.project.di.step.jdbc.maxCommitAttempts': '事务重试次数',
   'pages.project.di.step.jdbc.transactionTimeoutSec': '事务超时时间（秒）',
   'pages.project.di.step.jdbc.transactionTimeoutSec.tooltip': '-1 表示从不超时',
+  'pages.project.di.step.jdbc.autoCommit': '自动提交',
 
   // fake
   'pages.project.di.step.fake.rows': '生成数据',
@@ -440,6 +442,7 @@ export default {
   'pages.project.di.step.iotdb.keyTimestamp': 'Timestamp',
   'pages.project.di.step.iotdb.keyMeasurementFields': 'Measurement Fields',
   'pages.project.di.step.iotdb.keyMeasurementFields.field': 'Field',
+  'pages.project.di.step.iotdb.storageGroup': 'Storage Group',
 
   // mongodb
   'pages.project.di.step.mongodb.uri': 'URI',
@@ -502,7 +505,6 @@ export default {
   'pages.project.di.step.elasticsearch.scrollSize': 'Scroll Size',
   'pages.project.di.step.elasticsearch.source': 'Fields',
   'pages.project.di.step.elasticsearch.source.field': 'Field',
-
 
   // neo4j
   'pages.project.di.step.neo4j.uri': 'URI',
@@ -669,6 +671,24 @@ export default {
   'pages.project.di.step.cdc.debeziums.value': 'Value',
   'pages.project.di.step.cdc.debeziums.value.placeholder': 'never',
   'pages.project.di.step.cdc.format': 'CDC Format',
+
+  // hbase
+  'pages.project.di.step.hbase.zookeeperQuorum': 'Zookeeper',
+  'pages.project.di.step.hbase.table': 'Table',
+  'pages.project.di.step.hbase.familyName': 'Family',
+  'pages.project.di.step.hbase.rowkeyColumnArray': 'RowKey Column',
+  'pages.project.di.step.hbase.rowkeyColumn': 'Column',
+  'pages.project.di.step.hbase.rowkeyDelimiter': 'RowKey Delimiter',
+  'pages.project.di.step.hbase.versionColumn': 'Version Column',
+  'pages.project.di.step.hbase.nullMode': 'Null Mode',
+  'pages.project.di.step.hbase.walWrite': 'Enable Wal',
+  'pages.project.di.step.hbase.writeBufferSize': 'Write Buffer Size',
+  'pages.project.di.step.hbase.encoding': 'Encoding',
+  'pages.project.di.step.hbase.hbaseExtraConfig': 'Hbase Config',
+  'pages.project.di.step.hbase.hbaseExtraConfig.tooltip': 'Hbase extra config',
+  'pages.project.di.step.hbase.hbaseExtraConfigMap': 'Config',
+  'pages.project.di.step.hbase.hbaseExtraConfigKey': 'Key',
+  'pages.project.di.step.hbase.hbaseExtraConfigValue': 'Value',
 
   // copy
   'pages.project.di.step.copy.srcField': 'Source',

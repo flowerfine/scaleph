@@ -126,6 +126,7 @@ export const FakeParams = {
 
 export const JdbcParams = {
   connectionCheckTimeoutSec: 'connection_check_timeout_sec',
+  database: 'database',
   table: 'table',
   supportUpsert: 'support_upsert_by_query_primary_key_exist',
   primaryKeys: 'primary_keys',
@@ -143,7 +144,8 @@ export const JdbcParams = {
   isExactlyOnce: 'is_exactly_once',
   xaDataSourceClassName: 'xa_data_source_class_name',
   maxCommitAttempts: 'max_commit_attempts',
-  transactionTimeoutSec: 'transaction_timeout_sec'
+  transactionTimeoutSec: 'transaction_timeout_sec',
+  autoCommit: 'auto_commit'
 }
 
 export const BaseFileParams = {
@@ -366,6 +368,7 @@ export const IoTDBParams = {
   keyMeasurementFields: 'key_measurement_fields',
   keyMeasurementFieldArray: 'keyMeasurementFieldArray',
   keyMeasurementField: 'keyMeasurementField',
+  storageGroup: 'storage_group',
 };
 
 export const MondoDBParams = {
@@ -604,6 +607,25 @@ export const CDCParams = {
   debeziumValue: 'debeziumValue',
   format: 'format',
 };
+
+export const HbaseParams = {
+  zookeeperQuorum: 'zookeeper_quorum',
+  table: 'table',
+  familyName: 'family_name',
+  rowkeyColumn: 'rowkey_column',
+  rowkeyColumnArray: 'rowkeyColumnArray',
+  rowkeyColumnValue: 'rowkeyColumnArray',
+  rowkeyDelimiter: 'rowkey_delimiter',
+  versionColumn: 'version_column',
+  nullMode: 'null_mode',
+  walWrite: 'wal_write',
+  writeBufferSize: 'write_buffer_size',
+  encoding: 'encoding',
+  hbaseExtraConfig: 'hbase_extra_config',
+  hbaseExtraConfigMap: 'hbaseExtraConfigMap',
+  hbaseExtraConfigKey: 'hbaseExtraConfigKey',
+  hbaseExtraConfigValue: 'hbaseExtraConfigValue'
+}
 
 export const CopyParams = {
   srcField: 'src_field',
