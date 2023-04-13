@@ -1,12 +1,12 @@
-import { NsGraph } from '@antv/xflow';
-import { ModalFormProps } from '@/app.d';
-import { MaxComputeParams, STEP_ATTR_TYPE } from '../../constant';
-import { WsDiJobService } from '@/services/project/WsDiJob.service';
-import { Button, Drawer, Form, message, Modal } from 'antd';
-import { WsDiJob } from '@/services/project/typings';
-import { getIntl, getLocale } from 'umi';
-import { ProForm, ProFormDigit, ProFormText } from '@ant-design/pro-components';
-import { useEffect } from 'react';
+import {NsGraph} from '@antv/xflow';
+import {ModalFormProps} from '@/app.d';
+import {MaxComputeParams, STEP_ATTR_TYPE} from '../../constant';
+import {WsDiJobService} from '@/services/project/WsDiJob.service';
+import {Button, Drawer, Form, message} from 'antd';
+import {WsDiJob} from '@/services/project/typings';
+import {getIntl, getLocale} from 'umi';
+import {ProForm, ProFormDigit, ProFormText} from '@ant-design/pro-components';
+import {useEffect} from 'react';
 import DataSourceItem from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource';
 
 const SourceMaxComputeStepForm: React.FC<
@@ -15,7 +15,7 @@ const SourceMaxComputeStepForm: React.FC<
     graphData: NsGraph.IGraphData;
     graphMeta: NsGraph.IGraphMeta;
   }>
-> = ({ data, visible, onCancel, onOK }) => {
+> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as WsDiJob;
   const jobGraph = data.graphData;
@@ -31,7 +31,7 @@ const SourceMaxComputeStepForm: React.FC<
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{ overflowY: 'scroll'}}
+      bodyStyle={{overflowY: 'scroll'}}
       destroyOnClose={true}
       onClose={onCancel}
       extra={
@@ -46,41 +46,41 @@ const SourceMaxComputeStepForm: React.FC<
               map.set(STEP_ATTR_TYPE.stepAttrs, values);
               WsDiJobService.saveStepAttr(map).then((resp) => {
                 if (resp.success) {
-                  message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+                  message.success(intl.formatMessage({id: 'app.common.operate.success'}));
                   onOK ? onOK(values) : null;
                 }
               });
             });
           }}
         >
-          {intl.formatMessage({ id: 'app.common.operate.confirm.label' })}
+          {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
         </Button>
       }
     >
       <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
         <ProFormText
           name={STEP_ATTR_TYPE.stepTitle}
-          label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
-          rules={[{ required: true }, { max: 120 }]}
+          label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
+          rules={[{required: true}, {max: 120}]}
         />
-        <DataSourceItem dataSource={'MaxCompute'} />
+        <DataSourceItem dataSource={'MaxCompute'}/>
         <ProFormText
           name={MaxComputeParams.project}
-          label={intl.formatMessage({ id: 'pages.project.di.step.maxcompute.project' })}
-          rules={[{ required: true }]}
+          label={intl.formatMessage({id: 'pages.project.di.step.maxcompute.project'})}
+          rules={[{required: true}]}
         />
         <ProFormText
           name={MaxComputeParams.tableName}
-          label={intl.formatMessage({ id: 'pages.project.di.step.maxcompute.tableName' })}
-          rules={[{ required: true }]}
+          label={intl.formatMessage({id: 'pages.project.di.step.maxcompute.tableName'})}
+          rules={[{required: true}]}
         />
         <ProFormText
           name={MaxComputeParams.partitionSpec}
-          label={intl.formatMessage({ id: 'pages.project.di.step.maxcompute.partitionSpec' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.maxcompute.partitionSpec'})}
         />
         <ProFormDigit
           name={MaxComputeParams.splitRow}
-          label={intl.formatMessage({ id: 'pages.project.di.step.maxcompute.splitRow' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.maxcompute.splitRow'})}
           initialValue={10000}
           fieldProps={{
             step: 10000,

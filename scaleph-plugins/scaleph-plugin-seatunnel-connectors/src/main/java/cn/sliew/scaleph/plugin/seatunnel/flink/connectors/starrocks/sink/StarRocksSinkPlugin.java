@@ -35,7 +35,6 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.starrocks.StarRocksProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.starrocks.sink.StarRocksSinkProperties.*;
@@ -57,6 +56,9 @@ public class StarRocksSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(MAX_RETRIES);
         props.add(RETRY_BACKOFF_MULTIPLIER_MS);
         props.add(MAX_RETRY_BACKOFF_MS);
+        props.add(ENABLE_UPSERT_DELETE);
+        props.add(SAVE_MODE_CREATE_TEMPLATE);
+        props.add(STARROCKS_CONFIG);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;
@@ -78,11 +80,6 @@ public class StarRocksSinkPlugin extends SeaTunnelConnectorPlugin {
         }
         if (StringUtils.hasText(dataSource.getPassword())) {
             conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
-        }
-        for (Map.Entry<String, Object> entry : properties.toMap().entrySet()) {
-            if (entry.getKey().startsWith(SINK_PROPERTIES.getName())) {
-                conf.putPOJO(entry.getKey(), entry.getValue());
-            }
         }
         return conf;
     }
