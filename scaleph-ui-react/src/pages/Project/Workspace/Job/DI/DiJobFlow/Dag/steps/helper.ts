@@ -5,7 +5,8 @@ import {
   DorisParams,
   ElasticsearchParams,
   FieldMapperParams,
-  FilterParams, HbaseParams,
+  FilterParams,
+  HbaseParams,
   HiveParams,
   InfluxDBParams,
   IoTDBParams,
@@ -187,10 +188,12 @@ export const StepSchemaService = {
     return values
   },
 
-  formatStarRocksSinkProperties: (values: Record<string, any>) => {
-    values[StarRocksParams.sinkPropertyArray]?.forEach(function (item: Record<string, any>) {
-      values[StarRocksParams.sinkProperties + item[StarRocksParams.sinkProperty]] = item[StarRocksParams.sinkPropertyValue];
+  formatStarRocksConfig: (values: Record<string, any>) => {
+    const config: Record<string, any> = {}
+    values[StarRocksParams.starrocksConfigMap]?.forEach(function (item: Record<string, any>) {
+      values[item[StarRocksParams.starrocksConfigKey]] = item[StarRocksParams.starrocksConfigValue];
     });
+    values[StarRocksParams.starrocksConfig] = JSON.stringify(config)
     return values
   },
 

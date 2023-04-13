@@ -1,7 +1,7 @@
 import {NsGraph} from '@antv/xflow';
 import {ModalFormProps} from '@/app.d';
 import {WsDiJobService} from '@/services/project/WsDiJob.service';
-import {Button, Drawer, Form, message, Modal} from 'antd';
+import {Button, Drawer, Form, message} from 'antd';
 import {WsDiJob} from '@/services/project/typings';
 import {getIntl, getLocale} from 'umi';
 import {ProForm, ProFormSelect, ProFormSwitch, ProFormText, ProFormTextArea,} from '@ant-design/pro-components';
@@ -54,7 +54,7 @@ const SourceSftpFileStepForm: React.FC<ModalFormProps<{
             });
           }}
         >
-          {intl.formatMessage({ id: 'app.common.operate.confirm.label' })}
+          {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
         </Button>
       }
     >

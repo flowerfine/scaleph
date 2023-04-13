@@ -77,7 +77,7 @@ const SourceStarRocksStepForm: React.FC<
           label={intl.formatMessage({id: 'pages.project.di.step.starrocks.table'})}
           rules={[{required: true}]}
         />
-        <FieldItem />
+        <FieldItem/>
         <ProFormText
           name={StarRocksParams.scanFilter}
           label={intl.formatMessage({id: 'pages.project.di.step.starrocks.scanFilter'})}
@@ -126,7 +126,7 @@ const SourceStarRocksStepForm: React.FC<
           name={StarRocksParams.scanMemLimit}
           label={intl.formatMessage({id: 'pages.project.di.step.starrocks.scanMemLimit'})}
           colProps={{span: 8}}
-          initialValue={1024 * 1024 * 1024 *2}
+          initialValue={1024 * 1024 * 1024 * 2}
           fieldProps={{
             step: 1024 * 1024 * 1024,
             min: 1

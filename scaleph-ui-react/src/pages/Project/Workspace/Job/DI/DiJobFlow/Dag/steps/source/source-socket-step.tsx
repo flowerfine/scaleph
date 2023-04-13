@@ -3,7 +3,7 @@ import {WsDiJobService} from '@/services/project/WsDiJob.service';
 import {WsDiJob} from '@/services/project/typings';
 import {ProForm, ProFormText} from '@ant-design/pro-components';
 import {NsGraph} from '@antv/xflow';
-import {Button, Drawer, Form, message, Modal} from 'antd';
+import {Button, Drawer, Form, message} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
 import {STEP_ATTR_TYPE} from '../../constant';
@@ -50,7 +50,7 @@ const SourceSocketStepForm: React.FC<ModalFormProps<{
             });
           }}
         >
-          {intl.formatMessage({ id: 'app.common.operate.confirm.label' })}
+          {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
         </Button>
       }
     >
