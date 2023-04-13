@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.jdbc.sink;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.starrocks.source;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
-import cn.sliew.scaleph.ds.modal.jdbc.JdbcDataSource;
+import cn.sliew.scaleph.ds.modal.olap.StarRocksDataSource;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
@@ -30,40 +30,37 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.jdbc.JdbcProperties.*;
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.jdbc.sink.JdbcSinkProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.starrocks.StarRocksProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.starrocks.source.StarRocksSourceProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class JdbcSinkPlugin extends SeaTunnelConnectorPlugin {
+public class StarRocksSourcePlugin extends SeaTunnelConnectorPlugin {
 
-    public JdbcSinkPlugin() {
+    public StarRocksSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "Jdbc Sink Plugin, output records from jdbc connection.",
-                JdbcSinkPlugin.class.getName());
-
+                "Read external data source data through StarRocks. The internal implementation of StarRocks source connector is obtains the query plan from the frontend (FE), delivers the query plan as a parameter to BE nodes, and then obtains data results from BE nodes.",
+                StarRocksSourcePlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(CONNECTION_CHECK_TIMEOUT_SEC);
         props.add(DATABASE);
         props.add(TABLE);
-        props.add(SUPPORT_UPSERT_BY_QUERY_PRIMARY_KEY_EXIST);
-        props.add(PRIMARY_KEYS);
-        props.add(QUERY);
+        props.add(SCHEMA);
+        props.add(SCAN_FILTER);
+        props.add(SCAN_CONNECT_TIMEOUT_MS);
+        props.add(SCAN_QUERY_TIMEOUT_MS);
+        props.add(SCAN_KEEP_ALIVE_MIN);
+        props.add(SCAN_BATCH_ROWS);
+        props.add(SCAN_MEM_LIMIT);
+        props.add(REQUEST_TABLET_SIZE);
         props.add(MAX_RETRIES);
-        props.add(BATCH_SIZE);
-        props.add(BATCH_INTERVAL_MS);
-        props.add(IS_EXACTLY_ONCE);
-        props.add(XA_DATA_SOURCE_CLASS_NAME);
-        props.add(MAX_COMMIT_ATTEMPTS);
-        props.add(TRANSACTION_TIMEOUT_SEC);
-        props.add(AUTO_COMMIT);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
-        supportedProperties = Collections.unmodifiableList(props);
+        this.supportedProperties = props;
     }
 
     @Override
@@ -75,17 +72,19 @@ public class JdbcSinkPlugin extends SeaTunnelConnectorPlugin {
     public ObjectNode createConf() {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
-        JdbcDataSource dataSource = (JdbcDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.put(URL.getName(), dataSource.getUrl());
-        conf.putPOJO(DRIVER.getName(), dataSource.getDriverClassName());
-        conf.putPOJO(USER.getName(), dataSource.getUser());
-        conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        StarRocksDataSource dataSource = (StarRocksDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
+        conf.putPOJO(NODE_URLS.getName(), StringUtils.commaDelimitedListToStringArray(dataSource.getNodeUrls()));
+        if (StringUtils.hasText(dataSource.getUsername())) {
+            conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
+        }
+        if (StringUtils.hasText(dataSource.getPassword())) {
+            conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
+        }
         return conf;
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SINK_JDBC;
+        return SeaTunnelPluginMapping.SOURCE_STARROCKS;
     }
-
 }

@@ -7,12 +7,13 @@ import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {JdbcParams, KafkaParams, STEP_ATTR_TYPE} from '../../constant';
+import {JdbcParams, STEP_ATTR_TYPE} from '../../constant';
 import {
   ProForm,
   ProFormDependency,
   ProFormDigit,
-  ProFormGroup, ProFormList,
+  ProFormGroup,
+  ProFormList,
   ProFormSelect,
   ProFormSwitch,
   ProFormText,
@@ -104,7 +105,15 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<{
             min: 0
           }}
         />
-
+        <ProFormText
+          name={JdbcParams.database}
+          label={intl.formatMessage({id: 'pages.project.di.step.jdbc.database'})}
+          tooltip={{
+            title: intl.formatMessage({id: 'pages.project.di.step.jdbc.table.tooltip'}),
+            icon: <InfoCircleOutlined/>,
+          }}
+          colProps={{span: 12}}
+        />
         <ProFormText
           name={JdbcParams.table}
           label={intl.formatMessage({id: 'pages.project.di.step.jdbc.table'})}
@@ -112,6 +121,7 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<{
             title: intl.formatMessage({id: 'pages.project.di.step.jdbc.table.tooltip'}),
             icon: <InfoCircleOutlined/>,
           }}
+          colProps={{span: 12}}
         />
         <ProFormSwitch
           name={"support_upsert_by_query_primary_key_exist"}
@@ -213,6 +223,10 @@ const SinkJdbcStepForm: React.FC<ModalFormProps<{
                     name={JdbcParams.xaDataSourceClassName}
                     label={intl.formatMessage({id: 'pages.project.di.step.jdbc.xaDataSourceClassName'})}
                     rules={[{required: true}]}
+                  />
+                  <ProFormSwitch
+                    name={JdbcParams.autoCommit}
+                    label={intl.formatMessage({id: 'pages.project.di.step.jdbc.autoCommit'})}
                   />
                   <ProFormDigit
                     name={JdbcParams.maxCommitAttempts}

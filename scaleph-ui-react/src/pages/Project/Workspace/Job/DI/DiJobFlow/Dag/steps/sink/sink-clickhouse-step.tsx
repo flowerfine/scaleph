@@ -1,12 +1,12 @@
-import { ModalFormProps } from '@/app.d';
-import { WsDiJobService } from '@/services/project/WsDiJob.service';
-import { WsDiJob } from '@/services/project/typings';
-import { NsGraph } from '@antv/xflow';
-import { Button, Drawer, Form, message, Modal } from 'antd';
-import { useEffect } from 'react';
-import { getIntl, getLocale } from 'umi';
-import { ClickHouseParams, STEP_ATTR_TYPE } from '../../constant';
-import { InfoCircleOutlined } from '@ant-design/icons';
+import {ModalFormProps} from '@/app.d';
+import {WsDiJobService} from '@/services/project/WsDiJob.service';
+import {WsDiJob} from '@/services/project/typings';
+import {NsGraph} from '@antv/xflow';
+import {Button, Drawer, Form, message} from 'antd';
+import {useEffect} from 'react';
+import {getIntl, getLocale} from 'umi';
+import {ClickHouseParams, STEP_ATTR_TYPE} from '../../constant';
+import {InfoCircleOutlined} from '@ant-design/icons';
 import {
   ProForm,
   ProFormDependency,
@@ -17,7 +17,7 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import DataSourceItem from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource';
-import { StepSchemaService } from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper';
+import {StepSchemaService} from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper';
 
 const SinkClickHouseStepForm: React.FC<
   ModalFormProps<{
@@ -25,7 +25,7 @@ const SinkClickHouseStepForm: React.FC<
     graphData: NsGraph.IGraphData;
     graphMeta: NsGraph.IGraphMeta;
   }>
-> = ({ data, visible, onCancel, onOK }) => {
+> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as WsDiJob;
   const jobGraph = data.graphData;
@@ -41,7 +41,7 @@ const SinkClickHouseStepForm: React.FC<
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{ overflowY: 'scroll'}}
+      bodyStyle={{overflowY: 'scroll'}}
       destroyOnClose={true}
       onClose={onCancel}
       extra={
@@ -57,41 +57,32 @@ const SinkClickHouseStepForm: React.FC<
               StepSchemaService.formatClickHouseConf(values);
               WsDiJobService.saveStepAttr(map).then((resp) => {
                 if (resp.success) {
-                  message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+                  message.success(intl.formatMessage({id: 'app.common.operate.success'}));
                   onOK ? onOK(values) : null;
                 }
               });
             });
           }}
         >
-          {intl.formatMessage({ id: 'app.common.operate.confirm.label' })}
+          {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
         </Button>
       }
     >
       <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
         <ProFormText
           name={STEP_ATTR_TYPE.stepTitle}
-          label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
-          rules={[{ required: true }, { max: 120 }]}
+          label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
+          rules={[{required: true}, {max: 120}]}
         />
-        <DataSourceItem dataSource={'ClickHouse'} />
+        <DataSourceItem dataSource={'ClickHouse'}/>
         <ProFormText
           name={STEP_ATTR_TYPE.table}
-          label={intl.formatMessage({ id: 'pages.project.di.step.clickhosue.table' })}
-          rules={[{ required: true }]}
-        />
-        <ProFormText
-          name={STEP_ATTR_TYPE.fields}
-          label={intl.formatMessage({ id: 'pages.project.di.step.clickhosue.fields' })}
-          rules={[{ required: true }]}
-          tooltip={{
-            title: intl.formatMessage({ id: 'pages.project.di.step.clickhosue.fields.tooltip' }),
-            icon: <InfoCircleOutlined />,
-          }}
+          label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.table'})}
+          rules={[{required: true}]}
         />
         <ProFormDigit
           name={STEP_ATTR_TYPE.bulkSize}
-          label={intl.formatMessage({ id: 'pages.project.di.step.clickhosue.bulkSize' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.bulkSize'})}
           initialValue={20000}
           fieldProps={{
             min: 1,
@@ -100,42 +91,42 @@ const SinkClickHouseStepForm: React.FC<
         />
         <ProFormSwitch
           name={'split_mode'}
-          label={intl.formatMessage({ id: 'pages.project.di.step.clickhosue.splitMode' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.splitMode'})}
           tooltip={{
-            title: intl.formatMessage({ id: 'pages.project.di.step.clickhosue.splitMode.tooltip' }),
-            icon: <InfoCircleOutlined />,
+            title: intl.formatMessage({id: 'pages.project.di.step.clickhosue.splitMode.tooltip'}),
+            icon: <InfoCircleOutlined/>,
           }}
         />
         <ProFormDependency name={['split_mode']}>
-          {({ split_mode }) => {
+          {({split_mode}) => {
             if (split_mode) {
               return (
                 <ProFormText
                   name={ClickHouseParams.shardingKey}
-                  label={intl.formatMessage({ id: 'pages.project.di.step.clickhosue.shardingKey' })}
-                  rules={[{ required: true }]}
+                  label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.shardingKey'})}
+                  rules={[{required: true}]}
                 />
               );
             }
-            return <ProFormGroup />;
+            return <ProFormGroup/>;
           }}
         </ProFormDependency>
         <ProFormSwitch
           name={'support_upsert'}
-          label={intl.formatMessage({ id: 'pages.project.di.step.clickhosue.supportUpsert' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.supportUpsert'})}
         />
         <ProFormDependency name={['support_upsert']}>
-          {({ support_upsert }) => {
+          {({support_upsert}) => {
             if (support_upsert) {
               return (
                 <ProFormText
                   name={ClickHouseParams.primaryKey}
-                  label={intl.formatMessage({ id: 'pages.project.di.step.clickhosue.primaryKey' })}
-                  rules={[{ required: true }]}
+                  label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.primaryKey'})}
+                  rules={[{required: true}]}
                 />
               );
             }
-            return <ProFormGroup />;
+            return <ProFormGroup/>;
           }}
         </ProFormDependency>
         <ProFormSwitch
@@ -145,12 +136,12 @@ const SinkClickHouseStepForm: React.FC<
           })}
         />
         <ProFormGroup
-          label={intl.formatMessage({ id: 'pages.project.di.step.clickhosue.clickhouseConf' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.clickhosue.clickhouseConf'})}
           tooltip={{
             title: intl.formatMessage({
               id: 'pages.project.di.step.clickhosue.clickhouseConf.tooltip',
             }),
-            icon: <InfoCircleOutlined />,
+            icon: <InfoCircleOutlined/>,
           }}
         >
           <ProFormList
@@ -172,7 +163,7 @@ const SinkClickHouseStepForm: React.FC<
                 placeholder={intl.formatMessage({
                   id: 'pages.project.di.step.clickhosue.clickhouseConf.key.placeholder',
                 })}
-                colProps={{ span: 10, offset: 1 }}
+                colProps={{span: 10, offset: 1}}
                 addonBefore={'clickhouse.'}
               />
               <ProFormText
@@ -183,7 +174,7 @@ const SinkClickHouseStepForm: React.FC<
                 placeholder={intl.formatMessage({
                   id: 'pages.project.di.step.clickhosue.clickhouseConf.value.placeholder',
                 })}
-                colProps={{ span: 10, offset: 1 }}
+                colProps={{span: 10, offset: 1}}
               />
             </ProFormGroup>
           </ProFormList>

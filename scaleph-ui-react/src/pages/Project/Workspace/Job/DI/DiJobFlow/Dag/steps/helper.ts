@@ -1,11 +1,11 @@
 import {
   CassandraParams,
-  CDCMySQLParams,
+  CDCParams,
   ColumnParams,
   DorisParams,
   ElasticsearchParams,
   FieldMapperParams,
-  FilterParams,
+  FilterParams, HbaseParams,
   HiveParams,
   InfluxDBParams,
   IoTDBParams,
@@ -178,10 +178,12 @@ export const StepSchemaService = {
     return values
   },
 
-  formatDorisSinkProperties: (values: Record<string, any>) => {
-    values[DorisParams.sinkPropertyArray]?.forEach(function (item: Record<string, any>) {
-      values[DorisParams.sinkProperties + item[DorisParams.sinkProperty]] = item[DorisParams.sinkPropertyValue];
+  formatDorisConfig: (values: Record<string, any>) => {
+    const config: Record<string, any> = {}
+    values[DorisParams.dorisConfigArray]?.forEach(function (item: Record<string, any>) {
+      values[DorisParams.dorisConfigProperty] = item[DorisParams.dorisConfigValue];
     });
+    values[DorisParams.dorisConfig] = JSON.stringify(config)
     return values
   },
 
@@ -199,12 +201,12 @@ export const StepSchemaService = {
 
   formatDebeziumProperties: (values: Record<string, any>) => {
     const properties: Record<string, any> = {}
-    values[CDCMySQLParams.debeziumProperties]?.forEach(function (item: Record<string, any>) {
-      properties[item[CDCMySQLParams.debeziumProperty]] = item[CDCMySQLParams.debeziumValue];
+    values[CDCParams.debeziumProperties]?.forEach(function (item: Record<string, any>) {
+      properties[item[CDCParams.debeziumProperty]] = item[CDCParams.debeziumValue];
     });
-    values[CDCMySQLParams.debeziums] = JSON.stringify(properties)
-    values[CDCMySQLParams.startupMode] = values.startupMode
-    values[CDCMySQLParams.stopMode] = values.stopMode
+    values[CDCParams.debeziums] = JSON.stringify(properties)
+    values[CDCParams.startupMode] = values.startupMode
+    values[CDCParams.stopMode] = values.stopMode
     return values
   },
 
@@ -235,7 +237,6 @@ export const StepSchemaService = {
     return values
   },
 
-
   formatPartitions: (values: Record<string, any>) => {
     const partitions: Array<any> = []
     values[HiveParams.readPartitionArray]?.forEach(function (item: Record<string, any>) {
@@ -244,4 +245,23 @@ export const StepSchemaService = {
     values[HiveParams.readPartitions] = JSON.stringify(partitions)
     return values
   },
+
+  formatRowKeyColumn: (values: Record<string, any>) => {
+    const columns: Array<any> = []
+    values[HbaseParams.rowkeyColumnArray]?.forEach(function (item: Record<string, any>) {
+      columns.push(item[HbaseParams.rowkeyColumnValue])
+    });
+    values[HbaseParams.rowkeyColumn] = JSON.stringify(columns)
+    return values
+  },
+
+  formatHbaseExtraConfig: (values: Record<string, any>) => {
+    const configs: Record<string, any> = {}
+    values[HbaseParams.hbaseExtraConfigMap]?.forEach(function (item: Record<string, any>) {
+      configs[item[HbaseParams.hbaseExtraConfigKey]] = item[HbaseParams.hbaseExtraConfigValue];
+    });
+    values[HbaseParams.hbaseExtraConfig] = JSON.stringify(configs)
+    return values
+  },
+
 };

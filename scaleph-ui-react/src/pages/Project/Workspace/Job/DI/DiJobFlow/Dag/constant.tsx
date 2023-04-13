@@ -126,6 +126,7 @@ export const FakeParams = {
 
 export const JdbcParams = {
   connectionCheckTimeoutSec: 'connection_check_timeout_sec',
+  database: 'database',
   table: 'table',
   supportUpsert: 'support_upsert_by_query_primary_key_exist',
   primaryKeys: 'primary_keys',
@@ -143,7 +144,8 @@ export const JdbcParams = {
   isExactlyOnce: 'is_exactly_once',
   xaDataSourceClassName: 'xa_data_source_class_name',
   maxCommitAttempts: 'max_commit_attempts',
-  transactionTimeoutSec: 'transaction_timeout_sec'
+  transactionTimeoutSec: 'transaction_timeout_sec',
+  autoCommit: 'auto_commit'
 }
 
 export const BaseFileParams = {
@@ -156,17 +158,20 @@ export const BaseFileParams = {
   dateFormat: 'date_format',
   timeFormat: 'time_format',
   datetimeFormat: 'datetime_format',
-  fileNameExpression: 'file_name_expression',
   fileFormat: 'file_format',
+  customFilename: 'custom_filename',
+  fileNameExpression: 'file_name_expression',
   filenameTimeFormat: 'filename_time_format',
   fieldDelimiter: 'field_delimiter',
   rowDelimiter: 'row_delimiter',
+  havePartition: 'have_partition',
   partitionBy: 'partition_by',
   partitionDirExpression: 'partition_dir_expression',
   isPartitionFieldWriteInFile: 'is_partition_field_write_in_file',
   sinkColumns: 'sink_columns',
   isEnableTransaction: 'is_enable_transaction',
-  batchSize: 'batch_size'
+  batchSize: 'batch_size',
+  compressCodec: 'compress_codec'
 };
 
 export const HDFSFileParams = {
@@ -313,6 +318,7 @@ export const KuduParams = {
 export const KafkaParams = {
   topic: 'topic',
   pattern: 'pattern',
+  partitionDiscoveryIntervalMillis: 'partition-discovery.interval-millis',
   kafkaConf: 'kafkaConf',
   key: 'key',
   value: 'value',
@@ -362,6 +368,7 @@ export const IoTDBParams = {
   keyMeasurementFields: 'key_measurement_fields',
   keyMeasurementFieldArray: 'keyMeasurementFieldArray',
   keyMeasurementField: 'keyMeasurementField',
+  storageGroup: 'storage_group',
 };
 
 export const MondoDBParams = {
@@ -497,18 +504,14 @@ export const CassandraParams = {
 
 export const DorisParams = {
   database: 'database',
-  table: 'table',
-  labelPrefix: 'labelPrefix',
-  batchMaxRows: 'batch_max_rows',
-  batchMaxBytes: 'batch_max_bytes',
-  batchIntervalMs: 'batch_interval_ms',
-  maxRetries: 'max_retries',
-  retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
-  maxRetryBackoffMs: 'max_retry_backoff_ms',
-  sinkProperties: 'sink.properties.',
-  sinkPropertyArray: 'sinkPropertieArray',
-  sinkProperty: 'property',
-  sinkPropertyValue: 'value',
+  tableIdentifier: 'table.identifier',
+  sinkLabelPrefix: 'sink.label-prefix',
+  sinkEnable2PC: 'sink.enable-2pc',
+  sinkEnableDelete: 'sink.enable-delete',
+  dorisConfig: 'doris.config',
+  dorisConfigArray: 'dorisConfigArray',
+  dorisConfigProperty: 'property',
+  dorisConfigValue: 'value',
 };
 
 export const StarRocksParams = {
@@ -525,6 +528,13 @@ export const StarRocksParams = {
   sinkPropertyArray: 'sinkPropertieArray',
   sinkProperty: 'property',
   sinkPropertyValue: 'value',
+  scanFilter: 'scan_filter',
+  scanConnectTimeoutMs: 'scan_connect_timeout_ms',
+  scanQueryTimeoutSec: 'scan_query_timeout_sec',
+  scanKeepAliveMin: 'scan_keep_alive_min',
+  scanBatchRows: 'scan_batch_rows',
+  scanMemLimit: 'scan_mem_limit',
+  requestTabletSize: 'request_tablet_size',
 };
 
 export const MaxComputeParams = {
@@ -565,8 +575,10 @@ export const OpenMLDBParams = {
   requestTimeout: 'request_timeout',
 };
 
-export const CDCMySQLParams = {
+export const CDCParams = {
   baseUrl: 'base-url',
+  hostname: 'hostname',
+  port: 'port',
   username: 'username',
   password: 'password',
   database: 'database-name',
@@ -595,6 +607,25 @@ export const CDCMySQLParams = {
   debeziumValue: 'debeziumValue',
   format: 'format',
 };
+
+export const HbaseParams = {
+  zookeeperQuorum: 'zookeeper_quorum',
+  table: 'table',
+  familyName: 'family_name',
+  rowkeyColumn: 'rowkey_column',
+  rowkeyColumnArray: 'rowkeyColumnArray',
+  rowkeyColumnValue: 'rowkeyColumnArray',
+  rowkeyDelimiter: 'rowkey_delimiter',
+  versionColumn: 'version_column',
+  nullMode: 'null_mode',
+  walWrite: 'wal_write',
+  writeBufferSize: 'write_buffer_size',
+  encoding: 'encoding',
+  hbaseExtraConfig: 'hbase_extra_config',
+  hbaseExtraConfigMap: 'hbaseExtraConfigMap',
+  hbaseExtraConfigKey: 'hbaseExtraConfigKey',
+  hbaseExtraConfigValue: 'hbaseExtraConfigValue'
+}
 
 export const CopyParams = {
   srcField: 'src_field',

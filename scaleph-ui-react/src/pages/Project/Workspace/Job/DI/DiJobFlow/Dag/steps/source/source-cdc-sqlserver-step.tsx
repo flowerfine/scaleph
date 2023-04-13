@@ -20,7 +20,7 @@ import {StepSchemaService} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/
 import {DictDataService} from "@/services/admin/dictData.service";
 import {DICT_TYPE} from "@/constant";
 
-const SourceCDCMySQLStepForm: React.FC<ModalFormProps<{
+const SourceCDCSqlServerStepForm: React.FC<ModalFormProps<{
   node: NsGraph.INodeConfig;
   graphData: NsGraph.IGraphData;
   graphMeta: NsGraph.IGraphMeta;
@@ -235,14 +235,8 @@ const SourceCDCMySQLStepForm: React.FC<ModalFormProps<{
           }}
         />
         <ProFormText
-          name={CDCParams.serverId}
-          label={intl.formatMessage({id: 'pages.project.di.step.cdc.serverId'})}
-          colProps={{span: 12}}
-        />
-        <ProFormText
           name={CDCParams.serverTimeZone}
           label={intl.formatMessage({id: 'pages.project.di.step.cdc.serverTimeZone'})}
-          colProps={{span: 12}}
           initialValue={'UTC'}
         />
         <ProFormDigit
@@ -344,4 +338,4 @@ const SourceCDCMySQLStepForm: React.FC<ModalFormProps<{
   );
 };
 
-export default SourceCDCMySQLStepForm;
+export default SourceCDCSqlServerStepForm;

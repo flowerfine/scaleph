@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.mysql.source;
+package cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hbase.sink;
 
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginMapping;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
@@ -29,49 +29,37 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.CDCSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hbase.HbaseProperties.TABLE;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hbase.HbaseProperties.ZOOOKEEPER_QUORUM;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hbase.sink.HbaseSinkProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
-public class MySQLCDCSourcePlugin extends SeaTunnelConnectorPlugin {
+public class HbaseSinkPlugin extends SeaTunnelConnectorPlugin {
 
-    public MySQLCDCSourcePlugin() {
+    public HbaseSinkPlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "The MySQL CDC connector allows for reading snapshot data and incremental data from MySQL database",
-                MySQLCDCSourcePlugin.class.getName());
+                "Output data to Hbase",
+                HbaseSinkPlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(BASE_URL);
-        props.add(USERNAME);
-        props.add(PASSWORD);
-        props.add(DATABASE);
+        props.add(ZOOOKEEPER_QUORUM);
         props.add(TABLE);
-        props.add(STARTUP_MODE);
-        props.add(STARTUP_TIMESTAMP);
-        props.add(STARTUP_SPECIFIC_OFFSET_FILE);
-        props.add(STARTUP_SPECIFIC_OFFSET_POS);
-        props.add(STOP_MODE);
-        props.add(STOP_TIMESTAMP);
-        props.add(STOP_SPECIFIC_OFFSET_FILE);
-        props.add(STOP_SPECIFIC_OFFSET_POS);
-        props.add(INCREMENTAL_PARALLELISM);
-        props.add(SNAPSHOT_SPLIT_SIZE);
-        props.add(SNAPSHOT_FETCH_SIZE);
-        props.add(SERVER_ID);
-        props.add(SERVER_TIME_ZONE);
-        props.add(CONNECT_TIMEOUT);
-        props.add(CONNECT_MAX_RETRIES);
-        props.add(CONNECT_POOL_SIZE);
-        props.add(CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_UPPER_BOUND);
-        props.add(CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_LOWER_BOUND);
-        props.add(DEBEZIUM);
-        props.add(FORMAT);
+        props.add(ROWKEY_COLUMN);
+        props.add(FAMILY_NAME);
+        props.add(ROWKEY_DELIMITER);
+        props.add(VERSION_COLUMN);
+        props.add(NULL_MODE);
+        props.add(WAL_WRITE);
+        props.add(WRITE_BUFFER_SIZE);
+        props.add(ENCODING);
+        props.add(HBASE_EXTRA_CONFIG);
         props.add(CommonProperties.PARALLELISM);
-        props.add(CommonProperties.RESULT_TABLE_NAME);
+        props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
     }
 
     @Override
     protected SeaTunnelPluginMapping getPluginMapping() {
-        return SeaTunnelPluginMapping.SOURCE_MYSQL_CDC;
+        return SeaTunnelPluginMapping.SINK_HBASE;
     }
 }

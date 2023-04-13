@@ -31,7 +31,7 @@ services:
     networks:
       - scaleph
 
-  scaleph-ui:
+  scaleph-ui-react:
     image: scaleph/scaleph-ui-react:dev
     container_name: scaleph-ui-react
     build:

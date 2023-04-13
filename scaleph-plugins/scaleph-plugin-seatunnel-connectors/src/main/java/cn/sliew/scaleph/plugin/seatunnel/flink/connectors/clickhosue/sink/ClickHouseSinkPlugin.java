@@ -49,7 +49,6 @@ public class ClickHouseSinkPlugin extends SeaTunnelConnectorPlugin {
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(TABLE);
-        props.add(FIELDS);
         props.add(BULK_SIZE);
         props.add(SPLIT_MODE);
         props.add(SHARDING_KEY);

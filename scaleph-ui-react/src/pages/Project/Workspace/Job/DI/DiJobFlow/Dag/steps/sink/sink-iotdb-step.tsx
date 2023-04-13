@@ -1,11 +1,11 @@
-import { NsGraph } from '@antv/xflow';
-import { ModalFormProps } from '@/app.d';
-import { IoTDBParams, STEP_ATTR_TYPE } from '../../constant';
-import { WsDiJobService } from '@/services/project/WsDiJob.service';
-import { Button, Drawer, Form, message, Modal } from 'antd';
-import { WsDiJob } from '@/services/project/typings';
-import { getIntl, getLocale } from 'umi';
-import { useEffect } from 'react';
+import {NsGraph} from '@antv/xflow';
+import {ModalFormProps} from '@/app.d';
+import {IoTDBParams, STEP_ATTR_TYPE} from '../../constant';
+import {WsDiJobService} from '@/services/project/WsDiJob.service';
+import {Button, Drawer, Form, message} from 'antd';
+import {WsDiJob} from '@/services/project/typings';
+import {getIntl, getLocale} from 'umi';
+import {useEffect} from 'react';
 import {
   ProForm,
   ProFormDigit,
@@ -15,7 +15,7 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import DataSourceItem from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource';
-import { StepSchemaService } from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper';
+import {StepSchemaService} from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper';
 
 const SinkIoTDBStepForm: React.FC<
   ModalFormProps<{
@@ -23,7 +23,7 @@ const SinkIoTDBStepForm: React.FC<
     graphData: NsGraph.IGraphData;
     graphMeta: NsGraph.IGraphMeta;
   }>
-> = ({ data, visible, onCancel, onOK }) => {
+> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as WsDiJob;
   const jobGraph = data.graphData;
@@ -39,7 +39,7 @@ const SinkIoTDBStepForm: React.FC<
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{ overflowY: 'scroll'}}
+      bodyStyle={{overflowY: 'scroll'}}
       destroyOnClose={true}
       onClose={onCancel}
       extra={
@@ -55,35 +55,35 @@ const SinkIoTDBStepForm: React.FC<
               map.set(STEP_ATTR_TYPE.stepAttrs, values);
               WsDiJobService.saveStepAttr(map).then((resp) => {
                 if (resp.success) {
-                  message.success(intl.formatMessage({ id: 'app.common.operate.success' }));
+                  message.success(intl.formatMessage({id: 'app.common.operate.success'}));
                   onOK ? onOK(values) : null;
                 }
               });
             });
           }}
         >
-          {intl.formatMessage({ id: 'app.common.operate.confirm.label' })}
+          {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
         </Button>
       }
     >
       <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
         <ProFormText
           name={STEP_ATTR_TYPE.stepTitle}
-          label={intl.formatMessage({ id: 'pages.project.di.step.stepTitle' })}
-          rules={[{ required: true }, { max: 120 }]}
+          label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
+          rules={[{required: true}, {max: 120}]}
         />
-        <DataSourceItem dataSource={'IoTDB'} />
+        <DataSourceItem dataSource={'IoTDB'}/>
         <ProFormText
           name={IoTDBParams.keyDevice}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.keyDevice' })}
-          rules={[{ required: true }]}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.keyDevice'})}
+          rules={[{required: true}]}
         />
         <ProFormText
           name={IoTDBParams.keyTimestamp}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.keyTimestamp' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.keyTimestamp'})}
         />
         <ProFormGroup
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.keyMeasurementFields' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.keyMeasurementFields'})}
         >
           <ProFormList
             name={IoTDBParams.keyMeasurementFieldArray}
@@ -95,12 +95,16 @@ const SinkIoTDBStepForm: React.FC<
               type: 'text',
             }}
           >
-            <ProFormText name={IoTDBParams.keyMeasurementField} />
+            <ProFormText name={IoTDBParams.keyMeasurementField}/>
           </ProFormList>
         </ProFormGroup>
+        <ProFormText
+          name={IoTDBParams.storageGroup}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.storageGroup'})}
+        />
         <ProFormDigit
           name={IoTDBParams.batchSize}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.batchSize' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.batchSize'})}
           initialValue={1024}
           fieldProps={{
             step: 100,
@@ -109,7 +113,7 @@ const SinkIoTDBStepForm: React.FC<
         />
         <ProFormDigit
           name={IoTDBParams.batchIntervalMs}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.batchIntervalMs' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.batchIntervalMs'})}
           initialValue={1000}
           fieldProps={{
             step: 1000,
@@ -118,16 +122,16 @@ const SinkIoTDBStepForm: React.FC<
         />
         <ProFormDigit
           name={IoTDBParams.maxRetries}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.maxRetries' })}
-          colProps={{ span: 6 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.maxRetries'})}
+          colProps={{span: 6}}
           fieldProps={{
             min: 1,
           }}
         />
         <ProFormDigit
           name={IoTDBParams.retryBackoffMultiplierMs}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.retryBackoffMultiplierMs' })}
-          colProps={{ span: 9 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.retryBackoffMultiplierMs'})}
+          colProps={{span: 9}}
           fieldProps={{
             step: 1000,
             min: 1,
@@ -135,8 +139,8 @@ const SinkIoTDBStepForm: React.FC<
         />
         <ProFormDigit
           name={IoTDBParams.maxRetryBackoffMs}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.maxRetryBackoffMs' })}
-          colProps={{ span: 9 }}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.maxRetryBackoffMs'})}
+          colProps={{span: 9}}
           fieldProps={{
             step: 1000,
             min: 1,
@@ -144,7 +148,7 @@ const SinkIoTDBStepForm: React.FC<
         />
         <ProFormDigit
           name={IoTDBParams.defaultThriftBufferSize}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.thriftDefaultBufferSize' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.thriftDefaultBufferSize'})}
           fieldProps={{
             step: 1000,
             min: 1,
@@ -152,7 +156,7 @@ const SinkIoTDBStepForm: React.FC<
         />
         <ProFormDigit
           name={IoTDBParams.maxThriftFrameSize}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.thriftMaxFrameSize' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.thriftMaxFrameSize'})}
           fieldProps={{
             step: 1000,
             min: 1,
@@ -160,15 +164,15 @@ const SinkIoTDBStepForm: React.FC<
         />
         <ProFormText
           name={IoTDBParams.zoneId}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.zoneId' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.zoneId'})}
         />
         <ProFormSwitch
           name={IoTDBParams.enableRpcCompression}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.enableRpcCompression' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.enableRpcCompression'})}
         />
         <ProFormDigit
           name={IoTDBParams.connectionTimeoutInMs}
-          label={intl.formatMessage({ id: 'pages.project.di.step.iotdb.connectionTimeoutInMs' })}
+          label={intl.formatMessage({id: 'pages.project.di.step.iotdb.connectionTimeoutInMs'})}
           fieldProps={{
             step: 1000,
             min: 1,
