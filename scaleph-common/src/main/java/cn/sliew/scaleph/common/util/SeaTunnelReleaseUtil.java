@@ -21,9 +21,19 @@ package cn.sliew.scaleph.common.util;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrSubstitutor;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
 
 /**
  * https://github.com/apache/incubator-seatunnel/blob/dev/seatunnel-common/src/main/java/org/apache/seatunnel/common/config/Common.java
@@ -31,16 +41,45 @@ import java.util.Map;
 public enum SeaTunnelReleaseUtil {
     ;
 
+    private static final int APP_LIB_DIR_DEPTH = 2;
+
+    private static final int PLUGIN_LIB_DIR_DEPTH = 3;
+
     public static final String STARTER_REPO_URL = "https://repo1.maven.org/maven2/org/apache/seatunnel";
 
     public static final String STARTER_JAR_NAME = "seatunnel-flink-15-starter.jar";
-    public static final String SEATUNNEL_MAIN_CLASS = "org.apache.seatunnel.core.starter.flink.SeatunnelFlink";
+    public static final String SEATUNNEL_MAIN_CLASS = "org.apache.seatunnel.core.starter.flink.SeaTunnelFlink";
 
     public static final String SEATUNNEL_PLUGIN_MAPPING = "plugin-mapping.properties";
 
-    public static Path getLibDir(Path rootDir){ return rootDir.resolve("lib");}
+    public static Path getLibDir(Path rootDir) {
+        return rootDir.resolve("lib");
+    }
 
-    public static Path getStarterDir(Path rootDir){ return rootDir.resolve("starter");}
+    public static List<URL> getLibJars(Path rootDir) {
+        Path libRootDir = getLibDir(rootDir);
+        if (!Files.exists(libRootDir) || !Files.isDirectory(libRootDir)) {
+            return Collections.emptyList();
+        }
+        try (Stream<Path> stream = Files.walk(libRootDir, APP_LIB_DIR_DEPTH, FOLLOW_LINKS)) {
+            return stream.filter(it -> !it.toFile().isDirectory())
+                    .filter(it -> it.getFileName().toString().endsWith(".jar"))
+                    .map(it -> {
+                        try {
+                            return it.toFile().toURL();
+                        } catch (MalformedURLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    })
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Path getStarterDir(Path rootDir) {
+        return rootDir.resolve("starter");
+    }
 
     public static Path getStarterJarPath(Path rootDir) {
         return getStarterDir(rootDir).resolve(STARTER_JAR_NAME);
