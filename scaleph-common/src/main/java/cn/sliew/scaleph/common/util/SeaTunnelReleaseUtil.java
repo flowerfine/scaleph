@@ -33,10 +33,12 @@ public enum SeaTunnelReleaseUtil {
 
     public static final String STARTER_REPO_URL = "https://repo1.maven.org/maven2/org/apache/seatunnel";
 
-    public static final String STARTER_JAR_NAME = "seatunnel-flink-starter.jar";
+    public static final String STARTER_JAR_NAME = "seatunnel-flink-15-starter.jar";
     public static final String SEATUNNEL_MAIN_CLASS = "org.apache.seatunnel.core.starter.flink.SeatunnelFlink";
 
     public static final String SEATUNNEL_PLUGIN_MAPPING = "plugin-mapping.properties";
+
+    public static Path getLibDir(Path rootDir){ return rootDir.resolve("lib");}
 
     public static Path getStarterDir(Path rootDir){ return rootDir.resolve("starter");}
 
