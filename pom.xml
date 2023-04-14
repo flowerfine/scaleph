@@ -103,7 +103,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <scala.binary.version>2.11</scala.binary.version>
+        <scala.binary.version>2.12</scala.binary.version>
         <java.version>11</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -285,6 +285,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-plugin-flink-1.13</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-plugin-flink-1.16</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

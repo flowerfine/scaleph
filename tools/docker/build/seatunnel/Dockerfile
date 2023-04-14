@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG BASE_IMAGE=ghcr.io/flowerfine/scaleph_flink:1.13.6_2.11
+ARG BASE_IMAGE=ghcr.io/flowerfine/scaleph_flink:1.16.1_2.12
 
 FROM $BASE_IMAGE
 
