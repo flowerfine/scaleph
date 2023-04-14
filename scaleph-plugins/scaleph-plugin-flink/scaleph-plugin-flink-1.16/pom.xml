@@ -26,12 +26,13 @@
         <version>1.0.3</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>scaleph-plugin-flink-1.13</artifactId>
+
+    <artifactId>scaleph-plugin-flink-1.16</artifactId>
 
     <properties>
-        <flink.version>1.13.6</flink.version>
+        <flink.version>1.16.1</flink.version>
         <flink-kubernetes-operator.version>1.1.0</flink-kubernetes-operator.version>
-        <flinkful.version>1.13.6_4-SNAPSHOT</flinkful.version>
+        <flinkful.version>1.16.0_1_11-SNAPSHOT</flinkful.version>
     </properties>
 
     <dependencies>
@@ -61,11 +62,6 @@
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-planner_${scala.binary.version}</artifactId>
-            <version>${flink.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table-planner-blink_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
     </dependencies>

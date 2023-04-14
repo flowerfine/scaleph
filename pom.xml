@@ -289,6 +289,11 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-plugin-flink-1.16</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-core-di</artifactId>
                 <version>${project.version}</version>
             </dependency>
