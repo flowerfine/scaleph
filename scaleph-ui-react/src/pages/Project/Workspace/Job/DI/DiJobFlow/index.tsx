@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {useIntl, useLocation} from 'umi';
-import { PageContainer } from '@ant-design/pro-components';
+import {useLocation} from 'umi';
+import {PageContainer} from '@ant-design/pro-components';
 import {
   CompressOutlined,
   DeleteOutlined,
@@ -9,6 +9,7 @@ import {
   FullscreenExitOutlined,
   FullscreenOutlined,
   FundProjectionScreenOutlined,
+  InfoCircleOutlined,
   PlaySquareOutlined,
   ProfileOutlined,
   SaveOutlined,
@@ -24,7 +25,6 @@ import {
   CanvasScaleToolbar,
   CanvasSnapline,
   CanvasToolbar,
-  FlowchartExtension,
   IApplication,
   IAppLoad,
   IconStore,
@@ -57,8 +57,7 @@ interface DiJobFlowPorps {
 }
 
 const DiJobFlow: React.FC<DiJobFlowPorps> = () => {
-  const intl = useIntl();
-  const props = useLocation().state as DiJobFlowPorps
+  const props = useLocation().state as DiJobFlowPorps;
   const graphConfig = useGraphConfig(props);
   const graphHookConfig = useGraphHookConfig(props);
   const commandConfig = useCmdConfig();
@@ -68,7 +67,6 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = () => {
   const keybindingConfig = useKeybindingConfig();
   const [graphData, setGraphData] = useState<NsGraph.IGraphData>({nodes: [], edges: []});
   const {data, meta} = props;
-
 
   /**register icons */
   IconStore.set('DeleteOutlined', DeleteOutlined);
@@ -85,6 +83,7 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = () => {
   IconStore.set('ZoomInOutlined', ZoomInOutlined);
   IconStore.set('ZoomOutOutlined', ZoomOutOutlined);
   IconStore.set('CompressOutlined', CompressOutlined);
+  IconStore.set('InfoCircleOutlined', InfoCircleOutlined);
 
   const cache = React.useMemo<{ app: IApplication | null }>(
     () => ({
@@ -120,7 +119,6 @@ const DiJobFlow: React.FC<DiJobFlowPorps> = () => {
         graphData={graphData}
         meta={meta}
       >
-        <FlowchartExtension/>
         <NodeCollapsePanel
           className="xflow-node-panel"
           position={{width: 240, top: 0, bottom: 0, left: 0}}

@@ -1,12 +1,19 @@
 import {
-  CassandraParams, CDCMySQLParams,
+  CassandraParams,
+  CDCParams,
+  ColumnParams,
   DorisParams,
   ElasticsearchParams,
+  FieldMapperParams,
+  FilterParams,
+  HbaseParams,
+  HiveParams,
   InfluxDBParams,
   IoTDBParams,
   JdbcParams,
   KafkaParams,
   SchemaParams,
+  SplitParams,
   StarRocksParams
 } from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/constant";
 
@@ -14,19 +21,21 @@ export const StepSchemaService = {
 
   formatSchema: (values: Record<string, any>) => {
     const fields: Record<string, any> = {}
-    values.fields?.forEach(function (item: Record<string, any>) {
-      fields[item.field] = item.type;
+    values[SchemaParams.fieldArray]?.forEach(function (item: Record<string, any>) {
+      fields[SchemaParams.field] = item[SchemaParams.type];
     });
-    values.schema = JSON.stringify({fields: fields})
+    const schema: Record<string, any> = {}
+    schema[SchemaParams.fields] = schema;
+    values[SchemaParams.schema] = JSON.stringify(schema)
     return values
   },
 
-  formatFields: (values: Record<string, any>) => {
-    const fields: Record<string, any> = {}
-    values[SchemaParams.fieldArray]?.forEach(function (item: Record<string, any>) {
-      fields[item.field] = item.type;
+  formatColumns: (values: Record<string, any>) => {
+    const columns: Array<any> = []
+    values[ColumnParams.readColumnArray]?.forEach(function (item: Record<string, any>) {
+      columns.push(item[ColumnParams.readColumn])
     });
-    values[SchemaParams.fields] = JSON.stringify(fields)
+    values[ColumnParams.readColumns] = JSON.stringify(columns)
     return values
   },
 
@@ -143,6 +152,15 @@ export const StepSchemaService = {
     return values
   },
 
+  formatEsSource: (values: Record<string, any>) => {
+    const source: Array<string> = []
+    values[ElasticsearchParams.sourceArray]?.forEach(function (item: Record<string, any>) {
+      source.push(item[ElasticsearchParams.sourceField])
+    });
+    values[ElasticsearchParams.source] = JSON.stringify(source)
+    return values
+  },
+
   formatMeasurementFields: (values: Record<string, any>) => {
     const primaryKeys: Array<string> = []
     values[IoTDBParams.keyMeasurementFieldArray]?.forEach(function (item: Record<string, any>) {
@@ -161,17 +179,21 @@ export const StepSchemaService = {
     return values
   },
 
-  formatDorisSinkProperties: (values: Record<string, any>) => {
-    values[DorisParams.sinkPropertyArray]?.forEach(function (item: Record<string, any>) {
-      values[DorisParams.sinkProperties + item[DorisParams.sinkProperty]] = item[DorisParams.sinkPropertyValue];
+  formatDorisConfig: (values: Record<string, any>) => {
+    const config: Record<string, any> = {}
+    values[DorisParams.dorisConfigArray]?.forEach(function (item: Record<string, any>) {
+      values[DorisParams.dorisConfigProperty] = item[DorisParams.dorisConfigValue];
     });
+    values[DorisParams.dorisConfig] = JSON.stringify(config)
     return values
   },
 
-  formatStarRocksSinkProperties: (values: Record<string, any>) => {
-    values[StarRocksParams.sinkPropertyArray]?.forEach(function (item: Record<string, any>) {
-      values[StarRocksParams.sinkProperties + item[StarRocksParams.sinkProperty]] = item[StarRocksParams.sinkPropertyValue];
+  formatStarRocksConfig: (values: Record<string, any>) => {
+    const config: Record<string, any> = {}
+    values[StarRocksParams.starrocksConfigMap]?.forEach(function (item: Record<string, any>) {
+      values[item[StarRocksParams.starrocksConfigKey]] = item[StarRocksParams.starrocksConfigValue];
     });
+    values[StarRocksParams.starrocksConfig] = JSON.stringify(config)
     return values
   },
 
@@ -182,12 +204,67 @@ export const StepSchemaService = {
 
   formatDebeziumProperties: (values: Record<string, any>) => {
     const properties: Record<string, any> = {}
-    values[CDCMySQLParams.debeziumProperties]?.forEach(function (item: Record<string, any>) {
-      properties[item[CDCMySQLParams.debeziumProperty]] = item[CDCMySQLParams.debeziumValue];
+    values[CDCParams.debeziumProperties]?.forEach(function (item: Record<string, any>) {
+      properties[item[CDCParams.debeziumProperty]] = item[CDCParams.debeziumValue];
     });
-    values[CDCMySQLParams.debeziums] = JSON.stringify(properties)
-    values[CDCMySQLParams.startupMode] = values.startupMode
-    values[CDCMySQLParams.stopMode] = values.stopMode
+    values[CDCParams.debeziums] = JSON.stringify(properties)
+    values[CDCParams.startupMode] = values.startupMode
+    values[CDCParams.stopMode] = values.stopMode
     return values
   },
+
+  formatFieldMapper: (values: Record<string, any>) => {
+    const fieldMapper: Record<string, any> = {}
+    values[FieldMapperParams.fieldMapperGroup]?.forEach(function (item: Record<string, any>) {
+      fieldMapper[item[FieldMapperParams.srcField]] = item[FieldMapperParams.destField];
+    });
+    values[FieldMapperParams.fieldMapper] = JSON.stringify(fieldMapper)
+    return values
+  },
+
+  formatFilterFields: (values: Record<string, any>) => {
+    const fields: Array<string> = []
+    values[FilterParams.fieldArray]?.forEach(function (item: Record<string, any>) {
+      fields.push(item[FilterParams.field])
+    });
+    values[FilterParams.fields] = JSON.stringify(fields)
+    return values
+  },
+
+  formatSplitOutputFields: (values: Record<string, any>) => {
+    const outputFields: Array<string> = []
+    values[SplitParams.outputFieldArray]?.forEach(function (item: Record<string, any>) {
+      outputFields.push(item[SplitParams.outputField])
+    });
+    values[SplitParams.outputFields] = JSON.stringify(outputFields)
+    return values
+  },
+
+  formatPartitions: (values: Record<string, any>) => {
+    const partitions: Array<any> = []
+    values[HiveParams.readPartitionArray]?.forEach(function (item: Record<string, any>) {
+      partitions.push(item[HiveParams.readPartition])
+    });
+    values[HiveParams.readPartitions] = JSON.stringify(partitions)
+    return values
+  },
+
+  formatRowKeyColumn: (values: Record<string, any>) => {
+    const columns: Array<any> = []
+    values[HbaseParams.rowkeyColumnArray]?.forEach(function (item: Record<string, any>) {
+      columns.push(item[HbaseParams.rowkeyColumnValue])
+    });
+    values[HbaseParams.rowkeyColumn] = JSON.stringify(columns)
+    return values
+  },
+
+  formatHbaseExtraConfig: (values: Record<string, any>) => {
+    const configs: Record<string, any> = {}
+    values[HbaseParams.hbaseExtraConfigMap]?.forEach(function (item: Record<string, any>) {
+      configs[item[HbaseParams.hbaseExtraConfigKey]] = item[HbaseParams.hbaseExtraConfigValue];
+    });
+    values[HbaseParams.hbaseExtraConfig] = JSON.stringify(configs)
+    return values
+  },
+
 };

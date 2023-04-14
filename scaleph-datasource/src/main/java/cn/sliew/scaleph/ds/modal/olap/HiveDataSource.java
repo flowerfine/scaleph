@@ -26,8 +26,10 @@ import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
+import java.util.HashMap;
 import java.util.Map;
 
 @Data
@@ -37,6 +39,15 @@ public class HiveDataSource extends AbstractDataSource {
     @NotBlank
     @ApiModelProperty("hive metastore uri")
     private String metastoreUri;
+
+    @ApiModelProperty("path of hdfs-site.xml")
+    private String hdfsSitePath;
+
+    @ApiModelProperty("kerberos keytab path")
+    private String kerberosKeytabPath;
+
+    @ApiModelProperty("kerberos principal")
+    private String kerberosPrincipal;
 
     @Override
     public DataSourceType getType() {
@@ -50,7 +61,17 @@ public class HiveDataSource extends AbstractDataSource {
         dsType.setId(getDsTypeId());
         dsType.setType(getType());
         dto.setDsType(dsType);
-        Map<String, Object> props = Map.of("metastoreUri", metastoreUri);
+        Map<String, Object> props = new HashMap<>();
+        props.put("metastoreUri", metastoreUri);
+        if (StringUtils.hasText(hdfsSitePath)) {
+            props.put("hdfsSitePath", hdfsSitePath);
+        }
+        if (StringUtils.hasText(kerberosKeytabPath)) {
+            props.put("kerberosKeytabPath", kerberosKeytabPath);
+        }
+        if (StringUtils.hasText(kerberosPrincipal)) {
+            props.put("kerberosPrincipal", kerberosPrincipal);
+        }
         dto.setProps(props);
         return dto;
     }

@@ -33,8 +33,8 @@ public enum IoTDBSourceProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<JsonNode> FIELDS = new PropertyDescriptor.Builder()
-            .name("fields")
+    public static final PropertyDescriptor<JsonNode> SCHEMA = new PropertyDescriptor.Builder()
+            .name("schema")
             .description("fields")
             .type(PropertyType.OBJECT)
             .parser(Parsers.JSON_PARSER)
@@ -52,14 +52,6 @@ public enum IoTDBSourceProperties {
     public static final PropertyDescriptor<Integer> THRIFT_DEFAULT_BUFFER_SIZE = new PropertyDescriptor.Builder()
             .name("thrift_default_buffer_size")
             .description("the thrift_default_buffer_size of the IoTDB when you selec")
-            .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
-            .validateAndBuild();
-
-    public static final PropertyDescriptor<Integer> THRIFT_MAX_FRAME_SIZE = new PropertyDescriptor.Builder()
-            .name("thrift_max_frame_size")
-            .description("thrift max frame size")
             .type(PropertyType.INT)
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)

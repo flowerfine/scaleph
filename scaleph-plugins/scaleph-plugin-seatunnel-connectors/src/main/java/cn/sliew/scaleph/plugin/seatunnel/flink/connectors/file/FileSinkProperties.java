@@ -26,6 +26,14 @@ import cn.sliew.scaleph.plugin.framework.property.Validators;
 public enum FileSinkProperties {
     ;
 
+    public static final PropertyDescriptor<Boolean> CUSTOM_FILENAME = new PropertyDescriptor.Builder<Boolean>()
+            .name("custom_filename")
+            .description("Whether custom the filename")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<String> FILE_NAME_EXPRESSION = new PropertyDescriptor.Builder<String>()
             .name("file_name_expression")
             .description("file_name_expression describes the file expression which will be created into the path. We can add the variable ${now} or ${uuid} in the file_name_expression, like test_${uuid}_${now}, ${now} represents the current time, and its format can be defined by specifying the option filename_time_format.\n" +
@@ -70,6 +78,14 @@ public enum FileSinkProperties {
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<Boolean> HAVE_PARTITION = new PropertyDescriptor.Builder<Boolean>()
+            .name("have_partition")
+            .description("Whether you need processing partitions.")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> PARTITION_BY = new PropertyDescriptor.Builder<String>()
@@ -121,4 +137,13 @@ public enum FileSinkProperties {
             .parser(Parsers.INTEGER_PARSER)
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
+
+    public static final PropertyDescriptor<String> COMPRESS_CODEC = new PropertyDescriptor.Builder<String>()
+            .name("compress_codec")
+            .description("The compress codec of files")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
 }

@@ -6,24 +6,26 @@ import {
   ProFormDependency,
   ProFormDigit,
   ProFormGroup,
-  ProFormList,
   ProFormSelect,
   ProFormText,
 } from '@ant-design/pro-components';
 import {NsGraph} from '@antv/xflow';
-import {Form, message, Modal} from 'antd';
+import {Button, Drawer, Form, message} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
-import {PulsarParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
+import {PulsarParams, STEP_ATTR_TYPE} from '../../constant';
 import {InfoCircleOutlined} from '@ant-design/icons';
 import {StepSchemaService} from '../helper';
-import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
+import DataSourceItem from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource';
+import FieldItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/fields";
 
-const SourcePulsarStepForm: React.FC<ModalFormProps<{
-  node: NsGraph.INodeConfig;
-  graphData: NsGraph.IGraphData;
-  graphMeta: NsGraph.IGraphMeta;
-}>> = ({data, visible, onCancel, onOK}) => {
+const SourcePulsarStepForm: React.FC<
+  ModalFormProps<{
+    node: NsGraph.INodeConfig;
+    graphData: NsGraph.IGraphData;
+    graphMeta: NsGraph.IGraphMeta;
+  }>
+> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as WsDiJob;
   const jobGraph = data.graphData;
@@ -34,32 +36,38 @@ const SourcePulsarStepForm: React.FC<ModalFormProps<{
   }, []);
 
   return (
-    <Modal
+    <Drawer
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{overflowY: 'scroll', maxHeight: '640px'}}
+      bodyStyle={{overflowY: 'scroll'}}
       destroyOnClose={true}
-      onCancel={onCancel}
-      onOk={() => {
-        form.validateFields().then((values) => {
-          let map: Map<string, any> = new Map();
-          map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
-          map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
-          map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-          StepSchemaService.formatSchema(values);
-          values[PulsarParams.cursorStartupMode] = values.startMode;
-          values[PulsarParams.cursorStopMode] = values.stopMode;
-          map.set(STEP_ATTR_TYPE.stepAttrs, values);
-          WsDiJobService.saveStepAttr(map).then((resp) => {
-            if (resp.success) {
-              message.success(intl.formatMessage({id: 'app.common.operate.success'}));
-              onCancel();
-              onOK ? onOK(values) : null;
-            }
-          });
-        });
-      }}
+      onClose={onCancel}
+      extra={
+        <Button
+          type="primary"
+          onClick={() => {
+            form.validateFields().then((values) => {
+              let map: Map<string, any> = new Map();
+              map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
+              map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
+              map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
+              StepSchemaService.formatSchema(values);
+              values[PulsarParams.cursorStartupMode] = values.startMode;
+              values[PulsarParams.cursorStopMode] = values.stopMode;
+              map.set(STEP_ATTR_TYPE.stepAttrs, values);
+              WsDiJobService.saveStepAttr(map).then((resp) => {
+                if (resp.success) {
+                  message.success(intl.formatMessage({id: 'app.common.operate.success'}));
+                  onOK ? onOK(values) : null;
+                }
+              });
+            });
+          }}
+        >
+          {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
+        </Button>
+      }
     >
       <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
         <ProFormText
@@ -67,7 +75,7 @@ const SourcePulsarStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
           rules={[{required: true}, {max: 120}]}
         />
-        <DataSourceItem dataSource={"Pulsar"}/>
+        <DataSourceItem dataSource={'Pulsar'}/>
         <ProFormText
           name={PulsarParams.subscriptionName}
           label={intl.formatMessage({id: 'pages.project.di.step.pulsar.subscriptionName'})}
@@ -89,39 +97,13 @@ const SourcePulsarStepForm: React.FC<ModalFormProps<{
           name={PulsarParams.topicDiscoveryInterval}
           label={intl.formatMessage({id: 'pages.project.di.step.pulsar.topicDiscoveryInterval'})}
           tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.pulsar.topicDiscoveryInterval.tooltip'}),
+            title: intl.formatMessage({
+              id: 'pages.project.di.step.pulsar.topicDiscoveryInterval.tooltip',
+            }),
             icon: <InfoCircleOutlined/>,
           }}
         />
-        <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.schema'})}
-          tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.schema.tooltip'}),
-            icon: <InfoCircleOutlined/>,
-          }}
-        >
-          <ProFormList
-            name={SchemaParams.fields}
-            copyIconProps={false}
-            creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
-              type: 'text',
-            }}
-          >
-            <ProFormGroup>
-              <ProFormText
-                name={SchemaParams.field}
-                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
-                colProps={{span: 10, offset: 1}}
-              />
-              <ProFormText
-                name={SchemaParams.type}
-                label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.type'})}
-                colProps={{span: 10, offset: 1}}
-              />
-            </ProFormGroup>
-          </ProFormList>
-        </ProFormGroup>
+        <FieldItem/>
         <ProFormDigit
           name={PulsarParams.pollTimeout}
           label={intl.formatMessage({id: 'pages.project.di.step.pulsar.pollTimeout'})}
@@ -195,7 +177,9 @@ const SourcePulsarStepForm: React.FC<ModalFormProps<{
           name={'stopMode'}
           label={intl.formatMessage({id: 'pages.project.di.step.pulsar.cursorStopMode'})}
           tooltip={{
-            title: intl.formatMessage({id: 'pages.project.di.step.pulsar.cursorStopMode.tooltip'}),
+            title: intl.formatMessage({
+              id: 'pages.project.di.step.pulsar.cursorStopMode.tooltip',
+            }),
             icon: <InfoCircleOutlined/>,
           }}
           allowClear={false}
@@ -221,7 +205,7 @@ const SourcePulsarStepForm: React.FC<ModalFormProps<{
           }}
         </ProFormDependency>
       </ProForm>
-    </Modal>
+    </Drawer>
   );
 };
 

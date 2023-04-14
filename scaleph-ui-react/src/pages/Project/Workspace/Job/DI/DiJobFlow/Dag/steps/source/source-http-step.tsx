@@ -2,7 +2,7 @@ import {NsGraph} from '@antv/xflow';
 import {ModalFormProps} from '@/app.d';
 import {HttpParams, SchemaParams, STEP_ATTR_TYPE} from '../../constant';
 import {WsDiJobService} from '@/services/project/WsDiJob.service';
-import {Form, message, Modal} from 'antd';
+import {Button, Drawer, Form, message} from 'antd';
 import {WsDiJob} from '@/services/project/typings';
 import {getIntl, getLocale} from 'umi';
 import {
@@ -18,13 +18,15 @@ import {
 import {useEffect} from 'react';
 import {InfoCircleOutlined} from '@ant-design/icons';
 import {StepSchemaService} from '../helper';
-import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
+import DataSourceItem from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource';
 
-const SourceHttpFileStepForm: React.FC<ModalFormProps<{
-  node: NsGraph.INodeConfig;
-  graphData: NsGraph.IGraphData;
-  graphMeta: NsGraph.IGraphMeta;
-}>> = ({data, visible, onCancel, onOK}) => {
+const SourceHttpFileStepForm: React.FC<
+  ModalFormProps<{
+    node: NsGraph.INodeConfig;
+    graphData: NsGraph.IGraphData;
+    graphMeta: NsGraph.IGraphMeta;
+  }>
+> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as WsDiJob;
   const jobGraph = data.graphData;
@@ -36,33 +38,39 @@ const SourceHttpFileStepForm: React.FC<ModalFormProps<{
   }, []);
 
   return (
-    <Modal
+    <Drawer
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{overflowY: 'scroll', maxHeight: '640px'}}
+      bodyStyle={{overflowY: 'scroll'}}
       destroyOnClose={true}
-      onCancel={onCancel}
-      onOk={() => {
-        form.validateFields().then((values) => {
-          let map: Map<string, any> = new Map();
-          map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
-          map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
-          map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-          StepSchemaService.formatSchema(values);
-          StepSchemaService.formatHeader(values);
-          StepSchemaService.formatParam(values);
-          StepSchemaService.formatJsonField(values);
-          map.set(STEP_ATTR_TYPE.stepAttrs, values);
-          WsDiJobService.saveStepAttr(map).then((resp) => {
-            if (resp.success) {
-              message.success(intl.formatMessage({id: 'app.common.operate.success'}));
-              onCancel();
-              onOK ? onOK(values) : null;
-            }
-          });
-        });
-      }}
+      onClose={onCancel}
+      extra={
+        <Button
+          type="primary"
+          onClick={() => {
+            form.validateFields().then((values) => {
+              let map: Map<string, any> = new Map();
+              map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
+              map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
+              map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
+              StepSchemaService.formatSchema(values);
+              StepSchemaService.formatHeader(values);
+              StepSchemaService.formatParam(values);
+              StepSchemaService.formatJsonField(values);
+              map.set(STEP_ATTR_TYPE.stepAttrs, values);
+              WsDiJobService.saveStepAttr(map).then((resp) => {
+                if (resp.success) {
+                  message.success(intl.formatMessage({id: 'app.common.operate.success'}));
+                  onOK ? onOK(values) : null;
+                }
+              });
+            });
+          }}
+        >
+          {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
+        </Button>
+      }
     >
       <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
         <ProFormText
@@ -70,7 +78,7 @@ const SourceHttpFileStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
           rules={[{required: true}, {max: 120}]}
         />
-        <DataSourceItem dataSource={"Http"}/>
+        <DataSourceItem dataSource={'Http'}/>
         <ProFormList
           name={HttpParams.headerArray}
           label={intl.formatMessage({id: 'pages.project.di.step.http.headers'})}
@@ -143,14 +151,18 @@ const SourceHttpFileStepForm: React.FC<ModalFormProps<{
                   }}
                   copyIconProps={false}
                   creatorButtonProps={{
-                    creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.schema.fields'}),
+                    creatorButtonText: intl.formatMessage({
+                      id: 'pages.project.di.step.schema.fields',
+                    }),
                     type: 'text',
                   }}
                 >
                   <ProFormGroup>
                     <ProFormText
                       name={SchemaParams.field}
-                      label={intl.formatMessage({id: 'pages.project.di.step.schema.fields.field'})}
+                      label={intl.formatMessage({
+                        id: 'pages.project.di.step.schema.fields.field',
+                      })}
                       colProps={{span: 10, offset: 1}}
                     />
                     <ProFormText
@@ -168,16 +180,18 @@ const SourceHttpFileStepForm: React.FC<ModalFormProps<{
         <ProFormText
           name={HttpParams.contentField}
           label={intl.formatMessage({id: 'pages.project.di.step.http.contentField'})}
-          placeholder={intl.formatMessage({id: 'pages.project.di.step.http.contentField.placeholder'})}
+          placeholder={intl.formatMessage({
+            id: 'pages.project.di.step.http.contentField.placeholder',
+          })}
         />
-        <ProFormGroup
-          label={intl.formatMessage({id: 'pages.project.di.step.http.fieldJson'})}
-        >
+        <ProFormGroup label={intl.formatMessage({id: 'pages.project.di.step.http.fieldJson'})}>
           <ProFormList
             name={HttpParams.jsonField}
             copyIconProps={false}
             creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.http.fieldJson.list'}),
+              creatorButtonText: intl.formatMessage({
+                id: 'pages.project.di.step.http.fieldJson.list',
+              }),
               type: 'text',
             }}
           >
@@ -185,13 +199,17 @@ const SourceHttpFileStepForm: React.FC<ModalFormProps<{
               <ProFormText
                 name={HttpParams.key}
                 label={intl.formatMessage({id: 'pages.project.di.step.http.fieldJson.key'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.http.fieldJson.key.placeholder'})}
+                placeholder={intl.formatMessage({
+                  id: 'pages.project.di.step.http.fieldJson.key.placeholder',
+                })}
                 colProps={{span: 10, offset: 1}}
               />
               <ProFormText
                 name={HttpParams.path}
                 label={intl.formatMessage({id: 'pages.project.di.step.http.fieldJson.path'})}
-                placeholder={intl.formatMessage({id: 'pages.project.di.step.http.fieldJson.path.placeholder'})}
+                placeholder={intl.formatMessage({
+                  id: 'pages.project.di.step.http.fieldJson.path.placeholder',
+                })}
                 colProps={{span: 10, offset: 1}}
               />
             </ProFormGroup>
@@ -218,7 +236,7 @@ const SourceHttpFileStepForm: React.FC<ModalFormProps<{
           colProps={{span: 9}}
         />
       </ProForm>
-    </Modal>
+    </Drawer>
   );
 };
 

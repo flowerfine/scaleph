@@ -28,6 +28,12 @@ export namespace CustomCommands {
     category: XFlowGraphCommands.GRAPH_COPY.category,
   };
 
+  export const GRAPH_HELP: IGraphCommand = {
+    id: 'xflow:graph-help',
+    label: 'graph-help',
+    category: XFlowGraphCommands.GRAPH_COPY.category,
+  };
+
   export const GRAPH_PREVIEW: IGraphCommand = {
     id: 'xflow:graph-preview',
     label: 'graph-preview',
@@ -71,20 +77,56 @@ export const SchemaParams = {
   field: 'field',
   type: 'type',
   delimiter: 'delimiter',
+  skipHeaderRowNumber: 'skip_header_row_number',
+}
+
+export const ColumnParams = {
+  readColumns: 'read_columns',
+  readColumnArray: 'readColumnArray',
+  readColumn: 'readColumn'
 }
 
 export const FakeParams = {
+  rows: 'rows',
   rowNum: 'row.num',
   splitNum: 'split.num',
   splitReadInterval: 'split.read-interval',
   mapSize: 'map.size',
   arraySize: 'array.size',
   bytesLength: 'bytes.length',
+  stringFakeMode: 'string.fake.mode',
   stringLength: 'string.length',
+  stringTemplate: 'string.template',
+  tinyintFakeMode: 'tinyint.fake.mode',
+  tinyintMin: 'tinyint.min',
+  tinyintMax: 'tinyint.max',
+  tinyintTemplate: 'tinyint.template',
+  smallintFakeMode: 'smallint.fake.mode',
+  smallintMin: 'smallint.min',
+  smallintMax: 'smallint.max',
+  smallintTemplate: 'smallint.template',
+  intFakeMode: 'int.fake.mode',
+  intMin: 'int.min',
+  intMax: 'int.max',
+  intTemplate: 'int.template',
+  bigintFakeMode: 'bigint.fake.mode',
+  bigintMin: 'bigint.min',
+  bigintMax: 'bigint.max',
+  bigintTemplate: 'bigint.template',
+  floatFakeMode: 'float.fake.mode',
+  floatMin: 'float.min',
+  floatMax: 'float.max',
+  floatTemplate: 'float.template',
+
+  doubleFakeMode: 'double.fake.mode',
+  doubleMin: 'double.min',
+  doubleMax: 'double.max',
+  doubleTemplate: 'double.template'
 }
 
 export const JdbcParams = {
   connectionCheckTimeoutSec: 'connection_check_timeout_sec',
+  database: 'database',
   table: 'table',
   supportUpsert: 'support_upsert_by_query_primary_key_exist',
   primaryKeys: 'primary_keys',
@@ -102,29 +144,34 @@ export const JdbcParams = {
   isExactlyOnce: 'is_exactly_once',
   xaDataSourceClassName: 'xa_data_source_class_name',
   maxCommitAttempts: 'max_commit_attempts',
-  transactionTimeoutSec: 'transaction_timeout_sec'
+  transactionTimeoutSec: 'transaction_timeout_sec',
+  autoCommit: 'auto_commit'
 }
 
 export const BaseFileParams = {
   path: 'path',
-  type: 'type',
+  fileFormatType: 'file_format_type',
+  readColumns: 'read_columns',
   schema: 'schema',
   delimiter: 'delimiter',
   parsePartitionFromPath: 'parse_partition_from_path',
   dateFormat: 'date_format',
   timeFormat: 'time_format',
   datetimeFormat: 'datetime_format',
-  fileNameExpression: 'file_name_expression',
   fileFormat: 'file_format',
+  customFilename: 'custom_filename',
+  fileNameExpression: 'file_name_expression',
   filenameTimeFormat: 'filename_time_format',
   fieldDelimiter: 'field_delimiter',
   rowDelimiter: 'row_delimiter',
+  havePartition: 'have_partition',
   partitionBy: 'partition_by',
   partitionDirExpression: 'partition_dir_expression',
   isPartitionFieldWriteInFile: 'is_partition_field_write_in_file',
   sinkColumns: 'sink_columns',
   isEnableTransaction: 'is_enable_transaction',
-  batchSize: 'batch_size'
+  batchSize: 'batch_size',
+  compressCodec: 'compress_codec'
 };
 
 export const HDFSFileParams = {
@@ -253,6 +300,9 @@ export const ClickHouseParams = {
 export const HiveParams = {
   tableName: 'table_name',
   metastoreUri: 'metastore_uri',
+  readPartitions: 'read_partitions',
+  readPartitionArray: 'read_partitions',
+  readPartition: 'read_partition',
   partitionBy: 'partition_by',
   sinkColumns: 'sink_columns',
   isEnableTransaction: 'is_enable_transaction',
@@ -262,13 +312,13 @@ export const HiveParams = {
 export const KuduParams = {
   kuduMaster: 'kudu_master',
   kuduTable: 'kudu_table',
-  columnsList: 'columnsList',
-  saveMode: 'save_mode',
+  columnsList: 'columnsList'
 };
 
 export const KafkaParams = {
   topic: 'topic',
   pattern: 'pattern',
+  partitionDiscoveryIntervalMillis: 'partition-discovery.interval-millis',
   kafkaConf: 'kafkaConf',
   key: 'key',
   value: 'value',
@@ -296,10 +346,8 @@ export const IoTDBParams = {
   password: 'password',
   sql: 'sql',
   fields: 'fields',
-  fieldArray: 'fieldArray',
   fetchSize: 'fetch_size',
   thriftDefaultBufferSize: 'thrift_default_buffer_size',
-  thriftMaxFrameSize: 'thrift_max_frame_size',
   enableCacheLeader: 'enable_cache_leader',
   version: 'version',
   numPartitions: 'num_partitions',
@@ -320,6 +368,7 @@ export const IoTDBParams = {
   keyMeasurementFields: 'key_measurement_fields',
   keyMeasurementFieldArray: 'keyMeasurementFieldArray',
   keyMeasurementField: 'keyMeasurementField',
+  storageGroup: 'storage_group',
 };
 
 export const MondoDBParams = {
@@ -379,7 +428,14 @@ export const ElasticsearchParams = {
   primaryKey: 'primaryKey',
   keyDelimiter: 'key_delimiter',
   maxRetrySize: 'max_retry_size',
-  maxBatchSize: 'max_batch_size'
+  maxBatchSize: 'max_batch_size',
+  query: "query",
+  scrollTime: "scroll_time",
+  scrollSize: "scroll_size",
+  source: "source",
+  sourceArray: "sourceArray",
+  sourceField: "sourceField",
+  schema: "schema"
 };
 
 export const Neo4jParams = {
@@ -415,7 +471,7 @@ export const InfluxDBParams = {
   password: 'password',
   database: 'database',
   sql: 'sql',
-  fields: 'fields',
+  schema: 'schema',
   fieldArray: 'fieldArray',
   splitColumn: 'split_column',
   lowerBound: 'lower_bound',
@@ -448,18 +504,14 @@ export const CassandraParams = {
 
 export const DorisParams = {
   database: 'database',
-  table: 'table',
-  labelPrefix: 'labelPrefix',
-  batchMaxRows: 'batch_max_rows',
-  batchMaxBytes: 'batch_max_bytes',
-  batchIntervalMs: 'batch_interval_ms',
-  maxRetries: 'max_retries',
-  retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
-  maxRetryBackoffMs: 'max_retry_backoff_ms',
-  sinkProperties: 'sink.properties.',
-  sinkPropertyArray: 'sinkPropertieArray',
-  sinkProperty: 'property',
-  sinkPropertyValue: 'value',
+  tableIdentifier: 'table.identifier',
+  sinkLabelPrefix: 'sink.label-prefix',
+  sinkEnable2PC: 'sink.enable-2pc',
+  sinkEnableDelete: 'sink.enable-delete',
+  dorisConfig: 'doris.config',
+  dorisConfigArray: 'dorisConfigArray',
+  dorisConfigProperty: 'property',
+  dorisConfigValue: 'value',
 };
 
 export const StarRocksParams = {
@@ -472,10 +524,19 @@ export const StarRocksParams = {
   maxRetries: 'max_retries',
   retryBackoffMultiplierMs: 'retry_backoff_multiplier_ms',
   maxRetryBackoffMs: 'max_retry_backoff_ms',
-  sinkProperties: 'sink.properties.',
-  sinkPropertyArray: 'sinkPropertieArray',
-  sinkProperty: 'property',
-  sinkPropertyValue: 'value',
+  enableUpsertDelete: 'enable_upsert_delete',
+  saveModeCreateTemplate: 'save_mode_create_template',
+  starrocksConfig: 'starrocks.config',
+  starrocksConfigMap: 'starrocksConfigMap',
+  starrocksConfigKey: 'starrocksConfigKey',
+  starrocksConfigValue: 'starrocksConfigValue',
+  scanFilter: 'scan_filter',
+  scanConnectTimeoutMs: 'scan_connect_timeout_ms',
+  scanQueryTimeoutSec: 'scan_query_timeout_sec',
+  scanKeepAliveMin: 'scan_keep_alive_min',
+  scanBatchRows: 'scan_batch_rows',
+  scanMemLimit: 'scan_mem_limit',
+  requestTabletSize: 'request_tablet_size',
 };
 
 export const MaxComputeParams = {
@@ -516,7 +577,8 @@ export const OpenMLDBParams = {
   requestTimeout: 'request_timeout',
 };
 
-export const CDCMySQLParams = {
+export const CDCParams = {
+  baseUrl: 'base-url',
   hostname: 'hostname',
   port: 'port',
   username: 'username',
@@ -545,4 +607,68 @@ export const CDCMySQLParams = {
   debeziumProperties: 'debeziumProperties',
   debeziumProperty: 'debeziumProperty',
   debeziumValue: 'debeziumValue',
+  format: 'format',
 };
+
+export const HbaseParams = {
+  zookeeperQuorum: 'zookeeper_quorum',
+  table: 'table',
+  familyName: 'family_name',
+  rowkeyColumn: 'rowkey_column',
+  rowkeyColumnArray: 'rowkeyColumnArray',
+  rowkeyColumnValue: 'rowkeyColumnArray',
+  rowkeyDelimiter: 'rowkey_delimiter',
+  versionColumn: 'version_column',
+  nullMode: 'null_mode',
+  walWrite: 'wal_write',
+  writeBufferSize: 'write_buffer_size',
+  encoding: 'encoding',
+  hbaseExtraConfig: 'hbase_extra_config',
+  hbaseExtraConfigMap: 'hbaseExtraConfigMap',
+  hbaseExtraConfigKey: 'hbaseExtraConfigKey',
+  hbaseExtraConfigValue: 'hbaseExtraConfigValue'
+}
+
+export const CopyParams = {
+  srcField: 'src_field',
+  destField: 'dest_field'
+}
+
+export const FieldMapperParams = {
+  fieldMapper: 'field_mapper',
+  fieldMapperGroup: 'fieldMapperGroup',
+  srcField: 'src_field',
+  destField: 'dest_field'
+}
+
+export const FilterRowKindParams = {
+  includeKinds: 'include_kinds',
+  excludeKinds: 'exclude_kinds'
+}
+
+export const FilterParams = {
+  fields: 'fields',
+  fieldArray: 'fieldArray',
+  field: 'field',
+}
+
+export const ReplaceParams = {
+  replaceField: 'replace_field',
+  pattern: 'pattern',
+  replacement: 'replacement',
+  isRegex: 'is_regex',
+  replaceFirst: 'replace_first'
+}
+
+export const SplitParams = {
+  separator: 'separator',
+  splitField: 'split_field',
+  outputFields: 'output_fields',
+  outputFieldArray: 'outputFieldArray',
+  outputField: 'outputField'
+}
+
+
+export const SqlParams = {
+  query: 'query'
+}

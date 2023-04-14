@@ -57,4 +57,5 @@ public enum KuduProperties {
             .properties(Property.Required)
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
+
 }

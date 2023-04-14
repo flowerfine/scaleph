@@ -49,6 +49,14 @@ public enum IoTDBSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
+    public static final PropertyDescriptor<String> STORAGE_GROUP = new PropertyDescriptor.Builder()
+            .name("storage_group")
+            .description("Specify device storage group(path prefix)")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
     public static final PropertyDescriptor<Integer> BATCH_SIZE = new PropertyDescriptor.Builder()
             .name("batch_size")
             .description("the batch size for writing data")

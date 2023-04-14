@@ -29,19 +29,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.mysql.source.MySQLCDCSourceProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.cdc.CDCSourceProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class MySQLCDCSourcePlugin extends SeaTunnelConnectorPlugin {
 
     public MySQLCDCSourcePlugin() {
         this.pluginInfo = new PluginInfo(getIdentity(),
-                "he MySQL CDC connector allows for reading snapshot data and incremental data from MySQL database",
+                "The MySQL CDC connector allows for reading snapshot data and incremental data from MySQL database",
                 MySQLCDCSourcePlugin.class.getName());
 
         final List<PropertyDescriptor> props = new ArrayList<>();
-        props.add(HOSTNAME);
-        props.add(PORT);
+        props.add(BASE_URL);
         props.add(USERNAME);
         props.add(PASSWORD);
         props.add(DATABASE);
@@ -65,6 +64,7 @@ public class MySQLCDCSourcePlugin extends SeaTunnelConnectorPlugin {
         props.add(CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_UPPER_BOUND);
         props.add(CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_LOWER_BOUND);
         props.add(DEBEZIUM);
+        props.add(FORMAT);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

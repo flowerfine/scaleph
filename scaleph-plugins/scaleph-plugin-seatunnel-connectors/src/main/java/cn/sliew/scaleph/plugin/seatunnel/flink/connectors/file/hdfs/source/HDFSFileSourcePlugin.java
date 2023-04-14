@@ -51,7 +51,9 @@ public class HDFSFileSourcePlugin extends SeaTunnelConnectorPlugin {
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(PATH);
-        props.add(TYPE);
+        props.add(SKIP_HEADER_ROW_NUMBER);
+        props.add(FILE_FORMAT_TYPE);
+        props.add(READ_COLUMNS);
         props.add(SCHEMA);
         props.add(DELIMITER);
         props.add(PARSE_PARTITION_FROM_PATH);

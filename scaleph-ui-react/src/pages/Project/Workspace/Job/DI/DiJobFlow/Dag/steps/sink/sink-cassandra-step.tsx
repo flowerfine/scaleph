@@ -8,21 +8,23 @@ import {
   ProFormList,
   ProFormSelect,
   ProFormSwitch,
-  ProFormText
+  ProFormText,
 } from '@ant-design/pro-components';
 import {NsGraph} from '@antv/xflow';
-import {Form, message, Modal} from 'antd';
+import {Button, Drawer, Form, message} from 'antd';
 import {useEffect} from 'react';
 import {getIntl, getLocale} from 'umi';
 import {CassandraParams, STEP_ATTR_TYPE} from '../../constant';
-import DataSourceItem from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource";
-import {StepSchemaService} from "@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper";
+import DataSourceItem from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource';
+import {StepSchemaService} from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/helper';
 
-const SinkCassandraStepForm: React.FC<ModalFormProps<{
-  node: NsGraph.INodeConfig;
-  graphData: NsGraph.IGraphData;
-  graphMeta: NsGraph.IGraphMeta;
-}>> = ({data, visible, onCancel, onOK}) => {
+const SinkCassandraStepForm: React.FC<
+  ModalFormProps<{
+    node: NsGraph.INodeConfig;
+    graphData: NsGraph.IGraphData;
+    graphMeta: NsGraph.IGraphMeta;
+  }>
+> = ({data, visible, onCancel, onOK}) => {
   const nodeInfo = data.node.data;
   const jobInfo = data.graphMeta.origin as WsDiJob;
   const jobGraph = data.graphData;
@@ -33,30 +35,36 @@ const SinkCassandraStepForm: React.FC<ModalFormProps<{
   }, []);
 
   return (
-    <Modal
+    <Drawer
       open={visible}
       title={nodeInfo.data.displayName}
       width={780}
-      bodyStyle={{overflowY: 'scroll', maxHeight: '640px'}}
+      bodyStyle={{overflowY: 'scroll'}}
       destroyOnClose={true}
-      onCancel={onCancel}
-      onOk={() => {
-        form.validateFields().then((values) => {
-          let map: Map<string, any> = new Map();
-          map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
-          map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
-          map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
-          StepSchemaService.formatCassandraFields(values)
-          map.set(STEP_ATTR_TYPE.stepAttrs, values);
-          WsDiJobService.saveStepAttr(map).then((resp) => {
-            if (resp.success) {
-              message.success(intl.formatMessage({id: 'app.common.operate.success'}));
-              onCancel();
-              onOK ? onOK(values) : null;
-            }
-          });
-        });
-      }}
+      onClose={onCancel}
+      extra={
+        <Button
+          type="primary"
+          onClick={() => {
+            form.validateFields().then((values) => {
+              let map: Map<string, any> = new Map();
+              map.set(STEP_ATTR_TYPE.jobId, jobInfo.id);
+              map.set(STEP_ATTR_TYPE.jobGraph, JSON.stringify(jobGraph));
+              map.set(STEP_ATTR_TYPE.stepCode, nodeInfo.id);
+              StepSchemaService.formatCassandraFields(values);
+              map.set(STEP_ATTR_TYPE.stepAttrs, values);
+              WsDiJobService.saveStepAttr(map).then((resp) => {
+                if (resp.success) {
+                  message.success(intl.formatMessage({id: 'app.common.operate.success'}));
+                  onOK ? onOK(values) : null;
+                }
+              });
+            });
+          }}
+        >
+          {intl.formatMessage({id: 'app.common.operate.confirm.label'})}
+        </Button>
+      }
     >
       <ProForm form={form} initialValues={nodeInfo.data.attrs} grid={true} submitter={false}>
         <ProFormText
@@ -64,13 +72,25 @@ const SinkCassandraStepForm: React.FC<ModalFormProps<{
           label={intl.formatMessage({id: 'pages.project.di.step.stepTitle'})}
           rules={[{required: true}, {max: 120}]}
         />
-        <DataSourceItem dataSource={"Cassandra"}/>
+        <DataSourceItem dataSource={'Cassandra'}/>
         <ProFormSelect
           name={CassandraParams.consistencyLevel}
           label={intl.formatMessage({id: 'pages.project.di.step.cassandra.consistencyLevel'})}
           allowClear={false}
           initialValue={'LOCAL_ONE'}
-          options={['ANY', 'ONE', 'TWO', 'THREE', 'QUORUM', 'ALL', 'LOCAL_ONE', 'LOCAL_QUORUM', 'EACH_QUORUM', 'SERIAL', 'LOCAL_SERIAL']}
+          options={[
+            'ANY',
+            'ONE',
+            'TWO',
+            'THREE',
+            'QUORUM',
+            'ALL',
+            'LOCAL_ONE',
+            'LOCAL_QUORUM',
+            'EACH_QUORUM',
+            'SERIAL',
+            'LOCAL_SERIAL',
+          ]}
         />
         <ProFormText
           name={CassandraParams.table}
@@ -90,7 +110,7 @@ const SinkCassandraStepForm: React.FC<ModalFormProps<{
           initialValue={5000}
           fieldProps={{
             step: 1000,
-            min: 0
+            min: 0,
           }}
         />
         <ProFormSwitch
@@ -104,7 +124,9 @@ const SinkCassandraStepForm: React.FC<ModalFormProps<{
             name={CassandraParams.fieldArray}
             copyIconProps={false}
             creatorButtonProps={{
-              creatorButtonText: intl.formatMessage({id: 'pages.project.di.step.cassandra.fields.field'}),
+              creatorButtonText: intl.formatMessage({
+                id: 'pages.project.di.step.cassandra.fields.field',
+              }),
               type: 'text',
             }}
           >
@@ -112,7 +134,7 @@ const SinkCassandraStepForm: React.FC<ModalFormProps<{
           </ProFormList>
         </ProFormGroup>
       </ProForm>
-    </Modal>
+    </Drawer>
   );
 };
 
