@@ -27,6 +27,9 @@ ENV ENV_PARAMS=" --spring.datasource.master.jdbc-url=$MYSQL_URL \
  --spring.datasource.log.jdbc-url=$MYSQL_URL \
  --spring.datasource.log.username=$MYSQL_USERNAME \
  --spring.datasource.log.password=$MYSQL_PASSWORD \
+ --spring.datasource.sakura.jdbc-url=$MYSQL_URL \
+ --spring.datasource.sakura.username=$MYSQL_USERNAME \
+ --spring.datasource.sakura.password=$MYSQL_PASSWORD \
  --spring.quartz.properties.org.quartz.dataSource.quartzDS.URL=$MYSQL_URL \
  --spring.quartz.properties.org.quartz.dataSource.quartzDS.user=$MYSQL_USERNAME \
  --spring.quartz.properties.org.quartz.dataSource.quartzDS.password=$MYSQL_PASSWORD \

@@ -23,8 +23,7 @@ public enum DataSourceConstants {
 
     public static final String MASTER_ENTITY_PACKAGE = "cn.sliew.scaleph.dao.entity.master";
     public static final String MASTER_MAPPER_PACKAGE = "cn.sliew.scaleph.dao.mapper.master";
-    public static final String MASTER_MAPPER_XML_PATH =
-            "classpath*:cn.sliew.scaleph.dao.mapper/master/**/*.xml";
+    public static final String MASTER_MAPPER_XML_PATH = "classpath*:cn.sliew.scaleph.dao.mapper/master/**/*.xml";
 
     public static final String MASTER_SQL_SESSION_FACTORY = "masterSqlSessionFactory";
     public static final String MASTER_DATA_SOURCE_FACTORY = "masterDataSource";
@@ -37,4 +36,12 @@ public enum DataSourceConstants {
     public static final String LOG_SQL_SESSION_FACTORY = "logSqlSessionFactory";
     public static final String LOG_DATA_SOURCE_FACTORY = "logDataSource";
     public static final String LOG_TRANSACTION_MANAGER_FACTORY = "logTransactionManager";
+
+    public static final String SAKURA_ENTITY_PACKAGE = "cn.sliew.scaleph.dao.entity.sakura";
+    public static final String SAKURA_MAPPER_PACKAGE = "cn.sliew.scaleph.dao.mapper.sakura";
+    public static final String SAKURA_MAPPER_XML_PATH = "classpath*:cn.sliew.scaleph.dao.mapper/sakura/**/*.xml";
+
+    public static final String SAKURA_SQL_SESSION_FACTORY = "sakuraSqlSessionFactory";
+    public static final String SAKURA_DATA_SOURCE_FACTORY = "sakuraDataSource";
+    public static final String SAKURA_TRANSACTION_MANAGER_FACTORY = "sakuraTransactionManager";
 }

@@ -19,14 +19,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>cn.sliew</groupId>
-    <artifactId>scaleph</artifactId>
-    <version>1.0.3</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
-  <artifactId>scaleph-ui</artifactId>
-  <name>scaleph-ui</name>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>scaleph</artifactId>
+        <groupId>cn.sliew</groupId>
+        <version>1.0.3</version>
+    </parent>
+    <artifactId>scaleph-catalog</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-system</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-plugin-flink-1.16</artifactId>
+        </dependency>
+    </dependencies>
 </project>

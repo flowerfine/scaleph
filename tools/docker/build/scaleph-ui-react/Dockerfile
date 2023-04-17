@@ -1,4 +1,4 @@
-#FROM node:18 as build
+#FROM node:16 as build
 #
 #COPY ./ /scaleph
 #RUN cd /scaleph/scaleph-ui-react && npm install && npm run build --prod
