@@ -19,10 +19,10 @@
 package cn.sliew.scaleph.catalog.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.catalog.service.dto.CatalogDatabaseDTO;
+import cn.sliew.scaleph.catalog.service.dto.CatalogTableDTO;
 import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.sakura.CatalogDatabase;
+import cn.sliew.scaleph.dao.entity.sakura.CatalogTable;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -32,20 +32,20 @@ import org.springframework.beans.BeanUtils;
 import java.util.Map;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface CatalogDatabaseConvert extends BaseConvert<CatalogDatabase, CatalogDatabaseDTO> {
-    CatalogDatabaseConvert INSTANCE = Mappers.getMapper(CatalogDatabaseConvert.class);
+public interface CatalogTableConvert extends BaseConvert<CatalogTable, CatalogTableDTO> {
+    CatalogTableConvert INSTANCE = Mappers.getMapper(CatalogTableConvert.class);
 
     @Override
-    default CatalogDatabase toDo(CatalogDatabaseDTO dto) {
-        CatalogDatabase entity = new CatalogDatabase();
+    default CatalogTable toDo(CatalogTableDTO dto) {
+        CatalogTable entity = new CatalogTable();
         BeanUtils.copyProperties(dto, entity);
         entity.setProperties(CodecUtil.encrypt(JacksonUtil.toJsonString(dto.getProperties())));
         return entity;
     }
 
     @Override
-    default CatalogDatabaseDTO toDto(CatalogDatabase entity) {
-        CatalogDatabaseDTO dto = new CatalogDatabaseDTO();
+    default CatalogTableDTO toDto(CatalogTable entity) {
+        CatalogTableDTO dto = new CatalogTableDTO();
         BeanUtils.copyProperties(entity, dto);
         Map<String, String> properties = JacksonUtil.parseJsonString(CodecUtil.decrypt(entity.getProperties()), new TypeReference<Map<String, String>>() {
         });
