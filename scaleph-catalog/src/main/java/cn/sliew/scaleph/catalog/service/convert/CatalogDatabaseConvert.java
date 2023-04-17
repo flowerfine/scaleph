@@ -26,12 +26,14 @@ import cn.sliew.scaleph.dao.entity.sakura.CatalogDatabase;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Map;
 
 @Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CatalogDatabaseConvert extends BaseConvert<CatalogDatabase, CatalogDatabaseDTO> {
+    CatalogDatabaseConvert INSTANCE = Mappers.getMapper(CatalogDatabaseConvert.class);
 
     @Override
     default CatalogDatabase toDo(CatalogDatabaseDTO dto) {
@@ -45,7 +47,8 @@ public interface CatalogDatabaseConvert extends BaseConvert<CatalogDatabase, Cat
     default CatalogDatabaseDTO toDto(CatalogDatabase entity) {
         CatalogDatabaseDTO dto = new CatalogDatabaseDTO();
         BeanUtils.copyProperties(entity, dto);
-        Map<String, String> properties = JacksonUtil.parseJsonString(CodecUtil.decrypt(entity.getProperties()), new TypeReference<Map<String, String>>() {});
+        Map<String, String> properties = JacksonUtil.parseJsonString(CodecUtil.decrypt(entity.getProperties()), new TypeReference<Map<String, String>>() {
+        });
         dto.setProperties(properties);
         return dto;
     }
