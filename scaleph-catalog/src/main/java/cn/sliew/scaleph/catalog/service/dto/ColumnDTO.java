@@ -18,16 +18,17 @@
 
 package cn.sliew.scaleph.catalog.service.dto;
 
+import cn.sliew.scaleph.common.dict.catalog.CatalogColumnType;
 import lombok.Data;
 
 /**
- * @see org.apache.flink.table.api.Schema.UnresolvedColumn
+ * @see org.apache.flink.table.catalog.Column
  */
 @Data
 public class ColumnDTO {
 
     private String name;
-    private String type;
+    private CatalogColumnType type;
 
     private Object meta;
 

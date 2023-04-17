@@ -26,24 +26,26 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum CatalogConstraintType implements DictInstance {
+public enum CatalogColumnType implements DictInstance {
 
-    PRIMARY_KEY("PRIMARY_KEY", "PRIMARY_KEY"),
-    UNIQUE_KEY("UNIQUE_KEY", "UNIQUE_KEY"),
+    PHYSICAL("Physical", "Physical"),
+    COMPUTED("Computed", "Computed"),
+    METADATA("Metadata", "Metadata"),
+    WATERMARK("WATERMARK", "WATERMARK"),
     ;
 
     @JsonCreator
-    public static CatalogConstraintType of(String value) {
+    public static CatalogColumnType of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CatalogConstraintType.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CatalogColumnType.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    CatalogConstraintType(String value, String label) {
+    CatalogColumnType(String value, String label) {
         this.value = value;
         this.label = label;
     }

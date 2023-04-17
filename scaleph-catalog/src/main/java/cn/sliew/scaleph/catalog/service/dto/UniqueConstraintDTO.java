@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.catalog.service.dto;
 
+import cn.sliew.scaleph.common.dict.catalog.CatalogConstraintType;
 import lombok.Data;
 
 import java.util.List;
@@ -29,8 +30,8 @@ import java.util.List;
 public class UniqueConstraintDTO {
 
     private String name;
+    private CatalogConstraintType type;
     private List<String> columns;
-
     private boolean enforced;
 
 }
