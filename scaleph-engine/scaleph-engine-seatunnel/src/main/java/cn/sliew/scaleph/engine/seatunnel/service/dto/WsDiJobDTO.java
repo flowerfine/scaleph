@@ -20,6 +20,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.dto;
 
 import cn.sliew.scaleph.common.dict.job.JobStatus;
 import cn.sliew.scaleph.common.dict.job.JobType;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.JobGraphVO;
 import io.swagger.annotations.ApiModel;
@@ -50,6 +51,10 @@ public class WsDiJobDTO extends BaseDTO {
     @NotNull
     @ApiModelProperty(value = "项目id")
     private Long projectId;
+
+    @NotNull
+    @ApiModelProperty(value = "作业引擎")
+    private SeaTunnelEngineType jobEngine;
 
     @ApiModelProperty(value = "作业编码")
     private Long jobCode;

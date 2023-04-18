@@ -20,6 +20,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.param;
 
 import cn.sliew.scaleph.common.dict.job.JobStatus;
 import cn.sliew.scaleph.common.dict.job.JobType;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.common.param.PaginationParam;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import io.swagger.annotations.ApiModelProperty;
@@ -36,6 +37,9 @@ public class WsDiJobParam extends PaginationParam {
     @ApiModelProperty("project id")
     private Long projectId;
 
+    @ApiModelProperty("job engine")
+    private SeaTunnelEngineType jobEngine;
+
     @ApiModelProperty("job code")
     private Long jobCode;
 
@@ -51,6 +55,7 @@ public class WsDiJobParam extends PaginationParam {
     public WsDiJob toDo() {
         WsDiJob job = new WsDiJob();
         job.setProjectId(projectId);
+        job.setJobEngine(jobEngine);
         job.setJobCode(jobCode);
         job.setJobName(jobName);
         job.setJobType(jobType);

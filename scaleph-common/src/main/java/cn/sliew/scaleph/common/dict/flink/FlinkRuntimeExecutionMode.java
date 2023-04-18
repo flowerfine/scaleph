@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.dict.job;
+package cn.sliew.scaleph.common.dict.flink;
 
 import cn.sliew.scaleph.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -26,25 +26,24 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum JobAttrType implements DictInstance {
-
-    VARIABLE("1", "作业变量"),
-    ENV("2", "作业属性"),
-    PROPERTIES("3", "集群属性"),
+public enum FlinkRuntimeExecutionMode implements DictInstance {
+    STREAMING("STREAMING", "STREAMING"),
+    BATCH("BATCH", "BATCH"),
+    AUTOMATIC("AUTOMATIC", "AUTOMATIC"),
     ;
 
     @JsonCreator
-    public static JobAttrType of(String value) {
+    public static FlinkRuntimeExecutionMode of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(JobAttrType.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(FlinkRuntimeExecutionMode.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    JobAttrType(String value, String label) {
+    FlinkRuntimeExecutionMode(String value, String label) {
         this.value = value;
         this.label = label;
     }
@@ -58,5 +57,4 @@ public enum JobAttrType implements DictInstance {
     public String getLabel() {
         return label;
     }
-
 }

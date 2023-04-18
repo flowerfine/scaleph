@@ -20,6 +20,7 @@ package cn.sliew.scaleph.dao.entity.master.ws;
 
 import cn.sliew.scaleph.common.dict.job.JobStatus;
 import cn.sliew.scaleph.common.dict.job.JobType;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -45,6 +46,9 @@ public class WsDiJob extends BaseDO {
 
     @ApiModelProperty(value = "项目id")
     private Long projectId;
+
+    @ApiModelProperty(value = "作业引擎")
+    private SeaTunnelEngineType jobEngine;
 
     @ApiModelProperty(value = "作业编码")
     private Long jobCode;
