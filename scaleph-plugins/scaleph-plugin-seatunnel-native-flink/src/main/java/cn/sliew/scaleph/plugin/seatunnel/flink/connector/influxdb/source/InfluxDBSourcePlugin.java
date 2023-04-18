@@ -21,7 +21,7 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.source;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.google.auto.service.AutoService;
 
@@ -33,8 +33,8 @@ import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.INFLU
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.InfluxDBProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.influxdb.source.InfluxDBSourceProperties.*;
 
-@AutoService(SeatunnelNativeFlinkPlugin.class)
-public class InfluxDBSourcePlugin extends SeatunnelNativeFlinkPlugin {
+@AutoService(SeaTunnelNativeFlinkPlugin.class)
+public class InfluxDBSourcePlugin extends SeaTunnelNativeFlinkPlugin {
 
     public InfluxDBSourcePlugin() {
         this.pluginInfo = new PluginInfo(INFLUXDB_SOURCE.getValue(), "influxdb source connector", InfluxDBSourcePlugin.class.getName());
