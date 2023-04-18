@@ -20,6 +20,7 @@ package cn.sliew.scaleph.catalog.service.dto;
 
 import cn.sliew.scaleph.common.dict.catalog.CatalogColumnType;
 import lombok.Data;
+import org.apache.flink.table.types.DataType;
 
 /**
  * @see org.apache.flink.table.catalog.Column
@@ -29,6 +30,7 @@ public class ColumnDTO {
 
     private String name;
     private CatalogColumnType type;
+    private DataType dataType;
 
     private Object meta;
 
