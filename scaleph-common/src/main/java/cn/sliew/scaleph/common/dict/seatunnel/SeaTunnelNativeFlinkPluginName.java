@@ -26,25 +26,52 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum SeaTunnelEngineType implements DictInstance {
+public enum SeaTunnelNativeFlinkPluginName implements DictInstance {
 
-//    FLINK("flink", "Flink"),
-//    SPARK("spark", "Spark"),
-    SEATUNNEL("seatunnel", "SeaTunnel"),
+    FAKESOURCE("FakeSource", "Fake"),
+    ASSERT("Assert", "Assert"),
+    SOCKET("Socket", "Socket"),
+    CONSOLE("Console", "Console"),
+    EMAIL("Email", "Email"),
+    HTTP("Http", "Http"),
+    FEISHU_SHEET("FeishuSheet", "FeishuSheet"),
+    WEBHOOK("WebhookStream", "Webhook"),
+
+    FILE("FileSource", "File"),
+    KAFKA("Kafka", "Kafka"),
+    JDBC("Jdbc", "Jdbc"),
+    REDIS("Redis", "Redis"),
+    ELASTICSEARCH("elasticsearch", "Elasticsearch"),
+    MONGODB("mongodb", "MongoDB"),
+    TIDB("tidb", "TiDB"),
+    PHOENIX("Phoenix", "Phoenix"),
+
+    HIVE("hive", "Hive"),
+    DRUID("DruidSource", "Druid"),
+    CLICKHOUSE("clickhouse", "ClickHouse"),
+    CLICKHOUSE_FILE("ClickhouseFile", "ClickHouseFile"),
+    DORIS("DorisSink", "Doris"),
+    HUDI("hudi", "Hudi"),
+    ICEBERG("iceberg", "ICEBERG"),
+    HBASE("Hbase", "Hbase"),
+    KUDU("kudu", "KUDU"),
+    NEO4J("Neo4j", "Neo4j"),
+    INFLUXDB("InfluxDbSource", "InfluxDB"),
+
     ;
 
     @JsonCreator
-    public static SeaTunnelEngineType of(String value) {
+    public static SeaTunnelNativeFlinkPluginName of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(SeaTunnelEngineType.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(SeaTunnelNativeFlinkPluginName.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    SeaTunnelEngineType(String value, String label) {
+    SeaTunnelNativeFlinkPluginName(String value, String label) {
         this.value = value;
         this.label = label;
     }

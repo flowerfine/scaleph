@@ -16,17 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.dao.mapper.sakura;
 
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
-import cn.sliew.scaleph.plugin.framework.exception.PluginException;
+import cn.sliew.scaleph.dao.entity.sakura.CatalogTable;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+@Repository
+public interface CatalogTableMapper extends BaseMapper<CatalogTable> {
 
-public interface SeatunnelJobService {
-
-    String preview(Long jobId) throws Exception;
-
-    List<DagPanelDTO> loadDndPanelInfo(SeaTunnelEngineType type) throws PluginException;
 }

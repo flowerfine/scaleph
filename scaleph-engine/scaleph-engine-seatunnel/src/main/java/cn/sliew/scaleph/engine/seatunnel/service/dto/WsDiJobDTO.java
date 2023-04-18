@@ -18,8 +18,9 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.dto;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
 import cn.sliew.scaleph.common.dict.job.JobStatus;
-import cn.sliew.scaleph.common.dict.job.JobType;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.JobGraphVO;
 import io.swagger.annotations.ApiModel;
@@ -51,6 +52,10 @@ public class WsDiJobDTO extends BaseDTO {
     @ApiModelProperty(value = "项目id")
     private Long projectId;
 
+    @NotNull
+    @ApiModelProperty(value = "作业引擎")
+    private SeaTunnelEngineType jobEngine;
+
     @ApiModelProperty(value = "作业编码")
     private Long jobCode;
 
@@ -60,7 +65,7 @@ public class WsDiJobDTO extends BaseDTO {
     private String jobName;
 
     @ApiModelProperty(value = "作业类型 实时、离线")
-    private JobType jobType;
+    private FlinkRuntimeExecutionMode jobType;
 
     @ApiModelProperty(value = "作业状态 草稿、发布、归档")
     private JobStatus jobStatus;

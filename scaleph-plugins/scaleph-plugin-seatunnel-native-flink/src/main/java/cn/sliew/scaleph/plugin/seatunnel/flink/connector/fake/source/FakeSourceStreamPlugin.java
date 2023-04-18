@@ -20,7 +20,7 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connector.fake.source;
 
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
@@ -31,7 +31,7 @@ import java.util.List;
 
 import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.FAKE_STREAM_SOURCE;
 
-@AutoService(SeatunnelNativeFlinkPlugin.class)
+@AutoService(SeaTunnelNativeFlinkPlugin.class)
 public class FakeSourceStreamPlugin extends FakeSourcePlugin {
 
     public FakeSourceStreamPlugin() {

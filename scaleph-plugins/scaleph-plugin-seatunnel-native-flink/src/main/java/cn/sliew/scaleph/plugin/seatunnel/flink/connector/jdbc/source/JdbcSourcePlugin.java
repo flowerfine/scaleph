@@ -21,7 +21,7 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.source;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.google.auto.service.AutoService;
 
@@ -33,8 +33,8 @@ import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.JDBC_
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.JdbcProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.source.JdbcSourceProperties.*;
 
-@AutoService(SeatunnelNativeFlinkPlugin.class)
-public class JdbcSourcePlugin extends SeatunnelNativeFlinkPlugin {
+@AutoService(SeaTunnelNativeFlinkPlugin.class)
+public class JdbcSourcePlugin extends SeaTunnelNativeFlinkPlugin {
 
     public JdbcSourcePlugin() {
         this.pluginInfo = new PluginInfo(JDBC_SOURCE.getValue(), "jdbc source connector", JdbcSourcePlugin.class.getName());

@@ -16,17 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.catalog.service.dto;
 
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
-import cn.sliew.scaleph.plugin.framework.exception.PluginException;
+import cn.sliew.scaleph.common.dict.catalog.CatalogColumnType;
+import lombok.Data;
+import org.apache.flink.table.types.DataType;
 
-import java.util.List;
+/**
+ * @see org.apache.flink.table.catalog.Column
+ */
+@Data
+public class ColumnDTO {
 
-public interface SeatunnelJobService {
+    private String name;
+    private CatalogColumnType type;
+    private DataType dataType;
 
-    String preview(Long jobId) throws Exception;
+    private Object meta;
 
-    List<DagPanelDTO> loadDndPanelInfo(SeaTunnelEngineType type) throws PluginException;
 }

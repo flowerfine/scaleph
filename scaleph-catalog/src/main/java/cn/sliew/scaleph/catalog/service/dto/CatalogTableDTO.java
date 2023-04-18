@@ -16,17 +16,35 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
+package cn.sliew.scaleph.catalog.service.dto;
 
-import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
-import cn.sliew.scaleph.plugin.framework.exception.PluginException;
+import cn.sliew.scaleph.common.dict.catalog.CatalogTableKind;
+import cn.sliew.scaleph.common.dto.BaseDTO;
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
 
-import java.util.List;
+import java.util.Map;
 
-public interface SeatunnelJobService {
+@Data
+@ApiModel(value = "CatalogTable对象", description = "table")
+public class CatalogTableDTO extends BaseDTO {
 
-    String preview(Long jobId) throws Exception;
+    private static final long serialVersionUID = 1L;
 
-    List<DagPanelDTO> loadDndPanelInfo(SeaTunnelEngineType type) throws PluginException;
+    private Long databaseId;
+
+    private CatalogTableKind kind;
+
+    private String name;
+
+    private Map<String, String> properties;
+
+    private SchemaDTO schema;
+
+    private String originalQuery;
+
+    private String expandedQuery;
+
+    private String remark;
+
 }

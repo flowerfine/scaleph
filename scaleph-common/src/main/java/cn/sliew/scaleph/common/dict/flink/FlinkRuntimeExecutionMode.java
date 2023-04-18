@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.dict.seatunnel;
+package cn.sliew.scaleph.common.dict.flink;
 
 import cn.sliew.scaleph.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -26,25 +26,24 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum SeaTunnelEngineType implements DictInstance {
-
-//    FLINK("flink", "Flink"),
-//    SPARK("spark", "Spark"),
-    SEATUNNEL("seatunnel", "SeaTunnel"),
+public enum FlinkRuntimeExecutionMode implements DictInstance {
+    STREAMING("STREAMING", "STREAMING"),
+    BATCH("BATCH", "BATCH"),
+    AUTOMATIC("AUTOMATIC", "AUTOMATIC"),
     ;
 
     @JsonCreator
-    public static SeaTunnelEngineType of(String value) {
+    public static FlinkRuntimeExecutionMode of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(SeaTunnelEngineType.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(FlinkRuntimeExecutionMode.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    SeaTunnelEngineType(String value, String label) {
+    FlinkRuntimeExecutionMode(String value, String label) {
         this.value = value;
         this.label = label;
     }
