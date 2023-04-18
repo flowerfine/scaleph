@@ -29,7 +29,7 @@ create table ws_di_job
     job_engine  varchar(16)       not null comment '作业引擎',
     job_code    bigint       not null comment '作业编码',
     job_name    varchar(256) not null comment '作业名称',
-    job_type    varchar(4) comment '作业类型',
+    job_type    varchar(16) comment '作业类型',
     job_status  varchar(4) default '1' comment '作业状态 草稿、发布、归档',
     job_version int        default 1 comment '作业版本号',
     remark      varchar(256) comment '备注',
@@ -42,10 +42,10 @@ create table ws_di_job
 ) engine = innodb comment '数据集成-作业信息';
 INSERT INTO ws_di_job (id, project_id, job_engine, job_code, job_name, job_type, job_status,
                        job_version, remark, creator, editor)
-VALUES (1, 1, 'seatunnel', 1, 'e_commerce', 'b', '2', 1, NULL, 'sys', 'sys');
+VALUES (1, 1, 'seatunnel', 1, 'e_commerce', 'BATCH', '2', 1, NULL, 'sys', 'sys');
 INSERT INTO ws_di_job(id, project_id, job_engine, job_code, job_name, job_type, job_status,
                       job_version, remark, creator, editor)
-VALUES (2, 1, 'seatunnel', 2, 'fake', 'b', '2', 1, NULL, 'sys', 'sys');
+VALUES (2, 1, 'seatunnel', 2, 'fake', 'BATCH', '2', 1, NULL, 'sys', 'sys');
 
 
 /* 作业参数信息 作业参数*/

@@ -18,8 +18,8 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.param;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
 import cn.sliew.scaleph.common.dict.job.JobStatus;
-import cn.sliew.scaleph.common.dict.job.JobType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.common.param.PaginationParam;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
@@ -47,7 +47,7 @@ public class WsDiJobParam extends PaginationParam {
     private String jobName;
 
     @ApiModelProperty("job type")
-    private JobType jobType;
+    private FlinkRuntimeExecutionMode jobType;
 
     @ApiModelProperty("job status")
     private JobStatus jobStatus;

@@ -65,7 +65,7 @@
             <if test="job.projectId != null ">
                 and t.project_id = #{job.projectId,jdbcType=BIGINT}
             </if>
-            <if test="job.jobEngine != null ">
+            <if test="job.jobEngine != null">
                 and t.job_engine = #{job.jobEngine}
             </if>
             <if test="job.jobCode != null and job.jobCode != '' ">
@@ -77,7 +77,7 @@
             <if test="job.jobStatus != null and job.jobStatus != '' ">
                 and t.job_status = #{job.jobStatus,jdbcType=VARCHAR}
             </if>
-            <if test="job.jobType != null and job.jobType != '' ">
+            <if test="job.jobType != null">
                 and t.job_type = #{job.jobType,jdbcType=VARCHAR}
             </if>
         </where>

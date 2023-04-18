@@ -18,8 +18,8 @@
 
 package cn.sliew.scaleph.dao.entity.master.ws;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
 import cn.sliew.scaleph.common.dict.job.JobStatus;
-import cn.sliew.scaleph.common.dict.job.JobType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -57,7 +57,7 @@ public class WsDiJob extends BaseDO {
     private String jobName;
 
     @ApiModelProperty(value = "作业类型 实时、离线")
-    private JobType jobType;
+    private FlinkRuntimeExecutionMode jobType;
 
     @ApiModelProperty(value = "作业状态 草稿、发布、归档")
     private JobStatus jobStatus;
