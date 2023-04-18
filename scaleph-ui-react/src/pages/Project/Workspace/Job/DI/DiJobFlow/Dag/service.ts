@@ -3,14 +3,14 @@ import { NsGraph } from '@antv/xflow';
 import { NsNodeCollapsePanel } from '@antv/xflow-extension/es';
 import { getIntl, getLocale, request } from 'umi';
 import { CONNECTION_PORT_TYPE, DND_RENDER_ID, NODE_HEIGHT, NODE_WIDTH } from './constant';
-import {WsDiJobGraphParam} from "@/services/project/typings";
+import {WsDiJob, WsDiJobGraphParam} from "@/services/project/typings";
 
 export const DagService = {
   url: '/api/di/job',
 
-  loadNodeMeta: async () => {
-    return request<NsNodeCollapsePanel.ICollapsePanel[]>(`${DagService.url}/node/meta`, {
-      method: 'GET',
+  loadNodeMeta: async (job: WsDiJob) => {
+    return request<NsNodeCollapsePanel.ICollapsePanel[]>(`${DagService.url}/node/meta/${job.jobEngine.value}`, {
+      method: 'GET'
     });
   },
 

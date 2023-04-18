@@ -13,7 +13,7 @@ export const onNodeDrop: NsNodeCollapsePanel.IOnNodeDrop = async (
 };
 
 export const nodeDataService: NsNodeCollapsePanel.INodeDataService = async (meta, modelService) => {
-  const data = await DagService.loadNodeMeta();
+  const data = await DagService.loadNodeMeta(meta.origin);
   return data;
 };
 
