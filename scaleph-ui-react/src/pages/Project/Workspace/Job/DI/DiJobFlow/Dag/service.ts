@@ -101,7 +101,7 @@ export const DagService = {
         },
       ];
       return { groups: group, items: items };
-    } else if (type === 'trans') {
+    } else if (type === 'transform') {
       const items: NsGraph.INodeAnchor[] = [
         {
           id: CONNECTION_PORT_TYPE.source,
