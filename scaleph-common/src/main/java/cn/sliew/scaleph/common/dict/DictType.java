@@ -63,7 +63,6 @@ public enum DictType implements DictDefinition {
     JOB_INSTANCE_TYPE("job_instance_state", "作业实例状态", JobInstanceType.class),
     RUNTIME_STATE("runtime_state", "运行状态", RuntimeState.class),
     JOB_ATTR_TYPE("job_attr_type", "作业属性类型", JobAttrType.class),
-    JOB_STEP_TYPE("job_step_type", "步骤类型", JobStepType.class),
 
     CLUSTER_TYPE("cluster_type", "集群类型", ClusterType.class),
     DATA_TYPE("data_type", "数据类型", DataType.class),

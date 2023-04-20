@@ -33,7 +33,7 @@ public class DagPanalVO {
     private String name;
 
     /**
-     * @see cn.sliew.scaleph.common.dict.job.JobStepType
+     * @see cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType
      */
     @ApiModelProperty("connector type")
     private String type;
