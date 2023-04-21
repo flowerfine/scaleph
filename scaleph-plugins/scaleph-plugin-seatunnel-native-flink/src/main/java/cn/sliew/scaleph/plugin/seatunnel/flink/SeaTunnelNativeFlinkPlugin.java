@@ -24,21 +24,9 @@ import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import java.util.Collections;
-import java.util.List;
-
-public abstract class SeatunnelNativeFlinkPlugin extends AbstractPlugin {
-
+public abstract class SeaTunnelNativeFlinkPlugin extends AbstractPlugin {
 
     public abstract JobStepTypeEnum getStepType();
-
-    /**
-     * For example: flink-connector-jdbc requires mysql jdbc jar.
-     * todo may we need a new ResourceDescriptor? Is this a useful method ?
-     */
-    public List<PropertyDescriptor> additionalResources() {
-        return Collections.emptyList();
-    }
 
     public ObjectNode createConf() {
         ObjectNode objectNode = JacksonUtil.createObjectNode();

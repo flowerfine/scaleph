@@ -43,7 +43,11 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-plugin-flink-1.13</artifactId>
+            <artifactId>scaleph-plugin-seatunnel-native-flink</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-plugin-flink-1.16</artifactId>
         </dependency>
 
         <dependency>

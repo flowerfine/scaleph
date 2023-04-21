@@ -27,6 +27,11 @@ spring:
       jdbc-url: jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
       username: root
       password: 123456
+    sakura:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/sakura?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+      username: root
+      password: 123456
   quartz:
     properties:
       org.quartz:

@@ -18,6 +18,9 @@
 
 package cn.sliew.scaleph.common.dict;
 
+import cn.sliew.scaleph.common.dict.catalog.CatalogColumnType;
+import cn.sliew.scaleph.common.dict.catalog.CatalogConstraintType;
+import cn.sliew.scaleph.common.dict.catalog.CatalogTableKind;
 import cn.sliew.scaleph.common.dict.common.*;
 import cn.sliew.scaleph.common.dict.ds.RedisMode;
 import cn.sliew.scaleph.common.dict.flink.*;
@@ -56,12 +59,10 @@ public enum DictType implements DictDefinition {
     TASK_RESULT("task_result", "任务运行结果", TaskResult.class),
     DATASOURCE_TYPE("datasource_type", "数据源类型", DataSourceType.class),
 
-    JOB_TYPE("job_type", "作业类型", JobType.class),
     JOB_STATUS("job_status", "作业状态", JobStatus.class),
     JOB_INSTANCE_TYPE("job_instance_state", "作业实例状态", JobInstanceType.class),
     RUNTIME_STATE("runtime_state", "运行状态", RuntimeState.class),
     JOB_ATTR_TYPE("job_attr_type", "作业属性类型", JobAttrType.class),
-    JOB_STEP_TYPE("job_step_type", "步骤类型", JobStepType.class),
 
     CLUSTER_TYPE("cluster_type", "集群类型", ClusterType.class),
     DATA_TYPE("data_type", "数据类型", DataType.class),
@@ -69,6 +70,7 @@ public enum DictType implements DictDefinition {
     FLINK_VERSION("flink_version", "Flink 版本", FlinkVersion.class),
     FLINK_RESOURCE_PROVIDER("flink_resource_provider", "Flink 资源类型", FlinkResourceProvider.class),
     FLINK_DEPLOYMENT_MODE("flink_deployment_mode", "Flink 部署模式", FlinkDeploymentMode.class),
+    FLINK_RUNTIME_EXECUTION_MODE("flink_runtime_execution_mode", "Flink 运行模式", FlinkRuntimeExecutionMode.class),
     FLINK_HIGH_AVAILABILITY("flink_high_availability", "Flink HA", FlinkHighAvailability.class),
     FLINK_RESTART_STRATEGY("flink_restart_strategy", "Flink 重启策略", FlinkRestartStrategy.class),
     FLINK_STATE_BACKEND("flink_state_backend", "Flink State Backend", FlinkStateBackend.class),
@@ -80,6 +82,10 @@ public enum DictType implements DictDefinition {
 
     FLINK_KUBERNETES_DEPLOYMENT_MODE("deployment_mode", "Deployment 模式", DeploymentMode.class),
     FLINK_KUBERNETES_DEPLOYMENT_KIND("deployment_kind", "Deployment 类型", DeploymentKind.class),
+
+    FLINK_CATALOG_COLUMN_TYPE("flink_catalog_column_type", "Flink Catalog Table Schema 列类型", CatalogColumnType.class),
+    FLINK_CATALOG_TABLE_KIND("flink_catalog_table_kind", "Flink Catalog Table 类型", CatalogTableKind.class),
+    FLINK_CATALOG_CONSTRAINT_TYPE("flink_catalog_constraint_type", "Flink Catalog Table Constraint 类型", CatalogConstraintType.class),
 
     SEATUNNEL_VERSION("seatunnel_version", "SeaTunnel 版本", SeaTunnelVersion.class),
     SEATUNNEL_ENGINE_TYPE("seatunnel_engine_type", "SeaTunnel 引擎类型", SeaTunnelEngineType.class),

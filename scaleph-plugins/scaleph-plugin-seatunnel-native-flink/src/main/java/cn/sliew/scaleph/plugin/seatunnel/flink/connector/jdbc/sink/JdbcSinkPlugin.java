@@ -21,7 +21,7 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.sink;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.google.auto.service.AutoService;
 
@@ -33,8 +33,8 @@ import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.JDBC_
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.JdbcProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.jdbc.sink.JdbcSinkProperties.*;
 
-@AutoService(SeatunnelNativeFlinkPlugin.class)
-public class JdbcSinkPlugin extends SeatunnelNativeFlinkPlugin {
+@AutoService(SeaTunnelNativeFlinkPlugin.class)
+public class JdbcSinkPlugin extends SeaTunnelNativeFlinkPlugin {
 
     public JdbcSinkPlugin() {
         this.pluginInfo = new PluginInfo(JDBC_SINK.getValue(), "jdbc sink connector", JdbcSinkPlugin.class.getName());
@@ -59,8 +59,4 @@ public class JdbcSinkPlugin extends SeatunnelNativeFlinkPlugin {
         return JobStepTypeEnum.SINK;
     }
 
-    @Override
-    public List<PropertyDescriptor> additionalResources() {
-        return Collections.emptyList();
-    }
 }

@@ -19,16 +19,15 @@
 package cn.sliew.scaleph.engine.seatunnel.service.impl;
 
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.common.dict.job.JobStepType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
+import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
+import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
+import cn.sliew.scaleph.engine.seatunnel.service.constant.SeaTunnelConstant;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobAttrDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobLinkDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobStepDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
-import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
-import cn.sliew.scaleph.engine.seatunnel.service.constant.SeaTunnelConstant;
 import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelConnectorPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.env.JobNameProperties;
@@ -169,7 +168,7 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
 
         nodes.forEach(node -> {
             String nodeType = node.get(NODE_TYPE).asText();
-            JobStepType stepType = JobStepType.of(nodeType);
+            SeaTunnelPluginType stepType = SeaTunnelPluginType.of(nodeType);
             switch (stepType) {
                 case SOURCE:
                     sourceConf.add(node);

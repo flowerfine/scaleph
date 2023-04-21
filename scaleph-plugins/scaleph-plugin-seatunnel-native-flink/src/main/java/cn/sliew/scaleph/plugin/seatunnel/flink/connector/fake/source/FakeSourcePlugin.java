@@ -25,7 +25,7 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -39,8 +39,8 @@ import java.util.List;
 
 import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.FAKE_SOURCE;
 
-@AutoService(SeatunnelNativeFlinkPlugin.class)
-public class FakeSourcePlugin extends SeatunnelNativeFlinkPlugin {
+@AutoService(SeaTunnelNativeFlinkPlugin.class)
+public class FakeSourcePlugin extends SeaTunnelNativeFlinkPlugin {
 
     private final static String MOCK_DATA_SCHEMA_CONFIG = "mock_config";
     private final static String MOCK_DATA_SCHEMA_NAME = "name";

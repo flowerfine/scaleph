@@ -1,12 +1,11 @@
-import {Dict} from '@/app.d';
 import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from '@/constant';
 import {DictDataService} from '@/services/admin/dictData.service';
 import {WsDiJobService} from '@/services/project/WsDiJob.service';
 import {WsDiJob} from '@/services/project/typings';
 import {DeleteOutlined, DownOutlined, EditOutlined, NodeIndexOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, Col, Dropdown, Menu, message, Modal, Row, Select, Space, Tooltip} from 'antd';
-import React, {useEffect, useRef, useState} from 'react';
+import {Button, Col, Dropdown, Menu, message, Modal, Row, Space, Tooltip} from 'antd';
+import React, {useRef, useState} from 'react';
 import {history, useAccess, useIntl} from 'umi';
 import DiJobForm from './components/DiJobForm';
 
@@ -16,18 +15,11 @@ const DiJobView: React.FC = () => {
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [jobTypeList, setJobTypeList] = useState<Dict[]>([]);
 
   const [jobFormData, setJobFormData] = useState<{ visible: boolean; data: WsDiJob }>({
     visible: false,
     data: {},
   });
-
-  useEffect(() => {
-    DictDataService.listDictDataByType2(DICT_TYPE.jobType).then((d) => {
-      setJobTypeList(d);
-    });
-  }, []);
 
   const onJobFlow = (record: WsDiJob) => {
     history.push("/workspace/job/seatunnel/dag", {
@@ -43,6 +35,18 @@ const DiJobView: React.FC = () => {
       width: 200,
     },
     {
+      title: intl.formatMessage({id: 'pages.project.di.jobEngine'}),
+      dataIndex: 'jobEngine',
+      align: 'center',
+      width: 100,
+      render: (_, record) => {
+        return record.jobEngine?.label;
+      },
+      request: (params, props) => {
+        return DictDataService.listDictDataByType2(DICT_TYPE.seatunnelEngineType)
+      }
+    },
+    {
       title: intl.formatMessage({id: 'pages.project.di.jobType'}),
       dataIndex: 'jobType',
       align: 'center',
@@ -50,41 +54,24 @@ const DiJobView: React.FC = () => {
       render: (_, record) => {
         return record.jobType?.label;
       },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
-        return (
-          <Select
-            showSearch={true}
-            allowClear={true}
-            optionFilterProp="label"
-            filterOption={(input, option) =>
-              (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-            }
-          >
-            {jobTypeList.map((item) => {
-              return (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        );
-      },
+      request: (params, props) => {
+        return DictDataService.listDictDataByType2(DICT_TYPE.flinkRuntimeExecutionMode)
+      }
     },
     {
-      title: intl.formatMessage({id: 'pages.project.di.remark'}),
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       hideInSearch: true,
       width: 150,
     },
     {
-      title: intl.formatMessage({id: 'pages.project.di.createTime'}),
+      title: intl.formatMessage({id: 'app.common.data.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.project.di.updateTime'}),
+      title: intl.formatMessage({id: 'app.common.data.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
@@ -185,34 +172,50 @@ const DiJobView: React.FC = () => {
                       <Menu
                         items={[
                           {
-                            key: 'r',
+                            key: 'streaming',
                             label: (
                               <Button
                                 type="text"
                                 onClick={() => {
                                   setJobFormData({
                                     visible: true,
-                                    data: {projectId: projectId + '', jobType: {value: 'r'}},
+                                    data: {projectId: projectId + '', jobType: {value: 'STREAMING'}},
                                   });
                                 }}
                               >
-                                {intl.formatMessage({id: 'pages.project.di.job.realtime'})}
+                                {intl.formatMessage({id: 'pages.project.di.job.streaming'})}
                               </Button>
                             ),
                           },
                           {
-                            key: 'b',
+                            key: 'batch',
                             label: (
                               <Button
                                 type="text"
                                 onClick={() => {
                                   setJobFormData({
                                     visible: true,
-                                    data: {projectId: projectId + '', jobType: {value: 'b'}},
+                                    data: {projectId: projectId + '', jobType: {value: 'BATCH'}},
                                   });
                                 }}
                               >
                                 {intl.formatMessage({id: 'pages.project.di.job.batch'})}
+                              </Button>
+                            ),
+                          },
+                          {
+                            key: 'automatic',
+                            label: (
+                              <Button
+                                type="text"
+                                onClick={() => {
+                                  setJobFormData({
+                                    visible: true,
+                                    data: {projectId: projectId + '', jobType: {value: 'AUTOMATIC'}},
+                                  });
+                                }}
+                              >
+                                {intl.formatMessage({id: 'pages.project.di.job.automatic'})}
                               </Button>
                             ),
                           },

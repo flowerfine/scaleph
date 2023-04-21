@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.dict.job;
+package cn.sliew.scaleph.common.dict.catalog;
 
 import cn.sliew.scaleph.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -26,24 +26,24 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum JobType implements DictInstance {
+public enum CatalogConstraintType implements DictInstance {
 
-    BATCH("b", "周期作业"),
-    STREAM("r", "实时作业"),
+    PRIMARY_KEY("PRIMARY_KEY", "PRIMARY_KEY"),
+    UNIQUE_KEY("UNIQUE_KEY", "UNIQUE_KEY"),
     ;
 
     @JsonCreator
-    public static JobType of(String value) {
+    public static CatalogConstraintType of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(JobType.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CatalogConstraintType.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    JobType(String value, String label) {
+    CatalogConstraintType(String value, String label) {
         this.value = value;
         this.label = label;
     }

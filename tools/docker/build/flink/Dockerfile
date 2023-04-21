@@ -19,8 +19,7 @@ ARG BASE_IMAGE=adoptopenjdk/openjdk11:jre
 FROM $BASE_IMAGE
 
 ARG FLINK_VERSION
-ARG SCALA_VERSION
-ARG TAR_FILE=flink-${FLINK_VERSION}-bin-scala_${SCALA_VERSION}.tgz
+ARG TAR_FILE=flink-${FLINK_VERSION}-bin-scala_2.12.tgz
 
 ENV FLINK_HOME /opt/flink
 

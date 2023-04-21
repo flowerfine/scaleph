@@ -23,33 +23,22 @@ import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.core.util.RandomUtil;
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.security.util.SecurityUtil;
-import cn.sliew.scaleph.system.vo.ResponseVO;
 import cn.sliew.scaleph.cache.util.RedisUtil;
 import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
-import cn.sliew.scaleph.system.util.I18nUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.NotNull;
 import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -64,8 +53,6 @@ public class CommonController {
 
     @Autowired
     private RedisUtil redisUtil;
-    @Autowired
-    private FileSystemService fileSystemService;
     @Autowired
     private UidGenerator defaultUidGenerator;
 
@@ -91,55 +78,6 @@ public class CommonController {
         map.put("uuid", uuid);
         map.put("img", lineCaptcha.getImageBase64Data());
         return new ResponseEntity<>(map, HttpStatus.OK);
-    }
-
-    @Logging
-    @PostMapping(path = "/file/upload")
-    @ApiOperation(value = "上传文件", notes = "上传文件到公共目录")
-    public ResponseEntity<ResponseVO> upload(@RequestParam("file") MultipartFile file) throws IOException {
-        if (StringUtils.isEmpty(SecurityUtil.getCurrentUserName())) {
-            return new ResponseEntity<>(
-                    ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
-                            I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
-        }
-
-        try (final InputStream inputStream = file.getInputStream()) {
-            fileSystemService.upload(inputStream, file.getName());
-        }
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-    }
-
-    @Logging
-    @GetMapping(path = "/file/download")
-    @ApiOperation(value = "下载文件", notes = "从公共目录下载文件")
-    public ResponseEntity<ResponseVO> download(@NotNull String fileName,
-                                               HttpServletResponse response) throws IOException {
-        if (StringUtils.isEmpty(SecurityUtil.getCurrentUserName())) {
-            return new ResponseEntity<>(
-                    ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
-                            I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
-        }
-
-        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
-        try (final InputStream inputStream = fileSystemService.get(fileName);
-             final ServletOutputStream outputStream = response.getOutputStream()) {
-            FileCopyUtils.copy(inputStream, outputStream);
-            outputStream.flush();
-        }
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-    }
-
-    @Logging
-    @DeleteMapping(path = "/file/delete")
-    @ApiOperation(value = "删除文件", notes = "从公共目录删除文件")
-    public ResponseEntity<ResponseVO> deleteFile(@NotNull String fileName) throws IOException {
-        if (StringUtils.isEmpty(SecurityUtil.getCurrentUserName())) {
-            return new ResponseEntity<>(
-                    ResponseVO.error(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),
-                            I18nUtil.get("response.error.unauthorized")), HttpStatus.OK);
-        }
-        fileSystemService.delete(fileName);
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging

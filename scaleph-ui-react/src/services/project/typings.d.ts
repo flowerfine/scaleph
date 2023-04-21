@@ -19,6 +19,7 @@ export type WsProjectParam = QueryParam & {
 export type WsDiJob = {
   id?: number;
   projectId?: number | string;
+  jobEngine?: Dict | any;
   jobCode?: number;
   jobName?: string;
   jobType?: Dict | any;
@@ -35,6 +36,7 @@ export type WsDiJob = {
 
 export type WsDiJobParam = QueryParam & {
   projectId: string;
+  jobEngine?: string;
   jobCode?: number;
   jobName?: string;
   jobType?: string;

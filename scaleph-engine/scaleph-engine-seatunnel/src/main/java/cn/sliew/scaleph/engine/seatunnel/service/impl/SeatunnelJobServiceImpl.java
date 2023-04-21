@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.impl;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConfigService;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelConnectorService;
@@ -36,10 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -59,11 +57,20 @@ public class SeatunnelJobServiceImpl implements SeatunnelJobService {
     }
 
     @Override
-    public List<DagPanelDTO> loadDndPanelInfo() throws PluginException {
+    public List<DagPanelDTO> loadDndPanelInfo(SeaTunnelEngineType type) throws PluginException {
+        switch (type) {
+            case SEATUNNEL:
+                return loadSeaTunnelPanel();
+            default:
+                return Collections.emptyList();
+        }
+    }
+
+    private List<DagPanelDTO> loadSeaTunnelPanel() {
         List<DagPanelDTO> list = new ArrayList<>();
-        for (SeaTunnelPluginType type : SeaTunnelPluginType.values()) {
-            Set<SeaTunnelConnectorPlugin> plugins = seatunnelConnectorService.getAvailableConnectors(type);
-            DagPanelDTO panel = toDagPanel(type, plugins);
+        for (SeaTunnelPluginType pluginType : SeaTunnelPluginType.values()) {
+            Set<SeaTunnelConnectorPlugin> plugins = seatunnelConnectorService.getAvailableConnectors(pluginType);
+            DagPanelDTO panel = toDagPanel(pluginType, plugins);
             if (panel != null) {
                 list.add(panel);
             }

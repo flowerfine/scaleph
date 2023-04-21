@@ -21,7 +21,7 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connector.file.source;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import com.google.auto.service.AutoService;
 
@@ -32,8 +32,8 @@ import java.util.List;
 import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.FILE_SOURCE;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.file.source.FileSourceProperties.*;
 
-@AutoService(SeatunnelNativeFlinkPlugin.class)
-public class FileSourcePlugin extends SeatunnelNativeFlinkPlugin {
+@AutoService(SeaTunnelNativeFlinkPlugin.class)
+public class FileSourcePlugin extends SeaTunnelNativeFlinkPlugin {
 
     public FileSourcePlugin() {
         this.pluginInfo = new PluginInfo(FILE_SOURCE.getValue(), "file source connector", FileSourcePlugin.class.getName());

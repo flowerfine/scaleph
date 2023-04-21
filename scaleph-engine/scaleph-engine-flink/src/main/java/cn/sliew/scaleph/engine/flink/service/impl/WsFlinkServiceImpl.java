@@ -59,9 +59,11 @@ import org.apache.flink.client.deployment.StandaloneClusterId;
 import org.apache.flink.client.program.ClusterClient;
 import org.apache.flink.client.program.rest.RestClusterClient;
 import org.apache.flink.configuration.*;
+import org.apache.flink.core.execution.SavepointFormatType;
 import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
 import org.apache.flink.runtime.client.JobStatusMessage;
 import org.apache.flink.runtime.rest.handler.async.TriggerResponse;
+import org.apache.flink.runtime.rest.messages.TriggerId;
 import org.apache.flink.runtime.rest.messages.job.savepoints.SavepointTriggerRequestBody;
 import org.apache.flink.runtime.rest.messages.job.savepoints.stop.StopWithSavepointRequestBody;
 import org.apache.flink.yarn.configuration.YarnConfigOptions;
@@ -226,6 +228,7 @@ public class WsFlinkServiceImpl implements WsFlinkService {
         Path seatunnelConfPath = buildSeaTunnelConf(wsDiJobDTO, workspace);
         PackageJarJob packageJarJob = buildSeaTunnelJob(seatunnelHomePath, seatunnelConfPath);
         jars.add(SeaTunnelReleaseUtil.getStarterJarPath(seatunnelHomePath).toFile().toURL());
+        jars.addAll(SeaTunnelReleaseUtil.getLibJars(seatunnelHomePath));
         jars.addAll(loadSeaTunnelConnectors(seaTunnelRelease, wsDiJobDTO, workspace));
 
         final Path clusterCredentialPath = loadClusterCredential(wsFlinkClusterConfigDTO.getClusterCredential(), workspace);
@@ -325,7 +328,7 @@ public class WsFlinkServiceImpl implements WsFlinkService {
 
         String savePointPath = String.join("/", String.valueOf(wsFlinkJobInstanceDTO.getFlinkJobCode()), String.valueOf(wsFlinkJobInstanceDTO.getId()));
         Path targetDirectory = SystemUtil.getSavepointDir(savePointPath);
-        StopWithSavepointRequestBody requestBody = new StopWithSavepointRequestBody(targetDirectory.toString(), true);
+        StopWithSavepointRequestBody requestBody = new StopWithSavepointRequestBody(targetDirectory.toString(), true, SavepointFormatType.NATIVE, new TriggerId());
         jobClient.jobStop(jobId, requestBody);
 
         wsFlinkJobInstanceDTO.setEndTime(new Date());
@@ -389,7 +392,7 @@ public class WsFlinkServiceImpl implements WsFlinkService {
         Path targetDirectory = SystemUtil.getSavepointDir(savePointPath);
         RestClient client = new FlinkRestClient(url.getHost(), url.getPort(), new Configuration());
         final JobClient jobClient = client.job();
-        SavepointTriggerRequestBody requestBody = new SavepointTriggerRequestBody(targetDirectory.toString(), true);
+        SavepointTriggerRequestBody requestBody = new SavepointTriggerRequestBody(targetDirectory.toString(), true, SavepointFormatType.NATIVE, new TriggerId());
         final CompletableFuture<TriggerResponse> triggerResponseCompletableFuture = jobClient.jobSavepoint(jobId, requestBody);
         triggerResponseCompletableFuture.get();
     }

@@ -45,7 +45,7 @@ services:
         condition: service_healthy
     build:
       context: ../../../../
-      dockerfile: tools/docker/build/scaleph-ui-react/Dockerfile
+      dockerfile: tools/docker/build/scaleph-ui-react/Dockerfile.local
     environment:
       - SCALEPH_API_URL="scaleph-api:8080"
     ports:
@@ -101,7 +101,7 @@ services:
       - scaleph
 
   jobmanager:
-    image: apache/flink:1.13.6-scala_2.11
+    image: flink:1.16.1-scala_2.12-java11
     container_name: jobmanager
     environment:
       FLINK_PROPERTIES: |
@@ -113,7 +113,7 @@ services:
       - scaleph
 
   taskmanager:
-    image: apache/flink:1.13.6-scala_2.11
+    image: flink:1.16.1-scala_2.12-java11
     container_name: taskmanager
     depends_on:
       - jobmanager
