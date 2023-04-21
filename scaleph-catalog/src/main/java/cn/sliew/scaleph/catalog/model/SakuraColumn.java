@@ -16,20 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.catalog.service.dto;
+package cn.sliew.scaleph.catalog.model;
 
 import cn.sliew.scaleph.common.dict.catalog.CatalogColumnType;
-import lombok.Data;
 import org.apache.flink.table.types.DataType;
 
 /**
  * @see org.apache.flink.table.catalog.Column
  */
-@Data
-public class ColumnDTO {
+public class SakuraColumn {
 
     private String name;
     private CatalogColumnType type;
-    private DataType dataType;
 
+    private DataType dataType;
 }
