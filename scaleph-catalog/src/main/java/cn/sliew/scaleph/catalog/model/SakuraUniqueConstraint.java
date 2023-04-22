@@ -18,22 +18,21 @@
 
 package cn.sliew.scaleph.catalog.model;
 
-import cn.sliew.scaleph.common.dict.catalog.CatalogColumnType;
+import cn.sliew.scaleph.common.dict.catalog.CatalogConstraintType;
 import lombok.Data;
 
+import java.util.List;
+
 /**
- * @see org.apache.flink.table.catalog.Column
- * @see org.apache.flink.table.api.Schema.UnresolvedColumn
+ * @see org.apache.flink.table.catalog.UniqueConstraint
+ * @see org.apache.flink.table.api.Schema.UnresolvedConstraint
  */
 @Data
-public class SakuraColumn {
+public class SakuraUniqueConstraint {
 
     private String name;
-    private CatalogColumnType type;
-    private String dataType;
-    private String comment;
-    private String expression;
-    private String metadataKey;
-    private boolean virtual;
+    private CatalogConstraintType type;
+    private List<String> columns;
+    private boolean enforced;
 
 }

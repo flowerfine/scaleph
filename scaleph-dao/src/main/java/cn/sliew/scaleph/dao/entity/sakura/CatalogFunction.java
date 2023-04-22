@@ -16,24 +16,37 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.catalog.model;
+package cn.sliew.scaleph.dao.entity.sakura;
 
-import cn.sliew.scaleph.common.dict.catalog.CatalogColumnType;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-/**
- * @see org.apache.flink.table.catalog.Column
- * @see org.apache.flink.table.api.Schema.UnresolvedColumn
- */
 @Data
-public class SakuraColumn {
+@TableName("catalog_function")
+@ApiModel(value = "CatalogFunction对象", description = "function")
+public class CatalogFunction extends BaseDO {
 
+    private static final long serialVersionUID = 1L;
+
+    @TableField("database_id")
+    private Long databaseId;
+
+    @TableField("`name`")
     private String name;
-    private CatalogColumnType type;
-    private String dataType;
-    private String comment;
-    private String expression;
-    private String metadataKey;
-    private boolean virtual;
+
+    @TableField("class_name")
+    private String className;
+
+    @TableField("function_language")
+    private String functionLanguage;
+
+    @TableField("function_type")
+    private String functionType;
+
+    @TableField("remark")
+    private String remark;
 
 }

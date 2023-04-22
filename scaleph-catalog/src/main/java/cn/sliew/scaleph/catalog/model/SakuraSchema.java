@@ -18,10 +18,19 @@
 
 package cn.sliew.scaleph.catalog.model;
 
+import lombok.Data;
+
+import java.util.List;
+
 /**
  * @see org.apache.flink.table.catalog.ResolvedSchema
  * @see org.apache.flink.table.api.Schema
  */
+@Data
 public class SakuraSchema {
+
+    private List<SakuraColumn> columns;
+    private List<SakuraWatermark> watermarks;
+    private SakuraUniqueConstraint primaryKey;
 
 }

@@ -18,7 +18,18 @@
 
 package cn.sliew.scaleph.catalog.model;
 
+import lombok.Data;
+
+import java.util.Map;
+
+/**
+ * @see org.apache.flink.table.catalog.DefaultCatalogTable
+ */
+@Data
 public class SakuraCatalogTable  {
 
-
+    private String name;
+    private SakuraSchema schema;
+    private Map<String, String> properties;
+    private String comment;
 }

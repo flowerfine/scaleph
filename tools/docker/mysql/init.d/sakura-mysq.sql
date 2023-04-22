@@ -35,8 +35,8 @@ CREATE TABLE `catalog_table`
     PRIMARY KEY (id)
 ) ENGINE = InnoDB COMMENT ='table';
 
-DROP TABLE IF EXISTS `metadata_column`;
-CREATE TABLE `metadata_column`
+DROP TABLE IF EXISTS `catalog_column`;
+CREATE TABLE `catalog_column`
 (
     id          BIGINT       NOT NULL AUTO_INCREMENT,
     table_id    BIGINT       NOT NULL,

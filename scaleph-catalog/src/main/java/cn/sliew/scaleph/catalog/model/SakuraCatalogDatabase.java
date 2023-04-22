@@ -24,6 +24,9 @@ import org.apache.flink.table.catalog.CatalogDatabaseImpl;
 import javax.annotation.Nullable;
 import java.util.Map;
 
+/**
+ * @see org.apache.flink.table.catalog.CatalogDatabaseImpl
+ */
 public class SakuraCatalogDatabase extends CatalogDatabaseImpl {
 
     @Getter

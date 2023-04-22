@@ -18,22 +18,10 @@
 
 package cn.sliew.scaleph.catalog.model;
 
-import cn.sliew.scaleph.common.dict.catalog.CatalogColumnType;
-import lombok.Data;
-
 /**
- * @see org.apache.flink.table.catalog.Column
- * @see org.apache.flink.table.api.Schema.UnresolvedColumn
+ * @see org.apache.flink.table.catalog.CatalogFunction
  */
-@Data
-public class SakuraColumn {
+public class SakuraCatalogFunction {
 
-    private String name;
-    private CatalogColumnType type;
-    private String dataType;
-    private String comment;
-    private String expression;
-    private String metadataKey;
-    private boolean virtual;
 
 }
