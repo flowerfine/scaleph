@@ -29,22 +29,13 @@ import java.util.Map;
 @ApiModel(value = "CatalogTable对象", description = "table")
 public class CatalogTableDTO extends BaseDTO {
 
-    private static final long serialVersionUID = 1L;
-
     private Long databaseId;
 
     private CatalogTableKind kind;
-
     private String name;
-
-    private Map<String, String> properties;
-
     private SchemaDTO schema;
-
+    private Map<String, String> properties;
     private String originalQuery;
-
     private String expandedQuery;
-
     private String remark;
-
 }

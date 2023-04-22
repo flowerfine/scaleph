@@ -20,6 +20,7 @@ package cn.sliew.scaleph.common.dict;
 
 import cn.sliew.scaleph.common.dict.catalog.CatalogColumnType;
 import cn.sliew.scaleph.common.dict.catalog.CatalogConstraintType;
+import cn.sliew.scaleph.common.dict.catalog.CatalogFunctionLanguage;
 import cn.sliew.scaleph.common.dict.catalog.CatalogTableKind;
 import cn.sliew.scaleph.common.dict.common.*;
 import cn.sliew.scaleph.common.dict.ds.RedisMode;
@@ -86,6 +87,7 @@ public enum DictType implements DictDefinition {
     FLINK_CATALOG_COLUMN_TYPE("flink_catalog_column_type", "Flink Catalog Table Schema 列类型", CatalogColumnType.class),
     FLINK_CATALOG_TABLE_KIND("flink_catalog_table_kind", "Flink Catalog Table 类型", CatalogTableKind.class),
     FLINK_CATALOG_CONSTRAINT_TYPE("flink_catalog_constraint_type", "Flink Catalog Table Constraint 类型", CatalogConstraintType.class),
+    FLINK_CATALOG_FUNCTION_LANGUAGE("flink_catalog_function_language", "Flink Catalog Function 语言", CatalogFunctionLanguage.class),
 
     SEATUNNEL_VERSION("seatunnel_version", "SeaTunnel 版本", SeaTunnelVersion.class),
     SEATUNNEL_ENGINE_TYPE("seatunnel_engine_type", "SeaTunnel 引擎类型", SeaTunnelEngineType.class),

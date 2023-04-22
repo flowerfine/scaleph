@@ -25,6 +25,7 @@ import java.util.List;
 
 /**
  * @see org.apache.flink.table.catalog.UniqueConstraint
+ * @see org.apache.flink.table.api.Schema.UnresolvedConstraint
  */
 @Data
 public class UniqueConstraintDTO {
@@ -33,5 +34,4 @@ public class UniqueConstraintDTO {
     private CatalogConstraintType type;
     private List<String> columns;
     private boolean enforced;
-
 }

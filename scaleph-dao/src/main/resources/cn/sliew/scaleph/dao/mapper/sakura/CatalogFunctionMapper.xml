@@ -29,7 +29,6 @@
         <result column="name" property="name"/>
         <result column="class_name" property="className"/>
         <result column="function_language" property="functionLanguage"/>
-        <result column="function_type" property="functionType"/>
         <result column="remark" property="remark"/>
     </resultMap>
 
@@ -40,6 +39,6 @@
         create_time,
         editor,
         update_time,
-        database_id, `name`, class_name, function_language, function_type, remark
+        database_id, `name`, class_name, function_language, remark
     </sql>
 </mapper>

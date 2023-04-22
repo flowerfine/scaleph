@@ -25,7 +25,7 @@ import org.apache.flink.table.catalog.CatalogDatabaseImpl;
 public enum CatalogDatabaseFactory {
     ;
 
-    public static CatalogDatabaseDTO toDatabase(String catalogName, String name, CatalogDatabase catalog) {
+    public static CatalogDatabaseDTO fromDatabase(String catalogName, String name, CatalogDatabase catalog) {
         CatalogDatabaseDTO database = new CatalogDatabaseDTO();
         database.setCatalog(catalogName);
         database.setName(name);
@@ -34,7 +34,7 @@ public enum CatalogDatabaseFactory {
         return database;
     }
 
-    public static CatalogDatabase toCatalog(CatalogDatabaseDTO database) {
+    public static CatalogDatabase toDatabase(CatalogDatabaseDTO database) {
         return new CatalogDatabaseImpl(database.getProperties(), database.getRemark());
     }
 

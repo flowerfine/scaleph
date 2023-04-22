@@ -19,10 +19,10 @@
 package cn.sliew.scaleph.catalog.factory;
 
 import cn.sliew.milky.common.exception.Rethrower;
-import cn.sliew.scaleph.catalog.model.SakuraColumn;
-import cn.sliew.scaleph.catalog.model.SakuraSchema;
-import cn.sliew.scaleph.catalog.model.SakuraUniqueConstraint;
-import cn.sliew.scaleph.catalog.model.SakuraWatermark;
+import cn.sliew.scaleph.catalog.service.dto.ColumnDTO;
+import cn.sliew.scaleph.catalog.service.dto.SchemaDTO;
+import cn.sliew.scaleph.catalog.service.dto.UniqueConstraintDTO;
+import cn.sliew.scaleph.catalog.service.dto.WatermarkDTO;
 import cn.sliew.scaleph.common.dict.catalog.CatalogColumnType;
 import cn.sliew.scaleph.common.dict.catalog.CatalogConstraintType;
 import org.apache.flink.table.api.Schema;
@@ -46,89 +46,89 @@ import java.util.stream.Collectors;
 public enum CatalogSchemaFactory {
     ;
 
-    public static SakuraSchema toSchema(ResolvedSchema schema) {
-        SakuraSchema sakuraSchema = new SakuraSchema();
-        List<SakuraColumn> columns = schema.getColumns().stream()
+    public static SchemaDTO toSchema(ResolvedSchema schema) {
+        SchemaDTO schemaDTO = new SchemaDTO();
+        List<ColumnDTO> columns = schema.getColumns().stream()
                 .map(CatalogSchemaFactory::toColumn)
                 .collect(Collectors.toList());
-        sakuraSchema.setColumns(columns);
-        List<SakuraWatermark> watermarks = schema.getWatermarkSpecs().stream()
+        schemaDTO.setColumns(columns);
+        List<WatermarkDTO> watermarks = schema.getWatermarkSpecs().stream()
                 .map(CatalogSchemaFactory::toWatermark)
                 .collect(Collectors.toList());
-        sakuraSchema.setWatermarks(watermarks);
-        schema.getPrimaryKey().map(CatalogSchemaFactory::toConstraint).ifPresent(constraint -> sakuraSchema.setPrimaryKey(constraint));
-        return sakuraSchema;
+        schemaDTO.setWatermarks(watermarks);
+        schema.getPrimaryKey().map(CatalogSchemaFactory::toConstraint).ifPresent(constraint -> schemaDTO.setPrimaryKey(constraint));
+        return schemaDTO;
     }
 
-    public static SakuraSchema toSchema(Schema schema) {
-        SakuraSchema sakuraSchema = new SakuraSchema();
-        List<SakuraColumn> columns = schema.getColumns().stream()
+    public static SchemaDTO toSchema(Schema schema) {
+        SchemaDTO schemaDTO = new SchemaDTO();
+        List<ColumnDTO> columns = schema.getColumns().stream()
                 .map(CatalogSchemaFactory::toColumn)
                 .collect(Collectors.toList());
-        sakuraSchema.setColumns(columns);
-        List<SakuraWatermark> watermarks = schema.getWatermarkSpecs().stream()
+        schemaDTO.setColumns(columns);
+        List<WatermarkDTO> watermarks = schema.getWatermarkSpecs().stream()
                 .map(CatalogSchemaFactory::toWatermark)
                 .collect(Collectors.toList());
-        sakuraSchema.setWatermarks(watermarks);
-        schema.getPrimaryKey().map(CatalogSchemaFactory::toConstraint).ifPresent(constraint -> sakuraSchema.setPrimaryKey(constraint));
-        return sakuraSchema;
+        schemaDTO.setWatermarks(watermarks);
+        schema.getPrimaryKey().map(CatalogSchemaFactory::toConstraint).ifPresent(constraint -> schemaDTO.setPrimaryKey(constraint));
+        return schemaDTO;
     }
 
-    public static Schema toCatalog(SakuraSchema sakuraSchema) {
+    public static Schema toCatalog(SchemaDTO schemaDTO) {
         Schema.Builder builder = Schema.newBuilder();
-        Optional.ofNullable(sakuraSchema.getColumns()).ifPresent(columns -> columns.stream().forEach(column -> addColumn(builder, column)));
-        Optional.ofNullable(sakuraSchema.getWatermarks()).ifPresent(watermarks -> watermarks.stream().forEach(watermark -> addWatermark(builder, watermark)));
-        Optional.ofNullable(sakuraSchema.getPrimaryKey()).ifPresent(primaryKey -> addConstraint(builder, primaryKey));
+        Optional.ofNullable(schemaDTO.getColumns()).ifPresent(columns -> columns.stream().forEach(column -> addColumn(builder, column)));
+        Optional.ofNullable(schemaDTO.getWatermarks()).ifPresent(watermarks -> watermarks.stream().forEach(watermark -> addWatermark(builder, watermark)));
+        Optional.ofNullable(schemaDTO.getPrimaryKey()).ifPresent(primaryKey -> addConstraint(builder, primaryKey));
         return builder.build();
     }
 
-    public static SakuraColumn toColumn(Column column) {
-        SakuraColumn sakuraColumn = new SakuraColumn();
-        sakuraColumn.setName(column.getName());
-        serializeDataType(column.getDataType()).ifPresent(dataType -> sakuraColumn.setDataType(dataType));
-        column.getComment().ifPresent(comment -> sakuraColumn.setComment(comment));
+    public static ColumnDTO toColumn(Column column) {
+        ColumnDTO columnDTO = new ColumnDTO();
+        columnDTO.setName(column.getName());
+        serializeDataType(column.getDataType()).ifPresent(dataType -> columnDTO.setDataType(dataType));
+        column.getComment().ifPresent(comment -> columnDTO.setComment(comment));
         if (column instanceof Column.PhysicalColumn) {
-            sakuraColumn.setType(CatalogColumnType.PHYSICAL);
+            columnDTO.setType(CatalogColumnType.PHYSICAL);
         }
         if (column instanceof Column.ComputedColumn) {
             Column.ComputedColumn computedColumn = (Column.ComputedColumn) column;
-            sakuraColumn.setType(CatalogColumnType.COMPUTED);
-            sakuraColumn.setExpression(serializeResolvedExpression(computedColumn.getExpression()));
+            columnDTO.setType(CatalogColumnType.COMPUTED);
+            columnDTO.setExpression(serializeResolvedExpression(computedColumn.getExpression()));
         }
         if (column instanceof Column.MetadataColumn) {
             Column.MetadataColumn metadataColumn = (Column.MetadataColumn) column;
-            sakuraColumn.setType(CatalogColumnType.METADATA);
-            metadataColumn.getMetadataKey().ifPresent(metadataKey -> sakuraColumn.setMetadataKey(metadataKey));
-            sakuraColumn.setVirtual(metadataColumn.isVirtual());
+            columnDTO.setType(CatalogColumnType.METADATA);
+            metadataColumn.getMetadataKey().ifPresent(metadataKey -> columnDTO.setMetadataKey(metadataKey));
+            columnDTO.setVirtual(metadataColumn.isVirtual());
         }
-        return sakuraColumn;
+        return columnDTO;
     }
 
-    public static SakuraColumn toColumn(Schema.UnresolvedColumn column) {
-        SakuraColumn sakuraColumn = new SakuraColumn();
-        sakuraColumn.setName(column.getName());
-        column.getComment().ifPresent(comment -> sakuraColumn.setComment(comment));
+    public static ColumnDTO toColumn(Schema.UnresolvedColumn column) {
+        ColumnDTO columnDTO = new ColumnDTO();
+        columnDTO.setName(column.getName());
+        column.getComment().ifPresent(comment -> columnDTO.setComment(comment));
         if (column instanceof Schema.UnresolvedPhysicalColumn) {
             Schema.UnresolvedPhysicalColumn physicalColumn = (Schema.UnresolvedPhysicalColumn) column;
-            sakuraColumn.setType(CatalogColumnType.PHYSICAL);
-            serializeDataType(physicalColumn.getDataType()).ifPresent(dataType -> sakuraColumn.setDataType(dataType));
+            columnDTO.setType(CatalogColumnType.PHYSICAL);
+            serializeDataType(physicalColumn.getDataType()).ifPresent(dataType -> columnDTO.setDataType(dataType));
         }
         if (column instanceof Schema.UnresolvedComputedColumn) {
             Schema.UnresolvedComputedColumn computedColumn = (Schema.UnresolvedComputedColumn) column;
-            sakuraColumn.setType(CatalogColumnType.COMPUTED);
-            serializeExpression(computedColumn.getExpression()).ifPresent(expression -> sakuraColumn.setExpression(expression));
+            columnDTO.setType(CatalogColumnType.COMPUTED);
+            serializeExpression(computedColumn.getExpression()).ifPresent(expression -> columnDTO.setExpression(expression));
         }
         if (column instanceof Schema.UnresolvedMetadataColumn) {
             Schema.UnresolvedMetadataColumn metadataColumn = (Schema.UnresolvedMetadataColumn) column;
-            sakuraColumn.setType(CatalogColumnType.METADATA);
-            serializeDataType(metadataColumn.getDataType()).ifPresent(dataType -> sakuraColumn.setDataType(dataType));
-            sakuraColumn.setMetadataKey(metadataColumn.getMetadataKey());
-            sakuraColumn.setVirtual(metadataColumn.isVirtual());
+            columnDTO.setType(CatalogColumnType.METADATA);
+            serializeDataType(metadataColumn.getDataType()).ifPresent(dataType -> columnDTO.setDataType(dataType));
+            columnDTO.setMetadataKey(metadataColumn.getMetadataKey());
+            columnDTO.setVirtual(metadataColumn.isVirtual());
         }
-        return sakuraColumn;
+        return columnDTO;
     }
 
-    public static void addColumn(Schema.Builder schemaBuilder, SakuraColumn column) {
+    public static void addColumn(Schema.Builder schemaBuilder, ColumnDTO column) {
         switch (column.getType()) {
             case PHYSICAL:
                 schemaBuilder.column(column.getName(), column.getDataType()).withComment(column.getComment());
@@ -146,26 +146,26 @@ public enum CatalogSchemaFactory {
         }
     }
 
-    public static SakuraWatermark toWatermark(WatermarkSpec watermark) {
-        SakuraWatermark sakuraWatermark = new SakuraWatermark();
-        sakuraWatermark.setName(watermark.getRowtimeAttribute());
-        sakuraWatermark.setExpression(serializeResolvedExpression(watermark.getWatermarkExpression()));
-        return sakuraWatermark;
+    public static WatermarkDTO toWatermark(WatermarkSpec watermark) {
+        WatermarkDTO watermarkDTO = new WatermarkDTO();
+        watermarkDTO.setName(watermark.getRowtimeAttribute());
+        watermarkDTO.setExpression(serializeResolvedExpression(watermark.getWatermarkExpression()));
+        return watermarkDTO;
     }
 
-    public static SakuraWatermark toWatermark(Schema.UnresolvedWatermarkSpec watermark) {
-        SakuraWatermark sakuraWatermark = new SakuraWatermark();
-        sakuraWatermark.setName(watermark.getColumnName());
-        serializeExpression(watermark.getWatermarkExpression()).ifPresent(expression -> sakuraWatermark.setExpression(expression));
-        return sakuraWatermark;
+    public static WatermarkDTO toWatermark(Schema.UnresolvedWatermarkSpec watermark) {
+        WatermarkDTO watermarkDTO = new WatermarkDTO();
+        watermarkDTO.setName(watermark.getColumnName());
+        serializeExpression(watermark.getWatermarkExpression()).ifPresent(expression -> watermarkDTO.setExpression(expression));
+        return watermarkDTO;
     }
 
-    public static void addWatermark(Schema.Builder schemaBuilder, SakuraWatermark watermark) {
+    public static void addWatermark(Schema.Builder schemaBuilder, WatermarkDTO watermark) {
         schemaBuilder.watermark(watermark.getName(), watermark.getExpression());
     }
 
-    public static SakuraUniqueConstraint toConstraint(UniqueConstraint constraint) {
-        SakuraUniqueConstraint uniqueConstraint = new SakuraUniqueConstraint();
+    public static UniqueConstraintDTO toConstraint(UniqueConstraint constraint) {
+        UniqueConstraintDTO uniqueConstraint = new UniqueConstraintDTO();
         uniqueConstraint.setName(constraint.getName());
         uniqueConstraint.setColumns(constraint.getColumns());
         switch (constraint.getType()) {
@@ -181,8 +181,8 @@ public enum CatalogSchemaFactory {
         return uniqueConstraint;
     }
 
-    public static SakuraUniqueConstraint toConstraint(Schema.UnresolvedPrimaryKey constraint) {
-        SakuraUniqueConstraint uniqueConstraint = new SakuraUniqueConstraint();
+    public static UniqueConstraintDTO toConstraint(Schema.UnresolvedPrimaryKey constraint) {
+        UniqueConstraintDTO uniqueConstraint = new UniqueConstraintDTO();
         uniqueConstraint.setName(constraint.getConstraintName());
         uniqueConstraint.setColumns(constraint.getColumnNames());
         uniqueConstraint.setType(CatalogConstraintType.PRIMARY_KEY);
@@ -190,7 +190,7 @@ public enum CatalogSchemaFactory {
         return uniqueConstraint;
     }
 
-    public static void addConstraint(Schema.Builder schemaBuilder, SakuraUniqueConstraint constraint) {
+    public static void addConstraint(Schema.Builder schemaBuilder, UniqueConstraintDTO constraint) {
         schemaBuilder.primaryKeyNamed(constraint.getName(), constraint.getColumns());
     }
 

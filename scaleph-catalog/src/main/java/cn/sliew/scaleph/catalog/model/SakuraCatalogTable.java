@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.catalog.model;
 
+import cn.sliew.scaleph.catalog.service.dto.SchemaDTO;
 import lombok.Data;
 
 import java.util.Map;
@@ -29,7 +30,7 @@ import java.util.Map;
 public class SakuraCatalogTable  {
 
     private String name;
-    private SakuraSchema schema;
+    private SchemaDTO schema;
     private Map<String, String> properties;
     private String comment;
 }

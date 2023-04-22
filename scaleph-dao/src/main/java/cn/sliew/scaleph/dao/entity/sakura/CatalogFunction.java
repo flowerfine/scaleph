@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dao.entity.sakura;
 
+import cn.sliew.scaleph.common.dict.catalog.CatalogFunctionLanguage;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -41,10 +42,7 @@ public class CatalogFunction extends BaseDO {
     private String className;
 
     @TableField("function_language")
-    private String functionLanguage;
-
-    @TableField("function_type")
-    private String functionType;
+    private CatalogFunctionLanguage functionLanguage;
 
     @TableField("remark")
     private String remark;

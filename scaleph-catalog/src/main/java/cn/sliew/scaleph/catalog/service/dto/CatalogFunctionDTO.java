@@ -16,23 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.catalog.model;
+package cn.sliew.scaleph.catalog.service.dto;
 
-import cn.sliew.scaleph.common.dict.catalog.CatalogConstraintType;
+import cn.sliew.scaleph.common.dict.catalog.CatalogFunctionLanguage;
+import cn.sliew.scaleph.common.dto.BaseDTO;
 import lombok.Data;
 
-import java.util.List;
-
 /**
- * @see org.apache.flink.table.catalog.UniqueConstraint
- * @see org.apache.flink.table.api.Schema.UnresolvedConstraint
+ * @see org.apache.flink.table.catalog.CatalogFunction
  */
 @Data
-public class SakuraUniqueConstraint {
+public class CatalogFunctionDTO extends BaseDTO {
 
     private String name;
-    private CatalogConstraintType type;
-    private List<String> columns;
-    private boolean enforced;
-
+    private String className;
+    private CatalogFunctionLanguage functionLanguage;
+    private String description;
 }
