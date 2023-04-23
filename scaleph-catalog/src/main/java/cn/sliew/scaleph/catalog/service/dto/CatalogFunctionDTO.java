@@ -16,21 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.catalog.model;
+package cn.sliew.scaleph.catalog.service.dto;
 
-import lombok.Getter;
-import org.apache.flink.table.catalog.CatalogDatabaseImpl;
+import cn.sliew.scaleph.common.dict.catalog.CatalogFunctionLanguage;
+import cn.sliew.scaleph.common.dto.BaseDTO;
+import lombok.Data;
 
-import javax.annotation.Nullable;
-import java.util.Map;
+/**
+ * @see org.apache.flink.table.catalog.CatalogFunction
+ */
+@Data
+public class CatalogFunctionDTO extends BaseDTO {
 
-public class SakuraCatalogDatabase extends CatalogDatabaseImpl {
-
-    @Getter
-    private final String name;
-
-    public SakuraCatalogDatabase(String name, Map<String, String> properties, @Nullable String comment) {
-        super(properties, comment);
-        this.name = name;
-    }
+    private String name;
+    private String className;
+    private CatalogFunctionLanguage functionLanguage;
+    private String description;
 }

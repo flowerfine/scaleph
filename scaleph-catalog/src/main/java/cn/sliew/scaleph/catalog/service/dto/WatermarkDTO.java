@@ -20,6 +20,13 @@ package cn.sliew.scaleph.catalog.service.dto;
 
 import lombok.Data;
 
+/**
+ * @see org.apache.flink.table.catalog.WatermarkSpec
+ * @see org.apache.flink.table.api.Schema.UnresolvedWatermarkSpec
+ */
 @Data
 public class WatermarkDTO {
+
+    private String name;
+    private String expression;
 }
