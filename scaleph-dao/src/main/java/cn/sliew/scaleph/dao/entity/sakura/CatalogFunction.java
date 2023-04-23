@@ -16,26 +16,35 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.catalog.service.dto;
+package cn.sliew.scaleph.dao.entity.sakura;
 
-import cn.sliew.scaleph.common.dict.catalog.CatalogTableKind;
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.common.dict.catalog.CatalogFunctionLanguage;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-import java.util.Map;
-
 @Data
-@ApiModel(value = "CatalogTable对象", description = "table")
-public class CatalogTableDTO extends BaseDTO {
+@TableName("catalog_function")
+@ApiModel(value = "CatalogFunction对象", description = "function")
+public class CatalogFunction extends BaseDO {
 
+    private static final long serialVersionUID = 1L;
+
+    @TableField("database_id")
     private Long databaseId;
 
-    private CatalogTableKind kind;
+    @TableField("`name`")
     private String name;
-    private SchemaDTO schema;
-    private Map<String, String> properties;
-    private String originalQuery;
-    private String expandedQuery;
+
+    @TableField("class_name")
+    private String className;
+
+    @TableField("function_language")
+    private CatalogFunctionLanguage functionLanguage;
+
+    @TableField("remark")
     private String remark;
+
 }

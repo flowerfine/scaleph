@@ -16,18 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.catalog.model;
+package cn.sliew.scaleph.dao.mapper.sakura;
 
-import cn.sliew.scaleph.common.dict.catalog.CatalogColumnType;
-import org.apache.flink.table.types.DataType;
+import cn.sliew.scaleph.dao.entity.sakura.CatalogFunction;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-/**
- * @see org.apache.flink.table.catalog.Column
- */
-public class SakuraColumn {
+@Repository
+public interface CatalogFunctionMapper extends BaseMapper<CatalogFunction> {
 
-    private String name;
-    private CatalogColumnType type;
-
-    private DataType dataType;
 }

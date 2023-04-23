@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>scaleph-plugin-flink</artifactId>
-        <version>1.0.3</version>
+        <version>1.0.4-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>scaleph-plugin-flink-1.13</artifactId>

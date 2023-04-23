@@ -60,7 +60,7 @@ public class SakuraCatalog extends AbstractCatalog {
     @Override
     public CatalogDatabase getDatabase(String databaseName) throws DatabaseNotExistException, CatalogException {
         Optional<CatalogDatabaseDTO> optional = catalogDatabaseService.get(getName(), databaseName);
-        return optional.map(CatalogDatabaseFactory::toCatalog)
+        return optional.map(CatalogDatabaseFactory::toDatabase)
                 .orElseThrow(() -> new DatabaseNotExistException(getName(), databaseName));
     }
 
@@ -73,7 +73,7 @@ public class SakuraCatalog extends AbstractCatalog {
     @Override
     public void createDatabase(String name, CatalogDatabase database, boolean ignoreIfExists) throws DatabaseAlreadyExistException, CatalogException {
         try {
-            CatalogDatabaseDTO databaseDTO = CatalogDatabaseFactory.toDatabase(getName(), name, database);
+            CatalogDatabaseDTO databaseDTO = CatalogDatabaseFactory.fromDatabase(getName(), name, database);
             int insert = catalogDatabaseService.insert(databaseDTO);
 
             if (insert != 1) {

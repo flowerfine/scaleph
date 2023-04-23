@@ -22,13 +22,14 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * @see org.apache.flink.table.catalog.ResolvedSchema
+ * @see org.apache.flink.table.api.Schema
+ */
 @Data
 public class SchemaDTO {
 
-    private List<ColumnDTO> column;
-
-    private List<WatermarkDTO> watermarkSpec;
-
+    private List<ColumnDTO> columns;
+    private List<WatermarkDTO> watermarks;
     private UniqueConstraintDTO primaryKey;
-
 }
