@@ -25,6 +25,10 @@ import lombok.Data;
 
 import java.util.Map;
 
+/**
+ * @see org.apache.flink.table.catalog.DefaultCatalogTable
+ * @see org.apache.flink.table.catalog.DefaultCatalogView
+ */
 @Data
 @ApiModel(value = "CatalogTable对象", description = "table")
 public class CatalogTableDTO extends BaseDTO {
