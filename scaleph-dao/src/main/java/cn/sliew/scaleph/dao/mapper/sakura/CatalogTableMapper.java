@@ -18,11 +18,23 @@
 
 package cn.sliew.scaleph.dao.mapper.sakura;
 
+import cn.sliew.scaleph.common.dict.catalog.CatalogTableKind;
 import cn.sliew.scaleph.dao.entity.sakura.CatalogTable;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CatalogTableMapper extends BaseMapper<CatalogTable> {
 
+    List<CatalogTable> selectByDatabase(@Param("catalog") String catalog, @Param("database") String database, @Param("kind") CatalogTableKind kind);
+
+    int countByDatabase(@Param("catalog") String catalog, @Param("database") String database, @Param("kind") CatalogTableKind kind);
+
+    Optional<CatalogTable> selectByName(@Param("catalog") String catalog, @Param("database") String database, @Param("kind") CatalogTableKind kind, @Param("name") String name);
+
+    int deleteByName(@Param("catalog") String catalog, @Param("database") String database, @Param("kind") CatalogTableKind kind, @Param("name") String name);
 }

@@ -18,32 +18,35 @@
 
 package cn.sliew.scaleph.catalog.factory;
 
-import cn.sliew.scaleph.catalog.model.SakuraCatalogView;
+import cn.sliew.scaleph.catalog.service.dto.CatalogTableDTO;
+import cn.sliew.scaleph.common.dict.catalog.CatalogTableKind;
 import org.apache.flink.table.catalog.CatalogBaseTable;
 import org.apache.flink.table.catalog.ResolvedCatalogView;
 
 public enum CatalogViewFactory {
     ;
 
-    public static SakuraCatalogView fromResolvedView(String viewName, ResolvedCatalogView resolvedView) {
-        SakuraCatalogView catalogView = new SakuraCatalogView();
+    public static CatalogTableDTO fromResolvedView(String viewName, ResolvedCatalogView resolvedView) {
+        CatalogTableDTO catalogView = new CatalogTableDTO();
+        catalogView.setKind(CatalogTableKind.VIEW);
         catalogView.setName(viewName);
         catalogView.setSchema(CatalogSchemaFactory.toSchema(resolvedView.getResolvedSchema()));
         catalogView.setProperties(resolvedView.getOptions());
         catalogView.setOriginalQuery(resolvedView.getOriginalQuery());
         catalogView.setExpandedQuery(resolvedView.getExpandedQuery());
-        catalogView.setComment(resolvedView.getComment());
+        catalogView.setRemark(resolvedView.getComment());
         return catalogView;
     }
 
-    public static SakuraCatalogView fromUnresolvedTable(String viewName, CatalogBaseTable catalogBaseTable) {
-        SakuraCatalogView catalogView = new SakuraCatalogView();
+    public static CatalogTableDTO fromUnresolvedTable(String viewName, CatalogBaseTable catalogBaseTable) {
+        CatalogTableDTO catalogView = new CatalogTableDTO();
+        catalogView.setKind(CatalogTableKind.VIEW);
         catalogView.setName(viewName);
         catalogView.setSchema(CatalogSchemaFactory.toSchema(catalogBaseTable.getUnresolvedSchema()));
         catalogView.setProperties(catalogBaseTable.getOptions());
         catalogView.setOriginalQuery(catalogView.getOriginalQuery());
         catalogView.setExpandedQuery(catalogView.getExpandedQuery());
-        catalogView.setComment(catalogBaseTable.getComment());
+        catalogView.setRemark(catalogBaseTable.getComment());
         return catalogView;
     }
 

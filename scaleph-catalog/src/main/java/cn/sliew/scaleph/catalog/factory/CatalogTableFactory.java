@@ -18,19 +18,20 @@
 
 package cn.sliew.scaleph.catalog.factory;
 
-import cn.sliew.scaleph.catalog.model.SakuraCatalogTable;
-import cn.sliew.scaleph.dao.entity.sakura.CatalogTable;
+import cn.sliew.scaleph.catalog.service.dto.CatalogTableDTO;
+import cn.sliew.scaleph.common.dict.catalog.CatalogTableKind;
 import org.apache.flink.table.catalog.CatalogBaseTable;
 import org.apache.flink.table.catalog.ResolvedCatalogTable;
 
 public enum CatalogTableFactory {
     ;
 
-    public static SakuraCatalogTable toResolvedTable(String tableName, CatalogBaseTable catalogBaseTable) {
-        SakuraCatalogTable catalogTable = new SakuraCatalogTable();
+    public static CatalogTableDTO fromResolvedTable(String tableName, CatalogBaseTable catalogBaseTable) {
+        CatalogTableDTO catalogTable = new CatalogTableDTO();
+        catalogTable.setKind(CatalogTableKind.TABLE);
         catalogTable.setName(tableName);
         catalogTable.setProperties(catalogBaseTable.getOptions());
-        catalogTable.setComment(catalogBaseTable.getComment());
+        catalogTable.setRemark(catalogBaseTable.getComment());
         if (catalogBaseTable instanceof ResolvedCatalogTable) {
             ResolvedCatalogTable resolvedTable = (ResolvedCatalogTable) catalogBaseTable;
             catalogTable.setSchema(CatalogSchemaFactory.toSchema(resolvedTable.getResolvedSchema()));
@@ -38,18 +39,13 @@ public enum CatalogTableFactory {
         return catalogTable;
     }
 
-    public static SakuraCatalogTable toUnresolvedTable(String tableName, CatalogBaseTable catalogBaseTable) {
-        SakuraCatalogTable catalogTable = new SakuraCatalogTable();
+    public static CatalogTableDTO fromUnresolvedTable(String tableName, CatalogBaseTable catalogBaseTable) {
+        CatalogTableDTO catalogTable = new CatalogTableDTO();
+        catalogTable.setKind(CatalogTableKind.TABLE);
         catalogTable.setName(tableName);
         catalogTable.setProperties(catalogBaseTable.getOptions());
-        catalogTable.setComment(catalogBaseTable.getComment());
+        catalogTable.setRemark(catalogBaseTable.getComment());
         catalogTable.setSchema(CatalogSchemaFactory.toSchema(catalogBaseTable.getUnresolvedSchema()));
         return catalogTable;
     }
-
-    public static CatalogTable toCatalog(SakuraCatalogTable sakuraCatalogTable) {
-
-        return null;
-    }
-
 }

@@ -16,24 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.catalog.model;
+package cn.sliew.scaleph.catalog.service;
 
-import cn.sliew.scaleph.catalog.service.dto.SchemaDTO;
-import lombok.Data;
+import cn.sliew.scaleph.catalog.service.dto.CatalogFunctionDTO;
 
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
 
-/**
- * @see org.apache.flink.table.catalog.DefaultCatalogView
- */
-@Data
-public class SakuraCatalogView {
+public interface CatalogFunctionService {
 
-    private String name;
-    private SchemaDTO schema;
-    private Map<String, String> properties;
-    private String originalQuery;
-    private String expandedQuery;
-    private String comment;
+    List<CatalogFunctionDTO> selectByDatabase(String catalog, String database);
 
+    int countByDatabase(String catalog, String database);
+
+    Optional<CatalogFunctionDTO> get(String catalog, String database, String name);
+
+    int insert(String catalog, String database, CatalogFunctionDTO param);
+
+    int update(String catalog, String database, CatalogFunctionDTO param);
 }

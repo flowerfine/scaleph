@@ -43,7 +43,7 @@ public enum CatalogFunctionFactory {
                 break;
             default:
         }
-        catalogFunctionDTO.setDescription(function.getDescription().orElse(""));
+        catalogFunctionDTO.setRemark(function.getDescription().orElse(""));
         return catalogFunctionDTO;
     }
 

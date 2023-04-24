@@ -20,9 +20,20 @@ package cn.sliew.scaleph.dao.mapper.sakura;
 
 import cn.sliew.scaleph.dao.entity.sakura.CatalogFunction;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CatalogFunctionMapper extends BaseMapper<CatalogFunction> {
 
+    List<CatalogFunction> selectByDatabase(@Param("catalog") String catalog, @Param("database") String database);
+
+    int countByDatabase(@Param("catalog") String catalog, @Param("database") String database);
+
+    Optional<CatalogFunction> selectByName(@Param("catalog") String catalog, @Param("database") String database, @Param("name") String name);
+
+    int deleteByName(@Param("catalog") String catalog, @Param("database") String database, @Param("name") String name);
 }
