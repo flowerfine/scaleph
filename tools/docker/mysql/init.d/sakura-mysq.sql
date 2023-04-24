@@ -13,7 +13,8 @@ CREATE TABLE `catalog_database`
     create_time DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     editor      VARCHAR(32),
     update_time DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE KEY uniq_name (catalog, `name`)
 ) ENGINE = InnoDB COMMENT ='database';
 
 DROP TABLE IF EXISTS `catalog_table`;
@@ -32,7 +33,8 @@ CREATE TABLE `catalog_table`
     create_time    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     editor         VARCHAR(32),
     update_time    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE KEY uniq_name (database_id, kind, `name`)
 ) ENGINE = InnoDB COMMENT ='table';
 
 DROP TABLE IF EXISTS catalog_function;
@@ -48,5 +50,6 @@ CREATE TABLE `catalog_function`
     create_time       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     editor            VARCHAR(32),
     update_time       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE KEY uniq_name (database_id, `name`)
 ) ENGINE = InnoDB COMMENT ='function';

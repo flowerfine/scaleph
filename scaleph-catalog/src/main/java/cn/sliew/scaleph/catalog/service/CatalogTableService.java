@@ -16,28 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.catalog.service.dto;
+package cn.sliew.scaleph.catalog.service;
 
-import cn.sliew.scaleph.common.dict.catalog.CatalogTableKind;
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import io.swagger.annotations.ApiModel;
-import lombok.Data;
+import cn.sliew.scaleph.catalog.service.dto.CatalogTableDTO;
 
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
 
-/**
- * @see org.apache.flink.table.catalog.DefaultCatalogTable
- * @see org.apache.flink.table.catalog.DefaultCatalogView
- */
-@Data
-@ApiModel(value = "CatalogTable对象", description = "table")
-public class CatalogTableDTO extends BaseDTO {
+public interface CatalogTableService {
 
-    private CatalogTableKind kind;
-    private String name;
-    private SchemaDTO schema;
-    private Map<String, String> properties;
-    private String originalQuery;
-    private String expandedQuery;
-    private String remark;
+    List<CatalogTableDTO> selectByDatabase(String catalog, String database);
+
+    int countByDatabase(String catalog, String database);
+
+    Optional<CatalogTableDTO> get(String catalog, String database, String name);
+
+    int insert(String catalog, String database, CatalogTableDTO param);
+
+    int update(String catalog, String database, CatalogTableDTO param);
+
 }

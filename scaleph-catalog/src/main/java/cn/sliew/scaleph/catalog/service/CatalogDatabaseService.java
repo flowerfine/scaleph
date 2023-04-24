@@ -29,8 +29,12 @@ public interface CatalogDatabaseService {
 
     Optional<CatalogDatabaseDTO> get(String catalog, String name);
 
+    boolean isEmpty(String catalog, String database);
+
     int insert(CatalogDatabaseDTO param);
 
     int update(CatalogDatabaseDTO param);
+
+    int delete(String catalog, String database);
 
 }

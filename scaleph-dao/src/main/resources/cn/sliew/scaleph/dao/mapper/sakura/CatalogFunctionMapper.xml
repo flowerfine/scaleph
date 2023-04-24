@@ -34,11 +34,48 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,
-        creator,
-        create_time,
-        editor,
-        update_time,
+        id,creator,create_time,editor,update_time,
         database_id, `name`, class_name, function_language, remark
     </sql>
+
+    <select id="selectByDatabase" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM catalog_function f
+        JOIN catalog_database d ON f.database_id = d.id
+        WHERE d.catalog_name = #{catalog}
+        AND d.`name` = #{database}
+        ORDER BY f.`name`, f.create_time
+    </select>
+
+    <select id="countByDatabase" resultType="int">
+        SELECT COUNT(*)
+        FROM catalog_function f
+                 JOIN catalog_database d ON f.database_id = d.id
+        WHERE d.catalog_name = #{catalog}
+          AND d.`name` = #{database}
+    </select>
+
+    <select id="selectByName" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM catalog_function f
+        JOIN catalog_database d ON f.database_id = d.id
+        WHERE d.catalog_name = #{catalog}
+        AND d.`name` = #{database}
+        AND f.`name` = #{name}
+    </select>
+
+    <delete id="deleteByName">
+        DELETE
+        FROM catalog_function
+        WHERE id = (SELECT ct.id
+                    FROM (SELECT f.id
+                          FROM catalog_function f
+                                   JOIN catalog_database d ON f.database_id = d.id
+                          WHERE d.catalog_name = #{catalog}
+                            AND d.`name` = #{database}
+                            AND f.`name` = #{name}) AS ct)
+    </delete>
+
 </mapper>
