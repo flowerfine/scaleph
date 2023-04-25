@@ -31,5 +31,5 @@ public class CatalogFunctionDTO extends BaseDTO {
     private String name;
     private String className;
     private CatalogFunctionLanguage functionLanguage;
-    private String description;
+    private String remark;
 }

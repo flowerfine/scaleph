@@ -19,6 +19,8 @@
 package cn.sliew.scaleph.catalog.service.impl;
 
 import cn.sliew.scaleph.catalog.service.CatalogDatabaseService;
+import cn.sliew.scaleph.catalog.service.CatalogFunctionService;
+import cn.sliew.scaleph.catalog.service.CatalogTableService;
 import cn.sliew.scaleph.catalog.service.convert.CatalogDatabaseConvert;
 import cn.sliew.scaleph.catalog.service.dto.CatalogDatabaseDTO;
 import cn.sliew.scaleph.dao.entity.sakura.CatalogDatabase;
@@ -36,6 +38,10 @@ public class CatalogDatabaseServiceImpl implements CatalogDatabaseService {
 
     @Autowired
     private CatalogDatabaseMapper catalogDatabaseMapper;
+    @Autowired
+    private CatalogTableService catalogTableService;
+    @Autowired
+    private CatalogFunctionService catalogFunctionService;
 
     @Override
     public List<CatalogDatabaseDTO> list(String catalog) {
@@ -56,6 +62,13 @@ public class CatalogDatabaseServiceImpl implements CatalogDatabaseService {
     }
 
     @Override
+    public boolean isEmpty(String catalog, String database) {
+        int tableNum = catalogTableService.countByDatabase(catalog, database);
+        int functionNum = catalogFunctionService.countByDatabase(catalog, database);
+        return tableNum == 0 && functionNum == 0;
+    }
+
+    @Override
     public int insert(CatalogDatabaseDTO param) {
         CatalogDatabase database = CatalogDatabaseConvert.INSTANCE.toDo(param);
         return catalogDatabaseMapper.insert(database);
@@ -69,4 +82,13 @@ public class CatalogDatabaseServiceImpl implements CatalogDatabaseService {
                 .eq(CatalogDatabase::getName, param.getName());
         return catalogDatabaseMapper.update(database, queryWrapper);
     }
+
+    @Override
+    public int delete(String catalog, String database) {
+        LambdaQueryWrapper<CatalogDatabase> queryWrapper = Wrappers.lambdaQuery(CatalogDatabase.class)
+                .eq(CatalogDatabase::getCatalog, catalog)
+                .eq(CatalogDatabase::getName, database);
+        return catalogDatabaseMapper.delete(queryWrapper);
+    }
+
 }

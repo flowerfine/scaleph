@@ -25,7 +25,7 @@ export const StepSchemaService = {
       fields[SchemaParams.field] = item[SchemaParams.type];
     });
     const schema: Record<string, any> = {}
-    schema[SchemaParams.fields] = schema;
+    schema[SchemaParams.fields] = fields;
     values[SchemaParams.schema] = JSON.stringify(schema)
     return values
   },
