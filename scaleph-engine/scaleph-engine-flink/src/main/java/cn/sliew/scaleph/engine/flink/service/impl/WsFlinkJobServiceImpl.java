@@ -25,12 +25,15 @@ import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJob;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobInstance;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkJobMapper;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkJobService;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkService;
 import cn.sliew.scaleph.engine.flink.service.convert.WsFlinkJobConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListParam;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,10 +43,14 @@ import java.util.List;
 @Service
 public class WsFlinkJobServiceImpl implements WsFlinkJobService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(WsFlinkJobServiceImpl.class);
+
     @Autowired
     private UidGenerator defaultUidGenerator;
     @Autowired
     private WsFlinkJobMapper flinkJobMapper;
+    @Autowired
+    private WsFlinkService flinkService;
 
     @Override
     public Page<WsFlinkJobDTO> list(WsFlinkJobListParam param) {
@@ -63,7 +70,9 @@ public class WsFlinkJobServiceImpl implements WsFlinkJobService {
     @Override
     public WsFlinkJobDTO selectOne(Long id) {
         final WsFlinkJob record = flinkJobMapper.selectOne(id);
-        return WsFlinkJobConvert.INSTANCE.toDto(record);
+        WsFlinkJobDTO dto = WsFlinkJobConvert.INSTANCE.toDto(record);
+        dto = flinkService.query(dto);
+        return dto;
     }
 
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
