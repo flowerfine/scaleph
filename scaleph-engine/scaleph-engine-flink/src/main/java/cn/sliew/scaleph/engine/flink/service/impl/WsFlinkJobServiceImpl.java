@@ -32,8 +32,6 @@ import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobListParam;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,8 +40,6 @@ import java.util.List;
 
 @Service
 public class WsFlinkJobServiceImpl implements WsFlinkJobService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(WsFlinkJobServiceImpl.class);
 
     @Autowired
     private UidGenerator defaultUidGenerator;
@@ -70,9 +66,9 @@ public class WsFlinkJobServiceImpl implements WsFlinkJobService {
     @Override
     public WsFlinkJobDTO selectOne(Long id) {
         final WsFlinkJob record = flinkJobMapper.selectOne(id);
-        WsFlinkJobDTO dto = WsFlinkJobConvert.INSTANCE.toDto(record);
-        dto = flinkService.query(dto);
-        return dto;
+        WsFlinkJobDTO wsFlinkJobDTO = WsFlinkJobConvert.INSTANCE.toDto(record);
+        flinkService.updateJobInstanceState(wsFlinkJobDTO);
+        return wsFlinkJobDTO;
     }
 
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)

@@ -18,8 +18,6 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import cn.sliew.flinkful.cli.base.CliClient;
 import cn.sliew.flinkful.cli.base.SessionClient;
 import cn.sliew.flinkful.cli.base.submit.PackageJarJob;
@@ -66,12 +64,11 @@ import org.apache.flink.kubernetes.configuration.KubernetesConfigOptions;
 import org.apache.flink.runtime.client.JobStatusMessage;
 import org.apache.flink.runtime.rest.handler.async.TriggerResponse;
 import org.apache.flink.runtime.rest.messages.TriggerId;
+import org.apache.flink.runtime.rest.messages.job.JobDetailsInfo;
 import org.apache.flink.runtime.rest.messages.job.savepoints.SavepointTriggerRequestBody;
 import org.apache.flink.runtime.rest.messages.job.savepoints.stop.StopWithSavepointRequestBody;
 import org.apache.flink.yarn.configuration.YarnConfigOptions;
 import org.apache.hadoop.yarn.api.records.ApplicationId;
-import org.apache.hc.client5.http.fluent.Request;
-import org.apache.hc.core5.util.Timeout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -429,12 +426,8 @@ public class WsFlinkServiceImpl implements WsFlinkService {
     }
 
     @Override
-    public WsFlinkJobDTO query(WsFlinkJobDTO wsFlinkJobDTO) {
-        // TODO: This may fail if HA is enabled. So it's better to query using Flink Client...
-        // TODO: If use Flink client, May be modify flinkful-client and rebuild Flink Client Instance. And different
-        // TODO: Flink client version may causes some problems also...
-        // TODO: We need to discuss
-        WsFlinkJobInstanceDTO flinkJobInstance = wsFlinkJobDTO.getWsFlinkJobInstance();
+    public void updateJobInstanceState(WsFlinkJobDTO wsFlinkJobDTO) {
+        final WsFlinkJobInstanceDTO flinkJobInstance = wsFlinkJobDTO.getWsFlinkJobInstance();
         FlinkJobState currentJobState = flinkJobInstance.getJobState();
         if (Objects.isNull(currentJobState) ||
                 currentJobState == FlinkJobState.INITIALIZING ||
@@ -445,29 +438,17 @@ public class WsFlinkServiceImpl implements WsFlinkService {
                 currentJobState == FlinkJobState.CANCELLING) {
             String webInterfaceUrl = flinkJobInstance.getWebInterfaceUrl();
             if (webInterfaceUrl != null) {
-                while (webInterfaceUrl.endsWith("/")) {
-                    webInterfaceUrl = webInterfaceUrl.substring(0, webInterfaceUrl.length() - 1);
-                }
-                String flinkJobQueryUrl = String.format("%s/jobs/%s", webInterfaceUrl, flinkJobInstance.getJobId());
                 try {
-                    String flinkJobQueryResponseJson = Request.get(flinkJobQueryUrl)
-                            .connectTimeout(Timeout.ofSeconds(3))
-                            .execute()
-                            .returnContent()
-                            .asString();
-                    JSONObject jsonObject = JSONUtil.parseObj(flinkJobQueryResponseJson);
-                    if (!jsonObject.containsKey("errors")) {
-                        Long startTime = jsonObject.getLong("start-time", null);
-                        flinkJobInstance.setStartTime(new Date(startTime));
-                        Long endTime = jsonObject.getLong("end-time", null);
-                        flinkJobInstance.setEndTime(new Date(endTime));
-                        // Set default state to Failed
-                        FlinkJobState jobState = FlinkJobState.valueOf(
-                                jsonObject.getStr("state", "FAILED").toUpperCase());
-                        flinkJobInstance.setJobState(jobState);
-                        Long duration = jsonObject.getLong("duration", null);
-                        flinkJobInstance.setDuration(duration);
-                    }
+                    URL url = new URL(webInterfaceUrl);
+                    String address = url.getHost();
+                    int port = url.getPort();
+                    RestClient restClient = new FlinkRestClient(address, port, new Configuration());
+                    JobClient jobClient = restClient.job();
+                    JobDetailsInfo jobDetailsInfo = jobClient.jobDetail(flinkJobInstance.getJobId()).get();
+                    flinkJobInstance.setStartTime(new Date(jobDetailsInfo.getStartTime()));
+                    flinkJobInstance.setEndTime(new Date(jobDetailsInfo.getEndTime()));
+                    flinkJobInstance.setJobState(FlinkJobState.valueOf(jobDetailsInfo.getJobStatus().name()));
+                    flinkJobInstance.setDuration(jobDetailsInfo.getDuration());
                 } catch (Exception e) {
                     throw new IllegalArgumentException(e);
                 }
@@ -478,7 +459,6 @@ public class WsFlinkServiceImpl implements WsFlinkService {
                 }
             }
         }
-        return wsFlinkJobDTO;
     }
 
     private ClusterClient createYarnSessionCluster(WsFlinkClusterConfigDTO wsFlinkClusterConfigDTO) throws Exception {

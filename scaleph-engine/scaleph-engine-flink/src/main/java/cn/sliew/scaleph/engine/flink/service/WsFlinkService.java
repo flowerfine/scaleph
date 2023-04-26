@@ -38,6 +38,6 @@ public interface WsFlinkService {
 
     void triggerSavepoint(Long id) throws Exception;
 
-    WsFlinkJobDTO query(WsFlinkJobDTO wsFlinkJobDTO);
+    void updateJobInstanceState(WsFlinkJobDTO wsFlinkJobDTO);
 
 }
