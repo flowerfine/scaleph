@@ -32,9 +32,9 @@ public interface CatalogService {
 
     Optional<CatalogDatabaseDTO> getDatabase(String catalog, String database);
 
-    void insertDatabase(String catalog, String database) throws DatabaseAlreadyExistException;
+    void insertDatabase(CatalogDatabaseDTO database) throws DatabaseAlreadyExistException;
 
-    void updateDatabase(String catalog, String database) throws DatabaseNotExistException;
+    void updateDatabase(CatalogDatabaseDTO database) throws DatabaseNotExistException;
 
     void deleteDatabase(String catalog, String database) throws DatabaseNotExistException;
 
