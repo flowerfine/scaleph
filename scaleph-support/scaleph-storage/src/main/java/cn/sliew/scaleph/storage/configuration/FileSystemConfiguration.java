@@ -19,8 +19,9 @@
 package cn.sliew.scaleph.storage.configuration;
 
 import cn.sliew.scaleph.storage.utils.HadoopUtil;
-import com.amazonaws.services.s3.internal.BucketNameUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.aliyun.oss.AliyunOSSFileSystem;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -33,15 +34,27 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+@Slf4j
 @Configuration
-@EnableConfigurationProperties(LocalFileSystemProperties.class)
+@EnableConfigurationProperties(FileSystemProperties.class)
 public class FileSystemConfiguration {
+
+    @SuppressWarnings("all")
+    @Bean
+    @ConfigurationProperties(prefix = "file-system")
+    @ConditionalOnProperty(value = "file-system.type", havingValue = "local")
+    public LocalFileSystemProperties localFileSystemProperties() {
+        return new LocalFileSystemProperties();
+    }
+
 
     @Bean
     @ConditionalOnProperty(value = "file-system.type", havingValue = "local")
-    public FileSystem localFileSystem(LocalFileSystemProperties localFileSystemProperties) throws IOException {
+    public FileSystem localFileSystem(LocalFileSystemProperties localFileSystemProperties) throws IOException, URISyntaxException {
         org.apache.hadoop.conf.Configuration conf = HadoopUtil.getHadoopConfiguration(localFileSystemProperties.getHadoopConfPath());
-        return FileSystem.getLocal(conf);
+        FileSystem fileSystem = FileSystem.getLocal(conf);
+        setFsWorkingDirectory(fileSystem, localFileSystemProperties.getWorkingDirectory());
+        return fileSystem;
     }
 
     @SuppressWarnings("all")
@@ -61,7 +74,9 @@ public class FileSystemConfiguration {
         conf.set("fs.s3a.secret.key", s3FileSystemProperties.getSecretKey());
         conf.setBoolean("fs.s3a.path.style.access", true);
         URI uri = new URI(FileSystemType.S3.getSchema() + s3FileSystemProperties.getBucket());
-        return FileSystem.get(uri, conf);
+        FileSystem fileSystem = FileSystem.get(uri, conf);
+        setFsWorkingDirectory(fileSystem, s3FileSystemProperties.getWorkingDirectory());
+        return fileSystem;
     }
 
     @SuppressWarnings("all")
@@ -81,6 +96,7 @@ public class FileSystemConfiguration {
         conf.set("fs.oss.accessKeySecret", ossFileSystemProperties.getSecretKey());
         URI uri = new URI(FileSystemType.OSS.getSchema() + ossFileSystemProperties.getBucket());
         final AliyunOSSFileSystem aliyunOSSFileSystem = new AliyunOSSFileSystem();
+        setFsWorkingDirectory(aliyunOSSFileSystem, ossFileSystemProperties.getWorkingDirectory());
         aliyunOSSFileSystem.initialize(uri, conf);
         return aliyunOSSFileSystem;
     }
@@ -100,6 +116,27 @@ public class FileSystemConfiguration {
         if (StringUtils.hasText(hdfsFileSystemProperties.getDefaultFS())) {
             conf.set("fs.defaultFS", hdfsFileSystemProperties.getDefaultFS());
         }
-        return FileSystem.get(conf);
+        FileSystem fileSystem = FileSystem.get(conf);
+        setFsWorkingDirectory(fileSystem, hdfsFileSystemProperties.getWorkingDirectory());
+        return fileSystem;
     }
+
+    private void setFsWorkingDirectory(FileSystem fileSystem, String workingDirectory) {
+        if (workingDirectory == null) {
+            log.warn("Null working directory");
+            return;
+        }
+        String path = null;
+        try {
+            URI uri = new URI(workingDirectory);
+            path = uri.getRawPath();
+        } catch (Exception e) {
+            log.error("Error parsing working directory {}", workingDirectory);
+        }
+        if (path != null) {
+            log.info("Set working directory to {}", path);
+            fileSystem.setWorkingDirectory(new Path(path));
+        }
+    }
+
 }

@@ -51,6 +51,7 @@ app:
   host: localhost:4200
 
 file-system:
+#  workingDirectory: /scaleph
 #  type: local
   type: s3
   proxy: false

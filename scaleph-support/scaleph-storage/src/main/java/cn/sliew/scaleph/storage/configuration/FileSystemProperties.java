@@ -20,9 +20,13 @@ package cn.sliew.scaleph.storage.configuration;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.hadoop.fs.Path;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
+@SuppressWarnings("all")
 @Getter
 @Setter
+@ConfigurationProperties(prefix = "file-system")
 public class FileSystemProperties {
 
     /**
@@ -31,4 +35,13 @@ public class FileSystemProperties {
     private String type;
 
     private String hadoopConfPath;
+
+    /**
+     * FS working directory
+     * 
+     * @see org.apache.hadoop.fs.FileSystem#setWorkingDirectory(Path) 
+     * 
+     */
+    private String workingDirectory;
+
 }
