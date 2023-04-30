@@ -140,9 +140,9 @@ public class SakuraCatalog extends AbstractCatalog {
     public boolean tableExists(ObjectPath tablePath) throws CatalogException {
         String database = tablePath.getDatabaseName();
         String table = tablePath.getObjectName();
-        Optional<CatalogTableDTO> tableOptional = catalogService.getTable(getName(), database, table);
-        Optional<CatalogTableDTO> viewOptional = catalogService.getView(getName(), database, table);
-        return tableOptional.isPresent() || viewOptional.isPresent();
+        boolean tableExists = catalogService.tableExists(getName(), database, table);
+        boolean viewExists = catalogService.viewExists(getName(), database, table);
+        return tableExists || viewExists;
     }
 
     @Override
@@ -330,7 +330,7 @@ public class SakuraCatalog extends AbstractCatalog {
     public boolean functionExists(ObjectPath functionPath) throws CatalogException {
         String database = functionPath.getDatabaseName();
         String function = functionPath.getObjectName();
-        return catalogService.getFunction(getName(), database, function).isPresent();
+        return catalogService.functionExists(getName(), database, function);
     }
 
     @Override
