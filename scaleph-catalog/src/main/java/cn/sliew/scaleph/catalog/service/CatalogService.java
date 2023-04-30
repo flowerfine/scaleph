@@ -32,6 +32,8 @@ public interface CatalogService {
 
     Optional<CatalogDatabaseDTO> getDatabase(String catalog, String database);
 
+    boolean databaseExists(String catalog, String database);
+
     void insertDatabase(CatalogDatabaseDTO database) throws DatabaseAlreadyExistException;
 
     void updateDatabase(CatalogDatabaseDTO database) throws DatabaseNotExistException;
@@ -43,6 +45,8 @@ public interface CatalogService {
     List<CatalogTableDTO> listTables(String catalog, String database);
 
     Optional<CatalogTableDTO> getTable(String catalog, String database, String table);
+
+    boolean tableExists(String catalog, String database, String table);
 
     void insertTable(String catalog, String database, CatalogTableDTO table) throws DatabaseNotExistException, TableAlreadyExistException;
 
@@ -56,6 +60,8 @@ public interface CatalogService {
 
     Optional<CatalogTableDTO> getView(String catalog, String database, String view);
 
+    boolean viewExists(String catalog, String database, String view);
+
     void insertView(String catalog, String database, CatalogTableDTO view) throws DatabaseNotExistException, TableAlreadyExistException;
 
     void updateView(String catalog, String database, CatalogTableDTO view) throws TableNotExistException;
@@ -67,6 +73,8 @@ public interface CatalogService {
     List<CatalogFunctionDTO> listFunctions(String catalog, String database);
 
     Optional<CatalogFunctionDTO> getFunction(String catalog, String database, String function);
+
+    boolean functionExists(String catalog, String database, String function);
 
     void insertFunction(String catalog, String database, CatalogFunctionDTO function) throws DatabaseNotExistException, FunctionAlreadyExistException;
 

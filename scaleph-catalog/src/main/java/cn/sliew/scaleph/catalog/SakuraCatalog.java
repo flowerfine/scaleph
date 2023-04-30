@@ -69,8 +69,7 @@ public class SakuraCatalog extends AbstractCatalog {
 
     @Override
     public boolean databaseExists(String databaseName) throws CatalogException {
-        Optional<CatalogDatabaseDTO> optional = catalogService.getDatabase(getName(), databaseName);
-        return optional.isPresent();
+        return catalogService.databaseExists(getName(), databaseName);
     }
 
     @Override
