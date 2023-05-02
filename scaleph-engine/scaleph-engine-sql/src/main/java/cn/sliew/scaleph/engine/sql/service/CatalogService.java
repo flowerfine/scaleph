@@ -25,7 +25,7 @@ import org.apache.flink.table.catalog.CatalogView;
 
 import java.util.List;
 
-public interface FlinkCatalogService {
+public interface CatalogService {
 
     List<Catalog> listCatalogs();
 

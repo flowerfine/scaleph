@@ -18,20 +18,28 @@
 
 package cn.sliew.scaleph.engine.sql.service.impl;
 
-import cn.sliew.scaleph.engine.sql.service.FlinkCatalogService;
+import cn.sliew.scaleph.engine.sql.service.CatalogService;
+import cn.sliew.scaleph.engine.sql.service.WsFlinkCatalogService;
+import cn.sliew.scaleph.engine.sql.service.dto.WsFlinkCatalogDTO;
 import org.apache.flink.table.catalog.Catalog;
 import org.apache.flink.table.catalog.CatalogDatabase;
 import org.apache.flink.table.catalog.CatalogTable;
 import org.apache.flink.table.catalog.CatalogView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class FlinkCatalogServiceImpl implements FlinkCatalogService {
+public class CatalogServiceImpl implements CatalogService {
+
+    @Autowired
+    private WsFlinkCatalogService wsFlinkCatalogService;
 
     @Override
     public List<Catalog> listCatalogs() {
+        List<WsFlinkCatalogDTO> wsFlinkCatalogDTOS = wsFlinkCatalogService.list();
+
         return null;
     }
 
