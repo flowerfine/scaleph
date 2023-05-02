@@ -26,7 +26,7 @@ create table ws_di_job
 (
     id          bigint       not null auto_increment comment '自增主键',
     project_id  bigint       not null comment '项目id',
-    job_engine  varchar(16)       not null comment '作业引擎',
+    job_engine  varchar(16)  not null comment '作业引擎',
     job_code    bigint       not null comment '作业编码',
     job_name    varchar(256) not null comment '作业名称',
     job_type    varchar(16) comment '作业类型',
@@ -205,6 +205,24 @@ create table ws_flink_artifact_jar
     key idx_flink_artifact (flink_artifact_id, version)
 ) engine = innodb comment = 'flink artifact jar';
 
+DROP TABLE IF EXISTS ws_flink_artifact_sql;
+CREATE TABLE ws_flink_artifact_sql
+(
+    id                bigint       not null auto_increment,
+    flink_artifact_id bigint       not null comment '作业artifact id',
+    flink_version     varchar(32)  not null comment 'flink版本',
+    file_name         varchar(255) not null comment '文件名称',
+    path              varchar(255) not null comment '文件路径',
+    version           varchar(128) not null comment '版本',
+    remark            varchar(255),
+    creator           varchar(32),
+    create_time       datetime     not null default current_timestamp,
+    editor            varchar(32),
+    update_time       datetime     not null default current_timestamp on update current_timestamp,
+    PRIMARY KEY (id),
+    key idx_flink_artifact (flink_artifact_id, version)
+) ENGINE = INNODB COMMENT = 'flink artifact sql';
+
 drop table if exists ws_flink_job;
 create table ws_flink_job
 (
@@ -346,7 +364,7 @@ DROP TABLE IF EXISTS ws_flink_kubernetes_deployment;
 CREATE TABLE ws_flink_kubernetes_deployment
 (
     id                  bigint       not null auto_increment,
-    kind              varchar(16)  not null,
+    kind                varchar(16)  not null,
     `name`              varchar(255) not null,
     namespace           varchar(255) not null,
     kuberenetes_options varchar(255),
@@ -366,9 +384,9 @@ CREATE TABLE ws_flink_kubernetes_deployment
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment';
 
 INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `namespace`, `kuberenetes_options`, `job_manager`,
-                                           `task_manager`, `pod_template`, `flink_configuration`, `deployment_name`,
-                                           `job`, `remark`,
-                                           `creator`, `editor`)
+                                              `task_manager`, `pod_template`, `flink_configuration`, `deployment_name`,
+                                              `job`, `remark`,
+                                              `creator`, `editor`)
 VALUES (1, 'FlinkDeployment', 'basic-example', 'default',
         '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
         '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', NULL,
@@ -377,8 +395,8 @@ VALUES (1, 'FlinkDeployment', 'basic-example', 'default',
         NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `namespace`, `kuberenetes_options`, `job_manager`,
-                                           `task_manager`, `pod_template`, `flink_configuration`, `deployment_name`,
-                                           `job`, `remark`, `creator`, `editor`)
+                                              `task_manager`, `pod_template`, `flink_configuration`, `deployment_name`,
+                                              `job`, `remark`, `creator`, `editor`)
 VALUES (2, 'FlinkDeployment', 'stateful-example', 'default',
         '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
         '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
@@ -390,8 +408,8 @@ VALUES (2, 'FlinkDeployment', 'stateful-example', 'default',
         NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `namespace`, `kuberenetes_options`, `job_manager`,
-                                           `task_manager`, `pod_template`, `flink_configuration`, `deployment_name`,
-                                           `job`, `remark`, `creator`, `editor`)
+                                              `task_manager`, `pod_template`, `flink_configuration`, `deployment_name`,
+                                              `job`, `remark`, `creator`, `editor`)
 VALUES (3, 'FlinkDeployment', 'stateful-example2', 'default',
         '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
         '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
@@ -401,3 +419,20 @@ VALUES (3, 'FlinkDeployment', 'stateful-example2', 'default',
         NULL,
         '{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":2,\"entryClass\":\"org.apache.flink.streaming.examples.statemachine.StateMachineExample\",\"args\":[],\"state\":\"running\",\"upgradeMode\":\"last-state\"}',
         NULL, 'sys', 'sys');
+
+
+DROP TABLE IF EXISTS ws_flink_catalog;
+CREATE TABLE ws_flink_catalog
+(
+    id          bigint       not null auto_increment,
+    type        varchar(16)  not null,
+    `name`      varchar(255) not null,
+    properties  text,
+    remark      varchar(255),
+    creator     varchar(32),
+    create_time datetime     not null default current_timestamp,
+    editor      varchar(32),
+    update_time datetime     not null default current_timestamp on update current_timestamp,
+    PRIMARY KEY (id),
+    UNIQUE KEY uniq_name (type, `name`)
+) ENGINE = INNODB COMMENT = 'flink catalog';
