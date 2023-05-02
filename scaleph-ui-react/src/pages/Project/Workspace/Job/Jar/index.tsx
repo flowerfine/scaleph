@@ -1,30 +1,32 @@
 import { PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
 import { FlinkArtifactService } from '@/services/project/flinkArtifact.service';
-import { WsFlinkArtifact } from '@/services/project/typings';
+import {WsFlinkArtifact, WsFlinkArtifactJar} from '@/services/project/typings';
 import { DeleteOutlined, EditOutlined, UploadOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
 import { Button, message, Modal, Space, Tooltip } from 'antd';
 import { useRef, useState } from 'react';
 import { history, useAccess, useIntl } from 'umi';
 import FlinkArtifactForm from './components/FlinkArtifactForm';
+import {FlinkArtifactJarService} from "@/services/project/flinkArtifactJar.service";
 
-const JobArtifactView: React.FC = () => {
+const JobArtifactJarView: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [flinkArtifactFormData, setFlinkArtifactData] = useState<{
+  const [flinkArtifactJarFormData, setFlinkArtifactJarData] = useState<{
     visiable: boolean;
-    data: WsFlinkArtifact;
+    data: WsFlinkArtifactJar;
   }>({ visiable: false, data: {} });
 
-  const tableColumns: ProColumns<WsFlinkArtifact>[] = [
+  const tableColumns: ProColumns<WsFlinkArtifactJar>[] = [
     {
       title: intl.formatMessage({ id: 'pages.project.artifact.name' }),
       dataIndex: 'name',
       width: 240,
     },
+
     {
       title: intl.formatMessage({ id: 'pages.project.artifact.remark' }),
       dataIndex: 'remark',
@@ -72,7 +74,7 @@ const JobArtifactView: React.FC = () => {
                   type="link"
                   icon={<EditOutlined />}
                   onClick={() => {
-                    setFlinkArtifactData({ visiable: true, data: record });
+                    setFlinkArtifactJarData({ visiable: true, data: record });
                   }}
                 ></Button>
               </Tooltip>
@@ -86,18 +88,14 @@ const JobArtifactView: React.FC = () => {
                   onClick={() => {
                     Modal.confirm({
                       title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                      content: intl.formatMessage({
-                        id: 'app.common.operate.delete.confirm.content',
-                      }),
+                      content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
                       okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
                       okButtonProps: { danger: true },
                       cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                       onOk() {
                         FlinkArtifactService.deleteOne(record).then((d) => {
                           if (d.success) {
-                            message.success(
-                              intl.formatMessage({ id: 'app.common.operate.delete.success' }),
-                            );
+                            message.success(intl.formatMessage({ id: 'app.common.operate.delete.success' }));
                             actionRef.current?.reload();
                           }
                         });
@@ -127,7 +125,7 @@ const JobArtifactView: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) =>
-          FlinkArtifactService.list({ ...params, projectId: projectId + '' })
+          FlinkArtifactJarService.list({ ...params, projectId: projectId + '' })
         }
         toolbar={{
           actions: [
@@ -136,7 +134,7 @@ const JobArtifactView: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setFlinkArtifactData({ visiable: true, data: {} });
+                  setFlinkArtifactJarData({ visiable: true, data: {} });
                 }}
               >
                 {intl.formatMessage({ id: 'app.common.operate.new.label' })}
@@ -148,20 +146,20 @@ const JobArtifactView: React.FC = () => {
         tableAlertRender={false}
         tableAlertOptionRender={false}
       ></ProTable>
-      {flinkArtifactFormData.visiable && (
+      {flinkArtifactJarFormData.visiable && (
         <FlinkArtifactForm
-          visible={flinkArtifactFormData.visiable}
+          visible={flinkArtifactJarFormData.visiable}
           onCancel={() => {
-            setFlinkArtifactData({ visiable: false, data: {} });
+            setFlinkArtifactJarData({ visiable: false, data: {} });
           }}
           onVisibleChange={(visiable) => {
-            setFlinkArtifactData({ visiable: visiable, data: {} });
+            setFlinkArtifactJarData({ visiable: visiable, data: {} });
             actionRef.current?.reload();
           }}
-          data={flinkArtifactFormData.data}
+          data={flinkArtifactJarFormData.data}
         />
       )}
     </div>
   );
 };
-export default JobArtifactView;
+export default JobArtifactJarView;

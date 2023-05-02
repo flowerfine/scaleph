@@ -18,11 +18,11 @@
 
 package cn.sliew.scaleph.dao.entity.master.ws;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -37,23 +37,21 @@ public class WsFlinkArtifactSql extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("作业artifact id")
+    @TableField(exist = false)
+    private WsFlinkArtifact wsFlinkArtifact;
+
     @TableField("flink_artifact_id")
     private Long flinkArtifactId;
 
-    @ApiModelProperty("flink版本")
     @TableField("flink_version")
-    private String flinkVersion;
+    private FlinkVersion flinkVersion;
 
-    @ApiModelProperty("文件名称")
     @TableField("file_name")
     private String fileName;
 
-    @ApiModelProperty("文件路径")
     @TableField("path")
     private String path;
 
-    @ApiModelProperty("版本")
     @TableField("version")
     private String version;
 

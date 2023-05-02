@@ -23,16 +23,34 @@ import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@Data
-public class WsFlinkArtifactJarParam extends PaginationParam {
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
+@Data
+public class WsFlinkArtifactJarUploadParam {
+
+    @NotNull
     @ApiModelProperty("Project ID")
     private Long projectId;
 
+    @NotBlank
     @ApiModelProperty("name")
     private String name;
 
+    @ApiModelProperty("remark")
+    private String remark;
+
+    @ApiModelProperty("Project ID")
+    private Long flinkArtifactId;
+
+    @NotNull
     @ApiModelProperty("flink 版本")
     private FlinkVersion flinkVersion;
 
+    @NotBlank
+    @ApiModelProperty("Main Method")
+    private String entryClass;
+
+    @ApiModelProperty("Main Args")
+    private String jarParams;
 }

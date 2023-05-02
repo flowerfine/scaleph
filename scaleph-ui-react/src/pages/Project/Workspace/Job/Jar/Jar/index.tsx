@@ -46,13 +46,6 @@ const FlinkArtifactJarWeb: React.FC = () => {
       fixed: 'left',
     },
     {
-      title: intl.formatMessage({ id: 'pages.project.artifact.jar.version' }),
-      dataIndex: 'version',
-      hideInSearch: true,
-      width: 120,
-      fixed: 'left',
-    },
-    {
       title: intl.formatMessage({ id: 'pages.resource.flinkRelease.version' }),
       dataIndex: 'flinkVersion',
       hideInSearch: true,

@@ -101,14 +101,14 @@ export default [
             name: 'artifact',
             path: '/workspace/job/artifact',
             exact: true,
-            component: './Project/Workspace/Job/Artifact',
+            component: './Project/Workspace/Job/Jar',
             pCode: PRIVILEGE_CODE.workspaceJobArtifactShow,
             access: 'normalRouteFilter'
           },
           {
             path: '/workspace/job/artifact/jar',
             exact: true,
-            component: './Project/Workspace/Job/Artifact/Jar',
+            component: './Project/Workspace/Job/Jar/Jar',
             pCode: PRIVILEGE_CODE.workspaceJobArtifactJarShow,
             access: 'normalRouteFilter'
           },

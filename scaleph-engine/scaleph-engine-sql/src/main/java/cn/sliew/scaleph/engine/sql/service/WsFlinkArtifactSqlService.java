@@ -16,13 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.engine.sql.service;
 
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.engine.flink.resource.JarArtifact;
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarParam;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUploadParam;
+import cn.sliew.scaleph.engine.sql.service.dto.WsFlinkArtifactSqlDTO;
+import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,22 +28,19 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
-public interface WsFlinkArtifactJarService {
+public interface WsFlinkArtifactSqlService {
 
-    List<WsFlinkArtifactJarDTO> listByArtifact(Long artifactId);
+    Page<WsFlinkArtifactSqlDTO> list(WsFlinkArtifactSqlParam param);
 
-    Page<WsFlinkArtifactJarDTO> list(WsFlinkArtifactJarParam param);
-
-    WsFlinkArtifactJarDTO selectOne(Long id);
-
-    JarArtifact asYaml(Long id);
+    WsFlinkArtifactSqlDTO selectOne(Long id);
 
     int deleteOne(Long id) throws ScalephException;
 
-    void upload(WsFlinkArtifactJarUploadParam param, MultipartFile file) throws IOException;
+    void insert(WsFlinkArtifactSqlDTO param, MultipartFile file) throws IOException;
 
-    int update(WsFlinkArtifactJarDTO params);
+    int update(WsFlinkArtifactSqlDTO params);
 
     String download(Long id, OutputStream outputStream) throws IOException;
 
+    List<WsFlinkArtifactSqlDTO> listByArtifact(Long artifactId);
 }

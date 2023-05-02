@@ -7,6 +7,7 @@ import cn.sliew.scaleph.common.param.PropertyUtil;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactJarService;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarParam;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUploadParam;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -63,7 +64,7 @@ public class WsArtifactJarController {
     @Logging
     @PutMapping
     @ApiOperation(value = "上传 artifact jar", notes = "上传artifact jar")
-    public ResponseEntity<ResponseVO> upload(@Valid WsFlinkArtifactJarDTO param, @RequestPart("file") MultipartFile file) throws IOException {
+    public ResponseEntity<ResponseVO> upload(@Valid WsFlinkArtifactJarUploadParam param, @RequestPart("file") MultipartFile file) throws IOException {
         if (StrUtil.isNotBlank(param.getJarParams())) {
             Map<String, Object> map = PropertyUtil.formatPropFromStr(param.getJarParams(), "\n", ":");
             param.setJarParams(PropertyUtil.mapToFormatProp(map, "\n", ":"));
