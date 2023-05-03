@@ -13,7 +13,7 @@ import {
 import { Button, Descriptions, message, Modal, Space, Tooltip } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { useAccess, useIntl, useLocation } from 'umi';
-import FlinkArtifactJarForm from './components/FlinkArtifactJarForm';
+import FlinkArtifactJarAddForm from "@/pages/Project/Workspace/Job/Jar/FlinkArtifactJarAddForm";
 
 const FlinkArtifactJarHistoryWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -207,7 +207,7 @@ const FlinkArtifactJarHistoryWeb: React.FC = () => {
         tableAlertOptionRender={false}
       ></ProTable>
       {flinkArtifactJarData.visiable && (
-        <FlinkArtifactJarForm
+        <FlinkArtifactJarAddForm
           visible={flinkArtifactJarData.visiable}
           onCancel={() => {
             setFlinkArtifactJarData({ visiable: false, data: {} });
