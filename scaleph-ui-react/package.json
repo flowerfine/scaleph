@@ -63,6 +63,7 @@
     "react-dev-inspector": "^1.7.0",
     "react-dom": "^17.0.0",
     "react-helmet-async": "^1.2.0",
+    "react-split": "^2.0.14",
     "yaml": "^2.2.1"
   },
   "devDependencies": {
