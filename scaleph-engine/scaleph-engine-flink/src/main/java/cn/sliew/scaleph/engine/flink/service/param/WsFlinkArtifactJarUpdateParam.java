@@ -16,39 +16,35 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.dto;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import io.swagger.annotations.ApiModel;
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "FlinkArtifact对象", description = "flink artifact")
-public class WsFlinkArtifactDTO extends BaseDTO {
+public class WsFlinkArtifactJarUpdateParam {
 
     @NotNull
-    @ApiModelProperty("项目id")
-    private Long projectId;
-
-    @ApiModelProperty("`type`")
-    private FlinkJobType type;
+    @ApiModelProperty("id")
+    private Long id;
 
     @NotBlank
-    @Length(max = 200)
-    @ApiModelProperty("名称")
+    @ApiModelProperty("name")
     private String name;
 
-    @ApiModelProperty("`current`")
-    private Long current;
-
-    @ApiModelProperty("备注")
+    @ApiModelProperty("remark")
     private String remark;
+
+    @ApiModelProperty("flink 版本")
+    private FlinkVersion flinkVersion;
+
+    @ApiModelProperty("Main Method")
+    private String entryClass;
+
+    @ApiModelProperty("Main Args")
+    private String jarParams;
 }

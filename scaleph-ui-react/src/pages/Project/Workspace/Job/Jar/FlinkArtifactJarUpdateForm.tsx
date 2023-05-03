@@ -1,7 +1,7 @@
-import {ModalFormProps} from '@/app.d';
+import {ModalFormProps} from '@/app';
 import {DICT_TYPE, WORKSPACE_CONF} from '@/constant';
-import {WsFlinkArtifactJar, WsFlinkArtifactJarUploadParam} from '@/services/project/typings';
-import {Form, Input, message, Modal, UploadFile, UploadProps} from 'antd';
+import {WsFlinkArtifactJar, WsFlinkArtifactJarUpdateParam} from '@/services/project/typings';
+import {Form, message, Modal, UploadFile, UploadProps} from 'antd';
 import {useIntl} from 'umi';
 import {FlinkArtifactJarService} from "@/services/project/flinkArtifactJar.service";
 import {
@@ -15,12 +15,12 @@ import {
 import {useState} from "react";
 import {DictDataService} from "@/services/admin/dictData.service";
 
-const FlinkArtifactForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({
-                                                                           data,
-                                                                           visible,
-                                                                           onVisibleChange,
-                                                                           onCancel
-                                                                         }) => {
+const FlinkArtifactJarUpdateForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({
+                                                                                    data,
+                                                                                    visible,
+                                                                                    onVisibleChange,
+                                                                                    onCancel
+                                                                                  }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -48,19 +48,22 @@ const FlinkArtifactForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({
     <Modal
       open={visible}
       title={
-        data.id
-          ? intl.formatMessage({id: 'app.common.operate.edit.label'}) +
-          intl.formatMessage({id: 'pages.project.job.jar'})
-          : intl.formatMessage({id: 'app.common.operate.new.label'}) +
-          intl.formatMessage({id: 'pages.project.job.jar'})
+        intl.formatMessage({id: 'app.common.operate.edit.label'}) +
+        intl.formatMessage({id: 'pages.project.job.jar'})
       }
       width={580}
       destroyOnClose={true}
       onCancel={onCancel}
+      confirmLoading={uploading}
+      okText={
+        uploading
+          ? intl.formatMessage({id: 'app.common.operate.uploading.label'})
+          : intl.formatMessage({id: 'app.common.operate.upload.label'})
+      }
       onOk={() => {
         form.validateFields().then((values) => {
-          const param: WsFlinkArtifactJarUploadParam = {
-            projectId: projectId + '',
+          const param: WsFlinkArtifactJarUpdateParam = {
+            id: values.id,
             name: values.name,
             remark: values.remark,
             entryClass: values.entryClass,
@@ -68,23 +71,18 @@ const FlinkArtifactForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({
             jarParams: values.jarParams,
             file: fileList[0]
           };
-          data.id
-            ? FlinkArtifactJarService.update(param).then((d) => {
-              if (d.success) {
-                message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
-                if (onVisibleChange) {
-                  onVisibleChange(false);
-                }
+
+          setUploading(true);
+          FlinkArtifactJarService.updateJar(param).then((response) => {
+            if (response.success) {
+              message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
+              setFileList([]);
+              setUploading(false);
+              if (onVisibleChange) {
+                onVisibleChange(false);
               }
-            })
-            : FlinkArtifactJarService.upload(param).then((d) => {
-              if (d.success) {
-                message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
-                if (onVisibleChange) {
-                  onVisibleChange(false);
-                }
-              }
-            });
+            }
+          });
         });
       }}
     >
@@ -96,8 +94,12 @@ const FlinkArtifactForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({
         wrapperCol={{span: 16}}
         initialValues={{
           id: data.id,
-          name: data.name,
-          remark: data.remark,
+          flinkArtifactId: data.wsFlinkArtifact.id,
+          name: data.wsFlinkArtifact.name,
+          remark: data.wsFlinkArtifact.remark,
+          flinkVersion: data.flinkVersion.value,
+          entryClass: data.entryClass,
+          jarParams: data.jarParams
         }}
       >
         <ProFormDigit name="id" hidden/>
@@ -121,16 +123,15 @@ const FlinkArtifactForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({
           title={intl.formatMessage({id: 'pages.project.artifact.jar.file'})}
           max={1}
           fieldProps={props}
-          rules={[{required: true}]}
         />
         <ProFormText
           name="entryClass"
-          label={intl.formatMessage({ id: 'pages.project.artifact.jar.entryClass' })}
-          rules={[{ required: true }]}
+          label={intl.formatMessage({id: 'pages.project.artifact.jar.entryClass'})}
+          rules={[{required: true}]}
         />
         <ProFormTextArea
           name="jarParams"
-          label={intl.formatMessage({ id: 'pages.project.artifact.jar.jarParams' })}
+          label={intl.formatMessage({id: 'pages.project.artifact.jar.jarParams'})}
           placeholder={intl.formatMessage({id: 'pages.project.artifact.jar.jarParams.placeholder'})}
           fieldProps={{
             rows: 3
@@ -146,4 +147,4 @@ const FlinkArtifactForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({
   );
 };
 
-export default FlinkArtifactForm;
+export default FlinkArtifactJarUpdateForm;

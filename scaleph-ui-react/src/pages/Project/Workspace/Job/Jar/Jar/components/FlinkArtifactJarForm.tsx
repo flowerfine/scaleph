@@ -88,7 +88,6 @@ const FlinkArtifactJarForm: React.FC<ModalFormProps<WsFlinkArtifactJar>> = ({
                 version: values.version,
                 flinkVersion: values.flinkVersion,
                 entryClass: values.entryClass,
-                file: fileList[0],
                 jarParams: values.jarParams,
               };
               setUploading(true);

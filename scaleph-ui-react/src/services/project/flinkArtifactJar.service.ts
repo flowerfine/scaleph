@@ -1,6 +1,11 @@
 import { PageResponse, ResponseBody } from '@/app.d';
 import { USER_AUTH } from '@/constant';
-import { WsFlinkArtifactJar, WsFlinkArtifactJarParam } from './typings';
+import {
+  WsFlinkArtifactJar,
+  WsFlinkArtifactJarParam,
+  WsFlinkArtifactJarUpdateParam,
+  WsFlinkArtifactJarUploadParam
+} from './typings';
 import { request } from 'umi';
 
 export const FlinkArtifactJarService = {
@@ -41,13 +46,22 @@ export const FlinkArtifactJarService = {
       method: 'DELETE',
     });
   },
-  upload: async (uploadParam: WsFlinkArtifactJar) => {
+  upload: async (uploadParam: WsFlinkArtifactJarUploadParam) => {
     return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}`, {
       method: 'PUT',
       data: uploadParam,
       headers: { 'Content-Type': 'multipart/form-data' },
     });
   },
+
+  updateJar: async (uploadParam: WsFlinkArtifactJarUpdateParam) => {
+    return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}/jar`, {
+      method: 'POST',
+      data: uploadParam,
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
+
   download: async (row: WsFlinkArtifactJar) => {
     const a = document.createElement('a');
     a.href =

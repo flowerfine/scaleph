@@ -64,7 +64,7 @@ public class WsFlinkArtifactSqlServiceImpl implements WsFlinkArtifactSqlService 
     }
 
     @Override
-    public void upload(WsFlinkArtifactSqlDTO param, MultipartFile file) throws IOException {
+    public void insert(WsFlinkArtifactSqlDTO param, MultipartFile file) throws IOException {
 
     }
 

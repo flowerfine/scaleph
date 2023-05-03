@@ -7,7 +7,9 @@ import cn.sliew.scaleph.common.param.PropertyUtil;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactJarService;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarParam;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUpdateParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUploadParam;
+import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -64,12 +66,24 @@ public class WsArtifactJarController {
     @Logging
     @PutMapping
     @ApiOperation(value = "上传 artifact jar", notes = "上传artifact jar")
-    public ResponseEntity<ResponseVO> upload(@Valid WsFlinkArtifactJarUploadParam param, @RequestPart("file") MultipartFile file) throws IOException {
+    public ResponseEntity<ResponseVO> upload(@Valid WsFlinkArtifactJarUploadParam param, @RequestPart("file") MultipartFile file) throws IOException, UidGenerateException {
         if (StrUtil.isNotBlank(param.getJarParams())) {
             Map<String, Object> map = PropertyUtil.formatPropFromStr(param.getJarParams(), "\n", ":");
             param.setJarParams(PropertyUtil.mapToFormatProp(map, "\n", ":"));
         }
         wsFlinkArtifactJarService.upload(param, file);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("jar")
+    @ApiOperation(value = "修改 artifact jar", notes = "修改 artifact jar")
+    public ResponseEntity<ResponseVO> updateJar(@Valid WsFlinkArtifactJarUpdateParam param, @RequestPart(value = "file", required = false) MultipartFile file) throws UidGenerateException, IOException {
+        if (StrUtil.isNotBlank(param.getJarParams())) {
+            Map<String, Object> map = PropertyUtil.formatPropFromStr(param.getJarParams(), "\n", ":");
+            param.setJarParams(PropertyUtil.mapToFormatProp(map, "\n", ":"));
+        }
+        this.wsFlinkArtifactJarService.update(param, file);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
@@ -82,18 +96,6 @@ public class WsArtifactJarController {
             response.setCharacterEncoding("utf-8");// 设置字符编码
             response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8")); // 设置响应头
         }
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-    }
-
-    @Logging
-    @PostMapping
-    @ApiOperation(value = "修改 artifact jar", notes = "修改 artifact jar")
-    public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkArtifactJarDTO param) {
-        if (StrUtil.isNotBlank(param.getJarParams())) {
-            Map<String, Object> map = PropertyUtil.formatPropFromStr(param.getJarParams(), "\n", ":");
-            param.setJarParams(PropertyUtil.mapToFormatProp(map, "\n", ":"));
-        }
-        this.wsFlinkArtifactJarService.update(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 

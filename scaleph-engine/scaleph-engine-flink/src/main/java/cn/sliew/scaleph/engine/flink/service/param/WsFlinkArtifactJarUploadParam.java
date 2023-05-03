@@ -40,9 +40,6 @@ public class WsFlinkArtifactJarUploadParam {
     @ApiModelProperty("remark")
     private String remark;
 
-    @ApiModelProperty("Project ID")
-    private Long flinkArtifactId;
-
     @NotNull
     @ApiModelProperty("flink 版本")
     private FlinkVersion flinkVersion;

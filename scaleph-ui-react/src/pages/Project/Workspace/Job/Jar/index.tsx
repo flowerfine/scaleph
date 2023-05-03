@@ -1,13 +1,15 @@
-import { PRIVILEGE_CODE, WORKSPACE_CONF } from '@/constant';
-import { FlinkArtifactService } from '@/services/project/flinkArtifact.service';
+import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from '@/constant';
+import {FlinkArtifactService} from '@/services/project/flinkArtifact.service';
 import {WsFlinkArtifact, WsFlinkArtifactJar} from '@/services/project/typings';
-import { DeleteOutlined, EditOutlined, UploadOutlined } from '@ant-design/icons';
-import { ActionType, ProColumns, ProFormInstance, ProTable } from '@ant-design/pro-components';
-import { Button, message, Modal, Space, Tooltip } from 'antd';
-import { useRef, useState } from 'react';
-import { history, useAccess, useIntl } from 'umi';
-import FlinkArtifactForm from './components/FlinkArtifactForm';
+import {DeleteOutlined, DownloadOutlined, EditOutlined, FolderOpenOutlined} from '@ant-design/icons';
+import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
+import {Button, message, Modal, Space, Tooltip} from 'antd';
+import {useRef, useState} from 'react';
+import {history, useAccess, useIntl} from 'umi';
+import FlinkArtifactJarAddForm from './FlinkArtifactJarAddForm';
 import {FlinkArtifactJarService} from "@/services/project/flinkArtifactJar.service";
+import {DictDataService} from "@/services/admin/dictData.service";
+import FlinkArtifactJarUpdateForm from "@/pages/Project/Workspace/Job/Jar/FlinkArtifactJarUpdateForm";
 
 const JobArtifactJarView: React.FC = () => {
   const intl = useIntl();
@@ -15,38 +17,75 @@ const JobArtifactJarView: React.FC = () => {
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [flinkArtifactJarFormData, setFlinkArtifactJarData] = useState<{
+  const [flinkArtifactJarAddFormData, setFlinkArtifactJarAddFormData] = useState<{
+    visiable: boolean;
+  }>({visiable: false});
+  const [flinkArtifactJarUpdateFormData, setFlinkArtifactJarUpdateFormData] = useState<{
     visiable: boolean;
     data: WsFlinkArtifactJar;
-  }>({ visiable: false, data: {} });
+  }>({visiable: false, data: {}});
 
   const tableColumns: ProColumns<WsFlinkArtifactJar>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.project.artifact.name' }),
+      title: intl.formatMessage({id: 'pages.project.artifact.name'}),
       dataIndex: 'name',
       width: 240,
+      render: (dom, entity, index, action, schema) => {
+        return entity.wsFlinkArtifact?.name
+      }
     },
-
     {
-      title: intl.formatMessage({ id: 'pages.project.artifact.remark' }),
+      title: intl.formatMessage({id: 'pages.resource.flinkRelease.version'}),
+      dataIndex: 'flinkVersion',
+      width: 120,
+      render: (dom, record, index) => {
+        return record.flinkVersion?.label;
+      },
+      request: (params, props) => {
+        return DictDataService.listDictDataByType2(DICT_TYPE.flinkVersion)
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.artifact.jar.fileName'}),
+      dataIndex: 'fileName',
+      hideInSearch: true,
+      width: 240
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.artifact.jar.entryClass'}),
+      dataIndex: 'entryClass',
+      hideInSearch: true,
+      width: 240,
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.artifact.jar.jarParams'}),
+      dataIndex: 'jarParams',
+      hideInSearch: true,
+      width: 240,
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.artifact.remark'}),
       dataIndex: 'remark',
       width: 240,
       hideInSearch: true,
+      render: (dom, entity, index, action, schema) => {
+        return entity.wsFlinkArtifact?.name
+      }
     },
     {
-      title: intl.formatMessage({ id: 'pages.project.artifact.createTime' }),
+      title: intl.formatMessage({id: 'pages.project.artifact.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'pages.project.artifact.updateTime' }),
+      title: intl.formatMessage({id: 'pages.project.artifact.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'app.common.operate.label' }),
+      title: intl.formatMessage({id: 'app.common.operate.label'}),
       dataIndex: 'actions',
       align: 'center',
       width: 120,
@@ -55,47 +94,59 @@ const JobArtifactJarView: React.FC = () => {
       render: (_, record) => (
         <>
           <Space>
-            {access.canAccess(PRIVILEGE_CODE.workspaceJobShow) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.upload.label' })}>
-                <Button
-                  shape="default"
-                  type="link"
-                  icon={<UploadOutlined />}
-                  onClick={() => {
-                    history.push('/workspace/job/artifact/jar', record);
-                  }}
-                />
-              </Tooltip>
-            )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDownload) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<EditOutlined />}
+                  icon={<EditOutlined/>}
                   onClick={() => {
-                    setFlinkArtifactJarData({ visiable: true, data: record });
+                    setFlinkArtifactJarUpdateFormData({visiable: true, data: record});
                   }}
                 ></Button>
               </Tooltip>
             )}
-            {access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
+            {access.canAccess(PRIVILEGE_CODE.datadevResourceDownload) && (
+              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.download.label' })}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DeleteOutlined />}
+                  icon={<DownloadOutlined />}
+                  onClick={() => {
+                    FlinkArtifactJarService.download(record);
+                  }}
+                />
+              </Tooltip>
+            )}
+            {access.canAccess(PRIVILEGE_CODE.workspaceJobShow) && (
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.upload.label'})}>
+                <Button
+                  shape="default"
+                  type="link"
+                  icon={<FolderOpenOutlined/>}
+                  onClick={() => {
+                    history.push('/workspace/job/artifact/history', record.wsFlinkArtifact);
+                  }}
+                />
+              </Tooltip>
+            )}
+            {access.canAccess(PRIVILEGE_CODE.datadevResourceDelete) && (
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
+                <Button
+                  shape="default"
+                  type="link"
+                  icon={<DeleteOutlined/>}
                   onClick={() => {
                     Modal.confirm({
-                      title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
+                      title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
                       content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
-                      okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                      okButtonProps: { danger: true },
-                      cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                      okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                      okButtonProps: {danger: true},
+                      cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
                         FlinkArtifactService.deleteOne(record).then((d) => {
                           if (d.success) {
-                            message.success(intl.formatMessage({ id: 'app.common.operate.delete.success' }));
+                            message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();
                           }
                         });
@@ -114,10 +165,10 @@ const JobArtifactJarView: React.FC = () => {
   return (
     <div>
       <ProTable<WsFlinkArtifact>
-        headerTitle={intl.formatMessage({ id: 'menu.project.job.artifact' })}
+        headerTitle={intl.formatMessage({id: 'menu.project.job.artifact'})}
         search={{
           labelWidth: 'auto',
-          span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
+          span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
         }}
         rowKey="id"
         actionRef={actionRef}
@@ -125,7 +176,7 @@ const JobArtifactJarView: React.FC = () => {
         options={false}
         columns={tableColumns}
         request={(params, sorter, filter) =>
-          FlinkArtifactJarService.list({ ...params, projectId: projectId + '' })
+          FlinkArtifactJarService.list({...params, projectId: projectId + ''})
         }
         toolbar={{
           actions: [
@@ -134,29 +185,41 @@ const JobArtifactJarView: React.FC = () => {
                 key="new"
                 type="primary"
                 onClick={() => {
-                  setFlinkArtifactJarData({ visiable: true, data: {} });
+                  setFlinkArtifactJarAddFormData({visiable: true});
                 }}
               >
-                {intl.formatMessage({ id: 'app.common.operate.new.label' })}
+                {intl.formatMessage({id: 'app.common.operate.new.label'})}
               </Button>
             ),
           ],
         }}
-        pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
+        pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
         tableAlertRender={false}
         tableAlertOptionRender={false}
-      ></ProTable>
-      {flinkArtifactJarFormData.visiable && (
-        <FlinkArtifactForm
-          visible={flinkArtifactJarFormData.visiable}
+      />
+      {flinkArtifactJarAddFormData.visiable && (
+        <FlinkArtifactJarAddForm
+          visible={flinkArtifactJarAddFormData.visiable}
           onCancel={() => {
-            setFlinkArtifactJarData({ visiable: false, data: {} });
+            setFlinkArtifactJarAddFormData({visiable: false});
           }}
           onVisibleChange={(visiable) => {
-            setFlinkArtifactJarData({ visiable: visiable, data: {} });
+            setFlinkArtifactJarAddFormData({visiable: visiable});
             actionRef.current?.reload();
           }}
-          data={flinkArtifactJarFormData.data}
+        />
+      )}
+      {flinkArtifactJarUpdateFormData.visiable && (
+        <FlinkArtifactJarUpdateForm
+          visible={flinkArtifactJarUpdateFormData.visiable}
+          onCancel={() => {
+            setFlinkArtifactJarUpdateFormData({visiable: false});
+          }}
+          onVisibleChange={(visiable) => {
+            setFlinkArtifactJarUpdateFormData({visiable: visiable});
+            actionRef.current?.reload();
+          }}
+          data={flinkArtifactJarUpdateFormData.data}
         />
       )}
     </div>

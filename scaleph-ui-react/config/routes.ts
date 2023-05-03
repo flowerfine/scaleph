@@ -106,9 +106,9 @@ export default [
             access: 'normalRouteFilter'
           },
           {
-            path: '/workspace/job/artifact/jar',
+            path: '/workspace/job/artifact/history',
             exact: true,
-            component: './Project/Workspace/Job/Jar/Jar',
+            component: './Project/Workspace/Job/Jar/History',
             pCode: PRIVILEGE_CODE.workspaceJobArtifactJarShow,
             access: 'normalRouteFilter'
           },

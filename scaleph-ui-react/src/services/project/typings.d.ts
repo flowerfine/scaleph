@@ -156,7 +156,6 @@ export type WsFlinkArtifactJar = {
   fileName?: string;
   path?: string;
   jarParams?: { [key: string]: any };
-  file?: UploadFile<any>;
   createTime?: Date;
   updateTime?: Date;
 };
@@ -164,6 +163,16 @@ export type WsFlinkArtifactJar = {
 export type WsFlinkArtifactJarUploadParam = {
   projectId: number | string;
   name: string;
+  remark?: string;
+  entryClass: string;
+  flinkVersion: string;
+  jarParams?: string;
+  file?: UploadFile<any>;
+};
+
+export type WsFlinkArtifactJarUpdateParam = {
+  id: number;
+  name?: string;
   remark?: string;
   entryClass: string;
   flinkVersion: string;
