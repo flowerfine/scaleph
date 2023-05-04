@@ -46,15 +46,12 @@ create table ws_flink_artifact_jar
     entry_class       varchar(255) not null comment 'main class',
     file_name         varchar(255) not null comment '文件名称',
     path              varchar(255) not null comment '文件路径',
-    group_id          varchar(128) comment 'group id',
-    artifact_id       varchar(128) comment 'artifact id',
     jar_params        text comment 'jar 运行参数',
     creator           varchar(32) comment '创建人',
     create_time       timestamp default current_timestamp comment '创建时间',
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    unique uniq_name (flink_artifact_id, file_name),
     key idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment = 'flink artifact jar';
 

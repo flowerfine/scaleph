@@ -187,6 +187,10 @@ export type WsFlinkArtifactJarParam = QueryParam & {
   flinkVersion: string;
 };
 
+export type WsFlinkArtifactJarHistoryParam = QueryParam & {
+  flinkArtifactId: number;
+};
+
 export type WsFlinkClusterConfig = {
   id?: number;
   projectId?: number | string;

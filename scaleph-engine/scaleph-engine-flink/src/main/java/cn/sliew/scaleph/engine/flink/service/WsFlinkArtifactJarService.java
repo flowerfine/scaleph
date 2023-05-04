@@ -21,6 +21,7 @@ package cn.sliew.scaleph.engine.flink.service;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.engine.flink.resource.JarArtifact;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarHistoryParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUpdateParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUploadParam;
@@ -34,15 +35,19 @@ import java.util.List;
 
 public interface WsFlinkArtifactJarService {
 
-    List<WsFlinkArtifactJarDTO> listByArtifact(Long artifactId);
-
     Page<WsFlinkArtifactJarDTO> list(WsFlinkArtifactJarParam param);
+
+    Page<WsFlinkArtifactJarDTO> listByArtifact(WsFlinkArtifactJarHistoryParam param);
+
+    List<WsFlinkArtifactJarDTO> listAllByArtifact(Long artifactId);
 
     WsFlinkArtifactJarDTO selectOne(Long id);
 
     JarArtifact asYaml(Long id);
 
-    int deleteOne(Long id) throws ScalephException;
+    int deleteOne(Long id) throws ScalephException, IOException;
+
+    int deleteAll(Long flinkArtifactId) throws IOException;
 
     void upload(WsFlinkArtifactJarUploadParam param, MultipartFile file) throws IOException, UidGenerateException;
 

@@ -29,6 +29,7 @@ import cn.sliew.scaleph.engine.flink.resource.JarArtifactConverter;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactJarService;
 import cn.sliew.scaleph.engine.flink.service.convert.WsFlinkArtifactJarConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarHistoryParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUpdateParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUploadParam;
@@ -36,6 +37,7 @@ import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.util.I18nUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,15 +63,6 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
     private WsFlinkArtifactMapper wsFlinkArtifactMapper;
 
     @Override
-    public List<WsFlinkArtifactJarDTO> listByArtifact(Long artifactId) {
-        List<WsFlinkArtifactJar> list = flinkArtifactJarMapper.selectList(
-                Wrappers.lambdaQuery(WsFlinkArtifactJar.class)
-                        .eq(WsFlinkArtifactJar::getFlinkArtifactId, artifactId)
-        );
-        return WsFlinkArtifactJarConvert.INSTANCE.toDto(list);
-    }
-
-    @Override
     public Page<WsFlinkArtifactJarDTO> list(WsFlinkArtifactJarParam param) {
         Page<WsFlinkArtifactJar> page = new Page<>(param.getCurrent(), param.getPageSize());
         Page<WsFlinkArtifactJar> jarPage = flinkArtifactJarMapper.list(page, param.getProjectId(), param.getName(), param.getFlinkVersion());
@@ -77,6 +70,29 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
                 new Page<>(jarPage.getCurrent(), jarPage.getSize(), jarPage.getTotal());
         result.setRecords(WsFlinkArtifactJarConvert.INSTANCE.toDto(jarPage.getRecords()));
         return result;
+    }
+
+    @Override
+    public Page<WsFlinkArtifactJarDTO> listByArtifact(WsFlinkArtifactJarHistoryParam param) {
+        Page<WsFlinkArtifactJar> page = new Page<>(param.getCurrent(), param.getPageSize());
+        LambdaQueryWrapper<WsFlinkArtifactJar> queryWrapper = Wrappers.lambdaQuery(WsFlinkArtifactJar.class)
+                .eq(WsFlinkArtifactJar::getFlinkArtifactId, param.getFlinkArtifactId())
+                .orderByDesc(WsFlinkArtifactJar::getId);
+        Page<WsFlinkArtifactJar> wsFlinkArtifactJarPage = flinkArtifactJarMapper.selectPage(page, queryWrapper);
+        Page<WsFlinkArtifactJarDTO> result =
+                new Page<>(wsFlinkArtifactJarPage.getCurrent(), wsFlinkArtifactJarPage.getSize(), wsFlinkArtifactJarPage.getTotal());
+        result.setRecords(WsFlinkArtifactJarConvert.INSTANCE.toDto(wsFlinkArtifactJarPage.getRecords()));
+        return result;
+    }
+
+    @Override
+    public List<WsFlinkArtifactJarDTO> listAllByArtifact(Long artifactId) {
+        List<WsFlinkArtifactJar> list = flinkArtifactJarMapper.selectList(
+                Wrappers.lambdaQuery(WsFlinkArtifactJar.class)
+                        .eq(WsFlinkArtifactJar::getFlinkArtifactId, artifactId)
+                        .orderByDesc(WsFlinkArtifactJar::getId)
+        );
+        return WsFlinkArtifactJarConvert.INSTANCE.toDto(list);
     }
 
     @Override
@@ -92,12 +108,27 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
     }
 
     @Override
-    public int deleteOne(Long id) throws ScalephException {
+    public int deleteOne(Long id) throws ScalephException, IOException {
         WsFlinkArtifactJar jar = flinkArtifactJarMapper.isUsed(id);
         if (jar != null) {
             throw new ScalephException(I18nUtil.get("response.error.job.artifact.jar"));
         }
+        WsFlinkArtifactJarDTO wsFlinkArtifactJarDTO = selectOne(id);
+        if (wsFlinkArtifactJarDTO.getWsFlinkArtifact().getCurrent().equals(id)) {
+            throw new ScalephException("Unsupport delete current jar");
+        }
+        fileSystemService.delete(wsFlinkArtifactJarDTO.getPath());
         return flinkArtifactJarMapper.deleteById(id);
+    }
+
+    @Override
+    public int deleteAll(Long flinkArtifactId) throws IOException {
+        List<WsFlinkArtifactJarDTO> wsFlinkArtifactJarDTOS = listAllByArtifact(flinkArtifactId);
+        for (WsFlinkArtifactJarDTO jar : wsFlinkArtifactJarDTOS) {
+            fileSystemService.delete(jar.getPath());
+            flinkArtifactJarMapper.deleteById(jar.getId());
+        }
+        return wsFlinkArtifactMapper.deleteById(flinkArtifactId);
     }
 
     @Override

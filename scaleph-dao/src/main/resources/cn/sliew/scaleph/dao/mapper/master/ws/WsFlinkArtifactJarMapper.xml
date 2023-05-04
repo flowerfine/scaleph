@@ -37,7 +37,7 @@
             <result column="project_id" property="projectId"/>
             <result column="project_id" property="type"/>
             <result column="flink_artifact_name" property="name"/>
-            <result column="flink_artifact_name" property="current"/>
+            <result column="flink_artifact_current" property="current"/>
             <result column="flink_artifact_remark" property="remark"/>
         </association>
     </resultMap>
@@ -71,7 +71,7 @@
                t2.`current` as flink_artifact_current,
                t2.remark     as flink_artifact_remark
         from ws_flink_artifact_jar t1
-                 join ws_flink_artifact t2 on t1.id = t2.current
+                 join ws_flink_artifact t2 on t1.flink_artifact_id = t2.id
         where t1.id = #{id}
     </select>
 

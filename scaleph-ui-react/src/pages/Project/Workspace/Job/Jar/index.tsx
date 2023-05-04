@@ -119,7 +119,7 @@ const JobArtifactJarView: React.FC = () => {
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.workspaceJobShow) && (
-              <Tooltip title={intl.formatMessage({id: 'app.common.operate.upload.label'})}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.more.label'})}>
                 <Button
                   shape="default"
                   type="link"
@@ -144,7 +144,7 @@ const JobArtifactJarView: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        FlinkArtifactService.deleteOne(record).then((d) => {
+                        FlinkArtifactJarService.deleteAll(record.wsFlinkArtifact.id).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();

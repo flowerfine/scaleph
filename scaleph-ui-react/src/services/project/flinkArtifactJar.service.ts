@@ -1,7 +1,7 @@
 import { PageResponse, ResponseBody } from '@/app.d';
 import { USER_AUTH } from '@/constant';
 import {
-  WsFlinkArtifactJar,
+  WsFlinkArtifactJar, WsFlinkArtifactJarHistoryParam,
   WsFlinkArtifactJarParam,
   WsFlinkArtifactJarUpdateParam,
   WsFlinkArtifactJarUploadParam
@@ -25,25 +25,51 @@ export const FlinkArtifactJarService = {
       return result;
     });
   },
-  update: async (row: WsFlinkArtifactJar) => {
-    return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}`, {
-      method: 'POST',
-      data: row,
-    });
-  },
-  listByArtifact: async (id: string | number) => {
-    return request<WsFlinkArtifactJar[]>(`${FlinkArtifactJarService.url}/artifact/` + id, {
+
+  listPageByArtifact: async (queryParam: WsFlinkArtifactJarHistoryParam) => {
+    return request<PageResponse<WsFlinkArtifactJar>>(`${FlinkArtifactJarService.url}/page`, {
       method: 'GET',
+      params: queryParam,
+    }).then((res) => {
+      const result = {
+        data: res.records,
+        total: res.total,
+        pageSize: res.size,
+        current: res.current,
+      };
+      return result;
     });
   },
+
+  listAllByArtifact: async (id: string | number) => {
+    return request<WsFlinkArtifactJar[]>(`${FlinkArtifactJarService.url}/all`, {
+      method: 'GET',
+      params: {id: id}
+    });
+  },
+
   selectOne: async (id: number | string) => {
     return request<WsFlinkArtifactJar>(`${FlinkArtifactJarService.url}/` + id, {
       method: 'GET',
     });
   },
+
   deleteOne: async (row: WsFlinkArtifactJar) => {
     return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}/` + row.id, {
       method: 'DELETE',
+    });
+  },
+
+  deleteAll: async (flinkArtifactId: number) => {
+    return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}/all/` + flinkArtifactId, {
+      method: 'DELETE',
+    });
+  },
+
+  update: async (row: WsFlinkArtifactJar) => {
+    return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}`, {
+      method: 'POST',
+      data: row,
     });
   },
   upload: async (uploadParam: WsFlinkArtifactJarUploadParam) => {
