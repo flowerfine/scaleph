@@ -56,7 +56,6 @@ public class WsFlinkArtifactJarDTO extends BaseDTO {
     @ApiModelProperty("Jar 存储路径")
     private String path;
 
-    @NotNull
     @ApiModelProperty("Jar 版本")
     private String version;
 

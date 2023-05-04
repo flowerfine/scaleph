@@ -16,25 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.catalog.service;
+package cn.sliew.scaleph.engine.sql.service;
 
-import cn.sliew.scaleph.catalog.service.dto.CatalogDatabaseDTO;
+import org.apache.flink.table.catalog.Catalog;
+import org.apache.flink.table.catalog.CatalogDatabase;
+import org.apache.flink.table.catalog.CatalogTable;
+import org.apache.flink.table.catalog.CatalogView;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface CatalogDatabaseService {
+public interface CatalogService {
 
-    List<CatalogDatabaseDTO> list(String catalog);
+    List<Catalog> listCatalogs();
 
-    Optional<CatalogDatabaseDTO> get(String catalog, String name);
+    Catalog getCatalog(String catalog);
 
-    boolean isEmpty(String catalog, String database);
+    List<CatalogDatabase> listDatabases(String catalog);
 
-    int insert(CatalogDatabaseDTO param);
+    CatalogDatabase getDatabase(String catalog, String database);
 
-    int update(CatalogDatabaseDTO param);
+    List<CatalogTable> listTables(String catalog, String database);
 
-    int delete(String catalog, String database);
+    CatalogTable getTable(String catalog, String database, String table);
 
+    List<CatalogView> listViews(String catalog, String database);
+
+    CatalogView getView(String catalog, String database, String view);
 }

@@ -16,23 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.engine.sql.service;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.param.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import cn.sliew.scaleph.engine.sql.service.dto.WsFlinkCatalogDTO;
 
-@Data
-public class WsFlinkArtifactJarParam extends PaginationParam {
+import java.util.List;
 
-    @ApiModelProperty("Project ID")
-    private Long projectId;
+@Deprecated
+public interface WsFlinkCatalogService {
 
-    @ApiModelProperty("name")
-    private String name;
+    List<WsFlinkCatalogDTO> list();
 
-    @ApiModelProperty("flink 版本")
-    private FlinkVersion flinkVersion;
+    WsFlinkCatalogDTO selectOne(Long id);
 
+    int insert(WsFlinkCatalogDTO param);
+
+    int deleteById(Long id);
+
+    int deleteBatch(List<Long> ids);
 }

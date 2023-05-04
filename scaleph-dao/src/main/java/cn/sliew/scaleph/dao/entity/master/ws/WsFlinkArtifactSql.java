@@ -16,23 +16,46 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.dao.entity.master.ws;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.param.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
+/**
+ * <p>
+ * flink artifact sql
+ * </p>
+ */
 @Data
-public class WsFlinkArtifactJarParam extends PaginationParam {
+@TableName("ws_flink_artifact_sql")
+@ApiModel(value = "WsFlinkArtifactSql对象", description = "flink artifact sql")
+public class WsFlinkArtifactSql extends BaseDO {
 
-    @ApiModelProperty("Project ID")
-    private Long projectId;
+    private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("name")
-    private String name;
+    @TableField(exist = false)
+    private WsFlinkArtifact wsFlinkArtifact;
 
-    @ApiModelProperty("flink 版本")
+    @TableField("flink_artifact_id")
+    private Long flinkArtifactId;
+
+    @TableField("flink_version")
     private FlinkVersion flinkVersion;
+
+    @TableField("file_name")
+    private String fileName;
+
+    @TableField("path")
+    private String path;
+
+    @TableField("version")
+    private String version;
+
+    @TableField("remark")
+    private String remark;
 
 }

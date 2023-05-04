@@ -16,23 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.engine.sql.service.convert;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.param.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkCatalog;
+import cn.sliew.scaleph.engine.sql.service.dto.WsFlinkCatalogDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
-@Data
-public class WsFlinkArtifactJarParam extends PaginationParam {
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface WsFlinkCatalogConvert extends BaseConvert<WsFlinkCatalog, WsFlinkCatalogDTO> {
+    WsFlinkCatalogConvert INSTANCE = Mappers.getMapper(WsFlinkCatalogConvert.class);
 
-    @ApiModelProperty("Project ID")
-    private Long projectId;
+    @Override
+    default WsFlinkCatalog toDo(WsFlinkCatalogDTO dto) {
+        return null;
+    }
 
-    @ApiModelProperty("name")
-    private String name;
-
-    @ApiModelProperty("flink 版本")
-    private FlinkVersion flinkVersion;
-
+    @Override
+    default WsFlinkCatalogDTO toDto(WsFlinkCatalog entity) {
+        return null;
+    }
 }

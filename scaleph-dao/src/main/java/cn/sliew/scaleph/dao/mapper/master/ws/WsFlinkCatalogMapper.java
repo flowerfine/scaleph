@@ -16,11 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql;
+package cn.sliew.scaleph.dao.mapper.master.ws;
 
-public class FlinkSqlMain {
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkCatalog;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-    public static void main(String[] args) {
-        System.out.println("Hello, Flink SQL!");
-    }
+/**
+ * <p>
+ * flink catalog Mapper 接口
+ * </p>
+ */
+@Repository
+public interface WsFlinkCatalogMapper extends BaseMapper<WsFlinkCatalog> {
+
 }
