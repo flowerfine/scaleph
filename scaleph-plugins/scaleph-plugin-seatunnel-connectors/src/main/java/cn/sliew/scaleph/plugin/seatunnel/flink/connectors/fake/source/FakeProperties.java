@@ -233,7 +233,7 @@ public enum FakeProperties {
             .validateAndBuild();
 
     public static final PropertyDescriptor<String> BIGINT_FAKE_MODE = new PropertyDescriptor.Builder()
-            .name("int.fake.mode")
+            .name("bigint.fake.mode")
             .description("The fake mode of generating int data")
             .type(PropertyType.STRING)
             .parser(Parsers.STRING_PARSER)
@@ -243,25 +243,25 @@ public enum FakeProperties {
             .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> BIGINT_MIN = new PropertyDescriptor.Builder()
-            .name("int.min")
+            .name("bigint.min")
             .description("The min value of int data that connector generated")
             .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
+            .parser(Parsers.LONG_PARSER)
             .defaultValue(0)
-            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .addValidator(Validators.LONG_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> BIGINT_MAX = new PropertyDescriptor.Builder()
-            .name("int.max")
+            .name("bigint.max")
             .description("The max value of int data that connector generated")
             .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
+            .parser(Parsers.LONG_PARSER)
             .defaultValue(Long.MAX_VALUE)
-            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .addValidator(Validators.LONG_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<JsonNode> BIGINT_TEMPLATE = new PropertyDescriptor.Builder()
-            .name("int.template")
+            .name("bigint.template")
             .description("The template list of int type that connector generated")
             .type(PropertyType.OBJECT)
             .parser(Parsers.JSON_PARSER)
@@ -282,18 +282,18 @@ public enum FakeProperties {
             .name("float.min")
             .description("The min value of float data that connector generated")
             .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
+            .parser(Parsers.FLOAT_PARSER)
             .defaultValue(0)
-            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .addValidator(Validators.NUMBER_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> FLOAT_MAX = new PropertyDescriptor.Builder()
             .name("float.max")
             .description("The max value of float data that connector generated")
             .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
+            .parser(Parsers.FLOAT_PARSER)
             .defaultValue(Float.MAX_VALUE)
-            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .addValidator(Validators.NUMBER_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<JsonNode> FLOAT_TEMPLATE = new PropertyDescriptor.Builder()
@@ -319,18 +319,18 @@ public enum FakeProperties {
             .name("double.min")
             .description("The min value of double data that connector generated")
             .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
+            .parser(Parsers.DOUBLE_PARSER)
             .defaultValue(0)
-            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .addValidator(Validators.NUMBER_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<Integer> DOUBLE_MAX = new PropertyDescriptor.Builder()
             .name("double.max")
             .description("The max value of double data that connector generated")
             .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
+            .parser(Parsers.DOUBLE_PARSER)
             .defaultValue(Double.MAX_VALUE)
-            .addValidator(Validators.NON_NEGATIVE_INTEGER_VALIDATOR)
+            .addValidator(Validators.NUMBER_VALIDATOR)
             .validateAndBuild();
 
     public static final PropertyDescriptor<JsonNode> DOUBLE_TEMPLATE = new PropertyDescriptor.Builder()

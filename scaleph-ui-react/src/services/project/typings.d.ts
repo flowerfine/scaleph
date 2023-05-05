@@ -19,6 +19,7 @@ export type WsProjectParam = QueryParam & {
 export type WsDiJob = {
   id?: number;
   projectId?: number | string;
+  jobEngine?: Dict | any;
   jobCode?: number;
   jobName?: string;
   jobType?: Dict | any;
@@ -35,6 +36,7 @@ export type WsDiJob = {
 
 export type WsDiJobParam = QueryParam & {
   projectId: string;
+  jobEngine?: string;
   jobCode?: number;
   jobName?: string;
   jobType?: string;
@@ -103,17 +105,6 @@ export type WsFlinkJobListParam = QueryParam & {
   flinkJobState?: string;
 };
 
-export type WsFlinkJobListByCodeParam = QueryParam & {
-  code: number;
-};
-
-export type WsFlinkJobListByTypeParam = QueryParam & {
-  type: string;
-  name?: string;
-  flinkClusterConfigId?: number;
-  flinkClusterInstanceId?: number;
-};
-
 export type WsFlinkJobInstance = {
   id: number;
   type: Dict;
@@ -144,7 +135,9 @@ export type WsFlinkJobLogListParam = QueryParam & {
 export type WsFlinkArtifact = {
   id?: number;
   projectId?: number | string;
+  type?: Dict;
   name?: string;
+  current?: number;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
@@ -162,11 +155,29 @@ export type WsFlinkArtifactJar = {
   entryClass?: string;
   fileName?: string;
   path?: string;
-  version?: string;
   jarParams?: { [key: string]: any };
-  file?: UploadFile<any>;
   createTime?: Date;
   updateTime?: Date;
+};
+
+export type WsFlinkArtifactJarUploadParam = {
+  projectId: number | string;
+  name: string;
+  remark?: string;
+  entryClass: string;
+  flinkVersion: string;
+  jarParams?: string;
+  file?: UploadFile<any>;
+};
+
+export type WsFlinkArtifactJarUpdateParam = {
+  id: number;
+  name?: string;
+  remark?: string;
+  entryClass: string;
+  flinkVersion: string;
+  jarParams?: string;
+  file?: UploadFile<any>;
 };
 
 export type WsFlinkArtifactJarParam = QueryParam & {
@@ -174,6 +185,10 @@ export type WsFlinkArtifactJarParam = QueryParam & {
   flinkArtifactId: number;
   version?: string;
   flinkVersion: string;
+};
+
+export type WsFlinkArtifactJarHistoryParam = QueryParam & {
+  flinkArtifactId: number;
 };
 
 export type WsFlinkClusterConfig = {

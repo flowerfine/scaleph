@@ -21,7 +21,11 @@ package cn.sliew.scaleph.engine.flink.service;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.engine.flink.resource.JarArtifact;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarHistoryParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarParam;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUpdateParam;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUploadParam;
+import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,18 +37,22 @@ public interface WsFlinkArtifactJarService {
 
     Page<WsFlinkArtifactJarDTO> list(WsFlinkArtifactJarParam param);
 
-    List<WsFlinkArtifactJarDTO> listByArtifact(Long artifactId);
+    Page<WsFlinkArtifactJarDTO> listByArtifact(WsFlinkArtifactJarHistoryParam param);
+
+    List<WsFlinkArtifactJarDTO> listAllByArtifact(Long artifactId);
 
     WsFlinkArtifactJarDTO selectOne(Long id);
 
     JarArtifact asYaml(Long id);
 
-    void upload(WsFlinkArtifactJarDTO param, MultipartFile file) throws IOException;
+    int deleteOne(Long id) throws ScalephException, IOException;
+
+    int deleteAll(Long flinkArtifactId) throws IOException;
+
+    void upload(WsFlinkArtifactJarUploadParam param, MultipartFile file) throws IOException, UidGenerateException;
+
+    int update(WsFlinkArtifactJarUpdateParam param, MultipartFile file) throws UidGenerateException, IOException;
 
     String download(Long id, OutputStream outputStream) throws IOException;
-
-    int update(WsFlinkArtifactJarDTO params);
-
-    int deleteOne(Long id) throws ScalephException;
 
 }

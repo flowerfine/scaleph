@@ -86,16 +86,14 @@ public class WsDiJobServiceImpl implements WsDiJobService {
     public List<WsDiJobDTO> listById(Collection<Long> ids) {
         LambdaQueryWrapper<WsDiJob> queryWrapper = new LambdaQueryWrapper<WsDiJob>().in(WsDiJob::getId, ids);
         List<WsDiJob> jobs = diJobMapper.selectList(queryWrapper);
-        List<WsDiJobDTO> dtoList = WsDiJobConvert.INSTANCE.toDto(jobs);
-        return dtoList;
+        return WsDiJobConvert.INSTANCE.toDto(jobs);
     }
 
     @Override
     public WsDiJobDTO selectOne(Long id) {
         WsDiJob record = diJobMapper.selectById(id);
         checkState(record != null, () -> "job not exists for id: " + id);
-        WsDiJobDTO dto = WsDiJobConvert.INSTANCE.toDto(record);
-        return dto;
+        return WsDiJobConvert.INSTANCE.toDto(record);
     }
 
     @Override
@@ -304,20 +302,6 @@ public class WsDiJobServiceImpl implements WsDiJobService {
             case DRAFT:
             default:
         }
-
-//        switch (job.getRuntimeState()) {
-//            case STOP:
-//                DiJob record = new DiJob();
-//                record.setId(id);
-//                record.setJobStatus(JobStatus.RELEASE);
-//                diJobMapper.updateById(record);
-//                archive(job.getProjectId(), job.getJobCode());
-//                return;
-//            case RUNNING:
-//            case WAITING:
-//                throw new ScalephException(I18nUtil.get("response.error.di.job.publish"));
-//            default:
-//        }
     }
 
     /**

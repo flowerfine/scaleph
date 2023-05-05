@@ -1,11 +1,11 @@
-ARG BASE_RELEASE_IMAGE=ghcr.io/flowerfine/scaleph_seatunnel:2.3.0
+ARG BASE_RELEASE_IMAGE=eclipse-temurin:11-focal
 FROM maven:3.8-eclipse-temurin-11 as build
 
 COPY ./ /scaleph
 RUN cd /scaleph && mvn -B -U -T 4 clean package -DskipTests -Dfast -am --projects scaleph-api
 
 # BASE_RELEASE_IMAGE argument must be defined twice
-ARG BASE_RELEASE_IMAGE=ghcr.io/flowerfine/scaleph_seatunnel:2.3.0
+ARG BASE_RELEASE_IMAGE=eclipse-temurin:11-focal
 FROM $BASE_RELEASE_IMAGE as release
 
 ENV MYSQL_URL="jdbc:mysql://mysql:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai"
@@ -27,6 +27,9 @@ ENV ENV_PARAMS=" --spring.datasource.master.jdbc-url=$MYSQL_URL \
  --spring.datasource.log.jdbc-url=$MYSQL_URL \
  --spring.datasource.log.username=$MYSQL_USERNAME \
  --spring.datasource.log.password=$MYSQL_PASSWORD \
+ --spring.datasource.sakura.jdbc-url=$MYSQL_URL \
+ --spring.datasource.sakura.username=$MYSQL_USERNAME \
+ --spring.datasource.sakura.password=$MYSQL_PASSWORD \
  --spring.quartz.properties.org.quartz.dataSource.quartzDS.URL=$MYSQL_URL \
  --spring.quartz.properties.org.quartz.dataSource.quartzDS.user=$MYSQL_USERNAME \
  --spring.quartz.properties.org.quartz.dataSource.quartzDS.password=$MYSQL_PASSWORD \

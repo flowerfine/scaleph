@@ -26,14 +26,11 @@ import lombok.Data;
 @Data
 public class WsFlinkArtifactJarParam extends PaginationParam {
 
-    @ApiModelProperty("Flink Artifact Jar ID")
-    private Long id;
+    @ApiModelProperty("Project ID")
+    private Long projectId;
 
-    @ApiModelProperty("Flink Artifact ID")
-    private Long flinkArtifactId;
-
-    @ApiModelProperty("Jar 版本")
-    private String version;
+    @ApiModelProperty("name")
+    private String name;
 
     @ApiModelProperty("flink 版本")
     private FlinkVersion flinkVersion;

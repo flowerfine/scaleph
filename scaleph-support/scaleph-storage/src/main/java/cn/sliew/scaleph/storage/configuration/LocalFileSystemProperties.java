@@ -25,8 +25,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "file-system.type")
-@ConditionalOnProperty(value = "file-system.type", havingValue = "local")
 public class LocalFileSystemProperties extends FileSystemProperties {
 
 }

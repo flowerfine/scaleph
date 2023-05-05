@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>scaleph-engine</artifactId>
-        <version>1.0.3</version>
+        <version>1.0.5-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>scaleph-engine-sql</artifactId>
@@ -33,42 +33,13 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-system</artifactId>
         </dependency>
-
-        <!-- flink 1.16 -->
         <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table-planner_2.12</artifactId>
-            <version>1.16.0</version>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-engine-flink</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-jdbc</artifactId>
-            <version>1.16.0</version>
-        </dependency>
-
-        <!-- Flink Dependency -->
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-hive_2.12</artifactId>
-            <version>1.16.0</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table-api-java-bridge_2.12</artifactId>
-            <version>1.14.6</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Hive Dependency -->
-        <!-- https://mvnrepository.com/artifact/org.apache.hive/hive-exec -->
-        <dependency>
-            <groupId>org.apache.hive</groupId>
-            <artifactId>hive-exec</artifactId>
-            <version>3.1.2</version>
-            <scope>provided</scope>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-catalog</artifactId>
         </dependency>
     </dependencies>
 

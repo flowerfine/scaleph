@@ -10,7 +10,7 @@ export const BaseNode = (props: any) => {
     switch (props.data.data.type) {
       case 'source':
         return '#e6f4ff';
-      case 'trans':
+      case 'transform':
         return '#e6fffb';
       case 'sink':
         return '#fff7e6';

@@ -11,6 +11,9 @@ env:
 jobs:
   release:
     if: github.repository == 'flowerfine/scaleph'
+    strategy:
+      matrix:
+        image: [ scaleph-api, scaleph-ui-react, mysql ]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -31,40 +34,18 @@ jobs:
         uses: docker/setup-qemu-action@v2
         with:
           platforms: amd64,arm64
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - name: Push scaleph-api image
+      - name: Build scaleph-ui-react
+        run: cd scaleph-ui-react && npm install && npm run build --prod
+      - name: Release image
         uses: docker/build-push-action@v4
         with:
           no-cache: false
           push: true
           context: .
           platforms: linux/amd64,linux/arm64
-          file: tools/docker/build/scaleph-api/Dockerfile
+          file: tools/docker/build/${{ matrix.image }}/Dockerfile
           tags: |
-            ${{ env.HUB }}/scaleph-api:${{ github.sha }},
-            ${{ env.HUB }}/scaleph-api:${{ github.ref_name }}
-      - name: Push scaleph-ui-react image
-        uses: docker/build-push-action@v4
-        with:
-          no-cache: false
-          push: true
-          context: .
-          platforms: linux/amd64,linux/arm64
-          file: tools/docker/build/scaleph-ui-react/Dockerfile
-          tags: |
-            ${{ env.HUB }}/scaleph-ui-react:${{ github.sha }},
-            ${{ env.HUB }}/scaleph-ui-react:${{ github.ref_name }}
-      - name: Push mysql image
-        uses: docker/build-push-action@v4
-        with:
-          no-cache: false
-          push: true
-          context: .
-          platforms: linux/amd64,linux/arm64
-          file: tools/docker/build/mysql/Dockerfile
-          tags: |
-            ${{ env.HUB }}/mysql:${{ github.sha }},
-            ${{ env.HUB }}/mysql:${{ github.ref_name }}
+            ${{ env.HUB }}/${{ matrix.image }}:${{ github.sha }},
+            ${{ env.HUB }}/${{ matrix.image }}:${{ github.ref_name }}

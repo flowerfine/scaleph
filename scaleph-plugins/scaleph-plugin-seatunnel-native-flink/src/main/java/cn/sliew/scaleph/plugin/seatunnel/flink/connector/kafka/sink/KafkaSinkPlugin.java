@@ -26,7 +26,7 @@ import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;
 import cn.sliew.scaleph.plugin.datasource.kafka.KafkaProperties;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
-import cn.sliew.scaleph.plugin.seatunnel.flink.SeatunnelNativeFlinkPlugin;
+import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.SpringApplicationContextUtil;
@@ -41,8 +41,8 @@ import java.util.Map;
 import static cn.sliew.scaleph.common.enums.SeatunnelNativeFlinkPluginEnum.KAFKA_SINK;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.sink.KafkaSinkProperties.*;
 
-@AutoService(SeatunnelNativeFlinkPlugin.class)
-public class KafkaSinkPlugin extends SeatunnelNativeFlinkPlugin {
+@AutoService(SeaTunnelNativeFlinkPlugin.class)
+public class KafkaSinkPlugin extends SeaTunnelNativeFlinkPlugin {
 
     public KafkaSinkPlugin() {
         this.pluginInfo = new PluginInfo(KAFKA_SINK.getValue(), "kafka sink connector", KafkaSinkPlugin.class.getName());

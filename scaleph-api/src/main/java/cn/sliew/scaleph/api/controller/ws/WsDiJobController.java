@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
@@ -164,11 +165,11 @@ public class WsDiJobController {
     }
 
     @Logging
-    @GetMapping(path = "/node/meta")
+    @GetMapping(path = "/node/meta/{type}")
     @ApiOperation(value = "查询DAG节点元信息", notes = "后端统一返回节点信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_SELECT)")
-    public ResponseEntity<List<DagPanelDTO>> loadNodeMeta() throws PluginException {
-        List<DagPanelDTO> list = seatunnelJobService.loadDndPanelInfo();
+    public ResponseEntity<List<DagPanelDTO>> loadNodeMeta(@PathVariable("type")SeaTunnelEngineType type) throws PluginException {
+        List<DagPanelDTO> list = seatunnelJobService.loadDndPanelInfo(type);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

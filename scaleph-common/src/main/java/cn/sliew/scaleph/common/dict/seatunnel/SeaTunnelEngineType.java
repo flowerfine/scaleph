@@ -28,8 +28,8 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum SeaTunnelEngineType implements DictInstance {
 
-    FLINK("flink", "Flink"),
-    SPARK("spark", "Spark"),
+//    FLINK("flink", "Flink"),
+//    SPARK("spark", "Spark"),
     SEATUNNEL("seatunnel", "SeaTunnel"),
     ;
 

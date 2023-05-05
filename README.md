@@ -10,7 +10,7 @@ Scaleph is driven by personal interest and evolves actively through faithful dev
 
 ## News
 
-Congratulation, Scaleph has been ready for releasing `v1.0.0` version and providing full data integration scene backened by SeaTunnel on `2023-01-01`!
+Congratulation, Scaleph has been ready for releasing `1.0.4` version and providing full data integration scene backened by SeaTunnel on `2023-04-23`!
 
 Now, community is working on preparation job such as docs, bug fix, or deploy tools. There are so many miscellaneous to handle and we are really looking forward any help from you! Just associate us on issue or wechat group and make scaleph better.
 
@@ -27,7 +27,7 @@ Now, community is working on preparation job such as docs, bug fix, or deploy to
 ### data integration
 
 * Web-ui click-and-drag data integration ways backended by Apache SeaTunnel(incubating)
-*  Support 2.3.0 V2 out-of-the-box connectors
+*  Support 2.3.1 V2 out-of-the-box connectors and transforms
 * DataSource management
 
 ### data develop

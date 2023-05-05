@@ -20,7 +20,6 @@ package cn.sliew.scaleph.system.util;
 
 import cn.hutool.core.lang.UUID;
 import cn.sliew.scaleph.common.nio.FileUtil;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +31,7 @@ import java.nio.file.Path;
 @Component
 public class SystemUtil implements InitializingBean, DisposableBean {
 
+    private static final String LOCAL_FS_STORAGE_DIR_NAME = "storage";
     private static String workspace;
 
     @Value("${app.workspace}")
@@ -64,4 +64,9 @@ public class SystemUtil implements InitializingBean, DisposableBean {
     public static Path getSavepointDir(String path) throws IOException{
         return FileUtil.createDir(getWorkspace().resolve(path));
     }
+
+    public static Path getLocalStorageDir() throws IOException {
+        return FileUtil.createDir(getWorkspace().resolve(LOCAL_FS_STORAGE_DIR_NAME));
+    }
+
 }

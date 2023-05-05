@@ -19,9 +19,12 @@
 package cn.sliew.scaleph.storage.configuration;
 
 import cn.sliew.scaleph.storage.utils.HadoopUtil;
-import com.amazonaws.services.s3.internal.BucketNameUtils;
+import cn.sliew.scaleph.system.util.SystemUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.aliyun.oss.AliyunOSSFileSystem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -33,15 +36,30 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+@Slf4j
 @Configuration
-@EnableConfigurationProperties(LocalFileSystemProperties.class)
+@EnableConfigurationProperties(FileSystemProperties.class)
 public class FileSystemConfiguration {
+
+    @Autowired
+    private SystemUtil systemUtil;
+
+    @SuppressWarnings("all")
+    @Bean
+    @ConfigurationProperties(prefix = "file-system")
+    @ConditionalOnProperty(value = "file-system.type", havingValue = "local")
+    public LocalFileSystemProperties localFileSystemProperties() {
+        return new LocalFileSystemProperties();
+    }
+
 
     @Bean
     @ConditionalOnProperty(value = "file-system.type", havingValue = "local")
-    public FileSystem localFileSystem(LocalFileSystemProperties localFileSystemProperties) throws IOException {
+    public FileSystem localFileSystem(LocalFileSystemProperties localFileSystemProperties) throws IOException, URISyntaxException {
         org.apache.hadoop.conf.Configuration conf = HadoopUtil.getHadoopConfiguration(localFileSystemProperties.getHadoopConfPath());
-        return FileSystem.getLocal(conf);
+        FileSystem fileSystem = FileSystem.getLocal(conf);
+        setFsWorkingDirectory(fileSystem, systemUtil.getLocalStorageDir().toString());
+        return fileSystem;
     }
 
     @SuppressWarnings("all")
@@ -102,4 +120,23 @@ public class FileSystemConfiguration {
         }
         return FileSystem.get(conf);
     }
+
+    private void setFsWorkingDirectory(FileSystem fileSystem, String workingDirectory) {
+        if (workingDirectory == null) {
+            log.warn("Null working directory");
+            return;
+        }
+        String path = null;
+        try {
+            URI uri = new URI(workingDirectory);
+            path = uri.getRawPath();
+        } catch (Exception e) {
+            log.error("Error parsing working directory {}", workingDirectory);
+        }
+        if (path != null) {
+            log.info("Set working directory to {}", path);
+            fileSystem.setWorkingDirectory(new Path(path));
+        }
+    }
+
 }
