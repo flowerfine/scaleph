@@ -25,9 +25,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import lombok.Getter;
 
 import java.io.IOException;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
 
 import static cn.sliew.milky.common.check.Ensures.checkNotNull;
 
@@ -47,15 +45,6 @@ public abstract class AbstractId {
 
     public AbstractId(String uuid) {
         this.uuid = UUID.fromString(uuid);
-    }
-
-    protected static <T extends AbstractId> Optional<T> tryParse(String id, Function<UUID, T> constructor) {
-        try {
-            UUID uuid = UUID.fromString(id);
-            return Optional.of(constructor.apply(uuid));
-        } catch (IllegalArgumentException var3) {
-            return Optional.empty();
-        }
     }
 
     @Override
