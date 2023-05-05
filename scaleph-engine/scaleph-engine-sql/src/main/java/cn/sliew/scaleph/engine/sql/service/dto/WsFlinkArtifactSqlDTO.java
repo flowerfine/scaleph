@@ -16,23 +16,34 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.engine.sql.service.dto;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactDTO;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-public class WsFlinkArtifactJarParam extends PaginationParam {
+@ApiModel(value = "WsFlinkArtifactSql对象", description = "flink artifact sql")
+public class WsFlinkArtifactSqlDTO extends BaseDTO {
 
-    @ApiModelProperty("Project ID")
-    private Long projectId;
+    @ApiModelProperty("作业artifact")
+    private WsFlinkArtifactDTO wsFlinkArtifact;
 
-    @ApiModelProperty("name")
-    private String name;
-
-    @ApiModelProperty("flink 版本")
+    @ApiModelProperty("flink版本")
     private FlinkVersion flinkVersion;
 
+    @ApiModelProperty("文件名称")
+    private String fileName;
+
+    @ApiModelProperty("文件路径")
+    private String path;
+
+    @ApiModelProperty("版本")
+    private String version;
+
+    @ApiModelProperty("remark")
+    private String remark;
 }

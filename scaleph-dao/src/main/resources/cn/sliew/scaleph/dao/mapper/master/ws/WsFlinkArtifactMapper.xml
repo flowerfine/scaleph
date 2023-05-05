@@ -27,7 +27,9 @@
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
         <result column="project_id" property="projectId"/>
+        <result column="type" property="type"/>
         <result column="name" property="name"/>
+        <result column="current" property="current"/>
         <result column="remark" property="remark"/>
     </resultMap>
 

@@ -16,23 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.dao.mapper.master.ws;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.param.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-@Data
-public class WsFlinkArtifactJarParam extends PaginationParam {
+/**
+ * <p>
+ * flink artifact sql Mapper 接口
+ * </p>
+ */
+@Repository
+public interface WsFlinkArtifactSqlMapper extends BaseMapper<WsFlinkArtifactSql> {
 
-    @ApiModelProperty("Project ID")
-    private Long projectId;
+    Page<WsFlinkArtifactSql> list(Page<WsFlinkArtifactSql> page,
+                                  @Param("param") WsFlinkArtifactSql param);
 
-    @ApiModelProperty("name")
-    private String name;
-
-    @ApiModelProperty("flink 版本")
-    private FlinkVersion flinkVersion;
-
+    WsFlinkArtifactSql selectOne(@Param("id") Long id);
 }

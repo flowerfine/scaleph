@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dao.entity.master.ws;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -41,8 +42,14 @@ public class WsFlinkArtifact extends BaseDO {
     @TableField("project_id")
     private Long projectId;
 
+    @TableField("`type`")
+    private FlinkJobType type;
+
     @TableField("name")
     private String name;
+
+    @TableField("`current`")
+    private Long current;
 
     @TableField("remark")
     private String remark;

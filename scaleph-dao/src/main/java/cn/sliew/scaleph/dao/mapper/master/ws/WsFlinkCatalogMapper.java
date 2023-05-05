@@ -16,22 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.catalog.service;
+package cn.sliew.scaleph.dao.mapper.master.ws;
 
-import cn.sliew.scaleph.catalog.service.dto.CatalogFunctionDTO;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkCatalog;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+/**
+ * <p>
+ * flink catalog Mapper 接口
+ * </p>
+ */
+@Repository
+public interface WsFlinkCatalogMapper extends BaseMapper<WsFlinkCatalog> {
 
-public interface CatalogFunctionService {
-
-    List<CatalogFunctionDTO> selectByDatabase(String catalog, String database);
-
-    int countByDatabase(String catalog, String database);
-
-    Optional<CatalogFunctionDTO> get(String catalog, String database, String name);
-
-    int insert(String catalog, String database, CatalogFunctionDTO param);
-
-    int update(String catalog, String database, CatalogFunctionDTO param);
 }

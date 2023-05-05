@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactSqlMapper">
+
+    <resultMap id="FlinkArtifactSqlMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql">
+        <result column="id" property="id" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="editor" property="editor" />
+        <result column="update_time" property="updateTime" />
+        <result column="flink_artifact_id" property="flinkArtifactId" />
+        <result column="flink_version" property="flinkVersion" />
+        <result column="file_name" property="fileName" />
+        <result column="path" property="path" />
+        <result column="version" property="version" />
+        <result column="remark" property="remark" />
+        <association property="wsFlinkArtifact"
+                     javaType="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifact">
+            <result column="flink_artifact_id" property="id"/>
+            <result column="project_id" property="projectId"/>
+            <result column="flink_artifact_name" property="name"/>
+            <result column="flink_artifact_remark" property="remark"/>
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, creator, create_time, editor, update_time,
+        flink_artifact_id, flink_version, file_name, `path`, version, remark
+    </sql>
+
+    <select id="list" resultMap="FlinkArtifactSqlMap">
+        <![CDATA[
+        select
+            t1.*,
+            t2.id as flink_artifact_id,
+            t2.project_id as project_id,
+            t2.`name` as flink_artifact_name,
+            t2.remark as flink_artifact_remark
+        from ws_flink_artifact_sql t1
+        join ws_flink_artifact t2
+        on t1.flink_artifact_id = t2.id
+        where t1.flink_artifact_id = #{param.flinkArtifactId}
+        ]]>
+        <if test="param.flinkVersion != null">
+            AND t1.flink_version = #{param.flinkVersion}
+        </if>
+        order by t1.create_time desc
+    </select>
+
+    <select id="selectOne" resultMap="FlinkArtifactSqlMap">
+        select t1.*,
+               t2.id         as flink_artifact_id,
+               t2.project_id as project_id,
+               t2.`name`     as flink_artifact_name,
+               t2.remark     as flink_artifact_remark
+        from ws_flink_artifact_sql t1
+                 join ws_flink_artifact t2 on t1.flink_artifact_id = t2.id
+        where t1.id = #{id}
+    </select>
+
+</mapper>

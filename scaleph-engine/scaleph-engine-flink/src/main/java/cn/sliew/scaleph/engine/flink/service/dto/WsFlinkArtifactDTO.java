@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.service.dto;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -37,10 +38,16 @@ public class WsFlinkArtifactDTO extends BaseDTO {
     @ApiModelProperty("项目id")
     private Long projectId;
 
+    @ApiModelProperty("`type`")
+    private FlinkJobType type;
+
     @NotBlank
     @Length(max = 200)
     @ApiModelProperty("名称")
     private String name;
+
+    @ApiModelProperty("`current`")
+    private Long current;
 
     @ApiModelProperty("备注")
     private String remark;

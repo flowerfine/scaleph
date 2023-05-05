@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.engine.sql.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.param.PaginationParam;
@@ -24,13 +24,16 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-public class WsFlinkArtifactJarParam extends PaginationParam {
+public class WsFlinkArtifactSqlParam extends PaginationParam {
 
-    @ApiModelProperty("Project ID")
-    private Long projectId;
+    @ApiModelProperty("Flink Artifact Sql ID")
+    private Long id;
 
-    @ApiModelProperty("name")
-    private String name;
+    @ApiModelProperty("Flink Artifact ID")
+    private Long flinkArtifactId;
+
+    @ApiModelProperty("Sql 版本")
+    private String version;
 
     @ApiModelProperty("flink 版本")
     private FlinkVersion flinkVersion;

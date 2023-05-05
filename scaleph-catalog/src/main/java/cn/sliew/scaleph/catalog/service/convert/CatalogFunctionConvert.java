@@ -16,11 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql;
+package cn.sliew.scaleph.catalog.service.convert;
 
-public class FlinkSqlMain {
+import cn.sliew.scaleph.catalog.service.dto.CatalogFunctionDTO;
+import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.sakura.CatalogFunction;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
-    public static void main(String[] args) {
-        System.out.println("Hello, Flink SQL!");
+@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface CatalogFunctionConvert extends BaseConvert<CatalogFunction, CatalogFunctionDTO> {
+    CatalogFunctionConvert INSTANCE = Mappers.getMapper(CatalogFunctionConvert.class);
+
+    @Override
+    default CatalogFunction toDo(CatalogFunctionDTO dto) {
+        return null;
+    }
+
+    @Override
+    default CatalogFunctionDTO toDto(CatalogFunction entity) {
+        return null;
     }
 }

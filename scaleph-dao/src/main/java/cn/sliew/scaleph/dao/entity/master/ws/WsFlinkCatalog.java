@@ -16,25 +16,36 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.catalog.service;
+package cn.sliew.scaleph.dao.entity.master.ws;
 
-import cn.sliew.scaleph.catalog.service.dto.CatalogDatabaseDTO;
+import cn.sliew.scaleph.common.dict.catalog.CatalogType;
+import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
 
-import java.util.List;
-import java.util.Optional;
+/**
+ * <p>
+ * flink catalog
+ * </p>
+ */
+@Data
+@TableName("ws_flink_catalog")
+@ApiModel(value = "WsFlinkCatalog对象", description = "flink catalog")
+public class WsFlinkCatalog extends BaseDO {
 
-public interface CatalogDatabaseService {
+    private static final long serialVersionUID = 1L;
 
-    List<CatalogDatabaseDTO> list(String catalog);
+    @TableField("`type`")
+    private CatalogType type;
 
-    Optional<CatalogDatabaseDTO> get(String catalog, String name);
+    @TableField("`name`")
+    private String name;
 
-    boolean isEmpty(String catalog, String database);
+    @TableField("properties")
+    private String properties;
 
-    int insert(CatalogDatabaseDTO param);
-
-    int update(CatalogDatabaseDTO param);
-
-    int delete(String catalog, String database);
-
+    @TableField("remark")
+    private String remark;
 }
