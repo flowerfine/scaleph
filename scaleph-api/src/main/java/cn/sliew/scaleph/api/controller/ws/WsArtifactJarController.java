@@ -20,6 +20,7 @@ package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
+import cn.sliew.scaleph.common.param.PropertyUtil;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactJarService;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarHistoryParam;
@@ -34,6 +35,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,6 +45,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Map;
 
 @Api(tags = "Flink管理-artifact-jar")
 @RestController
@@ -88,7 +91,7 @@ public class WsArtifactJarController {
     @PutMapping
     @ApiOperation(value = "上传 artifact jar", notes = "上传 artifact jar")
     public ResponseEntity<ResponseVO> upload(@Valid WsFlinkArtifactJarUploadParam param, @RequestPart("file") MultipartFile file) throws IOException, UidGenerateException {
-        if (StrUtil.isNotBlank(param.getJarParams())) {
+        if (StringUtils.hasText(param.getJarParams())) {
             Map<String, Object> map = PropertyUtil.formatPropFromStr(param.getJarParams(), "\n", ":");
             param.setJarParams(PropertyUtil.mapToFormatProp(map, "\n", ":"));
         }
@@ -100,7 +103,7 @@ public class WsArtifactJarController {
     @PostMapping("jar")
     @ApiOperation(value = "修改 artifact jar", notes = "修改 artifact jar")
     public ResponseEntity<ResponseVO> updateJar(@Valid WsFlinkArtifactJarUpdateParam param, @RequestPart(value = "file", required = false) MultipartFile file) throws UidGenerateException, IOException {
-        if (StrUtil.isNotBlank(param.getJarParams())) {
+        if (StringUtils.hasText(param.getJarParams())) {
             Map<String, Object> map = PropertyUtil.formatPropFromStr(param.getJarParams(), "\n", ":");
             param.setJarParams(PropertyUtil.mapToFormatProp(map, "\n", ":"));
         }
