@@ -16,23 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.engine.sql.service;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.param.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import org.apache.flink.table.catalog.Catalog;
+import org.apache.flink.table.catalog.CatalogDatabase;
+import org.apache.flink.table.catalog.CatalogTable;
+import org.apache.flink.table.catalog.CatalogView;
 
-@Data
-public class WsFlinkArtifactJarParam extends PaginationParam {
+import java.util.List;
 
-    @ApiModelProperty("Project ID")
-    private Long projectId;
+public interface CatalogService {
 
-    @ApiModelProperty("name")
-    private String name;
+    List<Catalog> listCatalogs();
 
-    @ApiModelProperty("flink 版本")
-    private FlinkVersion flinkVersion;
+    Catalog getCatalog(String catalog);
 
+    List<CatalogDatabase> listDatabases(String catalog);
+
+    CatalogDatabase getDatabase(String catalog, String database);
+
+    List<CatalogTable> listTables(String catalog, String database);
+
+    CatalogTable getTable(String catalog, String database, String table);
+
+    List<CatalogView> listViews(String catalog, String database);
+
+    CatalogView getView(String catalog, String database, String view);
 }

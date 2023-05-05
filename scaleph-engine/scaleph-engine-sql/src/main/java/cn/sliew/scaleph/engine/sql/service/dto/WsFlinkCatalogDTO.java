@@ -16,23 +16,32 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.engine.sql.service.dto;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.common.dict.catalog.CatalogType;
+import cn.sliew.scaleph.common.dto.BaseDTO;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.util.Map;
 
 @Data
-public class WsFlinkArtifactJarParam extends PaginationParam {
+@EqualsAndHashCode
+@ApiModel(value = "FlinkCatalog对象", description = "flink catalog")
+public class WsFlinkCatalogDTO extends BaseDTO {
 
-    @ApiModelProperty("Project ID")
-    private Long projectId;
+    @ApiModelProperty("`type`")
+    private CatalogType type;
 
-    @ApiModelProperty("name")
+    @ApiModelProperty("`name`")
     private String name;
 
-    @ApiModelProperty("flink 版本")
-    private FlinkVersion flinkVersion;
+    @ApiModelProperty("properties")
+    private Map<String, String> properties;
+
+    @ApiModelProperty("remark")
+    private String remark;
 
 }

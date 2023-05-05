@@ -18,8 +18,10 @@
 
 package cn.sliew.scaleph.catalog.factory;
 
+import cn.sliew.scaleph.catalog.SakuraCatalogView;
 import cn.sliew.scaleph.catalog.service.dto.CatalogTableDTO;
 import cn.sliew.scaleph.common.dict.catalog.CatalogTableKind;
+import org.apache.flink.table.api.Schema;
 import org.apache.flink.table.catalog.CatalogBaseTable;
 import org.apache.flink.table.catalog.ResolvedCatalogView;
 
@@ -48,6 +50,11 @@ public enum CatalogViewFactory {
         catalogView.setExpandedQuery(catalogView.getExpandedQuery());
         catalogView.setRemark(catalogBaseTable.getComment());
         return catalogView;
+    }
+
+    public static SakuraCatalogView toView(CatalogTableDTO catalogTableDTO) {
+        Schema schema = CatalogSchemaFactory.toCatalog(catalogTableDTO.getSchema());
+        return new SakuraCatalogView(schema, catalogTableDTO.getProperties(), catalogTableDTO.getRemark(), catalogTableDTO.getOriginalQuery(), catalogTableDTO.getExpandedQuery());
     }
 
 

@@ -18,14 +18,13 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactJarMapper">
-    <!-- 通用查询映射结果 -->
+
     <resultMap id="FlinkArtifactJarMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar">
         <result column="id" property="id"/>
         <result column="creator" property="creator"/>
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
-        <result column="version" property="version"/>
         <result column="flink_version" property="flinkVersion"/>
         <result column="entry_class" property="entryClass"/>
         <result column="file_name" property="fileName"/>
@@ -35,33 +34,40 @@
                      javaType="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifact">
             <result column="flink_artifact_id" property="id"/>
             <result column="project_id" property="projectId"/>
+            <result column="project_id" property="type"/>
             <result column="flink_artifact_name" property="name"/>
+            <result column="flink_artifact_current" property="current"/>
             <result column="flink_artifact_remark" property="remark"/>
         </association>
     </resultMap>
 
     <select id="list" resultMap="FlinkArtifactJarMap">
-        select t1.*,
-               t2.id         as flink_artifact_id,
-               t2.project_id as project_id,
-               t2.`name`     as flink_artifact_name,
-               t2.remark     as flink_artifact_remark
+        select
+        t1.*,
+        t2.project_id as project_id,
+        t2.`type` as flink_artifact_type,
+        t2.`name` as flink_artifact_name,
+        t2.`current` as flink_artifact_current,
+        t2.remark as flink_artifact_remark
         from ws_flink_artifact_jar t1
-                     join ws_flink_artifact t2
-                on t1.flink_artifact_id = t2.id
-                where t1.flink_artifact_id = #{param.flinkArtifactId}
-        <if test="param.flinkVersion != null">
-            AND t1.flink_version = #{param.flinkVersion}
+        join ws_flink_artifact t2 on t1.id = t2.current
+        where
+        t2.project_id = #{projectId}
+        <if test="name != null and name != ''">
+            and t2.`name` like concat('%', #{name}, '%')
         </if>
-        order by t1.id desc
+        <if test="flinkVersion != null">
+            and t1.flink_version = #{flinkVersion}
+        </if>
+        order by t2.id desc
     </select>
-
 
     <select id="selectOne" resultMap="FlinkArtifactJarMap">
         select t1.*,
-               t2.id         as flink_artifact_id,
                t2.project_id as project_id,
-               t2.`name`     as flink_artifact_name,
+               t2.`type` as flink_artifact_type,
+               t2.`name` as flink_artifact_name,
+               t2.`current` as flink_artifact_current,
                t2.remark     as flink_artifact_remark
         from ws_flink_artifact_jar t1
                      join ws_flink_artifact t2 on t1.flink_artifact_id = t2.id

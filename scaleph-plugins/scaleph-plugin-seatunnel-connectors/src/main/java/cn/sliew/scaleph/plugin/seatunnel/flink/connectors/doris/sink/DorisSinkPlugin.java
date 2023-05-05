@@ -68,7 +68,7 @@ public class DorisSinkPlugin extends SeaTunnelConnectorPlugin {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
         DorisDataSource dataSource = (DorisDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.putPOJO(FENODES.getName(), StringUtils.commaDelimitedListToStringArray(dataSource.getNodeUrls()));
+        conf.putPOJO(FENODES.getName(), dataSource.getNodeUrls());
         if (StringUtils.hasText(dataSource.getUsername())) {
             conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
         }

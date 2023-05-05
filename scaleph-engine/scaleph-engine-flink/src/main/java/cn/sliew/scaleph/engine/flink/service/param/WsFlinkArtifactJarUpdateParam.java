@@ -16,23 +16,35 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.catalog.service;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-import cn.sliew.scaleph.catalog.service.dto.CatalogTableDTO;
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
-import java.util.List;
-import java.util.Optional;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-public interface CatalogTableService {
+@Data
+public class WsFlinkArtifactJarUpdateParam {
 
-    List<CatalogTableDTO> selectByDatabase(String catalog, String database);
+    @NotNull
+    @ApiModelProperty("id")
+    private Long id;
 
-    int countByDatabase(String catalog, String database);
+    @NotBlank
+    @ApiModelProperty("name")
+    private String name;
 
-    Optional<CatalogTableDTO> get(String catalog, String database, String name);
+    @ApiModelProperty("remark")
+    private String remark;
 
-    int insert(String catalog, String database, CatalogTableDTO param);
+    @ApiModelProperty("flink 版本")
+    private FlinkVersion flinkVersion;
 
-    int update(String catalog, String database, CatalogTableDTO param);
+    @ApiModelProperty("Main Method")
+    private String entryClass;
 
+    @ApiModelProperty("Main Args")
+    private String jarParams;
 }

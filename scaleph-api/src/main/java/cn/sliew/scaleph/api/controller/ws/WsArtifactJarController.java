@@ -22,7 +22,11 @@ import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactJarService;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarHistoryParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarParam;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUpdateParam;
+import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUploadParam;
+import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -57,10 +61,18 @@ public class WsArtifactJarController {
     }
 
     @Logging
-    @GetMapping("/artifact/{id}")
-    @ApiOperation(value = "根据id查询 artifact jar 列表", notes = "根据id查询 artifact jar 列表")
-    public ResponseEntity<List<WsFlinkArtifactJarDTO>> listByArtifact(@PathVariable("id") Long id) {
-        List<WsFlinkArtifactJarDTO> result = wsFlinkArtifactJarService.listByArtifact(id);
+    @GetMapping("/all")
+    @ApiOperation(value = "根据 id 查询 artifact jar 列表", notes = "根据 id 查询 artifact jar 列表")
+    public ResponseEntity<List<WsFlinkArtifactJarDTO>> listAllByArtifact(@RequestParam("id") Long id) {
+        final List<WsFlinkArtifactJarDTO> result = wsFlinkArtifactJarService.listAllByArtifact(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("/page")
+    @ApiOperation(value = "根据 id 分页查询 artifact jar 列表", notes = "根据 id 分页查询 artifact jar 列表")
+    public ResponseEntity<Page<WsFlinkArtifactJarDTO>> listByArtifact(@Valid WsFlinkArtifactJarHistoryParam param) {
+        final Page<WsFlinkArtifactJarDTO> result = wsFlinkArtifactJarService.listByArtifact(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -74,9 +86,25 @@ public class WsArtifactJarController {
 
     @Logging
     @PutMapping
-    @ApiOperation(value = "上传 artifact jar", notes = "上传artifact jar")
-    public ResponseEntity<ResponseVO> upload(@Valid WsFlinkArtifactJarDTO param, @RequestPart("file") MultipartFile file) throws IOException {
+    @ApiOperation(value = "上传 artifact jar", notes = "上传 artifact jar")
+    public ResponseEntity<ResponseVO> upload(@Valid WsFlinkArtifactJarUploadParam param, @RequestPart("file") MultipartFile file) throws IOException, UidGenerateException {
+        if (StrUtil.isNotBlank(param.getJarParams())) {
+            Map<String, Object> map = PropertyUtil.formatPropFromStr(param.getJarParams(), "\n", ":");
+            param.setJarParams(PropertyUtil.mapToFormatProp(map, "\n", ":"));
+        }
         wsFlinkArtifactJarService.upload(param, file);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("jar")
+    @ApiOperation(value = "修改 artifact jar", notes = "修改 artifact jar")
+    public ResponseEntity<ResponseVO> updateJar(@Valid WsFlinkArtifactJarUpdateParam param, @RequestPart(value = "file", required = false) MultipartFile file) throws UidGenerateException, IOException {
+        if (StrUtil.isNotBlank(param.getJarParams())) {
+            Map<String, Object> map = PropertyUtil.formatPropFromStr(param.getJarParams(), "\n", ":");
+            param.setJarParams(PropertyUtil.mapToFormatProp(map, "\n", ":"));
+        }
+        this.wsFlinkArtifactJarService.update(param, file);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
@@ -93,19 +121,18 @@ public class WsArtifactJarController {
     }
 
     @Logging
-    @PostMapping
-    @ApiOperation(value = "修改 artifact jar", notes = "修改 artifact jar")
-    public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkArtifactJarDTO param) {
-        this.wsFlinkArtifactJarService.update(param);
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-    }
-
-    @Logging
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @ApiOperation(value = "删除 artifact jar", notes = "删除 artifact jar")
-    public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws ScalephException {
+    public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) throws ScalephException, IOException {
         wsFlinkArtifactJarService.deleteOne(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
+    @Logging
+    @DeleteMapping("/all/{id}")
+    @ApiOperation(value = "删除所有 artifact jar", notes = "删除所有 artifact jar")
+    public ResponseEntity<ResponseVO> deleteAll(@PathVariable("id") Long id) throws IOException {
+        wsFlinkArtifactJarService.deleteAll(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
 }

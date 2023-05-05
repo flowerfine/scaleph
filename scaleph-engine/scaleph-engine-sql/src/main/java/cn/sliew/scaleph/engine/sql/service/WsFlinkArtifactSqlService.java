@@ -16,30 +16,31 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.ws;
+package cn.sliew.scaleph.engine.sql.service;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import cn.sliew.scaleph.common.exception.ScalephException;
+import cn.sliew.scaleph.engine.sql.service.dto.WsFlinkArtifactSqlDTO;
+import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
-/**
- * <p>
- * flink artifact jar Mapper 接口
- * </p>
- */
-@Repository
-public interface WsFlinkArtifactJarMapper extends BaseMapper<WsFlinkArtifactJar> {
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
 
-    Page<WsFlinkArtifactJar> list(Page<WsFlinkArtifactJar> page,
-                                  @Param("projectId") Long projectId,
-                                  @Param("name") String name,
-                                  @Param("flinkVersion") FlinkVersion flinkVersion);
+public interface WsFlinkArtifactSqlService {
 
-    WsFlinkArtifactJar selectOne(@Param("id") Long id);
+    Page<WsFlinkArtifactSqlDTO> list(WsFlinkArtifactSqlParam param);
 
-    WsFlinkArtifactJar isUsed(@Param("id") Long id);
+    WsFlinkArtifactSqlDTO selectOne(Long id);
 
+    int deleteOne(Long id) throws ScalephException;
+
+    void insert(WsFlinkArtifactSqlDTO param, MultipartFile file) throws IOException;
+
+    int update(WsFlinkArtifactSqlDTO params);
+
+    String download(Long id, OutputStream outputStream) throws IOException;
+
+    List<WsFlinkArtifactSqlDTO> listByArtifact(Long artifactId);
 }
