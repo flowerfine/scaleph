@@ -48,10 +48,9 @@ public class IoTDBSourcePlugin extends SeaTunnelConnectorPlugin {
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(SQL);
-        props.add(FIELDS);
+        props.add(SCHEMA);
         props.add(FETCH_SIZE);
         props.add(THRIFT_DEFAULT_BUFFER_SIZE);
-        props.add(THRIFT_MAX_FRAME_SIZE);
         props.add(ENABLE_CACHE_LOADER);
         props.add(VERSION);
         props.add(NUM_PARTITIONS);

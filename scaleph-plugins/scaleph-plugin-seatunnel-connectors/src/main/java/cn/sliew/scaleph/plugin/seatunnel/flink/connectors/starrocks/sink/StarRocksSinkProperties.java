@@ -22,6 +22,7 @@ import cn.sliew.scaleph.plugin.framework.property.Parsers;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.framework.property.PropertyType;
 import cn.sliew.scaleph.plugin.framework.property.Validators;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public enum StarRocksSinkProperties {
     ;
@@ -82,12 +83,28 @@ public enum StarRocksSinkProperties {
             .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<Integer> SINK_PROPERTIES = new PropertyDescriptor.Builder()
-            .name("sink.properties.")
-            .description("The way to specify the parameter is to add the prefix sink.properties. to the original stream load parameter")
-            .type(PropertyType.INT)
-            .parser(Parsers.INTEGER_PARSER)
-            .addValidator(Validators.POSITIVE_INTEGER_VALIDATOR)
+    public static final PropertyDescriptor<Boolean> ENABLE_UPSERT_DELETE = new PropertyDescriptor.Builder()
+            .name("enable_upsert_delete")
+            .description("Whether to enable upsert/delete, only supports PrimaryKey model.")
+            .type(PropertyType.BOOLEAN)
+            .parser(Parsers.BOOLEAN_PARSER)
+            .addValidator(Validators.BOOLEAN_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<String> SAVE_MODE_CREATE_TEMPLATE = new PropertyDescriptor.Builder()
+            .name("save_mode_create_template")
+            .description("We use templates to automatically create starrocks tables")
+            .type(PropertyType.STRING)
+            .parser(Parsers.STRING_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
+            .validateAndBuild();
+
+    public static final PropertyDescriptor<JsonNode> STARROCKS_CONFIG = new PropertyDescriptor.Builder()
+            .name("starrocks.config")
+            .description("The parameter of the stream load")
+            .type(PropertyType.OBJECT)
+            .parser(Parsers.JSON_PARSER)
+            .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
 }

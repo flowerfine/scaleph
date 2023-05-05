@@ -8,11 +8,9 @@ import {
 } from '@antv/xflow';
 import {message} from 'antd';
 import {getIntl, getLocale} from 'umi';
-import {NsGraphPublish} from './cmd-extensions/graph-publish';
 import {CustomCommands, ZOOM_OPTIONS} from './constant';
 import {DagService} from './service';
 import {NsGraphPreview} from './cmd-extensions/graph-preview';
-import { NsGraphSubmit } from './cmd-extensions/graph-submit';
 
 export const useToolbarConfig = createToolbarConfig((toolbarConfig) => {
   /** toolbar item */
@@ -144,17 +142,20 @@ const getExtraToolbarConfig = () => {
             commandService.executeCommand(CustomCommands.GRAPH_PARAMS_SETTING.id, {});
           },
         },
+        {
+          id: 'help',
+          iconName: 'InfoCircleOutlined',
+          text: intl.formatMessage({id: 'pages.project.di.flow.dag.help'}),
+          tooltip: intl.formatMessage({id: 'pages.project.di.flow.dag.help'}),
+          onClick: ({commandService}) => {
+            commandService.executeCommand(CustomCommands.GRAPH_HELP.id, {});
+          },
+        }
       ],
     },
   ] as IToolbarGroupOptions[];
 };
-const getScaleToolbarConfig = ({
-                                 zoomFactor,
-                                 fullScreen,
-                               }: {
-  zoomFactor?: Number;
-  fullScreen?: boolean;
-}) => {
+const getScaleToolbarConfig = ({zoomFactor, fullScreen}: { zoomFactor?: Number; fullScreen?: boolean; }) => {
   const intl = getIntl(getLocale(), true);
   return [
     {

@@ -30,12 +30,15 @@ import cn.sliew.scaleph.plugin.seatunnel.flink.resource.ResourceProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.HiveProperties.*;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.source.HiveSourceProperties.READ_COLUMNS;
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.hive.source.HiveSourceProperties.READ_PARTITIONS;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
 public class HiveSourcePlugin extends SeaTunnelConnectorPlugin {
@@ -47,7 +50,8 @@ public class HiveSourcePlugin extends SeaTunnelConnectorPlugin {
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(TABLE_NAME);
-        props.add(SCHEMA);
+        props.add(READ_PARTITIONS);
+        props.add(READ_COLUMNS);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.RESULT_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);
@@ -64,6 +68,15 @@ public class HiveSourcePlugin extends SeaTunnelConnectorPlugin {
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
         HiveDataSource dataSource = (HiveDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
         conf.putPOJO(METASTORE_URI.getName(), dataSource.getMetastoreUri());
+        if (StringUtils.hasText(dataSource.getHdfsSitePath())) {
+            conf.putPOJO(HDFS_SITE_PATH.getName(), dataSource.getHdfsSitePath());
+        }
+        if (StringUtils.hasText(dataSource.getKerberosKeytabPath())) {
+            conf.putPOJO(KERBEROS_KEYTAB_PATH.getName(), dataSource.getKerberosKeytabPath());
+        }
+        if (StringUtils.hasText(dataSource.getKerberosPrincipal())) {
+            conf.putPOJO(KERBEROS_PRINCIPAL.getName(), dataSource.getKerberosPrincipal());
+        }
         return conf;
     }
 

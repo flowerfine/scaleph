@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.elasticsearch.ElasticsearchProperties.*;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.connectors.elasticsearch.sink.ElasticsearchSinkProperties.*;
 
 @AutoService(SeaTunnelConnectorPlugin.class)
@@ -51,6 +52,12 @@ public class ElasticsearchSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(KEY_DELIMITER);
         props.add(MAX_RETRY_SIZE);
         props.add(MAX_BATCH_SIZE);
+//        props.add(TLS_VERIFY_CERTIFICATE);
+//        props.add(TLS_VERIFY_HOSTNAMES);
+//        props.add(TLS_KEYSTORE_PATH);
+//        props.add(TLS_KEYSTORE_PASSWORD);
+//        props.add(TLS_TRUSTSTORE_PATH);
+//        props.add(TLS_TRUSTSTORE_PASSWORD);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;

@@ -49,14 +49,10 @@ public class DorisSinkPlugin extends SeaTunnelConnectorPlugin {
                 DorisSinkPlugin.class.getName());
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(DATABASE);
-        props.add(TABLE);
-        props.add(LABEL_PREFIX);
-        props.add(BATCH_MAX_ROWS);
-        props.add(BATCH_MAX_BYTES);
-        props.add(BATCH_INTERVAL_MS);
-        props.add(MAX_RETRIES);
-        props.add(RETRY_BACKOFF_MULTIPLIER_MS);
-        props.add(MAX_RETRY_BACKOFF_MS);
+        props.add(TABLE_IDENTIFIER);
+        props.add(SINK_LABEL_PREFIX);
+        props.add(SINK_ENABLE_2PC);
+        props.add(SINK_ENABLE_DELETE);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         this.supportedProperties = props;
@@ -72,7 +68,7 @@ public class DorisSinkPlugin extends SeaTunnelConnectorPlugin {
         ObjectNode conf = super.createConf();
         JsonNode jsonNode = properties.get(ResourceProperties.DATASOURCE);
         DorisDataSource dataSource = (DorisDataSource) AbstractDataSource.fromDsInfo((ObjectNode) jsonNode);
-        conf.putPOJO(NODE_URLS.getName(), StringUtils.commaDelimitedListToStringArray(dataSource.getNodeUrls()));
+        conf.putPOJO(FENODES.getName(), StringUtils.commaDelimitedListToStringArray(dataSource.getNodeUrls()));
         if (StringUtils.hasText(dataSource.getUsername())) {
             conf.putPOJO(USERNAME.getName(), dataSource.getUsername());
         }
@@ -80,7 +76,7 @@ public class DorisSinkPlugin extends SeaTunnelConnectorPlugin {
             conf.putPOJO(PASSWORD.getName(), dataSource.getPassword());
         }
         for (Map.Entry<String, Object> entry : properties.toMap().entrySet()) {
-            if (entry.getKey().startsWith(SINK_PROPERTIES.getName())) {
+            if (entry.getKey().startsWith(DORIS_CONFIG.getName())) {
                 conf.putPOJO(entry.getKey(), entry.getValue());
             }
         }

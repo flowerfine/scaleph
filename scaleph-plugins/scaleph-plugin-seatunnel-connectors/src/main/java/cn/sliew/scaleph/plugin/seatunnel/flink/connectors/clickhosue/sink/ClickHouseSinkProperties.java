@@ -33,17 +33,6 @@ public enum ClickHouseSinkProperties {
             .addValidator(Validators.NON_BLANK_VALIDATOR)
             .validateAndBuild();
 
-    public static final PropertyDescriptor<String> FIELDS = new PropertyDescriptor.Builder<String>()
-            .name("fields")
-            .description(
-                    "The data field that needs to be output to ClickHouse , if not configured, it will be automatically adapted according to the sink table schema .\n"
-                            + "\n")
-            .type(PropertyType.STRING)
-            .parser(Parsers.STRING_PARSER)
-            .properties(Property.Required)
-            .addValidator(Validators.NON_BLANK_VALIDATOR)
-            .validateAndBuild();
-
     public static final PropertyDescriptor<JsonNode> CLICKHOUSE_CONF = new PropertyDescriptor.Builder<JsonNode>()
             .name("clickhouse.")
             .description(

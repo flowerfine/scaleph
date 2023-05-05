@@ -48,6 +48,7 @@ public class JdbcSinkPlugin extends SeaTunnelConnectorPlugin {
 
         final List<PropertyDescriptor> props = new ArrayList<>();
         props.add(CONNECTION_CHECK_TIMEOUT_SEC);
+        props.add(DATABASE);
         props.add(TABLE);
         props.add(SUPPORT_UPSERT_BY_QUERY_PRIMARY_KEY_EXIST);
         props.add(PRIMARY_KEYS);
@@ -59,6 +60,7 @@ public class JdbcSinkPlugin extends SeaTunnelConnectorPlugin {
         props.add(XA_DATA_SOURCE_CLASS_NAME);
         props.add(MAX_COMMIT_ATTEMPTS);
         props.add(TRANSACTION_TIMEOUT_SEC);
+        props.add(AUTO_COMMIT);
         props.add(CommonProperties.PARALLELISM);
         props.add(CommonProperties.SOURCE_TABLE_NAME);
         supportedProperties = Collections.unmodifiableList(props);

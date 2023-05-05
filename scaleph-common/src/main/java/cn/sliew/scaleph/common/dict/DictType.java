@@ -87,6 +87,9 @@ public enum DictType implements DictDefinition {
     SEATUNNEL_PLUGIN_NAME("seatunnel_plugin_name", "SeaTunnel 插件名称", SeaTunnelPluginName.class),
     SEATUNNEL_CONNECTOR_FEATURE("seatunnel_connector_feature", "SeaTunnel connector 特性", SeaTunnelConnectorFeature.class),
     SEATUNNEL_CONNECTOR_HEALTH("seatunnel_connector_health", "SeaTunnel connector 成熟度", SeaTunnelConnectorHealth.class),
+    SEATUNNEL_ROW_KIND("seatunnel_row_kind", "SeaTunnel Row Kind", SeaTunnelRowKind.class),
+    SEATUNNEL_FAKE_MODE("seatunnel_fake_mode", "SeaTunnel Fake Mode", SeaTunnelFakeMode.class),
+    SEATUNNEL_CDC_FORMAT("seatunnel_cdc_format", "SeaTunnel CDC Format", SeaTunnelCDCFormat.class),
 
     IMAGE_PULL_POLICY("image_pull_policy", "Image Pull Policy", ImagePullPolicy.class),
 
