@@ -19,10 +19,12 @@
 package cn.sliew.scaleph.storage.configuration;
 
 import cn.sliew.scaleph.storage.utils.HadoopUtil;
+import cn.sliew.scaleph.system.util.SystemUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.aliyun.oss.AliyunOSSFileSystem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -39,6 +41,9 @@ import java.net.URISyntaxException;
 @EnableConfigurationProperties(FileSystemProperties.class)
 public class FileSystemConfiguration {
 
+    @Autowired
+    private SystemUtil systemUtil;
+
     @SuppressWarnings("all")
     @Bean
     @ConfigurationProperties(prefix = "file-system")
@@ -53,7 +58,7 @@ public class FileSystemConfiguration {
     public FileSystem localFileSystem(LocalFileSystemProperties localFileSystemProperties) throws IOException, URISyntaxException {
         org.apache.hadoop.conf.Configuration conf = HadoopUtil.getHadoopConfiguration(localFileSystemProperties.getHadoopConfPath());
         FileSystem fileSystem = FileSystem.getLocal(conf);
-        setFsWorkingDirectory(fileSystem, localFileSystemProperties.getWorkingDirectory());
+        setFsWorkingDirectory(fileSystem, systemUtil.getLocalStorageDir().toString());
         return fileSystem;
     }
 
@@ -74,9 +79,7 @@ public class FileSystemConfiguration {
         conf.set("fs.s3a.secret.key", s3FileSystemProperties.getSecretKey());
         conf.setBoolean("fs.s3a.path.style.access", true);
         URI uri = new URI(FileSystemType.S3.getSchema() + s3FileSystemProperties.getBucket());
-        FileSystem fileSystem = FileSystem.get(uri, conf);
-        setFsWorkingDirectory(fileSystem, s3FileSystemProperties.getWorkingDirectory());
-        return fileSystem;
+        return FileSystem.get(uri, conf);
     }
 
     @SuppressWarnings("all")
@@ -96,7 +99,6 @@ public class FileSystemConfiguration {
         conf.set("fs.oss.accessKeySecret", ossFileSystemProperties.getSecretKey());
         URI uri = new URI(FileSystemType.OSS.getSchema() + ossFileSystemProperties.getBucket());
         final AliyunOSSFileSystem aliyunOSSFileSystem = new AliyunOSSFileSystem();
-        setFsWorkingDirectory(aliyunOSSFileSystem, ossFileSystemProperties.getWorkingDirectory());
         aliyunOSSFileSystem.initialize(uri, conf);
         return aliyunOSSFileSystem;
     }
@@ -116,9 +118,7 @@ public class FileSystemConfiguration {
         if (StringUtils.hasText(hdfsFileSystemProperties.getDefaultFS())) {
             conf.set("fs.defaultFS", hdfsFileSystemProperties.getDefaultFS());
         }
-        FileSystem fileSystem = FileSystem.get(conf);
-        setFsWorkingDirectory(fileSystem, hdfsFileSystemProperties.getWorkingDirectory());
-        return fileSystem;
+        return FileSystem.get(conf);
     }
 
     private void setFsWorkingDirectory(FileSystem fileSystem, String workingDirectory) {
