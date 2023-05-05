@@ -32,10 +32,5 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-system</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-plugin-flink-1.16</artifactId>
-        </dependency>
     </dependencies>
 </project>
