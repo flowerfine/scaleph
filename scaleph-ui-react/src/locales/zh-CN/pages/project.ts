@@ -384,6 +384,7 @@ export default {
   'pages.project.di.step.kudu.master': 'Master',
   'pages.project.di.step.kudu.table': 'Table',
   'pages.project.di.step.kudu.columnsList': '字段列表',
+  'pages.project.di.step.kudu.savemode': '保存模式',
 
   // kafka
   'pages.project.di.step.kafka.topic': '主题',
