@@ -362,8 +362,8 @@ CREATE TABLE ws_flink_kubernetes_deployment
 
 INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `namespace`, `kuberenetes_options`, `job_manager`,
                                               `task_manager`, `pod_template`, `flink_configuration`,
-                                              `log_configuration`,
-                                              `ingress`, `deployment_name`, `job`, `remark`, `creator`, `editor`)
+                                              `log_configuration`, `ingress`, `deployment_name`, `job`,
+                                              `remark`, `creator`, `editor`)
 VALUES (1, 'FlinkDeployment', 'basic-example', 'default',
         '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
         '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', NULL,
@@ -372,8 +372,9 @@ VALUES (1, 'FlinkDeployment', 'basic-example', 'default',
         NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `namespace`, `kuberenetes_options`, `job_manager`,
-                                              `task_manager`, `pod_template`, `flink_configuration`, `deployment_name`,
-                                              `job`, `remark`, `creator`, `editor`)
+                                              `task_manager`, `pod_template`, `flink_configuration`,
+                                              `log_configuration`, `ingress`, `deployment_name`, `job`,
+                                              `remark`, `creator`, `editor`)
 VALUES (2, 'FlinkDeployment', 'stateful-example', 'default',
         '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
         '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
@@ -385,8 +386,9 @@ VALUES (2, 'FlinkDeployment', 'stateful-example', 'default',
         NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `namespace`, `kuberenetes_options`, `job_manager`,
-                                              `task_manager`, `pod_template`, `flink_configuration`, `deployment_name`,
-                                              `job`, `remark`, `creator`, `editor`)
+                                              `task_manager`, `pod_template`, `flink_configuration`,
+                                              `log_configuration`, `ingress`, `deployment_name`, `job`,
+                                              `remark`, `creator`, `editor`)
 VALUES (3, 'FlinkDeployment', 'stateful-example2', 'default',
         '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
         '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
@@ -405,6 +407,7 @@ CREATE TABLE ws_flink_kubernetes_session_cluster
     `name`                varchar(255) not null,
     metadata              text comment 'flink metadata',
     spec                  text comment 'flink spec',
+    status             text comment 'flink status',
     creator               varchar(32),
     create_time           datetime     not null default current_timestamp,
     editor                varchar(32),
