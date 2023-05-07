@@ -13,6 +13,7 @@ export default {
   'menu.project.cluster.instance': '集群实例',
   'menu.project.flink.kubernetes': 'Flink Kuberentes',
   'menu.project.flink.kubernetes.template': 'Template',
+  'menu.project.flink.kubernetes.session-cluster': 'SessionCluster',
   'menu.project.flink.kubernetes.deployment': 'Deployment',
 
   'menu.resource': '资源',

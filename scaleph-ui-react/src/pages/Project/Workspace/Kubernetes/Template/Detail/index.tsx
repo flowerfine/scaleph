@@ -5,14 +5,14 @@ import {FooterToolbar, PageContainer} from "@ant-design/pro-components";
 import YAML from "yaml";
 import DeploymentTemplateAdvanced from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced";
 import DeploymentTemplateYAML from "@/pages/Project/Workspace/Kubernetes/Template/Detail/YAML";
-import {WsFlinkKubernetesDeploymentTemplate} from "@/services/project/typings";
+import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 import {
-  WsFlinkKubernetesDeploymentTemplateService
-} from "@/services/project/WsFlinkKubernetesDeploymentTemplateService";
+  WsFlinkKubernetesTemplateService
+} from "@/services/project/WsFlinkKubernetesTemplateService";
 
 const FlinkKubernetesDeploymentTemplateDetailWeb: React.FC = () => {
   const intl = useIntl();
-  const data = useLocation().state as WsFlinkKubernetesDeploymentTemplate
+  const data = useLocation().state as WsFlinkKubernetesTemplate
 
   const {deploymentTemplate} = useModel('deploymentTemplateYAMLEditor', (model) => ({
     deploymentTemplate: model.deploymentTemplate
@@ -31,7 +31,7 @@ const FlinkKubernetesDeploymentTemplateDetailWeb: React.FC = () => {
         metadata: json.metadata,
         spec: json.spec
       }
-      WsFlinkKubernetesDeploymentTemplateService.update(template).then((response) => {
+      WsFlinkKubernetesTemplateService.update(template).then((response) => {
         if (response.success) {
           history.back()
         }

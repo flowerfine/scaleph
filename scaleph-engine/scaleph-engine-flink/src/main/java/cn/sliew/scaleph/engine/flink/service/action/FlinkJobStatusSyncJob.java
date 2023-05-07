@@ -18,25 +18,14 @@
 
 package cn.sliew.scaleph.engine.flink.service.action;
 
-import cn.sliew.flinkful.rest.base.JobClient;
-import cn.sliew.flinkful.rest.base.RestClient;
-import cn.sliew.flinkful.rest.client.FlinkRestClient;
 import cn.sliew.milky.common.filter.ActionListener;
-import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkJobInstanceService;
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobInstanceDTO;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
 import cn.sliew.scaleph.workflow.engine.workflow.AbstractWorkFlow;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.flink.configuration.Configuration;
-import org.apache.flink.runtime.rest.messages.job.JobDetailsInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.net.URL;
-import java.util.Date;
-import java.util.List;
 
 @Slf4j
 @Component
@@ -53,26 +42,6 @@ public class FlinkJobStatusSyncJob extends AbstractWorkFlow {
     protected Runnable doExecute(ActionContext context, ActionListener<ActionResult> listener) {
         return () -> {
             log.info("Flink Job Status Sync Action execute!");
-            List<WsFlinkJobInstanceDTO> jobList = wsFlinkJobInstanceService.listAll();
-            for (WsFlinkJobInstanceDTO instance : jobList) {
-                final URL url;
-                try {
-                    url = new URL(instance.getWebInterfaceUrl());
-                    final String jobId = instance.getJobId();
-                    RestClient restClient = new FlinkRestClient(url.getHost(), url.getPort(), new Configuration());
-                    final JobClient jobClient = restClient.job();
-                    JobDetailsInfo jobInfo = jobClient.jobDetail(jobId).get();
-                    instance.setJobState(FlinkJobState.of(jobInfo.getJobStatus().name()));
-                    instance.setStartTime(new Date(jobInfo.getStartTime()));
-                    instance.setEndTime(new Date(jobInfo.getEndTime()));
-                    instance.setDuration(jobInfo.getDuration());
-                    wsFlinkJobInstanceService.update(instance);
-                    log.info("Flink Job {} Status Sync Action executed!", instance.getJobId());
-                } catch (Exception e) {
-                    log.info("Flink Job Status Sync Action Error {}, job code is {} and job id is {}", e.getMessage(), instance.getFlinkJobCode(), instance.getJobId());
-                    throw new RuntimeException(e);
-                }
-            }
         };
     }
 }

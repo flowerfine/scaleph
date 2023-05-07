@@ -882,6 +882,15 @@ export default {
   'pages.project.flink.kubernetes.deployment.template.namespace': 'Namespace',
   'pages.project.flink.kubernetes.deployment.template.define': '模板定义',
 
+  'pages.project.flink.kubernetes.session-cluster': 'SessionCluster',
+  'pages.project.flink.kubernetes.session-cluster.name': '名称',
+  'pages.project.flink.kubernetes.session-cluster.namespace': 'Namespace',
+  'pages.project.flink.kubernetes.session-cluster.steps.cluster': 'Cluster & Template',
+  'pages.project.flink.kubernetes.session-cluster.steps.cluster.template': 'Template',
+  'pages.project.flink.kubernetes.session-cluster.steps.cluster.cluster': 'Cluster',
+  'pages.project.flink.kubernetes.session-cluster.steps.options': 'Options',
+  'pages.project.flink.kubernetes.session-cluster.steps.yaml': 'YAML',
+
   'pages.project.flink.kubernetes.deployment': 'Deployment',
   'pages.project.flink.kubernetes.deployment.kind': '类型',
   'pages.project.flink.kubernetes.deployment.name': '名称',

@@ -274,7 +274,7 @@ export type WsFlinkCheckPointParam = QueryParam & {
   flinkJobInstanceId: number;
 };
 
-export type WsFlinkKubernetesDeploymentTemplate = {
+export type WsFlinkKubernetesTemplate = {
   id?: number;
   name?: string;
   metadata?: Record<string, any>;
@@ -284,7 +284,7 @@ export type WsFlinkKubernetesDeploymentTemplate = {
   updateTime?: Date;
 };
 
-export type WsFlinkKubernetesDeploymentTemplateParam = QueryParam & {
+export type WsFlinkKubernetesTemplateParam = QueryParam & {
   name?: string;
 };
 
@@ -313,5 +313,20 @@ export type KubernetesOptions = {
 
 export type WsFlinkKubernetesDeploymentParam = QueryParam & {
   kind: string
+  name?: string;
+};
+
+export type WsFlinkKubernetesSessionCluster = {
+  id?: number;
+  clusterCredentialId: number;
+  name: string;
+  metadata?: Record<string, any>;
+  spec?: Record<string, any>;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsFlinkKubernetesSessionClusterParam = QueryParam & {
+  clusterCredentialId?: number;
   name?: string;
 };

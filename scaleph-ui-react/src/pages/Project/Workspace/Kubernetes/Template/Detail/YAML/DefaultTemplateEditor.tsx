@@ -3,8 +3,8 @@ import React, {useEffect, useRef, useState} from "react";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
 import YAML from "yaml";
 import {
-  WsFlinkKubernetesDeploymentTemplateService
-} from "@/services/project/WsFlinkKubernetesDeploymentTemplateService";
+  WsFlinkKubernetesTemplateService
+} from "@/services/project/WsFlinkKubernetesTemplateService";
 
 const DefaultTemplateEditor: React.FC = () => {
   const [editorValue, setEditorValue] = useState<string>()
@@ -28,7 +28,7 @@ const DefaultTemplateEditor: React.FC = () => {
           metadata: json.metadata,
           spec: json.spec
         }
-        WsFlinkKubernetesDeploymentTemplateService.asTemplateWithDefault(data).then((response) => {
+        WsFlinkKubernetesTemplateService.asTemplateWithDefault(data).then((response) => {
           if (response.data) {
             setEditorValue(YAML.stringify(response.data))
           }

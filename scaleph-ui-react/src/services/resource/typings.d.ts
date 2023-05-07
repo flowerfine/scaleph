@@ -95,7 +95,6 @@ export type ClusterCredential = {
 }
 
 export type ClusterCredentialListParam = QueryParam & {
-  configType?: string;
   name?: string;
 }
 

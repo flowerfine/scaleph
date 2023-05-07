@@ -25,13 +25,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.fabric8.kubernetes.client.CustomResource;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.apache.flink.kubernetes.operator.api.status.FlinkDeploymentStatus;
 
 @Data
 @EqualsAndHashCode
 @JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec"})
-public class FlinkDeployment extends CustomResource implements Resource {
-
-    private FlinkDeploymentSpec spec;
+public class FlinkDeployment extends CustomResource<FlinkDeploymentSpec, FlinkDeploymentStatus> implements Resource {
 
     @Override
     public String getKind() {

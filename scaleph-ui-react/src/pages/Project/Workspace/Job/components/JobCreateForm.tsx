@@ -1,30 +1,25 @@
-import { Dict, ModalFormProps } from '@/app.d';
-import { DICT_TYPE, WORKSPACE_CONF } from '@/constant';
-import { DictDataService } from '@/services/admin/dictData.service';
-import { FlinkArtifactService } from '@/services/project/flinkArtifact.service';
-import { FlinkArtifactJarService } from '@/services/project/flinkArtifactJar.service';
-import { FlinkClusterConfigService } from '@/services/project/flinkClusterConfig.service';
-import { FlinkCLusterInstanceService } from '@/services/project/flinkClusterInstance.service';
-import { FlinkJobService } from '@/services/project/FlinkJobService';
-import { WsDiJobService } from '@/services/project/WsDiJob.service';
-import { WsFlinkJob } from '@/services/project/typings';
-import { ResourceJarService } from '@/services/resource/jar.service';
-import { ProFormInstance, StepsForm } from '@ant-design/pro-components';
-import { Form, message, Modal, Radio, Select } from 'antd';
-import { useEffect, useRef, useState } from 'react';
-import { useAccess, useIntl } from 'umi';
+import {Dict, ModalFormProps} from '@/app.d';
+import {DICT_TYPE, WORKSPACE_CONF} from '@/constant';
+import {DictDataService} from '@/services/admin/dictData.service';
+import {FlinkArtifactService} from '@/services/project/flinkArtifact.service';
+import {FlinkArtifactJarService} from '@/services/project/flinkArtifactJar.service';
+import {FlinkClusterConfigService} from '@/services/project/flinkClusterConfig.service';
+import {FlinkCLusterInstanceService} from '@/services/project/flinkClusterInstance.service';
+import {FlinkJobService} from '@/services/project/FlinkJobService';
+import {WsDiJobService} from '@/services/project/WsDiJob.service';
+import {WsFlinkJob} from '@/services/project/typings';
+import {ResourceJarService} from '@/services/resource/jar.service';
+import {ProFormInstance, StepsForm} from '@ant-design/pro-components';
+import {Form, message, Modal, Radio, Select} from 'antd';
+import {useEffect, useRef, useState} from 'react';
+import {useAccess, useIntl} from 'umi';
 import Additional from '../../Cluster/Config/Options/components/Additional';
 import FaultTolerance from '../../Cluster/Config/Options/components/FaultTolerance';
 import HighAvailability from '../../Cluster/Config/Options/components/HA';
 import Resource from '../../Cluster/Config/Options/components/Resource';
 import State from '../../Cluster/Config/Options/components/State';
 
-const JobCreateForm: React.FC<ModalFormProps<any>> = ({
-  data,
-  visible,
-  onVisibleChange,
-  onCancel,
-}) => {
+const JobCreateForm: React.FC<ModalFormProps<any>> = ({data, visible, onVisibleChange, onCancel}) => {
   const intl = useIntl();
   const access = useAccess();
   const step1FormRef = useRef<ProFormInstance>();
@@ -44,17 +39,17 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
   }, []);
 
   const refreshClusterInstance = (name?: string) => {
-    FlinkCLusterInstanceService.list({ name: name, pageSize: 10, current: 1 }).then((d) => {
+    FlinkCLusterInstanceService.list({name: name, pageSize: 10, current: 1}).then((d) => {
       const list: Dict[] = [];
       d.data?.map((item) => {
-        list.push({ value: item.id, label: item.name });
+        list.push({value: item.id, label: item.name});
       });
       setClusters(list);
     });
   };
 
   const refreshResources = (name?: string) => {
-    ResourceJarService.list({ fileName: name, pageSize: 10, current: 1 }).then((d) => {
+    ResourceJarService.list({fileName: name, pageSize: 10, current: 1}).then((d) => {
       const list: Dict[] = [];
       let tmpList: Map<string, string> = new Map<string, string>();
       d.data?.map((item) => {
@@ -64,7 +59,7 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
         tmpList.set(item.value + '', item.label + '');
       });
       tmpList.forEach((k, v) => {
-        list.push({ value: v, label: k });
+        list.push({value: v, label: k});
       });
       setResources(list);
     });
@@ -73,10 +68,10 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
   const init = (step: number, jobType?: string, name?: string) => {
     if (step == 0) {
       if (jobType == '0') {
-        FlinkArtifactService.list({ pageSize: 10, current: 1, name: name }).then((d) => {
+        FlinkArtifactService.list({pageSize: 10, current: 1, name: name}).then((d) => {
           const list: Dict[] = [];
           d.data?.map((item) => {
-            list.push({ value: item.id, label: item.name });
+            list.push({value: item.id, label: item.name});
           });
           setAtrifactList(list);
         });
@@ -91,7 +86,7 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
         }).then((d) => {
           const list: Dict[] = [];
           d.data?.map((item) => {
-            list.push({ value: item.id, label: item.jobName });
+            list.push({value: item.id, label: item.jobName});
           });
           setJobOptions(list);
         });
@@ -109,24 +104,24 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
           projectId: projectId + '',
           type: values.type,
           flinkArtifactId: values.flinkArtifactId,
-          wsFlinkClusterInstance: { id: values.clusterInstanceId },
+          wsFlinkClusterInstance: {id: values.clusterInstanceId},
           jars: values.jars,
           flinkConfig: FlinkClusterConfigService.getData(values),
         };
         FlinkJobService.add(params).then((d) => {
           if (d.success) {
-            message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
+            message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
             onVisibleChange ? onVisibleChange(false) : null;
           }
         });
       }}
-      stepsProps={{ size: 'small', labelPlacement: 'vertical' }}
+      stepsProps={{size: 'small', labelPlacement: 'vertical'}}
       stepsFormRender={(dom, submitter) => {
         return (
           <Modal
-            title={intl.formatMessage({ id: 'pages.project.job.create' })}
+            title={intl.formatMessage({id: 'pages.project.job.create'})}
             width={780}
-            bodyStyle={{ overflowY: 'scroll', maxHeight: '640px' }}
+            bodyStyle={{overflowY: 'scroll', maxHeight: '640px'}}
             onCancel={onCancel}
             open={visible}
             destroyOnClose
@@ -142,20 +137,20 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
     >
       <StepsForm.StepForm
         name="step1"
-        title={intl.formatMessage({ id: 'pages.project.job.create.step1.title' })}
+        title={intl.formatMessage({id: 'pages.project.job.create.step1.title'})}
         layout="horizontal"
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 19 }}
-        initialValues={{ type: jobType }}
+        labelCol={{span: 5}}
+        wrapperCol={{span: 19}}
+        initialValues={{type: jobType}}
         formRef={step1FormRef}
       >
-        <Form.Item name="type" label={intl.formatMessage({ id: 'pages.project.job.type' })}>
+        <Form.Item name="type" label={intl.formatMessage({id: 'pages.project.job.type'})}>
           <Radio.Group
             onChange={(item) => {
               const value = item.target.value;
               setJobType(value);
               setJobOptions([]);
-              step1FormRef.current?.setFieldsValue({ flinkArtifactId: '', artifact: '' });
+              step1FormRef.current?.setFieldsValue({flinkArtifactId: '', artifact: ''});
               init(0, value);
             }}
           >
@@ -172,8 +167,8 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
           <>
             <Form.Item
               name="artifact"
-              label={intl.formatMessage({ id: 'pages.project.job.create.step1.artifact' })}
-              rules={[{ required: true }]}
+              label={intl.formatMessage({id: 'pages.project.job.create.step1.artifact'})}
+              rules={[{required: true}]}
             >
               <Select
                 showSearch
@@ -192,7 +187,7 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
                   FlinkArtifactJarService.listByArtifact(option.value as string).then((d) => {
                     const list: Dict[] = [];
                     d.map((item) => {
-                      list.push({ value: item.id, label: item.fileName + '\t-\t' + item.version });
+                      list.push({value: item.id, label: item.fileName + '\t-\t' + item.version});
                     });
                     setJobOptions(list);
                   });
@@ -201,8 +196,8 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
             </Form.Item>
             <Form.Item
               name="flinkArtifactId"
-              label={intl.formatMessage({ id: 'pages.project.job.create.step1.artifact.jar' })}
-              rules={[{ required: true }]}
+              label={intl.formatMessage({id: 'pages.project.job.create.step1.artifact.jar'})}
+              rules={[{required: true}]}
             >
               <Select
                 showSearch
@@ -218,8 +213,8 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
         {jobType == '1' && (
           <Form.Item
             name="flinkArtifactId"
-            label={intl.formatMessage({ id: 'pages.project.job.create.step1.job' })}
-            rules={[{ required: true }]}
+            label={intl.formatMessage({id: 'pages.project.job.create.step1.job'})}
+            rules={[{required: true}]}
           >
             <Select
               showSearch
@@ -237,8 +232,8 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
         {jobType == '2' && (
           <Form.Item
             name="flinkArtifactId"
-            label={intl.formatMessage({ id: 'pages.project.job.create.step1.job' })}
-            rules={[{ required: true }]}
+            label={intl.formatMessage({id: 'pages.project.job.create.step1.job'})}
+            rules={[{required: true}]}
           >
             <Select
               showSearch
@@ -256,15 +251,15 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
       </StepsForm.StepForm>
       <StepsForm.StepForm
         name="step2"
-        title={intl.formatMessage({ id: 'pages.project.job.create.step2.title' })}
+        title={intl.formatMessage({id: 'pages.project.job.create.step2.title'})}
         layout="horizontal"
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 19 }}
+        labelCol={{span: 5}}
+        wrapperCol={{span: 19}}
       >
         <Form.Item
           name="clusterInstanceId"
-          label={intl.formatMessage({ id: 'pages.project.job.create.step2.cluster' })}
-          rules={[{ required: true }]}
+          label={intl.formatMessage({id: 'pages.project.job.create.step2.cluster'})}
+          rules={[{required: true}]}
         >
           <Select
             showSearch
@@ -280,7 +275,7 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
         </Form.Item>
         <Form.Item
           name="jars"
-          label={intl.formatMessage({ id: 'pages.project.job.create.step2.resource' })}
+          label={intl.formatMessage({id: 'pages.project.job.create.step2.resource'})}
         >
           <Select
             showSearch
@@ -298,14 +293,14 @@ const JobCreateForm: React.FC<ModalFormProps<any>> = ({
       </StepsForm.StepForm>
       <StepsForm.StepForm
         name="step3"
-        title={intl.formatMessage({ id: 'pages.project.job.create.step3.title' })}
+        title={intl.formatMessage({id: 'pages.project.job.create.step3.title'})}
         layout="vertical"
       >
-        <State />
-        <FaultTolerance />
-        <HighAvailability />
-        <Resource />
-        <Additional />
+        <State/>
+        <FaultTolerance/>
+        <HighAvailability/>
+        <Resource/>
+        <Additional/>
       </StepsForm.StepForm>
     </StepsForm>
   );

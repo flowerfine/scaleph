@@ -337,14 +337,13 @@ CREATE TABLE ws_flink_catalog_configuration
     PRIMARY KEY (id)
 ) ENGINE = INNODB COMMENT = 'flink catalog configuration';
 
-DROP TABLE IF EXISTS ws_flink_kubernetes_deployment_template;
-CREATE TABLE ws_flink_kubernetes_deployment_template
+DROP TABLE IF EXISTS ws_flink_kubernetes_template;
+CREATE TABLE ws_flink_kubernetes_template
 (
     id          bigint      not null auto_increment,
     `name`      varchar(64) not null,
-    metadata    text comment 'flink deployment metadata',
-    spec        text comment 'flink deployment spec',
-    remark      varchar(255),
+    metadata    text comment 'flink metadata',
+    spec        text comment 'flink spec',
     creator     varchar(32),
     create_time datetime    not null default current_timestamp,
     editor      varchar(32),
@@ -353,8 +352,9 @@ CREATE TABLE ws_flink_kubernetes_deployment_template
     UNIQUE KEY uniq_name (`name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment template';
 
-INSERT INTO `ws_flink_kubernetes_deployment_template` (`id`, `name`, `metadata`, `spec`, `remark`, `creator`, `editor`)
-VALUES (1, 'default', '{\"name\":\"default\",\"namespace\":\"default\"}', '{}', NULL, 'sys', 'sys');
+INSERT INTO `ws_flink_kubernetes_template` (`id`, `name`, `metadata`, `spec`, `creator`, `editor`)
+VALUES (1, 'default', '{\"name\":\"default\",\"namespace\":\"default\"}', '{}', 'sys', 'sys');
+
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_deployment;
 CREATE TABLE ws_flink_kubernetes_deployment
@@ -415,6 +415,32 @@ VALUES (3, 'FlinkDeployment', 'stateful-example2', 'default',
         NULL,
         '{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":2,\"entryClass\":\"org.apache.flink.streaming.examples.statemachine.StateMachineExample\",\"args\":[],\"state\":\"running\",\"upgradeMode\":\"last-state\"}',
         NULL, 'sys', 'sys');
+
+
+DROP TABLE IF EXISTS ws_flink_kubernetes_session_cluster;
+CREATE TABLE ws_flink_kubernetes_session_cluster
+(
+    id                    bigint       not null auto_increment,
+    cluster_credential_id bigint       not null,
+    `name`                varchar(255) not null,
+    metadata              text comment 'flink metadata',
+    spec                  text comment 'flink spec',
+    creator               varchar(32),
+    create_time           datetime     not null default current_timestamp,
+    editor                varchar(32),
+    update_time           datetime     not null default current_timestamp on update current_timestamp,
+    PRIMARY KEY (id),
+    UNIQUE KEY uniq_name (cluster_credential_id, `name`)
+) ENGINE = INNODB COMMENT = 'flink kubernetes session cluster';
+
+# INSERT INTO `ws_flink_kubernetes_session_cluster` (`id`, `name`, `namespace`, `kuberenetes_options`, `job_manager`,
+#                                                    `task_manager`, `pod_template`, `flink_configuration`,
+#                                                    `remark`, `creator`, `editor`)
+# VALUES (1, 'session-cluster', 'default',
+#         '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
+#         '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', NULL,
+#         '{\"taskmanager.numberOfTaskSlots\":\"32\"}', NULL,
+#         'sys', 'sys');
 
 
 DROP TABLE IF EXISTS ws_flink_catalog;

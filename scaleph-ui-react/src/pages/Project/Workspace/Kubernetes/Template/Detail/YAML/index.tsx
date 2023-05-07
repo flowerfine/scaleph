@@ -4,9 +4,9 @@ import {ProCard} from "@ant-design/pro-components";
 import {Props} from '@/app.d';
 import TemplateEditor from "@/pages/Project/Workspace/Kubernetes/Template/Detail/YAML/TemplateEditor";
 import DefaultTemplateEditor from "@/pages/Project/Workspace/Kubernetes/Template/Detail/YAML/DefaultTemplateEditor";
-import {WsFlinkKubernetesDeploymentTemplate} from "@/services/project/typings";
+import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 
-const DeploymentTemplateYAML: React.FC<Props<WsFlinkKubernetesDeploymentTemplate>> = ({data}) => {
+const DeploymentTemplateYAML: React.FC<Props<WsFlinkKubernetesTemplate>> = ({data}) => {
   return (
     <div>
       <Row>

@@ -3,12 +3,12 @@ import React, {useEffect, useRef} from "react";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
 import YAML from "yaml";
 import {Props} from '@/app.d';
-import {WsFlinkKubernetesDeploymentTemplate} from "@/services/project/typings";
+import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 import {
-  WsFlinkKubernetesDeploymentTemplateService
-} from "@/services/project/WsFlinkKubernetesDeploymentTemplateService";
+  WsFlinkKubernetesTemplateService
+} from "@/services/project/WsFlinkKubernetesTemplateService";
 
-const TemplateEditor: React.FC<Props<WsFlinkKubernetesDeploymentTemplate>> = ({data}) => {
+const TemplateEditor: React.FC<Props<WsFlinkKubernetesTemplate>> = ({data}) => {
   const editorRef = useRef(null);
   const monaco = useMonaco();
 
@@ -20,7 +20,7 @@ const TemplateEditor: React.FC<Props<WsFlinkKubernetesDeploymentTemplate>> = ({d
   }, [monaco]);
 
   useEffect(() => {
-    WsFlinkKubernetesDeploymentTemplateService.asTemplate(data).then((response) => {
+    WsFlinkKubernetesTemplateService.asTemplate(data).then((response) => {
       if (response.data) {
         setDeploymentTemplate(YAML.stringify(response.data))
       }

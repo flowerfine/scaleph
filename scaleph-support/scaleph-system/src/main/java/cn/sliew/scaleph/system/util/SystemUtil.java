@@ -57,6 +57,10 @@ public class SystemUtil implements InitializingBean, DisposableBean {
         return FileUtil.createDir(getWorkspace().resolve(UUID.randomUUID().toString(true)));
     }
 
+    public static Path getKubeConfigPath() throws IOException {
+        return FileUtil.createDir(getWorkspace().resolve("kubeconfig"));
+    }
+
     public static Path getSavepointDir(String path) throws IOException{
         return FileUtil.createDir(getWorkspace().resolve(path));
     }
