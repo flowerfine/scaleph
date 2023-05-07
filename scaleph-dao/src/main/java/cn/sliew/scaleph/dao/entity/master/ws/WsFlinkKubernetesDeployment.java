@@ -63,6 +63,12 @@ public class WsFlinkKubernetesDeployment extends BaseDO {
     @TableField("flink_configuration")
     private String flinkConfiguration;
 
+    @TableField("log_configuration")
+    private String logConfiguration;
+
+    @TableField("ingress")
+    private String ingress;
+
     @TableField("deployment_name")
     private String deploymentName;
 

@@ -335,7 +335,6 @@ CREATE TABLE ws_flink_kubernetes_template
 INSERT INTO `ws_flink_kubernetes_template` (`id`, `name`, `metadata`, `spec`, `creator`, `editor`)
 VALUES (1, 'default', '{\"name\":\"default\",\"namespace\":\"default\"}', '{}', 'sys', 'sys');
 
-
 DROP TABLE IF EXISTS ws_flink_kubernetes_deployment;
 CREATE TABLE ws_flink_kubernetes_deployment
 (
@@ -348,6 +347,8 @@ CREATE TABLE ws_flink_kubernetes_deployment
     task_manager        text,
     pod_template        text,
     flink_configuration text,
+    log_configuration   text,
+    ingress             text,
     deployment_name     varchar(255),
     job                 text,
     remark              varchar(255),
@@ -360,13 +361,13 @@ CREATE TABLE ws_flink_kubernetes_deployment
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment';
 
 INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `namespace`, `kuberenetes_options`, `job_manager`,
-                                              `task_manager`, `pod_template`, `flink_configuration`, `deployment_name`,
-                                              `job`, `remark`,
-                                              `creator`, `editor`)
+                                              `task_manager`, `pod_template`, `flink_configuration`,
+                                              `log_configuration`,
+                                              `ingress`, `deployment_name`, `job`, `remark`, `creator`, `editor`)
 VALUES (1, 'FlinkDeployment', 'basic-example', 'default',
         '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
         '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', NULL,
-        '{\"taskmanager.numberOfTaskSlots\":\"2\"}', NULL,
+        '{\"taskmanager.numberOfTaskSlots\":\"2\"}', NULL, NULL, NULL,
         '{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"entryClass\":\"org.apache.flink.streaming.examples.statemachine.StateMachineExample\",\"parallelism\":2,\"upgradeMode\":\"stateless\"}',
         NULL, 'sys', 'sys');
 
@@ -379,7 +380,7 @@ VALUES (2, 'FlinkDeployment', 'stateful-example', 'default',
         '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
         '{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/flink-data\",\"name\":\"flink-volume\"}]}],\"volumes\":[{\"emptyDir\":{\"sizeLimit\":\"500Mi\"},\"name\":\"flink-volume\"}]}}',
         '{\"taskmanager.numberOfTaskSlots\":\"2\",\"state.savepoints.dir\":\"file:///flink-data/savepoints\",\"state.checkpoints.dir\":\"file:///flink-data/checkpoints\",\"high-availability\":\"org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory\",\"high-availability.storageDir\":\"file:///flink-data/ha\"}',
-        NULL,
+        NULL, NULL, NULL,
         '{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":2,\"entryClass\":\"org.apache.flink.streaming.examples.statemachine.StateMachineExample\",\"args\":[],\"state\":\"running\",\"upgradeMode\":\"last-state\"}',
         NULL, 'sys', 'sys');
 
@@ -392,10 +393,9 @@ VALUES (3, 'FlinkDeployment', 'stateful-example2', 'default',
         '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
         '{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/flink-data\",\"name\":\"flink-volume\"}]}],\"volumes\":[{\"hostPath\":{\"path\":\"/tmp/flink\",\"type\":\"DirectoryOrCreate\"},\"name\":\"flink-volume\"}]}}',
         '{\"taskmanager.numberOfTaskSlots\":\"2\",\"state.savepoints.dir\":\"file:///flink-data/savepoints\",\"state.checkpoints.dir\":\"file:///flink-data/checkpoints\",\"high-availability\":\"org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory\",\"high-availability.storageDir\":\"file:///flink-data/ha\"}',
-        NULL,
+        NULL, NULL, NULL,
         '{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":2,\"entryClass\":\"org.apache.flink.streaming.examples.statemachine.StateMachineExample\",\"args\":[],\"state\":\"running\",\"upgradeMode\":\"last-state\"}',
         NULL, 'sys', 'sys');
-
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_session_cluster;
 CREATE TABLE ws_flink_kubernetes_session_cluster
