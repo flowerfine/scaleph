@@ -317,26 +317,6 @@ CREATE TABLE ws_flink_checkpoint
     UNIQUE KEY uniq_job (flink_job_instance_id, flink_checkpoint_id)
 ) ENGINE = INNODB COMMENT = 'flink checkpoint';
 
-DROP TABLE IF EXISTS ws_flink_catalog_configuration;
-CREATE TABLE ws_flink_catalog_configuration
-(
-    id                      BIGINT      NOT NULL AUTO_INCREMENT,
-    flink_catalog_type_id   BIGINT      NOT NULL,
-    flink_catalog_type_name VARCHAR(64) NOT NULL,
-    catalog_name            VARCHAR(64) NOT NULL,
-    default_database        VARCHAR(64) NOT NULL,
-    hive_conf_dir           VARCHAR(64),
-    base_url                VARCHAR(64),
-    username                VARCHAR(64),
-    password                VARCHAR(64),
-    status                  VARCHAR(16),
-    creator                 VARCHAR(32),
-    create_time             DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    editor                  VARCHAR(32),
-    update_time             DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
-) ENGINE = INNODB COMMENT = 'flink catalog configuration';
-
 DROP TABLE IF EXISTS ws_flink_kubernetes_template;
 CREATE TABLE ws_flink_kubernetes_template
 (
@@ -432,29 +412,3 @@ CREATE TABLE ws_flink_kubernetes_session_cluster
     PRIMARY KEY (id),
     UNIQUE KEY uniq_name (cluster_credential_id, `name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes session cluster';
-
-# INSERT INTO `ws_flink_kubernetes_session_cluster` (`id`, `name`, `namespace`, `kuberenetes_options`, `job_manager`,
-#                                                    `task_manager`, `pod_template`, `flink_configuration`,
-#                                                    `remark`, `creator`, `editor`)
-# VALUES (1, 'session-cluster', 'default',
-#         '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
-#         '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', NULL,
-#         '{\"taskmanager.numberOfTaskSlots\":\"32\"}', NULL,
-#         'sys', 'sys');
-
-
-DROP TABLE IF EXISTS ws_flink_catalog;
-CREATE TABLE ws_flink_catalog
-(
-    id          bigint       not null auto_increment,
-    type        varchar(16)  not null,
-    `name`      varchar(255) not null,
-    properties  text,
-    remark      varchar(255),
-    creator     varchar(32),
-    create_time datetime     not null default current_timestamp,
-    editor      varchar(32),
-    update_time datetime     not null default current_timestamp on update current_timestamp,
-    PRIMARY KEY (id),
-    UNIQUE KEY uniq_name (type, `name`)
-) ENGINE = INNODB COMMENT = 'flink catalog';
