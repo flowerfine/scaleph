@@ -47,6 +47,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
@@ -204,4 +206,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private boolean shouldRegisterLinksMapping(WebEndpointProperties webEndpointProperties, Environment environment, String basePath) {
         return webEndpointProperties.getDiscovery().isEnabled() && (StringUtils.hasText(basePath) || ManagementPortType.get(environment).equals(ManagementPortType.DIFFERENT));
     }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/**").addResourceLocations("file:ui/");
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        // registry.addViewController("/").setViewName("redirect:/ui/");
+        // registry.addViewController("/ui/").setViewName("forward:/ui/index.html");
+        registry.addViewController("/").setViewName("forward:/index.html");
+    }
+
 }
