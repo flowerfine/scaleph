@@ -39,11 +39,13 @@ public enum RequestParamUtil {
 
     private static final String IGNORE_CONTENT_TYPE = "multipart/form-data";
 
-    private static final List<String> IGNORE_PATH = Arrays.asList("/scaleph/doc.html",
+    public static final List<String> IGNORE_PATH = Arrays.asList(
+            "/scaleph/doc.html",
             "/scaleph/swagger-resources",
             "/scaleph/webjars/**",
             "/scaleph/v3/api-docs",
-            "/scaleph/favicon.ico");
+            "/scaleph/favicon.ico",
+            "/scaleph/ui/**/**");
     private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
 
     public static String formatRequestParams(HttpServletRequest request) {

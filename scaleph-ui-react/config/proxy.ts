@@ -27,10 +27,4 @@ export default {
       pathRewrite: { '^': '' },
     },
   },
-  prod: {
-    '/api/': {
-      target: '/scaleph/',
-      changeOrigin: true,
-    }
-  }
 };

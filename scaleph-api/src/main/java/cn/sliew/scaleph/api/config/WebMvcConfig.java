@@ -91,12 +91,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
             List<InterceptorRegistration> registrations = (List<InterceptorRegistration>) ReflectionUtils.getField(registrationsField, registry);
             if (registrations != null) {
                 for (InterceptorRegistration interceptorRegistration : registrations) {
-                    interceptorRegistration
-                            .excludePathPatterns("/scaleph/doc.html")
-                            .excludePathPatterns("/scaleph/swagger-resources")
-                            .excludePathPatterns("/scaleph/webjars/**")
-                            .excludePathPatterns("/scaleph/v3/api-docs")
-                            .excludePathPatterns("/scaleph/favicon.ico");
+                    interceptorRegistration.excludePathPatterns(RequestParamUtil.IGNORE_PATH);
                 }
             }
         } catch (Exception e) {
@@ -210,14 +205,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("/**").addResourceLocations("file:ui/");
+        registry.addResourceHandler("/ui/**").addResourceLocations("file:ui/");
     }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        // registry.addViewController("/").setViewName("redirect:/ui/");
-        // registry.addViewController("/ui/").setViewName("forward:/ui/index.html");
-        registry.addViewController("/").setViewName("forward:/index.html");
+         registry.addViewController("/").setViewName("redirect:/ui/");
+         registry.addViewController("/ui/").setViewName("forward:/ui/index.html");
     }
 
 }

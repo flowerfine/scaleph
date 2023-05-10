@@ -109,6 +109,8 @@ public class WebSecurityConfig {
                         "/index.html"
                 ).permitAll()
                 .antMatchers("/swagger**/**", "/doc.html", "/v3/**", "/webjars/**").permitAll()
+                .antMatchers("/ui/**")
+                .permitAll()
                 //放行options请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()

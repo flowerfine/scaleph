@@ -7,7 +7,8 @@ import routes from './routes';
 const {REACT_APP_ENV} = process.env;
 
 export default defineConfig({
-  base: REACT_APP_ENV === 'prod' ? '/scaleph/' : '/',
+  publicPath: REACT_APP_ENV === 'dist' ? '/scaleph/ui/' : '/',
+  // runtimePublicPath: {},
   hash: true,
   antd: {},
   request: {},

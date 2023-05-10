@@ -6,7 +6,8 @@
   "scripts": {
     "postinstall": "max setup",
     "analyze": "cross-env ANALYZE=1 max build",
-    "build": "cross-env REACT_APP_ENV=prod max build",
+    "build": "max build",
+    "dist-build": "cross-env REACT_APP_ENV=dist max build",
     "deploy": "npm run build && npm run gh-pages",
     "dev": "npm run start:dev",
     "gh-pages": "gh-pages -d dist",

@@ -12,6 +12,7 @@ import { USER_AUTH } from './constant';
 import { UserService } from './services/admin/user.service';
 import { AuthService } from './services/auth';
 
+const {REACT_APP_ENV} = process.env;
 const isDev = process.env.NODE_ENV === 'development';
 const whiteList: string[] = ['login', 'register'];
 /**
@@ -175,6 +176,7 @@ const handleError = (
 
 export const request: RequestConfig = {
   timeout: 1800000,
+  baseURL: REACT_APP_ENV === 'dist' ? '/scaleph' : '/',
   errorConfig: {},
   requestInterceptors: [requestHeaderInterceptor],
   responseInterceptors: [responseErrorInterceptor],
