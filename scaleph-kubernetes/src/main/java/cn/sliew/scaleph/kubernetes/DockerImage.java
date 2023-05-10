@@ -18,11 +18,13 @@
 
 package cn.sliew.scaleph.kubernetes;
 
+import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
 import lombok.Data;
 
 @Data
 public class DockerImage {
 
+    private ImagePullPolicy imagePullPolicy;
     private String registry;
     private String repository;
     private String tag;

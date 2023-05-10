@@ -16,6 +16,6 @@
  */
 
 /**
- * forked from https://github.com/apache/flink-kubernetes-operator/tree/release-1.3
+ * forked from https://github.com/apache/flink-kubernetes-operator/tree/release-1.4
  */
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator;

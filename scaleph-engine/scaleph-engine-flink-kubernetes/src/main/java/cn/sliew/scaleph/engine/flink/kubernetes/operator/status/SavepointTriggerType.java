@@ -16,28 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
 /**
- * Enumeration for supported Flink versions.
+ * Savepoint trigger mechanism.
  */
-public enum FlinkVersion {
-    v1_13,
-    v1_14,
-    v1_15,
-    v1_16,
-    v1_17;
-
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
-
+public enum SavepointTriggerType {
     /**
-     * Returns the current version.
-     *
-     * @return The current version.
+     * Savepoint manually triggered by changing the savepointTriggerNonce.
      */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
+    MANUAL,
+    /**
+     * Savepoint periodically triggered by the operator.
+     */
+    PERIODIC,
+    /**
+     * Savepoint triggered during stateful upgrade.
+     */
+    UPGRADE,
+    /**
+     * Savepoint trigger mechanism unknown, such as savepoint retrieved directly from Flink job.
+     */
+    UNKNOWN
 }

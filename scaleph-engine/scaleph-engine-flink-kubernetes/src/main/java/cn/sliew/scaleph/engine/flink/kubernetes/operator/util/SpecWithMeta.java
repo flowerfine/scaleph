@@ -16,28 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.util;
+
+import lombok.Value;
+import org.apache.flink.kubernetes.operator.api.reconciler.ReconciliationMetadata;
+import org.apache.flink.kubernetes.operator.api.spec.AbstractFlinkSpec;
 
 /**
- * Enumeration for supported Flink versions.
+ * Utility class for encapsulating Kubernetes resource spec and meta fields during serialization.
  */
-public enum FlinkVersion {
-    v1_13,
-    v1_14,
-    v1_15,
-    v1_16,
-    v1_17;
+@Value
+public class SpecWithMeta<T extends AbstractFlinkSpec> {
 
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
+    T spec;
 
-    /**
-     * Returns the current version.
-     *
-     * @return The current version.
-     */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
+    ReconciliationMetadata meta;
 }

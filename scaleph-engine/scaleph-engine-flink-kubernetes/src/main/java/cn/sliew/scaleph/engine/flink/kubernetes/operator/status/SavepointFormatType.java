@@ -16,28 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
 /**
- * Enumeration for supported Flink versions.
+ * Savepoint format type.
  */
-public enum FlinkVersion {
-    v1_13,
-    v1_14,
-    v1_15,
-    v1_16,
-    v1_17;
-
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
+public enum SavepointFormatType {
 
     /**
-     * Returns the current version.
-     *
-     * @return The current version.
+     * A canonical, common for all state backends format.
      */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
+    CANONICAL,
+    /**
+     * A format specific for the chosen state backend.
+     */
+    NATIVE,
+    /**
+     * Savepoint format unknown, if the savepoint was not triggered by the operator.
+     */
+    UNKNOWN
 }
