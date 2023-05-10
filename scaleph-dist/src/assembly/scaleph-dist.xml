@@ -45,7 +45,7 @@
             <fileMode>0644</fileMode>
         </fileSet>
         <fileSet>
-            <directory>../scaleph-ui-react/dist</directory>
+            <directory>../scaleph-ui-react/dist-bin</directory>
             <includes>
                 <include>**/*</include>
             </includes>
