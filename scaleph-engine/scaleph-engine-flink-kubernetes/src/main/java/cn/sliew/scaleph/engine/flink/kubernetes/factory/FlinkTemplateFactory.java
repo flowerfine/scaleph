@@ -18,11 +18,11 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.factory;
 
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.*;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplateSpec;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
-import org.apache.flink.kubernetes.operator.api.spec.*;
 
 import java.util.HashMap;
 import java.util.Map;

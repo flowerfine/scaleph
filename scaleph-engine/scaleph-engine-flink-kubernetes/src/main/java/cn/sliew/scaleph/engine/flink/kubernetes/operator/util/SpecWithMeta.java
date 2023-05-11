@@ -18,9 +18,9 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.operator.util;
 
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.reconciler.ReconciliationMetadata;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.AbstractFlinkSpec;
 import lombok.Value;
-import org.apache.flink.kubernetes.operator.api.reconciler.ReconciliationMetadata;
 
 /**
  * Utility class for encapsulating Kubernetes resource spec and meta fields during serialization.

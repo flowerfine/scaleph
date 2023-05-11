@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.template;
 
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
 import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.Resource;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -26,7 +27,6 @@ import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.apache.flink.kubernetes.operator.api.status.FlinkDeploymentStatus;
 
 @Data
 @Group(Constant.GROUP)

@@ -18,8 +18,6 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
-import org.apache.flink.annotation.Experimental;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,31 +26,47 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Stores savepoint related information. */
+/**
+ * Stores savepoint related information.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class SavepointInfo {
-    /** Last completed savepoint by the operator. */
+    /**
+     * Last completed savepoint by the operator.
+     */
     private Savepoint lastSavepoint;
 
-    /** Trigger id of a pending savepoint operation. */
+    /**
+     * Trigger id of a pending savepoint operation.
+     */
     private String triggerId;
 
-    /** Trigger timestamp of a pending savepoint operation. */
+    /**
+     * Trigger timestamp of a pending savepoint operation.
+     */
     private Long triggerTimestamp;
 
-    /** Savepoint trigger mechanism. */
+    /**
+     * Savepoint trigger mechanism.
+     */
     private SavepointTriggerType triggerType;
 
-    /** Savepoint format. */
+    /**
+     * Savepoint format.
+     */
     private SavepointFormatType formatType;
 
-    /** List of recent savepoints. */
+    /**
+     * List of recent savepoints.
+     */
     private List<Savepoint> savepointHistory = new ArrayList<>();
 
-    /** Trigger timestamp of last periodic savepoint operation. */
+    /**
+     * Trigger timestamp of last periodic savepoint operation.
+     */
     private long lastPeriodicSavepointTimestamp = 0L;
 
     public void setTrigger(

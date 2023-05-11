@@ -24,11 +24,13 @@ import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.apache.commons.lang3.StringUtils;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 public abstract class CommonStatus<SPEC extends AbstractFlinkSpec> {
 
     /**

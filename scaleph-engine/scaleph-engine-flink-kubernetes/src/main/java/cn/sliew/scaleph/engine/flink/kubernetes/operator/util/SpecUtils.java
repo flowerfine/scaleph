@@ -20,6 +20,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.operator.util;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.AbstractFlinkResource;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.reconciler.ReconciliationMetadata;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.AbstractFlinkSpec;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

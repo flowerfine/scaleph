@@ -18,27 +18,35 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
-import org.apache.flink.annotation.Experimental;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.annotation.Nullable;
 
-/** Represents information about a finished savepoint. */
+/**
+ * Represents information about a finished savepoint.
+ */
 @Data
 @NoArgsConstructor
 public class Savepoint {
-    /** Millisecond timestamp at the start of the savepoint operation. */
+    /**
+     * Millisecond timestamp at the start of the savepoint operation.
+     */
     private long timeStamp;
 
-    /** External pointer of the savepoint can be used to recover jobs. */
+    /**
+     * External pointer of the savepoint can be used to recover jobs.
+     */
     private String location;
 
-    /** Savepoint trigger mechanism. */
+    /**
+     * Savepoint trigger mechanism.
+     */
     private SavepointTriggerType triggerType = SavepointTriggerType.UNKNOWN;
 
-    /** Savepoint format. */
+    /**
+     * Savepoint format.
+     */
     private SavepointFormatType formatType = SavepointFormatType.UNKNOWN;
 
     /**

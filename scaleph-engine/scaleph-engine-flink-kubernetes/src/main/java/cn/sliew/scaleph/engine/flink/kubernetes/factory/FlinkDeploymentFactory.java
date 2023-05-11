@@ -18,8 +18,8 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.factory;
 
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
-import org.apache.flink.kubernetes.operator.api.FlinkDeployment;
 
 public enum FlinkDeploymentFactory {
     ;

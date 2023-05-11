@@ -19,13 +19,13 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.factory.FlinkDeploymentFactory;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.kubernetes.service.KuberenetesService;
 import io.fabric8.kubernetes.client.KubernetesClient;
-import org.apache.flink.kubernetes.operator.api.FlinkDeployment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
