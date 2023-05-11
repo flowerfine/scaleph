@@ -18,7 +18,9 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.lifecycle.ResourceLifecycleState;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.AbstractFlinkSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -49,7 +51,7 @@ public abstract class CommonStatus<SPEC extends AbstractFlinkSpec> {
      *
      * @return Current {@link ReconciliationStatus}.
      */
-    public abstract ReconciliationStatus getReconciliationStatus();
+    public abstract ReconciliationStatus<SPEC> getReconciliationStatus();
 
     public ResourceLifecycleState getLifecycleState() {
         ReconciliationStatus reconciliationStatus = getReconciliationStatus();

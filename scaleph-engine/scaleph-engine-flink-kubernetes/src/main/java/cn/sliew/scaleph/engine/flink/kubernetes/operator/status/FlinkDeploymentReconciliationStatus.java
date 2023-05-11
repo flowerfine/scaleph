@@ -16,19 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.util;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.AbstractFlinkSpec;
-import lombok.Value;
-import org.apache.flink.kubernetes.operator.api.reconciler.ReconciliationMetadata;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
- * Utility class for encapsulating Kubernetes resource spec and meta fields during serialization.
+ * Status of the last reconcile step for the flink deployment.
  */
-@Value
-public class SpecWithMeta<T extends AbstractFlinkSpec> {
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class FlinkDeploymentReconciliationStatus extends ReconciliationStatus<FlinkDeploymentSpec> {
 
-    T spec;
-
-    ReconciliationMetadata meta;
+    @Override
+    public Class<FlinkDeploymentSpec> getSpecClass() {
+        return FlinkDeploymentSpec.class;
+    }
 }

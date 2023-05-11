@@ -16,19 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.util;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.AbstractFlinkSpec;
-import lombok.Value;
-import org.apache.flink.kubernetes.operator.api.reconciler.ReconciliationMetadata;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionJobSpec;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 /**
- * Utility class for encapsulating Kubernetes resource spec and meta fields during serialization.
+ * Last observed status of the Flink Session job.
  */
-@Value
-public class SpecWithMeta<T extends AbstractFlinkSpec> {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@SuperBuilder
+public class FlinkSessionJobStatus extends CommonStatus<FlinkSessionJobSpec> {
 
-    T spec;
-
-    ReconciliationMetadata meta;
+    /**
+     * Status of the last reconcile operation.
+     */
+    private FlinkSessionJobReconciliationStatus reconciliationStatus = new FlinkSessionJobReconciliationStatus();
 }

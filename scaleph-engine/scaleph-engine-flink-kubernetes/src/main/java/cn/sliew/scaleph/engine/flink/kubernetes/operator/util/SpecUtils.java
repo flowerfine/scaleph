@@ -19,10 +19,9 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.operator.util;
 
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.AbstractFlinkResource;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.AbstractFlinkSpec;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.flink.kubernetes.operator.api.AbstractFlinkResource;
-import org.apache.flink.kubernetes.operator.api.reconciler.ReconciliationMetadata;
-import org.apache.flink.kubernetes.operator.api.spec.AbstractFlinkSpec;
 
 import javax.annotation.Nullable;
 

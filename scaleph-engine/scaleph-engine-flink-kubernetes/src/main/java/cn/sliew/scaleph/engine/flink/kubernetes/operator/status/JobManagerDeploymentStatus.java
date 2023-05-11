@@ -16,19 +16,36 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.util;
-
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.AbstractFlinkSpec;
-import lombok.Value;
-import org.apache.flink.kubernetes.operator.api.reconciler.ReconciliationMetadata;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
 /**
- * Utility class for encapsulating Kubernetes resource spec and meta fields during serialization.
+ * Status of the Flink JobManager Kubernetes deployment.
  */
-@Value
-public class SpecWithMeta<T extends AbstractFlinkSpec> {
+public enum JobManagerDeploymentStatus {
 
-    T spec;
+    /**
+     * JobManager is running and ready to receive REST API calls.
+     */
+    READY,
 
-    ReconciliationMetadata meta;
+    /**
+     * JobManager is running but not ready yet to receive REST API calls.
+     */
+    DEPLOYED_NOT_READY,
+
+    /**
+     * JobManager process is starting up.
+     */
+    DEPLOYING,
+
+    /**
+     * JobManager deployment not found, probably not started or killed by user.
+     */
+    // TODO: currently a mix of SUSPENDED and ERROR, needs cleanup
+    MISSING,
+
+    /**
+     * Deployment in terminal error, requires spec change for reconciliation to continue.
+     */
+    ERROR;
 }

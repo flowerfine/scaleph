@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.lifecycle;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;

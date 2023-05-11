@@ -16,19 +16,32 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.util;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.AbstractFlinkSpec;
-import lombok.Value;
-import org.apache.flink.kubernetes.operator.api.reconciler.ReconciliationMetadata;
+import io.fabric8.kubernetes.model.annotation.LabelSelector;
+import io.fabric8.kubernetes.model.annotation.StatusReplicas;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * Utility class for encapsulating Kubernetes resource spec and meta fields during serialization.
+ * Last observed status of the Flink job within an application deployment.
  */
-@Value
-public class SpecWithMeta<T extends AbstractFlinkSpec> {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
+public class TaskManagerInfo {
+    /**
+     * TaskManager label selector.
+     */
+    @LabelSelector
+    private String labelSelector;
 
-    T spec;
-
-    ReconciliationMetadata meta;
+    /**
+     * Number of TaskManager replicas if defined in the spec.
+     */
+    @StatusReplicas
+    private int replicas = 0;
 }
