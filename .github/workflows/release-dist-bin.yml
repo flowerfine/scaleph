@@ -23,7 +23,7 @@ jobs:
       - id: get_project_version
         name: Get Project Version
         run: |
-          echo "::set-env VERSION=::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null)"
+          echo "PROJECT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null)" >> $GITHUB_ENV
       - id: run_build
         name: Run Maven Build
         run: mvn clean package -Pdist -DskipTests
@@ -31,8 +31,8 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: scaleph-dist/target/scleph-${{ steps.get_project_version.outputs.VERSION }}-bin.tar.gz
-          asset_name: mything
+          file: scaleph-dist/target/scleph-${{ env.PROJECT_VERSION }}-bin.tar.gz
+          asset_name: scleph-${{ env.PROJECT_VERSION }}-bin
           tag: ${{ github.ref }}
           overwrite: true
           body: |
