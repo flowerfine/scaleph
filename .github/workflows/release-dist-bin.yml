@@ -1,9 +1,13 @@
 name: Release dist bin
 
+permissions:
+  contents: write
+
 on:
   release:
     types:
       - created
+      - edited
 
 jobs:
   Build-Release:
