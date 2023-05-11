@@ -57,6 +57,7 @@
                                 </goals>
                                 <phase>package</phase>
                                 <configuration>
+                                    <finalName>${project.parent.build.finalName}-${project.parent.version}</finalName>
                                     <descriptors>
                                         <descriptor>src/assembly/scaleph-dist.xml</descriptor>
                                     </descriptors>
