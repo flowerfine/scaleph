@@ -36,7 +36,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: scaleph-dist/target/scaleph-${{ env.PROJECT_VERSION }}-bin.tar.gz
-          asset_name: scaleph-${{ env.PROJECT_VERSION }}-bin
+          asset_name: scaleph-${{ env.PROJECT_VERSION }}-bin.tar.gz
           tag: ${{ github.ref }}
           overwrite: true
           body: |
