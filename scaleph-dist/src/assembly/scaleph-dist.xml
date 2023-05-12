@@ -52,6 +52,23 @@
             <outputDirectory>ui</outputDirectory>
             <fileMode>0644</fileMode>
         </fileSet>
+        <fileSet>
+            <directory>../tools/docker/mysql/init.d</directory>
+            <includes>
+                <include>*.sql</include>
+            </includes>
+            <outputDirectory>sql</outputDirectory>
+            <fileMode>0644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>..</directory>
+            <includes>
+                <include>README.md</include>
+                <include>LICENSE</include>
+            </includes>
+            <outputDirectory>.</outputDirectory>
+            <fileMode>0644</fileMode>
+        </fileSet>
     </fileSets>
 
     <dependencySets>

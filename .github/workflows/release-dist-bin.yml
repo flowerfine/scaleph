@@ -30,8 +30,9 @@ jobs:
           echo "PROJECT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null)" >> $GITHUB_ENV
       - id: run_build
         name: Run Maven Build
-        run: mvn clean package -Pdist -DskipTests
-      - name: Upload binaries to release
+        run: mvn -B clean package -Pdist -DskipTests
+      - id: upload_assets
+        name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
