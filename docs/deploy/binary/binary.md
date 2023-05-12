@@ -37,7 +37,18 @@ scaleph-1.0.6
 
 Execute the sql scripts under `sql` directory.
 
-> We will use tools to do this later.
+Or
+
+User the script:
+```shell
+# The script will connect to the database and execute all files ends with ".sql"
+./bin/tools.sh init-database \
+  --driver com.mysql.cj.jdbc.Driver \
+  --url jdbc:mysql://127.0.0.1:3306 \
+  --username root \
+  --password 123456 \
+  --sql-files sql
+```
 
 ## Config the project
 

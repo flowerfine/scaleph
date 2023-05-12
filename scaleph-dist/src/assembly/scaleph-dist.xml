@@ -29,10 +29,18 @@
         <fileSet>
             <directory>src/bin</directory>
             <includes>
-                <include>**/*</include>
+                <include>**/*.sh</include>
             </includes>
             <outputDirectory>bin</outputDirectory>
             <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>src/bin</directory>
+            <includes>
+                <include>**/*.java</include>
+            </includes>
+            <outputDirectory>bin</outputDirectory>
+            <fileMode>0644</fileMode>
         </fileSet>
         <fileSet>
             <directory>../scaleph-api/src/main/resources</directory>
