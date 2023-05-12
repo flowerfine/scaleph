@@ -3,7 +3,7 @@ FROM maven:3.8-eclipse-temurin-11 as build
 
 COPY ./ /scaleph
 RUN cd /scaleph && \
-    mvn -B -U clean package -Pdist -DskipTests -Dfast && \
+    mvn -B -U -T 4 clean package -Pdist -DskipTests -Dfast && \
     mvn -B -U package -pl scaleph-ui-react -am -DskipTests && \
     tar -zxf /scaleph/scaleph-dist/target/scaleph-*-bin.tar.gz -C /scaleph/scaleph-dist/target  && \
     mkdir /dist && \
