@@ -175,7 +175,7 @@ const handleError = (
 
 export const request: RequestConfig = {
   timeout: 1800000,
-  baseURL: REACT_APP_ENV === 'dist' || !REACT_APP_ENV ? '/scaleph' : '',
+  baseURL: REACT_APP_ENV === 'dist' ? '/scaleph' : '',
   errorConfig: {},
   requestInterceptors: [requestHeaderInterceptor],
   responseInterceptors: [responseErrorInterceptor],

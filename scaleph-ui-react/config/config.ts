@@ -7,8 +7,8 @@ import routes from './routes';
 const {REACT_APP_ENV} = process.env;
 
 export default defineConfig({
-  publicPath: REACT_APP_ENV === 'dist' || !REACT_APP_ENV ? '/scaleph/ui/' : '/',
-  outputPath: REACT_APP_ENV === 'dist' || !REACT_APP_ENV ? 'dist-bin' : 'dist',
+  publicPath: REACT_APP_ENV === 'dist' ? '/scaleph/ui/' : '/',
+  outputPath: REACT_APP_ENV === 'dist' ? 'dist-bin' : 'dist',
   history: {
     type: 'hash'
   },
