@@ -51,6 +51,8 @@ const Login: React.FC = () => {
     setAuthCode(data);
   };
 
+  const publicPath = process.env.REACT_APP_ENV === 'dist' ? '/scaleph/ui' : ''
+
   return (
     <div className={styles.container}>
       <div className={styles.lang} data-lang>
@@ -58,7 +60,7 @@ const Login: React.FC = () => {
       </div>
       <div className={styles.content}>
         <div className={styles.logoInfo}>
-          <img className={styles.logo} alt="logo" src="/scaleph.svg"/>
+          <img className={styles.logo} alt="logo" src={`${publicPath}/scaleph.svg`}/>
           <span className={styles.title}>Scaleph</span>
         </div>
         <div className={styles.loginForm}>
