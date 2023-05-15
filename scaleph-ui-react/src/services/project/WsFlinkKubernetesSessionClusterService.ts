@@ -72,4 +72,16 @@ export const WsFlinkKubernetesSessionClusterService = {
     });
   },
 
+  deploy: async (row: WsFlinkKubernetesSessionCluster) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/deploy/${row.id}`, {
+      method: 'POST',
+    });
+  },
+
+  shutdown: async (row: WsFlinkKubernetesSessionCluster) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/shutdown/${row.id}`, {
+      method: 'POST',
+    });
+  },
+
 };

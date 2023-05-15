@@ -1,4 +1,4 @@
-import {history, useIntl, useModel} from "umi";
+import {connect, history, useIntl, useModel} from "umi";
 import React, {useRef} from "react";
 import {ProCard, ProFormInstance, StepsForm} from "@ant-design/pro-components";
 import YAML from "yaml";
@@ -8,10 +8,12 @@ import SessionClusterYAMLStepForm from "@/pages/Project/Workspace/Kubernetes/Ses
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
 
-const FlinkKubernetesSessionClusterSteps: React.FC = () => {
+const FlinkKubernetesSessionClusterSteps: React.FC = (props: any) => {
   const intl = useIntl();
   const formRef = useRef<ProFormInstance>();
   const {template, setTemplate, sessionCluster, setSessionCluster} = useModel('sessionClusterStep');
+
+  console.log('FlinkKubernetesSessionClusterSteps', props)
 
   return (
     <ProCard className={'step-form-submitter'}>
@@ -79,4 +81,5 @@ const FlinkKubernetesSessionClusterSteps: React.FC = () => {
   )
 }
 
-export default FlinkKubernetesSessionClusterSteps;
+const mapModelToProps = (model: any) => ({model})
+export default connect(mapModelToProps)(FlinkKubernetesSessionClusterSteps);

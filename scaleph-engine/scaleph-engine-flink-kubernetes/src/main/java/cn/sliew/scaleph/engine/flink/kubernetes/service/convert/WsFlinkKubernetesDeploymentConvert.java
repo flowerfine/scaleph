@@ -21,6 +21,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.convert;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesDeployment;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.IngressSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
@@ -59,6 +60,12 @@ public interface WsFlinkKubernetesDeploymentConvert extends BaseConvert<WsFlinkK
         if (CollectionUtils.isEmpty(dto.getFlinkConfiguration()) == false) {
             entity.setFlinkConfiguration(JacksonUtil.toJsonString(dto.getFlinkConfiguration()));
         }
+        if (CollectionUtils.isEmpty(dto.getLogConfiguration()) == false) {
+            entity.setLogConfiguration(JacksonUtil.toJsonString(dto.getLogConfiguration()));
+        }
+        if (dto.getIngress() != null) {
+            entity.setIngress(JacksonUtil.toJsonString(dto.getIngress()));
+        }
         if (dto.getJob() != null) {
             entity.setJob(JacksonUtil.toJsonString(dto.getJob()));
         }
@@ -83,6 +90,12 @@ public interface WsFlinkKubernetesDeploymentConvert extends BaseConvert<WsFlinkK
         }
         if (StringUtils.hasText(entity.getFlinkConfiguration())) {
             dto.setFlinkConfiguration(JacksonUtil.parseJsonString(entity.getFlinkConfiguration(), Map.class));
+        }
+        if (StringUtils.hasText(entity.getLogConfiguration())) {
+            dto.setLogConfiguration(JacksonUtil.parseJsonString(entity.getLogConfiguration(), Map.class));
+        }
+        if (StringUtils.hasText(entity.getIngress())) {
+            dto.setIngress(JacksonUtil.parseJsonString(entity.getIngress(), IngressSpec.class));
         }
         if (StringUtils.hasText(entity.getJob())) {
             dto.setJob(JacksonUtil.parseJsonString(entity.getJob(), JobSpec.class));

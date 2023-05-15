@@ -16,28 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
+
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionJobSpec;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 /**
- * Enumeration for supported Flink versions.
+ * Last observed status of the Flink Session job.
  */
-public enum FlinkVersion {
-    v1_13,
-    v1_14,
-    v1_15,
-    v1_16,
-    v1_17;
-
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@SuperBuilder
+public class FlinkSessionJobStatus extends CommonStatus<FlinkSessionJobSpec> {
 
     /**
-     * Returns the current version.
-     *
-     * @return The current version.
+     * Status of the last reconcile operation.
      */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
+    private FlinkSessionJobReconciliationStatus reconciliationStatus = new FlinkSessionJobReconciliationStatus();
 }

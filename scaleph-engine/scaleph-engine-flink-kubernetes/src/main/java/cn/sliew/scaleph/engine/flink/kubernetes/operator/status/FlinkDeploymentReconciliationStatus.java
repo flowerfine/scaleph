@@ -16,33 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.resource.template;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
-import cn.sliew.scaleph.kubernetes.Constant;
-import cn.sliew.scaleph.kubernetes.Resource;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import io.fabric8.kubernetes.client.CustomResource;
-import io.fabric8.kubernetes.model.annotation.Group;
-import io.fabric8.kubernetes.model.annotation.Version;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+/**
+ * Status of the last reconcile step for the flink deployment.
+ */
 @Data
-@Group(Constant.GROUP)
-@Version(Constant.VERSION)
-@EqualsAndHashCode
-@JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec", "status"})
-public class FlinkTemplate extends CustomResource<FlinkTemplateSpec, FlinkDeploymentStatus> implements Resource {
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class FlinkDeploymentReconciliationStatus extends ReconciliationStatus<FlinkDeploymentSpec> {
 
     @Override
-    public String getKind() {
-        return Constant.FLINK_TEMPLATE;
+    public Class<FlinkDeploymentSpec> getSpecClass() {
+        return FlinkDeploymentSpec.class;
     }
-
-    @Override
-    public String getApiVersion() {
-        return Constant.API_VERSION;
-    }
-
 }

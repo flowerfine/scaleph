@@ -18,14 +18,25 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.factory;
 
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionClusterSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
-import org.apache.flink.kubernetes.operator.api.FlinkDeployment;
+import org.springframework.beans.BeanUtils;
 
 public enum FlinkDeploymentFactory {
     ;
 
     public static FlinkDeployment fromSessionCluster(FlinkSessionCluster sessionCluster) {
-        return null;
+        FlinkDeployment flinkDeployment = new FlinkDeployment();
+        flinkDeployment.setMetadata(sessionCluster.getMetadata());
+        flinkDeployment.setSpec(buildSpec(sessionCluster.getSpec()));
+        return flinkDeployment;
     }
 
+    private static FlinkDeploymentSpec buildSpec(FlinkSessionClusterSpec flinkSessionClusterSpec) {
+        FlinkDeploymentSpec spec = new FlinkDeploymentSpec();
+        BeanUtils.copyProperties(flinkSessionClusterSpec, spec);
+        return spec;
+    }
 }

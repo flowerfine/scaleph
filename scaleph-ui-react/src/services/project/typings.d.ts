@@ -298,6 +298,8 @@ export type WsFlinkKubernetesDeployment = {
   taskManager?: Record<string, any>;
   podTemplate?: Record<string, any>;
   flinkConfiguration?: Record<string, any>;
+  logConfiguration?: Record<string, any>;
+  ingress?: Record<string, any>;
   deploymentName?: string;
   job?: Record<string, any>;
   remark?: string;

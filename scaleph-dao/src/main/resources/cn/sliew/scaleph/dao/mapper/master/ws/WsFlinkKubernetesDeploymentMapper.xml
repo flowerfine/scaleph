@@ -19,7 +19,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesDeploymentMapper">
 
-    <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesDeployment">
         <result column="id" property="id"/>
         <result column="creator" property="creator"/>
@@ -34,17 +33,19 @@
         <result column="task_manager" property="taskManager"/>
         <result column="pod_template" property="podTemplate"/>
         <result column="flink_configuration" property="flinkConfiguration"/>
+        <result column="log_configuration" property="logConfiguration"/>
+        <result column="ingress" property="ingress"/>
         <result column="deployment_name" property="deploymentName"/>
         <result column="job" property="job"/>
         <result column="remark" property="remark"/>
     </resultMap>
 
-    <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
         kind, `name`, namespace, kuberenetes_options,
         job_manager, task_manager, pod_template,
-        flink_configuration, deployment_name, job, remark
+        flink_configuration, log_configuration, ingress,
+        deployment_name, job, remark
     </sql>
 
 </mapper>

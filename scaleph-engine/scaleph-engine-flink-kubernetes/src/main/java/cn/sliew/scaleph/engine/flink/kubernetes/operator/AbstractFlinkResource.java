@@ -16,28 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator;
+
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.AbstractFlinkSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.CommonStatus;
+import io.fabric8.kubernetes.api.model.Namespaced;
+import io.fabric8.kubernetes.client.CustomResource;
 
 /**
- * Enumeration for supported Flink versions.
+ * Abstract base class Flink resources.
  */
-public enum FlinkVersion {
-    v1_13,
-    v1_14,
-    v1_15,
-    v1_16,
-    v1_17;
+public class AbstractFlinkResource<SPEC extends AbstractFlinkSpec, STATUS extends CommonStatus<SPEC>>
+        extends CustomResource<SPEC, STATUS> implements Namespaced {
 
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
-
-    /**
-     * Returns the current version.
-     *
-     * @return The current version.
-     */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
 }

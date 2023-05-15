@@ -20,6 +20,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
 import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.IngressSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
@@ -60,6 +61,12 @@ public class WsFlinkKubernetesDeploymentDTO extends BaseDTO {
 
     @ApiModelProperty("flink configuration")
     private Map<String, String> flinkConfiguration;
+
+    @ApiModelProperty("log configuration")
+    private Map<String, String> logConfiguration;
+
+    @ApiModelProperty("ingress spec")
+    private IngressSpec ingress;
 
     @ApiModelProperty("deployment name for session job")
     private String deploymentName;

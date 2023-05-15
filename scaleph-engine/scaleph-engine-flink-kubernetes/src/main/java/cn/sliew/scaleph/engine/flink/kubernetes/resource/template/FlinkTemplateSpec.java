@@ -17,11 +17,11 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.template;
 
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.fabric8.kubernetes.api.model.Pod;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.apache.flink.kubernetes.operator.api.spec.*;
 
 import java.util.Map;
 

@@ -53,4 +53,7 @@ public class WsFlinkKubernetesSessionCluster extends BaseDO {
     @TableField("spec")
     private String spec;
 
+    @ApiModelProperty("flink status")
+    @TableField("status")
+    private String status;
 }

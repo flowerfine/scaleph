@@ -16,22 +16,36 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.service;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
-import cn.sliew.scaleph.engine.sql.service.dto.WsFlinkCatalogDTO;
+/**
+ * Status of the Flink JobManager Kubernetes deployment.
+ */
+public enum JobManagerDeploymentStatus {
 
-import java.util.List;
+    /**
+     * JobManager is running and ready to receive REST API calls.
+     */
+    READY,
 
-@Deprecated
-public interface WsFlinkCatalogService {
+    /**
+     * JobManager is running but not ready yet to receive REST API calls.
+     */
+    DEPLOYED_NOT_READY,
 
-    List<WsFlinkCatalogDTO> list();
+    /**
+     * JobManager process is starting up.
+     */
+    DEPLOYING,
 
-    WsFlinkCatalogDTO selectOne(Long id);
+    /**
+     * JobManager deployment not found, probably not started or killed by user.
+     */
+    // TODO: currently a mix of SUSPENDED and ERROR, needs cleanup
+    MISSING,
 
-    int insert(WsFlinkCatalogDTO param);
-
-    int deleteById(Long id);
-
-    int deleteBatch(List<Long> ids);
+    /**
+     * Deployment in terminal error, requires spec change for reconciliation to continue.
+     */
+    ERROR;
 }

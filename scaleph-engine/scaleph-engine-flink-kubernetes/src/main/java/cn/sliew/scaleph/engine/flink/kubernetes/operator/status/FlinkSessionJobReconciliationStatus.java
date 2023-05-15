@@ -16,18 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.ws;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkCatalog;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionJobSpec;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * <p>
- * flink catalog Mapper 接口
- * </p>
+ * Status of the last reconcile step for the flink sessionjob.
  */
-@Repository
-public interface WsFlinkCatalogMapper extends BaseMapper<WsFlinkCatalog> {
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class FlinkSessionJobReconciliationStatus extends ReconciliationStatus<FlinkSessionJobSpec> {
 
+    @Override
+    public Class<FlinkSessionJobSpec> getSpecClass() {
+        return FlinkSessionJobSpec.class;
+    }
 }

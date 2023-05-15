@@ -16,30 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.service;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.util;
 
-import org.apache.flink.table.catalog.Catalog;
-import org.apache.flink.table.catalog.CatalogDatabase;
-import org.apache.flink.table.catalog.CatalogTable;
-import org.apache.flink.table.catalog.CatalogView;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.reconciler.ReconciliationMetadata;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.AbstractFlinkSpec;
+import lombok.Value;
 
-import java.util.List;
+/**
+ * Utility class for encapsulating Kubernetes resource spec and meta fields during serialization.
+ */
+@Value
+public class SpecWithMeta<T extends AbstractFlinkSpec> {
 
-public interface CatalogService {
+    T spec;
 
-    List<Catalog> listCatalogs();
-
-    Catalog getCatalog(String catalog);
-
-    List<CatalogDatabase> listDatabases(String catalog);
-
-    CatalogDatabase getDatabase(String catalog, String database);
-
-    List<CatalogTable> listTables(String catalog, String database);
-
-    CatalogTable getTable(String catalog, String database, String table);
-
-    List<CatalogView> listViews(String catalog, String database);
-
-    CatalogView getView(String catalog, String database, String view);
+    ReconciliationMetadata meta;
 }

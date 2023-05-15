@@ -16,36 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.ws;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.job;
 
-import cn.sliew.scaleph.common.dict.catalog.CatalogType;
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import lombok.Data;
+import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
+import cn.sliew.scaleph.common.jackson.polymorphic.Polymorphic;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.artifact.Artifact;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.savepoint.RestoreStrategy;
 
-/**
- * <p>
- * flink catalog
- * </p>
- */
-@Data
-@TableName("ws_flink_catalog")
-@ApiModel(value = "WsFlinkCatalog对象", description = "flink catalog")
-public class WsFlinkCatalog extends BaseDO {
+import java.util.Map;
 
-    private static final long serialVersionUID = 1L;
+public interface Job extends Polymorphic<FlinkDeploymentMode> {
 
-    @TableField("`type`")
-    private CatalogType type;
+    String getName();
 
-    @TableField("`name`")
-    private String name;
+    Integer getParallelism();
 
-    @TableField("properties")
-    private String properties;
+    Artifact getArtifact();
 
-    @TableField("remark")
-    private String remark;
+    RestoreStrategy getRestoreStrategy();
+
+    Map<String, String> getFlinkConfiguration();
 }

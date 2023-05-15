@@ -16,28 +16,46 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
-/**
- * Enumeration for supported Flink versions.
- */
-public enum FlinkVersion {
-    v1_13,
-    v1_14,
-    v1_15,
-    v1_16,
-    v1_17;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
+public class JobStatus {
 
     /**
-     * Returns the current version.
-     *
-     * @return The current version.
+     * Name of the job.
      */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
+    private String jobName;
+
+    /**
+     * Flink JobId of the Job.
+     */
+    private String jobId;
+
+    /**
+     * Last observed state of the job.
+     */
+    private String state;
+
+    /**
+     * Start time of the job.
+     */
+    private String startTime;
+
+    /**
+     * Update time of the job.
+     */
+    private String updateTime;
+
+    /**
+     * Information about pending and last savepoint for the job.
+     */
+    private SavepointInfo savepointInfo = new SavepointInfo();
 }

@@ -53,6 +53,7 @@ export default defineConfig({
   // Fast Refresh 热更新
   fastRefresh: true,
   presets: ['umi-presets-pro'],
+  dva: {}
   // openAPI: [
   //   {
   //     requestLibPath: "import { request } from '@umijs/max'",

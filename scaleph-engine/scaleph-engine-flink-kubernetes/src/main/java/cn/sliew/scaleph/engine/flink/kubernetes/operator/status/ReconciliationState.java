@@ -16,28 +16,27 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
 /**
- * Enumeration for supported Flink versions.
+ * Current state of the reconciliation.
  */
-public enum FlinkVersion {
-    v1_13,
-    v1_14,
-    v1_15,
-    v1_16,
-    v1_17;
-
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
+public enum ReconciliationState {
 
     /**
-     * Returns the current version.
-     *
-     * @return The current version.
+     * The lastReconciledSpec is currently deployed.
      */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
+    DEPLOYED,
+    /**
+     * The spec is being upgraded.
+     */
+    UPGRADING,
+    /**
+     * In the process of rolling back to the lastStableSpec.
+     */
+    ROLLING_BACK,
+    /**
+     * Rolled back to the lastStableSpec.
+     */
+    ROLLED_BACK
 }

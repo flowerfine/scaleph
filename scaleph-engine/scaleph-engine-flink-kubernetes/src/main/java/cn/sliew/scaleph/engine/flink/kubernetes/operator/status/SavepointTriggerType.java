@@ -16,26 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.sql.service.convert;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
 
-import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkCatalog;
-import cn.sliew.scaleph.engine.sql.service.dto.WsFlinkCatalogDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
-import org.mapstruct.factory.Mappers;
-
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WsFlinkCatalogConvert extends BaseConvert<WsFlinkCatalog, WsFlinkCatalogDTO> {
-    WsFlinkCatalogConvert INSTANCE = Mappers.getMapper(WsFlinkCatalogConvert.class);
-
-    @Override
-    default WsFlinkCatalog toDo(WsFlinkCatalogDTO dto) {
-        return null;
-    }
-
-    @Override
-    default WsFlinkCatalogDTO toDto(WsFlinkCatalog entity) {
-        return null;
-    }
+/**
+ * Savepoint trigger mechanism.
+ */
+public enum SavepointTriggerType {
+    /**
+     * Savepoint manually triggered by changing the savepointTriggerNonce.
+     */
+    MANUAL,
+    /**
+     * Savepoint periodically triggered by the operator.
+     */
+    PERIODIC,
+    /**
+     * Savepoint triggered during stateful upgrade.
+     */
+    UPGRADE,
+    /**
+     * Savepoint trigger mechanism unknown, such as savepoint retrieved directly from Flink job.
+     */
+    UNKNOWN
 }

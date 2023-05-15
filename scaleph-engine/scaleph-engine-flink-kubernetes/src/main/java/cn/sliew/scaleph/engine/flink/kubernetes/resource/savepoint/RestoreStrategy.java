@@ -16,28 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.engine.flink.kubernetes.resource.savepoint;
 
-/**
- * Enumeration for supported Flink versions.
- */
-public enum FlinkVersion {
-    v1_13,
-    v1_14,
-    v1_15,
-    v1_16,
-    v1_17;
+import lombok.Data;
 
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
+@Data
+public class RestoreStrategy {
 
-    /**
-     * Returns the current version.
-     *
-     * @return The current version.
-     */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
+    private String type;
+    private String initialSavepointPath;
+    private Boolean allowNonRestoredState;
 }

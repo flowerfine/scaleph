@@ -16,28 +16,32 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.operator.spec;
+package cn.sliew.scaleph.engine.flink.kubernetes.operator.status;
+
+import io.fabric8.kubernetes.model.annotation.LabelSelector;
+import io.fabric8.kubernetes.model.annotation.StatusReplicas;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * Enumeration for supported Flink versions.
+ * Last observed status of the Flink job within an application deployment.
  */
-public enum FlinkVersion {
-    v1_13,
-    v1_14,
-    v1_15,
-    v1_16,
-    v1_17;
-
-    public boolean isNewerVersionThan(FlinkVersion otherVersion) {
-        return this.ordinal() > otherVersion.ordinal();
-    }
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
+public class TaskManagerInfo {
+    /**
+     * TaskManager label selector.
+     */
+    @LabelSelector
+    private String labelSelector;
 
     /**
-     * Returns the current version.
-     *
-     * @return The current version.
+     * Number of TaskManager replicas if defined in the spec.
      */
-    public static FlinkVersion current() {
-        return values()[values().length - 1];
-    }
+    @StatusReplicas
+    private int replicas = 0;
 }
