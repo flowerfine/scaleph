@@ -54,7 +54,9 @@ export default {
   'app.common.operate.enable.label': '启用',
   'app.common.operate.grant.label': '授权',
   'app.common.operate.grant.title': '{name}授权',
-  'app.common.operate.detail.label': '查看',
+  'app.common.operate.detail.label': '详情',
+  'app.common.operate.start.label': '启动',
+  'app.common.operate.stop.label': '停止',
 
   'app.common.validate.characterWord': '只能输入字母数字、下划线',
   'app.common.validate.characterWord2': '只能输入字母数字、下划线和点号',

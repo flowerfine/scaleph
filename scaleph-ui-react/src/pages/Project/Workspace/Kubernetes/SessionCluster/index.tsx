@@ -1,7 +1,7 @@
-import {useAccess, useIntl, history} from "umi";
+import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tooltip} from "antd";
-import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
+import {Button, message, Modal, Space} from "antd";
+import {CaretRightOutlined, CloseOutlined, DeleteOutlined, EyeOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {PRIVILEGE_CODE} from "@/constant";
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
@@ -51,54 +51,61 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
       render: (_, record) => (
         <Space>
           {access.canAccess(PRIVILEGE_CODE.datadevProjectEdit) && (
-            <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
-              <Button
-                shape="default"
-                type="link"
-                icon={<EditOutlined/>}
-                onClick={() => {
-                  // setDeploymentFormData({visiable: true, data: record});
-                }}
-              />
-            </Tooltip>
+            <Button
+              shape="default"
+              type="link"
+              icon={<EyeOutlined/>}
+              onClick={() => {
+                // setDeploymentFormData({visiable: true, data: record});
+              }}>
+              {intl.formatMessage({id: 'app.common.operate.detail.label'})}
+            </Button>
           )}
           {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Tooltip title={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.detail'})}>
-              <Button
-                shape="default"
-                type="link"
-                icon={<NodeIndexOutlined/>}
-                onClick={() => {
-                  // history.push("/workspace/flink/kubernetes/deployment/detail", record)
-                }}
-              />
-            </Tooltip>
+            <Button
+              shape="default"
+              type="link"
+              icon={<CaretRightOutlined/>}
+              onClick={() => WsFlinkKubernetesSessionClusterService.deploy(record)}
+            >
+              {intl.formatMessage({id: 'app.common.operate.start.label'})}
+            </Button>
+          )}
+          {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
+            <Button
+              shape="default"
+              type="link"
+              icon={<CloseOutlined/>}
+              onClick={() => WsFlinkKubernetesSessionClusterService.shutdown(record)}
+            >
+              {intl.formatMessage({id: 'app.common.operate.stop.label'})}
+            </Button>
           )}
           {access.canAccess(PRIVILEGE_CODE.datadevDatasourceDelete) && (
-            <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
-              <Button
-                shape="default"
-                type="link"
-                icon={<DeleteOutlined/>}
-                onClick={() => {
-                  Modal.confirm({
-                    title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
-                    content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
-                    okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
-                    okButtonProps: {danger: true},
-                    cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
-                    onOk() {
-                      WsFlinkKubernetesSessionClusterService.delete(record).then((d) => {
-                        if (d.success) {
-                          message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
-                          actionRef.current?.reload();
-                        }
-                      });
-                    },
-                  });
-                }}
-              />
-            </Tooltip>
+            <Button
+              shape="default"
+              type="link"
+              icon={<DeleteOutlined/>}
+              onClick={() => {
+                Modal.confirm({
+                  title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                  content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
+                  okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                  okButtonProps: {danger: true},
+                  cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                  onOk() {
+                    WsFlinkKubernetesSessionClusterService.delete(record).then((d) => {
+                      if (d.success) {
+                        message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
+                        actionRef.current?.reload();
+                      }
+                    });
+                  },
+                });
+              }}
+            >
+              {intl.formatMessage({id: 'app.common.operate.delete.label'})}
+            </Button>
           )}
         </Space>
       ),
