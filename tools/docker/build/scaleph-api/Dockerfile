@@ -2,7 +2,13 @@ ARG BASE_RELEASE_IMAGE=eclipse-temurin:11-focal
 FROM maven:3.8-eclipse-temurin-11 as build
 
 COPY ./ /scaleph
-RUN cd /scaleph && mvn -B -U -T 4 clean package -DskipTests -Dfast -am --projects scaleph-api
+RUN cd /scaleph && \
+    mvn -B -U -T 4 clean package -Pdist -DskipTests -Dfast && \
+    mvn -B -U package -pl scaleph-ui-react -am -DskipTests && \
+    tar -zxf /scaleph/scaleph-dist/target/scaleph-*-bin.tar.gz -C /scaleph/scaleph-dist/target  && \
+    mkdir /dist && \
+    cp -r /scaleph/scaleph-dist/target/scaleph-*/* /dist
+
 
 # BASE_RELEASE_IMAGE argument must be defined twice
 ARG BASE_RELEASE_IMAGE=eclipse-temurin:11-focal
@@ -45,8 +51,8 @@ RUN mkdir -p $SCALEPH_HOME
 
 WORKDIR $SCALEPH_HOME
 
-COPY --from=build /scaleph/scaleph-api/target/scaleph-api*.jar $SCALEPH_HOME/scaleph.jar
+COPY --from=build /dist $SCALEPH_HOME/
 
 EXPOSE 8080 8080
 
-ENTRYPOINT ["sh","-c","java -jar /opt/scaleph/scaleph.jar ${ENV_PARAMS}"]
+ENTRYPOINT ["sh","-c","java -cp /opt/scaleph/libs/* cn.sliew.scaleph.Application ${ENV_PARAMS}"]

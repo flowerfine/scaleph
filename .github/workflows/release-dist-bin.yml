@@ -1,0 +1,44 @@
+name: Release dist bin
+
+permissions:
+  contents: write
+
+on:
+  release:
+    types:
+      - created
+      - edited
+
+jobs:
+  Build-Release:
+    name: Build release binary dist
+    runs-on: ubuntu-latest
+    steps:
+      - id: checkout
+        name: Checkout Codes
+        uses: actions/checkout@v3
+      - id: prepare_jdk
+        name: Prepare JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'oracle'
+          java-version: 17
+          cache: 'maven'
+      - id: get_project_version
+        name: Get Project Version
+        run: |
+          echo "PROJECT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null)" >> $GITHUB_ENV
+      - id: run_build
+        name: Run Maven Build
+        run: mvn -B -U -T 4 clean package -Pdist -DskipTests -Dfast
+      - id: upload_assets
+        name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: scaleph-dist/target/scaleph-${{ env.PROJECT_VERSION }}-bin.tar.gz
+          asset_name: scaleph-${{ env.PROJECT_VERSION }}-bin.tar.gz
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: |
+            Release ${{ github.ref }}
