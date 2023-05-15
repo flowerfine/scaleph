@@ -75,7 +75,7 @@ please refer [website](https://flowerfine.github.io/scaleph/#/)
 * deploy. For different deployment purpose such as develop, test or production, Scaleph make the best effort for people deploy project on local, docker and kubernetes.
   * [docker](docs/deploy/docker/docker.md). require fluent network.
   * [kubernetes](docs/deploy/kubernetes/kubernetes.md). work in process.
-
+  * [binary](docs/deploy/binary/binary.md). you can get the binary from [github](https://github.com/flowerfine/scaleph/releases) or [build yourself](docs/build/build-local.md).
 
 ## RoadMap
 

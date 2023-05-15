@@ -1,5 +1,10 @@
 import { Settings as LayoutSettings } from '@ant-design/pro-components';
 
+const {PUBLIC_PATH} = process.env;
+const baseURL = PUBLIC_PATH ?
+  (PUBLIC_PATH.endsWith("/") ? PUBLIC_PATH.substring(0, PUBLIC_PATH.length - 1) : PUBLIC_PATH)
+  : ''
+
 const Settings: LayoutSettings & {
   pwa?: boolean;
   logo?: string;
@@ -14,7 +19,7 @@ const Settings: LayoutSettings & {
   splitMenus: true,
   title: 'Scaleph',
   pwa: false,
-  logo: '/scaleph.svg',
+  logo: `${baseURL}/scaleph.svg`,
   iconfontUrl: '',
 };
 
