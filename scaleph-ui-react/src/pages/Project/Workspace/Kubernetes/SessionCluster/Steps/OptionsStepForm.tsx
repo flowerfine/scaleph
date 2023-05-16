@@ -1,4 +1,4 @@
-import {useModel} from "umi";
+import {connect} from "umi";
 import React, {useEffect} from "react";
 import {Form} from "antd";
 import {ProCard} from "@ant-design/pro-components";
@@ -12,22 +12,18 @@ import AdvancedHighAvailability
   from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedHighAvailability";
 import AdvancedResource from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedResource";
 import AdvancedAdditional from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedAdditional";
-import {
-  WsFlinkKubernetesTemplateService
-} from "@/services/project/WsFlinkKubernetesTemplateService";
+import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 
-const SessionClusterOptionsStepForm: React.FC = () => {
+const SessionClusterOptionsStepForm: React.FC = (props: any) => {
   const form = Form.useFormInstance()
 
-  const {template} = useModel('sessionClusterStep', (model) => ({
-    template: model.template
-  }));
+  console.log('SessionClusterOptionsStepForm', props)
 
   useEffect(() => {
-    if (template) {
-      form.setFieldsValue(WsFlinkKubernetesTemplateService.parseData(template))
+    if (props.sessionClusterStep2.template) {
+      form.setFieldsValue(WsFlinkKubernetesTemplateService.parseData(props.sessionClusterStep2.template))
     }
-  }, [template]);
+  }, [props.sessionClusterStep2.template]);
 
   return (
     <ProCard>
@@ -43,4 +39,5 @@ const SessionClusterOptionsStepForm: React.FC = () => {
   )
 }
 
-export default SessionClusterOptionsStepForm
+const mapModelToProps = ({sessionClusterStep2}: any) => ({sessionClusterStep2})
+export default connect(mapModelToProps)(SessionClusterOptionsStepForm);
