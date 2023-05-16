@@ -22,6 +22,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpe
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionClusterSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
+import io.fabric8.kubernetes.api.model.ObjectMeta;
 import org.springframework.beans.BeanUtils;
 
 public enum FlinkDeploymentFactory {
@@ -29,9 +30,15 @@ public enum FlinkDeploymentFactory {
 
     public static FlinkDeployment fromSessionCluster(FlinkSessionCluster sessionCluster) {
         FlinkDeployment flinkDeployment = new FlinkDeployment();
-        flinkDeployment.setMetadata(sessionCluster.getMetadata());
+        flinkDeployment.setMetadata(buildMetadata(sessionCluster.getMetadata()));
         flinkDeployment.setSpec(buildSpec(sessionCluster.getSpec()));
         return flinkDeployment;
+    }
+
+    private static ObjectMeta buildMetadata(ObjectMeta objectMeta) {
+        ObjectMeta meta = new ObjectMeta();
+        BeanUtils.copyProperties(objectMeta, meta);
+        return meta;
     }
 
     private static FlinkDeploymentSpec buildSpec(FlinkSessionClusterSpec flinkSessionClusterSpec) {
