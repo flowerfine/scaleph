@@ -11,9 +11,14 @@ import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlink
 const FlinkKubernetesSessionClusterSteps: React.FC = (props: any) => {
   const intl = useIntl();
   const formRef = useRef<ProFormInstance>();
-  const {template, setTemplate, sessionCluster, setSessionCluster} = useModel('sessionClusterStep');
+  const { sessionCluster, setSessionCluster} = useModel('sessionClusterStep');
 
-  console.log('FlinkKubernetesSessionClusterSteps', props)
+  const onTemplate = (templateId: number) => {
+    props.dispatch({
+      type: 'sessionClusterStep2/queryTemplate',
+      payload: templateId
+    })
+  }
 
   return (
     <ProCard className={'step-form-submitter'}>
@@ -24,7 +29,7 @@ const FlinkKubernetesSessionClusterSteps: React.FC = (props: any) => {
           rowProps: {gutter: [16, 8]}
         }}
         onFinish={(values) => {
-          const newTemplate = WsFlinkKubernetesTemplateService.formatData(template, values)
+          const newTemplate = WsFlinkKubernetesTemplateService.formatData(props.sessionClusterStep2.template, values)
           const param = {
             clusterCredentialId: values.cluster,
             name: newTemplate.metadata?.name,
@@ -36,19 +41,13 @@ const FlinkKubernetesSessionClusterSteps: React.FC = (props: any) => {
               history.back()
             }
           })
-
         }}>
         <StepsForm.StepForm
           name="cluster"
           title={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.steps.cluster'})}
           style={{width: 1000}}
           onFinish={() => {
-            const templateId = formRef.current?.getFieldsValue(true).template
-            WsFlinkKubernetesTemplateService.selectOne(templateId).then((response) => {
-              if (response.data) {
-                setTemplate(response.data)
-              }
-            })
+            onTemplate(formRef.current?.getFieldsValue(true).template)
             return Promise.resolve(true)
           }}>
           <SessionClusterClusterStepForm/>
@@ -59,7 +58,7 @@ const FlinkKubernetesSessionClusterSteps: React.FC = (props: any) => {
           title={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.steps.options'})}
           style={{width: 1000}}
           onFinish={() => {
-            const newTemplate = WsFlinkKubernetesTemplateService.formatData(template, formRef.current?.getFieldsValue(true))
+            const newTemplate = WsFlinkKubernetesTemplateService.formatData(props.sessionClusterStep2.template, formRef.current?.getFieldsValue(true))
             WsFlinkKubernetesSessionClusterService.fromTemplate(newTemplate).then((response) => {
               if (response.data) {
                 setSessionCluster(YAML.stringify(response.data))
@@ -81,5 +80,5 @@ const FlinkKubernetesSessionClusterSteps: React.FC = (props: any) => {
   )
 }
 
-const mapModelToProps = (model: any) => ({model})
+const mapModelToProps = ({sessionClusterStep2}: any) => ({sessionClusterStep2})
 export default connect(mapModelToProps)(FlinkKubernetesSessionClusterSteps);

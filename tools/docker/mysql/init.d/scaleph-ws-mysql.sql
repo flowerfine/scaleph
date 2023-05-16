@@ -333,7 +333,7 @@ CREATE TABLE ws_flink_kubernetes_template
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment template';
 
 INSERT INTO `ws_flink_kubernetes_template` (`id`, `name`, `metadata`, `spec`, `creator`, `editor`)
-VALUES (1, 'default', '{\"name\":\"default\",\"namespace\":\"default\"}', '{}', 'sys', 'sys');
+VALUES (1, 'default', '{\"name\":\"default\",\"namespace\":\"default\"}', '{"image":"flink:1.16","imagePullPolicy":"IfNotPresent","serviceAccount":"flink","flinkVersion":"v1_16","jobManager":{"resource":{"cpu":1,"memory":"1G"},"replicas":1},"taskManager":{"resource":{"cpu":1,"memory":"1G"},"replicas":1},"flinkConfiguration":{"execution.checkpointing.interval":"10s","execution.checkpointing.timeout":"10min","execution.checkpointing.max-concurrent-checkpoints":"1","execution.checkpointing.alignment-timeout":"10s","state.checkpoints.num-retained":"1","kubernetes.operator.savepoint.history.max.count":"10","kubernetes.operator.cluster.health-check.restarts.threshold":"64"}}sc', 'sys', 'sys');
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_deployment;
 CREATE TABLE ws_flink_kubernetes_deployment

@@ -26,6 +26,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSession
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.kubernetes.service.KuberenetesService;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.utils.Serialization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,8 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
         WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = wsFlinkKubernetesSessionClusterService.selectOne(sessionClusterId);
         KubernetesClient client = getClient(sessionClusterDTO);
         FlinkDeployment deployment = getFlinkDeployment(sessionClusterDTO);
-        client.resource(deployment).createOrReplace();
+        // fixme 这里多做了一层转化，用对象会报错
+        client.resource(Serialization.asYaml(deployment)).createOrReplace();
     }
 
     @Override
@@ -50,7 +52,7 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
         WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = wsFlinkKubernetesSessionClusterService.selectOne(sessionClusterId);
         KubernetesClient client = getClient(sessionClusterDTO);
         FlinkDeployment deployment = getFlinkDeployment(sessionClusterDTO);
-        client.resource(deployment).delete();
+        client.resource(Serialization.asYaml(deployment)).delete();
     }
 
     private KubernetesClient getClient(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO) {
