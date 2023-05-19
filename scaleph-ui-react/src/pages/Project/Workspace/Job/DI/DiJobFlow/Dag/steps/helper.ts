@@ -22,7 +22,7 @@ export const StepSchemaService = {
   formatSchema: (values: Record<string, any>) => {
     const fields: Record<string, any> = {}
     values[SchemaParams.fieldArray]?.forEach(function (item: Record<string, any>) {
-      fields[SchemaParams.field] = item[SchemaParams.type];
+      fields[item[SchemaParams.field]] = item[SchemaParams.type];
     });
     const schema: Record<string, any> = {}
     schema[SchemaParams.fields] = fields;
