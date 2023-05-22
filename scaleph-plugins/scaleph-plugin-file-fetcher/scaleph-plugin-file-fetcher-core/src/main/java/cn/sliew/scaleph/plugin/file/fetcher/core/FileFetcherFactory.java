@@ -16,23 +16,28 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.file.fetcher.core.cli;
+package cn.sliew.scaleph.plugin.file.fetcher.core;
 
-import lombok.Getter;
-import org.apache.commons.cli.CommandLine;
+import cn.sliew.scaleph.plugin.framework.core.PluginSPILoader;
+import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 
+import java.net.URI;
+import java.util.Optional;
 import java.util.Properties;
 
-import static cn.sliew.scaleph.plugin.file.fetcher.core.cli.OptionsParser.DYNAMIC_PROPERTIES;
+public enum FileFetcherFactory {
+    ;
 
-@Getter
-public class DynamicPropertiesOptions extends CommandLineOptions {
+    private static PluginSPILoader<FileFetcher> pluginPluginSPILoader = new PluginSPILoader<>(FileFetcher.class, FileFetcher.class.getClassLoader());
 
-    private final Properties properties;
-
-    public DynamicPropertiesOptions(CommandLine line) {
-        super(line);
-        this.properties = line.getOptionProperties(DYNAMIC_PROPERTIES);
+    public static Optional<FileFetcher> find(URI uri, Properties props) {
+        return pluginPluginSPILoader.getServices().values().stream()
+                .filter(fetcher -> fetcher.support(uri))
+                .findFirst()
+                .map(fetcher -> {
+                    fetcher.configure(PropertyContext.fromProperties(props));
+                    return fetcher;
+                });
     }
 
 }

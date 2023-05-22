@@ -16,8 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.fetcher;
+package cn.sliew.scaleph.plugin.file.fetcher;
 
-public interface FileFetcherFactory {
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
+public class CliEntrypoint {
+
+    public static void main(String[] args) {
+        SpringApplication.run(CliEntrypoint.class, args);
+    }
 }

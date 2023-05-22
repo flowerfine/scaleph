@@ -295,6 +295,11 @@
                 <artifactId>scaleph-plugin-seatunnel-connectors</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-plugin-file-fetcher-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>

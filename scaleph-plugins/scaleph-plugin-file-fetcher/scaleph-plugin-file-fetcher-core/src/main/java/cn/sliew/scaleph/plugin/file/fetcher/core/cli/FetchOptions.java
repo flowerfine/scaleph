@@ -21,19 +21,24 @@ package cn.sliew.scaleph.plugin.file.fetcher.core.cli;
 import lombok.Getter;
 import org.apache.commons.cli.CommandLine;
 
-import static cn.sliew.scaleph.plugin.file.fetcher.core.cli.OptionsParser.PATH_OPTION;
-import static cn.sliew.scaleph.plugin.file.fetcher.core.cli.OptionsParser.URI_OPTION;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Properties;
+
+import static cn.sliew.scaleph.plugin.file.fetcher.core.cli.OptionsParser.*;
 
 @Getter
 public class FetchOptions extends CommandLineOptions {
 
-    private final String uri;
+    private final URI uri;
     private final String path;
+    private final Properties properties;
 
-    public FetchOptions(CommandLine line) {
+    public FetchOptions(CommandLine line) throws URISyntaxException {
         super(line);
-        this.uri = line.getOptionValue(URI_OPTION);
+        this.uri = new URI(line.getOptionValue(URI_OPTION));
         this.path = line.getOptionValue(PATH_OPTION);
+        this.properties = line.getOptionProperties(DYNAMIC_PROPERTIES);
     }
 
 }

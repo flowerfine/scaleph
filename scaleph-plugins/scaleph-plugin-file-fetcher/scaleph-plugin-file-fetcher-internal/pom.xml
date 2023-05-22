@@ -22,15 +22,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>scaleph-plugins</artifactId>
+        <artifactId>scaleph-plugin-file-fetcher</artifactId>
         <version>1.0.5-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>scaleph-plugin-file-fetcher</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>scaleph-plugin-file-fetcher-internal</artifactId>
 
-    <modules>
-        <module>scaleph-plugin-file-fetcher-core</module>
-        <module>scaleph-plugin-file-fetcher-internal</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-plugin-file-fetcher-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-storage</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

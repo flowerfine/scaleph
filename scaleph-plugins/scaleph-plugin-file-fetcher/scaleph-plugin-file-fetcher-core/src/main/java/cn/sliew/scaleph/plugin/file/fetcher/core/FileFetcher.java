@@ -16,9 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.storage.fetcher;
+package cn.sliew.scaleph.plugin.file.fetcher.core;
 
-public interface FileFetcher {
+import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 
+import java.io.IOException;
+import java.net.URI;
 
+public abstract class FileFetcher extends AbstractPlugin {
+
+    public abstract boolean support(URI uri);
+
+    public abstract void fetch(URI uri, String path) throws IOException;
 }
