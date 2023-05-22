@@ -51,7 +51,7 @@ create table ws_flink_artifact_jar
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key idx_flink_artifact (flink_artifact_id)
+    key               idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment = 'flink artifact jar';
 
 DROP TABLE IF EXISTS ws_flink_artifact_sql;
@@ -67,7 +67,7 @@ CREATE TABLE ws_flink_artifact_sql
     editor            varchar(32),
     update_time       datetime     not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    key idx_flink_artifact (flink_artifact_id)
+    key               idx_flink_artifact (flink_artifact_id)
 ) ENGINE = INNODB COMMENT = 'flink artifact sql';
 
 /* 数据集成-作业信息*/
@@ -216,7 +216,7 @@ CREATE TABLE ws_flink_cluster_instance
     update_time             timestamp default current_timestamp on update current_timestamp comment '修改时间',
     PRIMARY KEY (id),
     unique key (project_id, flink_cluster_config_id, name),
-    KEY idx_name (name)
+    KEY                     idx_name ( name)
 ) ENGINE = INNODB COMMENT = 'flink cluster instance';
 
 drop table if exists ws_flink_job;
@@ -239,10 +239,10 @@ create table ws_flink_job
     update_time               timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key idx_code (code),
-    key idx_name (type, name),
-    key idx_flink_artifact (type, flink_artifact_id),
-    key idx_flink_cluster_config (flink_cluster_config_id),
-    key idx_flink_cluster_instance (flink_cluster_instance_id)
+    key                       idx_name ( type, name),
+    key                       idx_flink_artifact ( type, flink_artifact_id),
+    key                       idx_flink_cluster_config (flink_cluster_config_id),
+    key                       idx_flink_cluster_instance (flink_cluster_instance_id)
 ) engine = innodb comment ='flink作业信息';
 
 drop table if exists ws_flink_job_instance;
@@ -420,3 +420,43 @@ CREATE TABLE ws_flink_kubernetes_session_cluster
     PRIMARY KEY (id),
     UNIQUE KEY uniq_name (cluster_credential_id, `name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes session cluster';
+
+DROP TABLE IF EXISTS ws_flink_kubernetes_job;
+CREATE TABLE ws_flink_kubernetes_job
+(
+    id                    bigint       not null auto_increment,
+    flink_deployment_mode varchar(16)  not null,
+    flink_deployment_id   bigint       not null,
+    `name`                varchar(255) not null,
+    job_id                varchar(32)  not null,
+    artifact_id           bigint       not null,
+    remark                varchar(255),
+    creator               varchar(32),
+    create_time           datetime     not null default current_timestamp,
+    editor                varchar(32),
+    update_time           datetime     not null default current_timestamp on update current_timestamp,
+    PRIMARY KEY (id),
+    UNIQUE KEY uniq_name (flink_deployment_mode, flink_deployment_id, `name`)
+) ENGINE = INNODB COMMENT = 'flink kubernetes job';
+
+DROP TABLE IF EXISTS ws_flink_kubernetes_job_instance;
+CREATE TABLE ws_flink_kubernetes_job_instance
+(
+    id                         bigint      not null auto_increment,
+    ws_flink_kubernetes_job_id bigint      not null,
+    job_id                     varchar(32) not null,
+    job_manager                text,
+    task_manager               text,
+    user_flink_configuration   text,
+    status                     text,
+    state                      varchar(32) not null,
+    start_time                 datetime comment '开始时间',
+    end_time                   datetime comment '结束时间',
+    duration                   bigint comment '耗时',
+    creator                    varchar(32),
+    create_time                datetime    not null default current_timestamp,
+    editor                     varchar(32),
+    update_time                datetime    not null default current_timestamp on update current_timestamp,
+    PRIMARY KEY (id),
+    UNIQUE KEY uniq_name (ws_flink_kubernetes_job_id, job_id)
+) ENGINE = INNODB COMMENT = 'flink kubernetes job instance';
