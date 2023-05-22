@@ -44,6 +44,9 @@ public class WsFlinkKubernetesSessionClusterDTO extends BaseDTO {
     @ApiModelProperty("name")
     private String name;
 
+    @ApiModelProperty("session cluster id")
+    private String sessionClusterId;
+
     @NotNull
     @ApiModelProperty("flink metadata")
     private JsonNode metadata;

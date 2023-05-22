@@ -27,18 +27,15 @@
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
         <result column="name" property="name" />
+        <result column="template_id" property="templateId" />
         <result column="metadata" property="metadata" />
         <result column="spec" property="spec" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,
-        creator,
-        create_time,
-        editor,
-        update_time,
-        `name`, metadata, spec
+        id, creator, create_time, editor, update_time,
+        `name`, template_id, metadata, spec
     </sql>
 
 </mapper>

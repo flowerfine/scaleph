@@ -27,18 +27,14 @@
         <result column="update_time" property="updateTime"/>
         <result column="cluster_credential_id" property="clusterCredentialId"/>
         <result column="name" property="name"/>
+        <result column="session_cluster_id" property="sessionClusterId"/>
         <result column="metadata" property="metadata"/>
         <result column="spec" property="spec"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        ,
-        creator,
-        create_time,
-        editor,
-        update_time,
-        cluster_credential_id, `name`, metadata, spec
+        id, creator, reate_time, editor, update_time,
+        cluster_credential_id, `name`, session_cluster_id, metadata, spec
     </sql>
 </mapper>

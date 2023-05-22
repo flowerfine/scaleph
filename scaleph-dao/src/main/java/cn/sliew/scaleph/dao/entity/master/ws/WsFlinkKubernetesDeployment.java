@@ -45,6 +45,9 @@ public class WsFlinkKubernetesDeployment extends BaseDO {
     @TableField("`name`")
     private String name;
 
+    @TableField("deployment_id")
+    private String deploymentId;
+
     @TableField("namespace")
     private String namespace;
 
