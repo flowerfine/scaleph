@@ -423,7 +423,7 @@ CREATE TABLE ws_flink_kubernetes_job
 (
     id                    bigint       not null auto_increment,
     flink_deployment_mode varchar(16)  not null,
-    flink_deployment_id   varchar(32)  not null,
+    flink_deployment_id   bigint       not null,
     `name`                varchar(255) not null,
     job_id                varchar(32)  not null,
     artifact_id           bigint       not null,

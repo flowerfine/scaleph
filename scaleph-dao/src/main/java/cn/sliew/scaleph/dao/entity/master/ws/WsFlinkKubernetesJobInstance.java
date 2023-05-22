@@ -23,8 +23,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.Date;
 
@@ -33,8 +32,7 @@ import java.util.Date;
  * flink kubernetes job instance
  * </p>
  */
-@Getter
-@Setter
+@Data
 @TableName("ws_flink_kubernetes_job_instance")
 @ApiModel(value = "WsFlinkKubernetesJobInstance对象", description = "flink kubernetes job instance")
 public class WsFlinkKubernetesJobInstance extends BaseDO {

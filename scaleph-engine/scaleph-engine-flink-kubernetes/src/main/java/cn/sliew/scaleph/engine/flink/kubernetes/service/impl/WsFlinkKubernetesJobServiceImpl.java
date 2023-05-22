@@ -16,21 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.ws;
+package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
-import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobMapper;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-/**
- * <p>
- * flink kubernetes job Mapper 接口
- * </p>
- */
-@Repository
-public interface WsFlinkKubernetesJobMapper extends BaseMapper<WsFlinkKubernetesJob> {
+@Service
+public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobService {
 
-    Page<WsFlinkKubernetesJob> list(Page<WsFlinkKubernetesJob> page);
+    @Autowired
+    private WsFlinkKubernetesJobMapper wsFlinkKubernetesJobMapper;
+
+    @Override
+    public Page<WsFlinkKubernetesJobDTO> list(WsFlinkKubernetesJobListParam param) {
+        return null;
+    }
 
 }

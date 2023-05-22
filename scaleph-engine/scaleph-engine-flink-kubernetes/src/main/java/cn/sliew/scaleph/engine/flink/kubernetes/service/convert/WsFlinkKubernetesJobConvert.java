@@ -16,21 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.mapper.master.ws;
+package cn.sliew.scaleph.engine.flink.kubernetes.service.convert;
 
+import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.springframework.stereotype.Repository;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
-/**
- * <p>
- * flink kubernetes job Mapper 接口
- * </p>
- */
-@Repository
-public interface WsFlinkKubernetesJobMapper extends BaseMapper<WsFlinkKubernetesJob> {
+@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface WsFlinkKubernetesJobConvert extends BaseConvert<WsFlinkKubernetesJob, WsFlinkKubernetesJobDTO> {
+    WsFlinkKubernetesJobConvert INSTANCE = Mappers.getMapper(WsFlinkKubernetesJobConvert.class);
 
-    Page<WsFlinkKubernetesJob> list(Page<WsFlinkKubernetesJob> page);
+    @Override
+    default WsFlinkKubernetesJob toDo(WsFlinkKubernetesJobDTO dto) {
+        return null;
+    }
 
+    @Override
+    default WsFlinkKubernetesJobDTO toDto(WsFlinkKubernetesJob entity) {
+        return null;
+    }
 }

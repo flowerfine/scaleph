@@ -16,43 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.ws;
+package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
+import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
+import cn.sliew.scaleph.common.param.PaginationParam;
 import lombok.Data;
 
-/**
- * <p>
- * flink kubernetes job
- * </p>
- */
 @Data
-@TableName("ws_flink_kubernetes_job")
-@ApiModel(value = "WsFlinkKubernetesJob对象", description = "flink kubernetes job")
-public class WsFlinkKubernetesJob extends BaseDO {
+public class WsFlinkKubernetesJobListParam extends PaginationParam {
 
-    private static final long serialVersionUID = 1L;
+    private FlinkRuntimeExecutionMode flinkRuntimeExecutionMode;
 
-    @TableField("flink_deployment_mode")
+    private FlinkJobType flinkJobType;
+
     private FlinkDeploymentMode flinkDeploymentMode;
 
-    @TableField("flink_deployment_id")
-    private Long flinkDeploymentId;
+    private FlinkJobState flinkJobState;
 
-    @TableField("`name`")
     private String name;
-
-    @TableField("job_id")
-    private String jobId;
-
-    @TableField("artifact_id")
-    private Long artifactId;
-
-    @TableField("remark")
-    private String remark;
-
 }

@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.dao.entity.master.ws;
+package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
-import cn.sliew.scaleph.dao.entity.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.artifact.Artifact;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -31,28 +31,25 @@ import lombok.Data;
  * </p>
  */
 @Data
-@TableName("ws_flink_kubernetes_job")
 @ApiModel(value = "WsFlinkKubernetesJob对象", description = "flink kubernetes job")
-public class WsFlinkKubernetesJob extends BaseDO {
+public class WsFlinkKubernetesJobDTO extends BaseDTO {
 
-    private static final long serialVersionUID = 1L;
-
-    @TableField("flink_deployment_mode")
+    @ApiModelProperty("flink deployment mode")
     private FlinkDeploymentMode flinkDeploymentMode;
 
-    @TableField("flink_deployment_id")
-    private Long flinkDeploymentId;
+    @ApiModelProperty("flink deployment")
+    private Object flinkDeployment;
 
-    @TableField("`name`")
+    @ApiModelProperty("name")
     private String name;
 
-    @TableField("job_id")
+    @ApiModelProperty("job id")
     private String jobId;
 
-    @TableField("artifact_id")
-    private Long artifactId;
+    @ApiModelProperty("flink artifact")
+    private Artifact artifactId;
 
-    @TableField("remark")
+    @ApiModelProperty("remark")
     private String remark;
 
 }
