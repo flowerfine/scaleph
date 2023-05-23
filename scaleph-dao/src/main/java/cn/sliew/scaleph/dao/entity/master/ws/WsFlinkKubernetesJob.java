@@ -18,65 +18,39 @@
 
 package cn.sliew.scaleph.dao.entity.master.ws;
 
-import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
+import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * flink kubernetes deployment
+ * flink kubernetes job
  * </p>
  */
 @Data
-@EqualsAndHashCode
-@TableName("ws_flink_kubernetes_deployment")
-@ApiModel(value = "WsFlinkKubernetesDeployment对象", description = "flink kubernetes deployment")
-public class WsFlinkKubernetesDeployment extends BaseDO {
+@TableName("ws_flink_kubernetes_job")
+@ApiModel(value = "WsFlinkKubernetesJob对象", description = "flink kubernetes job")
+public class WsFlinkKubernetesJob extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("`kind`")
-    private DeploymentKind kind;
+    @TableField("flink_deployment_mode")
+    private FlinkDeploymentMode flinkDeploymentMode;
+
+    @TableField("flink_deployment_id")
+    private Long flinkDeploymentId;
 
     @TableField("`name`")
     private String name;
 
-    @TableField("deployment_id")
-    private String deploymentId;
+    @TableField("job_id")
+    private String jobId;
 
-    @TableField("namespace")
-    private String namespace;
-
-    @TableField("kuberenetes_options")
-    private String kuberenetesOptions;
-
-    @TableField("job_manager")
-    private String jobManager;
-
-    @TableField("task_manager")
-    private String taskManager;
-
-    @TableField("pod_template")
-    private String podTemplate;
-
-    @TableField("flink_configuration")
-    private String flinkConfiguration;
-
-    @TableField("log_configuration")
-    private String logConfiguration;
-
-    @TableField("ingress")
-    private String ingress;
-
-    @TableField("deployment_name")
-    private String deploymentName;
-
-    @TableField("job")
-    private String job;
+    @TableField("artifact_id")
+    private Long artifactId;
 
     @TableField("remark")
     private String remark;

@@ -27,6 +27,7 @@
         <result column="update_time" property="updateTime"/>
         <result column="kind" property="kind"/>
         <result column="name" property="name"/>
+        <result column="deployment_id" property="deploymentId"/>
         <result column="namespace" property="namespace"/>
         <result column="kuberenetes_options" property="kuberenetesOptions"/>
         <result column="job_manager" property="jobManager"/>
@@ -42,7 +43,7 @@
 
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        kind, `name`, namespace, kuberenetes_options,
+        kind, `name`, deployment_id, namespace, kuberenetes_options,
         job_manager, task_manager, pod_template,
         flink_configuration, log_configuration, ingress,
         deployment_name, job, remark

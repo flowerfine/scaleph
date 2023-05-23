@@ -16,20 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes;
+package cn.sliew.scaleph.plugin.file.fetcher.core;
 
-public enum Constant {
-    ;
+import cn.sliew.scaleph.plugin.framework.core.AbstractPlugin;
 
-    public static final String GROUP = "flink.apache.org";
-    public static final String VERSION = "v1beta1";
-    public static final String API_VERSION = GROUP + "/" + VERSION;
+import java.io.IOException;
+import java.net.URI;
 
-    public static final String FLINK_TEMPLATE = "FlinkTemplate";
-    public static final String FLINK_DEPLOYMENT = "FlinkDeployment";
-    public static final String FLINK_SESSION_CLUSTER = "FlinkSessionCluster";
-    public static final String FLINK_SESSION_JOB = "FlinkSessionJob";
-    public static final String FLINK_JOB = "FlinkJob";
-    public static final String JAR_ARTIFACT = "JarArtifact";
+public abstract class FileFetcher extends AbstractPlugin {
 
+    public abstract boolean support(URI uri);
+
+    public abstract void fetch(URI uri, String path) throws IOException;
 }

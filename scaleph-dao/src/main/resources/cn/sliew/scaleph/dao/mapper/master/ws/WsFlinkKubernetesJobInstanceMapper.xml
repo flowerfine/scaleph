@@ -17,25 +17,33 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesTemplateMapper">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobInstanceMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesTemplate">
+    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJobInstance">
         <result column="id" property="id" />
         <result column="creator" property="creator" />
         <result column="create_time" property="createTime" />
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
-        <result column="name" property="name" />
-        <result column="template_id" property="templateId" />
-        <result column="metadata" property="metadata" />
-        <result column="spec" property="spec" />
+        <result column="ws_flink_kubernetes_job_id" property="wsFlinkKubernetesJobId" />
+        <result column="job_id" property="jobId" />
+        <result column="job_manager" property="jobManager" />
+        <result column="task_manager" property="taskManager" />
+        <result column="user_flink_configuration" property="userFlinkConfiguration" />
+        <result column="status" property="status" />
+        <result column="state" property="state" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="duration" property="duration" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        `name`, template_id, metadata, spec
+        ws_flink_kubernetes_job_id, job_id, job_manager, task_manager,
+        user_flink_configuration, `status`, `state`, start_time, end_time,
+        duration
     </sql>
 
 </mapper>
