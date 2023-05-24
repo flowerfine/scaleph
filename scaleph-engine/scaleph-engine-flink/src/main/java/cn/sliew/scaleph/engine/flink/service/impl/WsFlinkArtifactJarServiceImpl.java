@@ -173,6 +173,12 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
             try (InputStream inputStream = file.getInputStream()) {
                 fileSystemService.upload(inputStream, path);
             }
+            WsFlinkArtifactJarDTO oldArtifactJarDTO = selectCurrent(flinkArtifact.getId());
+            WsFlinkArtifactJar oldRecord = new WsFlinkArtifactJar();
+            oldRecord.setId(oldArtifactJarDTO.getId());
+            oldRecord.setCurrent(YesOrNo.NO);
+            flinkArtifactJarMapper.updateById(oldRecord);
+
             record.setFlinkArtifactId(flinkArtifact.getId());
             record.setFlinkVersion(param.getFlinkVersion());
             record.setEntryClass(param.getEntryClass());
@@ -181,11 +187,6 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
             record.setJarParams(param.getJarParams());
             record.setCurrent(YesOrNo.YES);
             upsert = flinkArtifactJarMapper.insert(record);
-            WsFlinkArtifactJarDTO oldArtifactJarDTO = selectCurrent(flinkArtifact.getId());
-            WsFlinkArtifactJar oldRecord = new WsFlinkArtifactJar();
-            oldRecord.setId(oldArtifactJarDTO.getId());
-            oldRecord.setCurrent(YesOrNo.NO);
-            flinkArtifactJarMapper.updateById(oldRecord);
         } else {
             record.setId(param.getId());
             record.setFlinkArtifactId(flinkArtifact.getId());

@@ -344,6 +344,7 @@ CREATE TABLE ws_flink_kubernetes_deployment
 (
     id                  bigint       not null auto_increment,
     kind                varchar(16)  not null,
+
     `name`              varchar(255) not null,
     deployment_id       varchar(64)  not null,
     namespace           varchar(255) not null,

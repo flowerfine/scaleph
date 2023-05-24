@@ -49,8 +49,6 @@ public class JarArtifact extends CustomResource implements Resource {
 
         private String name;
 
-        private String version;
-
         private String jarUri;
 
         private String entryClass;
