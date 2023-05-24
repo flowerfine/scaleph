@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.sql.service.dto;
 
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactDTO;
@@ -34,16 +35,10 @@ public class WsFlinkArtifactSqlDTO extends BaseDTO {
 
     @ApiModelProperty("flink版本")
     private FlinkVersion flinkVersion;
+    
+    @ApiModelProperty("script")
+    private String script;
 
-    @ApiModelProperty("文件名称")
-    private String fileName;
-
-    @ApiModelProperty("文件路径")
-    private String path;
-
-    @ApiModelProperty("版本")
-    private String version;
-
-    @ApiModelProperty("remark")
-    private String remark;
+    @ApiModelProperty("`current`")
+    private YesOrNo current;
 }

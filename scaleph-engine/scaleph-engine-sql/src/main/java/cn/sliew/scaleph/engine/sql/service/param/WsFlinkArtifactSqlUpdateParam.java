@@ -19,20 +19,30 @@
 package cn.sliew.scaleph.engine.sql.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Data
-public class WsFlinkArtifactSqlParam extends PaginationParam {
+public class WsFlinkArtifactSqlUpdateParam {
 
-    @ApiModelProperty("Project ID")
-    private Long projectId;
+    @NotNull
+    @ApiModelProperty("id")
+    private Long id;
 
+    @NotBlank
     @ApiModelProperty("name")
     private String name;
 
+    @ApiModelProperty("remark")
+    private String remark;
+
     @ApiModelProperty("flink 版本")
     private FlinkVersion flinkVersion;
+
+    @ApiModelProperty("sql")
+    private String script;
 
 }

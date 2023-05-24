@@ -22,22 +22,28 @@ import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Data
 public class WsFlinkArtifactSqlInsertParam {
 
-    @ApiModelProperty("Flink Artifact ID")
-    private Long flinkArtifactId;
+    @NotNull
+    @ApiModelProperty("Project ID")
+    private Long projectId;
 
-    @ApiModelProperty("flink 版本")
-    private FlinkVersion flinkVersion;
-
-    @ApiModelProperty("文件名称")
-    private String fileName;
-
-    @ApiModelProperty("sql")
-    private String sqlScript;
+    @NotBlank
+    @ApiModelProperty("name")
+    private String name;
 
     @ApiModelProperty("remark")
     private String remark;
 
+    @NotNull
+    @ApiModelProperty("flink 版本")
+    private FlinkVersion flinkVersion;
+
+    @ApiModelProperty("sql")
+    private String sqlScript;
+    
 }

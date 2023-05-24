@@ -20,27 +20,31 @@ package cn.sliew.scaleph.engine.sql.service;
 
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.engine.sql.service.dto.WsFlinkArtifactSqlDTO;
+import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlHistoryParam;
+import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlInsertParam;
 import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlParam;
+import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlUpdateParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
 public interface WsFlinkArtifactSqlService {
 
     Page<WsFlinkArtifactSqlDTO> list(WsFlinkArtifactSqlParam param);
 
+    Page<WsFlinkArtifactSqlDTO> listByArtifact(WsFlinkArtifactSqlHistoryParam param);
+
+    List<WsFlinkArtifactSqlDTO> listAllByArtifact(Long artifactId);
+
     WsFlinkArtifactSqlDTO selectOne(Long id);
+
+    WsFlinkArtifactSqlDTO selectCurrent(Long artifactId);
+
+    void insert(WsFlinkArtifactSqlInsertParam param);
+
+    int update(WsFlinkArtifactSqlUpdateParam params);
 
     int deleteOne(Long id) throws ScalephException;
 
-    void insert(WsFlinkArtifactSqlDTO param, MultipartFile file) throws IOException;
-
-    int update(WsFlinkArtifactSqlDTO params);
-
-    String download(Long id, OutputStream outputStream) throws IOException;
-
-    List<WsFlinkArtifactSqlDTO> listByArtifact(Long artifactId);
+    int deleteAll(Long flinkArtifactId) throws ScalephException;
 }

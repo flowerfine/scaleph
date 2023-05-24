@@ -18,38 +18,67 @@
 
 package cn.sliew.scaleph.engine.sql.service.impl;
 
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactSqlMapper;
+import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactService;
+import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactDTO;
 import cn.sliew.scaleph.engine.sql.service.WsFlinkArtifactSqlService;
 import cn.sliew.scaleph.engine.sql.service.convert.WsFlinkArtifactSqlConvert;
 import cn.sliew.scaleph.engine.sql.service.dto.WsFlinkArtifactSqlDTO;
+import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlHistoryParam;
+import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlInsertParam;
 import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlParam;
+import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlUpdateParam;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
 @Service
 public class WsFlinkArtifactSqlServiceImpl implements WsFlinkArtifactSqlService {
 
     @Autowired
+    private WsFlinkArtifactService wsFlinkArtifactService;
+    @Autowired
     private WsFlinkArtifactSqlMapper wsFlinkArtifactSqlMapper;
 
     @Override
     public Page<WsFlinkArtifactSqlDTO> list(WsFlinkArtifactSqlParam param) {
         Page<WsFlinkArtifactSql> page = new Page<>(param.getCurrent(), param.getPageSize());
-        WsFlinkArtifactSql wsFlinkArtifactSql = BeanUtil.copy(param, new WsFlinkArtifactSql());
-        Page<WsFlinkArtifactSql> sqlPage = wsFlinkArtifactSqlMapper.list(page, wsFlinkArtifactSql);
+        Page<WsFlinkArtifactSql> sqlPage = wsFlinkArtifactSqlMapper.list(page, param.getProjectId(), param.getName(), param.getFlinkVersion());
         Page<WsFlinkArtifactSqlDTO> result =
                 new Page<>(sqlPage.getCurrent(), sqlPage.getSize(), sqlPage.getTotal());
         result.setRecords(WsFlinkArtifactSqlConvert.INSTANCE.toDto(sqlPage.getRecords()));
         return result;
+    }
+
+    @Override
+    public Page<WsFlinkArtifactSqlDTO> listByArtifact(WsFlinkArtifactSqlHistoryParam param) {
+        Page<WsFlinkArtifactSql> page = new Page<>(param.getCurrent(), param.getPageSize());
+        LambdaQueryWrapper<WsFlinkArtifactSql> queryWrapper = Wrappers.lambdaQuery(WsFlinkArtifactSql.class)
+                .eq(WsFlinkArtifactSql::getFlinkArtifactId, param.getFlinkArtifactId())
+                .orderByDesc(WsFlinkArtifactSql::getId);
+        Page<WsFlinkArtifactSql> wsFlinkArtifactSqlPage = wsFlinkArtifactSqlMapper.selectPage(page, queryWrapper);
+        Page<WsFlinkArtifactSqlDTO> result =
+                new Page<>(wsFlinkArtifactSqlPage.getCurrent(), wsFlinkArtifactSqlPage.getSize(), wsFlinkArtifactSqlPage.getTotal());
+        result.setRecords(WsFlinkArtifactSqlConvert.INSTANCE.toDto(wsFlinkArtifactSqlPage.getRecords()));
+        return result;
+    }
+
+    @Override
+    public List<WsFlinkArtifactSqlDTO> listAllByArtifact(Long artifactId) {
+        List<WsFlinkArtifactSql> list = wsFlinkArtifactSqlMapper.selectList(
+                Wrappers.lambdaQuery(WsFlinkArtifactSql.class)
+                        .eq(WsFlinkArtifactSql::getFlinkArtifactId, artifactId)
+                        .orderByDesc(WsFlinkArtifactSql::getId)
+        );
+        return WsFlinkArtifactSqlConvert.INSTANCE.toDto(list);
     }
 
     @Override
@@ -59,27 +88,69 @@ public class WsFlinkArtifactSqlServiceImpl implements WsFlinkArtifactSqlService 
     }
 
     @Override
+    public WsFlinkArtifactSqlDTO selectCurrent(Long artifactId) {
+        WsFlinkArtifactSql wsFlinkArtifactSql = wsFlinkArtifactSqlMapper.selectCurrent(artifactId);
+        return WsFlinkArtifactSqlConvert.INSTANCE.toDto(wsFlinkArtifactSql);
+    }
+
+    @Override
+    public void insert(WsFlinkArtifactSqlInsertParam param) {
+        WsFlinkArtifactDTO flinkArtifact = new WsFlinkArtifactDTO();
+        flinkArtifact.setProjectId(param.getProjectId());
+        flinkArtifact.setType(FlinkJobType.JAR);
+        flinkArtifact.setName(param.getName());
+        flinkArtifact.setRemark(param.getRemark());
+        flinkArtifact = wsFlinkArtifactService.insert(flinkArtifact);
+        WsFlinkArtifactSql record = new WsFlinkArtifactSql();
+        record.setFlinkArtifactId(flinkArtifact.getId());
+        record.setFlinkVersion(param.getFlinkVersion());
+        record.setScript(param.getSqlScript());
+        record.setCurrent(YesOrNo.YES);
+        wsFlinkArtifactSqlMapper.insert(record);
+    }
+
+    @Override
+    public int update(WsFlinkArtifactSqlUpdateParam param) {
+        WsFlinkArtifactSqlDTO wsFlinkArtifactSqlDTO = selectOne(param.getId());
+        WsFlinkArtifactDTO flinkArtifact = new WsFlinkArtifactDTO();
+        flinkArtifact.setId(wsFlinkArtifactSqlDTO.getWsFlinkArtifact().getId());
+        flinkArtifact.setName(param.getName());
+        flinkArtifact.setRemark(param.getRemark());
+
+        int upsert = 0;
+        WsFlinkArtifactSql record = new WsFlinkArtifactSql();
+        WsFlinkArtifactSqlDTO oldArtifactSqlDTO = selectCurrent(flinkArtifact.getId());
+        if (oldArtifactSqlDTO.getScript().equals(param.getScript()) == false) {
+            WsFlinkArtifactSql oldRecord = new WsFlinkArtifactSql();
+            oldRecord.setId(oldArtifactSqlDTO.getId());
+            oldRecord.setCurrent(YesOrNo.NO);
+            wsFlinkArtifactSqlMapper.updateById(oldRecord);
+
+            record.setFlinkArtifactId(flinkArtifact.getId());
+            record.setFlinkVersion(param.getFlinkVersion());
+            record.setScript(param.getScript());
+            record.setCurrent(YesOrNo.YES);
+            upsert = wsFlinkArtifactSqlMapper.insert(record);
+        }
+        wsFlinkArtifactService.update(flinkArtifact);
+        return upsert;
+    }
+
+    @Override
     public int deleteOne(Long id) throws ScalephException {
+        WsFlinkArtifactSqlDTO wsFlinkArtifactJarDTO = selectOne(id);
+        if (wsFlinkArtifactJarDTO.getCurrent() == YesOrNo.YES) {
+            throw new ScalephException("Unsupport delete current sql script");
+        }
         return wsFlinkArtifactSqlMapper.deleteById(id);
     }
 
     @Override
-    public void insert(WsFlinkArtifactSqlDTO param, MultipartFile file) throws IOException {
-
-    }
-
-    @Override
-    public int update(WsFlinkArtifactSqlDTO params) {
-        return 0;
-    }
-
-    @Override
-    public String download(Long id, OutputStream outputStream) throws IOException {
-        return null;
-    }
-
-    @Override
-    public List<WsFlinkArtifactSqlDTO> listByArtifact(Long artifactId) {
-        return null;
+    public int deleteAll(Long flinkArtifactId) throws ScalephException {
+        List<WsFlinkArtifactSqlDTO> wsFlinkArtifactSqlDTOS = listAllByArtifact(flinkArtifactId);
+        for (WsFlinkArtifactSqlDTO sql : wsFlinkArtifactSqlDTOS) {
+            wsFlinkArtifactSqlMapper.deleteById(sql.getId());
+        }
+        return wsFlinkArtifactService.deleteById(flinkArtifactId);
     }
 }

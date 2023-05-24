@@ -60,7 +60,6 @@ CREATE TABLE ws_flink_artifact_sql
     id                bigint       not null auto_increment,
     flink_artifact_id bigint       not null comment '作业artifact id',
     flink_version     varchar(32)  not null comment 'flink版本',
-    file_name         varchar(255) not null comment '文件名称',
     script            text         not null comment 'sql script',
     current           varchar(16)  not null comment 'current artifact',
     creator           varchar(32),
