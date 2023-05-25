@@ -45,6 +45,9 @@ public class WsFlinkKubernetesSessionCluster extends BaseDO {
     @TableField("`name`")
     private String name;
 
+    @TableField("session_cluster_id")
+    private String sessionClusterId;
+
     @ApiModelProperty("flink metadata")
     @TableField("metadata")
     private String metadata;

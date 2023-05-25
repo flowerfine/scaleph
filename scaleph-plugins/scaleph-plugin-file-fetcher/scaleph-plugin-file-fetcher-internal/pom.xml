@@ -16,35 +16,28 @@
   ~ limitations under the License.
   -->
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>scaleph</artifactId>
+        <artifactId>scaleph-plugin-file-fetcher</artifactId>
         <version>1.0.5-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>scaleph-plugins</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>scaleph-plugin-file-fetcher-internal</artifactId>
 
-    <modules>
-        <module>scaleph-plugin-framework</module>
-        <module>scaleph-plugin-datasource</module>
-        <module>scaleph-plugin-seatunnel-native-flink</module>
-        <module>scaleph-plugin-seatunnel-connectors</module>
-        <module>scaleph-plugin-file-fetcher</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-plugin-file-fetcher-core</artifactId>
+        </dependency>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.google.auto.service</groupId>
-                <artifactId>auto-service</artifactId>
-                <version>${auto-service.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-storage</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

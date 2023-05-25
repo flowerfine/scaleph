@@ -44,6 +44,9 @@ public class WsFlinkKubernetesDeploymentDTO extends BaseDTO {
     @ApiModelProperty("name")
     private String name;
 
+    @ApiModelProperty("deployment id")
+    private String deploymentId;
+
     @ApiModelProperty("namespace")
     private String namespace;
 

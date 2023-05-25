@@ -16,20 +16,29 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes;
+package cn.sliew.scaleph.plugin.file.fetcher.core.cli;
 
-public enum Constant {
-    ;
+import lombok.Getter;
+import org.apache.commons.cli.CommandLine;
 
-    public static final String GROUP = "flink.apache.org";
-    public static final String VERSION = "v1beta1";
-    public static final String API_VERSION = GROUP + "/" + VERSION;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Properties;
 
-    public static final String FLINK_TEMPLATE = "FlinkTemplate";
-    public static final String FLINK_DEPLOYMENT = "FlinkDeployment";
-    public static final String FLINK_SESSION_CLUSTER = "FlinkSessionCluster";
-    public static final String FLINK_SESSION_JOB = "FlinkSessionJob";
-    public static final String FLINK_JOB = "FlinkJob";
-    public static final String JAR_ARTIFACT = "JarArtifact";
+import static cn.sliew.scaleph.plugin.file.fetcher.core.cli.OptionsParser.*;
+
+@Getter
+public class FetchOptions extends CommandLineOptions {
+
+    private final URI uri;
+    private final String path;
+    private final Properties properties;
+
+    public FetchOptions(CommandLine line) throws URISyntaxException {
+        super(line);
+        this.uri = new URI(line.getOptionValue(URI_OPTION));
+        this.path = line.getOptionValue(PATH_OPTION);
+        this.properties = line.getOptionProperties(DYNAMIC_PROPERTIES);
+    }
 
 }

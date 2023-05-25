@@ -17,24 +17,28 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesSessionClusterMapper">
+<mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobMapper">
+
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesSessionCluster">
-        <result column="id" property="id"/>
-        <result column="creator" property="creator"/>
-        <result column="create_time" property="createTime"/>
-        <result column="editor" property="editor"/>
-        <result column="update_time" property="updateTime"/>
-        <result column="cluster_credential_id" property="clusterCredentialId"/>
-        <result column="name" property="name"/>
-        <result column="session_cluster_id" property="sessionClusterId"/>
-        <result column="metadata" property="metadata"/>
-        <result column="spec" property="spec"/>
+    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob">
+        <result column="id" property="id" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="editor" property="editor" />
+        <result column="update_time" property="updateTime" />
+        <result column="flink_deployment_mode" property="flinkDeploymentMode" />
+        <result column="flink_deployment_id" property="flinkDeploymentId" />
+        <result column="name" property="name" />
+        <result column="job_id" property="jobId" />
+        <result column="artifact_id" property="artifactId" />
+        <result column="remark" property="remark" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, creator, reate_time, editor, update_time,
-        cluster_credential_id, `name`, session_cluster_id, metadata, spec
+        id, creator, create_time, editor, update_time,
+        flink_deployment_mode, flink_deployment_id, `name`,
+        job_id, artifact_id, remark
     </sql>
+
 </mapper>

@@ -18,40 +18,38 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
-import com.fasterxml.jackson.databind.JsonNode;
-import io.fabric8.kubernetes.api.model.Pod;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.artifact.Artifact;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotNull;
-import java.util.Map;
-
+/**
+ * <p>
+ * flink kubernetes job
+ * </p>
+ */
 @Data
-@EqualsAndHashCode
-@ApiModel(value = "WsFlinkKubernetesDeployment对象", description = "flink kubernetes deployment")
-public class WsFlinkKubernetesSessionClusterDTO extends BaseDTO {
+@ApiModel(value = "WsFlinkKubernetesJob对象", description = "flink kubernetes job")
+public class WsFlinkKubernetesJobDTO extends BaseDTO {
 
-    @ApiModelProperty("cluster credential id")
-    private Long clusterCredentialId;
+    @ApiModelProperty("flink deployment mode")
+    private FlinkDeploymentMode flinkDeploymentMode;
+
+    @ApiModelProperty("flink deployment")
+    private Object flinkDeployment;
 
     @ApiModelProperty("name")
     private String name;
 
-    @ApiModelProperty("session cluster id")
-    private String sessionClusterId;
+    @ApiModelProperty("job id")
+    private String jobId;
 
-    @NotNull
-    @ApiModelProperty("flink metadata")
-    private JsonNode metadata;
+    @ApiModelProperty("flink artifact")
+    private Artifact artifactId;
 
-    @NotNull
-    @ApiModelProperty("flink spec")
-    private JsonNode spec;
+    @ApiModelProperty("remark")
+    private String remark;
+
 }

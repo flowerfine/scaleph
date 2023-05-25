@@ -16,20 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes;
+package cn.sliew.scaleph.plugin.file.fetcher.core.cli;
 
-public enum Constant {
-    ;
+import org.apache.commons.cli.CommandLine;
 
-    public static final String GROUP = "flink.apache.org";
-    public static final String VERSION = "v1beta1";
-    public static final String API_VERSION = GROUP + "/" + VERSION;
+import static cn.sliew.scaleph.plugin.file.fetcher.core.cli.OptionsParser.HELP_OPTION;
 
-    public static final String FLINK_TEMPLATE = "FlinkTemplate";
-    public static final String FLINK_DEPLOYMENT = "FlinkDeployment";
-    public static final String FLINK_SESSION_CLUSTER = "FlinkSessionCluster";
-    public static final String FLINK_SESSION_JOB = "FlinkSessionJob";
-    public static final String FLINK_JOB = "FlinkJob";
-    public static final String JAR_ARTIFACT = "JarArtifact";
+/**
+ * Base class for all options parsed from the command line. Contains options for printing help.
+ */
+public abstract class CommandLineOptions {
 
+    private final boolean printHelp;
+
+    protected CommandLineOptions(CommandLine line) {
+        this.printHelp = line.hasOption(HELP_OPTION.getOpt());
+    }
+
+    public boolean isPrintHelp() {
+        return printHelp;
+    }
 }
