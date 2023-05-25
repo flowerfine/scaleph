@@ -110,7 +110,7 @@ const JobArtifactSqlView: React.FC = () => {
                       okButtonProps: {danger: true},
                       cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                       onOk() {
-                        FlinkArtifactJarService.deleteAll(record.wsFlinkArtifact.id).then((d) => {
+                        FlinkArtifactSqlService.deleteAll(record.wsFlinkArtifact.id).then((d) => {
                           if (d.success) {
                             message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                             actionRef.current?.reload();

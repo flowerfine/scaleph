@@ -64,9 +64,9 @@ const FlinkArtifactSqlForm: React.FC<ModalFormProps<WsFlinkArtifactSql>> = ({
         wrapperCol={{span: 16}}
         initialValues={{
           id: data?.id,
-          name: data?.wsFlinkArtifact.name,
-          flinkVersion: data?.flinkVersion.value,
-          remark: data?.wsFlinkArtifact.remark,
+          name: data?.wsFlinkArtifact?.name,
+          flinkVersion: data?.flinkVersion?.value,
+          remark: data?.wsFlinkArtifact?.remark,
         }}
       >
         <ProFormDigit name="id" hidden/>
