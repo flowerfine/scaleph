@@ -98,8 +98,8 @@ export default [
             access: 'normalRouteFilter'
           },
           {
-            name: 'artifact',
-            path: '/workspace/job/artifact',
+            name: 'jar',
+            path: '/workspace/job/artifact/jar',
             exact: true,
             component: './Project/Workspace/Job/Jar',
             pCode: PRIVILEGE_CODE.workspaceJobArtifactShow,
@@ -114,9 +114,16 @@ export default [
           },
           {
             name: 'sql',
-            path: '/workspace/job/sql',
+            path: '/workspace/job/artifact/sql',
             exact: true,
             component: './Project/Workspace/Job/Sql',
+            pCode: PRIVILEGE_CODE.workspaceJobSqlShow,
+            access: 'normalRouteFilter'
+          },
+          {
+            path: '/workspace/job/artifact/editor',
+            exact: true,
+            component: './Project/Workspace/Job/Sql/CodeEditor',
             pCode: PRIVILEGE_CODE.workspaceJobSqlShow,
             access: 'normalRouteFilter'
           },

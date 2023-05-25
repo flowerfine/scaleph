@@ -28,10 +28,7 @@ import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactDTO;
 import cn.sliew.scaleph.engine.sql.service.WsFlinkArtifactSqlService;
 import cn.sliew.scaleph.engine.sql.service.convert.WsFlinkArtifactSqlConvert;
 import cn.sliew.scaleph.engine.sql.service.dto.WsFlinkArtifactSqlDTO;
-import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlHistoryParam;
-import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlInsertParam;
-import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlParam;
-import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlUpdateParam;
+import cn.sliew.scaleph.engine.sql.service.param.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -104,7 +101,6 @@ public class WsFlinkArtifactSqlServiceImpl implements WsFlinkArtifactSqlService 
         WsFlinkArtifactSql record = new WsFlinkArtifactSql();
         record.setFlinkArtifactId(flinkArtifact.getId());
         record.setFlinkVersion(param.getFlinkVersion());
-        record.setScript(param.getSqlScript());
         record.setCurrent(YesOrNo.YES);
         wsFlinkArtifactSqlMapper.insert(record);
     }
@@ -116,24 +112,21 @@ public class WsFlinkArtifactSqlServiceImpl implements WsFlinkArtifactSqlService 
         flinkArtifact.setId(wsFlinkArtifactSqlDTO.getWsFlinkArtifact().getId());
         flinkArtifact.setName(param.getName());
         flinkArtifact.setRemark(param.getRemark());
-
-        int upsert = 0;
-        WsFlinkArtifactSql record = new WsFlinkArtifactSql();
-        WsFlinkArtifactSqlDTO oldArtifactSqlDTO = selectCurrent(flinkArtifact.getId());
-        if (oldArtifactSqlDTO.getScript().equals(param.getScript()) == false) {
-            WsFlinkArtifactSql oldRecord = new WsFlinkArtifactSql();
-            oldRecord.setId(oldArtifactSqlDTO.getId());
-            oldRecord.setCurrent(YesOrNo.NO);
-            wsFlinkArtifactSqlMapper.updateById(oldRecord);
-
-            record.setFlinkArtifactId(flinkArtifact.getId());
-            record.setFlinkVersion(param.getFlinkVersion());
-            record.setScript(param.getScript());
-            record.setCurrent(YesOrNo.YES);
-            upsert = wsFlinkArtifactSqlMapper.insert(record);
-        }
         wsFlinkArtifactService.update(flinkArtifact);
-        return upsert;
+
+        WsFlinkArtifactSql record = new WsFlinkArtifactSql();
+        record.setFlinkArtifactId(flinkArtifact.getId());
+        record.setFlinkVersion(param.getFlinkVersion());
+        record.setCurrent(YesOrNo.YES);
+        return wsFlinkArtifactSqlMapper.insert(record);
+    }
+
+    @Override
+    public int updateScript(WsFlinkArtifactSqlScriptUpdateParam param) {
+        WsFlinkArtifactSql record = new WsFlinkArtifactSql();
+        record.setId(param.getId());
+        record.setScript(param.getScript());
+        return wsFlinkArtifactSqlMapper.updateById(record);
     }
 
     @Override

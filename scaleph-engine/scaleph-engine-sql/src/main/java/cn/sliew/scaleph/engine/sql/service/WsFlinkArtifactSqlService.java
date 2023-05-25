@@ -20,10 +20,7 @@ package cn.sliew.scaleph.engine.sql.service;
 
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.engine.sql.service.dto.WsFlinkArtifactSqlDTO;
-import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlHistoryParam;
-import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlInsertParam;
-import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlParam;
-import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlUpdateParam;
+import cn.sliew.scaleph.engine.sql.service.param.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
@@ -43,6 +40,8 @@ public interface WsFlinkArtifactSqlService {
     void insert(WsFlinkArtifactSqlInsertParam param);
 
     int update(WsFlinkArtifactSqlUpdateParam params);
+
+    int updateScript(WsFlinkArtifactSqlScriptUpdateParam param);
 
     int deleteOne(Long id) throws ScalephException;
 

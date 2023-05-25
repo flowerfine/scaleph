@@ -57,15 +57,15 @@ create table ws_flink_artifact_jar
 DROP TABLE IF EXISTS ws_flink_artifact_sql;
 CREATE TABLE ws_flink_artifact_sql
 (
-    id                bigint       not null auto_increment,
-    flink_artifact_id bigint       not null comment '作业artifact id',
-    flink_version     varchar(32)  not null comment 'flink版本',
-    script            text         not null comment 'sql script',
-    current           varchar(16)  not null comment 'current artifact',
+    id                bigint      not null auto_increment,
+    flink_artifact_id bigint      not null comment '作业artifact id',
+    flink_version     varchar(32) not null comment 'flink版本',
+    script            text comment 'sql script',
+    current           varchar(16) not null comment 'current artifact',
     creator           varchar(32),
-    create_time       datetime     not null default current_timestamp,
+    create_time       datetime    not null default current_timestamp,
     editor            varchar(32),
-    update_time       datetime     not null default current_timestamp on update current_timestamp,
+    update_time       datetime    not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
     key idx_flink_artifact (flink_artifact_id)
 ) ENGINE = INNODB COMMENT = 'flink artifact sql';

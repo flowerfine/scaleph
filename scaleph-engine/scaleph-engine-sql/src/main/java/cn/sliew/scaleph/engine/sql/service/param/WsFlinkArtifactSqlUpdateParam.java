@@ -41,8 +41,4 @@ public class WsFlinkArtifactSqlUpdateParam {
 
     @ApiModelProperty("flink 版本")
     private FlinkVersion flinkVersion;
-
-    @ApiModelProperty("sql")
-    private String script;
-
 }

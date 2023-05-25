@@ -11,7 +11,7 @@ const DeploymentForm: React.FC<ModalFormProps<WsFlinkKubernetesDeployment>> = ({
                                                                                  data,
                                                                                  visible,
                                                                                  onVisibleChange,
-                                                                                 onCancel,
+                                                                                 onCancel
                                                                                }) => {
   const intl = useIntl();
   const [form] = Form.useForm();

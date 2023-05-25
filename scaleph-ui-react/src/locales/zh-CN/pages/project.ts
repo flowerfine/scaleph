@@ -808,6 +808,7 @@ export default {
   'pages.project.job.jar.args': 'Main Args',
   'pages.project.job.jar.args.key': 'Parameter',
   'pages.project.job.jar.args.value': 'Value',
+  'pages.project.job.sql': 'SQL',
   'pages.project.job.config.cluster': '集群信息',
   'pages.project.job.seatunnel': 'SeaTunnel',
 

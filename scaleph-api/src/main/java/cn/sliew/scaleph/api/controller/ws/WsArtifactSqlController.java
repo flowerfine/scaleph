@@ -22,10 +22,7 @@ import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.engine.sql.service.WsFlinkArtifactSqlService;
 import cn.sliew.scaleph.engine.sql.service.dto.WsFlinkArtifactSqlDTO;
-import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlHistoryParam;
-import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlInsertParam;
-import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlParam;
-import cn.sliew.scaleph.engine.sql.service.param.WsFlinkArtifactSqlUpdateParam;
+import cn.sliew.scaleph.engine.sql.service.param.*;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -83,7 +80,7 @@ public class WsArtifactSqlController {
     @Logging
     @PutMapping
     @ApiOperation(value = "新增 artifact sql", notes = "新增 artifact sql")
-    public ResponseEntity<ResponseVO> insert(@Valid WsFlinkArtifactSqlInsertParam param) throws IOException, UidGenerateException {
+    public ResponseEntity<ResponseVO> insert(@RequestBody @Valid WsFlinkArtifactSqlInsertParam param) throws IOException, UidGenerateException {
         wsFlinkArtifactSqlService.insert(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
@@ -91,8 +88,16 @@ public class WsArtifactSqlController {
     @Logging
     @PostMapping
     @ApiOperation(value = "修改 artifact sql", notes = "修改 artifact sql")
-    public ResponseEntity<ResponseVO> update(@Valid WsFlinkArtifactSqlUpdateParam param) {
+    public ResponseEntity<ResponseVO> update(@RequestBody @Valid WsFlinkArtifactSqlUpdateParam param) {
         wsFlinkArtifactSqlService.update(param);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("script")
+    @ApiOperation(value = "修改 artifact sql", notes = "修改 artifact sql")
+    public ResponseEntity<ResponseVO> updateScript(@RequestBody @Valid WsFlinkArtifactSqlScriptUpdateParam param) {
+        wsFlinkArtifactSqlService.updateScript(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
