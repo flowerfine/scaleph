@@ -16,20 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes;
+package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
-public enum Constant {
-    ;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobListParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-    public static final String GROUP = "flink.apache.org";
-    public static final String VERSION = "v1beta1";
-    public static final String API_VERSION = GROUP + "/" + VERSION;
+public interface WsFlinkKubernetesJobService {
 
-    public static final String FLINK_TEMPLATE = "FlinkTemplate";
-    public static final String FLINK_DEPLOYMENT = "FlinkDeployment";
-    public static final String FLINK_SESSION_CLUSTER = "FlinkSessionCluster";
-    public static final String FLINK_SESSION_JOB = "FlinkSessionJob";
-    public static final String FLINK_JOB = "FlinkJob";
-    public static final String JAR_ARTIFACT = "JarArtifact";
+    Page<WsFlinkKubernetesJobDTO> list(WsFlinkKubernetesJobListParam param);
 
 }

@@ -16,20 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.kubernetes;
+package cn.sliew.scaleph.plugin.file.fetcher.core.cli;
 
-public enum Constant {
-    ;
+import cn.sliew.scaleph.plugin.framework.exception.PluginException;
 
-    public static final String GROUP = "flink.apache.org";
-    public static final String VERSION = "v1beta1";
-    public static final String API_VERSION = GROUP + "/" + VERSION;
+/**
+ * Special exception that is thrown when the command line parsing fails.
+ */
+public class CliArgsException extends PluginException {
 
-    public static final String FLINK_TEMPLATE = "FlinkTemplate";
-    public static final String FLINK_DEPLOYMENT = "FlinkDeployment";
-    public static final String FLINK_SESSION_CLUSTER = "FlinkSessionCluster";
-    public static final String FLINK_SESSION_JOB = "FlinkSessionJob";
-    public static final String FLINK_JOB = "FlinkJob";
-    public static final String JAR_ARTIFACT = "JarArtifact";
+    private static final long serialVersionUID = 1L;
 
+    public CliArgsException(String message) {
+        super(message);
+    }
+
+    public CliArgsException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

@@ -18,41 +18,32 @@
 
 package cn.sliew.scaleph.dao.entity.master.ws;
 
-import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import java.util.Date;
 
 /**
  * <p>
- * flink kubernetes deployment
+ * flink kubernetes job instance
  * </p>
  */
 @Data
-@EqualsAndHashCode
-@TableName("ws_flink_kubernetes_deployment")
-@ApiModel(value = "WsFlinkKubernetesDeployment对象", description = "flink kubernetes deployment")
-public class WsFlinkKubernetesDeployment extends BaseDO {
+@TableName("ws_flink_kubernetes_job_instance")
+@ApiModel(value = "WsFlinkKubernetesJobInstance对象", description = "flink kubernetes job instance")
+public class WsFlinkKubernetesJobInstance extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("`kind`")
-    private DeploymentKind kind;
+    @TableField("ws_flink_kubernetes_job_id")
+    private Long wsFlinkKubernetesJobId;
 
-    @TableField("`name`")
-    private String name;
-
-    @TableField("deployment_id")
-    private String deploymentId;
-
-    @TableField("namespace")
-    private String namespace;
-
-    @TableField("kuberenetes_options")
-    private String kuberenetesOptions;
+    @TableField("job_id")
+    private String jobId;
 
     @TableField("job_manager")
     private String jobManager;
@@ -60,25 +51,25 @@ public class WsFlinkKubernetesDeployment extends BaseDO {
     @TableField("task_manager")
     private String taskManager;
 
-    @TableField("pod_template")
-    private String podTemplate;
+    @TableField("user_flink_configuration")
+    private String userFlinkConfiguration;
 
-    @TableField("flink_configuration")
-    private String flinkConfiguration;
+    @TableField("`status`")
+    private String status;
 
-    @TableField("log_configuration")
-    private String logConfiguration;
+    @TableField("state")
+    private String state;
 
-    @TableField("ingress")
-    private String ingress;
+    @ApiModelProperty("开始时间")
+    @TableField("start_time")
+    private Date startTime;
 
-    @TableField("deployment_name")
-    private String deploymentName;
+    @ApiModelProperty("结束时间")
+    @TableField("end_time")
+    private Date endTime;
 
-    @TableField("job")
-    private String job;
-
-    @TableField("remark")
-    private String remark;
+    @ApiModelProperty("耗时")
+    @TableField("duration")
+    private Long duration;
 
 }

@@ -42,6 +42,9 @@ public class WsFlinkKubernetesTemplate extends BaseDO {
     @TableField("`name`")
     private String name;
 
+    @TableField("template_id")
+    private String templateId;
+
     @ApiModelProperty("flink metadata")
     @TableField("metadata")
     private String metadata;

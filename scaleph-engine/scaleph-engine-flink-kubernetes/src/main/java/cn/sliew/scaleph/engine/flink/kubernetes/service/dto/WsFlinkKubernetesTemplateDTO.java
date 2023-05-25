@@ -39,6 +39,9 @@ public class WsFlinkKubernetesTemplateDTO extends BaseDTO {
 
     private String name;
 
+    @ApiModelProperty("template id")
+    private String templateId;
+
     @NotNull
     @ApiModelProperty("flink metadata")
     private JsonNode metadata;
