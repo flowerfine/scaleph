@@ -40,7 +40,8 @@
 
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-plugin-datasource</artifactId>
+            <artifactId>scaleph-plugin-datasource-api</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
 
     </dependencies>

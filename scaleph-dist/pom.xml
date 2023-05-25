@@ -39,6 +39,11 @@
             <artifactId>scaleph-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>scaleph-plugin-datasource-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
     </dependencies>
 
     <profiles>

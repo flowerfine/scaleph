@@ -27,26 +27,27 @@ import java.util.stream.StreamSupport;
 public class PluginSPILoader<C extends Plugin> {
 
     private final Class<C> clazz;
-    private final ClassLoader classLoader;
+    private final Collection<ClassLoader> classLoaders;
 
     private volatile Map<PluginInfo, C> services = Collections.emptyMap();
     private volatile Set<PluginInfo> pluginInfos = Collections.emptySet();
 
-    public PluginSPILoader(Class<C> clazz, ClassLoader classLoader) {
+    public PluginSPILoader(Class<C> clazz, ClassLoader... classLoaders) {
         this.clazz = clazz;
         final ClassLoader clazzClassloader = clazz.getClassLoader();
-        if (classLoader == null) {
-            classLoader = clazzClassloader;
+        if (classLoaders == null || classLoaders.length == 0) {
+            this.classLoaders = Collections.singletonList(clazzClassloader);
+        } else {
+            this.classLoaders = List.of(classLoaders);
         }
-        this.classLoader = classLoader;
-        load(classLoader);
+        load();
     }
 
     public C newInstance(String name, Properties props) {
         final Optional<PluginInfo> optional = pluginInfos.stream().filter(pluginInfo -> pluginInfo.getName().equals(name)).findFirst();
         final PluginInfo pluginInfo = optional.orElseThrow(() -> new RuntimeException("unknown plugin for " + name));
         try {
-            final Class<C> aClass = (Class<C>) Class.forName(pluginInfo.getClassname(), true, classLoader);
+            final Class<C> aClass = (Class<C>) Class.forName(pluginInfo.getClassname(), true, pluginInfo.getClassLoader());
             final C instance = aClass.getConstructor().newInstance();
             instance.configure(PropertyContext.fromProperties(props));
             return instance;
@@ -71,21 +72,23 @@ public class PluginSPILoader<C extends Plugin> {
         }
     }
 
-    public void load(ClassLoader classLoader) {
-        Objects.requireNonNull(classLoader, "classLoader must not be null");
+    public void load() {
+        Objects.requireNonNull(this.classLoaders, "classLoader must not be null");
         final LinkedHashMap<PluginInfo, C> services = new LinkedHashMap<>(this.services);
         final LinkedHashSet<PluginInfo> pluginInfos = new LinkedHashSet<>(this.pluginInfos);
-
-        final Spliterator<C> spliterator = ServiceLoader.load(clazz, classLoader).spliterator();
-        StreamSupport.stream(spliterator, false)
-            .forEachOrdered(
-                service -> {
-                    final PluginInfo pluginInfo = service.getPluginInfo();
-                    if (!services.containsKey(pluginInfo)) {
-                        services.put(pluginInfo, service);
-                        pluginInfos.add(pluginInfo);
-                    }
-                });
+        this.classLoaders.forEach(classLoader -> {
+            final Spliterator<C> spliterator = ServiceLoader.load(clazz, classLoader).spliterator();
+            StreamSupport.stream(spliterator, false)
+                    .forEachOrdered(
+                            service -> {
+                                final PluginInfo pluginInfo = service.getPluginInfo();
+                                pluginInfo.setClassLoader(classLoader);
+                                if (!services.containsKey(pluginInfo)) {
+                                    services.put(pluginInfo, service);
+                                    pluginInfos.add(pluginInfo);
+                                }
+                            });
+        });
         this.services = new HashMap<>(services);
         this.pluginInfos = new HashSet<>(pluginInfos);
     }

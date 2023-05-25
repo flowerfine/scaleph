@@ -25,8 +25,7 @@ import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum FileUtil {
@@ -176,6 +175,47 @@ public enum FileUtil {
             return null;
         }
         return Files.list(path).collect(Collectors.toList());
+    }
+
+    public static List<Path> listFilesRecursively(Path path, Function<Path, Boolean> filter) throws IOException {
+        List<Path> paths = new ArrayList<>();
+        if (Files.exists(path) && Files.isDirectory(path)) {
+            FilterFileVisitor filterFileVisitor = new FilterFileVisitor(filter);
+            Files.walkFileTree(path, filterFileVisitor);
+            paths = filterFileVisitor.getPaths();
+        }
+        return paths;
+    }
+
+    private static class FilterFileVisitor extends SimpleFileVisitor<Path> {
+
+        private final List<Path> paths;
+        private final Function<Path, Boolean> filter;
+
+        public FilterFileVisitor(Function<Path, Boolean> filter) {
+            this.paths = new ArrayList<>();
+            this.filter = filter;
+        }
+
+        public List<Path> getPaths() {
+            return paths;
+        }
+
+        @Override
+        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+            if (filter.apply(dir)) {
+                paths.add(dir);
+            }
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+            if (filter.apply(file)) {
+                paths.add(file);
+            }
+            return FileVisitResult.CONTINUE;
+        }
     }
 
 }
