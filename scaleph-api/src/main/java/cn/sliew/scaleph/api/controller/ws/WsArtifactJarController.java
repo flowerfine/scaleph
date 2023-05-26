@@ -134,7 +134,7 @@ public class WsArtifactJarController {
     @Logging
     @DeleteMapping("/all/{id}")
     @ApiOperation(value = "删除所有 artifact jar", notes = "删除所有 artifact jar")
-    public ResponseEntity<ResponseVO> deleteAll(@PathVariable("id") Long id) throws IOException {
+    public ResponseEntity<ResponseVO> deleteAll(@PathVariable("id") Long id) throws IOException, ScalephException {
         wsFlinkArtifactJarService.deleteAll(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }

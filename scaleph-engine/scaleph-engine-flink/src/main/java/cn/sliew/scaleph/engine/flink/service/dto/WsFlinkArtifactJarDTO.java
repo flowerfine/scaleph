@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.service.dto;
 
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
@@ -56,7 +57,10 @@ public class WsFlinkArtifactJarDTO extends BaseDTO {
     @ApiModelProperty("Jar 存储路径")
     private String path;
 
-    @ApiModelProperty("Jar 版本")
-    private String version;
+    @ApiModelProperty("jar_params")
+    private String jarParams;
+
+    @ApiModelProperty("current version")
+    private YesOrNo current;
 
 }

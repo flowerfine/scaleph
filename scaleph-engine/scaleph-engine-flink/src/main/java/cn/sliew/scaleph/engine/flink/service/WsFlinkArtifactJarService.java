@@ -43,11 +43,13 @@ public interface WsFlinkArtifactJarService {
 
     WsFlinkArtifactJarDTO selectOne(Long id);
 
+    WsFlinkArtifactJarDTO selectCurrent(Long artifactId);
+
     JarArtifact asYaml(Long id);
 
     int deleteOne(Long id) throws ScalephException, IOException;
 
-    int deleteAll(Long flinkArtifactId) throws IOException;
+    int deleteAll(Long flinkArtifactId) throws IOException, ScalephException;
 
     void upload(WsFlinkArtifactJarUploadParam param, MultipartFile file) throws IOException, UidGenerateException;
 

@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dao.entity.master.ws;
 
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -59,5 +60,8 @@ public class WsFlinkArtifactJar extends BaseDO {
 
     @TableField("jar_params")
     private String jarParams;
+
+    @TableField("`current`")
+    private YesOrNo current;
 
 }

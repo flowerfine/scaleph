@@ -18,28 +18,18 @@
 
 package cn.sliew.scaleph.engine.sql.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class WsFlinkArtifactSqlInsertParam {
+public class WsFlinkArtifactSqlScriptUpdateParam {
 
     @NotNull
-    @ApiModelProperty("Project ID")
-    private Long projectId;
+    @ApiModelProperty("id")
+    private Long id;
 
-    @NotBlank
-    @ApiModelProperty("name")
-    private String name;
-
-    @ApiModelProperty("remark")
-    private String remark;
-
-    @NotNull
-    @ApiModelProperty("flink 版本")
-    private FlinkVersion flinkVersion;
+    @ApiModelProperty("script")
+    private String script;
 }

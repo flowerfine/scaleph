@@ -64,9 +64,10 @@ public class WsFlinkArtifactServiceImpl implements WsFlinkArtifactService {
     }
 
     @Override
-    public int insert(WsFlinkArtifactDTO dto) {
-        final WsFlinkArtifact record = WsFlinkArtifactConvert.INSTANCE.toDo(dto);
-        return flinkArtifactMapper.insert(record);
+    public WsFlinkArtifactDTO insert(WsFlinkArtifactDTO dto) {
+        WsFlinkArtifact record = WsFlinkArtifactConvert.INSTANCE.toDo(dto);
+        flinkArtifactMapper.insert(record);
+        return selectOne(record.getId());
     }
 
     @Override

@@ -29,7 +29,7 @@ public interface WsFlinkArtifactService {
 
     WsFlinkArtifactDTO selectOne(Long id);
 
-    int insert(WsFlinkArtifactDTO dto);
+    WsFlinkArtifactDTO insert(WsFlinkArtifactDTO dto);
 
     int update(WsFlinkArtifactDTO dto);
 

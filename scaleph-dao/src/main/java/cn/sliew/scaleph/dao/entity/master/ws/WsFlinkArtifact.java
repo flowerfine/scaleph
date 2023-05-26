@@ -48,9 +48,6 @@ public class WsFlinkArtifact extends BaseDO {
     @TableField("name")
     private String name;
 
-    @TableField("`current`")
-    private Long current;
-
     @TableField("remark")
     private String remark;
 
