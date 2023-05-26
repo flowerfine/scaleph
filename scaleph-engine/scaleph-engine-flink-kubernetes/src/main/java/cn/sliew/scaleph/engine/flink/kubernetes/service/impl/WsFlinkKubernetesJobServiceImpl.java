@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobMapper;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
@@ -34,6 +35,7 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
 
     @Override
     public Page<WsFlinkKubernetesJobDTO> list(WsFlinkKubernetesJobListParam param) {
+        Page<WsFlinkKubernetesJob> page = new Page<>(param.getCurrent(), param.getPageSize());
         return null;
     }
 

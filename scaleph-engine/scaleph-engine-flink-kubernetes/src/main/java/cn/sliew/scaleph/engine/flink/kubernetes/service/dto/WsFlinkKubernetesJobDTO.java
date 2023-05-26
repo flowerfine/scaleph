@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.artifact.Artifact;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifact;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -47,7 +47,7 @@ public class WsFlinkKubernetesJobDTO extends BaseDTO {
     private String jobId;
 
     @ApiModelProperty("flink artifact")
-    private Artifact artifactId;
+    private WsFlinkArtifact artifact;
 
     @ApiModelProperty("remark")
     private String remark;

@@ -20,22 +20,45 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
+import org.springframework.beans.BeanUtils;
 
-@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WsFlinkKubernetesJobConvert extends BaseConvert<WsFlinkKubernetesJob, WsFlinkKubernetesJobDTO> {
     WsFlinkKubernetesJobConvert INSTANCE = Mappers.getMapper(WsFlinkKubernetesJobConvert.class);
 
     @Override
     default WsFlinkKubernetesJob toDo(WsFlinkKubernetesJobDTO dto) {
-        return null;
+        WsFlinkKubernetesJob entity = new WsFlinkKubernetesJob();
+        BeanUtils.copyProperties(dto, entity);
+        if (dto.getFlinkDeployment() != null) {
+            Object flinkDeployment = dto.getFlinkDeployment();
+            switch (dto.getFlinkDeploymentMode()) {
+                case APPLICATION:
+                case PER_JOB:
+                    WsFlinkKubernetesDeploymentDTO deploymentDTO = (WsFlinkKubernetesDeploymentDTO) flinkDeployment;
+                    entity.setFlinkDeploymentId(deploymentDTO.getId());
+                    break;
+                case SESSION:
+                    WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = (WsFlinkKubernetesSessionClusterDTO) flinkDeployment;
+                    entity.setFlinkDeploymentId(sessionClusterDTO.getId());
+                    break;
+                default:
+            }
+        }
+        entity.setArtifactId(dto.getArtifact().getId());
+        return entity;
     }
 
     @Override
     default WsFlinkKubernetesJobDTO toDto(WsFlinkKubernetesJob entity) {
-        return null;
+        WsFlinkKubernetesJobDTO dto = new WsFlinkKubernetesJobDTO();
+        BeanUtils.copyProperties(entity, dto);
+        return dto;
     }
 }
