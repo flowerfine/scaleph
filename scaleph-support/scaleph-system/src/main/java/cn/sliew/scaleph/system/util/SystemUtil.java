@@ -42,7 +42,7 @@ public class SystemUtil implements InitializingBean, DisposableBean {
         SystemUtil.workspace = workspace;
     }
 
-    @Value("{app.plugin.datasource.dir}")
+    @Value("${app.plugin.datasource.dir}")
     public void setDatasourcePluginDir(String datasourcePluginDir) {
         SystemUtil.datasourcePluginDir = datasourcePluginDir;
     }
