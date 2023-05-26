@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dao.entity.master.ws;
 
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -46,16 +47,9 @@ public class WsFlinkArtifactSql extends BaseDO {
     @TableField("flink_version")
     private FlinkVersion flinkVersion;
 
-    @TableField("file_name")
-    private String fileName;
+    @TableField("script")
+    private String script;
 
-    @TableField("path")
-    private String path;
-
-    @TableField("version")
-    private String version;
-
-    @TableField("remark")
-    private String remark;
-
+    @TableField("`current`")
+    private YesOrNo current;
 }

@@ -191,6 +191,33 @@ export type WsFlinkArtifactJarHistoryParam = QueryParam & {
   flinkArtifactId: number;
 };
 
+export type WsFlinkArtifactSql = {
+  id?: number;
+  wsFlinkArtifact?: WsFlinkArtifact;
+  flinkVersion?: Dict;
+  script?: string;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsFlinkArtifactSqlParam = QueryParam & {
+  flinkArtifactId: number;
+  version?: string;
+  flinkVersion: string;
+};
+
+export type WsFlinkArtifactSqlAddParam = {
+  projectId: number | string;
+  name: string;
+  remark?: string;
+  flinkVersion: string;
+};
+
+export type WsFlinkArtifactSqlScriptUpdateParam = {
+  id: number;
+  script?: string;
+};
+
 export type WsFlinkClusterConfig = {
   id?: number;
   projectId?: number | string;

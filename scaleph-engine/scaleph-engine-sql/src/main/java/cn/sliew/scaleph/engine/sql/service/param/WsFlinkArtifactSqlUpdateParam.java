@@ -26,11 +26,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class WsFlinkArtifactSqlInsertParam {
+public class WsFlinkArtifactSqlUpdateParam {
 
     @NotNull
-    @ApiModelProperty("Project ID")
-    private Long projectId;
+    @ApiModelProperty("id")
+    private Long id;
 
     @NotBlank
     @ApiModelProperty("name")
@@ -39,7 +39,6 @@ public class WsFlinkArtifactSqlInsertParam {
     @ApiModelProperty("remark")
     private String remark;
 
-    @NotNull
     @ApiModelProperty("flink 版本")
     private FlinkVersion flinkVersion;
 }

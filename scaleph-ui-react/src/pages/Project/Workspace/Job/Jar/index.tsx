@@ -1,6 +1,5 @@
 import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from '@/constant';
-import {FlinkArtifactService} from '@/services/project/flinkArtifact.service';
-import {WsFlinkArtifact, WsFlinkArtifactJar} from '@/services/project/typings';
+import {WsFlinkArtifactJar} from '@/services/project/typings';
 import {DeleteOutlined, DownloadOutlined, EditOutlined, FolderOpenOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {Button, message, Modal, Space, Tooltip} from 'antd';
@@ -69,7 +68,7 @@ const JobArtifactJarView: React.FC = () => {
       width: 240,
       hideInSearch: true,
       render: (dom, entity, index, action, schema) => {
-        return entity.wsFlinkArtifact?.name
+        return entity.wsFlinkArtifact?.remark
       }
     },
     {
@@ -107,11 +106,11 @@ const JobArtifactJarView: React.FC = () => {
               </Tooltip>
             )}
             {access.canAccess(PRIVILEGE_CODE.datadevResourceDownload) && (
-              <Tooltip title={intl.formatMessage({ id: 'app.common.operate.download.label' })}>
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.download.label'})}>
                 <Button
                   shape="default"
                   type="link"
-                  icon={<DownloadOutlined />}
+                  icon={<DownloadOutlined/>}
                   onClick={() => {
                     FlinkArtifactJarService.download(record);
                   }}
@@ -164,7 +163,7 @@ const JobArtifactJarView: React.FC = () => {
 
   return (
     <div>
-      <ProTable<WsFlinkArtifact>
+      <ProTable<WsFlinkArtifactJar>
         headerTitle={intl.formatMessage({id: 'menu.project.job.artifact'})}
         search={{
           labelWidth: 'auto',

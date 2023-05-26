@@ -26,7 +26,6 @@ create table ws_flink_artifact
     project_id  bigint       not null comment '项目id',
     `type`      varchar(4)   not null comment '作业artifact类型',
     name        varchar(255) not null comment '作业artifact名称',
-    current     bigint       not null comment 'artifact id',
     remark      varchar(255) comment '备注',
     creator     varchar(32) comment '创建人',
     create_time timestamp default current_timestamp comment '创建时间',
@@ -46,28 +45,29 @@ create table ws_flink_artifact_jar
     file_name         varchar(255) not null comment '文件名称',
     path              varchar(255) not null comment '文件路径',
     jar_params        text comment 'jar 运行参数',
+    current           varchar(16)  not null comment 'current artifact',
     creator           varchar(32) comment '创建人',
     create_time       timestamp default current_timestamp comment '创建时间',
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key               idx_flink_artifact (flink_artifact_id)
+    key idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment = 'flink artifact jar';
 
 DROP TABLE IF EXISTS ws_flink_artifact_sql;
 CREATE TABLE ws_flink_artifact_sql
 (
-    id                bigint       not null auto_increment,
-    flink_artifact_id bigint       not null comment '作业artifact id',
-    flink_version     varchar(32)  not null comment 'flink版本',
-    file_name         varchar(255) not null comment '文件名称',
-    script            text         not null comment 'sql script',
+    id                bigint      not null auto_increment,
+    flink_artifact_id bigint      not null comment '作业artifact id',
+    flink_version     varchar(32) not null comment 'flink版本',
+    script            text comment 'sql script',
+    current           varchar(16) not null comment 'current artifact',
     creator           varchar(32),
-    create_time       datetime     not null default current_timestamp,
+    create_time       datetime    not null default current_timestamp,
     editor            varchar(32),
-    update_time       datetime     not null default current_timestamp on update current_timestamp,
+    update_time       datetime    not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    key               idx_flink_artifact (flink_artifact_id)
+    key idx_flink_artifact (flink_artifact_id)
 ) ENGINE = INNODB COMMENT = 'flink artifact sql';
 
 /* 数据集成-作业信息*/
@@ -216,7 +216,7 @@ CREATE TABLE ws_flink_cluster_instance
     update_time             timestamp default current_timestamp on update current_timestamp comment '修改时间',
     PRIMARY KEY (id),
     unique key (project_id, flink_cluster_config_id, name),
-    KEY                     idx_name ( name)
+    KEY idx_name (name)
 ) ENGINE = INNODB COMMENT = 'flink cluster instance';
 
 drop table if exists ws_flink_job;
@@ -239,10 +239,10 @@ create table ws_flink_job
     update_time               timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key idx_code (code),
-    key                       idx_name ( type, name),
-    key                       idx_flink_artifact ( type, flink_artifact_id),
-    key                       idx_flink_cluster_config (flink_cluster_config_id),
-    key                       idx_flink_cluster_instance (flink_cluster_instance_id)
+    key idx_name (type, name),
+    key idx_flink_artifact (type, flink_artifact_id),
+    key idx_flink_cluster_config (flink_cluster_config_id),
+    key idx_flink_cluster_instance (flink_cluster_instance_id)
 ) engine = innodb comment ='flink作业信息';
 
 drop table if exists ws_flink_job_instance;
@@ -343,6 +343,7 @@ CREATE TABLE ws_flink_kubernetes_deployment
 (
     id                  bigint       not null auto_increment,
     kind                varchar(16)  not null,
+
     `name`              varchar(255) not null,
     deployment_id       varchar(64)  not null,
     namespace           varchar(255) not null,
@@ -364,7 +365,8 @@ CREATE TABLE ws_flink_kubernetes_deployment
     UNIQUE KEY uniq_name (kind, `name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment';
 
-INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `deployment_id`, `namespace`, `kuberenetes_options`, `job_manager`,
+INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `deployment_id`, `namespace`, `kuberenetes_options`,
+                                              `job_manager`,
                                               `task_manager`, `pod_template`, `flink_configuration`,
                                               `log_configuration`, `ingress`, `deployment_name`, `job`,
                                               `remark`, `creator`, `editor`)
@@ -375,7 +377,8 @@ VALUES (1, 'FlinkDeployment', 'basic-example', 'default', 'b9d1f4e5-e508-44b1-a7
         '{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"entryClass\":\"org.apache.flink.streaming.examples.statemachine.StateMachineExample\",\"parallelism\":2,\"upgradeMode\":\"stateless\"}',
         NULL, 'sys', 'sys');
 
-INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `deployment_id`, `namespace`, `kuberenetes_options`, `job_manager`,
+INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `deployment_id`, `namespace`, `kuberenetes_options`,
+                                              `job_manager`,
                                               `task_manager`, `pod_template`, `flink_configuration`,
                                               `log_configuration`, `ingress`, `deployment_name`, `job`,
                                               `remark`, `creator`, `editor`)
@@ -389,7 +392,8 @@ VALUES (2, 'FlinkDeployment', 'stateful-example', 'default', 'deda1bdc-f90e-41f5
         '{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":2,\"entryClass\":\"org.apache.flink.streaming.examples.statemachine.StateMachineExample\",\"args\":[],\"state\":\"running\",\"upgradeMode\":\"last-state\"}',
         NULL, 'sys', 'sys');
 
-INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `deployment_id`, `namespace`, `kuberenetes_options`, `job_manager`,
+INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `kind`, `name`, `deployment_id`, `namespace`, `kuberenetes_options`,
+                                              `job_manager`,
                                               `task_manager`, `pod_template`, `flink_configuration`,
                                               `log_configuration`, `ingress`, `deployment_name`, `job`,
                                               `remark`, `creator`, `editor`)

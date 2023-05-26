@@ -46,9 +46,6 @@ public class WsFlinkArtifactDTO extends BaseDTO {
     @ApiModelProperty("名称")
     private String name;
 
-    @ApiModelProperty("`current`")
-    private Long current;
-
     @ApiModelProperty("备注")
     private String remark;
 }

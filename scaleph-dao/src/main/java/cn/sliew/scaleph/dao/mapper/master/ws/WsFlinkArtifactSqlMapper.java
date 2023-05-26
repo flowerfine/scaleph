@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dao.mapper.master.ws;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -33,7 +34,12 @@ import org.springframework.stereotype.Repository;
 public interface WsFlinkArtifactSqlMapper extends BaseMapper<WsFlinkArtifactSql> {
 
     Page<WsFlinkArtifactSql> list(Page<WsFlinkArtifactSql> page,
-                                  @Param("param") WsFlinkArtifactSql param);
+                                  @Param("projectId") Long projectId,
+                                  @Param("name") String name,
+                                  @Param("flinkVersion") FlinkVersion flinkVersion);
 
     WsFlinkArtifactSql selectOne(@Param("id") Long id);
+
+    WsFlinkArtifactSql selectCurrent(@Param("artifactId") Long artifactId);
+
 }
