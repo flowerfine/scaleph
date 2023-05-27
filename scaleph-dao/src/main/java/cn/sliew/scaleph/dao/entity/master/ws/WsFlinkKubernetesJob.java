@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.dao.entity.master.ws;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -38,6 +39,15 @@ public class WsFlinkKubernetesJob extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField("`name`")
+    private String name;
+
+    @TableField("job_id")
+    private String jobId;
+
+    @TableField("execution_mode")
+    private FlinkRuntimeExecutionMode executionMode;
+
     @TableField("flink_deployment_mode")
     private FlinkDeploymentMode flinkDeploymentMode;
 
@@ -45,22 +55,28 @@ public class WsFlinkKubernetesJob extends BaseDO {
     private Long flinkDeploymentId;
 
     @TableField(exist = false)
-    private Object flinkDeployment;
+    private WsFlinkKubernetesDeployment flinkDeployment;
 
-    @TableField("execution_mode")
-    private FlinkRuntimeExecutionMode executionMode;
-
-    @TableField("`name`")
-    private String name;
-
-    @TableField("job_id")
-    private String jobId;
-
-    @TableField("artifact_id")
-    private Long artifactId;
+    @TableField("flink_session_cluster_id")
+    private Long flinkSessionClusterId;
 
     @TableField(exist = false)
-    private WsFlinkArtifact artifact;
+    private WsFlinkKubernetesSessionCluster flinkSessionCluster;
+
+    @TableField("`type`")
+    private FlinkJobType type;
+
+    @TableField("flink_artifact_jar_id")
+    private Long flinkArtifactJarId;
+
+    @TableField(exist = false)
+    private WsFlinkArtifactJar flinkArtifactJar;
+
+    @TableField("flink_artifact_sql_id")
+    private Long flinkArtifactSqlId;
+
+    @TableField(exist = false)
+    private WsFlinkArtifactSql flinkArtifactSql;
 
     @TableField("remark")
     private String remark;
