@@ -28,17 +28,52 @@
         <result column="update_time" property="updateTime" />
         <result column="flink_deployment_mode" property="flinkDeploymentMode" />
         <result column="flink_deployment_id" property="flinkDeploymentId" />
+        <result column="execution_mode" property="executionMode" />
         <result column="name" property="name" />
         <result column="job_id" property="jobId" />
         <result column="artifact_id" property="artifactId" />
         <result column="remark" property="remark" />
+        <association property="artifact" column="artifact_id"
+                     select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactMapper.selectById"
+                     resultMap="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactMapper.FlinkArtifactMap"/>
+        <discriminator javaType="cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode" column="flink_deployment_mode">
+            <case value="0">
+                <association property="flinkDeployment" column="flink_deployment_id"
+                             select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesDeploymentMapper.selectById"
+                             resultMap="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesDeploymentMapper.BaseResultMap"/>
+            </case>
+            <case value="2">
+                <association property="flinkDeployment" column="flink_deployment_id"
+                             select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesSessionClusterMapper.selectById"
+                             resultMap="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesSessionClusterMapper.BaseResultMap"/>
+            </case>
+        </discriminator>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        flink_deployment_mode, flink_deployment_id, `name`,
-        job_id, artifact_id, remark
+        flink_deployment_mode, flink_deployment_id, execution_mode,
+        `name`, job_id, artifact_id, remark
     </sql>
+
+    <select id="list" resultMap="BaseResultMap">
+        SELECT t1.*
+        FROM ws_flink_kubernetes_job t1
+                 LEFT JOIN ws_flink_artifact t2 ON t1.artifact_id = t2.id
+        WHERE
+        <if test="executionMode != null">
+            AND t1.execution_mode = #{executionMode}
+        </if>
+        <if test="flinkJobType != null">
+            AND t2.type = #{flinkJobType}
+        </if>
+        <if test="flinkDeploymentMode != null">
+            AND t1.flink_deployment_mode = #{flinkDeploymentMode}
+        </if>
+        <if test="name != null and name != ''">
+            AND t1.name like concat('%', #{name}, '%')
+        </if>
+    </select>
 
 </mapper>

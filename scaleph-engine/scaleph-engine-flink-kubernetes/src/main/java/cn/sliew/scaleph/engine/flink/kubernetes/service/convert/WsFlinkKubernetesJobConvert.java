@@ -19,7 +19,9 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesDeployment;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob;
+import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
@@ -59,6 +61,18 @@ public interface WsFlinkKubernetesJobConvert extends BaseConvert<WsFlinkKubernet
     default WsFlinkKubernetesJobDTO toDto(WsFlinkKubernetesJob entity) {
         WsFlinkKubernetesJobDTO dto = new WsFlinkKubernetesJobDTO();
         BeanUtils.copyProperties(entity, dto);
+        switch (entity.getFlinkDeploymentMode()) {
+            case APPLICATION:
+            case PER_JOB:
+                WsFlinkKubernetesDeployment deployment = (WsFlinkKubernetesDeployment) entity.getFlinkDeployment();
+                dto.setFlinkDeployment(WsFlinkKubernetesDeploymentConvert.INSTANCE.toDto(deployment));
+                break;
+            case SESSION:
+                WsFlinkKubernetesSessionCluster sessionCluster = (WsFlinkKubernetesSessionCluster) entity.getFlinkDeployment();
+                dto.setFlinkDeployment(WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDto(sessionCluster));
+                break;
+            default:
+        }
         return dto;
     }
 }

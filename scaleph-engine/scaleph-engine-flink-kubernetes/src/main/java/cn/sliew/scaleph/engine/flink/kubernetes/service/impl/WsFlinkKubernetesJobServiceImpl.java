@@ -21,11 +21,14 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobMapper;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesJobConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobService {
@@ -36,7 +39,11 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
     @Override
     public Page<WsFlinkKubernetesJobDTO> list(WsFlinkKubernetesJobListParam param) {
         Page<WsFlinkKubernetesJob> page = new Page<>(param.getCurrent(), param.getPageSize());
-        return null;
+        Page<WsFlinkKubernetesJob> wsFlinkKubernetesJobPage = wsFlinkKubernetesJobMapper.list(page, param.getFlinkRuntimeExecutionMode(), param.getFlinkJobType(), param.getFlinkDeploymentMode(), param.getFlinkJobState(), param.getName());
+        Page<WsFlinkKubernetesJobDTO> result = new Page<>(wsFlinkKubernetesJobPage.getCurrent(), wsFlinkKubernetesJobPage.getSize(), wsFlinkKubernetesJobPage.getTotal());
+        List<WsFlinkKubernetesJobDTO> wsFlinkKubernetesJobDTOS = WsFlinkKubernetesJobConvert.INSTANCE.toDto(wsFlinkKubernetesJobPage.getRecords());
+        result.setRecords(wsFlinkKubernetesJobDTOS);
+        return result;
     }
 
 }

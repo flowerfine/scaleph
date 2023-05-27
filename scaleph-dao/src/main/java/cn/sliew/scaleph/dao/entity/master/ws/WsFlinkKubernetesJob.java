@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.dao.entity.master.ws;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
+import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -43,6 +44,12 @@ public class WsFlinkKubernetesJob extends BaseDO {
     @TableField("flink_deployment_id")
     private Long flinkDeploymentId;
 
+    @TableField(exist = false)
+    private Object flinkDeployment;
+
+    @TableField("execution_mode")
+    private FlinkRuntimeExecutionMode executionMode;
+
     @TableField("`name`")
     private String name;
 
@@ -51,6 +58,9 @@ public class WsFlinkKubernetesJob extends BaseDO {
 
     @TableField("artifact_id")
     private Long artifactId;
+
+    @TableField(exist = false)
+    private WsFlinkArtifact artifact;
 
     @TableField("remark")
     private String remark;
