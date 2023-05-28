@@ -1,12 +1,14 @@
-import { PageResponse, ResponseBody } from '@/app.d';
-import { USER_AUTH } from '@/constant';
+import {PageResponse, ResponseBody} from '@/app.d';
+import {USER_AUTH} from '@/constant';
 import {
-  WsFlinkArtifactJar, WsFlinkArtifactJarHistoryParam,
+  WsFlinkArtifactJar,
+  WsFlinkArtifactJarHistoryParam,
   WsFlinkArtifactJarParam,
+  WsFlinkArtifactJarSelectListParam,
   WsFlinkArtifactJarUpdateParam,
   WsFlinkArtifactJarUploadParam
 } from './typings';
-import { request } from 'umi';
+import {request} from 'umi';
 
 export const FlinkArtifactJarService = {
   url: '/api/flink/artifact/jar',
@@ -41,10 +43,10 @@ export const FlinkArtifactJarService = {
     });
   },
 
-  listAllByArtifact: async (id: string | number) => {
-    return request<WsFlinkArtifactJar[]>(`${FlinkArtifactJarService.url}/all`, {
+  listAll: async (queryParam: WsFlinkArtifactJarSelectListParam) => {
+    return request<ResponseBody<Array<WsFlinkArtifactJar>>>(`${FlinkArtifactJarService.url}/all`, {
       method: 'GET',
-      params: {id: id}
+      params: queryParam,
     });
   },
 
@@ -76,7 +78,7 @@ export const FlinkArtifactJarService = {
     return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}`, {
       method: 'PUT',
       data: uploadParam,
-      headers: { 'Content-Type': 'multipart/form-data' },
+      headers: {'Content-Type': 'multipart/form-data'},
     });
   },
 
@@ -84,7 +86,7 @@ export const FlinkArtifactJarService = {
     return request<ResponseBody<any>>(`${FlinkArtifactJarService.url}/jar`, {
       method: 'POST',
       data: uploadParam,
-      headers: { 'Content-Type': 'multipart/form-data' },
+      headers: {'Content-Type': 'multipart/form-data'},
     });
   },
 

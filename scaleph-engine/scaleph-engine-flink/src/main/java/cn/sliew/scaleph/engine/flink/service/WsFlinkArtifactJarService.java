@@ -21,10 +21,7 @@ package cn.sliew.scaleph.engine.flink.service;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.engine.flink.resource.JarArtifact;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarHistoryParam;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarParam;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUpdateParam;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUploadParam;
+import cn.sliew.scaleph.engine.flink.service.param.*;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,11 +32,11 @@ import java.util.List;
 
 public interface WsFlinkArtifactJarService {
 
-    Page<WsFlinkArtifactJarDTO> list(WsFlinkArtifactJarParam param);
+    Page<WsFlinkArtifactJarDTO> list(WsFlinkArtifactJarListParam param);
 
     Page<WsFlinkArtifactJarDTO> listByArtifact(WsFlinkArtifactJarHistoryParam param);
 
-    List<WsFlinkArtifactJarDTO> listAllByArtifact(Long artifactId);
+    List<WsFlinkArtifactJarDTO> listAll(WsFlinkArtifactJarSelectListParam param);
 
     WsFlinkArtifactJarDTO selectOne(Long id);
 

@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -61,6 +62,7 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
     public int insert(WsFlinkKubernetesJobAddParam param) {
         WsFlinkKubernetesJob record = new WsFlinkKubernetesJob();
         BeanUtils.copyProperties(param, record);
+        record.setJobId(UUID.randomUUID().toString());
         return wsFlinkKubernetesJobMapper.insert(record);
     }
 }

@@ -46,7 +46,7 @@ public class WsFlinkArtifactSqlServiceImpl implements WsFlinkArtifactSqlService 
     private WsFlinkArtifactSqlMapper wsFlinkArtifactSqlMapper;
 
     @Override
-    public Page<WsFlinkArtifactSqlDTO> list(WsFlinkArtifactSqlParam param) {
+    public Page<WsFlinkArtifactSqlDTO> list(WsFlinkArtifactSqlListParam param) {
         Page<WsFlinkArtifactSql> page = new Page<>(param.getCurrent(), param.getPageSize());
         Page<WsFlinkArtifactSql> sqlPage = wsFlinkArtifactSqlMapper.list(page, param.getProjectId(), param.getName(), param.getFlinkVersion());
         Page<WsFlinkArtifactSqlDTO> result =
@@ -66,6 +66,12 @@ public class WsFlinkArtifactSqlServiceImpl implements WsFlinkArtifactSqlService 
                 new Page<>(wsFlinkArtifactSqlPage.getCurrent(), wsFlinkArtifactSqlPage.getSize(), wsFlinkArtifactSqlPage.getTotal());
         result.setRecords(WsFlinkArtifactSqlConvert.INSTANCE.toDto(wsFlinkArtifactSqlPage.getRecords()));
         return result;
+    }
+
+    @Override
+    public List<WsFlinkArtifactSqlDTO> listAll(WsFlinkArtifactSqlSelectListParam param) {
+        List<WsFlinkArtifactSql> wsFlinkArtifactSqls = wsFlinkArtifactSqlMapper.listAll(param.getProjectId(), param.getName());
+        return WsFlinkArtifactSqlConvert.INSTANCE.toDto(wsFlinkArtifactSqls);
     }
 
     @Override

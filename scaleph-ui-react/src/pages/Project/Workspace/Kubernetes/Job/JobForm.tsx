@@ -1,6 +1,6 @@
 import {useIntl} from "umi";
 import React from "react";
-import {Form, Modal} from "antd";
+import {Form, message, Modal} from "antd";
 import {
   ProForm,
   ProFormDependency,
@@ -12,8 +12,11 @@ import {
 } from "@ant-design/pro-components";
 import {ModalFormProps} from '@/app.d';
 import {
+  WsFlinkArtifactJarSelectListParam,
+  WsFlinkArtifactSqlSelectListParam,
   WsFlinkKubernetesDeploymentSelectListParam,
   WsFlinkKubernetesJob,
+  WsFlinkKubernetesJobAddParam,
   WsFlinkKubernetesSessionClusterSelectListParam
 } from "@/services/project/typings";
 import {DictDataService} from "@/services/admin/dictData.service";
@@ -21,6 +24,8 @@ import {DICT_TYPE, WORKSPACE_CONF} from "@/constant";
 import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
 import {FlinkArtifactJarService} from "@/services/project/flinkArtifactJar.service";
+import {FlinkArtifactSqlService} from "@/services/project/WsFlinkArtifactSqlService";
+import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
 
 const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = ({
                                                                                   data,
@@ -47,7 +52,24 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          onVisibleChange(false);
+          const param: WsFlinkKubernetesJobAddParam = {...values, projectId: projectId};
+          data.id
+            ? WsFlinkKubernetesJobService.add(param).then((response) => {
+              if (response.success) {
+                message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
+                if (onVisibleChange) {
+                  onVisibleChange(false);
+                }
+              }
+            })
+            : WsFlinkKubernetesJobService.add(param).then((response) => {
+              if (response.success) {
+                message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
+                if (onVisibleChange) {
+                  onVisibleChange(false);
+                }
+              }
+            });
         });
       }}
     >
@@ -58,10 +80,16 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         initialValues={{
-          id: data.id,
-          name: data.name,
-          namespace: data.metadata?.namespace,
-          remark: data.remark
+          id: data?.id,
+          name: data?.name,
+          executionMode: data?.executionMode?.value,
+          flinkDeploymentMode: data?.flinkDeploymentMode?.value,
+          flinkDeploymentId: data?.flinkDeploymentId,
+          flinkSessionClusterId: data?.flinkSessionClusterId,
+          type: data?.type?.value,
+          flinkArtifactJarId: data?.flinkArtifactJarId,
+          flinkArtifactSqlId: data?.flinkArtifactSqlId,
+          remark: data?.remark
         }}
       >
         <ProFormDigit name={"id"} hidden/>
@@ -161,14 +189,14 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
                   allowClear={false}
                   showSearch={true}
                   request={(params, props) => {
-                    const listParam: WsFlinkKubernetesDeploymentSelectListParam = {
+                    const listParam: WsFlinkArtifactJarSelectListParam = {
                       projectId: projectId,
                       name: params.keyWords
                     };
                     return FlinkArtifactJarService.listAll(listParam).then((response) => {
                       return response.map((item) => {
                         return {
-                          label: item.name,
+                          label: item.wsFlinkArtifact.name,
                           value: item.id,
                           item: item
                         };
@@ -187,14 +215,14 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
                   allowClear={false}
                   showSearch={true}
                   request={(params, props) => {
-                    const listParam: WsFlinkKubernetesDeploymentSelectListParam = {
+                    const listParam: WsFlinkArtifactSqlSelectListParam = {
                       projectId: projectId,
                       name: params.keyWords,
                     };
-                    return WsFlinkKubernetesSessionClusterService.listAll(listParam).then((response) => {
+                    return FlinkArtifactSqlService.listAll(listParam).then((response) => {
                       return response.map((item) => {
                         return {
-                          label: item.name,
+                          label: item.wsFlinkArtifact.name,
                           value: item.id,
                           item: item
                         };

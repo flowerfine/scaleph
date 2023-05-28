@@ -191,6 +191,11 @@ export type WsFlinkArtifactJarHistoryParam = QueryParam & {
   flinkArtifactId: number;
 };
 
+export type WsFlinkArtifactJarSelectListParam = {
+  projectId: number;
+  name?: string;
+};
+
 export type WsFlinkArtifactSql = {
   id?: number;
   wsFlinkArtifact?: WsFlinkArtifact;
@@ -204,6 +209,11 @@ export type WsFlinkArtifactSqlParam = QueryParam & {
   flinkArtifactId: number;
   version?: string;
   flinkVersion: string;
+};
+
+export type WsFlinkArtifactSqlSelectListParam = {
+  projectId: number;
+  name?: string;
 };
 
 export type WsFlinkArtifactSqlAddParam = {

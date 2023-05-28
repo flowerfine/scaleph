@@ -48,16 +48,8 @@ public class WsArtifactSqlController {
     @Logging
     @GetMapping
     @ApiOperation(value = "查询 artifact sql 列表", notes = "查询 artifact sql 列表")
-    public ResponseEntity<Page<WsFlinkArtifactSqlDTO>> list(@Valid WsFlinkArtifactSqlParam param) {
+    public ResponseEntity<Page<WsFlinkArtifactSqlDTO>> list(@Valid WsFlinkArtifactSqlListParam param) {
         Page<WsFlinkArtifactSqlDTO> result = wsFlinkArtifactSqlService.list(param);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @Logging
-    @GetMapping("/all")
-    @ApiOperation(value = "根据 id 查询 artifact sql 列表", notes = "根据 id 查询 artifact sql 列表")
-    public ResponseEntity<List<WsFlinkArtifactSqlDTO>> listAllByArtifact(@RequestParam("id") Long id) {
-        final List<WsFlinkArtifactSqlDTO> result = wsFlinkArtifactSqlService.listAllByArtifact(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -66,6 +58,14 @@ public class WsArtifactSqlController {
     @ApiOperation(value = "根据 id 分页查询 artifact sql 列表", notes = "根据 id 分页查询 artifact sql 列表")
     public ResponseEntity<Page<WsFlinkArtifactSqlDTO>> listByArtifact(@Valid WsFlinkArtifactSqlHistoryParam param) {
         final Page<WsFlinkArtifactSqlDTO> result = wsFlinkArtifactSqlService.listByArtifact(param);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("/all")
+    @ApiOperation(value = "查询 artifact sql 列表", notes = "查询 artifact sql 列表")
+    public ResponseEntity<List<WsFlinkArtifactSqlDTO>> listAll(@Valid WsFlinkArtifactSqlSelectListParam param) {
+        final List<WsFlinkArtifactSqlDTO> result = wsFlinkArtifactSqlService.listAll(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

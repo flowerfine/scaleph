@@ -35,6 +35,9 @@ create table ws_flink_artifact
     unique uniq_name (project_id, `type`, name)
 ) engine = innodb comment = 'flink artifact';
 
+INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+VALUES (1, 1, '0', 'simple sql', NULL, 'sys', 'sys');
+
 drop table if exists ws_flink_artifact_jar;
 create table ws_flink_artifact_jar
 (
@@ -69,6 +72,12 @@ CREATE TABLE ws_flink_artifact_sql
     PRIMARY KEY (id),
     key idx_flink_artifact (flink_artifact_id)
 ) ENGINE = INNODB COMMENT = 'flink artifact sql';
+
+INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
+                                     `editor`)
+VALUES (1, 1, '1.16.1',
+        'CREATE TEMPORARY TABLE source_table (\n  `id` bigint,\n  `name` string,\n  `age` int,\n  `address` string,\n  `create_time`TIMESTAMP(3),\n  `update_time`TIMESTAMP(3),\n  WATERMARK FOR `update_time` AS update_time - INTERVAL \'1\' MINUTE\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'datagen\',\n  \'number-of-rows\' = \'100\'\n);\n\nCREATE TEMPORARY TABLE `sink_table` (\n  `id` BIGINT,\n  `name` VARCHAR(2147483647),\n  `age` INT,\n  `address` VARCHAR(2147483647),\n  `create_time` TIMESTAMP(3),\n  `update_time` TIMESTAMP(3)\n)\nCOMMENT \'\'\nWITH (\n  \'connector\' = \'print\'\n);\n\ninsert into sink_table\nselect id, name, age, address, create_time, update_time from source_table;',
+        '1', 'sys', 'sys');
 
 /* 数据集成-作业信息*/
 drop table if exists ws_di_job;
@@ -431,7 +440,7 @@ CREATE TABLE ws_flink_kubernetes_job
     id                       bigint       not null auto_increment,
     project_id               bigint       not null comment '项目id',
     `name`                   varchar(255) not null,
-    job_id                   varchar(32)  not null,
+    job_id                   varchar(64)  not null,
     execution_mode           varchar(16)  not null,
     flink_deployment_mode    varchar(16)  not null,
     flink_deployment_id      bigint,

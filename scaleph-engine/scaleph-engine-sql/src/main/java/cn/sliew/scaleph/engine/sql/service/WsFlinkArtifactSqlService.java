@@ -27,9 +27,11 @@ import java.util.List;
 
 public interface WsFlinkArtifactSqlService {
 
-    Page<WsFlinkArtifactSqlDTO> list(WsFlinkArtifactSqlParam param);
+    Page<WsFlinkArtifactSqlDTO> list(WsFlinkArtifactSqlListParam param);
 
     Page<WsFlinkArtifactSqlDTO> listByArtifact(WsFlinkArtifactSqlHistoryParam param);
+
+    List<WsFlinkArtifactSqlDTO> listAll(WsFlinkArtifactSqlSelectListParam param);
 
     List<WsFlinkArtifactSqlDTO> listAllByArtifact(Long artifactId);
 
