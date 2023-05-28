@@ -21,24 +21,29 @@ package cn.sliew.scaleph.meta.service.impl;
 import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.exception.Rethrower;
 import cn.sliew.scaleph.common.param.PropertyUtil;
+import cn.sliew.scaleph.common.util.TemporaryClassLoaderContext;
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDatasource;
 import cn.sliew.scaleph.dao.mapper.master.meta.MetaDatasourceMapper;
 import cn.sliew.scaleph.meta.service.MetaDatasourceService;
 import cn.sliew.scaleph.meta.service.convert.MetaDataSourceConvert;
 import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;
 import cn.sliew.scaleph.meta.service.param.MetaDatasourceParam;
-import cn.sliew.scaleph.plugin.datasource.DatasourceManager;
-import cn.sliew.scaleph.plugin.datasource.DatasourcePlugin;
+import cn.sliew.scaleph.plugin.datasource.api.DatasourceManager;
+import cn.sliew.scaleph.plugin.datasource.api.DatasourcePlugin;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.Property;
 import cn.sliew.scaleph.plugin.framework.property.PropertyContext;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
+import cn.sliew.scaleph.system.util.SystemUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -47,10 +52,16 @@ import java.util.Set;
 @Service
 public class MetaDatasourceServiceImpl implements MetaDatasourceService {
 
-    private DatasourceManager datasourceManager = new DatasourceManager();
+    private DatasourceManager datasourceManager;
 
     @Autowired
     private MetaDatasourceMapper metaDatasourceMapper;
+
+    @PostConstruct
+    private void loadDatasourceManager() throws IOException {
+        Path datasourcePluginPath = SystemUtil.getDatasourcePluginDir();
+        this.datasourceManager = new DatasourceManager(datasourcePluginPath);
+    }
 
     @Override
     public Set<PluginInfo> getAvailableDataSources() {
@@ -176,14 +187,17 @@ public class MetaDatasourceServiceImpl implements MetaDatasourceService {
             for (PluginInfo pluginInfo : pluginInfoSet) {
                 if (pluginInfo.getName()
                         .equalsIgnoreCase(metaDatasourceDTO.getDatasourceType().getValue())) {
-                    Class clazz = Class.forName(pluginInfo.getClassname());
-                    DatasourcePlugin datasource = (DatasourcePlugin) clazz.newInstance();
-                    datasource.setAdditionalProperties(
-                            PropertyUtil.mapToProperties(metaDatasourceDTO.getAdditionalProps()));
-                    datasource.configure(PropertyContext.fromMap(metaDatasourceDTO.getProps()));
-                    datasource.start();
-                    result = datasource.testConnection();
-                    datasource.shutdown();
+                    ClassLoader classLoader = pluginInfo.getClassLoader();
+                    try (TemporaryClassLoaderContext ignored = TemporaryClassLoaderContext.of(classLoader)) {
+                        Class clazz = Class.forName(pluginInfo.getClassname(), true, classLoader);
+                        DatasourcePlugin datasource = (DatasourcePlugin) clazz.newInstance();
+                        datasource.setAdditionalProperties(
+                                PropertyUtil.mapToProperties(metaDatasourceDTO.getAdditionalProps()));
+                        datasource.configure(PropertyContext.fromMap(metaDatasourceDTO.getProps()));
+                        datasource.start();
+                        result = datasource.testConnection();
+                        datasource.shutdown();
+                    }
                 }
             }
         } catch (Exception e) {

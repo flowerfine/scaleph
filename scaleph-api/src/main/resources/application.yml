@@ -122,6 +122,9 @@ app:
       state:
         savepoints:
           dir: /opt/flink/savepoints
+  plugin:
+    datasource:
+      dir: /opt/scaleph/plugin/datasource
 
 # 用户登录token配置参数
 token:

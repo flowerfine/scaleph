@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.plugin.framework.core;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.io.IOException;
@@ -37,11 +38,22 @@ public class PluginInfo {
     private final String name;
     private final String description;
     private final String classname;
+    @Setter
+    private ClassLoader classLoader;
 
     public PluginInfo(String name, String description, String classname) {
+        this(name, description, classname, null);
+    }
+
+    public PluginInfo(String name, String description, String classname, ClassLoader classLoader) {
         this.name = name;
         this.description = description;
         this.classname = classname;
+        if (classLoader == null) {
+            this.classLoader = this.getClassLoader();
+        } else {
+            this.classLoader = classLoader;
+        }
     }
 
     /**

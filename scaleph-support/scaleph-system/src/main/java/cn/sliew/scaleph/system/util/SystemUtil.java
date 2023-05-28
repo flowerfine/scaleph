@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Component
@@ -34,9 +35,16 @@ public class SystemUtil implements InitializingBean, DisposableBean {
     private static final String LOCAL_FS_STORAGE_DIR_NAME = "storage";
     private static String workspace;
 
+    private static String datasourcePluginDir;
+
     @Value("${app.workspace}")
     public void setWorkspace(String workspace) {
         SystemUtil.workspace = workspace;
+    }
+
+    @Value("${app.plugin.datasource.dir}")
+    public void setDatasourcePluginDir(String datasourcePluginDir) {
+        SystemUtil.datasourcePluginDir = datasourcePluginDir;
     }
 
     @Override
@@ -67,6 +75,22 @@ public class SystemUtil implements InitializingBean, DisposableBean {
 
     public static Path getLocalStorageDir() throws IOException {
         return FileUtil.createDir(getWorkspace().resolve(LOCAL_FS_STORAGE_DIR_NAME));
+    }
+
+    public static Path getDatasourcePluginDir() throws IOException {
+        Path path = null;
+        if (datasourcePluginDir == null || datasourcePluginDir.isEmpty()) {
+            String scalephHome = System.getenv("SCALEPH_HOME");
+            if (scalephHome != null && !scalephHome.isEmpty()) {
+                path = Path.of(scalephHome).resolve("plugin").resolve("datasource");
+            }
+        } else {
+            path = Path.of(datasourcePluginDir);
+        }
+        if (path != null && Files.exists(path) && Files.isExecutable(path)) {
+            return path;
+        }
+        return null;
     }
 
 }
