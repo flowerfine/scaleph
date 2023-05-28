@@ -43,4 +43,6 @@ public interface WsFlinkKubernetesJobMapper extends BaseMapper<WsFlinkKubernetes
                                     @Param("flinkJobState") FlinkJobState flinkJobState,
                                     @Param("name") String name);
 
+    WsFlinkKubernetesJob selectOne(@Param("id") Long id);
+
 }

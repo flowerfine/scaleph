@@ -45,7 +45,6 @@
                      javaType="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesSessionCluster"
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesSessionClusterMapper.selectById"
                      resultMap="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesSessionClusterMapper.BaseResultMap"/>
-
         <association column="flink_artifact_jar_id"
                      property="flinkArtifactJar"
                      javaType="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar"
@@ -83,5 +82,13 @@
         <if test="name != null and name != ''">
             AND t1.name like concat('%', #{name}, '%')
         </if>
+    </select>
+
+    <select id="selectOne" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM ws_flink_kubernetes_job
+        WHERE
+        id = #{id}
     </select>
 </mapper>

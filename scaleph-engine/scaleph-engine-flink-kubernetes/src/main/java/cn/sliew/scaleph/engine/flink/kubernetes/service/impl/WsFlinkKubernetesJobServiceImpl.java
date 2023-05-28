@@ -30,6 +30,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static cn.sliew.milky.common.check.Ensures.checkState;
+
 @Service
 public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobService {
 
@@ -46,4 +48,10 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
         return result;
     }
 
+    @Override
+    public WsFlinkKubernetesJobDTO selectOne(Long id) {
+        WsFlinkKubernetesJob record = wsFlinkKubernetesJobMapper.selectOne(id);
+        checkState(record != null, () -> "flink kubernetes job not exist for id = " + id);
+        return WsFlinkKubernetesJobConvert.INSTANCE.toDto(record);
+    }
 }
