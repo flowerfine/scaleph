@@ -27,6 +27,8 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesDeploym
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesDeploymentConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentListParam;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentSelectListParam;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.fabric8.kubernetes.client.Config;
@@ -65,6 +67,7 @@ public class WsFlinkKubernetesDeploymentServiceImpl implements WsFlinkKubernetes
         Page<WsFlinkKubernetesDeployment> page = wsFlinkKubernetesDeploymentMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(WsFlinkKubernetesDeployment.class)
+                        .eq(WsFlinkKubernetesDeployment::getProjectId, param.getProjectId())
                         .eq(param.getKind() != null, WsFlinkKubernetesDeployment::getKind, param.getKind())
                         .like(StringUtils.hasText(param.getName()), WsFlinkKubernetesDeployment::getName, param.getName()));
         Page<WsFlinkKubernetesDeploymentDTO> result =
@@ -72,6 +75,16 @@ public class WsFlinkKubernetesDeploymentServiceImpl implements WsFlinkKubernetes
         List<WsFlinkKubernetesDeploymentDTO> dtoList = WsFlinkKubernetesDeploymentConvert.INSTANCE.toDto(page.getRecords());
         result.setRecords(dtoList);
         return result;
+    }
+
+    @Override
+    public List<WsFlinkKubernetesDeploymentDTO> listAll(WsFlinkKubernetesDeploymentSelectListParam param) {
+        LambdaQueryWrapper<WsFlinkKubernetesDeployment> queryWrapper = Wrappers.lambdaQuery(WsFlinkKubernetesDeployment.class)
+                .eq(WsFlinkKubernetesDeployment::getProjectId, param.getProjectId())
+                .like(StringUtils.hasText(param.getName()), WsFlinkKubernetesDeployment::getName, param.getName())
+                .orderByDesc(WsFlinkKubernetesDeployment::getId);
+        List<WsFlinkKubernetesDeployment> wsFlinkKubernetesDeployments = wsFlinkKubernetesDeploymentMapper.selectList(queryWrapper);
+        return WsFlinkKubernetesDeploymentConvert.INSTANCE.toDto(wsFlinkKubernetesDeployments);
     }
 
     @Override

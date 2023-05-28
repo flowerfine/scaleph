@@ -28,9 +28,9 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum FlinkDeploymentMode implements DictInstance {
 
-    APPLICATION("0", "Application"),
-    PER_JOB("1", "Per-Job"),
-    SESSION("2", "Session"),
+    APPLICATION("0", "Application", false),
+    PER_JOB("1", "Per-Job", true),
+    SESSION("2", "Session", false),
     ;
 
     @JsonCreator
@@ -43,10 +43,12 @@ public enum FlinkDeploymentMode implements DictInstance {
     @EnumValue
     private String value;
     private String label;
+    private boolean disabled;
 
-    FlinkDeploymentMode(String value, String label) {
+    FlinkDeploymentMode(String value, String label, boolean disabled) {
         this.value = value;
         this.label = label;
+        this.disabled = disabled;
     }
 
     @Override
@@ -58,4 +60,11 @@ public enum FlinkDeploymentMode implements DictInstance {
     public String getLabel() {
         return label;
     }
+
+    @Override
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+
 }

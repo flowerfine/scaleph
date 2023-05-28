@@ -37,6 +37,9 @@ import lombok.Data;
 @ApiModel(value = "WsFlinkKubernetesJob对象", description = "flink kubernetes job")
 public class WsFlinkKubernetesJobDTO extends BaseDTO {
 
+    @ApiModelProperty("project id")
+    private Long projectId;
+
     @ApiModelProperty("name")
     private String name;
 

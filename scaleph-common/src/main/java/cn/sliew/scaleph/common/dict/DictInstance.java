@@ -24,8 +24,8 @@ public interface DictInstance {
 
     String getLabel();
 
-    default boolean isValid() {
-        return true;
+    default boolean isDisabled() {
+        return false;
     }
 
     default String getRemark() {

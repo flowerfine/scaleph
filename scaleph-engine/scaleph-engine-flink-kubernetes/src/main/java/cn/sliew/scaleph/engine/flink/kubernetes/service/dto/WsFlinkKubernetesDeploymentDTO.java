@@ -31,6 +31,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
@@ -38,15 +40,22 @@ import java.util.Map;
 @ApiModel(value = "WsFlinkKubernetesDeployment对象", description = "flink kubernetes deployment")
 public class WsFlinkKubernetesDeploymentDTO extends BaseDTO {
 
+    @NotNull
+    @ApiModelProperty("project id")
+    private Long projectId;
+
+    @NotNull
     @ApiModelProperty("kind")
     private DeploymentKind kind;
 
+    @NotBlank
     @ApiModelProperty("name")
     private String name;
 
     @ApiModelProperty("deployment id")
     private String deploymentId;
 
+    @NotNull
     @ApiModelProperty("namespace")
     private String namespace;
 

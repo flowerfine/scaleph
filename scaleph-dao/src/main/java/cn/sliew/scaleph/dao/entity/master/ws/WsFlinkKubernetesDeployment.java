@@ -39,6 +39,9 @@ public class WsFlinkKubernetesDeployment extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField("project_id")
+    private Long projectId;
+
     @TableField("`kind`")
     private DeploymentKind kind;
 

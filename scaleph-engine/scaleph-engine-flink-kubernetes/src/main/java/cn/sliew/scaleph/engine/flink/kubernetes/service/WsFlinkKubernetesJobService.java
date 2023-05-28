@@ -19,6 +19,7 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobAddParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -27,5 +28,7 @@ public interface WsFlinkKubernetesJobService {
     Page<WsFlinkKubernetesJobDTO> list(WsFlinkKubernetesJobListParam param);
 
     WsFlinkKubernetesJobDTO selectOne(Long id);
+
+    int insert(WsFlinkKubernetesJobAddParam param);
 
 }

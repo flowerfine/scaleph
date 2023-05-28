@@ -1,41 +1,92 @@
-import {useAccess, useIntl, history} from "umi";
+import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Tooltip} from "antd";
+import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
-import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
-import {
-  WsFlinkKubernetesTemplateService
-} from "@/services/project/WsFlinkKubernetesTemplateService";
-import DeploymentTemplateForm from "@/pages/Project/Workspace/Kubernetes/Template/DeploymentTemplateForm";
+import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from "@ant-design/pro-components";
+import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
+import {WsFlinkKubernetesJob} from "@/services/project/typings";
+import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
+import {DictDataService} from "@/services/admin/dictData.service";
+import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
+import FlinkKubernetesJobForm from "@/pages/Project/Workspace/Kubernetes/Job/JobForm";
 
-const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
+const FlinkKubernetesJobWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<WsFlinkKubernetesTemplate[]>([]);
-  const [deploymentTemplateFormData, setDeploymentTemplateFormData] = useState<{
+  const [selectedRows, setSelectedRows] = useState<WsFlinkKubernetesJob[]>([]);
+  const [jobFormData, setJobFormData] = useState<{
     visiable: boolean;
-    data: WsFlinkKubernetesTemplate;
+    data: WsFlinkKubernetesJob;
   }>({visiable: false, data: {}});
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
-  const tableColumns: ProColumns<WsFlinkKubernetesTemplate>[] = [
+  const tableColumns: ProColumns<WsFlinkKubernetesJob>[] = [
     {
-      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.name'}),
-      dataIndex: 'name',
-      width: 200,
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.jobId'}),
+      dataIndex: 'jobId',
+      hideInSearch: true
     },
     {
-      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.namespace'}),
-      dataIndex: 'name.metadata.namespace',
-      hideInSearch: true,
-      width: 200,
-      render: (dom, entity, index, action, schema) => {
-        return entity.metadata?.namespace;
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.name'}),
+      dataIndex: 'name'
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.executionMode'}),
+      dataIndex: 'executionMode',
+      render: (dom, entity) => {
+        return (<Tag>{entity.executionMode?.label}</Tag>)
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkRuntimeExecutionMode)}
+          />
+        );
       }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.flinkDeploymentMode'}),
+      dataIndex: 'flinkDeploymentMode',
+      render: (dom, entity) => {
+        return (<Tag>{entity.flinkDeploymentMode?.label}</Tag>)
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkDeploymentMode)}
+          />
+        );
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.type'}),
+      dataIndex: 'type',
+      render: (dom, entity) => {
+        return (<Tag>{entity.type?.label}</Tag>)
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkJobType)}
+          />
+        );
+      }
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.artifact'}),
+      dataIndex: 'artifact',
+      hideInSearch: true,
+      render: (dom, entity) => {
+        return entity.flinkArtifactJar ? entity.flinkArtifactJar.wsFlinkArtifact?.name : entity.flinkArtifactSql?.wsFlinkArtifact?.name
+      },
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
@@ -71,19 +122,19 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
                 type="link"
                 icon={<EditOutlined/>}
                 onClick={() => {
-                  setDeploymentTemplateFormData({visiable: true, data: record});
+                  setJobFormData({visiable: true, data: record});
                 }}
               />
             </Tooltip>
           )}
           {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Tooltip title={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.define'})}>
+            <Tooltip title={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.detail'})}>
               <Button
                 shape="default"
                 type="link"
                 icon={<NodeIndexOutlined/>}
                 onClick={() => {
-                  history.push("/workspace/flink/kubernetes/template/detail", record)
+                  history.push("/workspace/flink/kubernetes/deployment/detail", record)
                 }}
               />
             </Tooltip>
@@ -102,7 +153,7 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
-                      WsFlinkKubernetesTemplateService.delete(record).then((d) => {
+                      WsFlinkKubernetesDeploymentService.delete(record).then((d) => {
                         if (d.success) {
                           message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();
@@ -120,7 +171,7 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
   ];
 
   return (<div>
-    <ProTable<WsFlinkKubernetesTemplate>
+    <ProTable<WsFlinkKubernetesJob>
       search={{
         labelWidth: 'auto',
         span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -131,7 +182,7 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) =>
-        WsFlinkKubernetesTemplateService.list({...params, projectId: projectId})
+        WsFlinkKubernetesJobService.list({...params, projectId: projectId})
       }
       toolbar={{
         actions: [
@@ -140,7 +191,7 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                setDeploymentTemplateFormData({visiable: true, data: {}});
+                setJobFormData({visiable: true, data: {}});
               }}
             >
               {intl.formatMessage({id: 'app.common.operate.new.label'})}
@@ -159,7 +210,7 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
                   okButtonProps: {danger: true},
                   cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                   onOk() {
-                    WsFlinkKubernetesTemplateService.deleteBatch(selectedRows).then((d) => {
+                    WsFlinkKubernetesDeploymentService.deleteBatch(selectedRows).then((d) => {
                       if (d.success) {
                         message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                         actionRef.current?.reload();
@@ -184,20 +235,20 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
       tableAlertRender={false}
       tableAlertOptionRender={false}
     />
-    {deploymentTemplateFormData.visiable && (
-      <DeploymentTemplateForm
-        visible={deploymentTemplateFormData.visiable}
+    {jobFormData.visiable && (
+      <FlinkKubernetesJobForm
+        visible={jobFormData.visiable}
         onCancel={() => {
-          setDeploymentTemplateFormData({visiable: false, data: {}});
+          setJobFormData({visiable: false, data: {}});
         }}
         onVisibleChange={(visiable) => {
-          setDeploymentTemplateFormData({visiable: visiable, data: {}});
+          setJobFormData({visiable: visiable, data: {}});
           actionRef.current?.reload();
         }}
-        data={deploymentTemplateFormData.data}
+        data={jobFormData.data}
       />
     )}
   </div>);
 }
 
-export default FlinkKubernetesDeploymentTemplateWeb;
+export default FlinkKubernetesJobWeb;

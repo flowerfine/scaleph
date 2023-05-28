@@ -37,6 +37,7 @@ import org.springframework.stereotype.Repository;
 public interface WsFlinkKubernetesJobMapper extends BaseMapper<WsFlinkKubernetesJob> {
 
     Page<WsFlinkKubernetesJob> list(Page<WsFlinkKubernetesJob> page,
+                                    @Param("projectId") Long projectId,
                                     @Param("executionMode") FlinkRuntimeExecutionMode executionMode,
                                     @Param("flinkJobType") FlinkJobType flinkJobType,
                                     @Param("flinkDeploymentMode") FlinkDeploymentMode flinkDeploymentMode,

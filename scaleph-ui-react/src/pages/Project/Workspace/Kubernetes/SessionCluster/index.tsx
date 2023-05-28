@@ -3,7 +3,7 @@ import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space} from "antd";
 import {CaretRightOutlined, CloseOutlined, DeleteOutlined, EyeOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {PRIVILEGE_CODE} from "@/constant";
+import {PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
 
@@ -13,6 +13,7 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<WsFlinkKubernetesSessionCluster[]>([]);
+  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
   const tableColumns: ProColumns<WsFlinkKubernetesSessionCluster>[] = [
     {
@@ -124,7 +125,7 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) =>
-        WsFlinkKubernetesSessionClusterService.list({...params})
+        WsFlinkKubernetesSessionClusterService.list({...params, projectId: projectId})
       }
       toolbar={{
         actions: [

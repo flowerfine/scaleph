@@ -39,6 +39,9 @@ public class WsFlinkKubernetesTemplate extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField("project_id")
+    private Long projectId;
+
     @TableField("`name`")
     private String name;
 

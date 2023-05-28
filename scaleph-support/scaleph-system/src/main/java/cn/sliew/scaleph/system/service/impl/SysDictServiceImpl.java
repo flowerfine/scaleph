@@ -98,7 +98,7 @@ public class SysDictServiceImpl implements SysDictService {
         dictDTO.setDictType(type);
         dictDTO.setValue(instance.getValue());
         dictDTO.setLabel(instance.getLabel());
-        dictDTO.setValid(instance.isValid());
+        dictDTO.setValid(instance.isDisabled() == false);
         dictDTO.setRemark(instance.getRemark());
         return dictDTO;
     }

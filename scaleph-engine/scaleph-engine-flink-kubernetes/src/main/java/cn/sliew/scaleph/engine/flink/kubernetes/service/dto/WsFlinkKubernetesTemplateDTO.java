@@ -37,6 +37,10 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "WsFlinkKubernetesTemplate对象", description = "flink kubernetes template")
 public class WsFlinkKubernetesTemplateDTO extends BaseDTO {
 
+    @ApiModelProperty("project id")
+    private Long projectId;
+
+    @ApiModelProperty("name")
     private String name;
 
     @ApiModelProperty("template id")
