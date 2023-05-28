@@ -18,27 +18,68 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobMapper">
-
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob">
-        <result column="id" property="id" />
-        <result column="creator" property="creator" />
-        <result column="create_time" property="createTime" />
-        <result column="editor" property="editor" />
-        <result column="update_time" property="updateTime" />
-        <result column="flink_deployment_mode" property="flinkDeploymentMode" />
-        <result column="flink_deployment_id" property="flinkDeploymentId" />
-        <result column="name" property="name" />
-        <result column="job_id" property="jobId" />
-        <result column="artifact_id" property="artifactId" />
-        <result column="remark" property="remark" />
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="project_id" property="projectId"/>
+        <result column="name" property="name"/>
+        <result column="job_id" property="jobId"/>
+        <result column="execution_mode" property="executionMode"/>
+        <result column="flink_deployment_mode" property="flinkDeploymentMode"/>
+        <result column="flink_deployment_id" property="flinkDeploymentId"/>
+        <result column="flink_session_cluster_id" property="flinkSessionClusterId"/>
+        <result column="type" property="type"/>
+        <result column="flink_artifact_jar_id" property="flinkArtifactJarId"/>
+        <result column="flink_artifact_sql_id" property="flinkArtifactSqlId"/>
+        <result column="remark" property="remark"/>
+        <association column="flink_deployment_id" property="flinkDeployment"
+                     select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesDeploymentMapper.selectById"/>
+        <association column="flink_session_cluster_id" property="flinkSessionCluster"
+                     select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesSessionClusterMapper.selectById"/>
+        <association column="flink_artifact_jar_id" property="flinkArtifactJar"
+                     select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactJarMapper.selectOne"/>
+        <association column="flink_artifact_sql_id" property="flinkArtifactSql"
+                     select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactSqlMapper.selectOne"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        flink_deployment_mode, flink_deployment_id, `name`,
-        job_id, artifact_id, remark
+        project_id, `name`, job_id, execution_mode,
+        flink_deployment_mode, flink_deployment_id, flink_session_cluster_id,
+        `type`, flink_artifact_jar_id, flink_artifact_sql_id, remark
     </sql>
 
+    <select id="list" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM ws_flink_kubernetes_job
+        <where>
+            project_id = #{projectId}
+            <if test="executionMode != null">
+                AND execution_mode = #{executionMode}
+            </if>
+            <if test="flinkJobType != null">
+                AND type = #{flinkJobType}
+            </if>
+            <if test="flinkDeploymentMode != null">
+                AND flink_deployment_mode = #{flinkDeploymentMode}
+            </if>
+            <if test="name != null and name != ''">
+                AND name like concat('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOne" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM ws_flink_kubernetes_job
+        WHERE
+        id = #{id}
+    </select>
 </mapper>

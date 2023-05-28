@@ -18,25 +18,50 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
+import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
+import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class WsFlinkKubernetesDeploymentListParam extends PaginationParam {
+public class WsFlinkKubernetesJobAddParam {
 
     @NotNull
     @ApiModelProperty("project id")
     private Long projectId;
 
-    @ApiModelProperty("deployment kind")
-    private DeploymentKind kind;
-
+    @NotBlank
     @ApiModelProperty("name")
     private String name;
+
+    @NotNull
+    @ApiModelProperty("execution mode")
+    private FlinkRuntimeExecutionMode executionMode;
+
+    @NotNull
+    @ApiModelProperty("deployment mode")
+    private FlinkDeploymentMode flinkDeploymentMode;
+
+    @ApiModelProperty("flink deployment id")
+    private Long flinkDeploymentId;
+
+    @ApiModelProperty("flink session cluster id")
+    private Long flinkSessionClusterId;
+
+    @NotNull
+    @ApiModelProperty("flink job type")
+    private FlinkJobType type;
+
+    @ApiModelProperty("flink artifact jar id")
+    private Long flinkArtifactJarId;
+
+    @ApiModelProperty("flink artifact sql id")
+    private Long flinkArtifactSqlId;
+
 }

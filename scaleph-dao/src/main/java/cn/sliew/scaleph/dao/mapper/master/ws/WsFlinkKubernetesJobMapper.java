@@ -18,9 +18,14 @@
 
 package cn.sliew.scaleph.dao.mapper.master.ws;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
+import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -31,6 +36,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WsFlinkKubernetesJobMapper extends BaseMapper<WsFlinkKubernetesJob> {
 
-    Page<WsFlinkKubernetesJob> list(Page<WsFlinkKubernetesJob> page);
+    Page<WsFlinkKubernetesJob> list(Page<WsFlinkKubernetesJob> page,
+                                    @Param("projectId") Long projectId,
+                                    @Param("executionMode") FlinkRuntimeExecutionMode executionMode,
+                                    @Param("flinkJobType") FlinkJobType flinkJobType,
+                                    @Param("flinkDeploymentMode") FlinkDeploymentMode flinkDeploymentMode,
+                                    @Param("flinkJobState") FlinkJobState flinkJobState,
+                                    @Param("name") String name);
+
+    WsFlinkKubernetesJob selectOne(@Param("id") Long id);
 
 }

@@ -902,5 +902,15 @@ export default {
   'pages.project.flink.kubernetes.deployment.detail.yaml': 'YAML',
   'pages.project.flink.kubernetes.deployment.detail.config': '作业配置',
 
+  'pages.project.flink.kubernetes.job': 'Job',
+  'pages.project.flink.kubernetes.job.jobId': 'Job ID',
+  'pages.project.flink.kubernetes.job.name': '名称',
+  'pages.project.flink.kubernetes.job.executionMode': '执行模式',
+  'pages.project.flink.kubernetes.job.flinkDeploymentMode': '部署模式',
+  'pages.project.flink.kubernetes.job.flinkDeployment': 'Deployment',
+  'pages.project.flink.kubernetes.job.flinkSessionCluster': 'Deployment',
+  'pages.project.flink.kubernetes.job.type': '作业类型',
+  'pages.project.flink.kubernetes.job.artifact': 'Artifact',
+
 
 };

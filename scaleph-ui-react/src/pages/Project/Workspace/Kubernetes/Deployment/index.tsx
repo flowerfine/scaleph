@@ -3,7 +3,7 @@ import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tag, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from "@ant-design/pro-components";
-import {DICT_TYPE, PRIVILEGE_CODE} from "@/constant";
+import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
 import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
 import DeploymentForm from "@/pages/Project/Workspace/Kubernetes/Deployment/DeploymentForm";
@@ -19,6 +19,7 @@ const FlinkKubernetesDeploymentWeb: React.FC = () => {
     visiable: boolean;
     data: WsFlinkKubernetesDeployment;
   }>({visiable: false, data: {}});
+  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
   const tableColumns: ProColumns<WsFlinkKubernetesDeployment>[] = [
     {
@@ -143,7 +144,7 @@ const FlinkKubernetesDeploymentWeb: React.FC = () => {
       options={false}
       columns={tableColumns}
       request={(params, sorter, filter) =>
-        WsFlinkKubernetesDeploymentService.list({...params})
+        WsFlinkKubernetesDeploymentService.list({...params, projectId: projectId})
       }
       toolbar={{
         actions: [

@@ -19,24 +19,21 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
 import com.fasterxml.jackson.databind.JsonNode;
-import io.fabric8.kubernetes.api.model.Pod;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotNull;
-import java.util.Map;
 
 @Data
 @EqualsAndHashCode
 @ApiModel(value = "WsFlinkKubernetesDeployment对象", description = "flink kubernetes deployment")
 public class WsFlinkKubernetesSessionClusterDTO extends BaseDTO {
+
+    @ApiModelProperty("project id")
+    private Long projectId;
 
     @ApiModelProperty("cluster credential id")
     private Long clusterCredentialId;

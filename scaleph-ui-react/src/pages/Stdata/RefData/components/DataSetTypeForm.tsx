@@ -9,7 +9,7 @@ const DataSetTypeForm: React.FC<ModalFormProps<MetaDataSetType>> = ({
                                                                       data,
                                                                       visible,
                                                                       onVisibleChange,
-                                                                      onCancel,
+                                                                      onCancel
                                                                     }) => {
   const intl = useIntl();
   const [form] = Form.useForm();

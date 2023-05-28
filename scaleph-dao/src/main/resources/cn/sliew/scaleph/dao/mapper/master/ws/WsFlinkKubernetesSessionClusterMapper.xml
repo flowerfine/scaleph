@@ -25,6 +25,7 @@
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
+        <result column="project_id" property="projectId"/>
         <result column="cluster_credential_id" property="clusterCredentialId"/>
         <result column="name" property="name"/>
         <result column="session_cluster_id" property="sessionClusterId"/>
@@ -34,7 +35,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, creator, reate_time, editor, update_time,
-        cluster_credential_id, `name`, session_cluster_id, metadata, spec
+        id, creator, create_time, editor, update_time,
+        project_id, cluster_credential_id, `name`, session_cluster_id, metadata, spec
     </sql>
 </mapper>

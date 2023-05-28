@@ -23,10 +23,7 @@ import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.common.param.PropertyUtil;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactJarService;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarHistoryParam;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarParam;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUpdateParam;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUploadParam;
+import cn.sliew.scaleph.engine.flink.service.param.*;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -58,16 +55,8 @@ public class WsArtifactJarController {
     @Logging
     @GetMapping
     @ApiOperation(value = "查询 artifact jar 列表", notes = "查询 artifact jar 列表")
-    public ResponseEntity<Page<WsFlinkArtifactJarDTO>> list(@Valid WsFlinkArtifactJarParam param) {
+    public ResponseEntity<Page<WsFlinkArtifactJarDTO>> list(@Valid WsFlinkArtifactJarListParam param) {
         Page<WsFlinkArtifactJarDTO> result = wsFlinkArtifactJarService.list(param);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @Logging
-    @GetMapping("/all")
-    @ApiOperation(value = "根据 id 查询 artifact jar 列表", notes = "根据 id 查询 artifact jar 列表")
-    public ResponseEntity<List<WsFlinkArtifactJarDTO>> listAllByArtifact(@RequestParam("id") Long id) {
-        final List<WsFlinkArtifactJarDTO> result = wsFlinkArtifactJarService.listAllByArtifact(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -76,6 +65,14 @@ public class WsArtifactJarController {
     @ApiOperation(value = "根据 id 分页查询 artifact jar 列表", notes = "根据 id 分页查询 artifact jar 列表")
     public ResponseEntity<Page<WsFlinkArtifactJarDTO>> listByArtifact(@Valid WsFlinkArtifactJarHistoryParam param) {
         final Page<WsFlinkArtifactJarDTO> result = wsFlinkArtifactJarService.listByArtifact(param);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("/all")
+    @ApiOperation(value = "查询 artifact jar 列表", notes = "查询 artifact jar 列表")
+    public ResponseEntity<List<WsFlinkArtifactJarDTO>> listAll(@Valid WsFlinkArtifactJarSelectListParam param) {
+        final List<WsFlinkArtifactJarDTO> result = wsFlinkArtifactJarService.listAll(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

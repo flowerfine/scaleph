@@ -25,6 +25,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * <p>
  * flink artifact sql Mapper 接口
@@ -37,6 +39,9 @@ public interface WsFlinkArtifactSqlMapper extends BaseMapper<WsFlinkArtifactSql>
                                   @Param("projectId") Long projectId,
                                   @Param("name") String name,
                                   @Param("flinkVersion") FlinkVersion flinkVersion);
+
+    List<WsFlinkArtifactSql> listAll(@Param("projectId") Long projectId,
+                                  @Param("name") String name);
 
     WsFlinkArtifactSql selectOne(@Param("id") Long id);
 

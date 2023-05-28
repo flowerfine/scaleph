@@ -30,6 +30,8 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernete
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterListParam;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterSelectListParam;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,7 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
         Page<WsFlinkKubernetesSessionCluster> page = wsFlinkKubernetesSessionClusterMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(WsFlinkKubernetesSessionCluster.class)
+                        .eq(WsFlinkKubernetesSessionCluster::getProjectId, param.getProjectId())
                         .eq(param.getClusterCredentialId() != null, WsFlinkKubernetesSessionCluster::getClusterCredentialId, param.getClusterCredentialId())
                         .like(StringUtils.hasText(param.getName()), WsFlinkKubernetesSessionCluster::getName, param.getName()));
         Page<WsFlinkKubernetesSessionClusterDTO> result =
@@ -60,6 +63,15 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
         List<WsFlinkKubernetesSessionClusterDTO> dtoList = WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDto(page.getRecords());
         result.setRecords(dtoList);
         return result;
+    }
+
+    @Override
+    public List<WsFlinkKubernetesSessionClusterDTO> listAll(WsFlinkKubernetesSessionClusterSelectListParam param) {
+        LambdaQueryWrapper<WsFlinkKubernetesSessionCluster> queryWrapper = Wrappers.lambdaQuery(WsFlinkKubernetesSessionCluster.class)
+                .eq(WsFlinkKubernetesSessionCluster::getProjectId, param.getProjectId())
+                .like(StringUtils.hasText(param.getName()), WsFlinkKubernetesSessionCluster::getName, param.getName());
+        List<WsFlinkKubernetesSessionCluster> wsFlinkKubernetesSessionClusters = wsFlinkKubernetesSessionClusterMapper.selectList(queryWrapper);
+        return WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDto(wsFlinkKubernetesSessionClusters);
     }
 
     @Override

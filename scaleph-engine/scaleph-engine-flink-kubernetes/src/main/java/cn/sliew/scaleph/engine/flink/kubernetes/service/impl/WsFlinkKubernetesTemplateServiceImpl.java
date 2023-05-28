@@ -36,6 +36,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTemplateService {
@@ -48,6 +49,7 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
         Page<WsFlinkKubernetesTemplate> page = wsFlinkKubernetesTemplateMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(WsFlinkKubernetesTemplate.class)
+                        .eq(WsFlinkKubernetesTemplate::getProjectId, param.getProjectId())
                         .like(StringUtils.hasText(param.getName()), WsFlinkKubernetesTemplate::getName, param.getName()));
         Page<WsFlinkKubernetesTemplateDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
@@ -100,6 +102,7 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
     @Override
     public int insert(WsFlinkKubernetesTemplateDTO dto) {
         WsFlinkKubernetesTemplate record = WsFlinkKubernetesTemplateConvert.INSTANCE.toDo(dto);
+        record.setTemplateId(UUID.randomUUID().toString());
         return wsFlinkKubernetesTemplateMapper.insert(record);
     }
 

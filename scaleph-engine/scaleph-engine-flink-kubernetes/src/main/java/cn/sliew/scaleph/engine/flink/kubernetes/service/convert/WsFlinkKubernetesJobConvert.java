@@ -24,18 +24,43 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJob
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
+import org.springframework.beans.BeanUtils;
 
-@Mapper(uses = {}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WsFlinkKubernetesJobConvert extends BaseConvert<WsFlinkKubernetesJob, WsFlinkKubernetesJobDTO> {
     WsFlinkKubernetesJobConvert INSTANCE = Mappers.getMapper(WsFlinkKubernetesJobConvert.class);
 
     @Override
     default WsFlinkKubernetesJob toDo(WsFlinkKubernetesJobDTO dto) {
-        return null;
+        WsFlinkKubernetesJob entity = new WsFlinkKubernetesJob();
+        BeanUtils.copyProperties(dto, entity);
+        if (dto.getFlinkDeployment() != null) {
+            entity.setFlinkDeploymentId(dto.getFlinkDeployment().getId());
+            entity.setFlinkDeployment(WsFlinkKubernetesDeploymentConvert.INSTANCE.toDo(dto.getFlinkDeployment()));
+        }
+        if (dto.getFlinkSessionCluster() != null) {
+            entity.setFlinkSessionClusterId(dto.getFlinkSessionCluster().getId());
+            entity.setFlinkSessionCluster(WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDo(dto.getFlinkSessionCluster()));
+        }
+        if (dto.getFlinkArtifactJar() != null) {
+            entity.setFlinkArtifactJarId(dto.getFlinkArtifactJar().getId());
+        }
+        if (dto.getFlinkArtifactSql() != null) {
+            entity.setFlinkArtifactSqlId(dto.getFlinkArtifactSql().getId());
+        }
+        return entity;
     }
 
     @Override
     default WsFlinkKubernetesJobDTO toDto(WsFlinkKubernetesJob entity) {
-        return null;
+        WsFlinkKubernetesJobDTO dto = new WsFlinkKubernetesJobDTO();
+        BeanUtils.copyProperties(entity, dto);
+        if (entity.getFlinkDeployment() != null) {
+            dto.setFlinkDeployment(WsFlinkKubernetesDeploymentConvert.INSTANCE.toDto(entity.getFlinkDeployment()));
+        }
+        if (entity.getFlinkSessionCluster() != null) {
+            dto.setFlinkSessionCluster(WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDto(entity.getFlinkSessionCluster()));
+        }
+        return dto;
     }
 }

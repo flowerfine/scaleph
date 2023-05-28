@@ -16,27 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
+package cn.sliew.scaleph.engine.flink.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
+import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotNull;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class WsFlinkKubernetesDeploymentListParam extends PaginationParam {
+public class WsFlinkArtifactJarListParam extends PaginationParam {
 
     @NotNull
-    @ApiModelProperty("project id")
+    @ApiModelProperty("Project ID")
     private Long projectId;
-
-    @ApiModelProperty("deployment kind")
-    private DeploymentKind kind;
 
     @ApiModelProperty("name")
     private String name;
+
+    @ApiModelProperty("flink 版本")
+    private FlinkVersion flinkVersion;
+
 }

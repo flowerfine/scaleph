@@ -5,7 +5,7 @@ import {ProForm, ProFormDigit, ProFormRadio, ProFormText} from "@ant-design/pro-
 import {ModalFormProps} from '@/app.d';
 import {WsFlinkKubernetesDeployment} from "@/services/project/typings";
 import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
+import {DICT_TYPE, WORKSPACE_CONF} from "@/constant";
 
 const DeploymentForm: React.FC<ModalFormProps<WsFlinkKubernetesDeployment>> = ({
                                                                                  data,
@@ -15,6 +15,8 @@ const DeploymentForm: React.FC<ModalFormProps<WsFlinkKubernetesDeployment>> = ({
                                                                                }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
+  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
+
   return (
     <Modal
       open={visible}

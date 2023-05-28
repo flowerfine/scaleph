@@ -7,11 +7,13 @@ import SessionClusterOptionsStepForm from "@/pages/Project/Workspace/Kubernetes/
 import SessionClusterYAMLStepForm from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Steps/YAMLStepForm";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
+import {WORKSPACE_CONF} from "@/constant";
 
 const FlinkKubernetesSessionClusterSteps: React.FC = (props: any) => {
   const intl = useIntl();
   const formRef = useRef<ProFormInstance>();
   const { sessionCluster, setSessionCluster} = useModel('sessionClusterStep');
+  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
   const onTemplate = (templateId: number) => {
     props.dispatch({
@@ -31,6 +33,7 @@ const FlinkKubernetesSessionClusterSteps: React.FC = (props: any) => {
         onFinish={(values) => {
           const newTemplate = WsFlinkKubernetesTemplateService.formatData(props.sessionClusterStep2.template, values)
           const param = {
+            projectId: projectId,
             clusterCredentialId: values.cluster,
             name: newTemplate.metadata?.name,
             metadata: newTemplate.metadata,

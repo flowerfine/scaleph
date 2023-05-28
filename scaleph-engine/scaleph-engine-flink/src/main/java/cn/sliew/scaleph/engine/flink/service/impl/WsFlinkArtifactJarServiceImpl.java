@@ -30,10 +30,7 @@ import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactService;
 import cn.sliew.scaleph.engine.flink.service.convert.WsFlinkArtifactJarConvert;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactDTO;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactJarDTO;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarHistoryParam;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarParam;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUpdateParam;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactJarUploadParam;
+import cn.sliew.scaleph.engine.flink.service.param.*;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.util.I18nUtil;
@@ -61,7 +58,7 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
     private WsFlinkArtifactJarMapper flinkArtifactJarMapper;
 
     @Override
-    public Page<WsFlinkArtifactJarDTO> list(WsFlinkArtifactJarParam param) {
+    public Page<WsFlinkArtifactJarDTO> list(WsFlinkArtifactJarListParam param) {
         Page<WsFlinkArtifactJar> page = new Page<>(param.getCurrent(), param.getPageSize());
         Page<WsFlinkArtifactJar> jarPage = flinkArtifactJarMapper.list(page, param.getProjectId(), param.getName(), param.getFlinkVersion());
         Page<WsFlinkArtifactJarDTO> result =
@@ -84,13 +81,9 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
     }
 
     @Override
-    public List<WsFlinkArtifactJarDTO> listAllByArtifact(Long artifactId) {
-        List<WsFlinkArtifactJar> list = flinkArtifactJarMapper.selectList(
-                Wrappers.lambdaQuery(WsFlinkArtifactJar.class)
-                        .eq(WsFlinkArtifactJar::getFlinkArtifactId, artifactId)
-                        .orderByDesc(WsFlinkArtifactJar::getId)
-        );
-        return WsFlinkArtifactJarConvert.INSTANCE.toDto(list);
+    public List<WsFlinkArtifactJarDTO> listAll(WsFlinkArtifactJarSelectListParam param) {
+        List<WsFlinkArtifactJar> wsFlinkArtifactJars = flinkArtifactJarMapper.listAll(param.getProjectId(), param.getName());
+        return WsFlinkArtifactJarConvert.INSTANCE.toDto(wsFlinkArtifactJars);
     }
 
     @Override
@@ -214,5 +207,14 @@ public class WsFlinkArtifactJarServiceImpl implements WsFlinkArtifactJarService 
 
     private String getFlinkArtifactJarRootPath() {
         return "job/artifact/jar";
+    }
+
+    private List<WsFlinkArtifactJarDTO> listAllByArtifact(Long artifactId) {
+        List<WsFlinkArtifactJar> list = flinkArtifactJarMapper.selectList(
+                Wrappers.lambdaQuery(WsFlinkArtifactJar.class)
+                        .eq(WsFlinkArtifactJar::getFlinkArtifactId, artifactId)
+                        .orderByDesc(WsFlinkArtifactJar::getId)
+        );
+        return WsFlinkArtifactJarConvert.INSTANCE.toDto(list);
     }
 }

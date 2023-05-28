@@ -3,6 +3,7 @@ import {request} from 'umi';
 import {
   WsFlinkKubernetesSessionCluster,
   WsFlinkKubernetesSessionClusterParam,
+  WsFlinkKubernetesSessionClusterSelectListParam,
   WsFlinkKubernetesTemplate
 } from './typings';
 
@@ -21,6 +22,13 @@ export const WsFlinkKubernetesSessionClusterService = {
         current: res.current,
       };
       return result;
+    });
+  },
+
+  listAll: async (queryParam: WsFlinkKubernetesSessionClusterSelectListParam) => {
+    return request<ResponseBody<Array<WsFlinkKubernetesSessionCluster>>>(`${WsFlinkKubernetesSessionClusterService.url}/all`, {
+      method: 'GET',
+      params: queryParam,
     });
   },
 

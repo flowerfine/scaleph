@@ -39,6 +39,9 @@ public class WsFlinkKubernetesSessionCluster extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField("project_id")
+    private Long projectId;
+
     @TableField("cluster_credential_id")
     private Long clusterCredentialId;
 

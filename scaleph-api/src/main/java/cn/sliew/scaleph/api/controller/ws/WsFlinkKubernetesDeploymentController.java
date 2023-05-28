@@ -23,6 +23,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeploym
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesDeploymentService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentListParam;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentSelectListParam;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -49,6 +50,14 @@ public class WsFlinkKubernetesDeploymentController {
     @ApiOperation(value = "查询 Deployment 列表", notes = "分页查询 Deployment 列表")
     public ResponseEntity<Page<WsFlinkKubernetesDeploymentDTO>> list(@Valid WsFlinkKubernetesDeploymentListParam param) {
         Page<WsFlinkKubernetesDeploymentDTO> page = wsFlinkKubernetesDeploymentService.list(param);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("all")
+    @ApiOperation(value = "查询 Deployment 列表", notes = "查询 Deployment 列表")
+    public ResponseEntity<List<WsFlinkKubernetesDeploymentDTO>> listAll(@Valid WsFlinkKubernetesDeploymentSelectListParam param) {
+        List<WsFlinkKubernetesDeploymentDTO> page = wsFlinkKubernetesDeploymentService.listAll(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 

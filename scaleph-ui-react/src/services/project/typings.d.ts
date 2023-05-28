@@ -191,6 +191,11 @@ export type WsFlinkArtifactJarHistoryParam = QueryParam & {
   flinkArtifactId: number;
 };
 
+export type WsFlinkArtifactJarSelectListParam = {
+  projectId: number;
+  name?: string;
+};
+
 export type WsFlinkArtifactSql = {
   id?: number;
   wsFlinkArtifact?: WsFlinkArtifact;
@@ -204,6 +209,11 @@ export type WsFlinkArtifactSqlParam = QueryParam & {
   flinkArtifactId: number;
   version?: string;
   flinkVersion: string;
+};
+
+export type WsFlinkArtifactSqlSelectListParam = {
+  projectId: number;
+  name?: string;
 };
 
 export type WsFlinkArtifactSqlAddParam = {
@@ -303,6 +313,7 @@ export type WsFlinkCheckPointParam = QueryParam & {
 
 export type WsFlinkKubernetesTemplate = {
   id?: number;
+  projectId: number;
   name?: string;
   metadata?: Record<string, any>;
   spec?: Record<string, any>;
@@ -317,6 +328,7 @@ export type WsFlinkKubernetesTemplateParam = QueryParam & {
 
 export type WsFlinkKubernetesDeployment = {
   id?: number;
+  projectId: number;
   kind: Dict;
   name: string;
   namespace: string;
@@ -341,12 +353,19 @@ export type KubernetesOptions = {
 };
 
 export type WsFlinkKubernetesDeploymentParam = QueryParam & {
-  kind: string
+  projectId: number;
+  kind: string;
+  name?: string;
+};
+
+export type WsFlinkKubernetesDeploymentSelectListParam = {
+  projectId: number;
   name?: string;
 };
 
 export type WsFlinkKubernetesSessionCluster = {
   id?: number;
+  projectId: number;
   clusterCredentialId: number;
   name: string;
   metadata?: Record<string, any>;
@@ -356,6 +375,50 @@ export type WsFlinkKubernetesSessionCluster = {
 };
 
 export type WsFlinkKubernetesSessionClusterParam = QueryParam & {
+  projectId: number;
   clusterCredentialId?: number;
   name?: string;
+};
+
+export type WsFlinkKubernetesSessionClusterSelectListParam = {
+  projectId: number;
+  name?: string;
+};
+
+export type WsFlinkKubernetesJob = {
+  id?: number;
+  projectId: number;
+  name: string;
+  jobId: string;
+  executionMode: Dict;
+  flinkDeploymentMode: Dict;
+  flinkDeployment: WsFlinkKubernetesDeployment;
+  flinkSessionCluster: WsFlinkKubernetesSessionCluster;
+  type: Dict;
+  flinkArtifactJar: WsFlinkArtifactJar;
+  flinkArtifactSql: WsFlinkArtifactSql;
+  remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsFlinkKubernetesJobParam = QueryParam & {
+  projectId: number;
+  executionMode?: string;
+  flinkDeploymentMode?: string;
+  type?: string;
+  state?: string;
+  name?: string;
+};
+
+export type WsFlinkKubernetesJobAddParam = {
+  projectId: number;
+  name: string;
+  executionMode: string;
+  flinkDeploymentMode: string;
+  flinkDeploymentId?: number;
+  flinkSessionClusterId?: number;
+  type: string;
+  flinkArtifactJarId?: number;
+  flinkArtifactSqlId?: number;
 };

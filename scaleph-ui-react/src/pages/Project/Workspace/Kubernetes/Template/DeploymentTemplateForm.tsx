@@ -7,6 +7,7 @@ import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 import {
   WsFlinkKubernetesTemplateService
 } from "@/services/project/WsFlinkKubernetesTemplateService";
+import {WORKSPACE_CONF} from "@/constant";
 
 const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesTemplate>> = ({
                                                                                                  data,
@@ -16,6 +17,8 @@ const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesTemplate>
                                                                                                }) => {
   const intl = useIntl();
   const [form] = Form.useForm();
+  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
+
   return (
     <Modal
       open={visible}
@@ -38,6 +41,7 @@ const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesTemplate>
           }
           const param: WsFlinkKubernetesTemplate = {
             id: values.id,
+            projectId: projectId,
             name: values.name,
             metadata: metadataData,
             spec: data.spec ? data.spec : {},

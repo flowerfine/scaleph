@@ -26,6 +26,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSession
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterListParam;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterSelectListParam;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -54,6 +55,14 @@ public class WsFlinkKubernetesSessionClusterController {
     @ApiOperation(value = "查询 SessionCluster 列表", notes = "分页查询 SessionCluster 列表")
     public ResponseEntity<Page<WsFlinkKubernetesSessionClusterDTO>> list(@Valid WsFlinkKubernetesSessionClusterListParam param) {
         Page<WsFlinkKubernetesSessionClusterDTO> page = wsFlinkKubernetesSessionClusterService.list(param);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("all")
+    @ApiOperation(value = "查询 SessionCluster 列表", notes = "查询 SessionCluster 列表")
+    public ResponseEntity<List<WsFlinkKubernetesSessionClusterDTO>> listAll(@Valid WsFlinkKubernetesSessionClusterSelectListParam param) {
+        List<WsFlinkKubernetesSessionClusterDTO> page = wsFlinkKubernetesSessionClusterService.listAll(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 

@@ -23,18 +23,30 @@ import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
 import cn.sliew.scaleph.common.param.PaginationParam;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 public class WsFlinkKubernetesJobListParam extends PaginationParam {
 
-    private FlinkRuntimeExecutionMode flinkRuntimeExecutionMode;
+    @NotNull
+    @ApiModelProperty("project id")
+    private Long projectId;
 
-    private FlinkJobType flinkJobType;
+    @ApiModelProperty("flink runtime execution mode")
+    private FlinkRuntimeExecutionMode executionMode;
 
+    @ApiModelProperty("flink deployment mode")
     private FlinkDeploymentMode flinkDeploymentMode;
 
-    private FlinkJobState flinkJobState;
+    @ApiModelProperty("flink job type")
+    private FlinkJobType type;
 
+    @ApiModelProperty("flink job state")
+    private FlinkJobState state;
+
+    @ApiModelProperty("name")
     private String name;
 }

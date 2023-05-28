@@ -228,6 +228,14 @@ export default [
             pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
             access: 'normalRouteFilter'
           },
+          {
+            name: 'job',
+            path: '/workspace/flink/kubernetes/job',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/Job',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
         ]
       },
     ]

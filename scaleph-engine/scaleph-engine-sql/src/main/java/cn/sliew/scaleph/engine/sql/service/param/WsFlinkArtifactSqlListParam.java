@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-public class WsFlinkArtifactSqlParam extends PaginationParam {
+public class WsFlinkArtifactSqlListParam extends PaginationParam {
 
     @ApiModelProperty("Project ID")
     private Long projectId;

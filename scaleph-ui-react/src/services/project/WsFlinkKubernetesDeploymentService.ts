@@ -1,6 +1,10 @@
 import {PageResponse, ResponseBody} from '@/app.d';
 import {request} from 'umi';
-import {WsFlinkKubernetesDeployment, WsFlinkKubernetesDeploymentParam} from './typings';
+import {
+  WsFlinkKubernetesDeployment,
+  WsFlinkKubernetesDeploymentParam,
+  WsFlinkKubernetesDeploymentSelectListParam
+} from './typings';
 
 export const WsFlinkKubernetesDeploymentService = {
   url: '/api/flink/kubernetes/deployment',
@@ -17,6 +21,13 @@ export const WsFlinkKubernetesDeploymentService = {
         current: res.current,
       };
       return result;
+    });
+  },
+
+  listAll: async (queryParam: WsFlinkKubernetesDeploymentSelectListParam) => {
+    return request<ResponseBody<Array<WsFlinkKubernetesDeployment>>>(`${WsFlinkKubernetesDeploymentService.url}/all`, {
+      method: 'GET',
+      params: queryParam,
     });
   },
 

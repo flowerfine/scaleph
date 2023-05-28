@@ -26,6 +26,7 @@
         <result column="create_time" property="createTime" />
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
+        <result column="project_id" property="projectId" />
         <result column="name" property="name" />
         <result column="template_id" property="templateId" />
         <result column="metadata" property="metadata" />
@@ -35,7 +36,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        `name`, template_id, metadata, spec
+        project_id, `name`, template_id, metadata, spec
     </sql>
 
 </mapper>
