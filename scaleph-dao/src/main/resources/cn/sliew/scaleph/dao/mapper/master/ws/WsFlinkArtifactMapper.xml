@@ -19,7 +19,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactMapper">
 
-    <!-- 通用查询映射结果 -->
     <resultMap id="FlinkArtifactMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifact">
         <result column="id" property="id"/>
         <result column="creator" property="creator"/>
@@ -31,17 +30,4 @@
         <result column="name" property="name"/>
         <result column="remark" property="remark"/>
     </resultMap>
-
-    <select id="isUsed" resultMap="FlinkArtifactMap">
-        select t1.*
-        from ws_flink_artifact t1
-        join ws_flink_artifact_jar t2
-        on t1.id = t2.flink_artifact_id
-        join ws_flink_job t3
-        on t2.id = t3.flink_artifact_id
-        where t1.id = #{id}
-        and t3.type = '0'
-        limit 1
-    </select>
-
 </mapper>

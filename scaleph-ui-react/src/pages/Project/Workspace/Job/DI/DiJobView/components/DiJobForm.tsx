@@ -1,4 +1,4 @@
-import {WsDiJobService} from '@/services/project/WsDiJob.service';
+import {WsDiJobService} from '@/services/project/WsDiJobService';
 import {WsDiJob} from '@/services/project/typings';
 import {Form, Modal} from 'antd';
 import {useIntl} from 'umi';

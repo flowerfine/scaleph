@@ -30,10 +30,6 @@
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-engine-sql</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-engine-flink-kubernetes</artifactId>
         </dependency>
         <dependency>

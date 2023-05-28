@@ -1,6 +1,6 @@
 import { FlinkArtifactJarService } from '@/services/project/flinkArtifactJar.service';
 import { WsFlinkArtifactJar, WsFlinkJob } from '@/services/project/typings';
-import { WsDiJobService } from '@/services/project/WsDiJob.service';
+import { WsDiJobService } from '@/services/project/WsDiJobService';
 import Editor, { useMonaco } from '@monaco-editor/react';
 import { Card, Col, List, Row } from 'antd';
 import { useEffect, useState } from 'react';

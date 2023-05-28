@@ -16,23 +16,32 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service;
+package cn.sliew.scaleph.project.service;
 
-import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactDTO;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactParam;
+import cn.sliew.scaleph.project.service.dto.WsProjectDTO;
+import cn.sliew.scaleph.project.service.param.WsProjectParam;
+import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-public interface WsFlinkArtifactService {
+import java.io.Serializable;
+import java.util.List;
 
-    Page<WsFlinkArtifactDTO> list(WsFlinkArtifactParam param);
+public interface WsProjectService {
 
-    WsFlinkArtifactDTO selectOne(Long id);
+    Page<WsProjectDTO> listByPage(WsProjectParam param);
 
-    WsFlinkArtifactDTO insert(WsFlinkArtifactDTO dto);
+    List<DictVO> listAll();
 
-    int update(WsFlinkArtifactDTO dto);
+    WsProjectDTO selectOne(Serializable id);
 
-    int deleteById(Long id) throws ScalephException;
+    int insert(WsProjectDTO dto);
+
+    int update(WsProjectDTO dto);
+
+    int deleteById(Long id);
+
+    int deleteBatch(List<Long> ids);
+
+    Long totalCnt();
 
 }

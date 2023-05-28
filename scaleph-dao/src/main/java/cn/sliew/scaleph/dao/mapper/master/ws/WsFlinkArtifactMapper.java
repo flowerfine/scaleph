@@ -20,7 +20,6 @@ package cn.sliew.scaleph.dao.mapper.master.ws;
 
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifact;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -30,7 +29,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface WsFlinkArtifactMapper extends BaseMapper<WsFlinkArtifact> {
-
-    WsFlinkArtifact isUsed(@Param("id") Long id);
 
 }

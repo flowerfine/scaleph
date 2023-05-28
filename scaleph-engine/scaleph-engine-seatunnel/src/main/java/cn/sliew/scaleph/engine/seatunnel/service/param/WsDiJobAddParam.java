@@ -18,49 +18,14 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
-import cn.sliew.scaleph.common.dict.job.JobStatus;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
-import cn.sliew.scaleph.common.param.PaginationParam;
-import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
+import cn.sliew.scaleph.project.service.param.AbstractWsFlinkArtifactAddParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-/**
- * @author gleiyu
- */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class WsDiJobParam extends PaginationParam {
-
-    @ApiModelProperty("project id")
-    private Long projectId;
+public class WsDiJobAddParam extends AbstractWsFlinkArtifactAddParam {
 
     @ApiModelProperty("job engine")
     private SeaTunnelEngineType jobEngine;
-
-    @ApiModelProperty("job code")
-    private Long jobCode;
-
-    @ApiModelProperty("job name")
-    private String jobName;
-
-    @ApiModelProperty("job type")
-    private FlinkRuntimeExecutionMode jobType;
-
-    @ApiModelProperty("job status")
-    private JobStatus jobStatus;
-
-    public WsDiJob toDo() {
-        WsDiJob job = new WsDiJob();
-        job.setProjectId(projectId);
-        job.setJobEngine(jobEngine);
-        job.setJobCode(jobCode);
-        job.setJobName(jobName);
-        job.setJobType(jobType);
-        job.setJobStatus(jobStatus);
-        return job;
-    }
-
 }

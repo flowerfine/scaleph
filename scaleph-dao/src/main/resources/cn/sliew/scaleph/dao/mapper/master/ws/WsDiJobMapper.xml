@@ -19,69 +19,76 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.sliew.scaleph.dao.mapper.master.ws.WsDiJobMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="DiJobMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsDiJob">
+    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.ws.WsDiJob">
         <result column="id" property="id"/>
         <result column="creator" property="creator"/>
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
-        <result column="project_id" property="projectId"/>
+        <result column="flink_artifact_id" property="flinkArtifactId"/>
         <result column="job_engine" property="jobEngine"/>
-        <result column="job_code" property="jobCode"/>
-        <result column="job_name" property="jobName"/>
-        <result column="job_type" property="jobType"/>
-        <result column="job_status" property="jobStatus"/>
-        <result column="job_version" property="jobVersion"/>
-        <result column="remark" property="remark"/>
+        <result column="job_id" property="jobId"/>
+        <result column="current" property="current"/>
+        <association column="flink_artifact_id" property="wsFlinkArtifact"
+                     select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactMapper.selectById"/>
     </resultMap>
 
-    <select id="selectPage" resultMap="DiJobMap">
-        <![CDATA[
+    <sql id="Base_Column_List">
+        id, creator, create_time, editor, update_time,
+        flink_artifact_id, job_engine, job_id, `current`
+    </sql>
+
+    <select id="selectPage" resultMap="BaseResultMap">
         select
-            id,
-            project_id,
-            job_engine,
-            job_code,
-            job_name,
-            job_type,
-            job_status,
-            job_version,
-            remark,
-            creator,
-            create_time,
-            editor,
-            update_time
+        <include refid="Base_Column_List"/>
         from
-        (
-            select
-                *,
-                row_number() over(partition by project_id,job_code order by job_version desc) as rn
-            from ws_di_job
-        ) t
-        ]]>
+        ws_di_job t1
+        join ws_flink_artifact t2 on t1.flink_artifact_id = t2.id
+        where
+        t2.project_id = #{projectId}
+        and t1.current = '1'
         <where>
-            rn = 1
-            <if test="job.projectId != null ">
-                and t.project_id = #{job.projectId,jdbcType=BIGINT}
+            <if test="jobEngine != null">
+                and t1.job_engine = #{jobEngine}
             </if>
-            <if test="job.jobEngine != null">
-                and t.job_engine = #{job.jobEngine}
-            </if>
-            <if test="job.jobCode != null and job.jobCode != '' ">
-                and t.job_code like concat('%',#{job.jobCode,jdbcType=VARCHAR},'%')
-            </if>
-            <if test="job.jobName != null and job.jobName != ''">
-                and t.job_name like concat('%',#{job.jobName,jdbcType=VARCHAR},'%')
-            </if>
-            <if test="job.jobStatus != null and job.jobStatus != '' ">
-                and t.job_status = #{job.jobStatus,jdbcType=VARCHAR}
-            </if>
-            <if test="job.jobType != null">
-                and t.job_type = #{job.jobType,jdbcType=VARCHAR}
+            <if test="name != null and name != ''">
+                and t2.`name` like concat('%', #{name}, '%')
             </if>
         </where>
-        order by t.job_code
+        order by t2.id desc
     </select>
 
+    <select id="listAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        ws_di_job t1
+        join ws_flink_artifact t2 on t1.flink_artifact_id = t2.id
+        where
+        t2.project_id = #{projectId}
+        and t1.current = '1'
+        <if test="name != null and name != ''">
+            and t2.`name` like concat('%', #{name}, '%')
+        </if>
+        order by t2.id desc
+    </select>
+
+    <select id="selectOne" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        ws_di_job t1
+        join ws_flink_artifact t2 on t1.flink_artifact_id = t2.id
+        where t1.id = #{id}
+    </select>
+
+    <select id="selectCurrent" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        ws_di_job t1
+        join ws_flink_artifact t2 on t1.flink_artifact_id = t2.id
+        where t2.id = #{artifactId}
+        and t1.current = '1'
+    </select>
 </mapper>

@@ -18,29 +18,30 @@
 
 package cn.sliew.scaleph.dao.mapper.master.ws;
 
+import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
- * <p>
  * 数据集成-作业信息 Mapper 接口
- * </p>
- *
- * @author liyu
- * @since 2022-03-10
  */
 @Repository
 public interface WsDiJobMapper extends BaseMapper<WsDiJob> {
-    /**
-     * 自定义分页查询
-     *
-     * @param page page
-     * @param job  job param
-     * @return page
-     */
-    Page<WsDiJob> selectPage(IPage<?> page, @Param("job") WsDiJob job);
+
+    Page<WsDiJob> selectPage(Page<WsDiJob> page,
+                             @Param("projectId") Long projectId,
+                             @Param("jobEngine") SeaTunnelEngineType jobEngine,
+                             @Param("name") String name);
+
+    List<WsDiJob> listAll(@Param("projectId") Long projectId, @Param("name") String name);
+
+    WsDiJob selectOne(@Param("id") Long id);
+
+    WsDiJob selectCurrent(@Param("artifactId") Long artifactId);
+
 }

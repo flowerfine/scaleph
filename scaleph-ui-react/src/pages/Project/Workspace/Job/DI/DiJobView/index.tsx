@@ -1,25 +1,24 @@
-import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from '@/constant';
-import {DictDataService} from '@/services/admin/dictData.service';
-import {WsDiJobService} from '@/services/project/WsDiJob.service';
-import {WsDiJob} from '@/services/project/typings';
+import {history, useAccess, useIntl} from 'umi';
+import React, {useRef, useState} from 'react';
+import {Button, Col, Dropdown, Menu, message, Modal, Row, Space, Tooltip} from 'antd';
 import {DeleteOutlined, DownOutlined, EditOutlined, NodeIndexOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
-import {Button, Col, Dropdown, Menu, message, Modal, Row, Space, Tooltip} from 'antd';
-import React, {useRef, useState} from 'react';
-import {history, useAccess, useIntl} from 'umi';
+import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from '@/constant';
+import {DictDataService} from '@/services/admin/dictData.service';
+import {WsDiJobService} from '@/services/project/WsDiJobService';
+import {WsDiJob} from '@/services/project/typings';
 import DiJobForm from './components/DiJobForm';
 
 const DiJobView: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
-  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-
   const [jobFormData, setJobFormData] = useState<{ visible: boolean; data: WsDiJob }>({
     visible: false,
     data: {},
   });
+  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
   const onJobFlow = (record: WsDiJob) => {
     history.push("/workspace/job/seatunnel/dag", {
@@ -30,12 +29,15 @@ const DiJobView: React.FC = () => {
 
   const tableColumns: ProColumns<WsDiJob>[] = [
     {
-      title: intl.formatMessage({id: 'pages.project.di.jobName'}),
-      dataIndex: 'jobName',
-      width: 200,
+      title: intl.formatMessage({id: 'pages.project.artifact.name'}),
+      dataIndex: 'name',
+      width: 240,
+      render: (dom, record) => {
+        return record.wsFlinkArtifact?.name
+      }
     },
     {
-      title: intl.formatMessage({id: 'pages.project.di.jobEngine'}),
+      title: intl.formatMessage({id: 'pages.project.artifact.seatunnel.jobEngine'}),
       dataIndex: 'jobEngine',
       align: 'center',
       width: 100,
@@ -44,18 +46,6 @@ const DiJobView: React.FC = () => {
       },
       request: (params, props) => {
         return DictDataService.listDictDataByType2(DICT_TYPE.seatunnelEngineType)
-      }
-    },
-    {
-      title: intl.formatMessage({id: 'pages.project.di.jobType'}),
-      dataIndex: 'jobType',
-      align: 'center',
-      width: 100,
-      render: (_, record) => {
-        return record.jobType?.label;
-      },
-      request: (params, props) => {
-        return DictDataService.listDictDataByType2(DICT_TYPE.flinkRuntimeExecutionMode)
       }
     },
     {
@@ -157,10 +147,7 @@ const DiJobView: React.FC = () => {
             options={false}
             columns={tableColumns}
             request={(params, sorter, filter) => {
-              return WsDiJobService.listJobByProject({
-                ...params,
-                projectId: projectId + '',
-              });
+              return WsDiJobService.list({...params, projectId: projectId + ''});
             }}
             toolbar={{
               actions: [

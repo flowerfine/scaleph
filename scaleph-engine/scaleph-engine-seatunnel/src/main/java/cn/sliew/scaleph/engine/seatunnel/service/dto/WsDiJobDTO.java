@@ -18,28 +18,21 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service.dto;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
-import cn.sliew.scaleph.common.dict.job.JobStatus;
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.common.dto.BaseDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.JobGraphVO;
+import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * <p>
  * 数据集成-作业信息
- * </p>
- *
- * @author liyu
- * @since 2022-03-10
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -49,33 +42,18 @@ public class WsDiJobDTO extends BaseDTO {
     private static final long serialVersionUID = -4161534628783250968L;
 
     @NotNull
-    @ApiModelProperty(value = "项目id")
-    private Long projectId;
+    @ApiModelProperty("Flink Artifact")
+    private WsFlinkArtifactDTO wsFlinkArtifact;
 
     @NotNull
     @ApiModelProperty(value = "作业引擎")
     private SeaTunnelEngineType jobEngine;
 
     @ApiModelProperty(value = "作业编码")
-    private Long jobCode;
+    private String jobId;
 
-    @NotBlank
-    @Length(min = 1, max = 200)
-    @ApiModelProperty(value = "作业名称")
-    private String jobName;
-
-    @ApiModelProperty(value = "作业类型 实时、离线")
-    private FlinkRuntimeExecutionMode jobType;
-
-    @ApiModelProperty(value = "作业状态 草稿、发布、归档")
-    private JobStatus jobStatus;
-
-    @ApiModelProperty(value = "作业版本号")
-    private Integer jobVersion;
-
-    @Length(max = 200)
-    @ApiModelProperty(value = "备注")
-    private String remark;
+    @ApiModelProperty("current version")
+    private YesOrNo current;
 
     @ApiModelProperty(value = "作业属性信息")
     private List<WsDiJobAttrDTO> jobAttrList;

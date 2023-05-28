@@ -18,23 +18,17 @@
 
 package cn.sliew.scaleph.dao.entity.master.ws;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
-import cn.sliew.scaleph.common.dict.job.JobStatus;
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * <p>
  * 数据集成-作业信息
- * </p>
- *
- * @author liyu
- * @since 2022-03-10
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -44,28 +38,18 @@ public class WsDiJob extends BaseDO {
 
     private static final long serialVersionUID = -4141741507654897469L;
 
-    @ApiModelProperty(value = "项目id")
-    private Long projectId;
+    @TableField("flink_artifact_id")
+    private Long flinkArtifactId;
 
-    @ApiModelProperty(value = "作业引擎")
+    @TableField(exist = false)
+    private WsFlinkArtifact wsFlinkArtifact;
+
+    @TableField(value = "job_engine")
     private SeaTunnelEngineType jobEngine;
 
-    @ApiModelProperty(value = "作业编码")
-    private Long jobCode;
+    @TableField("job_id")
+    private String jobId;
 
-    @ApiModelProperty(value = "作业名称")
-    private String jobName;
-
-    @ApiModelProperty(value = "作业类型 实时、离线")
-    private FlinkRuntimeExecutionMode jobType;
-
-    @ApiModelProperty(value = "作业状态 草稿、发布、归档")
-    private JobStatus jobStatus;
-
-    @ApiModelProperty(value = "作业版本号")
-    private Integer jobVersion;
-
-    @ApiModelProperty(value = "备注")
-    private String remark;
-
+    @TableField("`current`")
+    private YesOrNo current;
 }

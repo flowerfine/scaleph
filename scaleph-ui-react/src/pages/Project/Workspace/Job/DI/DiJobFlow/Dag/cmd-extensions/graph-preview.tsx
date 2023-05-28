@@ -16,7 +16,7 @@ import {render, unmount} from 'rc-util/lib/React/render';
 import React, {useEffect, useRef, useState} from 'react';
 import {getLocale} from 'umi';
 import {CustomCommands} from '../constant';
-import {WsDiJobService} from "@/services/project/WsDiJob.service";
+import {WsDiJobService} from "@/services/project/WsDiJobService";
 import Editor, {useMonaco} from "@monaco-editor/react";
 
 const {inject, injectable, postConstruct} = ManaSyringe;

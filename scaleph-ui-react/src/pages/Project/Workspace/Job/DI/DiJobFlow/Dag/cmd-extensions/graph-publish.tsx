@@ -1,4 +1,4 @@
-import { WsDiJobService } from '@/services/project/WsDiJob.service';
+import { WsDiJobService } from '@/services/project/WsDiJobService';
 import {
   IArgsBase,
   ICmdHooks as IHooks,

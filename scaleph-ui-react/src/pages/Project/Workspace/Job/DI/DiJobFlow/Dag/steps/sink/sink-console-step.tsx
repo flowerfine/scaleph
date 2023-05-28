@@ -5,7 +5,7 @@ import {WsDiJob} from '@/services/project/typings';
 import {Button, Drawer, Form, message} from 'antd';
 import {useEffect} from 'react';
 import {STEP_ATTR_TYPE} from '../../constant';
-import {WsDiJobService} from '@/services/project/WsDiJob.service';
+import {WsDiJobService} from '@/services/project/WsDiJobService';
 import {ProForm, ProFormText} from '@ant-design/pro-components';
 
 const SinkConsoleStepForm: React.FC<

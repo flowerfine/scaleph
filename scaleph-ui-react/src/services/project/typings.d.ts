@@ -16,16 +16,28 @@ export type WsProjectParam = QueryParam & {
   projectName?: string;
 };
 
-export type WsDiJob = {
+export type WsFlinkArtifact = {
   id?: number;
   projectId?: number | string;
-  jobEngine?: Dict | any;
-  jobCode?: number;
-  jobName?: string;
-  jobType?: Dict | any;
-  jobStatus?: Dict;
-  jobVersion?: number;
+  type?: Dict;
+  name?: string;
+  current?: number;
   remark?: string;
+  createTime?: Date;
+  updateTime?: Date;
+};
+
+export type WsFlinkArtifactListParam = QueryParam & {
+  projectId?: number | string;
+  name?: string;
+};
+
+export type WsDiJob = {
+  id?: number;
+  wsFlinkArtifact?: WsFlinkArtifact;
+  jobEngine?: Dict;
+  jobId?: string;
+  current?: Dict;
   createTime?: Date;
   updateTime?: Date;
   jobAttrList?: WsDiJobAttr[];
@@ -37,9 +49,7 @@ export type WsDiJob = {
 export type WsDiJobParam = QueryParam & {
   projectId: string;
   jobEngine?: string;
-  jobCode?: number;
-  jobName?: string;
-  jobType?: string;
+  name?: string;
 };
 
 export type WsDiJobGraphParam = {
@@ -122,30 +132,10 @@ export type WsFlinkJobInstance = {
   updateTime: Date;
 };
 
-export type WsFlinkJobInstanceListParam = QueryParam & {
-  flinkJobCode: number;
-};
-
 export type WsFlinkJobLog = WsFlinkJobInstance & {};
 
 export type WsFlinkJobLogListParam = QueryParam & {
   flinkJobCode: number;
-};
-
-export type WsFlinkArtifact = {
-  id?: number;
-  projectId?: number | string;
-  type?: Dict;
-  name?: string;
-  current?: number;
-  remark?: string;
-  createTime?: Date;
-  updateTime?: Date;
-};
-
-export type WsFlinkArtifactListParam = QueryParam & {
-  projectId?: number | string;
-  name?: string;
 };
 
 export type WsFlinkArtifactJar = {
@@ -156,6 +146,7 @@ export type WsFlinkArtifactJar = {
   fileName?: string;
   path?: string;
   jarParams?: { [key: string]: any };
+  current?: Dict;
   createTime?: Date;
   updateTime?: Date;
 };
@@ -201,6 +192,7 @@ export type WsFlinkArtifactSql = {
   wsFlinkArtifact?: WsFlinkArtifact;
   flinkVersion?: Dict;
   script?: string;
+  current?: Dict;
   createTime?: Date;
   updateTime?: Date;
 };

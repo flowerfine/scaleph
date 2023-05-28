@@ -1,11 +1,11 @@
-import { Dict, PageResponse, ResponseBody } from '@/app.d';
-import { request } from 'umi';
-import { WsDiJob, WsDiJobGraphParam, WsDiJobParam } from './typings';
+import {PageResponse, ResponseBody} from '@/app.d';
+import {request} from 'umi';
+import {WsDiJob, WsDiJobGraphParam, WsDiJobParam} from './typings';
 
 export const WsDiJobService = {
   url: '/api/di/job',
 
-  listJobByProject: async (queryParam: WsDiJobParam) => {
+  list: async (queryParam: WsDiJobParam) => {
     return request<PageResponse<WsDiJob>>(`${WsDiJobService.url}`, {
       method: 'GET',
       params: queryParam,
@@ -51,7 +51,7 @@ export const WsDiJobService = {
   selectJobById: async (id: number) => {
     return request<WsDiJob>(`${WsDiJobService.url}/detail`, {
       method: 'GET',
-      params: { id: id },
+      params: {id: id},
     });
   },
 
@@ -102,26 +102,6 @@ export const WsDiJobService = {
 
   previewJob: async (jobId: number) => {
     return request<ResponseBody<string>>(`${WsDiJobService.url}/preview/` + jobId, {
-      method: 'GET',
-    });
-  },
-
-  runJob: async (info: any) => {
-    return request<ResponseBody<any>>(`${WsDiJobService.url}/run/`, {
-      method: 'POST',
-      data: info,
-    });
-  },
-
-  stopJob: async (jobId: number) => {
-    return request<ResponseBody<any>>(`${WsDiJobService.url}/stop/`, {
-      method: 'GET',
-      params: { jobId: jobId },
-    });
-  },
-
-  listResource: async (jobId: string) => {
-    return request<Dict[]>(`${WsDiJobService.url}/resource/` + jobId, {
       method: 'GET',
     });
   },

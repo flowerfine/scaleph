@@ -34,7 +34,7 @@ const JobArtifactSqlView: React.FC = () => {
       title: intl.formatMessage({id: 'pages.resource.flinkRelease.version'}),
       dataIndex: 'flinkVersion',
       width: 120,
-      render: (dom, record, index) => {
+      render: (dom, record) => {
         return record.flinkVersion?.label;
       },
       request: (params, props) => {
@@ -42,7 +42,7 @@ const JobArtifactSqlView: React.FC = () => {
       }
     },
     {
-      title: intl.formatMessage({id: 'pages.project.artifact.remark'}),
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       width: 240,
       hideInSearch: true,
@@ -51,13 +51,13 @@ const JobArtifactSqlView: React.FC = () => {
       }
     },
     {
-      title: intl.formatMessage({id: 'pages.project.artifact.createTime'}),
+      title: intl.formatMessage({id: 'app.common.data.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.project.artifact.updateTime'}),
+      title: intl.formatMessage({id: 'app.common.data.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,

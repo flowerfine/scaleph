@@ -1,6 +1,6 @@
 import {NsGraph} from "@antv/xflow";
 import {ModalFormProps} from '@/app.d';
-import {WsDiJobService} from "@/services/project/WsDiJob.service";
+import {WsDiJobService} from "@/services/project/WsDiJobService";
 import {Form, message, Modal} from "antd";
 import {WsDiJob} from "@/services/project/typings";
 import {getIntl, getLocale} from "umi";

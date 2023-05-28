@@ -38,11 +38,11 @@ public class WsFlinkArtifactSql extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField(exist = false)
-    private WsFlinkArtifact wsFlinkArtifact;
-
     @TableField("flink_artifact_id")
     private Long flinkArtifactId;
+
+    @TableField(exist = false)
+    private WsFlinkArtifact wsFlinkArtifact;
 
     @TableField("flink_version")
     private FlinkVersion flinkVersion;

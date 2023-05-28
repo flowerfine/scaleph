@@ -19,16 +19,13 @@
 package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.engine.seatunnel.service.WsProjectService;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsProjectDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.param.WsProjectParam;
-import cn.sliew.scaleph.system.service.vo.DictVO;
+import cn.sliew.scaleph.project.service.WsProjectService;
+import cn.sliew.scaleph.project.service.dto.WsProjectDTO;
+import cn.sliew.scaleph.project.service.param.WsProjectParam;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,13 +33,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
-/**
- * @author gleiyu
- */
-@Slf4j
 @Api(tags = "数据开发-项目管理")
 @RestController
 @RequestMapping(path = {"/api/datadev/project", "/api/di/project"})
@@ -52,35 +45,25 @@ public class WsProjectController {
     private WsProjectService wsProjectService;
 
     @Logging
-    @GetMapping(path = "/{id}")
-    @ApiOperation(value = "查询项目信息", notes = "查询项目信息")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_SELECT)")
-    public ResponseEntity<WsProjectDTO> selectOne(@PathVariable(value = "id") Long projectId) {
-        WsProjectDTO project = wsProjectService.selectOne(projectId);
-        return new ResponseEntity<>(project, HttpStatus.OK);
-    }
-
-    @Logging
     @GetMapping
     @ApiOperation(value = "查询项目列表", notes = "分页查询项目列表")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_SELECT)")
-    public ResponseEntity<Page<WsProjectDTO>> listProject(WsProjectParam param) {
+    public ResponseEntity<Page<WsProjectDTO>> listProject(@Valid WsProjectParam param) {
         Page<WsProjectDTO> page = wsProjectService.listByPage(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @Logging
-    @GetMapping(path = "/all")
-    @ApiOperation(value = "查询所有项目列表", notes = "查询所有项目列表")
+    @GetMapping(path = "{id}")
+    @ApiOperation(value = "查询项目信息", notes = "查询项目信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_SELECT)")
-    public ResponseEntity<List<DictVO>> listAll() {
-        List<DictVO> result = wsProjectService.listAll();
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseEntity<WsProjectDTO> selectOne(@PathVariable("id") Long id) {
+        WsProjectDTO project = wsProjectService.selectOne(id);
+        return new ResponseEntity<>(project, HttpStatus.OK);
     }
 
-
     @Logging
-    @PostMapping
+    @PutMapping
     @ApiOperation(value = "新增项目", notes = "新增项目")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_ADD)")
     public ResponseEntity<ResponseVO> addProject(@Validated @RequestBody WsProjectDTO wsProjectDTO) {
@@ -89,7 +72,7 @@ public class WsProjectController {
     }
 
     @Logging
-    @PutMapping
+    @PostMapping
     @ApiOperation(value = "修改项目", notes = "修改项目")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_EDIT)")
     public ResponseEntity<ResponseVO> editProject(@Validated @RequestBody WsProjectDTO wsProjectDTO) {
@@ -98,20 +81,20 @@ public class WsProjectController {
     }
 
     @Logging
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "{id}")
     @ApiOperation(value = "删除项目", notes = "删除项目")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_DELETE)")
-    public ResponseEntity<ResponseVO> deleteProject(@PathVariable(value = "id") Long projectId) throws ScalephException {
+    public ResponseEntity<ResponseVO> deleteProject(@PathVariable(value = "id") Long projectId) {
         wsProjectService.deleteById(projectId);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
-    @PostMapping(path = "/batch")
+    @DeleteMapping(path = "batch")
     @ApiOperation(value = "批量删除项目", notes = "批量删除项目")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_PROJECT_DELETE)")
-    public ResponseEntity<ResponseVO> deleteProject(@RequestBody Map<Integer, Long> map) throws ScalephException {
-        wsProjectService.deleteBatch(map);
+    public ResponseEntity<ResponseVO> deleteProject(@RequestBody List<Long> ids) {
+        wsProjectService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 }

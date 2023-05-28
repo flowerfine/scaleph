@@ -23,12 +23,12 @@ import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactSqlMapper;
-import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactService;
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactDTO;
 import cn.sliew.scaleph.engine.sql.service.WsFlinkArtifactSqlService;
 import cn.sliew.scaleph.engine.sql.service.convert.WsFlinkArtifactSqlConvert;
 import cn.sliew.scaleph.engine.sql.service.dto.WsFlinkArtifactSqlDTO;
 import cn.sliew.scaleph.engine.sql.service.param.*;
+import cn.sliew.scaleph.project.service.WsFlinkArtifactService;
+import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -121,10 +121,10 @@ public class WsFlinkArtifactSqlServiceImpl implements WsFlinkArtifactSqlService 
         wsFlinkArtifactService.update(flinkArtifact);
 
         WsFlinkArtifactSql record = new WsFlinkArtifactSql();
-        record.setFlinkArtifactId(flinkArtifact.getId());
+        record.setId(param.getId());
         record.setFlinkVersion(param.getFlinkVersion());
         record.setCurrent(YesOrNo.YES);
-        return wsFlinkArtifactSqlMapper.insert(record);
+        return wsFlinkArtifactSqlMapper.updateById(record);
     }
 
     @Override

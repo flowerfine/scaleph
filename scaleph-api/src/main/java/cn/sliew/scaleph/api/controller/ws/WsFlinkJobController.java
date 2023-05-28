@@ -105,7 +105,7 @@ public class WsFlinkJobController {
 
         } else if (FlinkJobType.SEATUNNEL.equals(wsFlinkJobDTO.getType())) {
             WsDiJobDTO wsDiJobDTO = wsDiJobService.selectOne(wsFlinkJobDTO.getFlinkArtifactId());
-            wsFlinkJobDTO.setName(wsDiJobDTO.getJobName());
+            wsFlinkJobDTO.setName(wsDiJobDTO.getWsFlinkArtifact().getName());
             Map<String, String> jobConfig = new HashMap<>();
             List<WsDiJobAttrDTO> attrList = wsDiJobAttrService.listJobAttr(wsDiJobDTO.getId());
             attrList.stream()
