@@ -164,7 +164,6 @@ const JobArtifactJarView: React.FC = () => {
   return (
     <div>
       <ProTable<WsFlinkArtifactJar>
-        headerTitle={intl.formatMessage({id: 'menu.project.job.artifact'})}
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},

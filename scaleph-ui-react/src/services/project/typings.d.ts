@@ -47,9 +47,16 @@ export type WsDiJob = {
 };
 
 export type WsDiJobParam = QueryParam & {
-  projectId: string;
+  projectId: number;
   jobEngine?: string;
   name?: string;
+};
+
+export type WsDiJobAddParam = {
+  projectId: number;
+  name?: string;
+  jobEngine?: string;
+  remark?: string;
 };
 
 export type WsDiJobGraphParam = {

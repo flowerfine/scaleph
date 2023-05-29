@@ -5,7 +5,7 @@ import {useIntl} from 'umi';
 import {ProForm, ProFormDigit, ProFormSelect, ProFormText} from "@ant-design/pro-components";
 import React from "react";
 import {DictDataService} from "@/services/admin/dictData.service";
-import {DICT_TYPE} from "@/constant";
+import {DICT_TYPE, WORKSPACE_CONF} from "@/constant";
 
 interface DiJobFormProps<DiJob> {
   data: DiJob;
@@ -18,13 +18,14 @@ const DiJobForm: React.FC<DiJobFormProps<WsDiJob>> = ({data, visible, onVisibleC
   const intl = useIntl();
   const [form] = Form.useForm();
 
+  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
+
   const submit = () => {
     form.validateFields().then((values) => {
-      const job: WsDiJob = {
-        projectId: data.projectId,
+      const job = {
+        projectId: projectId,
+        name: values.name,
         jobEngine: values.jobEngine,
-        jobName: values.jobName,
-        jobType: data.jobType?.value,
         remark: values.remark,
       };
       data.id
@@ -33,7 +34,7 @@ const DiJobForm: React.FC<DiJobFormProps<WsDiJob>> = ({data, visible, onVisibleC
             onVisibleChange(false, response.data);
           }
         })
-        : WsDiJobService.addJob(job).then((response) => {
+        : WsDiJobService.addJob({...job}).then((response) => {
           if (response.success) {
             onVisibleChange(false, response.data);
           }
@@ -63,28 +64,26 @@ const DiJobForm: React.FC<DiJobFormProps<WsDiJob>> = ({data, visible, onVisibleC
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         initialValues={{
-          id: data.id,
-          projectId: data.projectId,
-          jobEngine: data.jobEngine?.value,
-          jobCode: data.jobCode,
-          jobName: data.jobName,
-          jobType: data.jobType?.value,
-          remark: data.remark,
+          id: data?.id,
+          name: data?.wsFlinkArtifact?.name,
+          jobEngine: data?.jobEngine?.value,
+          remark: data?.wsFlinkArtifact?.remark,
         }}
       >
         <ProFormDigit name={"id"} hidden/>
+        <ProFormText
+          name={"name"}
+          label={intl.formatMessage({id: 'pages.project.artifact.name'})}
+          rules={[{required: true}, {max: 200}]}
+        />
         <ProFormSelect
           name={"jobEngine"}
           label={intl.formatMessage({id: 'pages.project.di.jobEngine'})}
           rules={[{required: true}]}
+          allowClear={false}
           request={(params, props) => {
             return DictDataService.listDictDataByType2(DICT_TYPE.seatunnelEngineType)
           }}
-        />
-        <ProFormText
-          name={"jobName"}
-          label={intl.formatMessage({id: 'pages.project.di.jobName'})}
-          rules={[{required: true}, {max: 200}]}
         />
         <ProFormText
           name={"remark"}

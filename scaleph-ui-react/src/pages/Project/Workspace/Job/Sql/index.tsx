@@ -6,7 +6,6 @@ import {Button, message, Modal, Space, Tooltip} from 'antd';
 import {useRef, useState} from 'react';
 import {history, useAccess, useIntl} from 'umi';
 import FlinkArtifactSqlForm from '@/pages/Project/Workspace/Job/Sql/FlinkArtifactSqlForm';
-import {FlinkArtifactJarService} from "@/services/project/flinkArtifactJar.service";
 import {DictDataService} from "@/services/admin/dictData.service";
 import {FlinkArtifactSqlService} from "@/services/project/WsFlinkArtifactSqlService";
 
@@ -131,7 +130,6 @@ const JobArtifactSqlView: React.FC = () => {
   return (
     <div>
       <ProTable<WsFlinkArtifactSql>
-        headerTitle={intl.formatMessage({id: 'menu.project.job.artifact'})}
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},

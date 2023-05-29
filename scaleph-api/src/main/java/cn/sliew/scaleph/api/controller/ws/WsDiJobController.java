@@ -107,7 +107,7 @@ public class WsDiJobController {
     }
 
     @Logging
-    @PostMapping(path = "/step")
+    @PostMapping(path = "step")
     @ApiOperation(value = "保存步骤属性信息", notes = "保存步骤属性信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
     public ResponseEntity<ResponseVO> saveJobStepInfo(@Valid @RequestBody WsDiJobStepParam param) {
@@ -145,7 +145,7 @@ public class WsDiJobController {
     }
 
     @Logging
-    @GetMapping(path = "{id}/preview/")
+    @GetMapping(path = "{id}/preview")
     @ApiOperation(value = "任务预览", notes = "任务预览")
     public ResponseEntity<ResponseVO> previewJob(@PathVariable("id") Long id) throws Exception {
         String conf = seatunnelJobService.preview(id);

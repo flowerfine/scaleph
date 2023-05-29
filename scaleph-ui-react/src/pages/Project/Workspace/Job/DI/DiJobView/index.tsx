@@ -1,7 +1,7 @@
 import {history, useAccess, useIntl} from 'umi';
 import React, {useRef, useState} from 'react';
-import {Button, Col, Dropdown, Menu, message, Modal, Row, Space, Tooltip} from 'antd';
-import {DeleteOutlined, DownOutlined, EditOutlined, NodeIndexOutlined} from '@ant-design/icons';
+import {Button, Col, message, Modal, Row, Space, Tooltip} from 'antd';
+import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProTable} from '@ant-design/pro-components';
 import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from '@/constant';
 import {DictDataService} from '@/services/admin/dictData.service';
@@ -135,7 +135,6 @@ const DiJobView: React.FC = () => {
       <Row gutter={[12, 12]}>
         <Col span={24}>
           <ProTable<WsDiJob>
-            headerTitle={intl.formatMessage({id: 'pages.project.di.job'})}
             search={{
               labelWidth: 'auto',
               span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
@@ -147,83 +146,30 @@ const DiJobView: React.FC = () => {
             options={false}
             columns={tableColumns}
             request={(params, sorter, filter) => {
-              return WsDiJobService.list({...params, projectId: projectId + ''});
+              return WsDiJobService.list({...params, projectId: projectId});
             }}
             toolbar={{
               actions: [
                 access.canAccess(PRIVILEGE_CODE.datadevJobAdd) && (
-                  <Dropdown
-                    arrow={true}
-                    placement="bottom"
-                    overlay={
-                      <Menu
-                        items={[
-                          {
-                            key: 'streaming',
-                            label: (
-                              <Button
-                                type="text"
-                                onClick={() => {
-                                  setJobFormData({
-                                    visible: true,
-                                    data: {projectId: projectId + '', jobType: {value: 'STREAMING'}},
-                                  });
-                                }}
-                              >
-                                {intl.formatMessage({id: 'pages.project.di.job.streaming'})}
-                              </Button>
-                            ),
-                          },
-                          {
-                            key: 'batch',
-                            label: (
-                              <Button
-                                type="text"
-                                onClick={() => {
-                                  setJobFormData({
-                                    visible: true,
-                                    data: {projectId: projectId + '', jobType: {value: 'BATCH'}},
-                                  });
-                                }}
-                              >
-                                {intl.formatMessage({id: 'pages.project.di.job.batch'})}
-                              </Button>
-                            ),
-                          },
-                          {
-                            key: 'automatic',
-                            label: (
-                              <Button
-                                type="text"
-                                onClick={() => {
-                                  setJobFormData({
-                                    visible: true,
-                                    data: {projectId: projectId + '', jobType: {value: 'AUTOMATIC'}},
-                                  });
-                                }}
-                              >
-                                {intl.formatMessage({id: 'pages.project.di.job.automatic'})}
-                              </Button>
-                            ),
-                          },
-                        ]}
-                      ></Menu>
-                    }
+                  <Button
+                    key="new"
+                    type="primary"
+                    onClick={() => {
+                      setJobFormData({
+                        visible: true,
+                        data: {projectId: projectId, jobType: {value: 'STREAMING'}},
+                      });
+                    }}
                   >
-                    <Button key="new" type="primary">
-                      <Space>
-                        {intl.formatMessage({id: 'app.common.operate.new.label'})}
-                        <DownOutlined/>
-                      </Space>
-                    </Button>
-                  </Dropdown>
+                    {intl.formatMessage({id: 'app.common.operate.new.label'})}
+                  </Button>
                 ),
               ],
             }}
             pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
             tableAlertRender={false}
             tableAlertOptionRender={false}
-          ></ProTable>
+          />
         </Col>
         {jobFormData.visible && (
           <DiJobForm
@@ -239,7 +185,7 @@ const DiJobView: React.FC = () => {
               actionRef.current?.reload();
             }}
             data={jobFormData.data}
-          ></DiJobForm>
+          />
         )}
       </Row>
     </>

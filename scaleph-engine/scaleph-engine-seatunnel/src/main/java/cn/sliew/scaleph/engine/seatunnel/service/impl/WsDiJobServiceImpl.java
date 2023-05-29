@@ -46,10 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -92,6 +89,7 @@ public class WsDiJobServiceImpl implements WsDiJobService {
         flinkArtifact = wsFlinkArtifactService.insert(flinkArtifact);
         WsDiJob record = new WsDiJob();
         record.setFlinkArtifactId(flinkArtifact.getId());
+        record.setJobId(UUID.randomUUID().toString());
         record.setJobEngine(param.getJobEngine());
         record.setCurrent(YesOrNo.YES);
         diJobMapper.insert(record);
