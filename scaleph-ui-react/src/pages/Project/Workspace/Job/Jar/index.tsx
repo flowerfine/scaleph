@@ -63,7 +63,7 @@ const JobArtifactJarView: React.FC = () => {
       width: 240,
     },
     {
-      title: intl.formatMessage({id: 'pages.project.artifact.remark'}),
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       width: 240,
       hideInSearch: true,
@@ -72,13 +72,13 @@ const JobArtifactJarView: React.FC = () => {
       }
     },
     {
-      title: intl.formatMessage({id: 'pages.project.artifact.createTime'}),
+      title: intl.formatMessage({id: 'app.common.data.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.project.artifact.updateTime'}),
+      title: intl.formatMessage({id: 'app.common.data.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
@@ -164,7 +164,6 @@ const JobArtifactJarView: React.FC = () => {
   return (
     <div>
       <ProTable<WsFlinkArtifactJar>
-        headerTitle={intl.formatMessage({id: 'menu.project.job.artifact'})}
         search={{
           labelWidth: 'auto',
           span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},

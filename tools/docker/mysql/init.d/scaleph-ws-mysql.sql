@@ -37,6 +37,10 @@ create table ws_flink_artifact
 
 INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
 VALUES (1, 1, '0', 'simple sql', NULL, 'sys', 'sys');
+INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+VALUES (2, 1, '2', 'fake', NULL, 'sys', 'sys');
+INSERT INTO `ws_flink_artifact` (`id`, `project_id`, `type`, `name`, `remark`, `creator`, `editor`)
+VALUES (3, 1, '2', 'e_commerce', NULL, 'sys', 'sys');
 
 drop table if exists ws_flink_artifact_jar;
 create table ws_flink_artifact_jar
@@ -63,7 +67,7 @@ CREATE TABLE ws_flink_artifact_sql
     id                bigint      not null auto_increment,
     flink_artifact_id bigint      not null comment '作业artifact id',
     flink_version     varchar(32) not null comment 'flink版本',
-    script            text comment 'sql script',
+    script            mediumtext comment 'sql script',
     current           varchar(16) not null comment 'current artifact',
     creator           varchar(32),
     create_time       datetime    not null default current_timestamp,
@@ -83,29 +87,22 @@ VALUES (1, 1, '1.16.1',
 drop table if exists ws_di_job;
 create table ws_di_job
 (
-    id          bigint       not null auto_increment comment '自增主键',
-    project_id  bigint       not null comment '项目id',
-    job_engine  varchar(16)  not null comment '作业引擎',
-    job_code    bigint       not null comment '作业编码',
-    job_name    varchar(256) not null comment '作业名称',
-    job_type    varchar(16) comment '作业类型',
-    job_status  varchar(4) default '1' comment '作业状态 草稿、发布、归档',
-    job_version int        default 1 comment '作业版本号',
-    remark      varchar(256) comment '备注',
-    creator     varchar(32) comment '创建人',
-    create_time timestamp  default current_timestamp comment '创建时间',
-    editor      varchar(32) comment '修改人',
-    update_time timestamp  default current_timestamp on update current_timestamp comment '修改时间',
+    id                bigint      not null auto_increment comment '自增主键',
+    flink_artifact_id bigint      not null comment '作业artifact id',
+    job_engine        varchar(16) not null comment '作业引擎',
+    job_id            varchar(64) not null,
+    current           varchar(16) not null comment 'current artifact',
+    creator           varchar(32) comment '创建人',
+    create_time       timestamp default current_timestamp comment '创建时间',
+    editor            varchar(32) comment '修改人',
+    update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    unique key (project_id, job_code, job_version)
+    key idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment '数据集成-作业信息';
-INSERT INTO ws_di_job (id, project_id, job_engine, job_code, job_name, job_type, job_status,
-                       job_version, remark, creator, editor)
-VALUES (1, 1, 'seatunnel', 1, 'e_commerce', 'BATCH', '2', 1, NULL, 'sys', 'sys');
-INSERT INTO ws_di_job(id, project_id, job_engine, job_code, job_name, job_type, job_status,
-                      job_version, remark, creator, editor)
-VALUES (2, 1, 'seatunnel', 2, 'fake', 'BATCH', '2', 1, NULL, 'sys', 'sys');
-
+INSERT INTO ws_di_job (id, flink_artifact_id, job_engine, job_id, current, creator, editor)
+VALUES (1, 2, 'seatunnel', 'b8e16c94-258c-4487-a88c-8aad40a38b35', 1, 'sys', 'sys');
+INSERT INTO ws_di_job(id, flink_artifact_id, job_engine, job_id, current, creator, editor)
+VALUES (2, 3, 'seatunnel', '0a6d475e-ed50-46ee-82af-3ef90b7d8509', 1, 'sys', 'sys');
 
 /* 作业参数信息 作业参数*/
 drop table if exists ws_di_job_attr;

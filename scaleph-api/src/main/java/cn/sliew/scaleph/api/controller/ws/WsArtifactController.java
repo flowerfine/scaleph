@@ -20,14 +20,13 @@ package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.engine.flink.service.WsFlinkArtifactService;
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactDTO;
-import cn.sliew.scaleph.engine.flink.service.param.WsFlinkArtifactParam;
+import cn.sliew.scaleph.project.service.WsFlinkArtifactService;
+import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
+import cn.sliew.scaleph.project.service.param.WsFlinkArtifactListParam;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +34,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Slf4j
 @Api(tags = "Flink管理-artifact管理")
 @RestController
 @RequestMapping(path = "/api/flink/artifact")
@@ -47,7 +45,7 @@ public class WsArtifactController {
     @Logging
     @GetMapping
     @ApiOperation(value = "查询 artifact 列表", notes = "查询 artifact 列表")
-    public ResponseEntity<Page<WsFlinkArtifactDTO>> list(@Valid WsFlinkArtifactParam param) {
+    public ResponseEntity<Page<WsFlinkArtifactDTO>> list(@Valid WsFlinkArtifactListParam param) {
         final Page<WsFlinkArtifactDTO> result = wsFlinkArtifactService.list(param);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

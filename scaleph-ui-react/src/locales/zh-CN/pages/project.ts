@@ -43,6 +43,40 @@ export default {
   // 'pages.project.di.batch':''
   'pages.project.dir': '目录',
   'pages.project.dir.directoryName': '目录名称',
+
+  'pages.project.artifact': 'Artifact',
+  'pages.project.artifact.name': '名称',
+
+  'pages.project.artifact.jar': 'Jar',
+  'pages.project.artifact.jar.fileName': '文件名称',
+  'pages.project.artifact.jar.file': '文件',
+  'pages.project.artifact.jar.version': '文件版本',
+  'pages.project.artifact.jar.path': '存储路径',
+  'pages.project.artifact.jar.entryClass': 'Entry Class',
+  'pages.project.artifact.jar.jarParams': '参数',
+  'pages.project.artifact.jar.jarParams.placeholder':
+    '请输入方法参数，按照key:value格式配置属性，每个属性一行。例如：\narg1:123',
+
+  'pages.project.artifact.sql': 'SQL',
+
+  'pages.project.artifact.seatunnel': 'SeaTunnel',
+  'pages.project.artifact.seatunnel.jobEngine': 'Engine',
+
+  'pages.project.job.jar': 'Jar',
+  'pages.project.job.jar.args': 'Main Args',
+  'pages.project.job.jar.args.key': 'Parameter',
+  'pages.project.job.jar.args.value': 'Value',
+  'pages.project.job.sql': 'SQL',
+  'pages.project.job.seatunnel': 'SeaTunnel',
+
+  'pages.project.job.base': 'Base',
+  'pages.project.job.artifact': 'Artifact',
+  'pages.project.job.configOptions': 'Config Options',
+  'pages.project.job.config.cluster': '集群信息',
+
+
+
+
   'pages.project.di.job': 'SeaTunnel',
   'pages.project.di.jobCode': '作业编码',
   'pages.project.di.jobName': '作业名称',
@@ -751,20 +785,7 @@ export default {
   'pages.project.job.create.step2.cluster': '集群',
   'pages.project.job.create.step2.resource': '资源',
   'pages.project.job.create.step3.title': '参数设置',
-  'pages.project.artifact': 'Artifact',
-  'pages.project.artifact.name': '名称',
-  'pages.project.artifact.remark': '备注',
-  'pages.project.artifact.createTime': '创建时间',
-  'pages.project.artifact.updateTime': '修改时间',
-  'pages.project.artifact.jar.fileName': '文件名称',
-  'pages.project.artifact.jar': 'Artifact Jar',
-  'pages.project.artifact.jar.file': '文件',
-  'pages.project.artifact.jar.version': '文件版本',
-  'pages.project.artifact.jar.path': '存储路径',
-  'pages.project.artifact.jar.entryClass': 'Entry Class',
-  'pages.project.artifact.jar.jarParams': '参数',
-  'pages.project.artifact.jar.jarParams.placeholder':
-    '请输入方法参数，按照key:value格式配置属性，每个属性一行。例如：\narg1:123',
+
   'page.project.cluster.config': '集群配置',
   'page.project.cluster.config.name': '配置名称',
   'page.project.cluster.config.baseStep': 'Base',
@@ -800,17 +821,6 @@ export default {
   'pages.project.cluster.instance.webInterfaceUrl': 'Web UI',
   'pages.project.cluster.instance.status': '状态',
   'pages.project.cluster.instance.session': 'Session 集群',
-
-  'pages.project.job.base': 'Base',
-  'pages.project.job.artifact': 'Artifact',
-  'pages.project.job.configOptions': 'Config Options',
-  'pages.project.job.jar': 'Jar',
-  'pages.project.job.jar.args': 'Main Args',
-  'pages.project.job.jar.args.key': 'Parameter',
-  'pages.project.job.jar.args.value': 'Value',
-  'pages.project.job.sql': 'SQL',
-  'pages.project.job.config.cluster': '集群信息',
-  'pages.project.job.seatunnel': 'SeaTunnel',
 
   'pages.project.job.detail.jobId': '作业ID',
   'pages.project.job.detail.jobName': '作业名称',

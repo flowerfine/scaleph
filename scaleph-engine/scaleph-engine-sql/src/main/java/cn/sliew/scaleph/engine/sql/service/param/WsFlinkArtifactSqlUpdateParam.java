@@ -19,25 +19,12 @@
 package cn.sliew.scaleph.engine.sql.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
+import cn.sliew.scaleph.project.service.param.AbstractWsFlinkArtifactUpdateParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 @Data
-public class WsFlinkArtifactSqlUpdateParam {
-
-    @NotNull
-    @ApiModelProperty("id")
-    private Long id;
-
-    @NotBlank
-    @ApiModelProperty("name")
-    private String name;
-
-    @ApiModelProperty("remark")
-    private String remark;
+public class WsFlinkArtifactSqlUpdateParam extends AbstractWsFlinkArtifactUpdateParam {
 
     @ApiModelProperty("flink 版本")
     private FlinkVersion flinkVersion;

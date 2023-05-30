@@ -21,15 +21,14 @@ package cn.sliew.scaleph.api.controller.studio;
 import cn.hutool.core.date.DateUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.api.vo.TransferVO;
-import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
-import cn.sliew.scaleph.engine.seatunnel.service.WsProjectService;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterInstanceService;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkJobLogService;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkJobLogDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobLogListParam;
+import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
+import cn.sliew.scaleph.project.service.WsProjectService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Slf4j
 @Api(tags = "工作台-数据看板")
 @RestController
 @RequestMapping(path = "/api/studio/databoard")

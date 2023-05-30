@@ -16,20 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.service.param;
+package cn.sliew.scaleph.project.service.param;
 
-import cn.sliew.scaleph.common.param.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class WsFlinkArtifactParam extends PaginationParam {
+public abstract class AbstractWsFlinkArtifactAddParam {
 
-    @ApiModelProperty("名称。支持模糊搜索")
+    @NotNull
+    @ApiModelProperty("project id")
+    private Long projectId;
+
+    @NotBlank
+    @ApiModelProperty("name")
     private String name;
 
-    @ApiModelProperty("项目id")
-    private Long projectId;
+    @ApiModelProperty("remark")
+    private String remark;
 }

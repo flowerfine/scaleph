@@ -16,23 +16,37 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service.param;
+package cn.sliew.scaleph.project.service.dto;
 
-import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.common.dto.BaseDTO;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
-/**
- * @author gleiyu
- */
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class WsProjectParam extends PaginationParam {
+@ApiModel(value = "项目信息", description = "数据集成-项目信息")
+public class WsProjectDTO extends BaseDTO {
 
-    @ApiModelProperty("project code")
+    private static final long serialVersionUID = -4981655449048129521L;
+
+    @NotBlank
+    @Length(min = 1, max = 30)
+    @Pattern(regexp = "\\w+$")
+    @ApiModelProperty(value = "项目编码")
     private String projectCode;
 
-    @ApiModelProperty("project name")
+    @NotBlank
+    @Length(min = 1, max = 60)
+    @ApiModelProperty(value = "项目名称")
     private String projectName;
+
+    @Length(max = 200)
+    @ApiModelProperty(value = "备注")
+    private String remark;
 }

@@ -5,7 +5,7 @@ import {WsDiJob} from '@/services/project/typings';
 import {Button, Drawer, Form, message} from 'antd';
 import {useEffect} from 'react';
 import {DorisParams, STEP_ATTR_TYPE} from '../../constant';
-import {WsDiJobService} from '@/services/project/WsDiJob.service';
+import {WsDiJobService} from '@/services/project/WsDiJobService';
 import {ProForm, ProFormGroup, ProFormList, ProFormSwitch, ProFormText,} from '@ant-design/pro-components';
 import DataSourceItem from '@/pages/Project/Workspace/Job/DI/DiJobFlow/Dag/steps/dataSource';
 import {InfoCircleOutlined} from '@ant-design/icons';

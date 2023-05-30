@@ -39,7 +39,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.graph.EndpointPair;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -51,7 +50,6 @@ import static cn.sliew.scaleph.engine.seatunnel.service.constant.GraphConstants.
 import static cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties.RESULT_TABLE_NAME;
 import static cn.sliew.scaleph.plugin.seatunnel.flink.env.CommonProperties.SOURCE_TABLE_NAME;
 
-@Slf4j
 @Service
 public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
 
@@ -64,7 +62,7 @@ public class SeatunnelConfigServiceImpl implements SeatunnelConfigService {
     public String buildConfig(WsDiJobDTO job) throws Exception {
         ObjectNode conf = JacksonUtil.createObjectNode();
         // env
-        buildEnvs(conf, job.getJobName(), job.getJobAttrList());
+        buildEnvs(conf, job.getWsFlinkArtifact().getName(), job.getJobAttrList());
         // source, sink, transform
         MutableGraph<ObjectNode> graph = buildGraph(job);
         buildNodes(conf, graph.nodes());

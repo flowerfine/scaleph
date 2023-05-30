@@ -1,5 +1,5 @@
 import {ModalFormProps} from '@/app.d';
-import {WsDiJobService} from '@/services/project/WsDiJob.service';
+import {WsDiJobService} from '@/services/project/WsDiJobService';
 import {WsDiJob} from '@/services/project/typings';
 import {
   ProForm,

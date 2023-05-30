@@ -25,13 +25,9 @@ import cn.sliew.scaleph.engine.seatunnel.service.SeatunnelJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.DagPanelDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.param.WsDiJobGraphParam;
-import cn.sliew.scaleph.engine.seatunnel.service.param.WsDiJobParam;
-import cn.sliew.scaleph.engine.seatunnel.service.param.WsDiJobStepParam;
+import cn.sliew.scaleph.engine.seatunnel.service.param.*;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.DiJobAttrVO;
-import cn.sliew.scaleph.engine.seatunnel.service.vo.DiJobRunVO;
 import cn.sliew.scaleph.plugin.framework.exception.PluginException;
-import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -58,34 +54,34 @@ public class WsDiJobController {
 
     @Logging
     @GetMapping
-    @ApiOperation(value = "分页查询作业列表", notes = "分页查询作业列表")
+    @ApiOperation(value = "查询 seatunnel 列表", notes = "分页查询 seatunnel 列表")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_SELECT)")
-    public ResponseEntity<Page<WsDiJobDTO>> listJob(@Valid WsDiJobParam param) {
+    public ResponseEntity<Page<WsDiJobDTO>> listJob(@Valid WsDiJobListParam param) {
         Page<WsDiJobDTO> page = wsDiJobService.listByPage(param);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @Logging
-    @PostMapping
-    @ApiOperation(value = "新增作业记录", notes = "新增一条作业记录，相关流程定义不涉及")
+    @PutMapping
+    @ApiOperation(value = "新增 seatunnel", notes = "新增 seatunnel，不涉及 DAG")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_ADD)")
-    public ResponseEntity<ResponseVO> simpleAddJob(@Validated @RequestBody WsDiJobDTO param) throws UidGenerateException {
+    public ResponseEntity<ResponseVO> simpleAddJob(@Validated @RequestBody WsDiJobAddParam param) {
         WsDiJobDTO wsDiJobDTO = wsDiJobService.insert(param);
         return new ResponseEntity<>(ResponseVO.success(wsDiJobDTO), HttpStatus.CREATED);
     }
 
     @Logging
-    @PutMapping
-    @ApiOperation(value = "修改作业记录", notes = "只修改作业记录属性，相关流程定义不改变")
+    @PostMapping
+    @ApiOperation(value = "修改 seatunnel", notes = "只修改 seatunnel 属性，不涉及 DAG")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> simpleEditJob(@Validated @RequestBody WsDiJobDTO param) {
+    public ResponseEntity<ResponseVO> simpleEditJob(@Validated @RequestBody WsDiJobUpdateParam param) {
         wsDiJobService.update(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
     @Logging
-    @DeleteMapping("/{id}")
-    @ApiOperation(value = "删除作业", notes = "删除作业")
+    @DeleteMapping("{id}")
+    @ApiOperation(value = "删除 seatunnel", notes = "删除 seatunnel")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_DELETE)")
     public ResponseEntity<ResponseVO> deleteJob(@PathVariable("id") Long id) {
         wsDiJobService.delete(id);
@@ -93,74 +89,66 @@ public class WsDiJobController {
     }
 
     @Logging
-    @PostMapping(path = "/batch")
-    @ApiOperation(value = "批量删除作业", notes = "批量删除作业")
+    @DeleteMapping(path = "batch")
+    @ApiOperation(value = "批量删除 seatunnel", notes = "批量删除 seatunnel")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_DELETE)")
     public ResponseEntity<ResponseVO> deleteJob(@RequestBody List<Long> ids) {
         wsDiJobService.deleteBatch(ids);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 
-
     @Logging
-    @GetMapping(path = "/detail")
-    @ApiOperation(value = "查询作业详情", notes = "查询作业详情，包含作业流程定义信息")
+    @GetMapping(path = "{id}/dag")
+    @ApiOperation(value = "查询 seatunnel dag", notes = "查询 seatunnel DAG")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_SELECT)")
-    public ResponseEntity<WsDiJobDTO> getJobDetail(@RequestParam(value = "id") Long id) {
+    public ResponseEntity<WsDiJobDTO> getJobDetail(@PathVariable("id") Long id) {
         WsDiJobDTO job = wsDiJobService.queryJobGraph(id);
         return new ResponseEntity<>(job, HttpStatus.OK);
     }
 
     @Logging
-    @PostMapping(path = "/step")
-    @ApiOperation(value = "保存步骤属性信息", notes = "保存步骤属性信息，未触发作业版本号变更")
+    @PostMapping(path = "step")
+    @ApiOperation(value = "保存步骤属性信息", notes = "保存步骤属性信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> saveJobStepInfo(@Valid @RequestBody WsDiJobStepParam param) throws ScalephException {
+    public ResponseEntity<ResponseVO> saveJobStepInfo(@Valid @RequestBody WsDiJobStepParam param) {
         Long editableJobId = wsDiJobService.saveJobStep(param);
         return new ResponseEntity<>(ResponseVO.success(editableJobId), HttpStatus.OK);
     }
 
     @Logging
-    @PostMapping(path = "/detail")
-    @ApiOperation(value = "保存作业详情", notes = "保存作业相关流程定义，如果已经有对应版本号的数据，则提醒用户编辑最新版本。")
+    @PostMapping(path = "{id}/dag")
+    @ApiOperation(value = "保存 seatunnel dag", notes = "保存 seatunnel dag")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> saveJobDetail(@Validated @RequestBody WsDiJobGraphParam param) throws ScalephException {
+    public ResponseEntity<ResponseVO> saveJobDetail(@PathVariable("id") Long id, @Validated @RequestBody WsDiJobGraphParam param) throws ScalephException {
+        param.setJobId(id);
         Long editableJobId = wsDiJobService.saveJobGraph(param);
         return new ResponseEntity<>(ResponseVO.success(editableJobId), HttpStatus.CREATED);
     }
 
     @Logging
-    @GetMapping(path = "/attr/{jobId}")
-    @ApiOperation(value = "查询作业属性", notes = "查询作业属性列表")
+    @GetMapping(path = "{id}/attr")
+    @ApiOperation(value = "查询 seatunnel 属性", notes = "查询 seatunnel 属性")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<DiJobAttrVO> listJobAttr(@PathVariable(value = "jobId") Long jobId) {
-        DiJobAttrVO vo = wsDiJobService.listJobAttrs(jobId);
+    public ResponseEntity<DiJobAttrVO> listJobAttr(@PathVariable("id") Long id) {
+        DiJobAttrVO vo = wsDiJobService.listJobAttrs(id);
         return new ResponseEntity<>(vo, HttpStatus.OK);
     }
 
     @Logging
-    @PostMapping(path = "/attr")
-    @ApiOperation(value = "修改作业属性", notes = "修改作业属性信息")
+    @PostMapping(path = "{id}/attr")
+    @ApiOperation(value = "修改 seatunnel 属性", notes = "修改 seatunnel 属性")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> saveJobAttr(@RequestBody DiJobAttrVO jobAttrVO) throws ScalephException {
+    public ResponseEntity<ResponseVO> saveJobAttr(@PathVariable("id") Long id, @Validated @RequestBody DiJobAttrVO jobAttrVO) throws ScalephException {
+        jobAttrVO.setJobId(id);
         Long editableJobId = wsDiJobService.saveJobAttrs(jobAttrVO);
         return new ResponseEntity<>(ResponseVO.success(editableJobId), HttpStatus.OK);
     }
 
     @Logging
-    @GetMapping(path = "/publish/{jobId}")
-    @ApiOperation(value = "发布任务", notes = "发布任务")
-    @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_EDIT)")
-    public ResponseEntity<ResponseVO> publishJob(@PathVariable(value = "jobId") Long jobId) throws ScalephException {
-        wsDiJobService.publish(jobId);
-        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
-    }
-
-    @Logging
-    @GetMapping(path = "/preview/{jobId}")
+    @GetMapping(path = "{id}/preview")
     @ApiOperation(value = "任务预览", notes = "任务预览")
-    public ResponseEntity<ResponseVO> previewJob(@PathVariable(value = "jobId") Long jobId) throws Exception {
-        String conf = seatunnelJobService.preview(jobId);
+    public ResponseEntity<ResponseVO> previewJob(@PathVariable("id") Long id) throws Exception {
+        String conf = seatunnelJobService.preview(id);
         return new ResponseEntity<>(ResponseVO.success(conf), HttpStatus.OK);
     }
 
@@ -168,7 +156,7 @@ public class WsDiJobController {
     @GetMapping(path = "/node/meta/{type}")
     @ApiOperation(value = "查询DAG节点元信息", notes = "后端统一返回节点信息")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_SELECT)")
-    public ResponseEntity<List<DagPanelDTO>> loadNodeMeta(@PathVariable("type")SeaTunnelEngineType type) throws PluginException {
+    public ResponseEntity<List<DagPanelDTO>> loadNodeMeta(@PathVariable("type") SeaTunnelEngineType type) throws PluginException {
         List<DagPanelDTO> list = seatunnelJobService.loadDndPanelInfo(type);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }

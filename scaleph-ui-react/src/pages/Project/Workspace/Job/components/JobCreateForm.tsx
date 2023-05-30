@@ -6,7 +6,7 @@ import {FlinkArtifactJarService} from '@/services/project/flinkArtifactJar.servi
 import {FlinkClusterConfigService} from '@/services/project/flinkClusterConfig.service';
 import {FlinkCLusterInstanceService} from '@/services/project/flinkClusterInstance.service';
 import {FlinkJobService} from '@/services/project/FlinkJobService';
-import {WsDiJobService} from '@/services/project/WsDiJob.service';
+import {WsDiJobService} from '@/services/project/WsDiJobService';
 import {WsFlinkJob} from '@/services/project/typings';
 import {ResourceJarService} from '@/services/resource/jar.service';
 import {ProFormInstance, StepsForm} from '@ant-design/pro-components';

@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.flink.service.param;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.project.service.param.AbstractWsFlinkArtifactAddParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -27,18 +27,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class WsFlinkArtifactJarUploadParam {
-
-    @NotNull
-    @ApiModelProperty("Project ID")
-    private Long projectId;
-
-    @NotBlank
-    @ApiModelProperty("name")
-    private String name;
-
-    @ApiModelProperty("remark")
-    private String remark;
+public class WsFlinkArtifactJarUploadParam extends AbstractWsFlinkArtifactAddParam {
 
     @NotNull
     @ApiModelProperty("flink 版本")

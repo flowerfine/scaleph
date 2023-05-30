@@ -18,63 +18,37 @@
 
 package cn.sliew.scaleph.engine.seatunnel.service;
 
-import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.param.*;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.DiJobAttrVO;
-import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.Collection;
 import java.util.List;
 
-/**
- * <p>
- * 数据集成-作业信息 服务类
- * </p>
- *
- * @author liyu
- * @since 2022-03-10
- */
 public interface WsDiJobService {
 
-    Page<WsDiJobDTO> listByPage(WsDiJobParam param);
-
-    List<WsDiJobDTO> listById(Collection<Long> ids);
+    Page<WsDiJobDTO> listByPage(WsDiJobListParam param);
 
     WsDiJobDTO selectOne(Long id);
 
-    WsDiJobDTO selectOne(Long projectId, Long jobCode, int jobVersion);
+    WsDiJobDTO insert(WsDiJobAddParam param);
 
-    WsDiJobDTO insert(WsDiJobDTO param) throws UidGenerateException;
-
-    int update(WsDiJobDTO param);
+    int update(WsDiJobUpdateParam param);
 
     int delete(Long id);
 
     int deleteBatch(List<Long> ids);
 
-    int deleteByCode(Long projectId, Long jobCode);
-
-    int deleteByProjectId(Collection<Long> projectIds);
-
     WsDiJobDTO queryJobGraph(Long id);
 
-    Long saveJobStep(WsDiJobStepParam param) throws ScalephException;
+    Long saveJobStep(WsDiJobStepParam param);
 
-    Long saveJobGraph(WsDiJobGraphParam param) throws ScalephException;
+    Long saveJobGraph(WsDiJobGraphParam param);
 
     DiJobAttrVO listJobAttrs(Long id);
 
-    Long saveJobAttrs(DiJobAttrVO vo) throws ScalephException;
-
-    void publish(Long id) throws ScalephException;
-
-    boolean hasValidJob(Collection<Long> projectIds);
-
-    boolean hasValidJob(Long projectId, Long dirId);
-
-    boolean hasRunningJob(Collection<Long> clusterIds);
+    Long saveJobAttrs(DiJobAttrVO vo);
 
     Long totalCnt(String jobType);
 

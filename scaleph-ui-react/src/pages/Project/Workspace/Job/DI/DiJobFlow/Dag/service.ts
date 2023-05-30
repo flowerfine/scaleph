@@ -1,4 +1,4 @@
-import { WsDiJobService } from '@/services/project/WsDiJob.service';
+import { WsDiJobService } from '@/services/project/WsDiJobService';
 import { NsGraph } from '@antv/xflow';
 import { NsNodeCollapsePanel } from '@antv/xflow-extension/es';
 import { getIntl, getLocale, request } from 'umi';

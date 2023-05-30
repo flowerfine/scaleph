@@ -21,7 +21,7 @@ package cn.sliew.scaleph.engine.sql.service.dto;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
 import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkArtifactDTO;
+import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

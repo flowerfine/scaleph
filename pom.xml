@@ -90,6 +90,7 @@
 
         <module>scaleph-api</module>
         <module>scaleph-meta</module>
+        <module>scaleph-project</module>
         <module>scaleph-engine</module>
         <module>scaleph-plugins</module>
         <module>scaleph-workflow</module>
@@ -98,6 +99,7 @@
         <module>scaleph-catalog</module>
 
         <module>scaleph-dist</module>
+
     </modules>
 
     <properties>
@@ -230,6 +232,11 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-project</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-engine-flink</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -240,12 +247,12 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-engine-flink-kubernetes</artifactId>
+                <artifactId>scaleph-engine-seatunnel</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>scaleph-engine-seatunnel</artifactId>
+                <artifactId>scaleph-engine-flink-kubernetes</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

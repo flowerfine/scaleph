@@ -20,8 +20,8 @@ package cn.sliew.scaleph.engine.sql.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
-import cn.sliew.scaleph.engine.flink.service.convert.WsFlinkArtifactConvert;
 import cn.sliew.scaleph.engine.sql.service.dto.WsFlinkArtifactSqlDTO;
+import cn.sliew.scaleph.project.service.convert.WsFlinkArtifactConvert;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;

@@ -16,20 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service.convert;
+package cn.sliew.scaleph.project.service.param;
 
-import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.ws.WsProject;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsProjectDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
-import org.mapstruct.factory.Mappers;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
-/**
- * @author gleiyu
- */
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WsProjectConvert extends BaseConvert<WsProject, WsProjectDTO> {
-    WsProjectConvert INSTANCE = Mappers.getMapper(WsProjectConvert.class);
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
+@Data
+public abstract class AbstractWsFlinkArtifactUpdateParam {
+
+    @NotNull
+    @ApiModelProperty("id")
+    private Long id;
+
+    @NotBlank
+    @ApiModelProperty("name")
+    private String name;
+
+    @ApiModelProperty("remark")
+    private String remark;
 }

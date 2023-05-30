@@ -1,7 +1,7 @@
 import {ModalFormProps} from '@/app.d';
 import {DICT_TYPE} from '@/constant';
 import {DictDataService} from '@/services/admin/dictData.service';
-import {WsDiJobService} from '@/services/project/WsDiJob.service';
+import {WsDiJobService} from '@/services/project/WsDiJobService';
 import {WsDiJob} from '@/services/project/typings';
 import {NsGraph} from '@antv/xflow';
 import {Form, message, Modal} from 'antd';

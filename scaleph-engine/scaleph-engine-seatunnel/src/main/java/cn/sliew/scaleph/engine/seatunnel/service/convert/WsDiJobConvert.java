@@ -22,19 +22,15 @@ import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobDTO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-/**
- * @author gleiyu
- */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WsDiJobConvert extends BaseConvert<WsDiJob, WsDiJobDTO> {
     WsDiJobConvert INSTANCE = Mappers.getMapper(WsDiJobConvert.class);
 
+    @Mapping(source = "wsFlinkArtifact.id", target = "flinkArtifactId")
     @Override
     WsDiJob toDo(WsDiJobDTO dto);
-
-    @Override
-    WsDiJobDTO toDto(WsDiJob entity);
 }

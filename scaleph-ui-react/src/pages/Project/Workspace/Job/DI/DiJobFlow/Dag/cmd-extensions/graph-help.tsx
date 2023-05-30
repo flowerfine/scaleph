@@ -2,7 +2,7 @@ import enUS from 'antd/es/locale/en_US';
 import zhCN from 'antd/es/locale/zh_CN';
 
 import { ModalFormProps } from '@/app.d';
-import { WsDiJobService } from '@/services/project/WsDiJob.service';
+import { WsDiJobService } from '@/services/project/WsDiJobService';
 import {
   IArgsBase,
   ICmdHooks as IHooks,

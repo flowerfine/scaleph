@@ -31,11 +31,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-system</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-engine-flink</artifactId>
+            <artifactId>scaleph-project</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>

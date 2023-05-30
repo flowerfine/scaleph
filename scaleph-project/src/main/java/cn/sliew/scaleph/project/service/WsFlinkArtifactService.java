@@ -16,34 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service;
-
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
+package cn.sliew.scaleph.project.service;
 
 import cn.sliew.scaleph.common.exception.ScalephException;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsProjectDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.param.WsProjectParam;
-import cn.sliew.scaleph.system.service.vo.DictVO;
+import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
+import cn.sliew.scaleph.project.service.param.WsFlinkArtifactListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-public interface WsProjectService {
+public interface WsFlinkArtifactService {
 
-    Page<WsProjectDTO> listByPage(WsProjectParam param);
+    Page<WsFlinkArtifactDTO> list(WsFlinkArtifactListParam param);
 
-    List<DictVO> listAll();
+    WsFlinkArtifactDTO selectOne(Long id);
 
-    WsProjectDTO selectOne(Serializable id);
+    WsFlinkArtifactDTO insert(WsFlinkArtifactDTO dto);
 
-    int insert(WsProjectDTO dto);
-
-    int update(WsProjectDTO dto);
+    int update(WsFlinkArtifactDTO dto);
 
     int deleteById(Long id) throws ScalephException;
-
-    int deleteBatch(Map<Integer, Long> map) throws ScalephException;
-
-    Long totalCnt();
 
 }

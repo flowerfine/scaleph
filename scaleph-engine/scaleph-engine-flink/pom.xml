@@ -31,19 +31,11 @@
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-resource</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-kubernetes</artifactId>
+            <artifactId>scaleph-project</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-workflow-quartz</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-engine-seatunnel</artifactId>
         </dependency>
 
         <!-- fix https://github.com/flowerfine/scaleph/issues/120 -->

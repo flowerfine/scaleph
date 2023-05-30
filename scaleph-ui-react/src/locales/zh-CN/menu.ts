@@ -5,7 +5,7 @@ export default {
   'menu.project': '项目',
   'menu.project.job': '作业管理',
   'menu.project.job.list': '作业列表',
-  'menu.project.job.artifact': 'Jar',
+  'menu.project.job.jar': 'Jar',
   'menu.project.job.sql': 'SQL',
   'menu.project.job.seatunnel': 'SeaTunnel',
   'menu.project.cluster': '集群管理',

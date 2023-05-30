@@ -16,32 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.seatunnel.service.impl;
+package cn.sliew.scaleph.project.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
-import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.ws.WsProject;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsProjectMapper;
-import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobService;
-import cn.sliew.scaleph.engine.seatunnel.service.WsProjectService;
-import cn.sliew.scaleph.engine.seatunnel.service.convert.WsProjectConvert;
-import cn.sliew.scaleph.engine.seatunnel.service.dto.WsProjectDTO;
-import cn.sliew.scaleph.engine.seatunnel.service.param.WsProjectParam;
+import cn.sliew.scaleph.project.service.WsProjectService;
+import cn.sliew.scaleph.project.service.convert.WsProjectConvert;
+import cn.sliew.scaleph.project.service.dto.WsProjectDTO;
+import cn.sliew.scaleph.project.service.param.WsProjectParam;
 import cn.sliew.scaleph.system.service.vo.DictVO;
-import cn.sliew.scaleph.system.util.I18nUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,25 +42,17 @@ public class WsProjectServiceImpl implements WsProjectService {
 
     @Autowired
     private WsProjectMapper diProjectMapper;
-    @Autowired
-    private WsDiJobService wsDiJobService;
 
     @Override
     public Page<WsProjectDTO> listByPage(WsProjectParam param) {
-        Page<WsProjectDTO> result = new Page<>();
         Page<WsProject> list = this.diProjectMapper.selectPage(
                 new Page<>(param.getCurrent(), param.getPageSize()),
-                new LambdaQueryWrapper<WsProject>()
-                        .like(StrUtil.isNotEmpty(param.getProjectCode()), WsProject::getProjectCode,
-                                param.getProjectCode())
-                        .like(StrUtil.isNotEmpty(param.getProjectName()), WsProject::getProjectName,
-                                param.getProjectName())
+                Wrappers.lambdaQuery(WsProject.class)
+                        .like(StrUtil.isNotEmpty(param.getProjectCode()), WsProject::getProjectCode, param.getProjectCode())
+                        .like(StrUtil.isNotEmpty(param.getProjectName()), WsProject::getProjectName, param.getProjectName())
         );
-        List<WsProjectDTO> dtoList = WsProjectConvert.INSTANCE.toDto(list.getRecords());
-        result.setCurrent(list.getCurrent());
-        result.setSize(list.getSize());
-        result.setRecords(dtoList);
-        result.setTotal(list.getTotal());
+        Page<WsProjectDTO> result = new Page<>(list.getCurrent(), list.getSize(), list.getTotal());
+        result.setRecords(WsProjectConvert.INSTANCE.toDto(list.getRecords()));
         return result;
     }
 
@@ -89,8 +74,7 @@ public class WsProjectServiceImpl implements WsProjectService {
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
     public int insert(WsProjectDTO dto) {
         WsProject project = WsProjectConvert.INSTANCE.toDo(dto);
-        int result = diProjectMapper.insert(project);
-        return result;
+        return diProjectMapper.insert(project);
     }
 
     @Override
@@ -101,33 +85,18 @@ public class WsProjectServiceImpl implements WsProjectService {
 
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
-    public int deleteById(Long id) throws ScalephException {
-        checkValidJob(Collections.singletonList(id));
-        deleteProjectRelatedData(Collections.singletonList(id));
+    public int deleteById(Long id) {
         return diProjectMapper.deleteById(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
-    public int deleteBatch(Map<Integer, Long> map) throws ScalephException {
-        checkValidJob(map.values());
-        deleteProjectRelatedData(map.values());
-        return diProjectMapper.deleteBatchIds(map.values());
-    }
-
-    private void checkValidJob(Collection<Long> projectIds) throws ScalephException {
-        if (wsDiJobService.hasValidJob(projectIds)) {
-            throw new ScalephException(ResponseCodeEnum.ERROR_CUSTOM.getCode(),
-                    I18nUtil.get("response.error.di.notEmptyProject"));
-        }
-    }
-
-    private void deleteProjectRelatedData(Collection<Long> projectIds) {
-        wsDiJobService.deleteByProjectId(projectIds);
+    public int deleteBatch(List<Long> ids) {
+        return diProjectMapper.deleteBatchIds(ids);
     }
 
     @Override
     public Long totalCnt() {
-        return diProjectMapper.selectCount(null);
+        return diProjectMapper.selectCount(Wrappers.emptyWrapper());
     }
 }

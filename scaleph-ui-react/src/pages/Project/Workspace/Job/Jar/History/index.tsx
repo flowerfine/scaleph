@@ -1,6 +1,6 @@
 import {PRIVILEGE_CODE} from '@/constant';
 import {FlinkArtifactJarService} from '@/services/project/flinkArtifactJar.service';
-import {WsProjectService} from '@/services/project/WsProject.service';
+import {WsProjectService} from '@/services/project/WsProjectService';
 import {WsFlinkArtifact, WsFlinkArtifactJar, WsProject} from '@/services/project/typings';
 import {DeleteOutlined, DownloadOutlined} from '@ant-design/icons';
 import {ActionType, PageHeader, ProColumns, ProFormInstance, ProTable,} from '@ant-design/pro-components';

@@ -31,11 +31,11 @@
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-storage</artifactId>
+            <artifactId>scaleph-privilege</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>scaleph-privilege</artifactId>
+            <artifactId>scaleph-project</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
