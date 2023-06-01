@@ -24,11 +24,6 @@ const FlinkKubernetesJobWeb: React.FC = () => {
 
   const tableColumns: ProColumns<WsFlinkKubernetesJob>[] = [
     {
-      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.jobId'}),
-      dataIndex: 'jobId',
-      hideInSearch: true
-    },
-    {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.name'}),
       dataIndex: 'name'
     },

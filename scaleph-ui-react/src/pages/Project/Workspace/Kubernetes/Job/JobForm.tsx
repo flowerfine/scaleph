@@ -12,11 +12,11 @@ import {
 } from "@ant-design/pro-components";
 import {ModalFormProps} from '@/app.d';
 import {
+  WsDiJobSelectListParam,
   WsFlinkArtifactJarSelectListParam,
   WsFlinkArtifactSqlSelectListParam,
   WsFlinkKubernetesDeploymentSelectListParam,
   WsFlinkKubernetesJob,
-  WsFlinkKubernetesJobAddParam,
   WsFlinkKubernetesSessionClusterSelectListParam
 } from "@/services/project/typings";
 import {DictDataService} from "@/services/admin/dictData.service";
@@ -26,6 +26,7 @@ import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlink
 import {FlinkArtifactJarService} from "@/services/project/flinkArtifactJar.service";
 import {FlinkArtifactSqlService} from "@/services/project/WsFlinkArtifactSqlService";
 import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
+import {WsDiJobService} from "@/services/project/WsDiJobService";
 
 const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = ({
                                                                                   data,
@@ -52,9 +53,8 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          const param: WsFlinkKubernetesJobAddParam = {...values, projectId: projectId};
           data.id
-            ? WsFlinkKubernetesJobService.add(param).then((response) => {
+            ? WsFlinkKubernetesJobService.update({...values}).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
                 if (onVisibleChange) {
@@ -62,7 +62,7 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
                 }
               }
             })
-            : WsFlinkKubernetesJobService.add(param).then((response) => {
+            : WsFlinkKubernetesJobService.add({...values, projectId: projectId}).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
                 if (onVisibleChange) {
@@ -84,11 +84,11 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
           name: data?.name,
           executionMode: data?.executionMode?.value,
           flinkDeploymentMode: data?.flinkDeploymentMode?.value,
-          flinkDeploymentId: data?.flinkDeploymentId,
-          flinkSessionClusterId: data?.flinkSessionClusterId,
+          flinkDeploymentId: data?.flinkDeployment?.id,
+          flinkSessionClusterId: data?.flinkSessionCluster?.id,
           type: data?.type?.value,
-          flinkArtifactJarId: data?.flinkArtifactJarId,
-          flinkArtifactSqlId: data?.flinkArtifactSqlId,
+          flinkArtifactJarId: data?.flinkArtifactJar?.id,
+          flinkArtifactSqlId: data?.flinkArtifactSql?.id,
           remark: data?.remark
         }}
       >
@@ -109,6 +109,7 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
           name={"flinkDeploymentMode"}
           label={intl.formatMessage({id: 'pages.project.flink.kubernetes.job.flinkDeploymentMode'})}
           rules={[{required: true}]}
+          disabled={data?.id}
           request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkDeploymentMode)}
         />
         <ProFormDependency name={['flinkDeploymentMode']}>
@@ -119,6 +120,7 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
                   name={"flinkDeploymentId"}
                   label={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment'})}
                   rules={[{required: true}]}
+                  disabled={data?.id}
                   allowClear={false}
                   showSearch={true}
                   request={(params, props) => {
@@ -148,6 +150,7 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
                   name={"flinkSessionClusterId"}
                   label={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster'})}
                   rules={[{required: true}]}
+                  disabled={data?.id}
                   allowClear={false}
                   showSearch={true}
                   request={(params, props) => {
@@ -176,6 +179,7 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
           name={"type"}
           label={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.type'})}
           rules={[{required: true}]}
+          disabled={data?.id}
           request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkJobType)}
         />
         <ProFormDependency name={['type']}>
@@ -186,6 +190,7 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
                   name={"flinkArtifactJarId"}
                   label={intl.formatMessage({id: 'pages.project.job.jar'})}
                   rules={[{required: true}]}
+                  disabled={data?.id}
                   allowClear={false}
                   showSearch={true}
                   request={(params, props) => {
@@ -212,6 +217,7 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
                   name={"flinkArtifactSqlId"}
                   label={intl.formatMessage({id: 'pages.project.job.sql'})}
                   rules={[{required: true}]}
+                  disabled={data?.id}
                   allowClear={false}
                   showSearch={true}
                   request={(params, props) => {
@@ -233,7 +239,31 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
               );
             }
             if (type == '2') {
-              return (<ProFormGroup/>);
+              return (
+                <ProFormSelect
+                  name={"wsDiJobId"}
+                  label={intl.formatMessage({id: 'pages.project.job.seatunnel'})}
+                  rules={[{required: true}]}
+                  disabled={data?.id}
+                  allowClear={false}
+                  showSearch={true}
+                  request={(params, props) => {
+                    const listParam: WsDiJobSelectListParam = {
+                      projectId: projectId,
+                      name: params.keyWords,
+                    };
+                    return WsDiJobService.listAll(listParam).then((response) => {
+                      return response.map((item) => {
+                        return {
+                          label: item.wsFlinkArtifact.name,
+                          value: item.id,
+                          item: item
+                        };
+                      });
+                    });
+                  }}
+                />
+              );
             }
             return (<ProFormGroup/>);
           }}

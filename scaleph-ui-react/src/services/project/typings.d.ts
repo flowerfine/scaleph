@@ -52,6 +52,12 @@ export type WsDiJobParam = QueryParam & {
   name?: string;
 };
 
+
+export type WsDiJobSelectListParam = {
+  projectId: number;
+  name?: string;
+};
+
 export type WsDiJobAddParam = {
   projectId: number;
   name?: string;
@@ -322,6 +328,7 @@ export type WsFlinkKubernetesTemplate = {
 };
 
 export type WsFlinkKubernetesTemplateParam = QueryParam & {
+  projectId: number;
   name?: string;
 };
 
@@ -388,14 +395,14 @@ export type WsFlinkKubernetesJob = {
   id?: number;
   projectId: number;
   name: string;
-  jobId: string;
+  jobId?: string;
   executionMode: Dict;
   flinkDeploymentMode: Dict;
-  flinkDeployment: WsFlinkKubernetesDeployment;
-  flinkSessionCluster: WsFlinkKubernetesSessionCluster;
+  flinkDeployment?: WsFlinkKubernetesDeployment;
+  flinkSessionCluster?: WsFlinkKubernetesSessionCluster;
   type: Dict;
-  flinkArtifactJar: WsFlinkArtifactJar;
-  flinkArtifactSql: WsFlinkArtifactSql;
+  flinkArtifactJar?: WsFlinkArtifactJar;
+  flinkArtifactSql?: WsFlinkArtifactSql;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
@@ -420,4 +427,12 @@ export type WsFlinkKubernetesJobAddParam = {
   type: string;
   flinkArtifactJarId?: number;
   flinkArtifactSqlId?: number;
+  remark?: string;
+};
+
+export type WsFlinkKubernetesJobUpdateParam = {
+  id: number;
+  name: string;
+  executionMode: string;
+  remark?: string;
 };

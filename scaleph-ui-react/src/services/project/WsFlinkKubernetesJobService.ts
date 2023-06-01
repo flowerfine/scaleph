@@ -1,6 +1,11 @@
 import {PageResponse, ResponseBody} from '@/app.d';
 import {request} from 'umi';
-import {WsFlinkKubernetesJob, WsFlinkKubernetesJobAddParam, WsFlinkKubernetesJobParam} from './typings';
+import {
+  WsFlinkKubernetesJob,
+  WsFlinkKubernetesJobAddParam,
+  WsFlinkKubernetesJobParam,
+  WsFlinkKubernetesJobUpdateParam
+} from './typings';
 
 export const WsFlinkKubernetesJobService = {
   url: '/api/flink/kubernetes/job',
@@ -29,6 +34,13 @@ export const WsFlinkKubernetesJobService = {
   add: async (param: WsFlinkKubernetesJobAddParam) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/`, {
       method: 'PUT',
+      data: param,
+    });
+  },
+
+  update: async (param: WsFlinkKubernetesJobUpdateParam) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/`, {
+      method: 'POST',
       data: param,
     });
   },

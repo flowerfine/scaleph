@@ -25,6 +25,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernete
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobAddParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobListParam;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobUpdateParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,5 +65,12 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
         BeanUtils.copyProperties(param, record);
         record.setJobId(UUID.randomUUID().toString());
         return wsFlinkKubernetesJobMapper.insert(record);
+    }
+
+    @Override
+    public int update(WsFlinkKubernetesJobUpdateParam param) {
+        WsFlinkKubernetesJob record = new WsFlinkKubernetesJob();
+        BeanUtils.copyProperties(param, record);
+        return wsFlinkKubernetesJobMapper.updateById(record);
     }
 }

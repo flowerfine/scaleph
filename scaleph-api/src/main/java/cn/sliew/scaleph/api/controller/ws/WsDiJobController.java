@@ -62,6 +62,14 @@ public class WsDiJobController {
     }
 
     @Logging
+    @GetMapping("/all")
+    @ApiOperation(value = "查询 seatunnel 列表", notes = "查询 seatunnel 列表")
+    public ResponseEntity<List<WsDiJobDTO>> listAll(@Valid WsDiJobSelectListParam param) {
+        final List<WsDiJobDTO> result = wsDiJobService.listAll(param);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Logging
     @PutMapping
     @ApiOperation(value = "新增 seatunnel", notes = "新增 seatunnel，不涉及 DAG")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).DATADEV_JOB_ADD)")

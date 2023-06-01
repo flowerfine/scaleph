@@ -1,6 +1,6 @@
 import {PageResponse, ResponseBody} from '@/app.d';
 import {request} from 'umi';
-import {WsDiJob, WsDiJobAddParam, WsDiJobGraphParam, WsDiJobParam} from './typings';
+import {WsDiJob, WsDiJobAddParam, WsDiJobGraphParam, WsDiJobParam, WsDiJobSelectListParam} from './typings';
 
 export const WsDiJobService = {
   url: '/api/di/job',
@@ -17,6 +17,13 @@ export const WsDiJobService = {
         current: res.current,
       };
       return result;
+    });
+  },
+
+  listAll: async (queryParam: WsDiJobSelectListParam) => {
+    return request<ResponseBody<Array<WsDiJob>>>(`${WsDiJobService.url}/all`, {
+      method: 'GET',
+      params: queryParam,
     });
   },
 

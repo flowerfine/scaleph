@@ -23,6 +23,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobServ
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobAddParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobListParam;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobUpdateParam;
 import cn.sliew.scaleph.system.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -63,6 +64,14 @@ public class WsFlinkKubernetesJobController {
     @ApiOperation(value = "创建 Job", notes = "创建 Job")
     public ResponseEntity<ResponseVO> insert(@RequestBody @Valid WsFlinkKubernetesJobAddParam param) {
         wsFlinkKubernetesJobService.insert(param);
+        return new ResponseEntity(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping
+    @ApiOperation(value = "更新 Job", notes = "更新 Job")
+    public ResponseEntity<ResponseVO> update(@RequestBody @Valid WsFlinkKubernetesJobUpdateParam param) {
+        wsFlinkKubernetesJobService.update(param);
         return new ResponseEntity(ResponseVO.success(), HttpStatus.OK);
     }
 }
