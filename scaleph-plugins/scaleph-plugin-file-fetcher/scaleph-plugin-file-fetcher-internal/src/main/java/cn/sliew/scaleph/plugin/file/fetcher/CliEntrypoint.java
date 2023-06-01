@@ -25,6 +25,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CliEntrypoint {
 
     public static void main(String[] args) {
-        SpringApplication.run(CliEntrypoint.class, args);
+        String[] customArgs = new String[]{
+                "--uri", "scaleph://scaleph/user/wangqi/jar/mysql/flink-csv-1.16.1.jar",
+                "--path", "/Users/wangqi/Documents/repository/sliew/scaleph/temp",
+        };
+        SpringApplication.run(CliEntrypoint.class, customArgs);
     }
 }

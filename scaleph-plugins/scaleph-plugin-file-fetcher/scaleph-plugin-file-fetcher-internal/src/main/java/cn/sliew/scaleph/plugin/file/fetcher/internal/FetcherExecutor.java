@@ -16,8 +16,10 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.file.fetcher.core;
+package cn.sliew.scaleph.plugin.file.fetcher.internal;
 
+import cn.sliew.scaleph.plugin.file.fetcher.core.FileFetcher;
+import cn.sliew.scaleph.plugin.file.fetcher.core.FileFetcherFactory;
 import cn.sliew.scaleph.plugin.file.fetcher.core.cli.FetchOptions;
 import cn.sliew.scaleph.plugin.file.fetcher.core.cli.OptionsParser;
 import org.apache.commons.cli.CommandLine;

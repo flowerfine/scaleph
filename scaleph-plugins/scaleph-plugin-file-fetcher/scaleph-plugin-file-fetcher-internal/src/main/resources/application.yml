@@ -1,0 +1,144 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+server:
+  port: 8080
+  tomcat.uri-encoding: UTF-8
+  servlet.context-path: /${spring.application.name}
+
+spring:
+  application.name: scaleph
+  profiles.active: dev
+  messages:
+    encoding: utf-8
+    basename: static/i18n/messages
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
+  mail:
+    username: xxxx@xxx.com
+    password: xxxxxxx
+    #    host: smtp.xxx.cn
+    port: 25
+    default-encoding: UTF-8
+  mvc.pathmatch.matching-strategy: ant_path_matcher
+  servlet.multipart:
+    enabled: true
+    max-file-size: 1024MB
+    max-request-size: 1024MB
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      auto-commit: true
+      idle-timeout: 600000
+      pool-name: ${spring.application.name}
+      max-lifetime: 900000
+      connection-timeout: 10000
+      connection-test-query: SELECT 1
+      validation-timeout: 1000
+  redis:
+    timeout: 5000
+    lettuce:
+      pool:
+        max-active: 200
+        max-wait: 10000
+        max-idle: 20
+        min-idle: 0
+  quartz:
+    scheduler-name: appScheduler
+    job-store-type: jdbc
+    jdbc.initialize-schema: never
+    properties:
+      org.quartz:
+        threadPool:
+          threadCount: 5
+          threadPriority: 5
+          threadsInheritContextClassLoaderOfInitializingThread: true
+        dataSource:
+          quartzDS:
+            provider: hikaricp
+            maxConnections: 5
+        jobStore:
+          dataSource: quartzDS
+          class: org.quartz.impl.jdbcjobstore.JobStoreTX
+          driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+          tablePrefix: qrtz_
+          isClustered: true
+          clusterCheckinInterval: 10000
+          useProperties: false
+  devtools.remote.restart.enabled: false
+
+management:
+  endpoints.web.exposure.include: "*"
+
+logging:
+  level:
+    root: info
+
+knife4j:
+  enable: true
+  production: false
+  setting:
+    language: zh_cn
+    enable-footer: true
+    enable-debug: true
+    enable-open-api: true
+    enable-host: false
+    enable-host-text: localhost:9090
+  basic.enable: false
+  cors: true
+
+# 线程池配置
+thread:
+  task:
+    pool:
+      corePoolSize: 20
+      maxPoolSize: 40
+      keepAliveSeconds: 300
+      queueCapacity: 50
+# 系统设置相关配置
+app:
+  name: ${spring.application.name}
+  workspace: /tmp/${spring.application.name}/workspace
+  engine:
+    flink:
+      state:
+        savepoints:
+          dir: /opt/flink/savepoints
+  plugin:
+    datasource:
+      dir: /opt/scaleph/plugin/datasource
+
+# 用户登录token配置参数
+token:
+  tokenValidityInSeconds: 3600000
+  longTokenValidityInSeconds: 604800000
+
+uid:
+  timeBits: 30             # 时间位, 默认:30
+  workerBits: 16           # 机器位, 默认:16
+  seqBits: 7               # 序列号, 默认:7
+  epochStr: "2022-09-22"   # 初始时间, 默认:"2019-02-20"
+  enableBackward: true    # 是否容忍时钟回拨, 默认:true
+  maxBackwardSeconds: 1    # 时钟回拨最长容忍时间（秒）, 默认:1
+  CachedUidGenerator:     # CachedUidGenerator相关参数
+    boostPower: 3          # RingBuffer size扩容参数, 可提高UID生成的吞吐量, 默认:3
+    paddingFactor: 50      # 指定何时向RingBuffer中填充UID, 取值为百分比(0, 100), 默认为50
+    #scheduleInterval: 60    # 默认:不配置此项, 即不使用Schedule线程. 如需使用, 请指定Schedule线程时间间隔, 单位:秒
