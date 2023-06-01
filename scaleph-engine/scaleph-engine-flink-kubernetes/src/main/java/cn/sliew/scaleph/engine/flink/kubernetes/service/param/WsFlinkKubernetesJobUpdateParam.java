@@ -16,15 +16,31 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.file.fetcher;
+package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
-@SpringBootApplication
-public class CliEntrypoint {
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-    public static void main(String[] args) {
-        SpringApplication.run(CliEntrypoint.class, args);
-    }
+@Data
+public class WsFlinkKubernetesJobUpdateParam {
+
+    @NotNull
+    @ApiModelProperty("id")
+    private Long id;
+
+    @NotBlank
+    @ApiModelProperty("name")
+    private String name;
+
+    @NotNull
+    @ApiModelProperty("execution mode")
+    private FlinkRuntimeExecutionMode executionMode;
+
+    @ApiModelProperty("remark")
+    private String remark;
+
 }

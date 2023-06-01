@@ -29,7 +29,6 @@
     <artifactId>scaleph-system</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-cache</artifactId>

@@ -38,7 +38,7 @@ public class OptionsParser {
             Option.builder()
                     .option("uri")
                     .required(true)
-                    .hasArg(false)
+                    .hasArg()
                     .desc("File remote uri.")
                     .build();
 
@@ -46,7 +46,7 @@ public class OptionsParser {
             Option.builder()
                     .option("path")
                     .required(true)
-                    .hasArg(false)
+                    .hasArg()
                     .desc("File local path.")
                     .build();
 
@@ -91,13 +91,17 @@ public class OptionsParser {
     //  Line Parsing
     // --------------------------------------------------------------------------------------------
 
-    public static CommandLine parse(Options options, String[] args, boolean stopAtNonOptions)
-            throws CliArgsException {
-        final DefaultParser parser = new DefaultParser();
+    public static CommandLine parse(String[] args, boolean stopAtNonOptions) throws CliArgsException {
+        Options options = new Options()
+                .addOption(URI_OPTION)
+                .addOption(PATH_OPTION)
+                .addOption(DYNAMIC_PROPERTIES);
+        DefaultParser parser = new DefaultParser();
 
         try {
             return parser.parse(options, args, stopAtNonOptions);
         } catch (ParseException e) {
+            e.printStackTrace();
             throw new CliArgsException(e.getMessage());
         }
     }

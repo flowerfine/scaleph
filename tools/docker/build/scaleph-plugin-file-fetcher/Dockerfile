@@ -21,4 +21,4 @@ COPY --from=build /dist $SCALEPH_HOME/
 
 EXPOSE 8080 8080
 
-ENTRYPOINT ["sh","-c","java -cp /opt/scaleph/libs/* cn.sliew.scaleph.plugin.file.fetcher.CliEntrypoint ${ENV_PARAMS}"]
+ENTRYPOINT ["sh","-c","java -cp /opt/scaleph/libs/* cn.sliew.scaleph.CliEntrypoint ${ENV_PARAMS}"]

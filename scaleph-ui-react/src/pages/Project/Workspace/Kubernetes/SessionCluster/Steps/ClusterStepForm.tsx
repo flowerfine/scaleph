@@ -19,13 +19,10 @@ const SessionClusterClusterStepForm: React.FC = () => {
         name="template"
         label={intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.steps.cluster.template'})}
         allowClear={false}
-        fieldProps={{
-          // onSelect: handleTemplateChange
-        }}
         request={((params, props) => {
           const param: WsFlinkKubernetesTemplateParam = {
             projectId: projectId,
-            name: params.keyWords,
+            name: params.keyWords
           };
           return WsFlinkKubernetesTemplateService.list(param).then((response) => {
             return response.data.map((item) => {

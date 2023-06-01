@@ -72,6 +72,12 @@ public class WsDiJobServiceImpl implements WsDiJobService {
     }
 
     @Override
+    public List<WsDiJobDTO> listAll(WsDiJobSelectListParam param) {
+        List<WsDiJob> jobs = diJobMapper.listAll(param.getProjectId(), param.getName());
+        return WsDiJobConvert.INSTANCE.toDto(jobs);
+    }
+
+    @Override
     public WsDiJobDTO selectOne(Long id) {
         WsDiJob record = diJobMapper.selectOne(id);
         checkState(record != null, () -> "job not exists for id: " + id);

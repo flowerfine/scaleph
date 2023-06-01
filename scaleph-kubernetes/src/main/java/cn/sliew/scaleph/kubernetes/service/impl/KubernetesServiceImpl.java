@@ -20,10 +20,10 @@ package cn.sliew.scaleph.kubernetes.service.impl;
 
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.scaleph.common.nio.FileUtil;
+import cn.sliew.scaleph.common.util.SystemUtil;
 import cn.sliew.scaleph.kubernetes.service.KuberenetesService;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
-import cn.sliew.scaleph.system.util.SystemUtil;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientBuilder;

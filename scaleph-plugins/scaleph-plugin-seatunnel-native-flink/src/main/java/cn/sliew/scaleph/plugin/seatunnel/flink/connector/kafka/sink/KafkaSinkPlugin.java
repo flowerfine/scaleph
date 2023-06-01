@@ -21,6 +21,7 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.sink;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
 import cn.sliew.scaleph.common.param.PropertyUtil;
+import cn.sliew.scaleph.common.util.SpringApplicationContextUtil;
 import cn.sliew.scaleph.meta.service.MetaDatasourceService;
 import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;
 import cn.sliew.scaleph.plugin.datasource.kafka.KafkaProperties;
@@ -29,7 +30,6 @@ import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelNativeFlinkPlugin;
 import cn.sliew.scaleph.plugin.seatunnel.flink.common.CommonProperties;
 import cn.sliew.scaleph.system.service.vo.DictVO;
-import cn.sliew.scaleph.system.util.SpringApplicationContextUtil;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auto.service.AutoService;
 

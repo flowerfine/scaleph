@@ -5,7 +5,6 @@ import {DeleteOutlined, EditOutlined, NodeIndexOutlined} from "@ant-design/icons
 import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from "@ant-design/pro-components";
 import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
 import {WsFlinkKubernetesJob} from "@/services/project/typings";
-import {WsFlinkKubernetesDeploymentService} from "@/services/project/WsFlinkKubernetesDeploymentService";
 import {DictDataService} from "@/services/admin/dictData.service";
 import {WsFlinkKubernetesJobService} from "@/services/project/WsFlinkKubernetesJobService";
 import FlinkKubernetesJobForm from "@/pages/Project/Workspace/Kubernetes/Job/JobForm";
@@ -23,11 +22,6 @@ const FlinkKubernetesJobWeb: React.FC = () => {
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
   const tableColumns: ProColumns<WsFlinkKubernetesJob>[] = [
-    {
-      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.jobId'}),
-      dataIndex: 'jobId',
-      hideInSearch: true
-    },
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.name'}),
       dataIndex: 'name'
@@ -153,7 +147,7 @@ const FlinkKubernetesJobWeb: React.FC = () => {
                     okButtonProps: {danger: true},
                     cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                     onOk() {
-                      WsFlinkKubernetesDeploymentService.delete(record).then((d) => {
+                      WsFlinkKubernetesJobService.deleteOne(record).then((d) => {
                         if (d.success) {
                           message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                           actionRef.current?.reload();
@@ -210,8 +204,8 @@ const FlinkKubernetesJobWeb: React.FC = () => {
                   okButtonProps: {danger: true},
                   cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                   onOk() {
-                    WsFlinkKubernetesDeploymentService.deleteBatch(selectedRows).then((d) => {
-                      if (d.success) {
+                    WsFlinkKubernetesJobService.deleteBatch(selectedRows).then((response) => {
+                      if (response.success) {
                         message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                         actionRef.current?.reload();
                       }

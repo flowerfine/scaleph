@@ -29,7 +29,6 @@
     <artifactId>scaleph-mail</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-system</artifactId>

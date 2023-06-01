@@ -39,6 +39,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.UUID;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -95,6 +96,7 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     @Override
     public int insert(WsFlinkKubernetesSessionClusterDTO dto) {
         WsFlinkKubernetesSessionCluster record = WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDo(dto);
+        record.setSessionClusterId(UUID.randomUUID().toString());
         return wsFlinkKubernetesSessionClusterMapper.insert(record);
     }
 

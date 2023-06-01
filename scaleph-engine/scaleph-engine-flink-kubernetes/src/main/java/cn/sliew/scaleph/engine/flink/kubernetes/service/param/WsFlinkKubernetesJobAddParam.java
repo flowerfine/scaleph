@@ -64,4 +64,6 @@ public class WsFlinkKubernetesJobAddParam {
     @ApiModelProperty("flink artifact sql id")
     private Long flinkArtifactSqlId;
 
+    @ApiModelProperty("remark")
+    private String remark;
 }

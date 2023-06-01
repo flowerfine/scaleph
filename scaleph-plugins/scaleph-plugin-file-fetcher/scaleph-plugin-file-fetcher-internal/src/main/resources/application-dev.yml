@@ -1,0 +1,81 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+spring:
+  datasource:
+    master:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+      username: root
+      password: 123456
+    log:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+      username: root
+      password: 123456
+    sakura:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/sakura?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+      username: root
+      password: 123456
+  quartz:
+    properties:
+      org.quartz:
+        dataSource:
+          quartzDS:
+            driver: com.mysql.cj.jdbc.Driver
+            URL: jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+            user: root
+            password: 123456
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+
+app:
+  host: localhost:4200
+
+file-system:
+#  type: local
+  type: s3
+  proxy: false
+  bucket: ${spring.application.name}
+  endPoint: http://127.0.0.1:9000
+  accessKey: admin
+  secretKey: password
+#  type: oss
+#  bucket: ${spring.application.name}
+#  endPoint: Aliyun OSS endpoint to connect to
+#  accessKey: Aliyun access key ID
+#  secretKey: Aliyun access key secret
+#  type: hdfs
+#  hadoopConfPath: Hadoop conf path
+#  defaultFS: hdfs://localhost:9000
+
+
+# log
+logging:
+  level:
+    root: info
+    springfox.documentation: warn
+    org.springframework.boot.autoconfigure: warn
+    org.springframework.beans.factory: warn
+    org.springframework.context: warn
+    cn.sliew.scaleph:
+      api.schedule: info
+      dao.mapper: info

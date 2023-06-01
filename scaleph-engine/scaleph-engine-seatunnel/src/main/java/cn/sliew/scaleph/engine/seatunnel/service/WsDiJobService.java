@@ -30,6 +30,8 @@ public interface WsDiJobService {
 
     Page<WsDiJobDTO> listByPage(WsDiJobListParam param);
 
+    List<WsDiJobDTO> listAll(WsDiJobSelectListParam param);
+
     WsDiJobDTO selectOne(Long id);
 
     WsDiJobDTO insert(WsDiJobAddParam param);

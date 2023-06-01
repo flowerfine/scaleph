@@ -18,8 +18,8 @@
 
 package cn.sliew.scaleph.storage.configuration;
 
-import cn.sliew.scaleph.storage.utils.HadoopUtil;
-import cn.sliew.scaleph.system.util.SystemUtil;
+import cn.sliew.scaleph.common.util.SystemUtil;
+import cn.sliew.scaleph.storage.util.HadoopUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
