@@ -45,4 +45,18 @@ export const WsFlinkKubernetesJobService = {
     });
   },
 
+  deleteOne: async (row: WsFlinkKubernetesJob) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/${row.id}`, {
+      method: 'DELETE'
+    });
+  },
+
+  deleteBatch: async (rows: WsFlinkKubernetesJob[]) => {
+    const params = rows.map((row) => row.id);
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/batch`, {
+      method: 'DELETE',
+      data: params,
+    });
+  },
+
 };

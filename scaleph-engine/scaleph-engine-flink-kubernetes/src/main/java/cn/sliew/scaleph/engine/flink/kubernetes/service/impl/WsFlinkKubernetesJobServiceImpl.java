@@ -73,4 +73,14 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
         BeanUtils.copyProperties(param, record);
         return wsFlinkKubernetesJobMapper.updateById(record);
     }
+
+    @Override
+    public int deleteById(Long id) {
+        return wsFlinkKubernetesJobMapper.deleteById(id);
+    }
+
+    @Override
+    public int deleteBatch(List<Long> ids) {
+        return wsFlinkKubernetesJobMapper.deleteBatchIds(ids);
+    }
 }

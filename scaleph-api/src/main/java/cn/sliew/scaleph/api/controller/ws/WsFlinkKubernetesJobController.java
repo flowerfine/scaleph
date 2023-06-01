@@ -34,6 +34,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Api(tags = "Flink Kubernetes管理-Job管理")
 @RestController
@@ -73,5 +74,21 @@ public class WsFlinkKubernetesJobController {
     public ResponseEntity<ResponseVO> update(@RequestBody @Valid WsFlinkKubernetesJobUpdateParam param) {
         wsFlinkKubernetesJobService.update(param);
         return new ResponseEntity(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping("{id}")
+    @ApiOperation(value = "删除 Job", notes = "删除 Job")
+    public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) {
+        wsFlinkKubernetesJobService.deleteById(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping("batch")
+    @ApiOperation(value = "批量删除 Job", notes = "批量删除 Job")
+    public ResponseEntity<ResponseVO> deleteBatch(@RequestBody List<Long> ids) {
+        wsFlinkKubernetesJobService.deleteBatch(ids);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 }
