@@ -7,9 +7,11 @@ import {
 import {WsFlinkKubernetesTemplateParam} from "@/services/project/typings";
 import {ClusterCredentialService} from "@/services/resource/clusterCredential.service";
 import {ClusterCredentialListParam} from "@/services/resource/typings";
+import {WORKSPACE_CONF} from "@/constant";
 
 const SessionClusterClusterStepForm: React.FC = () => {
   const intl = useIntl();
+  const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
   return (
     <ProCard>
@@ -22,6 +24,7 @@ const SessionClusterClusterStepForm: React.FC = () => {
         }}
         request={((params, props) => {
           const param: WsFlinkKubernetesTemplateParam = {
+            projectId: projectId,
             name: params.keyWords,
           };
           return WsFlinkKubernetesTemplateService.list(param).then((response) => {
