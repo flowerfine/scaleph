@@ -111,6 +111,7 @@ public enum FileUtil {
 
     public static Path createFile(Path filePath) throws IOException {
         Files.deleteIfExists(filePath);
+        createDir(filePath.getParent());
         if (SUPPORT_POSIX) {
             return Files.createFile(filePath, ATTRIBUTES);
         }

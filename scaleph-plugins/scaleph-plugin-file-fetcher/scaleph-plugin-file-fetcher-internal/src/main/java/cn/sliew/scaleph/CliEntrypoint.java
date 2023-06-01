@@ -27,7 +27,7 @@ public class CliEntrypoint {
     public static void main(String[] args) {
         String[] customArgs = new String[]{
                 "-uri", "scaleph://scaleph/user/wangqi/jar/mysql/flink-csv-1.16.1.jar",
-                "-path", "/Users/wangqi/Documents/repository/sliew/scaleph/temp",
+                "-path", "/Users/wangqi/Documents/repository/sliew/scaleph/temp/flink-csv-1.16.1.jar",
         };
         SpringApplication.run(CliEntrypoint.class, customArgs);
     }

@@ -22,10 +22,7 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.plugin.framework.property.*;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public abstract class AbstractPlugin implements Plugin {
 
@@ -33,7 +30,7 @@ public abstract class AbstractPlugin implements Plugin {
 
     protected PluginInfo pluginInfo;
 
-    protected List<PropertyDescriptor> supportedProperties;
+    protected List<PropertyDescriptor> supportedProperties = Collections.emptyList();
 
     @Override
     public void configure(PropertyContext properties) {

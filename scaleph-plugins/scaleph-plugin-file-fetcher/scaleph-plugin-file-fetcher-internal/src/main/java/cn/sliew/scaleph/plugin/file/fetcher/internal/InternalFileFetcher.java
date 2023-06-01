@@ -21,7 +21,8 @@ package cn.sliew.scaleph.plugin.file.fetcher.internal;
 import cn.sliew.scaleph.common.nio.FileUtil;
 import cn.sliew.scaleph.common.util.SpringApplicationContextUtil;
 import cn.sliew.scaleph.plugin.file.fetcher.core.FileFetcher;
-import cn.sliew.scaleph.storage.service.FileSystemService;
+import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
+import cn.sliew.scaleph.storage.service.impl.FileSystemServiceImpl;
 import com.google.auto.service.AutoService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.FileCopyUtils;
@@ -35,11 +36,12 @@ import java.net.URI;
 @AutoService(FileFetcher.class)
 public class InternalFileFetcher extends FileFetcher {
 
-    private final FileSystemService fileSystemService;
+    private final FileSystemServiceImpl fileSystemService;
 
     public InternalFileFetcher() {
+        this.pluginInfo = new PluginInfo("scaleph", "scaleph internal file fetcher", InternalFileFetcher.class.getName());
         ApplicationContext applicationContext = SpringApplicationContextUtil.getApplicationContext();
-        fileSystemService = applicationContext.getBean(FileSystemService.class);
+        fileSystemService = applicationContext.getBean(FileSystemServiceImpl.class);
     }
 
     @Override
