@@ -20,7 +20,7 @@ package cn.sliew.scaleph.storage.service.impl;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.storage.service.FileSystemService;
-import cn.sliew.scaleph.storage.utils.HadoopUtil;
+import cn.sliew.scaleph.storage.util.HadoopUtil;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;

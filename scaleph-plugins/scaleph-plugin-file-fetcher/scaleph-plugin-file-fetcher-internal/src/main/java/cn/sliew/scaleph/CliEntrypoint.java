@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.plugin.file.fetcher;
+package cn.sliew.scaleph;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,8 +26,8 @@ public class CliEntrypoint {
 
     public static void main(String[] args) {
         String[] customArgs = new String[]{
-                "--uri", "scaleph://scaleph/user/wangqi/jar/mysql/flink-csv-1.16.1.jar",
-                "--path", "/Users/wangqi/Documents/repository/sliew/scaleph/temp",
+                "-uri", "scaleph://scaleph/user/wangqi/jar/mysql/flink-csv-1.16.1.jar",
+                "-path", "/Users/wangqi/Documents/repository/sliew/scaleph/temp",
         };
         SpringApplication.run(CliEntrypoint.class, customArgs);
     }

@@ -23,7 +23,6 @@ import cn.sliew.scaleph.plugin.file.fetcher.core.FileFetcherFactory;
 import cn.sliew.scaleph.plugin.file.fetcher.core.cli.FetchOptions;
 import cn.sliew.scaleph.plugin.file.fetcher.core.cli.OptionsParser;
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Options;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -35,7 +34,7 @@ public class FetcherExecutor implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        CommandLine line = OptionsParser.parse(new Options(), args.getSourceArgs(), true);
+        CommandLine line = OptionsParser.parse(args.getSourceArgs(), true);
         FetchOptions options = new FetchOptions(line);
 
         Optional<FileFetcher> fileFetcher = FileFetcherFactory.find(options.getUri(), options.getProperties());

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.system.util;
+package cn.sliew.scaleph.common.util;
 
 import cn.hutool.core.lang.UUID;
 import cn.sliew.scaleph.common.nio.FileUtil;

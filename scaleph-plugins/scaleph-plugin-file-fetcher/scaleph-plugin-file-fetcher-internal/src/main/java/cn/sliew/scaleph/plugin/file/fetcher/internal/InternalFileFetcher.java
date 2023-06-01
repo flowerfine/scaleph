@@ -19,9 +19,9 @@
 package cn.sliew.scaleph.plugin.file.fetcher.internal;
 
 import cn.sliew.scaleph.common.nio.FileUtil;
+import cn.sliew.scaleph.common.util.SpringApplicationContextUtil;
 import cn.sliew.scaleph.plugin.file.fetcher.core.FileFetcher;
 import cn.sliew.scaleph.storage.service.FileSystemService;
-import cn.sliew.scaleph.system.util.SpringApplicationContextUtil;
 import com.google.auto.service.AutoService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.FileCopyUtils;

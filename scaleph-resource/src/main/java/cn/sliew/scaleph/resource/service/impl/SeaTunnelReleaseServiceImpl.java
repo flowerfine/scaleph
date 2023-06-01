@@ -38,7 +38,6 @@ import cn.sliew.scaleph.resource.service.param.SeaTunnelReleaseUploadParam;
 import cn.sliew.scaleph.resource.service.vo.FileStatusVO;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.storage.service.RemoteService;
-import cn.sliew.scaleph.system.util.SystemUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
