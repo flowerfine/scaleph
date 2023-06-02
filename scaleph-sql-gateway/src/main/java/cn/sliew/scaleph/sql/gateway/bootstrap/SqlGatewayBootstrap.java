@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.sql.gateway;
+package cn.sliew.scaleph.sql.gateway.bootstrap;
 
 import org.apache.flink.configuration.GlobalConfiguration;
 import org.apache.flink.table.gateway.api.SqlGatewayService;
