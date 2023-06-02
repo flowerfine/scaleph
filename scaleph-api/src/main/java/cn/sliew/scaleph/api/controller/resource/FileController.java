@@ -22,7 +22,7 @@ import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.security.util.SecurityUtil;
 import cn.sliew.scaleph.storage.service.FileSystemService;
 import cn.sliew.scaleph.system.util.I18nUtil;
-import cn.sliew.scaleph.system.vo.ResponseVO;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

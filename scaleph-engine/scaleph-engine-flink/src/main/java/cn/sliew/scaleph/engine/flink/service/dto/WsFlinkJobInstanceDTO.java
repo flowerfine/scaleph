@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.flink.service.dto;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkClusterStatus;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

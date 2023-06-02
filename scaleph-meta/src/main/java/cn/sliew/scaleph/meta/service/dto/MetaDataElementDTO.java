@@ -20,7 +20,7 @@ package cn.sliew.scaleph.meta.service.dto;
 
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.job.DataType;
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDataSetType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -20,7 +20,7 @@ package cn.sliew.scaleph.ds.modal.file;
 
 import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
-import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.system.util.BeanUtil;
 import cn.sliew.scaleph.ds.modal.AbstractDataSource;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;
 import cn.sliew.scaleph.ds.service.dto.DsTypeDTO;

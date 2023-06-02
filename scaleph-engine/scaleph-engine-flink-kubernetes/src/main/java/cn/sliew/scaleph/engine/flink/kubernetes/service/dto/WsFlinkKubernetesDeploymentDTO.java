@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
 import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.IngressSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;

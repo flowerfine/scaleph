@@ -32,7 +32,7 @@ import cn.sliew.scaleph.security.service.param.SecPrivilegeAddParam;
 import cn.sliew.scaleph.security.service.param.SecPrivilegeListParam;
 import cn.sliew.scaleph.security.service.param.SecPrivilegeUpdateParam;
 import cn.sliew.scaleph.security.web.OnlineUserService;
-import cn.sliew.scaleph.system.vo.ResponseVO;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

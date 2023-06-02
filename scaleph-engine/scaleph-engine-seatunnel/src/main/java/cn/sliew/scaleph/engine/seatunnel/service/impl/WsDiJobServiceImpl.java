@@ -22,7 +22,7 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.job.JobAttrType;
-import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.system.util.BeanUtil;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsDiJobMapper;

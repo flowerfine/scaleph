@@ -20,7 +20,7 @@ package cn.sliew.scaleph.kubernetes.service.impl;
 
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.scaleph.common.nio.FileUtil;
-import cn.sliew.scaleph.common.util.SystemUtil;
+import cn.sliew.scaleph.system.util.SystemUtil;
 import cn.sliew.scaleph.kubernetes.service.KuberenetesService;
 import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;

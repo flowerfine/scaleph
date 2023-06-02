@@ -22,7 +22,7 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
-import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.system.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.ds.DsInfo;
 import cn.sliew.scaleph.ds.modal.PropValuePair;
 import cn.sliew.scaleph.ds.service.dto.DsInfoDTO;

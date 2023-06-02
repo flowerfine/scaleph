@@ -20,7 +20,7 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connector.doris.sink;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
-import cn.sliew.scaleph.common.param.PropertyUtil;
+import cn.sliew.scaleph.common.util.PropertyUtil;
 import cn.sliew.scaleph.plugin.framework.core.PluginInfo;
 import cn.sliew.scaleph.plugin.framework.property.PropertyDescriptor;
 import cn.sliew.scaleph.plugin.seatunnel.flink.SeaTunnelNativeFlinkPlugin;

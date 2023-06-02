@@ -23,7 +23,7 @@ import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.project.service.WsFlinkArtifactService;
 import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
 import cn.sliew.scaleph.project.service.param.WsFlinkArtifactListParam;
-import cn.sliew.scaleph.system.vo.ResponseVO;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

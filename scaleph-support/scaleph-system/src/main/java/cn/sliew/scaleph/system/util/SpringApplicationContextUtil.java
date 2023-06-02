@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.util;
+package cn.sliew.scaleph.system.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

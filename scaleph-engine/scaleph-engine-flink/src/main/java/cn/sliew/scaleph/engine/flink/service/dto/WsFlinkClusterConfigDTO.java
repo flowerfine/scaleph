@@ -21,7 +21,7 @@ package cn.sliew.scaleph.engine.flink.service.dto;
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
 import io.swagger.annotations.ApiModel;

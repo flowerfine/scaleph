@@ -24,7 +24,7 @@ import cn.sliew.scaleph.resource.service.ClusterCredentialService;
 import cn.sliew.scaleph.resource.service.dto.ClusterCredentialDTO;
 import cn.sliew.scaleph.resource.service.param.ClusterCredentialListParam;
 import cn.sliew.scaleph.resource.service.param.ClusterCredentialUploadParam;
-import cn.sliew.scaleph.system.vo.ResponseVO;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

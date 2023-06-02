@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.catalog.service.dto;
 
 import cn.sliew.scaleph.common.dict.catalog.CatalogFunctionLanguage;
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.model.BaseDTO;
 import lombok.Data;
 
 /**

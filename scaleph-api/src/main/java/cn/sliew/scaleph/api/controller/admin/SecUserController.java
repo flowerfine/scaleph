@@ -47,7 +47,7 @@ import cn.sliew.scaleph.security.web.TokenProvider;
 import cn.sliew.scaleph.security.web.UserDetailInfo;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import cn.sliew.scaleph.system.util.I18nUtil;
-import cn.sliew.scaleph.system.vo.ResponseVO;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

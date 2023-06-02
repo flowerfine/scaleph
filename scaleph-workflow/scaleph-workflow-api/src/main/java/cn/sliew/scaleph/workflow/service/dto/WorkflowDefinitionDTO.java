@@ -20,7 +20,7 @@ package cn.sliew.scaleph.workflow.service.dto;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowExecuteType;
 import cn.sliew.scaleph.common.dict.workflow.WorkflowType;
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

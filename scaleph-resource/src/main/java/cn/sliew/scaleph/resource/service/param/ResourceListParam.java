@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.resource.service.param;
 
-import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.system.model.PaginationParam;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

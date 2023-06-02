@@ -20,7 +20,7 @@ package cn.sliew.scaleph.security.service.param;
 
 import cn.sliew.scaleph.common.dict.security.RoleStatus;
 import cn.sliew.scaleph.common.dict.security.RoleType;
-import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

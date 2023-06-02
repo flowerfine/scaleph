@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.workflow.service.impl;
 
-import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.system.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.workflow.WorkflowSchedule;
 import cn.sliew.scaleph.dao.mapper.master.workflow.WorkflowScheduleMapper;
 import cn.sliew.scaleph.workflow.scheduler.SchedulerService;

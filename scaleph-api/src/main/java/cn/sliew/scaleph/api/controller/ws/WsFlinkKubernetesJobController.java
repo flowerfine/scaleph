@@ -24,7 +24,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJob
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobAddParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobListParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobUpdateParam;
-import cn.sliew.scaleph.system.vo.ResponseVO;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

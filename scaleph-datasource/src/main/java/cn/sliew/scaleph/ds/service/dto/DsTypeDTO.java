@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.ds.service.dto;
 
 import cn.sliew.scaleph.common.dict.job.DataSourceType;
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

@@ -27,7 +27,7 @@ import cn.sliew.scaleph.engine.flink.service.param.WsFlinkCheckpointListParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobInstanceListParam;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkJobSubmitParam;
 import cn.sliew.scaleph.system.snowflake.UidGenerator;
-import cn.sliew.scaleph.system.vo.ResponseVO;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

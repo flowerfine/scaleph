@@ -20,8 +20,8 @@ package cn.sliew.scaleph.meta.service.impl;
 
 import cn.sliew.scaleph.common.codec.CodecUtil;
 import cn.sliew.scaleph.common.exception.Rethrower;
-import cn.sliew.scaleph.common.param.PropertyUtil;
-import cn.sliew.scaleph.common.util.SystemUtil;
+import cn.sliew.scaleph.common.util.PropertyUtil;
+import cn.sliew.scaleph.system.util.SystemUtil;
 import cn.sliew.scaleph.common.util.TemporaryClassLoaderContext;
 import cn.sliew.scaleph.dao.entity.master.meta.MetaDatasource;
 import cn.sliew.scaleph.dao.mapper.master.meta.MetaDatasourceMapper;

@@ -25,7 +25,7 @@ import javax.validation.constraints.Pattern;
 import java.util.Date;
 import java.util.List;
 
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;

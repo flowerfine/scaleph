@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.convert;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.system.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJobStep;
 import cn.sliew.scaleph.engine.seatunnel.service.dto.WsDiJobStepDTO;
 import cn.sliew.scaleph.system.service.convert.DictVoConvert;

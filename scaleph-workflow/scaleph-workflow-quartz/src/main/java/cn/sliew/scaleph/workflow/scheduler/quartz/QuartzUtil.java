@@ -20,7 +20,7 @@ package cn.sliew.scaleph.workflow.scheduler.quartz;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.system.util.BeanUtil;
 import cn.sliew.scaleph.workflow.service.dto.WorkflowScheduleDTO;
 import org.quartz.*;
 

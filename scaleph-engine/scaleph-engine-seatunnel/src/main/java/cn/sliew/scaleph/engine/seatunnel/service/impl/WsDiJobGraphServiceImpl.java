@@ -21,7 +21,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.impl;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginName;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelPluginType;
-import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.system.util.BeanUtil;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobGraphService;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobLinkService;
 import cn.sliew.scaleph.engine.seatunnel.service.WsDiJobStepService;

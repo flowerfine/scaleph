@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.security.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.sliew.scaleph.common.util.BeanUtil;
+import cn.sliew.scaleph.system.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.security.SecPrivilege;
 import cn.sliew.scaleph.dao.mapper.master.security.SecPrivilegeMapper;
 import cn.sliew.scaleph.security.service.SecPrivilegeService;
