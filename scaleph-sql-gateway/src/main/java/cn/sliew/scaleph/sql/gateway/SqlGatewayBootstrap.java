@@ -29,14 +29,14 @@ import org.springframework.context.annotation.Configuration;
 public class SqlGatewayBootstrap {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
-    public SessionManager sessionManager() {
+    public SessionManager flinkSessionManager() {
         DefaultContext defaultContext =
                 DefaultContext.load(new org.apache.flink.configuration.Configuration());
         return new SessionManager(defaultContext);
     }
 
     @Bean
-    public SqlGatewayService sqlGatewayService(SessionManager sessionManager) {
+    public SqlGatewayService flinkSqlGatewayService(SessionManager sessionManager) {
         return new SqlGatewayServiceImpl(sessionManager);
     }
 }
