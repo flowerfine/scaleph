@@ -101,7 +101,6 @@ public class OptionsParser {
         try {
             return parser.parse(options, args, stopAtNonOptions);
         } catch (ParseException e) {
-            e.printStackTrace();
             throw new CliArgsException(e.getMessage());
         }
     }

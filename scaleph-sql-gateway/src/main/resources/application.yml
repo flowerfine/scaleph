@@ -1,0 +1,85 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+server:
+  port: 8082
+  tomcat.uri-encoding: UTF-8
+  servlet.context-path: /${spring.application.name}
+
+spring:
+  application.name: sql-gateway
+  profiles.active: dev
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
+  mvc.pathmatch.matching-strategy: ant_path_matcher
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      auto-commit: true
+      idle-timeout: 600000
+      pool-name: ${spring.application.name}
+      max-lifetime: 900000
+      connection-timeout: 10000
+      connection-test-query: SELECT 1
+      validation-timeout: 1000
+  redis:
+    timeout: 5000
+    lettuce:
+      pool:
+        max-active: 200
+        max-wait: 10000
+        max-idle: 20
+        min-idle: 0
+  devtools.remote.restart.enabled: false
+
+management:
+  endpoints.web.exposure.include: "*"
+
+logging:
+  level:
+    root: info
+
+knife4j:
+  enable: true
+  production: false
+  setting:
+    language: zh_cn
+    enable-footer: true
+    enable-debug: true
+    enable-open-api: true
+    enable-host: false
+    enable-host-text: localhost:9090
+  basic.enable: false
+  cors: true
+
+# 系统设置相关配置
+app:
+  name: ${spring.application.name}
+  workspace: /tmp/${spring.application.name}/workspace
+  engine:
+    flink:
+      state:
+        savepoints:
+          dir: /opt/flink/savepoints
+  plugin:
+    datasource:
+      dir: /opt/scaleph/plugin/datasource
