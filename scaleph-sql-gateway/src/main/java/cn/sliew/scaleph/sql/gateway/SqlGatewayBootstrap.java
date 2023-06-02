@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.sql.gateway;
 
+import org.apache.flink.configuration.GlobalConfiguration;
 import org.apache.flink.table.gateway.api.SqlGatewayService;
 import org.apache.flink.table.gateway.service.SqlGatewayServiceImpl;
 import org.apache.flink.table.gateway.service.context.DefaultContext;
@@ -25,14 +26,16 @@ import org.apache.flink.table.gateway.service.session.SessionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Collections;
+
 @Configuration
 public class SqlGatewayBootstrap {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
     public SessionManager flinkSessionManager() {
-        DefaultContext defaultContext =
-                DefaultContext.load(new org.apache.flink.configuration.Configuration());
-        return new SessionManager(defaultContext);
+        org.apache.flink.configuration.Configuration configuration = GlobalConfiguration.loadConfiguration();
+        DefaultContext defaultContext = new DefaultContext(configuration, Collections.emptyList());
+        return SessionManager.create(defaultContext);
     }
 
     @Bean

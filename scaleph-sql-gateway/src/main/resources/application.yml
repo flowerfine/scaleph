@@ -16,31 +16,19 @@
 #
 
 server:
-  port: 8080
+  port: 8082
   tomcat.uri-encoding: UTF-8
   servlet.context-path: /${spring.application.name}
 
 spring:
-  application.name: scaleph
+  application.name: sql-gateway
   profiles.active: dev
-  messages:
-    encoding: utf-8
-    basename: static/i18n/messages
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
     default-property-inclusion: non_null
-  mail:
-    username: xxxx@xxx.com
-    password: xxxxxxx
-    #    host: smtp.xxx.cn
-    port: 25
-    default-encoding: UTF-8
   mvc.pathmatch.matching-strategy: ant_path_matcher
-  servlet.multipart:
-    enabled: true
-    max-file-size: 1024MB
-    max-request-size: 1024MB
+
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
@@ -61,28 +49,6 @@ spring:
         max-wait: 10000
         max-idle: 20
         min-idle: 0
-  quartz:
-    scheduler-name: appScheduler
-    job-store-type: jdbc
-    jdbc.initialize-schema: never
-    properties:
-      org.quartz:
-        threadPool:
-          threadCount: 5
-          threadPriority: 5
-          threadsInheritContextClassLoaderOfInitializingThread: true
-        dataSource:
-          quartzDS:
-            provider: hikaricp
-            maxConnections: 5
-        jobStore:
-          dataSource: quartzDS
-          class: org.quartz.impl.jdbcjobstore.JobStoreTX
-          driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
-          tablePrefix: qrtz_
-          isClustered: true
-          clusterCheckinInterval: 10000
-          useProperties: false
   devtools.remote.restart.enabled: false
 
 management:
@@ -105,14 +71,6 @@ knife4j:
   basic.enable: false
   cors: true
 
-# 线程池配置
-thread:
-  task:
-    pool:
-      corePoolSize: 20
-      maxPoolSize: 40
-      keepAliveSeconds: 300
-      queueCapacity: 50
 # 系统设置相关配置
 app:
   name: ${spring.application.name}
@@ -125,20 +83,3 @@ app:
   plugin:
     datasource:
       dir: /opt/scaleph/plugin/datasource
-
-# 用户登录token配置参数
-token:
-  tokenValidityInSeconds: 3600000
-  longTokenValidityInSeconds: 604800000
-
-uid:
-  timeBits: 30             # 时间位, 默认:30
-  workerBits: 16           # 机器位, 默认:16
-  seqBits: 7               # 序列号, 默认:7
-  epochStr: "2022-09-22"   # 初始时间, 默认:"2019-02-20"
-  enableBackward: true    # 是否容忍时钟回拨, 默认:true
-  maxBackwardSeconds: 1    # 时钟回拨最长容忍时间（秒）, 默认:1
-  CachedUidGenerator:     # CachedUidGenerator相关参数
-    boostPower: 3          # RingBuffer size扩容参数, 可提高UID生成的吞吐量, 默认:3
-    paddingFactor: 50      # 指定何时向RingBuffer中填充UID, 取值为百分比(0, 100), 默认为50
-    #scheduleInterval: 60    # 默认:不配置此项, 即不使用Schedule线程. 如需使用, 请指定Schedule线程时间间隔, 单位:秒

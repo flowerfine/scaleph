@@ -32,41 +32,6 @@ spring:
       jdbc-url: jdbc:mysql://127.0.0.1:3306/sakura?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
       username: root
       password: 123456
-  quartz:
-    properties:
-      org.quartz:
-        dataSource:
-          quartzDS:
-            driver: com.mysql.cj.jdbc.Driver
-            URL: jdbc:mysql://127.0.0.1:3306/scaleph?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
-            user: root
-            password: 123456
-  redis:
-    database: 0
-    host: 127.0.0.1
-    port: 6379
-    password: 123456
-
-app:
-  host: localhost:4200
-
-file-system:
-#  type: local
-  type: s3
-  proxy: false
-  bucket: ${spring.application.name}
-  endPoint: http://127.0.0.1:9000
-  accessKey: admin
-  secretKey: password
-#  type: oss
-#  bucket: ${spring.application.name}
-#  endPoint: Aliyun OSS endpoint to connect to
-#  accessKey: Aliyun access key ID
-#  secretKey: Aliyun access key secret
-#  type: hdfs
-#  hadoopConfPath: Hadoop conf path
-#  defaultFS: hdfs://localhost:9000
-
 
 # log
 logging:
