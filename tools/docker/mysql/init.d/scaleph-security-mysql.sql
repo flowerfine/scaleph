@@ -5,60 +5,56 @@ use scaleph;
 drop table if exists sec_user;
 create table sec_user
 (
-    id               bigint       not null auto_increment comment '自增主键',
-    user_name        varchar(32)  not null comment '用户名',
-    nick_name        varchar(50) comment '昵称',
-    email            varchar(128) not null comment '邮箱',
-    password         varchar(64)  not null comment '密码',
-    real_name        varchar(64) comment '真实姓名',
-    id_card_type     varchar(4) comment '证件类型',
-    id_card_no       varchar(18) comment '证件号码',
-    gender           varchar(4)            default '0' comment '性别',
-    nation           varchar(4) comment '民族',
-    birthday         date comment '出生日期',
-    qq               varchar(18) comment 'qq号码',
-    wechat           varchar(64) comment '微信号码',
-    mobile_phone     varchar(16) comment '手机号码',
-    user_status      varchar(4)   not null comment '用户状态',
-    summary          varchar(512) comment '用户简介',
-    register_channel varchar(4)   not null comment '注册渠道',
-    register_time    datetime              default current_timestamp comment '注册时间',
-    register_ip      varchar(16) comment '注册ip',
-    creator          varchar(32) comment '创建人',
-    create_time      datetime     not null default current_timestamp comment '创建时间',
-    editor           varchar(32) comment '修改人',
-    update_time      datetime     not null default current_timestamp on update current_timestamp comment '更新时间',
-    primary key (id),
-    unique key (user_name),
-    unique key (email),
-    unique key (mobile_phone),
-    key (update_time)
-) engine = innodb comment = '用户基本信息表';
--- init data
-insert into sec_user (id, user_name, nick_name, email, password, real_name, id_card_type, id_card_no, gender, nation,
-                      birthday, qq, wechat, mobile_phone, user_status, summary, register_channel, register_time,
-                      register_ip, creator, editor)
-values (1, 'sys_admin', '超级管理员', 'test@admin.com', '$2a$10$QX2DBrOBGLuhEmboliW66ulvQ5Hiy9GCdhsqqs1HgJVgslYhZEC6q',
-        null,
-        null, null, '0', null, null, null, null, null, '10', null, '01', '2021-12-25 21:51:17', '127.0.0.1', 'sys',
-        'sys');
-
-/* 角色表 */
-drop table if exists sec_role;
-create table sec_role
-(
-    id          bigint      not null auto_increment comment '角色id',
-    role_code   varchar(32) not null comment '角色编码',
-    role_name   varchar(64) not null comment '角色名称',
-    role_type   varchar(4)  not null comment '角色类型',
-    role_status varchar(4)  not null comment '角色状态',
-    role_desc   varchar(128) comment '角色备注',
+    id          bigint      not null auto_increment comment '自增主键',
+    type        varchar(4)  not null comment '用户类型。系统角色，用户定义',
+    user_name   varchar(32) not null comment '用户名',
+    nick_name   varchar(50) comment '昵称',
+    avatar      varchar(255) comment '头像',
+    email       varchar(128) comment '邮箱',
+    phone       varchar(16) comment '手机',
+    salt        varchar(64) not null comment '邮箱',
+    password    varchar(64) not null comment '密码',
+    gender      varchar(4)  not null default '0' comment '性别',
+    address     text comment '地址',
+    summary     text comment '用户简介',
+    order       int         not null default 0 comment '排序',
+    status      varchar(4)  not null comment '用户状态。启用，禁用',
+    remark      varchar(255) comment '备注',
     creator     varchar(32) comment '创建人',
     create_time datetime    not null default current_timestamp comment '创建时间',
     editor      varchar(32) comment '修改人',
     update_time datetime    not null default current_timestamp on update current_timestamp comment '更新时间',
     primary key (id),
-    unique key (role_code),
+    unique key (user_name),
+    key (update_time)
+) engine = innodb comment = 'security user';
+
+-- init data
+# insert into sec_user (id, user_name, nick_name, email, password, real_name, id_card_type, id_card_no, gender, nation,
+#                       birthday, qq, wechat, mobile_phone, user_status, summary, register_channel, register_time,
+#                       register_ip, creator, editor)
+# values (1, 'sys_admin', '超级管理员', 'test@admin.com', '$2a$10$QX2DBrOBGLuhEmboliW66ulvQ5Hiy9GCdhsqqs1HgJVgslYhZEC6q',
+#         null,
+#         null, null, '0', null, null, null, null, null, '10', null, '01', '2021-12-25 21:51:17', '127.0.0.1', 'sys',
+#         'sys');
+
+/* 角色表 */
+drop table if exists sec_role;
+create table sec_role
+(
+    id          bigint      not null auto_increment comment '自增主键',
+    type        varchar(4)  not null comment '角色类型。系统角色，用户定义',
+    code        varchar(32) not null comment '角色编码',
+    name        varchar(64) not null comment '角色名称',
+    order       int         not null default 0 comment '排序',
+    status      varchar(4)  not null comment '角色状态',
+    remark      varchar(255) comment '备注',
+    creator     varchar(32) comment '创建人',
+    create_time datetime    not null default current_timestamp comment '创建时间',
+    editor      varchar(32) comment '修改人',
+    update_time datetime    not null default current_timestamp on update current_timestamp comment '更新时间',
+    primary key (id),
+    unique key (code),
     key (update_time)
 ) engine = innodb comment = '角色表';
 
@@ -286,7 +282,8 @@ select r.id  as role_id,
        'sys' as editor
 from sec_privilege p,
      sec_role r
-where r.role_code in ('sys_normal') and p.resource_type in ('0', '1');
+where r.role_code in ('sys_normal')
+  and p.resource_type in ('0', '1');
 /* 部门表 */
 drop table if exists sec_dept;
 create table sec_dept
@@ -369,7 +366,7 @@ create table sec_user_role
     primary key (id),
     unique key (user_id, role_id),
     key (update_time)
-) engine = innodb comment = '用户角色关联表';
+) engine = innodb comment = 'security user-role relation';
 
 -- init data
 insert into sec_user_role (id, user_id, role_id, creator, editor)
