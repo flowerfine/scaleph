@@ -20,21 +20,34 @@ package cn.sliew.scaleph.security.service.param;
 
 import cn.sliew.scaleph.common.dict.security.RoleStatus;
 import cn.sliew.scaleph.common.dict.security.RoleType;
-import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class SecRoleListParam extends PaginationParam {
+public class SecRoleAddParam {
 
-    @ApiModelProperty(value = "角色类型")
+    @NotNull
+    @ApiModelProperty("type")
     private RoleType type;
+
+    @NotBlank
+    @Length(min = 1, max = 30)
+    @ApiModelProperty(value = "角色编码")
+    private String code;
+
+    @NotBlank
+    @Length(min = 1, max = 50)
+    @ApiModelProperty(value = "角色名称")
+    private String name;
 
     @ApiModelProperty(value = "角色状态")
     private RoleStatus status;
 
-    @ApiModelProperty(value = "角色名称")
-    private String name;
+    @Length(max = 100)
+    @ApiModelProperty(value = "角色备注")
+    private String remark;
 }

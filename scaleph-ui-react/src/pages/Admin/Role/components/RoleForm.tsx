@@ -7,12 +7,7 @@ import {SecRole} from "@/services/admin/typings";
 import {DictDataService} from "@/services/admin/dictData.service";
 import {RoleService} from "@/services/admin/role.service";
 
-const RoleForm: React.FC<ModalFormProps<SecRole>> = ({
-                                                       data,
-                                                       visible,
-                                                       onVisibleChange,
-                                                       onCancel,
-                                                     }) => {
+const RoleForm: React.FC<ModalFormProps<SecRole>> = ({data, visible, onVisibleChange, onCancel}) => {
   const intl = useIntl();
   const [form] = Form.useForm();
 
@@ -59,41 +54,43 @@ const RoleForm: React.FC<ModalFormProps<SecRole>> = ({
         wrapperCol={{span: 16}}
         initialValues={{
           id: data.id,
-          roleCode: data.roleCode,
-          roleName: data.roleName,
-          roleType: data.roleType?.value,
-          roleStatus: data.roleStatus?.value,
-          roleDesc: data.roleDesc
+          code: data.code,
+          name: data.name,
+          type: data.type?.value,
+          status: data.status?.value,
+          remark: data.remark
         }}
       >
         <ProFormDigit name="id" hidden/>
         <ProFormText
-          name={"roleName"}
-          label={intl.formatMessage({id: 'pages.admin.role.roleName'})}
+          name={"name"}
+          label={intl.formatMessage({id: 'pages.admin.role.name'})}
           rules={[{required: true}]}
         />
         <ProFormText
-          name={"roleCode"}
-          label={intl.formatMessage({id: 'pages.admin.role.roleCode'})}
+          name={"code"}
+          label={intl.formatMessage({id: 'pages.admin.role.code'})}
           rules={[{required: true}]}
         />
         <ProFormSelect
-          name={"roleType"}
-          label={intl.formatMessage({id: 'pages.admin.role.roleType'})}
-          request={() => DictDataService.listDictDataByType2(DICT_TYPE.roleType)}
+          name={"type"}
+          label={intl.formatMessage({id: 'pages.admin.role.type'})}
           allowClear={false}
           rules={[{required: true}]}
+          initialValue={"02"}
+          disabled={true}
+          request={() => DictDataService.listDictDataByType2(DICT_TYPE.roleType)}
         />
         <ProFormSelect
-          name={"roleStatus"}
-          label={intl.formatMessage({id: 'pages.admin.role.roleStatus'})}
+          name={"status"}
+          label={intl.formatMessage({id: 'pages.admin.role.status'})}
           request={() => DictDataService.listDictDataByType2(DICT_TYPE.roleStatus)}
           allowClear={false}
           rules={[{required: true}]}
         />
         <ProFormText
-          name={"roleDesc"}
-          label={intl.formatMessage({id: 'pages.admin.role.roleDesc'})}
+          name={"remark"}
+          label={intl.formatMessage({id: 'app.common.data.remark'})}
         />
       </ProForm>
     </Modal>

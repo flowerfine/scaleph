@@ -20,8 +20,6 @@ package cn.sliew.scaleph.api.controller.admin;
 
 import cn.hutool.json.JSONUtil;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.common.dict.security.RoleType;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.security.service.SecDeptRoleService;
 import cn.sliew.scaleph.security.service.SecRoleService;
@@ -31,7 +29,9 @@ import cn.sliew.scaleph.security.service.dto.SecDeptRoleDTO;
 import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
 import cn.sliew.scaleph.security.service.dto.SecUserDTO;
 import cn.sliew.scaleph.security.service.dto.SecUserRoleDTO;
+import cn.sliew.scaleph.security.service.param.SecRoleAddParam;
 import cn.sliew.scaleph.security.service.param.SecRoleListParam;
+import cn.sliew.scaleph.security.service.param.SecRoleUpdateParam;
 import cn.sliew.scaleph.security.web.OnlineUserService;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -95,23 +95,17 @@ public class SecRoleController {
     @PostMapping
     @ApiOperation(value = "新增角色", notes = "新增角色")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_ROLE_ADD)")
-    public ResponseEntity<ResponseVO> addRole(@Validated @RequestBody SecRoleDTO secRoleDTO) {
-        if (secRoleDTO.getType() == null) {
-            secRoleDTO.setType(RoleType.CUSTOM);
-        }
-        String roleCode = Constants.USER_DEFINE_ROLE_PREFIX + secRoleDTO.getCode();
-        secRoleDTO.setCode(roleCode);
-        this.secRoleService.insert(secRoleDTO);
+    public ResponseEntity<ResponseVO> addRole(@Validated @RequestBody SecRoleAddParam param) {
+        this.secRoleService.insert(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
     }
-
 
     @Logging
     @PutMapping
     @ApiOperation(value = "修改角色", notes = "修改角色")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_ROLE_EDIT)")
-    public ResponseEntity<ResponseVO> editRole(@Validated @RequestBody SecRoleDTO secRoleDTO) {
-        this.secRoleService.update(secRoleDTO);
+    public ResponseEntity<ResponseVO> editRole(@Validated @RequestBody SecRoleUpdateParam param) {
+        this.secRoleService.update(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
     }
 

@@ -14,11 +14,10 @@ export default {
   'pages.admin.user.role.roleDesc': '角色描述',
 
   'pages.admin.role': '角色管理',
-  'pages.admin.role.roleCode': '角色编码',
-  'pages.admin.role.roleName': '角色名称',
-  'pages.admin.role.roleType': '角色类型',
-  'pages.admin.role.roleStatus': '角色状态',
-  'pages.admin.role.roleDesc': '角色描述',
+  'pages.admin.role.code': '角色编码',
+  'pages.admin.role.name': '角色名称',
+  'pages.admin.role.type': '角色类型',
+  'pages.admin.role.status': '角色状态',
 
   'pages.admin.user': '用户',
   'pages.admin.user.userName': '用户名',

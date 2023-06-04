@@ -70,9 +70,9 @@ export type SecRole = {
 };
 
 export type SecRoleParam = QueryParam & {
-  roleName?: string;
-  roleType?: string;
-  roleStatus?: string;
+  type?: string;
+  name?: string;
+  status?: string;
 };
 
 export type SecDept = {
