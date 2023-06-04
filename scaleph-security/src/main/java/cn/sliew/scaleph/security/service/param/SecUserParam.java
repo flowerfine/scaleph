@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.security.service.param;
 
+import cn.sliew.scaleph.common.dict.security.UserStatus;
 import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -40,7 +41,7 @@ public class SecUserParam extends PaginationParam {
     private String nickName;
 
     @ApiModelProperty(value = "用户状态")
-    private String userStatus;
+    private UserStatus userStatus;
 
     @ApiModelProperty(value = "部门id")
     private String deptId;

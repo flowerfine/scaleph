@@ -23,7 +23,7 @@ import cn.sliew.scaleph.api.util.RequestParamUtil;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
 import cn.sliew.scaleph.common.exception.ScalephException;
 import cn.sliew.scaleph.security.util.SecurityUtil;
-import cn.sliew.scaleph.system.util.I18nUtil;
+import cn.sliew.scaleph.common.util.I18nUtil;
 import cn.sliew.scaleph.system.model.ResponseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionFailedException;

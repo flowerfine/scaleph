@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.flink.service.impl;
 
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.system.util.BeanUtil;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterConfig;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkClusterConfigMapper;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterConfigService;

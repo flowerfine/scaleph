@@ -13,12 +13,12 @@ create table sec_user
     email       varchar(128) comment '邮箱',
     phone       varchar(16) comment '手机',
     salt        varchar(64) not null comment '邮箱',
-    password    varchar(64) not null comment '密码',
+    `password`  varchar(64) not null comment '密码',
     gender      varchar(4)  not null default '0' comment '性别',
     address     text comment '地址',
     summary     text comment '用户简介',
-    order       int         not null default 0 comment '排序',
-    status      varchar(4)  not null comment '用户状态。启用，禁用',
+    `order`     int         not null default 0 comment '排序',
+    `status`    varchar(4)  not null comment '用户状态。启用，禁用',
     remark      varchar(255) comment '备注',
     creator     varchar(32) comment '创建人',
     create_time datetime    not null default current_timestamp comment '创建时间',
@@ -44,10 +44,10 @@ create table sec_role
 (
     id          bigint      not null auto_increment comment '自增主键',
     type        varchar(4)  not null comment '角色类型。系统角色，用户定义',
-    code        varchar(32) not null comment '角色编码',
-    name        varchar(64) not null comment '角色名称',
-    order       int         not null default 0 comment '排序',
-    status      varchar(4)  not null comment '角色状态',
+    `code`      varchar(32) not null comment '角色编码',
+    `name`      varchar(64) not null comment '角色名称',
+    `order`     int         not null default 0 comment '排序',
+    `status`    varchar(4)  not null comment '角色状态',
     remark      varchar(255) comment '备注',
     creator     varchar(32) comment '创建人',
     create_time datetime    not null default current_timestamp comment '创建时间',
@@ -58,12 +58,12 @@ create table sec_role
     key (update_time)
 ) engine = innodb comment = '角色表';
 
-insert into sec_role (role_code, role_name, role_type, role_status)
-values ('sys_super_admin', '超级系统管理员', '01', '1');
-insert into sec_role (role_code, role_name, role_type, role_status)
-values ('sys_admin', '系统管理员', '01', '1');
-insert into sec_role (role_code, role_name, role_type, role_status)
-values ('sys_normal', '普通用户', '01', '1');
+insert into sec_role (id, type, `code`, `name`, `order`, `status`, `creator`, `editor`)
+values (1, '01', 'sys_super_admin', '超级系统管理员', 0, '1', 'sys', 'sys');
+insert into sec_role (id, type, `code`, `name`, `order`, `status`, `creator`, `editor`)
+values (2, '01', 'sys_admin', '系统管理员', 1, '1', 'sys', 'sys');
+insert into sec_role (id, type, `code`, `name`, `order`, `status`, `creator`, `editor`)
+values (3, '01', 'sys_normal', '普通用户', 2, '1', 'sys', 'sys');
 
 /* 权限表 */
 drop table if exists sec_privilege;
@@ -274,7 +274,7 @@ select r.id  as role_id,
        'sys' as editor
 from sec_privilege p,
      sec_role r
-where r.role_code in ('sys_admin', 'sys_super_admin');
+where r.`code` in ('sys_admin', 'sys_super_admin');
 insert into sec_role_privilege (role_id, privilege_id, creator, editor)
 select r.id  as role_id,
        p.id  as privilege_id,
@@ -282,7 +282,7 @@ select r.id  as role_id,
        'sys' as editor
 from sec_privilege p,
      sec_role r
-where r.role_code in ('sys_normal')
+where r.`code` in ('sys_normal')
   and p.resource_type in ('0', '1');
 /* 部门表 */
 drop table if exists sec_dept;

@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.factory;
 
-import cn.sliew.scaleph.system.util.BeanUtil;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionClusterSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;

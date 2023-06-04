@@ -20,7 +20,7 @@ package cn.sliew.scaleph.resource.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelVersion;
-import cn.sliew.scaleph.system.util.BeanUtil;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceSeaTunnelRelease;
 import cn.sliew.scaleph.resource.service.dto.SeaTunnelReleaseDTO;
 import cn.sliew.scaleph.resource.service.param.ResourceListParam;

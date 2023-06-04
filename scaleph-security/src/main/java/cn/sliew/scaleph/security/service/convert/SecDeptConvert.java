@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.security.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.system.util.BeanUtil;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.security.SecDept;
 import cn.sliew.scaleph.security.service.dto.SecDeptDTO;
 import cn.sliew.scaleph.security.service.dto.SecDeptTreeDTO;

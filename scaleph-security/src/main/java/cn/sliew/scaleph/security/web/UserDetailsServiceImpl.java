@@ -18,11 +18,11 @@
 
 package cn.sliew.scaleph.security.web;
 
-import cn.sliew.scaleph.common.enums.UserStatusEnum;
+import cn.sliew.scaleph.common.dict.security.UserStatus;
+import cn.sliew.scaleph.common.util.I18nUtil;
 import cn.sliew.scaleph.security.service.SecUserService;
 import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
 import cn.sliew.scaleph.security.service.dto.SecUserDTO;
-import cn.sliew.scaleph.system.util.I18nUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
@@ -59,11 +59,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new BadCredentialsException(I18nUtil.get("response.error.login.password"));
         }
 
-        boolean flag = secUserDTO.getUserStatus() != null
-                &&
-                !(secUserDTO.getUserStatus().getValue().equals(UserStatusEnum.UNBIND_EMAIL.getValue()) ||
-                        secUserDTO.getUserStatus().getValue().equals(UserStatusEnum.BIND_EMAIL.getValue()));
-        if (flag) {
+        if (secUserDTO.getStatus() != UserStatus.ENABLED) {
             throw new BadCredentialsException(I18nUtil.get("response.error.login.disable"));
         }
 

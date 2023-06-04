@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.api.config;
 
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
-import cn.sliew.scaleph.system.util.SpringApplicationContextUtil;
+import cn.sliew.scaleph.common.util.SpringApplicationContextUtil;
 import cn.sliew.scaleph.security.web.CustomAccessDeniedHandler;
 import cn.sliew.scaleph.security.web.CustomAuthenticationEntryPoint;
 import cn.sliew.scaleph.security.web.TokenConfigurer;

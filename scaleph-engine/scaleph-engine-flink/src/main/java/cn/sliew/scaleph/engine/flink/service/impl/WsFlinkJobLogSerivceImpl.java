@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.service.impl;
 
-import cn.sliew.scaleph.system.util.BeanUtil;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobInstance;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobLog;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkJobLogMapper;

@@ -31,7 +31,7 @@ import cn.sliew.scaleph.mail.service.vo.EmailConfigVO;
 import cn.sliew.scaleph.system.service.SysConfigService;
 import cn.sliew.scaleph.system.service.dto.SysConfigDTO;
 import cn.sliew.scaleph.system.service.vo.BasicConfigVO;
-import cn.sliew.scaleph.system.util.I18nUtil;
+import cn.sliew.scaleph.common.util.I18nUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

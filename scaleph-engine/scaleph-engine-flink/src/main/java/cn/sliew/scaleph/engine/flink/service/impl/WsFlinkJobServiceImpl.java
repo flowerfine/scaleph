@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.engine.flink.service.impl;
 
 import cn.sliew.scaleph.common.exception.Rethrower;
-import cn.sliew.scaleph.system.util.BeanUtil;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJob;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkJobInstance;

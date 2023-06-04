@@ -18,11 +18,7 @@
 
 package cn.sliew.scaleph.security.service.impl;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import cn.sliew.scaleph.common.dict.security.UserStatus;
 import cn.sliew.scaleph.common.enums.UserStatusEnum;
 import cn.sliew.scaleph.dao.entity.master.security.SecRole;
 import cn.sliew.scaleph.dao.entity.master.security.SecUser;
@@ -37,6 +33,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -68,7 +69,7 @@ public class SecUserServiceImpl implements SecUserService {
     public int updateByUserName(SecUserDTO secUserDTO) {
         SecUser secUser = SecUserConvert.INSTANCE.toDo(secUserDTO);
         return this.secUserMapper.update(secUser, new LambdaQueryWrapper<SecUser>()
-            .eq(SecUser::getUserName, secUser.getUserName())
+                .eq(SecUser::getUserName, secUser.getUserName())
         );
     }
 
@@ -76,7 +77,7 @@ public class SecUserServiceImpl implements SecUserService {
     public int deleteById(Long id) {
         SecUser secUser = new SecUser();
         secUser.setId(id);
-        secUser.setUserStatus(UserStatusEnum.LOGOFF.getValue());
+        secUser.setStatus(UserStatus.DELETED);
         return this.secUserMapper.updateById(secUser);
     }
 
@@ -100,7 +101,7 @@ public class SecUserServiceImpl implements SecUserService {
     @Override
     public SecUserDTO selectOne(String userName) {
         SecUser secUser = this.secUserMapper.selectOne(
-            new LambdaQueryWrapper<SecUser>().eq(SecUser::getUserName, userName));
+                new LambdaQueryWrapper<SecUser>().eq(SecUser::getUserName, userName));
         return SecUserConvert.INSTANCE.toDto(secUser);
     }
 
@@ -110,13 +111,13 @@ public class SecUserServiceImpl implements SecUserService {
         secUser.setUserName(secUserParam.getUserName());
         secUser.setNickName(secUserParam.getNickName());
         secUser.setEmail(secUserParam.getEmail());
-        secUser.setUserStatus(secUserParam.getUserStatus());
+        secUser.setStatus(secUserParam.getUserStatus());
         Page<SecUserDTO> result = new Page<>();
         Page<SecUser> list = this.secUserMapper.selectPage(
-            new Page<>(secUserParam.getCurrent(), secUserParam.getPageSize()),
-            secUserParam.getDeptId(),
-            secUserParam.getRoleId(),
-            secUser
+                new Page<>(secUserParam.getCurrent(), secUserParam.getPageSize()),
+                secUserParam.getDeptId(),
+                secUserParam.getRoleId(),
+                secUser
         );
         List<SecUserDTO> dtoList = SecUserConvert.INSTANCE.toDto(list.getRecords());
         result.setCurrent(list.getCurrent());
@@ -129,28 +130,28 @@ public class SecUserServiceImpl implements SecUserService {
     @Override
     public SecUserDTO selectByEmail(String email) {
         SecUser secUser =
-            this.secUserMapper.selectOne(new LambdaQueryWrapper<SecUser>().eq(SecUser::getEmail, email));
+                this.secUserMapper.selectOne(new LambdaQueryWrapper<SecUser>().eq(SecUser::getEmail, email));
         return SecUserConvert.INSTANCE.toDto(secUser);
     }
 
     @Override
     public List<SecUserDTO> listByRole(Long roleId, String userName, String direction) {
         List<SecUser> list =
-            this.secUserMapper.selectByRoleOrDept("", String.valueOf(roleId), userName, direction);
+                this.secUserMapper.selectByRoleOrDept("", String.valueOf(roleId), userName, direction);
         return SecUserConvert.INSTANCE.toDto(list);
     }
 
     @Override
     public List<SecUserDTO> listByDept(Long deptId, String userName, String direction) {
         List<SecUser> list =
-            this.secUserMapper.selectByRoleOrDept(String.valueOf(deptId), "", userName, direction);
+                this.secUserMapper.selectByRoleOrDept(String.valueOf(deptId), "", userName, direction);
         return SecUserConvert.INSTANCE.toDto(list);
     }
 
     @Override
     public List<SecUserDTO> listByUserName(String userName) {
         List<SecUser> list = this.secUserMapper.selectList(new LambdaQueryWrapper<SecUser>()
-            .like(SecUser::getUserName, userName));
+                .like(SecUser::getUserName, userName));
         return SecUserConvert.INSTANCE.toDto(list);
     }
 

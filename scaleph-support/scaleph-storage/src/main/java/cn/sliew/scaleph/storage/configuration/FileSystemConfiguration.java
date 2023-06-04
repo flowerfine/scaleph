@@ -41,6 +41,8 @@ import java.net.URISyntaxException;
 @EnableConfigurationProperties(FileSystemProperties.class)
 public class FileSystemConfiguration {
 
+    @Autowired
+    private SystemUtil systemUtil;
 
     @SuppressWarnings("all")
     @Bean

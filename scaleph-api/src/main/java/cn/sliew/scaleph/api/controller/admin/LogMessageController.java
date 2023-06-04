@@ -29,7 +29,7 @@ import cn.sliew.scaleph.log.service.LogMessageService;
 import cn.sliew.scaleph.log.service.dto.LogMessageDTO;
 import cn.sliew.scaleph.log.service.param.LogMessageParam;
 import cn.sliew.scaleph.system.service.vo.DictVO;
-import cn.sliew.scaleph.system.util.I18nUtil;
+import cn.sliew.scaleph.common.util.I18nUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.base.Strings;
 import io.swagger.annotations.Api;

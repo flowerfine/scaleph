@@ -21,7 +21,7 @@ package cn.sliew.scaleph.meta.service.dto;
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.system.service.vo.DictVO;
-import cn.sliew.scaleph.system.util.I18nUtil;
+import cn.sliew.scaleph.common.util.I18nUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

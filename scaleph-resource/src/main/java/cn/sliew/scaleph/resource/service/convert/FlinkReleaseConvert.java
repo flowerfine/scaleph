@@ -20,7 +20,7 @@ package cn.sliew.scaleph.resource.service.convert;
 
 import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.system.util.BeanUtil;
+import cn.sliew.scaleph.common.util.BeanUtil;
 import cn.sliew.scaleph.dao.entity.master.resource.ResourceFlinkRelease;
 import cn.sliew.scaleph.resource.service.dto.FlinkReleaseDTO;
 import cn.sliew.scaleph.resource.service.param.FlinkReleaseListParam;

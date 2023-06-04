@@ -33,6 +33,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 
 /**
  * <p>
@@ -97,4 +98,6 @@ public class SecUserDTO extends BaseDTO {
 
     @ApiModelProperty("备注")
     private String remark;
+
+    private List<SecRoleDTO> roles;
 }
