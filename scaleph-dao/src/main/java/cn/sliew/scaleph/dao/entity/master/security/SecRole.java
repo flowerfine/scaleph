@@ -18,16 +18,15 @@
 
 package cn.sliew.scaleph.dao.entity.master.security;
 
-import java.util.List;
-
 import cn.sliew.scaleph.common.dict.security.RoleStatus;
 import cn.sliew.scaleph.common.dict.security.RoleType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
  * <p>
@@ -39,26 +38,28 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "sec_role", resultMap = "SecRoleMap")
-@ApiModel(value = "SecRole对象", description = "角色表")
 public class SecRole extends BaseDO {
 
     private static final long serialVersionUID = 2621684597930016649L;
 
-    @ApiModelProperty(value = "角色编码")
-    private String roleCode;
+    @TableField("type")
+    private RoleType type;
 
-    @ApiModelProperty(value = "角色名称")
-    private String roleName;
+    @TableField("`code`")
+    private String code;
 
-    @ApiModelProperty(value = "角色类型")
-    private RoleType roleType;
+    @TableField("`name`")
+    private String name;
 
-    @ApiModelProperty(value = "角色状态")
-    private RoleStatus roleStatus;
+    @TableField("`order`")
+    private Integer order;
 
-    @ApiModelProperty(value = "角色备注")
-    private String roleDesc;
+    @TableField("`status`")
+    private RoleStatus status;
 
-    @ApiModelProperty(value = "权限信息")
+    @TableField("remark")
+    private String remark;
+
+    @TableField(exist = false)
     private List<SecPrivilege> privileges;
 }

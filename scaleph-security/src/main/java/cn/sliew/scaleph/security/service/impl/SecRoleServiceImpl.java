@@ -101,7 +101,7 @@ public class SecRoleServiceImpl implements SecRoleService {
     @Override
     public SecRoleDTO selectOne(String roleCode) {
         SecRole secRole = this.secRoleMapper.selectOne(
-                new LambdaQueryWrapper<SecRole>().eq(SecRole::getRoleCode, roleCode));
+                new LambdaQueryWrapper<SecRole>().eq(SecRole::getCode, roleCode));
         return SecRoleConvert.INSTANCE.toDto(secRole);
     }
 
@@ -116,9 +116,9 @@ public class SecRoleServiceImpl implements SecRoleService {
     public Page<SecRoleDTO> listByPage(SecRoleListParam param) {
         Page<SecRole> page = new Page<>(param.getCurrent(), param.getPageSize());
         LambdaQueryWrapper<SecRole> queryWrapper = Wrappers.lambdaQuery(SecRole.class)
-                .eq(param.getRoleType() != null, SecRole::getRoleType, param.getRoleType())
-                .eq(param.getRoleStatus() != null, SecRole::getRoleStatus, param.getRoleStatus())
-                .like(StringUtils.hasText(param.getRoleName()), SecRole::getRoleName, param.getRoleName());
+                .eq(param.getRoleType() != null, SecRole::getType, param.getRoleType())
+                .eq(param.getRoleStatus() != null, SecRole::getStatus, param.getRoleStatus())
+                .like(StringUtils.hasText(param.getRoleName()), SecRole::getName, param.getRoleName());
         Page<SecRole> secRolePage = secRoleMapper.selectPage(page, queryWrapper);
         Page<SecRoleDTO> result = new Page<>(secRolePage.getCurrent(), secRolePage.getSize(), secRolePage.getTotal());
         List<SecRoleDTO> secRoleDTOS = SecRoleConvert.INSTANCE.toDto(secRolePage.getRecords());

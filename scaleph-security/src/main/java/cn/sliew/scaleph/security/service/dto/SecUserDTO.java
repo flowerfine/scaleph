@@ -72,11 +72,7 @@ public class SecUserDTO extends BaseDTO {
 
     @ApiModelProperty("手机")
     private String phone;
-
-    @JsonIgnore
-    @ApiModelProperty("salt")
-    private String salt;
-
+    
     @JsonIgnore
     @ApiModelProperty(value = "密码")
     private String password;

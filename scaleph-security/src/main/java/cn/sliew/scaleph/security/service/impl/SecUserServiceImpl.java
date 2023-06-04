@@ -30,6 +30,7 @@ import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
 import cn.sliew.scaleph.security.service.dto.SecUserDTO;
 import cn.sliew.scaleph.security.service.param.SecUserParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -101,7 +102,7 @@ public class SecUserServiceImpl implements SecUserService {
     @Override
     public SecUserDTO selectOne(String userName) {
         SecUser secUser = this.secUserMapper.selectOne(
-                new LambdaQueryWrapper<SecUser>().eq(SecUser::getUserName, userName));
+                Wrappers.lambdaQuery(SecUser.class).eq(SecUser::getUserName, userName));
         return SecUserConvert.INSTANCE.toDto(secUser);
     }
 

@@ -32,7 +32,6 @@
         <result column="avatar" property="avatar"/>
         <result column="email" property="email"/>
         <result column="phone" property="phone"/>
-        <result column="salt" property="salt"/>
         <result column="password" property="password"/>
         <result column="gender" property="gender"/>
         <result column="address" property="address"/>
@@ -45,8 +44,8 @@
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
         `type`, user_name, nick_name, avatar, email, phone,
-        salt, password, gender, address, summary, `order`,
-        status, remark
+        `password`, gender, address, summary, `order`,
+        `status`, remark
     </sql>
 
     <select id="selectPage" resultMap="BaseResultMap">
@@ -113,14 +112,14 @@
         <![CDATA[
          select distinct
                 role.role_id as id,
-                role.role_code,
+                role.`code`,
                 p.privilege_code,
                 p.privilege_name,
                 p.resource_path,
                 p.resource_type
            from (select t.id,
                         ar.role_id,
-                        r.role_code
+                        r.`code`
                    from sec_user t
                    join sec_user_role ar on t.id = ar.user_id
                    join sec_role r on ar.role_id = r.id
@@ -129,7 +128,7 @@
                   union
                  select t.id,
                         dr.role_id,
-                        r.role_code
+                        r.`code`
                    from sec_user t
                    join sec_user_dept ad on t.id = ad.user_id
                    join sec_dept_role dr on ad.dept_id = dr.dept_id

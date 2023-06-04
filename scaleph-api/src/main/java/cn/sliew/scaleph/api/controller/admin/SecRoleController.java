@@ -96,11 +96,11 @@ public class SecRoleController {
     @ApiOperation(value = "新增角色", notes = "新增角色")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.ButtonPrivilege).ADMIN_ROLE_ADD)")
     public ResponseEntity<ResponseVO> addRole(@Validated @RequestBody SecRoleDTO secRoleDTO) {
-        if (secRoleDTO.getRoleType() == null) {
-            secRoleDTO.setRoleType(RoleType.CUSTOM);
+        if (secRoleDTO.getType() == null) {
+            secRoleDTO.setType(RoleType.CUSTOM);
         }
-        String roleCode = Constants.USER_DEFINE_ROLE_PREFIX + secRoleDTO.getRoleCode();
-        secRoleDTO.setRoleCode(roleCode);
+        String roleCode = Constants.USER_DEFINE_ROLE_PREFIX + secRoleDTO.getCode();
+        secRoleDTO.setCode(roleCode);
         this.secRoleService.insert(secRoleDTO);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.CREATED);
     }

@@ -59,10 +59,7 @@ public class SecUser extends BaseDO {
     @TableField("phone")
     private String phone;
 
-    @TableField("salt")
-    private String salt;
-
-    @TableField("password")
+    @TableField("`password`")
     private String password;
 
     @TableField("gender")
@@ -74,10 +71,10 @@ public class SecUser extends BaseDO {
     @TableField("summary")
     private String summary;
 
-    @TableField("order")
+    @TableField("`order`")
     private Integer order;
 
-    @TableField("status")
+    @TableField("`status`")
     private UserStatus status;
 
     @TableField("remark")

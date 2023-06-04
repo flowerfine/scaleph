@@ -26,11 +26,12 @@
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
-        <result column="role_code" property="roleCode"/>
-        <result column="role_name" property="roleName"/>
-        <result column="role_type" property="roleType"/>
-        <result column="role_status" property="roleStatus"/>
-        <result column="role_desc" property="roleDesc"/>
+        <result column="type" property="type"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="order" property="order"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
     </resultMap>
 
     <resultMap id="RoleWithPrivilegeMap" type="cn.sliew.scaleph.dao.entity.master.security.SecRole">
@@ -39,11 +40,12 @@
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
-        <result column="role_code" property="roleCode"/>
-        <result column="role_name" property="roleName"/>
-        <result column="role_type" property="roleType"/>
-        <result column="role_status" property="roleStatus"/>
-        <result column="role_desc" property="roleDesc"/>
+        <result column="type" property="type"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="order" property="order"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
         <collection property="privileges" ofType="cn.sliew.scaleph.dao.entity.master.security.SecPrivilege">
             <id column="privilege_id" jdbcType="BIGINT" property="id"/>
             <result column="privilege_code" jdbcType="VARCHAR" property="privilegeCode"/>
@@ -53,14 +55,20 @@
         </collection>
     </resultMap>
 
+    <sql id="Base_Column_List">
+        id, creator, create_time, editor, update_time,
+        type, `code`, `name`, `order`, `status`, remark
+    </sql>
+
     <select id="selectRoleByDept" resultMap="SecRoleMap">
         select
         r.id,
-        r.role_code,
-        r.role_name,
-        r.role_type,
-        r.role_status,
-        r.role_desc,
+        r.type,
+        r.`code`,
+        r.`name`,
+        r.`order`,
+        r.`status`,
+        r.remark,
         r.creator,
         r.create_time,
         r.editor,

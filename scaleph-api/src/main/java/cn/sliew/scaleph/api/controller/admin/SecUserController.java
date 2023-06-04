@@ -50,6 +50,8 @@ import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -347,10 +349,9 @@ public class SecUserController {
     @PostMapping(path = "/admin/user")
     @ApiOperation(value = "新增用户", notes = "新增用户")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).USER_ADD)")
-    public ResponseEntity<ResponseVO> addUser(@Validated @RequestBody SecUserDTO secUserDTO,
-                                              HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ResponseVO> addUser(@Validated @RequestBody SecUserDTO secUserDTO, HttpServletRequest httpServletRequest) {
         Date date = new Date();
-        String randomPassword = this.randomPasswordGenerate(10);
+        String randomPassword = RandomStringUtils.randomAlphanumeric(10);
         secUserDTO.setPassword(this.passwordEncoder.encode(randomPassword));
         secUserDTO.setStatus(UserStatus.ENABLED);
         this.secUserService.insert(secUserDTO);

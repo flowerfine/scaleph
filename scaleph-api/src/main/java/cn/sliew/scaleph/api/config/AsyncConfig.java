@@ -48,7 +48,6 @@ public class AsyncConfig {
 
     @Bean
     public ThreadPoolTaskExecutor asyncExecutor() {
-        log.info("启动异步线程池");
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(config.getCorePoolSize());
         executor.setMaxPoolSize(config.getMaxPoolSize());

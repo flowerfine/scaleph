@@ -69,7 +69,7 @@ public class OnlineUserService {
         Set<String> roles = new TreeSet<>();
         Set<String> privileges = new TreeSet<>();
         for (SecRoleDTO r : userInfo.getUser().getRoles()) {
-            roles.add(r.getRoleCode().toLowerCase());
+            roles.add(r.getCode().toLowerCase());
             if (r.getPrivileges() == null) {
                 continue;
             }
@@ -134,7 +134,7 @@ public class OnlineUserService {
             Set<String> roles = new TreeSet<>();
             Set<String> privileges = new TreeSet<>();
             for (SecRoleDTO role : roleList) {
-                roles.add(role.getRoleCode().toLowerCase());
+                roles.add(role.getCode().toLowerCase());
                 if (role.getPrivileges() == null) {
                     continue;
                 }
@@ -155,14 +155,13 @@ public class OnlineUserService {
     @Async
     public void disableOnlineCacheRole(Long roleId) {
         SecRoleDTO secRoleDTO = secRoleService.selectOne(roleId);
-        String code = secRoleDTO.getRoleCode();
-        if (!StringUtils.isEmpty(code)) {
+        if (!StringUtils.isEmpty(secRoleDTO.getCode())) {
             List<String> keys = redisUtil.scan(Constants.ONLINE_TOKEN_KEY + "*");
             for (String key : keys) {
                 OnlineUserVO onlineUser = (OnlineUserVO) redisUtil.get(key);
                 if (onlineUser != null && onlineUser.getRoles() != null) {
                     for (String r : onlineUser.getRoles()) {
-                        if (code.equalsIgnoreCase(r)) {
+                        if (secRoleDTO.getCode().equalsIgnoreCase(r)) {
                             //清空权限数据
                             onlineUser.setPrivileges(null);
                             onlineUser.setRoles(null);

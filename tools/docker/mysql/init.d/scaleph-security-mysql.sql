@@ -12,7 +12,6 @@ create table sec_user
     avatar      varchar(255) comment '头像',
     email       varchar(128) comment '邮箱',
     phone       varchar(16) comment '手机',
-    salt        varchar(64) not null comment '邮箱',
     `password`  varchar(64) not null comment '密码',
     gender      varchar(4)  not null default '0' comment '性别',
     address     text comment '地址',
@@ -30,13 +29,11 @@ create table sec_user
 ) engine = innodb comment = 'security user';
 
 -- init data
-# insert into sec_user (id, user_name, nick_name, email, password, real_name, id_card_type, id_card_no, gender, nation,
-#                       birthday, qq, wechat, mobile_phone, user_status, summary, register_channel, register_time,
-#                       register_ip, creator, editor)
-# values (1, 'sys_admin', '超级管理员', 'test@admin.com', '$2a$10$QX2DBrOBGLuhEmboliW66ulvQ5Hiy9GCdhsqqs1HgJVgslYhZEC6q',
-#         null,
-#         null, null, '0', null, null, null, null, null, '10', null, '01', '2021-12-25 21:51:17', '127.0.0.1', 'sys',
-#         'sys');
+insert into sec_user (id, type, user_name, nick_name, avatar, email, phone, password,
+                      gender, address, summary, `order`, `status`, remark, creator, editor)
+values (1, '0', 'sys_admin', '超级管理员', null, 'test@admin.com', null,
+        '$2a$10$QX2DBrOBGLuhEmboliW66ulvQ5Hiy9GCdhsqqs1HgJVgslYhZEC6q',
+        '0', null, null, 0, '0', null, 'sys', 'sys');
 
 /* 角色表 */
 drop table if exists sec_role;
