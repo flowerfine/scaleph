@@ -16,19 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.service.convert;
+package cn.sliew.scaleph.config;
 
-import cn.sliew.scaleph.common.convert.BaseConvert;
-import cn.sliew.scaleph.dao.entity.master.security.SecUser;
-import cn.sliew.scaleph.security.service.dto.SecUserDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+public class Main {
 
-/**
- * @author gleiyu
- */
-@Mapper
-public interface SecUserConvert extends BaseConvert<SecUser, SecUserDTO> {
-    SecUserConvert INSTANCE = Mappers.getMapper(SecUserConvert.class);
+    public static void main(String[] args) {
 
+    }
 }
