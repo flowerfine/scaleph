@@ -48,6 +48,9 @@ public interface WsFlinkKubernetesJobConvert extends BaseConvert<WsFlinkKubernet
         if (dto.getFlinkArtifactSql() != null) {
             entity.setFlinkArtifactSqlId(dto.getFlinkArtifactSql().getId());
         }
+        if (dto.getWsDiJob() != null) {
+            entity.setWsDiJobId(dto.getWsDiJob().getId());
+        }
         return entity;
     }
 

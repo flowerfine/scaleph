@@ -445,6 +445,7 @@ CREATE TABLE ws_flink_kubernetes_job
     `type`                   varchar(4)   not null comment '作业artifact类型',
     flink_artifact_jar_id    bigint,
     flink_artifact_sql_id    bigint,
+    ws_di_job_id             bigint,
     remark                   varchar(255),
     creator                  varchar(32),
     create_time              datetime     not null default current_timestamp,

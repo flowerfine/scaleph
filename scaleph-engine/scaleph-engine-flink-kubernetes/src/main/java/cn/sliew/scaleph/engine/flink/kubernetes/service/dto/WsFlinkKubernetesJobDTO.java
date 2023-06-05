@@ -21,6 +21,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
+import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactSql;
@@ -66,6 +67,9 @@ public class WsFlinkKubernetesJobDTO extends BaseDTO {
 
     @ApiModelProperty("flink artifact sql")
     private WsFlinkArtifactSql flinkArtifactSql;
+
+    @ApiModelProperty("ws di job")
+    private WsDiJob wsDiJob;
 
     @ApiModelProperty("remark")
     private String remark;
