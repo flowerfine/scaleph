@@ -1,6 +1,6 @@
 import {useAccess, useIntl} from 'umi';
 import React, {useEffect, useRef, useState} from 'react';
-import {Button, Card, Col, Input, List, message, Modal, Row, Space, Tabs, Tooltip, Tree, Typography,} from 'antd';
+import {Button, Card, Col, Input, List, message, Modal, Row, Space, Tabs, Tag, Tooltip, Tree, Typography,} from 'antd';
 import {EditOutlined, RedoOutlined, StopOutlined, UserSwitchOutlined,} from '@ant-design/icons';
 import {ActionType, ProColumns, ProFormInstance, ProFormSelect, ProTable} from '@ant-design/pro-components';
 import {TreeNode} from '@/app.d';
@@ -50,6 +50,23 @@ const User: React.FC = () => {
 
   const tableColumns: ProColumns<SecUser>[] = [
     {
+      title: intl.formatMessage({id: 'pages.admin.user.type'}),
+      dataIndex: 'type',
+      render: (dom, entity) => {
+        return (<Tag>{entity.type?.label}</Tag>)
+      },
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
+        return (
+          <ProFormSelect
+            showSearch={false}
+            allowClear={true}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.userType)}
+          />
+        );
+      },
+      width: 200
+    },
+    {
       title: intl.formatMessage({id: 'pages.admin.user.userName'}),
       dataIndex: 'userName',
     },
@@ -60,30 +77,26 @@ const User: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.admin.user.email'}),
       dataIndex: 'email',
+      hideInSearch: true
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.user.realName'}),
-      dataIndex: 'realName',
-      hideInSearch: true,
-    },
-    {
-      title: intl.formatMessage({id: 'pages.admin.user.mobilePhone'}),
-      dataIndex: 'mobilePhone',
-      hideInSearch: true,
+      title: intl.formatMessage({id: 'pages.admin.user.phone'}),
+      dataIndex: 'phone',
+      hideInSearch: true
     },
     {
       title: intl.formatMessage({id: 'pages.admin.user.gender'}),
       dataIndex: 'gender',
       hideInSearch: true,
       render: (text, record, index) => {
-        return record.gender?.label;
+        return (<Tag>{record.gender?.label}</Tag>)
       },
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.user.userStatus'}),
+      title: intl.formatMessage({id: 'pages.admin.user.status'}),
       dataIndex: 'userStatus',
       render: (text, record, index) => {
-        return record.userStatus?.label;
+        return (<Tag>{record.status?.label}</Tag>)
       },
       renderFormItem: (item, {defaultRender, ...rest}, form) => {
         return (
@@ -111,6 +124,7 @@ const User: React.FC = () => {
                   shape="default"
                   type="link"
                   icon={<EditOutlined/>}
+                  disabled={record.type.value == '0' || record.status.value == '2'}
                   onClick={() => {
                     setUserFormData({visible: true, data: record});
                   }}
@@ -125,6 +139,7 @@ const User: React.FC = () => {
                     shape="default"
                     type="link"
                     icon={<StopOutlined/>}
+                    disabled={record.type.value == '0' || record.status.value == '2'}
                     onClick={() => {
                       Modal.confirm({
                         title: intl.formatMessage({id: 'app.common.operate.forbid.confirm.title'}),

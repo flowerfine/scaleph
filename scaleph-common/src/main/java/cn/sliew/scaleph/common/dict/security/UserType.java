@@ -28,8 +28,8 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum UserType implements DictInstance {
 
-    SYSTEM("0", "系统角色"),
-    CUSTOM("1", "用户定义"),
+    SYSTEM("0", "系统"),
+    CUSTOM("1", "自定义"),
     ;
 
     @JsonCreator
