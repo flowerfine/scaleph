@@ -253,7 +253,7 @@ const User: React.FC = () => {
                       }}
                     >
                       <Typography.Text style={{paddingRight: 12}}>
-                        {item.roleName}
+                        {item.name}
                       </Typography.Text>
                       {item.showOpIcon && (
                         <Space size={2}>
