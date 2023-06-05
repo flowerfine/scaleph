@@ -24,7 +24,6 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJ
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobUpdateParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface WsFlinkKubernetesJobService {
