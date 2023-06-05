@@ -23,7 +23,7 @@ import cn.sliew.scaleph.engine.flink.service.WsFlinkClusterInstanceService;
 import cn.sliew.scaleph.engine.flink.service.WsFlinkService;
 import cn.sliew.scaleph.engine.flink.service.dto.WsFlinkClusterInstanceDTO;
 import cn.sliew.scaleph.engine.flink.service.param.WsFlinkClusterInstanceParam;
-import cn.sliew.scaleph.system.vo.ResponseVO;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

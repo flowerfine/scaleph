@@ -18,7 +18,7 @@
 
 package cn.sliew.scaleph.security.web;
 
-import cn.sliew.scaleph.common.enums.UserStatusEnum;
+import cn.sliew.scaleph.common.dict.security.UserStatus;
 import cn.sliew.scaleph.security.service.dto.SecUserDTO;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,11 +29,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 用户信息
- *
- * @author gleiyu
- */
 @Getter
 @Setter
 public class UserDetailInfo implements UserDetails {
@@ -63,26 +58,22 @@ public class UserDetailInfo implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonExpired() {
-        String userStatus = this.user.getUserStatus().getValue();
-        return !UserStatusEnum.LOGOFF.getValue().equals(userStatus);
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        String userStatus = this.user.getUserStatus().getValue();
-        return !UserStatusEnum.DISABLE.getValue().equals(userStatus);
-    }
-
-    @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    public boolean isAccountNonExpired() {
+        return user.getStatus() == UserStatus.ENABLED;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return user.getStatus() == UserStatus.ENABLED;
+    }
+
+    @Override
     public boolean isEnabled() {
-        String userStatus = this.user.getUserStatus().getValue();
-        return !UserStatusEnum.LOGOFF.getValue().equals(userStatus) &&
-            !UserStatusEnum.DISABLE.getValue().equals(userStatus);
+        return user.getStatus() == UserStatus.ENABLED;
     }
 }

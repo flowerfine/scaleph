@@ -18,21 +18,22 @@
 
 package cn.sliew.scaleph.security.service.dto;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import java.util.Date;
-import java.util.List;
-
-import cn.sliew.scaleph.common.dto.BaseDTO;
-import cn.sliew.scaleph.system.service.vo.DictVO;
+import cn.sliew.scaleph.common.dict.common.Gender;
+import cn.sliew.scaleph.common.dict.security.UserStatus;
+import cn.sliew.scaleph.common.dict.security.UserType;
+import cn.sliew.scaleph.system.model.BaseDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import java.util.List;
 
 /**
  * <p>
@@ -48,6 +49,9 @@ public class SecUserDTO extends BaseDTO {
 
     private static final long serialVersionUID = -1821402534416659344L;
 
+    @ApiModelProperty("类型")
+    private UserType type;
+
     @NotBlank
     @Length(min = 5, max = 30)
     @Pattern(regexp = "\\w+$")
@@ -58,63 +62,38 @@ public class SecUserDTO extends BaseDTO {
     @ApiModelProperty(value = "昵称")
     private String nickName;
 
+    @ApiModelProperty("头像")
+    private String avatar;
+
     @Email
     @NotNull
     @ApiModelProperty(value = "邮箱")
     private String email;
 
+    @ApiModelProperty("手机")
+    private String phone;
+    
     @JsonIgnore
     @ApiModelProperty(value = "密码")
     private String password;
 
-    @Length(max = 30)
-    @ApiModelProperty(value = "真实姓名")
-    private String realName;
+    @ApiModelProperty("性别")
+    private Gender gender;
 
-    @ApiModelProperty(value = "证件类型")
-    private DictVO idCardType;
+    @ApiModelProperty("住址")
+    private String address;
 
-    @Length(max = 18)
-    @ApiModelProperty(value = "证件号码")
-    private String idCardNo;
-
-    @ApiModelProperty(value = "性别")
-    private DictVO gender;
-
-    @ApiModelProperty(value = "民族")
-    private DictVO nation;
-
-    @ApiModelProperty(value = "出生日期")
-    private Date birthday;
-
-    @Length(max = 15)
-    @ApiModelProperty(value = "qq号码")
-    private String qq;
-
-    @Length(max = 60)
-    @ApiModelProperty(value = "微信号码")
-    private String wechat;
-
-    @Length(max = 11)
-    @ApiModelProperty(value = "手机号码")
-    private String mobilePhone;
-
-    @ApiModelProperty(value = "用户状态")
-    private DictVO userStatus;
-
-    @Length(max = 500)
-    @ApiModelProperty(value = "用户简介")
+    @ApiModelProperty("自我介绍")
     private String summary;
 
-    @ApiModelProperty(value = "注册渠道")
-    private DictVO registerChannel;
+    @ApiModelProperty("排序")
+    private Integer order;
 
-    @ApiModelProperty(value = "注册时间")
-    private Date registerTime;
+    @ApiModelProperty("status")
+    private UserStatus status;
 
-    @ApiModelProperty(value = "注册ip")
-    private String registerIp;
+    @ApiModelProperty("备注")
+    private String remark;
 
-    @ApiModelProperty(value = "角色列表")
     private List<SecRoleDTO> roles;
 }

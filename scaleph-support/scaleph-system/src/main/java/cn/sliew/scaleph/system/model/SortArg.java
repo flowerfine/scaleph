@@ -16,36 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.service.param;
+package cn.sliew.scaleph.system.model;
 
-import cn.sliew.scaleph.common.dict.security.UserStatus;
-import cn.sliew.scaleph.system.model.PaginationParam;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-/**
- * @author gleiyu
- */
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class SecUserParam extends PaginationParam {
-
-    @ApiModelProperty(value = "用户名")
-    private String userName;
-
-    @ApiModelProperty(value = "邮箱")
-    private String email;
-
-    @ApiModelProperty(value = "昵称")
-    private String nickName;
-
-    @ApiModelProperty(value = "用户状态")
-    private UserStatus userStatus;
-
-    @ApiModelProperty(value = "部门id")
-    private String deptId;
-
-    @ApiModelProperty(value = "角色id")
-    private String roleId;
+public class SortArg {
+    private String field;
+    private String direction;
 }

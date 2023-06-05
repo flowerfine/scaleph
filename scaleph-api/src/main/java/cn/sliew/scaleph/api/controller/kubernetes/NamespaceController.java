@@ -20,7 +20,7 @@ package cn.sliew.scaleph.api.controller.kubernetes;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.kubernetes.service.NamespaceService;
-import cn.sliew.scaleph.system.vo.ResponseVO;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import io.fabric8.kubernetes.api.model.Namespace;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

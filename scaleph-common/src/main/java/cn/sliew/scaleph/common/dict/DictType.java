@@ -51,6 +51,7 @@ public enum DictType implements DictDefinition {
     MESSAGE_TYPE("message_type", "消息类型", MessageType.class),
     REGISTER_CHANNEL("register_channel", "注册渠道", RegisterChannel.class),
     LOGIN_TYPE("login_type", "登录类型", LoginType.class),
+    USER_TYPE("user_type", "用户类型", UserType.class),
     USER_STATUS("user_status", "用户状态", UserStatus.class),
     ROLE_TYPE("role_type", "角色类型", RoleType.class),
     ROLE_STATUS("role_status", "角色状态", RoleStatus.class),

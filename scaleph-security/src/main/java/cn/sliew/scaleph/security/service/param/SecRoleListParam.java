@@ -20,7 +20,7 @@ package cn.sliew.scaleph.security.service.param;
 
 import cn.sliew.scaleph.common.dict.security.RoleStatus;
 import cn.sliew.scaleph.common.dict.security.RoleType;
-import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,12 +29,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class SecRoleListParam extends PaginationParam {
 
-    @ApiModelProperty(value = "角色名称")
-    private String roleName;
-
     @ApiModelProperty(value = "角色类型")
-    private RoleType roleType;
+    private RoleType type;
 
     @ApiModelProperty(value = "角色状态")
-    private RoleStatus roleStatus;
+    private RoleStatus status;
+
+    @ApiModelProperty(value = "角色名称")
+    private String name;
 }

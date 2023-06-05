@@ -26,20 +26,53 @@ export type SysDictDataParam = QueryParam & {
   label?: string;
 };
 
+export type SecUser = {
+  id?: number;
+  type?: Dict;
+  userName?: string;
+  nickName?: string;
+  avatar?: string;
+  email?: string;
+  phone?: string;
+  password?: string;
+  gender?: Dict;
+  address?: string;
+  summary?: string;
+  order?: number;
+  status?: Dict;
+  roleCode?: string;
+  deptCode?: string;
+  remark?: string;
+  createTime: Date;
+  updateTime: Date;
+};
+
+export type SecUserParam = QueryParam & {
+  userName?: string;
+  nickName?: string;
+  email?: string;
+  userStatus?: string;
+  roleId?: string;
+  deptId?: string;
+};
+
 export type SecRole = {
   id?: number;
-  roleCode?: string;
-  roleName?: string;
-  roleType?: Dict;
-  roleStatus?: Dict;
-  roleDesc?: string;
+  type?: Dict;
+  code?: string;
+  name?: string;
+  order?: number;
+  status?: Dict;
   showOpIcon?: boolean;
+  remark?: string;
+  createTime: Date;
+  updateTime: Date;
 };
 
 export type SecRoleParam = QueryParam & {
-  roleName?: string;
-  roleType?: string;
-  roleStatus?: string;
+  type?: string;
+  name?: string;
+  status?: string;
 };
 
 export type SecDept = {
@@ -71,39 +104,6 @@ export type SecDeptTree = {
   pid: number;
   deptStatus?: Dict;
   children: SecDeptTreeNode[];
-};
-
-export type SecUser = {
-  id?: number;
-  userName?: string;
-  nickName?: string;
-  email?: string;
-  password?: string;
-  realName?: string;
-  idCardType?: Dict;
-  idCardNo?: string;
-  gender?: Dict;
-  nation?: Dict;
-  birthday?: number;
-  qq?: string;
-  wechat?: string;
-  mobilePhone?: string;
-  userStatus?: Dict;
-  summary?: string;
-  registerChannel?: Dict;
-  registerTime?: Date;
-  registerIp?: string;
-  roleCode?: string;
-  deptCode?: string;
-};
-
-export type SecUserParam = QueryParam & {
-  userName?: string;
-  nickName?: string;
-  email?: string;
-  userStatus?: string;
-  roleId?: string;
-  deptId?: string;
 };
 
 export type SecPrivilege = {

@@ -18,12 +18,12 @@
 
 package cn.sliew.scaleph.dao.entity.master.security;
 
-import java.util.Date;
-
+import cn.sliew.scaleph.common.dict.common.Gender;
+import cn.sliew.scaleph.common.dict.security.UserStatus;
+import cn.sliew.scaleph.common.dict.security.UserType;
 import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -37,64 +37,47 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sec_user")
-@ApiModel(value = "SecUser对象", description = "用户基本信息表")
 public class SecUser extends BaseDO {
 
     private static final long serialVersionUID = 2955806429097700570L;
 
-    @ApiModelProperty(value = "用户名")
+    @TableField("type")
+    private UserType type;
+
+    @TableField("user_name")
     private String userName;
 
-    @ApiModelProperty(value = "昵称")
+    @TableField("nick_name")
     private String nickName;
 
-    @ApiModelProperty(value = "邮箱")
+    @TableField("avatar")
+    private String avatar;
+
+    @TableField("email")
     private String email;
 
-    @ApiModelProperty(value = "密码")
+    @TableField("phone")
+    private String phone;
+
+    @TableField("`password`")
     private String password;
 
-    @ApiModelProperty(value = "真实姓名")
-    private String realName;
+    @TableField("gender")
+    private Gender gender;
 
-    @ApiModelProperty(value = "证件类型")
-    private String idCardType;
+    @TableField("address")
+    private String address;
 
-    @ApiModelProperty(value = "证件号码")
-    private String idCardNo;
-
-    @ApiModelProperty(value = "性别")
-    private String gender;
-
-    @ApiModelProperty(value = "民族")
-    private String nation;
-
-    @ApiModelProperty(value = "出生日期")
-    private Date birthday;
-
-    @ApiModelProperty(value = "qq号码")
-    private String qq;
-
-    @ApiModelProperty(value = "微信号码")
-    private String wechat;
-
-    @ApiModelProperty(value = "手机号码")
-    private String mobilePhone;
-
-    @ApiModelProperty(value = "用户状态")
-    private String userStatus;
-
-    @ApiModelProperty(value = "用户简介")
+    @TableField("summary")
     private String summary;
 
-    @ApiModelProperty(value = "注册渠道")
-    private String registerChannel;
+    @TableField("`order`")
+    private Integer order;
 
-    @ApiModelProperty(value = "注册时间")
-    private Date registerTime;
+    @TableField("`status`")
+    private UserStatus status;
 
-    @ApiModelProperty(value = "注册ip")
-    private String registerIp;
-
+    @TableField("remark")
+    private String remark;
 
 }

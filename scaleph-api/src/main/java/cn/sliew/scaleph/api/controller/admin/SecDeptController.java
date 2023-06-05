@@ -30,7 +30,7 @@ import cn.sliew.scaleph.security.service.dto.SecDeptDTO;
 import cn.sliew.scaleph.security.service.dto.SecDeptTreeDTO;
 import cn.sliew.scaleph.security.service.dto.SecUserDeptDTO;
 import cn.sliew.scaleph.security.service.param.SecDeptListParam;
-import cn.sliew.scaleph.system.vo.ResponseVO;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

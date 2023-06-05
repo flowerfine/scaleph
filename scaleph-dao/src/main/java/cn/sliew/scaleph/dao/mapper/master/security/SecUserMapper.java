@@ -49,7 +49,7 @@ public interface SecUserMapper extends BaseMapper<SecUser> {
      */
     @Update({"<script>" +
         "update sec_user " +
-        "set user_status = #{userStatus} " +
+        "set `status` = #{userStatus} " +
         "where id in " +
         "<foreach item=\"id\" index=\"index\" collection =\"idList\" open=\"(\" close=\")\" separator=\",\"> #{id}</foreach>" +
         "</script>"})

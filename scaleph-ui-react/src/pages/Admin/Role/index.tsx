@@ -22,21 +22,21 @@ const RoleWeb: React.FC = () => {
 
   const tableColumns: ProColumns<SecRole>[] = [
     {
-      title: intl.formatMessage({id: 'pages.admin.role.roleName'}),
-      dataIndex: 'roleName',
+      title: intl.formatMessage({id: 'pages.admin.role.name'}),
+      dataIndex: 'name',
       width: 200
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.role.roleCode'}),
-      dataIndex: 'roleCode',
+      title: intl.formatMessage({id: 'pages.admin.role.code'}),
+      dataIndex: 'code',
       hideInSearch: true,
       width: 200
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.role.roleType'}),
-      dataIndex: 'roleType',
+      title: intl.formatMessage({id: 'pages.admin.role.type'}),
+      dataIndex: 'type',
       render: (dom, entity) => {
-        return (<Tag>{entity.roleType?.label}</Tag>)
+        return (<Tag>{entity.type?.label}</Tag>)
       },
       renderFormItem: (item, {defaultRender, ...rest}, form) => {
         return (
@@ -50,10 +50,10 @@ const RoleWeb: React.FC = () => {
       width: 200
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.role.roleStatus'}),
-      dataIndex: 'roleStatus',
+      title: intl.formatMessage({id: 'pages.admin.role.status'}),
+      dataIndex: 'status',
       render: (dom, entity) => {
-        return (<Tag>{entity.roleStatus?.label}</Tag>)
+        return (<Tag>{entity.status?.label}</Tag>)
       },
       renderFormItem: (item, {defaultRender, ...rest}, form) => {
         return (
@@ -67,19 +67,19 @@ const RoleWeb: React.FC = () => {
       width: 200
     },
     {
-      title: intl.formatMessage({id: 'pages.admin.role.roleStatus'}),
-      dataIndex: 'roleStatus',
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
+      dataIndex: 'remark',
       hideInSearch: true,
-      width: 200
+      width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.stdata.createTime'}),
+      title: intl.formatMessage({id: 'app.common.data.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({id: 'pages.stdata.updateTime'}),
+      title: intl.formatMessage({id: 'app.common.data.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
@@ -100,6 +100,7 @@ const RoleWeb: React.FC = () => {
                   shape="default"
                   type="link"
                   icon={<EditOutlined/>}
+                  disabled={record.type.value == '01'}
                   onClick={() => setRoleFormData({visiable: true, data: record})}
                 ></Button>
               </Tooltip>

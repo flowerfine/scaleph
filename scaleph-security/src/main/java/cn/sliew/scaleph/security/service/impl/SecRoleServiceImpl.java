@@ -27,10 +27,13 @@ import cn.sliew.scaleph.security.service.SecRoleService;
 import cn.sliew.scaleph.security.service.SecUserRoleService;
 import cn.sliew.scaleph.security.service.convert.SecRoleConvert;
 import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
+import cn.sliew.scaleph.security.service.param.SecRoleAddParam;
 import cn.sliew.scaleph.security.service.param.SecRoleListParam;
+import cn.sliew.scaleph.security.service.param.SecRoleUpdateParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,15 +63,17 @@ public class SecRoleServiceImpl implements SecRoleService {
     private SecDeptRoleService secDeptRoleService;
 
     @Override
-    public int insert(SecRoleDTO secRoleDTO) {
-        SecRole secRole = SecRoleConvert.INSTANCE.toDo(secRoleDTO);
-        return this.secRoleMapper.insert(secRole);
+    public int insert(SecRoleAddParam param) {
+        SecRole record = new SecRole();
+        BeanUtils.copyProperties(param, record);
+        return this.secRoleMapper.insert(record);
     }
 
     @Override
-    public int update(SecRoleDTO secRoleDTO) {
-        SecRole secRole = SecRoleConvert.INSTANCE.toDo(secRoleDTO);
-        return this.secRoleMapper.updateById(secRole);
+    public int update(SecRoleUpdateParam param) {
+        SecRole record = new SecRole();
+        BeanUtils.copyProperties(param, record);
+        return this.secRoleMapper.updateById(record);
     }
 
     @Override
@@ -101,14 +106,14 @@ public class SecRoleServiceImpl implements SecRoleService {
     @Override
     public SecRoleDTO selectOne(String roleCode) {
         SecRole secRole = this.secRoleMapper.selectOne(
-                new LambdaQueryWrapper<SecRole>().eq(SecRole::getRoleCode, roleCode));
+                new LambdaQueryWrapper<SecRole>().eq(SecRole::getCode, roleCode));
         return SecRoleConvert.INSTANCE.toDto(secRole);
     }
 
     @Override
     public List<SecRoleDTO> listAll() {
         List<SecRole> list = this.secRoleMapper.selectList(
-                new LambdaQueryWrapper<SecRole>().orderByAsc(SecRole::getCreateTime));
+                new LambdaQueryWrapper<SecRole>().orderByAsc(SecRole::getId));
         return SecRoleConvert.INSTANCE.toDto(list);
     }
 
@@ -116,9 +121,10 @@ public class SecRoleServiceImpl implements SecRoleService {
     public Page<SecRoleDTO> listByPage(SecRoleListParam param) {
         Page<SecRole> page = new Page<>(param.getCurrent(), param.getPageSize());
         LambdaQueryWrapper<SecRole> queryWrapper = Wrappers.lambdaQuery(SecRole.class)
-                .eq(param.getRoleType() != null, SecRole::getRoleType, param.getRoleType())
-                .eq(param.getRoleStatus() != null, SecRole::getRoleStatus, param.getRoleStatus())
-                .like(StringUtils.hasText(param.getRoleName()), SecRole::getRoleName, param.getRoleName());
+                .eq(param.getType() != null, SecRole::getType, param.getType())
+                .eq(param.getStatus() != null, SecRole::getStatus, param.getStatus())
+                .like(StringUtils.hasText(param.getName()), SecRole::getName, param.getName())
+                .orderByAsc(SecRole::getId);
         Page<SecRole> secRolePage = secRoleMapper.selectPage(page, queryWrapper);
         Page<SecRoleDTO> result = new Page<>(secRolePage.getCurrent(), secRolePage.getSize(), secRolePage.getTotal());
         List<SecRoleDTO> secRoleDTOS = SecRoleConvert.INSTANCE.toDto(secRolePage.getRecords());

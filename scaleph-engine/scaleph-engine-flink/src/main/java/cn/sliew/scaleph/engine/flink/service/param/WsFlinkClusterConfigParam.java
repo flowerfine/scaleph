@@ -21,7 +21,7 @@ package cn.sliew.scaleph.engine.flink.service.param;
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkResourceProvider;
 import cn.sliew.scaleph.common.dict.flink.FlinkVersion;
-import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.system.model.PaginationParam;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkClusterConfig;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

@@ -18,34 +18,36 @@
 
 package cn.sliew.scaleph.security.service.param;
 
-import cn.sliew.scaleph.common.dict.security.UserStatus;
-import cn.sliew.scaleph.system.model.PaginationParam;
+import cn.sliew.scaleph.common.dict.security.RoleStatus;
+import cn.sliew.scaleph.common.dict.security.RoleType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
-/**
- * @author gleiyu
- */
-@EqualsAndHashCode(callSuper = true)
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Data
-public class SecUserParam extends PaginationParam {
+public class SecRoleAddParam {
 
-    @ApiModelProperty(value = "用户名")
-    private String userName;
+    @NotNull
+    @ApiModelProperty("type")
+    private RoleType type;
 
-    @ApiModelProperty(value = "邮箱")
-    private String email;
+    @NotBlank
+    @Length(min = 1, max = 30)
+    @ApiModelProperty(value = "角色编码")
+    private String code;
 
-    @ApiModelProperty(value = "昵称")
-    private String nickName;
+    @NotBlank
+    @Length(min = 1, max = 50)
+    @ApiModelProperty(value = "角色名称")
+    private String name;
 
-    @ApiModelProperty(value = "用户状态")
-    private UserStatus userStatus;
+    @ApiModelProperty(value = "角色状态")
+    private RoleStatus status;
 
-    @ApiModelProperty(value = "部门id")
-    private String deptId;
-
-    @ApiModelProperty(value = "角色id")
-    private String roleId;
+    @Length(max = 100)
+    @ApiModelProperty(value = "角色备注")
+    private String remark;
 }

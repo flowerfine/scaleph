@@ -16,35 +16,38 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.common.dto;
+package cn.sliew.scaleph.security.service.param;
 
+import cn.sliew.scaleph.common.dict.security.RoleStatus;
+import cn.sliew.scaleph.common.dict.security.RoleType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
-import java.io.Serializable;
-import java.util.Date;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-/**
- * @author gleiyu
- */
 @Data
-public class BaseDTO implements Serializable {
+public class SecRoleUpdateParam {
 
-    private static final long serialVersionUID = -3170630380110141492L;
-
-    @ApiModelProperty("ID")
+    @NotNull
+    @ApiModelProperty("id")
     private Long id;
 
-    @ApiModelProperty("creator")
-    private String creator;
+    @NotBlank
+    @Length(min = 1, max = 30)
+    @ApiModelProperty(value = "角色编码")
+    private String code;
 
-    @ApiModelProperty("create time")
-    private Date createTime;
+    @NotBlank
+    @Length(min = 1, max = 50)
+    @ApiModelProperty(value = "角色名称")
+    private String name;
 
-    @ApiModelProperty("editor")
-    private String editor;
+    @ApiModelProperty(value = "角色状态")
+    private RoleStatus status;
 
-    @ApiModelProperty("update time")
-    private Date updateTime;
-
+    @Length(max = 100)
+    @ApiModelProperty(value = "角色备注")
+    private String remark;
 }

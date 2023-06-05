@@ -18,8 +18,8 @@
 
 package cn.sliew.scaleph.security.web;
 
-import cn.sliew.scaleph.system.util.I18nUtil;
-import cn.sliew.scaleph.system.vo.ResponseVO;
+import cn.sliew.scaleph.common.util.I18nUtil;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

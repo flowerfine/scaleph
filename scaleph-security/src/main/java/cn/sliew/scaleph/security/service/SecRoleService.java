@@ -19,7 +19,9 @@
 package cn.sliew.scaleph.security.service;
 
 import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
+import cn.sliew.scaleph.security.service.param.SecRoleAddParam;
 import cn.sliew.scaleph.security.service.param.SecRoleListParam;
+import cn.sliew.scaleph.security.service.param.SecRoleUpdateParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
@@ -34,9 +36,9 @@ import java.util.List;
  */
 public interface SecRoleService {
 
-    int insert(SecRoleDTO secRoleDTO);
+    int insert(SecRoleAddParam param);
 
-    int update(SecRoleDTO secRoleDTO);
+    int update(SecRoleUpdateParam param);
 
     int deleteById(Long id);
 

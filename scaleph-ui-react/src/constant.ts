@@ -10,6 +10,7 @@ export const DICT_TYPE = {
   yesNo: 'yes_or_no',
   roleType: 'role_type',
   roleStatus: 'role_status',
+  userType: 'user_type',
   userStatus: 'user_status',
   deptStatus: 'dept_status',
   resourceType: 'resource_type',

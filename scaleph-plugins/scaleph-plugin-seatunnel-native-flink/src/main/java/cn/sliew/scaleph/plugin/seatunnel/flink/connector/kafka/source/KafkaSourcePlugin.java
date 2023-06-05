@@ -20,7 +20,7 @@ package cn.sliew.scaleph.plugin.seatunnel.flink.connector.kafka.source;
 
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.enums.JobStepTypeEnum;
-import cn.sliew.scaleph.common.param.PropertyUtil;
+import cn.sliew.scaleph.common.util.PropertyUtil;
 import cn.sliew.scaleph.common.util.SpringApplicationContextUtil;
 import cn.sliew.scaleph.meta.service.MetaDatasourceService;
 import cn.sliew.scaleph.meta.service.dto.MetaDatasourceDTO;

@@ -21,14 +21,15 @@ package cn.sliew.scaleph.api.controller.admin;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
 import cn.sliew.scaleph.api.annotation.Logging;
-import cn.sliew.scaleph.api.vo.*;
+import cn.sliew.scaleph.api.vo.LoginInfoVO;
+import cn.sliew.scaleph.api.vo.RegisterInfoVO;
+import cn.sliew.scaleph.api.vo.TransferVO;
 import cn.sliew.scaleph.cache.util.RedisUtil;
 import cn.sliew.scaleph.common.constant.Constants;
-import cn.sliew.scaleph.common.constant.DictConstants;
+import cn.sliew.scaleph.common.dict.security.UserStatus;
 import cn.sliew.scaleph.common.enums.ErrorShowTypeEnum;
-import cn.sliew.scaleph.common.enums.RegisterChannelEnum;
 import cn.sliew.scaleph.common.enums.ResponseCodeEnum;
-import cn.sliew.scaleph.common.enums.UserStatusEnum;
+import cn.sliew.scaleph.common.util.I18nUtil;
 import cn.sliew.scaleph.dao.DataSourceConstants;
 import cn.sliew.scaleph.mail.service.EmailService;
 import cn.sliew.scaleph.security.service.SecRoleService;
@@ -45,12 +46,12 @@ import cn.sliew.scaleph.security.vo.OnlineUserVO;
 import cn.sliew.scaleph.security.web.OnlineUserService;
 import cn.sliew.scaleph.security.web.TokenProvider;
 import cn.sliew.scaleph.security.web.UserDetailInfo;
-import cn.sliew.scaleph.system.service.vo.DictVO;
-import cn.sliew.scaleph.system.util.I18nUtil;
-import cn.sliew.scaleph.system.vo.ResponseVO;
+import cn.sliew.scaleph.system.model.ResponseVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -263,8 +264,7 @@ public class SecUserController {
                 SecUserDTO user = new SecUserDTO();
                 user.setUserName(userName);
                 user.setEmail(email);
-                user.setUserStatus(
-                        DictVO.toVO(DictConstants.USER_STATUS, UserStatusEnum.BIND_EMAIL.getValue()));
+                user.setStatus(UserStatus.ENABLED);
                 this.secUserActiveService.updateByUserAndCode(userActive);
                 this.secUserService.updateByUserName(user);
                 return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
@@ -319,14 +319,7 @@ public class SecUserController {
                 secUserDTO.setEmail(registerInfo.getEmail().toLowerCase());
                 String password = passwordEncoder.encode(registerInfo.getPassword());
                 secUserDTO.setPassword(password);
-                secUserDTO.setUserStatus(
-                        DictVO.toVO(DictConstants.USER_STATUS, UserStatusEnum.UNBIND_EMAIL.getValue()));
-                secUserDTO.setRegisterChannel(DictVO.toVO(DictConstants.REGISTER_CHANNEL,
-                        RegisterChannelEnum.REGISTER.getValue()));
-                secUserDTO.setRegisterTime(date);
-                //获取客户端ip地址
-                String ipAddress = ServletUtil.getClientIP(httpServletRequest);
-                secUserDTO.setRegisterIp(ipAddress);
+                secUserDTO.setStatus(UserStatus.ENABLED);
                 this.sendConfirmEmail(secUserDTO, null);
                 this.secUserService.insert(secUserDTO);
                 //授权普通用户角色
@@ -356,18 +349,11 @@ public class SecUserController {
     @PostMapping(path = "/admin/user")
     @ApiOperation(value = "新增用户", notes = "新增用户")
     @PreAuthorize("@svs.validate(T(cn.sliew.scaleph.common.constant.PrivilegeConstants).USER_ADD)")
-    public ResponseEntity<ResponseVO> addUser(@Validated @RequestBody SecUserDTO secUserDTO,
-                                              HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ResponseVO> addUser(@Validated @RequestBody SecUserDTO secUserDTO, HttpServletRequest httpServletRequest) {
         Date date = new Date();
-        secUserDTO.setRegisterTime(date);
-        String randomPassword = this.randomPasswordGenerate(10);
+        String randomPassword = RandomStringUtils.randomAlphanumeric(10);
         secUserDTO.setPassword(this.passwordEncoder.encode(randomPassword));
-        secUserDTO.setUserStatus(
-                DictVO.toVO(DictConstants.USER_STATUS, UserStatusEnum.UNBIND_EMAIL.getValue()));
-        secUserDTO.setRegisterChannel(DictVO.toVO(DictConstants.REGISTER_CHANNEL,
-                RegisterChannelEnum.BACKGROUND_IMPORT.getValue()));
-        String ipAddress = ServletUtil.getClientIP(httpServletRequest);
-        secUserDTO.setRegisterIp(ipAddress);
+        secUserDTO.setStatus(UserStatus.ENABLED);
         this.secUserService.insert(secUserDTO);
         this.sendConfirmEmail(secUserDTO, randomPassword);
         //授权普通用户角色

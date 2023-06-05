@@ -19,7 +19,7 @@
 package cn.sliew.scaleph.workflow.service.param;
 
 import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
-import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

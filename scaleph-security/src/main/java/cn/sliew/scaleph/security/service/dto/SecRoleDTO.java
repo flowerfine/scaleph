@@ -20,7 +20,7 @@ package cn.sliew.scaleph.security.service.dto;
 
 import cn.sliew.scaleph.common.dict.security.RoleStatus;
 import cn.sliew.scaleph.common.dict.security.RoleType;
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.model.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -39,25 +39,28 @@ import java.util.List;
 public class SecRoleDTO extends BaseDTO {
     private static final long serialVersionUID = 7604916855534200144L;
 
+    @ApiModelProperty("type")
+    private RoleType type;
+
     @NotBlank
     @Length(min = 1, max = 30)
     @ApiModelProperty(value = "角色编码")
-    private String roleCode;
+    private String code;
 
     @NotBlank
     @Length(min = 1, max = 50)
     @ApiModelProperty(value = "角色名称")
-    private String roleName;
+    private String name;
 
-    @ApiModelProperty(value = "角色类型")
-    private RoleType roleType;
+    @ApiModelProperty("order")
+    private Integer order;
 
     @ApiModelProperty(value = "角色状态")
-    private RoleStatus roleStatus;
+    private RoleStatus status;
 
     @Length(max = 100)
     @ApiModelProperty(value = "角色备注")
-    private String roleDesc;
+    private String remark;
 
     @ApiModelProperty(value = "权限信息")
     private List<SecPrivilegeDTO> privileges;

@@ -20,7 +20,7 @@ package cn.sliew.scaleph.log.service.param;
 
 import java.util.Date;
 
-import cn.sliew.scaleph.common.param.PaginationParam;
+import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

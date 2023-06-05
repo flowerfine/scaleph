@@ -20,7 +20,7 @@ package cn.sliew.scaleph.engine.seatunnel.service.dto;
 
 import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.seatunnel.SeaTunnelEngineType;
-import cn.sliew.scaleph.common.dto.BaseDTO;
+import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.engine.seatunnel.service.vo.JobGraphVO;
 import cn.sliew.scaleph.project.service.dto.WsFlinkArtifactDTO;
 import io.swagger.annotations.ApiModel;

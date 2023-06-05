@@ -20,128 +20,88 @@
 <mapper namespace="cn.sliew.scaleph.dao.mapper.master.security.SecUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="SecUserMap" type="cn.sliew.scaleph.dao.entity.master.security.SecUser">
+    <resultMap id="BaseResultMap" type="cn.sliew.scaleph.dao.entity.master.security.SecUser">
         <result column="id" property="id"/>
         <result column="creator" property="creator"/>
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
+        <result column="type" property="type"/>
         <result column="user_name" property="userName"/>
         <result column="nick_name" property="nickName"/>
+        <result column="avatar" property="avatar"/>
         <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
         <result column="password" property="password"/>
-        <result column="real_name" property="realName"/>
-        <result column="id_card_type" property="idCardType"/>
-        <result column="id_card_no" property="idCardNo"/>
         <result column="gender" property="gender"/>
-        <result column="nation" property="nation"/>
-        <result column="birthday" property="birthday"/>
-        <result column="qq" property="qq"/>
-        <result column="wechat" property="wechat"/>
-        <result column="mobile_phone" property="mobilePhone"/>
-        <result column="user_status" property="userStatus"/>
+        <result column="address" property="address"/>
         <result column="summary" property="summary"/>
-        <result column="register_channel" property="registerChannel"/>
-        <result column="register_time" property="registerTime"/>
-        <result column="register_ip" property="registerIp"/>
+        <result column="order" property="order"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
     </resultMap>
 
-    <select id="selectPage" resultMap="SecUserMap">
-        select t.id,
-        t.user_name,
-        t.nick_name,
-        t.email,
-        t.real_name,
-        t.id_card_type,
-        t.id_card_no,
-        t.gender,
-        t.nation,
-        t.birthday,
-        t.qq,
-        t.wechat,
-        t.mobile_phone,
-        t.user_status,
-        t.summary,
-        t.register_channel,
-        t.register_time,
-        t.register_ip,
-        t.creator,
-        t.create_time,
-        t.editor,
-        t.update_time
+    <sql id="Base_Column_List">
+        id, creator, create_time, editor, update_time,
+        `type`, user_name, nick_name, avatar, email, phone,
+        `password`, gender, address, summary, `order`,
+        `status`, remark
+    </sql>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        select t.*
         from sec_user t
         <where>
             <if test="user.userName != null and user.userName != ''">
-                and t.user_name like concat('%',#{user.userName,jdbcType=VARCHAR},'%')
+                and t.user_name like concat('%',#{user.userName},'%')
             </if>
             <if test="user.nickName != null and user.nickName != ''">
-                and t.nick_name like concat('%',#{user.nickName,jdbcType=VARCHAR},'%')
+                and t.nick_name like concat('%',#{user.nickName},'%')
             </if>
             <if test="user.email != null and user.email != ''">
-                and t.email like concat('%',#{user.email,jdbcType=VARCHAR},'%')
+                and t.email like concat('%',#{user.email},'%')
             </if>
-            <if test="user.userStatus != null and user.userStatus != ''">
-                and t.user_status = #{user.userStatus,jdbcType=VARCHAR}
+            <if test="user.status != null and user.status != ''">
+                and t.status = #{user.status}
             </if>
             <choose>
                 <when test="roleId != null and roleId != '' ">
                     and exists (select 1 from sec_user_role ur where t.id = ur.user_id
-                    and ur.role_id = #{roleId,jdbcType=BIGINT} )
+                    and ur.role_id = #{roleId} )
                 </when>
                 <when test="deptId != null and deptId != '' ">
                     and exists (select 1 from sec_user_dept ud where t.id = ud.user_id
-                    and ud.dept_id = #{deptId,jdbcType=BIGINT} )
+                    and ud.dept_id = #{deptId} )
                 </when>
             </choose>
         </where>
     </select>
 
 
-    <select id="selectByRoleOrDept" resultMap="SecUserMap">
-        select t.id,
-        t.user_name,
-        t.nick_name,
-        t.email,
-        t.real_name,
-        t.id_card_type,
-        t.id_card_no,
-        t.gender,
-        t.nation,
-        t.birthday,
-        t.qq,
-        t.wechat,
-        t.mobile_phone,
-        t.user_status,
-        t.summary,
-        t.register_channel,
-        t.register_time,
-        t.register_ip,
-        t.creator,
-        t.create_time,
-        t.editor,
-        t.update_time
+    <select id="selectByRoleOrDept" resultMap="BaseResultMap">
+        select t.*
         from sec_user t
         <where>
             <choose>
                 <when test="roleId != null and roleId != '' and direction == '0'.toString() ">
                     and not exists (select 1 from sec_user_role ur where t.id = ur.user_id
-                    and ur.role_id = #{roleId,jdbcType=BIGINT} )
+                    and ur.role_id = #{roleId} )
                 </when>
                 <when test="roleId != null and roleId != '' and direction == '1'.toString() ">
                     and exists (select 1 from sec_user_role ur where t.id = ur.user_id
-                    and ur.role_id = #{roleId,jdbcType=BIGINT} )
+                    and ur.role_id = #{roleId} )
                 </when>
                 <when test="deptId != null and deptId != '' and direction == '0'.toString() ">
                     and not exists (select 1 from sec_user_dept ud where t.id = ud.user_id
-                    and ud.dept_id = #{deptId,jdbcType=BIGINT} )
+                    and ud.dept_id = #{deptId} )
                 </when>
                 <when test="deptId != null and deptId != '' and direction == '1'.toString() ">
                     and exists (select 1 from sec_user_dept ud where t.id = ud.user_id
-                    and ud.dept_id = #{deptId,jdbcType=BIGINT} )
+                    and ud.dept_id = #{deptId} )
                 </when>
             </choose>
             <if test="userName != null and userName != '' ">
-                and t.user_name like concat('%',#{userName,jdbcType=VARCHAR},'%')
+                and t.user_name like concat('%',#{userName},'%')
             </if>
         </where>
         limit 200
@@ -152,33 +112,28 @@
         <![CDATA[
          select distinct
                 role.role_id as id,
-                role.role_code,
+                role.`code`,
                 p.privilege_code,
                 p.privilege_name,
                 p.resource_path,
                 p.resource_type
            from (select t.id,
                         ar.role_id,
-                        r.role_code
+                        r.`code`
                    from sec_user t
-                   join sec_user_role ar
-                     on t.id = ar.user_id
-                   join sec_role r
-                     on ar.role_id = r.id
-                  where t.user_name = #{userName,jdbcType=VARCHAR}
+                   join sec_user_role ar on t.id = ar.user_id
+                   join sec_role r on ar.role_id = r.id
+                  where t.user_name = #{userName}
                     and ar.role_id is not null
                   union
                  select t.id,
                         dr.role_id,
-                        r.role_code
+                        r.`code`
                    from sec_user t
-                   join sec_user_dept ad
-                     on t.id = ad.user_id
-                   join sec_dept_role dr
-                     on ad.dept_id = dr.dept_id
-                   join sec_role r
-                     on dr.role_id = r.id
-                  where t.user_name = #{userName,jdbcType=VARCHAR}
+                   join sec_user_dept ad on t.id = ad.user_id
+                   join sec_dept_role dr on ad.dept_id = dr.dept_id
+                   join sec_role r on dr.role_id = r.id
+                  where t.user_name = #{userName}
                     and dr.role_id is not null) role
            left join(select rp.role_id,
 			                rp.privilege_id,
@@ -187,8 +142,8 @@
 			                p.resource_path,
 			                p.resource_type
 			           from sec_role_privilege rp
-		               join sec_privilege p
-                         on rp.privilege_id = p.id) p
+		               join sec_privilege p on rp.privilege_id = p.id
+		               ) p
              on p.role_id = role.role_id
         ]]>
     </select>
