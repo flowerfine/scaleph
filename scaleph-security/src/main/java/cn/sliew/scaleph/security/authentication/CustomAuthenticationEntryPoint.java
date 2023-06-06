@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.web;
+package cn.sliew.scaleph.security.authentication;
 
 import cn.sliew.scaleph.common.util.I18nUtil;
 import cn.sliew.scaleph.system.model.ResponseVO;

@@ -20,6 +20,8 @@ package cn.sliew.scaleph.security.web;
 
 import cn.sliew.scaleph.cache.util.RedisUtil;
 import cn.sliew.scaleph.common.constant.Constants;
+import cn.sliew.scaleph.security.authentication.UserDetailInfo;
+import cn.sliew.scaleph.security.config.SecurityProperties;
 import cn.sliew.scaleph.security.service.SecRoleService;
 import cn.sliew.scaleph.security.service.SecUserService;
 import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;

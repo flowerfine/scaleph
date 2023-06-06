@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.web;
+package cn.sliew.scaleph.security.authentication;
 
 import cn.sliew.scaleph.common.dict.security.UserStatus;
 import cn.sliew.scaleph.security.service.dto.SecUserDTO;
@@ -59,17 +59,17 @@ public class UserDetailInfo implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return isAccountNonExpired();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return user.getStatus() == UserStatus.ENABLED;
+        return isEnabled();
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return user.getStatus() == UserStatus.ENABLED;
+        return isEnabled();
     }
 
     @Override

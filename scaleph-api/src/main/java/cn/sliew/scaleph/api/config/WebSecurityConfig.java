@@ -20,9 +20,9 @@ package cn.sliew.scaleph.api.config;
 
 import cn.sliew.scaleph.api.annotation.AnonymousAccess;
 import cn.sliew.scaleph.common.util.SpringApplicationContextUtil;
-import cn.sliew.scaleph.security.web.CustomAccessDeniedHandler;
-import cn.sliew.scaleph.security.web.CustomAuthenticationEntryPoint;
-import cn.sliew.scaleph.security.web.TokenConfigurer;
+import cn.sliew.scaleph.security.authentication.CustomAccessDeniedHandler;
+import cn.sliew.scaleph.security.authentication.CustomAuthenticationEntryPoint;
+import cn.sliew.scaleph.security.config.TokenConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.ApplicationContext;

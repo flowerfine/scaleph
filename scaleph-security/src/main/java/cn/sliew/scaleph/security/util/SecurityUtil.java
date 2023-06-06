@@ -35,13 +35,10 @@ public enum SecurityUtil {
      * @return UserDetails
      */
     public static UserDetails getCurrentUser() {
-        final Authentication authentication =
-            SecurityContextHolder.getContext().getAuthentication();
-        if (!ObjectUtils.isEmpty(authentication) &&
-            authentication.getPrincipal() instanceof UserDetails) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!ObjectUtils.isEmpty(authentication) && authentication.getPrincipal() instanceof UserDetails) {
             return (UserDetails) authentication.getPrincipal();
         }
-
         return null;
     }
 
@@ -51,13 +48,10 @@ public enum SecurityUtil {
      * @return username
      */
     public static String getCurrentUserName() {
-        final Authentication authentication =
-            SecurityContextHolder.getContext().getAuthentication();
-        if (!ObjectUtils.isEmpty(authentication) &&
-            authentication.getPrincipal() instanceof UserDetails) {
-            return ((UserDetails) authentication.getPrincipal()).getUsername();
+        UserDetails currentUser = getCurrentUser();
+        if (currentUser != null) {
+            return currentUser.getUsername();
         }
-
         return null;
     }
 }
