@@ -41,5 +41,7 @@ public class SqlGatewayController {
         GatewayInfo gatewayInfo = sqlGatewayService.getGatewayInfo();
         return new ResponseEntity<>(gatewayInfo, HttpStatus.OK);
     }
+
+
     
 }

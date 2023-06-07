@@ -18,44 +18,31 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.job;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.artifact.Artifact;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.savepoint.RestoreStrategy;
+import cn.sliew.scaleph.kubernetes.Constant;
+import cn.sliew.scaleph.kubernetes.Resource;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.fabric8.kubernetes.client.CustomResource;
+import io.fabric8.kubernetes.model.annotation.Group;
+import io.fabric8.kubernetes.model.annotation.Version;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.Map;
-
-public class FlinkDeploymentJob extends CustomResource<FlinkDeploymentSpec, FlinkDeploymentStatus> implements Job {
+@Data
+@Group(Constant.GROUP)
+@Version(Constant.VERSION)
+@EqualsAndHashCode
+@JsonPropertyOrder({"apiVersion", "kind", "metadata", "spec"})
+public class FlinkDeploymentJob extends CustomResource<FlinkDeploymentSpec, FlinkDeploymentStatus> implements Resource {
 
     @Override
-    public FlinkDeploymentMode getType() {
-        return FlinkDeploymentMode.APPLICATION;
+    public String getKind() {
+        return Constant.FLINK_DEPLOYMENT;
     }
 
     @Override
-    public String getName() {
-        return null;
-    }
-
-    @Override
-    public Integer getParallelism() {
-        return null;
-    }
-
-    @Override
-    public Artifact getArtifact() {
-        return null;
-    }
-
-    @Override
-    public RestoreStrategy getRestoreStrategy() {
-        return null;
-    }
-
-    @Override
-    public Map<String, String> getFlinkConfiguration() {
-        return null;
+    public String getApiVersion() {
+        return Constant.API_VERSION;
     }
 }
