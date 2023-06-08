@@ -924,5 +924,6 @@ export default {
   'pages.project.flink.kubernetes.job.artifact': 'Artifact',
 
   'pages.project.flink.kubernetes.job.detail': '详情',
+  'pages.project.flink.kubernetes.job.detail.yaml': 'YAML',
 
 };

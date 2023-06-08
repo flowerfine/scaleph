@@ -2,10 +2,7 @@ import {useIntl, useLocation} from "umi";
 import React from "react";
 import {Tabs} from "antd";
 import {WsFlinkKubernetesJob} from "@/services/project/typings";
-import FlinkKubernetesDeploymentDetailYAMLWeb from "@/pages/Project/Workspace/Kubernetes/Deployment/Detail/YAML";
-import FlinkKubernetesDeploymentDetailConfigWeb from "@/pages/Project/Workspace/Kubernetes/Deployment/Detail/Config";
-import FlinkKubernetesDeploymentDetailSnapshotWeb
-  from "@/pages/Project/Workspace/Kubernetes/Deployment/Detail/Snapshot";
+import FlinkKubernetesJobDetailYAMLWeb from "@/pages/Project/Workspace/Kubernetes/Job/Detail/YAML";
 
 const FlinkKubernetesJobDetailWeb: React.FC = () => {
   const intl = useIntl();
@@ -13,19 +10,9 @@ const FlinkKubernetesJobDetailWeb: React.FC = () => {
 
   const items = [
     {
-      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.detail.config'}),
-      key: 'config',
-      children: <FlinkKubernetesDeploymentDetailConfigWeb data={data}/>
-    },
-    {
-      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.detail.snapshot'}),
-      key: 'snapshot',
-      children: <FlinkKubernetesDeploymentDetailSnapshotWeb data={data}/>
-    },
-    {
-      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.detail.yaml'}),
+      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail.yaml'}),
       key: 'yaml',
-      children: <FlinkKubernetesDeploymentDetailYAMLWeb data={data}/>
+      children: <FlinkKubernetesJobDetailYAMLWeb data={data}/>
     },
   ]
   return (

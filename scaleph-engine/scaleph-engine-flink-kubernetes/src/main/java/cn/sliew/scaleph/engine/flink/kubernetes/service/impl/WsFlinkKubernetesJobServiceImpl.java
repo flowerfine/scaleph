@@ -62,7 +62,7 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
     }
 
     @Override
-    public Object asYAML(Long id) {
+    public Object asYaml(Long id) {
         WsFlinkKubernetesJobDTO wsFlinkKubernetesJobDTO = selectOne(id);
         switch (wsFlinkKubernetesJobDTO.getFlinkDeploymentMode()) {
             case APPLICATION:
