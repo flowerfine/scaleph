@@ -19,12 +19,18 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.job;
 
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
+import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.jackson.polymorphic.Polymorphic;
+import cn.sliew.scaleph.common.jackson.polymorphic.PolymorphicResolver;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.artifact.Artifact;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.savepoint.RestoreStrategy;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 
 import java.util.Map;
 
+@JsonTypeIdResolver(Job.JobResolver.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public interface Job extends Polymorphic<FlinkDeploymentMode> {
 
     String getName();
@@ -36,4 +42,24 @@ public interface Job extends Polymorphic<FlinkDeploymentMode> {
     RestoreStrategy getRestoreStrategy();
 
     Map<String, String> getFlinkConfiguration();
+
+    final class JobResolver extends PolymorphicResolver<FlinkDeploymentMode> {
+
+        public JobResolver() {
+            bindDefault(FlinkDeploymentJob.class);
+            bind(FlinkDeploymentMode.APPLICATION, FlinkDeploymentJob.class);
+            bind(FlinkDeploymentMode.SESSION, FlinkSessionJob.class);
+        }
+
+        @Override
+        protected String typeFromSubtype(Object obj) {
+            return subTypes.inverse().get(obj.getClass()).getValue();
+        }
+
+        @Override
+        protected Class<?> subTypeFromType(String id) {
+            Class<?> subType = subTypes.get(FlinkJobType.of(id));
+            return subType != null ? subType : defaultClass;
+        }
+    }
 }

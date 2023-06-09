@@ -31,6 +31,12 @@ export const WsFlinkKubernetesJobService = {
     });
   },
 
+  asYaml: async (id: number) => {
+    return request<ResponseBody<Record<string, any>>>(`${WsFlinkKubernetesJobService.url}/asYaml/` + id, {
+      method: 'GET',
+    });
+  },
+
   add: async (param: WsFlinkKubernetesJobAddParam) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesJobService.url}/`, {
       method: 'PUT',

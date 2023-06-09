@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.web;
+package cn.sliew.scaleph.security.config;
 
+import cn.sliew.scaleph.security.web.TokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

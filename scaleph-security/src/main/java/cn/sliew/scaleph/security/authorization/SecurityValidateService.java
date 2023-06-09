@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.web;
+package cn.sliew.scaleph.security.authorization;
 
 import cn.sliew.scaleph.common.constant.Constants;
 import cn.sliew.scaleph.security.util.SecurityUtil;

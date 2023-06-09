@@ -61,6 +61,14 @@ public class WsFlinkKubernetesJobController {
     }
 
     @Logging
+    @GetMapping("/asYaml/{id}")
+    @ApiOperation(value = "查询 YAML 格式 Job", notes = "查询 YAML 格式 Job")
+    public ResponseEntity<ResponseVO<Object>> asYaml(@PathVariable("id") Long id) {
+        Object dto = wsFlinkKubernetesJobService.asYaml(id);
+        return new ResponseEntity(ResponseVO.success(dto), HttpStatus.OK);
+    }
+
+    @Logging
     @PutMapping
     @ApiOperation(value = "创建 Job", notes = "创建 Job")
     public ResponseEntity<ResponseVO> insert(@RequestBody @Valid WsFlinkKubernetesJobAddParam param) {

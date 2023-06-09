@@ -21,6 +21,7 @@ package cn.sliew.scaleph.security.web;
 import cn.hutool.core.util.StrUtil;
 import cn.sliew.scaleph.cache.util.RedisUtil;
 import cn.sliew.scaleph.common.constant.Constants;
+import cn.sliew.scaleph.security.config.SecurityProperties;
 import cn.sliew.scaleph.security.vo.OnlineUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

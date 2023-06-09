@@ -907,6 +907,7 @@ export default {
   'pages.project.flink.kubernetes.deployment.name': '名称',
   'pages.project.flink.kubernetes.deployment.type': '类型',
   'pages.project.flink.kubernetes.deployment.namespace': 'Namespace',
+
   'pages.project.flink.kubernetes.deployment.detail': '详情',
   'pages.project.flink.kubernetes.deployment.detail.snapshot': '快照管理',
   'pages.project.flink.kubernetes.deployment.detail.yaml': 'YAML',
@@ -918,9 +919,11 @@ export default {
   'pages.project.flink.kubernetes.job.executionMode': '执行模式',
   'pages.project.flink.kubernetes.job.flinkDeploymentMode': '部署模式',
   'pages.project.flink.kubernetes.job.flinkDeployment': 'Deployment',
-  'pages.project.flink.kubernetes.job.flinkSessionCluster': 'Deployment',
+  'pages.project.flink.kubernetes.job.flinkSessionCluster': 'SessionCluster',
   'pages.project.flink.kubernetes.job.type': '作业类型',
   'pages.project.flink.kubernetes.job.artifact': 'Artifact',
 
+  'pages.project.flink.kubernetes.job.detail': '详情',
+  'pages.project.flink.kubernetes.job.detail.yaml': 'YAML',
 
 };

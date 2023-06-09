@@ -35,6 +35,7 @@
         <result column="type" property="type"/>
         <result column="flink_artifact_jar_id" property="flinkArtifactJarId"/>
         <result column="flink_artifact_sql_id" property="flinkArtifactSqlId"/>
+        <result column="ws_di_job_id" property="wsDiJobId"/>
         <result column="remark" property="remark"/>
         <association column="flink_deployment_id" property="flinkDeployment"
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesDeploymentMapper.selectById"/>
@@ -44,6 +45,8 @@
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactJarMapper.selectOne"/>
         <association column="flink_artifact_sql_id" property="flinkArtifactSql"
                      select="cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkArtifactSqlMapper.selectOne"/>
+        <association column="ws_di_job_id" property="wsDiJob"
+                     select="cn.sliew.scaleph.dao.mapper.master.ws.WsDiJobMapper.selectOne"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -51,7 +54,7 @@
         id, creator, create_time, editor, update_time,
         project_id, `name`, job_id, execution_mode,
         flink_deployment_mode, flink_deployment_id, flink_session_cluster_id,
-        `type`, flink_artifact_jar_id, flink_artifact_sql_id, remark
+        `type`, flink_artifact_jar_id, flink_artifact_sql_id, ws_di_job_id, remark
     </sql>
 
     <select id="list" resultMap="BaseResultMap">

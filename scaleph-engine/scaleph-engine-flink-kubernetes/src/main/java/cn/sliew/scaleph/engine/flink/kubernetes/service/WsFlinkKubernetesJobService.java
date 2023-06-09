@@ -24,7 +24,6 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJ
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesJobUpdateParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface WsFlinkKubernetesJobService {
@@ -32,6 +31,8 @@ public interface WsFlinkKubernetesJobService {
     Page<WsFlinkKubernetesJobDTO> list(WsFlinkKubernetesJobListParam param);
 
     WsFlinkKubernetesJobDTO selectOne(Long id);
+
+    Object asYaml(Long id);
 
     int insert(WsFlinkKubernetesJobAddParam param);
 

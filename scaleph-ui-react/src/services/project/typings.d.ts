@@ -403,6 +403,7 @@ export type WsFlinkKubernetesJob = {
   type: Dict;
   flinkArtifactJar?: WsFlinkArtifactJar;
   flinkArtifactSql?: WsFlinkArtifactSql;
+  wsDiJob?: WsDiJob;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;

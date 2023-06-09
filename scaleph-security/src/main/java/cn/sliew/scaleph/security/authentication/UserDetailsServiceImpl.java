@@ -16,26 +16,27 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.security.web;
+package cn.sliew.scaleph.security.authentication;
 
 import cn.sliew.scaleph.common.dict.security.UserStatus;
 import cn.sliew.scaleph.common.util.I18nUtil;
 import cn.sliew.scaleph.security.service.SecUserService;
+import cn.sliew.scaleph.security.service.dto.SecPrivilegeDTO;
 import cn.sliew.scaleph.security.service.dto.SecRoleDTO;
 import cn.sliew.scaleph.security.service.dto.SecUserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author gleiyu
@@ -80,11 +81,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private List<GrantedAuthority> toGrantedAuthority(List<SecRoleDTO> roles) {
         if (CollectionUtils.isEmpty(roles)) {
-            return null;
+            return Collections.emptyList();
         }
-        return roles.stream()
+        String[] privileges = roles.stream()
                 .flatMap(role -> role.getPrivileges().stream())
-                .map(privilege -> new SimpleGrantedAuthority(privilege.getPrivilegeCode()))
-                .collect(Collectors.toList());
+                .map(SecPrivilegeDTO::getPrivilegeCode)
+                .toArray(length -> new String[length]);
+        return AuthorityUtils.createAuthorityList(privileges);
     }
 }

@@ -79,7 +79,7 @@ const FlinkKubernetesJobWeb: React.FC = () => {
       dataIndex: 'artifact',
       hideInSearch: true,
       render: (dom, entity) => {
-        return entity.flinkArtifactJar ? entity.flinkArtifactJar.wsFlinkArtifact?.name : entity.flinkArtifactSql?.wsFlinkArtifact?.name
+        return entity.flinkArtifactJar ? entity.flinkArtifactJar.wsFlinkArtifact?.name : (entity.flinkArtifactSql ? entity.flinkArtifactSql?.wsFlinkArtifact?.name: entity.wsDiJob?.wsFlinkArtifact?.name)
       },
     },
     {
@@ -122,13 +122,13 @@ const FlinkKubernetesJobWeb: React.FC = () => {
             </Tooltip>
           )}
           {access.canAccess(PRIVILEGE_CODE.datadevJobEdit) && (
-            <Tooltip title={intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.detail'})}>
+            <Tooltip title={intl.formatMessage({id: 'pages.project.flink.kubernetes.job.detail'})}>
               <Button
                 shape="default"
                 type="link"
                 icon={<NodeIndexOutlined/>}
                 onClick={() => {
-                  history.push("/workspace/flink/kubernetes/deployment/detail", record)
+                  history.push("/workspace/flink/kubernetes/job/detail", record)
                 }}
               />
             </Tooltip>
