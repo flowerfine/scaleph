@@ -60,7 +60,7 @@ public class WsFlinkKubernetesDeploymentDTO extends BaseDTO {
     private String namespace;
 
     @ApiModelProperty("kubernetes options")
-    private KubernetesOptionsVO kuberenetesOptions;
+    private KubernetesOptionsVO kubernetesOptions;
 
     @ApiModelProperty("job manager spec")
     private JobManagerSpec jobManager;

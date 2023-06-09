@@ -326,25 +326,32 @@ CREATE TABLE ws_flink_checkpoint
 DROP TABLE IF EXISTS ws_flink_kubernetes_template;
 CREATE TABLE ws_flink_kubernetes_template
 (
-    id          bigint      not null auto_increment,
-    project_id  bigint      not null comment '项目id',
-    `name`      varchar(64) not null,
-    template_id varchar(64) not null,
-    metadata    text comment 'flink metadata',
-    spec        text comment 'flink spec',
-    creator     varchar(32),
-    create_time datetime    not null default current_timestamp,
-    editor      varchar(32),
-    update_time datetime    not null default current_timestamp on update current_timestamp,
+    id                  bigint       not null auto_increment,
+    project_id          bigint       not null comment '项目id',
+    `name`              varchar(64)  not null,
+    template_id         varchar(64)  not null,
+    namespace           varchar(255) not null,
+    kubernetes_options varchar(255),
+    job_manager         text,
+    task_manager        text,
+    pod_template        text,
+    flink_configuration text,
+    log_configuration   text,
+    ingress             text,
+    remark              varchar(255),
+    creator             varchar(32),
+    create_time         datetime     not null default current_timestamp,
+    editor              varchar(32),
+    update_time         datetime     not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
     UNIQUE KEY uniq_name (`name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment template';
 
-INSERT INTO `ws_flink_kubernetes_template` (`id`, `project_id`, `name`, `template_id`, `metadata`, `spec`, `creator`,
-                                            `editor`)
-VALUES (1, 1, 'default', '3f700ba0-a3e6-4831-b7dd-7e3a58421ef9', '{\"name\":\"default\",\"namespace\":\"default\"}',
-        '{"image":"flink:1.16","imagePullPolicy":"IfNotPresent","serviceAccount":"flink","flinkVersion":"v1_16","jobManager":{"resource":{"cpu":1,"memory":"1G"},"replicas":1},"taskManager":{"resource":{"cpu":1,"memory":"1G"},"replicas":1},"flinkConfiguration":{"execution.checkpointing.interval":"10s","execution.checkpointing.timeout":"10min","execution.checkpointing.max-concurrent-checkpoints":"1","execution.checkpointing.alignment-timeout":"10s","state.checkpoints.num-retained":"1","kubernetes.operator.savepoint.history.max.count":"10","kubernetes.operator.cluster.health-check.restarts.threshold":"64"}}sc',
-        'sys', 'sys');
+# INSERT INTO `ws_flink_kubernetes_template` (`id`, `project_id`, `name`, `template_id`, `metadata`, `spec`, `creator`,
+#                                             `editor`)
+# VALUES (1, 1, 'default', '3f700ba0-a3e6-4831-b7dd-7e3a58421ef9', '{\"name\":\"default\",\"namespace\":\"default\"}',
+#         '{"image":"flink:1.16","imagePullPolicy":"IfNotPresent","serviceAccount":"flink","flinkVersion":"v1_16","jobManager":{"resource":{"cpu":1,"memory":"1G"},"replicas":1},"taskManager":{"resource":{"cpu":1,"memory":"1G"},"replicas":1},"flinkConfiguration":{"execution.checkpointing.interval":"10s","execution.checkpointing.timeout":"10min","execution.checkpointing.max-concurrent-checkpoints":"1","execution.checkpointing.alignment-timeout":"10s","state.checkpoints.num-retained":"1","kubernetes.operator.savepoint.history.max.count":"10","kubernetes.operator.cluster.health-check.restarts.threshold":"64"}}sc',
+#         'sys', 'sys');
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_deployment;
 CREATE TABLE ws_flink_kubernetes_deployment
@@ -355,7 +362,7 @@ CREATE TABLE ws_flink_kubernetes_deployment
     `name`              varchar(255) not null,
     deployment_id       varchar(64)  not null,
     namespace           varchar(255) not null,
-    kuberenetes_options varchar(255),
+    kubernetes_options varchar(255),
     job_manager         text,
     task_manager        text,
     pod_template        text,
@@ -374,7 +381,7 @@ CREATE TABLE ws_flink_kubernetes_deployment
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment';
 
 INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `project_id`, `kind`, `name`, `deployment_id`, `namespace`,
-                                              `kuberenetes_options`, `job_manager`, `task_manager`, `pod_template`,
+                                              `kubernetes_options`, `job_manager`, `task_manager`, `pod_template`,
                                               `flink_configuration`, `log_configuration`, `ingress`, `deployment_name`,
                                               `job`, `remark`, `creator`, `editor`)
 VALUES (1, 1, 'FlinkDeployment', 'basic-example', 'default', 'b9d1f4e5-e508-44b1-a775-ed19d05b4a1f',
@@ -385,7 +392,7 @@ VALUES (1, 1, 'FlinkDeployment', 'basic-example', 'default', 'b9d1f4e5-e508-44b1
         NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `project_id`, `kind`, `name`, `deployment_id`, `namespace`,
-                                              `kuberenetes_options`, `job_manager`, `task_manager`, `pod_template`,
+                                              `kubernetes_options`, `job_manager`, `task_manager`, `pod_template`,
                                               `flink_configuration`, `log_configuration`, `ingress`, `deployment_name`,
                                               `job`, `remark`, `creator`, `editor`)
 VALUES (2, 1, 'FlinkDeployment', 'stateful-example', 'default', 'deda1bdc-f90e-41f5-a3aa-d8a7c31b22e6',
@@ -399,7 +406,7 @@ VALUES (2, 1, 'FlinkDeployment', 'stateful-example', 'default', 'deda1bdc-f90e-4
         NULL, 'sys', 'sys');
 
 INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `project_id`, `kind`, `name`, `deployment_id`, `namespace`,
-                                              `kuberenetes_options`, `job_manager`, `task_manager`, `pod_template`,
+                                              `kubernetes_options`, `job_manager`, `task_manager`, `pod_template`,
                                               `flink_configuration`, `log_configuration`, `ingress`, `deployment_name`,
                                               `job`, `remark`, `creator`, `editor`)
 VALUES (3, 1, 'FlinkDeployment', 'stateful-example2', 'default', '756d4946-f642-4b58-808e-d0a73378ee88',

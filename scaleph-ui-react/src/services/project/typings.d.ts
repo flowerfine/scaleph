@@ -320,8 +320,14 @@ export type WsFlinkKubernetesTemplate = {
   id?: number;
   projectId: number;
   name?: string;
-  metadata?: Record<string, any>;
-  spec?: Record<string, any>;
+  namespace: string;
+  kubernetesOptions?: KubernetesOptions;
+  jobManager?: Record<string, any>;
+  taskManager?: Record<string, any>;
+  podTemplate?: Record<string, any>;
+  flinkConfiguration?: Record<string, any>;
+  logConfiguration?: Record<string, any>;
+  ingress?: Record<string, any>;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
@@ -338,7 +344,7 @@ export type WsFlinkKubernetesDeployment = {
   kind: Dict;
   name: string;
   namespace: string;
-  kuberenetesOptions?: KubernetesOptions;
+  kubernetesOptions?: KubernetesOptions;
   jobManager?: Record<string, any>;
   taskManager?: Record<string, any>;
   podTemplate?: Record<string, any>;
