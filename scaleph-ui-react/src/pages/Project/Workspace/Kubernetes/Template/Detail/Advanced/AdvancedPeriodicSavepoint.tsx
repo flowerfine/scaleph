@@ -1,8 +1,8 @@
 import {ProCard, ProFormDigit, ProFormGroup, ProFormSelect, ProFormText} from "@ant-design/pro-components";
 
-const AdvancedSavepoint: React.FC = () => {
+const AdvancedPeriodicSavepoint: React.FC = () => {
   return (<ProCard
-    title={'Savepoint'}
+    title={'Periodic Savepoint'}
     headerBordered
     collapsible={true}
     defaultCollapsed>
@@ -43,4 +43,4 @@ const AdvancedSavepoint: React.FC = () => {
   </ProCard>);
 }
 
-export default AdvancedSavepoint;
+export default AdvancedPeriodicSavepoint;

@@ -18,6 +18,11 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.factory;
 
+import cn.sliew.scaleph.common.dict.flink.FlinkCheckpointRetain;
+import cn.sliew.scaleph.common.dict.flink.FlinkRestartStrategy;
+import cn.sliew.scaleph.common.dict.flink.FlinkSavepointType;
+import cn.sliew.scaleph.common.dict.flink.FlinkSemantic;
+import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.*;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplateSpec;
@@ -59,7 +64,7 @@ public enum FlinkTemplateFactory {
         FlinkTemplateSpec spec = new FlinkTemplateSpec();
         spec.setFlinkVersion(FlinkVersion.v1_16);
         spec.setImage("flink:1.16");
-        spec.setImagePullPolicy("IfNotPresent");
+        spec.setImagePullPolicy(ImagePullPolicy.IF_NOT_PRESENT.getValue());
         spec.setServiceAccount("flink");
         spec.setMode(KubernetesDeploymentMode.NATIVE);
         spec.setJobManager(createJobManager());
@@ -87,8 +92,49 @@ public enum FlinkTemplateFactory {
     private static Map<String, String> createFlinkConfiguration() {
         Map<String, String> flinkConfiguration = new HashMap<>();
         flinkConfiguration.put("web.cancel.enable", "false");
-        flinkConfiguration.put("execution.checkpointing.externalized-checkpoint-retention", "RETAIN_ON_CANCELLATION");
-        flinkConfiguration.put("execution.checkpointing.interval", "10s");
+        flinkConfiguration.putAll(createFailureTolerateConfiguration());
+        flinkConfiguration.putAll(createCheckpointConfiguration());
+        flinkConfiguration.putAll(createPeriodicSavepointConfiguration());
+        flinkConfiguration.putAll(createRestartConfiguration());
+        return flinkConfiguration;
+    }
+
+    private static Map<String, String> createFailureTolerateConfiguration() {
+        Map<String, String> flinkConfiguration = new HashMap<>();
+        flinkConfiguration.put("restart-strategy", FlinkRestartStrategy.FAILURE_RATE.getValue());
+        flinkConfiguration.put("restart-strategy.failure-rate.failure-rate-interval", "10min");
+        flinkConfiguration.put("restart-strategy.failure-rate.max-failures-per-interval", "30");
+        flinkConfiguration.put("restart-strategy.failure-rate.delay", "10s");
+        return flinkConfiguration;
+    }
+
+    private static Map<String, String> createCheckpointConfiguration() {
+        Map<String, String> flinkConfiguration = new HashMap<>();
+        flinkConfiguration.put("execution.checkpointing.mode", FlinkSemantic.EXACTLY_ONCE.getValue());
+        flinkConfiguration.put("execution.checkpointing.interval", "3min");
+        flinkConfiguration.put("execution.checkpointing.max-concurrent-checkpoints", "1");
+        flinkConfiguration.put("execution.checkpointing.min-pause", "3min");
+        flinkConfiguration.put("execution.checkpointing.timeout", "18min");
+        flinkConfiguration.put("execution.checkpointing.externalized-checkpoint-retention", FlinkCheckpointRetain.RETAIN_ON_CANCELLATION.getValue());
+        flinkConfiguration.put("state.checkpoints.num-retained", "10");
+        return flinkConfiguration;
+    }
+
+    private static Map<String, String> createPeriodicSavepointConfiguration() {
+        Map<String, String> flinkConfiguration = new HashMap<>();
+        flinkConfiguration.put("kubernetes.operator.savepoint.format.type", FlinkSavepointType.NATIVE.getValue());
+        flinkConfiguration.put("kubernetes.operator.periodic.savepoint.interval", "1h");
+        flinkConfiguration.put("kubernetes.operator.savepoint.history.max.count", "24");
+        flinkConfiguration.put("kubernetes.operator.savepoint.history.max.age", "72h");
+        flinkConfiguration.put("kubernetes.operator.savepoint.trigger.grace-period", "20min");
+        return flinkConfiguration;
+    }
+
+    private static Map<String, String> createRestartConfiguration() {
+        Map<String, String> flinkConfiguration = new HashMap<>();
+        flinkConfiguration.put("kubernetes.operator.cluster.health-check.enabled", "true");
+        flinkConfiguration.put("kubernetes.operator.cluster.health-check.restarts.window", "3d");
+        flinkConfiguration.put("kubernetes.operator.cluster.health-check.restarts.threshold", "12");
         return flinkConfiguration;
     }
 

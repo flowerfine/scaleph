@@ -4,11 +4,10 @@ const AdvancedBasic: React.FC = () => {
   return (<ProCard
     title={'Resource'}
     headerBordered
-    collapsible={true}
-    defaultCollapsed>
+    collapsible={true}>
     <ProFormGroup>
       <ProFormDigit
-        name="spec.jobManager.resource.cpu"
+        name="jobManager.resource.cpu"
         label={'JobManager CPU'}
         colProps={{span: 10, offset: 1}}
         initialValue={1.0}
@@ -18,7 +17,7 @@ const AdvancedBasic: React.FC = () => {
         }}
       />
       <ProFormDigit
-        name="spec.taskManager.resource.cpu"
+        name="taskManager.resource.cpu"
         label={'TaskManager CPU'}
         colProps={{span: 10, offset: 1}}
         initialValue={1.0}
@@ -28,19 +27,19 @@ const AdvancedBasic: React.FC = () => {
         }}
       />
       <ProFormText
-        name="spec.jobManager.resource.memory"
+        name="jobManager.resource.memory"
         label={'JobManager Memory'}
         colProps={{span: 10, offset: 1}}
         initialValue={"1G"}
       />
       <ProFormText
-        name="spec.taskManager.resource.memory"
+        name="taskManager.resource.memory"
         label={'TaskManager Memory'}
         colProps={{span: 10, offset: 1}}
         initialValue={"1G"}
       />
       <ProFormDigit
-        name="spec.jobManager.replicas"
+        name="jobManager.replicas"
         label={'JobManager Replicas'}
         colProps={{span: 10, offset: 1}}
         initialValue={1}
@@ -49,7 +48,7 @@ const AdvancedBasic: React.FC = () => {
         }}
       />
       <ProFormDigit
-        name="spec.taskManager.replicas"
+        name="taskManager.replicas"
         label={'TaskManager Replicas'}
         colProps={{span: 10, offset: 1}}
         initialValue={1}

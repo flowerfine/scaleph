@@ -1,37 +1,24 @@
-import {history, useIntl, useLocation, useModel} from "umi";
+import {history, useIntl, useLocation} from "umi";
 import React from "react";
 import {Button, Tabs} from "antd";
 import {FooterToolbar, PageContainer} from "@ant-design/pro-components";
-import YAML from "yaml";
 import DeploymentTemplateAdvanced from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced";
 import DeploymentTemplateYAML from "@/pages/Project/Workspace/Kubernetes/Template/Detail/YAML";
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
-import {
-  WsFlinkKubernetesTemplateService
-} from "@/services/project/WsFlinkKubernetesTemplateService";
+import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
+import {connect} from "@@/exports";
 
-const FlinkKubernetesDeploymentTemplateDetailWeb: React.FC = () => {
+const FlinkKubernetesDeploymentTemplateDetailWeb: React.FC = (props: any) => {
   const intl = useIntl();
   const data = useLocation().state as WsFlinkKubernetesTemplate
-
-  const {deploymentTemplate} = useModel('deploymentTemplateYAMLEditor', (model) => ({
-    deploymentTemplate: model.deploymentTemplate
-  }));
 
   const onCancel = () => {
     history.back()
   }
 
   const onSubmit = () => {
-    if (deploymentTemplate) {
-      const json = YAML.parse(deploymentTemplate)
-      const template = {
-        id: data.id,
-        name: json.metadata?.name,
-        metadata: json.metadata,
-        spec: json.spec
-      }
-      WsFlinkKubernetesTemplateService.update(template).then((response) => {
+    if (props.templateDetail.template) {
+      WsFlinkKubernetesTemplateService.updateTemplate(props.templateDetail.template).then((response) => {
         if (response.success) {
           history.back()
         }
@@ -54,4 +41,5 @@ const FlinkKubernetesDeploymentTemplateDetailWeb: React.FC = () => {
   );
 }
 
-export default FlinkKubernetesDeploymentTemplateDetailWeb;
+const mapModelToProps = ({templateDetail}: any) => ({templateDetail})
+export default connect(mapModelToProps)(FlinkKubernetesDeploymentTemplateDetailWeb);

@@ -34,21 +34,8 @@ const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesTemplate>
       onCancel={onCancel}
       onOk={() => {
         form.validateFields().then((values) => {
-          const metadataData = {
-            ...data.metadata,
-            name: values.name,
-            namespace: values.namespace
-          }
-          const param: WsFlinkKubernetesTemplate = {
-            id: values.id,
-            projectId: projectId,
-            name: values.name,
-            metadata: metadataData,
-            spec: data.spec ? data.spec : {},
-            remark: values.remark,
-          };
           data.id
-            ? WsFlinkKubernetesTemplateService.update(param).then((response) => {
+            ? WsFlinkKubernetesTemplateService.update({...values}).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
                 if (onVisibleChange) {
@@ -56,7 +43,7 @@ const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesTemplate>
                 }
               }
             })
-            : WsFlinkKubernetesTemplateService.add(param).then((response) => {
+            : WsFlinkKubernetesTemplateService.add({...values, projectId: projectId}).then((response) => {
               if (response.success) {
                 message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
                 if (onVisibleChange) {
@@ -76,7 +63,7 @@ const DeploymentTemplateForm: React.FC<ModalFormProps<WsFlinkKubernetesTemplate>
         initialValues={{
           id: data.id,
           name: data.name,
-          namespace: data.metadata?.namespace,
+          namespace: data.namespace,
           remark: data.remark
         }}
       >

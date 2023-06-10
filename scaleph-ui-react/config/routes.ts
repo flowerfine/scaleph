@@ -65,9 +65,84 @@ export default [
     routes: [
       {
         path: '/workspace',
-        redirect: '/workspace/job',
+        redirect: '/workspace/flink/kubernetes',
         pCode: PRIVILEGE_CODE.workspaceJobShow,
         access: 'normalRouteFilter',
+      },
+      {
+        name: 'project.flink.kubernetes',
+        path: '/workspace/flink/kubernetes',
+        icon: 'deploymentUnit',
+        pCode: PRIVILEGE_CODE.workspaceClusterShow,
+        access: 'normalRouteFilter',
+        routes: [
+          {
+            path: '/workspace/flink/kubernetes',
+            redirect: '/workspace/flink/kubernetes/template',
+            pCode: PRIVILEGE_CODE.workspaceJobShow,
+            access: 'normalRouteFilter',
+          },
+          {
+            name: 'template',
+            path: '/workspace/flink/kubernetes/template',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/Template',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
+            path: '/workspace/flink/kubernetes/template/detail',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/Template/Detail',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
+            name: 'session-cluster',
+            path: '/workspace/flink/kubernetes/session-cluster',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/SessionCluster',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
+            path: '/workspace/flink/kubernetes/session-cluster/steps',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/SessionCluster/Steps',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
+            name: 'deployment',
+            path: '/workspace/flink/kubernetes/deployment',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/Deployment',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
+            path: '/workspace/flink/kubernetes/deployment/detail',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/Deployment/Detail',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
+            name: 'job',
+            path: '/workspace/flink/kubernetes/job',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/Job',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+          {
+            path: '/workspace/flink/kubernetes/job/detail',
+            exact: true,
+            component: './Project/Workspace/Kubernetes/Job/Detail',
+            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
+            access: 'normalRouteFilter'
+          },
+        ]
       },
       {
         name: 'project.job',
@@ -174,75 +249,6 @@ export default [
             pCode: PRIVILEGE_CODE.workspaceClusterInstanceShow,
             access: 'normalRouteFilter'
           }
-        ]
-      },
-      {
-        name: 'project.flink.kubernetes',
-        path: '/workspace/flink/kubernetes',
-        icon: 'deploymentUnit',
-        pCode: PRIVILEGE_CODE.workspaceClusterShow,
-        access: 'normalRouteFilter',
-        routes: [
-          {
-            name: 'template',
-            path: '/workspace/flink/kubernetes/template',
-            exact: true,
-            component: './Project/Workspace/Kubernetes/Template',
-            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
-            access: 'normalRouteFilter'
-          },
-          {
-            path: '/workspace/flink/kubernetes/template/detail',
-            exact: true,
-            component: './Project/Workspace/Kubernetes/Template/Detail',
-            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
-            access: 'normalRouteFilter'
-          },
-          {
-            name: 'session-cluster',
-            path: '/workspace/flink/kubernetes/session-cluster',
-            exact: true,
-            component: './Project/Workspace/Kubernetes/SessionCluster',
-            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
-            access: 'normalRouteFilter'
-          },
-          {
-            path: '/workspace/flink/kubernetes/session-cluster/steps',
-            exact: true,
-            component: './Project/Workspace/Kubernetes/SessionCluster/Steps',
-            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
-            access: 'normalRouteFilter'
-          },
-          {
-            name: 'deployment',
-            path: '/workspace/flink/kubernetes/deployment',
-            exact: true,
-            component: './Project/Workspace/Kubernetes/Deployment',
-            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
-            access: 'normalRouteFilter'
-          },
-          {
-            path: '/workspace/flink/kubernetes/deployment/detail',
-            exact: true,
-            component: './Project/Workspace/Kubernetes/Deployment/Detail',
-            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
-            access: 'normalRouteFilter'
-          },
-          {
-            name: 'job',
-            path: '/workspace/flink/kubernetes/job',
-            exact: true,
-            component: './Project/Workspace/Kubernetes/Job',
-            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
-            access: 'normalRouteFilter'
-          },
-          {
-            path: '/workspace/flink/kubernetes/job/detail',
-            exact: true,
-            component: './Project/Workspace/Kubernetes/Job/Detail',
-            pCode: PRIVILEGE_CODE.workspaceClusterConfigShow,
-            access: 'normalRouteFilter'
-          },
         ]
       },
     ]

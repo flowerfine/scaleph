@@ -89,7 +89,7 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
 
     @Override
     public FlinkSessionCluster fromTemplate(WsFlinkKubernetesTemplateDTO dto) {
-        FlinkTemplate template = wsFlinkKubernetesTemplateService.asTemplate(dto);
+        FlinkTemplate template = wsFlinkKubernetesTemplateService.asYaml(dto);
         return FlinkSessionClusterFactory.create(template);
     }
 

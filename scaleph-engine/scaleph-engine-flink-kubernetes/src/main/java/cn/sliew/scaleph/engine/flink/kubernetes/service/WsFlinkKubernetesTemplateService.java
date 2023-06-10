@@ -20,7 +20,9 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateAddParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateListParam;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateUpdateParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
@@ -31,15 +33,17 @@ public interface WsFlinkKubernetesTemplateService {
 
     WsFlinkKubernetesTemplateDTO selectOne(Long id);
 
-    FlinkTemplate asTemplate(WsFlinkKubernetesTemplateDTO dto);
+    FlinkTemplate asYaml(WsFlinkKubernetesTemplateDTO dto);
 
-    FlinkTemplate asTemplateWithDefault(WsFlinkKubernetesTemplateDTO dto);
+    FlinkTemplate asYamlWithDefault(WsFlinkKubernetesTemplateDTO dto);
 
     WsFlinkKubernetesTemplateDTO mergeDefault(WsFlinkKubernetesTemplateDTO dto);
 
-    int insert(WsFlinkKubernetesTemplateDTO dto);
+    int insert(WsFlinkKubernetesTemplateAddParam param);
 
-    int update(WsFlinkKubernetesTemplateDTO dto);
+    int update(WsFlinkKubernetesTemplateUpdateParam param);
+
+    int updateTemplate(WsFlinkKubernetesTemplateDTO param);
 
     int deleteById(Long id);
 

@@ -22,9 +22,11 @@ import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesTemplateService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateAddParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateListParam;
-import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateUpdateParam;
 import cn.sliew.scaleph.system.model.ResponseVO;
+import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -61,18 +63,18 @@ public class WsFlinkKubernetesTemplateController {
     }
 
     @Logging
-    @PostMapping("asTemplate")
+    @PostMapping("asYaml")
     @ApiOperation(value = "转换模板信息", notes = "转换模板信息")
-    public ResponseEntity<ResponseVO<FlinkTemplate>> asTemplate(@RequestBody WsFlinkKubernetesTemplateDTO dto) {
-        FlinkTemplate template = wsFlinkKubernetesTemplateService.asTemplate(dto);
+    public ResponseEntity<ResponseVO<FlinkTemplate>> asYaml(@RequestBody WsFlinkKubernetesTemplateDTO dto) {
+        FlinkTemplate template = wsFlinkKubernetesTemplateService.asYaml(dto);
         return new ResponseEntity(ResponseVO.success(template), HttpStatus.OK);
     }
 
     @Logging
-    @PostMapping("asTemplateWithDefault")
+    @PostMapping("asYamlWithDefault")
     @ApiOperation(value = "转换模板和默认信息", notes = "转换模板和默认信息")
-    public ResponseEntity<ResponseVO<FlinkTemplate>> asTemplateWithDefault(@RequestBody WsFlinkKubernetesTemplateDTO dto) {
-        FlinkTemplate template = wsFlinkKubernetesTemplateService.asTemplateWithDefault(dto);
+    public ResponseEntity<ResponseVO<FlinkTemplate>> asYamlWithDefault(@RequestBody WsFlinkKubernetesTemplateDTO dto) {
+        FlinkTemplate template = wsFlinkKubernetesTemplateService.asYamlWithDefault(dto);
         return new ResponseEntity(ResponseVO.success(template), HttpStatus.OK);
     }
 
@@ -87,7 +89,7 @@ public class WsFlinkKubernetesTemplateController {
     @Logging
     @PutMapping
     @ApiOperation(value = "新增模板", notes = "新增模板")
-    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsFlinkKubernetesTemplateDTO param) throws UidGenerateException {
+    public ResponseEntity<ResponseVO> insert(@Valid @RequestBody WsFlinkKubernetesTemplateAddParam param) throws UidGenerateException {
         wsFlinkKubernetesTemplateService.insert(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
@@ -95,8 +97,16 @@ public class WsFlinkKubernetesTemplateController {
     @Logging
     @PostMapping
     @ApiOperation(value = "修改模板", notes = "修改模板")
-    public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkKubernetesTemplateDTO param) {
+    public ResponseEntity<ResponseVO> update(@Valid @RequestBody WsFlinkKubernetesTemplateUpdateParam param) {
         wsFlinkKubernetesTemplateService.update(param);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @PostMapping("template")
+    @ApiOperation(value = "修改模板内容", notes = "修改模板内容")
+    public ResponseEntity<ResponseVO> updateTemplate(@Valid @RequestBody WsFlinkKubernetesTemplateDTO param) {
+        wsFlinkKubernetesTemplateService.updateTemplate(param);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
     }
 

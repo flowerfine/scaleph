@@ -38,15 +38,19 @@ public enum FlinkDeploymentConverter implements ResourceConverter<WsFlinkKuberne
         builder.withName(source.getName()).withNamespace(source.getNamespace());
         deployment.setMetadata(builder.build());
         FlinkDeploymentSpec spec = new FlinkDeploymentSpec();
-        KubernetesOptionsVO kuberenetesOptions = source.getKuberenetesOptions();
-        spec.setImage(kuberenetesOptions.getImage());
-        spec.setServiceAccount(kuberenetesOptions.getServiceAccount());
-        spec.setFlinkVersion(EnumUtils.getEnum(FlinkVersion.class, kuberenetesOptions.getFlinkVersion()));
+        KubernetesOptionsVO kuberenetesOptions = source.getKubernetesOptions();
+        if (kuberenetesOptions != null) {
+            spec.setImage(kuberenetesOptions.getImage());
+            spec.setImagePullPolicy(kuberenetesOptions.getImagePullPolicy());
+            spec.setServiceAccount(kuberenetesOptions.getServiceAccount());
+            spec.setFlinkVersion(EnumUtils.getEnum(FlinkVersion.class, kuberenetesOptions.getFlinkVersion()));
+        }
         spec.setFlinkConfiguration(source.getFlinkConfiguration());
         spec.setJobManager(source.getJobManager());
         spec.setTaskManager(source.getTaskManager());
         spec.setPodTemplate(source.getPodTemplate());
         spec.setJob(source.getJob());
+        spec.setIngress(source.getIngress());
         deployment.setSpec(spec);
         return deployment;
     }
@@ -60,10 +64,11 @@ public enum FlinkDeploymentConverter implements ResourceConverter<WsFlinkKuberne
         dto.setNamespace(metadata.getNamespace());
         FlinkDeploymentSpec spec = target.getSpec();
         KubernetesOptionsVO optionsVO = new KubernetesOptionsVO();
-        optionsVO.setFlinkVersion(spec.getFlinkVersion().name());
         optionsVO.setImage(spec.getImage());
+        optionsVO.setImagePullPolicy(spec.getImagePullPolicy());
         optionsVO.setServiceAccount(spec.getServiceAccount());
-        dto.setKuberenetesOptions(optionsVO);
+        optionsVO.setFlinkVersion(spec.getFlinkVersion().name());
+        dto.setKubernetesOptions(optionsVO);
         dto.setJobManager(spec.getJobManager());
         dto.setTaskManager(spec.getTaskManager());
         dto.setPodTemplate(spec.getPodTemplate());
