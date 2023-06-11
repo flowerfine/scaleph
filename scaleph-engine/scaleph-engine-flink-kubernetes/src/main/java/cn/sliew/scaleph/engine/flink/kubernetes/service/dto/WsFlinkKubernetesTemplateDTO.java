@@ -29,7 +29,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
 import java.util.Map;
 
 /**
@@ -51,7 +50,6 @@ public class WsFlinkKubernetesTemplateDTO extends BaseDTO {
     @ApiModelProperty("template id")
     private String templateId;
 
-    @NotBlank
     @ApiModelProperty("namespace")
     private String namespace;
 

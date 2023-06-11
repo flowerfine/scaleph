@@ -4,7 +4,8 @@ import {Form} from "antd";
 import {ProCard} from "@ant-design/pro-components";
 import AdvancedBasic from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedBasic";
 import AdvancedCheckpoint from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedCheckpoint";
-import AdvancedPeriodicSavepoint from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedPeriodicSavepoint";
+import AdvancedPeriodicSavepoint
+  from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedPeriodicSavepoint";
 import AdvancedRestart from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedRestart";
 import AdvancedFaultTolerance
   from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedFaultTolerance";
@@ -17,23 +18,21 @@ import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubern
 const SessionClusterOptionsStepForm: React.FC = (props: any) => {
   const form = Form.useFormInstance()
 
-  console.log('SessionClusterOptionsStepForm', props)
-
   useEffect(() => {
-    if (props.sessionClusterStep2.template) {
-      form.setFieldsValue(WsFlinkKubernetesTemplateService.parseData(props.sessionClusterStep2.template))
+    if (props.sessionClusterStep2.sessionCluster) {
+      form.setFieldsValue(WsFlinkKubernetesTemplateService.parseData({...props.sessionClusterStep2.sessionCluster}))
     }
-  }, [props.sessionClusterStep2.template]);
+  }, [props.sessionClusterStep2.sessionCluster]);
 
   return (
     <ProCard>
       <AdvancedBasic/>
+      <AdvancedResource/>
       <AdvancedCheckpoint/>
       <AdvancedPeriodicSavepoint/>
       <AdvancedRestart/>
       <AdvancedFaultTolerance/>
       <AdvancedHighAvailability/>
-      <AdvancedResource/>
       <AdvancedAdditional/>
     </ProCard>
   )

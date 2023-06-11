@@ -395,8 +395,16 @@ export type WsFlinkKubernetesSessionCluster = {
   projectId: number;
   clusterCredentialId: number;
   name: string;
-  metadata?: Record<string, any>;
-  spec?: Record<string, any>;
+  namespace: string;
+  kubernetesOptions?: KubernetesOptionsVO;
+  jobManager?: Record<string, any>;
+  taskManager?: Record<string, any>;
+  podTemplate?: Record<string, any>;
+  flinkConfiguration?: Record<string, any>;
+  logConfiguration?: Record<string, any>;
+  ingress?: Record<string, any>;
+  status?: Record<string, any>;
+  remark?: string;
   createTime?: Date;
   updateTime?: Date;
 };

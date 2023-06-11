@@ -34,6 +34,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesS
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -80,6 +81,21 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
         WsFlinkKubernetesSessionCluster record = wsFlinkKubernetesSessionClusterMapper.selectById(id);
         checkState(record != null, () -> "flink kubernetes session cluster not exist for id = " + id);
         return WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDto(record);
+    }
+
+    @Override
+    public WsFlinkKubernetesSessionClusterDTO fromTemplate(Long templateId) {
+        WsFlinkKubernetesTemplateDTO wsFlinkKubernetesTemplateDTO = wsFlinkKubernetesTemplateService.selectOne(templateId);
+        WsFlinkKubernetesSessionClusterDTO wsFlinkKubernetesSessionClusterDTO = new WsFlinkKubernetesSessionClusterDTO();
+        wsFlinkKubernetesSessionClusterDTO.setKubernetesOptions(wsFlinkKubernetesTemplateDTO.getKubernetesOptions());
+        wsFlinkKubernetesSessionClusterDTO.setJobManager(wsFlinkKubernetesTemplateDTO.getJobManager());
+        wsFlinkKubernetesSessionClusterDTO.setTaskManager(wsFlinkKubernetesTemplateDTO.getTaskManager());
+        wsFlinkKubernetesSessionClusterDTO.setPodTemplate(wsFlinkKubernetesTemplateDTO.getPodTemplate());
+        wsFlinkKubernetesSessionClusterDTO.setFlinkConfiguration(wsFlinkKubernetesTemplateDTO.getFlinkConfiguration());
+        wsFlinkKubernetesSessionClusterDTO.setLogConfiguration(wsFlinkKubernetesTemplateDTO.getLogConfiguration());
+        wsFlinkKubernetesSessionClusterDTO.setIngress(wsFlinkKubernetesTemplateDTO.getIngress());
+        wsFlinkKubernetesSessionClusterDTO.setRemark("generated from template-" + wsFlinkKubernetesTemplateDTO.getName());
+        return wsFlinkKubernetesSessionClusterDTO;
     }
 
     @Override

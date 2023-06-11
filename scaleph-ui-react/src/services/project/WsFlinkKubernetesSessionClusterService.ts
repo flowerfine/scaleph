@@ -45,10 +45,10 @@ export const WsFlinkKubernetesSessionClusterService = {
     });
   },
 
-  fromTemplate: async (row: WsFlinkKubernetesTemplate) => {
+  fromTemplate: async (templateId: number) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/fromTemplate`, {
-      method: 'POST',
-      data: row,
+      method: 'GET',
+      params: {templateId: templateId},
     });
   },
 

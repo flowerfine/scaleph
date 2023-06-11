@@ -35,6 +35,8 @@ public interface WsFlinkKubernetesSessionClusterService {
 
     WsFlinkKubernetesSessionClusterDTO selectOne(Long id);
 
+    WsFlinkKubernetesSessionClusterDTO fromTemplate(Long templateId);
+
     FlinkSessionCluster asYAML(WsFlinkKubernetesSessionClusterDTO dto);
 
     FlinkSessionCluster fromTemplate(WsFlinkKubernetesTemplateDTO dto);

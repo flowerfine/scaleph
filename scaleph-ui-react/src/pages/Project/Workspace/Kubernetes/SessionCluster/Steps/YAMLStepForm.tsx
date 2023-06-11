@@ -1,15 +1,15 @@
-import {useModel} from "umi";
-import React, {useEffect, useRef} from "react";
+import {connect} from "umi";
+import React, {useEffect, useRef, useState} from "react";
 import {ProCard} from "@ant-design/pro-components";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
+import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
+import YAML from "yaml";
 
-const SessionClusterYAMLStepForm: React.FC = () => {
+const SessionClusterYAMLStepForm: React.FC = (props: any) => {
   const editorRef = useRef(null);
   const monaco = useMonaco();
 
-  const {sessionCluster} = useModel('sessionClusterStep', (model) => ({
-    sessionCluster: model.sessionCluster
-  }));
+  const [yaml, setYaml] = useState<string>()
 
   useEffect(() => {
     monaco?.languages.typescript.javascriptDefaults.setEagerModelSync(true);
@@ -19,6 +19,17 @@ const SessionClusterYAMLStepForm: React.FC = () => {
     editorRef.current = editor;
   }
 
+  useEffect(() => {
+    if (props.sessionClusterStep2.sessionCluster) {
+      WsFlinkKubernetesSessionClusterService.asYAML(props.sessionClusterStep2.sessionCluster).then(response => {
+        if (response.data) {
+          setYaml(YAML.stringify(response.data))
+        }
+      })
+    }
+
+  }, [props.sessionClusterStep2.sessionCluster]);
+
   return (
     <ProCard>
       <Editor
@@ -26,7 +37,7 @@ const SessionClusterYAMLStepForm: React.FC = () => {
         height="600px"
         language="yaml"
         theme="vs-white"
-        value={sessionCluster}
+        value={yaml}
         options={{
           selectOnLineNumbers: true,
           readOnly: true,
@@ -40,5 +51,5 @@ const SessionClusterYAMLStepForm: React.FC = () => {
 
   );
 }
-
-export default SessionClusterYAMLStepForm
+const mapModelToProps = ({sessionClusterStep2}: any) => ({sessionClusterStep2})
+export default connect(mapModelToProps)(SessionClusterYAMLStepForm);
