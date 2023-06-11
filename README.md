@@ -57,7 +57,9 @@ cd scaleph/tools/docker/deploy/scaleph
 docker-compose up
 ```
 
-Once all containers have started, the UI is ready to go at [http://localhost](http://localhost/), user can login by `sys_admin/123456`
+Once all containers have started, the UI is ready to go at [http://localhost](http://localhost/), user can login by `sys_admin/123456`.
+
+Next, read documentation website [quick start](https://flowerfine.github.io/scaleph-website/zh/docs/guide/quick-start/initialize) and try to run prefined SeaTunnel demos.
 
 ## Documentation
 
