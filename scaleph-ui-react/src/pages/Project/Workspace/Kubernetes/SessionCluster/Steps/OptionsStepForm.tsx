@@ -4,7 +4,7 @@ import {Form} from "antd";
 import {ProCard} from "@ant-design/pro-components";
 import AdvancedBasic from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedBasic";
 import AdvancedCheckpoint from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedCheckpoint";
-import AdvancedSavepoint from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedSavepoint";
+import AdvancedPeriodicSavepoint from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedPeriodicSavepoint";
 import AdvancedRestart from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedRestart";
 import AdvancedFaultTolerance
   from "@/pages/Project/Workspace/Kubernetes/Template/Detail/Advanced/AdvancedFaultTolerance";
@@ -29,7 +29,7 @@ const SessionClusterOptionsStepForm: React.FC = (props: any) => {
     <ProCard>
       <AdvancedBasic/>
       <AdvancedCheckpoint/>
-      <AdvancedSavepoint/>
+      <AdvancedPeriodicSavepoint/>
       <AdvancedRestart/>
       <AdvancedFaultTolerance/>
       <AdvancedHighAvailability/>

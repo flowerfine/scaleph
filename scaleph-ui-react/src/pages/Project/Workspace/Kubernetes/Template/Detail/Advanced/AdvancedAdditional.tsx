@@ -19,10 +19,16 @@ const AdvancedAdditional: React.FC = () => {
       }}
     >
       <ProFormGroup>
-        <ProFormText name="key" label={intl.formatMessage({id: 'page.project.cluster.config.configOptions.key'})}
-                     colProps={{span: 10, offset: 1}}/>
-        <ProFormText name="value" label={intl.formatMessage({id: 'page.project.cluster.config.configOptions.value'})}
-                     colProps={{span: 10, offset: 1}}/>
+        <ProFormText
+          name="key"
+          label={intl.formatMessage({id: 'page.project.cluster.config.configOptions.key'})}
+          colProps={{span: 10, offset: 1}}
+        />
+        <ProFormText
+          name="value"
+          label={intl.formatMessage({id: 'page.project.cluster.config.configOptions.value'})}
+          colProps={{span: 10, offset: 1}}
+        />
       </ProFormGroup>
     </ProFormList>
   </ProCard>);

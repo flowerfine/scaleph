@@ -11,10 +11,9 @@ import {DictDataService} from "@/services/admin/dictData.service";
 
 const AdvancedCheckpoint: React.FC = () => {
   return (<ProCard
-    title={'Checkpoints'}
+    title={'Checkpoint'}
     headerBordered
-    collapsible={true}
-    defaultCollapsed>
+    collapsible={true}>
     <ProFormGroup>
       <ProFormSelect
         name="execution.checkpointing.mode"
@@ -28,7 +27,7 @@ const AdvancedCheckpoint: React.FC = () => {
         name="execution.checkpointing.interval"
         label={'execution.checkpointing.interval'}
         colProps={{span: 10, offset: 1}}
-        initialValue={"10s"}
+        initialValue={"180s"}
       />
       <ProFormText
         name="execution.checkpointing.min-pause"

@@ -16,27 +16,29 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.service.vo;
+package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
-@EqualsAndHashCode
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class KubernetesOptionsVO {
+public class WsFlinkKubernetesTemplateUpdateParam {
 
-    @ApiModelProperty("flink image")
-    private String image;
+    @NotNull
+    @ApiModelProperty("id")
+    private Long id;
+    
+    @NotBlank
+    @ApiModelProperty("name")
+    private String name;
 
-    @ApiModelProperty("flink image pull policy")
-    private String imagePullPolicy;
+    @NotBlank
+    @ApiModelProperty("namespace")
+    private String namespace;
 
-    @ApiModelProperty("flink version")
-    private String flinkVersion;
-
-    @ApiModelProperty("kubernetes service account")
-    private String serviceAccount;
+    @ApiModelProperty("remark")
+    private String remark;
 }

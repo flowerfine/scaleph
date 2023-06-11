@@ -9,27 +9,27 @@ const AdvancedBasic: React.FC = () => {
     collapsible={true}>
     <ProFormGroup>
       <ProFormSelect
-        name="spec.flinkVersion"
+        name="flinkVersion"
         label={"flinkVersion"}
         colProps={{span: 10, offset: 1}}
         showSearch={true}
-        options={["v1_13", "v1_14", "v1_15", "v1_16"]}
-        initialValue={"v1_13"}
+        options={["v1_16", "v1_17"]}
+        initialValue={"v1_16"}
       />
       <ProFormText
-        name="spec.serviceAccount"
+        name="serviceAccount"
         label={'serviceAccount'}
         colProps={{span: 10, offset: 1}}
         initialValue={"flink"}
       />
       <ProFormText
-        name="spec.image"
+        name="image"
         label={'image'}
         colProps={{span: 10, offset: 1}}
-        initialValue={"flink:1.13"}
+        initialValue={"flink:1.16"}
       />
       <ProFormSelect
-        name="spec.imagePullPolicy"
+        name="imagePullPolicy"
         label={"imagePullPolicy"}
         colProps={{span: 10, offset: 1}}
         request={() => DictDataService.listDictDataByType2(DICT_TYPE.imagePullPolicy)}

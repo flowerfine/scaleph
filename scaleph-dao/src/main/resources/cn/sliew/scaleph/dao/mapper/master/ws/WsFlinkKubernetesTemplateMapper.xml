@@ -29,14 +29,24 @@
         <result column="project_id" property="projectId" />
         <result column="name" property="name" />
         <result column="template_id" property="templateId" />
-        <result column="metadata" property="metadata" />
-        <result column="spec" property="spec" />
+        <result column="namespace" property="namespace" />
+        <result column="kubernetes_options" property="kubernetesOptions" />
+        <result column="job_manager" property="jobManager" />
+        <result column="task_manager" property="taskManager" />
+        <result column="pod_template" property="podTemplate" />
+        <result column="flink_configuration" property="flinkConfiguration" />
+        <result column="log_configuration" property="logConfiguration" />
+        <result column="ingress" property="ingress" />
+        <result column="remark" property="remark" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        project_id, `name`, template_id, metadata, spec
+        project_id, `name`, template_id, namespace,
+        kubernetes_options, job_manager, task_manager,
+        pod_template, flink_configuration, log_configuration,
+        ingress, remark
     </sql>
 
 </mapper>

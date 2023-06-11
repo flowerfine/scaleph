@@ -18,10 +18,12 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.template;
 
-import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
 import cn.sliew.scaleph.kubernetes.ResourceConverter;
-import io.fabric8.kubernetes.api.model.ObjectMeta;
+import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
+import org.apache.commons.lang3.EnumUtils;
 
 public enum FlinkTemplateConverter implements ResourceConverter<WsFlinkKubernetesTemplateDTO, FlinkTemplate> {
     INSTANCE;
@@ -29,8 +31,23 @@ public enum FlinkTemplateConverter implements ResourceConverter<WsFlinkKubernete
     @Override
     public FlinkTemplate convertTo(WsFlinkKubernetesTemplateDTO source) {
         FlinkTemplate template = new FlinkTemplate();
-        template.setMetadata(JacksonUtil.toObject(source.getMetadata(), ObjectMeta.class));
-        template.setSpec(JacksonUtil.toObject(source.getSpec(), FlinkTemplateSpec.class));
+        ObjectMetaBuilder builder = new ObjectMetaBuilder(true);
+        builder.withName(source.getName()).withNamespace(source.getNamespace());
+        template.setMetadata(builder.build());
+        FlinkTemplateSpec spec = new FlinkTemplateSpec();
+        KubernetesOptionsVO kuberenetesOptions = source.getKubernetesOptions();
+        if (kuberenetesOptions != null) {
+            spec.setImage(kuberenetesOptions.getImage());
+            spec.setImagePullPolicy(kuberenetesOptions.getImagePullPolicy());
+            spec.setServiceAccount(kuberenetesOptions.getServiceAccount());
+            spec.setFlinkVersion(EnumUtils.getEnum(FlinkVersion.class, kuberenetesOptions.getFlinkVersion()));
+        }
+        spec.setFlinkConfiguration(source.getFlinkConfiguration());
+        spec.setJobManager(source.getJobManager());
+        spec.setTaskManager(source.getTaskManager());
+        spec.setPodTemplate(source.getPodTemplate());
+        spec.setIngress(source.getIngress());
+        template.setSpec(spec);
         return template;
     }
 
@@ -38,8 +55,23 @@ public enum FlinkTemplateConverter implements ResourceConverter<WsFlinkKubernete
     public WsFlinkKubernetesTemplateDTO convertFrom(FlinkTemplate target) {
         WsFlinkKubernetesTemplateDTO dto = new WsFlinkKubernetesTemplateDTO();
         dto.setName(target.getMetadata().getName());
-        dto.setMetadata(JacksonUtil.toJsonNode(target.getMetadata()));
-        dto.setSpec(JacksonUtil.toJsonNode(target.getSpec()));
+        dto.setNamespace(target.getMetadata().getNamespace());
+        FlinkTemplateSpec spec = target.getSpec();
+        KubernetesOptionsVO kuberenetesOptions = new KubernetesOptionsVO();
+        if (kuberenetesOptions != null) {
+            kuberenetesOptions.setImage(spec.getImage());
+            kuberenetesOptions.setImagePullPolicy(spec.getImagePullPolicy());
+            kuberenetesOptions.setServiceAccount(spec.getServiceAccount());
+            if (spec.getFlinkVersion() != null) {
+                kuberenetesOptions.setFlinkVersion(spec.getFlinkVersion().name());
+            }
+        }
+        dto.setKubernetesOptions(kuberenetesOptions);
+        dto.setFlinkConfiguration(spec.getFlinkConfiguration());
+        dto.setJobManager(spec.getJobManager());
+        dto.setTaskManager(spec.getTaskManager());
+        dto.setPodTemplate(spec.getPodTemplate());
+        dto.setIngress(spec.getIngress());
         return dto;
     }
 }

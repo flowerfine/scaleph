@@ -32,14 +32,18 @@ const AdvancedFaultTolerance: React.FC = () => {
                 <ProFormDigit
                   name="restart-strategy.fixed-delay.attempts"
                   label="restart-strategy.fixed-delay.attempts"
-                  min={1}
-                  fieldProps={{precision: 0}}
                   colProps={{span: 10, offset: 1}}
+                  initialValue={10}
+                  fieldProps={{
+                    min: 1,
+                    precision: 0
+                  }}
                 />
                 <ProFormText
                   name="restart-strategy.fixed-delay.delay"
                   label={'restart-strategy.fixed-delay.delay'}
                   colProps={{span: 10, offset: 1}}
+                  initialValue={"10s"}
                 />
               </ProFormGroup>
             )
@@ -48,21 +52,27 @@ const AdvancedFaultTolerance: React.FC = () => {
             return (
               <ProFormGroup>
                 <ProFormText
-                  name="restart-strategy.failure-rate.delay"
-                  label={'restart-strategy.failure-rate.delay'}
-                  colProps={{span: 10, offset: 1}}
-                />
-                <ProFormText
                   name="restart-strategy.failure-rate.failure-rate-interval"
                   label={'restart-strategy.failure-rate.failure-rate-interval'}
                   colProps={{span: 10, offset: 1}}
+                  initialValue={"10min"}
                 />
-                <ProFormText
+                <ProFormDigit
                   name="restart-strategy.failure-rate.max-failures-per-interval"
                   label={'restart-strategy.failure-rate.max-failures-per-interval'}
                   colProps={{span: 10, offset: 1}}
+                  initialValue={30}
+                  fieldProps={{
+                    min: 1,
+                    precision: 0
+                  }}
                 />
-
+                <ProFormText
+                  name="restart-strategy.failure-rate.delay"
+                  label={'restart-strategy.failure-rate.delay'}
+                  colProps={{span: 10, offset: 1}}
+                  initialValue={"10s"}
+                />
               </ProFormGroup>
             )
           }

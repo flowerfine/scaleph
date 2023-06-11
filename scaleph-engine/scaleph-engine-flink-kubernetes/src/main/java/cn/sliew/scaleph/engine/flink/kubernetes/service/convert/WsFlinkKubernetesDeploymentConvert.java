@@ -45,8 +45,8 @@ public interface WsFlinkKubernetesDeploymentConvert extends BaseConvert<WsFlinkK
     default WsFlinkKubernetesDeployment toDo(WsFlinkKubernetesDeploymentDTO dto) {
         WsFlinkKubernetesDeployment entity = new WsFlinkKubernetesDeployment();
         BeanUtils.copyProperties(dto, entity);
-        if (dto.getKuberenetesOptions() != null) {
-            entity.setKuberenetesOptions(JacksonUtil.toJsonString(dto.getKuberenetesOptions()));
+        if (dto.getKubernetesOptions() != null) {
+            entity.setKubernetesOptions(JacksonUtil.toJsonString(dto.getKubernetesOptions()));
         }
         if (dto.getJobManager() != null) {
             entity.setJobManager(JacksonUtil.toJsonString(dto.getJobManager()));
@@ -76,8 +76,8 @@ public interface WsFlinkKubernetesDeploymentConvert extends BaseConvert<WsFlinkK
     default WsFlinkKubernetesDeploymentDTO toDto(WsFlinkKubernetesDeployment entity) {
         WsFlinkKubernetesDeploymentDTO dto = new WsFlinkKubernetesDeploymentDTO();
         BeanUtils.copyProperties(entity, dto);
-        if (StringUtils.hasText(entity.getKuberenetesOptions())) {
-            dto.setKuberenetesOptions(JacksonUtil.parseJsonString(entity.getKuberenetesOptions(), KubernetesOptionsVO.class));
+        if (StringUtils.hasText(entity.getKubernetesOptions())) {
+            dto.setKubernetesOptions(JacksonUtil.parseJsonString(entity.getKubernetesOptions(), KubernetesOptionsVO.class));
         }
         if (StringUtils.hasText(entity.getJobManager())) {
             dto.setJobManager(JacksonUtil.parseJsonString(entity.getJobManager(), JobManagerSpec.class));

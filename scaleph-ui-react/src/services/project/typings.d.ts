@@ -320,8 +320,14 @@ export type WsFlinkKubernetesTemplate = {
   id?: number;
   projectId: number;
   name?: string;
-  metadata?: Record<string, any>;
-  spec?: Record<string, any>;
+  namespace: string;
+  kubernetesOptions?: KubernetesOptionsVO;
+  jobManager?: Record<string, any>;
+  taskManager?: Record<string, any>;
+  podTemplate?: Record<string, any>;
+  flinkConfiguration?: Record<string, any>;
+  logConfiguration?: Record<string, any>;
+  ingress?: Record<string, any>;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
@@ -332,13 +338,27 @@ export type WsFlinkKubernetesTemplateParam = QueryParam & {
   name?: string;
 };
 
+export type WsFlinkKubernetesTemplateAddParam = {
+  projectId: number;
+  name: string;
+  namespace: string;
+  remark?: string;
+};
+
+export type WsFlinkKubernetesTemplateUpdateParam = {
+  id: number;
+  name: string;
+  namespace: string;
+  remark?: string;
+};
+
 export type WsFlinkKubernetesDeployment = {
   id?: number;
   projectId: number;
   kind: Dict;
   name: string;
   namespace: string;
-  kuberenetesOptions?: KubernetesOptions;
+  kubernetesOptions?: KubernetesOptionsVO;
   jobManager?: Record<string, any>;
   taskManager?: Record<string, any>;
   podTemplate?: Record<string, any>;
@@ -352,8 +372,9 @@ export type WsFlinkKubernetesDeployment = {
   updateTime?: Date;
 };
 
-export type KubernetesOptions = {
+export type KubernetesOptionsVO = {
   image?: string;
+  imagePullPolicy?: string;
   flinkVersion?: string;
   serviceAccount?: string;
 };

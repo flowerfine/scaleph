@@ -1,42 +1,14 @@
-import {useModel} from "umi";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef} from "react";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
-import YAML from "yaml";
-import {
-  WsFlinkKubernetesTemplateService
-} from "@/services/project/WsFlinkKubernetesTemplateService";
+import {connect} from "umi";
 
-const DefaultTemplateEditor: React.FC = () => {
-  const [editorValue, setEditorValue] = useState<string>()
+const DefaultTemplateEditor: React.FC = (props: any) => {
   const editorRef = useRef(null);
   const monaco = useMonaco();
-
-  const {deploymentTemplate} = useModel('deploymentTemplateYAMLEditor', (model) => ({
-    deploymentTemplate: model.deploymentTemplate
-  }));
 
   useEffect(() => {
     monaco?.languages.typescript.javascriptDefaults.setEagerModelSync(true);
   }, [monaco]);
-
-  useEffect(() => {
-    if (deploymentTemplate) {
-      try {
-        const json = YAML.parse(deploymentTemplate)
-        const data = {
-          name: json.metadata?.name,
-          metadata: json.metadata,
-          spec: json.spec
-        }
-        WsFlinkKubernetesTemplateService.asTemplateWithDefault(data).then((response) => {
-          if (response.data) {
-            setEditorValue(YAML.stringify(response.data))
-          }
-        })
-      } catch (unused) {
-      }
-    }
-  }, [deploymentTemplate]);
 
   const handleEditorDidMount = (editor, monaco: Monaco) => {
     editorRef.current = editor;
@@ -48,7 +20,7 @@ const DefaultTemplateEditor: React.FC = () => {
       height="600px"
       language="yaml"
       theme="vs-white"
-      value={editorValue}
+      value={props.templateDetail.templateYamlWithDefault}
       options={{
         selectOnLineNumbers: true,
         readOnly: true,
@@ -61,4 +33,5 @@ const DefaultTemplateEditor: React.FC = () => {
   );
 }
 
-export default DefaultTemplateEditor;
+const mapModelToProps = ({templateDetail}: any) => ({templateDetail})
+export default connect(mapModelToProps)(DefaultTemplateEditor);

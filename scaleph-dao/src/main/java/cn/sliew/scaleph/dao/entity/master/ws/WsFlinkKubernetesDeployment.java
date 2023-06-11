@@ -54,8 +54,8 @@ public class WsFlinkKubernetesDeployment extends BaseDO {
     @TableField("namespace")
     private String namespace;
 
-    @TableField("kuberenetes_options")
-    private String kuberenetesOptions;
+    @TableField("kubernetes_options")
+    private String kubernetesOptions;
 
     @TableField("job_manager")
     private String jobManager;

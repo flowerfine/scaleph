@@ -33,6 +33,9 @@ public enum JsonPatchMerger {
     }
 
     public static JsonNode mergePatch(final JsonNode target, final JsonNode patch) {
+        if (patch == null || patch.isNull()) {
+            return target;
+        }
         if (!(patch instanceof ObjectNode)) {
             return patch;
         } else {

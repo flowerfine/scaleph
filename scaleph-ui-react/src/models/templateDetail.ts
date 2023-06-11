@@ -1,10 +1,12 @@
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
 import { Reducer, Effect } from "umi";
 import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
+import YAML from "yaml";
 
 export interface StateType {
   template: WsFlinkKubernetesTemplate,
-  sessionCluster: string
+  templateYaml: string
+  templateYamlWithDefault: string
 }
 
 export interface ModelType {
@@ -24,13 +26,15 @@ export interface ModelType {
 const model: ModelType = {
   state: {
     template: null,
-    sessionCluster: null
+    templateYaml: null,
+    templateYamlWithDefault: null
   },
 
   effects: {
-    *queryTemplate({ payload }, { call, put }) {
-      const { data } = yield call(WsFlinkKubernetesTemplateService.selectOne, payload);
-      yield put({ type: 'updateTemplate', payload: data });
+    *editTemplate({ payload }, { call, put }) {
+      const { data } = yield call(WsFlinkKubernetesTemplateService.asYaml, payload);
+      const response = yield call(WsFlinkKubernetesTemplateService.asYamlWithDefault, payload);
+      yield put({ type: 'updateTemplate', payload: {template: payload, templateYaml: YAML.stringify(data), templateYamlWithDefault: YAML.stringify(response.data)} });
     },
   },
 
@@ -38,10 +42,11 @@ const model: ModelType = {
     updateTemplate(state, { payload }) {
       return {
         ...state,
-        template: payload,
+        template: payload.template,
+        templateYaml: payload.templateYaml,
+        templateYamlWithDefault: payload.templateYamlWithDefault,
       };
     },
-
   },
 };
 

@@ -30,12 +30,9 @@ const FlinkKubernetesDeploymentTemplateWeb: React.FC = () => {
     },
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.template.namespace'}),
-      dataIndex: 'name.metadata.namespace',
+      dataIndex: 'namespace',
       hideInSearch: true,
-      width: 200,
-      render: (dom, entity, index, action, schema) => {
-        return entity.metadata?.namespace;
-      }
+      width: 200
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),

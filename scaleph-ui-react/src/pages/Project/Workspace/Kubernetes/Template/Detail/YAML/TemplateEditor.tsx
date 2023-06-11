@@ -1,38 +1,20 @@
-import {useModel} from "umi";
 import React, {useEffect, useRef} from "react";
 import Editor, {Monaco, useMonaco} from "@monaco-editor/react";
-import YAML from "yaml";
 import {Props} from '@/app.d';
 import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
-import {
-  WsFlinkKubernetesTemplateService
-} from "@/services/project/WsFlinkKubernetesTemplateService";
+import {connect} from "@@/exports";
 
-const TemplateEditor: React.FC<Props<WsFlinkKubernetesTemplate>> = ({data}) => {
+const TemplateEditor: React.FC<Props<WsFlinkKubernetesTemplate>> = (props: any) => {
   const editorRef = useRef(null);
   const monaco = useMonaco();
-
-  const {deploymentTemplate, setDeploymentTemplate} = useModel('deploymentTemplateYAMLEditor');
 
   useEffect(() => {
     // do conditional chaining
     monaco?.languages.typescript.javascriptDefaults.setEagerModelSync(true);
   }, [monaco]);
 
-  useEffect(() => {
-    WsFlinkKubernetesTemplateService.asTemplate(data).then((response) => {
-      if (response.data) {
-        setDeploymentTemplate(YAML.stringify(response.data))
-      }
-    })
-  }, [data]);
-
   const handleEditorDidMount = (editor, monaco: Monaco) => {
     editorRef.current = editor;
-  }
-
-  const handleValueChange = (value, event) => {
-    setDeploymentTemplate(value)
   }
 
   return (
@@ -41,18 +23,17 @@ const TemplateEditor: React.FC<Props<WsFlinkKubernetesTemplate>> = ({data}) => {
       height="600px"
       language="yaml"
       theme="vs-white"
-      value={deploymentTemplate}
+      value={props.templateDetail.templateYaml}
       options={{
         selectOnLineNumbers: true,
-        readOnly: false,
+        readOnly: true,
         minimap: {
           enabled: false
         }
       }}
       onMount={handleEditorDidMount}
-      onChange={handleValueChange}
     />
   );
 }
-
-export default TemplateEditor;
+const mapModelToProps = ({templateDetail}: any) => ({templateDetail})
+export default connect(mapModelToProps)(TemplateEditor);

@@ -18,24 +18,32 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesTemplate;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesTemplateMapper;
 import cn.sliew.scaleph.engine.flink.kubernetes.factory.FlinkTemplateFactory;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.IngressSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.util.JsonPatchMerger;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplateConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesTemplateService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesTemplateConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateAddParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateListParam;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesTemplateUpdateParam;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.fabric8.kubernetes.api.model.Pod;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -65,12 +73,12 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
     }
 
     @Override
-    public FlinkTemplate asTemplate(WsFlinkKubernetesTemplateDTO dto) {
+    public FlinkTemplate asYaml(WsFlinkKubernetesTemplateDTO dto) {
         return FlinkTemplateConverter.INSTANCE.convertTo(dto);
     }
 
     @Override
-    public FlinkTemplate asTemplateWithDefault(WsFlinkKubernetesTemplateDTO dto) {
+    public FlinkTemplate asYamlWithDefault(WsFlinkKubernetesTemplateDTO dto) {
         return FlinkTemplateConverter.INSTANCE.convertTo(mergeDefault(dto));
     }
 
@@ -85,30 +93,42 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
         WsFlinkKubernetesTemplateDTO globalDefault = getGlobalDefault();
         WsFlinkKubernetesTemplateDTO result = new WsFlinkKubernetesTemplateDTO();
         result.setName(dto.getName());
-        result.setMetadata(JsonPatchMerger.mergePatch(globalDefault.getMetadata(), dto.getMetadata()));
-        result.setSpec(JsonPatchMerger.mergePatch(globalDefault.getSpec(), dto.getSpec()));
+        result.setNamespace(StringUtils.hasText(dto.getNamespace()) ? dto.getNamespace() : globalDefault.getNamespace());
+        result.setKubernetesOptions(JsonPatchMerger.merge(globalDefault.getKubernetesOptions(), dto.getKubernetesOptions(), KubernetesOptionsVO.class));
+        result.setJobManager(JsonPatchMerger.merge(globalDefault.getJobManager(), dto.getJobManager(), JobManagerSpec.class));
+        result.setTaskManager(JsonPatchMerger.merge(globalDefault.getTaskManager(), dto.getTaskManager(), TaskManagerSpec.class));
+        result.setPodTemplate(JsonPatchMerger.merge(globalDefault.getPodTemplate(), dto.getPodTemplate(), Pod.class));
+        result.setFlinkConfiguration(JsonPatchMerger.merge(globalDefault.getFlinkConfiguration(), dto.getFlinkConfiguration(), Map.class));
+        result.setLogConfiguration(JsonPatchMerger.merge(globalDefault.getLogConfiguration(), dto.getLogConfiguration(), Map.class));
+        result.setIngress(JsonPatchMerger.merge(globalDefault.getIngress(), dto.getIngress(), IngressSpec.class));
+        result.setRemark(StringUtils.hasText(dto.getRemark()) ? dto.getRemark() : globalDefault.getRemark());
         return result;
     }
 
     private WsFlinkKubernetesTemplateDTO getGlobalDefault() {
         FlinkTemplate template = FlinkTemplateFactory.getDefaults();
-        WsFlinkKubernetesTemplateDTO dto = new WsFlinkKubernetesTemplateDTO();
-        dto.setName(template.getMetadata().getName());
-        dto.setMetadata(JacksonUtil.toJsonNode(template.getMetadata()));
-        dto.setSpec(JacksonUtil.toJsonNode(template.getSpec()));
-        return dto;
+        return FlinkTemplateConverter.INSTANCE.convertFrom(template);
     }
 
     @Override
-    public int insert(WsFlinkKubernetesTemplateDTO dto) {
-        WsFlinkKubernetesTemplate record = WsFlinkKubernetesTemplateConvert.INSTANCE.toDo(dto);
+    public int insert(WsFlinkKubernetesTemplateAddParam param) {
+        WsFlinkKubernetesTemplate record = new WsFlinkKubernetesTemplate();
+        BeanUtils.copyProperties(param, record);
         record.setTemplateId(UUID.randomUUID().toString());
         return wsFlinkKubernetesTemplateMapper.insert(record);
     }
 
     @Override
-    public int update(WsFlinkKubernetesTemplateDTO dto) {
-        WsFlinkKubernetesTemplate record = WsFlinkKubernetesTemplateConvert.INSTANCE.toDo(dto);
+    public int update(WsFlinkKubernetesTemplateUpdateParam param) {
+        WsFlinkKubernetesTemplate record = new WsFlinkKubernetesTemplate();
+        BeanUtils.copyProperties(param, record);
+        return wsFlinkKubernetesTemplateMapper.updateById(record);
+    }
+
+    @Override
+    public int updateTemplate(WsFlinkKubernetesTemplateDTO param) {
+        WsFlinkKubernetesTemplateDTO mergeWithDefault = mergeDefault(param);
+        WsFlinkKubernetesTemplate record = WsFlinkKubernetesTemplateConvert.INSTANCE.toDo(mergeWithDefault);
         return wsFlinkKubernetesTemplateMapper.updateById(record);
     }
 

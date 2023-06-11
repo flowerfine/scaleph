@@ -30,7 +30,7 @@
         <result column="name" property="name"/>
         <result column="deployment_id" property="deploymentId"/>
         <result column="namespace" property="namespace"/>
-        <result column="kuberenetes_options" property="kuberenetesOptions"/>
+        <result column="kubernetes_options" property="kubernetesOptions"/>
         <result column="job_manager" property="jobManager"/>
         <result column="task_manager" property="taskManager"/>
         <result column="pod_template" property="podTemplate"/>
@@ -44,8 +44,8 @@
 
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        project_id, kind, `name`, deployment_id, namespace, kuberenetes_options,
-        job_manager, task_manager, pod_template,
+        project_id, kind, `name`, deployment_id, namespace,
+        kubernetes_options, job_manager, task_manager, pod_template,
         flink_configuration, log_configuration, ingress,
         deployment_name, job, remark
     </sql>

@@ -1,6 +1,12 @@
 import {PageResponse, ResponseBody} from '@/app.d';
 import {request} from 'umi';
-import {WsFlinkKubernetesTemplate, WsFlinkKubernetesTemplateParam} from './typings';
+import {
+  KubernetesOptionsVO,
+  WsFlinkKubernetesTemplate,
+  WsFlinkKubernetesTemplateAddParam,
+  WsFlinkKubernetesTemplateParam,
+  WsFlinkKubernetesTemplateUpdateParam
+} from './typings';
 
 export const WsFlinkKubernetesTemplateService = {
   url: '/api/flink/kubernetes/template',
@@ -26,15 +32,15 @@ export const WsFlinkKubernetesTemplateService = {
     });
   },
 
-  asTemplate: async (row: any) => {
-    return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}/asTemplate`, {
+  asYaml: async (row: any) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}/asYaml`, {
       method: 'POST',
       data: row,
     });
   },
 
-  asTemplateWithDefault: async (row: any) => {
-    return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}/asTemplateWithDefault`, {
+  asYamlWithDefault: async (row: any) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}/asYamlWithDefault`, {
       method: 'POST',
       data: row,
     });
@@ -47,17 +53,24 @@ export const WsFlinkKubernetesTemplateService = {
     });
   },
 
-  add: async (row: WsFlinkKubernetesTemplate) => {
+  add: async (param: WsFlinkKubernetesTemplateAddParam) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}`, {
       method: 'PUT',
-      data: row,
+      data: param,
     });
   },
 
-  update: async (row: WsFlinkKubernetesTemplate) => {
+  update: async (param: WsFlinkKubernetesTemplateUpdateParam) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}`, {
       method: 'POST',
-      data: row,
+      data: param,
+    });
+  },
+
+  updateTemplate: async (param: WsFlinkKubernetesTemplate) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesTemplateService.url}/template`, {
+      method: 'POST',
+      data: param,
     });
   },
 
@@ -76,30 +89,31 @@ export const WsFlinkKubernetesTemplateService = {
   },
 
   formatData: (data: WsFlinkKubernetesTemplate, value: Record<string, any>) => {
-    const spec: Record<string, any> = {}
-    spec["flinkVersion"] = value["spec.flinkVersion"]
-    spec["serviceAccount"] = value["spec.serviceAccount"]
-    spec["image"] = value["spec.image"]
-    spec["imagePullPolicy"] = value["spec.imagePullPolicy"]
+    const kubernetesOptionsVO: KubernetesOptionsVO = {
+      flinkVersion: value.flinkVersion,
+      serviceAccount: value.serviceAccount,
+      image: value.image,
+      imagePullPolicy: value.imagePullPolicy?.value,
+    }
+    data.kubernetesOptions = kubernetesOptionsVO;
 
-    const jobManager: Record<string, any> = spec.jobManager ? spec.jobManager : {}
-    spec["jobManager"] = jobManager
-    jobManager["replicas"] = value["spec.jobManager.replicas"]
-    const jobManagerResource: Record<string, any> = jobManager.resource ? jobManager.resource : {}
+    const jobManager: Record<string, any> = {}
+    jobManager["replicas"] = value["jobManager.replicas"]
+    const jobManagerResource: Record<string, any> = {}
     jobManager["resource"] = jobManagerResource
-    jobManagerResource["cpu"] = value["spec.jobManager.resource.cpu"]
-    jobManagerResource["memory"] = value["spec.jobManager.resource.memory"]
+    jobManagerResource["cpu"] = value["jobManager.resource.cpu"]
+    jobManagerResource["memory"] = value["jobManager.resource.memory"]
+    data.jobManager = jobManager
 
-    const taskManager: Record<string, any> = spec.taskManager ? spec.taskManager : {}
-    spec["taskManager"] = taskManager
-    taskManager["replicas"] = value["spec.taskManager.replicas"]
-    const taskManagerResource: Record<string, any> = taskManager.resource ? taskManager.resource : {}
+    const taskManager: Record<string, any> = {}
+    taskManager["replicas"] = value["taskManager.replicas"]
+    const taskManagerResource: Record<string, any> = {}
     taskManager["resource"] = taskManagerResource
-    taskManagerResource["cpu"] = value["spec.taskManager.resource.cpu"]
-    taskManagerResource["memory"] = value["spec.taskManager.resource.memory"]
+    taskManagerResource["cpu"] = value["taskManager.resource.cpu"]
+    taskManagerResource["memory"] = value["taskManager.resource.memory"]
+    data.taskManager = taskManager
 
-    const flinkConfiguration: Record<string, any> = spec.flinkConfiguration ? spec.flinkConfiguration : {}
-    spec["flinkConfiguration"] = flinkConfiguration
+    const flinkConfiguration: Record<string, any> = {}
     flinkConfiguration["execution.checkpointing.mode"] = value["execution.checkpointing.mode"]
     flinkConfiguration["execution.checkpointing.interval"] = value["execution.checkpointing.interval"]
     flinkConfiguration["execution.checkpointing.min-pause"] = value["execution.checkpointing.min-pause"]
@@ -150,29 +164,27 @@ export const WsFlinkKubernetesTemplateService = {
     value.options?.forEach(function (item: Record<string, any>) {
       flinkConfiguration[item.key] = item.value;
     });
-    data.spec = spec
+    data.flinkConfiguration = flinkConfiguration
     return data;
   },
 
   parseData: (data: WsFlinkKubernetesTemplate) => {
-    const spec: Record<string, any> = data.spec ? {...data.spec} : {}
     const flinkConfiguration: Record<string, any> = new Map<string, any>()
-    Object.entries<[string, any][]>(spec.flinkConfiguration ? {...spec.flinkConfiguration} : {}).forEach(([key, value]) => {
+    Object.entries<[string, any][]>(data.flinkConfiguration ? {...data.flinkConfiguration} : {}).forEach(([key, value]) => {
       flinkConfiguration.set(key, value);
     });
     const value = {
-      'spec.flinkVersion': spec['flinkVersion'],
-      'spec.serviceAccount': spec['serviceAccount'],
-      'spec.image': spec['image'],
-      'spec.imagePullPolicy': spec['imagePullPolicy'],
+      'flinkVersion': data.kubernetesOptions?.flinkVersion,
+      'serviceAccount': data.kubernetesOptions?.serviceAccount,
+      'image': data.kubernetesOptions?.image,
+      'imagePullPolicy': data.kubernetesOptions?.imagePullPolicy,
 
-      'spec.jobManager.replicas': spec.jobManager?.replicas,
-      'spec.jobManager.resource.cpu': spec.jobManager?.resource?.cpu,
-      'spec.jobManager.resource.memory': spec.jobManager?.resource?.memory,
-
-      'spec.taskManager.replicas': spec.taskManager?.replicas,
-      'spec.taskManager.resource.cpu': spec.taskManager?.resource?.cpu,
-      'spec.taskManager.resource.memory': spec.taskManager?.resource?.memory,
+      'jobManager.replicas': data.jobManager?.replicas,
+      'jobManager.resource.cpu': data.jobManager?.resource?.cpu,
+      'jobManager.resource.memory': data.jobManager?.resource?.memory,
+      'taskManager.replicas': data.taskManager?.replicas,
+      'taskManager.resource.cpu': data.taskManager?.resource?.cpu,
+      'taskManager.resource.memory': data.taskManager?.resource?.memory,
 
       'execution.checkpointing.mode': flinkConfiguration['execution.checkpointing.mode'],
       'execution.checkpointing.interval': flinkConfiguration['execution.checkpointing.interval'],
@@ -253,7 +265,7 @@ export const WsFlinkKubernetesTemplateService = {
 
     const options: Array<any> = [];
     flinkConfiguration.forEach((value: any, key: string) => {
-      options.push({ key: key, value: value });
+      options.push({key: key, value: value});
     });
     value['options'] = options;
 
