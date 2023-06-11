@@ -49,6 +49,10 @@ Luckily, deploy Scaleph locally just takes three steps.
 
 ```shell
 git clone https://github.com/flowerfine/scaleph.git
+
+cd scaleph
+git checkout 1.0.4
+
 cd scaleph/tools/docker/deploy/scaleph
 docker-compose up
 ```
@@ -57,19 +61,19 @@ Once all containers have started, the UI is ready to go at [http://localhost](ht
 
 ## Documentation
 
-please refer [website](https://flowerfine.github.io/scaleph/#/)
+please refer [website](https://flowerfine.github.io/scaleph-website/zh)
 
 ## Build and Deployment
 
 * [develop](docs/develop/develop.md). This doc describes how to set up local development environment of Scaleph project.
 * checkstyle. Scaleph project requires clean and robust code, which can help Scaleph go further and develop better.
 * build. This doc describes how to compile `scaleph-api` or `scaleph-ui-react` from source and build corresponding docker image. For more information about build from source, refer [workflows](https://github.com/flowerfine/scaleph/tree/dev/.github/workflows) and [actions](https://github.com/flowerfine/scaleph/actions).
-    * compile.  Scaleph adopts `maven` as its build system, .
-        * [local](docs/build/build-local.md)。People has to install jdk, maven, node, use `mvn clean package` or `npm` command to compile project.
-        * [docker](docs/build/build-docker.md)。Recommend way. Just need git and docker, after clone the source code, use docker as the build tools to compile project, which is slower than local.
+    * compile.  Scaleph adopts `maven` as its build system.
+        * [local](https://flowerfine.github.io/scaleph-website/zh/docs/guide/compile#%E7%BC%96%E8%AF%91). People has to install jdk, maven, node, use `mvn clean package` or `npm` command to compile project.
+        * [docker](https://flowerfine.github.io/scaleph-website/zh/docs/guide/compile#%E5%AE%B9%E5%99%A8%E5%86%85%E7%BC%96%E8%AF%91). Recommend way. Just need git and docker, after clone the source code, use docker as the build tools to compile project, which is slower than local.
     
     * docker. As more application runs in container on cloud then bare metal machine, Scaleph provides own image.
-        * [docker-image-build](docs/docker/docker-image-build.md)。Choose different docker compose yaml file, people can build scalph-api, scaleph-ui or both.
+        * [docker-image-build](docs/docker/docker-image-build.md)。Choose different docker compose yaml file, people can build scalph-api, scaleph-ui-react or both.
         * [docker-image-build-zh](docs/docker/docker-image-build-zh.md)。For Chinese user.
     
 * deploy. For different deployment purpose such as develop, test or production, Scaleph make the best effort for people deploy project on local, docker and kubernetes.
