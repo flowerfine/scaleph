@@ -93,7 +93,7 @@ export const WsFlinkKubernetesTemplateService = {
       flinkVersion: value.flinkVersion,
       serviceAccount: value.serviceAccount,
       image: value.image,
-      imagePullPolicy: value.imagePullPolicy?.value,
+      imagePullPolicy: value.imagePullPolicy,
     }
     data.kubernetesOptions = kubernetesOptionsVO;
 
@@ -173,6 +173,7 @@ export const WsFlinkKubernetesTemplateService = {
     Object.entries<[string, any][]>(data.flinkConfiguration ? {...data.flinkConfiguration} : {}).forEach(([key, value]) => {
       flinkConfiguration.set(key, value);
     });
+
     const value = {
       'flinkVersion': data.kubernetesOptions?.flinkVersion,
       'serviceAccount': data.kubernetesOptions?.serviceAccount,
@@ -186,43 +187,43 @@ export const WsFlinkKubernetesTemplateService = {
       'taskManager.resource.cpu': data.taskManager?.resource?.cpu,
       'taskManager.resource.memory': data.taskManager?.resource?.memory,
 
-      'execution.checkpointing.mode': flinkConfiguration['execution.checkpointing.mode'],
-      'execution.checkpointing.interval': flinkConfiguration['execution.checkpointing.interval'],
-      'execution.checkpointing.min-pause': flinkConfiguration['execution.checkpointing.min-pause'],
-      'execution.checkpointing.timeout': flinkConfiguration['execution.checkpointing.timeout'],
-      'execution.checkpointing.max-concurrent-checkpoints': flinkConfiguration['execution.checkpointing.max-concurrent-checkpoints'],
-      'execution.checkpointing.unaligned': flinkConfiguration['execution.checkpointing.unaligned'],
-      'execution.checkpointing.alignment-timeout': flinkConfiguration['execution.checkpointing.alignment-timeout'],
-      'execution.checkpointing.externalized-checkpoint-retention': flinkConfiguration['execution.checkpointing.externalized-checkpoint-retention'],
-      'state.checkpoints.num-retained': flinkConfiguration['state.checkpoints.num-retained'],
+      'execution.checkpointing.mode': flinkConfiguration.get('execution.checkpointing.mode'),
+      'execution.checkpointing.interval': flinkConfiguration.get('execution.checkpointing.interval'),
+      'execution.checkpointing.min-pause': flinkConfiguration.get('execution.checkpointing.min-pause'),
+      'execution.checkpointing.timeout': flinkConfiguration.get('execution.checkpointing.timeout'),
+      'execution.checkpointing.max-concurrent-checkpoints': flinkConfiguration.get('execution.checkpointing.max-concurrent-checkpoints'),
+      'execution.checkpointing.unaligned': flinkConfiguration.get('execution.checkpointing.unaligned'),
+      'execution.checkpointing.alignment-timeout': flinkConfiguration.get('execution.checkpointing.alignment-timeout'),
+      'execution.checkpointing.externalized-checkpoint-retention': flinkConfiguration.get('execution.checkpointing.externalized-checkpoint-retention'),
+      'state.checkpoints.num-retained': flinkConfiguration.get('state.checkpoints.num-retained'),
 
-      strategy: flinkConfiguration['restart-strategy'],
-      'restart-strategy.fixed-delay.attempts': flinkConfiguration['restart-strategy.fixed-delay.attempts'],
-      'restart-strategy.fixed-delay.delay': flinkConfiguration['restart-strategy.fixed-delay.delay'],
-      'restart-strategy.failure-rate.delay': flinkConfiguration['restart-strategy.failure-rate.delay'],
-      'restart-strategy.failure-rate.failure-rate-interval': flinkConfiguration['restart-strategy.failure-rate.failure-rate-interval'],
-      'restart-strategy.failure-rate.max-failures-per-interval': flinkConfiguration['restart-strategy.failure-rate.max-failures-per-interval'],
-      'restart-strategy.exponential-delay.initial-backoff': flinkConfiguration['restart-strategy.exponential-delay.initial-backoff'],
-      'restart-strategy.exponential-delay.backoff-multiplier': flinkConfiguration['restart-strategy.exponential-delay.backoff-multiplier'],
-      'restart-strategy.exponential-delay.max-backoff': flinkConfiguration['restart-strategy.exponential-delay.max-backoff'],
-      'restart-strategy.exponential-delay.reset-backoff-threshold': flinkConfiguration['restart-strategy.exponential-delay.reset-backoff-threshold'],
-      'restart-strategy.exponential-delay.jitter-factor': flinkConfiguration['restart-strategy.exponential-delay.jitter-factor'],
+      strategy: flinkConfiguration.get('restart-strategy'),
+      'restart-strategy.fixed-delay.attempts': flinkConfiguration.get('restart-strategy.fixed-delay.attempts'),
+      'restart-strategy.fixed-delay.delay': flinkConfiguration.get('restart-strategy.fixed-delay.delay'),
+      'restart-strategy.failure-rate.delay': flinkConfiguration.get('restart-strategy.failure-rate.delay'),
+      'restart-strategy.failure-rate.failure-rate-interval': flinkConfiguration.get('restart-strategy.failure-rate.failure-rate-interval'),
+      'restart-strategy.failure-rate.max-failures-per-interval': flinkConfiguration.get('restart-strategy.failure-rate.max-failures-per-interval'),
+      'restart-strategy.exponential-delay.initial-backoff': flinkConfiguration.get('restart-strategy.exponential-delay.initial-backoff'),
+      'restart-strategy.exponential-delay.backoff-multiplier': flinkConfiguration.get('restart-strategy.exponential-delay.backoff-multiplier'),
+      'restart-strategy.exponential-delay.max-backoff': flinkConfiguration.get('restart-strategy.exponential-delay.max-backoff'),
+      'restart-strategy.exponential-delay.reset-backoff-threshold': flinkConfiguration.get('restart-strategy.exponential-delay.reset-backoff-threshold'),
+      'restart-strategy.exponential-delay.jitter-factor': flinkConfiguration.get('restart-strategy.exponential-delay.jitter-factor'),
 
-      ha: flinkConfiguration['high-availability'],
-      'high-availability.storageDir': flinkConfiguration['high-availability.storageDir'],
-      'high-availability.cluster-id': flinkConfiguration['high-availability.cluster-id'],
-      'high-availability.zookeeper.path.root': flinkConfiguration['high-availability.zookeeper.path.root'],
-      'high-availability.zookeeper.quorum': flinkConfiguration['high-availability.zookeeper.quorum'],
+      ha: flinkConfiguration.get('high-availability'),
+      'high-availability.storageDir': flinkConfiguration.get('high-availability.storageDir'),
+      'high-availability.cluster-id': flinkConfiguration.get('high-availability.cluster-id'),
+      'high-availability.zookeeper.path.root': flinkConfiguration.get('high-availability.zookeeper.path.root'),
+      'high-availability.zookeeper.quorum': flinkConfiguration.get('high-availability.zookeeper.quorum'),
 
-      'kubernetes.operator.periodic.savepoint.interval': flinkConfiguration['kubernetes.operator.periodic.savepoint.interval'],
-      'kubernetes.operator.savepoint.trigger.grace-period': flinkConfiguration['kubernetes.operator.savepoint.trigger.grace-period'],
-      'kubernetes.operator.savepoint.format.type': flinkConfiguration['kubernetes.operator.savepoint.format.type'],
-      'kubernetes.operator.savepoint.history.max.age': flinkConfiguration['kubernetes.operator.savepoint.history.max.age'],
-      'kubernetes.operator.savepoint.history.max.count': flinkConfiguration['kubernetes.operator.savepoint.history.max.count'],
+      'kubernetes.operator.periodic.savepoint.interval': flinkConfiguration.get('kubernetes.operator.periodic.savepoint.interval'),
+      'kubernetes.operator.savepoint.trigger.grace-period': flinkConfiguration.get('kubernetes.operator.savepoint.trigger.grace-period'),
+      'kubernetes.operator.savepoint.format.type': flinkConfiguration.get('kubernetes.operator.savepoint.format.type'),
+      'kubernetes.operator.savepoint.history.max.age': flinkConfiguration.get('kubernetes.operator.savepoint.history.max.age'),
+      'kubernetes.operator.savepoint.history.max.count': flinkConfiguration.get('kubernetes.operator.savepoint.history.max.count'),
 
-      'kubernetes.operator.cluster.health-check.enabled': flinkConfiguration['kubernetes.operator.cluster.health-check.enabled'],
-      'kubernetes.operator.cluster.health-check.restarts.window': flinkConfiguration['kubernetes.operator.cluster.health-check.restarts.window'],
-      'kubernetes.operator.cluster.health-check.restarts.threshold': flinkConfiguration['kubernetes.operator.cluster.health-check.restarts.threshold'],
+      'kubernetes.operator.cluster.health-check.enabled': flinkConfiguration.get('kubernetes.operator.cluster.health-check.enabled'),
+      'kubernetes.operator.cluster.health-check.restarts.window': flinkConfiguration.get('kubernetes.operator.cluster.health-check.restarts.window'),
+      'kubernetes.operator.cluster.health-check.restarts.threshold': flinkConfiguration.get('kubernetes.operator.cluster.health-check.restarts.threshold'),
     };
 
     flinkConfiguration.delete('execution.checkpointing.mode');

@@ -23,11 +23,10 @@ import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSes
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterListParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterSelectListParam;
-import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import cn.sliew.scaleph.system.model.ResponseVO;
+import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -82,10 +81,10 @@ public class WsFlinkKubernetesSessionClusterController {
     }
 
     @Logging
-    @PostMapping("fromTemplate")
+    @GetMapping("fromTemplate")
     @ApiOperation(value = "转换 SessionCluster", notes = "转换 SessionCluster")
-    public ResponseEntity<ResponseVO<FlinkSessionCluster>> fromTemplate(@RequestBody WsFlinkKubernetesTemplateDTO dto) {
-        FlinkSessionCluster sessionCluster = wsFlinkKubernetesSessionClusterService.fromTemplate(dto);
+    public ResponseEntity<ResponseVO<WsFlinkKubernetesSessionClusterDTO>> fromTemplate(@RequestParam("templateId") Long templateId) {
+        WsFlinkKubernetesSessionClusterDTO sessionCluster = wsFlinkKubernetesSessionClusterService.fromTemplate(templateId);
         return new ResponseEntity(ResponseVO.success(sessionCluster), HttpStatus.OK);
     }
 

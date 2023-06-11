@@ -129,6 +129,9 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
     public int updateTemplate(WsFlinkKubernetesTemplateDTO param) {
         WsFlinkKubernetesTemplateDTO mergeWithDefault = mergeDefault(param);
         WsFlinkKubernetesTemplate record = WsFlinkKubernetesTemplateConvert.INSTANCE.toDo(mergeWithDefault);
+        record.setId(param.getId());
+        record.setProjectId(param.getProjectId());
+        record.setTemplateId(param.getTemplateId());
         return wsFlinkKubernetesTemplateMapper.updateById(record);
     }
 

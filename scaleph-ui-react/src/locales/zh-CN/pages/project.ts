@@ -896,6 +896,7 @@ export default {
   'pages.project.flink.kubernetes.session-cluster': 'SessionCluster',
   'pages.project.flink.kubernetes.session-cluster.name': '名称',
   'pages.project.flink.kubernetes.session-cluster.namespace': 'Namespace',
+  'pages.project.flink.kubernetes.session-cluster.remark': 'remark',
   'pages.project.flink.kubernetes.session-cluster.steps.cluster': 'Cluster & Template',
   'pages.project.flink.kubernetes.session-cluster.steps.cluster.template': 'Template',
   'pages.project.flink.kubernetes.session-cluster.steps.cluster.cluster': 'Cluster',

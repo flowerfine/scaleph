@@ -1,10 +1,10 @@
-import {WsFlinkKubernetesTemplate} from "@/services/project/typings";
-import { Reducer, Effect } from "umi";
-import {WsFlinkKubernetesTemplateService} from "@/services/project/WsFlinkKubernetesTemplateService";
+import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
+import {Effect, Reducer} from "umi";
+import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
 
 export interface StateType {
-  template: WsFlinkKubernetesTemplate,
-  sessionCluster: string
+  templateId: number,
+  sessionCluster: WsFlinkKubernetesSessionCluster,
 }
 
 export interface ModelType {
@@ -23,25 +23,35 @@ export interface ModelType {
 
 const model: ModelType = {
   state: {
-    template: null,
-    sessionCluster: null
+    templateId: null,
+    sessionCluster: null,
   },
 
   effects: {
-    *queryTemplate({ payload }, { call, put }) {
-      const { data } = yield call(WsFlinkKubernetesTemplateService.selectOne, payload);
-      yield put({ type: 'updateTemplate', payload: data });
+    *queryTemplate({payload}, {call, put}) {
+      const {data} = yield call(WsFlinkKubernetesSessionClusterService.fromTemplate, payload);
+      yield put({type: 'updateSessionCluster', payload: {templateId: payload, sessionCluster: data}});
+    },
+
+    *editSessionCluster({payload}, {call, put}) {
+      yield put({type: 'updateSessionClusterOnly', payload: {sessionCluster: payload}});
     },
   },
 
   reducers: {
-    updateTemplate(state, { payload }) {
+    updateSessionCluster(state, {payload}) {
       return {
         ...state,
-        template: payload,
+        templateId: payload.templateId,
+        sessionCluster: payload.sessionCluster
       };
     },
-
+    updateSessionClusterOnly(state, {payload}) {
+      return {
+        ...state,
+        sessionCluster: payload.sessionCluster
+      };
+    },
   },
 };
 

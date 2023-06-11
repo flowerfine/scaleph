@@ -87,7 +87,13 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     public WsFlinkKubernetesSessionClusterDTO fromTemplate(Long templateId) {
         WsFlinkKubernetesTemplateDTO wsFlinkKubernetesTemplateDTO = wsFlinkKubernetesTemplateService.selectOne(templateId);
         WsFlinkKubernetesSessionClusterDTO wsFlinkKubernetesSessionClusterDTO = new WsFlinkKubernetesSessionClusterDTO();
-        BeanUtils.copyProperties(wsFlinkKubernetesTemplateDTO, wsFlinkKubernetesSessionClusterDTO);
+        wsFlinkKubernetesSessionClusterDTO.setKubernetesOptions(wsFlinkKubernetesTemplateDTO.getKubernetesOptions());
+        wsFlinkKubernetesSessionClusterDTO.setJobManager(wsFlinkKubernetesTemplateDTO.getJobManager());
+        wsFlinkKubernetesSessionClusterDTO.setTaskManager(wsFlinkKubernetesTemplateDTO.getTaskManager());
+        wsFlinkKubernetesSessionClusterDTO.setPodTemplate(wsFlinkKubernetesTemplateDTO.getPodTemplate());
+        wsFlinkKubernetesSessionClusterDTO.setFlinkConfiguration(wsFlinkKubernetesTemplateDTO.getFlinkConfiguration());
+        wsFlinkKubernetesSessionClusterDTO.setLogConfiguration(wsFlinkKubernetesTemplateDTO.getLogConfiguration());
+        wsFlinkKubernetesSessionClusterDTO.setIngress(wsFlinkKubernetesTemplateDTO.getIngress());
         wsFlinkKubernetesSessionClusterDTO.setRemark("generated from template-" + wsFlinkKubernetesTemplateDTO.getName());
         return wsFlinkKubernetesSessionClusterDTO;
     }
