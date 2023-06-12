@@ -316,6 +316,13 @@ export type WsFlinkCheckPointParam = QueryParam & {
   flinkJobInstanceId: number;
 };
 
+export type KubernetesOptionsVO = {
+  image?: string;
+  imagePullPolicy?: string;
+  flinkVersion?: string;
+  serviceAccount?: string;
+};
+
 export type WsFlinkKubernetesTemplate = {
   id?: number;
   projectId: number;
@@ -355,7 +362,7 @@ export type WsFlinkKubernetesTemplateUpdateParam = {
 export type WsFlinkKubernetesDeployment = {
   id?: number;
   projectId: number;
-  kind: Dict;
+  clusterCredentialId: number;
   name: string;
   namespace: string;
   kubernetesOptions?: KubernetesOptionsVO;
@@ -365,23 +372,14 @@ export type WsFlinkKubernetesDeployment = {
   flinkConfiguration?: Record<string, any>;
   logConfiguration?: Record<string, any>;
   ingress?: Record<string, any>;
-  deploymentName?: string;
-  job?: Record<string, any>;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;
 };
 
-export type KubernetesOptionsVO = {
-  image?: string;
-  imagePullPolicy?: string;
-  flinkVersion?: string;
-  serviceAccount?: string;
-};
-
 export type WsFlinkKubernetesDeploymentParam = QueryParam & {
   projectId: number;
-  kind: string;
+  clusterCredentialId?: number;
   name?: string;
 };
 
@@ -426,7 +424,7 @@ export type WsFlinkKubernetesJob = {
   name: string;
   jobId?: string;
   executionMode: Dict;
-  flinkDeploymentMode: Dict;
+  deploymentKind: Dict;
   flinkDeployment?: WsFlinkKubernetesDeployment;
   flinkSessionCluster?: WsFlinkKubernetesSessionCluster;
   type: Dict;
@@ -441,7 +439,7 @@ export type WsFlinkKubernetesJob = {
 export type WsFlinkKubernetesJobParam = QueryParam & {
   projectId: number;
   executionMode?: string;
-  flinkDeploymentMode?: string;
+  deploymentKind?: string;
   type?: string;
   state?: string;
   name?: string;
@@ -451,7 +449,7 @@ export type WsFlinkKubernetesJobAddParam = {
   projectId: number;
   name: string;
   executionMode: string;
-  flinkDeploymentMode: string;
+  deploymentKind: string;
   flinkDeploymentId?: number;
   flinkSessionClusterId?: number;
   type: string;

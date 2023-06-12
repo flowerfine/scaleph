@@ -47,7 +47,7 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
     @Override
     public Page<WsFlinkKubernetesJobDTO> list(WsFlinkKubernetesJobListParam param) {
         Page<WsFlinkKubernetesJob> page = new Page<>(param.getCurrent(), param.getPageSize());
-        Page<WsFlinkKubernetesJob> wsFlinkKubernetesJobPage = wsFlinkKubernetesJobMapper.list(page, param.getProjectId(), param.getExecutionMode(), param.getType(), param.getFlinkDeploymentMode(), param.getState(), param.getName());
+        Page<WsFlinkKubernetesJob> wsFlinkKubernetesJobPage = wsFlinkKubernetesJobMapper.list(page, param.getProjectId(), param.getExecutionMode(), param.getType(), param.getDeploymentKind(), param.getState(), param.getName());
         Page<WsFlinkKubernetesJobDTO> result = new Page<>(wsFlinkKubernetesJobPage.getCurrent(), wsFlinkKubernetesJobPage.getSize(), wsFlinkKubernetesJobPage.getTotal());
         List<WsFlinkKubernetesJobDTO> wsFlinkKubernetesJobDTOS = WsFlinkKubernetesJobConvert.INSTANCE.toDto(wsFlinkKubernetesJobPage.getRecords());
         result.setRecords(wsFlinkKubernetesJobDTOS);
@@ -64,14 +64,13 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
     @Override
     public Object asYaml(Long id) {
         WsFlinkKubernetesJobDTO wsFlinkKubernetesJobDTO = selectOne(id);
-        switch (wsFlinkKubernetesJobDTO.getFlinkDeploymentMode()) {
-            case APPLICATION:
+        switch (wsFlinkKubernetesJobDTO.getDeploymentKind()) {
+            case FLINK_DEPLOYMENT:
                 return FlinkDeploymentJobConverter.INSTANCE.convertTo(wsFlinkKubernetesJobDTO);
-            case SESSION:
+            case FLINK_SESSION_JOB:
                 return FlinkSessionJobConverter.INSTANCE.convertTo(wsFlinkKubernetesJobDTO);
-            case PER_JOB:
             default:
-                throw new RuntimeException("unsupport flink deployment mode for " + wsFlinkKubernetesJobDTO.getFlinkDeploymentMode());
+                throw new RuntimeException("unsupport flink deployment mode for " + wsFlinkKubernetesJobDTO.getDeploymentKind());
         }
     }
 

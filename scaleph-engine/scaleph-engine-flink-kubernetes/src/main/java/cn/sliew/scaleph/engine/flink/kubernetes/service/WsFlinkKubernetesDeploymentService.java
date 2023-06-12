@@ -34,6 +34,8 @@ public interface WsFlinkKubernetesDeploymentService {
 
     WsFlinkKubernetesDeploymentDTO selectOne(Long id);
 
+    WsFlinkKubernetesDeploymentDTO fromTemplate(Long templateId);
+
     FlinkDeployment asYaml(Long id);
 
     int insert(WsFlinkKubernetesDeploymentDTO dto);
@@ -43,12 +45,4 @@ public interface WsFlinkKubernetesDeploymentService {
     int deleteById(Long id);
 
     int deleteBatch(List<Long> ids);
-
-    void run(Long id) throws Exception;
-
-    void suspend(Long id) throws Exception;
-
-    void resume(Long id) throws Exception;
-
-    void shutdown(Long id) throws Exception;
 }

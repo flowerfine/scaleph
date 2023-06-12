@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment;
 
-import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkDeploymentSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
@@ -45,11 +44,11 @@ public enum FlinkDeploymentConverter implements ResourceConverter<WsFlinkKuberne
             spec.setServiceAccount(kuberenetesOptions.getServiceAccount());
             spec.setFlinkVersion(EnumUtils.getEnum(FlinkVersion.class, kuberenetesOptions.getFlinkVersion()));
         }
-        spec.setFlinkConfiguration(source.getFlinkConfiguration());
         spec.setJobManager(source.getJobManager());
         spec.setTaskManager(source.getTaskManager());
         spec.setPodTemplate(source.getPodTemplate());
-        spec.setJob(source.getJob());
+        spec.setFlinkConfiguration(source.getFlinkConfiguration());
+        spec.setLogConfiguration(source.getLogConfiguration());
         spec.setIngress(source.getIngress());
         deployment.setSpec(spec);
         return deployment;
@@ -58,7 +57,6 @@ public enum FlinkDeploymentConverter implements ResourceConverter<WsFlinkKuberne
     @Override
     public WsFlinkKubernetesDeploymentDTO convertFrom(FlinkDeployment target) {
         WsFlinkKubernetesDeploymentDTO dto = new WsFlinkKubernetesDeploymentDTO();
-        dto.setKind(DeploymentKind.of(target.getKind()));
         ObjectMeta metadata = target.getMetadata();
         dto.setName(metadata.getName());
         dto.setNamespace(metadata.getNamespace());
@@ -67,13 +65,16 @@ public enum FlinkDeploymentConverter implements ResourceConverter<WsFlinkKuberne
         optionsVO.setImage(spec.getImage());
         optionsVO.setImagePullPolicy(spec.getImagePullPolicy());
         optionsVO.setServiceAccount(spec.getServiceAccount());
-        optionsVO.setFlinkVersion(spec.getFlinkVersion().name());
+        if (spec.getFlinkVersion() != null) {
+            optionsVO.setFlinkVersion(spec.getFlinkVersion().name());
+        }
         dto.setKubernetesOptions(optionsVO);
         dto.setJobManager(spec.getJobManager());
         dto.setTaskManager(spec.getTaskManager());
         dto.setPodTemplate(spec.getPodTemplate());
         dto.setFlinkConfiguration(spec.getFlinkConfiguration());
-        dto.setJob(spec.getJob());
+        dto.setLogConfiguration(spec.getLogConfiguration());
+        dto.setIngress(spec.getIngress());
         return dto;
     }
 }

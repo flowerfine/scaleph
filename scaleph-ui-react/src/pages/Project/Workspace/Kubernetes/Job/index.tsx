@@ -43,17 +43,17 @@ const FlinkKubernetesJobWeb: React.FC = () => {
       }
     },
     {
-      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.flinkDeploymentMode'}),
-      dataIndex: 'flinkDeploymentMode',
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.job.deploymentKind'}),
+      dataIndex: 'deploymentKind',
       render: (dom, entity) => {
-        return (<Tag>{entity.flinkDeploymentMode?.label}</Tag>)
+        return (<Tag>{entity.deploymentKind?.label}</Tag>)
       },
       renderFormItem: (item, {defaultRender, ...rest}, form) => {
         return (
           <ProFormSelect
             showSearch={false}
             allowClear={true}
-            request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkDeploymentMode)}
+            request={() => DictDataService.listDictDataByType2(DICT_TYPE.deploymentKind)}
           />
         );
       }

@@ -21,6 +21,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
+import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -43,8 +44,8 @@ public class WsFlinkKubernetesJobAddParam {
     private FlinkRuntimeExecutionMode executionMode;
 
     @NotNull
-    @ApiModelProperty("deployment mode")
-    private FlinkDeploymentMode flinkDeploymentMode;
+    @ApiModelProperty("deployment kind")
+    private DeploymentKind deploymentKind;
 
     @ApiModelProperty("flink deployment id")
     private Long flinkDeploymentId;

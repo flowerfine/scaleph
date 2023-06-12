@@ -22,6 +22,7 @@ import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobState;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
+import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -40,7 +41,7 @@ public interface WsFlinkKubernetesJobMapper extends BaseMapper<WsFlinkKubernetes
                                     @Param("projectId") Long projectId,
                                     @Param("executionMode") FlinkRuntimeExecutionMode executionMode,
                                     @Param("flinkJobType") FlinkJobType flinkJobType,
-                                    @Param("flinkDeploymentMode") FlinkDeploymentMode flinkDeploymentMode,
+                                    @Param("deploymentKind") DeploymentKind deploymentKind,
                                     @Param("flinkJobState") FlinkJobState flinkJobState,
                                     @Param("name") String name);
 

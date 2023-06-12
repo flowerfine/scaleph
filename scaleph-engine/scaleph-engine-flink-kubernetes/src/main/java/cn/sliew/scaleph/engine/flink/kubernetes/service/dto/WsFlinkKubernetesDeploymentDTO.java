@@ -18,21 +18,17 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
-import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
-import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.IngressSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
+import cn.sliew.scaleph.system.model.BaseDTO;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
@@ -40,22 +36,18 @@ import java.util.Map;
 @ApiModel(value = "WsFlinkKubernetesDeployment对象", description = "flink kubernetes deployment")
 public class WsFlinkKubernetesDeploymentDTO extends BaseDTO {
 
-    @NotNull
     @ApiModelProperty("project id")
     private Long projectId;
 
-    @NotNull
-    @ApiModelProperty("kind")
-    private DeploymentKind kind;
+    @ApiModelProperty("cluster credential id")
+    private Long clusterCredentialId;
 
-    @NotBlank
     @ApiModelProperty("name")
     private String name;
 
     @ApiModelProperty("deployment id")
     private String deploymentId;
 
-    @NotNull
     @ApiModelProperty("namespace")
     private String namespace;
 
@@ -79,12 +71,6 @@ public class WsFlinkKubernetesDeploymentDTO extends BaseDTO {
 
     @ApiModelProperty("ingress spec")
     private IngressSpec ingress;
-
-    @ApiModelProperty("deployment name for session job")
-    private String deploymentName;
-
-    @ApiModelProperty("job spec")
-    private JobSpec job;
 
     @ApiModelProperty("remark")
     private String remark;

@@ -23,7 +23,6 @@ import cn.sliew.scaleph.common.convert.BaseConvert;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.IngressSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
@@ -66,9 +65,6 @@ public interface WsFlinkKubernetesDeploymentConvert extends BaseConvert<WsFlinkK
         if (dto.getIngress() != null) {
             entity.setIngress(JacksonUtil.toJsonString(dto.getIngress()));
         }
-        if (dto.getJob() != null) {
-            entity.setJob(JacksonUtil.toJsonString(dto.getJob()));
-        }
         return entity;
     }
 
@@ -96,9 +92,6 @@ public interface WsFlinkKubernetesDeploymentConvert extends BaseConvert<WsFlinkK
         }
         if (StringUtils.hasText(entity.getIngress())) {
             dto.setIngress(JacksonUtil.parseJsonString(entity.getIngress(), IngressSpec.class));
-        }
-        if (StringUtils.hasText(entity.getJob())) {
-            dto.setJob(JacksonUtil.parseJsonString(entity.getJob(), JobSpec.class));
         }
         return dto;
     }

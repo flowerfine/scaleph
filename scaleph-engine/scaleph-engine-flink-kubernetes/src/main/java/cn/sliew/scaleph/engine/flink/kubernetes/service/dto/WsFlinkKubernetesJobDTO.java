@@ -21,6 +21,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 import cn.sliew.scaleph.common.dict.flink.FlinkDeploymentMode;
 import cn.sliew.scaleph.common.dict.flink.FlinkJobType;
 import cn.sliew.scaleph.common.dict.flink.FlinkRuntimeExecutionMode;
+import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.dao.entity.master.ws.WsDiJob;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkArtifactJar;
@@ -50,8 +51,8 @@ public class WsFlinkKubernetesJobDTO extends BaseDTO {
     @ApiModelProperty("flink execution mode")
     private FlinkRuntimeExecutionMode executionMode;
 
-    @ApiModelProperty("flink deployment mode")
-    private FlinkDeploymentMode flinkDeploymentMode;
+    @ApiModelProperty("deployment kind")
+    private DeploymentKind deploymentKind;
 
     @ApiModelProperty("flink deployment")
     private WsFlinkKubernetesDeploymentDTO flinkDeployment;

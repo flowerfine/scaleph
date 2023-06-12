@@ -106,15 +106,15 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
           request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkRuntimeExecutionMode)}
         />
         <ProFormRadio.Group
-          name={"flinkDeploymentMode"}
-          label={intl.formatMessage({id: 'pages.project.flink.kubernetes.job.flinkDeploymentMode'})}
+          name={"deploymentKind"}
+          label={intl.formatMessage({id: 'pages.project.flink.kubernetes.job.deploymentKind'})}
           rules={[{required: true}]}
           disabled={data?.id}
-          request={() => DictDataService.listDictDataByType2(DICT_TYPE.flinkDeploymentMode)}
+          request={() => DictDataService.listDictDataByType2(DICT_TYPE.deploymentKind)}
         />
-        <ProFormDependency name={['flinkDeploymentMode']}>
-          {({flinkDeploymentMode}) => {
-            if (flinkDeploymentMode == '0') {
+        <ProFormDependency name={['deploymentKind']}>
+          {({deploymentKind}) => {
+            if (deploymentKind == 'FlinkDeployment') {
               return (
                 <ProFormSelect
                   name={"flinkDeploymentId"}
@@ -141,10 +141,7 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
                 />
               );
             }
-            if (flinkDeploymentMode == '1') {
-              return (<ProFormGroup/>);
-            }
-            if (flinkDeploymentMode == '2') {
+            if (deploymentKind == 'FlinkSessionJob') {
               return (
                 <ProFormSelect
                   name={"flinkSessionClusterId"}

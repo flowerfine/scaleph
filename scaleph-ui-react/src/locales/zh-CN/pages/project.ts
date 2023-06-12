@@ -918,7 +918,7 @@ export default {
   'pages.project.flink.kubernetes.job.jobId': 'Job ID',
   'pages.project.flink.kubernetes.job.name': '名称',
   'pages.project.flink.kubernetes.job.executionMode': '执行模式',
-  'pages.project.flink.kubernetes.job.flinkDeploymentMode': '部署模式',
+  'pages.project.flink.kubernetes.job.deploymentKind': '部署模式',
   'pages.project.flink.kubernetes.job.flinkDeployment': 'Deployment',
   'pages.project.flink.kubernetes.job.flinkSessionCluster': 'SessionCluster',
   'pages.project.flink.kubernetes.job.type': '作业类型',

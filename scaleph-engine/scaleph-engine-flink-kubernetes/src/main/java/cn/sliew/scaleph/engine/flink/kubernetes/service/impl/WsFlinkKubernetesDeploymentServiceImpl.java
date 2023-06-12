@@ -20,22 +20,19 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesDeployment;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesDeploymentMapper;
-import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobState;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeploymentConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesDeploymentService;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesTemplateService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesDeploymentConvert;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentListParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesDeploymentSelectListParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.fabric8.kubernetes.client.Config;
-import io.fabric8.kubernetes.client.DefaultKubernetesClient;
-import io.fabric8.kubernetes.client.KubernetesClient;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -45,22 +42,12 @@ import java.util.List;
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
 @Service
-public class WsFlinkKubernetesDeploymentServiceImpl implements WsFlinkKubernetesDeploymentService, InitializingBean, DisposableBean {
-
-    private KubernetesClient client;
+public class WsFlinkKubernetesDeploymentServiceImpl implements WsFlinkKubernetesDeploymentService {
 
     @Autowired
     private WsFlinkKubernetesDeploymentMapper wsFlinkKubernetesDeploymentMapper;
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        client = new DefaultKubernetesClient(Config.autoConfigure("docker-desktop"));
-    }
-
-    @Override
-    public void destroy() throws Exception {
-        client.close();
-    }
+    @Autowired
+    private WsFlinkKubernetesTemplateService wsFlinkKubernetesTemplateService;
 
     @Override
     public Page<WsFlinkKubernetesDeploymentDTO> list(WsFlinkKubernetesDeploymentListParam param) {
@@ -68,7 +55,7 @@ public class WsFlinkKubernetesDeploymentServiceImpl implements WsFlinkKubernetes
                 new Page<>(param.getCurrent(), param.getPageSize()),
                 Wrappers.lambdaQuery(WsFlinkKubernetesDeployment.class)
                         .eq(WsFlinkKubernetesDeployment::getProjectId, param.getProjectId())
-                        .eq(param.getKind() != null, WsFlinkKubernetesDeployment::getKind, param.getKind())
+                        .eq(param.getClusterCredentialId() != null, WsFlinkKubernetesDeployment::getClusterCredentialId, param.getClusterCredentialId())
                         .like(StringUtils.hasText(param.getName()), WsFlinkKubernetesDeployment::getName, param.getName()));
         Page<WsFlinkKubernetesDeploymentDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
@@ -92,6 +79,21 @@ public class WsFlinkKubernetesDeploymentServiceImpl implements WsFlinkKubernetes
         WsFlinkKubernetesDeployment record = wsFlinkKubernetesDeploymentMapper.selectById(id);
         checkState(record != null, () -> "flink kubernetes deployment not exist for id = " + id);
         return WsFlinkKubernetesDeploymentConvert.INSTANCE.toDto(record);
+    }
+
+    @Override
+    public WsFlinkKubernetesDeploymentDTO fromTemplate(Long templateId) {
+        WsFlinkKubernetesTemplateDTO wsFlinkKubernetesTemplateDTO = wsFlinkKubernetesTemplateService.selectOne(templateId);
+        WsFlinkKubernetesDeploymentDTO wsFlinkKubernetesDeploymentDTO = new WsFlinkKubernetesDeploymentDTO();
+        wsFlinkKubernetesDeploymentDTO.setKubernetesOptions(wsFlinkKubernetesTemplateDTO.getKubernetesOptions());
+        wsFlinkKubernetesDeploymentDTO.setJobManager(wsFlinkKubernetesTemplateDTO.getJobManager());
+        wsFlinkKubernetesDeploymentDTO.setTaskManager(wsFlinkKubernetesTemplateDTO.getTaskManager());
+        wsFlinkKubernetesDeploymentDTO.setPodTemplate(wsFlinkKubernetesTemplateDTO.getPodTemplate());
+        wsFlinkKubernetesDeploymentDTO.setFlinkConfiguration(wsFlinkKubernetesTemplateDTO.getFlinkConfiguration());
+        wsFlinkKubernetesDeploymentDTO.setLogConfiguration(wsFlinkKubernetesTemplateDTO.getLogConfiguration());
+        wsFlinkKubernetesDeploymentDTO.setIngress(wsFlinkKubernetesTemplateDTO.getIngress());
+        wsFlinkKubernetesDeploymentDTO.setRemark("generated from template-" + wsFlinkKubernetesTemplateDTO.getName());
+        return wsFlinkKubernetesDeploymentDTO;
     }
 
     @Override
@@ -120,31 +122,5 @@ public class WsFlinkKubernetesDeploymentServiceImpl implements WsFlinkKubernetes
     @Override
     public int deleteBatch(List<Long> ids) {
         return wsFlinkKubernetesDeploymentMapper.deleteBatchIds(ids);
-    }
-
-    @Override
-    public void run(Long id) throws Exception {
-        FlinkDeployment deployment = asYaml(id);
-        client.resource(deployment).createOrReplace();
-    }
-
-    @Override
-    public void suspend(Long id) throws Exception {
-        FlinkDeployment deployment = asYaml(id);
-        deployment.getSpec().getJob().setState(JobState.SUSPENDED);
-        client.resource(deployment).createOrReplace();
-    }
-
-    @Override
-    public void resume(Long id) throws Exception {
-        FlinkDeployment deployment = asYaml(id);
-        deployment.getSpec().getJob().setState(JobState.RUNNING);
-        client.resource(deployment).createOrReplace();
-    }
-
-    @Override
-    public void shutdown(Long id) throws Exception {
-        FlinkDeployment deployment = asYaml(id);
-        client.resource(deployment).delete();
     }
 }

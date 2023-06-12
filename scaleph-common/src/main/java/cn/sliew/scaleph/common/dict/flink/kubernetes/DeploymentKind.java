@@ -28,8 +28,8 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum DeploymentKind implements DictInstance {
 
-    FLINK_DEPLOYMENT("FlinkDeployment", "FlinkDeployment"),
-    FLINK_SESSION_JOB("FlinkSessionJob", "FlinkSessionJob"),
+    FLINK_DEPLOYMENT("FlinkDeployment", "Deployment"),
+    FLINK_SESSION_JOB("FlinkSessionJob", "SessionCluster"),
     ;
 
     @JsonCreator
