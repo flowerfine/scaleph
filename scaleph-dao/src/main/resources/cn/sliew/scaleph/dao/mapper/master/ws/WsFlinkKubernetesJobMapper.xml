@@ -29,7 +29,7 @@
         <result column="name" property="name"/>
         <result column="job_id" property="jobId"/>
         <result column="execution_mode" property="executionMode"/>
-        <result column="deployment_kind" property="flinkDeploymentMode"/>
+        <result column="deployment_kind" property="deploymentKind"/>
         <result column="flink_deployment_id" property="flinkDeploymentId"/>
         <result column="flink_session_cluster_id" property="flinkSessionClusterId"/>
         <result column="type" property="type"/>

@@ -114,7 +114,7 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
         />
         <ProFormDependency name={['deploymentKind']}>
           {({deploymentKind}) => {
-            if (flinkDeploymentMode == 'FlinkDeployment') {
+            if (deploymentKind == 'FlinkDeployment') {
               return (
                 <ProFormSelect
                   name={"flinkDeploymentId"}
@@ -141,7 +141,7 @@ const FlinkKubernetesJobForm: React.FC<ModalFormProps<WsFlinkKubernetesJob>> = (
                 />
               );
             }
-            if (flinkDeploymentMode == 'FlinkSessionJob') {
+            if (deploymentKind == 'FlinkSessionJob') {
               return (
                 <ProFormSelect
                   name={"flinkSessionClusterId"}

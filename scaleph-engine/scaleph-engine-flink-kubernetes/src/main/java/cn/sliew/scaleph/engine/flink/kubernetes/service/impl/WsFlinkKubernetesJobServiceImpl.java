@@ -64,14 +64,13 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
     @Override
     public Object asYaml(Long id) {
         WsFlinkKubernetesJobDTO wsFlinkKubernetesJobDTO = selectOne(id);
-        switch (wsFlinkKubernetesJobDTO.getFlinkDeploymentMode()) {
-            case APPLICATION:
+        switch (wsFlinkKubernetesJobDTO.getDeploymentKind()) {
+            case FLINK_DEPLOYMENT:
                 return FlinkDeploymentJobConverter.INSTANCE.convertTo(wsFlinkKubernetesJobDTO);
-            case SESSION:
+            case FLINK_SESSION_JOB:
                 return FlinkSessionJobConverter.INSTANCE.convertTo(wsFlinkKubernetesJobDTO);
-            case PER_JOB:
             default:
-                throw new RuntimeException("unsupport flink deployment mode for " + wsFlinkKubernetesJobDTO.getFlinkDeploymentMode());
+                throw new RuntimeException("unsupport flink deployment mode for " + wsFlinkKubernetesJobDTO.getDeploymentKind());
         }
     }
 

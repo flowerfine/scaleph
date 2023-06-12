@@ -449,7 +449,7 @@ export type WsFlinkKubernetesJobAddParam = {
   projectId: number;
   name: string;
   executionMode: string;
-  flinkDeploymentMode: string;
+  deploymentKind: string;
   flinkDeploymentId?: number;
   flinkSessionClusterId?: number;
   type: string;
