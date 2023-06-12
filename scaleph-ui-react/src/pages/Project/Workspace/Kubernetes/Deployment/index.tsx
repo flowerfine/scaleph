@@ -23,23 +23,6 @@ const FlinkKubernetesDeploymentWeb: React.FC = () => {
 
   const tableColumns: ProColumns<WsFlinkKubernetesDeployment>[] = [
     {
-      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.kind'}),
-      dataIndex: 'kind',
-      width: 200,
-      render: (dom, entity) => {
-        return (<Tag>{entity.kind?.label}</Tag>)
-      },
-      renderFormItem: (item, {defaultRender, ...rest}, form) => {
-        return (
-          <ProFormSelect
-            showSearch={false}
-            allowClear={true}
-            request={() => DictDataService.listDictDataByType2(DICT_TYPE.deploymentKind)}
-          />
-        );
-      }
-    },
-    {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.deployment.name'}),
       dataIndex: 'name',
       width: 200,

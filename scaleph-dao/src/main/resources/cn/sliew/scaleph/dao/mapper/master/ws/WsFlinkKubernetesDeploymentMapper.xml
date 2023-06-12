@@ -26,7 +26,7 @@
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
         <result column="project_id" property="projectId"/>
-        <result column="kind" property="kind"/>
+        <result column="cluster_credential_id" property="clusterCredentialId"/>
         <result column="name" property="name"/>
         <result column="deployment_id" property="deploymentId"/>
         <result column="namespace" property="namespace"/>
@@ -37,17 +37,14 @@
         <result column="flink_configuration" property="flinkConfiguration"/>
         <result column="log_configuration" property="logConfiguration"/>
         <result column="ingress" property="ingress"/>
-        <result column="deployment_name" property="deploymentName"/>
-        <result column="job" property="job"/>
         <result column="remark" property="remark"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
-        project_id, kind, `name`, deployment_id, namespace,
+        project_id, cluster_credential_id, `name`, deployment_id, namespace,
         kubernetes_options, job_manager, task_manager, pod_template,
-        flink_configuration, log_configuration, ingress,
-        deployment_name, job, remark
+        flink_configuration, log_configuration, ingress, remark
     </sql>
 
 </mapper>

@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.param;
 
-import cn.sliew.scaleph.common.dict.flink.kubernetes.DeploymentKind;
 import cn.sliew.scaleph.system.model.PaginationParam;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -34,8 +33,8 @@ public class WsFlinkKubernetesDeploymentListParam extends PaginationParam {
     @ApiModelProperty("project id")
     private Long projectId;
 
-    @ApiModelProperty("deployment kind")
-    private DeploymentKind kind;
+    @ApiModelProperty("cluster credential id")
+    private Long clusterCredentialId;
 
     @ApiModelProperty("name")
     private String name;

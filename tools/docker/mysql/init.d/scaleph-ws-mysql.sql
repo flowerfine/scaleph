@@ -360,68 +360,66 @@ VALUES (1, 1, 'default', '3f0c6600-b6d7-4e2c-b2e5-4a0b3cdb3cbb', 'default',
 DROP TABLE IF EXISTS ws_flink_kubernetes_deployment;
 CREATE TABLE ws_flink_kubernetes_deployment
 (
-    id                  bigint       not null auto_increment,
-    project_id          bigint       not null comment '项目id',
-    kind                varchar(16)  not null,
-    `name`              varchar(255) not null,
-    deployment_id       varchar(64)  not null,
-    namespace           varchar(255) not null,
-    kubernetes_options  varchar(255),
-    job_manager         text,
-    task_manager        text,
-    pod_template        text,
-    flink_configuration text,
-    log_configuration   text,
-    ingress             text,
-    deployment_name     varchar(255),
-    job                 text,
-    remark              varchar(255),
-    creator             varchar(32),
-    create_time         datetime     not null default current_timestamp,
-    editor              varchar(32),
-    update_time         datetime     not null default current_timestamp on update current_timestamp,
+    id                    bigint       not null auto_increment,
+    project_id            bigint       not null comment '项目id',
+    cluster_credential_id bigint       not null,
+    `name`                varchar(255) not null,
+    deployment_id         varchar(64)  not null,
+    namespace             varchar(255) not null,
+    kubernetes_options    varchar(255),
+    job_manager           text,
+    task_manager          text,
+    pod_template          text,
+    flink_configuration   text,
+    log_configuration     text,
+    ingress               text,
+    remark                varchar(255),
+    creator               varchar(32),
+    create_time           datetime     not null default current_timestamp,
+    editor                varchar(32),
+    update_time           datetime     not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    UNIQUE KEY uniq_name (kind, `name`)
+    UNIQUE KEY uniq_name (cluster_credential_id, `name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes deployment';
 
-INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `project_id`, `kind`, `name`, `deployment_id`, `namespace`,
-                                              `kubernetes_options`, `job_manager`, `task_manager`, `pod_template`,
-                                              `flink_configuration`, `log_configuration`, `ingress`, `deployment_name`,
-                                              `job`, `remark`, `creator`, `editor`)
-VALUES (1, 1, 'FlinkDeployment', 'basic-example', 'default', 'b9d1f4e5-e508-44b1-a775-ed19d05b4a1f',
-        '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
-        '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', NULL,
-        '{\"taskmanager.numberOfTaskSlots\":\"2\"}', NULL, NULL, NULL,
-        '{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"entryClass\":\"org.apache.flink.streaming.examples.statemachine.StateMachineExample\",\"parallelism\":2,\"upgradeMode\":\"stateless\"}',
-        NULL, 'sys', 'sys');
+-- INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `project_id`, `kind`, `name`, `deployment_id`, `namespace`,
+--                                               `kubernetes_options`, `job_manager`, `task_manager`, `pod_template`,
+--                                               `flink_configuration`, `log_configuration`, `ingress`, `deployment_name`,
+--                                               `job`, `remark`, `creator`, `editor`)
+-- VALUES (1, 1, 'FlinkDeployment', 'basic-example', 'default', 'b9d1f4e5-e508-44b1-a775-ed19d05b4a1f',
+--         '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
+--         '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', '{\"resource\":{\"memory\":\"2048m\",\"cpu\":1}}', NULL,
+--         '{\"taskmanager.numberOfTaskSlots\":\"2\"}', NULL, NULL, NULL,
+--         '{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"entryClass\":\"org.apache.flink.streaming.examples.statemachine.StateMachineExample\",\"parallelism\":2,\"upgradeMode\":\"stateless\"}',
+--         NULL, 'sys', 'sys');
 
-INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `project_id`, `kind`, `name`, `deployment_id`, `namespace`,
-                                              `kubernetes_options`, `job_manager`, `task_manager`, `pod_template`,
-                                              `flink_configuration`, `log_configuration`, `ingress`, `deployment_name`,
-                                              `job`, `remark`, `creator`, `editor`)
-VALUES (2, 1, 'FlinkDeployment', 'stateful-example', 'default', 'deda1bdc-f90e-41f5-a3aa-d8a7c31b22e6',
-        '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
-        '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
-        '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
-        '{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/flink-data\",\"name\":\"flink-volume\"}]}],\"volumes\":[{\"emptyDir\":{\"sizeLimit\":\"500Mi\"},\"name\":\"flink-volume\"}]}}',
-        '{\"taskmanager.numberOfTaskSlots\":\"2\",\"state.savepoints.dir\":\"file:///flink-data/savepoints\",\"state.checkpoints.dir\":\"file:///flink-data/checkpoints\",\"high-availability\":\"org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory\",\"high-availability.storageDir\":\"file:///flink-data/ha\"}',
-        NULL, NULL, NULL,
-        '{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":2,\"entryClass\":\"org.apache.flink.streaming.examples.statemachine.StateMachineExample\",\"args\":[],\"state\":\"running\",\"upgradeMode\":\"last-state\"}',
-        NULL, 'sys', 'sys');
+-- INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `project_id`, `kind`, `name`, `deployment_id`, `namespace`,
+--                                               `kubernetes_options`, `job_manager`, `task_manager`, `pod_template`,
+--                                               `flink_configuration`, `log_configuration`, `ingress`, `deployment_name`,
+--                                               `job`, `remark`, `creator`, `editor`)
+-- VALUES (2, 1, 'FlinkDeployment', 'stateful-example', 'default', 'deda1bdc-f90e-41f5-a3aa-d8a7c31b22e6',
+--         '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
+--         '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
+--         '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
+--         '{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/flink-data\",\"name\":\"flink-volume\"}]}],\"volumes\":[{\"emptyDir\":{\"sizeLimit\":\"500Mi\"},\"name\":\"flink-volume\"}]}}',
+--         '{\"taskmanager.numberOfTaskSlots\":\"2\",\"state.savepoints.dir\":\"file:///flink-data/savepoints\",\"state.checkpoints.dir\":\"file:///flink-data/checkpoints\",\"high-availability\":\"org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory\",\"high-availability.storageDir\":\"file:///flink-data/ha\"}',
+--         NULL, NULL, NULL,
+--         '{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":2,\"entryClass\":\"org.apache.flink.streaming.examples.statemachine.StateMachineExample\",\"args\":[],\"state\":\"running\",\"upgradeMode\":\"last-state\"}',
+--         NULL, 'sys', 'sys');
 
-INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `project_id`, `kind`, `name`, `deployment_id`, `namespace`,
-                                              `kubernetes_options`, `job_manager`, `task_manager`, `pod_template`,
-                                              `flink_configuration`, `log_configuration`, `ingress`, `deployment_name`,
-                                              `job`, `remark`, `creator`, `editor`)
-VALUES (3, 1, 'FlinkDeployment', 'stateful-example2', 'default', '756d4946-f642-4b58-808e-d0a73378ee88',
-        '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
-        '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
-        '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
-        '{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/flink-data\",\"name\":\"flink-volume\"}]}],\"volumes\":[{\"hostPath\":{\"path\":\"/tmp/flink\",\"type\":\"DirectoryOrCreate\"},\"name\":\"flink-volume\"}]}}',
-        '{\"taskmanager.numberOfTaskSlots\":\"2\",\"state.savepoints.dir\":\"file:///flink-data/savepoints\",\"state.checkpoints.dir\":\"file:///flink-data/checkpoints\",\"high-availability\":\"org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory\",\"high-availability.storageDir\":\"file:///flink-data/ha\"}',
-        NULL, NULL, NULL,
-        '{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":2,\"entryClass\":\"org.apache.flink.streaming.examples.statemachine.StateMachineExample\",\"args\":[],\"state\":\"running\",\"upgradeMode\":\"last-state\"}',
-        NULL, 'sys', 'sys');
+-- INSERT INTO `ws_flink_kubernetes_deployment` (`id`, `project_id`, `kind`, `name`, `deployment_id`, `namespace`,
+--                                               `kubernetes_options`, `job_manager`, `task_manager`, `pod_template`,
+--                                               `flink_configuration`, `log_configuration`, `ingress`, `deployment_name`,
+--                                               `job`, `remark`, `creator`, `editor`)
+-- VALUES (3, 1, 'FlinkDeployment', 'stateful-example2', 'default', '756d4946-f642-4b58-808e-d0a73378ee88',
+--         '{\"image\":\"flink:1.15\",\"flinkVersion\":\"v1_15\",\"serviceAccount\":\"flink\"}',
+--         '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
+--         '{\"resource\":{\"cpu\":1.0,\"memory\":\"2048m\"},\"replicas\":1}',
+--         '{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/flink-data\",\"name\":\"flink-volume\"}]}],\"volumes\":[{\"hostPath\":{\"path\":\"/tmp/flink\",\"type\":\"DirectoryOrCreate\"},\"name\":\"flink-volume\"}]}}',
+--         '{\"taskmanager.numberOfTaskSlots\":\"2\",\"state.savepoints.dir\":\"file:///flink-data/savepoints\",\"state.checkpoints.dir\":\"file:///flink-data/checkpoints\",\"high-availability\":\"org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory\",\"high-availability.storageDir\":\"file:///flink-data/ha\"}',
+--         NULL, NULL, NULL,
+--         '{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":2,\"entryClass\":\"org.apache.flink.streaming.examples.statemachine.StateMachineExample\",\"args\":[],\"state\":\"running\",\"upgradeMode\":\"last-state\"}',
+--         NULL, 'sys', 'sys');
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_session_cluster;
 CREATE TABLE ws_flink_kubernetes_session_cluster
@@ -440,7 +438,7 @@ CREATE TABLE ws_flink_kubernetes_session_cluster
     log_configuration     text,
     ingress               text,
     status                text comment 'flink status',
-    remark              varchar(255),
+    remark                varchar(255),
     creator               varchar(32),
     create_time           datetime     not null default current_timestamp,
     editor                varchar(32),
@@ -457,7 +455,7 @@ CREATE TABLE ws_flink_kubernetes_job
     `name`                   varchar(255) not null,
     job_id                   varchar(64)  not null,
     execution_mode           varchar(16)  not null,
-    flink_deployment_mode    varchar(16)  not null,
+    deployment_kind          varchar(16)  not null,
     flink_deployment_id      bigint,
     flink_session_cluster_id bigint,
     `type`                   varchar(4)   not null comment '作业artifact类型',
@@ -470,7 +468,7 @@ CREATE TABLE ws_flink_kubernetes_job
     editor                   varchar(32),
     update_time              datetime     not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    UNIQUE KEY uniq_name (flink_deployment_mode, flink_deployment_id, `name`)
+    UNIQUE KEY uniq_name (deployment_kind, flink_deployment_id, `name`)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes job';
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_job_instance;

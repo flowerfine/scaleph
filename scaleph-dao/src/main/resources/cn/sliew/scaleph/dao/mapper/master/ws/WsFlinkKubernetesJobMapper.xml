@@ -29,7 +29,7 @@
         <result column="name" property="name"/>
         <result column="job_id" property="jobId"/>
         <result column="execution_mode" property="executionMode"/>
-        <result column="flink_deployment_mode" property="flinkDeploymentMode"/>
+        <result column="deployment_kind" property="flinkDeploymentMode"/>
         <result column="flink_deployment_id" property="flinkDeploymentId"/>
         <result column="flink_session_cluster_id" property="flinkSessionClusterId"/>
         <result column="type" property="type"/>
@@ -53,7 +53,7 @@
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
         project_id, `name`, job_id, execution_mode,
-        flink_deployment_mode, flink_deployment_id, flink_session_cluster_id,
+        deployment_kind, flink_deployment_id, flink_session_cluster_id,
         `type`, flink_artifact_jar_id, flink_artifact_sql_id, ws_di_job_id, remark
     </sql>
 
@@ -69,8 +69,8 @@
             <if test="flinkJobType != null">
                 AND type = #{flinkJobType}
             </if>
-            <if test="flinkDeploymentMode != null">
-                AND flink_deployment_mode = #{flinkDeploymentMode}
+            <if test="deploymentKind != null">
+                AND deployment_kind = #{deploymentKind}
             </if>
             <if test="name != null and name != ''">
                 AND name like concat('%', #{name}, '%')

@@ -47,7 +47,7 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
     @Override
     public Page<WsFlinkKubernetesJobDTO> list(WsFlinkKubernetesJobListParam param) {
         Page<WsFlinkKubernetesJob> page = new Page<>(param.getCurrent(), param.getPageSize());
-        Page<WsFlinkKubernetesJob> wsFlinkKubernetesJobPage = wsFlinkKubernetesJobMapper.list(page, param.getProjectId(), param.getExecutionMode(), param.getType(), param.getFlinkDeploymentMode(), param.getState(), param.getName());
+        Page<WsFlinkKubernetesJob> wsFlinkKubernetesJobPage = wsFlinkKubernetesJobMapper.list(page, param.getProjectId(), param.getExecutionMode(), param.getType(), param.getDeploymentKind(), param.getState(), param.getName());
         Page<WsFlinkKubernetesJobDTO> result = new Page<>(wsFlinkKubernetesJobPage.getCurrent(), wsFlinkKubernetesJobPage.getSize(), wsFlinkKubernetesJobPage.getTotal());
         List<WsFlinkKubernetesJobDTO> wsFlinkKubernetesJobDTOS = WsFlinkKubernetesJobConvert.INSTANCE.toDto(wsFlinkKubernetesJobPage.getRecords());
         result.setRecords(wsFlinkKubernetesJobDTOS);

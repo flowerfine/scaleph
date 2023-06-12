@@ -29,7 +29,7 @@ import java.util.Arrays;
 public enum FlinkDeploymentMode implements DictInstance {
 
     APPLICATION("0", "Application", false),
-    PER_JOB("1", "Per-Job", true),
+    PER_JOB("1", "Per-Job", false),
     SESSION("2", "Session", false),
     ;
 

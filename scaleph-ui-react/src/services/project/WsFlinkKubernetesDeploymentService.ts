@@ -77,22 +77,4 @@ export const WsFlinkKubernetesDeploymentService = {
     });
   },
 
-  suspend: async (id: number) => {
-    return request<ResponseBody<any>>(`${WsFlinkKubernetesDeploymentService.url}/suspend/` + id, {
-      method: 'POST'
-    });
-  },
-
-  resume: async (id: number) => {
-    return request<ResponseBody<any>>(`${WsFlinkKubernetesDeploymentService.url}/resume/` + id, {
-      method: 'POST'
-    });
-  },
-
-  shutdown: async (id: number) => {
-    return request<ResponseBody<any>>(`${WsFlinkKubernetesDeploymentService.url}/shutdown/` + id, {
-      method: 'POST'
-    });
-  },
-
 };
