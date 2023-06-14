@@ -18,14 +18,11 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
-import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
+import java.net.URI;
 
-public interface FlinkKubernetesOperatorService {
+public interface FlinkJobManagerEndpointService {
 
-    GenericKubernetesResource getSessionCluster(Long sessionClusterId) throws Exception;
+    URI getSessionClusterJobManagerEndpoint(Long sessionClusterId);
 
-    void deploySessionCluster(Long sessionClusterId) throws Exception;
-
-    void shutdownSessionCluster(Long sessionClusterId) throws Exception;
-
+    URI getJobManagerEndpoint(Long jobId);
 }

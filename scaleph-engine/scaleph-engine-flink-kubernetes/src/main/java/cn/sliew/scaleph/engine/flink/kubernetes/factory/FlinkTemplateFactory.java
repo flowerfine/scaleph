@@ -71,6 +71,7 @@ public enum FlinkTemplateFactory {
         spec.setTaskManager(createTaskManager());
         spec.setFlinkConfiguration(createFlinkConfiguration());
         spec.setLogConfiguration(createLogConfiguration());
+        spec.setIngress(createIngressSpec());
         template.setSpec(spec);
         return template;
     }
@@ -141,5 +142,15 @@ public enum FlinkTemplateFactory {
     private static Map<String, String> createLogConfiguration() {
         Map<String, String> logConfiguration = new HashMap<>();
         return logConfiguration;
+    }
+
+    private static IngressSpec createIngressSpec() {
+        IngressSpec spec = new IngressSpec();
+        spec.setTemplate("/{{namespace}}/{{name}}(/|$)(.*)");
+        spec.setClassName("nginx");
+        Map<String, String> annotations = new HashMap<>();
+        annotations.put("nginx.ingress.kubernetes.io/rewrite-target", "/$2");
+        spec.setAnnotations(annotations);
+        return spec;
     }
 }

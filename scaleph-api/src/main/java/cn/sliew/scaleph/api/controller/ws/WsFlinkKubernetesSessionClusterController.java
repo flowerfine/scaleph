@@ -20,6 +20,7 @@ package cn.sliew.scaleph.api.controller.ws;
 
 import cn.sliew.scaleph.api.annotation.Logging;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkJobManagerEndpointService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
@@ -28,6 +29,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesS
 import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @Api(tags = "Flink Kubernetes管理-Flink SessionCluster管理")
@@ -47,6 +50,8 @@ public class WsFlinkKubernetesSessionClusterController {
     private WsFlinkKubernetesSessionClusterService wsFlinkKubernetesSessionClusterService;
     @Autowired
     private FlinkKubernetesOperatorService flinkKubernetesOperatorService;
+    @Autowired
+    private FlinkJobManagerEndpointService flinkJobManagerEndpointService;
 
     @Logging
     @GetMapping
@@ -121,6 +126,15 @@ public class WsFlinkKubernetesSessionClusterController {
     }
 
     @Logging
+    @GetMapping("{id}/flinkui")
+    @ApiOperation(value = "获取 flink-ui 链接", notes = "获取 flink-ui 链接")
+    public ResponseEntity<ResponseVO<URI>> getFlinkUI(@PathVariable("id") Long id) throws Exception {
+        URI endpoint = flinkJobManagerEndpointService.getSessionClusterJobManagerEndpoint(id);
+        flinkKubernetesOperatorService.deploySessionCluster(id);
+        return new ResponseEntity<>(ResponseVO.success(endpoint), HttpStatus.OK);
+    }
+
+    @Logging
     @PostMapping("deploy/{id}")
     @ApiOperation(value = "启动 SessionCluster", notes = "启动 SessionCluster")
     public ResponseEntity<ResponseVO> deploySessionCluster(@PathVariable("id") Long id) throws Exception {
@@ -134,5 +148,13 @@ public class WsFlinkKubernetesSessionClusterController {
     public ResponseEntity<ResponseVO> shutdownSessionCluster(@PathVariable("id") Long id) throws Exception {
         flinkKubernetesOperatorService.shutdownSessionCluster(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("{id}/status")
+    @ApiOperation(value = "获取 SessionCluster 状态", notes = "获取 SessionCluster 状态")
+    public ResponseEntity<ResponseVO<GenericKubernetesResource>> getSessionClusterStatus(@PathVariable("id") Long id) throws Exception {
+        GenericKubernetesResource sessionCluster = flinkKubernetesOperatorService.getSessionCluster(id);
+        return new ResponseEntity<>(ResponseVO.success(sessionCluster), HttpStatus.OK);
     }
 }

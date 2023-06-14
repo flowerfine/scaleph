@@ -21,9 +21,13 @@ package cn.sliew.scaleph.engine.flink.kubernetes.resource.template;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesTemplateDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
+import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.ResourceConverter;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import org.apache.commons.lang3.EnumUtils;
+import org.springframework.util.StringUtils;
+
+import java.util.Map;
 
 public enum FlinkTemplateConverter implements ResourceConverter<WsFlinkKubernetesTemplateDTO, FlinkTemplate> {
     INSTANCE;
@@ -32,7 +36,10 @@ public enum FlinkTemplateConverter implements ResourceConverter<WsFlinkKubernete
     public FlinkTemplate convertTo(WsFlinkKubernetesTemplateDTO source) {
         FlinkTemplate template = new FlinkTemplate();
         ObjectMetaBuilder builder = new ObjectMetaBuilder(true);
-        builder.withName(source.getName()).withNamespace(source.getNamespace());
+        String name = StringUtils.hasText(source.getTemplateId()) ? source.getTemplateId() : source.getName();
+        builder.withName(name);
+        builder.withNamespace(source.getNamespace());
+        builder.withAdditionalProperties(Map.of(Constant.SCALEPH_NAME, source.getName()));
         template.setMetadata(builder.build());
         FlinkTemplateSpec spec = new FlinkTemplateSpec();
         KubernetesOptionsVO kuberenetesOptions = source.getKubernetesOptions();
@@ -54,7 +61,13 @@ public enum FlinkTemplateConverter implements ResourceConverter<WsFlinkKubernete
     @Override
     public WsFlinkKubernetesTemplateDTO convertFrom(FlinkTemplate target) {
         WsFlinkKubernetesTemplateDTO dto = new WsFlinkKubernetesTemplateDTO();
-        dto.setName(target.getMetadata().getName());
+        String name = target.getMetadata().getName();
+        if (target.getMetadata().getAdditionalProperties() != null) {
+            Map<String, Object> additionalProperties = target.getMetadata().getAdditionalProperties();
+            name = (String) additionalProperties.computeIfAbsent(Constant.SCALEPH_NAME, key -> target.getMetadata().getName());
+        }
+        dto.setName(name);
+        dto.setTemplateId(target.getMetadata().getName());
         dto.setNamespace(target.getMetadata().getNamespace());
         FlinkTemplateSpec spec = target.getSpec();
         KubernetesOptionsVO kuberenetesOptions = new KubernetesOptionsVO();

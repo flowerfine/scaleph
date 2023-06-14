@@ -354,7 +354,9 @@ VALUES (1, 1, 'default', '3f0c6600-b6d7-4e2c-b2e5-4a0b3cdb3cbb', 'default',
         '{\"resource\":{\"cpu\":1.0,\"memory\":\"1G\"},\"replicas\":1}',
         '{\"resource\":{\"cpu\":1.0,\"memory\":\"1G\"},\"replicas\":1}', NULL,
         '{\"kubernetes.operator.savepoint.history.max.count\":\"10\",\"execution.checkpointing.mode\":\"exactly_once\",\"state.checkpoints.num-retained\":\"10\",\"restart-strategy.failure-rate.delay\":\"10s\",\"restart-strategy.failure-rate.max-failures-per-interval\":\"30\",\"kubernetes.operator.savepoint.format.type\":\"NATIVE\",\"web.cancel.enable\":\"false\",\"kubernetes.operator.cluster.health-check.enabled\":\"true\",\"execution.checkpointing.interval\":\"180s\",\"execution.checkpointing.timeout\":\"10min\",\"kubernetes.operator.savepoint.history.max.age\":\"72h\",\"execution.checkpointing.externalized-checkpoint-retention\":\"RETAIN_ON_CANCELLATION\",\"kubernetes.operator.cluster.health-check.restarts.threshold\":\"30\",\"restart-strategy\":\"failurerate\",\"restart-strategy.failure-rate.failure-rate-interval\":\"10min\",\"execution.checkpointing.min-pause\":\"180s\",\"kubernetes.operator.cluster.health-check.restarts.window\":\"10min\",\"execution.checkpointing.max-concurrent-checkpoints\":\"1\",\"kubernetes.operator.periodic.savepoint.interval\":\"1h\",\"kubernetes.operator.savepoint.trigger.grace-period\":\"20min\",\"execution.checkpointing.alignment-timeout\":\"120s\"}',
-        NULL, NULL, NULL, 'sys', 'sys');
+        NULL,
+        '{"template":"/{{namespace}}/{{name}}(/|$)(.*)","className":"nginx","annotations":{"nginx.ingress.kubernetes.io/rewrite-target":"/$2"}}',
+        NULL, 'sys', 'sys');
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_deployment;
 CREATE TABLE ws_flink_kubernetes_deployment

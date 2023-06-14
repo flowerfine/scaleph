@@ -3,8 +3,7 @@ import {request} from 'umi';
 import {
   WsFlinkKubernetesSessionCluster,
   WsFlinkKubernetesSessionClusterParam,
-  WsFlinkKubernetesSessionClusterSelectListParam,
-  WsFlinkKubernetesTemplate
+  WsFlinkKubernetesSessionClusterSelectListParam
 } from './typings';
 
 export const WsFlinkKubernetesSessionClusterService = {
@@ -80,6 +79,17 @@ export const WsFlinkKubernetesSessionClusterService = {
     });
   },
 
+  flinkui: async (row: WsFlinkKubernetesSessionCluster) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/${row.id}/flinkui`, {
+      method: 'GET',
+    }).then((response) => {
+      const a = document.createElement('a');
+      a.href = response.data;
+      a.target = "_blank";
+      a.click();
+    });
+  },
+
   deploy: async (row: WsFlinkKubernetesSessionCluster) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/deploy/${row.id}`, {
       method: 'POST',
@@ -89,6 +99,12 @@ export const WsFlinkKubernetesSessionClusterService = {
   shutdown: async (row: WsFlinkKubernetesSessionCluster) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/shutdown/${row.id}`, {
       method: 'POST',
+    });
+  },
+
+  status: async (row: WsFlinkKubernetesSessionCluster) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/${row.id}/status`, {
+      method: 'GET',
     });
   },
 

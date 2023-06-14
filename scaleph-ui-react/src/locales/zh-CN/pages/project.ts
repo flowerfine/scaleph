@@ -903,6 +903,15 @@ export default {
   'pages.project.flink.kubernetes.session-cluster.steps.options': 'Options',
   'pages.project.flink.kubernetes.session-cluster.steps.yaml': 'YAML',
 
+  'pages.project.flink.kubernetes.session-cluster.detail.deploy': 'Deploy',
+  'pages.project.flink.kubernetes.session-cluster.detail.suspend': 'Suspend',
+  'pages.project.flink.kubernetes.session-cluster.detail.shutdown': 'Shutdown',
+  'pages.project.flink.kubernetes.session-cluster.detail.savepoint': 'Savepoint',
+  'pages.project.flink.kubernetes.session-cluster.detail.flinkui': 'Flink UI',
+  'pages.project.flink.kubernetes.session-cluster.detail.metrics': 'Metrics',
+  'pages.project.flink.kubernetes.session-cluster.detail.logs': 'Logs',
+  'pages.project.flink.kubernetes.session-cluster.detail.tab.yaml': 'YAML',
+
   'pages.project.flink.kubernetes.deployment': 'Deployment',
   'pages.project.flink.kubernetes.deployment.kind': '类型',
   'pages.project.flink.kubernetes.deployment.name': '名称',

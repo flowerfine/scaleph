@@ -26,12 +26,14 @@ import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionClusterConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
+import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.ResourceConverter;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public enum FlinkSessionJobConverter implements ResourceConverter<WsFlinkKubernetesJobDTO, FlinkSessionJob> {
     INSTANCE;
@@ -41,7 +43,9 @@ public enum FlinkSessionJobConverter implements ResourceConverter<WsFlinkKuberne
         FlinkSessionJob session = new FlinkSessionJob();
         FlinkSessionCluster flinkSessionCluster = FlinkSessionClusterConverter.INSTANCE.convertTo(source.getFlinkSessionCluster());
         ObjectMetaBuilder builder = new ObjectMetaBuilder(flinkSessionCluster.getMetadata(), true);
-        builder.withName(source.getJobId());
+        String name = StringUtils.hasText(source.getJobId()) ? source.getJobId() : source.getName();
+        builder.withName(name);
+        builder.withAdditionalProperties(Map.of(Constant.SCALEPH_NAME, source.getName()));
         session.setMetadata(builder.build());
         FlinkSessionJobSpec spec = new FlinkSessionJobSpec();
         spec.setDeploymentName(flinkSessionCluster.getMetadata().getName());

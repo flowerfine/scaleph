@@ -18,12 +18,11 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
+import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesSessionCluster;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesSessionClusterMapper;
-import cn.sliew.scaleph.engine.flink.kubernetes.factory.FlinkSessionClusterFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionClusterConverter;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesTemplateService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesSessionClusterConvert;
@@ -34,13 +33,11 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesS
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.UUID;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -104,15 +101,9 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     }
 
     @Override
-    public FlinkSessionCluster fromTemplate(WsFlinkKubernetesTemplateDTO dto) {
-        FlinkTemplate template = wsFlinkKubernetesTemplateService.asYaml(dto);
-        return FlinkSessionClusterFactory.create(template);
-    }
-
-    @Override
     public int insert(WsFlinkKubernetesSessionClusterDTO dto) {
         WsFlinkKubernetesSessionCluster record = WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDo(dto);
-        record.setSessionClusterId(UUID.randomUUID().toString());
+        record.setSessionClusterId(UUIDUtil.randomUUId());
         return wsFlinkKubernetesSessionClusterMapper.insert(record);
     }
 

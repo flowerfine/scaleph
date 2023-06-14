@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
+import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesTemplate;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesTemplateMapper;
 import cn.sliew.scaleph.engine.flink.kubernetes.factory.FlinkTemplateFactory;
@@ -44,7 +45,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTemplateService {
@@ -114,7 +114,7 @@ public class WsFlinkKubernetesTemplateServiceImpl implements WsFlinkKubernetesTe
     public int insert(WsFlinkKubernetesTemplateAddParam param) {
         WsFlinkKubernetesTemplate record = new WsFlinkKubernetesTemplate();
         BeanUtils.copyProperties(param, record);
-        record.setTemplateId(UUID.randomUUID().toString());
+        record.setTemplateId(UUIDUtil.randomUUId());
         return wsFlinkKubernetesTemplateMapper.insert(record);
     }
 

@@ -16,16 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.kubernetes.service;
+package cn.sliew.scaleph.common.util;
 
-import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
+import org.apache.commons.lang3.RandomStringUtils;
 
-public interface FlinkKubernetesOperatorService {
+import java.util.UUID;
 
-    GenericKubernetesResource getSessionCluster(Long sessionClusterId) throws Exception;
+public enum UUIDUtil {
+    ;
 
-    void deploySessionCluster(Long sessionClusterId) throws Exception;
-
-    void shutdownSessionCluster(Long sessionClusterId) throws Exception;
-
+    public static String randomUUId() {
+        String startPart = RandomStringUtils.randomAlphabetic(4).toLowerCase();
+        String endPart = UUID.randomUUID().toString().replace("-", "");
+        return String.format("%s%s", startPart, endPart);
+    }
 }
