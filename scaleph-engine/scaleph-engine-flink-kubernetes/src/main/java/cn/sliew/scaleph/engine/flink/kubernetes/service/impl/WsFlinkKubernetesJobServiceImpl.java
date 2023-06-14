@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
+import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesJob;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesJobMapper;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.job.FlinkDeploymentJobConverter;
@@ -34,7 +35,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -78,7 +78,7 @@ public class WsFlinkKubernetesJobServiceImpl implements WsFlinkKubernetesJobServ
     public int insert(WsFlinkKubernetesJobAddParam param) {
         WsFlinkKubernetesJob record = new WsFlinkKubernetesJob();
         BeanUtils.copyProperties(param, record);
-        record.setJobId(UUID.randomUUID().toString());
+        record.setJobId(UUIDUtil.randomUUId());
         return wsFlinkKubernetesJobMapper.insert(record);
     }
 

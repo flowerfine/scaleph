@@ -24,9 +24,13 @@ import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.KubernetesDeploymentMode;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
+import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.ResourceConverter;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import org.apache.commons.lang3.EnumUtils;
+import org.springframework.util.StringUtils;
+
+import java.util.Map;
 
 public enum FlinkSessionClusterConverter implements ResourceConverter<WsFlinkKubernetesSessionClusterDTO, FlinkSessionCluster> {
     INSTANCE;
@@ -35,7 +39,10 @@ public enum FlinkSessionClusterConverter implements ResourceConverter<WsFlinkKub
     public FlinkSessionCluster convertTo(WsFlinkKubernetesSessionClusterDTO source) {
         FlinkSessionCluster sessionCluster = new FlinkSessionCluster();
         ObjectMetaBuilder builder = new ObjectMetaBuilder(true);
-        builder.withName(source.getName()).withNamespace(source.getNamespace());
+        String name = StringUtils.hasText(source.getSessionClusterId()) ? source.getSessionClusterId() : source.getName();
+        builder.withName(name);
+        builder.withNamespace(source.getNamespace());
+        builder.withAdditionalProperties(Map.of(Constant.SCALEPH_NAME, source.getName()));
         sessionCluster.setMetadata(builder.build());
         FlinkSessionClusterSpec spec = new FlinkSessionClusterSpec();
         KubernetesOptionsVO kuberenetesOptions = source.getKubernetesOptions();
@@ -58,8 +65,15 @@ public enum FlinkSessionClusterConverter implements ResourceConverter<WsFlinkKub
     @Override
     public WsFlinkKubernetesSessionClusterDTO convertFrom(FlinkSessionCluster target) {
         WsFlinkKubernetesSessionClusterDTO dto = new WsFlinkKubernetesSessionClusterDTO();
-        dto.setName(target.getMetadata().getName());
+        String name = target.getMetadata().getName();
+        if (target.getMetadata().getAdditionalProperties() != null) {
+            Map<String, Object> additionalProperties = target.getMetadata().getAdditionalProperties();
+            name = (String) additionalProperties.computeIfAbsent(Constant.SCALEPH_NAME, key -> target.getMetadata().getName());
+        }
+        dto.setName(name);
+        dto.setSessionClusterId(target.getMetadata().getName());
         dto.setNamespace(target.getMetadata().getNamespace());
+        dto.setSessionClusterId(target.getMetadata().getUid());
         FlinkSessionClusterSpec spec = target.getSpec();
         KubernetesOptionsVO kuberenetesOptions = new KubernetesOptionsVO();
         if (kuberenetesOptions != null) {

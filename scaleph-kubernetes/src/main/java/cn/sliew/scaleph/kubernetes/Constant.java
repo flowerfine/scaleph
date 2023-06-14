@@ -21,6 +21,12 @@ package cn.sliew.scaleph.kubernetes;
 public enum Constant {
     ;
 
+    public static final String SCALEPH_GROUP = "scaleph.sliew.cn";
+    public static final String SCALEPH_VERSION = "v1alpha";
+    public static final String SCALEPH_API_VERSION = SCALEPH_GROUP + "/" + SCALEPH_VERSION;
+    public static final String SCALEPH_NAME = SCALEPH_GROUP + "/" + "name";
+
+
     public static final String GROUP = "flink.apache.org";
     public static final String VERSION = "v1beta1";
     public static final String API_VERSION = GROUP + "/" + VERSION;

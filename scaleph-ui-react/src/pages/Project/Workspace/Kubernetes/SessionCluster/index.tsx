@@ -59,6 +59,7 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
               shape="default"
               type="link"
               icon={<EyeOutlined/>}
+              onClick={() => history.push("/workspace/flink/kubernetes/session-cluster/detail", record)}
             >
               {intl.formatMessage({id: 'app.common.operate.detail.label'})}
             </Button>

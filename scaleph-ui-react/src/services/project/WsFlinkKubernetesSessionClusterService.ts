@@ -3,8 +3,7 @@ import {request} from 'umi';
 import {
   WsFlinkKubernetesSessionCluster,
   WsFlinkKubernetesSessionClusterParam,
-  WsFlinkKubernetesSessionClusterSelectListParam,
-  WsFlinkKubernetesTemplate
+  WsFlinkKubernetesSessionClusterSelectListParam
 } from './typings';
 
 export const WsFlinkKubernetesSessionClusterService = {
@@ -77,6 +76,17 @@ export const WsFlinkKubernetesSessionClusterService = {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/batch`, {
       method: 'DELETE',
       data: params,
+    });
+  },
+
+  flinkui: async (row: WsFlinkKubernetesSessionCluster) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/${row.id}/flinkui`, {
+      method: 'GET',
+    }).then((response) => {
+      const a = document.createElement('a');
+      a.href = response.data;
+      a.target = "_blank";
+      a.click();
     });
   },
 
