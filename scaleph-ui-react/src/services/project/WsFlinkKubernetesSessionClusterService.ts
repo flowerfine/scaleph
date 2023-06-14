@@ -102,4 +102,10 @@ export const WsFlinkKubernetesSessionClusterService = {
     });
   },
 
+  status: async (row: WsFlinkKubernetesSessionCluster) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/${row.id}/status`, {
+      method: 'GET',
+    });
+  },
+
 };

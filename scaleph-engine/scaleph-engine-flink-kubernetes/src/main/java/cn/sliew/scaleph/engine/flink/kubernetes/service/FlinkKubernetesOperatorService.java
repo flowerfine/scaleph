@@ -18,7 +18,11 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
+
 public interface FlinkKubernetesOperatorService {
+
+    GenericKubernetesResource getSessionCluster(Long sessionClusterId) throws Exception;
 
     void deploySessionCluster(Long sessionClusterId) throws Exception;
 

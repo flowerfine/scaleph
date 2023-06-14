@@ -3,7 +3,7 @@ import React, {useRef} from "react";
 import {ActionType, PageContainer, ProDescriptions} from "@ant-design/pro-components";
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
-import {Button, Space} from "antd";
+import {Button, Space, Tabs} from "antd";
 import {
   AreaChartOutlined,
   CameraOutlined,
@@ -14,6 +14,7 @@ import {
   PauseOutlined
 } from "@ant-design/icons";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
+import FlinkKubernetesSessinClusterDetailYAMLWeb from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/YAML";
 
 const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -103,6 +104,14 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
       </div>
     </Space>
 
+  const items = [
+    {
+      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.yaml'}),
+      key: 'yaml',
+      children: <FlinkKubernetesSessinClusterDetailYAMLWeb data={params}/>
+    },
+  ]
+
   return (
     <PageContainer>
       <ProDescriptions
@@ -111,6 +120,7 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
         columns={descriptionColumns}
         extra={buttons}
       />
+      <Tabs items={items}/>
     </PageContainer>
   );
 }

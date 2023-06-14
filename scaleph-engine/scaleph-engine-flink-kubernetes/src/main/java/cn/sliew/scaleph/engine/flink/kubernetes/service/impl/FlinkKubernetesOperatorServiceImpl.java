@@ -24,11 +24,15 @@ import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSes
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
+import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.service.KuberenetesService;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.dsl.Resource;
 import io.fabric8.kubernetes.client.utils.Serialization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperatorService {
@@ -37,6 +41,16 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
     private WsFlinkKubernetesSessionClusterService wsFlinkKubernetesSessionClusterService;
     @Autowired
     private KuberenetesService kuberenetesService;
+
+    @Override
+    public GenericKubernetesResource getSessionCluster(Long sessionClusterId) throws Exception {
+        WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = wsFlinkKubernetesSessionClusterService.selectOne(sessionClusterId);
+        KubernetesClient client = getClient(sessionClusterDTO);
+        return client.genericKubernetesResources(Constant.API_VERSION, Constant.FLINK_DEPLOYMENT)
+                .inNamespace(sessionClusterDTO.getNamespace())
+                .withName(sessionClusterDTO.getSessionClusterId())
+                .get();
+    }
 
     @Override
     public void deploySessionCluster(Long sessionClusterId) throws Exception {

@@ -910,6 +910,7 @@ export default {
   'pages.project.flink.kubernetes.session-cluster.detail.flinkui': 'Flink UI',
   'pages.project.flink.kubernetes.session-cluster.detail.metrics': 'Metrics',
   'pages.project.flink.kubernetes.session-cluster.detail.logs': 'Logs',
+  'pages.project.flink.kubernetes.session-cluster.detail.tab.yaml': 'YAML',
 
   'pages.project.flink.kubernetes.deployment': 'Deployment',
   'pages.project.flink.kubernetes.deployment.kind': '类型',

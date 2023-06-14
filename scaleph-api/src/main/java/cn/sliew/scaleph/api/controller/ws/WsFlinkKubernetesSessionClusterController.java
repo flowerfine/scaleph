@@ -29,6 +29,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesS
 import cn.sliew.scaleph.system.model.ResponseVO;
 import cn.sliew.scaleph.system.snowflake.exception.UidGenerateException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,5 +148,13 @@ public class WsFlinkKubernetesSessionClusterController {
     public ResponseEntity<ResponseVO> shutdownSessionCluster(@PathVariable("id") Long id) throws Exception {
         flinkKubernetesOperatorService.shutdownSessionCluster(id);
         return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @GetMapping("{id}/status")
+    @ApiOperation(value = "获取 SessionCluster 状态", notes = "获取 SessionCluster 状态")
+    public ResponseEntity<ResponseVO<GenericKubernetesResource>> getSessionClusterStatus(@PathVariable("id") Long id) throws Exception {
+        GenericKubernetesResource sessionCluster = flinkKubernetesOperatorService.getSessionCluster(id);
+        return new ResponseEntity<>(ResponseVO.success(sessionCluster), HttpStatus.OK);
     }
 }
