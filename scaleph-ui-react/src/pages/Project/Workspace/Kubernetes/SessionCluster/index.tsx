@@ -1,11 +1,12 @@
 import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space} from "antd";
+import {Button, message, Modal, Space, Tooltip} from "antd";
 import {CaretRightOutlined, CloseOutlined, DeleteOutlined, EyeOutlined} from "@ant-design/icons";
 import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
+import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
+import {DictDataService} from "@/services/admin/dictData.service";
 
 const FlinkKubernetesSessionClusterWeb: React.FC = () => {
   const intl = useIntl();
@@ -24,8 +25,23 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.namespace'}),
       dataIndex: 'namespace',
-      hideInSearch: true,
-      width: 200
+      hideInSearch: true
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.state'}),
+      dataIndex: 'state',
+      width: 200,
+      render: (dom, record) => {
+        return <Tooltip title={record.state?.remark}>{record.state?.label}</Tooltip>
+      },
+      request: (params, props) => {
+        return DictDataService.listDictDataByType2(DICT_TYPE.resourceLifecycleState)
+      },
+    },
+    {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.error'}),
+      dataIndex: 'error',
+      hideInSearch: true
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
@@ -69,6 +85,7 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
               shape="default"
               type="link"
               icon={<CaretRightOutlined/>}
+              disabled={record.state}
               onClick={() => WsFlinkKubernetesSessionClusterService.deploy(record)}
             >
               {intl.formatMessage({id: 'app.common.operate.start.label'})}
@@ -79,6 +96,7 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
               shape="default"
               type="link"
               icon={<CloseOutlined/>}
+              disabled={!record.state}
               onClick={() => WsFlinkKubernetesSessionClusterService.shutdown(record)}
             >
               {intl.formatMessage({id: 'app.common.operate.stop.label'})}
@@ -89,6 +107,7 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
               shape="default"
               type="link"
               icon={<DeleteOutlined/>}
+              disabled={record.state}
               onClick={() => {
                 Modal.confirm({
                   title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),

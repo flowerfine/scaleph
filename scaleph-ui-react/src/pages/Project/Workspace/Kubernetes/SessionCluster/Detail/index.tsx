@@ -1,6 +1,6 @@
 import {useAccess, useIntl, useLocation} from "umi";
-import React, {useRef} from "react";
-import {ActionType, PageContainer, ProDescriptions} from "@ant-design/pro-components";
+import React, {useState} from "react";
+import {PageContainer, ProDescriptions} from "@ant-design/pro-components";
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
 import {Button, Space, Tabs} from "antd";
@@ -15,13 +15,20 @@ import {
 } from "@ant-design/icons";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
 import FlinkKubernetesSessinClusterDetailYAMLWeb from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/YAML";
+import FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb
+  from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/Configuration";
+import FlinkKubernetesSessinClusterDetailOptionsWeb
+  from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/Options";
+import FlinkKubernetesSessinClusterDetailLogWeb from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/Log";
+import FlinkKubernetesSessinClusterDetailPodTemplateWeb
+  from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/PodTemplate";
 
 const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
   const urlParams = useLocation();
   const intl = useIntl();
   const access = useAccess();
-  const actionRef = useRef<ActionType>();
-  const params = urlParams.state as WsFlinkKubernetesSessionCluster;
+
+  const [data, setData] = useState<WsFlinkKubernetesSessionCluster>(urlParams.state as WsFlinkKubernetesSessionCluster)
 
   const descriptionColumns: ProDescriptionsItemProps<WsFlinkKubernetesSessionCluster>[] = [
     {
@@ -57,19 +64,23 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
         <Button
           type="default"
           icon={<CaretRightOutlined/>}
-          onClick={() => WsFlinkKubernetesSessionClusterService.deploy(params)}
+          disabled={data.state}
+          onClick={() => WsFlinkKubernetesSessionClusterService.deploy(data)}
         >
           {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.deploy'})}
         </Button>
         <Button
           type="default"
-          icon={<PauseOutlined/>}>
+          icon={<PauseOutlined/>}
+          disabled
+        >
           {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.suspend'})}
         </Button>
         <Button
           type="default"
           icon={<CloseOutlined/>}
-          onClick={() => WsFlinkKubernetesSessionClusterService.shutdown(params)}
+          disabled={!data.state}
+          onClick={() => WsFlinkKubernetesSessionClusterService.shutdown(data)}
         >
           {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.shutdown'})}
         </Button>
@@ -78,7 +89,9 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
       <div>
         <Button
           type="default"
-          icon={<CameraOutlined/>}>
+          icon={<CameraOutlined/>}
+          disabled
+        >
           {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.savepoint'})}
         </Button>
       </div>
@@ -87,18 +100,23 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
         <Button
           type="default"
           icon={<DashboardOutlined/>}
-          onClick={() => WsFlinkKubernetesSessionClusterService.flinkui(params)}
+          disabled={data.state?.value != 'STABLE'}
+          onClick={() => WsFlinkKubernetesSessionClusterService.flinkui(data)}
         >
           {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.flinkui'})}
         </Button>
         <Button
           type="default"
-          icon={<AreaChartOutlined/>}>
+          icon={<AreaChartOutlined/>}
+          disabled
+        >
           {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.metrics'})}
         </Button>
         <Button
           type="default"
-          icon={<OrderedListOutlined/>}>
+          icon={<OrderedListOutlined/>}
+          disabled
+        >
           {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.logs'})}
         </Button>
       </div>
@@ -106,9 +124,29 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
 
   const items = [
     {
+      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.options'}),
+      key: 'options',
+      children: <FlinkKubernetesSessinClusterDetailOptionsWeb data={data}/>
+    },
+    {
+      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.configuration'}),
+      key: 'configuration',
+      children: <FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb data={data}/>
+    },
+    {
+      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.log'}),
+      key: 'log',
+      children: <FlinkKubernetesSessinClusterDetailLogWeb data={data}/>
+    },
+    {
+      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.pod'}),
+      key: 'pod',
+      children: <FlinkKubernetesSessinClusterDetailPodTemplateWeb data={data}/>
+    },
+    {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.yaml'}),
       key: 'yaml',
-      children: <FlinkKubernetesSessinClusterDetailYAMLWeb data={params}/>
+      children: <FlinkKubernetesSessinClusterDetailYAMLWeb data={data}/>
     },
   ]
 
@@ -116,11 +154,14 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
     <PageContainer>
       <ProDescriptions
         column={2}
-        dataSource={params}
+        dataSource={data}
         columns={descriptionColumns}
         extra={buttons}
       />
-      <Tabs items={items}/>
+      <Tabs
+        type="card"
+        items={items}
+      />
     </PageContainer>
   );
 }

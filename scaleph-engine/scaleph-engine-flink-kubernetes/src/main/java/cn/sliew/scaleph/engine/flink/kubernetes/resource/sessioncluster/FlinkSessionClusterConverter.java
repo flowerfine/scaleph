@@ -18,7 +18,6 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster;
 
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkSessionClusterSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.KubernetesDeploymentMode;
@@ -90,9 +89,6 @@ public enum FlinkSessionClusterConverter implements ResourceConverter<WsFlinkKub
         dto.setTaskManager(spec.getTaskManager());
         dto.setPodTemplate(spec.getPodTemplate());
         dto.setIngress(spec.getIngress());
-        if (target.getStatus() != null) {
-            dto.setStatus(JacksonUtil.toJsonString(target.getStatus()));
-        }
         return dto;
     }
 }

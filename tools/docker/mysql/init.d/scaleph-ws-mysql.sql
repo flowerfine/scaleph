@@ -58,7 +58,7 @@ create table ws_flink_artifact_jar
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key               idx_flink_artifact (flink_artifact_id)
+    key idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment = 'flink artifact jar';
 
 DROP TABLE IF EXISTS ws_flink_artifact_sql;
@@ -74,7 +74,7 @@ CREATE TABLE ws_flink_artifact_sql
     editor            varchar(32),
     update_time       datetime    not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (id),
-    key               idx_flink_artifact (flink_artifact_id)
+    key idx_flink_artifact (flink_artifact_id)
 ) ENGINE = INNODB COMMENT = 'flink artifact sql';
 
 INSERT INTO `ws_flink_artifact_sql` (`id`, `flink_artifact_id`, `flink_version`, `script`, `current`, `creator`,
@@ -97,7 +97,7 @@ create table ws_di_job
     editor            varchar(32) comment '修改人',
     update_time       timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    key               idx_flink_artifact (flink_artifact_id)
+    key idx_flink_artifact (flink_artifact_id)
 ) engine = innodb comment '数据集成-作业信息';
 INSERT INTO ws_di_job (id, flink_artifact_id, job_engine, job_id, current, creator, editor)
 VALUES (1, 2, 'seatunnel', 'b8e16c94-258c-4487-a88c-8aad40a38b35', 1, 'sys', 'sys');
@@ -222,7 +222,7 @@ CREATE TABLE ws_flink_cluster_instance
     update_time             timestamp default current_timestamp on update current_timestamp comment '修改时间',
     PRIMARY KEY (id),
     unique key (project_id, flink_cluster_config_id, name),
-    KEY                     idx_name ( name)
+    KEY idx_name (name)
 ) ENGINE = INNODB COMMENT = 'flink cluster instance';
 
 drop table if exists ws_flink_job;
@@ -245,10 +245,10 @@ create table ws_flink_job
     update_time               timestamp default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
     unique key idx_code (code),
-    key                       idx_name ( type, name),
-    key                       idx_flink_artifact ( type, flink_artifact_id),
-    key                       idx_flink_cluster_config (flink_cluster_config_id),
-    key                       idx_flink_cluster_instance (flink_cluster_instance_id)
+    key idx_name (type, name),
+    key idx_flink_artifact (type, flink_artifact_id),
+    key idx_flink_cluster_config (flink_cluster_config_id),
+    key idx_flink_cluster_instance (flink_cluster_instance_id)
 ) engine = innodb comment ='flink作业信息';
 
 drop table if exists ws_flink_job_instance;
@@ -438,7 +438,10 @@ CREATE TABLE ws_flink_kubernetes_session_cluster
     flink_configuration   text,
     log_configuration     text,
     ingress               text,
-    status                text comment 'flink status',
+    state                 varchar(64),
+    error                 text,
+    cluster_info          text,
+    task_manager_info     text,
     remark                varchar(255),
     creator               varchar(32),
     create_time           datetime     not null default current_timestamp,

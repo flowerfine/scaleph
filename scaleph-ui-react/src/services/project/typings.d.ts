@@ -401,7 +401,10 @@ export type WsFlinkKubernetesSessionCluster = {
   flinkConfiguration?: Record<string, any>;
   logConfiguration?: Record<string, any>;
   ingress?: Record<string, any>;
-  status?: Record<string, any>;
+  state?: Dict;
+  error?: Dict;
+  clusterInfo?: Record<string, any>;
+  taskManagerInfo?: Record<string, any>;
   remark?: string;
   createTime?: Date;
   updateTime?: Date;

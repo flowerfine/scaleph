@@ -18,14 +18,16 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 
 public interface FlinkKubernetesOperatorService {
 
-    GenericKubernetesResource getSessionCluster(Long sessionClusterId) throws Exception;
+    GenericKubernetesResource getSessionCluster(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO) throws Exception;
 
-    void deploySessionCluster(Long sessionClusterId) throws Exception;
+    void deploySessionCluster(Long clusterCredentialId, FlinkSessionCluster sessionCluster) throws Exception;
 
-    void shutdownSessionCluster(Long sessionClusterId) throws Exception;
+    void shutdownSessionCluster(Long clusterCredentialId, FlinkSessionCluster sessionCluster) throws Exception;
 
 }

@@ -41,6 +41,10 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>scaleph-engine-sql</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-workflow-quartz</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.flink</groupId>

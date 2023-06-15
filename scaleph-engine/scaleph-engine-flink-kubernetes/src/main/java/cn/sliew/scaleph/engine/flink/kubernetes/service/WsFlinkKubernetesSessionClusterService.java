@@ -18,17 +18,22 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterListParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterSelectListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 
 import java.util.List;
 
 public interface WsFlinkKubernetesSessionClusterService {
 
     Page<WsFlinkKubernetesSessionClusterDTO> list(WsFlinkKubernetesSessionClusterListParam param);
+
+    List<Long> listAll();
 
     List<WsFlinkKubernetesSessionClusterDTO> listAll(WsFlinkKubernetesSessionClusterSelectListParam param);
 
@@ -42,7 +47,18 @@ public interface WsFlinkKubernetesSessionClusterService {
 
     int update(WsFlinkKubernetesSessionClusterDTO dto);
 
+    int updateStatus(Long id, FlinkDeploymentStatus status);
+
+    int clearStatus(Long id);
+
     int deleteById(Long id);
 
     int deleteBatch(List<Long> ids);
+
+    void deploy(Long id) throws Exception;
+
+    void shutdown(Long id) throws Exception;
+
+    GenericKubernetesResource getStatus(Long id);
+    GenericKubernetesResource getStatusWithoutManagedFields(Long id);
 }

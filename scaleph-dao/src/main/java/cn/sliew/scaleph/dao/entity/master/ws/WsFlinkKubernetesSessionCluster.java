@@ -18,7 +18,9 @@
 
 package cn.sliew.scaleph.dao.entity.master.ws;
 
+import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
 import cn.sliew.scaleph.dao.entity.BaseDO;
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -74,8 +76,17 @@ public class WsFlinkKubernetesSessionCluster extends BaseDO {
     @TableField("ingress")
     private String ingress;
 
-    @TableField("status")
-    private String status;
+    @TableField(value = "state", updateStrategy = FieldStrategy.IGNORED)
+    private ResourceLifecycleState state;
+
+    @TableField(value = "`error`", updateStrategy = FieldStrategy.IGNORED)
+    private String error;
+
+    @TableField(value = "cluster_info", updateStrategy = FieldStrategy.IGNORED)
+    private String clusterInfo;
+
+    @TableField(value = "task_manager_info", updateStrategy = FieldStrategy.IGNORED)
+    private String taskManagerInfo;
 
     @TableField("remark")
     private String remark;

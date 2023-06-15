@@ -50,6 +50,7 @@ export const DICT_TYPE = {
   imagePullPolicy: 'image_pull_policy',
 
   deploymentKind: 'deployment_kind',
+  resourceLifecycleState: 'resource_lifecycle_state',
 
 
 };

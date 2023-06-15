@@ -24,6 +24,7 @@ import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.IngressSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.TaskManagerInfo;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
 import io.fabric8.kubernetes.api.model.Pod;
@@ -65,6 +66,12 @@ public interface WsFlinkKubernetesSessionClusterConvert extends BaseConvert<WsFl
         if (dto.getIngress() != null) {
             entity.setIngress(JacksonUtil.toJsonString(dto.getIngress()));
         }
+        if (CollectionUtils.isEmpty(dto.getClusterInfo()) == false) {
+            entity.setClusterInfo(JacksonUtil.toJsonString(dto.getClusterInfo()));
+        }
+        if (dto.getTaskManagerInfo() != null) {
+            entity.setTaskManagerInfo(JacksonUtil.toJsonString(dto.getTaskManagerInfo()));
+        }
         return entity;
     }
 
@@ -92,6 +99,12 @@ public interface WsFlinkKubernetesSessionClusterConvert extends BaseConvert<WsFl
         }
         if (StringUtils.hasText(entity.getIngress())) {
             dto.setIngress(JacksonUtil.parseJsonString(entity.getIngress(), IngressSpec.class));
+        }
+        if (StringUtils.hasText(entity.getClusterInfo())) {
+            dto.setClusterInfo(JacksonUtil.parseJsonString(entity.getClusterInfo(), Map.class));
+        }
+        if (StringUtils.hasText(entity.getTaskManagerInfo())) {
+            dto.setTaskManagerInfo(JacksonUtil.parseJsonString(entity.getIngress(), TaskManagerInfo.class));
         }
         return dto;
     }
