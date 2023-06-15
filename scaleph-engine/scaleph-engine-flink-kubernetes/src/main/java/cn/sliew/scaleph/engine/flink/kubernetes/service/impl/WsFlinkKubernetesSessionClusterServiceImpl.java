@@ -18,9 +18,12 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
+import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesSessionCluster;
 import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesSessionClusterMapper;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionClusterConverter;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
@@ -33,11 +36,14 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesS
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -65,9 +71,17 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     }
 
     @Override
+    public List<Long> listAll() {
+        LambdaQueryWrapper<WsFlinkKubernetesSessionCluster> queryWrapper = Wrappers.lambdaQuery(WsFlinkKubernetesSessionCluster.class)
+                .select(WsFlinkKubernetesSessionCluster::getId);
+        List<WsFlinkKubernetesSessionCluster> wsFlinkKubernetesSessionClusters = wsFlinkKubernetesSessionClusterMapper.selectList(queryWrapper);
+        return wsFlinkKubernetesSessionClusters.stream().map(WsFlinkKubernetesSessionCluster::getId).collect(Collectors.toList());
+    }
+
+    @Override
     public List<WsFlinkKubernetesSessionClusterDTO> listAll(WsFlinkKubernetesSessionClusterSelectListParam param) {
         LambdaQueryWrapper<WsFlinkKubernetesSessionCluster> queryWrapper = Wrappers.lambdaQuery(WsFlinkKubernetesSessionCluster.class)
-                .eq(WsFlinkKubernetesSessionCluster::getProjectId, param.getProjectId())
+                .eq(param.getProjectId() != null, WsFlinkKubernetesSessionCluster::getProjectId, param.getProjectId())
                 .like(StringUtils.hasText(param.getName()), WsFlinkKubernetesSessionCluster::getName, param.getName());
         List<WsFlinkKubernetesSessionCluster> wsFlinkKubernetesSessionClusters = wsFlinkKubernetesSessionClusterMapper.selectList(queryWrapper);
         return WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDto(wsFlinkKubernetesSessionClusters);
@@ -110,6 +124,39 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     @Override
     public int update(WsFlinkKubernetesSessionClusterDTO dto) {
         WsFlinkKubernetesSessionCluster record = WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDo(dto);
+        return wsFlinkKubernetesSessionClusterMapper.updateById(record);
+    }
+
+    @Override
+    public int updateStatus(Long id, FlinkDeploymentStatus status) {
+        if (status == null) {
+            return -1;
+        }
+        WsFlinkKubernetesSessionCluster record = new WsFlinkKubernetesSessionCluster();
+        record.setId(id);
+        record.setState(EnumUtils.getEnum(ResourceLifecycleState.class, status.getLifecycleState().name()));
+        record.setError(status.getError());
+        if (CollectionUtils.isEmpty(status.getClusterInfo())) {
+            record.setClusterInfo(null);
+        } else {
+            record.setClusterInfo(JacksonUtil.toJsonString(status.getClusterInfo()));
+        }
+        if (status.getTaskManager() == null) {
+            record.setTaskManagerInfo(null);
+        } else {
+            record.setTaskManagerInfo(JacksonUtil.toJsonString(status.getTaskManager()));
+        }
+        return wsFlinkKubernetesSessionClusterMapper.updateById(record);
+    }
+
+    @Override
+    public int clearStatus(Long id) {
+        WsFlinkKubernetesSessionCluster record = new WsFlinkKubernetesSessionCluster();
+        record.setId(id);
+        record.setState(null);
+        record.setError(null);
+        record.setClusterInfo(null);
+        record.setTaskManagerInfo(null);
         return wsFlinkKubernetesSessionClusterMapper.updateById(record);
     }
 

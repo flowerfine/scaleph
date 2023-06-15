@@ -18,9 +18,11 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
+import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.IngressSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.TaskManagerSpec;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.TaskManagerInfo;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.vo.KubernetesOptionsVO;
 import cn.sliew.scaleph.system.model.BaseDTO;
 import io.fabric8.kubernetes.api.model.Pod;
@@ -72,8 +74,17 @@ public class WsFlinkKubernetesSessionClusterDTO extends BaseDTO {
     @ApiModelProperty("ingress")
     private IngressSpec ingress;
 
-    @ApiModelProperty("status")
-    private String status;
+    @ApiModelProperty("state")
+    private ResourceLifecycleState state;
+
+    @ApiModelProperty("error")
+    private String error;
+
+    @ApiModelProperty("cluster info")
+    private Map<String, String> clusterInfo;
+
+    @ApiModelProperty("task manager info")
+    private TaskManagerInfo taskManagerInfo;
 
     @ApiModelProperty("remark")
     private String remark;

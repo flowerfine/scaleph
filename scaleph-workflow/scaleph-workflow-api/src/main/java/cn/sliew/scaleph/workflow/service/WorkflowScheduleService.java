@@ -41,6 +41,8 @@ public interface WorkflowScheduleService {
 
     void enable(Long id);
 
+    void tryEnable(Long id);
+
     void disable(Long id);
 
 }

@@ -90,6 +90,13 @@ public class WorkflowScheduleServiceImpl implements WorkflowScheduleService {
     }
 
     @Override
+    public void tryEnable(Long id) {
+        if (schedulerService.exists(id) == false) {
+            enable(id);
+        }
+    }
+
+    @Override
     public void disable(Long id) {
         schedulerService.unschedule(id);
     }

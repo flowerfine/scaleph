@@ -47,7 +47,7 @@ CREATE TABLE `workflow_definition`
 
 INSERT INTO `workflow_definition`(`id`, `type`, `name`, `execute_type`, `status`, `param`, `remark`, `creator`,
                                   `editor`)
-VALUES (1, '0', 'Flink 状态', '1', '0', NULL, NULL, 'sys', 'sys');
+VALUES (1, '0', 'FlinkSessionClusterStatusSyncJob ', '1', '0', NULL, NULL, 'sys', 'sys');
 INSERT INTO `workflow_definition`(`id`, `type`, `name`, `execute_type`, `status`, `param`, `remark`, `creator`,
                                   `editor`)
 VALUES (2, '0', 'Flink savepoints', '1', '0', NULL, NULL, 'sys', 'sys');
@@ -89,7 +89,7 @@ CREATE TABLE `workflow_task_definition`
 
 INSERT INTO `workflow_task_definition`(`id`, `workflow_definition_id`, `type`, `name`, `handler`, `param`, `remark`,
                                        `creator`, `editor`)
-VALUES (1, 1, '1', 'FlinkJobStatus', 'cn.sliew.scaleph.engine.flink.service.action.FlinkJobStatusSyncJob', NULL, NULL,
+VALUES (1, 1, '1', 'FlinkSessionClusterStatus', 'cn.sliew.scaleph.engine.flink.kubernetes.action.FlinkSessionClusterStatusSyncJob', NULL, NULL,
         'sys', 'sys');
 INSERT INTO `workflow_task_definition`(`id`, `workflow_definition_id`, `type`, `name`, `handler`, `param`, `remark`,
                                        `creator`, `editor`)

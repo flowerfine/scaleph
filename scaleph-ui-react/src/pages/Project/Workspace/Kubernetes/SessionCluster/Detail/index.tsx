@@ -1,5 +1,5 @@
 import {useAccess, useIntl, useLocation} from "umi";
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import {ActionType, PageContainer, ProDescriptions} from "@ant-design/pro-components";
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
@@ -21,7 +21,8 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
-  const params = urlParams.state as WsFlinkKubernetesSessionCluster;
+
+  const [data, setData] = useState<WsFlinkKubernetesSessionCluster>(urlParams.state as WsFlinkKubernetesSessionCluster)
 
   const descriptionColumns: ProDescriptionsItemProps<WsFlinkKubernetesSessionCluster>[] = [
     {
@@ -57,19 +58,23 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
         <Button
           type="default"
           icon={<CaretRightOutlined/>}
-          onClick={() => WsFlinkKubernetesSessionClusterService.deploy(params)}
+          disabled={data.state}
+          onClick={() => WsFlinkKubernetesSessionClusterService.deploy(data)}
         >
           {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.deploy'})}
         </Button>
         <Button
           type="default"
-          icon={<PauseOutlined/>}>
+          icon={<PauseOutlined/>}
+          disabled
+        >
           {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.suspend'})}
         </Button>
         <Button
           type="default"
           icon={<CloseOutlined/>}
-          onClick={() => WsFlinkKubernetesSessionClusterService.shutdown(params)}
+          disabled={!data.state}
+          onClick={() => WsFlinkKubernetesSessionClusterService.shutdown(data)}
         >
           {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.shutdown'})}
         </Button>
@@ -78,7 +83,9 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
       <div>
         <Button
           type="default"
-          icon={<CameraOutlined/>}>
+          icon={<CameraOutlined/>}
+          disabled
+        >
           {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.savepoint'})}
         </Button>
       </div>
@@ -87,18 +94,23 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
         <Button
           type="default"
           icon={<DashboardOutlined/>}
-          onClick={() => WsFlinkKubernetesSessionClusterService.flinkui(params)}
+          disabled={data.state?.value != 'STABLE'}
+          onClick={() => WsFlinkKubernetesSessionClusterService.flinkui(data)}
         >
           {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.flinkui'})}
         </Button>
         <Button
           type="default"
-          icon={<AreaChartOutlined/>}>
+          icon={<AreaChartOutlined/>}
+          disabled
+        >
           {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.metrics'})}
         </Button>
         <Button
           type="default"
-          icon={<OrderedListOutlined/>}>
+          icon={<OrderedListOutlined/>}
+          disabled
+        >
           {intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.logs'})}
         </Button>
       </div>
@@ -108,7 +120,7 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
     {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.yaml'}),
       key: 'yaml',
-      children: <FlinkKubernetesSessinClusterDetailYAMLWeb data={params}/>
+      children: <FlinkKubernetesSessinClusterDetailYAMLWeb data={data}/>
     },
   ]
 
@@ -116,7 +128,7 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
     <PageContainer>
       <ProDescriptions
         column={2}
-        dataSource={params}
+        dataSource={data}
         columns={descriptionColumns}
         extra={buttons}
       />

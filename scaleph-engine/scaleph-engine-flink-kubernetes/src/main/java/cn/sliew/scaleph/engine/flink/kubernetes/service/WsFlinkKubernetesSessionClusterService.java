@@ -18,6 +18,8 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
+import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterListParam;
@@ -30,6 +32,8 @@ public interface WsFlinkKubernetesSessionClusterService {
 
     Page<WsFlinkKubernetesSessionClusterDTO> list(WsFlinkKubernetesSessionClusterListParam param);
 
+    List<Long> listAll();
+
     List<WsFlinkKubernetesSessionClusterDTO> listAll(WsFlinkKubernetesSessionClusterSelectListParam param);
 
     WsFlinkKubernetesSessionClusterDTO selectOne(Long id);
@@ -41,6 +45,10 @@ public interface WsFlinkKubernetesSessionClusterService {
     int insert(WsFlinkKubernetesSessionClusterDTO dto);
 
     int update(WsFlinkKubernetesSessionClusterDTO dto);
+
+    int updateStatus(Long id, FlinkDeploymentStatus status);
+
+    int clearStatus(Long id);
 
     int deleteById(Long id);
 
