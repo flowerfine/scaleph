@@ -914,6 +914,8 @@ export default {
   'pages.project.flink.kubernetes.session-cluster.detail.logs': 'Logs',
   'pages.project.flink.kubernetes.session-cluster.detail.tab.options': 'Options',
   'pages.project.flink.kubernetes.session-cluster.detail.tab.configuration': 'Flink Configuration',
+  'pages.project.flink.kubernetes.session-cluster.detail.tab.log': 'Log Configuration',
+  'pages.project.flink.kubernetes.session-cluster.detail.tab.pod': 'Pod Template',
   'pages.project.flink.kubernetes.session-cluster.detail.tab.yaml': 'YAML',
 
   'pages.project.flink.kubernetes.deployment': 'Deployment',

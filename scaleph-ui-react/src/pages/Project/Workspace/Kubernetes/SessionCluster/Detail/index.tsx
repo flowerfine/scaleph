@@ -19,6 +19,9 @@ import FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb
   from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/Configuration";
 import FlinkKubernetesSessinClusterDetailOptionsWeb
   from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/Options";
+import FlinkKubernetesSessinClusterDetailLogWeb from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/Log";
+import FlinkKubernetesSessinClusterDetailPodTemplateWeb
+  from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/PodTemplate";
 
 const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
   const urlParams = useLocation();
@@ -129,6 +132,16 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.configuration'}),
       key: 'configuration',
       children: <FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb data={data}/>
+    },
+    {
+      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.log'}),
+      key: 'log',
+      children: <FlinkKubernetesSessinClusterDetailLogWeb data={data}/>
+    },
+    {
+      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.pod'}),
+      key: 'pod',
+      children: <FlinkKubernetesSessinClusterDetailPodTemplateWeb data={data}/>
     },
     {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.yaml'}),
