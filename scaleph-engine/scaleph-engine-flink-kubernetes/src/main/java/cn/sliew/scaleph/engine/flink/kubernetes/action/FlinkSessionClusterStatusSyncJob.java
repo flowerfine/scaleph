@@ -21,7 +21,6 @@ package cn.sliew.scaleph.engine.flink.kubernetes.action;
 import cn.sliew.milky.common.filter.ActionListener;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
 import cn.sliew.scaleph.workflow.engine.action.ActionContext;
 import cn.sliew.scaleph.workflow.engine.action.ActionResult;
@@ -39,8 +38,6 @@ public class FlinkSessionClusterStatusSyncJob extends AbstractWorkFlow {
 
     @Autowired
     private WsFlinkKubernetesSessionClusterService wsFlinkKubernetesSessionClusterService;
-    @Autowired
-    private FlinkKubernetesOperatorService flinkKubernetesOperatorService;
 
     public FlinkSessionClusterStatusSyncJob() {
         super("FLINK_SESSION_CLUSTER_STATUS_SYNC_JOB");
@@ -59,7 +56,7 @@ public class FlinkSessionClusterStatusSyncJob extends AbstractWorkFlow {
 
     private void doProcess(Long sessionClusterId) {
         try {
-            GenericKubernetesResource genericKubernetesResource = flinkKubernetesOperatorService.getSessionCluster(sessionClusterId);
+            GenericKubernetesResource genericKubernetesResource = wsFlinkKubernetesSessionClusterService.getStatus(sessionClusterId);
             if (genericKubernetesResource != null) {
                 String json = JacksonUtil.toJsonString(genericKubernetesResource.get("status"));
                 FlinkDeploymentStatus status = JacksonUtil.parseJsonString(json, FlinkDeploymentStatus.class);

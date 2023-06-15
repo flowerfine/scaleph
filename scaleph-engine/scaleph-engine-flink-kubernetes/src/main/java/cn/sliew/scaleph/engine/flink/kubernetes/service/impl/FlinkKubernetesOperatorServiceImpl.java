@@ -22,30 +22,24 @@ import cn.sliew.scaleph.engine.flink.kubernetes.factory.FlinkDeploymentFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
-import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.kubernetes.Constant;
 import cn.sliew.scaleph.kubernetes.service.KuberenetesService;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.kubernetes.client.dsl.Resource;
 import io.fabric8.kubernetes.client.utils.Serialization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 @Service
 public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperatorService {
 
     @Autowired
-    private WsFlinkKubernetesSessionClusterService wsFlinkKubernetesSessionClusterService;
-    @Autowired
     private KuberenetesService kuberenetesService;
 
     @Override
-    public GenericKubernetesResource getSessionCluster(Long sessionClusterId) throws Exception {
-        WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = wsFlinkKubernetesSessionClusterService.selectOne(sessionClusterId);
-        KubernetesClient client = getClient(sessionClusterDTO);
+    public GenericKubernetesResource getSessionCluster(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO) throws Exception {
+        KubernetesClient client = kuberenetesService.getClient(sessionClusterDTO.getClusterCredentialId());
         return client.genericKubernetesResources(Constant.API_VERSION, Constant.FLINK_DEPLOYMENT)
                 .inNamespace(sessionClusterDTO.getNamespace())
                 .withName(sessionClusterDTO.getSessionClusterId())
@@ -53,28 +47,17 @@ public class FlinkKubernetesOperatorServiceImpl implements FlinkKubernetesOperat
     }
 
     @Override
-    public void deploySessionCluster(Long sessionClusterId) throws Exception {
-        WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = wsFlinkKubernetesSessionClusterService.selectOne(sessionClusterId);
-        KubernetesClient client = getClient(sessionClusterDTO);
-        FlinkDeployment deployment = getFlinkDeployment(sessionClusterDTO);
+    public void deploySessionCluster(Long clusterCredentialId, FlinkSessionCluster sessionCluster) throws Exception {
+        KubernetesClient client = kuberenetesService.getClient(clusterCredentialId);
+        FlinkDeployment deployment = FlinkDeploymentFactory.fromSessionCluster(sessionCluster);
         // fixme 这里多做了一层转化，用对象会报错
         client.resource(Serialization.asYaml(deployment)).createOrReplace();
     }
 
     @Override
-    public void shutdownSessionCluster(Long sessionClusterId) throws Exception {
-        WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = wsFlinkKubernetesSessionClusterService.selectOne(sessionClusterId);
-        KubernetesClient client = getClient(sessionClusterDTO);
-        FlinkDeployment deployment = getFlinkDeployment(sessionClusterDTO);
+    public void shutdownSessionCluster(Long clusterCredentialId, FlinkSessionCluster sessionCluster) throws Exception {
+        KubernetesClient client = kuberenetesService.getClient(clusterCredentialId);
+        FlinkDeployment deployment = FlinkDeploymentFactory.fromSessionCluster(sessionCluster);
         client.resource(Serialization.asYaml(deployment)).delete();
-    }
-
-    private KubernetesClient getClient(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO) {
-        return kuberenetesService.getClient(sessionClusterDTO.getClusterCredentialId());
-    }
-
-    private FlinkDeployment getFlinkDeployment(WsFlinkKubernetesSessionClusterDTO sessionClusterDTO) {
-        FlinkSessionCluster sessionCluster = wsFlinkKubernetesSessionClusterService.asYAML(sessionClusterDTO);
-        return FlinkDeploymentFactory.fromSessionCluster(sessionCluster);
     }
 }

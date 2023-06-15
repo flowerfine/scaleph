@@ -1,6 +1,6 @@
 import {useAccess, useIntl, useLocation} from "umi";
-import React, {useRef, useState} from "react";
-import {ActionType, PageContainer, ProDescriptions} from "@ant-design/pro-components";
+import React, {useState} from "react";
+import {PageContainer, ProDescriptions} from "@ant-design/pro-components";
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {ProDescriptionsItemProps} from "@ant-design/pro-descriptions";
 import {Button, Space, Tabs} from "antd";
@@ -15,12 +15,15 @@ import {
 } from "@ant-design/icons";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
 import FlinkKubernetesSessinClusterDetailYAMLWeb from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/YAML";
+import FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb
+  from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/Configuration";
+import FlinkKubernetesSessinClusterDetailOptionsWeb
+  from "@/pages/Project/Workspace/Kubernetes/SessionCluster/Detail/Options";
 
 const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
   const urlParams = useLocation();
   const intl = useIntl();
   const access = useAccess();
-  const actionRef = useRef<ActionType>();
 
   const [data, setData] = useState<WsFlinkKubernetesSessionCluster>(urlParams.state as WsFlinkKubernetesSessionCluster)
 
@@ -118,6 +121,16 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
 
   const items = [
     {
+      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.options'}),
+      key: 'options',
+      children: <FlinkKubernetesSessinClusterDetailOptionsWeb data={data}/>
+    },
+    {
+      label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.configuration'}),
+      key: 'configuration',
+      children: <FlinkKubernetesSessinClusterDetailFlinkConfigurationWeb data={data}/>
+    },
+    {
       label: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.detail.tab.yaml'}),
       key: 'yaml',
       children: <FlinkKubernetesSessinClusterDetailYAMLWeb data={data}/>
@@ -132,7 +145,10 @@ const FlinkKubernetesSessionClusterDetailWeb: React.FC = () => {
         columns={descriptionColumns}
         extra={buttons}
       />
-      <Tabs items={items}/>
+      <Tabs
+        type="card"
+        items={items}
+      />
     </PageContainer>
   );
 }

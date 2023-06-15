@@ -5,7 +5,6 @@ import {Props} from '@/app.d';
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
 
-
 const FlinkKubernetesSessinClusterDetailYAMLWeb: React.FC<Props<WsFlinkKubernetesSessionCluster>> = ({data}) => {
 
   const editorRef = useRef(null);
@@ -19,9 +18,15 @@ const FlinkKubernetesSessinClusterDetailYAMLWeb: React.FC<Props<WsFlinkKubernete
   }, [monaco]);
 
   useEffect(() => {
-    WsFlinkKubernetesSessionClusterService.status(data).then((response) => {
-      setSessionCluster(YAML.stringify(response.data))
-    })
+    if (data.state) {
+      WsFlinkKubernetesSessionClusterService.status(data).then((response) => {
+        setSessionCluster(YAML.stringify(response.data))
+      })
+    } else {
+      WsFlinkKubernetesSessionClusterService.asYAML(data).then((response) => {
+        setSessionCluster(YAML.stringify(response.data))
+      })
+    }
   }, []);
 
   const handleEditorDidMount = (editor, monaco: Monaco) => {

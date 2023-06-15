@@ -25,6 +25,7 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSes
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterListParam;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterSelectListParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 
 import java.util.List;
 
@@ -53,4 +54,11 @@ public interface WsFlinkKubernetesSessionClusterService {
     int deleteById(Long id);
 
     int deleteBatch(List<Long> ids);
+
+    void deploy(Long id) throws Exception;
+
+    void shutdown(Long id) throws Exception;
+
+    GenericKubernetesResource getStatus(Long id);
+    GenericKubernetesResource getStatusWithoutManagedFields(Long id);
 }

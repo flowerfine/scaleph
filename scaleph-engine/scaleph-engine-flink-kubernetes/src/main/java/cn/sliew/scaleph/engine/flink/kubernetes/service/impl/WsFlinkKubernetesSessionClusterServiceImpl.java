@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
+import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
 import cn.sliew.scaleph.common.util.UUIDUtil;
@@ -26,6 +27,7 @@ import cn.sliew.scaleph.dao.mapper.master.ws.WsFlinkKubernetesSessionClusterMapp
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionClusterConverter;
+import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkKubernetesOperatorService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesTemplateService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.convert.WsFlinkKubernetesSessionClusterConvert;
@@ -36,8 +38,12 @@ import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesS
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResourceBuilder;
+import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Predicates;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -54,6 +60,8 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     private WsFlinkKubernetesSessionClusterMapper wsFlinkKubernetesSessionClusterMapper;
     @Autowired
     private WsFlinkKubernetesTemplateService wsFlinkKubernetesTemplateService;
+    @Autowired
+    private FlinkKubernetesOperatorService flinkKubernetesOperatorService;
 
     @Override
     public Page<WsFlinkKubernetesSessionClusterDTO> list(WsFlinkKubernetesSessionClusterListParam param) {
@@ -168,6 +176,39 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     @Override
     public int deleteBatch(List<Long> ids) {
         return wsFlinkKubernetesSessionClusterMapper.deleteBatchIds(ids);
+    }
+
+    @Override
+    public void deploy(Long id) throws Exception {
+        WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = selectOne(id);
+        flinkKubernetesOperatorService.deploySessionCluster(sessionClusterDTO.getClusterCredentialId(), asYAML(sessionClusterDTO));
+    }
+
+    @Override
+    public void shutdown(Long id) throws Exception {
+        WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = selectOne(id);
+        flinkKubernetesOperatorService.shutdownSessionCluster(sessionClusterDTO.getClusterCredentialId(), asYAML(sessionClusterDTO));
+    }
+
+    @Override
+    public GenericKubernetesResource getStatus(Long id) {
+        try {
+            WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = selectOne(id);
+            return flinkKubernetesOperatorService.getSessionCluster(sessionClusterDTO);
+        } catch (Exception e) {
+            Rethrower.throwAs(e);
+            return null;
+        }
+    }
+
+    @Override
+    public GenericKubernetesResource getStatusWithoutManagedFields(Long id) {
+        GenericKubernetesResource status = getStatus(id);
+        GenericKubernetesResourceBuilder builder = new GenericKubernetesResourceBuilder(status);
+        ObjectMetaBuilder objectMetaBuilder = new ObjectMetaBuilder(status.getMetadata());
+        objectMetaBuilder.removeMatchingFromManagedFields(Predicates.isTrue());
+        builder.withMetadata(objectMetaBuilder.build());
+        return builder.build();
     }
 
 }
