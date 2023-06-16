@@ -16,25 +16,23 @@
   ~ limitations under the License.
   -->
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>scaleph</artifactId>
+        <artifactId>scaleph-engine</artifactId>
         <version>1.0.5-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>scaleph-engine</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>scaleph-engine-flink-client</artifactId>
 
-    <modules>
-        <module>scaleph-engine-flink-client</module>
-        <module>scaleph-engine-seatunnel</module>
-        <module>scaleph-engine-flink</module>
-        <module>scaleph-engine-sql</module>
-        <module>scaleph-engine-flink-kubernetes</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>scaleph-common</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
