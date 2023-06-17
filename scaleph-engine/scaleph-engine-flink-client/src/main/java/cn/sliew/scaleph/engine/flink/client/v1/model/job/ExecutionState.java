@@ -16,7 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.client.model;
+package cn.sliew.scaleph.engine.flink.client.v1.model.job;
 
-/** ID of a {@link Vertex}. */
-public interface VertexID extends java.io.Serializable {}
+public enum ExecutionState {
+    CREATED,
+    SCHEDULED,
+    DEPLOYING,
+    RUNNING,
+    FINISHED,
+    CANCELING,
+    CANCELED,
+    FAILED,
+    RECONCILING,
+    INITIALIZING;
+
+    public boolean isTerminal() {
+        return this == FINISHED || this == CANCELED || this == FAILED;
+    }
+}

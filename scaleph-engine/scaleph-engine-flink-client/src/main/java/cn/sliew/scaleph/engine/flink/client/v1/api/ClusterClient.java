@@ -16,29 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.client.json;
+package cn.sliew.scaleph.engine.flink.client.v1.api;
 
-import cn.sliew.scaleph.engine.flink.client.model.JobID;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import cn.sliew.scaleph.engine.flink.client.v1.model.cluster.ClusterOverviewDTO;
 
-import java.io.IOException;
+public interface ClusterClient {
 
-/**
- * Json serializer for {@link JobID}.
- */
-public class JobIDSerializer extends StdSerializer<JobID> {
-
-    private static final long serialVersionUID = -6598593519161574611L;
-
-    protected JobIDSerializer() {
-        super(JobID.class);
-    }
-
-    @Override
-    public void serialize(JobID value, JsonGenerator gen, SerializerProvider provider)
-            throws IOException {
-        gen.writeString(value.toString());
-    }
+    ClusterOverviewDTO overview();
 }

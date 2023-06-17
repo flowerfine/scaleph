@@ -16,30 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.client.model;
-
-import cn.sliew.scaleph.engine.flink.client.util.StringUtils;
-
 /**
- * A class for statistically unique job vertex IDs.
+ * flink client models
  */
-public class JobVertexID extends AbstractID implements VertexID {
-
-    private static final long serialVersionUID = 1L;
-
-    public JobVertexID() {
-        super();
-    }
-
-    public JobVertexID(byte[] bytes) {
-        super(bytes);
-    }
-
-    public JobVertexID(long lowerPart, long upperPart) {
-        super(lowerPart, upperPart);
-    }
-
-    public static JobVertexID fromHexString(String hexString) {
-        return new JobVertexID(StringUtils.hexStringToByte(hexString));
-    }
-}
+package cn.sliew.scaleph.engine.flink.client.v1.model;
