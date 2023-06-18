@@ -18,9 +18,30 @@
 
 package cn.sliew.scaleph.engine.flink.client.v1.api;
 
-import cn.sliew.scaleph.engine.flink.client.v1.model.job.JobDetailsInfo;
+import cn.sliew.scaleph.engine.flink.client.v1.model.job.*;
+import cn.sliew.scaleph.engine.flink.client.v1.model.job.checkpoint.CheckpointConfigInfo;
+import cn.sliew.scaleph.engine.flink.client.v1.model.job.checkpoint.CheckpointStatistics;
+import cn.sliew.scaleph.engine.flink.client.v1.model.job.checkpoint.CheckpointingStatistics;
+
+import java.util.Optional;
 
 public interface JobClient {
 
+    MultipleJobsDetails overview();
+
+    JobIdsWithStatusOverview statusOverview();
+
     JobDetailsInfo detail(String jobId);
+
+    JobConfigInfo config(String jobId);
+
+    JobExceptionsInfoWithHistory exceptioins(String jobId, Optional<String> maxExceptions);
+
+    CheckpointConfigInfo checkpointConfig(String jobId);
+
+    CheckpointingStatistics checkpoints(String jobId);
+
+    CheckpointStatistics checkpointDetail(String jobId, Long checkpointId);
+
+    JobPlanInfo plan(String jobId);
 }
