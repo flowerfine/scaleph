@@ -28,18 +28,17 @@ import com.flipkart.zjsonpatch.JsonPatch;
 
 import java.util.EnumSet;
 
-public enum JsonPatchMerger {
+public enum TemplateMerger {
     ;
 
-    public static <T> T merge(T target, T patch, Class<T> resourceClass) {
+    public static <T> T merge(T template, T target, Class<T> clazz) {
+        JsonNode templateNode = JacksonUtil.toJsonNode(template);
         JsonNode targetNode = JacksonUtil.toJsonNode(target);
-        JsonNode patchNode = JacksonUtil.toJsonNode(patch);
-        JsonNode patched = doMergePatch(targetNode, patchNode);
-//        JsonNode patched = doMergePatchInternal(targetNode, patchNode);
-        return JacksonUtil.toObject(patched, resourceClass);
+        JsonNode merged = doMerge(templateNode, targetNode);
+        return JacksonUtil.toObject(merged, clazz);
     }
 
-    private static JsonNode doMergePatch(JsonNode source, JsonNode target) {
+    private static JsonNode doMerge(JsonNode source, JsonNode target) {
         EnumSet<DiffFlags> flags = DiffFlags.dontNormalizeOpIntoMoveAndCopy().clone();
         JsonNode patch = disableRemove((ArrayNode) JsonDiff.asJson(source, target, flags));
         return JsonPatch.apply(patch, source);
@@ -60,39 +59,4 @@ public enum JsonPatchMerger {
 
         return arrayNode;
     }
-
-    public static JsonNode doMergePatchInternal(final JsonNode target, final JsonNode patch) {
-        if (patch == null || patch.isNull()) {
-            return target;
-        }
-        if (!(patch instanceof ObjectNode)) {
-            return patch;
-        } else {
-            ObjectNode patchObject = (ObjectNode) patch;
-            ObjectNode targetObject;
-            if (target instanceof ObjectNode) {
-                targetObject = (ObjectNode) target;
-            } else {
-                targetObject = newEmptyObjectNodeUsingSameFactoryAs(patchObject);
-            }
-
-            patch.fields().forEachRemaining(field -> {
-                String key = field.getKey();
-                JsonNode value = field.getValue();
-                if (value.isNull()) {
-                    targetObject.remove(key);
-                } else {
-                    JsonNode existingValue = targetObject.get(key);
-                    JsonNode mergeResult = doMergePatchInternal(existingValue, value);
-                    targetObject.replace(key, mergeResult);
-                }
-            });
-            return targetObject;
-        }
-    }
-
-    private static ObjectNode newEmptyObjectNodeUsingSameFactoryAs(ObjectNode node) {
-        return node.objectNode();
-    }
-
 }
