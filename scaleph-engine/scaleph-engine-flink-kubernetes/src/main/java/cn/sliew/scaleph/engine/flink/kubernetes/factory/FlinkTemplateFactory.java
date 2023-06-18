@@ -92,7 +92,8 @@ public enum FlinkTemplateFactory {
 
     private static Map<String, String> createFlinkConfiguration() {
         Map<String, String> flinkConfiguration = new HashMap<>();
-        flinkConfiguration.put("web.cancel.enable", "false");
+        flinkConfiguration.put("web.cancel.enable", "true");
+        flinkConfiguration.put("foo", "bar");
         flinkConfiguration.putAll(createFailureTolerateConfiguration());
         flinkConfiguration.putAll(createCheckpointConfiguration());
         flinkConfiguration.putAll(createPeriodicSavepointConfiguration());
