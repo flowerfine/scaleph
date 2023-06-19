@@ -1,19 +1,19 @@
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
-import { LinkOutlined } from '@ant-design/icons';
-import { SettingDrawer, Settings as LayoutSettings } from '@ant-design/pro-components';
-import type { RunTimeLayoutConfig } from '@umijs/max';
-import { history, Link } from '@umijs/max';
-import { message, notification } from 'antd';
-import { RequestConfig } from 'umi';
+import {LinkOutlined} from '@ant-design/icons';
+import {Settings as LayoutSettings} from '@ant-design/pro-components';
+import type {RunTimeLayoutConfig} from '@umijs/max';
+import {message, notification} from 'antd';
+import {history, Link, RequestConfig} from 'umi';
 import defaultSettings from '../config/defaultSettings';
-import { OnlineUserInfo, ResponseBody } from './app.d';
-import { USER_AUTH } from './constant';
-import { UserService } from './services/admin/user.service';
-import { AuthService } from './services/auth';
+import {OnlineUserInfo, ResponseBody} from './app.d';
+import {USER_AUTH} from './constant';
+import {UserService} from './services/admin/user.service';
+import {AuthService} from './services/auth';
 
 const isDev = process.env.NODE_ENV === 'development';
 const whiteList: string[] = ['login', 'register'];
+
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
@@ -36,17 +36,14 @@ export async function getInitialState(): Promise<{
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
+export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => {
   return {
-    rightContentRender: () => <RightContent />,
+    rightContentRender: () => <RightContent/>,
     disableContentMargin: false,
-    // waterMarkProps: {
-    //   content: initialState?.currentUser?.userName,
-    // },
-    contentStyle: { margin: 12 },
-    footerRender: () => <Footer />,
+    contentStyle: {margin: 12},
+    footerRender: () => <Footer/>,
     onPageChange: () => {
-      const { location } = history;
+      const {location} = history;
       const token = localStorage.getItem(USER_AUTH.token);
       if (!token && !whiteList.includes(location.pathname)) {
         localStorage.clear();
@@ -82,14 +79,12 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         width: '331px',
       },
     ],
-    links: isDev
-      ? [
-          <Link key="api" to="/scaleph/doc.html" target="_blank">
-            <LinkOutlined />
-            <span>API 文档</span>
-          </Link>,
-        ]
-      : [],
+    links: [
+      <Link key="api" to="/scaleph/doc.html" target="_blank">
+        <LinkOutlined/>
+        <span>API 文档</span>
+      </Link>,
+    ],
     menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
@@ -126,7 +121,7 @@ const requestHeaderInterceptor: any = (url: string, options: RequestConfig) => {
   };
   return {
     url: `${url}`,
-    options: { ...options, interceptors: true, headers: headers },
+    options: {...options, interceptors: true, headers: headers},
   };
 };
 
@@ -169,7 +164,7 @@ const handleError = (
   } else if (showType == '2') {
     message.error(errorMessage, 2);
   } else if (showType == '4') {
-    notification.error({ message: 'Error:' + errorCode, description: errorMessage, duration: 3 });
+    notification.error({message: 'Error:' + errorCode, description: errorMessage, duration: 3});
   }
 };
 
