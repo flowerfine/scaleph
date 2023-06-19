@@ -119,6 +119,7 @@
         <docker.push.skip>true</docker.push.skip>
 
         <spring.boot.version>2.7.4</spring.boot.version>
+        <spring.cloud.version>2021.0.7</spring.cloud.version>
         <mybatis.plus.version>3.5.1</mybatis.plus.version>
         <org.mapstruct.extensions.spring.version>0.1.1</org.mapstruct.extensions.spring.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
@@ -165,6 +166,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>

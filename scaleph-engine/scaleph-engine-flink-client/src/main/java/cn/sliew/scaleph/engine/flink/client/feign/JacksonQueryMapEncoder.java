@@ -16,16 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.scaleph.engine.flink.client.v1.api;
+package cn.sliew.scaleph.engine.flink.client.feign;
 
-import cn.sliew.scaleph.engine.flink.client.v1.model.cluster.ClusterOverviewDTO;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
+import cn.sliew.milky.common.util.JacksonUtil;
+import feign.QueryMapEncoder;
 
-@FeignClient(value = "FlinkClusterClient", url = "EMPTY")
-public interface ClusterClient {
+import java.util.Map;
 
-    @GetMapping(value = "v1/overview", produces = MediaType.APPLICATION_JSON_VALUE)
-    ClusterOverviewDTO overview();
+public class JacksonQueryMapEncoder implements QueryMapEncoder {
+
+    @Override
+    public Map<String, Object> encode(Object o) {
+        String jsonString = JacksonUtil.toJsonString(o);
+        return JacksonUtil.parseJsonString(jsonString, Map.class);
+    }
 }
