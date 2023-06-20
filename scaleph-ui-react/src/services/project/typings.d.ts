@@ -401,6 +401,7 @@ export type WsFlinkKubernetesSessionCluster = {
   flinkConfiguration?: Record<string, any>;
   logConfiguration?: Record<string, any>;
   ingress?: Record<string, any>;
+  supportSqlGateway?: Dict;
   state?: Dict;
   error?: Dict;
   clusterInfo?: Record<string, any>;

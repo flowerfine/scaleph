@@ -65,6 +65,18 @@ export const WsFlinkKubernetesSessionClusterService = {
     });
   },
 
+  enableSqlGateway: async (row: WsFlinkKubernetesSessionCluster) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/${row.id}/sql-gateway`, {
+      method: 'POST'
+    });
+  },
+
+  disableSqlGateway: async (row: WsFlinkKubernetesSessionCluster) => {
+    return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/${row.id}/sql-gateway`, {
+      method: 'DELETE'
+    });
+  },
+
   delete: async (row: WsFlinkKubernetesSessionCluster) => {
     return request<ResponseBody<any>>(`${WsFlinkKubernetesSessionClusterService.url}/` + row.id, {
       method: 'DELETE',

@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.dao.entity.master.ws;
 
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
 import cn.sliew.scaleph.dao.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.FieldStrategy;
@@ -75,6 +76,9 @@ public class WsFlinkKubernetesSessionCluster extends BaseDO {
 
     @TableField("ingress")
     private String ingress;
+
+    @TableField("support_sql_gateway")
+    private YesOrNo supportSqlGateway;
 
     @TableField(value = "state", updateStrategy = FieldStrategy.IGNORED)
     private ResourceLifecycleState state;

@@ -18,6 +18,7 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.service.dto;
 
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.IngressSpec;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.JobManagerSpec;
@@ -73,6 +74,9 @@ public class WsFlinkKubernetesSessionClusterDTO extends BaseDTO {
 
     @ApiModelProperty("ingress")
     private IngressSpec ingress;
+
+    @ApiModelProperty("support sql gateway")
+    private YesOrNo supportSqlGateway;
 
     @ApiModelProperty("state")
     private ResourceLifecycleState state;

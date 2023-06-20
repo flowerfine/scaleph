@@ -2,7 +2,7 @@ import {history, useAccess, useIntl} from "umi";
 import React, {useRef, useState} from "react";
 import {Button, message, Modal, Space, Tooltip} from "antd";
 import {CaretRightOutlined, CloseOutlined, DeleteOutlined, EyeOutlined} from "@ant-design/icons";
-import {ActionType, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {ActionType, ProColumns, ProFormInstance, ProFormSwitch, ProTable} from "@ant-design/pro-components";
 import {DICT_TYPE, PRIVILEGE_CODE, WORKSPACE_CONF} from "@/constant";
 import {WsFlinkKubernetesSessionCluster} from "@/services/project/typings";
 import {WsFlinkKubernetesSessionClusterService} from "@/services/project/WsFlinkKubernetesSessionClusterService";
@@ -16,6 +16,18 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
   const [selectedRows, setSelectedRows] = useState<WsFlinkKubernetesSessionCluster[]>([]);
   const projectId = localStorage.getItem(WORKSPACE_CONF.projectId);
 
+  const supportSqlGateway = (record: WsFlinkKubernetesSessionCluster, checked: boolean) => {
+    if (checked) {
+      WsFlinkKubernetesSessionClusterService.enableSqlGateway(record).then(response => {
+        actionRef.current?.reload()
+      })
+    } else {
+      WsFlinkKubernetesSessionClusterService.disableSqlGateway(record).then(response => {
+        actionRef.current?.reload()
+      })
+    }
+  }
+
   const tableColumns: ProColumns<WsFlinkKubernetesSessionCluster>[] = [
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.name'}),
@@ -28,9 +40,26 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
       hideInSearch: true
     },
     {
+      title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.sql-gateway'}),
+      dataIndex: 'supportSqlGateway',
+      width: 100,
+      hideInSearch: true,
+      render: (dom, record) => {
+        return <ProFormSwitch
+          fieldProps={{
+            checked: record.supportSqlGateway?.value == '1' ? true : false,
+            onChange: (checked) => supportSqlGateway(record, checked)
+          }}
+        />
+      },
+      request: (params, props) => {
+        return DictDataService.listDictDataByType2(DICT_TYPE.yesNo)
+      },
+    },
+    {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.state'}),
       dataIndex: 'state',
-      width: 200,
+      width: 100,
       render: (dom, record) => {
         return <Tooltip title={record.state?.remark}>{record.state?.label}</Tooltip>
       },
@@ -41,13 +70,12 @@ const FlinkKubernetesSessionClusterWeb: React.FC = () => {
     {
       title: intl.formatMessage({id: 'pages.project.flink.kubernetes.session-cluster.error'}),
       dataIndex: 'error',
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       hideInSearch: true,
-      width: 180,
     },
     {
       title: intl.formatMessage({id: 'app.common.data.createTime'}),
