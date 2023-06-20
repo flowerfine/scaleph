@@ -13,7 +13,7 @@ jobs:
     if: github.repository == 'flowerfine/scaleph'
     strategy:
       matrix:
-        image: [ scaleph-api, scaleph-ui-react, mysql ]
+        image: [ scaleph-api, scaleph-ui-react, scaleph-sql-templates, mysql ]
     runs-on: ubuntu-latest
     permissions:
       contents: read
