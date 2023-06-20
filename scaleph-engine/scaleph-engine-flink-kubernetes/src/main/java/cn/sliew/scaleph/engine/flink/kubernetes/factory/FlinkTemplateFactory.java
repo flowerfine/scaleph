@@ -62,8 +62,8 @@ public enum FlinkTemplateFactory {
     private static FlinkTemplate createFlinkTemplateDefaults() {
         FlinkTemplate template = new FlinkTemplate();
         FlinkTemplateSpec spec = new FlinkTemplateSpec();
-        spec.setFlinkVersion(FlinkVersion.v1_16);
-        spec.setImage("flink:1.16");
+        spec.setFlinkVersion(FlinkVersion.v1_17);
+        spec.setImage("flink:1.17");
         spec.setImagePullPolicy(ImagePullPolicy.IF_NOT_PRESENT.getValue());
         spec.setServiceAccount("flink");
         spec.setMode(KubernetesDeploymentMode.NATIVE);
@@ -79,14 +79,14 @@ public enum FlinkTemplateFactory {
     private static JobManagerSpec createJobManager() {
         return JobManagerSpec.builder()
                 .replicas(1)
-                .resource(new Resource(1.0, "1G"))
+                .resource(new Resource(1.0, "1G", null))
                 .build();
     }
 
     private static TaskManagerSpec createTaskManager() {
         return TaskManagerSpec.builder()
                 .replicas(1)
-                .resource(new Resource(1.0, "2G"))
+                .resource(new Resource(1.0, "2G", null))
                 .build();
     }
 

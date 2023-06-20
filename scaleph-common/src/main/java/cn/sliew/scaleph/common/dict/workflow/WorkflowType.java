@@ -28,7 +28,7 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum WorkflowType implements DictInstance {
 
-    SYSTEM("0", "系统内置"),
+    SYSTEM("0", "系统"),
     USER("1", "用户"),
     ;
 
