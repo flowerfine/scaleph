@@ -119,6 +119,7 @@
         <docker.push.skip>true</docker.push.skip>
 
         <spring.boot.version>2.7.4</spring.boot.version>
+        <spring.cloud.version>2021.0.7</spring.cloud.version>
         <mybatis.plus.version>3.5.1</mybatis.plus.version>
         <org.mapstruct.extensions.spring.version>0.1.1</org.mapstruct.extensions.spring.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
@@ -153,9 +154,10 @@
         <akka.version>2.5.21</akka.version>
         <protobuf.version>3.21.5</protobuf.version>
         <netty.version>4.1.82.Final</netty.version>
-        <kubernetes.client.version>6.2.0</kubernetes.client.version>
         <flink.version>1.16.1</flink.version>
-        <flink.kubernetes.operator.version>1.3.1</flink.kubernetes.operator.version>
+        <kubernetes.client.version>6.2.0</kubernetes.client.version>
+        <spring-cloud-openfeign.version>3.1.7</spring-cloud-openfeign.version>
+        <zjsonpatch.version>0.4.14</zjsonpatch.version>
 
         <maven.plugin.compiler.version>3.8.1</maven.plugin.compiler.version>
         <maven.plugin.frontend.version>1.6</maven.plugin.frontend.version>
@@ -164,10 +166,24 @@
 
     <dependencyManagement>
         <dependencies>
+            <!--<dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-openfeign-dependencies</artifactId>
+                <version>${spring-cloud-openfeign.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -239,6 +255,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>scaleph-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>scaleph-engine-flink-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -502,17 +523,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-kubernetes-operator-api</artifactId>
-                <version>${flink.kubernetes.operator.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.logging.log4j</groupId>
-                        <artifactId>log4j-slf4j-impl</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
                 <groupId>io.fabric8</groupId>
                 <artifactId>kubernetes-client</artifactId>
                 <version>${kubernetes.client.version}</version>
@@ -610,9 +620,14 @@
                 <artifactId>netty-all</artifactId>
                 <version>${netty.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.flipkart.zjsonpatch</groupId>
+                <artifactId>zjsonpatch</artifactId>
+                <version>${zjsonpatch.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
 
     <build>
         <finalName>${project.artifactId}</finalName>
