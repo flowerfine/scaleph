@@ -76,7 +76,7 @@ const MetaDataElementForm: React.FC<ModalFormProps<MetaDataElement>> = ({
           id: data.id,
           elementCode: data.elementCode,
           elementName: data.elementName,
-          dataType: data.dataType,
+          dataType: data.dataType?.value,
           dataLength: data.dataLength,
           dataPrecision: data.dataPrecision,
           dataScale: data.dataScale,
