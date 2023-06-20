@@ -19,7 +19,6 @@
 package cn.sliew.scaleph.engine.flink.kubernetes.service;
 
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.status.FlinkDeploymentStatus;
-import cn.sliew.scaleph.engine.flink.kubernetes.resource.deployment.FlinkDeployment;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.sessioncluster.FlinkSessionCluster;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.param.WsFlinkKubernetesSessionClusterListParam;
@@ -28,6 +27,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface WsFlinkKubernetesSessionClusterService {
 
@@ -47,6 +47,12 @@ public interface WsFlinkKubernetesSessionClusterService {
 
     int update(WsFlinkKubernetesSessionClusterDTO dto);
 
+    Optional<WsFlinkKubernetesSessionClusterDTO> getSqlGatewaySessionCluster(Long projectId);
+
+    int enableSqlGateway(Long id);
+
+    int disableSqlGateway(Long id);
+
     int updateStatus(Long id, FlinkDeploymentStatus status);
 
     int clearStatus(Long id);
@@ -60,5 +66,6 @@ public interface WsFlinkKubernetesSessionClusterService {
     void shutdown(Long id) throws Exception;
 
     GenericKubernetesResource getStatus(Long id);
+
     GenericKubernetesResource getStatusWithoutManagedFields(Long id);
 }

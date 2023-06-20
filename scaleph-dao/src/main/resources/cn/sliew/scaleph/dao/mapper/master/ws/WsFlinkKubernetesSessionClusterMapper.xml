@@ -37,6 +37,7 @@
         <result column="flink_configuration" property="flinkConfiguration"/>
         <result column="log_configuration" property="logConfiguration"/>
         <result column="ingress" property="ingress"/>
+        <result column="support_sql_gateway" property="supportSqlGateway"/>
         <result column="state" property="state"/>
         <result column="error" property="error"/>
         <result column="cluster_info" property="clusterInfo"/>
@@ -50,6 +51,7 @@
         project_id, cluster_credential_id, `name`, session_cluster_id,
         namespace, kubernetes_options, job_manager, task_manager,
         pod_template, flink_configuration, log_configuration,
-        ingress, state, `error`, cluster_info, task_manager_info, remark
+        ingress, support_sql_gateway, `state`, `error`, cluster_info,
+        task_manager_info, remark
     </sql>
 </mapper>

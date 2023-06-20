@@ -20,6 +20,7 @@ package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.common.dict.common.YesOrNo;
 import cn.sliew.scaleph.common.dict.flink.kubernetes.ResourceLifecycleState;
 import cn.sliew.scaleph.common.util.UUIDUtil;
 import cn.sliew.scaleph.dao.entity.master.ws.WsFlinkKubernetesSessionCluster;
@@ -49,6 +50,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
@@ -70,7 +72,10 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
                 Wrappers.lambdaQuery(WsFlinkKubernetesSessionCluster.class)
                         .eq(WsFlinkKubernetesSessionCluster::getProjectId, param.getProjectId())
                         .eq(param.getClusterCredentialId() != null, WsFlinkKubernetesSessionCluster::getClusterCredentialId, param.getClusterCredentialId())
-                        .like(StringUtils.hasText(param.getName()), WsFlinkKubernetesSessionCluster::getName, param.getName()));
+                        .like(StringUtils.hasText(param.getName()), WsFlinkKubernetesSessionCluster::getName, param.getName())
+                        .orderByDesc(WsFlinkKubernetesSessionCluster::getSupportSqlGateway)
+                        .orderByAsc(WsFlinkKubernetesSessionCluster::getId)
+        );
         Page<WsFlinkKubernetesSessionClusterDTO> result =
                 new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         List<WsFlinkKubernetesSessionClusterDTO> dtoList = WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDto(page.getRecords());
@@ -126,12 +131,41 @@ public class WsFlinkKubernetesSessionClusterServiceImpl implements WsFlinkKubern
     public int insert(WsFlinkKubernetesSessionClusterDTO dto) {
         WsFlinkKubernetesSessionCluster record = WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDo(dto);
         record.setSessionClusterId(UUIDUtil.randomUUId());
+        record.setSupportSqlGateway(YesOrNo.NO);
         return wsFlinkKubernetesSessionClusterMapper.insert(record);
     }
 
     @Override
     public int update(WsFlinkKubernetesSessionClusterDTO dto) {
         WsFlinkKubernetesSessionCluster record = WsFlinkKubernetesSessionClusterConvert.INSTANCE.toDo(dto);
+        return wsFlinkKubernetesSessionClusterMapper.updateById(record);
+    }
+
+    @Override
+    public Optional<WsFlinkKubernetesSessionClusterDTO> getSqlGatewaySessionCluster(Long projectId) {
+        LambdaQueryWrapper<WsFlinkKubernetesSessionCluster> queryWrapper = Wrappers.lambdaQuery(WsFlinkKubernetesSessionCluster.class)
+                .eq(WsFlinkKubernetesSessionCluster::getProjectId, projectId)
+                .eq(WsFlinkKubernetesSessionCluster::getSupportSqlGateway, YesOrNo.YES);
+        WsFlinkKubernetesSessionCluster sessionCluster = wsFlinkKubernetesSessionClusterMapper.selectOne(queryWrapper);
+        return Optional.ofNullable(sessionCluster).map(WsFlinkKubernetesSessionClusterConvert.INSTANCE::toDto);
+    }
+
+    @Override
+    public int enableSqlGateway(Long id) {
+        WsFlinkKubernetesSessionClusterDTO wsFlinkKubernetesSessionClusterDTO = selectOne(id);
+        Optional<WsFlinkKubernetesSessionClusterDTO> optional = getSqlGatewaySessionCluster(wsFlinkKubernetesSessionClusterDTO.getProjectId());
+        checkState(optional.isEmpty(), () -> String.format("project already one session-cluster [%s] supporting sql gateway exists!", optional.get().getName()));
+        WsFlinkKubernetesSessionCluster record = new WsFlinkKubernetesSessionCluster();
+        record.setId(id);
+        record.setSupportSqlGateway(YesOrNo.YES);
+        return wsFlinkKubernetesSessionClusterMapper.updateById(record);
+    }
+
+    @Override
+    public int disableSqlGateway(Long id) {
+        WsFlinkKubernetesSessionCluster record = new WsFlinkKubernetesSessionCluster();
+        record.setId(id);
+        record.setSupportSqlGateway(YesOrNo.NO);
         return wsFlinkKubernetesSessionClusterMapper.updateById(record);
     }
 

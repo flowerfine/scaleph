@@ -107,6 +107,22 @@ public class WsFlinkKubernetesSessionClusterController {
     }
 
     @Logging
+    @PostMapping("{id}/sql-gateway")
+    @ApiOperation(value = "支持 Sql Gateway", notes = "支持 Sql Gateway")
+    public ResponseEntity<ResponseVO> enableSqlGateway(@PathVariable("id") Long id) {
+        wsFlinkKubernetesSessionClusterService.enableSqlGateway(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
+    @DeleteMapping("{id}/sql-gateway")
+    @ApiOperation(value = "禁用 Sql Gateway", notes = "禁用 Sql Gateway")
+    public ResponseEntity<ResponseVO> disableSqlGateway(@PathVariable("id") Long id) {
+        wsFlinkKubernetesSessionClusterService.disableSqlGateway(id);
+        return new ResponseEntity<>(ResponseVO.success(), HttpStatus.OK);
+    }
+
+    @Logging
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除 SessionCluster", notes = "删除 SessionCluster")
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id) {
