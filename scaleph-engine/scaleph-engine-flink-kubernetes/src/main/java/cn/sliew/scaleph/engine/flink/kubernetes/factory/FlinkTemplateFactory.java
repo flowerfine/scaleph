@@ -98,6 +98,7 @@ public enum FlinkTemplateFactory {
         flinkConfiguration.putAll(createCheckpointConfiguration());
         flinkConfiguration.putAll(createPeriodicSavepointConfiguration());
         flinkConfiguration.putAll(createRestartConfiguration());
+//        flinkConfiguration.putAll(createServiceConfiguration());
         return flinkConfiguration;
     }
 
@@ -140,6 +141,12 @@ public enum FlinkTemplateFactory {
         return flinkConfiguration;
     }
 
+    public static Map<String, String> createServiceConfiguration() {
+        Map<String, String> serviceConfiguration = new HashMap<>();
+        serviceConfiguration.put("kubernetes.rest-service.exposed.type", "LoadBalancer");
+        return serviceConfiguration;
+    }
+
     private static Map<String, String> createLogConfiguration() {
         Map<String, String> logConfiguration = new HashMap<>();
         return logConfiguration;
@@ -154,4 +161,5 @@ public enum FlinkTemplateFactory {
         spec.setAnnotations(annotations);
         return spec;
     }
+
 }
