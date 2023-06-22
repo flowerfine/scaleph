@@ -353,10 +353,8 @@ VALUES (1, 1, 'default', '3f0c6600-b6d7-4e2c-b2e5-4a0b3cdb3cbb', 'default',
         '{\"image\":\"flink:1.17\",\"imagePullPolicy\":\"IfNotPresent\",\"flinkVersion\":\"v1_17\",\"serviceAccount\":\"flink\"}',
         '{\"resource\":{\"cpu\":1.0,\"memory\":\"1G\"},\"replicas\":1}',
         '{\"resource\":{\"cpu\":1.0,\"memory\":\"1G\"},\"replicas\":1}', NULL,
-        '{\"kubernetes.operator.savepoint.history.max.count\":\"10\",\"execution.checkpointing.mode\":\"exactly_once\",\"state.checkpoints.num-retained\":\"10\",\"restart-strategy.failure-rate.delay\":\"10s\",\"restart-strategy.failure-rate.max-failures-per-interval\":\"30\",\"kubernetes.operator.savepoint.format.type\":\"NATIVE\",\"web.cancel.enable\":\"false\",\"kubernetes.operator.cluster.health-check.enabled\":\"true\",\"execution.checkpointing.interval\":\"180s\",\"execution.checkpointing.timeout\":\"10min\",\"kubernetes.operator.savepoint.history.max.age\":\"72h\",\"execution.checkpointing.externalized-checkpoint-retention\":\"RETAIN_ON_CANCELLATION\",\"kubernetes.operator.cluster.health-check.restarts.threshold\":\"30\",\"restart-strategy\":\"failurerate\",\"restart-strategy.failure-rate.failure-rate-interval\":\"10min\",\"execution.checkpointing.min-pause\":\"180s\",\"kubernetes.operator.cluster.health-check.restarts.window\":\"10min\",\"execution.checkpointing.max-concurrent-checkpoints\":\"1\",\"kubernetes.operator.periodic.savepoint.interval\":\"1h\",\"kubernetes.operator.savepoint.trigger.grace-period\":\"20min\",\"execution.checkpointing.alignment-timeout\":\"120s\"}',
-        NULL,
-        '{"template":"/{{namespace}}/{{name}}(/|$)(.*)","className":"nginx","annotations":{"nginx.ingress.kubernetes.io/rewrite-target":"/$2"}}',
-        NULL, 'sys', 'sys');
+        '{\"kubernetes.operator.savepoint.history.max.count\":\"10\",\"execution.checkpointing.mode\":\"exactly_once\",\"state.checkpoints.num-retained\":\"10\",\"restart-strategy.failure-rate.delay\":\"10s\",\"restart-strategy.failure-rate.max-failures-per-interval\":\"30\",\"kubernetes.operator.savepoint.format.type\":\"NATIVE\",\"web.cancel.enable\":\"false\",\"kubernetes.operator.cluster.health-check.enabled\":\"true\",\"execution.checkpointing.interval\":\"180s\",\"execution.checkpointing.timeout\":\"10min\",\"kubernetes.operator.savepoint.history.max.age\":\"72h\",\"execution.checkpointing.externalized-checkpoint-retention\":\"RETAIN_ON_CANCELLATION\",\"kubernetes.operator.cluster.health-check.restarts.threshold\":\"30\",\"restart-strategy\":\"failurerate\",\"restart-strategy.failure-rate.failure-rate-interval\":\"10min\",\"execution.checkpointing.min-pause\":\"180s\",\"kubernetes.operator.cluster.health-check.restarts.window\":\"10min\",\"execution.checkpointing.max-concurrent-checkpoints\":\"1\",\"kubernetes.operator.periodic.savepoint.interval\":\"1h\",\"kubernetes.operator.savepoint.trigger.grace-period\":\"20min\",\"execution.checkpointing.alignment-timeout\":\"120s\",\"kubernetes.rest-service.exposed.type\":\"LoadBalancer\"}',
+        NULL, NULL, NULL, 'sys', 'sys');
 
 DROP TABLE IF EXISTS ws_flink_kubernetes_deployment;
 CREATE TABLE ws_flink_kubernetes_deployment
@@ -438,7 +436,7 @@ CREATE TABLE ws_flink_kubernetes_session_cluster
     flink_configuration   text,
     log_configuration     text,
     ingress               text,
-    support_sql_gateway        varchar(16),
+    support_sql_gateway   varchar(16),
     state                 varchar(64),
     error                 text,
     cluster_info          text,
@@ -490,6 +488,22 @@ CREATE TABLE ws_flink_kubernetes_job_instance
     start_time                 datetime comment '开始时间',
     end_time                   datetime comment '结束时间',
     duration                   bigint comment '耗时',
+    creator                    varchar(32),
+    create_time                datetime    not null default current_timestamp,
+    editor                     varchar(32),
+    update_time                datetime    not null default current_timestamp on update current_timestamp,
+    PRIMARY KEY (id),
+    UNIQUE KEY uniq_name (ws_flink_kubernetes_job_id, job_id)
+) ENGINE = INNODB COMMENT = 'flink kubernetes job instance';
+
+
+DROP TABLE IF EXISTS ws_flink_kubernetes_sql_gateway;
+CREATE TABLE ws_flink_kubernetes_sql_gateway
+(
+    id                         bigint      not null auto_increment,
+    project_id bigint      not null,
+    session_cluster_id                     varchar(32) not null,
+
     creator                    varchar(32),
     create_time                datetime    not null default current_timestamp,
     editor                     varchar(32),
