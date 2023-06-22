@@ -33,7 +33,8 @@ public class SqlGatewayBootstrap {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
     public SessionManager flinkSessionManager() {
-        org.apache.flink.configuration.Configuration configuration = GlobalConfiguration.loadConfiguration();
+        org.apache.flink.configuration.Configuration configuration = new org.apache.flink.configuration.Configuration();
+
         DefaultContext defaultContext = new DefaultContext(configuration, Collections.emptyList());
         return SessionManager.create(defaultContext);
     }

@@ -39,6 +39,12 @@ public enum TemplateMerger {
     }
 
     private static JsonNode doMerge(JsonNode source, JsonNode target) {
+        if (source.isNull()) {
+            return target;
+        }
+        if (target.isNull()) {
+            return source;
+        }
         EnumSet<DiffFlags> flags = DiffFlags.dontNormalizeOpIntoMoveAndCopy().clone();
         JsonNode patch = disableRemove((ArrayNode) JsonDiff.asJson(source, target, flags));
         return JsonPatch.apply(patch, source);

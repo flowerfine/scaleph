@@ -17,32 +17,42 @@
  */
 package cn.sliew.scaleph.engine.flink.kubernetes.service.impl;
 
+import cn.sliew.scaleph.common.dict.flink.ServiceExposedType;
+import cn.sliew.scaleph.engine.flink.kubernetes.factory.FlinkTemplateFactory;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.FlinkJobManagerEndpointService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesJobService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.WsFlinkKubernetesSessionClusterService;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesDeploymentDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesJobDTO;
 import cn.sliew.scaleph.engine.flink.kubernetes.service.dto.WsFlinkKubernetesSessionClusterDTO;
+import cn.sliew.scaleph.kubernetes.service.KuberenetesService;
+import io.fabric8.kubernetes.api.model.*;
+import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
+import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.dsl.Resource;
 import org.apache.commons.lang3.text.StrSubstitutor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.Optional;
 
-@Service
+@Component
 public class FlinkJobManagerEndpointServiceImpl implements FlinkJobManagerEndpointService {
 
     @Autowired
     private WsFlinkKubernetesSessionClusterService wsFlinkKubernetesSessionClusterService;
     @Autowired
     private WsFlinkKubernetesJobService wsFlinkKubernetesJobService;
+    @Autowired
+    private KuberenetesService kuberenetesService;
 
     @Override
     public URI getSessionClusterJobManagerEndpoint(Long sessionClusterId) {
         WsFlinkKubernetesSessionClusterDTO sessionClusterDTO = wsFlinkKubernetesSessionClusterService.selectOne(sessionClusterId);
-        return getJobManagerEndpoint(sessionClusterDTO);
+        return getJobManagerEndpoint(sessionClusterDTO).orElse(null);
     }
 
     @Override
@@ -50,34 +60,130 @@ public class FlinkJobManagerEndpointServiceImpl implements FlinkJobManagerEndpoi
         final WsFlinkKubernetesJobDTO jobDTO = wsFlinkKubernetesJobService.selectOne(jobId);
         switch (jobDTO.getDeploymentKind()) {
             case FLINK_SESSION_JOB:
-                return getJobManagerEndpoint(jobDTO.getFlinkSessionCluster());
+                return getJobManagerEndpoint(jobDTO.getFlinkSessionCluster()).orElse(null);
             case FLINK_DEPLOYMENT:
-                return getJobManagerEndpoint(jobDTO.getFlinkDeployment());
+                return getJobManagerEndpoint(jobDTO.getFlinkDeployment()).orElse(null);
             default:
-
         }
         return null;
     }
 
-    private URI getJobManagerEndpoint(WsFlinkKubernetesSessionClusterDTO sessionCluster) {
-        String format = "https://${host}/${namespace}/${name}/";
-        String host = getIngressHosts(sessionCluster.getClusterCredentialId(), sessionCluster.getName());
+    private Optional<URI> getJobManagerEndpoint(WsFlinkKubernetesSessionClusterDTO sessionCluster) {
+        String namespace = sessionCluster.getNamespace();
         String name = StringUtils.hasText(sessionCluster.getSessionClusterId()) ? sessionCluster.getSessionClusterId() : sessionCluster.getName();
-        Map<String, String> variables = Map.of("host", host, "namespace", sessionCluster.getNamespace(), "name", name);
-        StrSubstitutor substitutor = new StrSubstitutor(variables);
-        return URI.create(substitutor.replace(format));
+        KubernetesClient client = kuberenetesService.getClient(sessionCluster.getClusterCredentialId());
+        return getEndpointByIngress(namespace, name, client).or(() -> getEndpointByService(namespace, name, client));
     }
 
-    private URI getJobManagerEndpoint(WsFlinkKubernetesDeploymentDTO deployment) {
-        String format = "https://${host}/${namespace}/${name}/";
-        String host = getIngressHosts(deployment.getClusterCredentialId(), deployment.getName());
+    private Optional<URI> getJobManagerEndpoint(WsFlinkKubernetesDeploymentDTO deployment) {
+        String namespace = deployment.getNamespace();
         String name = StringUtils.hasText(deployment.getDeploymentId()) ? deployment.getDeploymentId() : deployment.getName();
-        Map<String, String> variables = Map.of("host", host, "namespace", deployment.getNamespace(), "name", name);
-        StrSubstitutor substitutor = new StrSubstitutor(variables);
-        return URI.create(substitutor.replace(format));
+        KubernetesClient client = kuberenetesService.getClient(deployment.getClusterCredentialId());
+        return getEndpointByIngress(namespace, name, client).or(() -> getEndpointByService(namespace, name, client));
     }
 
-    private static String getIngressHosts(Long clusterCredentialId, String name) {
-        return "localhost";
+    /**
+     * @see FlinkTemplateFactory#createIngressSpec()
+     */
+    private Optional<URI> getEndpointByIngress(String namespace, String name, KubernetesClient client) {
+        Resource<Ingress> ingressResource = client.resources(Ingress.class)
+                .inNamespace(namespace)
+                .withName(name);
+        if (ingressResource != null && ingressResource.isReady()) {
+            Ingress ingress = ingressResource.get();
+            String format = "https://${host}/${namespace}/${name}/";
+            Optional<String> host = formatHost(ingress.getStatus().getLoadBalancer());
+            if (host.isEmpty()) {
+                return Optional.empty();
+            }
+            Map<String, String> variables = Map.of("host", host.get(), "namespace", namespace, "name", name);
+            StrSubstitutor substitutor = new StrSubstitutor(variables);
+            return Optional.of(URI.create(substitutor.replace(format)));
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * @see FlinkTemplateFactory#createServiceConfiguration()
+     */
+    private Optional<URI> getEndpointByService(String namespace, String name, KubernetesClient client) {
+        Resource<Service> serviceResource = client.resources(Service.class)
+                .inNamespace(namespace)
+                .withName(String.format("%s-rest", name));
+        if (serviceResource != null && serviceResource.isReady()) {
+            Service service = serviceResource.get();
+            ServiceExposedType type = ServiceExposedType.of(service.getSpec().getType());
+            switch (type) {
+                case NODE_PORT:
+                    return doGetEndpointByNodePort(service);
+                case LOAD_BALANCER:
+                    return doGetEndpointByLoadBalancer(service);
+                default:
+                    return Optional.empty();
+            }
+        }
+        return Optional.empty();
+    }
+
+    private Optional<URI> doGetEndpointByLoadBalancer(Service service) {
+        String format = "http://${host}:${port}/";
+        Optional<String> host = formatHost(service.getStatus().getLoadBalancer());
+        if (host.isEmpty()) {
+            return Optional.empty();
+        }
+        Optional<Integer> port = formatPort(service.getSpec());
+        if (port.isEmpty()) {
+            return Optional.empty();
+        }
+        Map<String, String> variables = Map.of("host", host.get(), "port", port.get().toString());
+        StrSubstitutor substitutor = new StrSubstitutor(variables);
+        return Optional.of(URI.create(substitutor.replace(format)));
+    }
+
+    private Optional<URI> doGetEndpointByNodePort(Service service) {
+        String format = "http://${host}:${nodePort}/";
+        Optional<String> host = formatHost(service.getStatus().getLoadBalancer());
+        if (host.isEmpty()) {
+            return Optional.empty();
+        }
+        Optional<Integer> nodePort = formatNodePort(service.getSpec());
+        if (nodePort.isEmpty()) {
+            return Optional.empty();
+        }
+        Map<String, String> variables = Map.of("host", host.get(), "nodePort", nodePort.get().toString());
+        StrSubstitutor substitutor = new StrSubstitutor(variables);
+        return Optional.of(URI.create(substitutor.replace(format)));
+    }
+
+    private Optional<String> formatHost(LoadBalancerStatus loadBalancer) {
+        if (loadBalancer == null) {
+            return Optional.empty();
+        }
+        for (LoadBalancerIngress ingress : loadBalancer.getIngress()) {
+            String hostname = ingress.getHostname();
+            for (PortStatus portStatus : ingress.getPorts()) {
+                return Optional.of(String.format("%s:%d", hostname, portStatus.getPort()));
+            }
+            return Optional.ofNullable(hostname);
+        }
+        return Optional.empty();
+    }
+
+    private Optional<Integer> formatPort(ServiceSpec service) {
+        for (ServicePort servicePort : service.getPorts()) {
+            if (servicePort.getName().equals("rest")) {
+                return Optional.of(servicePort.getPort());
+            }
+        }
+        return Optional.empty();
+    }
+
+    private Optional<Integer> formatNodePort(ServiceSpec service) {
+        for (ServicePort servicePort : service.getPorts()) {
+            if (servicePort.getName().equals("rest")) {
+                return Optional.of(servicePort.getNodePort());
+            }
+        }
+        return Optional.empty();
     }
 }

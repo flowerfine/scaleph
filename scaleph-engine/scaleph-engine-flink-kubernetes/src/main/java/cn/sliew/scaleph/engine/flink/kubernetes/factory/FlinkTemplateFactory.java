@@ -18,12 +18,10 @@
 
 package cn.sliew.scaleph.engine.flink.kubernetes.factory;
 
-import cn.sliew.scaleph.common.dict.flink.FlinkCheckpointRetain;
-import cn.sliew.scaleph.common.dict.flink.FlinkRestartStrategy;
-import cn.sliew.scaleph.common.dict.flink.FlinkSavepointType;
-import cn.sliew.scaleph.common.dict.flink.FlinkSemantic;
+import cn.sliew.scaleph.common.dict.flink.*;
 import cn.sliew.scaleph.common.dict.image.ImagePullPolicy;
 import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.*;
+import cn.sliew.scaleph.engine.flink.kubernetes.operator.spec.FlinkVersion;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplate;
 import cn.sliew.scaleph.engine.flink.kubernetes.resource.template.FlinkTemplateSpec;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
@@ -71,7 +69,7 @@ public enum FlinkTemplateFactory {
         spec.setTaskManager(createTaskManager());
         spec.setFlinkConfiguration(createFlinkConfiguration());
         spec.setLogConfiguration(createLogConfiguration());
-        spec.setIngress(createIngressSpec());
+//        spec.setIngress(createIngressSpec());
         template.setSpec(spec);
         return template;
     }
@@ -93,11 +91,11 @@ public enum FlinkTemplateFactory {
     private static Map<String, String> createFlinkConfiguration() {
         Map<String, String> flinkConfiguration = new HashMap<>();
         flinkConfiguration.put("web.cancel.enable", "true");
-        flinkConfiguration.put("foo", "bar");
         flinkConfiguration.putAll(createFailureTolerateConfiguration());
         flinkConfiguration.putAll(createCheckpointConfiguration());
         flinkConfiguration.putAll(createPeriodicSavepointConfiguration());
         flinkConfiguration.putAll(createRestartConfiguration());
+        flinkConfiguration.putAll(createServiceConfiguration());
         return flinkConfiguration;
     }
 
@@ -140,12 +138,19 @@ public enum FlinkTemplateFactory {
         return flinkConfiguration;
     }
 
+    public static Map<String, String> createServiceConfiguration() {
+        Map<String, String> serviceConfiguration = new HashMap<>();
+        serviceConfiguration.put("kubernetes.rest-service.exposed.type", ServiceExposedType.LOAD_BALANCER.getValue());
+//        serviceConfiguration.put("kubernetes.rest-service.exposed.node-port-address-type", NodePortAddressType.EXTERNAL_IP.getValue());
+        return serviceConfiguration;
+    }
+
     private static Map<String, String> createLogConfiguration() {
         Map<String, String> logConfiguration = new HashMap<>();
         return logConfiguration;
     }
 
-    private static IngressSpec createIngressSpec() {
+    public static IngressSpec createIngressSpec() {
         IngressSpec spec = new IngressSpec();
         spec.setTemplate("/{{namespace}}/{{name}}(/|$)(.*)");
         spec.setClassName("nginx");
@@ -154,4 +159,5 @@ public enum FlinkTemplateFactory {
         spec.setAnnotations(annotations);
         return spec;
     }
+
 }
