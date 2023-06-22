@@ -496,14 +496,20 @@ CREATE TABLE ws_flink_kubernetes_job_instance
     UNIQUE KEY uniq_name (ws_flink_kubernetes_job_id, job_id)
 ) ENGINE = INNODB COMMENT = 'flink kubernetes job instance';
 
-
-DROP TABLE IF EXISTS ws_flink_kubernetes_sql_gateway;
-CREATE TABLE ws_flink_kubernetes_sql_gateway
+DROP TABLE IF EXISTS ws_flink_kubernetes_job_instance;
+CREATE TABLE ws_flink_kubernetes_job_instance
 (
     id                         bigint      not null auto_increment,
-    project_id bigint      not null,
-    session_cluster_id                     varchar(32) not null,
-
+    ws_flink_kubernetes_job_id bigint      not null,
+    job_id                     varchar(32) not null,
+    job_manager                text,
+    task_manager               text,
+    user_flink_configuration   text,
+    status                     text,
+    state                      varchar(32) not null,
+    start_time                 datetime comment '开始时间',
+    end_time                   datetime comment '结束时间',
+    duration                   bigint comment '耗时',
     creator                    varchar(32),
     create_time                datetime    not null default current_timestamp,
     editor                     varchar(32),
